@@ -81,10 +81,26 @@ esac
   chmodSync(join(bin, "docker"), 0o755);
 }
 
+// install.sh takes defaults from these variables. Strip them so the
+// caller's environment (CI sets NEXT_PUBLIC_APP_URL) cannot change results.
+const INSTALL_ENV_KEYS = [
+  "NEXT_PUBLIC_APP_URL",
+  "APP_PORT",
+  "TIMEWREN_VERSION",
+  "CADDY_DOMAIN",
+  "TIMEWREN_INSTALL_DIR",
+];
+
+function scriptEnv(): NodeJS.ProcessEnv {
+  const env: NodeJS.ProcessEnv = { ...process.env, PATH: bin, HOME: dir };
+  for (const key of INSTALL_ENV_KEYS) delete env[key];
+  return env;
+}
+
 function run(args: string[] = []) {
   return spawnSync("bash", [join(dir, "scripts/install.sh"), ...args], {
     cwd: dir,
-    env: { ...process.env, PATH: bin, HOME: dir },
+    env: scriptEnv(),
     encoding: "utf8",
     timeout: 30_000,
   });
@@ -117,7 +133,7 @@ function pipeInstall(args: string[] = []) {
   return spawnSync("bash", ["-s", "--", ...args], {
     cwd: dir,
     input: readFileSync(join(REPO, "scripts/install.sh"), "utf8"),
-    env: { ...process.env, PATH: bin, HOME: dir },
+    env: scriptEnv(),
     encoding: "utf8",
     timeout: 30_000,
   });

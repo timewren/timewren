@@ -1620,7 +1620,6 @@ async function main() {
     // Seed initial changelog entries (idempotent — skips existing versions)
     await seedChangelogs(db);
 
-
     // One-off plan/seat unblock at release. Set UNBLOCK_PLAN_EMAIL (and
     // optionally UNBLOCK_PLAN_TIER / UNBLOCK_PLAN_SEATS) to grant a customer
     // their tier + seats on deploy. Idempotent — re-running is a no-op, so the

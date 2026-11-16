@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d. MMM yyyy",
+    "longDate": "d. MMMM yyyy"
+  },
+  "header": {
+    "title": "Abonnement",
+    "description": "Tarif, Zahlung und Abrechnung",
+    "adminOnly": "Nur Inhaber:innen und Administrator:innen können das Abonnement ändern, Plätze kaufen und Zahlungen einsehen."
+  },
+  "states": {
+    "noBilling": "Diese Installation hat keinen Zahlungsanbieter, daher sind alle Funktionen freigeschaltet und es gibt keine Tarife oder Limits.",
+    "comingSoonTitle": "Bezahlung kommt bald",
+    "comingSoon": "Du nutzt den kostenlosen Plan. Bezahlte Pläne kommen bald, bis dahin kostet es nichts.",
+    "loading": "Abonnement wird geladen…",
+    "none": "Kein Abonnement gefunden. Wähle zuerst einen Tarif.",
+    "choosePlan": "Tarif wählen",
+    "previousWebPayments": "Frühere Zahlungen im Web",
+    "redirecting": "Weiterleitung…"
+  },
+  "cycle": {
+    "monthly": "Monatlich",
+    "yearly": "Jährlich",
+    "twoMonthsFree": "2 Monate gratis",
+    "perMonthExclVat": "/Monat zzgl. MwSt.",
+    "perYearExclVat": "/Jahr zzgl. MwSt.",
+    "krPerMonth": "{price} kr./Monat",
+    "krPerYear": "{price} kr./Jahr"
+  },
+  "status": {
+    "active": "Aktiv",
+    "free": "Kostenlos",
+    "trialing": "Testphase",
+    "pastDue": "Zahlung ausstehend",
+    "canceled": "Gekündigt"
+  },
+  "invoiceStatus": {
+    "paid": "Bezahlt",
+    "open": "Offen",
+    "draft": "Entwurf",
+    "void": "Storniert",
+    "uncollectible": "Fehlgeschlagen",
+    "unknown": "Unbekannt"
+  },
+  "history": {
+    "title": "Zahlungsverlauf",
+    "columnDate": "Datum",
+    "columnNumber": "Nummer",
+    "columnAmount": "Betrag",
+    "columnStatus": "Status",
+    "columnPdf": "PDF",
+    "empty": "Noch keine Zahlungen. Der Zahlungsverlauf erscheint hier, sobald du deine erste Zahlung getätigt hast."
+  },
+  "toast": {
+    "planChangedYearly": "Tarif auf jährlich umgestellt",
+    "planChangedMonthly": "Tarif auf monatlich umgestellt",
+    "canceled": "Abonnement gekündigt. Es bleibt bis zum Ende des Zeitraums aktiv.",
+    "reactivated": "Abonnement reaktiviert!",
+    "trialRequested": "Anfrage gesendet! Wir melden uns so schnell wie möglich.",
+    "trialRequestFailed": "Die Anfrage konnte nicht gesendet werden. Bitte versuche es erneut.",
+    "paymentMethodAdded": "Zahlungsmethode hinzugefügt!",
+    "seatsUpdated": "Plätze aktualisiert! Es kann einen Moment dauern, bis die Änderung angezeigt wird.",
+    "paymentCanceled": "Zahlung abgebrochen"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Du hast noch # Tag in deiner Testphase} other {Du hast noch # Tage in deiner Testphase}}",
+    "startsAutomatically": "Dein Abonnement startet automatisch nach der Testphase",
+    "addPaymentToContinue": "Füge eine Zahlungsmethode hinzu, um nach der Testphase weiterzumachen",
+    "needMoreTime": "Mehr Zeit nötig?",
+    "addPayment": "Zahlung hinzufügen",
+    "checkoutNoteFounding": "Die Checkout-Seite zeigt den Standardpreis. Dein Founding-Member-Rabatt von {percent} % wird nach der Zahlung automatisch aktiviert."
+  },
+  "pendingCancel": {
+    "expiresOn": "Dein Abonnement läuft am {date} ab",
+    "expiresUnknown": "Dein Abonnement läuft an einem unbekannten Datum ab",
+    "reactivateHint": "Du kannst dein Abonnement bis dahin reaktivieren",
+    "reactivating": "Wird reaktiviert…",
+    "reactivate": "Reaktivieren"
+  },
+  "plan": {
+    "current": "Aktueller Tarif",
+    "freeLimits": "Bis zu {maxSeats} Nutzer · {used} von {maxClients} aktiven Kunden in Gebrauch. Upgrade für mehr Kunden, mehr Nutzer, Rechnungen und Stundenpakete.",
+    "seatsIncluded": "{count, plural, one {# Nutzer inklusive} other {# Nutzer inklusive}}",
+    "seatsWithExtra": "{count, plural, one {# Nutzer} other {# Nutzer}} · {included} inkl. + {extra} extra",
+    "foundingDiscount": "{percent} % Founding-Member-Rabatt",
+    "foundingDiscountForever": "{percent} % Founding-Member-Rabatt, dauerhaft",
+    "foundingDiscountExpires": "{percent} % Founding-Member-Rabatt, läuft am {date} ab",
+    "trialEnds": "Testphase endet: {date}",
+    "nextBilling": "Nächste Abrechnung: {date}"
+  },
+  "roi": {
+    "titleReturn": "Dein Ertrag mit {brand}",
+    "titleActivity": "Deine Aktivität in {brand}",
+    "spent": "Ausgegeben für {brand}",
+    "freeSoFar": "Bisher kostenlos!",
+    "trackedValue": "Wert der erfassten Zeit",
+    "invoicedTotal": "Gesamt abgerechnet",
+    "return": "Ertrag"
+  },
+  "payment": {
+    "title": "Zahlung",
+    "portalDescription": "Verwalte deine Zahlungsmethode und Rechnungen über das Zahlungsportal.",
+    "manage": "Zahlung verwalten",
+    "noMethod": "Noch keine Zahlungsmethode hinzugefügt",
+    "addMethod": "Zahlungsmethode hinzufügen",
+    "checkoutNoteFounding": "Die Checkout-Seite zeigt den Standardpreis. Dein Rabatt von {percent} % wird automatisch aktiviert."
+  },
+  "seats": {
+    "title": "Plätze",
+    "usage": "{used} von {total} Plätzen belegt",
+    "pendingInvites": "{count, plural, one {# Platz ist durch ausstehende Einladungen belegt} other {# Plätze sind durch ausstehende Einladungen belegt}}",
+    "reseatsReminder": "Denk daran, deine {count} zusätzlichen Plätze zum {plan}-Preis neu abzuschließen. Schließe den Platzkauf unten ab, damit die Abrechnung zu eurer Kapazität passt.",
+    "extraLabel": "Zusätzliche Plätze (über die {included} enthaltenen hinaus)",
+    "fewer": "Weniger Plätze",
+    "more": "Mehr Plätze",
+    "price": "Preis",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr./Jahr zzgl. MwSt.",
+    "priceSuffixMonthly": "kr./Monat zzgl. MwSt.",
+    "adjust": "Plätze anpassen",
+    "buy": "Plätze kaufen",
+    "note": "Dein aktueller Platz-Zukauf wird durch die neue Anzahl ersetzt. Du schließt einen neuen Kauf ab, und der alte Zukauf wird automatisch gekündigt. Dein Tarif erlaubt insgesamt bis zu {max} Plätze."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "Für Privatpersonen",
+      "feature1": "1 Nutzer"
+    },
+    "solo": {
+      "tagline": "Für Selbstständige",
+      "feature1": "1 Nutzer, unbegrenzt viele Kunden",
+      "feature2": "Stundenpakete, Rechnungen & Integrationen",
+      "feature3": "Web, App, Erweiterung & Desktop inklusive"
+    },
+    "team": {
+      "tagline": "Für kleine Teams",
+      "feature1": "Alles aus {plan}",
+      "feature2": "2 Nutzer inklusive",
+      "feature3": "Gemeinsame Kunden, Projekte & Stundenpakete"
+    },
+    "business": {
+      "tagline": "Für Unternehmen",
+      "feature1": "Alles aus {plan}",
+      "feature2": "5 Nutzer inklusive",
+      "feature3": "Gleitzeit, Abwesenheit & Compliance"
+    },
+    "usersIncluded": "{count} Nutzer inkl."
+  },
+  "upgrade": {
+    "title": "Tarif upgraden",
+    "blocked": "Ihr habt {count, plural, one {# zusätzlichen Platz} other {# zusätzliche Plätze}}, die noch nicht automatisch auf {plan} übertragen werden können. Schreibt uns an support@timetrack.dk, dann stellen wir euch ohne Platzverlust um.",
+    "to": "Auf {plan} upgraden",
+    "note": "Beim Upgrade schließt du einen neuen Kauf ab. Dein aktuelles Abonnement wird automatisch gekündigt, sobald das neue aktiv ist."
+  },
+  "choose": {
+    "title": "Wähle deinen Tarif",
+    "choosePlan": "{plan} wählen",
+    "chooseAndPay": "Auswählen und bezahlen",
+    "note": "Zusätzliche Nutzer über die enthaltenen hinaus werden nach der Anmeldung hinzugefügt. Der Founding-Member-Rabatt (falls aktiv) wird nach der Zahlung automatisch auf {plan} angewendet."
+  },
+  "discounts": {
+    "title": "Aktive Rabatte",
+    "rangeBoth": "Von {from} bis {to}",
+    "rangeOpenEnded": "Ab {from}, ohne Ablaufdatum",
+    "rangeUntil": "Bis {to}",
+    "rangeNone": "Kein Ablaufdatum"
+  },
+  "metadata": {
+    "title": "Abonnementdetails",
+    "foundingTier": "Founding-Stufe",
+    "billingCycle": "Abrechnungszeitraum",
+    "signupSource": "Anmeldequelle",
+    "couponCode": "Rabattcode"
+  },
+  "upcoming": {
+    "title": "Anstehende Zahlungen",
+    "columnPeriod": "Zeitraum",
+    "columnPlan": "Tarif",
+    "columnAmount": "Betrag"
+  },
+  "switch": {
+    "title": "Tarif wechseln",
+    "equivalent": "Entspricht {price} kr./Monat",
+    "toMonthly": "Auf monatlich wechseln",
+    "toYearly": "Auf jährlich wechseln"
+  },
+  "cancel": {
+    "title": "Abonnement kündigen",
+    "description": "Dein Abonnement bleibt bis zum Ende des aktuellen Abrechnungszeitraums aktiv.",
+    "areYouSure": "Bist du sicher?",
+    "activeUntil": "Dein Abonnement bleibt bis zum {date} aktiv. Danach verlierst du den Zugriff auf Premium-Funktionen.",
+    "activeUntilEnd": "Dein Abonnement bleibt bis zum Ende des Zeitraums aktiv. Danach verlierst du den Zugriff auf Premium-Funktionen.",
+    "keep": "Abonnement behalten",
+    "confirm": "Ja, Abonnement kündigen",
+    "canceling": "Wird gekündigt…"
+  }
+}

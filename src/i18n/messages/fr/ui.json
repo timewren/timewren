@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Enregistrement…",
+    "saved": "Enregistré",
+    "blocked": "Non enregistré : corrigez le champ en surbrillance",
+    "failed": "Enregistrement impossible",
+    "retry": "Réessayer"
+  },
+  "loading": {
+    "default": "Chargement…",
+    "tip": {
+      "search": "Le saviez-vous ? Ctrl+K permet de rechercher partout",
+      "rightClick": "Astuce : faites un clic droit sur une tâche pour les actions rapides",
+      "templates": "Utilisez des modèles pour les tâches récurrentes et gagnez du temps",
+      "kanban": "Vous pouvez glisser les tâches entre les colonnes dans la vue Kanban",
+      "timerFromTask": "Astuce : lancez un chronomètre directement depuis une tâche",
+      "prepaid": "Les forfaits d'heures vous aident à suivre les heures prépayées",
+      "duplicate": "Vous pouvez dupliquer un forfait d'heures en un clic",
+      "keys": "Utilisez J/K pour parcourir la liste des tâches au clavier"
+    }
+  },
+  "member": {
+    "all": "Tous les collaborateurs",
+    "selected": "{count} collaborateurs sélectionnés"
+  },
+  "founding": "Fondateur",
+  "status": {
+    "active": "Actif",
+    "inactive": "Inactif",
+    "pending": "En attente",
+    "completed": "Terminé",
+    "archived": "Archivé",
+    "draft": "Brouillon",
+    "sent": "Envoyée",
+    "paid": "Payée",
+    "overdue": "En retard",
+    "on_hold": "En pause"
+  },
+  "priority": {
+    "low": "Basse",
+    "medium": "Normale",
+    "high": "Haute",
+    "urgent": "Critique"
+  },
+  "modal": {
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "wait": "Veuillez patienter…",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Échec du téléversement",
+    "uploaded": "Image téléversée",
+    "uploadError": "Impossible de téléverser l'image",
+    "alt": "Image",
+    "change": "Modifier",
+    "upload": "Téléverser",
+    "remove": "Supprimer",
+    "hint": "JPEG, PNG ou WebP. 8 Mo max."
+  },
+  "error": {
+    "network": {
+      "title": "Erreur réseau",
+      "message": "Connexion au serveur impossible. Vérifiez votre connexion internet et réessayez."
+    },
+    "server": {
+      "title": "Erreur serveur",
+      "message": "Une erreur serveur s'est produite. Réessayez plus tard."
+    },
+    "notFound": {
+      "title": "Introuvable",
+      "message": "La ressource recherchée n'existe pas ou a été supprimée."
+    },
+    "permission": {
+      "title": "Accès refusé",
+      "message": "Vous n'avez pas l'autorisation de voir ce contenu."
+    },
+    "unknown": {
+      "title": "Une erreur s'est produite",
+      "message": "Une erreur inattendue s'est produite. Essayez de recharger la page."
+    },
+    "offline": "Vous êtes hors ligne",
+    "connected": "Connecté",
+    "details": "Détails de l'erreur",
+    "retrying": "Nouvelle tentative…",
+    "retry": "Réessayer",
+    "loading": "Chargement…"
+  },
+  "empty": {
+    "clients": {
+      "title": "Aucun client pour l'instant",
+      "description": "Commencez par créer votre premier client. Vous pouvez ajouter ses coordonnées, son numéro d'entreprise, son taux horaire et plus encore.",
+      "action": "Créer votre premier client",
+      "guide": "Lire le guide"
+    },
+    "projects": {
+      "needClientTitle": "Créez d'abord un client",
+      "needClientDescription": "Il faut au moins un client avant de créer des projets. Un projet appartient toujours à un client.",
+      "createClient": "Créer un client",
+      "title": "Aucun projet pour l'instant",
+      "description": "Créez votre premier projet pour suivre le temps et facturer vos clients. Choisissez un taux horaire ou un prix fixe.",
+      "action": "Créer un projet",
+      "seeClients": "Voir les clients"
+    },
+    "time": {
+      "needProjectTitle": "Créez d'abord un projet",
+      "needProjectDescription": "Il faut au moins un projet actif pour suivre le temps. Les projets aident à organiser et facturer votre travail.",
+      "createProject": "Créer un projet",
+      "today": "aujourd'hui",
+      "title": "Aucun temps enregistré {date}",
+      "description": "Lancez le chronomètre ou ajoutez une saisie de temps manuellement. Vous pouvez aussi créer des modèles récurrents pour les tâches régulières.",
+      "startTimer": "Lancer le chronomètre",
+      "seeTemplates": "Voir les modèles"
+    },
+    "invoices": {
+      "needTimeTitle": "Enregistrez d'abord du temps",
+      "needTimeDescription": "Vous n'avez aucun temps non facturé à facturer. Commencez par enregistrer du temps sur vos projets.",
+      "trackTime": "Enregistrer du temps",
+      "title": "Aucune facture pour l'instant",
+      "description": "Créez votre première facture à partir du temps enregistré ou de montants fixes. Vous pouvez personnaliser les modèles de facture dans les paramètres.",
+      "action": "Créer une facture",
+      "seeUnbilled": "Voir le temps non facturé"
+    },
+    "tasks": {
+      "needProjectTitle": "Créez d'abord un projet",
+      "needProjectDescription": "Les tâches appartiennent à des projets. Créez d'abord un projet, puis ajoutez des tâches.",
+      "createProject": "Créer un projet",
+      "title": "Aucune tâche",
+      "description": "Gardez le fil de vos tâches et échéances. Vous pouvez hiérarchiser les tâches et fixer des dates limites.",
+      "action": "Créer une tâche",
+      "seeProjects": "Voir les projets"
+    },
+    "prepaid": {
+      "needClientTitle": "Créez d'abord un client",
+      "needClientDescription": "Les forfaits d'heures (heures prépayées) appartiennent à des clients. Créez d'abord un client.",
+      "createClient": "Créer un client",
+      "title": "Aucun forfait d'heures",
+      "description": "Un forfait d'heures est un bloc d'heures payé d'avance. Idéal pour le support ou la maintenance continus de clients réguliers.",
+      "action": "Créer un forfait d'heures",
+      "seeClients": "Voir les clients"
+    },
+    "reports": {
+      "title": "Aucune donnée à afficher",
+      "description": "Enregistrez du temps et créez des factures pour voir ici vos rapports et statistiques. Plus il y a de données, meilleure est la vue d'ensemble.",
+      "action": "Aller au suivi du temps"
+    },
+    "search": {
+      "title": "Aucun résultat",
+      "descriptionQuery": "Nous n'avons rien trouvé pour « {query} ». Essayez un autre terme ou vérifiez l'orthographe.",
+      "description": "Essayez de chercher autre chose.",
+      "clear": "Effacer la recherche"
+    },
+    "error": {
+      "title": "Une erreur s'est produite",
+      "description": "Impossible de charger les données. Réessayez.",
+      "retry": "Réessayer"
+    },
+    "moduleDisabled": {
+      "title": "Fonctionnalité désactivée",
+      "description": "Ce module n'est pas activé pour votre organisation. Contactez votre administrateur pour l'utiliser.",
+      "action": "Paramètres des modules"
+    }
+  },
+  "client": {
+    "placeholder": "Choisir un client",
+    "clear": "Aucun client",
+    "selected": "{count} clients sélectionnés",
+    "searchLabel": "Rechercher des clients",
+    "searchPlaceholder": "Rechercher des clients…",
+    "listLabel": "Clients",
+    "none": "Aucun client trouvé",
+    "frequent": "Souvent utilisés",
+    "all": "Tous les clients",
+    "entryCount": "{count} saisies"
+  },
+  "project": {
+    "placeholder": "Choisir un projet",
+    "none": "Aucun projet",
+    "searchPlaceholder": "Rechercher un projet ou un client…",
+    "listLabel": "Projets",
+    "recent": "Utilisés récemment",
+    "empty": "Aucun projet trouvé",
+    "noClient": "Aucun client",
+    "unknownClient": "Client inconnu"
+  },
+  "task": {
+    "placeholder": "Choisir une tâche",
+    "searchPlaceholder": "Rechercher une tâche, un projet ou un client…",
+    "none": "Aucune tâche",
+    "inProgress": "En cours",
+    "todo": "À faire",
+    "backlog": "Backlog",
+    "other": "Autres",
+    "noMatch": "Aucune tâche trouvée",
+    "noActive": "Aucune tâche active",
+    "showMoreBacklog": "Afficher {count} tâches de plus du backlog"
+  }
+}

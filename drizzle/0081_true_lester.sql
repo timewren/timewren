@@ -1,0 +1,1 @@
+ALTER TABLE "clients" ADD COLUMN "is_demo_data" boolean DEFAULT false NOT NULL;

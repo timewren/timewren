@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Tu sesión ha caducado. Inicia sesión de nuevo.",
+  "noConnection": "Sin conexión. Inténtalo de nuevo.",
+  "timeout": "La conexión ha tardado demasiado",
+  "invalidResponse": "Respuesta inesperada del servidor",
+  "notLoggedIn": "Sesión no iniciada",
+  "notLoggedInOpenPopup": "Sesión no iniciada. Abre la ventana emergente de TimeTrack e inicia sesión.",
+  "unknown": "Error desconocido",
+  "api": {
+    "fallback": "Error de API",
+    "UNAUTHORIZED": "Tu sesión ha caducado. Inicia sesión de nuevo.",
+    "FORBIDDEN": "Acceso denegado",
+    "NOT_FOUND": "No se ha encontrado el recurso",
+    "TIMEOUT": "El servidor no ha respondido",
+    "TOO_MANY_REQUESTS": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo",
+    "INTERNAL_SERVER_ERROR": "Error del servidor. Inténtalo de nuevo en un momento",
+    "BAD_REQUEST": "Solicitud no válida",
+    "PARSE_ERROR": "Solicitud no válida"
+  },
+  "auth": {
+    "invalidToken": "Token no válido",
+    "validateFailed": "No se ha podido validar el token",
+    "loginFailed": "No se ha podido iniciar sesión",
+    "loginCancelled": "Se ha cancelado el inicio de sesión. Inténtalo de nuevo",
+    "loginCancelledShort": "Se ha cancelado el inicio de sesión",
+    "noToken": "No se ha recibido ningún token",
+    "tokenValidationStatus": "La validación del token ha fallado: el servidor respondió {status}",
+    "orgsFailed": "No se han podido cargar las organizaciones ({status})"
+  },
+  "url": {
+    "notAllowed": "Usa timetrack.dk, app.timetrack.dk, beta.timetrack.dk o localhost"
+  },
+  "entry": {
+    "hoursPositive": "Escribe un número de horas mayor que 0",
+    "timesCannotBeRemoved": "No se pueden quitar las horas. Edita el inicio y el fin en su lugar",
+    "fillStartEnd": "Rellena el inicio y el fin",
+    "endAfterStart": "La hora de fin debe ser posterior a la de inicio"
+  },
+  "timer": {
+    "loadFailed": "No se ha podido cargar el cronómetro",
+    "startFailed": "No se ha podido iniciar el cronómetro",
+    "stopFailed": "No se ha podido detener el cronómetro. Inténtalo de nuevo",
+    "stopNetwork": "No se ha podido detener el cronómetro: error de red",
+    "cancelFailed": "No se ha podido cancelar el cronómetro. Inténtalo de nuevo",
+    "cancelNetwork": "No se ha podido cancelar el cronómetro: error de red",
+    "cancelStoppingElsewhere": "El cronómetro ya se está deteniendo desde {source}",
+    "sourceWeb": "la aplicación web",
+    "sourceOther": "otro dispositivo",
+    "pauseFailed": "No se ha podido pausar el cronómetro",
+    "resumeFailed": "No se ha podido reanudar el cronómetro",
+    "addTimeFailed": "No se ha podido añadir tiempo al cronómetro",
+    "descriptionFailed": "No se ha podido actualizar la descripción",
+    "projectFailed": "No se ha podido actualizar el proyecto",
+    "clientFailed": "No se ha podido actualizar el cliente",
+    "nothingToSave": "No hay tiempo que guardar",
+    "offlineStop": "Estás sin conexión. Vuelve a detener el cronómetro cuando se recupere la conexión",
+    "stopInProgress": "Hay una detención en curso{elsewhere}. Inténtalo de nuevo en un momento. Si se queda colgada, el tiempo se aparca como pausado pasados unos minutos para que no se pierda.",
+    "alreadyRunning": "Ya hay un cronómetro en marcha{elsewhere}. Deténlo o cancélalo primero si quieres iniciar uno nuevo.",
+    "alreadyPaused": "Ya hay un cronómetro en pausa con tiempo acumulado{elsewhere}. Deténlo o cancélalo primero si quieres iniciar uno nuevo.",
+    "elsewhere": " desde otro navegador o dispositivo",
+    "stopAlreadyInProgress": "Ya hay una detención en curso desde {source}. Revisa tu resumen de horas en un momento",
+    "prepaidPinnedUnavailable": "No se ha podido usar el bono de horas elegido, así que el tiempo se ha guardado sin descontarlo del bono",
+    "prepaidLookupFailed": "No se ha podido consultar el bono de horas, así que el tiempo se ha guardado sin descontarlo del bono",
+    "prepaidDeductionFailed": "Ha fallado el descuento del bono, así que el tiempo se ha guardado sin descontarlo del bono",
+    "saveFailed": "No se ha podido guardar el tiempo",
+    "saveFailedWith": "No se ha podido guardar el tiempo: {reason}",
+    "unknownReason": "error desconocido",
+    "sessionMismatch": "El cronómetro se ha cambiado desde otro navegador o dispositivo. Este es el actual.",
+    "beingStopped": "El cronómetro se está deteniendo desde otro navegador o dispositivo.",
+    "startRejectedPaused": "Ya hay un cronómetro en pausa con tiempo acumulado. Deténlo o cancélalo primero si quieres iniciar uno nuevo.",
+    "startRejectedStale": "El cronómetro se acaba de detener en otro lugar. Intenta iniciarlo de nuevo.",
+    "startRejectedRunning": "Ya hay un cronómetro en marcha desde otro navegador o dispositivo. Deténlo primero si quieres iniciar uno nuevo.",
+    "stopSourceWeb": "la aplicación web",
+    "stopSourceOther": "otro dispositivo"
+  },
+  "task": {
+    "createFailed": "No se ha podido crear la tarea"
+  },
+  "serverStatus": "El servidor respondió {status}",
+  "clientTooOld": "Actualiza la extensión de TimeTrack. Esta versión no puede guardar tiempo"
+}

@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "あなたはどの組織にも所属していません。新しい招待をリクエストするか、サポートにお問い合わせください。",
+  "freeMemberLocked": "この組織は無料プランで、利用できるのは{seats}ユーザーまでです。データは保存されています。再びアクセスするには、オーナーにアップグレードを依頼してください。",
+  "report": {
+    "hoursSuffix": "時間",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "「Gratis」プランで有効にできるクライアントは{clients}件までです。クライアントをアーカイブするか、アップグレードしてください。",
+  "freeSeatLimit": "「Gratis」プランで利用できるのは、保留中の招待を含めて{seats}ユーザーまでです。さらに招待するには、設定 → サブスクリプションでアップグレードしてください。",
+  "ownerMustTransfer": "あなたは他のメンバーがいるチームのオーナーです。アカウントを削除する前に、組織の設定で別のメンバーにオーナー権限を移してください。",
+  "holidays": {
+    "newYearsDay": "元日",
+    "maundyThursday": "聖木曜日",
+    "goodFriday": "聖金曜日",
+    "easterSunday": "復活祭の日曜日",
+    "easterMonday": "復活祭の月曜日",
+    "ascensionDay": "昇天祭",
+    "whitSunday": "聖霊降臨祭の日曜日",
+    "whitMonday": "聖霊降臨祭の月曜日",
+    "christmasDay": "クリスマス",
+    "boxingDay": "クリスマス翌日",
+    "greatPrayerDay": "大祈祷日",
+    "may1": "5月1日",
+    "constitutionDay": "憲法記念日",
+    "dayAfterAscension": "昇天祭の翌金曜日",
+    "christmasEve": "クリスマスイブ",
+    "newYearsEve": "大晦日",
+    "dayOff": "休日"
+  },
+  "speech": {
+    "language": "日本語",
+    "micBlocked": "マイクがブロックされています。ブラウザにマイクへのアクセスを許可して、もう一度お試しください。",
+    "noMic": "マイクが見つかりませんでした。",
+    "langUnsupported": "このブラウザでは、{language}の音声認識をローカルで利用できません。",
+    "stopped": "音声認識が予期せず停止しました。もう一度お試しいただくか、キーボードで入力してください。",
+    "downloadFailed": "このブラウザでは、{language}の音声認識をダウンロードできませんでした。",
+    "ready": "{language}の音声認識の準備ができました。マイクをタップしてください。",
+    "cantStart": "音声認識を開始できませんでした。もう一度お試しください。"
+  },
+  "offlineSync": {
+    "fullOverlap": "オフライン中に、別のデバイスでタイマーがすでに動いていました。オフラインの時間は完全に重なっていたため、保存されませんでした。",
+    "partialOverlap": "オフライン中に、別のデバイスでタイマーが開始されました。オフラインの時間は、その時点まで保存されています。",
+    "clippedSaved": "オフライン中に、別のデバイスでタイマーが開始されました。オフラインの時間{from}〜{to}は時間記録として保存され、もう一方のタイマーはそのまま動き続けます。",
+    "resetOffline": "{from}にオフラインで開始したとき、別のデバイスでタイマーがすでに動いていました。オフラインのタイマーはリセットされ、もう一方はそのまま動き続けます。",
+    "stoppedElsewhere": "オフライン中に、別のデバイスでタイマーが停止されました。時間はそちらで保存されており、重複して保存されることはありません。",
+    "syncFailed": "オフラインでの変更を同期できませんでした：{error}",
+    "defaultDescription": "時間記録"
+  },
+  "unknownError": "不明なエラー",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "保存できませんでした",
+      "retry": "もう一度試す"
+    },
+    "push": {
+      "unsupported": "このブラウザはプッシュ通知に対応していません",
+      "denied": "通知の許可が拒否されました",
+      "enabled": "プッシュ通知を有効にしました",
+      "enabledDesc": "これから通知が届きます",
+      "enableFailed": "通知を有効にできませんでした",
+      "disabled": "プッシュ通知を無効にしました",
+      "disableFailed": "通知を無効にできませんでした"
+    },
+    "periodic": {
+      "unsupported": "定期同期には対応していません",
+      "enabled": "自動レポートを有効にしました",
+      "enabledDesc": "週次レポートが届きます",
+      "enableFailed": "自動レポートを有効にできませんでした",
+      "disabled": "自動レポートを無効にしました",
+      "disableFailed": "自動レポートを無効にできませんでした"
+    },
+    "taskUndo": {
+      "restored": "タスクを元に戻しました",
+      "restoreFailed": "タスクを元に戻せませんでした",
+      "deleted": "タスクを削除しました",
+      "undo": "元に戻す"
+    },
+    "timerSync": {
+      "otherProject": "別のプロジェクト",
+      "runningPaused": "{name}ですでにタイマーが動いています。先にそちらを停止してください。一時停止中の時間は保持されます。",
+      "running": "{name}ですでにタイマーが動いています。先にそちらを停止してください。",
+      "alreadyStopped": "このタイマーは別のデバイスですでに停止され、保存されています。再開はされませんでした。"
+    },
+    "timerKeys": {
+      "started": "タイマーを開始しました",
+      "pressToPause": "Tをもう一度押すと一時停止します",
+      "paused": "タイマーを一時停止しました",
+      "pressToResume": "{time} - Tを押すと再開します",
+      "resumed": "タイマーを再開しました",
+      "cancelled": "タイマーをキャンセルしました"
+    },
+    "wakeLock": {
+      "unsupported": "このブラウザはWake Lockに対応していません",
+      "active": "画面をオンのままにしています",
+      "activeDesc": "時間を記録している間、画面は消えません",
+      "released": "画面が再び消えるようになりました",
+      "failed": "画面をオンのままにできませんでした"
+    }
+  },
+  "store": {
+    "managedOnAccount": "サブスクリプションはアカウントで管理されています。",
+    "otherAccount": "この購入は別のTimeTrackアカウントに紐づいています。",
+    "ownerOnly": "サブスクリプションを購入できるのは組織のオーナーのみです。",
+    "multiMember": "「Privat」と「Selvstændig」は1ユーザー向けです。組織に複数のユーザーがいるため、サブスクリプションはアカウントで管理されます。",
+    "otherOrganization": "サブスクリプションは別の組織のものです。確認するには、その組織に切り替えてください。",
+    "alreadySubscribed": "すでに{store}経由でサブスクリプションをお持ちです。",
+    "appStoreUnreachable": "App Storeに接続できませんでした。しばらくしてからもう一度お試しください。",
+    "appStoreVerify": "App Storeで購入を確認できませんでした。",
+    "unknownProduct": "不明な商品です。アプリを更新して、もう一度お試しください。",
+    "googleNotFound": "Google Playで購入が見つかりませんでした。",
+    "productMismatch": "購入内容が選択した商品と一致しません。",
+    "googleAck": "Google Playで購入を確認できませんでした。もう一度お試しください。"
+  },
+  "accountDeletion": {
+    "storeSubscription": "{store}経由の有効なサブスクリプションがあります。アカウントを削除しても自動では停止されないため、{store}で解約する必要があります。アカウントを削除するには、この点を理解したことを確認してください。",
+    "invalidUserId": "無効なユーザーID"
+  },
+  "orgInvite": {
+    "invalidEmail": "無効なメールアドレスです",
+    "domainNotAllowed": "この組織では、メールドメイン{domain}は許可されていません",
+    "alreadyMember": "この人はすでに組織のメンバーです",
+    "alreadyInvited": "このメールアドレスには、すでに保留中の招待があります",
+    "otherBrand": "このメールアドレスは組織に招待できません。別のアドレスを使用してください。",
+    "noSeats": "空き席がありません（{max}席中{used}席を使用中）。設定 → サブスクリプションで席を追加するか、プランを変更してください。",
+    "noSeatsAccept": "組織に空き席がありません。管理者にお問い合わせください。",
+    "lastOwnerRemove": "最後のオーナーは削除できません。先に別のメンバーにオーナー権限を移してください。",
+    "lastOwnerDemote": "最後のオーナーは降格できません。先に別のメンバーにオーナー権限を移してください。",
+    "acceptedPushTitle": "🎉 招待が承諾されました",
+    "acceptedPushBody": "{name}さんが{org}のメンバーになりました"
+  },
+  "bulkTasks": {
+    "duplicateIds": "一括リストに重複したUUIDが含まれています",
+    "missing": "1件以上のタスクが見つからないか、ワークスペースの外にあります：{ids}",
+    "unexpectedRowCount": "想定外の行数です",
+    "unselected": "データに、選択されていないUUIDが含まれています",
+    "statusMismatch": "タスク{id}のステータスは{status}ですが、期待されるステータスは{expected}です",
+    "notEmail": "タスク{id}はメールから作成されたタスクではありません",
+    "customLane": "タスク{id}はカスタムレーンを使っているため、安全に一括完了できません"
+  }
+}

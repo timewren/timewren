@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  macOS entitlements for TimeTrack Desktop.
+
+  These entitlements are applied at codesign time (referenced from
+  bundle.macOS.entitlements in tauri.conf.json). They are required for the
+  Hardened Runtime, which Apple notarization mandates.
+
+  IMPORTANT — what is NOT here:
+    * Screen Recording and Accessibility are TCC (Transparency, Consent &
+      Control) permissions, NOT entitlements. They are requested from the user
+      at runtime via the system permission prompts and managed in
+      System Settings > Privacy & Security. They must not (and cannot) be
+      declared in this plist.
+    * App Sandbox is intentionally disabled. This app is distributed outside
+      the Mac App Store (Developer ID + notarization), needs full filesystem
+      access for the local SQLite database under Application Support, and runs
+      a background auto-tracker. If you ever target the Mac App Store, you must
+      enable com.apple.security.app-sandbox and add scoped file-access
+      entitlements.
+-->
+<plist version="1.0">
+<dict>
+  <!-- Outbound network access: cloud sync (timetrack.dk), AI providers
+       (OpenAI / Anthropic / Google / OpenRouter), Billy, and Sentry. -->
+  <key>com.apple.security.network.client</key>
+  <true/>
+
+  <!-- Hardened Runtime exceptions needed by the WKWebView / JS engine that
+       Tauri (WKWebView) uses. JIT and unsigned executable memory are required
+       for the JavaScript JIT to run under the Hardened Runtime. -->
+  <key>com.apple.security.cs.allow-jit</key>
+  <true/>
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <true/>
+</dict>
+</plist>

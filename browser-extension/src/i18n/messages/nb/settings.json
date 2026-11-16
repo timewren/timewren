@@ -1,0 +1,109 @@
+{
+  "title": "Innstillinger",
+  "close": "Lukk innstillinger",
+  "searchPlaceholder": "Søk i innstillinger…",
+  "searchLabel": "Søk i innstillinger",
+  "noMatch": "Ingen innstillinger matcher «{query}»",
+  "keywords": {
+    "view": "visning|skjerm|forslag|nettsted|nettsteder|klippekort|prepaid|popup",
+    "appearance": "utseende|tema|mørk|lys|merke|badge|ikon|språk",
+    "newTab": "ny fane|fane|startside|widgeter",
+    "calendar": "kalender|dag|dato",
+    "goal": "daglig mål|mål|timemål|fremdrift",
+    "reminder": "påminnelse|varsling|helg|oppføring|logg",
+    "data": "data|slett|tilbakestill|offline|koblinger|nettsted|kø",
+    "advanced": "avansert|api|url|server",
+    "shortcuts": "snarveier|snarvei|tastatur|alt",
+    "about": "om utvidelsen|utvidelse|om|versjon|vurder|anmeldelse|hjelp"
+  },
+  "view": {
+    "title": "Visning",
+    "suggestions": "Forslag fra nettsted",
+    "suggestionsHint": "Foreslå et prosjekt basert på nettstedet du er på",
+    "prepaidTab": "Klippekort-fanen",
+    "prepaidTabHint": "Vis fanen med aktive klippekort i popupen"
+  },
+  "appearance": {
+    "title": "Utseende",
+    "theme": "Tema",
+    "themeHint": "Fargetema for utvidelsen",
+    "system": "Følg systemet",
+    "dark": "Mørk",
+    "light": "Lys",
+    "badge": "Tall på ikonet",
+    "badgeHint": "Hva tallet på utvidelsesikonet viser",
+    "badgeTimer": "Aktiv tidtaker",
+    "badgeToday": "Dagens timer",
+    "badgeOff": "Skjult",
+    "language": "Språk",
+    "languageHint": "Språk i utvidelsen",
+    "languageAuto": "Automatisk (følg nettleseren)"
+  },
+  "newTab": {
+    "title": "Ny fane",
+    "enable": "Åpne TimeTrack på nye faner",
+    "enableHint": "Slå av for å beholde vanlige, tomme faner",
+    "widgetsHint": "Velg widgeter i innstillingene på ny fane",
+    "activeWidgets": "Aktive widgeter: {count}"
+  },
+  "calendar": {
+    "title": "Kalender",
+    "openOn": "Åpne kalender på",
+    "openOnHint": "Hvilken dag kalenderen viser når den åpnes",
+    "today": "I dag",
+    "lastViewed": "Sist viste dag"
+  },
+  "goal": {
+    "title": "Daglig mål",
+    "hours": "Daglig timemål",
+    "hoursHint": "Brukes i den daglige fremdriftslinjen i popupen og på ny fane"
+  },
+  "reminder": {
+    "title": "Daglig påminnelse",
+    "enable": "Minn meg på å registrere tid",
+    "enableHint": "Varsling hvis du har for få timer",
+    "time": "Tidspunkt",
+    "minHours": "Minste antall timer",
+    "weekends": "Også i helger"
+  },
+  "data": {
+    "title": "Data",
+    "clearMappingsConfirm": "Slette alle lagrede koblinger mellom nettsteder og prosjekter?",
+    "clearMappingsDetail": "Skjulte forslag vil også vises igjen.",
+    "delete": "Slett",
+    "clearMappings": "Slett nettstedkoblinger",
+    "mappingsCount": "{count, plural, one {# lagret kobling} other {# lagrede koblinger}}",
+    "clearQueueConfirm": "Slette {count, plural, one {# ventende handling} other {# ventende handlinger}}?",
+    "unsentEntries": "{count, plural, one {# oppføring er} other {# oppføringer er}} ikke sendt til TimeTrack ennå. Tiden slettes for alltid.",
+    "clearQueueConfirmButton": "Slett køen",
+    "clearQueue": "Slett offlinekøen",
+    "pendingActions": "{count, plural, one {# ventende handling} other {# ventende handlinger}}",
+    "unsentSuffix": "{count, plural, one {# usendt oppføring} other {# usendte oppføringer}}",
+    "resetConfirm": "Tilbakestille alle innstillinger?",
+    "resetDetail": "Utvidelsens standardinnstillinger gjenopprettes.",
+    "resetButton": "Tilbakestill",
+    "reset": "Tilbakestill innstillinger",
+    "resetHint": "Gjenopprett standardinnstillinger"
+  },
+  "advanced": {
+    "title": "Avansert",
+    "apiUrl": "API-adresse",
+    "notSaved": "{error}. Adressen er ikke lagret."
+  },
+  "shortcuts": {
+    "title": "Tastatursnarveier",
+    "unreadable": "Snarveiene kan ikke leses i denne nettleseren.",
+    "openApp": "Åpne TimeTrack",
+    "notSet": "Ikke angitt",
+    "change": "Endre snarveier",
+    "firefoxPage": "Åpner Firefox' side for snarveier",
+    "chromePage": "Åpner chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "TimeTrack nettleserutvidelse, versjon {version}",
+    "rateFirefox": "Vurder på Firefox Add-ons",
+    "rateChrome": "Vurder i Chrome Web Store",
+    "rateHint": "Din vurdering hjelper andre frilansere",
+    "learnMore": "Les mer om utvidelsen"
+  }
+}

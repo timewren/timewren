@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, other {# 个逾期任务}}",
+    "needsAttention": "需要关注",
+    "lowBalance": "{count, plural, other {# 个预付时长包余额不足}}",
+    "lowBalanceSub": "余额不足",
+    "expiring": "{count, plural, other {# 个预付时长包即将到期}}",
+    "expiringSub": "14 天内",
+    "unbilled": "{amount} 未开票",
+    "unbilledSub": "可以开具发票",
+    "title": "需要处理"
+  },
+  "appDrawer": {
+    "apps": "应用",
+    "heading": "{brand} 应用",
+    "downloadFor": "下载 {os}{version} 版 · 测试版",
+    "seeDownloads": "在设置中查看下载",
+    "downloadComing": "下载即将上线，请查看设置",
+    "chromeExtension": "Chrome 扩展",
+    "chromeExtensionHint": "在浏览器中记录工时",
+    "installApp": "安装为应用",
+    "installAppHint": "把 {brand} 放到你的桌面",
+    "alreadyInstalled": "已安装",
+    "addToHome": "添加到主屏幕或桌面"
+  },
+  "demo": {
+    "clearedKept": "示例数据已清除。{kept, plural, other {# 个演示客户已被实际使用（例如已开具发票），已保留为普通客户。}}",
+    "cleared": "示例数据已清除，账户现在完全属于你。",
+    "nothingToClear": "没有需要清除的示例数据。",
+    "clearFailed": "无法清除示例数据",
+    "banner": "<strong>你正在查看示例数据。</strong>其中的客户、工时和预付时长包都是虚构的，方便你了解 {brand} 的实际用法。想从自己的数据开始时，请将它们清除。",
+    "confirm": "清除示例数据？演示客户及其示例项目、工时和预付时长包将被删除。你自己创建的所有内容（例如发票或自己的工时）都会保留。",
+    "clearButton": "清除演示数据"
+  },
+  "desktopCard": {
+    "beta": "测试版",
+    "withDownloads": "适用于 Mac 和 Windows 的桌面应用{version}。目前为测试版，可能存在错误。",
+    "version": "，版本 {version}",
+    "withoutDownloads": "桌面应用目前为测试版。{brand} 获取到最新版本后，下载链接会显示在这里。",
+    "hide": "隐藏",
+    "reportHint": "遇到错误？请使用应用内的“报告错误或缺失功能”。"
+  },
+  "trial": {
+    "step": {
+      "hasClient": "创建你的第一个客户",
+      "hasTimeEntry": "记录你的第一个工时",
+      "hasKlippekort": "创建预付时长包",
+      "hasInvoice": "创建你的第一张发票"
+    },
+    "daysLeft": "免费试用还剩 {count, plural, other {# 天}}",
+    "addPayment": "添加付款方式",
+    "gettingStarted": "快速上手（{done}/{total}）",
+    "hide": "隐藏",
+    "progressLabel": "上手进度",
+    "createAccount": "创建账户"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "客户流失风险",
+      "daysAgo": "{days} 天前",
+      "allActive": "你的所有客户在最近 60 天内都有动态 ✓",
+      "seeAll": "查看全部",
+      "count": "{count, plural, other {# 个客户已超过 60 天没有动态}}",
+      "lastActive": "最近活跃：{date}",
+      "revenue6m": "{amount}（6 个月）",
+      "hoursLeft": "剩余 {hours} 小时",
+      "openClient": "打开客户",
+      "sendCheckIn": "发送问候邮件",
+      "checkInSubject": "问候",
+      "more": "另有 {count} 个有风险的客户"
+    },
+    "calendarSync": {
+      "title": "日历与已记录工时对比",
+      "seeCalendar": "查看日历",
+      "captureRate": "记录率",
+      "eventsTracked": "已记录 {tracked}/{total} 个事件",
+      "calendar": "日历",
+      "tracked": "已记录",
+      "gap": "日历中有 {hours} 小时未记录",
+      "perProject": "按项目",
+      "moreProjects": "另有 {count} 个"
+    },
+    "cashflow": {
+      "title": "现金流预测",
+      "seeUnpaid": "查看未结款项",
+      "empty": "没有未结发票或有效的预付时长包",
+      "emptyHint": "发送发票后即可查看现金流预测",
+      "seeAllUnpaid": "查看全部未结款项",
+      "overdueInvoices": "{count, plural, other {# 张发票已逾期}}：",
+      "overdue": "已逾期：",
+      "week": "第 {number} 周",
+      "estimated": "（预估）",
+      "prepaidTag": "（预付时长包）",
+      "expected30": "未来 30 天预计收入"
+    },
+    "coverage": {
+      "title": "利用率",
+      "details": "查看详情",
+      "period": "时间段",
+      "loadFailed": "无法加载利用率",
+      "noTime": "此时间段内还没有工时记录。",
+      "trackTime": "记录工时",
+      "billable": "可计费",
+      "nonBillable": "不可计费",
+      "ratio": "每个已计费小时对应 <b>{ratio}</b> 不可计费工时",
+      "clientCol": "客户",
+      "splitCol": "可计费 / 不可计费"
+    },
+    "dailyHours": {
+      "title": "每日工时",
+      "details": "查看详情",
+      "avg": "日均：",
+      "total": "合计：",
+      "hoursShort": "{value} 小时",
+      "day": {
+        "0": "日",
+        "1": "一",
+        "2": "二",
+        "3": "三",
+        "4": "四",
+        "5": "五",
+        "6": "六"
+      }
+    },
+    "emailSync": {
+      "title": "邮件同步",
+      "started": "同步已开始",
+      "startFailed": "无法开始同步",
+      "never": "从未",
+      "now": "刚刚",
+      "minutes": "{value} 分钟",
+      "hours": "{value} 小时",
+      "days": "{value} 天",
+      "startNow": "立即开始同步",
+      "statusOk": "正常",
+      "statusUnstable": "不稳定",
+      "statusError": "错误",
+      "emails": "邮件",
+      "tasks": "任务",
+      "clients": "客户",
+      "analytics": "查看分析 →"
+    },
+    "emailTasks": {
+      "title": "来自邮件的任务",
+      "review": "查看",
+      "noClient": "无客户",
+      "empty": "还没有来自邮件的任务。"
+    },
+    "expiringPackages": {
+      "title": "即将到期的预付时长包",
+      "seeAll": "查看全部",
+      "none": "没有即将到期的预付时长包",
+      "noneHint": "30 天内到期的预付时长包会显示在这里",
+      "expiredAgo": "已于 {count, plural, other {# 天}}前到期",
+      "expired": "已到期",
+      "today": "今天",
+      "days": "{count, plural, other {# 天}}",
+      "hoursLeft": "剩余工时",
+      "value": "价值",
+      "expires": "到期日：{date}",
+      "more": "另有 {count} 个预付时长包",
+      "urgent": "部分预付时长包将在 7 天内到期，请联系客户续订。"
+    },
+    "flexBalance": {
+      "title": "弹性工时余额",
+      "hours": "{value} 小时",
+      "entries": "{count} 条记录"
+    },
+    "flexNorm": {
+      "title": "弹性工时余额",
+      "loadFailed": "无法加载余额。",
+      "noProfile": "你在该组织中没有员工档案。",
+      "unit": "小时",
+      "carryIn": "其中结转：{value} 小时",
+      "week": "周",
+      "month": "月",
+      "period": "时间段",
+      "summary": "截至目前已记录 {registered} 小时，应有 {net} 小时 · 本期应有 {periodNet} 小时",
+      "seeAccount": "查看弹性工时账户"
+    },
+    "hoursComparison": {
+      "title": "周对比",
+      "details": "查看详情",
+      "none": "没有记录工时",
+      "thisWeek": "本周",
+      "lastWeek": "上周",
+      "format": "hh:mm",
+      "increase": "增加",
+      "decrease": "减少",
+      "vsLastWeek": "与上周相比"
+    },
+    "invoiceOverview": {
+      "title": "发票概览",
+      "seeInvoices": "查看发票",
+      "totalInvoiced": "开票总额",
+      "draft": "草稿",
+      "sent": "已发送",
+      "paid": "已付款",
+      "overdue": "已逾期"
+    },
+    "lowBalance": {
+      "title": "余额不足的预付时长包",
+      "loadFailed": "无法加载预付时长包",
+      "none": "没有余额不足的预付时长包",
+      "seeAll": "查看全部",
+      "intro": "余额不足",
+      "noClient": "无客户",
+      "left": "剩余 {time}",
+      "more": "另有 {count} 个"
+    },
+    "monthComparison": {
+      "title": "月对比",
+      "seeReports": "查看报告",
+      "vs": "对比",
+      "vsValue": "对比 {value}",
+      "hours": "工时",
+      "hoursValue": "{value} 小时",
+      "revenue": "收入",
+      "entries": "工时记录"
+    },
+    "overdueTasks": {
+      "title": "逾期任务",
+      "none": "没有超过截止日期的任务 ✓",
+      "seeAll": "查看全部",
+      "count": "{count, plural, other {# 个任务}}",
+      "noProject": "无项目",
+      "deadline": "截止日期：{date}",
+      "more": "另有 {count} 个"
+    },
+    "pendingApprovals": {
+      "title": "待审批",
+      "requestOne": "项申请",
+      "requestOther": "项申请"
+    },
+    "prepaidStatus": {
+      "title": "预付时长包状态",
+      "allGood": "一切正常",
+      "seeAll": "查看全部",
+      "lowBalance": "余额不足",
+      "noClient": "无客户",
+      "left": "剩余 {time}",
+      "more": "另有 {count} 个",
+      "expiringSoon": "即将到期（30 天内）",
+      "expired": "已到期",
+      "today": "今天",
+      "days": "{count, plural, other {# 天}}"
+    },
+    "productivity": {
+      "title": "本周工作效率",
+      "details": "查看详情",
+      "noData": "还没有效率数据",
+      "streak": "当前连续天数",
+      "streakDays": "天连续",
+      "weeklyAvg": "周平均",
+      "perWeek": "每周",
+      "last8": "最近 8 周",
+      "less": "少",
+      "more": "多",
+      "msgHigh": "太棒了！你已经连续工作 7 天以上。继续保持！",
+      "msgMid": "做得好！保持这股势头。",
+      "msgLow": "你已经上路了！养成稳定的工作习惯吧。",
+      "streakDay": "天连续"
+    },
+    "profitability": {
+      "title": "实际小时费率",
+      "rate": "{rate} kr/小时",
+      "hours": "{hours} 小时",
+      "loadFailed": "无法加载数据",
+      "noBilled": "本月没有已开票的工时",
+      "createInvoice": "创建发票",
+      "details": "详情",
+      "agreedRate": "约定小时费率",
+      "realRate": "实际小时费率",
+      "vsAgreed": "与约定费率相比 {percent}%",
+      "billableAvg": "可计费平均值",
+      "footer": "共 {total} · 可计费 {billable}",
+      "footerInvoiced": "共 {total} · 可计费 {billable} · 已开票 {invoiced}"
+    },
+    "projectHealth": {
+      "title": "项目健康度",
+      "seeAll": "查看全部",
+      "alertsHeading": "预算预警",
+      "severity": {
+        "exceeded": "已超出",
+        "critical": "严重",
+        "warning": "警告"
+      },
+      "hoursUsed": "已用 {used} / {budget} 小时",
+      "budgetAmount": "预算 {amount} kr",
+      "moreAlerts": "另有 {count} 条预警",
+      "noBudgets": "没有设置预算的项目",
+      "createProject": "创建项目",
+      "onTrack": "{count, plural, other {# 个项目进展正常}}",
+      "moreProjects": "另有 {count} 个项目"
+    },
+    "quickActions": {
+      "title": "快捷操作",
+      "created": "工时记录已创建",
+      "createFailed": "无法创建工时记录",
+      "fillAll": "请正确填写所有字段",
+      "addClient": "添加客户",
+      "newProject": "新建项目",
+      "startTimer": "启动计时器",
+      "createInvoice": "创建发票",
+      "quickEntry": "快速记录工时",
+      "draftSaved": "草稿已保存",
+      "restoreDraft": "恢复已保存的草稿",
+      "restore": "恢复",
+      "projectPlaceholder": "选择项目",
+      "descriptionPlaceholder": "你做了什么？",
+      "hoursPlaceholder": "工时",
+      "saving": "正在保存…",
+      "save": "保存"
+    },
+    "recentActivity": {
+      "title": "最近动态",
+      "none": "还没有动态",
+      "seeAll": "查看全部",
+      "now": "刚刚",
+      "minutesAgo": "{count} 分钟前",
+      "hoursAgo": "{count, plural, other {# 小时}}前",
+      "daysAgo": "{count, plural, other {# 天}}前"
+    },
+    "revenueByClient": {
+      "title": "各客户收入",
+      "seeReports": "查看报告",
+      "loadFailed": "无法加载收入",
+      "none": "本月没有收入"
+    },
+    "revenueForecast": {
+      "title": "收入预测",
+      "seeReports": "查看报告",
+      "none": "还没有收入数据",
+      "expected": "本月预计",
+      "amountKr": "{amount} kr",
+      "basedOn": "基于 {day} / {total} 天",
+      "sixMonthAvg": "6 个月平均"
+    },
+    "rounding": {
+      "title": "取整收益",
+      "inactive": "未启用取整。向上取整工时即可多赚一点。",
+      "enable": "启用取整",
+      "settings": "设置",
+      "thisMonth": "本月",
+      "extra": "通过取整额外获得",
+      "thisYear": "今年合计"
+    },
+    "stats": {
+      "activeClients": "活跃客户",
+      "activeProjects": "活跃项目",
+      "hoursThisMonth": "本月工时",
+      "revenueThisMonth": "本月收入"
+    },
+    "topClients": {
+      "title": "重点客户",
+      "loadFailed": "无法加载数据",
+      "none": "还没有客户数据",
+      "seeAll": "查看全部",
+      "rankedBy": "按工时排名"
+    },
+    "unbilled": {
+      "title": "未开票工时",
+      "loadFailed": "无法加载数据",
+      "none": "没有未开票的工时",
+      "seeAll": "查看全部",
+      "entries": "{count, plural, other {# 条工时记录}}",
+      "totalHours": "总工时",
+      "estimatedValue": "预估价值"
+    },
+    "absences": {
+      "title": "即将到来的缺勤",
+      "loading": "正在加载…",
+      "none": "没有已批准的缺勤计划",
+      "employee": "员工",
+      "absence": "缺勤",
+      "from": "自 {date} 起"
+    },
+    "deadlines": {
+      "title": "重要日期",
+      "overdue": "已逾期",
+      "today": "今天",
+      "days": "{count, plural, other {# 天}}",
+      "needsSetup": "设置公司类型后即可查看重要日期",
+      "setUpNow": "立即设置",
+      "none": "未来 180 天内没有截止日期",
+      "editSettings": "编辑公司设置"
+    },
+    "upcomingTasks": {
+      "title": "即将到期的任务",
+      "none": "没有即将到期的任务",
+      "seeAll": "查看全部",
+      "within7": "7 天内",
+      "noProject": "无项目",
+      "deadline": "截止日期：{date}",
+      "more": "另有 {count} 个"
+    },
+    "vacation": {
+      "title": "休假余额",
+      "daysLeftIn": "{label} 剩余天数",
+      "daysLeft": "剩余天数"
+    },
+    "vat": {
+      "titleMonthly": "本月增值税",
+      "titleQuarterly": "本期增值税",
+      "titleSemiAnnual": "本半年增值税",
+      "title": "增值税",
+      "exempt": "你已登记为无需缴纳增值税",
+      "changeInSettings": "在设置中更改",
+      "createFirst": "创建第一张发票后即可查看增值税预估",
+      "createInvoice": "创建发票",
+      "invoices": "发票",
+      "toSettle": "待结算增值税",
+      "percentOf": "已开票 {amount} 的 25%",
+      "nextDeadline": "下一个截止日期",
+      "inDays": "（{count, plural, other {# 天}}后）",
+      "overdue": "（已逾期）",
+      "ytd": "今年合计",
+      "setAside": "请将 <b>{amount}</b> 存入单独的账户"
+    },
+    "weeklyGoal": {
+      "title": "每周目标",
+      "loadFailed": "无法加载每周目标",
+      "trackTime": "记录工时",
+      "reached": "目标已达成！",
+      "onTrack": "进展顺利",
+      "behind": "落后",
+      "remaining": "还剩 <b>{time}</b>",
+      "perDay": "{count, plural, other {# 天}}内每天 {time}"
+    }
+  }
+}

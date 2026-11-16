@@ -1,0 +1,67 @@
+{
+  "hourUnit": "t",
+  "headline": {
+    "untilToday": "{logged} av {expected} frem til i dag",
+    "noWorkTimeYet": "Ingen arbeidstid i perioden ennå",
+    "of": "{logged} av {expected}",
+    "noWorkTime": "Ingen arbeidstid i perioden"
+  },
+  "week": "Uke {week} ({start}-{end})",
+  "period": {
+    "day": "Dag",
+    "week": "Uke",
+    "month": "Måned"
+  },
+  "bar": {
+    "label": "Fakturerbar {billable}, ikke fakturerbar {nonBillable} av {expected} arbeidstid",
+    "billable": "Fakturerbar",
+    "nonBillable": "Ikke fakturerbar",
+    "notLogged": "Ikke registrert"
+  },
+  "table": {
+    "client": "Kunde",
+    "billable": "Fakturerbar",
+    "nonBillableShort": "Ikke fakt.",
+    "share": "Andel",
+    "ratio": "Ikke fakt. per fakt. time",
+    "ratioTitle": "Ikke fakturerbare timer per fakturerte time",
+    "onlyNonBillable": "Kun ikke fakt."
+  },
+  "strip": {
+    "title": "Dekning",
+    "summary": "<n>{billable}</n> fakturerbar · <n>{nonBillable}</n> ikke fakturerbar",
+    "summaryRatio": "<n>{billable}</n> fakturerbar · <n>{nonBillable}</n> ikke fakturerbar · <n>{ratio}</n> per fakturerte time",
+    "perClient": "Per kunde"
+  },
+  "page": {
+    "back": "Rapporter",
+    "title": "Dekning",
+    "description": "Hvor mye av arbeidstiden din som er registrert, og hvor den går",
+    "periodAria": "Periode",
+    "prev": "Forrige periode",
+    "next": "Neste periode",
+    "today": "I dag",
+    "workTime": "Arbeidstid: {hours}/uke",
+    "workTimeHr": "Arbeidstid: {hours}/uke (fra HR)",
+    "edit": "Rediger",
+    "loadError": "Kunne ikke hente dekningsgraden.",
+    "retry": "Prøv igjen",
+    "statCoverage": "Dekning",
+    "statBillable": "Fakturerbar",
+    "statNonBillable": "Ikke fakturerbar",
+    "statRatio": "Ikke fakt. per fakt. time",
+    "ofWorkTime": "{pct} av arbeidstiden",
+    "noTimeLogged": "Ingen tid registrert",
+    "shareBilled": "{pct} av den registrerte tiden er fakturert",
+    "perClient": "Per kunde",
+    "noTimeInPeriod": "Ingen tid registrert i perioden.",
+    "logTime": "Registrer tid",
+    "perDay": "Per dag",
+    "colDate": "Dato",
+    "colWorkTime": "Arbeidstid",
+    "colLogged": "Registrert",
+    "colBillable": "Hvorav fakt.",
+    "colCoverage": "Dekning",
+    "footnote": "Dekning = registrert tid ÷ din normale arbeidstid. Helligdager og fravær trekkes ikke fra arbeidstiden. Tid uten kunde vises som intern tid."
+  }
+}

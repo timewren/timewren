@@ -1,0 +1,475 @@
+{
+  "errors": {
+    "insufficientRights": "K této akci nemáš dostatečná oprávnění",
+    "accessDenied": "K tomuto zdroji nemáš přístup",
+    "unexpected": "Došlo k neočekávané chybě",
+    "clientNotFound": "Klient nebyl nalezen",
+    "clientArchived": "Klient je archivován",
+    "projectNotFound": "Projekt nebyl nalezen",
+    "projectArchived": "Projekt je archivován",
+    "timeEntryNotFound": "Záznam času nebyl nalezen",
+    "timeEntriesNotFound": "Jeden nebo více záznamů času nebylo nalezeno",
+    "prepaidNotFound": "Balíček hodin nebyl nalezen",
+    "prepaidInactive": "Balíček hodin není aktivní",
+    "prepaidInsufficientHours": "Na balíčku hodin nezbývá dost hodin. Dostupné hodiny: {available}",
+    "prepaidHasUsage": "Balíček hodin s evidovaným čerpáním nelze smazat. Deaktivuj ho místo toho.",
+    "invoiceNotFound": "Faktura nebyla nalezena",
+    "invoiceAlreadySent": "Faktura už byla odeslána",
+    "invoiceAlreadyPaid": "Faktura už byla zaplacena",
+    "userNotFound": "Uživatel nebyl nalezen",
+    "invalidValue": "Neplatná hodnota pole {field}",
+    "operationFailed": "{operation}: operace se nezdařila"
+  },
+  "friendly": {
+    "network": "Žádné spojení s TimeTrack. Zkontroluj síť a zkus to znovu.",
+    "server": "V TimeTrack se něco pokazilo. Zkus to za chvíli znovu.",
+    "validation": "Některá pole nejsou vyplněná správně. Zkontroluj je a zkus to znovu.",
+    "unauthorized": "Už nejsi přihlášen. Přihlas se prosím znovu.",
+    "forbidden": "K tomu nemáš oprávnění.",
+    "notFound": "To, co hledáš, už neexistuje.",
+    "tooManyRequests": "Příliš mnoho pokusů za krátkou dobu. Chvíli počkej a zkus to znovu.",
+    "retry": "Zkusit znovu",
+    "login": "Přihlásit se"
+  },
+  "zod": {
+    "invalidExpoToken": "Neplatný push token Expo",
+    "invalidUrl": "Neplatná URL",
+    "webhookEventRequired": "Vyber alespoň jeden typ události",
+    "descriptionRequired": "Popis je povinný",
+    "hoursMin": "Počet hodin musí být alespoň 0,01",
+    "endAfterStart": "Konec musí být po začátku",
+    "cursorOrOffset": "Použij buď cursor, nebo offset, ne obojí",
+    "dateFormat": "Datum musí mít formát rrrr-MM-dd",
+    "clientOrProject": "Zadej klienta nebo projekt",
+    "nameMin2": "Jméno musí mít alespoň 2 znaky",
+    "invalidEmailShort": "Zadej platný e-mail",
+    "scopeRequired": "Je potřeba alespoň jeden rozsah (scope)",
+    "approvalScope": "period requires periodStart+periodEnd; invoice_draft requires invoiceId",
+    "invalidEmail": "Zadej platnou e-mailovou adresu",
+    "messageMax500": "Zpráva může mít nejvýše 500 znaků",
+    "selectProjectClientOrDescription": "Vyber projekt nebo klienta, nebo vyplň popis",
+    "subjectMin5": "Předmět musí mít alespoň 5 znaků",
+    "messageMin10": "Zpráva musí mít alespoň 10 znaků",
+    "invalidDate": "Neplatné datum",
+    "atLeastOneWorkday": "Alespoň jeden den v týdnu musí mít pracovní dobu",
+    "duplicateDate": "Stejné datum bylo přidáno dvakrát",
+    "nameRequired": "Jméno je povinné",
+    "invalidEmailDash": "Neplatná e-mailová adresa",
+    "selectProjectClientOrDescriptionShort": "Vyber projekt/klienta nebo vyplň popis",
+    "amountRequired": "Částka je povinná",
+    "amountPositive": "Částka musí být větší než 0",
+    "amountTooLarge": "Částka je příliš vysoká",
+    "amountDecimals": "Částka může mít nejvýše 2 desetinná místa",
+    "selectClient": "Vyber klienta",
+    "issueDateRequired": "Datum vystavení je povinné",
+    "unknownTool": "Neznámý nástroj",
+    "invalidCostRate": "Neplatná nákladová cena",
+    "companyNameMin2": "Název firmy musí mít alespoň 2 znaky",
+    "invalidEmailAddress": "Neplatná e-mailová adresa",
+    "hourlyRateMin0": "Hodinová sazba musí být alespoň 0",
+    "confirmProjectName": "Pro potvrzení zadej název projektu",
+    "enterName": "Zadej své jméno",
+    "invalidNumber": "Neplatné číslo",
+    "descriptionMissing": "Chybí popis",
+    "invalidDateFormat": "Neplatné datum (očekávaný formát rrrr-mm-dd)",
+    "nameMissing": "Chybí jméno",
+    "hoursRequired": "Počet hodin je povinný",
+    "atLeastOneRecipient": "Alespoň jeden příjemce",
+    "invalidHexColor": "Neplatná hexadecimální barva",
+    "titleRequired": "Název je povinný",
+    "textRequired": "Text je povinný",
+    "invalidImageUrl": "Neplatná URL obrázku",
+    "enterDays": "Zadej počet dní",
+    "invalidColor": "Neplatná barva",
+    "dateYmd": "Datum ve formátu RRRR-MM-DD",
+    "noteRequired": "Zadej poznámku",
+    "unlockReason": "Napiš důvod odemčení",
+    "reasonRequired": "Uveď důvod",
+    "reopenReason": "Napiš důvod znovuotevření",
+    "templateNameRequired": "Pojmenuj šablonu",
+    "employeeOrDepartment": "Vyber buď zaměstnance, nebo oddělení",
+    "formatMmDd": "Musí mít formát MM-DD"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "Klient vytvořen",
+      "clientUpdated": "Klient aktualizován",
+      "clientArchived": "Klient archivován",
+      "projectCreated": "Projekt vytvořen",
+      "projectUpdated": "Projekt aktualizován",
+      "projectStatusChanged": "Stav projektu změněn",
+      "projectBudgetThreshold": "Dosažen práh měsíčního rozpočtu",
+      "timeEntryCreated": "Záznam času vytvořen",
+      "timeEntryUpdated": "Záznam času aktualizován",
+      "timeEntryDeleted": "Záznam času smazán",
+      "invoiceCreated": "Faktura vytvořena",
+      "invoiceSent": "Faktura odeslána",
+      "invoicePaid": "Faktura zaplacena",
+      "invoiceOverdue": "Faktura po splatnosti",
+      "prepaidCreated": "Balíček hodin vytvořen",
+      "prepaidUpdated": "Balíček hodin aktualizován",
+      "prepaidLowBalance": "Nízký zůstatek balíčku hodin",
+      "prepaidExpired": "Balíčku hodin vypršela platnost",
+      "taskCreated": "Úkol vytvořen",
+      "taskUpdated": "Úkol aktualizován",
+      "taskCompleted": "Úkol dokončen"
+    }
+  },
+  "clients": {
+    "invalidDomain": "Neplatná doména: {domain}",
+    "roundingRequired": "roundingMinutes a roundingMethod musí být nastaveny, když je roundingEnabled true"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "URL webhooku nelze zobrazit. Vygeneruj novou URL."
+  },
+  "desktop": {
+    "licenseMismatch": "Licenční klíč a e-mail se nepodařilo spárovat. Zkontroluj je, nebo kontaktuj podporu."
+  },
+  "common": {
+    "unknownProject": "Neznámý projekt",
+    "unknownError": "Neznámá chyba",
+    "noProject": "Bez projektu",
+    "unknownClient": "Neznámý klient",
+    "unknown": "Neznámé"
+  },
+  "search": {
+    "invoiceTitle": "Faktura {number}",
+    "timeEntryTitle": "Záznam času",
+    "timeSubtitle": "{project} • {hours} h",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • zbývá {hours} h",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "Přihlašovací kód je neplatný nebo vypršel. Přihlas se znovu.",
+    "import": {
+      "noWorkRuleNoTarget": "Pravidlo pro nepracovní čas neukazuje na projekt ani klienta",
+      "ruleNeedsTarget": "Pravidlo musí ukazovat na projekt nebo klienta",
+      "linesSumMismatch": "Součet řádků ({sum}) se nerovná částce faktury ({amount})",
+      "entryNotImported": "Záznam {id} nebyl importován",
+      "companyProfileMissing": "Chybí údaje o firmě. Před importem faktur je vyplň v části Nastavení → Profil firmy.",
+      "fullCreditOnly": "Importovat lze jen plné dobropisy: částka dobropisu ({amount}) musí být částka faktury ({original}) s opačným znaménkem",
+      "invoiceNotFound": "Faktura {id} neexistuje",
+      "creditNoteAmount": "Dobropis musí mít částku 0 nebo nižší",
+      "invoiceIsDraft": "Faktura {id} je koncept a nelze k ní vystavit dobropis",
+      "refMissing": {
+        "client": "Klient {id} nebyl importován",
+        "project": "Projekt {id} nebyl importován",
+        "prepaid": "Balíček hodin {id} nebyl importován",
+        "task": "Úkol {id} nebyl importován",
+        "invoice": "Faktura {id} nebyla importována"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "Zaplacené faktury nelze měnit. V případě potřeby vystav dobropis.",
+      "deleted": "Smazané faktury nelze obnovit.",
+      "generic": "Stav nelze změnit z „{from}“ na „{to}“."
+    },
+    "directTime": "Přímý čas",
+    "status": {
+      "draft": "koncept",
+      "sent": "odeslaná",
+      "paid": "zaplacená",
+      "overdue": "po splatnosti",
+      "deleted": "smazaná"
+    },
+    "specHeading": "--- Specifikace ---",
+    "specLine": "{date} - {project}: {description} ({hours} h × {rate} kr = {amount} kr)"
+  },
+  "logbook": {
+    "endAfterStart": "Datum konce musí být po datu začátku",
+    "periodMaxDays": "Období může mít nejvýše {days} dní"
+  },
+  "portal": {
+    "manualDeduction": "Ruční odečet"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "Balíček hodin už má opakovanou fakturu"
+  },
+  "storeBilling": {
+    "notAvailable": "Nákupy v aplikaci zatím nejsou k dispozici."
+  },
+  "subscription": {
+    "storeManaged": "Tvoje předplatné se platí přes {provider}. Změníš nebo zrušíš ho v {provider}.",
+    "teamPlanNotConfigured": "Tarif „Team“ zatím není nastaven (ALUNTA_PLAN_TEAM_*). Kontaktuj podporu.",
+    "businessPlanNotConfigured": "Tarif „Business“ zatím není nastaven (ALUNTA_PLAN_BUSINESS_*). Kontaktuj podporu.",
+    "privatePlanNotAvailable": "Tarif „Private“ zatím není k dispozici (ALUNTA_PLAN_PRIVAT_*). Vyber jiný tarif nebo kontaktuj podporu.",
+    "freeNotPurchasable": "Tarif „Free“ nelze koupit.",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL není nastaveno"
+  },
+  "time": {
+    "invalidEntryDate": "Neplatné datum: očekávaný formát RRRR-MM-DD"
+  },
+  "billedLock": {
+    "onInvoice": "Záznam času je vyfakturován a nelze ho měnit. Nejdřív vystav k faktuře dobropis nebo odeber záznam z konceptu faktury.",
+    "marked": "Záznam času je označen jako vyfakturovaný a nelze ho měnit. Nejdřív odeber označení.",
+    "bulk": {
+      "delete": "{count, plural, one {# z vybraných záznamů času je vyfakturován a nelze ho smazat. Nejdřív vystav dobropis nebo odeber označení.} few {# z vybraných záznamů času jsou vyfakturovány a nelze je smazat. Nejdřív vystav dobropis nebo odeber označení.} many {# z vybraných záznamů času je vyfakturováno a nelze je smazat. Nejdřív vystav dobropis nebo odeber označení.} other {# z vybraných záznamů času je vyfakturováno a nelze je smazat. Nejdřív vystav dobropis nebo odeber označení.}}",
+      "edit": "{count, plural, one {# z vybraných záznamů času je vyfakturován a nelze ho měnit. Nejdřív vystav dobropis nebo odeber označení.} few {# z vybraných záznamů času jsou vyfakturovány a nelze je měnit. Nejdřív vystav dobropis nebo odeber označení.} many {# z vybraných záznamů času je vyfakturováno a nelze je měnit. Nejdřív vystav dobropis nebo odeber označení.} other {# z vybraných záznamů času je vyfakturováno a nelze je měnit. Nejdřív vystav dobropis nebo odeber označení.}}",
+      "move": "{count, plural, one {# z vybraných záznamů času je vyfakturován a nelze ho přesunout. Nejdřív vystav dobropis nebo odeber označení.} few {# z vybraných záznamů času jsou vyfakturovány a nelze je přesunout. Nejdřív vystav dobropis nebo odeber označení.} many {# z vybraných záznamů času je vyfakturováno a nelze je přesunout. Nejdřív vystav dobropis nebo odeber označení.} other {# z vybraných záznamů času je vyfakturováno a nelze je přesunout. Nejdřív vystav dobropis nebo odeber označení.}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "Typ aktivity s tímto názvem už existuje",
+    "endAfterStart": "Datum konce musí být po datu začátku",
+    "fromBeforeTo": "Datum od musí být před datem do",
+    "periodMaxDays": "Období může mít nejvýše {days} dní",
+    "employee": {
+      "importManagerMissing": "Manažer {email} neexistuje v souboru ani v organizaci. Zaměstnanec byl importován bez manažera."
+    },
+    "payroll": {
+      "hrOnly": "Mapování mezd je vyhrazeno pro HR a administrátory"
+    },
+    "closing": {
+      "changedMeanwhile": "Výkaz se mezitím změnil. Načti stránku znovu.",
+      "locked": "Období je uzavřeno a zamčeno. Administrátor ho musí odemknout (s uvedením důvodu), než půjde měnit záznamy."
+    },
+    "team": {
+      "absenceLabel": "Absence"
+    },
+    "timesheet": {
+      "coveredByRequest": "Tento den pokrývá žádost o absenci vytvořená v části Absence. Uprav ji tam.",
+      "otherTypeAbsence": "Pro tento den už máš absenci jiného typu",
+      "absenceRecordedElsewhere": "Absence byla současně zaznamenána odjinud. Načti týden znovu.",
+      "overMax": "{label}: {total} h překračuje maximum {max} h za den",
+      "emptyWorkday": "{label} je pracovní den bez záznamů a bez absence",
+      "overNorm": "{label}: {total} h je nad tvou normou {norm} h",
+      "weekOverNorm": "Týden: {total} h je nad tvou týdenní normou {norm} h",
+      "autoLocked": "Týden je uzamčen. Minulý týden se uzamyká {day}. Požádej o opravu svého manažera.",
+      "automatically": "automaticky",
+      "rollingLocked": "Záznamy starší než {weeks} jsou uzamčeny organizací. Požádej o opravu svého manažera.",
+      "weeks": "{count, plural, one {# týden} few {# týdny} many {# týdne} other {# týdnů}}"
+    },
+    "workPlans": {
+      "notBackwards": "Plán nelze měnit zpětně. Vyber dnešek nebo pozdější datum."
+    },
+    "absenceCap": {
+      "used": "{type}: pro rok {year} je vyčerpáno (limit {cap} dní ročně)",
+      "left": "V roce {year} zbývá jen {remaining} z {cap} dní: {type}"
+    },
+    "rule": {
+      "avgViolation": "Pravidlo 48 hodin: průměr za referenční období je {avg} h/týden (limit {limit} h)",
+      "avgWarning": "Pravidlo 48 hodin: průměr za referenční období je {avg} h/týden a blíží se limitu {limit} h",
+      "weekInfo": "Pravidlo 48 hodin: týden je nyní na {week} h; průměr za referenční období je stále pod {limit} h",
+      "restBefore": "Odpočinek 11 hodin: před prací v den {day} je jen {rest} h odpočinku (vyžadováno {limit} h)",
+      "daySum": "Odpočinek 11 hodin: {total} h zaznamenaných v den {day} nechává méně než {limit} h odpočinku (max. {max} h za den)",
+      "weeklyRest": "Týdenní odpočinek 24 hodin: nejdelší nepřetržitý odpočinek v týdnu od {day} je {rest} h (vyžadováno {limit} h)",
+      "noFreeDay": "Týdenní odpočinek 24 hodin: v týdnu od {day} je práce zaznamenána všech 7 dní, bez celého dne volna"
+    },
+    "employment": {
+      "endBeforeStart": "Datum konce nemůže být před datem začátku",
+      "onlyFirstUnknown": "Pouze první období může mít neznámé datum začátku",
+      "startAfterPrevStart": "Datum začátku musí být po začátku předchozího období ({date})",
+      "startAfterPrevEnd": "Datum začátku musí být po konci předchozího zaměstnání ({date})",
+      "endBeforeNext": "Datum konce musí být před začátkem dalšího období ({date})",
+      "endDayBeforeNext": "Datum konce musí být den před začátkem dalšího období ({date}). Přesuň raději datum začátku dalšího období."
+    },
+    "import": {
+      "fileEmpty": "Soubor je prázdný",
+      "headerEmployees": "Záhlaví musí obsahovat alespoň sloupce „navn“ a „email“",
+      "nameMissing": "Chybí jméno",
+      "invalidEmail": "Neplatný e-mail: „{value}“",
+      "duplicate": "Duplicita v souboru: {email}",
+      "unknownRole": "Neznámá role: „{value}“ (použij medarbejder/leder/admin)",
+      "invalidWeeklyHours": "Neplatný počet hodin: „{value}“ (1 až 60)",
+      "invalidStartDate": "Neplatné datum začátku: „{value}“ (použij RRRR-MM-DD)",
+      "invalidManagerEmail": "Neplatný e-mail manažera: „{value}“",
+      "headerEntries": "Záhlaví musí obsahovat sloupce „email“ (nebo „medarbejder“), „dato“ a „timer“",
+      "invalidDate": "Neplatné datum: „{value}“ (použij RRRR-MM-DD)",
+      "invalidHours": "Neplatný počet hodin: „{value}“ (0 až 24)"
+    },
+    "period": {
+      "pickBoth": "Vyber datum od i datum do",
+      "fromBeforeToOrSame": "Datum od musí být stejné jako datum do nebo dřívější",
+      "maxDaysShorter": "Období může mít nejvýše {days} dní. Vyber kratší interval."
+    },
+    "vacation": {
+      "notEnough": "Ve fondu „{pool}“ není dost dnů dovolené. Zbývá ti {remaining} dní, ale záznam vyžaduje {deducted} dní{tolerance}.",
+      "overdraftAllowed": " (přečerpání povoleno: {days} dní)",
+      "overdraftNotAllowed": " (přečerpání není povoleno)"
+    },
+    "workPlan": {
+      "rotation": "Rotace musí být 1 nebo 2 týdny",
+      "weekCount": "Počet týdnů neodpovídá rotaci",
+      "invalidWeekday": "Neplatný den v týdnu{label}",
+      "duplicateWeekday": "Den v týdnu se vyskytuje dvakrát{label}",
+      "timeFormat": "Časy musí být zapsány jako HH:MM{label}",
+      "endAfterStart": "Konec musí být po začátku{label}",
+      "breakRange": "Přestávka musí mít 0 až 240 minut{label}",
+      "breakShorter": "Přestávka musí být kratší než pracovní den{label}",
+      "inWeek": " v týdnu {week}",
+      "enterBothTimes": "Zadej začátek i konec jako HH:MM",
+      "endAfterStartPlain": "Konec musí být po začátku",
+      "breakShorterPlain": "Přestávka musí být kratší než pracovní den",
+      "rangeOrHours": "Zadej časový rozsah nebo 0 až 24 hodin"
+    },
+    "closure": {
+      "overlap": "už má v daném období absenci",
+      "noWorkingDays": "nemá v daném období žádné pracovní dny",
+      "balance": "nemá dost dnů dovolené",
+      "error": "nešlo vytvořit (technická chyba)"
+    },
+    "workPlanExport": {
+      "planned": "Podle plánu",
+      "deviation": "Odchylka",
+      "dayOff": "Den volna",
+      "absence": "Absence",
+      "free": "Volno podle plánu",
+      "hDate": "Datum",
+      "hStatus": "Stav",
+      "hPlan": "Plán",
+      "hPlanHours": "Plán (hodiny)",
+      "hRegisteredRange": "Zaznamenaný časový rozsah",
+      "hBreak": "Přestávka (min)",
+      "hRegisteredHours": "Zaznamenáno (hodiny)",
+      "hDayOff": "Den volna",
+      "hNote": "Poznámka",
+      "hEditedBy": "Upravil",
+      "hEditedUtc": "Upraveno (UTC)"
+    },
+    "payrollXlsx": {
+      "sheet": "Mzdy",
+      "period": "Období: {period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "Název tvé firmy",
+      "yourName": "Tvoje jméno",
+      "yourEmail": "Tvůj e-mail",
+      "yourPhone": "Tvoje telefonní číslo",
+      "clientFullName": "Celé jméno klienta",
+      "clientCompany": "Název firmy klienta",
+      "clientEmail": "E-mail klienta",
+      "portalLink": "Odkaz na klientský portál",
+      "invoiceNumber": "Číslo faktury",
+      "totalInclVat": "Celková částka včetně DPH",
+      "amountExclVat": "Částka bez DPH",
+      "issueDate": "Datum vystavení",
+      "paymentDeadline": "Termín platby",
+      "invoiceStatus": "Zaplaceno/Nezaplaceno/Po splatnosti",
+      "invoiceLink": "Přímý odkaz na fakturu",
+      "daysLate": "Počet dní po splatnosti",
+      "projectName": "Název projektu",
+      "projectStatus": "Aktivní/Dokončený/Pozastavený",
+      "hoursUsed": "Vyčerpané hodiny",
+      "projectLink": "Odkaz na projekt v portálu",
+      "prepaidName": "Název balíčku hodin",
+      "hoursRemaining": "Zbývající hodiny",
+      "hoursTotal": "Hodin celkem",
+      "percentUsed": "Procento vyčerpání",
+      "expiryDate": "Datum vypršení",
+      "daysToExpiry": "Dní do vypršení",
+      "hoursForApproval": "Celkem hodin ke schválení",
+      "entryCount": "Počet záznamů času",
+      "period": "Časové období",
+      "approvalLink": "Odkaz na stránku schvalování",
+      "loginLink": "Odkaz na přihlášení do portálu",
+      "invitationLink": "Odkaz na pozvánku",
+      "invitationExpiry": "Datum vypršení pozvánky"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "DPH Q{n}",
+    "vatHalfTitle": "DPH H{n}",
+    "vatQuarterDesc": "Přiznání a úhrada DPH (moms) za čtvrtletí dánské daňové správě (Skattestyrelsen).",
+    "vatHalfDesc": "Přiznání a úhrada DPH (moms) za pololetí dánské daňové správě (Skattestyrelsen).",
+    "vatMonthTitle": "DPH {month}",
+    "vatMonthDesc": "Přiznání a úhrada DPH (moms) za {month} {year} dánské daňové správě (Skattestyrelsen).",
+    "bSkatSpring": "Zálohová daň, B-skat (jaro)",
+    "bSkatAutumn": "Zálohová daň, B-skat (podzim)",
+    "bSkatDesc": "Úhrada zálohové daně B-skat dánské daňové správě (Skattestyrelsen). Týká se OSVČ a freelancerů.",
+    "formTitle": "Daňové přiznání {year}",
+    "formDesc": "Podání daňového přiznání (oplysningsskema) za příjmový rok {year} dánské daňové správě (Skattestyrelsen).",
+    "amTitle": "Příspěvek na trh práce (AM) Q{n}",
+    "amDesc": "Úhrada příspěvku na trh práce (AM-bidrag) za OSVČ za dané čtvrtletí.",
+    "arTitle": "Výroční zpráva FY{year}",
+    "arDesc": "Výroční zprávu je nutné podat dánskému obchodnímu úřadu (Erhvervsstyrelsen) nejpozději 5 měsíců po konci účetního roku.",
+    "agmTitle": "Valná hromada FY{year}",
+    "agmDesc": "Řádná valná hromada ke schválení výroční zprávy.",
+    "corpFormTitle": "Daňové přiznání firmy FY{year}",
+    "corpFormDesc": "Daňové přiznání firmy (oplysningsskema) za účetní rok je nutné podat dánské daňové správě (Skattestyrelsen).",
+    "corpTaxSpring": "Záloha na daň z příjmu právnických osob (jaro)",
+    "corpTaxAutumn": "Záloha na daň z příjmu právnických osob (podzim)",
+    "corpTaxDesc": "Úhrada zálohy na daň z příjmu právnických osob dánské daňové správě (Skattestyrelsen).",
+    "corpFinalTitle": "Doplatek daně z příjmu právnických osob {year}",
+    "corpFinalDesc": "Úhrada zbývající daně z příjmu právnických osob (doplatek) za příjmový rok {year}.",
+    "payrollTitle": "A-skat/příspěvek AM {month}",
+    "payrollDesc": "Přiznání a úhrada A-skat a příspěvku AM za mzdové období {month} {year}.",
+    "holidayPayTitle": "Příspěvek na dovolenou Q{n}",
+    "holidayPayDesc": "Přiznání a úhrada příspěvku na dovolenou do Feriekonto (dánský fond pro proplácení dovolené) za dané čtvrtletí."
+  },
+  "integrations": {
+    "authExpired": "Připojení k {name} vypršelo nebo je neplatné. Připoj se prosím znovu v části Nastavení → Integrace.",
+    "billy": {
+      "keyRequired": "Je potřeba klíč API Billy",
+      "productDescription": "Hodiny importované z TimeTrack"
+    },
+    "dinero": {
+      "keyRequired": "Je potřeba klíč API Dinero",
+      "orgIdRequired": "Je potřeba ID organizace Dinero",
+      "tokenFailed": "Token Dinero se nepodařilo získat",
+      "refreshMissing": "Chybí obnovovací token Dinero",
+      "expiredReconnect": "Připojení k Dinero vypršelo. Připoj se prosím znovu.",
+      "orgsFailed": "Organizace Dinero se nepodařilo získat"
+    },
+    "economic": {
+      "secretRequired": "Je potřeba App Secret Token e-conomic",
+      "grantRequired": "Je potřeba Agreement Grant Token e-conomic",
+      "consultingHours": "Konzultační práce: {hours} hodin"
+    },
+    "timeops": {
+      "invalidKey": "Klíč API je neplatný nebo vypršel",
+      "premium": "Pro použití API TimeOps potřebuješ TimeOps Premium",
+      "network": "K TimeOps se nepodařilo připojit. Zkus to později.",
+      "unexpected": "Při připojování k TimeOps došlo k neočekávané chybě ({detail})"
+    },
+    "icloud": {
+      "syncFailed": "Synchronizace s iCloud selhala",
+      "storageMissing": "iCloud se teď nepodařilo připojit, protože na serveru není nastaveno bezpečné ukládání hesel. Kontaktuj podporu.",
+      "rejected": "Apple ID nebo heslo pro aplikaci bylo odmítnuto. Zkontroluj, že jsi zkopíroval celé heslo pro aplikaci (ne své běžné heslo k Apple ID).",
+      "notConnected": "iCloud není připojen",
+      "notConnectedShort": "Nepřipojeno k iCloud",
+      "calendarGone": "Kalendář „{name}“ už v iCloud neexistuje. Vyber kalendáře znovu.",
+      "unknownCalendar": "neznámý"
+    },
+    "caldav": {
+      "unknown": "Synchronizace s iCloud selhala: {message}",
+      "auth": "Apple odmítl přihlášení. Na appleid.apple.com vytvoř nové heslo pro aplikaci a připoj iCloud znovu.",
+      "network": "K iCloud se teď nepodařilo připojit. Zkusíme to automaticky znovu."
+    },
+    "cvr": {
+      "invalid": "Číslo CVR musí mít 8 číslic",
+      "notFound": "Pro toto číslo CVR nebyla nalezena žádná firma",
+      "rateLimited": "Vyhledávání v CVR je dočasně omezeno. Zkus to za chvíli, nebo pole vyplň sám.",
+      "timeout": "Rejstřík CVR teď neodpovídá. Zkus to za chvíli, nebo pole vyplň sám.",
+      "unavailable": "Vyhledávání v CVR teď nefunguje. Zkus to za chvíli, nebo pole vyplň sám."
+    },
+    "google": {
+      "readOnly": "Tvůj Google Kalendář je připojen jen s přístupem pro čtení, takže TimeTrack v něm nemůže vytvářet ani měnit události. Pokud chceš tuto funkci používat, povol zápis v části Nastavení → Integrace → Google Kalendář.",
+      "freeSlot": "Volný čas v kalendáři",
+      "deadlineIn": "Termín za {count, plural, one {# den} few {# dny} many {# dne} other {# dní}}",
+      "urgent": "Naléhavá priorita",
+      "high": "Vysoká priorita",
+      "clientLine": "Klient: {name}",
+      "projectLine": "Projekt: {name}",
+      "hoursLine": "Hodiny: {hours}",
+      "exportedFrom": "Exportováno z TimeTrack"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "Záznam času",
+    "timeOnProject": "{hours} hodin na projektu {name}",
+    "timeForClient": "{hours} hodin pro klienta {name}",
+    "timeOnly": "{hours} hodin",
+    "invoiceTitle": "Faktura {number}",
+    "invoiceDescription": "{amount} kr pro klienta {client}",
+    "newClient": "Nový klient: {name}",
+    "noContact": "Žádné kontaktní údaje",
+    "newProject": "Nový projekt: {name}",
+    "projectFor": "Pro {client}",
+    "internal": "Interní"
+  }
+}

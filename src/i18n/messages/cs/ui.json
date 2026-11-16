@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Ukládám…",
+    "saved": "Uloženo",
+    "blocked": "Neuloženo: oprav zvýrazněné pole",
+    "failed": "Uložení se nepodařilo",
+    "retry": "Zkusit znovu"
+  },
+  "loading": {
+    "default": "Načítám…",
+    "tip": {
+      "search": "Víš, že? Stisknutím Ctrl+K můžeš hledat všude",
+      "rightClick": "Tip: Kliknutím pravým tlačítkem na úkol zobrazíš rychlé akce",
+      "templates": "Používej šablony pro opakující se úkoly a ušetři čas",
+      "kanban": "V zobrazení Kanban můžeš úkoly přetahovat mezi sloupci",
+      "timerFromTask": "Tip: Stopky můžeš spustit přímo z úkolu",
+      "prepaid": "Balíčky hodin ti pomáhají sledovat předplacené hodiny",
+      "duplicate": "Balíčky hodin můžeš duplikovat jedním kliknutím",
+      "keys": "Klávesami J/K se pohybuješ v seznamu úkolů"
+    }
+  },
+  "member": {
+    "all": "Všichni zaměstnanci",
+    "selected": "Vybráno zaměstnanců: {count}"
+  },
+  "founding": "Zakladatel",
+  "status": {
+    "active": "Aktivní",
+    "inactive": "Neaktivní",
+    "pending": "Čeká",
+    "completed": "Dokončeno",
+    "archived": "Archivováno",
+    "draft": "Koncept",
+    "sent": "Odesláno",
+    "paid": "Zaplaceno",
+    "overdue": "Po splatnosti",
+    "on_hold": "Pozastaveno"
+  },
+  "priority": {
+    "low": "Nízká",
+    "medium": "Normální",
+    "high": "Vysoká",
+    "urgent": "Kritická"
+  },
+  "modal": {
+    "close": "Zavřít",
+    "confirm": "Potvrdit",
+    "cancel": "Zrušit",
+    "wait": "Počkej prosím…",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Nahrání selhalo",
+    "uploaded": "Obrázek byl nahrán",
+    "uploadError": "Obrázek se nepodařilo nahrát",
+    "alt": "Obrázek",
+    "change": "Změnit",
+    "upload": "Nahrát",
+    "remove": "Odebrat",
+    "hint": "JPEG, PNG nebo WebP. Max. 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Chyba sítě",
+      "message": "Nepodařilo se připojit k serveru. Zkontroluj připojení k internetu a zkus to znovu."
+    },
+    "server": {
+      "title": "Chyba serveru",
+      "message": "Došlo k chybě serveru. Zkus to později."
+    },
+    "notFound": {
+      "title": "Nenalezeno",
+      "message": "Hledaný zdroj neexistuje nebo byl odstraněn."
+    },
+    "permission": {
+      "title": "Přístup odepřen",
+      "message": "Nemáš oprávnění zobrazit tento obsah."
+    },
+    "unknown": {
+      "title": "Něco se pokazilo",
+      "message": "Došlo k neočekávané chybě. Zkus stránku načíst znovu."
+    },
+    "offline": "Jsi offline",
+    "connected": "Připojeno",
+    "details": "Podrobnosti chyby",
+    "retrying": "Zkouším znovu…",
+    "retry": "Zkusit znovu",
+    "loading": "Načítám…"
+  },
+  "empty": {
+    "clients": {
+      "title": "Zatím žádní klienti",
+      "description": "Začni vytvořením prvního klienta. Můžeš přidat kontaktní údaje, IČ firmy, hodinovou sazbu a další.",
+      "action": "Vytvořit prvního klienta",
+      "guide": "Přečíst průvodce"
+    },
+    "projects": {
+      "needClientTitle": "Nejdřív vytvoř klienta",
+      "needClientDescription": "Než můžeš vytvářet projekty, potřebuješ alespoň jednoho klienta. Projekty vždy patří klientovi.",
+      "createClient": "Vytvořit klienta",
+      "title": "Zatím žádné projekty",
+      "description": "Vytvoř první projekt, abys mohl začít evidovat čas a fakturovat klientům. Můžeš zvolit hodinovou sazbu nebo pevnou cenu.",
+      "action": "Vytvořit projekt",
+      "seeClients": "Zobrazit klienty"
+    },
+    "time": {
+      "needProjectTitle": "Nejdřív vytvoř projekt",
+      "needProjectDescription": "K evidenci času potřebuješ alespoň jeden aktivní projekt. Projekty ti pomáhají organizovat a fakturovat práci.",
+      "createProject": "Vytvořit projekt",
+      "today": "dnes",
+      "title": "Žádný čas nezaznamenán ({date})",
+      "description": "Spusť stopky nebo přidej záznam času ručně. Pro pravidelné úkoly můžeš vytvořit i opakující se šablony.",
+      "startTimer": "Spustit stopky",
+      "seeTemplates": "Zobrazit šablony"
+    },
+    "invoices": {
+      "needTimeTitle": "Nejdřív zaznamenej čas",
+      "needTimeDescription": "Nemáš žádný nevyfakturovaný čas k fakturaci. Začni evidencí času u svých projektů.",
+      "trackTime": "Zaznamenat čas",
+      "title": "Zatím žádné faktury",
+      "description": "Vytvoř první fakturu na základě zaznamenaného času nebo pevných částek. Šablony faktur můžeš upravit v nastavení.",
+      "action": "Vytvořit fakturu",
+      "seeUnbilled": "Zobrazit nevyfakturovaný čas"
+    },
+    "tasks": {
+      "needProjectTitle": "Nejdřív vytvoř projekt",
+      "needProjectDescription": "Úkoly patří k projektům. Nejdřív vytvoř projekt, potom můžeš přidávat úkoly.",
+      "createProject": "Vytvořit projekt",
+      "title": "Žádné úkoly",
+      "description": "Mej přehled o svých úkolech a termínech. Úkolům můžeš nastavit prioritu a termín splnění.",
+      "action": "Vytvořit úkol",
+      "seeProjects": "Zobrazit projekty"
+    },
+    "prepaid": {
+      "needClientTitle": "Nejdřív vytvoř klienta",
+      "needClientDescription": "Balíčky hodin (předplacené hodiny) patří klientům. Nejdřív vytvoř klienta.",
+      "createClient": "Vytvořit klienta",
+      "title": "Žádné balíčky hodin",
+      "description": "Balíčky hodin jsou bloky hodin zaplacené předem. Ideální pro průběžnou podporu nebo údržbu u stálých klientů.",
+      "action": "Vytvořit balíček hodin",
+      "seeClients": "Zobrazit klienty"
+    },
+    "reports": {
+      "title": "Žádná data k zobrazení",
+      "description": "Zaznamenávej čas a vytvářej faktury, aby se tu zobrazily tvé reporty a statistiky. Čím víc dat, tím lepší přehled.",
+      "action": "Přejít na evidenci času"
+    },
+    "search": {
+      "title": "Žádné výsledky",
+      "descriptionQuery": "Pro „{query}“ se nic nenašlo. Zkus jiný hledaný výraz nebo zkontroluj pravopis.",
+      "description": "Zkus hledat něco jiného.",
+      "clear": "Vymazat hledání"
+    },
+    "error": {
+      "title": "Něco se pokazilo",
+      "description": "Data se nepodařilo načíst. Zkus to znovu.",
+      "retry": "Zkusit znovu"
+    },
+    "moduleDisabled": {
+      "title": "Funkce je vypnutá",
+      "description": "Tento modul není pro tvou organizaci zapnutý. Pokud ho chceš používat, obrať se na správce.",
+      "action": "Nastavení modulů"
+    }
+  },
+  "client": {
+    "placeholder": "Vyber klienta",
+    "clear": "Bez klienta",
+    "selected": "Vybráno klientů: {count}",
+    "searchLabel": "Hledat klienty",
+    "searchPlaceholder": "Hledat klienty…",
+    "listLabel": "Klienti",
+    "none": "Žádní klienti nenalezeni",
+    "frequent": "Často používaní",
+    "all": "Všichni klienti",
+    "entryCount": "záznamů: {count}"
+  },
+  "project": {
+    "placeholder": "Vyber projekt",
+    "none": "Bez projektu",
+    "searchPlaceholder": "Hledat projekt nebo klienta…",
+    "listLabel": "Projekty",
+    "recent": "Nedávno použité",
+    "empty": "Žádné projekty nenalezeny",
+    "noClient": "Bez klienta",
+    "unknownClient": "Neznámý klient"
+  },
+  "task": {
+    "placeholder": "Vyber úkol",
+    "searchPlaceholder": "Hledat úkol, projekt nebo klienta…",
+    "none": "Bez úkolu",
+    "inProgress": "Rozpracováno",
+    "todo": "K vyřízení",
+    "backlog": "Backlog",
+    "other": "Ostatní",
+    "noMatch": "Žádné úkoly nenalezeny",
+    "noActive": "Žádné aktivní úkoly",
+    "showMoreBacklog": "Zobrazit dalších úkolů v backlogu: {count}"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Fatura (predefinição)",
+        "subject": "Fatura {number} de {company}",
+        "title": "Fatura {number}",
+        "text": "Caro(a) {client},\n\nEm anexo segue a fatura referente ao trabalho realizado.\n\nMontante: {amount}\nData de vencimento: {dueDate}",
+        "button": "Ver fatura",
+        "footer": "Com os melhores cumprimentos\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Convite para o portal",
+        "subject": "Foi convidado(a) para o portal do cliente de {company}",
+        "title": "Bem-vindo(a) ao portal do cliente",
+        "text": "Caro(a) {client},\n\nFoi convidado(a) a aceder ao seu portal do cliente pessoal de {company}.\n\nNo portal pode:\n• Consultar as suas faturas\n• Acompanhar o progresso dos projetos\n• Ver os seus registos de tempo\n• Verificar a sua bolsa de horas",
+        "button": "Aceitar convite"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Deixas de receber newsletters e e-mails de marketing do TimeTrack. Os e-mails importantes sobre a tua conta e a segurança continuam a chegar.",
+    "invalidText": "Não foi possível confirmar o cancelamento da subscrição. Tenta novamente ou ajusta as tuas definições dentro do TimeTrack.",
+    "confirmText": "Queres cancelar a subscrição das newsletters e dos e-mails de marketing do TimeTrack? Os e-mails importantes sobre a tua conta e a segurança continuam a chegar.",
+    "settingsButton": "Ajustar definições de e-mail",
+    "confirmButton": "Confirmar cancelamento",
+    "doneTitle": "Subscrição cancelada",
+    "invalidTitle": "A ligação é inválida",
+    "confirmTitle": "Cancelar a subscrição das newsletters"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "o fim do período"
+  }
+}

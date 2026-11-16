@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Rechnung (Standard)",
+        "subject": "Rechnung {number} von {company}",
+        "title": "Rechnung {number}",
+        "text": "Liebe/r {client},\n\nanbei die Rechnung für die geleistete Arbeit.\n\nBetrag: {amount}\nFälligkeitsdatum: {dueDate}",
+        "button": "Rechnung ansehen",
+        "footer": "Mit freundlichen Grüßen\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Portal-Einladung",
+        "subject": "Du wurdest zum Kundenportal von {company} eingeladen",
+        "title": "Willkommen im Kundenportal",
+        "text": "Liebe/r {client},\n\ndu wurdest eingeladen, auf dein persönliches Kundenportal bei {company} zuzugreifen.\n\nIm Portal kannst du:\n• Deine Rechnungen ansehen\n• Den Projektfortschritt verfolgen\n• Deine Zeiteinträge ansehen\n• Dein Stundenpaket prüfen",
+        "button": "Einladung annehmen"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Du erhältst keine Newsletter und Marketing-E-Mails von TimeTrack mehr. Wichtige E-Mails zu deinem Konto und zur Sicherheit kommen weiterhin an.",
+    "invalidText": "Die Abmeldung konnte nicht bestätigt werden. Versuche es erneut oder passe deine Einstellungen in TimeTrack an.",
+    "confirmText": "Möchtest du Newsletter und Marketing-E-Mails von TimeTrack abbestellen? Wichtige E-Mails zu deinem Konto und zur Sicherheit kommen weiterhin an.",
+    "settingsButton": "E-Mail-Einstellungen anpassen",
+    "confirmButton": "Abmeldung bestätigen",
+    "doneTitle": "Du bist abgemeldet",
+    "invalidTitle": "Der Link ist ungültig",
+    "confirmTitle": "Newsletter abbestellen"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "Ende des Zeitraums"
+  }
+}

@@ -1,0 +1,93 @@
+---
+title: "E-Mail"
+description: "Mail von TimeWren per SMTP oder Resend versenden, den Transport wählen, Absenderadressen setzen und prüfen, ob die Zustellung funktioniert."
+---
+
+TimeWren versendet Mails für die Bestätigung bei der Registrierung, Einladungen, Erinnerungen, Rechnungen und Berichte. Du wählst in der `.env` einen Transport: SMTP, Resend oder keinen (nur Log). Ohne Transport wird nichts versendet.
+
+## Einen Transport wählen
+
+Die App nimmt die erste passende Regel:
+
+1. `MAIL_TRANSPORT` ist auf `resend`, `smtp` oder `log` gesetzt (Groß- und Kleinschreibung egal). Das erzwingt die Wahl.
+2. `RESEND_API_KEY` ist gesetzt: Resend.
+3. `SMTP_HOST` ist gesetzt: SMTP.
+4. Sonst: nur Log.
+
+Sind sowohl `RESEND_API_KEY` als auch `SMTP_HOST` gesetzt, gewinnt Resend, außer du setzt `MAIL_TRANSPORT=smtp`. Wenn du `MAIL_TRANSPORT=smtp` ohne `SMTP_HOST` erzwingst, schlägt jeder Versand mit einem Fehler fehl.
+
+## SMTP
+
+```dotenv
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=jane@example.com
+SMTP_PASSWORD=YOUR_SMTP_PASSWORD
+SMTP_FROM="TimeWren <mail@example.com>"
+```
+
+| Variable | Verhalten |
+| -------- | --------- |
+| `SMTP_HOST` | Servername. Für SMTP erforderlich. |
+| `SMTP_PORT` | Standard ist `587`. |
+| `SMTP_SECURE` | `true` bedeutet implizites TLS. Jeder andere nicht leere Wert bedeutet STARTTLS. Ist er leer oder nicht gesetzt, ist er nur auf Port 465 `true`. |
+| `SMTP_USER`, `SMTP_PASSWORD` | Werden für die Authentifizierung nur verwendet, wenn `SMTP_USER` gesetzt ist. |
+| `SMTP_FROM` | Überschreibt den Absender jeder Mail. Mit SMTP empfohlen, weil dein Anbieter meist nur verifizierte Adressen akzeptiert. |
+
+## Resend
+
+```dotenv
+RESEND_API_KEY=YOUR_RESEND_API_KEY
+RESEND_FROM_EMAIL="TimeWren <noreply@example.com>"
+```
+
+`RESEND_FROM_EMAIL` muss zu einer Domain gehören, die du in Resend verifiziert hast.
+
+## Absenderadressen
+
+| Variable | Verwendet für |
+| -------- | ------------- |
+| `SMTP_FROM` | Absender aller Mails, wenn der SMTP-Transport genutzt wird. |
+| `RESEND_FROM_EMAIL` | Standardabsender der meisten Mails (Rechnungen, Erinnerungen, Berichte). |
+| `EMAIL_DOMAIN` | Domain für erzeugte Adressen wie `noreply@`. Ist sie leer, ist es der Host von `NEXT_PUBLIC_MARKETING_URL`, sonst der von `NEXT_PUBLIC_APP_URL`. |
+| `SUPPORT_EMAIL` | Support-Adresse, die in Mails und der Oberfläche angezeigt wird. Ist sie leer, ist es `support@` plus `EMAIL_DOMAIN`. |
+| `FROM_EMAIL` | Absender einiger Benachrichtigungsmails. |
+| `PERSONAL_FROM_EMAIL` | Absender persönlicher Lebenszyklus-Mails. Ist er leer, wird der Standardabsender verwendet. |
+
+Ohne `RESEND_FROM_EMAIL` lautet der Standardabsender `TimeWren <noreply@DOMAIN>`, wobei `DOMAIN` aus `EMAIL_DOMAIN` stammt. Mit Resend solltest du `RESEND_FROM_EMAIL` ausdrücklich setzen.
+
+## E-Mail-Bestätigung
+
+Nutzer müssen ihre Adresse bestätigen, bevor sie sich anmelden können. `REQUIRE_EMAIL_VERIFICATION=false` überspringt das, aber nur, solange kein Transport konfiguriert ist. Sobald SMTP oder Resend eingerichtet ist, wird das Flag ignoriert (eine Warnung wird protokolliert) und die Bestätigung ist wieder Pflicht.
+
+Läuft die Instanz ohne Mail und ohne Bestätigung, kann jeder, der die Instanz erreicht, mit beliebiger Adresse ein Konto anlegen. Konfiguriere Mail und entferne das Flag, bevor du die Instanz öffentlich machst.
+
+## ADMIN_EMAIL
+
+`ADMIN_EMAIL` ist eine kommagetrennte Liste der Admin-Adressen. Ist sie leer, wird das erste angelegte Konto zum Instanz-Admin. Bei abgeschalteter Bestätigung kann eine unbestätigte Registrierung eine `ADMIN_EMAIL`-Adresse vor dir beanspruchen. Lege daher zuerst dein Konto an oder konfiguriere Mail.
+
+## Testen, ob Mail funktioniert
+
+Starte die App nach Änderungen an der `.env` neu (`docker compose up -d`) und löse dann eine Mail aus, zum Beispiel indem du einen Benutzer einlädst oder ein zweites Konto registrierst. Beobachte das Log:
+
+```bash
+docker compose logs -f app
+```
+
+| Logzeile | Bedeutung |
+| -------- | --------- |
+| `[Mail] Ingen mail-transport er sat (RESEND_API_KEY eller SMTP_HOST)...` | Es ist kein Transport konfiguriert. Wird einmal pro Start ausgegeben. |
+| `[Mail:log] til=... emne="..."` | Eine Mail wurde übersprungen und nur Empfänger und Betreff protokolliert. Der Text wird in der Produktion nicht protokolliert. |
+| `[Mail] SMTP-afsendelse fejlede: ...` | Der SMTP-Server hat die Mail abgelehnt oder war nicht erreichbar. Der Text nach dem Doppelpunkt ist der Fehler. |
+
+Einige dieser Meldungen sind auf Dänisch, weil sie aus derselben Codebasis wie TimeTrack Cloud stammen. Für einen erfolgreichen SMTP-Versand wird keine Logzeile geschrieben. Gibt es keinen Fehler und die Mail kommt nicht an, prüfe den Spam-Ordner und das Versandlog deines Anbieters.
+
+## Resend-Webhooks
+
+Die Zustell-Webhooks von Resend sind optional. Der Endpunkt ist `/api/webhooks/resend`.
+
+1. Erstelle in Resend einen Webhook mit der URL `https://timewren.example.com/api/webhooks/resend`.
+2. Wähle die Ereignisse `email.delivered`, `email.bounced`, `email.failed` und, für eingehende Mail, `email.received`.
+3. Kopiere das Signing-Secret als `RESEND_WEBHOOK_SECRET` in die `.env` und führe `docker compose up -d` aus.
+
+Anfragen ohne gültige Svix-Signatur werden abgelehnt, und der Endpunkt weist Anfragen ab, solange `RESEND_WEBHOOK_SECRET` nicht gesetzt ist.

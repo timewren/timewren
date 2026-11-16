@@ -1,0 +1,93 @@
+---
+title: "Email"
+description: "Send mail from TimeWren with SMTP or Resend, choose the transport, set sender addresses and check that delivery works."
+---
+
+TimeWren sends mail for sign-up verification, invitations, reminders, invoices and reports. You choose one transport in `.env`: SMTP, Resend, or none (log only). Without a transport, nothing is sent.
+
+## Choosing a transport
+
+The app picks the first rule that matches:
+
+1. `MAIL_TRANSPORT` is set to `resend`, `smtp` or `log` (case-insensitive). This forces the choice.
+2. `RESEND_API_KEY` is set: Resend.
+3. `SMTP_HOST` is set: SMTP.
+4. Otherwise: log only.
+
+If both `RESEND_API_KEY` and `SMTP_HOST` are set, Resend wins unless you set `MAIL_TRANSPORT=smtp`. Forcing `MAIL_TRANSPORT=smtp` without `SMTP_HOST` makes every send fail with an error.
+
+## SMTP
+
+```dotenv
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=jane@example.com
+SMTP_PASSWORD=YOUR_SMTP_PASSWORD
+SMTP_FROM="TimeWren <mail@example.com>"
+```
+
+| Variable | Behaviour |
+| -------- | --------- |
+| `SMTP_HOST` | Server name. Required for SMTP. |
+| `SMTP_PORT` | Defaults to `587`. |
+| `SMTP_SECURE` | `true` means implicit TLS. Any other non-empty value means STARTTLS. When empty or unset, it is `true` only on port 465. |
+| `SMTP_USER`, `SMTP_PASSWORD` | Used for authentication only when `SMTP_USER` is set. |
+| `SMTP_FROM` | Overrides the sender of every mail. Recommended with SMTP, because your provider usually only accepts verified addresses. |
+
+## Resend
+
+```dotenv
+RESEND_API_KEY=YOUR_RESEND_API_KEY
+RESEND_FROM_EMAIL="TimeWren <noreply@example.com>"
+```
+
+`RESEND_FROM_EMAIL` must belong to a domain you have verified in Resend.
+
+## Sender addresses
+
+| Variable | Used for |
+| -------- | -------- |
+| `SMTP_FROM` | Sender of all mail when the SMTP transport is used. |
+| `RESEND_FROM_EMAIL` | Default sender for most mail (invoices, reminders, reports). |
+| `EMAIL_DOMAIN` | Domain for generated addresses such as `noreply@`. When empty it is the host of `NEXT_PUBLIC_MARKETING_URL`, else of `NEXT_PUBLIC_APP_URL`. |
+| `SUPPORT_EMAIL` | Support address shown in mails and the UI. When empty it is `support@` plus `EMAIL_DOMAIN`. |
+| `FROM_EMAIL` | Sender for some notification mails. |
+| `PERSONAL_FROM_EMAIL` | Sender of personal lifecycle mails. When empty the default sender is used. |
+
+Without `RESEND_FROM_EMAIL`, the default sender is `TimeWren <noreply@DOMAIN>`, where `DOMAIN` comes from `EMAIL_DOMAIN`. With Resend you will want to set `RESEND_FROM_EMAIL` explicitly.
+
+## Email verification
+
+People must verify their address before they can sign in. `REQUIRE_EMAIL_VERIFICATION=false` skips this, but only while no transport is configured. As soon as SMTP or Resend is set up, the flag is ignored (a warning is logged) and verification is required again.
+
+Running without mail and without verification means anyone who can reach the instance can create an account with any address. Configure mail and remove the flag before you expose the instance.
+
+## ADMIN_EMAIL
+
+`ADMIN_EMAIL` is a comma-separated list of the admin addresses. When it is empty, the first account created becomes the instance admin. With verification switched off, an unverified sign-up can claim an `ADMIN_EMAIL` address before you do, so create your account first or configure mail.
+
+## Testing that mail works
+
+Restart the app after changing `.env` (`docker compose up -d`), then trigger a mail, for example by inviting a user or signing up a second account. Watch the log:
+
+```bash
+docker compose logs -f app
+```
+
+| Log line | Meaning |
+| -------- | ------- |
+| `[Mail] Ingen mail-transport er sat (RESEND_API_KEY eller SMTP_HOST)...` | No transport is configured. Printed once per start. |
+| `[Mail:log] til=... emne="..."` | A mail was skipped and only recipient and subject were logged. The body is not logged in production. |
+| `[Mail] SMTP-afsendelse fejlede: ...` | The SMTP server rejected the mail or could not be reached. The text after the colon is the error. |
+
+Some of these messages are in Danish, because they come from the same code base as TimeTrack Cloud. No log line is written for a successful SMTP send. If there is no error and the mail does not arrive, check the spam folder and your provider's sending log.
+
+## Resend webhooks
+
+Resend delivery webhooks are optional. The endpoint is `/api/webhooks/resend`.
+
+1. In Resend, create a webhook with the URL `https://timewren.example.com/api/webhooks/resend`.
+2. Select the events `email.delivered`, `email.bounced`, `email.failed` and, for inbound mail, `email.received`.
+3. Copy the signing secret into `.env` as `RESEND_WEBHOOK_SECRET` and run `docker compose up -d`.
+
+Requests without a valid Svix signature are rejected, and the endpoint refuses requests while `RESEND_WEBHOOK_SECRET` is unset.

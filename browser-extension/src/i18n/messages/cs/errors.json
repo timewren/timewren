@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Platnost relace vypršela. Přihlas se znovu.",
+  "noConnection": "Bez připojení. Zkus to znovu.",
+  "timeout": "Připojení trvalo příliš dlouho",
+  "invalidResponse": "Neočekávaná odpověď ze serveru",
+  "notLoggedIn": "Uživatel není přihlášen",
+  "notLoggedInOpenPopup": "Uživatel není přihlášen. Otevři vyskakovací okno TimeTrack a přihlas se.",
+  "unknown": "Neznámá chyba",
+  "api": {
+    "fallback": "Chyba API",
+    "UNAUTHORIZED": "Platnost relace vypršela. Přihlas se znovu.",
+    "FORBIDDEN": "Přístup odepřen",
+    "NOT_FOUND": "Zdroj nebyl nalezen",
+    "TIMEOUT": "Server neodpověděl",
+    "TOO_MANY_REQUESTS": "Příliš mnoho požadavků. Chvíli počkej a zkus to znovu",
+    "INTERNAL_SERVER_ERROR": "Chyba serveru. Zkus to za chvíli znovu",
+    "BAD_REQUEST": "Neplatný požadavek",
+    "PARSE_ERROR": "Neplatný požadavek"
+  },
+  "auth": {
+    "invalidToken": "Neplatný token",
+    "validateFailed": "Token se nepodařilo ověřit",
+    "loginFailed": "Přihlášení se nezdařilo",
+    "loginCancelled": "Přihlášení bylo zrušeno. Zkus to znovu",
+    "loginCancelledShort": "Přihlášení bylo zrušeno",
+    "noToken": "Nebyl přijat žádný token",
+    "tokenValidationStatus": "Ověření tokenu selhalo: server odpověděl {status}",
+    "orgsFailed": "Organizace se nepodařilo načíst ({status})"
+  },
+  "url": {
+    "notAllowed": "Použij timetrack.dk, app.timetrack.dk, beta.timetrack.dk nebo localhost"
+  },
+  "entry": {
+    "hoursPositive": "Zadej počet hodin větší než 0",
+    "timesCannotBeRemoved": "Časy nelze odebrat. Uprav místo toho začátek a konec",
+    "fillStartEnd": "Vyplň začátek i konec",
+    "endAfterStart": "Konec musí být po začátku"
+  },
+  "timer": {
+    "loadFailed": "Stopky se nepodařilo načíst",
+    "startFailed": "Stopky se nepodařilo spustit",
+    "stopFailed": "Stopky se nepodařilo zastavit. Zkus to znovu",
+    "stopNetwork": "Stopky se nepodařilo zastavit: chyba sítě",
+    "cancelFailed": "Stopky se nepodařilo zrušit. Zkus to znovu",
+    "cancelNetwork": "Stopky se nepodařilo zrušit: chyba sítě",
+    "cancelStoppingElsewhere": "Stopky se už zastavují z {source}",
+    "sourceWeb": "webové aplikace",
+    "sourceOther": "jiného zařízení",
+    "pauseFailed": "Stopky se nepodařilo pozastavit",
+    "resumeFailed": "Stopky se nepodařilo obnovit",
+    "addTimeFailed": "K stopkám se nepodařilo přidat čas",
+    "descriptionFailed": "Popis se nepodařilo aktualizovat",
+    "projectFailed": "Projekt se nepodařilo aktualizovat",
+    "clientFailed": "Klienta se nepodařilo aktualizovat",
+    "nothingToSave": "Žádný čas k uložení",
+    "offlineStop": "Jsi offline. Zastav stopky znovu, až bude připojení zpět",
+    "stopInProgress": "Zastavení probíhá{elsewhere}. Zkus to za chvíli znovu. Pokud se to zasekne, čas se po několika minutách uloží jako pozastavený, aby se neztratil.",
+    "alreadyRunning": "Stopky už běží{elsewhere}. Chceš-li spustit nové, nejdřív je zastav nebo zruš.",
+    "alreadyPaused": "Už existují pozastavené stopky s naměřeným časem{elsewhere}. Chceš-li spustit nové, nejdřív je zastav nebo zruš.",
+    "elsewhere": " z jiného prohlížeče nebo zařízení",
+    "stopAlreadyInProgress": "Zastavení už probíhá z {source}. Za chvíli zkontroluj přehled času",
+    "prepaidPinnedUnavailable": "Vybraný balíček hodin nešlo použít, proto byl čas uložen bez odečtu z balíčku",
+    "prepaidLookupFailed": "Balíček hodin se nepodařilo vyhledat, proto byl čas uložen bez odečtu z balíčku",
+    "prepaidDeductionFailed": "Odečet z balíčku selhal, proto byl čas uložen bez odečtu z balíčku",
+    "saveFailed": "Čas se nepodařilo uložit",
+    "saveFailedWith": "Čas se nepodařilo uložit: {reason}",
+    "unknownReason": "neznámá chyba",
+    "sessionMismatch": "Stopky byly změněny z jiného prohlížeče nebo zařízení. Zde jsou aktuální.",
+    "beingStopped": "Stopky se zastavují z jiného prohlížeče nebo zařízení.",
+    "startRejectedPaused": "Už existují pozastavené stopky s naměřeným časem. Chceš-li spustit nové, nejdřív je zastav nebo zruš.",
+    "startRejectedStale": "Stopky byly právě zastaveny jinde. Zkus je spustit znovu.",
+    "startRejectedRunning": "Stopky už běží z jiného prohlížeče nebo zařízení. Chceš-li spustit nové, nejdřív je zastav.",
+    "stopSourceWeb": "webové aplikace",
+    "stopSourceOther": "jiného zařízení"
+  },
+  "task": {
+    "createFailed": "Úkol se nepodařilo vytvořit"
+  },
+  "serverStatus": "Server odpověděl {status}",
+  "clientTooOld": "Aktualizuj rozšíření TimeTrack. Tato verze nemůže ukládat čas"
+}

@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Historial de tarifas",
+    "empty": "Todavía no hay cambios de tarifa. Los cambios de la tarifa por hora se registran aquí",
+    "effectiveFrom": "Vigente desde {date}",
+    "planned": "Programado",
+    "noRate": "Sin tarifa",
+    "typeGlobal": "Global",
+    "typeClient": "Cliente",
+    "typeProject": "Proyecto"
+  },
+  "schedule": {
+    "toastScheduled": "Nueva tarifa por hora programada desde {date}",
+    "restamped": "{count, plural, =0 {Ningún registro existente necesitaba una nueva tarifa} one {# registro sin facturar recibió la nueva tarifa} other {# registros sin facturar recibieron la nueva tarifa}}",
+    "scheduleFailed": "No se pudo programar la tarifa por hora",
+    "cancelled": "Tarifa por hora programada cancelada",
+    "cancelledRestamped": "{count, plural, one {# registro recuperó la tarifa anterior} other {# registros recuperaron la tarifa anterior}}",
+    "cancelFailed": "No se pudo cancelar",
+    "invalidRate": "Introduce una tarifa por hora válida",
+    "missingDate": "Elige desde qué fecha se aplica la tarifa",
+    "title": "Programar una nueva tarifa por hora",
+    "current": "Ahora: {rate} kr/hora",
+    "rateLabel": "Nueva tarifa por hora (kr)",
+    "dateLabel": "Vigente desde",
+    "submit": "Programar",
+    "help": "El tiempo con fecha igual o posterior recibe la nueva tarifa, aunque se registre más tarde. El tiempo anterior conserva la antigua. Los registros sin facturar desde esa fecha se actualizan al instante.",
+    "ratePerHour": "{rate} kr/hora",
+    "fromDate": "desde {date}",
+    "takesEffectTonight": "entra en vigor esta noche",
+    "cancel": "Cancelar"
+  }
+}

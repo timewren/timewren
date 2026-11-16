@@ -1,0 +1,71 @@
+---
+title: "Calendario"
+description: "Conecta Google Calendar o iCloud con TimeWren para ver reuniones, planificar bloques de tiempo y convertir eventos en registros de horas. Outlook no es compatible."
+---
+
+TimeWren puede leer tu calendario para mostrar las reuniones junto a tus registros de horas, sugerir huecos libres para las tareas y convertir eventos en registros de horas. Existen dos proveedores: Google Calendar e iCloud. No hay sincronización con el calendario de Outlook ni de Microsoft 365. El esquema de la base de datos deja sitio para un proveedor llamado `outlook`, pero nada lo implementa. Microsoft Entra ID en TimeWren es [solo para iniciar sesión](/es/docs/configuration/authentication).
+
+<Screenshot name="calendar" alt="La vista de calendario" />
+
+## Google Calendar
+
+### Configuración del servidor
+
+1. En la consola de Google Cloud, crea un cliente OAuth de tipo "Aplicación web" y activa la API de Google Calendar para el proyecto.
+2. Añade esta URI de redirección autorizada:
+
+   ```text
+   https://timewren.example.com/api/integrations/google/callback
+   ```
+
+3. Define las credenciales en `.env`:
+
+   ```dotenv
+   GOOGLE_CLIENT_ID=your-client-id
+   GOOGLE_CLIENT_SECRET=your-client-secret
+   # Only if the callback differs from NEXT_PUBLIC_APP_URL + /api/integrations/google/callback
+   # GOOGLE_REDIRECT_URI=https://timewren.example.com/api/integrations/google/callback
+   ```
+
+4. Reinicia la aplicación.
+
+El mismo cliente también activa "Iniciar sesión con Google", que usa su propia URI de redirección (`/api/auth/callback/google`), consulta [Autenticación](/es/docs/configuration/authentication). Añade ambas URI al cliente si quieres ambas funciones.
+
+Sin estas variables, la página de ajustes indica que Google Calendar no está configurado.
+
+Los tokens almacenados están cifrados, así que `ENCRYPTION_KEY` debe estar definida. La sincronización se ejecuta desde el contenedor `cron` cada 15 minutos (`/api/cron/calendar-sync`), y una tarea diaria (`/api/cron/calendar-webhook-renew`) renueva los canales de notificaciones push de Google. Las notificaciones push llegan a `/api/webhooks/google-calendar`, por lo que esa ruta debe ser accesible desde internet por HTTPS. Sin ella, la sincronización de 15 minutos sigue funcionando.
+
+### Permisos (scopes)
+
+Una conexión nueva solo solicita acceso de lectura:
+
+| Scope | Para qué |
+| --- | --- |
+| `https://www.googleapis.com/auth/calendar.readonly` | Leer eventos |
+| `https://www.googleapis.com/auth/userinfo.email` | Mostrar qué cuenta de Google está conectada |
+
+El acceso de escritura se solicita más tarde, solo cuando un usuario activa una función que lo necesita (bloques de tiempo para tareas, exportar registros de horas al calendario):
+
+| Scope | Para qué |
+| --- | --- |
+| `https://www.googleapis.com/auth/calendar.events` | Crear y modificar eventos |
+
+Si tu pantalla de consentimiento de OAuth está en modo de pruebas, añade a tus usuarios como usuarios de prueba o publica la aplicación.
+
+### Conectar como usuario
+
+Abre Ajustes, Integraciones, elige Conectar Google Calendar y aprueba el acceso. Después elige qué calendarios sincronizar. Puedes configurar filtros de sincronización, un modo de privacidad y reglas de coincidencia que asignan títulos de eventos a proyectos. Desconectar elimina la conexión desde la misma página.
+
+## iCloud
+
+iCloud funciona mediante CalDAV contra `caldav.icloud.com`. No necesita credenciales de servidor, solo `ENCRYPTION_KEY`, porque la contraseña específica de aplicación de cada usuario se guarda cifrada.
+
+La conexión es de solo lectura: TimeWren nunca escribe en iCloud. No se admiten servidores CalDAV genéricos distintos de iCloud.
+
+Para conectar:
+
+1. Ve a [https://appleid.apple.com](https://appleid.apple.com), abre Inicio de sesión y seguridad, Contraseñas específicas de aplicaciones, y crea una contraseña para TimeWren. Esto requiere autenticación de dos factores en el ID de Apple.
+2. En TimeWren, abre Ajustes, Integraciones, busca la sección del calendario de iCloud, introduce el ID de Apple y la contraseña específica de aplicación, y conecta.
+3. Elige qué calendarios leer. No se lee nada de los calendarios que dejes sin marcar.
+
+Se sincronizan los eventos desde 30 días atrás hasta 90 días por delante. La misma tarea cron los actualiza cada 15 minutos, y Sincronizar ahora la ejecuta bajo demanda. Los filtros de sincronización, el modo de privacidad y las reglas de coincidencia se comparten con Google.

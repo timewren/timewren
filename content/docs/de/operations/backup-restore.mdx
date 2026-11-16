@@ -1,0 +1,99 @@
+---
+title: "Sicherung und Wiederherstellung"
+description: "Sichere Datenbank, Storage-Volume und Verschlüsselungsschlüssel, stelle sie in einem frischen Stack wieder her und prüfe das Ergebnis."
+---
+
+Drei Dinge halten Zustand: die PostgreSQL-Datenbank, das Volume `storage` (Uploads, Anhänge, Datenexporte) und deine `.env`, vor allem `ENCRYPTION_KEY`. Die Skripte in `scripts/` sichern und stellen alle drei wieder her.
+
+## Skripte
+
+Die [Installation mit einer Zeile](/de/docs/install/quick) und [Docker Compose](/de/docs/install/docker-compose) legen nur die Stack-Dateien an, nicht `scripts/`. Hol in diesem Fall zuerst die Backup-Werkzeuge in das Stack-Verzeichnis (das mit `docker-compose.yml` und `.env`):
+
+```bash
+mkdir -p scripts/lib
+for f in backup.sh restore.sh lib/backup-common.sh; do
+  curl -fsSL "https://raw.githubusercontent.com/timewren/timewren/main/scripts/$f" -o "scripts/$f"
+done
+chmod +x scripts/backup.sh scripts/restore.sh
+```
+
+Die Skripte verwenden das Verzeichnis über `scripts/` als Stack, weitere Einrichtung ist nicht nötig. Liegen sie woanders, setze `TIMETRACK_DIR` auf das Stack-Verzeichnis. In einem Quellcode-Checkout sind sie schon vorhanden.
+
+Führe sie im Stack-Verzeichnis aus:
+
+```bash
+scripts/backup.sh
+scripts/restore.sh backups/timetrack-20260101-030000
+scripts/test-restore.sh
+```
+
+### backup.sh
+
+`backup.sh` setzt voraus, dass der Service `db` läuft. Es schreibt ein Verzeichnis mit Zeitstempel, `backups/timetrack-YYYYMMDD-HHMMSS/`, mit folgendem Inhalt:
+
+- `db.dump`: `pg_dump -Fc` der Datenbank.
+- `storage.tgz`: ein Archiv des Storage-Volumes.
+- `rowcounts.tsv`: die Zeilenanzahl jeder Tabelle, gezählt in einer temporären Wiederherstellung des Dumps.
+- `env`: eine Kopie von `.env`, Modus 600.
+- `SHA256SUMS`: Prüfsummen der obigen Dateien.
+
+Optionen: `--out DIR` wählt das übergeordnete Verzeichnis (Standard `backups` im Stack-Verzeichnis oder `BACKUP_DIR`), und `--no-env` lässt `.env` weg. Die Umgebungsvariablen `TIMETRACK_DIR`, `ENV_FILE` und `COMPOSE_PROJECT_NAME` ändern, an welchem Stack das Skript arbeitet.
+
+> **Warnung:** Bewahre `ENCRYPTION_KEY` bei jeder Sicherung auf. Ohne den exakten Schlüssel sind verschlüsselte Felder (Integrations-Tokens, API-Schlüssel, 2FA-Secrets) nach einer Wiederherstellung unlesbar. Die Kopie `env` enthält den Schlüssel, schütze und verschlüssele die Sicherung also, bevor sie den Rechner verlässt. Wenn du `--no-env` verwendest, bewahre den Schlüssel selbst auf.
+
+### restore.sh
+
+`restore.sh` ist für einen frischen Stack mit derselben `.env` gedacht. Es:
+
+1. Prüft die Prüfsummen.
+2. Bricht ab, wenn `ENCRYPTION_KEY` in `.env` vom Schlüssel in der Kopie `env` der Sicherung abweicht.
+3. Stoppt `app` und `cron`, startet `db` und führt `pg_restore --clean --if-exists --no-owner` aus.
+4. Entpackt das Storage-Archiv in das Volume und setzt den Besitzer auf uid 1001.
+5. Vergleicht die Zeilenanzahl jeder Tabelle mit der Sicherung und beendet sich bei jeder Abweichung mit einem Wert ungleich null.
+6. Startet den vollständigen Stack.
+
+Optionen: `--yes` überspringt die Rückfrage, `--skip-start` lässt `app` und `cron` gestoppt, und `--force` erlaubt das Entpacken auf ein Storage-Volume, das bereits Dateien enthält (ohne diese Option bricht das Skript ab; vorhandene Dateien bleiben erhalten, Dateien, die nicht in der Sicherung sind, bleiben zurück). Das Sicherungsverzeichnis ist das einzige Argument.
+
+### test-restore.sh
+
+`scripts/test-restore.sh` beweist, dass sich Sicherungen wiederherstellen lassen. Es legt Testdaten in einem temporären Stack an, sichert sie, stellt sie in einem leeren zweiten Stack wieder her und prüft, dass jede Tabelle dieselbe Zeilenanzahl hat und die Storage-Datei identisch ist. Außerdem prüft es, dass eine beschädigte oder veränderte Sicherung abgelehnt wird. Es braucht Docker und die `node_modules` des Repositorys (`npm ci`), verwendet keine festen Ports und räumt alles weg, was es anlegt. Führe es aus einem Source-Checkout aus.
+
+## Manuelle Befehle
+
+Dieselben Schritte von Hand. Das Compose-Projekt heißt `timetrack`, und Datenbankname und Benutzer sind beide `timetrack`:
+
+```bash
+docker compose exec -T db pg_dump -U timetrack -Fc timetrack > timewren-$(date +%F).dump
+docker run --rm -v timetrack_storage:/data -v "$PWD":/backup alpine \
+  tar czf /backup/storage-$(date +%F).tgz -C /data .
+cp .env env-backup-$(date +%F)
+```
+
+## Wiederherstellung
+
+Stelle in einem frischen Stack mit derselben `.env` wieder her:
+
+```bash
+docker compose up -d db
+docker compose exec -T db pg_restore -U timetrack -d timetrack --clean --if-exists --no-owner < timewren-2026-01-01.dump
+docker run --rm -v timetrack_storage:/data -v "$PWD":/backup alpine \
+  tar xzf /backup/storage-2026-01-01.tgz -C /data
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+docker compose up -d
+```
+
+Wenn du `COMPOSE_PROJECT_NAME` in `.env` gesetzt hast, heißt das Volume `<project>_storage` statt `timetrack_storage`.
+
+## Nächtliche Sicherungen
+
+`backup.sh` kann unbeaufsichtigt laufen. Diese Crontab-Zeile des Hosts erstellt um 03:00 Uhr eine Sicherung und schreibt die Ausgabe in ein Log:
+
+```text
+0 3 * * * cd /opt/timewren && ./scripts/backup.sh --out /var/backups/timewren >> /var/log/timewren-backup.log 2>&1
+```
+
+Passe die Pfade an deine Installation an. Das Skript löscht keine alten Sicherungen, räume sie also selbst auf, zum Beispiel mit `find /var/backups/timewren -maxdepth 1 -name 'timetrack-*' -mtime +14 -exec rm -rf {} +`.
+
+## Externe Kopien und Tests
+
+Eine Sicherung auf demselben Rechner geht mit dem Rechner verloren. Kopiere die Sicherungsverzeichnisse auf einen anderen Host oder in einen Objektspeicher und verschlüssele sie vorher, denn sie enthalten die Datei `env` mit deinen Secrets. Teste eine Wiederherstellung, bevor du sie brauchst, entweder mit `scripts/test-restore.sh` oder durch Wiederherstellen auf einem Ersatzrechner.

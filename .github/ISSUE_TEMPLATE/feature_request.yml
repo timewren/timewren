@@ -1,0 +1,45 @@
+name: Feature request
+description: Propose a concrete, scoped change. Open ideas belong in Discussions.
+labels: ["type: feature", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Not sure yet, or want feedback first? Start a thread in [Discussions, Ideas](https://github.com/timewren/timewren/discussions/categories/ideas).
+        Every feature is open source; there is no paid-only edition to target.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe your situation and what is hard today.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: What should happen?
+      description: The behaviour you want, as concretely as you can.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you have considered
+  - type: dropdown
+    id: part
+    attributes:
+      label: Which part?
+      multiple: true
+      options:
+        - Web app
+        - API / MCP
+        - Browser extension
+        - Desktop app
+        - Mobile app
+        - Self-hosting
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: I would like to build this myself.

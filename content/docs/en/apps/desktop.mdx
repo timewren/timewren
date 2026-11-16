@@ -1,0 +1,49 @@
+---
+title: "Desktop app"
+description: "The TimeWren desktop app tracks activity automatically and syncs with your server. What the server provides, how devices sign in, and how to offer your own builds."
+---
+
+The desktop app (Windows and macOS, in beta) records what you work on, classifies it, and keeps its data locally in a database on your computer. It syncs time entries, clients and projects with the server and supports offline use. Auto-tracking and classification run on the computer.
+
+The desktop app is built and released from its own repository, separate from the server. This page covers what your server provides for it. How the app's server address is entered is a setting of the app itself, so follow the app's own documentation for that.
+
+## How a device signs in
+
+The app never sees your password. It opens your instance in the browser, you sign in there and approve the device, and the browser hands a one-time code back to the app through a deep link.
+
+- The newer device login uses PKCE and a `state` value. The one-time code is valid for 5 minutes and is exchanged for an access token (30 days) and a refresh token (180 days). The app renews them without a new login.
+- The older flow (`/auth/desktop`) issues a device token that is valid for 90 days.
+
+Make sure `NEXT_PUBLIC_APP_URL` is your real HTTPS address, because the approval page and redirects are built from it. The older device tokens are signed with `BETTER_AUTH_SECRET`, so changing that value signs desktop devices out, see [Authentication](/docs/configuration/authentication#rotating-better_auth_secret).
+
+## Manage devices
+
+Open Settings, Desktop in the web app to see connected devices (name, operating system, last sync) and remove one. A removed device must sign in again. Tokens of the newer login also appear under Settings, Integrations and can be revoked there.
+
+## Downloads and updates
+
+A fresh TimeWren instance does not point at anyone's releases. If you build or host your own desktop releases on GitHub, tell the server where they are:
+
+```dotenv
+# Build time (rebuild the image after changing)
+NEXT_PUBLIC_DESKTOP_RELEASES_REPO=your-org/your-desktop-releases
+# Server setting, used by the legacy updater endpoint
+DESKTOP_UPDATER_REPO=your-org/your-desktop-app
+```
+
+- `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` (format `owner/repository`) is used by the `/download` page, which links the Windows installer (a file ending `-setup.exe`) and the macOS disk image (`.dmg`) from the latest release of a public repository. It does not publish anything.
+- `DESKTOP_UPDATER_REPO` is used by the update endpoint `/api/desktop/update/{target}/{arch}/{current_version}`, which turns the latest GitHub release into the answer the Tauri updater expects (Windows `.nsis.zip` and macOS `.app.tar.gz` assets with `.sig` signatures). Updates must be signed with the key your app build was made with. Keep the signing key and the public key inside your builds consistent.
+
+Leave both empty if you distribute the app another way.
+
+## Minimum client versions
+
+You can stop old clients from writing time data to your server. Set a minimum per client type:
+
+```dotenv
+MIN_CLIENT_VERSIONS=extension=2.5.2,mobile=1.0.0+5,desktop=0.2.21
+# Only report outdated clients on the admin stability page, do not reject them
+MIN_CLIENT_VERSIONS_MODE=observe
+```
+
+Client types are `web`, `pwa`, `extension`, `mobile`, `desktop`, `api` and `mcp`. Clients identify themselves with an `x-timetrack-client: <type>/<version>` header. A client below its minimum is refused on time-entry, timer and extension writes with the error `CLIENT_TOO_OLD`, while reading and signing in stay allowed. Requests without the header (API keys, scripts, MCP) are never refused. Empty means no enforcement. The values above are examples; pick versions that exist for the clients you ship.

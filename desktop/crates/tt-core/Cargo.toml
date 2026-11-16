@@ -1,0 +1,15 @@
+[package]
+name = "tt-core"
+version = "0.1.0"
+edition = "2024"
+description = "TimeTracks forretningsregler (klippekort, afrunding, timepris, faktura, moms, datoer) som ren Rust, i paritet med web"
+license = "AGPL-3.0-only"
+publish = false
+
+[dependencies]
+chrono.workspace = true
+chrono-tz.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+serde_json = { workspace = true, features = ["float_roundtrip"] }

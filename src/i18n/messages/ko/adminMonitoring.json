@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "모니터링",
+    "healthy": "정상 {score}%",
+    "cronDashboard": "크론 대시보드",
+    "sections": {
+      "health": "시스템 상태",
+      "cron": "크론 작업",
+      "email": "이메일 발송"
+    },
+    "tiles": {
+      "activeSessions": "활성 세션",
+      "sessions24h": "최근 24시간 세션",
+      "activeTimers": "실행 중인 타이머",
+      "emailsSent7d": "발송한 이메일 (7일)"
+    },
+    "cronHealth": {
+      "title": "크론 작업 상태 (7일)",
+      "runs": "실행",
+      "ok": "성공",
+      "errors": "오류",
+      "avgDuration": "평균 소요 시간",
+      "lastRun": "마지막 실행"
+    },
+    "errors": {
+      "title": "오류 (최근 7일)",
+      "count": "{count}회"
+    },
+    "cron": {
+      "allJobs": "모든 작업",
+      "allStatuses": "모든 상태",
+      "filter": {
+        "success": "성공",
+        "error": "오류",
+        "partial": "일부 성공"
+      },
+      "status": {
+        "success": "성공",
+        "error": "오류",
+        "partial": "일부 성공"
+      },
+      "empty": "크론 작업 로그가 없어요",
+      "columns": {
+        "job": "작업",
+        "status": "상태",
+        "started": "시작",
+        "duration": "소요 시간",
+        "items": "항목",
+        "errors": "오류"
+      }
+    },
+    "showing": "{total}개 중 {from}-{to}",
+    "previous": "이전",
+    "next": "다음",
+    "email": {
+      "sent": "발송됨",
+      "delivered": "전달됨",
+      "bounced": "반송됨",
+      "failed": "실패",
+      "status": {
+        "sent": "발송됨",
+        "delivered": "전달됨",
+        "bounced": "반송됨",
+        "failed": "실패"
+      },
+      "last24h": "최근 24시간",
+      "last7d": "최근 7일",
+      "last30d": "최근 30일",
+      "last90d": "최근 90일",
+      "allTemplates": "모든 템플릿",
+      "empty": "이메일 로그가 없어요",
+      "columns": {
+        "recipient": "수신자",
+        "subject": "제목",
+        "template": "템플릿",
+        "status": "상태",
+        "sentAt": "발송"
+      }
+    }
+  },
+  "cron": {
+    "title": "크론 작업",
+    "refresh": "새로고침",
+    "never": "없음",
+    "badge": {
+      "neverRun": "실행 기록 없음",
+      "silent": "무응답",
+      "error": "오류",
+      "partial": "일부 성공",
+      "running": "실행 중",
+      "ok": "정상"
+    },
+    "runStatus": {
+      "success": "성공",
+      "error": "오류",
+      "partial": "일부 성공"
+    },
+    "noRows": "로그가 없어요",
+    "runColumns": {
+      "status": "상태",
+      "started": "시작",
+      "duration": "소요 시간",
+      "items": "항목",
+      "errorMessage": "오류 메시지"
+    },
+    "tiles": {
+      "expected": "예정된 작업",
+      "silent": "무응답 작업",
+      "withErrors": "오류가 있는 작업 (24시간)",
+      "totalRuns": "전체 실행 (24시간)"
+    },
+    "columns": {
+      "status": "상태",
+      "job": "작업",
+      "cadence": "주기",
+      "lastRun": "마지막 실행",
+      "runs24h": "실행 24시간",
+      "errors24h": "오류 24시간",
+      "avgDuration": "평균 소요 시간"
+    },
+    "lastError": "마지막 오류:",
+    "cadence": {
+      "everyMinutes": "{minutes}분마다",
+      "hourly": "매시간",
+      "everyHours": "{hours}시간마다",
+      "daily": "매일",
+      "weekly": "매주",
+      "monthly": "매월",
+      "everyDays": "{days}일마다"
+    }
+  }
+}

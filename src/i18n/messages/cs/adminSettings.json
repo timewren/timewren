@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Nastavení",
+    "subtitle": "Správa administrátorských oznámení, funkčních příznaků a seznamu změn"
+  },
+  "notifications": {
+    "title": "Oznámení",
+    "description": "Nastav e-mailová oznámení a oznámení na Discordu pro události administrátora",
+    "emailLabel": "E-mail(y) administrátora",
+    "emailHint": "Více příjemců odděl čárkou",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "URL webhooku pro Discord",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Otestovat",
+    "eventTypes": "Typy událostí",
+    "saving": "Ukládání…",
+    "save": "Uložit nastavení",
+    "saved": "Nastavení oznámení bylo uloženo",
+    "testSent": "Testovací zpráva byla odeslána na Discord",
+    "webhookRequired": "Nejdřív zadej URL webhooku pro Discord"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Nová registrace uživatele",
+      "description": "Upozornit na nové registrace uživatelů"
+    },
+    "notify_subscription_started": {
+      "label": "Nové placené předplatné",
+      "description": "Upozornit na nové platící zákazníky"
+    },
+    "notify_payment_failed": {
+      "label": "Platba selhala",
+      "description": "Upozornit na neúspěšné platby"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Předplatné zrušeno",
+      "description": "Upozornit na zrušení předplatného"
+    },
+    "notify_trial_ending": {
+      "label": "Zkušební období brzy končí",
+      "description": "Jen Discord: upozornit, když se blíží konec zkušebního období"
+    },
+    "notify_user_flagged": {
+      "label": "Uživatel označen",
+      "description": "Jen Discord: upozornit, když je uživatel označen"
+    }
+  },
+  "support": {
+    "title": "Podpora",
+    "description": "Správa schránek podpory a podpisu",
+    "inboxes": "Schránky",
+    "add": "Přidat",
+    "namePlaceholder": "Název",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "HTML podpis (volitelné)",
+    "save": "Uložit",
+    "cancel": "Zrušit",
+    "create": "Vytvořit",
+    "default": "Výchozí",
+    "confirmDelete": "Smazat tuto schránku?",
+    "noInboxes": "Zatím nebyly vytvořeny žádné schránky",
+    "inboxCreated": "Schránka byla vytvořena",
+    "inboxUpdated": "Schránka byla aktualizována",
+    "inboxDeleted": "Schránka byla smazána",
+    "signatureSaved": "Podpis byl uložen",
+    "globalSignature": "Globální podpis",
+    "globalSignatureHint": "HTML podpis, který se použije, když schránka nemá vlastní podpis",
+    "globalSignaturePlaceholder": "<p>S pozdravem<br>Podpora TimeTrack</p>",
+    "preview": "Náhled",
+    "noSignature": "Bez podpisu",
+    "savingSignature": "Ukládání…",
+    "saveSignature": "Uložit podpis"
+  },
+  "debug": {
+    "title": "Řešení potíží",
+    "description": "Nástroje, které vidíš jen ty, v tomto prohlížeči",
+    "electricLabel": "Zobrazit odznak Electric",
+    "electricDescription": "Zobrazí stav živé synchronizace stopek vlevo dole na přehledu"
+  },
+  "flags": {
+    "title": "Funkční příznaky",
+    "description": "Zapínej a vypínej funkce pro všechny uživatele",
+    "empty": "Nejsou nastaveny žádné funkční příznaky",
+    "lastChangedBy": "Naposledy změnil(a) {name}",
+    "lastChangedByDate": "Naposledy změnil(a) {name} - {date}"
+  },
+  "changelog": {
+    "title": "Seznam změn",
+    "description": "Vytvářej záznamy o změnách, které se zobrazí uživatelům",
+    "new": "Vytvořit nový záznam o změnách",
+    "version": "Verze",
+    "titleLabel": "Název",
+    "titlePlaceholder": "Nová funkce: ...",
+    "content": "Obsah (Markdown)",
+    "contentPlaceholder": "Popiš změny...",
+    "cancel": "Zrušit",
+    "create": "Vytvořit",
+    "recent": "Poslední záznamy o změnách",
+    "confirmDelete": "Smazat záznam o změnách v{version}?",
+    "delete": "Smazat",
+    "created": "Záznam o změnách byl vytvořen",
+    "deleted": "Záznam o změnách byl smazán"
+  }
+}

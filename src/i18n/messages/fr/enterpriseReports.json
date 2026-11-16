@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Collaborateur"
+    },
+    "department": {
+      "label": "Service"
+    },
+    "project": {
+      "label": "Projet"
+    },
+    "activityType": {
+      "label": "Activité"
+    },
+    "absenceType": {
+      "label": "Type d'absence"
+    },
+    "day": {
+      "label": "Date"
+    },
+    "week": {
+      "label": "Semaine"
+    },
+    "month": {
+      "label": "Mois"
+    },
+    "vacationYear": {
+      "label": "Année de congés"
+    },
+    "email": {
+      "label": "E-mail"
+    },
+    "employmentType": {
+      "label": "Type d'emploi"
+    },
+    "weeklyHours": {
+      "label": "Heures/semaine"
+    },
+    "dailyNorm": {
+      "label": "Norme journalière"
+    },
+    "employeeNumber": {
+      "label": "N° de collaborateur",
+      "help": "Numéro de collaborateur dans le système de paie (suit la dimension collaborateur)"
+    },
+    "payrollCode": {
+      "label": "Code de paie",
+      "help": "Code de paie du type d'activité (suit la dimension activité)"
+    },
+    "hours": {
+      "label": "Heures enregistrées"
+    },
+    "normHours": {
+      "label": "Heures standard",
+      "help": "Norme journalière × jours ouvrés de la période (jours fériés déduits)"
+    },
+    "workDays": {
+      "label": "Jours ouvrés",
+      "help": "Jours ouvrés prévus sur la période (hors jours fériés et jours de fermeture)"
+    },
+    "employeeCount": {
+      "label": "Nombre de collaborateurs"
+    },
+    "flexDelta": {
+      "label": "Flex (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Pause déduite",
+      "help": "Uniquement pour la pause non rémunérée (pointage entrée/sortie)"
+    },
+    "checkInHours": {
+      "label": "Présence (pointage)"
+    },
+    "workedDays": {
+      "label": "Jours avec saisies"
+    },
+    "maxDayHours": {
+      "label": "Journée la plus longue",
+      "help": "Total journalier le plus élevé pour un collaborateur du groupe"
+    },
+    "longDays": {
+      "label": "Jours de plus de 13 h",
+      "help": "Un total journalier de plus de 13 h laisse moins de 11 h de repos (règle des 11 heures)"
+    },
+    "avgWeeklyHours": {
+      "label": "Moy. heures/semaine",
+      "help": "Heures enregistrées par semaine et par collaborateur avec saisies ou absence (règle des 48 heures)"
+    },
+    "weeksOver48h": {
+      "label": "Semaines de plus de 48 h",
+      "help": "Nombre de semaines-collaborateur avec plus de 48 h enregistrées"
+    },
+    "fullWeeks": {
+      "label": "Semaines sans jour de repos",
+      "help": "Semaines avec saisies les 7 jours et sans jour d'absence (repos hebdomadaire de 24 h)"
+    },
+    "absenceDays": {
+      "label": "Absence (jours)"
+    },
+    "absenceHours": {
+      "label": "Absence (heures)"
+    },
+    "absencePeriods": {
+      "label": "Périodes d'absence"
+    },
+    "sickDays": {
+      "label": "Jours de maladie"
+    },
+    "sickHours": {
+      "label": "Heures de maladie"
+    },
+    "sickPeriods": {
+      "label": "Périodes de maladie"
+    },
+    "sickPct": {
+      "label": "Absentéisme maladie en  %",
+      "help": "Jours de maladie / jours ouvrés"
+    },
+    "longTermSick": {
+      "label": "Maladie de longue durée",
+      "help": "Période de maladie continue de plus de 30 jours sur la période"
+    },
+    "longTermSickCount": {
+      "label": "Maladie de longue durée (nombre)",
+      "help": "Nombre de collaborateurs avec une période de maladie de plus de 30 jours"
+    },
+    "overtimeEarned": {
+      "label": "Heures supplémentaires acquises"
+    },
+    "overtimeUsed": {
+      "label": "Récupération prise"
+    },
+    "overtimePaidOut": {
+      "label": "Heures supplémentaires payées"
+    },
+    "overtimeNet": {
+      "label": "Heures supplémentaires nettes",
+      "help": "Acquises − récupérées − payées"
+    },
+    "vacationAllotted": {
+      "label": "Congés attribués"
+    },
+    "vacationUsed": {
+      "label": "Congés pris"
+    },
+    "vacationRemaining": {
+      "label": "Congés restants"
+    },
+    "extraVacationAllotted": {
+      "label": "Jours de congés supplémentaires attribués"
+    },
+    "extraVacationUsed": {
+      "label": "Jours de congés supplémentaires pris"
+    },
+    "extraVacationRemaining": {
+      "label": "Jours de congés supplémentaires restants"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Congés pris sur la période",
+      "help": "Jours de congés (types qui réduisent le solde de congés) dans la période du rapport"
+    },
+    "hoursByActivity": {
+      "label": "Heures par activité",
+      "pivot": "{name} (heures)"
+    },
+    "absenceDaysByType": {
+      "label": "Absence par type (jours)",
+      "pivot": "{name} (jours)"
+    },
+    "absenceHoursByType": {
+      "label": "Absence par type (heures)",
+      "pivot": "{name} (heures)"
+    },
+    "quantityByWageType": {
+      "label": "Quantité par code de paie",
+      "help": "Heures/jours par code de paie via la correspondance de paie (Paramètres → Paie)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Collaborateur",
+    "department": "Service",
+    "project": "Projet",
+    "activityType": "Activité",
+    "absenceType": "Type d'absence",
+    "day": "Jour",
+    "week": "Semaine",
+    "month": "Mois",
+    "vacationYear": "Année de congés"
+  },
+  "groups": {
+    "dimensions": "Dimensions",
+    "employee": "Collaborateur",
+    "time": "Temps",
+    "compliance": "Conformité",
+    "absence": "Absence",
+    "overtime": "Heures supplémentaires",
+    "payroll": "Paie",
+    "vacation": "Comptes de congés"
+  },
+  "presets": {
+    "this_month": "Ce mois-ci",
+    "last_month": "Le mois dernier",
+    "this_quarter": "Ce trimestre",
+    "this_year": "Cette année",
+    "last_year": "L'année dernière"
+  },
+  "types": {
+    "payroll": {
+      "label": "Rapport de paie",
+      "description": "Par collaborateur sur la période de paie : heures, absences en jours et en heures par type, flex, heures supplémentaires et déductions de pause. Pour le service paie."
+    },
+    "sickness": {
+      "label": "Absences maladie",
+      "description": "Statistiques d'absences maladie par service et par mois : jours de maladie, périodes, taux d'absence et maladie de longue durée (plus de 30 jours)."
+    },
+    "absence": {
+      "label": "Absences",
+      "description": "Tous les types d'absence (congés, maladie, congé parental, garde…) par collaborateur ou service, en jours et en heures."
+    },
+    "flex_overtime": {
+      "label": "Flex et heures supplémentaires",
+      "description": "Évolution du solde par période : heures standard, heures enregistrées, écart flex et heures supplémentaires acquises/récupérées/payées."
+    },
+    "project_activity": {
+      "label": "Projet et activité",
+      "description": "Heures réparties par projet, type d'activité et service, pour suivre l'enseignement, la préparation, les réunions, etc."
+    },
+    "vacation_account": {
+      "label": "Comptes de congés",
+      "description": "Comptes de congés par année de congés : attribués, pris et restants pour les congés et les jours supplémentaires, par collaborateur."
+    },
+    "compliance": {
+      "label": "Conformité (loi sur le temps de travail)",
+      "description": "Infractions et alertes par collaborateur et par semaine : jours de plus de 13 h (11 h de repos), semaines de plus de 48 h, semaines sans jour de repos (repos hebdomadaire de 24 h) et temps de travail hebdomadaire moyen."
+    },
+    "custom": {
+      "label": "Personnalisé",
+      "description": "Choix libre des dimensions et colonnes dans tout le catalogue, pour construire exactement le rapport qui vous manque."
+    }
+  },
+  "weekdays": {
+    "1": "Lundi",
+    "2": "Mardi",
+    "3": "Mercredi",
+    "4": "Jeudi",
+    "5": "Vendredi",
+    "6": "Samedi",
+    "7": "Dimanche"
+  },
+  "page": {
+    "all": "(tous)",
+    "selected": "({count} sélectionnés)",
+    "clear": "Effacer la sélection",
+    "downloaded": "Rapport téléchargé",
+    "templateDeleted": "Modèle supprimé",
+    "maxDimensions": "4 dimensions au maximum",
+    "templateUnreadable": "Le modèle est illisible",
+    "needColumn": "Choisissez au moins une colonne",
+    "inactive": "(inactif)",
+    "title": "Rapports",
+    "step1": "1. Choisir le type de rapport",
+    "step2": "2. Période",
+    "holidayYearPlaceholder": "Année de congés…",
+    "holidayYear": "Année de congés {year}",
+    "from": "Du",
+    "to": "Au",
+    "step3": "3. Filtres",
+    "departments": "Services",
+    "employees": "Collaborateurs",
+    "projects": "Projets",
+    "activities": "Activités",
+    "absenceTypes": "Types d'absence",
+    "onlyApproved": "Heures validées uniquement",
+    "includeRejected": "Inclure les heures refusées",
+    "includePending": "Inclure les absences en attente",
+    "includeInactive": "Inclure les anciens collaborateurs",
+    "includeDetails": "Inclure toutes les saisies (détails)",
+    "step4": "4. Regrouper par",
+    "step4Hint": "(ordre = ordre des clics)",
+    "step5": "5. Colonnes",
+    "run": "Lancer le rapport",
+    "saveAsTemplate": "Enregistrer comme modèle",
+    "chooseTemplateFirst": "Enregistrez ou choisissez d'abord un modèle",
+    "scheduleMail": "Planifier un e-mail",
+    "savedTemplates": "Modèles enregistrés",
+    "noTemplates": "Aucun modèle pour l'instant.",
+    "sharedOrg": "Partagé dans l'organisation",
+    "onlyMe": "Moi uniquement",
+    "standard": " · Par défaut",
+    "deleteTemplate": "Supprimer le modèle",
+    "confirmDeleteTemplate": "Supprimer le modèle « {name} » ?",
+    "footnote": "Le CSV utilise des points-virgules et la virgule décimale danoise. Les heures refusées sont exclues par défaut ; les arrêts maladie en cours comptent jusqu'à aujourd'hui inclus. Les responsables ne voient que leurs propres services et collaborateurs.",
+    "cardEmployees": "Collaborateurs",
+    "noData": "Aucune donnée sur la période du {from} au {to}",
+    "noDataHint": "Essayez une période plus large, moins de filtres ou d'autres colonnes.",
+    "allEntries": "Toutes les saisies ({count})",
+    "truncated": "La période contient plus de saisies que la liste détaillée ne peut en afficher. Les totaux ci-dessus sont tout de même calculés sur toutes les données. Choisissez une période plus courte pour voir tous les détails.",
+    "detEmployee": "Collaborateur",
+    "detDepartment": "Service",
+    "detDate": "Date",
+    "detHours": "Heures",
+    "detProject": "Projet",
+    "detActivity": "Activité",
+    "detPayCode": "Code de paie",
+    "detDescription": "Description",
+    "detSource": "Source",
+    "detStatus": "Statut",
+    "saveTemplateTitle": "Enregistrer comme modèle",
+    "templateSaved": "Modèle enregistré",
+    "name": "Nom",
+    "description": "Description",
+    "shareWithOrg": "Partager avec toute l'organisation (tous les responsables et les RH peuvent le voir)",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "scheduleTitle": "Planifier un e-mail",
+    "scheduled": "Le rapport est envoyé automatiquement",
+    "frequency": "Fréquence",
+    "weekly": "Chaque semaine",
+    "monthly": "Chaque mois",
+    "weekday": "Jour de la semaine",
+    "dayOfMonth": "Jour du mois",
+    "dayN": "{day}",
+    "recipients": "Destinataires (séparés par des virgules)",
+    "recipientsPlaceholder": "paie@example.com, responsable@example.com",
+    "format": "Format",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "La période du modèle est glissante : « Le mois dernier » envoyé le 1er donne exactement les chiffres du mois précédent.",
+    "schedule": "Planifier",
+    "scheduleRemoved": "E-mail planifié supprimé",
+    "scheduledMails": "E-mails planifiés",
+    "freqWeeklyLower": "chaque semaine",
+    "freqMonthlyLower": "chaque mois",
+    "scheduleLine": "· {frequency} (jour {day}) · {format} · {recipients}",
+    "lastSent": " · dernier envoi le {date}",
+    "remove": "Retirer",
+    "yes": "Oui",
+    "no": "Non",
+    "card": {
+      "employees": "Collaborateurs"
+    }
+  }
+}

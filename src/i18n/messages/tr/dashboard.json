@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# gecikmiş görev} other {# gecikmiş görev}}",
+    "needsAttention": "Dikkat gerektiriyor",
+    "lowBalance": "{count, plural, one {Bakiyesi azalan # ön ödemeli paket} other {Bakiyesi azalan # ön ödemeli paket}}",
+    "lowBalanceSub": "Düşük bakiye",
+    "expiring": "{count, plural, one {# ön ödemeli paketin süresi yakında doluyor} other {# ön ödemeli paketin süresi yakında doluyor}}",
+    "expiringSub": "14 gün içinde",
+    "unbilled": "{amount} faturalanmadı",
+    "unbilledSub": "Faturalamaya hazır",
+    "title": "Yapılması gerekenler"
+  },
+  "appDrawer": {
+    "apps": "Uygulamalar",
+    "heading": "{brand} uygulamaları",
+    "downloadFor": "{os}{version} için indir · Beta",
+    "seeDownloads": "İndirmeleri ayarlarda gör",
+    "downloadComing": "İndirme yakında hazır. Ayarlara bak",
+    "chromeExtension": "Chrome uzantısı",
+    "chromeExtensionHint": "Zamanı tarayıcıdan takip et",
+    "installApp": "Uygulama olarak yükle",
+    "installAppHint": "{brand}'i masaüstüne ekle",
+    "alreadyInstalled": "Zaten yüklü",
+    "addToHome": "Ana ekrana veya masaüstüne ekle"
+  },
+  "demo": {
+    "clearedKept": "Örnek veriler temizlendi. {kept, plural, one {Kullanıma alınmış (örneğin faturalanmış) # demo müşteri normal müşteri olarak korundu.} other {Kullanıma alınmış (örneğin faturalanmış) # demo müşteri normal müşteri olarak korundu.}}",
+    "cleared": "Örnek veriler temizlendi. Hesap artık tamamen senin.",
+    "nothingToClear": "Temizlenecek örnek veri yoktu.",
+    "clearFailed": "Örnek veriler temizlenemedi",
+    "banner": "<strong>Örnek veriler görüntülüyorsun.</strong> Müşteriler, saatler ve ön ödemeli paket uydurmadır; böylece {brand} kullanımda nasıl görünüyor görebilirsin. Kendi verilerinle başlamak istediğinde bunları temizle.",
+    "confirm": "Örnek veriler temizlensin mi? Demo müşteriler ile örnek projeleri, saatleri ve ön ödemeli paketleri silinecek. Kendi oluşturduğun her şey (örneğin faturalar veya kendi saatlerin) korunur.",
+    "clearButton": "Demo verilerini temizle"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "Mac ve Windows için masaüstü uygulaması{version}. Beta sürümünde olduğundan hatalar olabilir.",
+    "version": ", sürüm {version}",
+    "withoutDownloads": "Masaüstü uygulaması beta aşamasında. {brand} en son sürümü alabildiğinde indirme bağlantısı burada görünecek.",
+    "hide": "Gizle",
+    "reportHint": "Bir hatayla mı karşılaştın? Uygulamanın içindeki \"Hata veya eksik özellik bildir\" seçeneğini kullan."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "İlk müşterini oluştur",
+      "hasTimeEntry": "İlk saatini takip et",
+      "hasKlippekort": "Ön ödemeli paket oluştur",
+      "hasInvoice": "İlk faturanı oluştur"
+    },
+    "daysLeft": "Ücretsiz denemenin bitmesine {count, plural, one {# gün} other {# gün}} kaldı",
+    "addPayment": "Ödeme ekle",
+    "gettingStarted": "Başlangıç ({done}/{total})",
+    "hide": "Gizle",
+    "progressLabel": "Başlangıç ilerlemesi",
+    "createAccount": "Hesabını oluştur"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Müşteri riski",
+      "daysAgo": "{days} gün önce",
+      "allActive": "Tüm müşterilerinde son 60 gün içinde hareket var ✓",
+      "seeAll": "Tümünü gör",
+      "count": "{count, plural, one {60+ gündür hareketsiz # müşteri} other {60+ gündür hareketsiz # müşteri}}",
+      "lastActive": "Son hareket: {date}",
+      "revenue6m": "{amount} (6 ay)",
+      "hoursLeft": "{hours} sa kaldı",
+      "openClient": "Müşteriyi aç",
+      "sendCheckIn": "Hal hatır e-postası gönder",
+      "checkInSubject": "Hal hatır",
+      "more": "+ {count} riskli müşteri daha"
+    },
+    "calendarSync": {
+      "title": "Takvim ve takip edilen",
+      "seeCalendar": "Takvimi gör",
+      "captureRate": "yakalama oranı",
+      "eventsTracked": "{tracked}/{total} etkinlik takip edildi",
+      "calendar": "Takvim",
+      "tracked": "Takip edilen",
+      "gap": "Takvimdeki {hours} sa takip edilmedi",
+      "perProject": "Projeye göre",
+      "moreProjects": "+{count} daha"
+    },
+    "cashflow": {
+      "title": "Nakit akışı tahmini",
+      "seeUnpaid": "Bekleyenleri gör",
+      "empty": "Bekleyen fatura veya aktif ön ödemeli paket yok",
+      "emptyHint": "Nakit akışı tahminini görmek için bir fatura gönder",
+      "seeAllUnpaid": "Tüm bekleyenleri gör",
+      "overdueInvoices": "{count, plural, one {# fatura gecikmiş} other {# fatura gecikmiş}}: ",
+      "overdue": "Gecikmiş: ",
+      "week": "{number}. hafta",
+      "estimated": "(tahmini)",
+      "prepaidTag": "(ön ödemeli paket)",
+      "expected30": "Önümüzdeki 30 günde beklenen"
+    },
+    "coverage": {
+      "title": "Kullanım oranı",
+      "details": "Ayrıntıları gör",
+      "period": "Dönem",
+      "loadFailed": "Kullanım oranı yüklenemedi",
+      "noTime": "Bu dönemde henüz kaydedilmiş süre yok.",
+      "trackTime": "Zaman takibi",
+      "billable": "Faturalanabilir",
+      "nonBillable": "Faturalanamaz",
+      "ratio": "Faturalanan her saat başına <b>{ratio}</b> faturalanamaz",
+      "clientCol": "Müşteri",
+      "splitCol": "Fat. / fat. dışı"
+    },
+    "dailyHours": {
+      "title": "Günlük saatler",
+      "details": "Ayrıntıları gör",
+      "avg": "Ort./gün: ",
+      "total": "Toplam: ",
+      "hoursShort": "{value} sa",
+      "day": {
+        "0": "Pz",
+        "1": "Pt",
+        "2": "Sa",
+        "3": "Ça",
+        "4": "Pe",
+        "5": "Cu",
+        "6": "Ct"
+      }
+    },
+    "emailSync": {
+      "title": "E-posta senkronizasyonu",
+      "started": "Senkronizasyon başladı",
+      "startFailed": "Senkronizasyon başlatılamadı",
+      "never": "Hiç",
+      "now": "Az önce",
+      "minutes": "{value} dk",
+      "hours": "{value} sa",
+      "days": "{value} g",
+      "startNow": "Senkronizasyonu şimdi başlat",
+      "statusOk": "Tamam",
+      "statusUnstable": "Kararsız",
+      "statusError": "Hata",
+      "emails": "E-postalar",
+      "tasks": "Görevler",
+      "clients": "Müşteriler",
+      "analytics": "Analizleri gör →"
+    },
+    "emailTasks": {
+      "title": "E-postadan görevler",
+      "review": "İncele",
+      "noClient": "Müşteri yok",
+      "empty": "Henüz e-posta görevi yok."
+    },
+    "expiringPackages": {
+      "title": "Süresi dolan ön ödemeli paketler",
+      "seeAll": "Tümünü gör",
+      "none": "Süresi yakında dolacak ön ödemeli paket yok",
+      "noneHint": "30 gün içinde süresi dolacak ön ödemeli paketler burada görünür",
+      "expiredAgo": "{count, plural, one {# gün} other {# gün}} önce doldu",
+      "expired": "Süresi doldu",
+      "today": "Bugün",
+      "days": "{count, plural, one {# gün} other {# gün}}",
+      "hoursLeft": "Kalan saat",
+      "value": "Değer",
+      "expires": "Bitiş: {date}",
+      "more": "+ {count} ön ödemeli paket daha",
+      "urgent": "Bazı ön ödemeli paketlerin süresi 7 gün içinde doluyor. Yenilemek için müşteriyle iletişime geç."
+    },
+    "flexBalance": {
+      "title": "Esnek mesai bakiyesi",
+      "hours": "{value} sa",
+      "entries": "{count} kayıt"
+    },
+    "flexNorm": {
+      "title": "Esnek mesai bakiyesi",
+      "loadFailed": "Bakiye yüklenemedi.",
+      "noProfile": "Organizasyonda çalışan profilin yok.",
+      "unit": "sa",
+      "carryIn": "Bunun devreden kısmı: {value} sa",
+      "week": "Hafta",
+      "month": "Ay",
+      "period": "Dönem",
+      "summary": "Bugüne kadar {net} sa normun {registered} sa'i · dönem normu {periodNet} sa",
+      "seeAccount": "Esnek mesai hesabını gör"
+    },
+    "hoursComparison": {
+      "title": "Hafta karşılaştırması",
+      "details": "Ayrıntıları gör",
+      "none": "Takip edilen saat yok",
+      "thisWeek": "Bu hafta",
+      "lastWeek": "Geçen hafta",
+      "format": "ss:dd",
+      "increase": "Artış",
+      "decrease": "Azalış",
+      "vsLastWeek": "geçen haftaya göre"
+    },
+    "invoiceOverview": {
+      "title": "Fatura genel bakışı",
+      "seeInvoices": "Faturaları gör",
+      "totalInvoiced": "Toplam faturalanan",
+      "draft": "Taslak",
+      "sent": "Gönderildi",
+      "paid": "Ödendi",
+      "overdue": "Gecikmiş"
+    },
+    "lowBalance": {
+      "title": "Bakiyesi azalan ön ödemeli paketler",
+      "loadFailed": "Ön ödemeli paketler yüklenemedi",
+      "none": "Bakiyesi azalan ön ödemeli paket yok",
+      "seeAll": "Tümünü gör",
+      "intro": "Düşük bakiye",
+      "noClient": "Müşteri yok",
+      "left": "{time} kaldı",
+      "more": "+ {count} daha"
+    },
+    "monthComparison": {
+      "title": "Ay karşılaştırması",
+      "seeReports": "Raporları gör",
+      "vs": "karşı",
+      "vsValue": "{value} ile",
+      "hours": "Saat",
+      "hoursValue": "{value} sa",
+      "revenue": "Gelir",
+      "entries": "Zaman kayıtları"
+    },
+    "overdueTasks": {
+      "title": "Gecikmiş görevler",
+      "none": "Süresi geçmiş görev yok ✓",
+      "seeAll": "Tümünü gör",
+      "count": "{count, plural, one {# görev} other {# görev}}",
+      "noProject": "Proje yok",
+      "deadline": "Son tarih: {date}",
+      "more": "+ {count} daha"
+    },
+    "pendingApprovals": {
+      "title": "Bekleyen onaylar",
+      "requestOne": "talep",
+      "requestOther": "talep"
+    },
+    "prepaidStatus": {
+      "title": "Ön ödemeli paket durumu",
+      "allGood": "Her şey yolunda",
+      "seeAll": "Tümünü gör",
+      "lowBalance": "Düşük bakiye",
+      "noClient": "Müşteri yok",
+      "left": "{time} kaldı",
+      "more": "+ {count} daha",
+      "expiringSoon": "Yakında doluyor (30 gün içinde)",
+      "expired": "Süresi doldu",
+      "today": "Bugün",
+      "days": "{count, plural, one {# gün} other {# gün}}"
+    },
+    "productivity": {
+      "title": "Hafta boyunca verimlilik",
+      "details": "Ayrıntıları gör",
+      "noData": "Henüz verimlilik verisi yok",
+      "streak": "Mevcut seri",
+      "streakDays": "gün üst üste",
+      "weeklyAvg": "Haftalık ortalama",
+      "perWeek": "haftada",
+      "last8": "Son 8 hafta",
+      "less": "Az",
+      "more": "Çok",
+      "msgHigh": "Harika! Üst üste 7+ gün çalıştın. Böyle devam et!",
+      "msgMid": "Aferin! İvmeni koru.",
+      "msgLow": "Yoldasın! Sağlam bir çalışma düzeni oluştur.",
+      "streakDay": "gün üst üste"
+    },
+    "profitability": {
+      "title": "Gerçek saatlik ücret",
+      "rate": "{rate} kr/sa",
+      "hours": "{hours} sa",
+      "loadFailed": "Veriler yüklenemedi",
+      "noBilled": "Bu ay faturalanan süre yok",
+      "createInvoice": "Fatura oluştur",
+      "details": "Ayrıntılar",
+      "agreedRate": "Anlaşılan saatlik ücret",
+      "realRate": "Gerçek saatlik ücret",
+      "vsAgreed": "Anlaşılana göre %{percent}",
+      "billableAvg": "Faturalanabilir ort.",
+      "footer": "{total} toplam · {billable} faturalanabilir",
+      "footerInvoiced": "{total} toplam · {billable} faturalanabilir · {invoiced} faturalandı"
+    },
+    "projectHealth": {
+      "title": "Proje sağlığı",
+      "seeAll": "Tümünü gör",
+      "alertsHeading": "Bütçe uyarıları",
+      "severity": {
+        "exceeded": "Aşıldı",
+        "critical": "Kritik",
+        "warning": "Uyarı"
+      },
+      "hoursUsed": "{used} / {budget} sa kullanıldı",
+      "budgetAmount": "{amount} kr bütçe",
+      "moreAlerts": "+ {count} uyarı daha",
+      "noBudgets": "Bütçeli proje yok",
+      "createProject": "Proje oluştur",
+      "onTrack": "{count, plural, one {# proje yolunda} other {# proje yolunda}}",
+      "moreProjects": "+ {count} proje daha"
+    },
+    "quickActions": {
+      "title": "Hızlı işlemler",
+      "created": "Zaman kaydı oluşturuldu",
+      "createFailed": "Zaman kaydı oluşturulamadı",
+      "fillAll": "Tüm alanları doğru doldur",
+      "addClient": "Müşteri ekle",
+      "newProject": "Yeni proje",
+      "startTimer": "Zamanlayıcıyı başlat",
+      "createInvoice": "Fatura oluştur",
+      "quickEntry": "Hızlı zaman kaydı",
+      "draftSaved": "Taslak kaydedildi",
+      "restoreDraft": "Kayıtlı taslağı geri yükle",
+      "restore": "Geri yükle",
+      "projectPlaceholder": "Proje seç",
+      "descriptionPlaceholder": "Ne üzerinde çalıştın?",
+      "hoursPlaceholder": "Saat",
+      "saving": "Kaydediliyor…",
+      "save": "Kaydet"
+    },
+    "recentActivity": {
+      "title": "Son hareketler",
+      "none": "Henüz hareket yok",
+      "seeAll": "Tümünü gör",
+      "now": "Az önce",
+      "minutesAgo": "{count} dk önce",
+      "hoursAgo": "{count, plural, one {# saat} other {# saat}} önce",
+      "daysAgo": "{count, plural, one {# gün} other {# gün}} önce"
+    },
+    "revenueByClient": {
+      "title": "Müşteri başına gelir",
+      "seeReports": "Raporları gör",
+      "loadFailed": "Gelir yüklenemedi",
+      "none": "Bu ay gelir yok"
+    },
+    "revenueForecast": {
+      "title": "Gelir tahmini",
+      "seeReports": "Raporları gör",
+      "none": "Henüz gelir verisi yok",
+      "expected": "Bu ay beklenen",
+      "amountKr": "{amount} kr",
+      "basedOn": "{day} / {total} güne göre",
+      "sixMonthAvg": "6 aylık ortalama"
+    },
+    "rounding": {
+      "title": "Yuvarlama bonusu",
+      "inactive": "Yuvarlama etkin değil. Saatlerini yukarı yuvarlayarak ekstra kazan.",
+      "enable": "Yuvarlamayı etkinleştir",
+      "settings": "Ayarlar",
+      "thisMonth": "Bu ay",
+      "extra": "yuvarlamayla ekstra kazanıldı",
+      "thisYear": "Bu yıl toplam"
+    },
+    "stats": {
+      "activeClients": "Aktif müşteriler",
+      "activeProjects": "Aktif projeler",
+      "hoursThisMonth": "Bu ayki saatler",
+      "revenueThisMonth": "Bu ayki gelir"
+    },
+    "topClients": {
+      "title": "En iyi müşteriler",
+      "loadFailed": "Veriler yüklenemedi",
+      "none": "Henüz müşteri verisi yok",
+      "seeAll": "Tümünü gör",
+      "rankedBy": "Saate göre sıralı"
+    },
+    "unbilled": {
+      "title": "Faturalanmamış saatler",
+      "loadFailed": "Veriler yüklenemedi",
+      "none": "Faturalanmamış saat yok",
+      "seeAll": "Tümünü gör",
+      "entries": "{count, plural, one {# zaman kaydı} other {# zaman kaydı}}",
+      "totalHours": "Toplam saat",
+      "estimatedValue": "Tahmini değer"
+    },
+    "absences": {
+      "title": "Yaklaşan devamsızlıklar",
+      "loading": "Yükleniyor…",
+      "none": "Planlanmış onaylı devamsızlık yok",
+      "employee": "Çalışan",
+      "absence": "Devamsızlık",
+      "from": "{date} tarihinden"
+    },
+    "deadlines": {
+      "title": "Önemli tarihler",
+      "overdue": "Gecikmiş",
+      "today": "Bugün",
+      "days": "{count, plural, one {# gün} other {# gün}}",
+      "needsSetup": "Önemli tarihleri görmek için şirket türünü ayarla",
+      "setUpNow": "Şimdi ayarla",
+      "none": "180 gün içinde yaklaşan son tarih yok",
+      "editSettings": "Şirket ayarlarını düzenle"
+    },
+    "upcomingTasks": {
+      "title": "Yaklaşan görevler",
+      "none": "Yaklaşan görev yok",
+      "seeAll": "Tümünü gör",
+      "within7": "7 gün içinde",
+      "noProject": "Proje yok",
+      "deadline": "Son tarih: {date}",
+      "more": "+ {count} daha"
+    },
+    "vacation": {
+      "title": "İzin bakiyesi",
+      "daysLeftIn": "{label} için kalan gün",
+      "daysLeft": "gün kaldı"
+    },
+    "vat": {
+      "titleMonthly": "Bu ayın KDV'si",
+      "titleQuarterly": "Bu dönemin KDV'si",
+      "titleSemiAnnual": "Bu yarıyılın KDV'si",
+      "title": "KDV",
+      "exempt": "KDV mükellefi olmayan olarak kayıtlısın",
+      "changeInSettings": "Ayarlarda değiştir",
+      "createFirst": "KDV tahminini görmek için ilk faturanı oluştur",
+      "createInvoice": "Fatura oluştur",
+      "invoices": "Faturalar",
+      "toSettle": "Ödenecek KDV",
+      "percentOf": "Faturalanan {amount} tutarın %25'i",
+      "nextDeadline": "Sonraki son tarih",
+      "inDays": "({count, plural, one {# gün} other {# gün}} sonra)",
+      "overdue": "(gecikmiş)",
+      "ytd": "Bu yıl toplam",
+      "setAside": "Ayrı bir hesapta <b>{amount}</b> ayır"
+    },
+    "weeklyGoal": {
+      "title": "Haftalık hedef",
+      "loadFailed": "Haftalık hedef yüklenemedi",
+      "trackTime": "Zaman takibi",
+      "reached": "Hedefe ulaşıldı!",
+      "onTrack": "Yolunda",
+      "behind": "Geride",
+      "remaining": "<b>{time}</b> kaldı",
+      "perDay": "{count, plural, one {# gün} other {# gün}} için günde {time}"
+    }
+  }
+}

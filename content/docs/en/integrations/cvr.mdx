@@ -1,0 +1,30 @@
+---
+title: "CVR lookup"
+description: "Fill in Danish company details from the CVR register when you create a client. Works without configuration through cvrapi.dk."
+---
+
+CVR is the Danish company register. When you create a client, enter a CVR number (or a company name or phone number) and TimeWren fills in the company details. It only helps for Danish businesses.
+
+## What it fills in
+
+Name, address, postal code, city, country (Denmark), industry code and description, company status, phone, email and start date, where the source has them. You can edit everything before saving.
+
+## Where it is used
+
+The lookup button on the new client form, and the CVR lookup in your company settings. Lookups are limited to 10 per minute per user.
+
+## Sources and configuration
+
+No configuration is needed. By default TimeWren asks [cvrapi.dk](https://cvrapi.dk), a free public service, and the request fails with a timeout message after 10 seconds. cvrapi.dk limits how many requests it accepts, so a busy instance may occasionally see a "rate limited" message and need to retry. When [Valkey](/docs/configuration/environment) is configured, answers are cached for 24 hours, which saves quota.
+
+These variables are optional:
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `CVR_API_TIMEOUT_MS` | `10000` | Timeout for cvrapi.dk requests in milliseconds |
+| `CVR_SERVICE_API_KEY` | empty | Key for an alternative CVR service. When set, that service is asked first |
+| `CVR_SERVICE_URL` | the service run by the TimeWren maintainers | Base URL of the alternative service |
+
+The alternative service is tried first with a 3 second timeout. If it fails or is not reachable, TimeWren falls back to cvrapi.dk. Unless you have been given a key for a service, leave `CVR_SERVICE_API_KEY` empty.
+
+> **Note:** A lookup sends the number or text you typed to the service that answers it (cvrapi.dk by default). Entering company details by hand always works.

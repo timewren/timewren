@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "구독",
+    "description": "플랜, 결제, 청구",
+    "adminOnly": "소유자와 관리자만 구독을 변경하고, 좌석을 구매하고, 결제 내역을 볼 수 있어요."
+  },
+  "states": {
+    "noBilling": "이 설치 환경에는 결제 제공업체가 없어서 모든 기능이 열려 있고 플랜이나 제한도 없어요.",
+    "comingSoonTitle": "결제 곧 지원 예정",
+    "comingSoon": "현재 무료 플랜을 사용 중입니다. 유료 플랜은 곧 제공되며, 그때까지는 비용이 들지 않습니다.",
+    "loading": "구독 정보를 불러오는 중...",
+    "none": "구독이 없어요. 플랜을 선택해 시작하세요.",
+    "choosePlan": "플랜 선택",
+    "previousWebPayments": "웹에서의 이전 결제",
+    "redirecting": "이동하는 중..."
+  },
+  "cycle": {
+    "monthly": "월간",
+    "yearly": "연간",
+    "twoMonthsFree": "2개월 무료",
+    "perMonthExclVat": "/월, 부가세 별도",
+    "perYearExclVat": "/년, 부가세 별도",
+    "krPerMonth": "{price} kr./월",
+    "krPerYear": "{price} kr./년"
+  },
+  "status": {
+    "active": "활성",
+    "free": "무료",
+    "trialing": "체험 기간",
+    "pastDue": "결제 연체",
+    "canceled": "해지됨"
+  },
+  "invoiceStatus": {
+    "paid": "결제 완료",
+    "open": "미결제",
+    "draft": "초안",
+    "void": "무효",
+    "uncollectible": "실패",
+    "unknown": "알 수 없음"
+  },
+  "history": {
+    "title": "결제 내역",
+    "columnDate": "날짜",
+    "columnNumber": "번호",
+    "columnAmount": "금액",
+    "columnStatus": "상태",
+    "columnPdf": "PDF",
+    "empty": "아직 결제 내역이 없어요. 첫 결제를 하면 여기에 결제 내역이 표시돼요."
+  },
+  "toast": {
+    "planChangedYearly": "플랜을 연간으로 변경했어요",
+    "planChangedMonthly": "플랜을 월간으로 변경했어요",
+    "canceled": "구독을 해지했어요. 기간이 끝날 때까지는 계속 활성 상태예요.",
+    "reactivated": "구독을 다시 활성화했어요!",
+    "trialRequested": "요청을 보냈어요! 최대한 빨리 답변드릴게요.",
+    "trialRequestFailed": "요청을 보내지 못했어요. 다시 시도해 주세요.",
+    "paymentMethodAdded": "결제 수단을 추가했어요!",
+    "seatsUpdated": "좌석을 업데이트했어요! 변경 내용이 표시되기까지 잠시 걸릴 수 있어요.",
+    "paymentCanceled": "결제가 취소됐어요"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, other {체험 기간이 #일 남았어요}}",
+    "startsAutomatically": "체험 기간이 끝나면 구독이 자동으로 시작돼요",
+    "addPaymentToContinue": "체험 기간 이후에도 계속하려면 결제 수단을 추가하세요",
+    "needMoreTime": "시간이 더 필요하세요?",
+    "addPayment": "결제 수단 추가",
+    "checkoutNoteFounding": "결제 페이지에는 기본 가격이 표시돼요. 파운딩 멤버 할인 {percent}%는 결제 후 자동으로 적용돼요."
+  },
+  "pendingCancel": {
+    "expiresOn": "구독이 {date}에 만료돼요",
+    "expiresUnknown": "구독이 만료되는 날짜를 알 수 없어요",
+    "reactivateHint": "그 전에 구독을 다시 활성화할 수 있어요",
+    "reactivating": "다시 활성화하는 중...",
+    "reactivate": "다시 활성화"
+  },
+  "plan": {
+    "current": "현재 플랜",
+    "freeLimits": "최대 사용자 {maxSeats}명 · 활성 클라이언트 {maxClients}명 중 {used}명 사용 중. 업그레이드하면 클라이언트와 사용자를 늘리고 청구서와 선불 패키지를 쓸 수 있어요.",
+    "seatsIncluded": "{count, plural, other {사용자 #명 포함}}",
+    "seatsWithExtra": "{count, plural, other {사용자 #명}} · 기본 {included}명 + 추가 {extra}명",
+    "foundingDiscount": "파운딩 멤버 할인 {percent}%",
+    "foundingDiscountForever": "파운딩 멤버 할인 {percent}%, 영구",
+    "foundingDiscountExpires": "파운딩 멤버 할인 {percent}%, {date}에 만료",
+    "trialEnds": "체험 종료: {date}",
+    "nextBilling": "다음 결제: {date}"
+  },
+  "roi": {
+    "titleReturn": "{brand}로 얻은 수익",
+    "titleActivity": "{brand}에서의 활동",
+    "spent": "{brand}에 지출한 금액",
+    "freeSoFar": "지금까지 무료예요!",
+    "trackedValue": "추적한 시간의 가치",
+    "invoicedTotal": "총 청구 금액",
+    "return": "수익"
+  },
+  "payment": {
+    "title": "결제",
+    "portalDescription": "결제 포털에서 결제 수단과 청구서를 관리하세요.",
+    "manage": "결제 관리",
+    "noMethod": "추가된 결제 수단이 없어요",
+    "addMethod": "결제 수단 추가",
+    "checkoutNoteFounding": "결제 페이지에는 기본 가격이 표시돼요. 할인 {percent}%는 자동으로 적용돼요."
+  },
+  "seats": {
+    "title": "좌석",
+    "usage": "좌석 {total}개 중 {used}개 사용 중",
+    "pendingInvites": "{count, plural, other {대기 중인 초대로 좌석 #개가 사용 중이에요}}",
+    "reseatsReminder": "추가 좌석 {count}개를 {plan} 요금으로 다시 구독하는 것을 잊지 마세요. 아래에서 좌석 구매를 완료해 결제가 사용 규모와 맞도록 하세요.",
+    "extraLabel": "추가 좌석 (기본 {included}개 외)",
+    "fewer": "좌석 줄이기",
+    "more": "좌석 늘리기",
+    "price": "가격",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr./년, 부가세 별도",
+    "priceSuffixMonthly": "kr./월, 부가세 별도",
+    "adjust": "좌석 조정",
+    "buy": "좌석 구매",
+    "note": "현재 좌석 추가 구매분은 새 수량으로 대체돼요. 새로 구매하면 기존 추가분은 자동으로 해지돼요. 이 플랜에서는 총 {max}개까지 좌석을 사용할 수 있어요."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "개인용",
+      "feature1": "사용자 1명"
+    },
+    "solo": {
+      "tagline": "프리랜서용",
+      "feature1": "사용자 1명, 클라이언트 무제한",
+      "feature2": "선불 패키지, 청구서, 연동",
+      "feature3": "웹, 앱, 확장 프로그램, 데스크톱 포함"
+    },
+    "team": {
+      "tagline": "소규모 팀용",
+      "feature1": "{plan}의 모든 기능",
+      "feature2": "사용자 2명 포함",
+      "feature3": "공유 클라이언트, 프로젝트, 선불 패키지"
+    },
+    "business": {
+      "tagline": "기업용",
+      "feature1": "{plan}의 모든 기능",
+      "feature2": "사용자 5명 포함",
+      "feature3": "유연 근무, 부재, 컴플라이언스"
+    },
+    "usersIncluded": "사용자 {count}명 포함"
+  },
+  "upgrade": {
+    "title": "플랜 업그레이드",
+    "blocked": "{count, plural, other {추가 좌석 #개를}} 아직 {plan}(으)로 자동 이전할 수 없어요. support@timetrack.dk로 문의해 주시면 좌석 손실 없이 업그레이드해 드릴게요.",
+    "to": "{plan}(으)로 업그레이드",
+    "note": "업그레이드하면 새로 구매하게 돼요. 새 구독이 활성화되면 현재 구독은 자동으로 해지돼요."
+  },
+  "choose": {
+    "title": "플랜 선택",
+    "choosePlan": "{plan} 선택",
+    "chooseAndPay": "선택 후 결제",
+    "note": "포함된 인원을 넘는 추가 사용자는 가입 후에 추가돼요. 파운딩 멤버 할인(적용 중인 경우)은 결제 후 {plan}에 자동으로 적용돼요."
+  },
+  "discounts": {
+    "title": "적용 중인 할인",
+    "rangeBoth": "{from}부터 {to}까지",
+    "rangeOpenEnded": "{from}부터, 만료일 없음",
+    "rangeUntil": "{to}까지",
+    "rangeNone": "만료일 없음"
+  },
+  "metadata": {
+    "title": "구독 상세",
+    "foundingTier": "파운딩 등급",
+    "billingCycle": "결제 주기",
+    "signupSource": "가입 경로",
+    "couponCode": "할인 코드"
+  },
+  "upcoming": {
+    "title": "예정된 결제",
+    "columnPeriod": "기간",
+    "columnPlan": "플랜",
+    "columnAmount": "금액"
+  },
+  "switch": {
+    "title": "플랜 변경",
+    "equivalent": "월 {price} kr.에 해당",
+    "toMonthly": "월간으로 전환",
+    "toYearly": "연간으로 전환"
+  },
+  "cancel": {
+    "title": "구독 해지",
+    "description": "구독은 현재 결제 기간이 끝날 때까지 계속 활성 상태예요.",
+    "areYouSure": "정말 해지할까요?",
+    "activeUntil": "구독은 {date}까지 활성 상태예요. 그 이후에는 프리미엄 기능을 사용할 수 없어요.",
+    "activeUntilEnd": "구독은 기간이 끝날 때까지 활성 상태예요. 그 이후에는 프리미엄 기능을 사용할 수 없어요.",
+    "keep": "구독 유지",
+    "confirm": "네, 구독을 해지할게요",
+    "canceling": "해지하는 중..."
+  }
+}

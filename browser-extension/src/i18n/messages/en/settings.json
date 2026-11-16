@@ -1,0 +1,123 @@
+{
+  "title": "Settings",
+  "close": "Close settings",
+  "searchPlaceholder": "Search settings…",
+  "searchLabel": "Search settings",
+  "noMatch": "No settings match “{query}”",
+  "keywords": {
+    "view": "view|display|suggestion|site|websites|package|prepaid|popup",
+    "appearance": "appearance|theme|dark|light|badge|icon|language",
+    "newTab": "new tab|tab|start page|widgets",
+    "calendar": "calendar|day|date",
+    "goal": "daily goal|goal|hours goal|progress",
+    "reminder": "reminder|notification|weekend|entry|log",
+    "data": "data|delete|reset|offline|mappings|links|website|queue",
+    "advanced": "advanced|api|url|server",
+    "shortcuts": "shortcuts|shortcut|keyboard|alt",
+    "about": "about the extension|extension|about|version|rate|review|help"
+  },
+  "view": {
+    "title": "View",
+    "suggestions": "Suggestions from website",
+    "suggestionsHint": "Suggest a project based on the website you are on",
+    "prepaidTab": "Packages tab",
+    "prepaidTabHint": "Show the tab with active packages in the popup"
+  },
+  "appearance": {
+    "title": "Appearance",
+    "theme": "Theme",
+    "themeHint": "Colour theme for the extension",
+    "system": "Follow system",
+    "dark": "Dark",
+    "light": "Light",
+    "badge": "Number on the icon",
+    "badgeHint": "What the number on the extension icon shows",
+    "badgeTimer": "Active timer",
+    "badgeToday": "Today's hours",
+    "badgeOff": "Hidden",
+    "language": "Language",
+    "languageHint": "Language of the extension",
+    "languageAuto": "Automatic (follow the browser)"
+  },
+  "newTab": {
+    "title": "New tab",
+    "enable": "Open TimeTrack on new tabs",
+    "enableHint": "Turn off to keep normal, empty tabs",
+    "widgetsHint": "Choose widgets in the settings on the new tab",
+    "activeWidgets": "Active widgets: {count}"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "openOn": "Open calendar on",
+    "openOnHint": "Which day the calendar shows when opened",
+    "today": "Today",
+    "lastViewed": "Last viewed day"
+  },
+  "goal": {
+    "title": "Daily goal",
+    "hours": "Daily hours goal",
+    "hoursHint": "Used in the daily progress bar in the popup and on the new tab"
+  },
+  "reminder": {
+    "title": "Daily reminder",
+    "enable": "Remind me to log time",
+    "enableHint": "Notification if you have too few hours",
+    "time": "Time",
+    "minHours": "Minimum hours",
+    "weekends": "Also on weekends"
+  },
+  "data": {
+    "title": "Data",
+    "clearMappingsConfirm": "Delete all saved links between websites and projects?",
+    "clearMappingsDetail": "Hidden suggestions will also appear again.",
+    "delete": "Delete",
+    "clearMappings": "Delete website links",
+    "mappingsCount": "{count, plural, one {# saved link} other {# saved links}}",
+    "clearQueueConfirm": "Delete {count, plural, one {# pending action} other {# pending actions}}?",
+    "unsentEntries": "{count, plural, one {# entry has} other {# entries have}} not been sent to TimeTrack yet. The time is deleted for good.",
+    "clearQueueConfirmButton": "Delete the queue",
+    "clearQueue": "Delete offline queue",
+    "pendingActions": "{count, plural, one {# pending action} other {# pending actions}}",
+    "unsentSuffix": "{count, plural, one {# unsent entry} other {# unsent entries}}",
+    "resetConfirm": "Reset all settings?",
+    "resetDetail": "The extension's default settings are restored.",
+    "resetButton": "Reset",
+    "reset": "Reset settings",
+    "resetHint": "Restore default settings"
+  },
+  "advanced": {
+    "title": "Advanced",
+    "apiUrl": "API address",
+    "notSaved": "{error}. The address has not been saved."
+  },
+  "shortcuts": {
+    "title": "Keyboard shortcuts",
+    "unreadable": "The shortcuts cannot be read in this browser.",
+    "openApp": "Open TimeTrack",
+    "notSet": "Not set",
+    "change": "Change shortcuts",
+    "firefoxPage": "Opens Firefox's shortcuts page",
+    "chromePage": "Opens chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "TimeTrack browser extension, version {version}",
+    "rateFirefox": "Rate on Firefox Add-ons",
+    "rateChrome": "Rate in the Chrome Web Store",
+    "rateHint": "Your review helps other freelancers",
+    "learnMore": "Read more about the extension"
+  },
+  "server": {
+    "ariaLabel": "Account and server",
+    "cloud": "TimeTrack Cloud",
+    "connectedTo": "Connected to {host}",
+    "useOwn": "Use own server",
+    "switch": "Change server",
+    "address": "Server address",
+    "placeholder": "https://time.example.com",
+    "hint": "Changing server signs you out and clears the old account data. Synchronise pending entries first.",
+    "httpWarning": "HTTP is not encrypted. Only use a local development server on a network you trust. Sign-in and data are sent without encryption.",
+    "connect": "Connect to server",
+    "connecting": "Connecting…",
+    "useCloud": "Use TimeTrack Cloud"
+  }
+}

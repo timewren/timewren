@@ -1,0 +1,327 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "Timesheets",
+      "description": "Submitted, approved, rejected and reopened, plus period closing (statement, approval, receipt)"
+    },
+    "absence": {
+      "label": "Leave and absence",
+      "description": "Requests, decisions, registrations and sick reports"
+    },
+    "reminder": {
+      "label": "Reminders",
+      "description": "Friday reminder when the timesheet is missing and (optionally) when yesterday's utilisation was low"
+    },
+    "compliance": {
+      "label": "Working-time rules",
+      "description": "Warnings about working-time rules on submission (for managers)"
+    },
+    "digest": {
+      "label": "Manager digest",
+      "description": "Daily/weekly overview for managers"
+    }
+  },
+  "channels": {
+    "in_app": "In the app",
+    "email": "Email",
+    "push": "Push",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "week {week}",
+  "periodFrom": "from {date}",
+  "periodRange": "{start} – {end}",
+  "unknown": "Unknown",
+  "duration": {
+    "hm": "{h} h {m} min",
+    "h": "{h} h",
+    "m": "{m} min"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "Timesheet awaiting approval",
+      "body": "{employee} has submitted a timesheet for {week} ({hours} hours)."
+    },
+    "factEmployee": "Employee",
+    "factWeek": "Week",
+    "factHours": "Hours",
+    "timesheetApproved": {
+      "title": "Timesheet approved",
+      "body": "{manager} has approved your timesheet for {week}."
+    },
+    "timesheetRejected": {
+      "title": "Timesheet rejected",
+      "body": "{manager} has rejected your timesheet for {week}.",
+      "bodyReason": "{manager} has rejected your timesheet for {week}. Reason: {reason}"
+    },
+    "timesheetReopened": {
+      "title": "Timesheet reopened",
+      "body": "{manager} has reopened your timesheet for {week} for editing.",
+      "bodyReason": "{manager} has reopened your timesheet for {week} for editing. Reason: {reason}"
+    },
+    "closingReady": {
+      "title": "Period statements ready for approval",
+      "body": "{count, plural, one {The statement for {period} has been created for # employee and is awaiting your approval.} other {The statements for {period} have been created for # employees and are awaiting your approval.}}"
+    },
+    "factPeriod": "Period",
+    "factStatements": "Statements",
+    "closingApproved": {
+      "title": "Acknowledge your period statement",
+      "body": "{manager} has approved your statement for {period}. The period is now locked: review the statement and acknowledge it."
+    },
+    "closingUnlocked": {
+      "title": "Period unlocked",
+      "body": "{actor} has unlocked {period}. Reason: {reason}"
+    },
+    "absenceRequested": {
+      "title": "Absence awaiting approval",
+      "body": "{employee} requests {type} {period}."
+    },
+    "factType": "Type",
+    "absenceApproved": {
+      "title": "Absence approved",
+      "body": "{manager} has approved your {type} {period}."
+    },
+    "absenceRejected": {
+      "title": "Absence rejected",
+      "body": "{manager} has rejected your {type} {period}.",
+      "bodyReason": "{manager} has rejected your {type} {period}. Reason: {reason}"
+    },
+    "absenceRegistered": {
+      "title": "Absence registered",
+      "body": "{registrar} has registered {type} {period}."
+    },
+    "sickRegistered": {
+      "title": "Sick report",
+      "body": "{employee} has reported sick {period}."
+    },
+    "timesheetMissing": {
+      "title": "Your timesheet is missing",
+      "bodyHours": "You have tracked {hours} hours in {week}, but the week has not been submitted yet.",
+      "bodyNone": "You have not tracked any hours in {week} yet."
+    },
+    "coverageLow": {
+      "title": "Only {pct} of working time is logged",
+      "body": "You logged {logged} of {expected} hours {day} (below your threshold of {threshold}%). Is anything missing?"
+    },
+    "factLogged": "Logged",
+    "factWorkTime": "Working time",
+    "factCoverage": "Utilisation rate",
+    "hoursShort": "{hours} h",
+    "compliance": {
+      "title": "Working-time rules warning",
+      "body": "{employee}'s timesheet for {week} triggers: {findings}"
+    },
+    "factFinding": "Finding",
+    "digestDaily": "Daily manager overview",
+    "digestWeekly": "Weekly manager overview",
+    "digestDailyEsc": "Daily manager overview (escalated)",
+    "digestWeeklyEsc": "Weekly manager overview (escalated)",
+    "digestEmpty": "No outstanding timesheets or requests.",
+    "digestMissing": "Missing timesheets",
+    "digestPendingTs": "Timesheets awaiting approval",
+    "digestPendingAbs": "Absence requests awaiting approval",
+    "digestFactAbs": "Absence requests",
+    "digestSection": "{label} ({count}):",
+    "digestAge": "({days, plural, one {# day} other {# days}})",
+    "digestMore": "… and {count} more",
+    "forecast": {
+      "title": "Work plan warning",
+      "body": "Work plan for {week}: {findings}",
+      "bodyNamed": "{employee}: Work plan for {week}: {findings}"
+    }
+  },
+  "digestItem": {
+    "missing": "timesheet for {week} not submitted",
+    "pendingTs": "{week} awaiting approval",
+    "pendingAbs": "{type} {period} awaiting decision"
+  },
+  "emailOpenIn": "Open in {brand}",
+  "emailNoAddress": "No email address",
+  "push": {
+    "open": "Open",
+    "dismiss": "Dismiss",
+    "deadlineTitle": "⏰ Deadline reminder",
+    "deadlineBody": "{title} - deadline {when}",
+    "whenDays": "in {days} days",
+    "whenTomorrow": "tomorrow",
+    "whenHours": "in {hours} hours",
+    "whenOneHour": "in 1 hour",
+    "whenSoon": "soon",
+    "overdueTitle": "🚨 Task overdue",
+    "overdueBody": "{title} has passed its deadline",
+    "digestTitle": "☀️ Good morning!",
+    "digestOverdue": "{overdue} overdue, {tasks} planned today",
+    "digestTasks": "{count, plural, one {# task} other {# tasks}} planned today",
+    "digestNone": "No tasks planned - enjoy the day!",
+    "testTitle": "🔔 Test notification",
+    "testBody": "Push notifications are now enabled for {brand}!"
+  },
+  "discord": {
+    "digestTitle": "☀️ Good morning, {name}!",
+    "digestNone": "You have no tasks planned for today. Enjoy the day! 🎉",
+    "digestOverview": "Here is your overview for today:",
+    "todayTasks": "📌 Today's tasks ({count})",
+    "overdueTasks": "🚨 Overdue ({count})",
+    "andMore": "...and {count} more",
+    "status": "📊 Status",
+    "yesterdayTime": "Time tracked yesterday: {h}h {m}m",
+    "yesterdayDone": "Tasks completed yesterday: {count}",
+    "digestFooter": "TimeTrack • Daily overview",
+    "testTitle": "Test notification",
+    "testMessage": "Your Discord webhook is now connected to TimeTrack! 🎉"
+  },
+  "taskDigestSubject": "Your tasks {date}",
+  "endOfDay": {
+    "titleTracked": "Daily summary: {hours} tracked",
+    "titleNone": "No time tracked today",
+    "bodyTracked": "You have tracked {hours} today.",
+    "bodyUnbilled": "{hours} has not been invoiced.",
+    "bodyRevenue": "Estimated revenue: {amount} kr.",
+    "bodyNone": "Remember to track your time before the day is over.",
+    "footer": "TimeTrack Daily summary"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "Inactivity detected",
+      "message": "The timer is still running after {minutes} minutes of work. You will be asked about the idle time when you are back."
+    },
+    "invoiceOverdueOne": {
+      "title": "Invoice overdue",
+      "message": "Invoice {numbers} has passed its due date."
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} invoices overdue",
+      "message": "Invoices {numbers} have passed their due date."
+    },
+    "recurringOne": {
+      "title": "Invoice draft ready: {name}",
+      "message": "The recurring invoice \"{name}\" ({amount} excl. VAT) has been created as a draft. Review and issue it when it is ready."
+    },
+    "recurringMany": {
+      "title": "{count} recurring invoices ready as drafts",
+      "message": "{list} have been created as drafts. Review and issue them when they are ready."
+    },
+    "renewalDraft": {
+      "title": "Invoice draft ready: prepaid package \"{name}\"",
+      "message": "The prepaid package \"{name}\" has been renewed, and the invoice for the new period has been created as a draft. Review and issue it when it is ready."
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "New user signed up",
+      "subscription_started": "New paying subscriber",
+      "payment_failed": "Payment failed",
+      "subscription_cancelled": "Subscription cancelled",
+      "trial_ending": "Trial ending soon",
+      "user_flagged": "User flagged",
+      "support_ticket": "New support ticket",
+      "webhook_rejected": "Webhook rejected",
+      "seat_drift": "Seat drift detected",
+      "churn_risk": "Churn playbook triggered",
+      "subscription_duplicate": "Possible duplicate subscription",
+      "feedback_received": "New feedback from a user",
+      "beta_tester_signup": "New beta tester for the mobile app"
+    },
+    "sub": {
+      "signup": "New user: {name}",
+      "subscription_started": "New subscriber: {name}",
+      "payment_failed": "Payment failed: {name}",
+      "subscription_cancelled": "Subscription cancelled: {name}",
+      "trial_ending": "Trial ending: {name}",
+      "user_flagged": "User flagged: {name}",
+      "support_ticket": "Support ticket: {name}",
+      "webhook_rejected": "Webhook rejected",
+      "seat_drift": "Seat drift",
+      "churn_risk": "Churn risk",
+      "subscription_duplicate": "Possible duplicate subscription",
+      "feedback_received": "New feedback: {name}",
+      "beta_tester_signup": "New beta tester: {name}"
+    },
+    "unknownName": "unknown",
+    "fieldName": "Name",
+    "fieldEmail": "Email",
+    "fieldPlan": "Plan",
+    "fieldType": "Type",
+    "fieldDaysLeft": "Days left",
+    "fieldReason": "Reason",
+    "fieldTime": "Time",
+    "seeUser": "See user in admin",
+    "footer": "TimeTrack Admin",
+    "testTitle": "Test — Admin notifications",
+    "testBody": "Your Discord webhook is now connected to TimeTrack admin notifications!",
+    "supportReply": "Reply on ticket: {subject}",
+    "supportNew": "New support ticket: {subject}",
+    "supportNoSubject": "No subject"
+  },
+  "fallbackUser": "user",
+  "absenceTypeFallback": "Absence",
+  "teams": {
+    "urlTooLong": "Webhook URL is too long",
+    "urlInvalid": "Invalid URL",
+    "urlHttps": "Webhook URL must use https",
+    "urlNotTeams": "The URL does not look like a Teams webhook (expected *.webhook.office.com, *.logic.azure.com or *.powerplatform.com)"
+  },
+  "fallbackTaskTitle": "Task from email",
+  "deadlines": {
+    "noProject": "No project",
+    "overdueLine": "• **{title}** ({project}) - {days, plural, one {# day} other {# days}} overdue",
+    "overdueTitle": "{count, plural, one {# overdue task} other {# overdue tasks}}",
+    "overdueFooter": "TimeTrack Deadline Alert",
+    "whenToday": "today",
+    "whenTomorrow": "tomorrow",
+    "whenDays": "in {days} days",
+    "upcomingLine": "• **{title}** ({project}) - deadline {when}",
+    "upcomingTitle": "{count, plural, one {# task} other {# tasks}} with an upcoming deadline",
+    "upcomingFooter": "TimeTrack Deadline Reminder",
+    "projOverdueTitle": "{count, plural, one {# project} other {# projects}} past end date",
+    "projOverdueLine": "• **{name}** - end date passed by {days, plural, one {# day} other {# days}}",
+    "projSoonTitle": "{count, plural, one {# project} other {# projects}} with an upcoming end date",
+    "projSoonLine": "• **{name}** - ends {when}",
+    "projFooter": "TimeTrack Project end date"
+  },
+  "slack": {
+    "noProject": "No project",
+    "noClient": "No client",
+    "project": "Project",
+    "client": "Client",
+    "description": "Description",
+    "timerStarted": "Timer started",
+    "startedAtSlack": "Started at",
+    "startedAtDiscord": "Started",
+    "timerStopped": "Timer stopped",
+    "duration": "Duration",
+    "durationHM": "{h}h {m}m",
+    "durationM": "{m} minutes",
+    "idleTitle": "Inactivity detected",
+    "idleBodySlack": "You have been inactive for *{minutes} minutes* while the timer runs on *{project}*. Remember to stop the timer if you are taking a break.",
+    "idleBodyDiscord": "You have been inactive for **{minutes} minutes** while the timer runs on **{project}**. Remember to stop the timer if you are taking a break.",
+    "dailyTitle": "Daily summary - {date}",
+    "totalTime": "Total time",
+    "totalRevenue": "Total revenue",
+    "tasksDone": "Tasks completed",
+    "projects": "Projects",
+    "noEntriesToday": "No time entries today",
+    "weeklyTitle": "Weekly report - Week {week}",
+    "unbilled": "Unbilled",
+    "topClients": "Top clients",
+    "noEntriesWeek": "No time entries this week",
+    "hoursShort": "{hours}h",
+    "minutesShort": "{m}m",
+    "testTitle": "TimeTrack test message",
+    "testBodySlack": "Your Slack integration is configured correctly! You will now receive notifications from TimeTrack here.",
+    "testBodyDiscord": "Your Discord integration is configured correctly! You will now receive notifications from TimeTrack here.",
+    "unbilledReminderTitle": "💰 Unbilled time: {hours} ({value} kr)",
+    "unbilledReminderDiscord": "You have unbilled time worth **{value} kr**.\n\n{list}",
+    "unbilledReminderSlack": "You have unbilled time worth *{value} kr*.\n\n{list}",
+    "unbilledReminderLine": "• {name}: {hours} - {value} kr",
+    "unbilledReminderFooter": "TimeTrack Unbilled Reminder",
+    "aiFocusName": "🎯 Today's focus ({count} tasks)",
+    "aiWarnings": "⚠️ Warnings",
+    "aiDeferred": "📋 Deferred",
+    "aiDeferredValue": "{count, plural, one {# task is} other {# tasks are}} recommended to be deferred",
+    "aiGreeting": "Good morning, {name}!",
+    "aiFooter": "TimeTrack AI Suggestions",
+    "aiFocusBlock": "🎯 Today's focus",
+    "aiWarningsBlock": "⚠️ Warnings"
+  }
+}

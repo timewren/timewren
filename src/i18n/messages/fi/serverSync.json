@@ -1,0 +1,475 @@
+{
+  "errors": {
+    "insufficientRights": "Sinulla ei ole riittäviä oikeuksia tähän toimintoon",
+    "accessDenied": "Sinulla ei ole pääsyä tähän resurssiin",
+    "unexpected": "Tapahtui odottamaton virhe",
+    "clientNotFound": "Asiakasta ei löytynyt",
+    "clientArchived": "Asiakas on arkistoitu",
+    "projectNotFound": "Projektia ei löytynyt",
+    "projectArchived": "Projekti on arkistoitu",
+    "timeEntryNotFound": "Tuntikirjausta ei löytynyt",
+    "timeEntriesNotFound": "Yhtä tai useampaa tuntikirjausta ei löytynyt",
+    "prepaidNotFound": "Tuntipakettia ei löytynyt",
+    "prepaidInactive": "Tuntipaketti ei ole aktiivinen",
+    "prepaidInsufficientHours": "Tuntipaketissa ei ole tarpeeksi tunteja jäljellä. Käytettävissä olevat tunnit: {available}",
+    "prepaidHasUsage": "Tuntipakettia, jolla on kirjattua käyttöä, ei voi poistaa. Poista se käytöstä sen sijaan.",
+    "invoiceNotFound": "Laskua ei löytynyt",
+    "invoiceAlreadySent": "Lasku on jo lähetetty",
+    "invoiceAlreadyPaid": "Lasku on jo maksettu",
+    "userNotFound": "Käyttäjää ei löytynyt",
+    "invalidValue": "Virheellinen arvo kentälle {field}",
+    "operationFailed": "{operation} epäonnistui"
+  },
+  "friendly": {
+    "network": "Ei yhteyttä TimeTrackiin. Tarkista verkkoyhteytesi ja yritä uudelleen.",
+    "server": "TimeTrackissa meni jokin pieleen. Yritä hetken kuluttua uudelleen.",
+    "validation": "Joitakin kenttiä ei ole täytetty oikein. Tarkista ne ja yritä uudelleen.",
+    "unauthorized": "Et ole enää kirjautuneena. Kirjaudu sisään uudelleen.",
+    "forbidden": "Sinulla ei ole oikeutta tähän.",
+    "notFound": "Etsimääsi ei enää ole olemassa.",
+    "tooManyRequests": "Liian monta yritystä lyhyessä ajassa. Odota hetki ja yritä uudelleen.",
+    "retry": "Yritä uudelleen",
+    "login": "Kirjaudu sisään"
+  },
+  "zod": {
+    "invalidExpoToken": "Virheellinen Expo-push-tunnus",
+    "invalidUrl": "Virheellinen URL",
+    "webhookEventRequired": "Valitse vähintään yksi tapahtumatyyppi",
+    "descriptionRequired": "Kuvaus on pakollinen",
+    "hoursMin": "Tuntien on oltava vähintään 0,01",
+    "endAfterStart": "Päättymisajan on oltava alkamisajan jälkeen",
+    "cursorOrOffset": "Käytä joko cursoria tai offsetia, ei molempia",
+    "dateFormat": "Päivämäärän muodon on oltava yyyy-MM-dd",
+    "clientOrProject": "Määritä joko asiakas tai projekti",
+    "nameMin2": "Nimessä on oltava vähintään 2 merkkiä",
+    "invalidEmailShort": "Anna kelvollinen sähköpostiosoite",
+    "scopeRequired": "Vähintään yksi scope vaaditaan",
+    "approvalScope": "period vaatii periodStart+periodEnd; invoice_draft vaatii invoiceId",
+    "invalidEmail": "Anna kelvollinen sähköpostiosoite",
+    "messageMax500": "Viestissä saa olla enintään 500 merkkiä",
+    "selectProjectClientOrDescription": "Valitse projekti tai asiakas tai täytä kuvaus",
+    "subjectMin5": "Aiheessa on oltava vähintään 5 merkkiä",
+    "messageMin10": "Viestissä on oltava vähintään 10 merkkiä",
+    "invalidDate": "Virheellinen päivämäärä",
+    "atLeastOneWorkday": "Vähintään yhdellä arkipäivällä on oltava työaikaa",
+    "duplicateDate": "Sama päivämäärä lisättiin kahdesti",
+    "nameRequired": "Nimi on pakollinen",
+    "invalidEmailDash": "Virheellinen sähköpostiosoite",
+    "selectProjectClientOrDescriptionShort": "Valitse projekti/asiakas tai täytä kuvaus",
+    "amountRequired": "Summa on pakollinen",
+    "amountPositive": "Summan on oltava suurempi kuin 0",
+    "amountTooLarge": "Summa on liian suuri",
+    "amountDecimals": "Summassa saa olla enintään 2 desimaalia",
+    "selectClient": "Valitse asiakas",
+    "issueDateRequired": "Laskupäivä on pakollinen",
+    "unknownTool": "Tuntematon työkalu",
+    "invalidCostRate": "Virheellinen kustannushinta",
+    "companyNameMin2": "Yrityksen nimessä on oltava vähintään 2 merkkiä",
+    "invalidEmailAddress": "Virheellinen sähköpostiosoite",
+    "hourlyRateMin0": "Tuntihinnan on oltava vähintään 0",
+    "confirmProjectName": "Vahvista kirjoittamalla projektin nimi",
+    "enterName": "Anna nimesi",
+    "invalidNumber": "Virheellinen luku",
+    "descriptionMissing": "Kuvaus puuttuu",
+    "invalidDateFormat": "Virheellinen päivämäärä (odotettu yyyy-mm-dd)",
+    "nameMissing": "Nimi puuttuu",
+    "hoursRequired": "Tunnit ovat pakollisia",
+    "atLeastOneRecipient": "Vähintään yksi vastaanottaja",
+    "invalidHexColor": "Virheellinen hex-väri",
+    "titleRequired": "Otsikko on pakollinen",
+    "textRequired": "Teksti on pakollinen",
+    "invalidImageUrl": "Virheellinen kuvan URL",
+    "enterDays": "Anna päivien määrä",
+    "invalidColor": "Virheellinen väri",
+    "dateYmd": "Päivämäärä muodossa YYYY-MM-DD",
+    "noteRequired": "Kirjoita muistiinpano",
+    "unlockReason": "Kirjoita syy lukituksen avaamiselle",
+    "reasonRequired": "Anna syy",
+    "reopenReason": "Kirjoita syy uudelleen avaamiselle",
+    "templateNameRequired": "Anna pohjalle nimi",
+    "employeeOrDepartment": "Valitse joko työntekijä tai osasto",
+    "formatMmDd": "Muodon on oltava KK-PP (MM-DD)"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "Asiakas luotu",
+      "clientUpdated": "Asiakas päivitetty",
+      "clientArchived": "Asiakas arkistoitu",
+      "projectCreated": "Projekti luotu",
+      "projectUpdated": "Projekti päivitetty",
+      "projectStatusChanged": "Projektin tila muuttunut",
+      "projectBudgetThreshold": "Kuukausibudjetin raja saavutettu",
+      "timeEntryCreated": "Tuntikirjaus luotu",
+      "timeEntryUpdated": "Tuntikirjaus päivitetty",
+      "timeEntryDeleted": "Tuntikirjaus poistettu",
+      "invoiceCreated": "Lasku luotu",
+      "invoiceSent": "Lasku lähetetty",
+      "invoicePaid": "Lasku maksettu",
+      "invoiceOverdue": "Lasku erääntynyt",
+      "prepaidCreated": "Tuntipaketti luotu",
+      "prepaidUpdated": "Tuntipaketti päivitetty",
+      "prepaidLowBalance": "Tuntipaketin saldo alhainen",
+      "prepaidExpired": "Tuntipaketti vanhentunut",
+      "taskCreated": "Tehtävä luotu",
+      "taskUpdated": "Tehtävä päivitetty",
+      "taskCompleted": "Tehtävä valmistunut"
+    }
+  },
+  "clients": {
+    "invalidDomain": "Virheellinen verkkotunnus: {domain}",
+    "roundingRequired": "roundingMinutes ja roundingMethod on asetettava, kun roundingEnabled on tosi"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "Webhook-URL:ää ei voi näyttää. Luo uusi URL."
+  },
+  "desktop": {
+    "licenseMismatch": "Lisenssiavainta ja sähköpostiosoitetta ei voitu yhdistää. Tarkista ne tai ota yhteyttä tukeen."
+  },
+  "common": {
+    "unknownProject": "Tuntematon projekti",
+    "unknownError": "Tuntematon virhe",
+    "noProject": "Ei projektia",
+    "unknownClient": "Tuntematon asiakas",
+    "unknown": "Tuntematon"
+  },
+  "search": {
+    "invoiceTitle": "Lasku {number}",
+    "timeEntryTitle": "Tuntikirjaus",
+    "timeSubtitle": "{project} • {hours} h",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • {hours} h jäljellä",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "Kirjautumiskoodi on virheellinen tai vanhentunut. Kirjaudu sisään uudelleen.",
+    "import": {
+      "noWorkRuleNoTarget": "Ei-työsääntö ei viittaa projektiin tai asiakkaaseen",
+      "ruleNeedsTarget": "Säännön on viitattava projektiin tai asiakkaaseen",
+      "linesSumMismatch": "Rivien summa ({sum}) ei ole laskun summa ({amount})",
+      "entryNotImported": "Kirjausta {id} ei tuotu",
+      "companyProfileMissing": "Yrityksen tiedot puuttuvat. Täytä ne kohdassa Asetukset → Yritysprofiili ennen laskujen tuontia.",
+      "fullCreditOnly": "Vain täydet hyvitykset voidaan tuoda: hyvityslaskun summan ({amount}) on oltava laskun summa ({original}) vastakkaisella etumerkillä",
+      "invoiceNotFound": "Laskua {id} ei ole olemassa",
+      "creditNoteAmount": "Hyvityslaskun summan on oltava 0 tai pienempi",
+      "invoiceIsDraft": "Lasku {id} on luonnos, eikä sitä voi hyvittää",
+      "refMissing": {
+        "client": "Asiakasta {id} ei tuotu",
+        "project": "Projektia {id} ei tuotu",
+        "prepaid": "Tuntipakettia {id} ei tuotu",
+        "task": "Tehtävää {id} ei tuotu",
+        "invoice": "Laskua {id} ei tuotu"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "Maksettuja laskuja ei voi muuttaa. Luo tarvittaessa hyvityslasku.",
+      "deleted": "Poistettuja laskuja ei voi palauttaa.",
+      "generic": "Tilaa ei voi vaihtaa tilasta \"{from}\" tilaan \"{to}\"."
+    },
+    "directTime": "Suora aika",
+    "status": {
+      "draft": "luonnos",
+      "sent": "lähetetty",
+      "paid": "maksettu",
+      "overdue": "erääntynyt",
+      "deleted": "poistettu"
+    },
+    "specHeading": "--- Erittely ---",
+    "specLine": "{date} - {project}: {description} ({hours} h × {rate} kr = {amount} kr)"
+  },
+  "logbook": {
+    "endAfterStart": "Loppupäivän on oltava alkupäivän jälkeen",
+    "periodMaxDays": "Jakso voi olla enintään {days} päivää"
+  },
+  "portal": {
+    "manualDeduction": "Manuaalinen vähennys"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "Tuntipaketilla on jo toistuva lasku"
+  },
+  "storeBilling": {
+    "notAvailable": "Sovelluksen sisäiset ostot eivät ole vielä käytettävissä."
+  },
+  "subscription": {
+    "storeManaged": "Tilauksesi maksetaan palvelun {provider} kautta. Voit muuttaa tai peruuttaa sen palvelussa {provider}.",
+    "teamPlanNotConfigured": "Team-pakettia ei ole vielä määritetty (ALUNTA_PLAN_TEAM_*). Ota yhteyttä tukeen.",
+    "businessPlanNotConfigured": "Business-pakettia ei ole vielä määritetty (ALUNTA_PLAN_BUSINESS_*). Ota yhteyttä tukeen.",
+    "privatePlanNotAvailable": "Private-paketti ei ole vielä käytettävissä (ALUNTA_PLAN_PRIVAT_*). Valitse toinen paketti tai ota yhteyttä tukeen.",
+    "freeNotPurchasable": "Free-pakettia ei voi ostaa.",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL ei ole asetettu"
+  },
+  "time": {
+    "invalidEntryDate": "Virheellinen päivämäärä: odotettu YYYY-MM-DD"
+  },
+  "billedLock": {
+    "onInvoice": "Tuntikirjaus on laskutettu, eikä sitä voi muuttaa. Hyvitä lasku tai poista kirjaus luonnoslaskulta ensin.",
+    "marked": "Tuntikirjaus on merkitty laskutetuksi, eikä sitä voi muuttaa. Poista merkintä ensin.",
+    "bulk": {
+      "delete": "{count, plural, one {# valituista tuntikirjauksista on laskutettu, eikä sitä voi poistaa. Hyvitä lasku tai poista merkintä ensin.} other {# valituista tuntikirjauksista on laskutettu, eikä niitä voi poistaa. Hyvitä lasku tai poista merkintä ensin.}}",
+      "edit": "{count, plural, one {# valituista tuntikirjauksista on laskutettu, eikä sitä voi muuttaa. Hyvitä lasku tai poista merkintä ensin.} other {# valituista tuntikirjauksista on laskutettu, eikä niitä voi muuttaa. Hyvitä lasku tai poista merkintä ensin.}}",
+      "move": "{count, plural, one {# valituista tuntikirjauksista on laskutettu, eikä sitä voi siirtää. Hyvitä lasku tai poista merkintä ensin.} other {# valituista tuntikirjauksista on laskutettu, eikä niitä voi siirtää. Hyvitä lasku tai poista merkintä ensin.}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "Tämänniminen toimintatyyppi on jo olemassa",
+    "endAfterStart": "Loppupäivän on oltava alkupäivän jälkeen",
+    "fromBeforeTo": "Alkupäivän on oltava ennen loppupäivää",
+    "periodMaxDays": "Jakso voi olla enintään {days} päivää",
+    "employee": {
+      "importManagerMissing": "Esihenkilöä {email} ei ole tiedostossa eikä organisaatiossa. Työntekijä tuotiin ilman esihenkilöä."
+    },
+    "payroll": {
+      "hrOnly": "Palkkavastaavuudet on varattu HR:lle ja ylläpitäjille"
+    },
+    "closing": {
+      "changedMeanwhile": "Yhteenvetoa muutettiin sillä välin. Lataa sivu uudelleen.",
+      "locked": "Jakso on päätetty ja lukittu. Ylläpitäjän on avattava lukitus (syyn kera), ennen kuin kirjauksia voi muuttaa."
+    },
+    "team": {
+      "absenceLabel": "Poissaolo"
+    },
+    "timesheet": {
+      "coveredByRequest": "Päivä kuuluu poissaolopyyntöön, joka on luotu kohdassa Poissaolot. Muokkaa sitä siellä.",
+      "otherTypeAbsence": "Sinulla on jo toisentyyppinen poissaolo tälle päivälle",
+      "absenceRecordedElsewhere": "Poissaolo kirjattiin samaan aikaan muualta. Lataa viikko uudelleen.",
+      "overMax": "{label}: {total} h ylittää päivän enimmäismäärän {max} h",
+      "emptyWorkday": "{label} on työpäivä, jolla ei ole kirjauksia eikä poissaoloa",
+      "overNorm": "{label}: {total} h ylittää normisi {norm} h",
+      "weekOverNorm": "Viikko: {total} h ylittää viikkonormisi {norm} h",
+      "autoLocked": "Viikko on lukittu. Edellinen viikko lukitaan {day}. Pyydä esihenkilöäsi korjaamaan se.",
+      "automatically": "automaattisesti",
+      "rollingLocked": "Organisaatio on lukinnut kirjaukset, jotka ovat vanhempia kuin {weeks}. Pyydä esihenkilöäsi korjaamaan ne.",
+      "weeks": "{count, plural, one {# viikko} other {# viikkoa}}"
+    },
+    "workPlans": {
+      "notBackwards": "Suunnitelmaa ei voi muuttaa takautuvasti. Valitse tämä päivä tai myöhempi päivämäärä."
+    },
+    "absenceCap": {
+      "used": "{type} on käytetty loppuun vuodelle {year} (yläraja {cap} päivää vuodessa)",
+      "left": "Vuodelle {year} on jäljellä vain {remaining} / {cap} päivää: {type}"
+    },
+    "rule": {
+      "avgViolation": "48 tunnin sääntö: viitejakson keskiarvo on {avg} h/viikko (raja {limit} h)",
+      "avgWarning": "48 tunnin sääntö: viitejakson keskiarvo on {avg} h/viikko ja lähestyy rajaa {limit} h",
+      "weekInfo": "48 tunnin sääntö: viikko on nyt {week} h; viitejakson keskiarvo on yhä alle {limit} h",
+      "restBefore": "11 tunnin lepo: vain {rest} h lepoa ennen työtä päivänä {day} (vaaditaan {limit} h)",
+      "daySum": "11 tunnin lepo: päivälle {day} kirjatut {total} h jättävät alle {limit} h lepoa (enintään {max} h päivässä)",
+      "weeklyRest": "24 tunnin viikkolepo: pisin yhtäjaksoinen lepo viikolla alkaen {day} on {rest} h (vaaditaan {limit} h)",
+      "noFreeDay": "24 tunnin viikkolepo: työtä on kirjattu kaikille 7 päivälle viikolla alkaen {day}, eikä kokonaista vapaapäivää ole"
+    },
+    "employment": {
+      "endBeforeStart": "Loppupäivä ei voi olla ennen alkupäivää",
+      "onlyFirstUnknown": "Vain ensimmäisen jakson alkupäivä voi olla tuntematon",
+      "startAfterPrevStart": "Alkupäivän on oltava edellisen jakson alkupäivän jälkeen ({date})",
+      "startAfterPrevEnd": "Alkupäivän on oltava edellisen työsuhteen päättymisen jälkeen ({date})",
+      "endBeforeNext": "Loppupäivän on oltava ennen seuraavan jakson alkua ({date})",
+      "endDayBeforeNext": "Loppupäivän on oltava seuraavan jakson alkua edeltävä päivä ({date}). Siirrä sen sijaan seuraavan jakson alkupäivää."
+    },
+    "import": {
+      "fileEmpty": "Tiedosto on tyhjä",
+      "headerEmployees": "Otsikkorivillä on oltava vähintään sarakkeet \"navn\" ja \"email\"",
+      "nameMissing": "Nimi puuttuu",
+      "invalidEmail": "Virheellinen sähköpostiosoite: \"{value}\"",
+      "duplicate": "Kaksoiskappale tiedostossa: {email}",
+      "unknownRole": "Tuntematon rooli: \"{value}\" (käytä medarbejder/leder/admin)",
+      "invalidWeeklyHours": "Virheellinen tuntimäärä: \"{value}\" (1-60)",
+      "invalidStartDate": "Virheellinen alkupäivä: \"{value}\" (käytä YYYY-MM-DD)",
+      "invalidManagerEmail": "Virheellinen esihenkilön sähköpostiosoite: \"{value}\"",
+      "headerEntries": "Otsikkorivillä on oltava sarakkeet \"email\" (tai \"medarbejder\"), \"dato\" ja \"timer\"",
+      "invalidDate": "Virheellinen päivämäärä: \"{value}\" (käytä YYYY-MM-DD)",
+      "invalidHours": "Virheellinen tuntimäärä: \"{value}\" (0-24)"
+    },
+    "period": {
+      "pickBoth": "Valitse sekä alku- että loppupäivä",
+      "fromBeforeToOrSame": "Alkupäivän on oltava sama tai ennen loppupäivää",
+      "maxDaysShorter": "Jakso voi olla enintään {days} päivää. Valitse lyhyempi väli."
+    },
+    "vacation": {
+      "notEnough": "Lomapäiviä ei ole tarpeeksi poolissa {pool}. Sinulla on {remaining} päivää jäljellä, mutta kirjaus vaatii {deducted} päivää{tolerance}.",
+      "overdraftAllowed": " (ylitys sallittu: {days} päivää)",
+      "overdraftNotAllowed": " (ylitys ei ole sallittu)"
+    },
+    "workPlan": {
+      "rotation": "Kierron on oltava 1 tai 2 viikkoa",
+      "weekCount": "Viikkojen määrä ei vastaa kiertoa",
+      "invalidWeekday": "Virheellinen viikonpäivä{label}",
+      "duplicateWeekday": "Viikonpäivä esiintyy kahdesti{label}",
+      "timeFormat": "Ajat on kirjoitettava muodossa HH:MM{label}",
+      "endAfterStart": "Päättymisajan on oltava alkamisajan jälkeen{label}",
+      "breakRange": "Tauon on oltava 0-240 minuuttia{label}",
+      "breakShorter": "Tauon on oltava työpäivää lyhyempi{label}",
+      "inWeek": " viikolla {week}",
+      "enterBothTimes": "Anna sekä alkamis- että päättymisaika muodossa HH:MM",
+      "endAfterStartPlain": "Päättymisajan on oltava alkamisajan jälkeen",
+      "breakShorterPlain": "Tauon on oltava työpäivää lyhyempi",
+      "rangeOrHours": "Anna aikaväli tai 0-24 tuntia"
+    },
+    "closure": {
+      "overlap": "on jo poissaolo jaksolla",
+      "noWorkingDays": "ei ole työpäiviä jaksolla",
+      "balance": "ei ole tarpeeksi lomapäiviä",
+      "error": "ei voitu luoda (tekninen virhe)"
+    },
+    "workPlanExport": {
+      "planned": "Suunnitelman mukaan",
+      "deviation": "Poikkeama",
+      "dayOff": "Vapaapäivä",
+      "absence": "Poissaolo",
+      "free": "Vapaa suunnitelman mukaan",
+      "hDate": "Päivämäärä",
+      "hStatus": "Tila",
+      "hPlan": "Suunnitelma",
+      "hPlanHours": "Suunnitelma (tunnit)",
+      "hRegisteredRange": "Kirjattu aikaväli",
+      "hBreak": "Tauko (min)",
+      "hRegisteredHours": "Kirjattu (tunnit)",
+      "hDayOff": "Vapaapäivä",
+      "hNote": "Muistiinpano",
+      "hEditedBy": "Muokannut",
+      "hEditedUtc": "Muokattu (UTC)"
+    },
+    "payrollXlsx": {
+      "sheet": "Palkka",
+      "period": "Jakso: {period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "Yrityksesi nimi",
+      "yourName": "Nimesi",
+      "yourEmail": "Sähköpostiosoitteesi",
+      "yourPhone": "Puhelinnumerosi",
+      "clientFullName": "Asiakkaan koko nimi",
+      "clientCompany": "Asiakkaan yrityksen nimi",
+      "clientEmail": "Asiakkaan sähköpostiosoite",
+      "portalLink": "Linkki asiakasportaaliin",
+      "invoiceNumber": "Laskunumero",
+      "totalInclVat": "Kokonaissumma sisältäen ALV:n",
+      "amountExclVat": "Summa ilman ALV:tä",
+      "issueDate": "Laskupäivä",
+      "paymentDeadline": "Eräpäivä",
+      "invoiceStatus": "Maksettu/Maksamaton/Erääntynyt",
+      "invoiceLink": "Suora linkki laskuun",
+      "daysLate": "Myöhästyneiden päivien määrä",
+      "projectName": "Projektin nimi",
+      "projectStatus": "Aktiivinen/Valmis/Tauolla",
+      "hoursUsed": "Käytetyt tunnit",
+      "projectLink": "Linkki projektiin portaalissa",
+      "prepaidName": "Tuntipaketin nimi",
+      "hoursRemaining": "Jäljellä olevat tunnit",
+      "hoursTotal": "Tunnit yhteensä",
+      "percentUsed": "Käytetty prosentti",
+      "expiryDate": "Voimassaolon päättymispäivä",
+      "daysToExpiry": "Päiviä voimassaolon päättymiseen",
+      "hoursForApproval": "Hyväksyttävät tunnit yhteensä",
+      "entryCount": "Tuntikirjausten määrä",
+      "period": "Ajanjakso",
+      "approvalLink": "Linkki hyväksyntäsivulle",
+      "loginLink": "Linkki portaalin kirjautumiseen",
+      "invitationLink": "Kutsulinkki",
+      "invitationExpiry": "Kutsun voimassaolon päättymispäivä"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "ALV Q{n}",
+    "vatHalfTitle": "ALV H{n}",
+    "vatQuarterDesc": "Neljänneksen ALV:n ilmoitus ja maksu Tanskan verovirastolle (Skattestyrelsen).",
+    "vatHalfDesc": "Puolivuotiskauden ALV:n ilmoitus ja maksu Tanskan verovirastolle (Skattestyrelsen).",
+    "vatMonthTitle": "ALV {month}",
+    "vatMonthDesc": "Jakson {month} {year} ALV:n ilmoitus ja maksu Tanskan verovirastolle (Skattestyrelsen).",
+    "bSkatSpring": "Ennakkovero, B-skat (kevät)",
+    "bSkatAutumn": "Ennakkovero, B-skat (syksy)",
+    "bSkatDesc": "B-skat-ennakkoveron maksu Tanskan verovirastolle (Skattestyrelsen). Koskee yksityisyrittäjiä ja freelancereita.",
+    "formTitle": "Veroilmoitus {year}",
+    "formDesc": "Tulovuoden {year} veroilmoituksen (oplysningsskema) jättäminen Tanskan verovirastolle (Skattestyrelsen).",
+    "amTitle": "Työmarkkinamaksu (AM) Q{n}",
+    "amDesc": "Yksityisyrittäjien työmarkkinamaksun (AM-bidrag) maksu neljännekseltä.",
+    "arTitle": "Vuosikertomus tilikausi {year}",
+    "arDesc": "Vuosikertomus on toimitettava Tanskan yritysvirastolle (Erhvervsstyrelsen) viimeistään 5 kuukautta tilikauden päättymisen jälkeen.",
+    "agmTitle": "Yhtiökokous tilikausi {year}",
+    "agmDesc": "Varsinainen yhtiökokous vuosikertomuksen hyväksymiseksi.",
+    "corpFormTitle": "Yhtiön veroilmoitus tilikausi {year}",
+    "corpFormDesc": "Yhtiön tilikauden veroilmoitus (oplysningsskema) on toimitettava Tanskan verovirastolle (Skattestyrelsen).",
+    "corpTaxSpring": "Yhteisöveron ennakko (kevät)",
+    "corpTaxAutumn": "Yhteisöveron ennakko (syksy)",
+    "corpTaxDesc": "Yhteisöveron ennakkomaksu Tanskan verovirastolle (Skattestyrelsen).",
+    "corpFinalTitle": "Yhteisöveron lopullinen tilitys {year}",
+    "corpFinalDesc": "Jäljellä olevan yhteisöveron (jäännösvero) maksu tulovuodelta {year}.",
+    "payrollTitle": "A-skat/AM-maksu {month}",
+    "payrollDesc": "A-skatin ja AM-maksun ilmoitus ja maksu palkkakaudelta {month} {year}.",
+    "holidayPayTitle": "Lomaraha Q{n}",
+    "holidayPayDesc": "Lomarahan ilmoitus ja maksu Feriekontolle (Tanskan lomarahasto) neljännekseltä."
+  },
+  "integrations": {
+    "authExpired": "Yhteys: {name} on vanhentunut tai virheellinen. Yhdistä uudelleen kohdassa Asetukset → Integraatiot.",
+    "billy": {
+      "keyRequired": "Billyn API-avain vaaditaan",
+      "productDescription": "TimeTrackista tuodut tunnit"
+    },
+    "dinero": {
+      "keyRequired": "Dineron API-avain vaaditaan",
+      "orgIdRequired": "Dineron organisaatiotunnus vaaditaan",
+      "tokenFailed": "Dineron tunnuksen haku epäonnistui",
+      "refreshMissing": "Dineron uusimistunnus puuttuu",
+      "expiredReconnect": "Dineron yhteys on vanhentunut. Yhdistä uudelleen.",
+      "orgsFailed": "Dineron organisaatioiden haku epäonnistui"
+    },
+    "economic": {
+      "secretRequired": "e-conomicin App Secret Token vaaditaan",
+      "grantRequired": "e-conomicin Agreement Grant Token vaaditaan",
+      "consultingHours": "Konsultointityö: {hours} tuntia"
+    },
+    "timeops": {
+      "invalidKey": "API-avain on virheellinen tai vanhentunut",
+      "premium": "Tarvitset TimeOps Premiumin käyttääksesi sen APIa",
+      "network": "Yhteyttä TimeOpsiin ei saatu muodostettua. Yritä myöhemmin uudelleen.",
+      "unexpected": "TimeOpsiin yhdistettäessä tapahtui odottamaton virhe ({detail})"
+    },
+    "icloud": {
+      "syncFailed": "iCloud-synkronointi epäonnistui",
+      "storageMissing": "iCloudia ei voi yhdistää juuri nyt, koska palvelimella ei ole määritetty turvallista salasanojen tallennusta. Ota yhteyttä tukeen.",
+      "rejected": "Apple ID tai sovelluskohtainen salasana hylättiin. Tarkista, että kopioit koko sovelluskohtaisen salasanan (ei tavallista Apple-salasanaasi).",
+      "notConnected": "iCloudia ei ole yhdistetty",
+      "notConnectedShort": "Ei yhteyttä iCloudiin",
+      "calendarGone": "Kalenteria \"{name}\" ei enää ole iCloudissa. Valitse kalenterit uudelleen.",
+      "unknownCalendar": "tuntematon"
+    },
+    "caldav": {
+      "unknown": "iCloud-synkronointi epäonnistui: {message}",
+      "auth": "Apple hylkäsi kirjautumisen. Luo uusi sovelluskohtainen salasana osoitteessa appleid.apple.com ja yhdistä iCloud uudelleen.",
+      "network": "Yhteyttä iCloudiin ei saatu juuri nyt. Yritämme automaattisesti uudelleen."
+    },
+    "cvr": {
+      "invalid": "CVR-numerossa on oltava 8 numeroa",
+      "notFound": "Tällä CVR-numerolla ei löytynyt yritystä",
+      "rateLimited": "CVR-hakuja on väliaikaisesti rajoitettu. Yritä hetken kuluttua uudelleen tai täytä kentät itse.",
+      "timeout": "CVR-rekisteri ei vastaa juuri nyt. Yritä hetken kuluttua uudelleen tai täytä kentät itse.",
+      "unavailable": "CVR-haku ei toimi juuri nyt. Yritä hetken kuluttua uudelleen tai täytä kentät itse."
+    },
+    "google": {
+      "readOnly": "Google Kalenterisi on yhdistetty vain lukuoikeuksin, joten TimeTrack ei saa luoda tai muuttaa siinä tapahtumia. Myönnä kirjoitusoikeus kohdassa Asetukset → Integraatiot → Google Kalenteri, jos haluat käyttää tätä ominaisuutta.",
+      "freeSlot": "Vapaa aika kalenterissa",
+      "deadlineIn": "Määräaika {count, plural, one {# päivän} other {# päivän}} kuluttua",
+      "urgent": "Kiireellinen prioriteetti",
+      "high": "Korkea prioriteetti",
+      "clientLine": "Asiakas: {name}",
+      "projectLine": "Projekti: {name}",
+      "hoursLine": "Tunnit: {hours}",
+      "exportedFrom": "Viety TimeTrackista"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "Tuntikirjaus",
+    "timeOnProject": "{hours} tuntia projektille {name}",
+    "timeForClient": "{hours} tuntia asiakkaalle {name}",
+    "timeOnly": "{hours} tuntia",
+    "invoiceTitle": "Lasku {number}",
+    "invoiceDescription": "{amount} kr asiakkaalle {client}",
+    "newClient": "Uusi asiakas: {name}",
+    "noContact": "Ei yhteystietoja",
+    "newProject": "Uusi projekti: {name}",
+    "projectFor": "Asiakkaalle {client}",
+    "internal": "Sisäinen"
+  }
+}

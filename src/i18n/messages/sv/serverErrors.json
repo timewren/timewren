@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "Du är inte längre medlem i den organisationen.",
+    "noAccessToFeature": "Du har inte åtkomst till den här funktionen",
+    "adminsOnly": "Bara administratörer har åtkomst till den här funktionen",
+    "subscriptionRequired": "Du behöver en aktiv prenumeration för att använda den här funktionen",
+    "subscriptionExpired": "Din prenumeration har gått ut. Förnya den för att fortsätta.",
+    "roleNoAccess": "Din roll har inte åtkomst till den här åtgärden",
+    "moduleDisabled": "Modulen \"{module}\" är inte aktiverad för den här organisationen."
+  },
+  "alunta": {
+    "clientAlreadyMapped": "Den här kunden har redan en aktiv Alunta-koppling",
+    "mappingNotFound": "Kopplingen hittades inte"
+  },
+  "common": {
+    "clientNotFound": "Kunden hittades inte",
+    "webhookNotFound": "Webhooken hittades inte",
+    "projectNotFound": "Projektet hittades inte",
+    "unknownError": "Okänt fel",
+    "notOrgMember": "Du är inte medlem i den här organisationen",
+    "noAccessToClient": "Du har inte åtkomst till den här kunden",
+    "templateNotFound": "Mallen hittades inte",
+    "unknownClient": "Okänd kund",
+    "rateLimited": "För många förfrågningar. Försök igen om {seconds} sekunder.",
+    "taskNotFound": "Uppgiften hittades inte",
+    "timeEntryNotFound": "Tidposten hittades inte",
+    "invoiceNotFound": "Fakturan hittades inte",
+    "unknownProjectName": "Okänt projekt",
+    "userNotFound": "Användaren hittades inte",
+    "invalidDate": "Ogiltigt datum",
+    "prepaidNotFound": "Timbanken hittades inte",
+    "notFound": "Hittades inte",
+    "notOrgMemberShort": "Du är inte medlem i den organisationen",
+    "periodLocked": "Perioden före {date} är låst av organisationen. Kontakta en administratör."
+  },
+  "webhooks": {
+    "noValidEvents": "Inga giltiga händelsetyper har valts"
+  },
+  "time": {
+    "defaultRateName": "Ditt standardpris",
+    "chooseOnePrepaidOrNone": "Välj antingen en timbank eller ingen",
+    "taskNotFound": "Uppgiften hittades inte",
+    "entryExists": "Tidposten finns redan",
+    "prepaidNotFound": "Timbanken hittades inte",
+    "prepaidOtherClient": "Timbanken tillhör en annan kund än tidpostens kund",
+    "onInvoiceUnmark": "{count, plural, one {# av de valda tidposterna finns på en faktura. Kreditera fakturan eller ta bort posterna från fakturautkastet innan du tar bort markeringen.} other {# av de valda tidposterna finns på en faktura. Kreditera fakturan eller ta bort posterna från fakturautkastet innan du tar bort markeringen.}}",
+    "invalidWeek": "Ogiltig vecka",
+    "importInvalidDate": "Ogiltigt datum: \"{date}\"",
+    "importNoProjectOrClient": "Hittade inte projektet \"{project}\" eller kunden \"{client}\""
+  },
+  "resourcePlan": {
+    "needsOrg": "Resursplanen kräver en organisation",
+    "ownEmployeesOnlyView": "Du kan bara se planen för dina egna anställda",
+    "managersOnly": "Bara ägaren, administratörer eller chefer kan planera",
+    "weekMonday": "Veckan måste anges med sin måndag",
+    "ownEmployeesOnlyPlan": "Du kan bara planera för dina egna anställda",
+    "notInOrg": "Den anställde, projektet eller aktiviteten finns inte i organisationen"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "Köp av skrivbordsappen är inte konfigurerat ännu. Försök igen senare eller kontakta supporten.",
+    "includedInCloud": "Skrivbordsappen ingår redan i din {brand} Cloud-prenumeration, så du behöver ingen separat licens. Logga in och ladda ner appen från översikten.",
+    "checkoutFailed": "Det gick inte att skapa betalningslänken.",
+    "licenseAlreadyInactive": "Licensen är redan avaktiverad eller återbetald.",
+    "notAutoRefundable": "Den här licensen kan inte återbetalas automatiskt. Kontakta supporten.",
+    "refundWindowExpired": "Ångerperioden på {days} dagar har gått ut för det här köpet.",
+    "tooManyAttempts": "För många försök. Vänta en stund och försök igen.",
+    "noLicenseFound": "Ingen licens hittades.",
+    "noActiveLicenseToRefund": "Ingen aktiv licens att återbetala.",
+    "licenseNotAutoRefundable": "Licensen kan inte återbetalas automatiskt. Kontakta supporten.",
+    "refundWindowExpiredShort": "Ångerperioden på {days} dagar har gått ut."
+  },
+  "taskStatuses": {
+    "laneNotFound": "Kolumnen hittades inte",
+    "lanesNotFound": "En eller flera kolumner hittades inte",
+    "crossContext": "Det går inte att ändra ordningen på kolumner mellan olika sammanhang",
+    "destinationRequired": "En målkolumn krävs eftersom kolumnen innehåller uppgifter",
+    "destinationNotFound": "Målkolumnen hittades inte",
+    "destinationContext": "Målkolumnen måste finnas i samma sammanhang"
+  },
+  "scheduledRates": {
+    "notFound": "Den schemalagda prisändringen hittades inte",
+    "rateFormat": "Timpriset måste vara ett belopp på 0 eller mer med högst två decimaler",
+    "dateFormat": "Datumet måste ha formatet ÅÅÅÅ-MM-DD",
+    "laterApplied": "En prisändring har redan tillämpats per {date}. En ny ändring måste börja gälla från samma datum eller senare.",
+    "alreadyApplied": "Prisändringen har redan tillämpats och kan inte avbrytas. Ändra i stället timpriset på kunden/projektet.",
+    "appliedMeanwhile": "Prisändringen tillämpades under tiden och kan inte avbrytas."
+  },
+  "broadcasts": {
+    "notFound": "Utskicket hittades inte",
+    "confirmNameMismatch": "Bekräftelsenamnet stämmer inte. Skriv utskickets namn exakt."
+  },
+  "notifications": {
+    "invalidDiscordUrl": "Ogiltig adress till Discord-webhook",
+    "invalidSlackUrl": "Ogiltig adress till Slack-webhook",
+    "noSlackWebhook": "Ingen Slack-webhook är konfigurerad",
+    "noDiscordWebhook": "Ingen Discord-webhook är konfigurerad",
+    "discordTestFailed": "Testet av Discord-webhooken misslyckades",
+    "noPushSubscription": "Ingen pushprenumeration är konfigurerad",
+    "pushTestFailed": "Testet av pushavisering misslyckades",
+    "channelNotFound": "Kanalen hittades inte"
+  },
+  "clients": {
+    "hasInvoices": "En eller flera av de valda kunderna har fakturor. Arkivera dem i stället, eftersom fakturor är bokföringsunderlag och inte kan tas bort.",
+    "hasBilledEntries": "En eller flera av de valda kunderna har fakturerade tidposter. Arkivera dem i stället."
+  },
+  "dashboard": {
+    "prefsTableMissing": "Tabellen för översiktens inställningar finns inte ännu. Kör databasmigreringen."
+  },
+  "clientPortal": {
+    "accessNotFound": "Åtkomsten hittades inte"
+  },
+  "search": {
+    "invoiceTitle": "Faktura {number}"
+  },
+  "ai": {
+    "noOwnKey": "Ange din egen API-nyckel under Inställningar → AI för att använda AI-förslag.",
+    "fillableWithoutAi": "Texten kunde fyllas i utan AI.",
+    "providerFailed": "Din AI-leverantör kunde inte ta fram ett förslag. Kontrollera nyckeln och modellen under Inställningar → AI."
+  },
+  "apiKeys": {
+    "notFound": "API-nyckeln hittades inte",
+    "revokeFirst": "Du måste återkalla nyckeln innan du tar bort den"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "Fakturautkastet hittades inte",
+    "noEntries": "Inga tidposter att skicka för godkännande",
+    "requestNotFound": "Förfrågan hittades inte eller har redan hanterats"
+  },
+  "beta": {
+    "thanks": "Tack för din anmälan! Vi mejlar dig när betan öppnar.",
+    "emailNotAllowed": "Den här e-postadressen kan inte användas för anmälan.",
+    "alreadyOnList": "Den här e-postadressen står redan på betaväntelistan",
+    "signupNotFound": "Betaanmälan hittades inte"
+  },
+  "calendar": {
+    "googleNotConfigured": "Integrationen med Google Kalender är inte konfigurerad",
+    "notConnected": "Inte ansluten till Google Kalender",
+    "scheduledLocally": "Uppgiften har schemalagts lokalt (ingen kalender ansluten)",
+    "timeEntryNotFound": "Tidposten hittades inte",
+    "eventNotFound": "Händelsen hittades inte",
+    "eventMissingTimes": "Händelsen saknar tider",
+    "noConnection": "Ingen kalenderanslutning",
+    "noProject": "Inget projekt",
+    "noConnectionFound": "Ingen kalenderanslutning hittades",
+    "aiFailed": "AI-förslaget misslyckades"
+  },
+  "connectedApps": {
+    "notFound": "Anslutningen finns inte"
+  },
+  "contact": {
+    "thanks": "Tack för ditt meddelande! Vi återkommer så snart vi kan."
+  },
+  "dataExport": {
+    "pending": "Du har redan en väntande exportbegäran. Vänta en stund.",
+    "limit3": "Högst 3 exportbegäranden per 24 timmar. Försök igen senare.",
+    "fullNotEnabled": "Den fullständiga exporten är inte aktiverad ännu.",
+    "orgInProgress": "En export pågår redan för organisationen. Du får ett e-postmeddelande när den är klar.",
+    "orgDailyLimit": "Organisationen kan beställa {limit} exporter per dag. Försök igen i morgon.",
+    "notOrgMemberDot": "Du är inte medlem i organisationen.",
+    "inProgress": "En export pågår redan. Du får ett e-postmeddelande när den är klar.",
+    "dailyLimit": "Du kan beställa {limit} exporter per dag. Försök igen i morgon.",
+    "requestNotFound": "Exportbegäran hittades inte",
+    "cancelPendingOnly": "Bara väntande begäranden kan avbrytas",
+    "importClientNotFound": "{name}: Kunden \"{client}\" hittades inte",
+    "importClientRequired": "{name}: Kund krävs",
+    "importInvoiceClientNotFound": "Faktura {number}: Kunden \"{client}\" hittades inte",
+    "importInvoiceError": "Faktura {number}: {message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "Din avdelning har valt lediga dagar, och de gäller för dig. Du kan inte välja egna lediga dagar.",
+    "blockedOrg": "Din organisation har valt lediga dagar, och de gäller för dig. Du kan inte välja egna lediga dagar.",
+    "blockedEmployee": "Som anställd följer du organisationens lediga dagar. Be en administratör välja lediga dagar för organisationen eller din avdelning.",
+    "orgNeedsOrg": "Lediga dagar för en organisation kräver en organisation",
+    "departmentNeedsBusiness": "Lediga dagar per avdelning kräver planen Business",
+    "departmentNotFound": "Avdelningen finns inte"
+  },
+  "dpa": {
+    "notFromEnv": "Personuppgiftsbiträdesavtalet kan inte godkännas från den här miljön ännu.",
+    "notInOrg": "Du tillhör ingen organisation",
+    "ownersAdminsOnly": "Bara ägare och administratörer kan godkänna avtalet"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "Regeln hittades inte"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "Ett IMAP-lösenord krävs",
+    "cannotDecrypt": "Det lagrade lösenordet kunde inte dekrypteras. Ange ditt IMAP-lösenord igen.",
+    "connectionFailed": "IMAP-anslutningen misslyckades: {message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "Uppgiften hittades inte",
+    "blockBracket": "Blockera e-post med \"[{tag}]\" i ämnesraden",
+    "blockKeyword": "Blockera e-post med \"{keyword}\" i ämnesraden"
+  },
+  "ext": {
+    "notOrgMemberDot": "Du är inte medlem i den organisationen.",
+    "invalidToken": "Ogiltig token",
+    "tooManyAttempts": "För många försök. Försök igen om {seconds} sekunder.",
+    "sessionExpired": "Sessionen har gått ut eller återkallats. Logga in igen.",
+    "tokenExpired": "Token har gått ut",
+    "tokenNotFound": "Token hittades inte",
+    "timerChangedElsewhere": "Timern ändrades från en annan enhet. Försök igen.",
+    "datesFormat": "Datum måste ha formatet ÅÅÅÅ-MM-DD",
+    "prepaidNotFound": "Timbanken hittades inte",
+    "prepaidOtherClient": "Timbanken tillhör en annan kund än posten",
+    "saveEntryFailed": "Det gick inte att spara tidposten",
+    "createInProgress": "Skapandet med den här nyckeln pågår. Försök igen om en stund.",
+    "import": {
+      "alreadyRunning": "En import pågår redan. Vänta tills den är klar."
+    },
+    "projectOrClientNotFound": "Projektet eller kunden hittades inte"
+  },
+  "feedback": {
+    "screenshotFailed": "Skärmbilden kunde inte hämtas från S3"
+  },
+  "imports": {
+    "timeopsConnect": "Det gick inte att ansluta till TimeOps: {detail}",
+    "networkError": "nätverksfel",
+    "apiKeyInvalid": "API-nyckeln är ogiltig eller har gått ut",
+    "alreadyRunning": "En import pågår redan. Slutför den först.",
+    "notFound": "Importen hittades inte",
+    "cannotStart": "Importen kan inte startas från status {status}",
+    "cannotCancel": "Importen kan inte avbrytas i det här läget"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "En timer går redan på \"{project}\" i webbappen. Stoppa den först.",
+    "timerRunningProjectOther": "En timer går redan på \"{project}\" på en annan enhet. Stoppa den först.",
+    "timerRunningAnyWeb": "En timer går redan i webbappen. Stoppa den först.",
+    "timerRunningAnyOther": "En timer går redan på en annan enhet. Stoppa den först."
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "Anslutningen till Dinero har gått ut. Anslut igen under Inställningar.",
+      "notConnectedShort": "Dinero är inte anslutet",
+      "notConnected": "Dinero är inte anslutet",
+      "connectionActive": "Anslutningen till Dinero är aktiv",
+      "connectionFailed": "Det gick inte att ansluta till Dinero",
+      "clientExported": "Kunden har exporterats till Dinero",
+      "invoiceAlreadyExported": "Fakturan har redan exporterats till Dinero",
+      "contactCreateFailed": "Det gick inte att skapa kunden \"{name}\" i Dinero: API:et returnerade inget kontakt-ID. Försök exportera kunden manuellt först.",
+      "noAccount": "Inget kontonummer är konfigurerat. Välj ett standardkonto under Inställningar → Dinero.",
+      "invoiceExported": "Fakturan har exporterats till Dinero",
+      "invoiceNotExported": "Fakturan har inte exporterats till Dinero",
+      "noPending": "Ingen väntande Dinero-anslutning hittades. Försök ansluta igen.",
+      "invalidOrg": "Ogiltig organisation vald",
+      "tokensDecryptFailed": "Det gick inte att dekryptera tokens. Försök ansluta igen."
+    },
+    "billy": {
+      "noApiKey": "Billy API-nyckel är inte angiven",
+      "decryptFailed": "Det gick inte att dekryptera Billy API-nyckeln",
+      "connectionActive": "Anslutningen till Billy är aktiv",
+      "connectionFailed": "Det gick inte att ansluta till Billy",
+      "clientExported": "Kunden har exporterats till Billy",
+      "invoiceAlreadyExported": "Fakturan har redan exporterats till Billy",
+      "clientCreateFailed": "Det gick inte att skapa eller hitta kunden i Billy",
+      "productWithoutId": "Billy returnerade en produkt utan ID: {json}",
+      "invoiceWithoutId": "Billy returnerade en faktura utan ID: {json}",
+      "invoiceExported": "Fakturan har exporterats till Billy",
+      "exportFailed": "Det gick inte att exportera till Billy: {message}",
+      "invoiceNotExported": "Fakturan har inte exporterats till Billy"
+    },
+    "unknownErrorOccurred": "Ett okänt fel uppstod",
+    "invoiceMissingClient": "Fakturan saknar kund",
+    "economic": {
+      "noTokens": "e-conomic-tokens är inte angivna",
+      "decryptFailed": "Det gick inte att dekryptera e-conomic-tokens",
+      "connectionActive": "Anslutningen till e-conomic är aktiv",
+      "connectionFailed": "Det gick inte att ansluta till e-conomic",
+      "clientExported": "Kunden har exporterats till e-conomic",
+      "paymentTermsMissing": "Betalningsvillkor saknas. Välj dem under Inställningar → Integrationer.",
+      "invoiceAlreadyExported": "Fakturan har redan exporterats till e-conomic",
+      "consultingLine": "Konsultarbete: {hours} timmar",
+      "invoiceBooked": "Fakturan har bokförts i e-conomic",
+      "invoiceDraftCreated": "Fakturan har skapats som utkast i e-conomic",
+      "invoiceNotExported": "Fakturan har inte exporterats till e-conomic"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: Det gick inte att identifiera datumformatet automatiskt. Välj det manuellt.",
+      "noValidRows": "Inga giltiga rader hittades i CSV-filen.",
+      "unknownClient": "Okänd kund"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "Företagsuppgifterna saknas. De måste stå på fakturan, så fyll i dem under Inställningar → Företagsprofil (eller be en administratör) innan du skapar den första fakturan.",
+    "templateNotFound": "Fakturamallen hittades inte",
+    "issuedCannotChange": "Utfärdade fakturor kan inte ändras. Skapa en kreditfaktura för att rätta belopp eller villkor.",
+    "deletedCannotEdit": "Borttagna fakturor kan inte redigeras.",
+    "paidNotesOnly": "Betalda fakturor kan inte redigeras. Du kan bara lägga till anteckningar.",
+    "draftsOnlyDelete": "Bara utkast kan tas bort. Makulera utfärdade fakturor i stället.",
+    "creditNoteNotCreditable": "En kreditfaktura kan inte krediteras",
+    "draftNotCreditable": "Utkast krediteras inte. Ta bort utkastet i stället (det har inget utfärdat nummer).",
+    "deletedNotCreditable": "Borttagna fakturor kan inte krediteras",
+    "alreadyCredited": "Fakturan har redan krediterats av {number}",
+    "creditNoteNotes": "Kreditfaktura för faktura {number} daterad {date}",
+    "draftOnlyAddLines": "Rader kan bara läggas till på fakturautkast",
+    "timeEntryNotFound": "Tidposten hittades inte",
+    "lineNotFound": "Fakturaraden hittades inte",
+    "draftOnlyEditLines": "Rader kan bara redigeras på fakturautkast",
+    "draftOnlyDeleteLines": "Rader kan bara tas bort från fakturautkast",
+    "draftOnlyReorder": "Ordningen kan bara ändras på fakturautkast",
+    "clientHasNoEmail": "Kunden har ingen e-postadress"
+  },
+  "logbook": {
+    "ownOnly": "Du kan bara se din egen körjournal",
+    "notInYourOrg": "Användaren är inte medlem i din organisation",
+    "noAccessWaste": "Du har inte åtkomst till organisationens bortkastade tid"
+  },
+  "marketing": {
+    "tooManyAttempts": "För många försök. Försök igen senare."
+  },
+  "memberRates": {
+    "membersNotInOrg": "En eller flera medlemmar finns inte i organisationen"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "Din organisations ägare hanterar prenumerationen, så du behöver inte välja en plan.",
+    "privatePlanUnavailable": "Planen Privat är inte tillgänglig ännu. Välj en annan plan."
+  },
+  "organization": {
+    "requiresOrg": "Kräver en organisation",
+    "noActiveOrg": "Ingen aktiv organisation",
+    "moduleNotAssigned": "Modulen \"{module}\" är inte tilldelad den här organisationen",
+    "moduleUnavailable": "Modulen \"{module}\" är inte tillgänglig för dig. Kontakta supporten.",
+    "noSelfTransfer": "Du kan inte överlåta ägarskapet till dig själv",
+    "ownerOnlyTransfer": "Bara ägaren kan överlåta ägarskapet",
+    "memberNotFound": "Medlemmen hittades inte"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "Bara ägare och administratörer kan se aktivitetsloggen"
+  },
+  "portalBranding": {
+    "noDomain": "Ingen domän att verifiera",
+    "verifyFailed": "Domänen kunde inte verifieras. Kontrollera att DNS TXT-posten '_timetrack-verify.{domain}' innehåller token: {token}"
+  },
+  "prepaid": {
+    "invalidHours": "Ogiltigt antal timmar för timbanksavdraget",
+    "otherClient": "Timbanken tillhör en annan kund än tidpostens kund",
+    "inactive": "Timbanken är inte aktiv",
+    "expired": "Timbanken har gått ut",
+    "insufficientHours": "Det finns inte tillräckligt många timmar kvar på timbanken. Tillgängliga timmar: {available}",
+    "insufficientHoursClip": "Det finns inte tillräckligt många timmar kvar på timbanken. Tillgängliga timmar: {available}, kräver {required}h (avrundat uppåt till block på {minutes} minuter)",
+    "multipleClients": "De valda tidposterna tillhör flera kunder. Välj poster från bara en kund.",
+    "entriesNotFound": "En eller flera tidposter hittades inte",
+    "alreadyBilled": "{count, plural, one {# av de valda tidposterna är redan fakturerad och kan inte dras från timbanken} other {# av de valda tidposterna är redan fakturerade och kan inte dras från timbanken}}",
+    "foreignEntries": "{count, plural, one {# tidpost tillhör en annan kund än timbanken} other {# tidposter tillhör en annan kund än timbanken}}",
+    "requestNotFound": "Förfrågan hittades inte eller har redan hanterats",
+    "gone": "Timbanken finns inte längre",
+    "renewalInvoiceNote": "Förnyelse av timbanken \"{name}\", begärd av kunden via portalen",
+    "totalBelowUsed": "Det totala antalet timmar kan inte vara lägre än de timmar som redan har använts ({used} h)",
+    "hasUsage": "En timbank med registrerad användning kan inte tas bort. Inaktivera den i stället.",
+    "entryNotFound": "Tidposten hittades inte"
+  },
+  "projects": {
+    "hasBilledEntries": "Projektet har fakturerade tidposter och kan inte tas bort permanent. Arkivera det i stället.",
+    "nameMismatch": "Projektnamnet stämmer inte",
+    "noneFound": "Inga projekt hittades"
+  },
+  "portal": {
+    "invalidLink": "Ogiltig eller utgången länk",
+    "invalidLogin": "Ogiltig e-postadress eller ogiltigt lösenord",
+    "noInvoiceAccess": "Ingen åtkomst till fakturor",
+    "noProjectAccess": "Ingen åtkomst till projekt",
+    "noTimeAccess": "Ingen åtkomst till tidposter",
+    "noPrepaidAccess": "Ingen åtkomst till timbanker",
+    "tooManyRequests": "För många förfrågningar. Försök igen senare.",
+    "prepaidInactive": "Timbanken är inte aktiv. Kontakta din leverantör.",
+    "noAccess": "Ingen åtkomst",
+    "notAllowedApprove": "Du har inte behörighet att godkänna tid",
+    "requestNotFound": "Förfrågan hittades inte",
+    "requestHandled": "Förfrågan har redan hanterats",
+    "notAllowedReject": "Du har inte behörighet att avvisa tid"
+  },
+  "quickSignup": {
+    "created": "Kontot har skapats! Loggar in dig…",
+    "emailNotAllowed": "Den här e-postadressen kan inte användas för registrering.",
+    "emailTaken": "Den här e-postadressen är redan registrerad",
+    "createFailed": "Det gick inte att skapa kontot",
+    "error": "Ett fel uppstod när kontot skulle skapas"
+  },
+  "recurringInvoices": {
+    "clientArchived": "Kunden är arkiverad. Återställ kunden först.",
+    "prepaidFixedAmount": "En timbank faktureras med ett fast belopp, så välj inte registrerad tid",
+    "prepaidNoRenewal": "Timbanken förnyas inte automatiskt. Slå först på periodisk förnyelse.",
+    "needLine": "Lägg till minst en rad med ett belopp över 0",
+    "firstDateInPast": "Det första fakturadatumet kan inte vara före i dag",
+    "notFound": "Den återkommande fakturan hittades inte",
+    "nextDateInPast": "Nästa fakturadatum kan inte vara före i dag"
+  },
+  "recurring": {
+    "startDateRequired": "Ett startdatum krävs för återkommande mallar",
+    "cannotPause": "En mall som inte är återkommande kan inte pausas",
+    "cannotResume": "En mall som inte är återkommande kan inte återupptas"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "Teamets lönsamhet kräver en organisation",
+    "utilisationNeedsOrg": "Debiteringsgrad kräver en organisation",
+    "weekdayRange": "Veckodagen måste vara 1-7",
+    "linkNotFound": "Länken hittades inte",
+    "tooManyRows": "Rapporten innehåller mer än 10 000 poster. Begränsa datumintervallet."
+  },
+  "reportTemplates": {
+    "clientNotYours": "Kunden tillhör inte ditt konto.",
+    "systemNoEdit": "Systemmallar kan inte redigeras. Duplicera dem i stället.",
+    "systemNoDelete": "Systemmallar kan inte tas bort."
+  },
+  "security": {
+    "accountNotFound": "Kontot hittades inte",
+    "lastLoginMethodRemove": "Du kan inte ta bort din sista inloggningsmetod. Lägg först till ett lösenord eller en passkey.",
+    "passkeyNotFound": "Passkey hittades inte",
+    "lastLoginMethodDelete": "Du kan inte ta bort din sista inloggningsmetod. Lägg först till ett lösenord eller anslut ett OAuth-konto.",
+    "sessionNotFound": "Sessionen hittades inte",
+    "cannotEndCurrent": "Du kan inte avsluta din nuvarande session. Logga ut i stället.",
+    "currentSessionNotFound": "Den nuvarande sessionen hittades inte",
+    "phoneIsOnlyMethod": "Du kan inte ta bort ditt telefonnummer eftersom det är din enda inloggningsmetod. Lägg först till en annan metod.",
+    "deviceNotFound": "Enheten hittades inte",
+    "rec": {
+      "addLoginMethod": "Lägg till en inloggningsmetod",
+      "verifyEmail": "Bekräfta din e-postadress",
+      "enable2fa": "Slå på tvåstegsverifiering",
+      "addPasskey": "Lägg till en passkey för snabbare och säkrare inloggning",
+      "addMore": "Lägg till fler inloggningsmetoder som reserv"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "Du har redan en aktiv prenumeration. Använd \"Hantera fakturering\" för att byta plan eller betalningsmetod.",
+    "seatsExceedIncluded": "Din organisation använder {seats} platser, {extra} fler än de {included} som ingår i {plan}. Självbetjäningsuppgradering är inte möjlig ännu utan att förlora platser. Kontakta supporten så flyttar vi dig manuellt.",
+    "noCheckoutUrl": "Alunta returnerade ingen betalningsadress. Kontakta supporten.",
+    "extraSeatsNeedSubscription": "Extra platser kräver en aktiv prenumeration. Välj först en plan och lägg till betalning.",
+    "noActiveAddPayment": "Ingen aktiv prenumeration hittades. Lägg först till en betalningsmetod.",
+    "noActive": "Ingen aktiv prenumeration hittades",
+    "none": "Ingen prenumeration hittades",
+    "requestFailed": "Det gick inte att skicka förfrågan. Försök igen senare.",
+    "priceSuffixYear": "kr/år",
+    "priceSuffixMonth": "kr/månad",
+    "checkoutComingSoon": "Betalning är inte öppen här än. Du har gratisplanen."
+  },
+  "tags": {
+    "nameExists": "En tagg med namnet \"{name}\" finns redan",
+    "timeEntryNotFound": "Tidposten hittades inte",
+    "notYours": "En eller flera taggar tillhör inte dig",
+    "projectNotFound": "Projektet hittades inte",
+    "projectsNotFound": "Ett eller flera projekt hittades inte, eller så har du inte åtkomst till dem",
+    "clientNotFound": "Kunden hittades inte"
+  },
+  "tasks": {
+    "parentNotFound": "Överordnad uppgift hittades inte",
+    "subtaskNoSubtasks": "En deluppgift kan inte ha egna deluppgifter",
+    "laneNotFound": "Kolumnen hittades inte",
+    "laneOtherBoard": "Kolumnen tillhör en annan tavla än uppgiften",
+    "moveSameBoard": "Uppgiften kan bara flyttas inom samma tavla",
+    "dryRunFailed": "Provkörningen kunde inte valideras",
+    "bulkFailed": "Massändringen kunde inte valideras",
+    "bulkRolledBack": "Inte alla valda uppgifter uppdaterades; transaktionen återställdes",
+    "assignNeedsOrg": "Tilldelning kräver en organisation",
+    "assigneeNotMember": "Den tilldelade är inte medlem i organisationen",
+    "mainTaskNotFound": "Huvuduppgiften hittades inte",
+    "assignedPushTitle": "📋 Ny uppgift tilldelad",
+    "assignedPushBody": "{name} tilldelade dig \"{task}\"",
+    "aColleague": "En kollega"
+  },
+  "user": {
+    "pageUnavailable": "Den här sidan är inte tillgänglig för dig just nu",
+    "emailMismatch": "E-postadressen matchar inte ditt konto",
+    "deleteFailed": "Borttagningen kunde inte slutföras. Kontakta supporten så hjälper vi dig.",
+    "aiConnectionOk": "Anslutningen fungerar! Svar: \"{reply}\"",
+    "aiConnectionFailed": "Anslutningen misslyckades: {message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "Du kan bara hantera frånvaro för dina egna anställda",
+      "requestNotFound": "Frånvaroansökan hittades inte",
+      "approveOnlyPending": "Ansökan kan bara godkännas medan den väntar",
+      "noSelfApprove": "Du kan inte godkänna din egen frånvaro",
+      "rejectOnlyPending": "Ansökan kan bara avvisas medan den väntar",
+      "typeHasPending": "En frånvarotyp med väntande ansökningar kan inte tas bort. Avvisa eller avbryt dem först.",
+      "managersOnlyForOthers": "Bara chefer och administratörer kan registrera frånvaro för andra",
+      "endBeforeStart": "Slutdatumet kan inte vara före startdatumet",
+      "endDateRequired": "Ett slutdatum krävs för {type}. Bara sjukdom och ledighet kan registreras utan slutdatum.",
+      "overlapOther": "Den anställde har redan frånvaro under den här perioden",
+      "overlapOwn": "Du har redan en frånvaroansökan under den här perioden",
+      "registrationNotFound": "Frånvaroposten hittades inte",
+      "selfReturnOnly": "Du kan bara friskanmäla dig själv",
+      "periodAlreadyEnded": "Perioden har redan avslutats",
+      "onlyActiveRecovered": "Bara aktiva poster kan friskanmälas",
+      "lastDayBeforeStart": "Sista frånvarodagen kan inte vara före startdatumet",
+      "endedElsewhere": "Perioden har redan avslutats på annat håll. Ladda om listan.",
+      "recoveredPushTitle": "Friskanmäld",
+      "recoveredPushBody": "Din {type} avslutades den {date}",
+      "requestNotFoundShort": "Ansökan hittades inte",
+      "ownOnlyEdit": "Du kan bara redigera dina egna ansökningar",
+      "pendingOnlyEdit": "Bara väntande ansökningar kan redigeras",
+      "alreadyCancelled": "Ansökan har redan avbrutits",
+      "fixedHolidayNoCancel": "Fast semester (stängningsperiod) kan inte avbrytas. Kontakta din administratör.",
+      "changedElsewhere": "Ansökan ändrades på annat håll. Ladda om listan.",
+      "employeeNotInOrg": "Den anställde finns inte i organisationen"
+    },
+    "handledElsewhere": "Ansökan har redan hanterats på annat håll. Ladda om listan.",
+    "yourManager": "Din chef",
+    "absenceTypeNotFound": "Frånvarotypen hittades inte",
+    "activityTypeNotInOrg": "Aktivitetstypen finns inte i din organisation",
+    "projectNotInOrg": "Projektet finns inte i din organisation",
+    "activityTypesNotInOrg": "En eller flera aktivitetstyper finns inte i din organisation",
+    "projectsNotInOrg": "Ett eller flera projekt finns inte i din organisation",
+    "activityTypesUnknown": "En eller flera aktivitetstyper är okända eller arkiverade",
+    "checkin": {
+      "already": "Du är redan instämplad",
+      "noneOpen": "Ingen öppen instämpling hittades"
+    },
+    "closure": {
+      "maxDays": "En stängningsperiod kan vara högst {days} dagar. Skapa flera perioder i stället.",
+      "needsVacationType": "Fasta semesterveckor måste använda en frånvarotyp som drar av semester",
+      "notFound": "Stängningsperioden hittades inte"
+    },
+    "employeeProfileNotFound": "Medarbetarprofilen hittades inte",
+    "compliance": {
+      "ownOnly": "Du kan bara se din egen regelstatus",
+      "rejected": "Posten avvisades av arbetstidsreglerna: {reasons}"
+    },
+    "departmentNotFound": "Avdelningen hittades inte",
+    "deptManagers": {
+      "oncePerDept": "Samma användare kan bara förekomma en gång per avdelning",
+      "validFromBeforeTo": "Gäller från måste vara före gäller till",
+      "usersNotMembers": "En eller flera användare är inte medlemmar i organisationen"
+    },
+    "employee": {
+      "employmentEnded": "Anställningen har redan avslutats",
+      "endBeforePeriodStart": "Slutdatumet kan inte vara före periodens start ({date})",
+      "managerNotFound": "Chefen hittades inte",
+      "ownManager": "En anställd kan inte vara sin egen chef",
+      "managerCycle": "Chefshierarkin bildar en cykel",
+      "viewOwnTeamProfiles": "Du kan bara se profiler för dina egna anställda",
+      "profileExists": "Den anställde har redan en profil i den här organisationen",
+      "hireDateManaged": "Anställningsdatumet hanteras av anställningshistoriken. Redigera det under fliken Anställning.",
+      "viewOwnTeamEmployments": "Du kan bara se anställningar för dina egna anställda",
+      "startAfterLatest": "Startdatumet måste vara efter starten på den senaste perioden ({date})",
+      "endedOn": "Anställningen avslutades den {date}. En ny period måste starta efter det datumet.",
+      "periodNotFound": "Anställningsperioden hittades inte",
+      "historyOwnTeamOnly": "Du kan bara se historiken för dina egna anställda"
+    },
+    "flex": {
+      "ownBalanceOnly": "Du kan bara se ditt eget flexsaldo",
+      "recalcScope": "Du kan bara räkna om flex för dig själv eller dina anställda",
+      "profileNotInOrg": "Medarbetarprofilen hittades inte i den här organisationen"
+    },
+    "holidays": {
+      "notFound": "Helgdagen hittades inte",
+      "defaultNoDelete": "Standardhelgdagar kan inte tas bort. Välj i stället förinställningen för kalendern över lediga dagar."
+    },
+    "mw": {
+      "noActiveOrg": "Ingen aktiv organisation hittades",
+      "noEmployeeProfile": "Du har ingen medarbetarprofil i den här organisationen. Kontakta en administratör.",
+      "twoFactorRequired": "Organisationen kräver tvåstegsverifiering för chefer och administratörer. Slå på 2FA under Inställningar → Säkerhet och försök igen.",
+      "hrReadOnly": "Rollen HR kan se men inte godkänna eller redigera",
+      "managerRequired": "Den här åtgärden kräver chefs- eller administratörsbehörighet",
+      "viewRequiresRole": "Den här vyn kräver chefs-, HR- eller administratörsbehörighet",
+      "ownersAdminsOnly": "Bara ägare och administratörer har åtkomst till den här funktionen",
+      "twoFactorAdmins": "Organisationen kräver tvåstegsverifiering för administratörer"
+    },
+    "notifications": {
+      "addTeamsFirst": "Lägg till en Teams-webhook innan du slår på Teams",
+      "noTeamsWebhook": "Ingen Teams-webhook är sparad",
+      "testBody": "Teams-integrationen för {org} fungerar. Chefshändelser (tidrapporter, frånvaro, sjukdom, arbetstidsregler och översikt) skickas hit.",
+      "theOrganisation": "organisationen",
+      "teamsRejected": "Teams avvisade testmeddelandet: {message}"
+    },
+    "organizationNotFound": "Organisationen hittades inte",
+    "org": {
+      "deptHasEmployees": "En avdelning med tilldelade anställda kan inte tas bort. Flytta först de anställda."
+    },
+    "overtime": {
+      "ownEmployeesOnly": "Du kan bara bokföra för dina egna anställda",
+      "positiveHours": "Ange ett positivt antal timmar",
+      "notZero": "Posten kan inte vara 0 timmar"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "Lönetypen finns inte i din organisation",
+      "wageTypeCodeExists": "En lönetyp med den koden finns redan",
+      "ruleNotInOrg": "Regeln finns inte i din organisation",
+      "employeeNumberTaken": "Anställningsnumret används redan av någon annan",
+      "exportTitle": "Löneexport: {org}"
+    },
+    "absenceTypeNotInOrg": "Frånvarotypen finns inte i din organisation",
+    "exportRateLimited": "För många exporter. Försök igen om {seconds} sekunder.",
+    "closing": {
+      "notEnabled": "Periodavslut är inte påslaget i organisationens inställningar",
+      "afterPeriodEnd": "Sammanställningen kan bara skapas när perioden har tagit slut",
+      "approvedNoRecalc": "En godkänd sammanställning kan inte räknas om. Lås först upp den.",
+      "noSelfApprove": "Du kan inte godkänna din egen periodsammanställning",
+      "alreadyApproved": "Sammanställningen har redan godkänts",
+      "ownAckOnly": "Du kan bara bekräfta din egen sammanställning",
+      "needsManagerApproval": "Sammanställningen måste godkännas av din chef innan du bekräftar den",
+      "notLocked": "Perioden är inte låst",
+      "notFound": "Sammanställningen finns inte"
+    },
+    "assign": {
+      "usersNotActive": "En eller flera användare är inte aktiva anställda i organisationen"
+    },
+    "reports": {
+      "payrollHrOnly": "Lönerapporten är förbehållen HR och administratörer",
+      "shareHrOnly": "Bara HR och administratörer kan dela mallar med hela organisationen",
+      "defaultNoOverwrite": "Standardmallen kan inte skrivas över. Spara den under ett nytt namn.",
+      "ownEditOnly": "Du kan bara redigera dina egna mallar",
+      "defaultNoDelete": "Standardmallen kan inte tas bort",
+      "ownDeleteOnly": "Du kan bara ta bort dina egna mallar",
+      "weekdayRange": "Veckodagen måste vara 1-7"
+    },
+    "reportTypeHrOnly": "Den här rapporttypen är förbehållen HR och administratörer",
+    "sso": {
+      "invalidTenant": "Ogiltigt tenant-ID. Förväntade ett GUID i formen xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (Directory (tenant) ID i Azure).",
+      "microsoftNotConfigured": "Inloggning med Microsoft är inte konfigurerad i den här installationen, så \"Endast SSO\" kan inte slås på.",
+      "verifyDomainFirst": "Verifiera minst en domän innan \"Endast SSO\" kan slås på, annars skulle policyn inte gälla någon.",
+      "connectMicrosoftFirst": "Anslut först Microsoft till ditt eget konto (Inställningar → Säkerhet → Anslut Microsoft), annars låser du ute dig själv när \"Endast SSO\" är på.",
+      "enable2faFirst": "Slå först på tvåstegsverifiering på ditt eget konto, annars låser du ute dig själv från administrationen.",
+      "invalidDomain": "Ogiltig domän. Skriv t.ex. example.com (utan @ eller https://).",
+      "publicProviders": "Publika e-postleverantörer (gmail.com, outlook.com osv.) kan inte användas för automatisk anslutning.",
+      "domainAlreadyAdded": "Domänen har redan lagts till.",
+      "domainVerifiedElsewhere": "Domänen har redan verifierats av en annan organisation. Kontakta supporten om det är ett misstag.",
+      "maxDomains": "Högst {max} domäner per organisation.",
+      "domainNotFound": "Domänen hittades inte",
+      "domainVerifiedElsewhereShort": "Domänen har redan verifierats av en annan organisation.",
+      "txtCorrectButTaken": "TXT-posten är korrekt, men domänen har redan verifierats av en annan organisation. Kontakta supporten.",
+      "justVerifiedElsewhere": "Domänen verifierades nyss av en annan organisation. Kontakta supporten."
+    },
+    "team": {
+      "timesheetsOwnEmployees": "Du kan bara hantera tidrapporter för dina egna anställda",
+      "employeeNotInOrg": "Den anställde finns inte i din organisation",
+      "weekNothingToApprove": "Veckan har inga poster att godkänna",
+      "weekAlreadyApproved": "Veckan har redan godkänts",
+      "noSelfApprove": "Du kan inte godkänna din egen tidrapport",
+      "onlySubmittedRejectable": "Bara inskickade veckor kan avvisas",
+      "weekInClosedPeriod": "Veckan ligger i en avslutad period. Lås först upp perioden under Periodavslut.",
+      "onlyApprovedReopen": "Bara godkända veckor kan återöppnas",
+      "historyOwnEmployees": "Du kan bara se historiken för dina egna anställda"
+    },
+    "import": {
+      "noProject": "(inget projekt)",
+      "beforeLock": "{count} rader ligger före periodlåset {date}",
+      "submittedWeeks": "{count} inskickade/godkända veckor får nya rader, och de ingår inte i den summa som redan var godkänd"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "Veckan har redan godkänts. Be din chef återöppna den.",
+      "weekAlreadySubmitted": "Veckan har redan skickats in och väntar på godkännande",
+      "weekNothingToSubmit": "Veckan har inga poster att skicka in",
+      "activityNotAllowed": "Aktiviteten är inte tillåten på det här projektet",
+      "dayHasDetailed": "Dagen har {hours} timmar i detaljerade poster. Redigera dem under Tidrapportering, eller ange minst lika många.",
+      "chooseOtherActivity": "Välj en annan aktivitet att flytta till",
+      "noEmployeeProfile": "Du har ingen medarbetarprofil i den här organisationen",
+      "fixedHoliday": "Dagen är fast semester (stängningsperiod) och kan inte ändras av dig",
+      "coveredByLongAbsence": "Dagen omfattas av en längre frånvaroperiod. Redigera den under Frånvaro.",
+      "notEmployed": "Du var inte anställd det här datumet",
+      "holidayNoAbsence": "Dagen är en ledig dag eller helgdag, så frånvaro kan inte registreras",
+      "lastWeekEmpty": "Förra veckan har inga poster att kopiera",
+      "weekNothingToSave": "Veckan har inga poster att spara som mall",
+      "templateMissing": "Mallen finns inte"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "Bara chefer kan redigera en anställds arbetstid",
+      "ownOnlyView": "Du kan bara se din egen arbetstid",
+      "employeeNotInOrg": "Den anställde finns inte i organisationen",
+      "sharedPlan": "Planen används också utanför dina anställda. Be en administratör ändra den.",
+      "planMissing": "Planen finns inte",
+      "planArchived": "Planen är arkiverad",
+      "laterVersion": "Det finns en senare version från {date}. Redigera den i stället.",
+      "versionFromToday": "Det finns redan en version som gäller från i dag. Välj ett senare datum.",
+      "adminsOnlyDept": "Bara administratörer kan tilldela en plan till en avdelning",
+      "departmentMissing": "Avdelningen finns inte",
+      "deviationsRecorded": "Avvikelser registreras när de inträffar. Planerad frånvaro registreras under Semester och frånvaro.",
+      "noFixedPlanToday": "Det finns ingen fast arbetsplan den här dagen. Registrera tiden som tidposter."
+    },
+    "dpa": {
+      "outdated": "Avtalet uppdaterades efter att sidan laddades. Ladda om och läs den nya versionen.",
+      "acceptFailed": "Det gick inte att registrera godkännandet",
+      "signIn": "Logga in för att ladda ner det",
+      "ownersAdminsDownload": "Bara ägare och administratörer kan ladda ner det ifyllda avtalet"
+    },
+    "edit": {
+      "weekApprovedLocked": "Veckan är godkänd och låst. Be din chef återöppna den.",
+      "weekSubmitted": "Veckan har skickats in för godkännande och kan inte redigeras",
+      "entryApproved": "Posten har godkänts av din chef. Be om att veckan återöppnas."
+    },
+    "periodMaxDaysAsync": "Perioden kan vara högst {days} dagar",
+    "scope": {
+      "ownEmployees": "Du kan bara hantera dina egna anställda"
+    },
+    "dns": {
+      "unknown": "Okänt DNS-fel",
+      "lookupFailed": "DNS-uppslagningen misslyckades: {error}",
+      "noRecord": "Hittade ingen TXT-post \"{record}\" på {hosts}. DNS-ändringar kan ta upp till en timme."
+    }
+  },
+  "emailTemplates": {
+    "notFound": "Mallen hittades inte",
+    "systemNoEdit": "Systemmallar kan inte redigeras",
+    "systemNoDelete": "Systemmallar kan inte tas bort",
+    "alreadyExist": "Mallar finns redan"
+  },
+  "api": {
+    "tooManyRequestsLater": "För många förfrågningar. Försök igen senare.",
+    "cvr": {
+      "queryMin2": "Sökordet måste vara minst 2 tecken",
+      "noCompany": "Inget företag hittades",
+      "searchFailed": "Ett fel uppstod under sökningen",
+      "numberOrQueryRequired": "Ett CVR-nummer eller sökord krävs",
+      "eightDigits": "CVR-numret måste vara 8 siffror",
+      "noCompanyForNumber": "Inget företag hittades med det här CVR-numret",
+      "lookupFailed": "Ett fel uppstod vid uppslagningen av CVR-numret"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "Exporten hittades inte eller har gått ut",
+      "expired": "Exporten har gått ut eller är inte längre tillgänglig. Beställ en ny export."
+    },
+    "notAuthorized": "Inte behörig. Logga in först.",
+    "desktop": {
+      "deviceCodeMissing": "Enhetskod saknas (code)",
+      "maxDevices": "Högsta antal enheter har nåtts ({max}). Avaktivera först en enhet.",
+      "invalidDeviceToken": "Ogiltig enhetstoken",
+      "userNotFound": "Användaren finns inte",
+      "settingsReadFailed": "Det gick inte att läsa inställningarna",
+      "notInAnyOrg": "Du är inte medlem i någon organisation",
+      "adminsOnlyIntegrations": "Bara administratörer kan ändra integrationsinställningar",
+      "invalidIntegrationSettings": "Ogiltiga integrationsinställningar",
+      "settingsSaveFailed": "Det gick inte att spara inställningarna",
+      "draftOnlyEditLines": "Rader kan bara ändras på fakturautkast",
+      "invalidPrepaidHours": "Ogiltigt antal timmar på timbankens tidpost",
+      "draftOnlyEditInvoices": "Bara fakturautkast kan redigeras",
+      "unbillOnlyWeb": "Markeringen fakturerad kan bara tas bort i webbappen. Ta bort den där först.",
+      "entryNotFoundOrOther": "Posten hittades inte: {id}. Tidposten finns inte eller tillhör en annan användare"
+    },
+    "notMemberOfChosenOrg": "Du är inte medlem i den valda organisationen",
+    "approvalFailed": "Godkännandet misslyckades",
+    "invalidEmail": "Ogiltig e-postadress",
+    "genericError": "Ett fel uppstod",
+    "dpa": {
+      "pdfFailed": "PDF:en kunde inte skapas just nu"
+    },
+    "invalidOrigin": "Ogiltigt ursprung",
+    "invalidRequest": "Ogiltig begäran",
+    "ext": {
+      "invalidLoginLink": "Ogiltig inloggningslänk. Starta inloggningen igen från appen.",
+      "invalidRedirect": "Ogiltig omdirigerings-URI"
+    },
+    "feedback": {
+      "notSignedIn": "Inte inloggad",
+      "otherUser": "Rapporten skrevs av en annan användare",
+      "tooLarge": "Rapporten är för stor",
+      "invalid": "Ogiltig rapport",
+      "saveFailed": "Feedbacken kunde inte sparas"
+    },
+    "invalidJson": "Ogiltig JSON",
+    "integrations": {
+      "dineroFailed": "Anslutningen till Dinero kunde inte skapas. Försök igen.",
+      "economicFailed": "Anslutningen till e-conomic kunde inte skapas. Försök igen.",
+      "googleFailed": "Anslutningen till Google kunde inte skapas. Försök igen."
+    },
+    "invoiceSend": {
+      "invalidRecipient": "Ogiltig mottagaradress",
+      "emailNotConfigured": "E-posttjänsten är inte konfigurerad. Kontakta din administratör för att ställa in RESEND_API_KEY eller SMTP_HOST.",
+      "sendFailed": "Det gick inte att skicka e-postmeddelandet. Försök igen senare.",
+      "sent": "E-postmeddelandet har skickats till {email}",
+      "error": "Ett fel uppstod när e-postmeddelandet skickades"
+    },
+    "upload": {
+      "notAuthorized": "Inte behörig",
+      "noFile": "Ingen fil har laddats upp",
+      "imageTypes": "Bara JPEG, PNG och WebP är tillåtna",
+      "tooBig": "Filen är för stor (max 8 MB)",
+      "notConfigured": "Filuppladdning är inte konfigurerad (S3_ENDPOINT eller STORAGE_DRIVER=local saknas)",
+      "failed": "Det gick inte att ladda upp filen till lagringen"
+    },
+    "webhookTest": {
+      "tooMany": "För många testförsök för den här webhooken. Försök igen om en stund."
+    },
+    "import": {
+      "tagNoName": "Taggen saknar namn"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "Timbanken tillhör en annan kund än timern"
+  }
+}

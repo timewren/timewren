@@ -1,0 +1,478 @@
+{
+  "errors": {
+    "insufficientRights": "You do not have sufficient permissions for this action",
+    "accessDenied": "You do not have access to this resource",
+    "unexpected": "An unexpected error occurred",
+    "clientNotFound": "Client not found",
+    "clientArchived": "Client is archived",
+    "projectNotFound": "Project not found",
+    "projectArchived": "Project is archived",
+    "timeEntryNotFound": "Time entry not found",
+    "timeEntriesNotFound": "One or more time entries were not found",
+    "prepaidNotFound": "Prepaid package not found",
+    "prepaidInactive": "Prepaid package is not active",
+    "prepaidInsufficientHours": "Not enough hours left on the prepaid package. Available hours: {available}",
+    "prepaidHasUsage": "A prepaid package with registered usage cannot be deleted. Deactivate it instead.",
+    "invoiceNotFound": "Invoice not found",
+    "invoiceAlreadySent": "Invoice has already been sent",
+    "invoiceAlreadyPaid": "Invoice has already been paid",
+    "userNotFound": "User not found",
+    "invalidValue": "Invalid value for {field}",
+    "operationFailed": "{operation} failed"
+  },
+  "friendly": {
+    "network": "No connection to TimeTrack. Check your network and try again.",
+    "server": "Something went wrong at TimeTrack. Please try again shortly.",
+    "validation": "Some fields are not filled in correctly. Check them and try again.",
+    "unauthorized": "You are no longer signed in. Please sign in again.",
+    "forbidden": "You do not have permission to do this.",
+    "notFound": "What you are looking for no longer exists.",
+    "tooManyRequests": "Too many attempts in a short time. Wait a moment and try again.",
+    "retry": "Try again",
+    "login": "Sign in"
+  },
+  "zod": {
+    "invalidExpoToken": "Invalid Expo push token",
+    "invalidUrl": "Invalid URL",
+    "webhookEventRequired": "Select at least one event type",
+    "descriptionRequired": "Description is required",
+    "hoursMin": "Hours must be at least 0.01",
+    "endAfterStart": "End time must be after start time",
+    "cursorOrOffset": "Use either cursor or offset, not both",
+    "dateFormat": "The date must be in the format yyyy-MM-dd",
+    "clientOrProject": "Specify either a client or a project",
+    "nameMin2": "Name must be at least 2 characters",
+    "invalidEmailShort": "Enter a valid email",
+    "scopeRequired": "At least one scope is required",
+    "approvalScope": "period requires periodStart+periodEnd; invoice_draft requires invoiceId",
+    "invalidEmail": "Enter a valid email address",
+    "messageMax500": "The message can be at most 500 characters",
+    "selectProjectClientOrDescription": "Select a project or a client, or fill in a description",
+    "subjectMin5": "Subject must be at least 5 characters",
+    "messageMin10": "Message must be at least 10 characters",
+    "invalidDate": "Invalid date",
+    "atLeastOneWorkday": "At least one weekday must have working hours",
+    "duplicateDate": "The same date was added twice",
+    "nameRequired": "Name is required",
+    "invalidEmailDash": "Invalid email address",
+    "selectProjectClientOrDescriptionShort": "Select a project/client or fill in a description",
+    "amountRequired": "Amount is required",
+    "amountPositive": "Amount must be greater than 0",
+    "amountTooLarge": "Amount is too large",
+    "amountDecimals": "Amount can have at most 2 decimals",
+    "selectClient": "Select a client",
+    "issueDateRequired": "Issue date is required",
+    "unknownTool": "Unknown tool",
+    "invalidCostRate": "Invalid cost price",
+    "companyNameMin2": "Company name must be at least 2 characters",
+    "invalidEmailAddress": "Invalid email address",
+    "hourlyRateMin0": "Hourly rate must be at least 0",
+    "confirmProjectName": "Enter the project name to confirm",
+    "enterName": "Enter your name",
+    "invalidNumber": "Invalid number",
+    "descriptionMissing": "Description is missing",
+    "invalidDateFormat": "Invalid date (expected yyyy-mm-dd)",
+    "nameMissing": "Name is missing",
+    "hoursRequired": "Hours are required",
+    "atLeastOneRecipient": "At least one recipient",
+    "invalidHexColor": "Invalid hex colour",
+    "titleRequired": "Title is required",
+    "textRequired": "Text is required",
+    "invalidImageUrl": "Invalid image URL",
+    "enterDays": "Enter a number of days",
+    "invalidColor": "Invalid colour",
+    "dateYmd": "Date as YYYY-MM-DD",
+    "noteRequired": "Enter a note",
+    "unlockReason": "Write a reason for unlocking",
+    "reasonRequired": "Give a reason",
+    "reopenReason": "Write a reason for reopening",
+    "templateNameRequired": "Give the template a name",
+    "employeeOrDepartment": "Choose either an employee or a department",
+    "formatMmDd": "Must have the format MM-DD"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "Client created",
+      "clientUpdated": "Client updated",
+      "clientArchived": "Client archived",
+      "projectCreated": "Project created",
+      "projectUpdated": "Project updated",
+      "projectStatusChanged": "Project status changed",
+      "projectBudgetThreshold": "Monthly budget threshold reached",
+      "timeEntryCreated": "Time entry created",
+      "timeEntryUpdated": "Time entry updated",
+      "timeEntryDeleted": "Time entry deleted",
+      "invoiceCreated": "Invoice created",
+      "invoiceSent": "Invoice sent",
+      "invoicePaid": "Invoice paid",
+      "invoiceOverdue": "Invoice overdue",
+      "prepaidCreated": "Prepaid package created",
+      "prepaidUpdated": "Prepaid package updated",
+      "prepaidLowBalance": "Prepaid package low balance",
+      "prepaidExpired": "Prepaid package expired",
+      "taskCreated": "Task created",
+      "taskUpdated": "Task updated",
+      "taskCompleted": "Task completed"
+    }
+  },
+  "clients": {
+    "invalidDomain": "Invalid domain: {domain}",
+    "roundingRequired": "roundingMinutes and roundingMethod must be set when roundingEnabled is true"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "The webhook URL cannot be shown. Generate a new URL."
+  },
+  "desktop": {
+    "licenseMismatch": "We could not match the licence key and email. Check them or contact support."
+  },
+  "common": {
+    "unknownProject": "Unknown project",
+    "unknownError": "Unknown error",
+    "noProject": "No project",
+    "unknownClient": "Unknown client",
+    "unknown": "Unknown"
+  },
+  "search": {
+    "invoiceTitle": "Invoice {number}",
+    "timeEntryTitle": "Time entry",
+    "timeSubtitle": "{project} • {hours}h",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • {hours}h left",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "The login code is invalid or has expired. Sign in again.",
+    "import": {
+      "noWorkRuleNoTarget": "A non-work rule does not point to a project or a client",
+      "ruleNeedsTarget": "A rule must point to a project or a client",
+      "linesSumMismatch": "The sum of the lines ({sum}) is not the invoice amount ({amount})",
+      "entryNotImported": "Entry {id} was not imported",
+      "companyProfileMissing": "The company details are missing. Fill them in under Settings → Company profile before importing invoices.",
+      "fullCreditOnly": "Only full credits can be imported: the credit note amount ({amount}) must be the invoice amount ({original}) with the opposite sign",
+      "invoiceNotFound": "Invoice {id} does not exist",
+      "creditNoteAmount": "A credit note must have an amount of 0 or less",
+      "invoiceIsDraft": "Invoice {id} is a draft and cannot be credited",
+      "refMissing": {
+        "client": "Client {id} was not imported",
+        "project": "Project {id} was not imported",
+        "prepaid": "Prepaid package {id} was not imported",
+        "task": "Task {id} was not imported",
+        "invoice": "Invoice {id} was not imported"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "Paid invoices cannot be changed. Create a credit note if needed.",
+      "deleted": "Deleted invoices cannot be restored.",
+      "generic": "Cannot change status from \"{from}\" to \"{to}\"."
+    },
+    "directTime": "Direct time",
+    "status": {
+      "draft": "draft",
+      "sent": "sent",
+      "paid": "paid",
+      "overdue": "overdue",
+      "deleted": "deleted"
+    },
+    "specHeading": "--- Specification ---",
+    "specLine": "{date} - {project}: {description} ({hours} h × {rate} kr = {amount} kr)"
+  },
+  "logbook": {
+    "endAfterStart": "End date must be after start date",
+    "periodMaxDays": "The period can be at most {days} days"
+  },
+  "portal": {
+    "manualDeduction": "Manual deduction"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "The prepaid package already has a recurring invoice"
+  },
+  "storeBilling": {
+    "notAvailable": "In-app purchases are not available yet."
+  },
+  "subscription": {
+    "storeManaged": "Your subscription is paid through {provider}. You change or cancel it in {provider}.",
+    "teamPlanNotConfigured": "The Team plan is not configured yet (ALUNTA_PLAN_TEAM_*). Contact support.",
+    "businessPlanNotConfigured": "The Business plan is not configured yet (ALUNTA_PLAN_BUSINESS_*). Contact support.",
+    "privatePlanNotAvailable": "The Private plan is not available yet (ALUNTA_PLAN_PRIVAT_*). Choose another plan or contact support.",
+    "freeNotPurchasable": "The Free plan cannot be purchased.",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL is not set"
+  },
+  "time": {
+    "invalidEntryDate": "Invalid date: expected YYYY-MM-DD"
+  },
+  "billedLock": {
+    "onInvoice": "The time entry is billed and cannot be changed. Credit the invoice or remove the entry from the draft invoice first.",
+    "marked": "The time entry is marked as billed and cannot be changed. Remove the mark first.",
+    "bulk": {
+      "delete": "{count, plural, one {# of the selected time entries is billed and cannot be deleted. Credit the invoice or remove the mark first.} other {# of the selected time entries are billed and cannot be deleted. Credit the invoice or remove the mark first.}}",
+      "edit": "{count, plural, one {# of the selected time entries is billed and cannot be changed. Credit the invoice or remove the mark first.} other {# of the selected time entries are billed and cannot be changed. Credit the invoice or remove the mark first.}}",
+      "move": "{count, plural, one {# of the selected time entries is billed and cannot be moved. Credit the invoice or remove the mark first.} other {# of the selected time entries are billed and cannot be moved. Credit the invoice or remove the mark first.}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "An activity type with that name already exists",
+    "endAfterStart": "End date must be after start date",
+    "fromBeforeTo": "The from date must be before the to date",
+    "periodMaxDays": "The period can be at most {days} days",
+    "employee": {
+      "importManagerMissing": "Manager {email} exists neither in the file nor in the organisation. The employee was imported without a manager."
+    },
+    "payroll": {
+      "hrOnly": "Payroll mapping is reserved for HR and administrators"
+    },
+    "closing": {
+      "changedMeanwhile": "The statement was changed in the meantime. Reload the page.",
+      "locked": "The period is closed and locked. An administrator must unlock it (with a reason) before entries can be changed."
+    },
+    "team": {
+      "absenceLabel": "Absence"
+    },
+    "timesheet": {
+      "coveredByRequest": "The day is covered by an absence request created under Absence. Edit it there.",
+      "otherTypeAbsence": "You already have absence of a different type on this day",
+      "absenceRecordedElsewhere": "The absence was recorded at the same time from elsewhere. Reload the week.",
+      "overMax": "{label}: {total} h exceeds the maximum of {max} h per day",
+      "emptyWorkday": "{label} is a working day with no entries or absence",
+      "overNorm": "{label}: {total} h is over your norm of {norm} h",
+      "weekOverNorm": "The week: {total} h is over your weekly norm of {norm} h",
+      "autoLocked": "The week is locked. Last week is locked on {day}. Contact your manager to have it corrected.",
+      "automatically": "automatically",
+      "rollingLocked": "Entries older than {weeks} are locked by the organisation. Contact your manager to have them corrected.",
+      "weeks": "{count, plural, one {# week} other {# weeks}}"
+    },
+    "workPlans": {
+      "notBackwards": "A plan cannot be changed retroactively. Choose today or a later date."
+    },
+    "absenceCap": {
+      "used": "{type} is used up for {year} (cap {cap} days per year)",
+      "left": "Only {remaining} of {cap} {type} days are left in {year}"
+    },
+    "rule": {
+      "avgViolation": "48-hour rule: the average over the reference period is {avg} h/week (limit {limit} h)",
+      "avgWarning": "48-hour rule: the average over the reference period is {avg} h/week and is approaching the limit of {limit} h",
+      "weekInfo": "48-hour rule: the week now stands at {week} h; the average over the reference period is still under {limit} h",
+      "restBefore": "11-hour rest: only {rest} h of rest before work on {day} (required {limit} h)",
+      "daySum": "11-hour rest: {total} h recorded on {day} leaves under {limit} h of rest (max {max} h per day)",
+      "weeklyRest": "24-hour weekly rest: the longest continuous rest in the week from {day} is {rest} h (required {limit} h)",
+      "noFreeDay": "24-hour weekly rest: work is recorded on all 7 days in the week from {day}, with no full day off"
+    },
+    "employment": {
+      "endBeforeStart": "The end date cannot be before the start date",
+      "onlyFirstUnknown": "Only the first period can have an unknown start date",
+      "startAfterPrevStart": "The start date must be after the previous period's start ({date})",
+      "startAfterPrevEnd": "The start date must be after the end of the previous employment ({date})",
+      "endBeforeNext": "The end date must be before the next period's start ({date})",
+      "endDayBeforeNext": "The end date must be the day before the next period's start ({date}). Move the next period's start date instead."
+    },
+    "import": {
+      "fileEmpty": "The file is empty",
+      "headerEmployees": "The header row must contain at least the columns \"navn\" and \"email\"",
+      "nameMissing": "Name is missing",
+      "invalidEmail": "Invalid email: \"{value}\"",
+      "duplicate": "Duplicate in the file: {email}",
+      "unknownRole": "Unknown role: \"{value}\" (use medarbejder/leder/admin)",
+      "invalidWeeklyHours": "Invalid number of hours: \"{value}\" (1-60)",
+      "invalidStartDate": "Invalid start date: \"{value}\" (use YYYY-MM-DD)",
+      "invalidManagerEmail": "Invalid manager email: \"{value}\"",
+      "headerEntries": "The header row must contain the columns \"email\" (or \"medarbejder\"), \"dato\" and \"timer\"",
+      "invalidDate": "Invalid date: \"{value}\" (use YYYY-MM-DD)",
+      "invalidHours": "Invalid number of hours: \"{value}\" (0-24)"
+    },
+    "period": {
+      "pickBoth": "Choose both a from and a to date",
+      "fromBeforeToOrSame": "The from date must be on or before the to date",
+      "maxDaysShorter": "The period can be at most {days} days. Choose a shorter interval."
+    },
+    "vacation": {
+      "notEnough": "Not enough holiday days in the {pool} pool. You have {remaining} days left, but the entry requires {deducted} days{tolerance}.",
+      "overdraftAllowed": " (overdraft allowed: {days} days)",
+      "overdraftNotAllowed": " (overdraft is not allowed)"
+    },
+    "workPlan": {
+      "rotation": "The rotation must be 1 or 2 weeks",
+      "weekCount": "The number of weeks does not match the rotation",
+      "invalidWeekday": "Invalid weekday{label}",
+      "duplicateWeekday": "A weekday appears twice{label}",
+      "timeFormat": "Times must be written as HH:MM{label}",
+      "endAfterStart": "The end time must be after the start time{label}",
+      "breakRange": "The break must be 0-240 minutes{label}",
+      "breakShorter": "The break must be shorter than the working day{label}",
+      "inWeek": " in week {week}",
+      "enterBothTimes": "Enter both a start and an end time as HH:MM",
+      "endAfterStartPlain": "The end time must be after the start time",
+      "breakShorterPlain": "The break must be shorter than the working day",
+      "rangeOrHours": "Enter a time range or 0-24 hours"
+    },
+    "closure": {
+      "overlap": "already has absence in the period",
+      "noWorkingDays": "has no working days in the period",
+      "balance": "does not have enough holiday days",
+      "error": "could not be created (technical error)"
+    },
+    "workPlanExport": {
+      "planned": "As planned",
+      "deviation": "Deviation",
+      "dayOff": "Day off",
+      "absence": "Absence",
+      "free": "Free according to plan",
+      "hDate": "Date",
+      "hStatus": "Status",
+      "hPlan": "Plan",
+      "hPlanHours": "Plan (hours)",
+      "hRegisteredRange": "Recorded time range",
+      "hBreak": "Break (min)",
+      "hRegisteredHours": "Recorded (hours)",
+      "hDayOff": "Day off",
+      "hNote": "Note",
+      "hEditedBy": "Edited by",
+      "hEditedUtc": "Edited (UTC)"
+    },
+    "payrollXlsx": {
+      "sheet": "Payroll",
+      "period": "Period: {period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "Your company name",
+      "yourName": "Your name",
+      "yourEmail": "Your email",
+      "yourPhone": "Your phone number",
+      "clientFullName": "The client's full name",
+      "clientCompany": "The client's company name",
+      "clientEmail": "The client's email",
+      "portalLink": "Link to the client portal",
+      "invoiceNumber": "Invoice number",
+      "totalInclVat": "Total amount including VAT",
+      "amountExclVat": "Amount excluding VAT",
+      "issueDate": "Issue date",
+      "paymentDeadline": "Payment deadline",
+      "invoiceStatus": "Paid/Unpaid/Overdue",
+      "invoiceLink": "Direct link to the invoice",
+      "daysLate": "Number of days late",
+      "projectName": "The project's name",
+      "projectStatus": "Active/Completed/On hold",
+      "hoursUsed": "Hours used",
+      "projectLink": "Link to the project in the portal",
+      "prepaidName": "The prepaid package's name",
+      "hoursRemaining": "Hours remaining",
+      "hoursTotal": "Total hours",
+      "percentUsed": "Percentage used",
+      "expiryDate": "Expiry date",
+      "daysToExpiry": "Days until expiry",
+      "hoursForApproval": "Total hours for approval",
+      "entryCount": "Number of time entries",
+      "period": "Time period",
+      "approvalLink": "Link to the approval page",
+      "loginLink": "Link to the portal login",
+      "invitationLink": "Invitation link",
+      "invitationExpiry": "The invitation's expiry date"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "VAT Q{n}",
+    "vatHalfTitle": "VAT H{n}",
+    "vatQuarterDesc": "Reporting and payment of VAT for the quarter to the Danish Tax Agency (Skattestyrelsen).",
+    "vatHalfDesc": "Reporting and payment of VAT for the half-year to the Danish Tax Agency (Skattestyrelsen).",
+    "vatMonthTitle": "VAT {month}",
+    "vatMonthDesc": "Reporting and payment of VAT for {month} {year} to the Danish Tax Agency (Skattestyrelsen).",
+    "bSkatSpring": "Preliminary tax, B-skat (spring)",
+    "bSkatAutumn": "Preliminary tax, B-skat (autumn)",
+    "bSkatDesc": "Payment of preliminary B-skat to the Danish Tax Agency (Skattestyrelsen). Applies to self-employed people and freelancers.",
+    "formTitle": "Tax return {year}",
+    "formDesc": "Filing of the tax return (oplysningsskema) for the income year {year} with the Danish Tax Agency (Skattestyrelsen).",
+    "amTitle": "Labour market contribution (AM) Q{n}",
+    "amDesc": "Payment of the labour market contribution (AM-bidrag) for self-employed people for the quarter.",
+    "arTitle": "Annual report FY{year}",
+    "arDesc": "The annual report must be submitted to the Danish Business Authority (Erhvervsstyrelsen) no later than 5 months after the end of the financial year.",
+    "agmTitle": "General meeting FY{year}",
+    "agmDesc": "Ordinary general meeting to approve the annual report.",
+    "corpFormTitle": "Company tax return FY{year}",
+    "corpFormDesc": "The company's tax return (oplysningsskema) for the financial year must be submitted to the Danish Tax Agency (Skattestyrelsen).",
+    "corpTaxSpring": "Corporation tax on account (spring)",
+    "corpTaxAutumn": "Corporation tax on account (autumn)",
+    "corpTaxDesc": "Payment on account of corporation tax to the Danish Tax Agency (Skattestyrelsen).",
+    "corpFinalTitle": "Corporation tax final settlement {year}",
+    "corpFinalDesc": "Payment of the remaining corporation tax (final tax) for the income year {year}.",
+    "payrollTitle": "A-skat/AM contribution {month}",
+    "payrollDesc": "Reporting and payment of A-skat and AM contribution for the payroll period {month} {year}.",
+    "holidayPayTitle": "Holiday pay Q{n}",
+    "holidayPayDesc": "Reporting and payment of holiday pay to Feriekonto (the Danish holiday pay fund) for the quarter."
+  },
+  "integrations": {
+    "authExpired": "The {name} connection has expired or is invalid. Please reconnect under Settings → Integrations.",
+    "billy": {
+      "keyRequired": "A Billy API key is required",
+      "productDescription": "Hours imported from TimeTrack"
+    },
+    "dinero": {
+      "keyRequired": "A Dinero API key is required",
+      "orgIdRequired": "A Dinero organisation ID is required",
+      "tokenFailed": "Could not get the Dinero token",
+      "refreshMissing": "The Dinero refresh token is missing",
+      "expiredReconnect": "The Dinero connection has expired. Please reconnect.",
+      "orgsFailed": "Could not get the Dinero organisations"
+    },
+    "economic": {
+      "secretRequired": "An e-conomic App Secret Token is required",
+      "grantRequired": "An e-conomic Agreement Grant Token is required",
+      "consultingHours": "Consulting work: {hours} hours"
+    },
+    "timeops": {
+      "invalidKey": "The API key is invalid or has expired",
+      "premium": "You need TimeOps Premium to use their API",
+      "network": "Could not connect to TimeOps. Try again later.",
+      "unexpected": "An unexpected error occurred while connecting to TimeOps ({detail})"
+    },
+    "icloud": {
+      "syncFailed": "iCloud sync failed",
+      "storageMissing": "iCloud cannot be connected right now because secure password storage is not set up on the server. Contact support.",
+      "rejected": "The Apple ID or app-specific password was rejected. Check that you copied the whole app-specific password (not your normal Apple password).",
+      "notConnected": "iCloud is not connected",
+      "notConnectedShort": "Not connected to iCloud",
+      "calendarGone": "The calendar \"{name}\" no longer exists in iCloud. Choose calendars again.",
+      "unknownCalendar": "unknown"
+    },
+    "caldav": {
+      "unknown": "iCloud sync failed: {message}",
+      "auth": "Apple rejected the sign-in. Create a new app-specific password at appleid.apple.com and reconnect iCloud.",
+      "network": "Could not connect to iCloud right now. We will try again automatically."
+    },
+    "cvr": {
+      "invalid": "The CVR number must be 8 digits",
+      "notFound": "No company found with this CVR number",
+      "rateLimited": "CVR lookups are temporarily limited. Try again shortly, or fill in the fields yourself.",
+      "timeout": "The CVR register is not responding right now. Try again shortly, or fill in the fields yourself.",
+      "unavailable": "The CVR lookup is not working right now. Try again shortly, or fill in the fields yourself."
+    },
+    "google": {
+      "readOnly": "Your Google Calendar is connected with read-only access, so TimeTrack is not allowed to create or change events in it. Grant write access under Settings → Integrations → Google Calendar if you want to use the feature.",
+      "freeSlot": "Free time in the calendar",
+      "deadlineIn": "Deadline in {count, plural, one {# day} other {# days}}",
+      "urgent": "Urgent priority",
+      "high": "High priority",
+      "clientLine": "Client: {name}",
+      "projectLine": "Project: {name}",
+      "hoursLine": "Hours: {hours}",
+      "exportedFrom": "Exported from TimeTrack"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "Time entry",
+    "timeOnProject": "{hours} hours on {name}",
+    "timeForClient": "{hours} hours for {name}",
+    "timeOnly": "{hours} hours",
+    "invoiceTitle": "Invoice {number}",
+    "invoiceDescription": "{amount} kr to {client}",
+    "newClient": "New client: {name}",
+    "noContact": "No contact details",
+    "newProject": "New project: {name}",
+    "projectFor": "For {client}",
+    "internal": "Internal"
+  },
+  "tasks": {
+    "laneDuplicateName": "A column with that name already exists"
+  }
+}

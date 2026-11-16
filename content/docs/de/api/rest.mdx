@@ -1,0 +1,211 @@
+---
+title: "REST-API"
+description: "Authentifiziere dich mit einem API-Schlüssel und verwalte Kunden, Projekte, Zeiteinträge, den Timer, Rechnungen und Stundenpakete über JSON."
+---
+
+TimeWren stellt unter `/api/v1` eine JSON-REST-API bereit. Sie verwendet dieselbe Geschäftslogik wie die Web-App, daher gelten Regeln wie die Stundensatz-Auflösung, Abzüge von Stundenpaketen und Sperren abgerechneter Einträge auch für API-Aufrufe. Für KI-Assistenten gibt es außerdem einen [MCP-Server](/de/docs/api/mcp), und Ereignisse kannst du über [ausgehende Webhooks](/de/docs/api/webhooks) empfangen.
+
+## Basis-URL
+
+Ersetze den Host durch deine eigene Instanz (den Wert von `NEXT_PUBLIC_APP_URL`):
+
+```text
+https://timewren.example.com/api/v1
+```
+
+## API-Schlüssel erstellen
+
+1. Melde dich als Organisations-Admin oder -Inhaber an.
+2. Öffne **Einstellungen**, dann **API** (`/dashboard/settings/api`).
+3. Erstelle einen Schlüssel: Gib ihm einen Namen, wähle seine Scopes und optional ein Ablaufdatum.
+4. Kopiere den Schlüssel sofort. Er beginnt mit `tk_live_` und wird nur einmal angezeigt. Gespeichert wird nur ein SHA-256-Hash.
+
+Ein Schlüssel handelt als der Benutzer, der ihn erstellt hat, innerhalb der Organisation, die zum Zeitpunkt der Erstellung aktiv war. Du kannst einen Schlüssel jederzeit widerrufen; ein widerrufener oder abgelaufener Schlüssel liefert `401`. Die Seite für API-Schlüssel setzt voraus, dass das Modul `public_api` für die Organisation aktiviert ist.
+
+## Authentifizierung
+
+Sende den Schlüssel bei jeder Anfrage als Bearer-Token:
+
+```bash
+curl https://timewren.example.com/api/v1/me \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+`GET /me` braucht keinen Scope. Es liefert dein Profil und die `scopes` des Schlüssels und eignet sich daher gut als erste Prüfung. Die REST-API akzeptiert nur API-Schlüssel; OAuth-Tokens funktionieren am [MCP-Endpunkt](/de/docs/api/mcp), aber nicht hier.
+
+## Scopes
+
+Jeder Schlüssel trägt einen oder mehrere Scopes. Ein Scope hat die Form `<resource>:<permission>`:
+
+| Ressource | Umfasst |
+| --- | --- |
+| `clients` | Kunden |
+| `projects` | Projekte (auch nötig, um eine Stundensatzänderung für ein Projekt zu planen) |
+| `time` | Zeiteinträge und den Timer |
+| `invoices` | Rechnungen und Rechnungszeilen |
+| `prepaid` | Stundenpakete |
+| `tasks` | Aufgaben |
+| `reports` | Berichte, Stundensatzverlauf und das Auflisten von Stundensatzänderungen |
+| `webhooks` | Konfiguration ausgehender Webhooks |
+
+Die Berechtigungen sind `read`, `write` und `all`. `write` und `all` enthalten beide `read`. Der Scope `*` gewährt alles. Fehlende Scopes liefern `403` mit `Missing required scope: <resource>:<permission>`.
+
+## Rate-Limits
+
+Authentifizierte Anfragen sind auf 300 pro Minute und Benutzer begrenzt. Jede Antwort enthält `X-RateLimit-Limit`, `X-RateLimit-Remaining` und `X-RateLimit-Reset` (ein Unix-Zeitstempel in Sekunden). Wird das Limit erreicht, bekommst du `429` mit einem Header `Retry-After` in Sekunden. Fehlgeschlagene Authentifizierungsversuche sind zusätzlich pro IP-Adresse begrenzt.
+
+## Anfragen und Antworten
+
+Anfrage-Bodies sind JSON (`Content-Type: application/json`). Erfolgreiche Antworten verpacken das Ergebnis in `data`:
+
+```json
+{ "data": { "id": "..." } }
+```
+
+Das Anlegen einer Ressource liefert `201`. Geldbeträge und Stundensätze sind in Antworten Dezimalzeichenfolgen wie `"850.00"`. Datumsangaben haben das Format `YYYY-MM-DD`. CORS ist für die dokumentierten Methoden offen (`Access-Control-Allow-Origin: *`).
+
+### Paginierung und Sortierung
+
+Listen-Endpunkte nehmen `page` (Standard 1) und `limit` (Standard 25, maximal 100) entgegen. Ein `limit` über 100 wird mit `400` abgelehnt, nicht gekappt. Außerdem akzeptieren sie `sort` und `order` (`asc` oder `desc`); unbekannte Sortierfelder fallen auf `createdAt` zurück.
+
+```json
+{
+  "data": [],
+  "pagination": {
+    "page": 1,
+    "limit": 25,
+    "total": 0,
+    "totalPages": 0,
+    "hasMore": false,
+    "nextPage": null
+  }
+}
+```
+
+Rufe weiter ab, solange `hasMore` den Wert `true` hat.
+
+### Fehler
+
+Fehler haben alle dieselbe Form:
+
+```json
+{
+  "error": {
+    "code": "UNPROCESSABLE_CONTENT",
+    "message": "Validation failed",
+    "details": [{ "field": "hours", "message": "..." }]
+  }
+}
+```
+
+`details` listet die fehlerhaften Felder auf. Es ist bei Validierungsfehlern (`422`) immer vorhanden, und auch manche `400`-Antworten enthalten es, zum Beispiel eine ungültige Kombination von Stundenpaket-Feldern bei `POST /time-entries` oder `PATCH /time-entries/{id}`. Behandle es bei jedem Fehler als optional. Weitere Codes, die du sehen wirst: `BAD_REQUEST` (400), `UNAUTHORIZED` (401), `FORBIDDEN` (403), `NOT_FOUND` (404), `CONFLICT` (409), `TOO_MANY_REQUESTS` (429) und `INTERNAL_SERVER_ERROR` (500). Unerwartete Fehler enthalten nie Stacktraces.
+
+## OpenAPI und die eingebaute Dokumentation
+
+| URL | Liefert |
+| --- | --- |
+| `/api/v1/openapi.json` | Das OpenAPI-3.1-Dokument, öffentlich, ohne Authentifizierung |
+| `/api/v1/docs` | Eine interaktive API-Referenz, aus dem OpenAPI-Dokument gerendert |
+| `/api/v1/llms.txt` | Eine kurze Klartext-Anleitung für KI-Agenten, öffentlich |
+
+Die interaktive Referenz lädt das Skript des Scalar-Viewers von `cdn.jsdelivr.net`, der Browser braucht zum Rendern also Internetzugang. Das OpenAPI-Dokument ist die vollständigste Quelle für Felder von Anfragen und Antworten.
+
+## Ressourcen
+
+Alle Pfade sind relativ zu `/api/v1`. `{id}` ist eine UUID.
+
+| Ressource | Methoden und Pfade | Scope |
+| --- | --- | --- |
+| Me | `GET /me` | keiner |
+| Kunden | `GET, POST /clients`; `GET, PATCH, DELETE /clients/{id}` | `clients` |
+| Projekte | `GET, POST /projects`; `GET, PATCH, DELETE /projects/{id}` | `projects` |
+| Zeiteinträge | `GET, POST /time-entries`; `GET, PATCH, DELETE /time-entries/{id}`; `POST /time-entries/batch` | `time` |
+| Timer | `GET, POST, DELETE /timer` | `time` |
+| Aufgaben | `GET, POST /tasks`; `GET, PATCH, DELETE /tasks/{id}` | `tasks` |
+| Rechnungen | `GET, POST /invoices`; `GET, PATCH, DELETE /invoices/{id}`; `POST /invoices/from-time-entries`; `POST /invoices/{id}/send`; `POST /invoices/{id}/mark-paid`; `GET, POST /invoices/{id}/lines`; `PATCH, DELETE /invoices/{id}/lines/{lineId}` | `invoices` |
+| Stundenpakete | `GET, POST /prepaid-packages`; `GET, PATCH, DELETE /prepaid-packages/{id}` | `prepaid` |
+| Berichte | `GET /reports/unbilled`; `GET /reports/revenue`; `GET /reports/time-summary` | `reports` |
+| Stundensatzänderungen | `GET, POST /rate-changes`; `DELETE /rate-changes/{id}` | `reports` zum Auflisten; `clients` oder `projects` mit Schreibrecht zum Anlegen oder Stornieren |
+| Stundensatzverlauf | `GET /rate-history` | `reports` |
+| Webhooks | `GET, POST /webhooks`; `GET, PATCH, DELETE /webhooks/{id}`; `POST /webhooks/{id}/test`; `GET /webhooks/{id}/deliveries`; `GET /webhooks/event-types` | `webhooks`, siehe [Webhooks](/de/docs/api/webhooks) |
+
+Hinweise zu einigen Endpunkten:
+
+- `GET /reports/revenue` und `GET /reports/time-summary` verlangen sowohl `from` als auch `to` als `YYYY-MM-DD`.
+- `GET /rate-changes` und `POST /rate-changes` brauchen genau eines von `clientId` oder `projectId`. Der Body eines `POST` ist `{ "clientId" | "projectId", "newRate", "effectiveDate": "YYYY-MM-DD" }`.
+- `POST /invoices/from-time-entries` erstellt aus Zeiteinträgen eine Rechnung als Entwurf. Das Versenden einer Rechnung per E-Mail mit `POST /invoices/{id}/send` lässt sich nicht rückgängig machen.
+- `DELETE /timer` verwirft den laufenden Timer, ohne einen Zeiteintrag zu speichern. Um die Zeit zu erfassen, lege mit `POST /time-entries` einen Zeiteintrag an.
+
+### Filter für Zeiteinträge
+
+`GET /time-entries` akzeptiert `clientId`, `projectId`, `from`, `to` (`YYYY-MM-DD`), `isBillable` und `isBilled` (`true` oder `false`) sowie Paginierung. Sortiert werden kann nach `createdAt`, `date` und `hours`.
+
+## Beispiele
+
+### Kunden auflisten
+
+```bash
+curl "https://timewren.example.com/api/v1/clients?limit=10&q=acme" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+`q` durchsucht die Kundenliste; füge `includeArchived=true` hinzu, um archivierte Kunden einzubeziehen.
+
+### Timer starten und stoppen
+
+Start (braucht `time:write`). Ohne Body startet der Timer jetzt; hier wird er an ein Projekt gebunden und beschrieben. `projectId` und `clientId` müssen UUIDs oder `null` sein:
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"projectId": "11111111-1111-4111-8111-111111111111", "description": "Design review"}'
+```
+
+Timer-Status prüfen:
+
+```bash
+curl https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Stoppen und verwerfen:
+
+```bash
+curl -X DELETE https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Zeiteintrag anlegen
+
+`hours` (eine positive Zahl), `date` (`YYYY-MM-DD`) und `description` sind Pflicht. Optionale Felder sind `projectId`, `clientId`, `notes`, `startTime` und `endTime` (ISO 8601 mit Offset, `endTime` nach `startTime`), `isBillable`, `isBilled`, `taskId` und `billableRate`. Ohne `billableRate` wird der Stundensatz aus den Sätzen von Projekt, Kunde und Benutzer für das Datum des Eintrags ermittelt.
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/time-entries \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "clientId": "22222222-2222-4222-8222-222222222222",
+    "projectId": "11111111-1111-4111-8111-111111111111",
+    "description": "Wireframes for Acme ApS",
+    "hours": 1.5,
+    "date": "2026-11-09",
+    "startTime": "2026-11-09T09:00:00+01:00",
+    "endTime": "2026-11-09T10:30:00+01:00",
+    "isBillable": true,
+    "prepaid": "auto"
+  }'
+```
+
+Um von einem Stundenpaket abzuziehen, sende entweder `"prepaid": "auto"` (das aktive Paket des Kunden mit automatischem Abzug, das als Erstes abläuft; kein Paket bedeutet kein Abzug) oder eine explizite `prepaidPackageId`, nie beides. Die Antwort enthält `prepaidDeduction` und `complianceWarnings`. Bereits abgerechnete Einträge sind gegen Bearbeiten und Löschen gesperrt.
+
+### Stundenpakete auflisten
+
+```bash
+curl "https://timewren.example.com/api/v1/prepaid-packages?clientId=22222222-2222-4222-8222-222222222222&activeOnly=true" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Filter sind `clientId`, `activeOnly=true` und `includeArchived=true`. Sortiert werden kann nach `createdAt`, `name` und `totalHours`. Wie Pakete funktionieren, steht unter [Stundenpakete](/de/docs/concepts/prepaid-hours).
+
+Das Anlegen eines Pakets mit `POST /prepaid-packages` verlangt `name`, `clientId`, `totalHours` (Zahl), `hourlyRate` (Zahl) und `purchaseDate` und optional `expiryDate`, `description`, `clipSizeMinutes`, `overdraftPolicy` (`block`, `allow` oder `invoice`), `overdraftRate` und `autoDeduct`.

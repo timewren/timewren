@@ -1,0 +1,109 @@
+{
+  "title": "设置",
+  "close": "关闭设置",
+  "searchPlaceholder": "搜索设置…",
+  "searchLabel": "搜索设置",
+  "noMatch": "没有匹配“{query}”的设置",
+  "keywords": {
+    "view": "视图|显示|建议|网站|网页|时长包|预付|弹窗",
+    "appearance": "外观|主题|深色|浅色|徽章|图标|语言",
+    "newTab": "新标签页|标签页|起始页|小组件",
+    "calendar": "日历|日|日期",
+    "goal": "每日目标|目标|小时目标|进度",
+    "reminder": "提醒|通知|周末|记录|登记",
+    "data": "数据|删除|重置|离线|映射|链接|网站|队列",
+    "advanced": "高级|api|网址|服务器",
+    "shortcuts": "快捷键|键盘|alt",
+    "about": "关于扩展|扩展|关于|版本|评分|评价|帮助"
+  },
+  "view": {
+    "title": "视图",
+    "suggestions": "来自网站的建议",
+    "suggestionsHint": "根据你当前浏览的网站推荐项目",
+    "prepaidTab": "时长包标签页",
+    "prepaidTabHint": "在弹窗中显示有效时长包的标签页"
+  },
+  "appearance": {
+    "title": "外观",
+    "theme": "主题",
+    "themeHint": "扩展的配色主题",
+    "system": "跟随系统",
+    "dark": "深色",
+    "light": "浅色",
+    "badge": "图标上的数字",
+    "badgeHint": "扩展图标上的数字显示的内容",
+    "badgeTimer": "运行中的计时器",
+    "badgeToday": "今日小时数",
+    "badgeOff": "隐藏",
+    "language": "语言",
+    "languageHint": "扩展的语言",
+    "languageAuto": "自动（跟随浏览器）"
+  },
+  "newTab": {
+    "title": "新标签页",
+    "enable": "在新标签页中打开 TimeTrack",
+    "enableHint": "关闭后将保留普通的空白标签页",
+    "widgetsHint": "请在新标签页的设置中选择小组件",
+    "activeWidgets": "已启用的小组件：{count}"
+  },
+  "calendar": {
+    "title": "日历",
+    "openOn": "打开日历时显示",
+    "openOnHint": "打开日历时显示哪一天",
+    "today": "今天",
+    "lastViewed": "上次查看的日期"
+  },
+  "goal": {
+    "title": "每日目标",
+    "hours": "每日小时目标",
+    "hoursHint": "用于弹窗和新标签页中的每日进度条"
+  },
+  "reminder": {
+    "title": "每日提醒",
+    "enable": "提醒我记录工时",
+    "enableHint": "工时过少时发送通知",
+    "time": "时间",
+    "minHours": "最少小时数",
+    "weekends": "周末也提醒"
+  },
+  "data": {
+    "title": "数据",
+    "clearMappingsConfirm": "删除所有已保存的网站与项目之间的关联？",
+    "clearMappingsDetail": "被隐藏的建议也会重新出现。",
+    "delete": "删除",
+    "clearMappings": "删除网站关联",
+    "mappingsCount": "{count, plural, other {# 个已保存的关联}}",
+    "clearQueueConfirm": "删除 {count, plural, other {# 项待处理操作}}？",
+    "unsentEntries": "{count, plural, other {# 条记录}}尚未发送到 TimeTrack。这些时间将被永久删除。",
+    "clearQueueConfirmButton": "删除队列",
+    "clearQueue": "删除离线队列",
+    "pendingActions": "{count, plural, other {# 项待处理操作}}",
+    "unsentSuffix": "{count, plural, other {# 条未发送的记录}}",
+    "resetConfirm": "重置所有设置？",
+    "resetDetail": "将恢复扩展的默认设置。",
+    "resetButton": "重置",
+    "reset": "重置设置",
+    "resetHint": "恢复默认设置"
+  },
+  "advanced": {
+    "title": "高级",
+    "apiUrl": "API 地址",
+    "notSaved": "{error}。该地址尚未保存。"
+  },
+  "shortcuts": {
+    "title": "键盘快捷键",
+    "unreadable": "此浏览器无法读取快捷键。",
+    "openApp": "打开 TimeTrack",
+    "notSet": "未设置",
+    "change": "更改快捷键",
+    "firefoxPage": "打开 Firefox 的快捷键页面",
+    "chromePage": "打开 chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "TimeTrack 浏览器扩展，版本 {version}",
+    "rateFirefox": "在 Firefox 附加组件中评分",
+    "rateChrome": "在 Chrome 网上应用店中评分",
+    "rateHint": "你的评价可以帮助其他自由职业者",
+    "learnMore": "了解更多关于扩展的信息"
+  }
+}

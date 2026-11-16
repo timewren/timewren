@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration}, <b>{target}</b> üzerine kaydedildi",
+    "stoppedOn": "{duration}, <b>{target}</b> üzerinde durduruldu",
+    "savedInternal": "{duration}, <b>dahili süre</b> olarak kaydedildi",
+    "stoppedInternal": "{duration}, <b>dahili süre</b> olarak durduruldu",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "<b>{name}</b> paketinde yeterli saat yoktu, bu yüzden tüm süre faturalanabilir olarak kaydedildi",
+    "deducted": "<b>{name}</b> paketinden {hours} düşüldü, {remaining} kaldı",
+    "deductedOverflow": "<b>{name}</b> paketinden {hours} düşüldü, {remaining} kaldı. Paket bitti, bu yüzden kalanı faturalanabilir süre",
+    "pendingSave": "Sunucu zamanında yanıt vermedi. Süre, bağlantı gelir gelmez otomatik gönderilir ve yalnızca bir kez kaydedilir.",
+    "close": "Mesajı kapat"
+  },
+  "discard": {
+    "label": "Süreyi at",
+    "question": "{duration} kaydedilmeden atılsın mı?",
+    "keep": "Süreyi sakla",
+    "confirm": "Süreyi at"
+  },
+  "switch": {
+    "label": "Müşteri değiştir",
+    "question": "{duration}, {from} üzerine kaydedilip {to} için yeni zamanlayıcı başlatılsın mı?",
+    "internal": "dahili süre",
+    "cancel": "İptal",
+    "confirm": "Kaydet ve yenisini başlat"
+  },
+  "noClient": "Müşteri seçilmedi",
+  "noClientShort": "Müşteri yok",
+  "start": "Zamanlayıcıyı başlat",
+  "cancelNoSave": "Zamanlayıcıyı kaydetmeden iptal et",
+  "pause": "Zamanlayıcıyı duraklat",
+  "stopSave": "Durdur ve kaydet",
+  "resume": "Zamanlayıcıyı sürdür",
+  "addMinutes": "Zamanlayıcıya {minutes} dakika ekle",
+  "addedMinutes": "+{minutes} dk",
+  "pickClientProject": "Müşteri ve proje seç",
+  "descriptionPlaceholder": "Ne üzerinde çalışıyorsun?",
+  "descriptionLabel": "Çalışma açıklaması"
+}

@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "İyi geceler",
+    "morning": "Günaydın",
+    "forenoon": "Günaydın",
+    "afternoon": "İyi günler",
+    "evening": "İyi akşamlar"
+  },
+  "duration": {
+    "hourUnit": "sa",
+    "minUnit": "dk"
+  },
+  "noName": "Adsız",
+  "noDescription": "Açıklama yok",
+  "prompt": {
+    "label": "Ne üzerinde çalıştın?",
+    "placeholder": "ör. dün Jensen'in web sitesinde 2 saat",
+    "interpret": "Yorumla",
+    "listening": "Dinleniyor…",
+    "hintAvailable": "Yaz veya dikte et, sonra Enter'a bas. Konuşma tarayıcında yerel olarak işlenir ve ses hiçbir yere gönderilmez.",
+    "hintDownloadable": "Yaz ve Enter'a bas.",
+    "downloading": "Konuşma tanıma indiriliyor…",
+    "install": "Konuşma tanımayı indir (yaklaşık 60 MB, yerel çalışır)",
+    "hintDefault": "Yaz ve Enter'a bas, ör. “Acme ile 9-10:30 arası 1,5 sa toplantı”. Telefonda klavyedeki mikrofonla dikte edebilirsin. Buraya gelmek için <kbd>/</kbd> tuşuna bas.",
+    "stopDictation": "Dikteyi durdur",
+    "dictate": "Mikrofonla dikte et",
+    "dictateTitle": "Dikte et (yerel konuşma tanıma)",
+    "listeningSr": "Dinleniyor",
+    "missingHint": "aşağıdan bir öneri seç veya tam formda düzelt.",
+    "descriptionLabel": "Açıklama",
+    "descriptionPlaceholder": "Süre neye harcandı?",
+    "usePrepaid": "{name} ön ödemeli paketinden düş ({time} kaldı)",
+    "saveWithHours": "{hours} kaydet",
+    "save": "Kaydet",
+    "editInForm": "Formda düzenle",
+    "cancel": "İptal",
+    "keysHint": "Enter kaydeder · Esc iptal eder",
+    "needDescription": "Kaydetmeden önce kısa bir açıklama yaz.",
+    "internal": "Dahili süre olarak kaydedildi.",
+    "savedOffline": "Çevrimdışı kaydedildi. Zaman kaydı bağlantı geri geldiğinde gönderilecek.",
+    "registered": "{hours} kaydedildi",
+    "saveFailed": "Zaman kaydı kaydedilemedi"
+  },
+  "welcome": {
+    "title": "{brand}'e hoş geldin",
+    "titleDone": "İyi bir başlangıç. İlk zaman kaydın tamam",
+    "hide": "Karşılamayı gizle",
+    "intro": "Bir dakikadan kısa sürede başla: şimdi bir zamanlayıcı başlat veya aşağıdaki alana ne üzerinde çalıştığını yaz, ör. “dün web sitesinde 2 saat”. Şirket bilgilerini ve planı sonra halledebilirsin.",
+    "timerStarted": "Zamanlayıcı çalışıyor. İşin bitince en üstteki zamanlayıcı çubuğundan durdur.",
+    "timerBusy": "Zamanlayıcı zaten çalışıyor",
+    "startFirstTimer": "İlk zamanlayıcını başlat",
+    "writeLine": "Alana bir satır yaz",
+    "surveyQuestion": "{brand}'i esas olarak ne için kullanacaksın? <muted>(isteğe bağlı)</muted>",
+    "primaryUse": {
+      "time": "Zamanımı takip etmek",
+      "invoicing": "Müşterilerime fatura kesmek",
+      "klippekort": "Ön ödemeli paketler ve ön ödemeli saatler",
+      "team": "Ekibimin zamanını izlemek"
+    },
+    "thanksToast": "Yanıtın için teşekkürler",
+    "saveFailed": "Yanıtın kaydedilemedi. Tekrar dene.",
+    "thanksNote": "Teşekkürler. Ana sayfa artık sana uygun sonraki adımları gösteriyor.",
+    "privacyNote": "Yanıt yalnızca ana sayfayı sana göre uyarlamak için kullanılır ve başkasıyla paylaşılmaz."
+  },
+  "quickStart": {
+    "title": "Zamanlayıcıyı başlat",
+    "running": "Zamanlayıcı zaten çalışıyor. Yenisini başlatmadan önce en üstteki zamanlayıcı çubuğundan durdur.",
+    "paused": "Zamanlayıcı duraklatıldı. Önce en üstteki zamanlayıcı çubuğundan devam ettir veya kaydet.",
+    "resumeToast": "Zamanlayıcı başladı ve son kayda devam ediyor",
+    "continueLast": "Sonuncuya devam et",
+    "mostUsed": "En çok kullanılan",
+    "startedOn": "Zamanlayıcı {name} için başladı",
+    "startOn": "{name} için zamanlayıcıyı başlat",
+    "empty": "Biraz zaman kaydettiğinde en çok kullandığın projeler burada görünür.",
+    "createProject": "Proje oluştur"
+  },
+  "signals": {
+    "label": "İlgilenmen gerekenler",
+    "nudge": {
+      "first-invoice": "Sürenden ilk faturanı oluştur",
+      "first-client": "Ön ödemeli paketin ait olduğu müşteriyi oluştur",
+      "first-klippekort": "İlk ön ödemeli paketini oluştur",
+      "invite-team": "Bir iş arkadaşını davet et"
+    },
+    "lowBalance": "{count, plural, one {1 ön ödemeli paket bitmek üzere} other {# ön ödemeli paket bitmek üzere}}",
+    "unbilled": "Faturaya hazır <b>{duration}</b> faturalanmamış süre"
+  },
+  "today": {
+    "title": "Bugün",
+    "ofExpected": "/ {duration}",
+    "loadFailed": "Bugünün kayıtları yüklenemedi. Sayfayı yenilemeyi dene.",
+    "empty": "Bugün henüz süre kaydedilmedi. Yukarıya ne yaptığını yaz veya bir zamanlayıcı başlat.",
+    "internal": "Dahili süre",
+    "resumeToast": "Zamanlayıcı başladı ve kayda devam ediyor",
+    "continueLabel": "{name} kaydına devam et",
+    "continueFallback": "kayıt",
+    "continueTitle": "Zamanlayıcıyla devam et",
+    "allEntries": "Tüm kayıtlar",
+    "fullForm": "Tam form"
+  },
+  "page": {
+    "title": "Ana sayfa",
+    "overview": "Genel bakış"
+  }
+}

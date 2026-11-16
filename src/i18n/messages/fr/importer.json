@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Import terminé : {count, plural, one {# saisie de temps importée} many {# de saisies de temps importées} other {# saisies de temps importées}}",
+    "doneWithErrorsToast": "Import terminé avec des erreurs : {imported} importées, {failed} en échec",
+    "failedToast": "Échec de l'import. Consultez les détails dans les paramètres",
+    "running": "Import en cours : {pct} % ({imported}/{total})",
+    "details": "Voir les détails",
+    "done": "Import terminé : {count, plural, one {# saisie de temps importée} many {# de saisies de temps importées} other {# saisies de temps importées}}",
+    "doneWithFailed": "Import terminé : {count, plural, one {# saisie de temps importée} many {# de saisies de temps importées} other {# saisies de temps importées}}, {failed} en échec",
+    "dismiss": "Fermer"
+  },
+  "page": {
+    "pickDateFormat": "Choisissez un format de date pour continuer.",
+    "success": "Import réussi !",
+    "failed": "Échec de l'import. Réessayez.",
+    "backToOnboarding": "← Retour à la prise en main",
+    "backToIntegrations": "← Retour aux intégrations",
+    "onboardingMode": "Mode prise en main activé",
+    "onboardingNote": "Après un import réussi, vous poursuivrez automatiquement la prise en main.",
+    "uploadFile": "Téléverser un fichier",
+    "chooseFile": "Choisir un fichier",
+    "noFile": "Aucun fichier choisi",
+    "dateFormat": "Format de date",
+    "chooseFormat": "Choisir un format…",
+    "dateFormatHint": "Vérifiez dans votre CSV quel format de date est utilisé.",
+    "billingFilter": "Filtre de facturation",
+    "filter": {
+      "all": "Tout importer",
+      "unbilled": "Non facturé uniquement",
+      "billed": "Facturé uniquement"
+    },
+    "billingFilterHint": "Filtre les saisies selon le statut de facturation de la source.",
+    "markAllBilled": "Marquer toutes les saisies importées comme facturées",
+    "markAllBilledHint": "À utiliser si vous n'exportez de la source que des saisies déjà facturées.",
+    "result": {
+      "clients": "{count, plural, one {# client créé} many {# de clients créés} other {# clients créés}}",
+      "projects": "{count, plural, one {# projet créé} many {# de projets créés} other {# projets créés}}",
+      "timeEntries": "{count, plural, one {# saisie de temps importée} many {# de saisies de temps importées} other {# saisies de temps importées}}",
+      "billedSplit": "({billed} facturées, {unbilled} non facturées)",
+      "skippedRows": "{count, plural, one {# ligne ignorée} many {# de lignes ignorées} other {# lignes ignorées}}",
+      "filteredRows": "{count, plural, one {# ligne exclue (filtre de facturation)} many {# de lignes exclues (filtre de facturation)} other {# lignes exclues (filtre de facturation)}}",
+      "totalHours": "{hours} heures importées au total",
+      "tasks": "{count, plural, one {# tâche importée} many {# de tâches importées} other {# tâches importées}}",
+      "subtasks": "{count, plural, one {# sous-tâche importée} many {# de sous-tâches importées} other {# sous-tâches importées}}",
+      "tasksSkipped": "{count, plural, one {# tâche ignorée} many {# de tâches ignorées} other {# tâches ignorées}}"
+    },
+    "importing": "Import en cours…",
+    "start": "Lancer l'import",
+    "mayTakeAWhile": "Cela peut prendre quelques minutes selon la quantité de données…",
+    "warnTitle": "Bon à savoir :",
+    "warn1": "L'import ne peut pas être annulé",
+    "warn2": "Les données existantes ne sont pas écrasées",
+    "warn3": "Les doublons sont ignorés"
+  }
+}

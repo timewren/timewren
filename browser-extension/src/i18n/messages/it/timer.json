@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} salvate su <b>{target}</b>",
+    "stoppedOn": "{duration} fermate su <b>{target}</b>",
+    "savedInternal": "{duration} salvate come <b>tempo interno</b>",
+    "stoppedInternal": "{duration} fermate come <b>tempo interno</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Il pacchetto <b>{name}</b> non aveva ore sufficienti, quindi tutto il tempo è stato salvato come fatturabile",
+    "deducted": "{hours} scalate da <b>{name}</b>, ne restano {remaining}",
+    "deductedOverflow": "{hours} scalate da <b>{name}</b>, ne restano {remaining}. Il pacchetto si è esaurito, quindi il resto è tempo fatturabile",
+    "pendingSave": "Il server non ha risposto in tempo. Il tempo viene inviato automaticamente appena c'è connessione e viene salvato una sola volta.",
+    "close": "Chiudi messaggio"
+  },
+  "discard": {
+    "label": "Scarta il tempo",
+    "question": "Scartare {duration} senza salvare?",
+    "keep": "Mantieni il tempo",
+    "confirm": "Scarta il tempo"
+  },
+  "switch": {
+    "label": "Cambia cliente",
+    "question": "Salvare {duration} su {from} e avviare un nuovo timer su {to}?",
+    "internal": "tempo interno",
+    "cancel": "Annulla",
+    "confirm": "Salva e avvia nuovo"
+  },
+  "noClient": "Nessun cliente selezionato",
+  "noClientShort": "Nessun cliente",
+  "start": "Avvia timer",
+  "cancelNoSave": "Annulla il timer senza salvare",
+  "pause": "Metti in pausa il timer",
+  "stopSave": "Ferma e salva",
+  "resume": "Riprendi timer",
+  "addMinutes": "Aggiungi {minutes} minuti al timer",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Scegli cliente e progetto",
+  "descriptionPlaceholder": "Su cosa stai lavorando?",
+  "descriptionLabel": "Descrizione del lavoro"
+}

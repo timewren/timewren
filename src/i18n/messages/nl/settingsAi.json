@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini en andere OpenAI-modellen",
+      "note": "Maak een API-sleutel aan op platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus en Haiku via de OpenAI SDK",
+      "note": "Maak een API-sleutel aan op console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Deense AI, gehost in Denemarken, volledig AVG-conform",
+      "badge": "Aanbevolen",
+      "note": "In Denemarken gehoste AI van Ordbogen A/S. Maak een sleutel aan op odincore.ai. Gegevens verlaten Denemarken nooit."
+    },
+    "custom": {
+      "label": "Ander endpoint",
+      "description": "Elke OpenAI-compatibele API"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Handmatig",
+      "description": "AI is uitgeschakeld. Alle taken worden zonder AI-verwerking afgehandeld."
+    },
+    "suggest": {
+      "label": "Suggereren",
+      "description": "AI stelt categorieën en prioriteiten voor, maar jij keurt goed."
+    },
+    "auto_lowrisk": {
+      "label": "Automatisch (laag risico)",
+      "description": "AI handelt eenvoudige taken automatisch af. Complexe taken gaan ter goedkeuring."
+    },
+    "auto_all": {
+      "label": "Volledig automatisch",
+      "description": "AI handelt alle taken automatisch af, zonder goedkeuring."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Denemarken (Europe/Copenhagen)",
+    "Europe/Stockholm": "Zweden (Europe/Stockholm)",
+    "Europe/Oslo": "Noorwegen (Europe/Oslo)",
+    "Europe/London": "Verenigd Koninkrijk (Europe/London)",
+    "Europe/Berlin": "Duitsland (Europe/Berlin)",
+    "America/New_York": "Oostkust VS (America/New_York)",
+    "America/Los_Angeles": "Westkust VS (America/Los_Angeles)"
+  },
+  "connectionOk": "Verbinding OK!",
+  "connectionFailed": "Verbinding mislukt",
+  "testFailed": "Test mislukt",
+  "emailEnabled": "E-mail naar taak ingeschakeld!",
+  "emailEnableFailed": "E-mail naar taak inschakelen mislukt",
+  "emailDisabled": "E-mail naar taak uitgeschakeld",
+  "emailDisableFailed": "E-mail naar taak uitschakelen mislukt",
+  "addressRegenerated": "Nieuw e-mailadres gemaakt!",
+  "addressRegenerateFailed": "Nieuw adres maken mislukt",
+  "settingsUpdated": "AI-instellingen bijgewerkt",
+  "settingsUpdateFailed": "AI-instellingen bijwerken mislukt",
+  "addressCopied": "E-mailadres gekopieerd!",
+  "keyRequired": "Een API-sleutel is verplicht",
+  "urlRequired": "Voor een eigen endpoint is een API-URL verplicht",
+  "enterKeyFirst": "Vul eerst een API-sleutel in",
+  "title": "AI en automatisering",
+  "description": "Stel AI-functies en e-mail naar taak in",
+  "statusTitle": "AI-status",
+  "statusEnabled": "AI is ingeschakeld",
+  "statusDisabled": "AI is niet ingesteld",
+  "statCalls": "Totaal AI-aanroepen",
+  "statSuccess": "Slagingspercentage",
+  "statConfidence": "Gem. zekerheid",
+  "statTime": "Gem. verwerkingstijd",
+  "enableHint": "Kies hieronder een AI-aanbieder en vul je eigen API-sleutel in om AI-functies in te schakelen.",
+  "providerTitle": "AI-aanbieder",
+  "providerSub": "Kies hoe AI-functies worden aangedreven: met de AI van het systeem of je eigen",
+  "providerIntro": "Kies een AI-aanbieder en vul je eigen API-sleutel in om AI-functies in te schakelen. {brand} gebruikt het OpenAI SDK-formaat, dat door veel aanbieders wordt ondersteund.",
+  "apiKey": "API-sleutel",
+  "configured": "(ingesteld)",
+  "keyPlaceholder": "API-sleutel",
+  "keyHelpOpenai": "Je OpenAI API-sleutel van platform.openai.com",
+  "keyHelpAnthropic": "Je Anthropic API-sleutel van console.anthropic.com",
+  "keyHelpOrdbogen": "Je API-sleutel van OdinCore.ai",
+  "keyHelpOther": "API-sleutel van je aanbieder",
+  "apiUrl": "API-URL",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (standaard, leeg laten)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Vooraf ingevuld vanuit de voorinstelling",
+  "urlHelp": "Basis-URL voor de API. Laat leeg voor het standaardendpoint van OpenAI.",
+  "model": "Model",
+  "modelPlaceholderOpenai": "gpt-4o-mini (standaard)",
+  "modelPlaceholderOther": "Modelnaam",
+  "modelHelp": "Geef een model op, of laat leeg voor het standaardmodel",
+  "testConnection": "Verbinding testen",
+  "saveSettings": "Instellingen opslaan",
+  "help": {
+    "title": "Zo krijg je een API-sleutel",
+    "sub": "Kies een van de aanbevolen aanbieders en volg de handleiding",
+    "odinDesc": "Deense AI gehost in Denemarken, volledig AVG-conform. Gegevens verlaten Denemarken nooit.",
+    "odin1": "Ga naar odincore.ai en maak een account aan",
+    "odin2": "Ga naar het API-gedeelte van je account",
+    "odin3": "Maak een nieuwe API-sleutel aan",
+    "odin4": "Plak de sleutel hierboven bij \"OdinCore (Ordbogen)\"",
+    "openaiDesc": "GPT-4o-mini is snel en goedkoop en geschikt voor het verwerken van taken.",
+    "openai1": "Ga naar platform.openai.com en log in",
+    "openai2": "Ga naar \"API keys\" onder je instellingen",
+    "openai3": "Klik op \"Create new secret key\"",
+    "copyPaste": "Kopieer de sleutel en plak hem hierboven",
+    "anthropicDesc": "De Claude-modellen zijn sterk in het begrijpen en indelen van taken.",
+    "anthropic1": "Ga naar console.anthropic.com en maak een account aan",
+    "anthropic2": "Ga naar \"Settings\" → \"API keys\"",
+    "anthropic3": "Klik op \"Create key\""
+  },
+  "email": {
+    "title": "E-mail naar taak",
+    "sub": "Stuur e-mails naar je persoonlijke adres om automatisch taken te maken",
+    "address": "Je persoonlijke taak-e-mailadres",
+    "copyTitle": "E-mailadres kopiëren",
+    "addressHelp": "Stuur e-mails naar dit adres, of stuur ze door, om automatisch taken te maken. AI leest de inhoud en haalt titel, deadline en prioriteit eruit.",
+    "regenerate": "Nieuw adres maken",
+    "disable": "E-mail naar taak uitschakelen",
+    "notEnabled": "E-mail naar taak is niet ingeschakeld",
+    "notEnabledText": "Schakel in om een persoonlijk e-mailadres te krijgen waar je taken naartoe kunt sturen. E-mails worden automatisch taken op je dashboard.",
+    "enable": "E-mail naar taak inschakelen"
+  },
+  "autonomyTitle": "AI-autonomieniveau",
+  "autonomySub": "Kies hoeveel AI automatisch mag afhandelen",
+  "hoursTitle": "Werktijden en tijdzone",
+  "hoursSub": "Gebruikt voor AI-prioritering en agendafuncties",
+  "timezone": "Tijdzone",
+  "workingHours": "Werktijden",
+  "to": "tot",
+  "hoursHelp": "AI gebruikt deze tijden om de beste momenten voor taken voor te stellen",
+  "privacyTitle": "Privacy en beveiliging",
+  "privacyText": "E-mails worden verwerkt en direct na het maken van de taak verwijderd. We bewaren alleen de afgeronde taak, niet de oorspronkelijke e-mail. De AI-verwerking gebeurt via OpenAI met strikte gegevensverwerking."
+}

@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Faktura standard",
+        "subject": "Faktura {number} fra {company}",
+        "title": "Faktura {number}",
+        "text": "Kære {client},\n\nHermed faktura for udført arbejde.\n\nBeløb: {amount}\nForfaldsdato: {dueDate}",
+        "button": "Se faktura",
+        "footer": "Med venlig hilsen\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Portal invitation",
+        "subject": "Du er inviteret til kundeportalen hos {company}",
+        "title": "Velkommen til kundeportalen",
+        "text": "Kære {client},\n\nDu er blevet inviteret til at få adgang til din personlige kundeportal hos {company}.\n\nI portalen kan du:\n• Se dine fakturaer\n• Følge med i projektfremskridt\n• Se dine tidsregistreringer\n• Tjekke dit klippekort",
+        "button": "Acceptér invitation"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Du får ikke længere nyhedsbreve og markedsføringsmails fra TimeTrack. Vigtige mails om din konto og sikkerhed kommer stadig.",
+    "invalidText": "Afmeldingen kunne ikke bekræftes. Prøv igen, eller tilpas dine indstillinger inde i TimeTrack.",
+    "confirmText": "Vil du afmelde nyhedsbreve og markedsføringsmails fra TimeTrack? Vigtige mails om din konto og sikkerhed kommer stadig.",
+    "settingsButton": "Tilpas mailindstillinger",
+    "confirmButton": "Bekræft afmelding",
+    "doneTitle": "Du er afmeldt",
+    "invalidTitle": "Linket er ugyldigt",
+    "confirmTitle": "Afmeld nyhedsbreve"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "slutningen af perioden"
+  }
+}

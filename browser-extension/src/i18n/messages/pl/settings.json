@@ -1,0 +1,109 @@
+{
+  "title": "Ustawienia",
+  "close": "Zamknij ustawienia",
+  "searchPlaceholder": "Szukaj w ustawieniach…",
+  "searchLabel": "Szukaj w ustawieniach",
+  "noMatch": "Brak ustawień pasujących do „{query}”",
+  "keywords": {
+    "view": "widok|wyświetlanie|sugestia|strona|strony|pakiet|pakiety|okno",
+    "appearance": "wygląd|motyw|ciemny|jasny|plakietka|ikona|język",
+    "newTab": "nowa karta|karta|strona startowa|widżety",
+    "calendar": "kalendarz|dzień|data",
+    "goal": "cel dzienny|cel|cel godzin|postęp",
+    "reminder": "przypomnienie|powiadomienie|weekend|wpis|rejestracja",
+    "data": "dane|usuń|resetuj|offline|powiązania|linki|strona|kolejka",
+    "advanced": "zaawansowane|api|url|serwer",
+    "shortcuts": "skróty|skrót|klawiatura|alt",
+    "about": "o rozszerzeniu|rozszerzenie|o|wersja|oceń|opinia|pomoc"
+  },
+  "view": {
+    "title": "Widok",
+    "suggestions": "Sugestie ze strony internetowej",
+    "suggestionsHint": "Sugeruj projekt na podstawie odwiedzanej strony",
+    "prepaidTab": "Karta Pakiety",
+    "prepaidTabHint": "Pokaż w oknie rozszerzenia kartę z aktywnymi pakietami"
+  },
+  "appearance": {
+    "title": "Wygląd",
+    "theme": "Motyw",
+    "themeHint": "Motyw kolorystyczny rozszerzenia",
+    "system": "Zgodnie z systemem",
+    "dark": "Ciemny",
+    "light": "Jasny",
+    "badge": "Liczba na ikonie",
+    "badgeHint": "Co pokazuje liczba na ikonie rozszerzenia",
+    "badgeTimer": "Aktywny stoper",
+    "badgeToday": "Dzisiejsze godziny",
+    "badgeOff": "Ukryta",
+    "language": "Język",
+    "languageHint": "Język rozszerzenia",
+    "languageAuto": "Automatycznie (zgodnie z przeglądarką)"
+  },
+  "newTab": {
+    "title": "Nowa karta",
+    "enable": "Otwieraj TimeTrack w nowych kartach",
+    "enableHint": "Wyłącz, aby zachować zwykłe, puste karty",
+    "widgetsHint": "Widżety wybierzesz w ustawieniach na nowej karcie",
+    "activeWidgets": "Aktywne widżety: {count}"
+  },
+  "calendar": {
+    "title": "Kalendarz",
+    "openOn": "Otwieraj kalendarz na",
+    "openOnHint": "Który dzień kalendarz pokazuje po otwarciu",
+    "today": "Dziś",
+    "lastViewed": "Ostatnio oglądany dzień"
+  },
+  "goal": {
+    "title": "Cel dzienny",
+    "hours": "Dzienny cel godzin",
+    "hoursHint": "Używany w dziennym pasku postępu w oknie rozszerzenia i na nowej karcie"
+  },
+  "reminder": {
+    "title": "Codzienne przypomnienie",
+    "enable": "Przypominaj o rejestracji czasu",
+    "enableHint": "Powiadomienie, gdy zarejestrowano zbyt mało godzin",
+    "time": "Godzina",
+    "minHours": "Minimalna liczba godzin",
+    "weekends": "Także w weekendy"
+  },
+  "data": {
+    "title": "Dane",
+    "clearMappingsConfirm": "Usunąć wszystkie zapisane powiązania między stronami a projektami?",
+    "clearMappingsDetail": "Ukryte sugestie również pojawią się ponownie.",
+    "delete": "Usuń",
+    "clearMappings": "Usuń powiązania ze stronami",
+    "mappingsCount": "{count, plural, one {# zapisane powiązanie} few {# zapisane powiązania} many {# zapisanych powiązań} other {# zapisanego powiązania}}",
+    "clearQueueConfirm": "Usunąć {count, plural, one {# oczekującą akcję} few {# oczekujące akcje} many {# oczekujących akcji} other {# oczekującej akcji}}?",
+    "unsentEntries": "{count, plural, one {# wpis nie został} few {# wpisy nie zostały} many {# wpisów nie zostało} other {# wpisu nie zostało}} jeszcze wysłane do TimeTrack. Ten czas zostanie bezpowrotnie usunięty.",
+    "clearQueueConfirmButton": "Usuń kolejkę",
+    "clearQueue": "Usuń kolejkę offline",
+    "pendingActions": "{count, plural, one {# oczekująca akcja} few {# oczekujące akcje} many {# oczekujących akcji} other {# oczekującej akcji}}",
+    "unsentSuffix": "{count, plural, one {# niewysłany wpis} few {# niewysłane wpisy} many {# niewysłanych wpisów} other {# niewysłanego wpisu}}",
+    "resetConfirm": "Zresetować wszystkie ustawienia?",
+    "resetDetail": "Zostaną przywrócone domyślne ustawienia rozszerzenia.",
+    "resetButton": "Resetuj",
+    "reset": "Resetuj ustawienia",
+    "resetHint": "Przywróć ustawienia domyślne"
+  },
+  "advanced": {
+    "title": "Zaawansowane",
+    "apiUrl": "Adres API",
+    "notSaved": "{error}. Adres nie został zapisany."
+  },
+  "shortcuts": {
+    "title": "Skróty klawiszowe",
+    "unreadable": "W tej przeglądarce nie można odczytać skrótów.",
+    "openApp": "Otwórz TimeTrack",
+    "notSet": "Nie ustawiono",
+    "change": "Zmień skróty",
+    "firefoxPage": "Otwiera stronę skrótów Firefoksa",
+    "chromePage": "Otwiera chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "Rozszerzenie przeglądarki TimeTrack, wersja {version}",
+    "rateFirefox": "Oceń w Firefox Add-ons",
+    "rateChrome": "Oceń w Chrome Web Store",
+    "rateHint": "Twoja opinia pomaga innym freelancerom",
+    "learnMore": "Dowiedz się więcej o rozszerzeniu"
+  }
+}

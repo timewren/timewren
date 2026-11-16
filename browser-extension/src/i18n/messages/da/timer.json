@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} gemt på <b>{target}</b>",
+    "stoppedOn": "{duration} stoppet på <b>{target}</b>",
+    "savedInternal": "{duration} gemt som <b>intern tid</b>",
+    "stoppedInternal": "{duration} stoppet som <b>intern tid</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Kortet <b>{name}</b> havde ikke nok timer, så hele tiden er gemt som fakturerbar",
+    "deducted": "{hours} trukket fra <b>{name}</b>, {remaining} tilbage",
+    "deductedOverflow": "{hours} trukket fra <b>{name}</b>, {remaining} tilbage. Kortet løb tørt, så resten er fakturerbar tid",
+    "pendingSave": "Serveren svarede ikke i tide. Tiden sendes automatisk, så snart der er forbindelse, og gemmes kun én gang.",
+    "close": "Luk besked"
+  },
+  "discard": {
+    "label": "Kassér tid",
+    "question": "Kassér {duration} uden at gemme?",
+    "keep": "Behold tiden",
+    "confirm": "Kassér tiden"
+  },
+  "switch": {
+    "label": "Skift kunde",
+    "question": "Gem {duration} på {from} og start ny timer på {to}?",
+    "internal": "intern tid",
+    "cancel": "Annuller",
+    "confirm": "Gem og start ny"
+  },
+  "noClient": "Ingen kunde valgt",
+  "noClientShort": "Ingen kunde",
+  "start": "Start timer",
+  "cancelNoSave": "Annuller timer uden at gemme",
+  "pause": "Pause timer",
+  "stopSave": "Stop og gem",
+  "resume": "Fortsæt timer",
+  "addMinutes": "Læg {minutes} minutter til timeren",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Vælg kunde og projekt",
+  "descriptionPlaceholder": "Hvad arbejder du på?",
+  "descriptionLabel": "Beskrivelse af arbejde"
+}

@@ -1,0 +1,34 @@
+---
+title: "Mobile app"
+description: "The TimeWren mobile app and what your self-hosted server provides for it: device login, push notifications and minimum versions."
+---
+
+The mobile app is a native app that uses Expo. It is built and released from its own repository, separate from the server, and it signs in to the same account as the web app.
+
+This page covers what your server provides for it. How the app's server address is entered, and where the app is distributed, is not decided by the server and is covered by the app's own documentation.
+
+## Signing in
+
+The app uses the same device login as the desktop app: it opens your instance in the browser, you sign in and approve the device, and the browser returns to the app through the deep link `timetrack://auth/callback`. The access token lasts 30 days and is renewed with a refresh token (180 days), so you rarely sign in again. The app can also use the OAuth providers and Sign in with Apple that you configure, see [Authentication](/docs/configuration/authentication).
+
+The server trusts the app schemes `timetrack://` and `timetrack.preview://` automatically. You do not need to add them to `TRUSTED_ORIGINS`.
+
+For native Sign in with Apple, set `APPLE_APP_BUNDLE_IDENTIFIER` to the bundle id of the app build you use (default `dk.timetrack.app`), together with the other Apple variables.
+
+## Push notifications
+
+The server sends push messages to the app through Expo. For notifications to work the server needs an Expo access token:
+
+```dotenv
+EXPO_ACCESS_TOKEN=your-expo-access-token
+```
+
+Web Push for browsers and the PWA is separate and uses the VAPID keys. Both are optional.
+
+## Minimum versions
+
+Operators can require a minimum build with `MIN_CLIENT_VERSIONS`, for example `mobile=1.0.0+5`. The app must send a numeric build after the plus sign for this to be decided. See [Desktop app](/docs/apps/desktop#minimum-client-versions) for the format.
+
+## Manage devices
+
+Signed-in devices appear as tokens under Settings, Integrations, with their device name and last use. Revoke one to sign that device out.

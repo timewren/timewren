@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Työntekijä"
+    },
+    "department": {
+      "label": "Osasto"
+    },
+    "project": {
+      "label": "Projekti"
+    },
+    "activityType": {
+      "label": "Toiminta"
+    },
+    "absenceType": {
+      "label": "Poissaolotyyppi"
+    },
+    "day": {
+      "label": "Päivämäärä"
+    },
+    "week": {
+      "label": "Viikko"
+    },
+    "month": {
+      "label": "Kuukausi"
+    },
+    "vacationYear": {
+      "label": "Lomavuosi"
+    },
+    "email": {
+      "label": "Sähköposti"
+    },
+    "employmentType": {
+      "label": "Työsuhteen tyyppi"
+    },
+    "weeklyHours": {
+      "label": "Tuntia/viikko"
+    },
+    "dailyNorm": {
+      "label": "Päivänormi"
+    },
+    "employeeNumber": {
+      "label": "Työntekijänumero",
+      "help": "Työntekijänumero palkanlaskentajärjestelmässä (seuraa työntekijäulottuvuutta)"
+    },
+    "payrollCode": {
+      "label": "Palkkakoodi",
+      "help": "Palkkakoodi toimintatyypistä (seuraa toimintaulottuvuutta)"
+    },
+    "hours": {
+      "label": "Kirjatut tunnit"
+    },
+    "normHours": {
+      "label": "Normaalitunnit",
+      "help": "Päivänormi × työpäivät jaksolla (arkipyhät vähennetty)"
+    },
+    "workDays": {
+      "label": "Työpäivät",
+      "help": "Suunnitellut työpäivät jaksolla (ilman arkipyhiä ja sulkupäiviä)"
+    },
+    "employeeCount": {
+      "label": "Työntekijöiden määrä"
+    },
+    "flexDelta": {
+      "label": "Liukuma (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Vähennetty tauko",
+      "help": "Vain palkattomalle tauolle (sisään-/uloskirjautuminen)"
+    },
+    "checkInHours": {
+      "label": "Läsnäolo (sisäänkirjautuminen)"
+    },
+    "workedDays": {
+      "label": "Päivät, joilla on kirjauksia"
+    },
+    "maxDayHours": {
+      "label": "Pisin päivä",
+      "help": "Ryhmän yhden työntekijän suurin päiväsumma"
+    },
+    "longDays": {
+      "label": "Yli 13 h päivät",
+      "help": "Yli 13 h päiväsumma jättää alle 11 h lepoa (11 tunnin sääntö)"
+    },
+    "avgWeeklyHours": {
+      "label": "Keskim. tuntia/viikko",
+      "help": "Kirjatut tunnit työntekijäviikkoa kohden, jolla on kirjauksia tai poissaoloa (48 tunnin sääntö)"
+    },
+    "weeksOver48h": {
+      "label": "Yli 48 h viikot",
+      "help": "Työntekijäviikkojen määrä, joilla on kirjattu yli 48 h"
+    },
+    "fullWeeks": {
+      "label": "Viikot ilman vapaapäivää",
+      "help": "Viikot, joilla on kirjauksia kaikkina 7 päivänä eikä yhtään poissaolopäivää (24 tunnin viikoittainen lepo)"
+    },
+    "absenceDays": {
+      "label": "Poissaolo (päivää)"
+    },
+    "absenceHours": {
+      "label": "Poissaolo (tuntia)"
+    },
+    "absencePeriods": {
+      "label": "Poissaolojaksot"
+    },
+    "sickDays": {
+      "label": "Sairauspäivät"
+    },
+    "sickHours": {
+      "label": "Sairaustunnit"
+    },
+    "sickPeriods": {
+      "label": "Sairausjaksot"
+    },
+    "sickPct": {
+      "label": "Sairauspoissaolo-%",
+      "help": "Sairauspäivät / työpäivät"
+    },
+    "longTermSick": {
+      "label": "Pitkäaikaissairaat",
+      "help": "Yhtäjaksoinen sairausjakso yli 30 päivää jaksolla"
+    },
+    "longTermSickCount": {
+      "label": "Pitkäaikaissairaat (määrä)",
+      "help": "Työntekijöiden määrä, joilla on yli 30 päivän sairausjakso"
+    },
+    "overtimeEarned": {
+      "label": "Kertynyt ylityö"
+    },
+    "overtimeUsed": {
+      "label": "Pidetty vapaa korvauksena"
+    },
+    "overtimePaidOut": {
+      "label": "Maksettu ylityö"
+    },
+    "overtimeNet": {
+      "label": "Ylityö netto",
+      "help": "Kertynyt − pidetty vapaana − maksettu"
+    },
+    "vacationAllotted": {
+      "label": "Myönnetty loma"
+    },
+    "vacationUsed": {
+      "label": "Pidetty loma"
+    },
+    "vacationRemaining": {
+      "label": "Jäljellä oleva loma"
+    },
+    "extraVacationAllotted": {
+      "label": "Myönnetyt lisälomapäivät"
+    },
+    "extraVacationUsed": {
+      "label": "Pidetyt lisälomapäivät"
+    },
+    "extraVacationRemaining": {
+      "label": "Jäljellä olevat lisälomapäivät"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Jaksolla pidetty loma",
+      "help": "Lomapäivät (tyypit, jotka vähentävät lomasaldoa) raporttijaksolla"
+    },
+    "hoursByActivity": {
+      "label": "Tunnit toiminnoittain",
+      "pivot": "{name} (tuntia)"
+    },
+    "absenceDaysByType": {
+      "label": "Poissaolo tyypeittäin (päivää)",
+      "pivot": "{name} (päivää)"
+    },
+    "absenceHoursByType": {
+      "label": "Poissaolo tyypeittäin (tuntia)",
+      "pivot": "{name} (tuntia)"
+    },
+    "quantityByWageType": {
+      "label": "Määrä palkkakoodeittain",
+      "help": "Tunnit/päivät palkkakoodeittain palkkakartoituksen kautta (Asetukset → Palkanlaskenta)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Työntekijä",
+    "department": "Osasto",
+    "project": "Projekti",
+    "activityType": "Toiminta",
+    "absenceType": "Poissaolotyyppi",
+    "day": "Päivä",
+    "week": "Viikko",
+    "month": "Kuukausi",
+    "vacationYear": "Lomavuosi"
+  },
+  "groups": {
+    "dimensions": "Ulottuvuudet",
+    "employee": "Työntekijä",
+    "time": "Aika",
+    "compliance": "Vaatimustenmukaisuus",
+    "absence": "Poissaolo",
+    "overtime": "Ylityö",
+    "payroll": "Palkanlaskenta",
+    "vacation": "Lomatilit"
+  },
+  "presets": {
+    "this_month": "Tämä kuukausi",
+    "last_month": "Edellinen kuukausi",
+    "this_quarter": "Tämä neljännes",
+    "this_year": "Tämä vuosi",
+    "last_year": "Viime vuosi"
+  },
+  "types": {
+    "payroll": {
+      "label": "Palkkaraportti",
+      "description": "Työntekijäkohtaisesti palkanlaskentajaksolle: tunnit, poissaolo päivinä ja tunteina tyypeittäin, liukuma, ylityö ja taukovähennykset. Palkkahallinnolle."
+    },
+    "sickness": {
+      "label": "Sairauspoissaolo",
+      "description": "Sairauspoissaolotilastot osastoittain ja kuukausittain: sairauspäivät, jaksot, poissaoloprosentti ja pitkäaikainen sairaus (yli 30 päivää)."
+    },
+    "absence": {
+      "label": "Poissaolo",
+      "description": "Kaikki poissaolotyypit (loma, sairaus, vapaa, hoito…) työntekijöittäin tai osastoittain, päivinä ja tunteina."
+    },
+    "flex_overtime": {
+      "label": "Liukuma ja ylityö",
+      "description": "Saldon kehitys jaksoittain: normaalitunnit, kirjatut tunnit, liukumaero sekä kertynyt, pidetty ja maksettu ylityö."
+    },
+    "project_activity": {
+      "label": "Projekti ja toiminta",
+      "description": "Tunnit jaoteltuna projektin, toimintatyypin ja osaston mukaan, esimerkiksi opetuksen, valmistelun ja kokousten seurantaan."
+    },
+    "vacation_account": {
+      "label": "Lomatilit",
+      "description": "Lomatilit lomavuosittain: myönnetyt, pidetyt ja jäljellä olevat loma- ja lisälomapäivät työntekijöittäin."
+    },
+    "compliance": {
+      "label": "Vaatimustenmukaisuus (työaikalaki)",
+      "description": "Rikkomukset ja varoitukset työntekijöittäin ja viikoittain: yli 13 h päivät (11 h lepo), yli 48 h viikot, viikot ilman vapaapäivää (24 h viikoittainen lepo) ja keskimääräinen viikkotyöaika."
+    },
+    "custom": {
+      "label": "Oma",
+      "description": "Vapaasti valittavat ulottuvuudet ja sarakkeet koko valikoimasta: rakenna täsmälleen se raportti, jota kaipaat."
+    }
+  },
+  "weekdays": {
+    "1": "Maanantai",
+    "2": "Tiistai",
+    "3": "Keskiviikko",
+    "4": "Torstai",
+    "5": "Perjantai",
+    "6": "Lauantai",
+    "7": "Sunnuntai"
+  },
+  "page": {
+    "all": "(kaikki)",
+    "selected": "({count} valittu)",
+    "clear": "Tyhjennä valinta",
+    "downloaded": "Raportti ladattu",
+    "templateDeleted": "Pohja poistettu",
+    "maxDimensions": "Enintään 4 ulottuvuutta",
+    "templateUnreadable": "Pohjaa ei voi lukea",
+    "needColumn": "Valitse vähintään yksi sarake",
+    "inactive": "(ei aktiivinen)",
+    "title": "Raportit",
+    "step1": "1. Valitse raporttityyppi",
+    "step2": "2. Ajanjakso",
+    "holidayYearPlaceholder": "Lomavuosi…",
+    "holidayYear": "Lomavuosi {year}",
+    "from": "Alkaen",
+    "to": "Asti",
+    "step3": "3. Suodattimet",
+    "departments": "Osastot",
+    "employees": "Työntekijät",
+    "projects": "Projektit",
+    "activities": "Toiminnot",
+    "absenceTypes": "Poissaolotyypit",
+    "onlyApproved": "Vain hyväksytyt tunnit",
+    "includeRejected": "Sisällytä hylätyt tunnit",
+    "includePending": "Sisällytä odottavat poissaolot",
+    "includeInactive": "Sisällytä entiset työntekijät",
+    "includeDetails": "Sisällytä kaikki kirjaukset (tiedot)",
+    "step4": "4. Ryhmittele",
+    "step4Hint": "(järjestys = napsautusjärjestys)",
+    "step5": "5. Sarakkeet",
+    "run": "Suorita raportti",
+    "saveAsTemplate": "Tallenna pohjaksi",
+    "chooseTemplateFirst": "Tallenna tai valitse ensin pohja",
+    "scheduleMail": "Ajasta sähköposti",
+    "savedTemplates": "Tallennetut pohjat",
+    "noTemplates": "Ei vielä pohjia.",
+    "sharedOrg": "Jaettu organisaatiossa",
+    "onlyMe": "Vain minä",
+    "standard": " · Oletus",
+    "deleteTemplate": "Poista pohja",
+    "confirmDeleteTemplate": "Poistetaanko pohja \"{name}\"?",
+    "footnote": "CSV käyttää puolipisteitä ja tanskalaista desimaalipilkkua. Hylätyt tunnit jätetään oletuksena pois, ja avoimet sairausilmoitukset lasketaan tähän päivään asti. Esihenkilöt näkevät vain omat osastonsa ja työntekijänsä.",
+    "cardEmployees": "Työntekijät",
+    "noData": "Ei tietoja jaksolla {from} - {to}",
+    "noDataHint": "Kokeile laajempaa ajanjaksoa, vähemmän suodattimia tai muita sarakkeita.",
+    "allEntries": "Kaikki kirjaukset ({count})",
+    "truncated": "Jaksolla on enemmän kirjauksia kuin yksityiskohtaiseen luetteloon mahtuu. Yllä olevat summat on silti laskettu kaikista tiedoista. Valitse lyhyempi ajanjakso nähdäksesi kaikki tiedot.",
+    "detEmployee": "Työntekijä",
+    "detDepartment": "Osasto",
+    "detDate": "Päivämäärä",
+    "detHours": "Tunnit",
+    "detProject": "Projekti",
+    "detActivity": "Toiminta",
+    "detPayCode": "Palkkakoodi",
+    "detDescription": "Kuvaus",
+    "detSource": "Lähde",
+    "detStatus": "Tila",
+    "saveTemplateTitle": "Tallenna pohjaksi",
+    "templateSaved": "Pohja tallennettu",
+    "name": "Nimi",
+    "description": "Kuvaus",
+    "shareWithOrg": "Jaa koko organisaatiolle (kaikki esihenkilöt ja HR näkevät sen)",
+    "cancel": "Peruuta",
+    "save": "Tallenna",
+    "scheduleTitle": "Ajasta sähköposti",
+    "scheduled": "Raportti lähetetään automaattisesti",
+    "frequency": "Toistuvuus",
+    "weekly": "Viikoittain",
+    "monthly": "Kuukausittain",
+    "weekday": "Viikonpäivä",
+    "dayOfMonth": "Kuukauden päivä",
+    "dayN": "{day}.",
+    "recipients": "Vastaanottajat (erota pilkuilla)",
+    "recipientsPlaceholder": "palkat@example.com, esihenkilo@example.com",
+    "format": "Muoto",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "Pohjan ajanjakso on liukuva: \"Edellinen kuukausi\" 1. päivänä lähetettynä antaa täsmälleen edellisen kuukauden luvut.",
+    "schedule": "Ajasta",
+    "scheduleRemoved": "Ajastettu sähköposti poistettu",
+    "scheduledMails": "Ajastetut sähköpostit",
+    "freqWeeklyLower": "viikoittain",
+    "freqMonthlyLower": "kuukausittain",
+    "scheduleLine": "· {frequency} (päivä {day}) · {format} · {recipients}",
+    "lastSent": " · viimeksi lähetetty {date}",
+    "remove": "Poista",
+    "yes": "Kyllä",
+    "no": "Ei",
+    "card": {
+      "employees": "Työntekijät"
+    }
+  }
+}

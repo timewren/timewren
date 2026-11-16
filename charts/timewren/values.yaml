@@ -1,0 +1,110 @@
+image:
+  repository: ghcr.io/timewren/timewren
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Public origin used by authentication and links. Set this before installation.
+appUrl: http://localhost:3000
+# Contains DATABASE_URL, BETTER_AUTH_SECRET, ENCRYPTION_KEY, CRON_SECRET,
+# POSTGRES_PASSWORD (when bundled PostgreSQL is enabled), and optionally VALKEY_URL.
+existingSecret: ""
+# Empty keys are generated once and reused on upgrades via Helm lookup.
+# Set DATABASE_URL when postgresql.enabled=false and not using existingSecret.
+secrets:
+  DATABASE_URL: ""
+  POSTGRES_PASSWORD: ""
+  BETTER_AUTH_SECRET: ""
+  ENCRYPTION_KEY: ""
+  CRON_SECRET: ""
+
+# Additional .env.example variables, e.g. SMTP_HOST or ADMIN_EMAIL.
+# Put credentials in existingSecret rather than this map.
+extraEnv: {}
+service:
+  port: 3000
+resources: {}
+
+persistence:
+  enabled: true
+  existingClaim: ""
+  size: 5Gi
+  storageClass: ""
+
+# With local storage, keep one app replica (the chart uses Recreate).
+# To scale the app, configure S3 and disable persistence first.
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  host: timewren.example.com
+  tls: []
+
+postgresql:
+  enabled: true
+  image: postgres:18-alpine
+  size: 10Gi
+  storageClass: ""
+  resources: {}
+
+# Optional shared rate limits/realtime; no external chart dependency.
+# Disabled uses the app's in-memory defaults.
+valkey:
+  enabled: false
+  image: valkey/valkey:8-alpine
+  size: 1Gi
+  storageClass: ""
+  resources: {}
+
+cron:
+  enabled: true
+  image: curlimages/curl:8.12.1
+  timeZone: Europe/Copenhagen
+  resources: {}
+  jobs:
+    data-export: "*/2 * * * *"
+    import: "*/2 * * * *"
+    timer-cleanup: "*/5 * * * *"
+    webhook-retry: "*/5 * * * *"
+    email-sync: "*/5 * * * *"
+    refresh-tokens: "*/5 * * * *"
+    calendar-sync: "*/15 * * * *"
+    invoice-sync: "*/15 * * * *"
+    end-of-day: "*/15 * * * *"
+    idle-warning: "*/15 * * * *"
+    stability-watch: "*/15 * * * *"
+    recurring: "0 * * * *"
+    migration-drift: "30 * * * *"
+    scheduled-rates: "5 0 * * *"
+    daily-digest: "0 8 * * *"
+    webhook-cleanup: "0 3 * * *"
+    calendar-webhook-renew: "0 3 * * *"
+    prepaid-alerts: "0 9 * * *"
+    budget-alerts: "45 8 * * *"
+    invoice-overdue: "15 6 * * *"
+    report-schedules: "5 7 * * *"
+    manager-digest: "30 5 * * *"
+    compliance-forecast: "0 6 * * 5"
+    seat-reconciliation: "20 7 * * *"
+    store-billing-sweep: "15 5 * * *"
+    alunta-duplicate-subs: "40 6 * * *"
+    client-status-report: "10 8 * * *"
+    prepaid-renewals: "45 6 * * *"
+    recurring-invoices: "50 6 * * *"
+    invoice-reminders: "40 7 * * *"
+    churn-playbooks: "30 8 * * *"
+    ai-suggestions: "30 8 * * 1-5"
+    deadline-alerts: "0 9 * * *"
+    drip-emails: "0 9 * * *"
+    inactivity-check: "0 10 * * *"
+    dunning: "0 10 * * *"
+    unbilled-reminder: "0 10 * * *"
+    coverage-reminder: "30 6 * * *"
+    trial-reminder: "0 9 * * *"
+    trial-expire: "0 2 * * *"
+    weekly-summary: "0 8 * * 1"
+    admin-digest: "0 8 * * 1"
+    timesheet-reminder: "0 12 * * 5"
+    vacation-year-rollover: "30 4 * * *"
+    period-closing: "45 4 * * *"
+    monthly-summary: "0 9 1 * *"
+    vacation-accrual: "15 4 1 * *"

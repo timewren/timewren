@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "Je inloglink voor {brand} werkt 15 minuten",
+    "kicker": "Inloggen",
+    "heading": "Inloggen bij {brand}",
+    "footerNote": "Je ontvangt deze e-mail omdat iemand een inloglink voor jouw adres heeft aangevraagd.",
+    "body": "Klik op de knop om in te loggen. De link werkt 15 minuten en kan maar één keer worden gebruikt.",
+    "button": "Inloggen bij {brand}",
+    "ignore": "Als je niet wilde inloggen, kun je deze e-mail negeren. Zonder jouw klik gebeurt er niets.",
+    "subject": "Inloggen bij TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "Stel je wachtwoord voor {brand} opnieuw in",
+    "kicker": "Beveiliging",
+    "heading": "Stel je wachtwoord opnieuw in",
+    "footerNote": "Je ontvangt deze e-mail omdat er een nieuw wachtwoord voor je account is aangevraagd.",
+    "greeting": "Hallo {name},",
+    "body": "Klik op de knop om een nieuw wachtwoord te kiezen. De link verloopt over een uur.",
+    "button": "Nieuw wachtwoord kiezen",
+    "ignore": "Als je dit niet hebt aangevraagd, kun je deze e-mail negeren. Je wachtwoord is niet gewijzigd en je account is nog veilig.",
+    "subject": "Stel je TimeTrack-wachtwoord opnieuw in"
+  },
+  "verification": {
+    "preview": "Bevestig je e-mailadres om je account te activeren",
+    "kicker": "Account",
+    "heading": "Bevestig je e-mailadres",
+    "footerNote": "Je ontvangt deze e-mail omdat iemand met jouw e-mailadres een account heeft aangemaakt bij {brand}.",
+    "greeting": "Hallo {name},",
+    "greetingFallback": "Hallo,",
+    "body": "Bedankt voor je aanmelding. Klik op de knop om je e-mailadres te bevestigen en je account te activeren. De link werkt 24 uur.",
+    "button": "E-mailadres bevestigen",
+    "ignore": "Als je geen account hebt aangemaakt, kun je deze e-mail negeren. Er gebeurt verder niets.",
+    "subject": "Bevestig je e-mailadres voor TimeTrack"
+  },
+  "security": {
+    "kicker": "Beveiliging",
+    "footerNote": "Dit is een automatische beveiligingsmelding.",
+    "greeting": "Hallo {name},",
+    "time": "Tijd",
+    "ip": "IP-adres",
+    "device": "Apparaat",
+    "place": "Locatie",
+    "notYou": "Was jij dit niet?",
+    "openSettings": "Accountinstellingen openen",
+    "unknownDevice": "Onbekend apparaat",
+    "browser": "Browser",
+    "deviceOn": "{browser} op {os}"
+  },
+  "passwordChanged": {
+    "preview": "Je wachtwoord voor {brand} is gewijzigd",
+    "heading": "Je wachtwoord is gewijzigd",
+    "body": "Het wachtwoord voor je {brand}-account is zojuist gewijzigd. Als jij dat was, hoef je niets te doen.",
+    "calloutBody": "Stel je wachtwoord opnieuw in via \"Wachtwoord vergeten\" op de inlogpagina en schrijf meteen naar [mail]{email}[/mail].",
+    "subject": "Je TimeTrack-wachtwoord is gewijzigd"
+  },
+  "newLogin": {
+    "preview": "Nieuwe login bij {brand} vanaf {device}",
+    "heading": "Nieuwe login op je account",
+    "body": "Iemand heeft ingelogd op je {brand}-account vanaf een apparaat dat nog niet eerder is gebruikt. Als jij dat was, hoef je niets te doen.",
+    "calloutBody": "Wijzig meteen je wachtwoord en schrijf naar [mail]{email}[/mail], dan helpt support je het account te beveiligen.",
+    "subject": "Nieuwe login op je TimeTrack-account"
+  },
+  "twoFactor": {
+    "preview": "Je verificatiecode voor {brand}: {code}",
+    "heading": "Je verificatiecode",
+    "footerNote": "Je ontvangt deze e-mail omdat iemand met verificatie in twee stappen op je account heeft ingelogd.",
+    "enterCode": "Voer de code in om door te gaan:",
+    "expires": "De code verloopt over 3 minuten. Als je hem niet hebt aangevraagd, kun je deze e-mail negeren. Voer de code nooit ergens anders in dan bij {brand}.",
+    "subject": "{code} is je verificatiecode voor TimeTrack"
+  },
+  "signupPassword": {
+    "preview": "Je tijdelijke wachtwoord voor {brand}",
+    "kicker": "Welkom",
+    "heading": "Welkom bij {brand}, {name}",
+    "intro": "Je account is aangemaakt. Dit is je tijdelijke wachtwoord:",
+    "changeIt": "Wijzig het na je eerste login onder Beveiliging in de instellingen.",
+    "button": "Inloggen op je account",
+    "alsoLogin": "Je kunt ook inloggen op [login]{url}[/login] met je e-mailadres en het wachtwoord hierboven.",
+    "getStarted": "Zo begin je",
+    "step1": "Maak je eerste klant aan",
+    "step2": "Maak een project voor de klant",
+    "step3": "Start de timer en factureer de uren als het werk klaar is",
+    "subject": "Je wachtwoord voor TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} heeft je uitgenodigd voor {org}",
+    "kicker": "Uitnodiging",
+    "heading": "Je bent uitgenodigd voor {org}",
+    "footerNote": "Je ontvangt deze e-mail omdat iemand je voor zijn of haar team op {brand} heeft uitgenodigd.",
+    "role": {
+      "owner": "eigenaar",
+      "admin": "beheerder",
+      "member": "lid"
+    },
+    "body": "**{inviter}** heeft je uitgenodigd om {role} van **{org}** op {brand} te worden.",
+    "body2": "Hier registreer je tijd op de klanten en projecten van het team, en de manager ziet de uren op één plek.",
+    "button": "Uitnodiging accepteren",
+    "expires": "De uitnodiging verloopt over 48 uur. Als je de afzender niet kent, kun je deze e-mail negeren.",
+    "subject": "{inviter} heeft je uitgenodigd voor {org} op TimeTrack"
+  },
+  "portalInvite": {
+    "preview": "U bent uitgenodigd voor het klantenportaal van {sender}",
+    "kicker": "Klantenportaal",
+    "heading": "Welkom in het klantenportaal",
+    "footerNote": "Verzonden door {sender} via {brand}.",
+    "greeting": "Beste {name},",
+    "body": "{sender} heeft u toegang gegeven tot uw eigen klantenportaal. Hier ziet u facturen en projecten en volgt u het saldo van uw urenpakket.",
+    "button": "Klantenportaal openen",
+    "account": "Log in met het e-mailadres **{email}** en het wachtwoord dat u van {sender} hebt ontvangen.",
+    "token": "De link is persoonlijk. Deel hem niet met anderen.",
+    "questions": "Heeft u vragen? Dan kunt u {sender} schrijven via [mail]{email}[/mail].",
+    "subject": "U bent uitgenodigd voor het klantenportaal van {sender}"
+  },
+  "welcome": {
+    "preview": "Welkom bij {brand}",
+    "kicker": "Welkom",
+    "heading": "Welkom, {name}",
+    "intro": "Bedankt voor het aanmaken van een account bij {brand}. Zo begin je:",
+    "button": "{brand} openen",
+    "questions": "Vragen? Bekijk het [help]helpcentrum[/help] of schrijf naar [mail]{email}[/mail].",
+    "subject": "Welkom bij TimeTrack"
+  }
+}

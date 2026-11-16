@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "Dein Login-Link für {brand} funktioniert 15 Minuten lang",
+    "kicker": "Anmelden",
+    "heading": "Bei {brand} anmelden",
+    "footerNote": "Du erhältst diese E-Mail, weil jemand einen Login-Link für deine Adresse angefordert hat.",
+    "body": "Klicke auf den Button, um dich anzumelden. Der Link ist 15 Minuten gültig und kann nur einmal verwendet werden.",
+    "button": "Bei {brand} anmelden",
+    "ignore": "Wenn du dich nicht selbst anmelden wolltest, kannst du diese E-Mail ignorieren. Ohne deinen Klick passiert nichts.",
+    "subject": "Bei TimeTrack anmelden"
+  },
+  "passwordReset": {
+    "preview": "Setze dein Passwort für {brand} zurück",
+    "kicker": "Sicherheit",
+    "heading": "Passwort zurücksetzen",
+    "footerNote": "Du erhältst diese E-Mail, weil ein neues Passwort für dein Konto angefordert wurde.",
+    "greeting": "Hallo {name},",
+    "body": "Klicke auf den Button, um ein neues Passwort zu wählen. Der Link läuft in einer Stunde ab.",
+    "button": "Neues Passwort wählen",
+    "ignore": "Wenn du das nicht angefordert hast, kannst du diese E-Mail ignorieren. Dein Passwort wurde nicht geändert und dein Konto ist weiterhin sicher.",
+    "subject": "Setze dein Passwort für TimeTrack zurück"
+  },
+  "verification": {
+    "preview": "Bestätige deine E-Mail-Adresse, damit dein Konto aktiv wird",
+    "kicker": "Konto",
+    "heading": "E-Mail-Adresse bestätigen",
+    "footerNote": "Du erhältst diese E-Mail, weil jemand mit deiner E-Mail-Adresse ein Konto bei {brand} erstellt hat.",
+    "greeting": "Hallo {name},",
+    "greetingFallback": "Hallo,",
+    "body": "Danke für deine Anmeldung. Klicke auf den Button, um deine E-Mail-Adresse zu bestätigen und dein Konto zu aktivieren. Der Link ist 24 Stunden gültig.",
+    "button": "E-Mail-Adresse bestätigen",
+    "ignore": "Wenn du kein Konto erstellt hast, kannst du diese E-Mail ignorieren. Es passiert nichts weiter.",
+    "subject": "Bestätige deine E-Mail-Adresse für TimeTrack"
+  },
+  "security": {
+    "kicker": "Sicherheit",
+    "footerNote": "Dies ist eine automatische Sicherheitsmitteilung.",
+    "greeting": "Hallo {name},",
+    "time": "Zeitpunkt",
+    "ip": "IP-Adresse",
+    "device": "Gerät",
+    "place": "Ort",
+    "notYou": "Warst du das nicht?",
+    "openSettings": "Kontoeinstellungen öffnen",
+    "unknownDevice": "Unbekanntes Gerät",
+    "browser": "Browser",
+    "deviceOn": "{browser} auf {os}"
+  },
+  "passwordChanged": {
+    "preview": "Dein Passwort für {brand} wurde geändert",
+    "heading": "Dein Passwort wurde geändert",
+    "body": "Das Passwort für dein {brand}-Konto wurde soeben geändert. Warst du das, musst du nichts weiter tun.",
+    "calloutBody": "Setze dein Passwort über »Passwort vergessen« auf der Anmeldeseite zurück und schreibe sofort an [mail]{email}[/mail].",
+    "subject": "Dein Passwort für TimeTrack wurde geändert"
+  },
+  "newLogin": {
+    "preview": "Neue Anmeldung bei {brand} von {device}",
+    "heading": "Neue Anmeldung bei deinem Konto",
+    "body": "Bei deinem {brand}-Konto hat sich jemand von einem Gerät angemeldet, das bisher nicht verwendet wurde. Warst du das, musst du nichts weiter tun.",
+    "calloutBody": "Ändere sofort dein Passwort und schreibe an [mail]{email}[/mail]. Der Support hilft dir, das Konto zu sichern.",
+    "subject": "Neue Anmeldung bei deinem TimeTrack-Konto"
+  },
+  "twoFactor": {
+    "preview": "Dein {brand}-Bestätigungscode: {code}",
+    "heading": "Dein Bestätigungscode",
+    "footerNote": "Du erhältst diese E-Mail, weil sich jemand mit Zwei-Faktor-Authentifizierung bei deinem Konto angemeldet hat.",
+    "enterCode": "Gib den Code ein, um fortzufahren:",
+    "expires": "Der Code läuft in 3 Minuten ab. Wenn du ihn nicht angefordert hast, kannst du diese E-Mail ignorieren. Gib den Code nie an anderer Stelle als bei {brand} ein.",
+    "subject": "{code} ist dein Bestätigungscode für TimeTrack"
+  },
+  "signupPassword": {
+    "preview": "Dein temporäres Passwort für {brand}",
+    "kicker": "Willkommen",
+    "heading": "Willkommen bei {brand}, {name}",
+    "intro": "Dein Konto wurde erstellt. Hier ist dein temporäres Passwort:",
+    "changeIt": "Ändere es nach deiner ersten Anmeldung unter Sicherheit in den Einstellungen.",
+    "button": "In dein Konto einloggen",
+    "alsoLogin": "Du kannst dich auch unter [login]{url}[/login] mit deiner E-Mail-Adresse und dem Passwort oben anmelden.",
+    "getStarted": "So legst du los",
+    "step1": "Lege deinen ersten Kunden an",
+    "step2": "Lege ein Projekt für den Kunden an",
+    "step3": "Starte den Timer und stelle die Stunden in Rechnung, wenn die Arbeit erledigt ist",
+    "subject": "Dein Passwort für TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} hat dich zu {org} eingeladen",
+    "kicker": "Einladung",
+    "heading": "Du wurdest zu {org} eingeladen",
+    "footerNote": "Du erhältst diese E-Mail, weil dich jemand zu seinem Team bei {brand} eingeladen hat.",
+    "role": {
+      "owner": "Inhaber:in",
+      "admin": "Administrator:in",
+      "member": "Mitglied"
+    },
+    "body": "**{inviter}** hat dich eingeladen, bei **{org}** auf {brand} die Rolle „{role}“ zu übernehmen.",
+    "body2": "Hier erfasst du Zeit für die Kunden und Projekte des Teams, und die Leitung sieht alle Stunden gebündelt.",
+    "button": "Einladung annehmen",
+    "expires": "Die Einladung läuft in 48 Stunden ab. Kennst du den Absender nicht, kannst du diese E-Mail ignorieren.",
+    "subject": "{inviter} hat dich zu {org} auf TimeTrack eingeladen"
+  },
+  "portalInvite": {
+    "preview": "Sie wurden zum Kundenportal von {sender} eingeladen",
+    "kicker": "Kundenportal",
+    "heading": "Willkommen im Kundenportal",
+    "footerNote": "Gesendet von {sender} über {brand}.",
+    "greeting": "Guten Tag {name},",
+    "body": "{sender} hat Ihnen Zugang zu Ihrem eigenen Kundenportal gegeben. Dort sehen Sie Rechnungen und Projekte und können das Restguthaben Ihres Stundenpakets verfolgen.",
+    "button": "Kundenportal öffnen",
+    "account": "Melden Sie sich mit der E-Mail-Adresse **{email}** und dem Passwort an, das Sie von {sender} erhalten haben.",
+    "token": "Der Link ist persönlich. Bitte teilen Sie ihn nicht mit anderen.",
+    "questions": "Bei Fragen können Sie {sender} unter [mail]{email}[/mail] schreiben.",
+    "subject": "Sie wurden zum Kundenportal von {sender} eingeladen"
+  },
+  "welcome": {
+    "preview": "Willkommen bei {brand}",
+    "kicker": "Willkommen",
+    "heading": "Willkommen, {name}",
+    "intro": "Danke, dass du ein Konto bei {brand} erstellt hast. So legst du los:",
+    "button": "{brand} öffnen",
+    "questions": "Fragen? Schau in die [help]Hilfe[/help] oder schreibe an [mail]{email}[/mail].",
+    "subject": "Willkommen bei TimeTrack"
+  }
+}

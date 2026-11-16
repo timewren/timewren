@@ -1,0 +1,121 @@
+---
+title: "Fejlfinding"
+description: "Løs almindelige problemer med en selvhostet TimeWren-instans: opstart, login, mail, uploads, cronjobs og migreringer."
+---
+
+Start med containernes status og appens log:
+
+```bash
+docker compose ps
+docker compose logs -f app
+```
+
+## Health-endpoint
+
+```bash
+curl -i http://127.0.0.1:3000/api/health
+```
+
+Endpointet returnerer HTTP 200, når alt er i orden, og 503, når et tjek fejler:
+
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-01-01T12:00:00.000Z",
+  "service": "timetrack",
+  "checks": {
+    "database": { "status": "ok" },
+    "auth": { "status": "ok" },
+    "signing_secret": { "status": "ok" },
+    "realtime": { "status": "disabled" }
+  }
+}
+```
+
+`status` er `healthy` eller `unhealthy`. Tjekkene `database`, `auth` og `signing_secret` er `ok` eller `error`, og enhver `error` giver svaret 503. Tjekket `realtime` kan også være `degraded`, hvilket aldrig får health-tjekket til at fejle. Feltet `service` siger `timetrack` af historiske grunde. Et sundt svar beviser ikke, at den seneste migrering lykkedes. Det skal du læse i loggen.
+
+Containeren `app` viser `starting`, indtil den er sund. Den første start kan tage et minut eller to, fordi migreringerne kører, før serveren lytter (health-tjekket giver 180 sekunder).
+
+## docker compose up siger, at en variabel mangler
+
+Beskeden nævner den, for eksempel `Set POSTGRES_PASSWORD in .env`. Udfyld den i `.env`, og kør kommandoen igen. `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` og `CRON_SECRET` er påkrævede.
+
+## Login eller oprettelse fejler med 403 eller "invalid origin"
+
+URL'en i browseren afviger fra `NEXT_PUBLIC_APP_URL`. Ret værdien i `.env`, og kør `docker compose up -d`, eller føj det ekstra hostnavn til `TRUSTED_ORIGINS`. Se [Reverse proxy og TLS](/da/docs/operations/reverse-proxy).
+
+## Links i appen eller i mails peger på localhost
+
+`NEXT_PUBLIC_APP_URL` er ikke sat, så den falder tilbage til `http://localhost:3000`. Sæt den i `.env`, og kør `docker compose up -d`.
+
+## Buildet bliver dræbt eller hænger
+
+Når du selv bygger imaget, kræver det op til cirka 5 GB RAM. Det færdigbyggede image undgår det. Skal du bygge, så tilføj swap, eller brug en større maskine:
+
+```bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+```
+
+## Mails kommer ikke frem
+
+Kig efter maillinjer i loggen:
+
+```bash
+docker compose logs app | grep "\[Mail"
+```
+
+`[Mail:log]` betyder, at der ikke er konfigureret en transport, og at intet blev sendt. `[Mail] SMTP-afsendelse fejlede` efterfølges af SMTP-fejlen. Se [Mail](/da/docs/configuration/email).
+
+## Gemte integrationer holder op med at virke
+
+`ENCRYPTION_KEY` er ændret, så de gemte tokens kan ikke dekrypteres. Sæt den gamle værdi tilbage fra din backup, og kør `docker compose up -d`. Uden den gamle nøgle skal du forbinde integrationerne igen.
+
+## Uploads fejler med en rettighedsfejl
+
+Volumen `storage` skal være skrivbar for uid 1001:
+
+```bash
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+```
+
+Uploads fejler også, når hverken den lokale driver eller `S3_ENDPOINT` er konfigureret. Se [Fillager](/da/docs/configuration/storage).
+
+## Planlagte job kører ikke
+
+Containeren `cron` kalder appens `/api/cron/*`-endpoints:
+
+```bash
+docker compose logs cron
+```
+
+Et fejlet kald viser kun curl-exitstatus 22, hvilket betyder en HTTP-fejl som 401, 404 eller 500. Tjek først, at `CRON_SECRET` er ens for `app` og `cron`, og genopret derefter begge:
+
+```bash
+docker compose up -d --force-recreate app cron
+```
+
+## En migrering fejlede
+
+Loggen viser `Migration failed:` med fejlen. Appen kører videre på det gamle skema. Ret årsagen (ofte diskplads), og genstart:
+
+```bash
+docker compose restart app
+```
+
+Se [Opgradering](/da/docs/operations/upgrading) om at komme videre og rulle tilbage.
+
+## Start forfra
+
+> **Advarsel:** `docker compose down -v` sletter databasen og alle uploads. Gør det kun på en instans, der må smides væk.
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
+## Få hjælp af en AI
+
+Dokumentationen findes som ren tekst til sprogmodeller. Indsæt en side, eller det hele, i din assistent sammen med dit logoutput (uden hemmeligheder), og bed den om at finde problemet. Se [Dokumentation til LLM'er](/da/docs/llm) for URL'erne.

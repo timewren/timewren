@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Istuntosi on vanhentunut. Kirjaudu sisään uudelleen.",
+  "noConnection": "Ei yhteyttä. Yritä uudelleen.",
+  "timeout": "Yhteys kesti liian kauan",
+  "invalidResponse": "Odottamaton vastaus palvelimelta",
+  "notLoggedIn": "Et ole kirjautunut sisään",
+  "notLoggedInOpenPopup": "Et ole kirjautunut sisään. Avaa TimeTrackin ponnahdusikkuna ja kirjaudu sisään.",
+  "unknown": "Tuntematon virhe",
+  "api": {
+    "fallback": "API-virhe",
+    "UNAUTHORIZED": "Istuntosi on vanhentunut. Kirjaudu sisään uudelleen.",
+    "FORBIDDEN": "Pääsy evätty",
+    "NOT_FOUND": "Resurssia ei löytynyt",
+    "TIMEOUT": "Palvelin ei vastannut",
+    "TOO_MANY_REQUESTS": "Liian monta pyyntöä. Odota hetki ja yritä uudelleen",
+    "INTERNAL_SERVER_ERROR": "Palvelinvirhe. Yritä hetken kuluttua uudelleen",
+    "BAD_REQUEST": "Virheellinen pyyntö",
+    "PARSE_ERROR": "Virheellinen pyyntö"
+  },
+  "auth": {
+    "invalidToken": "Virheellinen tunnus",
+    "validateFailed": "Tunnusta ei voitu vahvistaa",
+    "loginFailed": "Kirjautuminen epäonnistui",
+    "loginCancelled": "Kirjautuminen peruttiin. Yritä uudelleen",
+    "loginCancelledShort": "Kirjautuminen peruttiin",
+    "noToken": "Tunnusta ei vastaanotettu",
+    "tokenValidationStatus": "Tunnuksen vahvistus epäonnistui: palvelin vastasi {status}",
+    "orgsFailed": "Organisaatioita ei voitu ladata ({status})"
+  },
+  "url": {
+    "notAllowed": "Käytä osoitetta timetrack.dk, app.timetrack.dk, beta.timetrack.dk tai localhost"
+  },
+  "entry": {
+    "hoursPositive": "Syötä tuntimäärä, joka on suurempi kuin 0",
+    "timesCannotBeRemoved": "Kellonaikoja ei voi poistaa. Muokkaa sen sijaan alkua ja loppua",
+    "fillStartEnd": "Täytä sekä alku että loppu",
+    "endAfterStart": "Päättymisajan on oltava alkamisajan jälkeen"
+  },
+  "timer": {
+    "loadFailed": "Ajastinta ei voitu ladata",
+    "startFailed": "Ajastinta ei voitu käynnistää",
+    "stopFailed": "Ajastinta ei voitu pysäyttää. Yritä uudelleen",
+    "stopNetwork": "Ajastinta ei voitu pysäyttää: verkkovirhe",
+    "cancelFailed": "Ajastinta ei voitu peruuttaa. Yritä uudelleen",
+    "cancelNetwork": "Ajastinta ei voitu peruuttaa: verkkovirhe",
+    "cancelStoppingElsewhere": "Ajastinta pysäytetään jo kohteesta {source}",
+    "sourceWeb": "verkkosovellus",
+    "sourceOther": "toinen laite",
+    "pauseFailed": "Ajastinta ei voitu keskeyttää",
+    "resumeFailed": "Ajastinta ei voitu jatkaa",
+    "addTimeFailed": "Ajastimeen ei voitu lisätä aikaa",
+    "descriptionFailed": "Kuvausta ei voitu päivittää",
+    "projectFailed": "Projektia ei voitu päivittää",
+    "clientFailed": "Asiakasta ei voitu päivittää",
+    "nothingToSave": "Ei tallennettavaa aikaa",
+    "offlineStop": "Olet offline-tilassa. Pysäytä ajastin uudelleen, kun yhteys on palannut",
+    "stopInProgress": "Pysäytys on käynnissä{elsewhere}. Yritä hetken kuluttua uudelleen. Jos se jumittuu, aika siirretään muutaman minuutin kuluttua keskeytettynä talteen, jotta se ei katoa.",
+    "alreadyRunning": "Ajastin on jo käynnissä{elsewhere}. Pysäytä tai peruuta se ensin, jos haluat käynnistää uuden.",
+    "alreadyPaused": "Keskeytettynä on jo ajastin, jossa on aikaa{elsewhere}. Pysäytä tai peruuta se ensin, jos haluat käynnistää uuden.",
+    "elsewhere": " toisesta selaimesta tai laitteesta",
+    "stopAlreadyInProgress": "Pysäytys on jo käynnissä kohteesta {source}. Tarkista tuntiyleiskatsauksesi hetken kuluttua",
+    "prepaidPinnedUnavailable": "Valittua tuntipakettia ei voitu käyttää, joten aika tallennettiin ilman paketista vähennystä",
+    "prepaidLookupFailed": "Tuntipakettia ei voitu hakea, joten aika tallennettiin ilman paketista vähennystä",
+    "prepaidDeductionFailed": "Paketista vähennys epäonnistui, joten aika tallennettiin ilman vähennystä paketista",
+    "saveFailed": "Aikaa ei voitu tallentaa",
+    "saveFailedWith": "Aikaa ei voitu tallentaa: {reason}",
+    "unknownReason": "tuntematon virhe",
+    "sessionMismatch": "Ajastinta muutettiin toisesta selaimesta tai laitteesta. Tässä on nykyinen.",
+    "beingStopped": "Ajastinta pysäytetään toisesta selaimesta tai laitteesta.",
+    "startRejectedPaused": "Keskeytettynä on jo ajastin, jossa on aikaa. Pysäytä tai peruuta se ensin, jos haluat käynnistää uuden.",
+    "startRejectedStale": "Ajastin pysäytettiin juuri jossain muualla. Yritä käynnistää uudelleen.",
+    "startRejectedRunning": "Ajastin on jo käynnissä toisesta selaimesta tai laitteesta. Pysäytä se ensin, jos haluat käynnistää uuden.",
+    "stopSourceWeb": "verkkosovellus",
+    "stopSourceOther": "toinen laite"
+  },
+  "task": {
+    "createFailed": "Tehtävää ei voitu luoda"
+  },
+  "serverStatus": "Palvelin vastasi {status}",
+  "clientTooOld": "Päivitä TimeTrack-laajennus. Tämä versio ei voi tallentaa aikaa"
+}

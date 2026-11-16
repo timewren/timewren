@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Import zakończony: {count, plural, one {zaimportowano # wpis czasu} few {zaimportowano # wpisy czasu} many {zaimportowano # wpisów czasu} other {zaimportowano # wpisu czasu}}",
+    "doneWithErrorsToast": "Import zakończony z błędami: zaimportowano {imported}, nie udało się {failed}",
+    "failedToast": "Import nie powiódł się. Szczegóły znajdziesz w ustawieniach",
+    "running": "Trwa import: {pct}% ({imported}/{total})",
+    "details": "Zobacz szczegóły",
+    "done": "Import zakończony: {count, plural, one {zaimportowano # wpis czasu} few {zaimportowano # wpisy czasu} many {zaimportowano # wpisów czasu} other {zaimportowano # wpisu czasu}}",
+    "doneWithFailed": "Import zakończony: {count, plural, one {zaimportowano # wpis czasu} few {zaimportowano # wpisy czasu} many {zaimportowano # wpisów czasu} other {zaimportowano # wpisu czasu}}, nie udało się {failed}",
+    "dismiss": "Zamknij"
+  },
+  "page": {
+    "pickDateFormat": "Aby kontynuować, wybierz format daty.",
+    "success": "Import zakończył się powodzeniem!",
+    "failed": "Import nie powiódł się. Spróbuj ponownie.",
+    "backToOnboarding": "← Wróć do wprowadzenia",
+    "backToIntegrations": "← Wróć do integracji",
+    "onboardingMode": "Tryb wprowadzenia jest włączony",
+    "onboardingNote": "Po udanym imporcie automatycznie przejdziesz dalej w procesie wprowadzenia.",
+    "uploadFile": "Prześlij plik",
+    "chooseFile": "Wybierz plik",
+    "noFile": "Nie wybrano pliku",
+    "dateFormat": "Format daty",
+    "chooseFormat": "Wybierz format…",
+    "dateFormatHint": "Sprawdź w danych CSV, jaki format daty jest używany.",
+    "billingFilter": "Filtr fakturowania",
+    "filter": {
+      "all": "Importuj wszystko",
+      "unbilled": "Tylko niezafakturowane",
+      "billed": "Tylko zafakturowane"
+    },
+    "billingFilterHint": "Filtruj wpisy według statusu fakturowania ze źródła.",
+    "markAllBilled": "Oznacz wszystkie zaimportowane wpisy jako zafakturowane",
+    "markAllBilledHint": "Użyj tego, jeśli ze źródła eksportujesz tylko wpisy, które zostały już zafakturowane.",
+    "result": {
+      "clients": "{count, plural, one {Utworzono # klienta} few {Utworzono # klientów} many {Utworzono # klientów} other {Utworzono # klienta}}",
+      "projects": "{count, plural, one {Utworzono # projekt} few {Utworzono # projekty} many {Utworzono # projektów} other {Utworzono # projektu}}",
+      "timeEntries": "{count, plural, one {Zaimportowano # wpis czasu} few {Zaimportowano # wpisy czasu} many {Zaimportowano # wpisów czasu} other {Zaimportowano # wpisu czasu}}",
+      "billedSplit": "({billed} zafakturowanych, {unbilled} niezafakturowanych)",
+      "skippedRows": "{count, plural, one {Pominięto # wiersz} few {Pominięto # wiersze} many {Pominięto # wierszy} other {Pominięto # wiersza}}",
+      "filteredRows": "{count, plural, one {Odfiltrowano # wiersz (filtr fakturowania)} few {Odfiltrowano # wiersze (filtr fakturowania)} many {Odfiltrowano # wierszy (filtr fakturowania)} other {Odfiltrowano # wiersza (filtr fakturowania)}}",
+      "totalHours": "Łącznie zaimportowano godzin: {hours}",
+      "tasks": "{count, plural, one {Zaimportowano # zadanie} few {Zaimportowano # zadania} many {Zaimportowano # zadań} other {Zaimportowano # zadania}}",
+      "subtasks": "{count, plural, one {Zaimportowano # podzadanie} few {Zaimportowano # podzadania} many {Zaimportowano # podzadań} other {Zaimportowano # podzadania}}",
+      "tasksSkipped": "{count, plural, one {Pominięto # zadanie} few {Pominięto # zadania} many {Pominięto # zadań} other {Pominięto # zadania}}"
+    },
+    "importing": "Importowanie…",
+    "start": "Rozpocznij import",
+    "mayTakeAWhile": "W zależności od ilości danych może to potrwać kilka minut…",
+    "warnTitle": "Warto wiedzieć:",
+    "warn1": "Importu nie można cofnąć",
+    "warn2": "Istniejące dane nie są nadpisywane",
+    "warn3": "Duplikaty są pomijane"
+  }
+}

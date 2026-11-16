@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "你的 {brand} 登录链接 15 分钟内有效",
+    "kicker": "登录",
+    "heading": "登录 {brand}",
+    "footerNote": "你收到这封邮件，是因为有人为你的邮件地址申请了登录链接。",
+    "body": "点击按钮即可登录。链接 15 分钟内有效，且只能使用一次。",
+    "button": "登录 {brand}",
+    "ignore": "如果不是你申请的登录，请忽略这封邮件。你不点击，什么都不会发生。",
+    "subject": "登录 TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "重置你的 {brand} 密码",
+    "kicker": "安全",
+    "heading": "重置你的密码",
+    "footerNote": "你收到这封邮件，是因为有人为你的账户申请了新密码。",
+    "greeting": "{name}，你好：",
+    "body": "点击按钮设置新密码。链接一小时后失效。",
+    "button": "设置新密码",
+    "ignore": "如果不是你申请的，请忽略这封邮件。你的密码没有被更改，账户依然安全。",
+    "subject": "重置你的 TimeTrack 密码"
+  },
+  "verification": {
+    "preview": "确认你的邮件地址以激活账户",
+    "kicker": "账户",
+    "heading": "确认你的邮件地址",
+    "footerNote": "你收到这封邮件，是因为有人使用你的邮件地址在 {brand} 上创建了账户。",
+    "greeting": "{name}，你好：",
+    "greetingFallback": "你好：",
+    "body": "感谢注册。点击按钮确认你的邮件地址并激活账户。链接 24 小时内有效。",
+    "button": "确认邮件地址",
+    "ignore": "如果你没有创建账户，请忽略这封邮件。之后不会再有任何操作。",
+    "subject": "确认你的 TimeTrack 邮件地址"
+  },
+  "security": {
+    "kicker": "安全",
+    "footerNote": "这是一条自动发送的安全通知。",
+    "greeting": "{name}，你好：",
+    "time": "时间",
+    "ip": "IP 地址",
+    "device": "设备",
+    "place": "位置",
+    "notYou": "不是你本人？",
+    "openSettings": "打开账户设置",
+    "unknownDevice": "未知设备",
+    "browser": "浏览器",
+    "deviceOn": "{os} 上的 {browser}"
+  },
+  "passwordChanged": {
+    "preview": "你的 {brand} 密码已更改",
+    "heading": "你的密码已更改",
+    "body": "你的 {brand} 账户密码刚刚被更改。如果是你本人操作，无需做任何事。",
+    "calloutBody": "请在登录页通过“忘记密码”重置密码，并立即写信至 [mail]{email}[/mail]。",
+    "subject": "你的 TimeTrack 密码已更改"
+  },
+  "newLogin": {
+    "preview": "从 {device} 登录 {brand} 的新登录",
+    "heading": "你的账户有新的登录",
+    "body": "有人使用从未用过的设备登录了你的 {brand} 账户。如果是你本人操作，无需做任何事。",
+    "calloutBody": "请立即更改密码并写信至 [mail]{email}[/mail]，支持团队会帮你保护账户安全。",
+    "subject": "你的 TimeTrack 账户有新的登录"
+  },
+  "twoFactor": {
+    "preview": "你的 {brand} 验证码：{code}",
+    "heading": "你的验证码",
+    "footerNote": "你收到这封邮件，是因为有人使用两步验证登录了你的账户。",
+    "enterCode": "输入验证码以继续：",
+    "expires": "验证码 3 分钟后失效。如果不是你申请的，请忽略这封邮件。切勿在 {brand} 以外的任何地方输入此验证码。",
+    "subject": "{code} 是你的 TimeTrack 验证码"
+  },
+  "signupPassword": {
+    "preview": "你在 {brand} 的临时密码",
+    "kicker": "欢迎",
+    "heading": "{name}，欢迎使用 {brand}",
+    "intro": "你的账户已创建。这是你的临时密码：",
+    "changeIt": "首次登录后，请在设置的“安全”中更改密码。",
+    "button": "登录你的账户",
+    "alsoLogin": "你也可以在 [login]{url}[/login] 使用你的邮件地址和上方的密码登录。",
+    "getStarted": "如何开始",
+    "step1": "创建你的第一个客户",
+    "step2": "为该客户创建一个项目",
+    "step3": "启动计时器，工作完成后为这些工时开具发票",
+    "subject": "你的 TimeTrack 密码"
+  },
+  "orgInvite": {
+    "preview": "{inviter} 邀请你加入 {org}",
+    "kicker": "邀请",
+    "heading": "你受邀加入 {org}",
+    "footerNote": "你收到这封邮件，是因为有人邀请你加入其在 {brand} 上的团队。",
+    "role": {
+      "owner": "所有者",
+      "admin": "管理员",
+      "member": "成员"
+    },
+    "body": "**{inviter}** 邀请你在 {brand} 上成为 **{org}** 的{role}。",
+    "body2": "你可以在这里为团队的客户和项目记录工时，管理者可以在一处查看所有工时。",
+    "button": "接受邀请",
+    "expires": "邀请 48 小时后失效。如果你不认识发送者，请忽略这封邮件。",
+    "subject": "{inviter} 邀请你加入 TimeTrack 上的 {org}"
+  },
+  "portalInvite": {
+    "preview": "你已受邀进入 {sender} 的客户门户",
+    "kicker": "客户门户",
+    "heading": "欢迎使用客户门户",
+    "footerNote": "由 {sender} 通过 {brand} 发送。",
+    "greeting": "尊敬的 {name}：",
+    "body": "{sender} 已为您开通专属客户门户。您可以在这里查看发票和项目，并跟踪您的预付时长包余额。",
+    "button": "打开客户门户",
+    "account": "请使用邮件 **{email}** 和您从 {sender} 收到的密码登录。",
+    "token": "该链接为您专属，请勿与他人分享。",
+    "questions": "如有疑问，您可以写信至 {sender}：[mail]{email}[/mail]。",
+    "subject": "您已受邀进入 {sender} 的客户门户"
+  },
+  "welcome": {
+    "preview": "欢迎使用 {brand}",
+    "kicker": "欢迎",
+    "heading": "{name}，欢迎",
+    "intro": "感谢你在 {brand} 上创建账户。以下是开始使用的方法：",
+    "button": "打开 {brand}",
+    "questions": "有疑问？请查看[help]帮助中心[/help]或写信至 [mail]{email}[/mail]。",
+    "subject": "欢迎使用 TimeTrack"
+  }
+}

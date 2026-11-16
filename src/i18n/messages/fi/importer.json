@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Tuonti valmis: {count, plural, one {# tuntikirjaus tuotu} other {# tuntikirjausta tuotu}}",
+    "doneWithErrorsToast": "Tuonti valmis virheiden kanssa: {imported} tuotu, {failed} epäonnistui",
+    "failedToast": "Tuonti epäonnistui. Katso lisätiedot asetuksista",
+    "running": "Tuonti käynnissä: {pct} % ({imported}/{total})",
+    "details": "Näytä tiedot",
+    "done": "Tuonti valmis: {count, plural, one {# tuntikirjaus tuotu} other {# tuntikirjausta tuotu}}",
+    "doneWithFailed": "Tuonti valmis: {count, plural, one {# tuntikirjaus tuotu} other {# tuntikirjausta tuotu}}, {failed} epäonnistui",
+    "dismiss": "Sulje"
+  },
+  "page": {
+    "pickDateFormat": "Valitse päivämäärämuoto jatkaaksesi.",
+    "success": "Tuonti onnistui!",
+    "failed": "Tuonti epäonnistui. Yritä uudelleen.",
+    "backToOnboarding": "← Takaisin käyttöönottoon",
+    "backToIntegrations": "← Takaisin integraatioihin",
+    "onboardingMode": "Käyttöönottotila päällä",
+    "onboardingNote": "Onnistuneen tuonnin jälkeen jatkat automaattisesti käyttöönoton parissa.",
+    "uploadFile": "Lataa tiedosto",
+    "chooseFile": "Valitse tiedosto",
+    "noFile": "Ei valittua tiedostoa",
+    "dateFormat": "Päivämäärämuoto",
+    "chooseFormat": "Valitse muoto…",
+    "dateFormatHint": "Tarkista CSV-tiedostostasi, mitä päivämäärämuotoa siinä käytetään.",
+    "billingFilter": "Laskutussuodatin",
+    "filter": {
+      "all": "Tuo kaikki",
+      "unbilled": "Vain laskuttamattomat",
+      "billed": "Vain laskutetut"
+    },
+    "billingFilterHint": "Suodata kirjaukset lähteen laskutustilan mukaan.",
+    "markAllBilled": "Merkitse kaikki tuodut kirjaukset laskutetuiksi",
+    "markAllBilledHint": "Käytä tätä, jos viet lähteestä vain jo laskutetut kirjaukset.",
+    "result": {
+      "clients": "{count, plural, one {# asiakas luotu} other {# asiakasta luotu}}",
+      "projects": "{count, plural, one {# projekti luotu} other {# projektia luotu}}",
+      "timeEntries": "{count, plural, one {# tuntikirjaus tuotu} other {# tuntikirjausta tuotu}}",
+      "billedSplit": "({billed} laskutettu, {unbilled} laskuttamatta)",
+      "skippedRows": "{count, plural, one {# rivi ohitettu} other {# riviä ohitettu}}",
+      "filteredRows": "{count, plural, one {# rivi suodatettu pois (laskutussuodatin)} other {# riviä suodatettu pois (laskutussuodatin)}}",
+      "totalHours": "{hours} tuntia tuotu yhteensä",
+      "tasks": "{count, plural, one {# tehtävä tuotu} other {# tehtävää tuotu}}",
+      "subtasks": "{count, plural, one {# alitehtävä tuotu} other {# alitehtävää tuotu}}",
+      "tasksSkipped": "{count, plural, one {# tehtävä ohitettu} other {# tehtävää ohitettu}}"
+    },
+    "importing": "Tuodaan…",
+    "start": "Aloita tuonti",
+    "mayTakeAWhile": "Tämä voi kestää muutaman minuutin tietomäärästä riippuen…",
+    "warnTitle": "Hyvä tietää:",
+    "warn1": "Tuontia ei voi peruuttaa",
+    "warn2": "Olemassa olevia tietoja ei korvata",
+    "warn3": "Ohitamme kaksoiskappaleet"
+  }
+}

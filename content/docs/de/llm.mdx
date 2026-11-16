@@ -1,0 +1,113 @@
+---
+title: "Diese Dokumentation mit deinem LLM nutzen"
+description: "Gib die TimeWren-Dokumentation an Claude Code, Cursor, Codex oder ChatGPT, mit fertigen Prompts zum Installieren, Aktualisieren, Debuggen und Integrieren."
+---
+
+Die TimeWren-Dokumentation ist so geschrieben, dass Menschen und Sprachmodelle sie lesen können. Jede Seite gibt es als reines Markdown, und die gesamte Dokumentation passt in eine Datei. Verweise deinen Coding-Agenten oder Chat-Assistenten darauf, und er kann deine Instanz installieren, aktualisieren oder debuggen oder eine Integration gegen die API schreiben.
+
+## Was du dem Modell geben kannst
+
+| URL | Was es ist | Nutze es, wenn |
+| --- | --- | --- |
+| `https://timewren.com/llms-full.txt` | Die gesamte englische Dokumentation in einer Markdown-Datei. | Das Modell alles wissen soll. Am besten für Agenten mit großem Kontext. |
+| `https://timewren.com/llms.txt` | Ein Index aller Seiten mit einer einzeiligen Zusammenfassung und einem Link zum Markdown. | Das Modell Seiten selbst abrufen und auswählen soll, was es braucht. |
+| `https://timewren.com/docs/<page>.md` | Eine Seite als Markdown, zum Beispiel `https://timewren.com/docs/operations/upgrading.md`. | Du weißt, welches Thema wichtig ist. |
+
+Anfragen an eine Dokumentationsseite mit `Accept: text/markdown` liefern ebenfalls die Markdown-Version, sodass Tools mit Content Negotiation auch ohne die Endung `.md` funktionieren. Links im Markdown zeigen auf andere `.md`-Seiten, sodass ein Agent ihnen folgen kann.
+
+Oben auf jeder Seite gibt es Schaltflächen: **Als Markdown kopieren** legt die Seite in deine Zwischenablage, **In ChatGPT öffnen** und **In Claude öffnen** starten einen Chat mit einem Prompt, der bereits auf das Markdown der Seite verweist, und **Als Markdown anzeigen** öffnet die Rohfassung der Seite.
+
+Die Dokumentation gibt es auch auf [Dänisch](https://timewren.com/da/docs), [Deutsch](https://timewren.com/de/docs) und [Spanisch](https://timewren.com/es/docs). `llms-full.txt` gibt es nur auf Englisch. Modelle verstehen es problemlos und können in deiner Sprache antworten.
+
+## Claude Code
+
+Starte Claude Code auf dem Server (oder auf dem Rechner, von dem aus du deployst), in dem Verzeichnis, in dem TimeWren installiert ist oder werden soll, und füge einen der unten stehenden Prompts ein. Claude Code ruft die URLs im Prompt selbst ab.
+
+Damit die Dokumentation in jeder Sitzung verfügbar ist, füge der `CLAUDE.md` in diesem Verzeichnis eine Zeile hinzu:
+
+```text
+TimeWren docs: https://timewren.com/llms.txt (full text: https://timewren.com/llms-full.txt). Read the relevant page before changing the TimeWren installation.
+```
+
+Claude Code kann über den [MCP-Server](/de/docs/api/mcp) auch mit deinen TimeWren-Daten (Kunden, Projekte, Zeiteinträge) arbeiten. Das ist getrennt von der Dokumentation: Die Dokumentation sagt dem Agenten, wie TimeWren funktioniert, der MCP-Server lässt ihn in deinem Konto handeln.
+
+## Cursor
+
+Tippe in einem Chat `@Docs`, wähle **Add new doc** und gib `https://timewren.com/llms-full.txt` ein. Danach verweist du in deinen Prompts mit `@TimeWren` (oder dem Namen, den du vergeben hast) darauf. Du kannst auch eine Seiten-URL mit der Endung `.md` direkt in den Chat einfügen.
+
+## Codex und andere Agenten, die AGENTS.md lesen
+
+Lege den Verweis auf die Dokumentation in die `AGENTS.md` des Repositorys oder Verzeichnisses, in dem du arbeitest:
+
+```text
+## TimeWren
+Docs for the TimeWren installation: https://timewren.com/llms.txt
+Full text in one file: https://timewren.com/llms-full.txt
+Read the relevant page before changing the TimeWren installation. Never print the contents of .env.
+```
+
+Das TimeWren-Quellcode-Repository hat eine eigene `AGENTS.md`, die Agenten, die am Code arbeiten, auf dieselbe Dokumentation verweist.
+
+## ChatGPT, Claude und andere Chat-Assistenten
+
+Nutze die Schaltfläche **In ChatGPT öffnen** oder **In Claude öffnen** auf der benötigten Seite oder füge einen der Prompts unten ein. Kann der Assistent keine Links öffnen, nutze **Als Markdown kopieren** und füge die Seite in den Chat ein.
+
+Chat-Assistenten können keine Befehle auf deinem Server ausführen. Sie geben dir Befehle zum Ausführen; lies jeden einzelnen, bevor du ihn ausführst.
+
+## Fertige Prompts
+
+Ersetze die Beispielwerte (Domain, Version), bevor du einen Prompt sendest. Jeder Prompt weist den Agenten an, keine Geheimnisse auszugeben. Füge niemals selbst deine `.env`, API-Schlüssel oder Datenbank-Dumps in einen Chat ein.
+
+### TimeWren auf meinem Server installieren
+
+```text
+Installiere TimeWren auf diesem Linux-Server. Lies zuerst https://timewren.com/llms-full.txt und folge der Dokumentation genau, besonders "Quickstart" und "One-line install".
+
+- Öffentliche URL: https://timewren.example.com (DNS zeigt bereits auf diesen Server).
+- Nutze das offizielle Installationsskript mit automatischem HTTPS, falls die Dokumentation das anbietet; richte sonst einen Reverse Proxy ein, wie unter "Reverse proxy and TLS" beschrieben.
+- Prüfe vor dem Start, dass Docker und Docker Compose v2.24+ installiert sind. Installiere Docker nicht selbst; sag mir Bescheid, falls es fehlt.
+- Gib niemals den Inhalt der .env oder irgendein Geheimnis aus.
+- Wenn es läuft, prüfe es wie in der Dokumentation beschrieben (Container-Status und der Endpunkt /api/health) und sag mir, welche Schritte aus "Make it production ready" noch offen sind (E-Mail, Backups, Versionsfixierung).
+```
+
+### Meine Installation aktualisieren
+
+```text
+Aktualisiere meine TimeWren-Installation auf das neueste stabile Release. Lies zuerst https://timewren.com/docs/operations/upgrading.md und https://timewren.com/docs/operations/backup-restore.md und folge ihnen genau.
+
+- Die Installation liegt im aktuellen Verzeichnis (docker-compose.yml und .env liegen hier).
+- Erstelle zuerst ein vollständiges Backup, wie in der Dokumentation beschrieben, und zeig mir, wo es liegt, bevor du fortfährst.
+- Nenne mir die aktuelle und die neue Version und lies die Release Notes unter https://github.com/timewren/timewren/releases auf alles, was eine Aktion erfordert.
+- Prüfe nach dem Update in den App-Logs das Migrationsergebnis ("new migration(s) applied" oder "Database is up to date") und den Health-Endpunkt. Ist eine Migration fehlgeschlagen, halte an und erkläre die Wiederherstellungsoptionen aus der Dokumentation, bevor du etwas änderst.
+- Führe niemals "docker compose down -v" aus und gib niemals die .env aus.
+```
+
+### Meine Installation debuggen
+
+```text
+Meine TimeWren-Installation hat ein Problem: <beschreibe, was du siehst, z. B. "Login schlägt mit 403 invalid origin fehl">.
+
+Lies zuerst https://timewren.com/docs/operations/troubleshooting.md und https://timewren.com/docs/configuration/environment.md. Diagnostiziere dann, zunächst nur lesend:
+- docker compose ps, docker compose logs --tail=200 app (und cron, falls relevant), der Endpunkt /api/health.
+- Vergleiche die Konfiguration mit der Dokumentation. Du darfst auflisten, welche Variablen in der .env gesetzt sind, aber gib niemals ihre Werte aus.
+Erkläre die Ursache mit Belegen aus den Logs, schlage die kleinstmögliche Korrektur vor und warte auf mein Go, bevor du Dateien änderst oder Container neu startest. Lösche niemals Volumes.
+```
+
+### Eine Integration gegen die API bauen
+
+```text
+Baue eine Integration gegen meine TimeWren-Instanz unter https://timewren.example.com. Lies zuerst https://timewren.com/docs/api/rest.md und https://timewren.com/docs/api/webhooks.md; das dort beschriebene OpenAPI-Dokument ist die maßgebliche Quelle für Felder.
+
+Ziel: <beschreibe es, z. B. "jeden Freitag die Zeiteinträge der letzten Woche pro Kunde als CSV exportieren">.
+
+- Lies den API-Schlüssel aus der Umgebungsvariable TIMEWREN_API_KEY; schreibe ihn nie fest in den Code und gib ihn nie aus.
+- Behandle Paginierung, Rate Limits (HTTP 429) und Fehler wie in der Dokumentation beschrieben.
+- Wenn du Ereignisse statt Polling brauchst, nutze Webhooks und prüfe die Signatur wie in der Dokumentation gezeigt.
+- Beginne mit einem kleinen lesenden Aufruf, der beweist, dass der Schlüssel funktioniert, und baue dann den Rest, mit Tests.
+```
+
+## Tipps
+
+- Gib dem Agenten die Version, die du betreibst (`TIMEWREN_VERSION` in der `.env` oder das Image-Tag). Die Dokumentation beschreibt das aktuelle Release.
+- Bitte den Agenten, den Abschnitt der Dokumentation zu zitieren, auf den er sich stützt. So lässt sich das leicht prüfen.
+- Bei Änderungen an der Produktion lass den Agenten Befehle vorschlagen und führe sie selbst aus, oder bestätige jeden einzeln.

@@ -1,0 +1,109 @@
+{
+  "title": "Ajustes",
+  "close": "Cerrar ajustes",
+  "searchPlaceholder": "Buscar en los ajustes…",
+  "searchLabel": "Buscar en los ajustes",
+  "noMatch": "Ningún ajuste coincide con “{query}”",
+  "keywords": {
+    "view": "vista|visualización|sugerencia|sitio|sitios web|bono|prepago|popup",
+    "appearance": "apariencia|tema|oscuro|claro|insignia|icono|idioma",
+    "newTab": "nueva pestaña|pestaña|página de inicio|widgets",
+    "calendar": "calendario|día|fecha",
+    "goal": "objetivo diario|objetivo|objetivo de horas|progreso",
+    "reminder": "recordatorio|notificación|fin de semana|registro",
+    "data": "datos|eliminar|restablecer|reset|sin conexión|asignaciones|vínculos|sitio web|cola",
+    "advanced": "avanzado|api|url|servidor|advanced",
+    "shortcuts": "atajos|atajo|teclado|shortcut|alt",
+    "about": "acerca de la extensión|extensión|about|versión|valorar|reseña|ayuda"
+  },
+  "view": {
+    "title": "Vista",
+    "suggestions": "Sugerencias según el sitio web",
+    "suggestionsHint": "Sugerir un proyecto según el sitio web en el que estás",
+    "prepaidTab": "Pestaña de bonos",
+    "prepaidTabHint": "Mostrar la pestaña con los bonos activos en la ventana emergente"
+  },
+  "appearance": {
+    "title": "Apariencia",
+    "theme": "Tema",
+    "themeHint": "Tema de color de la extensión",
+    "system": "Seguir el sistema",
+    "dark": "Oscuro",
+    "light": "Claro",
+    "badge": "Número en el icono",
+    "badgeHint": "Qué muestra el número del icono de la extensión",
+    "badgeTimer": "Cronómetro activo",
+    "badgeToday": "Horas de hoy",
+    "badgeOff": "Oculto",
+    "language": "Idioma",
+    "languageHint": "Idioma de la extensión",
+    "languageAuto": "Automático (seguir el navegador)"
+  },
+  "newTab": {
+    "title": "Nueva pestaña",
+    "enable": "Abrir TimeTrack en las pestañas nuevas",
+    "enableHint": "Desactívalo para mantener las pestañas normales y vacías",
+    "widgetsHint": "Elige los widgets en los ajustes de la nueva pestaña",
+    "activeWidgets": "Widgets activos: {count}"
+  },
+  "calendar": {
+    "title": "Calendario",
+    "openOn": "Abrir el calendario en",
+    "openOnHint": "Qué día muestra el calendario al abrirse",
+    "today": "Hoy",
+    "lastViewed": "Último día visto"
+  },
+  "goal": {
+    "title": "Objetivo diario",
+    "hours": "Objetivo diario de horas",
+    "hoursHint": "Se usa en la barra de progreso diario de la ventana emergente y de la nueva pestaña"
+  },
+  "reminder": {
+    "title": "Recordatorio diario",
+    "enable": "Recordar que hay que registrar",
+    "enableHint": "Notificación si tienes pocas horas registradas",
+    "time": "Hora",
+    "minHours": "Mínimo de horas",
+    "weekends": "También en fines de semana"
+  },
+  "data": {
+    "title": "Datos",
+    "clearMappingsConfirm": "¿Eliminar todos los vínculos guardados entre sitios web y proyectos?",
+    "clearMappingsDetail": "Las sugerencias ocultas también volverán a aparecer.",
+    "delete": "Eliminar",
+    "clearMappings": "Eliminar vínculos de sitios web",
+    "mappingsCount": "{count, plural, one {# vínculo guardado} other {# vínculos guardados}}",
+    "clearQueueConfirm": "¿Eliminar {count, plural, one {# acción pendiente} other {# acciones pendientes}}?",
+    "unsentEntries": "{count, plural, one {# registro no se ha enviado} other {# registros no se han enviado}} todavía a TimeTrack. El tiempo se eliminará para siempre.",
+    "clearQueueConfirmButton": "Eliminar la cola",
+    "clearQueue": "Eliminar la cola sin conexión",
+    "pendingActions": "{count, plural, one {# acción pendiente} other {# acciones pendientes}}",
+    "unsentSuffix": "{count, plural, one {# registro sin enviar} other {# registros sin enviar}}",
+    "resetConfirm": "¿Restablecer todos los ajustes?",
+    "resetDetail": "Se restauran los ajustes predeterminados de la extensión.",
+    "resetButton": "Restablecer",
+    "reset": "Restablecer ajustes",
+    "resetHint": "Restaurar los ajustes predeterminados"
+  },
+  "advanced": {
+    "title": "Avanzado",
+    "apiUrl": "Dirección de la API",
+    "notSaved": "{error}. La dirección no se ha guardado."
+  },
+  "shortcuts": {
+    "title": "Atajos de teclado",
+    "unreadable": "Los atajos no se pueden leer en este navegador.",
+    "openApp": "Abrir TimeTrack",
+    "notSet": "Sin asignar",
+    "change": "Cambiar atajos",
+    "firefoxPage": "Abre la página de atajos de Firefox",
+    "chromePage": "Abre chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "Extensión del navegador TimeTrack, versión {version}",
+    "rateFirefox": "Valorar en Firefox Add-ons",
+    "rateChrome": "Valorar en Chrome Web Store",
+    "rateHint": "Tu reseña ayuda a otros autónomos",
+    "learnMore": "Más información sobre la extensión"
+  }
+}

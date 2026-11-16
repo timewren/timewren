@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "所有者",
+    "admin": "管理员",
+    "hr": "人事",
+    "manager": "经理",
+    "member": "员工"
+  },
+  "employment": {
+    "fullTime": "全职",
+    "partTime": "兼职",
+    "flexjob": "弹性岗位（Flexjob）"
+  },
+  "weekStatus": {
+    "draft": "草稿",
+    "submitted": "已提交",
+    "approved": "已批准",
+    "rejected": "已驳回",
+    "reopened": "已重新打开"
+  },
+  "save": "保存",
+  "cancel": "取消",
+  "add": "添加",
+  "edit": "编辑",
+  "active": "启用",
+  "inactive": "停用",
+  "periodClosing": {
+    "status": {
+      "open": "等待经理审批",
+      "approved": "等待确认",
+      "acknowledged": "已结账",
+      "reopened": "已解锁"
+    },
+    "interval": {
+      "month": "每月",
+      "quarter": "每季度"
+    }
+  },
+  "weekdayLong": {
+    "1": "星期一",
+    "2": "星期二",
+    "3": "星期三",
+    "4": "星期四",
+    "5": "星期五",
+    "6": "星期六",
+    "7": "星期日"
+  },
+  "absenceCategory": {
+    "vacation": "假期",
+    "sickness": "病假",
+    "leave": "休假",
+    "other": "其他"
+  },
+  "payroll": {
+    "system": {
+      "generic": "通用（扁平 CSV）",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS（丹麦国家薪资系统）",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "月",
+      "biweekly": "14 天"
+    },
+    "unit": {
+      "hours": "小时",
+      "days": "天"
+    },
+    "kind": {
+      "time": "工时（基本工资代码）",
+      "absence": "缺勤",
+      "supplement": "补贴（叠加）"
+    },
+    "source": {
+      "activity": "已记录工时（活动）",
+      "absence": "缺勤（缺勤类型）",
+      "overtime_earned": "已累计加班",
+      "overtime_used": "调休",
+      "overtime_paid_out": "已支付的加班费",
+      "flex_positive": "弹性工时（增加）",
+      "flex_negative": "弹性工时（减少）",
+      "break_deduction": "休息扣除（无薪休息）"
+    },
+    "dayCondition": {
+      "any": "所有日期",
+      "weekend": "周末（周六/周日）",
+      "holiday": "法定节假日",
+      "weekend_or_holiday": "周末或法定节假日"
+    }
+  },
+  "normPeriod": {
+    "week": "周",
+    "month": "月",
+    "quarter": "季度",
+    "year": "年"
+  },
+  "normYear": {
+    "calendar": "日历年（1 月 1 日）",
+    "school": "学年（8 月 1 日）"
+  }
+}

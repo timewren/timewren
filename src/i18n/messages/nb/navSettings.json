@@ -1,0 +1,166 @@
+{
+  "group": {
+    "account": "Konto",
+    "organisation": "Organisasjon",
+    "billing": "Fakturering",
+    "integrations": "Integrasjoner",
+    "advanced": "Avansert"
+  },
+  "item": {
+    "settings": {
+      "label": "Profil og utseende",
+      "description": "Navn, timepris, arbeidstid, tema og språk"
+    },
+    "settings_security": {
+      "label": "Sikkerhet og pålogging",
+      "description": "Passord, tofaktor, passnøkler og økter"
+    },
+    "settings_notifications": {
+      "label": "Varsler",
+      "description": "E-post, Discord, push og stille timer"
+    },
+    "settings_gdpr": {
+      "label": "GDPR og personvern",
+      "description": "Last ned dataene dine og databehandleravtalen"
+    },
+    "settings_company": {
+      "label": "Firmaprofil",
+      "description": "CVR, adresse, bank, moms og firmafridager"
+    },
+    "organization": {
+      "label": "Organisasjon og team",
+      "description": "Medlemmer, invitasjoner og roller"
+    },
+    "organization_permissions": {
+      "label": "Tilgangsstyring",
+      "description": "Hva hver rolle kan se og endre"
+    },
+    "organization_audit": {
+      "label": "Aktivitetslogg",
+      "description": "Hvem som har endret hva i organisasjonen"
+    },
+    "settings_modules": {
+      "label": "Moduler",
+      "description": "Slå moduler av og på for organisasjonen"
+    },
+    "settings_tags": {
+      "label": "Etiketter",
+      "description": "Organiser tidsoppføringer, prosjekter og kunder"
+    },
+    "enterprise_settings": {
+      "label": "Enterprise-innstillinger",
+      "description": "Arbeidstid, fravær, permisjon, lønn og pålogging"
+    },
+    "settings_subscription": {
+      "label": "Abonnement",
+      "description": "Plan, betaling og brukerplasser"
+    },
+    "settings_email": {
+      "label": "E-post og maler",
+      "description": "E-postmaler for fakturaer og påminnelser"
+    },
+    "settings_portal": {
+      "label": "Kundeportal",
+      "description": "Logo, farger og domene for kundeportalen"
+    },
+    "settings_integrations": {
+      "label": "Integrasjoner",
+      "description": "Regnskap, kalender og nettleserutvidelse"
+    },
+    "settings_ai": {
+      "label": "KI og automatisering",
+      "description": "E-post til oppgave og KI-tolkning"
+    },
+    "settings_desktop": {
+      "label": "Skrivebordsapp",
+      "description": "Nedlasting, tilkoblede enheter og lisens"
+    },
+    "settings_api": {
+      "label": "API",
+      "description": "API-nøkler og dokumentasjon"
+    },
+    "settings_data": {
+      "label": "Import og eksport",
+      "description": "Importer fra CSV og eksporter dataene dine"
+    }
+  },
+  "entry": {
+    "settings": {
+      "profilbillede": "Profilbilde",
+      "name": "Navn",
+      "hourlyRate": "Standard timepris",
+      "weeklyHourGoal": "Ukentlig timemål",
+      "startPage": "Startside etter pålogging",
+      "arbejdstid": "Arbeidstid og faktureringsgrad",
+      "fridage": "Helligdager og fridager",
+      "afrunding": "Avrunding av tid",
+      "klippekort": "Skjul beløp på klippekort",
+      "godkendelse": "Kundegodkjenning",
+      "udseende": "Tema (lyst eller mørkt)",
+      "sprog": "Språk",
+      "opsaetningsguide": "Oppsettguide",
+      "slet-konto": "Slett konto"
+    },
+    "settings_security": {
+      "to-faktor": "Tofaktorautentisering",
+      "adgangskode": "Passord",
+      "forbundne-konti": "Tilkoblede kontoer",
+      "passkeys": "Passnøkler",
+      "telefon": "Telefonnummer",
+      "betroede-enheder": "Klarerte enheter",
+      "sessioner": "Aktive økter"
+    },
+    "settings_notifications": {
+      "email-notifikationer": "E-postvarsler",
+      "stille-timer": "Stille timer",
+      "discord": "Discord",
+      "push": "Push i nettleseren",
+      "pwa": "App og inaktivitet (PWA)",
+      "ugerapporter": "Automatiske ukerapporter"
+    },
+    "settings_gdpr": {
+      "databehandleraftale": "Databehandleravtale",
+      "sletning": "Sletting av data"
+    },
+    "settings_company": {
+      "logo": "Firmalogo",
+      "adresse": "Adresse",
+      "bank": "Bankopplysninger",
+      "moms": "Moms",
+      "fridage": "Helligdager og firmafridager"
+    },
+    "settings_subscription": {
+      "plan": "Gjeldende plan",
+      "betaling": "Betaling og kvitteringer",
+      "pladser": "Brukerplasser",
+      "skift-plan": "Bytt plan",
+      "annuller": "Si opp abonnementet"
+    },
+    "settings_portal": {
+      "branding": "Portallogo og navn",
+      "farver": "Portalfarger",
+      "skrifttyper": "Portalskrifttyper",
+      "domaene": "Eget domene for portalen"
+    },
+    "settings_integrations": {
+      "regnskab": "Standard regnskapssystem",
+      "dinero": "Dinero",
+      "economic": "e-conomic",
+      "google-kalender": "Google Kalender",
+      "browserudvidelse": "Nettleserutvidelse",
+      "alunta": "Alunta-klippekort"
+    },
+    "settings_ai": {
+      "ai-udbyder": "KI-leverandør",
+      "email-til-opgave": "E-post til oppgave"
+    },
+    "settings_desktop": {
+      "enheder": "Tilkoblede enheter",
+      "licens": "Skrivebordslisens"
+    },
+    "settings_data": {
+      "eksport": "Eksporter data",
+      "import": "Importer data"
+    }
+  }
+}

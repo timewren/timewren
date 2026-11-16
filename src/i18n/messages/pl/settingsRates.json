@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Historia stawek",
+    "empty": "Brak zmian stawek. Zmiany stawki godzinowej są zapisywane tutaj",
+    "effectiveFrom": "Obowiązuje od {date}",
+    "planned": "Zaplanowana",
+    "noRate": "Brak stawki",
+    "typeGlobal": "Globalna",
+    "typeClient": "Klient",
+    "typeProject": "Projekt"
+  },
+  "schedule": {
+    "toastScheduled": "Nowa stawka godzinowa zaplanowana od {date}",
+    "restamped": "{count, plural, =0 {Żaden istniejący wpis nie wymagał nowej stawki godzinowej} one {# niezafakturowany wpis otrzymał nową stawkę godzinową} few {# niezafakturowane wpisy otrzymały nową stawkę godzinową} many {# niezafakturowanych wpisów otrzymało nową stawkę godzinową} other {# niezafakturowanego wpisu otrzymało nową stawkę godzinową}}",
+    "scheduleFailed": "Nie udało się zaplanować stawki godzinowej",
+    "cancelled": "Zaplanowana stawka godzinowa została anulowana",
+    "cancelledRestamped": "{count, plural, one {# wpis odzyskał poprzednią stawkę godzinową} few {# wpisy odzyskały poprzednią stawkę godzinową} many {# wpisów odzyskało poprzednią stawkę godzinową} other {# wpisu odzyskało poprzednią stawkę godzinową}}",
+    "cancelFailed": "Nie udało się anulować",
+    "invalidRate": "Podaj prawidłową stawkę godzinową",
+    "missingDate": "Wybierz datę, od której stawka obowiązuje",
+    "title": "Zaplanuj nową stawkę godzinową",
+    "current": "Teraz: {rate} kr/godz.",
+    "rateLabel": "Nowa stawka godzinowa (kr)",
+    "dateLabel": "Obowiązuje od",
+    "submit": "Zaplanuj",
+    "help": "Czas z datą równą lub późniejszą niż wybrana otrzymuje nową stawkę, nawet jeśli zostanie zapisany później. Czas sprzed tej daty zachowuje starą stawkę. Niezafakturowane wpisy od tej daty są aktualizowane od razu.",
+    "ratePerHour": "{rate} kr/godz.",
+    "fromDate": "od {date}",
+    "takesEffectTonight": "zacznie obowiązywać dziś w nocy",
+    "cancel": "Anuluj"
+  }
+}

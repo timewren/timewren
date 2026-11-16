@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Import færdig: {count, plural, one {# tidsregistrering importeret} other {# tidsregistreringer importeret}}",
+    "doneWithErrorsToast": "Import færdig med fejl: {imported} importeret, {failed} fejlet",
+    "failedToast": "Import fejlede. Se detaljer under indstillinger",
+    "running": "Import kører: {pct}% ({imported}/{total})",
+    "details": "Se detaljer",
+    "done": "Import færdig: {count, plural, one {# tidsregistrering importeret} other {# tidsregistreringer importeret}}",
+    "doneWithFailed": "Import færdig: {count, plural, one {# tidsregistrering importeret} other {# tidsregistreringer importeret}}, {failed} fejlet",
+    "dismiss": "Luk"
+  },
+  "page": {
+    "pickDateFormat": "Vælg venligst et datoformat for at fortsætte.",
+    "success": "Import gennemført succesfuldt!",
+    "failed": "Import fejlede. Prøv igen.",
+    "backToOnboarding": "← Tilbage til onboarding",
+    "backToIntegrations": "← Tilbage til integrationer",
+    "onboardingMode": "Onboarding mode aktiveret",
+    "onboardingNote": "Efter en succesfuld import, bliver du automatisk ført videre i onboarding processen.",
+    "uploadFile": "Upload Fil",
+    "chooseFile": "Vælg fil",
+    "noFile": "Ingen fil valgt",
+    "dateFormat": "Datoformat",
+    "chooseFormat": "Vælg format...",
+    "dateFormatHint": "Tjek dine CSV-data for at se hvilket datoformat der bruges.",
+    "billingFilter": "Faktureringsfilter",
+    "filter": {
+      "all": "Importér alle",
+      "unbilled": "Kun ikke-fakturerede",
+      "billed": "Kun fakturerede"
+    },
+    "billingFilterHint": "Filtrér poster baseret på fakturerings-status fra kilden.",
+    "markAllBilled": "Markér alle importerede poster som faktureret",
+    "markAllBilledHint": "Brug dette hvis du kun eksporterer allerede fakturerede poster fra kilden.",
+    "result": {
+      "clients": "{count, plural, one {# kunde oprettet} other {# kunder oprettet}}",
+      "projects": "{count, plural, one {# projekt oprettet} other {# projekter oprettet}}",
+      "timeEntries": "{count, plural, one {# tidspostering importeret} other {# tidsposteringer importeret}}",
+      "billedSplit": "({billed} faktureret, {unbilled} ikke-faktureret)",
+      "skippedRows": "{count, plural, one {# række sprunget over} other {# rækker sprunget over}}",
+      "filteredRows": "{count, plural, one {# række filtreret fra (faktureringsfilter)} other {# rækker filtreret fra (faktureringsfilter)}}",
+      "totalHours": "I alt {hours} timer importeret",
+      "tasks": "{count, plural, one {# opgave importeret} other {# opgaver importeret}}",
+      "subtasks": "{count, plural, one {# delopgave importeret} other {# delopgaver importeret}}",
+      "tasksSkipped": "{count, plural, one {# opgave sprunget over} other {# opgaver sprunget over}}"
+    },
+    "importing": "Importerer...",
+    "start": "Start Import",
+    "mayTakeAWhile": "Dette kan tage et par minutter afhængigt af datamængden...",
+    "warnTitle": "Vigtigt at vide:",
+    "warn1": "Importen kan ikke fortrydes",
+    "warn2": "Eksisterende data bliver ikke overskrevet",
+    "warn3": "Duplikater springer vi over"
+  }
+}

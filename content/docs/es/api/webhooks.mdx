@@ -1,0 +1,133 @@
+---
+title: "Webhooks"
+description: "Suscríbete a los eventos de TimeWren con webhooks salientes firmados, gestiónalos mediante la API REST y verifica la firma HMAC."
+---
+
+Los webhooks salientes permiten que TimeWren llame a tu servidor cuando algo cambia, por ejemplo cuando se crea un registro de horas o se paga una factura. Los webhooks se gestionan mediante la [API REST](/es/docs/api/rest) bajo `/api/v1/webhooks`. No hay una página de ajustes para ellos en la aplicación.
+
+Crear, modificar y eliminar webhooks requiere que el usuario de la clave sea administrador o propietario de la organización. Tu clave de API necesita el scope `webhooks:write` para los cambios y `webhooks:read` para leer.
+
+## Crear un webhook
+
+La URL debe usar HTTPS y no puede apuntar a una dirección privada o interna. Se comprueba al guardarla y de nuevo antes de cada entrega.
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/webhooks \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Accounting sync",
+    "url": "https://hooks.example.com/timewren",
+    "events": ["time_entry.created", "invoice.paid"]
+  }'
+```
+
+| Campo | Obligatorio | Notas |
+| --- | --- | --- |
+| `name` | sí | De 1 a 100 caracteres |
+| `url` | sí | URL HTTPS |
+| `events` | sí | Al menos un tipo de evento válido, véase más abajo. Los tipos desconocidos se descartan. |
+| `clientId` | no | Envía solo los eventos de este cliente |
+| `projectId` | no | Envía solo los eventos de este proyecto |
+| `retryCount` | no | De 0 a 10, por defecto 3. El número total de intentos de entrega, incluido el primero. |
+| `timeoutMs` | no | De 1000 a 60000, por defecto 30000 |
+
+La respuesta contiene el secreto de firma (`whsec_...`) en `secret`. Solo se muestra esta única vez; las lecturas posteriores lo devuelven enmascarado. Guárdalo donde pueda leerlo tu receptor. La API REST no tiene ningún endpoint para rotar un secreto, así que si lo pierdes, crea un webhook nuevo y elimina el antiguo.
+
+Otros endpoints:
+
+| Método y ruta | Finalidad |
+| --- | --- |
+| `GET /webhooks` | Listar webhooks |
+| `GET /webhooks/{id}` | Leer un webhook |
+| `PATCH /webhooks/{id}` | Actualizar `name`, `url`, `events`, `clientId`, `projectId`, `isActive`, `retryCount`, `timeoutMs` |
+| `DELETE /webhooks/{id}` | Eliminar el webhook y su historial de entregas |
+| `POST /webhooks/{id}/test` | Enviar una entrega de prueba, limitada a 5 por minuto y webhook |
+| `GET /webhooks/{id}/deliveries` | Registro de entregas, `limit` hasta 100 (por defecto 50) |
+| `GET /webhooks/event-types` | Listar los tipos de evento disponibles |
+
+## Eventos
+
+| Categoría | Tipos de evento |
+| --- | --- |
+| Clientes | `client.created`, `client.updated`, `client.archived` |
+| Proyectos | `project.created`, `project.updated`, `project.status_changed`, `project.budget_threshold` |
+| Registros de horas | `time_entry.created`, `time_entry.updated`, `time_entry.deleted` |
+| Facturas | `invoice.created`, `invoice.sent`, `invoice.paid`, `invoice.overdue` |
+| Bonos de horas | `prepaid.created`, `prepaid.updated`, `prepaid.low_balance`, `prepaid.expired` |
+| Tareas | `task.created`, `task.updated`, `task.completed` |
+
+Algunos eventos proceden de tareas programadas y no de acciones de los usuarios: `invoice.overdue`, `prepaid.expired`, `project.budget_threshold` y las renovaciones automáticas de bonos (`prepaid.created`). Solo se disparan cuando las tareas cron están en marcha, de lo cual se encarga el contenedor cron incluido.
+
+## Entrega
+
+Cada entrega es un `POST` HTTP con un cuerpo JSON:
+
+```json
+{
+  "event": "time_entry.created",
+  "timestamp": "2026-11-09T09:30:00.000Z",
+  "data": {
+    "timeEntry": { "id": "..." }
+  }
+}
+```
+
+`data` contiene el registro modificado bajo una clave con el nombre del recurso (`client`, `project`, `timeEntry`, `invoice`, `prepaidPackage`, `task`). Algunos eventos añaden campos, como `previousStatus` y `newStatus` en `project.status_changed`, o `changes` en `client.updated`.
+
+Cabeceras que se envían con cada entrega:
+
+| Cabecera | Valor |
+| --- | --- |
+| `Content-Type` | `application/json` |
+| `X-Webhook-Signature` | HMAC-SHA256 en hexadecimal del cuerpo bruto de la petición |
+| `X-Webhook-Event` | El tipo de evento |
+| `X-Webhook-Timestamp` | El mismo valor que `timestamp` en el cuerpo |
+| `X-Webhook-Delivery-Attempt` | 1 para el primer intento, luego 2, 3, ... |
+| `User-Agent` | `TimeTrack-Webhooks/1.0` |
+
+Responde con cualquier estado `2xx` dentro de `timeoutMs` para confirmar la recepción. Cualquier otra cosa, un tiempo agotado o un error de conexión cuenta como fallo.
+
+## Verificar la firma
+
+La firma es el HMAC-SHA256 en hexadecimal y minúsculas del cuerpo bruto exacto de la petición, con tu secreto `whsec_...` como clave. No lleva prefijo. Calcúlala sobre los bytes sin procesar, antes de cualquier análisis de JSON:
+
+```ts
+import crypto from "node:crypto";
+import express from "express";
+
+const secret = process.env.TIMEWREN_WEBHOOK_SECRET!;
+const app = express();
+
+app.post("/timewren", express.raw({ type: "application/json" }), (req, res) => {
+  const expected = crypto
+    .createHmac("sha256", secret)
+    .update(req.body)
+    .digest("hex");
+  const received = String(req.header("X-Webhook-Signature") ?? "");
+
+  const a = Buffer.from(expected);
+  const b = Buffer.from(received);
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
+    return res.status(401).send("invalid signature");
+  }
+
+  const payload = JSON.parse(req.body.toString("utf8"));
+  console.log(payload.event, payload.data);
+  res.sendStatus(200);
+});
+
+app.listen(3001);
+```
+
+La firma no protege contra repeticiones. Si eso importa, rechaza también los payloads cuyo `timestamp` sea demasiado antiguo y elimina duplicados por el ID del registro.
+
+## Reintentos y desactivación
+
+El primer intento ocurre justo después del evento. Si falla, la entrega se marca como `pending_retry` y una tarea cron (`/api/cron/webhook-retry`, cada 5 minutos en el contenedor cron incluido) la reintenta hasta completar `retryCount` intentos, y entonces la marca como `failed`. No hay retroceso exponencial, así que un reintento espera a la siguiente ejecución del cron.
+
+Tras 10 primeros intentos fallidos consecutivos, un webhook se desactiva automáticamente (`isActive` pasa a `false`, con un motivo). Vuelve a activarlo con `PATCH /webhooks/{id}` y `{"isActive": true}`; esto también restablece el contador de fallos. Una tarea diaria elimina los registros de entregas antiguos: los correctos tras 30 días y los fallidos tras 90.
+
+## Webhooks entrantes de proveedores
+
+TimeWren también recibe webhooks de otros servicios, por ejemplo de Billy y del proveedor de correo Resend, bajo `/api/webhooks/*`. Se verifican con el esquema propio de cada proveedor y no están pensados para que los llames tú. Consulta [Billy](/es/docs/integrations/billy) y [Correo electrónico](/es/docs/configuration/email) para la configuración.

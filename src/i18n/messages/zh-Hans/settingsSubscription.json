@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "订阅",
+    "description": "套餐、付款和账单",
+    "adminOnly": "只有所有者和管理员可以更改订阅、购买席位和查看付款记录。"
+  },
+  "states": {
+    "noBilling": "此安装没有付款服务商，因此所有功能均已开放，没有套餐或限制。",
+    "comingSoonTitle": "付款即将推出",
+    "comingSoon": "你正在使用免费方案。付费方案即将推出，在此之前不收取任何费用。",
+    "loading": "正在加载订阅…",
+    "none": "没有找到订阅。请先选择一个套餐。",
+    "choosePlan": "选择套餐",
+    "previousWebPayments": "以往的网页付款",
+    "redirecting": "正在跳转…"
+  },
+  "cycle": {
+    "monthly": "按月",
+    "yearly": "按年",
+    "twoMonthsFree": "免费 2 个月",
+    "perMonthExclVat": "/月，不含增值税",
+    "perYearExclVat": "/年，不含增值税",
+    "krPerMonth": "{price} kr/月",
+    "krPerYear": "{price} kr/年"
+  },
+  "status": {
+    "active": "生效中",
+    "free": "免费",
+    "trialing": "试用期",
+    "pastDue": "付款逾期",
+    "canceled": "已取消"
+  },
+  "invoiceStatus": {
+    "paid": "已付款",
+    "open": "待付款",
+    "draft": "草稿",
+    "void": "已作废",
+    "uncollectible": "失败",
+    "unknown": "未知"
+  },
+  "history": {
+    "title": "付款记录",
+    "columnDate": "日期",
+    "columnNumber": "编号",
+    "columnAmount": "金额",
+    "columnStatus": "状态",
+    "columnPdf": "PDF",
+    "empty": "还没有付款记录。完成首次付款后，付款记录会显示在这里。"
+  },
+  "toast": {
+    "planChangedYearly": "套餐已改为按年",
+    "planChangedMonthly": "套餐已改为按月",
+    "canceled": "订阅已取消，将在当前周期结束前保持有效。",
+    "reactivated": "订阅已重新激活！",
+    "trialRequested": "请求已发送！我们会尽快回复你。",
+    "trialRequestFailed": "无法发送请求，请重试。",
+    "paymentMethodAdded": "付款方式已添加！",
+    "seatsUpdated": "席位已更新！更改可能需要片刻才会显示。",
+    "paymentCanceled": "付款已取消"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, other {你的试用期还剩 # 天}}",
+    "startsAutomatically": "试用期结束后，你的订阅会自动开始",
+    "addPaymentToContinue": "请添加付款方式，以便在试用期结束后继续使用",
+    "needMoreTime": "需要更多时间？",
+    "addPayment": "添加付款方式",
+    "checkoutNoteFounding": "结账页面显示的是标准价格。付款后会自动应用你的 {percent}% 创始会员折扣。"
+  },
+  "pendingCancel": {
+    "expiresOn": "你的订阅将于 {date} 到期",
+    "expiresUnknown": "你的订阅将在未知日期到期",
+    "reactivateHint": "在此之前，你可以重新激活订阅",
+    "reactivating": "正在重新激活…",
+    "reactivate": "重新激活"
+  },
+  "plan": {
+    "current": "当前套餐",
+    "freeLimits": "最多 {maxSeats} 位用户 · 已使用 {used} / {maxClients} 位活跃客户。升级可获得更多客户、更多用户、开票和预付时长包功能。",
+    "seatsIncluded": "{count, plural, other {含 # 位用户}}",
+    "seatsWithExtra": "{count, plural, other {# 位用户}} · 含 {included} 位 + 额外 {extra} 位",
+    "foundingDiscount": "{percent}% 创始会员折扣",
+    "foundingDiscountForever": "{percent}% 创始会员折扣，永久有效",
+    "foundingDiscountExpires": "{percent}% 创始会员折扣，{date} 到期",
+    "trialEnds": "试用结束：{date}",
+    "nextBilling": "下次扣款：{date}"
+  },
+  "roi": {
+    "titleReturn": "你使用 {brand} 的回报",
+    "titleActivity": "你在 {brand} 中的活动",
+    "spent": "在 {brand} 上的花费",
+    "freeSoFar": "目前免费！",
+    "trackedValue": "已追踪工时的价值",
+    "invoicedTotal": "已开票总额",
+    "return": "回报"
+  },
+  "payment": {
+    "title": "付款",
+    "portalDescription": "通过付款门户管理你的付款方式和发票。",
+    "manage": "管理付款",
+    "noMethod": "尚未添加付款方式",
+    "addMethod": "添加付款方式",
+    "checkoutNoteFounding": "结账页面显示的是标准价格。你的 {percent}% 折扣会自动应用。"
+  },
+  "seats": {
+    "title": "席位",
+    "usage": "已使用 {used} / {total} 个席位",
+    "pendingInvites": "{count, plural, other {# 个席位被待处理的邀请占用}}",
+    "reseatsReminder": "请记得按 {plan} 的费率重新订阅你的 {count} 个额外席位。请在下方完成席位购买，使账单与你的实际规模一致。",
+    "extraLabel": "额外席位（超出已含的 {included} 个）",
+    "fewer": "减少席位",
+    "more": "增加席位",
+    "price": "价格",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr/年，不含增值税",
+    "priceSuffixMonthly": "kr/月，不含增值税",
+    "adjust": "调整席位",
+    "buy": "购买席位",
+    "note": "你当前的席位附加项将被新的数量取代。你会进行一次新的购买，旧的附加项会自动取消。你的套餐最多允许共 {max} 个席位。"
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "适合个人",
+      "feature1": "1 位用户"
+    },
+    "solo": {
+      "tagline": "适合自由职业者",
+      "feature1": "1 位用户，客户不限量",
+      "feature2": "预付时长包、开票和集成",
+      "feature3": "含网页、应用、扩展和桌面端"
+    },
+    "team": {
+      "tagline": "适合小型团队",
+      "feature1": "包含 {plan} 的全部功能",
+      "feature2": "含 2 位用户",
+      "feature3": "共享客户、项目和预付时长包"
+    },
+    "business": {
+      "tagline": "适合企业",
+      "feature1": "包含 {plan} 的全部功能",
+      "feature2": "含 5 位用户",
+      "feature3": "弹性工时、缺勤和合规"
+    },
+    "usersIncluded": "含 {count} 位用户"
+  },
+  "upgrade": {
+    "title": "升级你的套餐",
+    "blocked": "你有 {count, plural, other {# 个额外席位}}暂时无法自动迁移到 {plan}。请通过 support@timetrack.dk 联系我们，我们会为你升级，不会丢失任何席位。",
+    "to": "升级到 {plan}",
+    "note": "升级时你会进行一次新的购买。新订阅生效后，你当前的订阅会自动取消。"
+  },
+  "choose": {
+    "title": "选择你的套餐",
+    "choosePlan": "选择 {plan}",
+    "chooseAndPay": "选择并付款",
+    "note": "超出已含数量的额外用户会在注册后添加。创始会员折扣（如适用）会在付款后自动应用于 {plan}。"
+  },
+  "discounts": {
+    "title": "生效中的折扣",
+    "rangeBoth": "从 {from} 到 {to}",
+    "rangeOpenEnded": "从 {from} 起，无到期日",
+    "rangeUntil": "至 {to}",
+    "rangeNone": "无到期日"
+  },
+  "metadata": {
+    "title": "订阅详情",
+    "foundingTier": "创始档位",
+    "billingCycle": "计费周期",
+    "signupSource": "注册来源",
+    "couponCode": "折扣码"
+  },
+  "upcoming": {
+    "title": "即将到来的付款",
+    "columnPeriod": "周期",
+    "columnPlan": "套餐",
+    "columnAmount": "金额"
+  },
+  "switch": {
+    "title": "更改套餐",
+    "equivalent": "相当于 {price} kr/月",
+    "toMonthly": "改为按月",
+    "toYearly": "改为按年"
+  },
+  "cancel": {
+    "title": "取消订阅",
+    "description": "你的订阅会在当前计费周期结束前保持有效。",
+    "areYouSure": "确定吗？",
+    "activeUntil": "你的订阅会保持有效至 {date}。之后你将无法使用高级功能。",
+    "activeUntilEnd": "你的订阅会保持有效至周期结束。之后你将无法使用高级功能。",
+    "keep": "保留订阅",
+    "confirm": "是，取消订阅",
+    "canceling": "正在取消…"
+  }
+}

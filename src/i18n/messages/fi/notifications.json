@@ -1,0 +1,322 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "Tuntilistat",
+      "description": "Lähetetty, hyväksytty, hylätty ja avattu uudelleen, sekä jakson päättäminen (tilitys, hyväksyntä, kuittaus)"
+    },
+    "absence": {
+      "label": "Loma ja poissaolo",
+      "description": "Pyynnöt, päätökset, kirjaukset ja sairauspoissaolot"
+    },
+    "reminder": {
+      "label": "Muistutukset",
+      "description": "Perjantaimuistutus, kun tuntilista puuttuu, ja (valinnaisesti) kun eilisen käyttöaste oli matala"
+    },
+    "compliance": {
+      "label": "Työaikasäännöt",
+      "description": "Varoitukset työaikasäännöistä lähetyksen yhteydessä (esihenkilöille)"
+    },
+    "digest": {
+      "label": "Esihenkilön yhteenveto",
+      "description": "Päivittäinen/viikoittainen yleiskatsaus esihenkilöille"
+    }
+  },
+  "channels": {
+    "in_app": "Sovelluksessa",
+    "email": "Sähköposti",
+    "push": "Push",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "viikko {week}",
+  "periodFrom": "alkaen {date}",
+  "periodRange": "{start} - {end}",
+  "unknown": "Tuntematon",
+  "duration": {
+    "hm": "{h} h {m} min",
+    "h": "{h} h",
+    "m": "{m} min"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "Tuntilista odottaa hyväksyntää",
+      "body": "{employee} on lähettänyt tuntilistan jaksolle {week} ({hours} tuntia)."
+    },
+    "factEmployee": "Työntekijä",
+    "factWeek": "Viikko",
+    "factHours": "Tunnit",
+    "timesheetApproved": {
+      "title": "Tuntilista hyväksytty",
+      "body": "{manager} on hyväksynyt tuntilistasi jaksolle {week}."
+    },
+    "timesheetRejected": {
+      "title": "Tuntilista hylätty",
+      "body": "{manager} on hylännyt tuntilistasi jaksolle {week}.",
+      "bodyReason": "{manager} on hylännyt tuntilistasi jaksolle {week}. Syy: {reason}"
+    },
+    "timesheetReopened": {
+      "title": "Tuntilista avattu uudelleen",
+      "body": "{manager} on avannut tuntilistasi jaksolle {week} uudelleen muokattavaksi.",
+      "bodyReason": "{manager} on avannut tuntilistasi jaksolle {week} uudelleen muokattavaksi. Syy: {reason}"
+    },
+    "closingReady": {
+      "title": "Jaksotilitykset odottavat hyväksyntää",
+      "body": "{count, plural, one {Tilitys jaksolle {period} on luotu # työntekijälle, ja se odottaa hyväksyntääsi.} other {Tilitykset jaksolle {period} on luotu # työntekijälle, ja ne odottavat hyväksyntääsi.}}"
+    },
+    "factPeriod": "Jakso",
+    "factStatements": "Tilitykset",
+    "closingApproved": {
+      "title": "Kuittaa jaksotilityksesi",
+      "body": "{manager} on hyväksynyt tilityksesi jaksolle {period}. Jakso on nyt lukittu: tarkista tilitys ja kuittaa se."
+    },
+    "closingUnlocked": {
+      "title": "Jakson lukitus avattu",
+      "body": "{actor} on avannut jakson {period} lukituksen. Syy: {reason}"
+    },
+    "absenceRequested": {
+      "title": "Poissaolo odottaa hyväksyntää",
+      "body": "{employee} pyytää: {type} {period}."
+    },
+    "factType": "Tyyppi",
+    "absenceApproved": {
+      "title": "Poissaolo hyväksytty",
+      "body": "{manager} on hyväksynyt pyyntösi: {type} {period}."
+    },
+    "absenceRejected": {
+      "title": "Poissaolo hylätty",
+      "body": "{manager} on hylännyt pyyntösi: {type} {period}.",
+      "bodyReason": "{manager} on hylännyt pyyntösi: {type} {period}. Syy: {reason}"
+    },
+    "absenceRegistered": {
+      "title": "Poissaolo kirjattu",
+      "body": "{registrar} on kirjannut: {type} {period}."
+    },
+    "sickRegistered": {
+      "title": "Sairauspoissaolo",
+      "body": "{employee} on ilmoittanut sairastuneensa {period}."
+    },
+    "timesheetMissing": {
+      "title": "Tuntilistasi puuttuu",
+      "bodyHours": "Olet kirjannut {hours} tuntia jaksolle {week}, mutta viikkoa ei ole vielä lähetetty.",
+      "bodyNone": "Et ole vielä kirjannut tunteja jaksolle {week}."
+    },
+    "coverageLow": {
+      "title": "Vain {pct} työajasta on kirjattu",
+      "body": "Kirjasit {logged} / {expected} tuntia {day} (alle kynnysarvosi {threshold} %). Puuttuuko jotain?"
+    },
+    "factLogged": "Kirjattu",
+    "factWorkTime": "Työaika",
+    "factCoverage": "Käyttöaste",
+    "hoursShort": "{hours} h",
+    "compliance": {
+      "title": "Varoitus työaikasäännöistä",
+      "body": "Työntekijän {employee} tuntilista jaksolle {week} laukaisee: {findings}"
+    },
+    "factFinding": "Havainto",
+    "digestDaily": "Esihenkilön päivittäinen yleiskatsaus",
+    "digestWeekly": "Esihenkilön viikoittainen yleiskatsaus",
+    "digestDailyEsc": "Esihenkilön päivittäinen yleiskatsaus (eskaloitu)",
+    "digestWeeklyEsc": "Esihenkilön viikoittainen yleiskatsaus (eskaloitu)",
+    "digestEmpty": "Ei avoimia tuntilistoja tai pyyntöjä.",
+    "digestMissing": "Puuttuvat tuntilistat",
+    "digestPendingTs": "Tuntilistat odottavat hyväksyntää",
+    "digestPendingAbs": "Poissaolopyynnöt odottavat hyväksyntää",
+    "digestFactAbs": "Poissaolopyynnöt",
+    "digestSection": "{label} ({count}):",
+    "digestAge": "({days, plural, one {# päivä} other {# päivää}})",
+    "digestMore": "… ja {count} muuta"
+  },
+  "digestItem": {
+    "missing": "jakson {week} tuntilistaa ei ole lähetetty",
+    "pendingTs": "{week} odottaa hyväksyntää",
+    "pendingAbs": "{type} {period} odottaa päätöstä"
+  },
+  "emailOpenIn": "Avaa palvelussa {brand}",
+  "emailNoAddress": "Ei sähköpostiosoitetta",
+  "push": {
+    "open": "Avaa",
+    "dismiss": "Hylkää",
+    "deadlineTitle": "⏰ Määräaikamuistutus",
+    "deadlineBody": "{title} - määräaika {when}",
+    "whenDays": "{days} päivän päästä",
+    "whenTomorrow": "huomenna",
+    "whenHours": "{hours} tunnin päästä",
+    "whenOneHour": "tunnin päästä",
+    "whenSoon": "pian",
+    "overdueTitle": "🚨 Tehtävä myöhässä",
+    "overdueBody": "{title} on ylittänyt määräaikansa",
+    "digestTitle": "☀️ Huomenta!",
+    "digestOverdue": "{overdue} myöhässä, {tasks} suunniteltu tälle päivälle",
+    "digestTasks": "{count, plural, one {# tehtävä} other {# tehtävää}} suunniteltu tälle päivälle",
+    "digestNone": "Ei suunniteltuja tehtäviä, nauti päivästä!",
+    "testTitle": "🔔 Testi-ilmoitus",
+    "testBody": "Push-ilmoitukset on nyt otettu käyttöön palvelulle {brand}!"
+  },
+  "discord": {
+    "digestTitle": "☀️ Huomenta, {name}!",
+    "digestNone": "Sinulla ei ole tehtäviä suunniteltuna tälle päivälle. Nauti päivästä! 🎉",
+    "digestOverview": "Tässä päivän yleiskatsauksesi:",
+    "todayTasks": "📌 Tämän päivän tehtävät ({count})",
+    "overdueTasks": "🚨 Myöhässä ({count})",
+    "andMore": "…ja {count} muuta",
+    "status": "📊 Tila",
+    "yesterdayTime": "Eilen kirjattu aika: {h} h {m} min",
+    "yesterdayDone": "Eilen valmistuneet tehtävät: {count}",
+    "digestFooter": "TimeTrack • Päivittäinen yleiskatsaus",
+    "testTitle": "Testi-ilmoitus",
+    "testMessage": "Discord-webhookisi on nyt yhdistetty TimeTrackiin! 🎉"
+  },
+  "taskDigestSubject": "Tehtäväsi {date}",
+  "endOfDay": {
+    "titleTracked": "Päivän yhteenveto: {hours} kirjattu",
+    "titleNone": "Ei kirjattua aikaa tänään",
+    "bodyTracked": "Olet kirjannut tänään {hours}.",
+    "bodyUnbilled": "{hours} on laskuttamatta.",
+    "bodyRevenue": "Arvioitu liikevaihto: {amount} kr.",
+    "bodyNone": "Muista kirjata aikasi ennen päivän loppua.",
+    "footer": "TimeTrack Päivän yhteenveto"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "Toimettomuus havaittu",
+      "message": "Ajastin on yhä käynnissä {minutes} minuutin työskentelyn jälkeen. Sinulta kysytään joutoajasta, kun palaat."
+    },
+    "invoiceOverdueOne": {
+      "title": "Lasku erääntynyt",
+      "message": "Lasku {numbers} on ylittänyt eräpäivänsä."
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} laskua erääntynyt",
+      "message": "Laskut {numbers} ovat ylittäneet eräpäivänsä."
+    },
+    "recurringOne": {
+      "title": "Laskuluonnos valmis: {name}",
+      "message": "Toistuva lasku \"{name}\" ({amount} ilman ALV:tä) on luotu luonnoksena. Tarkista ja anna se, kun se on valmis."
+    },
+    "recurringMany": {
+      "title": "{count} toistuvaa laskua valmiina luonnoksina",
+      "message": "{list} on luotu luonnoksina. Tarkista ja anna ne, kun ne ovat valmiita."
+    },
+    "renewalDraft": {
+      "title": "Laskuluonnos valmis: tuntipaketti \"{name}\"",
+      "message": "Tuntipaketti \"{name}\" on uusiutunut, ja uuden jakson lasku on luotu luonnoksena. Tarkista ja anna se, kun se on valmis."
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "Uusi käyttäjä rekisteröityi",
+      "subscription_started": "Uusi maksava tilaaja",
+      "payment_failed": "Maksu epäonnistui",
+      "subscription_cancelled": "Tilaus peruttu",
+      "trial_ending": "Kokeilujakso päättymässä",
+      "user_flagged": "Käyttäjä liputettu",
+      "support_ticket": "Uusi tukipyyntö",
+      "webhook_rejected": "Webhook hylätty",
+      "seat_drift": "Paikkapoikkeama havaittu",
+      "churn_risk": "Asiakaspoistuman toimintamalli laukaistu",
+      "subscription_duplicate": "Mahdollinen kaksoistilaus",
+      "feedback_received": "Uutta palautetta käyttäjältä",
+      "beta_tester_signup": "Uusi mobiilisovelluksen betatestaaja"
+    },
+    "sub": {
+      "signup": "Uusi käyttäjä: {name}",
+      "subscription_started": "Uusi tilaaja: {name}",
+      "payment_failed": "Maksu epäonnistui: {name}",
+      "subscription_cancelled": "Tilaus peruttu: {name}",
+      "trial_ending": "Kokeilujakso päättymässä: {name}",
+      "user_flagged": "Käyttäjä liputettu: {name}",
+      "support_ticket": "Tukipyyntö: {name}",
+      "webhook_rejected": "Webhook hylätty",
+      "seat_drift": "Paikkapoikkeama",
+      "churn_risk": "Asiakaspoistumariski",
+      "subscription_duplicate": "Mahdollinen kaksoistilaus",
+      "feedback_received": "Uutta palautetta: {name}",
+      "beta_tester_signup": "Uusi betatestaaja: {name}"
+    },
+    "unknownName": "tuntematon",
+    "fieldName": "Nimi",
+    "fieldEmail": "Sähköposti",
+    "fieldPlan": "Paketti",
+    "fieldType": "Tyyppi",
+    "fieldDaysLeft": "Päiviä jäljellä",
+    "fieldReason": "Syy",
+    "fieldTime": "Aika",
+    "seeUser": "Katso käyttäjä ylläpidossa",
+    "footer": "TimeTrack Admin",
+    "testTitle": "Testi: ylläpitoilmoitukset",
+    "testBody": "Discord-webhookisi on nyt yhdistetty TimeTrackin ylläpitoilmoituksiin!",
+    "supportReply": "Vastaa tukipyyntöön: {subject}",
+    "supportNew": "Uusi tukipyyntö: {subject}",
+    "supportNoSubject": "Ei aihetta"
+  },
+  "fallbackUser": "käyttäjä",
+  "absenceTypeFallback": "Poissaolo",
+  "teams": {
+    "urlTooLong": "Webhook-osoite on liian pitkä",
+    "urlInvalid": "Virheellinen osoite",
+    "urlHttps": "Webhook-osoitteen on käytettävä https-protokollaa",
+    "urlNotTeams": "Osoite ei näytä Teams-webhookilta (odotettu *.webhook.office.com, *.logic.azure.com tai *.powerplatform.com)"
+  },
+  "fallbackTaskTitle": "Tehtävä sähköpostista",
+  "deadlines": {
+    "noProject": "Ei projektia",
+    "overdueLine": "• **{title}** ({project}) - {days, plural, one {# päivä} other {# päivää}} myöhässä",
+    "overdueTitle": "{count, plural, one {# myöhässä oleva tehtävä} other {# myöhässä olevaa tehtävää}}",
+    "overdueFooter": "TimeTrack Määräaikahälytys",
+    "whenToday": "tänään",
+    "whenTomorrow": "huomenna",
+    "whenDays": "{days} päivän päästä",
+    "upcomingLine": "• **{title}** ({project}) - määräaika {when}",
+    "upcomingTitle": "{count, plural, one {# tehtävä} other {# tehtävää}}, joilla on lähestyvä määräaika",
+    "upcomingFooter": "TimeTrack Määräaikamuistutus",
+    "projOverdueTitle": "{count, plural, one {# projekti} other {# projektia}} päättymispäivän jälkeen",
+    "projOverdueLine": "• **{name}** - päättymispäivä ylitetty {days, plural, one {# päivällä} other {# päivällä}}",
+    "projSoonTitle": "{count, plural, one {# projekti} other {# projektia}}, joilla on lähestyvä päättymispäivä",
+    "projSoonLine": "• **{name}** - päättyy {when}",
+    "projFooter": "TimeTrack Projektin päättymispäivä"
+  },
+  "slack": {
+    "noProject": "Ei projektia",
+    "noClient": "Ei asiakasta",
+    "project": "Projekti",
+    "client": "Asiakas",
+    "description": "Kuvaus",
+    "timerStarted": "Ajastin käynnistetty",
+    "startedAtSlack": "Käynnistetty",
+    "startedAtDiscord": "Käynnistetty",
+    "timerStopped": "Ajastin pysäytetty",
+    "duration": "Kesto",
+    "durationHM": "{h} h {m} min",
+    "durationM": "{m} minuuttia",
+    "idleTitle": "Toimettomuus havaittu",
+    "idleBodySlack": "Olet ollut toimettomana *{minutes} minuuttia*, kun ajastin on käynnissä projektissa *{project}*. Muista pysäyttää ajastin, jos pidät tauon.",
+    "idleBodyDiscord": "Olet ollut toimettomana **{minutes} minuuttia**, kun ajastin on käynnissä projektissa **{project}**. Muista pysäyttää ajastin, jos pidät tauon.",
+    "dailyTitle": "Päivän yhteenveto - {date}",
+    "totalTime": "Aika yhteensä",
+    "totalRevenue": "Liikevaihto yhteensä",
+    "tasksDone": "Valmistuneet tehtävät",
+    "projects": "Projektit",
+    "noEntriesToday": "Ei tuntikirjauksia tänään",
+    "weeklyTitle": "Viikkoraportti - viikko {week}",
+    "unbilled": "Laskuttamatta",
+    "topClients": "Suurimmat asiakkaat",
+    "noEntriesWeek": "Ei tuntikirjauksia tällä viikolla",
+    "hoursShort": "{hours} h",
+    "minutesShort": "{m} min",
+    "testTitle": "TimeTrackin testiviesti",
+    "testBodySlack": "Slack-integraatiosi on määritetty oikein! Saat nyt TimeTrackin ilmoitukset tänne.",
+    "testBodyDiscord": "Discord-integraatiosi on määritetty oikein! Saat nyt TimeTrackin ilmoitukset tänne.",
+    "unbilledReminderTitle": "💰 Laskuttamaton aika: {hours} ({value} kr)",
+    "unbilledReminderDiscord": "Sinulla on laskuttamatonta aikaa arvoltaan **{value} kr**.\n\n{list}",
+    "unbilledReminderSlack": "Sinulla on laskuttamatonta aikaa arvoltaan *{value} kr*.\n\n{list}",
+    "unbilledReminderLine": "• {name}: {hours} - {value} kr",
+    "unbilledReminderFooter": "TimeTrack Laskuttamattoman ajan muistutus",
+    "aiFocusName": "🎯 Tämän päivän painopiste ({count} tehtävää)",
+    "aiWarnings": "⚠️ Varoitukset",
+    "aiDeferred": "📋 Lykätyt",
+    "aiDeferredValue": "{count, plural, one {# tehtävä} other {# tehtävää}} suositellaan lykättäväksi",
+    "aiGreeting": "Huomenta, {name}!",
+    "aiFooter": "TimeTrack Tekoälyehdotukset",
+    "aiFocusBlock": "🎯 Tämän päivän painopiste",
+    "aiWarningsBlock": "⚠️ Varoitukset"
+  }
+}

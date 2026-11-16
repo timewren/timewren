@@ -1,0 +1,119 @@
+---
+title: "Autenticación"
+description: "Métodos de inicio de sesión en TimeWren: correo y contraseña, enlace mágico, passkeys, 2FA, SMS, proveedores OAuth, la primera cuenta de administrador y rotación de secretos."
+---
+
+TimeWren usa [Better Auth](https://www.better-auth.com). El inicio de sesión con correo y contraseña siempre funciona. Todo lo demás es opcional y se activa cuando defines las variables correspondientes. Todas las variables están en `.env.example`; consulta también [Variables de entorno](/es/docs/configuration/environment).
+
+## Correo y contraseña
+
+Los usuarios se registran con correo y contraseña. Las contraseñas se restablecen por correo (el enlace es válido durante 1 hora).
+
+La verificación del correo es obligatoria por defecto: un usuario nuevo debe hacer clic en el enlace del correo de verificación (válido durante 24 horas) antes de iniciar sesión. Los correos de verificación necesitan un transporte de correo configurado, consulta [Correo electrónico](/es/docs/configuration/email).
+
+Solo puedes desactivar la verificación cuando no hay ningún transporte de correo configurado:
+
+```dotenv
+REQUIRE_EMAIL_VERIFICATION=false
+```
+
+El indicador se ignora en cuanto se configura SMTP o Resend. En ese caso la aplicación escribe una advertencia en el log.
+
+> **Advertencia:** Con la verificación desactivada, cualquiera que pueda acceder a la instancia puede crear una cuenta con cualquier dirección, incluida la de `ADMIN_EMAIL`. Úsalo para empezar, y después configura el correo y quita la línea antes de exponer la instancia.
+
+Los intentos de inicio de sesión tienen un límite de frecuencia: 5 inicios de sesión con contraseña cada 15 minutos y 10 registros cada 15 minutos.
+
+## El primer administrador
+
+El rol de administrador de la instancia se asigna automáticamente:
+
+- Si `ADMIN_EMAIL` está definido (lista separada por comas), la cuenta con esa dirección se convierte en administradora de la instancia.
+- Si está vacío, la primera cuenta creada se convierte en administradora, pero solo mientras la instancia aún no tenga administrador.
+
+La promoción se produce en el registro y en el inicio de sesión. Cuando la verificación es obligatoria, solo se promociona una dirección verificada. Cada usuario nuevo recibe además un espacio de trabajo personal (una organización de la que es propietario).
+
+```dotenv
+ADMIN_EMAIL=you@example.com
+```
+
+## Enlace mágico
+
+Inicio de sesión sin contraseña por correo. El enlace es válido durante 15 minutos. Necesita un transporte de correo que funcione y no tiene ningún ajuste propio.
+
+## Passkeys
+
+Los usuarios pueden registrar passkeys (WebAuthn) en sus ajustes de seguridad e iniciar sesión con ellas. Las passkeys están ligadas a un dominio, llamado ID de la parte de confianza (relying party). Por defecto es el nombre de host de `NEXT_PUBLIC_APP_URL`, así que la aplicación debe servirse por HTTPS en su dominio definitivo antes de que la gente registre passkeys. Si cambias el dominio, las passkeys existentes dejan de funcionar.
+
+Define `AUTH_RP_ID` solo si repartes la aplicación y el sitio de marketing en hosts distintos y quieres que las passkeys estén ligadas al dominio padre:
+
+```dotenv
+AUTH_RP_ID=example.com
+```
+
+## Autenticación en dos pasos
+
+Los usuarios pueden activar la autenticación en dos pasos en sus ajustes de seguridad. Admite:
+
+- Aplicaciones de autenticación TOTP (6 dígitos, periodo de 30 segundos)
+- 10 códigos de respaldo
+- Un código de un solo uso por correo como alternativa (necesita un transporte de correo)
+
+Los intentos de verificación en dos pasos tienen un límite de 10 cada 15 minutos.
+
+## Inicio de sesión por SMS
+
+Inicio de sesión con un número de teléfono y un código de 6 dígitos (válido durante 5 minutos). El envío usa MessageBird:
+
+```dotenv
+MESSAGEBIRD_API_KEY=your-messagebird-key
+MESSAGEBIRD_ORIGINATOR=TimeWren
+```
+
+Sin `MESSAGEBIRD_API_KEY`, pedir un código falla con un error de "no configurado". Un usuario que se registra solo por teléfono recibe una dirección de correo provisional en tu dominio de correo (`EMAIL_DOMAIN`, que por defecto es el host de marketing o de la aplicación). El propio mensaje de texto está escrito actualmente en danés.
+
+## Proveedores OAuth
+
+Cada proveedor necesita una aplicación OAuth que registras tú mismo. Un proveedor solo se ofrece cuando están definidas sus dos variables. La URL de callback es siempre `{NEXT_PUBLIC_APP_URL}/api/auth/callback/<id>`.
+
+| Proveedor | Id | Variables | URL de callback |
+| --- | --- | --- | --- |
+| Google | `google` | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/google` |
+| GitHub | `github` | `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/github` |
+| Discord | `discord` | `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/discord` |
+| Apple | `apple` | `APPLE_CLIENT_ID`, `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY` | `https://timewren.example.com/api/auth/callback/apple` |
+| Microsoft Entra ID | `microsoft-entra-id` | `MICROSOFT_CLIENT_ID`, `MICROSOFT_CLIENT_SECRET`, `MICROSOFT_TENANT_ID` | `https://timewren.example.com/api/auth/callback/microsoft-entra-id` |
+
+Notas:
+
+- El cliente de Google se comparte con la [integración de Google Calendar](/es/docs/integrations/calendar), que tiene su propia URL de callback.
+- Sign in with Apple: `APPLE_CLIENT_ID` es el Services ID. El secreto de cliente se genera a partir de tu clave `.p8` (`APPLE_PRIVATE_KEY`, texto PEM con saltos de línea `\n` o el archivo completo codificado en base64) cuando la aplicación arranca. `APPLE_APP_BUNDLE_IDENTIFIER` (por defecto `dk.timetrack.app`) es el bundle id de iOS que se usa para el inicio de sesión nativo.
+- Microsoft: `MICROSOFT_TENANT_ID` es `common` por defecto (cualquier cuenta de Microsoft). Define un GUID de tenant para restringir el inicio de sesión a una organización. Consulta `docs/MICROSOFT-LOGIN-SETUP.md` en el repositorio para los pasos en Azure.
+- Las cuentas de Google y GitHub se vinculan automáticamente cuando la dirección de correo coincide con una cuenta existente. Las cuentas de Discord solo se vinculan cuando Discord indica que la dirección de correo está verificada.
+
+## Orígenes de confianza
+
+Los navegadores envían las peticiones desde el origen de `NEXT_PUBLIC_APP_URL`, que siempre es de confianza. Si a la aplicación también se accede desde otro origen web (por ejemplo un segundo dominio), añádelo:
+
+```dotenv
+TRUSTED_ORIGINS=https://timewren.example.org,https://time.example.com
+```
+
+El valor es una lista separada por comas de orígenes `https://host`. Las entradas no válidas se omiten.
+
+## Sesiones
+
+Las sesiones duran 7 días. Una sesión activa se prolonga como máximo una vez cada 24 horas. La cookie de sesión es solo del host por defecto. `AUTH_COOKIE_DOMAIN` la comparte entre subdominios y `AUTH_COOKIE_PREFIX` cambia su nombre (por defecto `better-auth`); ambas solo hacen falta con una aplicación y un host de marketing separados.
+
+## Rotar BETTER_AUTH_SECRET
+
+`BETTER_AUTH_SECRET` es el secreto de Better Auth. Entre otras cosas, cifra los tokens de inicio de sesión OAuth guardados en la base de datos, y cambiarlo directamente hace que esos tokens sean ilegibles hasta que los usuarios vuelvan a iniciar sesión. Para rotarlo con seguridad, usa secretos con versión:
+
+```dotenv
+BETTER_AUTH_SECRETS=2:the-new-long-random-secret,1:the-old-long-random-secret
+```
+
+El formato es `<versión>:<secreto>` separado por comas. La primera entrada es el secreto actual, que se usa para los datos nuevos. Mantén las versiones antiguas en la lista mientras necesites leer datos escritos con ellas. Las versiones son enteros no negativos y deben ser únicas. Usa al menos 32 caracteres por secreto.
+
+`BETTER_AUTH_SECRET` en sí debe seguir definido. La aplicación también lo lee directamente para firmar los tokens de dispositivo de escritorio más antiguos y los enlaces de baja de los correos, así que cambiar su valor los invalida; los usuarios de la aplicación de escritorio tendrán que iniciar sesión de nuevo.
+
+`ENCRYPTION_KEY` es una clave independiente (protege las credenciales de las integraciones) y esta rotación no le afecta. Haz copia de ambas.

@@ -1,0 +1,94 @@
+# Dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+tests
+coverage
+*.spec.ts
+*.spec.tsx
+*.test.ts
+*.test.tsx
+playwright-report
+
+# Next.js
+.next/
+.source/
+out/
+
+# Production
+build
+dist
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+*.log
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# Typescript
+*.tsbuildinfo
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Git
+.git
+.gitignore
+
+# Documentation (not needed in container)
+docs
+*.md
+!README.md
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Browser extension (separate build)
+browser-extension
+
+# Not part of the app image or the Next build. The runner stage copies only
+# public, LICENSE, licenses, .next, content, drizzle, drizzle.config.ts,
+# tsconfig.json, src/lib, package.json, scripts and cron/entrypoint.sh, and
+# Tailwind scans only src/ (globals.css: source("../")). Keeping these out of
+# the context stops a change to them from invalidating `COPY . .` and with it
+# the whole next build. Do not add anything under src/ here: src/lib is copied
+# into the runtime image as is.
+.github
+.claude
+videos
+ops
+deploy
+charts
+specs
+integrations
+google-ads-api-tool-description.*
+.env.example
+.gitleaks.toml
+.gitleaksignore
+.trivyignore
+railway.json
+render.yaml
+init.sql
+playwright.config.ts
+vitest.config.ts
+vitest.dbtest.config.ts

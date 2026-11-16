@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Aloitus",
+      "items": {
+        "0": {
+          "question": "Miten lisään ensimmäisen asiakkaani?",
+          "answer": "Siirry sivupalkin kohtaan 'Asiakkaat' ja napsauta 'Lisää asiakas'. Täytä asiakkaan tiedot, kuten nimi, sähköposti ja halutessasi oma tuntihinta. Jos et syötä tuntihintaa, käytetään asetuksista oletustuntihintaasi."
+        },
+        "1": {
+          "question": "Mitä eroa on projekteilla ja asiakkailla?",
+          "answer": "Asiakkaat ovat ihmisiä tai yrityksiä, joille työskentelet. Projektit ovat asiakkaan alla olevia tiettyjä tehtäviä tai sopimuksia. Asiakkaalla voi olla useita projekteja, esim. 'Verkkosivujen kehitys' ja 'Jatkuva tuki' saman asiakkaan alla."
+        },
+        "2": {
+          "question": "Miten kirjaan aikaa?",
+          "answer": "Siirry kohtaan 'Tuntiseuranta' ja käytä joko ajastinta (käynnistä/pysäytä) tai lisää aika käsin. Valitse projekti tai asiakas, lisää kuvaus ja tallenna. Voit valita, vähennetäänkö aika tuntipaketista vai laskutetaanko se tavallisesti."
+        },
+        "3": {
+          "question": "Miten käyn esittelyn uudelleen läpi?",
+          "answer": "Napsauta profiilikuvaasi tai nimikirjaimiasi oikeassa yläkulmassa ja valitse 'Aloita esittely'. Esittely opastaa sinut läpi {brand}in tärkeimmät ominaisuudet 24 interaktiivisessa vaiheessa."
+        },
+        "4": {
+          "question": "Onko pikanäppäimiä?",
+          "answer": "On, {brand}issa on monia pikanäppäimiä nopeaan siirtymiseen ja ajan hallintaan. Paina '?' nähdäksesi yleiskatsauksen kaikista pikanäppäimistä tai katso alla oleva aihe 'Pikanäppäimet ja vinkit'."
+        }
+      }
+    },
+    "clients": {
+      "title": "Asiakkaat",
+      "items": {
+        "0": {
+          "question": "Miten asetan asiakkaalle oman tuntihinnan?",
+          "answer": "Kun luot tai muokkaat asiakasta, voit syöttää 'Tuntihinnan (DKK)'. Tämä hinta ohittaa oletustuntihintasi kaikissa asiakkaan projekteissa, ellei projektilla ole omaa tuntihintaa."
+        },
+        "1": {
+          "question": "Voinko poistaa asiakkaan?",
+          "answer": "Tietojen eheyden säilyttämiseksi asiakkaita ei voi poistaa, mutta ne voi arkistoida. Arkistoidut asiakkaat eivät näy listoissa, mutta niiden historiatiedot säilyvät. Voit ottaa arkistoidun asiakkaan takaisin käyttöön milloin tahansa."
+        },
+        "2": {
+          "question": "Mikä on hintahierarkia?",
+          "answer": "{brand} käyttää kolmitasoista hintajärjestelmää: 1) yleinen tuntihinta (asetuksissa), 2) asiakaskohtainen tuntihinta, 3) projektikohtainen tuntihinta. Käytetään tarkinta tasoa. Jos esimerkiksi projektilla on hinta, käytetään sitä, muuten asiakkaan hintaa ja muuten yleistä hintaa."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projektit",
+      "items": {
+        "0": {
+          "question": "Mitä eroa on tuntiveloituksella ja kiinteällä hinnalla?",
+          "answer": "Tuntiprojektit laskutetaan tuntimäärän ja tuntihinnan tulona. Kiinteähintaisilla projekteilla on ennalta sovittu hinta tuntimäärästä riippumatta. Valitset tyypin projektia luodessasi."
+        },
+        "1": {
+          "question": "Miten seuraan projektien määräaikoja?",
+          "answer": "Projektia luodessasi voit asettaa määräajan. Määräajallisissa projekteissa näkyy varoitus, kun määräaika lähestyy. Voit myös asettaa tilaksi 'Aktiivinen', 'Tauolla' tai 'Valmis'."
+        },
+        "2": {
+          "question": "Voinko siirtää projektin toiselle asiakkaalle?",
+          "answer": "Voit, muokkaa projektia ja valitse uusi asiakas pudotusvalikosta. Kaikki tuntikirjaukset ja tuntipaketit pysyvät liitettyinä projektiin."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Tuntiseuranta",
+      "items": {
+        "0": {
+          "question": "Miten ajastin toimii?",
+          "answer": "Valitse projekti, lisää kuvaus ja paina 'Käynnistä'. Ajastin käy, kunnes painat 'Tauko' tai 'Pysäytä'. Kun pysäytät, aika tallentuu automaattisesti tuntikirjaukseksi. Voit tarvittaessa keskeyttää ja jatkaa ajastinta."
+        },
+        "1": {
+          "question": "Voinko muokata aiempia tuntikirjauksia?",
+          "answer": "Voit, napsauta tuntikirjausta listassa ja valitse 'Muokkaa'. Voit muuttaa projektia, kuvausta, tuntimäärää ja päivämäärää. Tämä on hyödyllistä, jos unohdat kirjata aikaa tai teet virheen."
+        },
+        "2": {
+          "question": "Miten käsittelen useita tuntikirjauksia kerralla?",
+          "answer": "Valitse tuntikirjaukset napsauttamalla vasemmalla olevaa valintaruutua. Voit sitten poistaa useita kirjauksia kerralla napsauttamalla painiketta 'Poista valitut'."
+        },
+        "3": {
+          "question": "Mikä on viikkoyhteenveto (tuntilista)?",
+          "answer": "Viikkoyhteenveto näyttää tuntikirjauksesi viikkoruudukossa, jolloin näet nopeasti tunnit päivittäin ja projekteittain. Vaihda listan ja viikkonäkymän välillä Tuntiseuranta-sivun yläreunan kytkimellä."
+        },
+        "4": {
+          "question": "Voinko tuoda aikaa CSV-tiedostosta?",
+          "answer": "Voit, napsauta Tuntiseuranta-sivun painiketta 'Tuo CSV'. Lataa CSV-tiedosto, jossa on sarakkeet päivämäärälle, tunneille, projektille ja kuvaukselle. Järjestelmä yhdistää projektit automaattisesti ja luo tuntikirjaukset."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Tehtävät",
+      "items": {
+        "0": {
+          "question": "Mitä eroa on kanban-taululla ja listanäkymällä?",
+          "answer": "Kanban-taulu näyttää tehtävät korteina sarakkeissa (esim. 'Tehtävä', 'Työn alla', 'Valmis'), joten voit helposti vetää tehtäviä vaiheesta toiseen. Listanäkymä näyttää tehtävät taulukossa lajittelun ja suodatuksen kanssa. Vaihda näkymää yläreunan painikkeilla."
+        },
+        "1": {
+          "question": "Miten luon tehtävän?",
+          "answer": "Napsauta tehtäväsivulla 'Uusi tehtävä'. Täytä otsikko, valitse projekti ja asiakas, aseta prioriteetti (matala/normaali/korkea/kriittinen) ja syötä halutessasi määräaika. Voit lisätä myös kuvauksen lisätiedoilla."
+        },
+        "2": {
+          "question": "Miten siirrän tehtäviä sarakkeiden välillä?",
+          "answer": "Kanban-näkymässä voit vetää ja pudottaa tehtäväkortteja sarakkeiden välillä. Voit myös napsauttaa tehtävää ja vaihtaa sen tilaa muokkausikkunassa."
+        },
+        "3": {
+          "question": "Voinko käynnistää ajastimen suoraan tehtävästä?",
+          "answer": "Voit, jokaisella tehtävällä on ajastinpainike. Napsauta sitä käynnistääksesi ajastimen tehtävän projektilla ja otsikolla kuvauksena. Aika kirjataan automaattisesti liitetylle projektille."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Koontinäyttö",
+      "items": {
+        "0": {
+          "question": "Mitä koontinäyttö näyttää?",
+          "answer": "Koontinäyttö antaa yleiskatsauksen freelance-yritykseesi widgeteillä viikon aikayhteenvedolle, ansioille, aktiivisille projekteille, tuntipakettien tilalle, viimeisimmille tuntikirjauksille ja tuleville määräajoille."
+        },
+        "1": {
+          "question": "Voinko mukauttaa koontinäyttöä?",
+          "answer": "Voit, napsauta koontinäytön oikeassa yläkulmassa olevaa painiketta 'Mukauta'. Voit lisätä, poistaa ja siirtää widgetejä vetämällä ja pudottamalla. Muutoksesi tallentuvat automaattisesti."
+        },
+        "2": {
+          "question": "Mitä widgetejä on saatavilla?",
+          "answer": "Saatavilla olevia widgetejä ovat: viikon yleiskatsaus (tunnit päivittäin), ansiot (liikevaihto ja kasvu), aktiiviset projektit, tuntipakettien yleiskatsaus, viimeisimmät tuntikirjaukset, tämän päivän tunnit, tulevat määräajat ja ajastimen pikakäynnistys."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Tuntipaketit",
+      "items": {
+        "0": {
+          "question": "Mikä on tuntipaketti?",
+          "answer": "Tuntipaketti on tuntimäärä, jonka asiakas ostaa etukäteen. Kun kirjaat aikaa, voit valita tuntien vähentämisen paketista tavallisen laskutuksen sijaan. Tämä on suosittua tukisopimuksissa."
+        },
+        "1": {
+          "question": "Miten luon tuntipaketin?",
+          "answer": "Siirry kohtaan 'Tuntipaketit' ja napsauta 'Uusi tuntipaketti'. Valitse asiakas, syötä tuntimäärä ja tuntihinta ja laske kokonaishinta. Aseta ostopäivä ja halutessasi erääntymispäivä. Kun paketti on aktiivinen, voit käyttää sitä aikaa kirjatessasi."
+        },
+        "2": {
+          "question": "Mitä tapahtuu, kun tuntipaketti loppuu?",
+          "answer": "Saat varoituksen, kun tuntipaketista on jäljellä alle 10 % tunneista. Kun se on tyhjä (0 tuntia jäljellä), siitä ei voi enää vähentää aikaa. Sinun on luotava uusi tuntipaketti tai laskutettava aika tavallisesti."
+        },
+        "3": {
+          "question": "Näenkö tuntipaketin historian?",
+          "answer": "Näet, avaa tuntipaketti ja katso kohtaa 'Käyttöhistoria'. Se näyttää kaikki paketista vähennetyt tuntikirjaukset päivämäärän, kuvauksen ja tuntimäärän kanssa."
+        }
+      }
+    },
+    "templates": {
+      "title": "Toistuvat pohjat",
+      "items": {
+        "0": {
+          "question": "Mitä ovat toistuvat pohjat?",
+          "answer": "Toistuvat pohjat ovat valmiita tuntikirjauksia, jotka luodaan automaattisesti säännöllisin väliajoin. Voit esimerkiksi tehdä pohjan 'Viikoittainen tilannepalaveri, 1 tunti', joka luodaan joka viikko."
+        },
+        "1": {
+          "question": "Miten luon pohjan?",
+          "answer": "Siirry kohtaan 'Pohjat' ja napsauta 'Uusi pohja'. Valitse projekti, kuvaus, tuntimäärä ja toistuvuus (päivittäin/viikoittain/kuukausittain). Syötä aloituspäivä ja halutessasi päättymispäivä. Pohja luo tuntikirjaukset automaattisesti suunnitelmasi mukaan."
+        },
+        "2": {
+          "question": "Voinko muokata tai poistaa luotuja tuntikirjauksia?",
+          "answer": "Voit, luodut tuntikirjaukset toimivat kuten tavalliset kirjaukset. Voit muokata niitä kohdassa 'Tuntiseuranta' tai poistaa ne, jos ne eivät ole merkityksellisiä jonain päivänä tai viikkona."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Laskut",
+      "items": {
+        "0": {
+          "question": "Miten luon laskun?",
+          "answer": "Siirry kohtaan 'Laskut' ja napsauta 'Uusi lasku'. Valitse asiakas ja tuntikirjausten aikaväli, niin järjestelmä kerää kaikki laskuttamattomat tunnit automaattisesti. Tarkista rivit, lisää mahdolliset huomautukset ja tallenna."
+        },
+        "1": {
+          "question": "Mitä eroa on tiloilla 'Luonnos', 'Lähetetty' ja 'Maksettu'?",
+          "answer": "Luonnos = laskun työstäminen on kesken. Lähetetty = lasku on lähetetty asiakkaalle, mutta sitä ei ole vielä maksettu. Maksettu = asiakas on maksanut laskun. Voit päivittää tilan käsin asioiden edetessä."
+        },
+        "2": {
+          "question": "Voinko viedä laskut PDF-muotoon?",
+          "answer": "Voit, laskua katsellessasi on painike 'Vie PDF'. Se luo ammattimaisen PDF-laskun, jonka voit lähettää asiakkaalle tai tallentaa kirjanpitoa varten."
+        },
+        "3": {
+          "question": "Voinko luoda laskun tuntikirjauksista?",
+          "answer": "Voit, napsauta painiketta 'Tuntikirjauksista' luodessasi uutta laskua. Valitse asiakas ja aikaväli, niin järjestelmä kerää kaikki laskuttamattomat tuntikirjaukset laskuriveiksi."
+        },
+        "4": {
+          "question": "Mitä laskujen yleiskatsaus näyttää?",
+          "answer": "Laskusivun yläreunassa on neljä tilastokorttia: laskutettu yhteensä, maksettu summa, avoin summa ja erääntyneet laskut. Ne antavat nopean yleiskuvan taloudestasi."
+        }
+      }
+    },
+    "reports": {
+      "title": "Raportit",
+      "items": {
+        "0": {
+          "question": "Mitä raportteja voin luoda?",
+          "answer": "Voit nähdä viikko- ja kuukausiraportit, joissa on tunnit asiakkaittain ja projekteittain, ansiot ja trendit. Raportit voi suodattaa aikavälin mukaan ja viedä CSV-muotoon Excel-analyysia varten."
+        },
+        "1": {
+          "question": "Miten vien tiedot Exceliin?",
+          "answer": "Siirry kohtaan 'Raportit', valitse haluamasi aikaväli ja napsauta 'Vie CSV'. Tämä lataa CSV-tiedoston, jonka voit avata Excelissä, Google Sheetsissä tai muissa taulukkolaskentaohjelmissa."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Pikanäppäimet ja vinkit",
+      "items": {
+        "0": {
+          "question": "Mitä siirtymispikanäppäimiä on?",
+          "answer": "Käytä G-näppäintä ja sen perään toista näppäintä nopeaan siirtymiseen: {shortcuts}."
+        },
+        "1": {
+          "question": "Mitä ajastimen pikanäppäimiä on?",
+          "answer": "T = käynnistä/pysäytä ajastin, Shift+T = keskeytä/jatka ajastinta. Nämä pikanäppäimet toimivat kaikilta sivuilta, joten voit hallita ajastinta nopeasti vaihtamatta sivua."
+        },
+        "2": {
+          "question": "Mikä on komentopaletti?",
+          "answer": "Paina Ctrl+K (tai Cmd+K Macilla) avataksesi komentopaletin. Siellä voit nopeasti hakea ja siirtyä sivuille, asiakkaisiin, projekteihin ja toimintoihin ilman hiirtä."
+        },
+        "3": {
+          "question": "Miten näen kaikki pikanäppäimet?",
+          "answer": "Paina '?' miltä tahansa sivulta avataksesi pikanäppäinyleiskatsauksen. Se näyttää kaikki käytettävissä olevat pikanäppäimet luokittain."
+        },
+        "4": {
+          "question": "Voinko käynnistää esittelyn uudelleen?",
+          "answer": "Voit, napsauta profiilikuvaasi tai nimikirjaimiasi oikeassa yläkulmassa ja valitse käyttäjävalikosta 'Aloita esittely'. Esittely opastaa sinut läpi kaikki 24 tärkeintä ominaisuutta."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Selainlaajennus",
+      "items": {
+        "0": {
+          "question": "Mikä on {brand}-selainlaajennus?",
+          "answer": "Selainlaajennuksella voit kirjata aikaa suoraan selaimestasi avaamatta {brand}-sovellusta. Voit käynnistää ja pysäyttää ajastimen, valita projektin ja asiakkaan sekä nähdä viimeisimmät tuntikirjauksesi."
+        },
+        "1": {
+          "question": "Miten määritän URL-mallit?",
+          "answer": "Kohdassa Asetukset → Selainlaajennus voit määrittää URL-malleja, jotka liittävät projektin automaattisesti, kun vierailet tietyillä verkkosivuilla. Voit esimerkiksi asettaa mallin 'github.com/client-repo/*', jolloin vastaava projekti valitaan automaattisesti."
+        },
+        "2": {
+          "question": "Miten asennan selainlaajennuksen?",
+          "answer": "Asenna {brand}-laajennus Chrome Web Storesta (hae ''{brand} Tidsregistrering' tai siirry osoitteeseen timetrack.dk/browser-extension). Luo API-tunnus kohdassa Asetukset → Selainlaajennus ja liitä se laajennuksen ponnahdusikkunaan. Laajennus yhdistyy {brand}-tiliisi automaattisesti."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integraatiot",
+      "items": {
+        "0": {
+          "question": "Miten käytän CVR-hakua?",
+          "answer": "Kun luot uuden asiakkaan, voit syöttää CVR-numeron ja napsauttaa 'Hae'. {brand} hakee automaattisesti yrityksen nimen, osoitteen ja yhteystiedot Tanskan CVR-rekisteristä, joten sinun ei tarvitse kirjoittaa niitä käsin."
+        },
+        "1": {
+          "question": "Miten vien tiedot Billyyn, Dineroon tai e-conomiciin?",
+          "answer": "Siirry kohtaan Asetukset → Integraatiot ja yhdistä tilisi. Billy ja Dinero voivat vastaanottaa laskuja. e-conomicista voit tuoda asiakkaasi, ja laskupohjan voi aina viedä CSV-tiedostona tai raporttina laskusivulta."
+        },
+        "2": {
+          "question": "Voinko synkronoida Google-kalenterin kanssa?",
+          "answer": "Voit, kohdassa Asetukset → Integraatiot voit yhdistää Google-kalenterisi. Kalenteritapahtumia voidaan ehdottaa automaattisesti tuntikirjauksiksi, jolloin voit helposti kirjata aikaa palaverien perusteella."
+        }
+      }
+    },
+    "security": {
+      "title": "Tietoturva",
+      "items": {
+        "0": {
+          "question": "Mitä ovat pääsyavaimet?",
+          "answer": "Pääsyavaimet ovat moderni salasanaton kirjautumistapa. Salasanan sijaan käytät sormenjälkeä, kasvojentunnistusta tai laitteen PIN-koodia. Määritä pääsyavaimet kohdassa Asetukset → Tietoturva → Pääsyavaimet."
+        },
+        "1": {
+          "question": "Miten otan kaksivaiheisen tunnistautumisen (2FA) käyttöön?",
+          "answer": "Siirry kohtaan Asetukset → Tietoturva → Kaksivaiheinen tunnistautuminen. Skannaa QR-koodi todennussovelluksella (esim. Google Authenticator tai Authy) ja syötä vahvistuskoodi. Sen jälkeen kirjautuessasi tarvitaan 6-numeroinen koodi."
+        },
+        "2": {
+          "question": "Miten hallitsen aktiivisia istuntoja?",
+          "answer": "Kohdassa Asetukset → Tietoturva → Aktiiviset istunnot näet kaikki tilillesi kirjautuneet laitteet. Voit sulkea yksittäisiä istuntoja tai kirjautua ulos kaikilta laitteilta kerralla."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Tuonti ja vienti",
+      "items": {
+        "0": {
+          "question": "Miten tuon tuntikirjauksia CSV-tiedostosta?",
+          "answer": "Siirry kohtaan Tuntiseuranta ja napsauta 'Tuo CSV'. Lataa CSV-tiedosto, jossa on sarakkeet päivämäärälle, tunneille, projektille ja kuvaukselle. Järjestelmä näyttää esikatselun, jotta voit tarkistaa tiedot ennen tuontia."
+        },
+        "1": {
+          "question": "Miten vien tietoni?",
+          "answer": "Voit viedä tietoja useasta paikasta: Raportit → Vie CSV tuntikirjauksille, Laskut → Vie PDF yksittäisille laskuille sekä Asetukset → Tiedot → Vie kaikki tiedot täydellistä varmuuskopiota varten CSV- tai JSON-muodossa."
+        },
+        "2": {
+          "question": "Voinko ladata kaikki tietoni (GDPR)?",
+          "answer": "Voit, kohdasta Asetukset → Tiedot löydät painikkeen 'Lataa tietoni'. Se luo täydellisen viennin kaikista tiedoistasi JSON-muodossa GDPR:n edellyttämällä tavalla. Vienti sisältää asiakkaat, projektit, tuntikirjaukset, laskut ja tuntipaketit."
+        }
+      }
+    },
+    "settings": {
+      "title": "Asetukset",
+      "items": {
+        "0": {
+          "question": "Miten muutan oletustuntihintaani?",
+          "answer": "Siirry kohtaan 'Asetukset', etsi kenttä 'Oletustuntihinta (DKK)' ja syötä uusi hintasi. Tätä hintaa käytetään oletuksena uusille asiakkaille ja projekteille. Nykyisten asiakkaiden ja projektien hintoihin tämä ei vaikuta."
+        },
+        "1": {
+          "question": "Kirjataanko kaikki muutokseni?",
+          "answer": "Kyllä, {brand} kirjaa kaikki tuntihintojen muutokset (yleinen, asiakas, projekti) hintahistoriaan. Näet aina, milloin ja miten hintoja on muutettu. Tämä auttaa läpinäkyvyydessä ja kirjanpidossa."
+        },
+        "2": {
+          "question": "Miten poistan tilini?",
+          "answer": "Kohdassa 'Asetukset' on osio 'Vaaravyöhyke', jossa on painike 'Poista tili'. Sinun on vahvistettava sähköpostillasi ja hyväksyttävä poisto. HUOMIO: tämä poistaa PYSYVÄSTI kaikki tietosi, mukaan lukien asiakkaat, projektit, tuntikirjaukset ja laskut. Jos olet tiimin jäsen, tiimissä kirjaamasi tiedot jäävät tiimille ilman nimeäsi ja sähköpostiasi."
+        },
+        "3": {
+          "question": "Miten vaihdan tummaan teemaan?",
+          "answer": "Siirry kohtaan Asetukset → Profiili ja ulkoasu → Teema. Valitse 'Vaalea', 'Tumma' tai 'Järjestelmä' (seuraa laitteesi asetusta). Muutos tulee voimaan heti."
+        },
+        "4": {
+          "question": "Mikä on yritysprofiili?",
+          "answer": "Kohdassa Asetukset → Yritysprofiili voit määrittää yrityksesi nimen, CVR-numeron, osoitteen, logon ja pankkitiedot. Näitä tietoja käytetään automaattisesti laskuissasi."
+        }
+      }
+    }
+  },
+  "title": "Ohje ja opastus",
+  "description": "Löydä vastaukset kysymyksiisi palvelusta {brand}",
+  "searchPlaceholder": "Hae ohjeista… (esim. 'tuntipaketti', 'lasku', 'pikanäppäin')",
+  "resultCount": "{count, plural, one {# tulos} other {# tulosta}}",
+  "popular": "Suositut kysymykset",
+  "searchResultsFor": "Hakutulokset haulle \"{query}\"",
+  "foundIn": "{results, plural, one {# tulos} other {# tulosta}} löytyi {topics, plural, one {# aiheesta} other {# aiheesta}}",
+  "noResults": "Haulle \"{query}\" ei löytynyt tuloksia",
+  "questionCount": "{count, plural, one {# kysymys} other {# kysymystä}}",
+  "chooseTopic": "Valitse aihe listasta",
+  "cantFindTitle": "Etkö löydä etsimääsi?",
+  "cantFindBody": "Ota yhteyttä, jos sinulla on kysymyksiä, joita dokumentaatio ei kata.",
+  "contactSupport": "Ota yhteyttä tukeen",
+  "screenshotAlt": "Kuvakaappaus: {title}",
+  "videoDemo": "Videoesittely",
+  "wasHelpful": "Oliko tästä apua?",
+  "yes": "Kyllä",
+  "no": "Ei",
+  "topicsHeading": "Aiheet"
+}

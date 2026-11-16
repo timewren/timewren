@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Hyvää yötä",
+    "morning": "Hyvää huomenta",
+    "forenoon": "Hyvää huomenta",
+    "afternoon": "Hyvää päivää",
+    "evening": "Hyvää iltaa"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Nimetön",
+  "noDescription": "Ei kuvausta",
+  "prompt": {
+    "label": "Mitä olet tehnyt?",
+    "placeholder": "esim. 2 tuntia Jensenin verkkosivuilla eilen",
+    "interpret": "Tulkitse",
+    "listening": "Kuunnellaan…",
+    "hintAvailable": "Kirjoita tai sanele ja paina Enter. Puhe käsitellään paikallisesti selaimessasi, eikä ääntä lähetetä minnekään.",
+    "hintDownloadable": "Kirjoita ja paina Enter.",
+    "downloading": "Ladataan puheentunnistusta…",
+    "install": "Lataa puheentunnistus (noin 60 Mt, toimii paikallisesti)",
+    "hintDefault": "Kirjoita ja paina Enter, esim. “1,5 h palaveri Acmen kanssa klo 9-10:30”. Puhelimella voit sanella näppäimistön mikrofonilla. Paina <kbd>/</kbd> siirtyäksesi tänne.",
+    "stopDictation": "Lopeta saneleminen",
+    "dictate": "Sanele mikrofonilla",
+    "dictateTitle": "Sanele (paikallinen puheentunnistus)",
+    "listeningSr": "Kuunnellaan",
+    "missingHint": "valitse ehdotus alta tai korjaa se täydessä lomakkeessa.",
+    "descriptionLabel": "Kuvaus",
+    "descriptionPlaceholder": "Mihin aika meni?",
+    "usePrepaid": "Vähennä tuntipaketista {name} (jäljellä {time})",
+    "saveWithHours": "Tallenna {hours}",
+    "save": "Tallenna",
+    "editInForm": "Muokkaa lomakkeessa",
+    "cancel": "Peruuta",
+    "keysHint": "Enter tallentaa · Esc peruu",
+    "needDescription": "Kirjoita lyhyt kuvaus ennen tallennusta.",
+    "internal": "Tallennettu sisäisenä aikana.",
+    "savedOffline": "Tallennettu offline-tilassa. Tuntikirjaus lähetetään, kun yhteys palaa.",
+    "registered": "{hours} kirjattu",
+    "saveFailed": "Tuntikirjauksen tallennus epäonnistui"
+  },
+  "welcome": {
+    "title": "Tervetuloa: {brand}",
+    "titleDone": "Hyvä alku. Ensimmäinen tuntikirjauksesi on tehty",
+    "hide": "Piilota tervetuloviesti",
+    "intro": "Pääset alkuun alle minuutissa: käynnistä ajastin nyt tai kirjoita alla olevaan kenttään, mitä olet tehnyt, esim. “2 tuntia verkkosivuilla eilen”. Yrityksen tiedot ja paketin voit määrittää myöhemmin.",
+    "timerStarted": "Ajastin on käynnissä. Pysäytä se ylhäällä olevasta ajastinpalkista, kun olet valmis.",
+    "timerBusy": "Ajastin on jo käynnissä",
+    "startFirstTimer": "Käynnistä ensimmäinen ajastin",
+    "writeLine": "Kirjoita rivi kenttään",
+    "surveyQuestion": "Mihin käytät pääasiassa palvelua {brand}? <muted>(valinnainen)</muted>",
+    "primaryUse": {
+      "time": "Seuraan omaa aikaani",
+      "invoicing": "Laskutan asiakkaitani",
+      "klippekort": "Tuntipaketit ja ennakkoon maksetut tunnit",
+      "team": "Seuraan tiimini työaikaa"
+    },
+    "thanksToast": "Kiitos vastauksesta",
+    "saveFailed": "Vastausta ei voitu tallentaa. Yritä uudelleen.",
+    "thanksNote": "Kiitos. Etusivulla näkyvät nyt sinulle sopivat seuraavat askeleet.",
+    "privacyNote": "Vastausta käytetään vain etusivun mukauttamiseen, eikä sitä jaeta muille."
+  },
+  "quickStart": {
+    "title": "Käynnistä ajastin",
+    "running": "Ajastin on jo käynnissä. Pysäytä se ylhäällä olevasta ajastinpalkista ennen uuden käynnistämistä.",
+    "paused": "Ajastin on tauolla. Jatka tai tallenna se ensin ylhäällä olevasta ajastinpalkista.",
+    "resumeToast": "Ajastin on käynnistetty ja jatkaa viimeisintä kirjausta",
+    "continueLast": "Jatka viimeisintä",
+    "mostUsed": "Eniten käytetyt",
+    "startedOn": "Ajastin käynnistetty: {name}",
+    "startOn": "Käynnistä ajastin: {name}",
+    "empty": "Eniten käyttämäsi projektit näkyvät tässä, kun olet kirjannut aikaa.",
+    "createProject": "Luo projekti"
+  },
+  "signals": {
+    "label": "Vaatii huomiota",
+    "nudge": {
+      "first-invoice": "Luo ensimmäinen laskusi kirjatusta ajasta",
+      "first-client": "Luo asiakas, jolle tuntipaketti kuuluu",
+      "first-klippekort": "Luo ensimmäinen tuntipakettisi",
+      "invite-team": "Kutsu työtoveri"
+    },
+    "lowBalance": "{count, plural, one {1 tuntipaketti on loppumassa} other {# tuntipakettia on loppumassa}}",
+    "unbilled": "<b>{duration}</b> laskuttamatonta aikaa valmiina laskutettavaksi"
+  },
+  "today": {
+    "title": "Tänään",
+    "ofExpected": "/ {duration}",
+    "loadFailed": "Tämän päivän kirjausten lataus epäonnistui. Yritä ladata sivu uudelleen.",
+    "empty": "Tänään ei ole vielä kirjattu aikaa. Kirjoita yllä, mitä teit, tai käynnistä ajastin.",
+    "internal": "Sisäinen aika",
+    "resumeToast": "Ajastin on käynnistetty ja jatkaa kirjausta",
+    "continueLabel": "Jatka: {name}",
+    "continueFallback": "kirjaus",
+    "continueTitle": "Jatka ajastimella",
+    "allEntries": "Kaikki kirjaukset",
+    "fullForm": "Täysi lomake"
+  },
+  "page": {
+    "title": "Etusivu",
+    "overview": "Yleiskatsaus"
+  }
+}

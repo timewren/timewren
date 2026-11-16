@@ -1,0 +1,130 @@
+{
+  "step": {
+    "_welcome": {
+      "title": "欢迎使用 {brand}！",
+      "description": "让我们带你快速了解最重要的功能，帮你尽快上手。只需几分钟。"
+    },
+    "_modules_setup": {
+      "title": "设置你的 {brand}",
+      "description": "在这里选择要使用的模块。核心功能已开启，你可以再开启预付时长包、任务或集成等扩展功能。之后随时可以在“设置 → 模块”中更改。"
+    },
+    "hjem-prompt": {
+      "title": "写下你做了什么",
+      "description": "首页是你的起始页。输入例如“为 Jensen 的网站工作 2 小时”，然后按回车。{brand} 会建议客户、项目和时间，确认后才会保存。按 / 可直接跳到这里。"
+    },
+    "hjem-hurtigstart": {
+      "title": "一键启动计时器",
+      "description": "你最常用的项目已经备好。点一下即可启动计时器，也可以继续最近的一条记录。"
+    },
+    "nav-overblik": {
+      "title": "概览",
+      "description": "数据、收入、任务和预付时长包汇集在小组件中。可在菜单中找到，也可以按 G → O。"
+    },
+    "dashboard-widgets": {
+      "title": "小组件",
+      "description": "概览由小组件组成，你可以看到每周汇总、收入、进行中的项目等更多内容。"
+    },
+    "dashboard-edit-btn": {
+      "title": "自定义你的概览",
+      "description": "点击这里添加、移除和移动小组件，让概览适合你的工作方式。"
+    },
+    "time-tracking-bar": {
+      "title": "计时器随你而行",
+      "description": "工时追踪栏始终显示在顶部。先选择一个项目，无论你在哪个页面都能记录工时。"
+    },
+    "timer-start-btn": {
+      "title": "开始和停止",
+      "description": "点击这里启动计时器，也可以用快捷键 T 快速开始或停止。"
+    },
+    "timer-project-select": {
+      "title": "选择项目",
+      "description": "选择你要为哪个项目记录工时。小时费率会自动取自项目或客户。"
+    },
+    "time-entries-list": {
+      "title": "你的工时记录",
+      "description": "这里是你所有的工时记录。你可以编辑、按日期筛选，并导出为 CSV。"
+    },
+    "time-view-toggle": {
+      "title": "切换视图",
+      "description": "在列表视图和周概览（工时表）之间切换。周概览让你快速了解这一周的情况。"
+    },
+    "tasks-board": {
+      "title": "任务管理",
+      "description": "用看板整理你的工作。在列之间拖动任务即可更新状态。"
+    },
+    "tasks-add-btn": {
+      "title": "创建任务",
+      "description": "一键添加新任务。设置截止日期和优先级，并关联到项目。"
+    },
+    "tasks-view-toggle": {
+      "title": "看板或列表",
+      "description": "在看板和列表视图之间切换，选择最适合你的一种。"
+    },
+    "clients-list": {
+      "title": "你的客户",
+      "description": "管理客户的联系方式、CVR 查询和单独的小时费率。"
+    },
+    "clients-add-btn": {
+      "title": "添加客户",
+      "description": "在这里创建新客户。使用 CVR 查询，可自动从丹麦 CVR 企业登记册获取公司信息。"
+    },
+    "projects-list": {
+      "title": "项目",
+      "description": "每个项目都属于一个客户。可按项目设置小时费率、预算和截止日期。"
+    },
+    "klippekort-list": {
+      "title": "预付时长包",
+      "description": "预付时长包是预先付款的一整块工时。为带有预付时长包的项目记录工时时，会自动从余额中扣除。"
+    },
+    "klippekort-add-btn": {
+      "title": "创建预付时长包",
+      "description": "在这里创建新的预付时长包。输入工时数和小时费率，并关联到一个客户。"
+    },
+    "invoices-list": {
+      "title": "发票",
+      "description": "创建和管理发票。你可以直接根据工时记录生成发票。"
+    },
+    "invoices-actions": {
+      "title": "创建发票",
+      "description": "手动创建新发票，或根据未开票的工时记录自动生成。"
+    },
+    "invoices-stats": {
+      "title": "发票概览",
+      "description": "这里显示整体情况：开票总额、已付款、未结和已逾期的金额。"
+    },
+    "reports-page": {
+      "title": "报告与分析",
+      "description": "通过详细的报告、图表和导出选项分析工时和收入。"
+    },
+    "settings-page": {
+      "title": "设置",
+      "description": "在这里你可以更新个人资料、默认小时费率和每周工时目标，并在浅色和深色主题之间选择。"
+    },
+    "settings-sidebar": {
+      "title": "更多设置",
+      "description": "探索其他设置：公司资料、安全、邮件集成、通知、GDPR 等。"
+    },
+    "_finish": {
+      "title": "准备好了！",
+      "description": "你已经了解了最重要的功能。使用 Ctrl+K 可以快速搜索和跳转。你随时可以在用户菜单中重新开始导览。"
+    }
+  },
+  "section": {
+    "welcome": "欢迎",
+    "time": "工时追踪",
+    "tasks": "任务",
+    "clients": "客户与项目",
+    "billing": "预付时长包与开票",
+    "settings": "设置",
+    "finish": "完成"
+  },
+  "ui": {
+    "skip": "跳过",
+    "back": "返回",
+    "finish": "开始使用！",
+    "start": "开始导览",
+    "next": "下一步",
+    "navigate": "导航",
+    "close": "关闭"
+  }
+}

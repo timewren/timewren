@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Gratisplanen rymmer 3 aktiva kunder. Arkivera en kund eller se planerna.",
+    "seePlans": "Se planer"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Alla ofakturerade",
+      "periodThisMonth": "Den här månaden",
+      "periodLastMonth": "Förra månaden",
+      "draftCreated": "Fakturautkast skapat för {amount}",
+      "createFailed": "Det gick inte att skapa fakturautkastet",
+      "clientFallback": "kunden",
+      "title": "Fakturera {name}",
+      "description": "Skapar ett utkast som du kan granska. Inget skickas till kunden.",
+      "period": "Period",
+      "loadError": "Det gick inte att hämta den ofakturerade tiden. Försök igen om en stund.",
+      "noUnbilled": "Ingen ofakturerad tid för {name} under perioden.",
+      "entries": "Poster",
+      "time": "Tid",
+      "amountExVat": "Belopp exkl. moms",
+      "timePerProject": "Tid per projekt",
+      "project": "Projekt",
+      "amount": "Belopp",
+      "entryCount": "{count, plural, one {# post} other {# poster}}",
+      "noRate": "{time} saknar timpris och tas med som 0 DKK. Du kan rätta beloppet i utkastet.",
+      "footnote": "Posterna markeras som fakturerade och specificeras i utkastet. Du kan ta bort utkastet igen, och tiden blir ofakturerad.",
+      "pickEntries": "Välj poster själv",
+      "cancel": "Avbryt",
+      "createDraft": "Skapa fakturautkast",
+      "createDraftAmount": "Skapa fakturautkast ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# dag sedan förra fakturan} other {# dagar sedan förra fakturan}}",
+      "oldestEntry": "{count, plural, one {den äldsta posten är # dag gammal} other {den äldsta posten är # dagar gammal}}",
+      "ready": "Redo att faktureras",
+      "notInvoiced": "har inte fakturerats",
+      "notInvoicedClient": "för {client} har inte fakturerats",
+      "invoiceNow": "Fakturera nu",
+      "hide": "Dölj i 30 dagar"
+    },
+    "explainer": {
+      "point1": "Kunden betalar timmarna i förväg, så du slipper skicka fakturor och påminnelser efteråt.",
+      "point2": "När du loggar tid för kunden dras den automatiskt från timbanken.",
+      "point3": "Kunden kan följa saldot i kundportalen, och du får en avisering när timbanken håller på att ta slut.",
+      "title": "Sälj timmar i förväg med timbanker",
+      "intro": "En timbank är ett block med timmar som kunden köper i förväg, till exempel 10 timmar för återkommande uppgifter och support.",
+      "create": "Skapa timbank",
+      "calculator": "Räkna ut priset med kalkylatorn"
+    },
+    "prepaid": {
+      "offer": "Sälj en timbank på {hours} timmar. Den räcker i ungefär {months} månader, och kunden betalar i förväg.",
+      "offerPrice": "Sälj en timbank på {hours} timmar ({price}). Den räcker i ungefär {months} månader, och kunden betalar i förväg.",
+      "sell": "Sälj en timbank",
+      "dismissLabel": "Inte relevant för {client}. Visa inte igen",
+      "dismissTitle": "Inte relevant. Visa inte igen för den här kunden",
+      "suggestionLabel": "Förslag på timbanker",
+      "defaultName": "Timbank {hours} timmar",
+      "usageClient": "<name>{client}</name> har haft ungefär <num>{time}</num> i månaden de senaste 3 månaderna.",
+      "usageGeneric": "Kunden har haft ungefär <num>{time}</num> i månaden de senaste 3 månaderna."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "Pausad",
+      "paymentMissing": "Betalning saknas",
+      "active": "Aktiv",
+      "paymentFailedRetry": "{store} kunde inte dra betalningen. Uppdatera betalningsmetoden i {store}. Tills betalningen går igenom har du åtkomst som på gratisplanen.",
+      "paymentFailedGrace": "{store} kunde inte dra betalningen. Uppdatera betalningsmetoden i {store} för att behålla din åtkomst.",
+      "currentPlan": "Nuvarande plan",
+      "yearly": "Årligen",
+      "monthly": "Månadsvis",
+      "boughtVia": "Köpt via {store}",
+      "expires": "Upphör {date}",
+      "renews": "Förnyas {date}",
+      "paymentTitle": "Betalning",
+      "paymentInfo": "Du köpte prenumerationen i {brand}-appen, så {store} hanterar betalning och kvitton. Byt plan, ändra betalningsmetod eller avsluta prenumerationen i {store}.",
+      "manage": "Hantera i {store}"
+    },
+    "wall": {
+      "checkoutFailed": "Det gick inte att skapa betalningssessionen. Försök igen.",
+      "portalFailed": "Det gick inte att öppna faktureringsportalen. Försök igen.",
+      "headingNone": "Du har ingen aktiv prenumeration",
+      "headingLocked": "Din åtkomst är pausad",
+      "headingPastDue": "Din betalning saknas",
+      "headingCanceled": "Din prenumeration har avslutats",
+      "headingTrial": "Din provperiod har gått ut",
+      "subNone": "Skapa en prenumeration för att använda {brand}",
+      "subPastDue": "Uppdatera din betalningsmetod för att få tillbaka åtkomsten",
+      "subUpgrade": "Uppgradera till {plan} för att fortsätta",
+      "pastDueBody": "Vi kunde inte dra din senaste betalning. Uppdatera din betalningsmetod för att fortsätta använda {brand}.",
+      "updatePayment": "Uppdatera betalningsmetod",
+      "monthly": "Månadsvis",
+      "yearly": "Årligen",
+      "save17": "Spara 17 %",
+      "perYearExVat": "/år exkl. moms",
+      "perMonthExVat": "/månad exkl. moms",
+      "equivalent": "Motsvarar {price}/månad, så du sparar 2 månader",
+      "featureWorkspace": "Delad teamarbetsyta för flera användare",
+      "featureTeamReports": "Teamrapporter",
+      "featureUnlimited": "Obegränsad tidrapportering",
+      "featureInvoicing": "Timbanker och fakturering",
+      "featureManagement": "Kund- och projekthantering",
+      "featureReports": "Rapporter och export",
+      "featureIntegrations": "Danska integrationer (CVR, Billy med flera)",
+      "upgradeNow": "Uppgradera nu",
+      "discountNote": "Kassan visar standardpriset. Din rabatt på {percent} % dras av automatiskt.",
+      "manageAccount": "Hantera konto",
+      "exportData": "Exportera data",
+      "signOut": "Logga ut"
+    }
+  }
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "prepaid_packages" ADD COLUMN IF NOT EXISTS "renewal_base_hours" numeric(8, 2);

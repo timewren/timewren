@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "设置",
+    "subtitle": "管理管理员通知、功能开关和更新日志"
+  },
+  "notifications": {
+    "title": "通知",
+    "description": "配置管理员事件的邮件和 Discord 通知",
+    "emailLabel": "管理员邮箱",
+    "emailHint": "多个收件人用逗号分隔",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord Webhook 地址",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "测试",
+    "eventTypes": "事件类型",
+    "saving": "保存中…",
+    "save": "保存设置",
+    "saved": "通知设置已保存",
+    "testSent": "测试消息已发送到 Discord",
+    "webhookRequired": "请先填写 Discord Webhook 地址"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "新用户注册",
+      "description": "有新用户注册时通知"
+    },
+    "notify_subscription_started": {
+      "label": "新的付费订阅",
+      "description": "有新付费客户时通知"
+    },
+    "notify_payment_failed": {
+      "label": "付款失败",
+      "description": "付款失败时通知"
+    },
+    "notify_subscription_cancelled": {
+      "label": "订阅已取消",
+      "description": "有订阅取消时通知"
+    },
+    "notify_trial_ending": {
+      "label": "试用即将结束",
+      "description": "仅限 Discord：试用即将结束时通知"
+    },
+    "notify_user_flagged": {
+      "label": "用户被标记",
+      "description": "仅限 Discord：用户被标记时通知"
+    }
+  },
+  "support": {
+    "title": "支持",
+    "description": "管理支持邮箱和签名",
+    "inboxes": "收件箱",
+    "add": "添加",
+    "namePlaceholder": "名称",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "签名 HTML（可选）",
+    "save": "保存",
+    "cancel": "取消",
+    "create": "创建",
+    "default": "默认",
+    "confirmDelete": "删除这个收件箱？",
+    "noInboxes": "还没有创建收件箱",
+    "inboxCreated": "收件箱已创建",
+    "inboxUpdated": "收件箱已更新",
+    "inboxDeleted": "收件箱已删除",
+    "signatureSaved": "签名已保存",
+    "globalSignature": "全局签名",
+    "globalSignatureHint": "收件箱没有自己的签名时使用的 HTML 签名",
+    "globalSignaturePlaceholder": "<p>此致<br>TimeTrack 支持团队</p>",
+    "preview": "预览",
+    "noSignature": "无签名",
+    "savingSignature": "保存中…",
+    "saveSignature": "保存签名"
+  },
+  "debug": {
+    "title": "故障排查",
+    "description": "仅在此浏览器中对你显示的工具",
+    "electricLabel": "显示 Electric 标记",
+    "electricDescription": "在仪表盘左下角显示计时器的实时同步状态"
+  },
+  "flags": {
+    "title": "功能开关",
+    "description": "为所有用户启用或停用功能",
+    "empty": "尚未配置功能开关",
+    "lastChangedBy": "最后修改者：{name}",
+    "lastChangedByDate": "最后修改者：{name}，{date}"
+  },
+  "changelog": {
+    "title": "更新日志",
+    "description": "创建向用户展示的更新日志条目",
+    "new": "创建新的更新日志条目",
+    "version": "版本",
+    "titleLabel": "标题",
+    "titlePlaceholder": "新功能：…",
+    "content": "内容（Markdown）",
+    "contentPlaceholder": "描述这些变更…",
+    "cancel": "取消",
+    "create": "创建",
+    "recent": "最近的更新日志条目",
+    "confirmDelete": "删除更新日志 v{version}？",
+    "delete": "删除",
+    "created": "更新日志已创建",
+    "deleted": "更新日志已删除"
+  }
+}

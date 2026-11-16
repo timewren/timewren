@@ -1,0 +1,322 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "Urenstaten",
+      "description": "Ingediend, goedgekeurd, afgewezen en heropend, plus periodeafsluiting (overzicht, goedkeuring, bevestiging)"
+    },
+    "absence": {
+      "label": "Verlof en afwezigheid",
+      "description": "Aanvragen, beslissingen, registraties en ziekmeldingen"
+    },
+    "reminder": {
+      "label": "Herinneringen",
+      "description": "Vrijdagherinnering als de urenstaat ontbreekt en (optioneel) als de bezettingsgraad van gisteren laag was"
+    },
+    "compliance": {
+      "label": "Arbeidstijdenregels",
+      "description": "Waarschuwingen over arbeidstijdenregels bij indiening (voor leidinggevenden)"
+    },
+    "digest": {
+      "label": "Overzicht voor leidinggevenden",
+      "description": "Dagelijks/wekelijks overzicht voor leidinggevenden"
+    }
+  },
+  "channels": {
+    "in_app": "In de app",
+    "email": "E-mail",
+    "push": "Push",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "week {week}",
+  "periodFrom": "vanaf {date}",
+  "periodRange": "{start} tot {end}",
+  "unknown": "Onbekend",
+  "duration": {
+    "hm": "{h} u {m} min",
+    "h": "{h} u",
+    "m": "{m} min"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "Urenstaat wacht op goedkeuring",
+      "body": "{employee} heeft een urenstaat ingediend voor {week} ({hours} uur)."
+    },
+    "factEmployee": "Medewerker",
+    "factWeek": "Week",
+    "factHours": "Uren",
+    "timesheetApproved": {
+      "title": "Urenstaat goedgekeurd",
+      "body": "{manager} heeft je urenstaat voor {week} goedgekeurd."
+    },
+    "timesheetRejected": {
+      "title": "Urenstaat afgewezen",
+      "body": "{manager} heeft je urenstaat voor {week} afgewezen.",
+      "bodyReason": "{manager} heeft je urenstaat voor {week} afgewezen. Reden: {reason}"
+    },
+    "timesheetReopened": {
+      "title": "Urenstaat heropend",
+      "body": "{manager} heeft je urenstaat voor {week} heropend om te bewerken.",
+      "bodyReason": "{manager} heeft je urenstaat voor {week} heropend om te bewerken. Reden: {reason}"
+    },
+    "closingReady": {
+      "title": "Periodeoverzichten wachten op goedkeuring",
+      "body": "{count, plural, one {Het overzicht voor {period} is aangemaakt voor # medewerker en wacht op je goedkeuring.} other {De overzichten voor {period} zijn aangemaakt voor # medewerkers en wachten op je goedkeuring.}}"
+    },
+    "factPeriod": "Periode",
+    "factStatements": "Overzichten",
+    "closingApproved": {
+      "title": "Bevestig je periodeoverzicht",
+      "body": "{manager} heeft je overzicht voor {period} goedgekeurd. De periode is nu vergrendeld: bekijk het overzicht en bevestig het."
+    },
+    "closingUnlocked": {
+      "title": "Periode ontgrendeld",
+      "body": "{actor} heeft {period} ontgrendeld. Reden: {reason}"
+    },
+    "absenceRequested": {
+      "title": "Afwezigheid wacht op goedkeuring",
+      "body": "{employee} vraagt {type} aan {period}."
+    },
+    "factType": "Type",
+    "absenceApproved": {
+      "title": "Afwezigheid goedgekeurd",
+      "body": "{manager} heeft je aanvraag voor {type} {period} goedgekeurd."
+    },
+    "absenceRejected": {
+      "title": "Afwezigheid afgewezen",
+      "body": "{manager} heeft je aanvraag voor {type} {period} afgewezen.",
+      "bodyReason": "{manager} heeft je aanvraag voor {type} {period} afgewezen. Reden: {reason}"
+    },
+    "absenceRegistered": {
+      "title": "Afwezigheid geregistreerd",
+      "body": "{registrar} heeft {type} {period} geregistreerd."
+    },
+    "sickRegistered": {
+      "title": "Ziekmelding",
+      "body": "{employee} heeft zich {period} ziekgemeld."
+    },
+    "timesheetMissing": {
+      "title": "Je urenstaat ontbreekt",
+      "bodyHours": "Je hebt {hours} uur geregistreerd in {week}, maar de week is nog niet ingediend.",
+      "bodyNone": "Je hebt in {week} nog geen uren geregistreerd."
+    },
+    "coverageLow": {
+      "title": "Slechts {pct} van de werktijd is geregistreerd",
+      "body": "Je hebt {day} {logged} van {expected} uur geregistreerd (onder je drempel van {threshold}%). Ontbreekt er iets?"
+    },
+    "factLogged": "Geregistreerd",
+    "factWorkTime": "Werktijd",
+    "factCoverage": "Bezettingsgraad",
+    "hoursShort": "{hours} u",
+    "compliance": {
+      "title": "Waarschuwing arbeidstijdenregels",
+      "body": "De urenstaat van {employee} voor {week} geeft een melding: {findings}"
+    },
+    "factFinding": "Bevinding",
+    "digestDaily": "Dagelijks overzicht voor leidinggevenden",
+    "digestWeekly": "Wekelijks overzicht voor leidinggevenden",
+    "digestDailyEsc": "Dagelijks overzicht voor leidinggevenden (opgeschaald)",
+    "digestWeeklyEsc": "Wekelijks overzicht voor leidinggevenden (opgeschaald)",
+    "digestEmpty": "Geen openstaande urenstaten of aanvragen.",
+    "digestMissing": "Ontbrekende urenstaten",
+    "digestPendingTs": "Urenstaten die op goedkeuring wachten",
+    "digestPendingAbs": "Afwezigheidsaanvragen die op goedkeuring wachten",
+    "digestFactAbs": "Afwezigheidsaanvragen",
+    "digestSection": "{label} ({count}):",
+    "digestAge": "({days, plural, one {# dag} other {# dagen}})",
+    "digestMore": "… en nog {count}"
+  },
+  "digestItem": {
+    "missing": "urenstaat voor {week} niet ingediend",
+    "pendingTs": "{week} wacht op goedkeuring",
+    "pendingAbs": "{type} {period} wacht op beslissing"
+  },
+  "emailOpenIn": "Openen in {brand}",
+  "emailNoAddress": "Geen e-mailadres",
+  "push": {
+    "open": "Openen",
+    "dismiss": "Negeren",
+    "deadlineTitle": "⏰ Deadlineherinnering",
+    "deadlineBody": "{title} - deadline {when}",
+    "whenDays": "over {days} dagen",
+    "whenTomorrow": "morgen",
+    "whenHours": "over {hours} uur",
+    "whenOneHour": "over 1 uur",
+    "whenSoon": "binnenkort",
+    "overdueTitle": "🚨 Taak te laat",
+    "overdueBody": "{title} heeft de deadline overschreden",
+    "digestTitle": "☀️ Goedemorgen!",
+    "digestOverdue": "{overdue} te laat, {tasks} gepland voor vandaag",
+    "digestTasks": "{count, plural, one {# taak} other {# taken}} gepland voor vandaag",
+    "digestNone": "Geen taken gepland, geniet van de dag!",
+    "testTitle": "🔔 Testmelding",
+    "testBody": "Pushmeldingen zijn nu ingeschakeld voor {brand}!"
+  },
+  "discord": {
+    "digestTitle": "☀️ Goedemorgen, {name}!",
+    "digestNone": "Je hebt vandaag geen taken gepland. Geniet van de dag! 🎉",
+    "digestOverview": "Hier is je overzicht voor vandaag:",
+    "todayTasks": "📌 Taken van vandaag ({count})",
+    "overdueTasks": "🚨 Te laat ({count})",
+    "andMore": "…en nog {count}",
+    "status": "📊 Status",
+    "yesterdayTime": "Gisteren geregistreerde tijd: {h}u {m}m",
+    "yesterdayDone": "Gisteren afgeronde taken: {count}",
+    "digestFooter": "TimeTrack • Dagoverzicht",
+    "testTitle": "Testmelding",
+    "testMessage": "Je Discord-webhook is nu gekoppeld aan TimeTrack! 🎉"
+  },
+  "taskDigestSubject": "Je taken {date}",
+  "endOfDay": {
+    "titleTracked": "Dagsamenvatting: {hours} geregistreerd",
+    "titleNone": "Vandaag geen tijd geregistreerd",
+    "bodyTracked": "Je hebt vandaag {hours} geregistreerd.",
+    "bodyUnbilled": "{hours} is niet gefactureerd.",
+    "bodyRevenue": "Geschatte omzet: {amount} kr.",
+    "bodyNone": "Vergeet niet je tijd te registreren voordat de dag voorbij is.",
+    "footer": "TimeTrack Dagsamenvatting"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "Inactiviteit gedetecteerd",
+      "message": "De timer loopt nog na {minutes} minuten werk. Als je terug bent, word je naar de inactieve tijd gevraagd."
+    },
+    "invoiceOverdueOne": {
+      "title": "Factuur te laat",
+      "message": "Factuur {numbers} is over de vervaldatum."
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} facturen te laat",
+      "message": "Facturen {numbers} zijn over de vervaldatum."
+    },
+    "recurringOne": {
+      "title": "Conceptfactuur klaar: {name}",
+      "message": "De terugkerende factuur \"{name}\" ({amount} excl. btw) is als concept aangemaakt. Controleer en verstuur hem als hij klaar is."
+    },
+    "recurringMany": {
+      "title": "{count} terugkerende facturen klaar als concept",
+      "message": "{list} zijn als concept aangemaakt. Controleer en verstuur ze als ze klaar zijn."
+    },
+    "renewalDraft": {
+      "title": "Conceptfactuur klaar: urenpakket \"{name}\"",
+      "message": "Het urenpakket \"{name}\" is verlengd en de factuur voor de nieuwe periode is als concept aangemaakt. Controleer en verstuur hem als hij klaar is."
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "Nieuwe gebruiker aangemeld",
+      "subscription_started": "Nieuwe betalende abonnee",
+      "payment_failed": "Betaling mislukt",
+      "subscription_cancelled": "Abonnement opgezegd",
+      "trial_ending": "Proefperiode loopt bijna af",
+      "user_flagged": "Gebruiker gemarkeerd",
+      "support_ticket": "Nieuw supportticket",
+      "webhook_rejected": "Webhook geweigerd",
+      "seat_drift": "Afwijking in aantal gebruikers gedetecteerd",
+      "churn_risk": "Churn-playbook geactiveerd",
+      "subscription_duplicate": "Mogelijk dubbel abonnement",
+      "feedback_received": "Nieuwe feedback van een gebruiker",
+      "beta_tester_signup": "Nieuwe bètatester voor de mobiele app"
+    },
+    "sub": {
+      "signup": "Nieuwe gebruiker: {name}",
+      "subscription_started": "Nieuwe abonnee: {name}",
+      "payment_failed": "Betaling mislukt: {name}",
+      "subscription_cancelled": "Abonnement opgezegd: {name}",
+      "trial_ending": "Proefperiode loopt af: {name}",
+      "user_flagged": "Gebruiker gemarkeerd: {name}",
+      "support_ticket": "Supportticket: {name}",
+      "webhook_rejected": "Webhook geweigerd",
+      "seat_drift": "Afwijking in aantal gebruikers",
+      "churn_risk": "Churn-risico",
+      "subscription_duplicate": "Mogelijk dubbel abonnement",
+      "feedback_received": "Nieuwe feedback: {name}",
+      "beta_tester_signup": "Nieuwe bètatester: {name}"
+    },
+    "unknownName": "onbekend",
+    "fieldName": "Naam",
+    "fieldEmail": "E-mail",
+    "fieldPlan": "Abonnement",
+    "fieldType": "Type",
+    "fieldDaysLeft": "Resterende dagen",
+    "fieldReason": "Reden",
+    "fieldTime": "Tijd",
+    "seeUser": "Gebruiker bekijken in beheer",
+    "footer": "TimeTrack Admin",
+    "testTitle": "Test: beheermeldingen",
+    "testBody": "Je Discord-webhook is nu gekoppeld aan de beheermeldingen van TimeTrack!",
+    "supportReply": "Antwoord op ticket: {subject}",
+    "supportNew": "Nieuw supportticket: {subject}",
+    "supportNoSubject": "Geen onderwerp"
+  },
+  "fallbackUser": "gebruiker",
+  "absenceTypeFallback": "Afwezigheid",
+  "teams": {
+    "urlTooLong": "De webhook-URL is te lang",
+    "urlInvalid": "Ongeldige URL",
+    "urlHttps": "De webhook-URL moet https gebruiken",
+    "urlNotTeams": "De URL lijkt niet op een Teams-webhook (verwacht *.webhook.office.com, *.logic.azure.com of *.powerplatform.com)"
+  },
+  "fallbackTaskTitle": "Taak uit e-mail",
+  "deadlines": {
+    "noProject": "Geen project",
+    "overdueLine": "• **{title}** ({project}) - {days, plural, one {# dag} other {# dagen}} te laat",
+    "overdueTitle": "{count, plural, one {# taak te laat} other {# taken te laat}}",
+    "overdueFooter": "TimeTrack Deadlinewaarschuwing",
+    "whenToday": "vandaag",
+    "whenTomorrow": "morgen",
+    "whenDays": "over {days} dagen",
+    "upcomingLine": "• **{title}** ({project}) - deadline {when}",
+    "upcomingTitle": "{count, plural, one {# taak} other {# taken}} met een naderende deadline",
+    "upcomingFooter": "TimeTrack Deadlineherinnering",
+    "projOverdueTitle": "{count, plural, one {# project} other {# projecten}} voorbij de einddatum",
+    "projOverdueLine": "• **{name}** - einddatum {days, plural, one {# dag} other {# dagen}} verstreken",
+    "projSoonTitle": "{count, plural, one {# project} other {# projecten}} met een naderende einddatum",
+    "projSoonLine": "• **{name}** - eindigt {when}",
+    "projFooter": "TimeTrack Einddatum project"
+  },
+  "slack": {
+    "noProject": "Geen project",
+    "noClient": "Geen klant",
+    "project": "Project",
+    "client": "Klant",
+    "description": "Beschrijving",
+    "timerStarted": "Timer gestart",
+    "startedAtSlack": "Gestart om",
+    "startedAtDiscord": "Gestart",
+    "timerStopped": "Timer gestopt",
+    "duration": "Duur",
+    "durationHM": "{h}u {m}m",
+    "durationM": "{m} minuten",
+    "idleTitle": "Inactiviteit gedetecteerd",
+    "idleBodySlack": "Je bent *{minutes} minuten* inactief terwijl de timer loopt op *{project}*. Vergeet niet de timer te stoppen als je pauze neemt.",
+    "idleBodyDiscord": "Je bent **{minutes} minuten** inactief terwijl de timer loopt op **{project}**. Vergeet niet de timer te stoppen als je pauze neemt.",
+    "dailyTitle": "Dagsamenvatting - {date}",
+    "totalTime": "Totale tijd",
+    "totalRevenue": "Totale omzet",
+    "tasksDone": "Afgeronde taken",
+    "projects": "Projecten",
+    "noEntriesToday": "Vandaag geen tijdboekingen",
+    "weeklyTitle": "Weekrapport - Week {week}",
+    "unbilled": "Niet gefactureerd",
+    "topClients": "Topklanten",
+    "noEntriesWeek": "Deze week geen tijdboekingen",
+    "hoursShort": "{hours}u",
+    "minutesShort": "{m}m",
+    "testTitle": "TimeTrack-testbericht",
+    "testBodySlack": "Je Slack-integratie is correct ingesteld! Je ontvangt hier nu meldingen van TimeTrack.",
+    "testBodyDiscord": "Je Discord-integratie is correct ingesteld! Je ontvangt hier nu meldingen van TimeTrack.",
+    "unbilledReminderTitle": "💰 Niet gefactureerde tijd: {hours} ({value} kr)",
+    "unbilledReminderDiscord": "Je hebt niet-gefactureerde tijd ter waarde van **{value} kr**.\n\n{list}",
+    "unbilledReminderSlack": "Je hebt niet-gefactureerde tijd ter waarde van *{value} kr*.\n\n{list}",
+    "unbilledReminderLine": "• {name}: {hours} - {value} kr",
+    "unbilledReminderFooter": "TimeTrack Herinnering niet-gefactureerde tijd",
+    "aiFocusName": "🎯 Focus van vandaag ({count} taken)",
+    "aiWarnings": "⚠️ Waarschuwingen",
+    "aiDeferred": "📋 Uitgesteld",
+    "aiDeferredValue": "{count, plural, one {# taak wordt} other {# taken worden}} aanbevolen om uit te stellen",
+    "aiGreeting": "Goedemorgen, {name}!",
+    "aiFooter": "TimeTrack AI-suggesties",
+    "aiFocusBlock": "🎯 Focus van vandaag",
+    "aiWarningsBlock": "⚠️ Waarschuwingen"
+  }
+}

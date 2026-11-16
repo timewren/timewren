@@ -1,0 +1,59 @@
+{{- if .Values.valkey.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "timewren.name" . }}-valkey
+spec:
+  clusterIP: None
+  selector:
+    {{- include "timewren.labels" . | nindent 4 }}
+    app.kubernetes.io/component: valkey
+  ports:
+    - port: 6379
+      name: valkey
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "timewren.name" . }}-valkey
+spec:
+  serviceName: {{ include "timewren.name" . }}-valkey
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "timewren.labels" . | nindent 6 }}
+      app.kubernetes.io/component: valkey
+  template:
+    metadata:
+      labels:
+        {{- include "timewren.labels" . | nindent 8 }}
+        app.kubernetes.io/component: valkey
+    spec:
+      containers:
+        - name: valkey
+          image: {{ .Values.valkey.image | quote }}
+          args: [valkey-server, --appendonly, "yes"]
+          ports:
+            - name: valkey
+              containerPort: 6379
+          readinessProbe:
+            exec:
+              command: [valkey-cli, ping]
+            periodSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            {{- toYaml .Values.valkey.resources | nindent 12 }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ReadWriteOnce]
+        {{- if .Values.valkey.storageClass }}
+        storageClassName: {{ .Values.valkey.storageClass | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.valkey.size }}
+{{- end }}

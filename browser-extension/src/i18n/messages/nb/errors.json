@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Økten din er utløpt. Logg inn igjen.",
+  "noConnection": "Ingen forbindelse. Prøv igjen.",
+  "timeout": "Forbindelsen tok for lang tid",
+  "invalidResponse": "Uventet svar fra serveren",
+  "notLoggedIn": "Ikke logget inn",
+  "notLoggedInOpenPopup": "Ikke logget inn. Åpne TimeTrack-popupen og logg inn.",
+  "unknown": "Ukjent feil",
+  "api": {
+    "fallback": "API-feil",
+    "UNAUTHORIZED": "Økten din er utløpt. Logg inn igjen.",
+    "FORBIDDEN": "Tilgang nektet",
+    "NOT_FOUND": "Fant ikke ressursen",
+    "TIMEOUT": "Serveren svarte ikke",
+    "TOO_MANY_REQUESTS": "For mange forespørsler. Vent litt og prøv igjen",
+    "INTERNAL_SERVER_ERROR": "Serverfeil. Prøv igjen om litt",
+    "BAD_REQUEST": "Ugyldig forespørsel",
+    "PARSE_ERROR": "Ugyldig forespørsel"
+  },
+  "auth": {
+    "invalidToken": "Ugyldig token",
+    "validateFailed": "Kunne ikke validere tokenet",
+    "loginFailed": "Innlogging mislyktes",
+    "loginCancelled": "Innloggingen ble avbrutt. Prøv igjen",
+    "loginCancelledShort": "Innloggingen ble avbrutt",
+    "noToken": "Fikk ikke noe token",
+    "tokenValidationStatus": "Tokenvalidering mislyktes: serveren svarte {status}",
+    "orgsFailed": "Kunne ikke laste organisasjoner ({status})"
+  },
+  "url": {
+    "notAllowed": "Bruk timetrack.dk, app.timetrack.dk, beta.timetrack.dk eller localhost"
+  },
+  "entry": {
+    "hoursPositive": "Skriv inn et timetall større enn 0",
+    "timesCannotBeRemoved": "Klokkeslettene kan ikke fjernes. Rediger start og slutt i stedet",
+    "fillStartEnd": "Fyll inn både start og slutt",
+    "endAfterStart": "Sluttid må være etter starttid"
+  },
+  "timer": {
+    "loadFailed": "Kunne ikke laste tidtakeren",
+    "startFailed": "Kunne ikke starte tidtakeren",
+    "stopFailed": "Kunne ikke stoppe tidtakeren. Prøv igjen",
+    "stopNetwork": "Kunne ikke stoppe tidtakeren: nettverksfeil",
+    "cancelFailed": "Kunne ikke avbryte tidtakeren. Prøv igjen",
+    "cancelNetwork": "Kunne ikke avbryte tidtakeren: nettverksfeil",
+    "cancelStoppingElsewhere": "Tidtakeren stoppes allerede fra {source}",
+    "sourceWeb": "nettappen",
+    "sourceOther": "en annen enhet",
+    "pauseFailed": "Kunne ikke sette tidtakeren på pause",
+    "resumeFailed": "Kunne ikke fortsette tidtakeren",
+    "addTimeFailed": "Kunne ikke legge til tid på tidtakeren",
+    "descriptionFailed": "Kunne ikke oppdatere beskrivelsen",
+    "projectFailed": "Kunne ikke oppdatere prosjektet",
+    "clientFailed": "Kunne ikke oppdatere kunden",
+    "nothingToSave": "Ingen tid å lagre",
+    "offlineStop": "Du er offline. Stopp tidtakeren igjen når forbindelsen er tilbake",
+    "stopInProgress": "Et stopp pågår{elsewhere}. Prøv igjen om et øyeblikk. Hvis det henger, blir tiden parkert som pauset etter noen minutter, slik at den ikke går tapt.",
+    "alreadyRunning": "Det kjører allerede en tidtaker{elsewhere}. Stopp eller avbryt den først hvis du vil starte en ny.",
+    "alreadyPaused": "Det finnes allerede en pauset tidtaker med tid på{elsewhere}. Stopp eller avbryt den først hvis du vil starte en ny.",
+    "elsewhere": " fra en annen nettleser eller enhet",
+    "stopAlreadyInProgress": "Et stopp pågår allerede fra {source}. Sjekk tidsoversikten din om et øyeblikk",
+    "prepaidPinnedUnavailable": "Det valgte klippekortet kunne ikke brukes, så tiden ble lagret uten trekk fra klippekortet",
+    "prepaidLookupFailed": "Klippekortet kunne ikke slås opp, så tiden ble lagret uten trekk fra klippekortet",
+    "prepaidDeductionFailed": "Trekket fra klippekortet mislyktes, så tiden ble lagret uten trekk fra kortet",
+    "saveFailed": "Kunne ikke lagre tiden",
+    "saveFailedWith": "Kunne ikke lagre tiden: {reason}",
+    "unknownReason": "ukjent feil",
+    "sessionMismatch": "Tidtakeren ble endret fra en annen nettleser eller enhet. Her er den nåværende.",
+    "beingStopped": "Tidtakeren stoppes fra en annen nettleser eller enhet.",
+    "startRejectedPaused": "Det finnes allerede en pauset tidtaker med tid på. Stopp eller avbryt den først hvis du vil starte en ny.",
+    "startRejectedStale": "Tidtakeren ble nettopp stoppet et annet sted. Prøv å starte igjen.",
+    "startRejectedRunning": "Det kjører allerede en tidtaker fra en annen nettleser eller enhet. Stopp den først hvis du vil starte en ny.",
+    "stopSourceWeb": "nettappen",
+    "stopSourceOther": "en annen enhet"
+  },
+  "task": {
+    "createFailed": "Kunne ikke opprette oppgaven"
+  },
+  "serverStatus": "Serveren svarte {status}",
+  "clientTooOld": "Oppdater TimeTrack-utvidelsen. Denne versjonen kan ikke lagre tid"
+}

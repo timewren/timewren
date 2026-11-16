@@ -1,0 +1,1 @@
+ALTER TABLE "projects" ADD COLUMN "monthly_budget_hours" numeric(7, 2);

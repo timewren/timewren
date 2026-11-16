@@ -1,0 +1,98 @@
+---
+title: "Fra kildekoden"
+description: "Byg selv TimeWren-imaget fra en klon med Docker Compose, eller kør udviklingsserveren med Node.js og PostgreSQL."
+---
+
+Vælg denne metode, hvis du vil køre ændret kode eller bidrage. Vil du blot køre TimeWren, er det færdigbyggede image i [Docker Compose](/da/docs/install/docker-compose) enklere og kræver langt mindre hukommelse.
+
+## Byg selv imaget
+
+### Krav
+
+- Docker Engine med Compose v2.24 eller nyere.
+- Cirka 4 GB RAM eller mere til buildet; det tager omkring 7 til 11 minutter og bruger omkring 5 GB, når det topper.
+- Cirka 10 GB fri diskplads.
+
+### Trin
+
+1. Klon repositoryet, og opret `.env`.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   cd timewren
+   cp .env.example .env
+   for v in POSTGRES_PASSWORD BETTER_AUTH_SECRET ENCRYPTION_KEY CRON_SECRET; do
+     sed -i "s|^$v=.*|$v=$(openssl rand -hex 32)|" .env
+   done
+   ```
+
+2. Sæt `NEXT_PUBLIC_APP_URL` i `.env` til den URL, folk åbner.
+
+3. Udkommentér `image:`-linjen i `app`-servicen i `docker-compose.yml`, og fjern udkommenteringen af `build:`-blokken under den.
+
+4. Byg og start.
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+   `cron`-servicen bruger som standard det færdigbyggede image. Ændrer du `scripts/cron.mjs`, eller vil du have den til at køre dit build, så peg også `cron`-servicen på dit image, eller byg den på samme måde.
+
+Build-argumenterne `NEXT_PUBLIC_DESKTOP_RELEASES_REPO`, `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_SENTRY_DSN` og `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` kompileres ind i browserbundlet, så ændrer du dem i `.env`, skal du køre `docker compose up -d --build` igen. App-URL'en, marketing-URL'en og brandet læses ved kørsel og kræver ikke et nyt build.
+
+Du kan også køre klonens installationsscript, `./scripts/install.sh`. I en klon bygger det imaget og starter stakken med `docker compose up -d --build`, hver gang det køres. Se [Installation med én kommando](/da/docs/install/quick).
+
+## Kør udviklingsserveren
+
+### Krav
+
+- Node.js 22 eller nyere og npm.
+- Docker til udviklingscontaineren med PostgreSQL.
+
+### Trin
+
+1. Klon repositoryet, og installér afhængighederne.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   cd timewren
+   npm ci
+   ```
+
+2. Opret `.env.local` med mindst en database-URL og en auth-hemmelighed. Udviklingscontaineren fra `docker-compose.dev.yml` lytter på port 5432 med databasen `freelance_crm` og brugeren og adgangskoden `postgres`.
+
+   ```dotenv
+   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/freelance_crm
+   BETTER_AUTH_SECRET=replace-with-a-long-random-string
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   CRON_SECRET=replace-with-another-random-string
+   ```
+
+3. Start PostgreSQL, kør migreringerne, og start serveren.
+
+   ```bash
+   npm run docker:up
+   npm run db:migrate
+   npm run dev
+   ```
+
+4. Åbn `http://localhost:3000`.
+
+`npm run dev:setup` starter PostgreSQL, migrerer, indlæser demodata og starter udviklingsserveren i baggrunden. Andre nyttige kommandoer:
+
+| Kommando | Hvad den gør |
+| ------- | ------------ |
+| `npm run docker:down` | Stopper udviklingscontaineren med PostgreSQL. |
+| `npm run db:seed` | Fylder databasen med testdata. |
+| `npm run db:studio` | Åbner Drizzle Studio. |
+| `npm run build` | Produktionsbuild. |
+| `npm test` | Unittests (Vitest, kræver ingen database). |
+| `npm run lint` | Biome-linter. |
+
+Uden `NEXT_PUBLIC_MARKETING_URL` er marketingsiderne for brandet `timewren` slået fra, og `/` sender videre til dashboardet.
+
+## Næste skridt
+
+- [Bidrag](/da/docs/contributing)
+- [Miljøvariabler](/da/docs/configuration/environment)
+- [Docker Compose](/da/docs/install/docker-compose)

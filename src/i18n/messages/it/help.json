@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Per iniziare",
+      "items": {
+        "0": {
+          "question": "Come aggiungo il mio primo cliente?",
+          "answer": "Vai su 'Clienti' nella barra laterale e clicca su 'Aggiungi cliente'. Compila i dati del cliente, come nome, e-mail e, se vuoi, una tariffa oraria specifica. Se non inserisci una tariffa oraria, viene usata la tariffa oraria predefinita delle impostazioni."
+        },
+        "1": {
+          "question": "Qual è la differenza tra progetti e clienti?",
+          "answer": "I clienti sono le persone o le aziende per cui lavori. I progetti sono incarichi o contratti specifici di un cliente. Puoi avere più progetti per cliente, ad es. 'Sviluppo del sito web' e 'Assistenza continuativa' per lo stesso cliente."
+        },
+        "2": {
+          "question": "Come registro il tempo?",
+          "answer": "Vai su 'Tracciamento del tempo' e usa il timer (avvio/arresto) oppure aggiungi il tempo manualmente. Scegli un progetto o un cliente, aggiungi una descrizione e salva. Puoi scegliere se il tempo viene scalato da un pacchetto ore o fatturato normalmente."
+        },
+        "3": {
+          "question": "Come rifaccio il tour?",
+          "answer": "Clicca sulla tua immagine del profilo o sulle iniziali in alto a destra e scegli 'Avvia il tour'. Il tour ti guida tra tutte le funzioni principali di {brand} in 24 passaggi interattivi."
+        },
+        "4": {
+          "question": "Esistono scorciatoie da tastiera?",
+          "answer": "Sì, {brand} ha molte scorciatoie da tastiera per navigare e controllare il tempo rapidamente. Premi '?' per vedere l'elenco di tutte le scorciatoie disponibili, oppure consulta l'argomento 'Scorciatoie da tastiera e consigli' qui sotto."
+        }
+      }
+    },
+    "clients": {
+      "title": "Clienti",
+      "items": {
+        "0": {
+          "question": "Come imposto una tariffa oraria specifica per un cliente?",
+          "answer": "Quando crei o modifichi un cliente, puoi inserire una 'Tariffa oraria (kr)'. Questa tariffa sostituisce la tua tariffa oraria predefinita per tutti i progetti di questo cliente, a meno che il progetto non abbia una tariffa propria."
+        },
+        "1": {
+          "question": "Posso eliminare un cliente?",
+          "answer": "Per preservare l'integrità dei dati, i clienti non si possono eliminare, ma si possono archiviare. I clienti archiviati non compaiono negli elenchi, ma i dati storici restano. Puoi riattivare un cliente archiviato in qualsiasi momento."
+        },
+        "2": {
+          "question": "Cos'è la gerarchia delle tariffe?",
+          "answer": "{brand} usa un sistema di tariffe a tre livelli: 1) tariffa oraria globale (nelle impostazioni), 2) tariffa oraria del cliente, 3) tariffa oraria del progetto. Viene usato il livello più specifico. Ad esempio, se un progetto ha una tariffa, si usa quella; altrimenti si usa la tariffa del cliente, e in mancanza anche di quella la tariffa globale."
+        }
+      }
+    },
+    "projects": {
+      "title": "Progetti",
+      "items": {
+        "0": {
+          "question": "Qual è la differenza tra tariffa oraria e prezzo fisso?",
+          "answer": "I progetti a tariffa oraria vengono fatturati in base al numero di ore moltiplicato per la tariffa oraria. I progetti a prezzo fisso hanno un prezzo stabilito in anticipo, indipendentemente dalle ore. Scegli il tipo quando crei il progetto."
+        },
+        "1": {
+          "question": "Come tengo traccia delle scadenze dei progetti?",
+          "answer": "Quando crei un progetto puoi impostare una scadenza. I progetti con scadenza mostrano un avviso quando la data si avvicina. Puoi anche impostare lo stato su 'Attivo', 'In pausa' o 'Completato'."
+        },
+        "2": {
+          "question": "Posso spostare un progetto a un altro cliente?",
+          "answer": "Sì, modifica il progetto e scegli un nuovo cliente dal menu a tendina. Tutte le registrazioni ore e i pacchetti ore restano collegati al progetto."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Tracciamento del tempo",
+      "items": {
+        "0": {
+          "question": "Come funziona il timer?",
+          "answer": "Scegli un progetto, aggiungi una descrizione e premi 'Avvia'. Il timer prosegue finché non premi 'Pausa' o 'Ferma'. Quando lo fermi, il tempo viene salvato automaticamente come registrazione ore. Puoi mettere in pausa e riprendere il timer quando serve."
+        },
+        "1": {
+          "question": "Posso modificare le registrazioni ore precedenti?",
+          "answer": "Sì, clicca su una registrazione ore nell'elenco e scegli 'Modifica'. Puoi cambiare progetto, descrizione, numero di ore e data. Utile se dimentichi di registrare il tempo o sbagli."
+        },
+        "2": {
+          "question": "Come gestisco più registrazioni ore insieme?",
+          "answer": "Seleziona le registrazioni cliccando sulla casella a sinistra. Poi puoi eliminarne più di una alla volta con il pulsante 'Elimina selezionate'."
+        },
+        "3": {
+          "question": "Cos'è la panoramica settimanale (foglio ore)?",
+          "answer": "La panoramica settimanale mostra le tue registrazioni ore in una griglia settimanale, così vedi subito le ore per giorno e progetto. Passa dalla vista elenco a quella settimanale con l'interruttore in alto nella pagina Tracciamento del tempo."
+        },
+        "4": {
+          "question": "Posso importare il tempo da un CSV?",
+          "answer": "Sì, clicca sul pulsante 'Importa CSV' nella pagina Tracciamento del tempo. Carica un file CSV con colonne per data, ore, progetto e descrizione. Il sistema abbina automaticamente i progetti e crea le registrazioni ore."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Attività",
+      "items": {
+        "0": {
+          "question": "Qual è la differenza tra la bacheca kanban e la vista elenco?",
+          "answer": "La bacheca kanban mostra le attività come schede in colonne (ad es. 'Da fare', 'In corso', 'Fatto'), così puoi trascinarle facilmente da una fase all'altra. La vista elenco mostra le attività in una tabella con ordinamento e filtri. Passa da una vista all'altra con i pulsanti in alto."
+        },
+        "1": {
+          "question": "Come creo un'attività?",
+          "answer": "Clicca su 'Nuova attività' nella pagina delle attività. Compila il titolo, scegli un progetto e un cliente, imposta una priorità (bassa/normale/alta/critica) e, se vuoi, una scadenza. Puoi anche aggiungere una descrizione con i dettagli."
+        },
+        "2": {
+          "question": "Come sposto le attività tra le colonne?",
+          "answer": "Nella vista kanban puoi trascinare le schede delle attività tra le colonne. In alternativa, clicca su un'attività e cambia lo stato nella finestra di modifica."
+        },
+        "3": {
+          "question": "Posso avviare un timer direttamente da un'attività?",
+          "answer": "Sì, ogni attività ha un pulsante timer. Cliccalo per avviare il timer con il progetto e il titolo dell'attività come descrizione. Il tempo viene registrato automaticamente sul progetto collegato."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Panoramica",
+      "items": {
+        "0": {
+          "question": "Cosa mostra la panoramica?",
+          "answer": "La panoramica ti dà un quadro della tua attività da freelance con widget per il riepilogo settimanale delle ore, i guadagni, i progetti attivi, lo stato dei pacchetti ore, le ultime registrazioni ore e le prossime scadenze."
+        },
+        "1": {
+          "question": "Posso personalizzare la panoramica?",
+          "answer": "Sì, clicca sul pulsante 'Personalizza' in alto a destra nella panoramica. Puoi aggiungere, rimuovere e spostare i widget con il trascinamento. Le modifiche vengono salvate automaticamente."
+        },
+        "2": {
+          "question": "Quali widget sono disponibili?",
+          "answer": "I widget disponibili includono: Panoramica settimanale (ore per giorno), Guadagni (ricavi e crescita), Progetti attivi, Panoramica dei pacchetti ore, Ultime registrazioni ore, Ore di oggi, Prossime scadenze e Avvio rapido del timer."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Pacchetti ore",
+      "items": {
+        "0": {
+          "question": "Cos'è un pacchetto ore?",
+          "answer": "Un pacchetto ore è un blocco di ore che un cliente acquista in anticipo. Quando registri il tempo puoi scegliere di scalare le ore dal pacchetto invece di fatturarle normalmente. È molto usato per i contratti di assistenza."
+        },
+        "1": {
+          "question": "Come creo un pacchetto ore?",
+          "answer": "Vai su 'Pacchetti ore' e clicca su 'Nuovo pacchetto ore'. Scegli un cliente, inserisci il numero di ore e la tariffa oraria e calcola il prezzo totale. Imposta una data di acquisto e, se vuoi, una data di scadenza. Quando il pacchetto è attivo, puoi usarlo mentre registri il tempo."
+        },
+        "2": {
+          "question": "Cosa succede quando un pacchetto ore si esaurisce?",
+          "answer": "Ricevi un avviso quando a un pacchetto ore rimane meno del 10% delle ore. Quando è vuoto (0 ore rimaste), non puoi più scalare tempo da esso. Devi creare un nuovo pacchetto ore o fatturare il tempo normalmente."
+        },
+        "3": {
+          "question": "Posso vedere lo storico di un pacchetto ore?",
+          "answer": "Sì, apri il pacchetto ore e guarda sotto 'Storico degli utilizzi'. Mostra tutte le registrazioni ore scalate dal pacchetto, con data, descrizione e numero di ore."
+        }
+      }
+    },
+    "templates": {
+      "title": "Modelli ricorrenti",
+      "items": {
+        "0": {
+          "question": "Cosa sono i modelli ricorrenti?",
+          "answer": "I modelli ricorrenti sono registrazioni ore predefinite che vengono create automaticamente a intervalli regolari. Ad esempio, puoi creare un modello 'Riunione settimanale di stato, 1 ora' che viene creato ogni settimana."
+        },
+        "1": {
+          "question": "Come creo un modello?",
+          "answer": "Vai su 'Modelli' e clicca su 'Nuovo modello'. Scegli un progetto, una descrizione, il numero di ore e la frequenza (giornaliera/settimanale/mensile). Inserisci una data di inizio e, se vuoi, una data di fine. Il modello crea le registrazioni ore automaticamente secondo il tuo piano."
+        },
+        "2": {
+          "question": "Posso modificare o eliminare le registrazioni ore generate?",
+          "answer": "Sì, le registrazioni ore generate funzionano come quelle normali. Puoi modificarle in 'Tracciamento del tempo' o eliminarle se non servono per un certo giorno/settimana."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Fatture",
+      "items": {
+        "0": {
+          "question": "Come creo una fattura?",
+          "answer": "Vai su 'Fatture' e clicca su 'Nuova fattura'. Scegli un cliente e un intervallo di date per le registrazioni ore, e il sistema raccoglie automaticamente tutte le ore non fatturate. Controlla le righe, aggiungi eventuali note e salva."
+        },
+        "1": {
+          "question": "Qual è la differenza tra 'Bozza', 'Inviata' e 'Pagata'?",
+          "answer": "Bozza = stai ancora lavorando alla fattura. Inviata = la fattura è stata inviata al cliente ma non è ancora pagata. Pagata = il cliente ha pagato la fattura. Puoi aggiornare lo stato manualmente man mano che le cose procedono."
+        },
+        "2": {
+          "question": "Posso esportare le fatture in PDF?",
+          "answer": "Sì, quando visualizzi una fattura trovi il pulsante 'Esporta PDF'. Genera una fattura PDF professionale che puoi inviare al cliente o salvare per la contabilità."
+        },
+        "3": {
+          "question": "Posso generare una fattura dalle registrazioni ore?",
+          "answer": "Sì, clicca sul pulsante 'Dalle registrazioni ore' quando crei una nuova fattura. Scegli un cliente e un intervallo di date, e il sistema raccoglie tutte le registrazioni ore non fatturate come righe di fattura."
+        },
+        "4": {
+          "question": "Cosa mostra la panoramica delle fatture?",
+          "answer": "In cima alla pagina delle fatture trovi quattro schede statistiche: Totale fatturato, Importo pagato, Importo da incassare e Fatture scadute. Ti danno un quadro rapido delle tue finanze."
+        }
+      }
+    },
+    "reports": {
+      "title": "Report",
+      "items": {
+        "0": {
+          "question": "Quali report posso generare?",
+          "answer": "Puoi vedere report settimanali e mensili con ore per cliente, ore per progetto, guadagni e andamenti. I report si possono filtrare per intervallo di date ed esportare in CSV per analizzarli in Excel."
+        },
+        "1": {
+          "question": "Come esporto i dati in Excel?",
+          "answer": "Vai su 'Report', scegli l'intervallo di date che vuoi e clicca su 'Esporta CSV'. Viene scaricato un file CSV che puoi aprire in Excel, Google Sheets o altri fogli di calcolo."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Scorciatoie da tastiera e consigli",
+      "items": {
+        "0": {
+          "question": "Quali scorciatoie di navigazione ci sono?",
+          "answer": "Usa G seguito da un tasto per navigare rapidamente: {shortcuts}."
+        },
+        "1": {
+          "question": "Quali scorciatoie del timer ci sono?",
+          "answer": "T = avvia/ferma il timer, Shift+T = pausa/riprendi il timer. Queste scorciatoie funzionano da tutte le pagine, così controlli il timer rapidamente senza cambiare pagina."
+        },
+        "2": {
+          "question": "Cos'è la Command Palette?",
+          "answer": "Premi Ctrl+K (o Cmd+K su Mac) per aprire la Command Palette. Qui puoi cercare e raggiungere rapidamente pagine, clienti, progetti e azioni senza usare il mouse."
+        },
+        "3": {
+          "question": "Come vedo tutte le scorciatoie?",
+          "answer": "Premi '?' da qualsiasi pagina per aprire l'elenco delle scorciatoie. Mostra tutte le scorciatoie da tastiera disponibili, raggruppate per categoria."
+        },
+        "4": {
+          "question": "Posso riavviare il tour?",
+          "answer": "Sì, clicca sulla tua immagine del profilo/iniziali in alto a destra e scegli 'Avvia il tour' nel menu utente. Il tour ti guida tra tutte le 24 funzioni principali."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Estensione del browser",
+      "items": {
+        "0": {
+          "question": "Cos'è l'estensione del browser di {brand}?",
+          "answer": "L'estensione del browser ti permette di registrare il tempo direttamente dal browser, senza aprire l'app {brand}. Puoi avviare/fermare il timer, scegliere un progetto e un cliente e vedere le ultime registrazioni ore."
+        },
+        "1": {
+          "question": "Come imposto i pattern URL?",
+          "answer": "In Impostazioni → Estensione del browser puoi definire pattern URL che collegano automaticamente un progetto quando visiti certi siti web. Ad esempio, puoi impostare 'github.com/client-repo/*' per scegliere automaticamente il progetto corrispondente."
+        },
+        "2": {
+          "question": "Come installo l'estensione del browser?",
+          "answer": "Installa l'estensione {brand} dal Chrome Web Store (cerca ''{brand} Tidsregistrering' oppure vai su timetrack.dk/browser-extension). Genera un token API in Impostazioni → Estensione del browser e incollalo nel popup dell'estensione. L'estensione si collega automaticamente al tuo account {brand}."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integrazioni",
+      "items": {
+        "0": {
+          "question": "Come uso la ricerca CVR?",
+          "answer": "Quando crei un nuovo cliente, puoi inserire un numero CVR e cliccare su 'Cerca'. {brand} recupera automaticamente ragione sociale, indirizzo e dati di contatto dal registro delle imprese danese (CVR), così non devi scriverli a mano."
+        },
+        "1": {
+          "question": "Come esporto in Billy, Dinero o e-conomic?",
+          "answer": "Vai su Impostazioni → Integrazioni e collega il tuo account. Billy e Dinero possono ricevere le fatture. Da e-conomic puoi importare i tuoi clienti, e puoi sempre esportare la base della fattura come CSV o report dalla pagina della fattura."
+        },
+        "2": {
+          "question": "Posso sincronizzare con Google Calendar?",
+          "answer": "Sì, in Impostazioni → Integrazioni puoi collegare Google Calendar. Gli eventi del calendario possono essere proposti automaticamente come registrazioni ore, così registri facilmente il tempo in base alle tue riunioni."
+        }
+      }
+    },
+    "security": {
+      "title": "Sicurezza",
+      "items": {
+        "0": {
+          "question": "Cosa sono le passkey?",
+          "answer": "Le passkey sono un metodo di accesso moderno, senza password. Al posto della password usi un'impronta digitale, il riconoscimento facciale o il PIN del dispositivo. Configura le passkey in Impostazioni → Sicurezza → Passkey."
+        },
+        "1": {
+          "question": "Come attivo l'autenticazione a due fattori (2FA)?",
+          "answer": "Vai su Impostazioni → Sicurezza → Autenticazione a due fattori. Scansiona il codice QR con un'app di autenticazione (ad es. Google Authenticator o Authy) e inserisci il codice di conferma. Da quel momento, all'accesso serve un codice a 6 cifre."
+        },
+        "2": {
+          "question": "Come gestisco le sessioni attive?",
+          "answer": "In Impostazioni → Sicurezza → Sessioni attive vedi tutti i dispositivi connessi al tuo account. Puoi chiudere singole sessioni o uscire da tutti i dispositivi in una volta."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Importazione ed esportazione",
+      "items": {
+        "0": {
+          "question": "Come importo le registrazioni ore da un CSV?",
+          "answer": "Vai su Tracciamento del tempo e clicca su 'Importa CSV'. Carica un file CSV con colonne per data, ore, progetto e descrizione. Il sistema mostra un'anteprima, così puoi verificare i dati prima di importare."
+        },
+        "1": {
+          "question": "Come esporto i miei dati?",
+          "answer": "Puoi esportare i dati da più punti: Report → Esporta CSV per le registrazioni ore, Fatture → Esporta PDF per le singole fatture e Impostazioni → Dati → Esporta tutti i dati per un backup completo in formato CSV o JSON."
+        },
+        "2": {
+          "question": "Posso scaricare tutti i miei dati (GDPR)?",
+          "answer": "Sì, in Impostazioni → Dati trovi il pulsante 'Scarica i miei dati'. Genera un'esportazione completa di tutti i tuoi dati in formato JSON, come richiesto dal GDPR. L'esportazione include clienti, progetti, registrazioni ore, fatture e pacchetti ore."
+        }
+      }
+    },
+    "settings": {
+      "title": "Impostazioni",
+      "items": {
+        "0": {
+          "question": "Come cambio la mia tariffa oraria predefinita?",
+          "answer": "Vai su 'Impostazioni', trova il campo 'Tariffa oraria predefinita (kr)' e inserisci la nuova tariffa. Questa tariffa è usata come predefinita per i nuovi clienti e progetti. Le tariffe già impostate per clienti e progetti non cambiano."
+        },
+        "1": {
+          "question": "Tutte le mie modifiche vengono registrate?",
+          "answer": "Sì, {brand} registra tutte le modifiche alle tariffe orarie (globale, cliente, progetto) in uno storico delle tariffe. Puoi sempre vedere quando e come sono cambiate. Questo aiuta la trasparenza e la contabilità."
+        },
+        "2": {
+          "question": "Come elimino il mio account?",
+          "answer": "In 'Impostazioni' c'è una sezione 'Zona pericolosa' con il pulsante 'Elimina account'. Devi confermare con la tua e-mail e approvare l'eliminazione. ATTENZIONE: questo elimina DEFINITIVAMENTE tutti i tuoi dati, inclusi clienti, progetti, registrazioni ore e fatture. Se sei membro di un team, ciò che hai registrato nel team resta al team, senza il tuo nome e la tua e-mail."
+        },
+        "3": {
+          "question": "Come passo al tema scuro?",
+          "answer": "Vai su Impostazioni → Profilo e aspetto → Tema. Scegli tra 'Chiaro', 'Scuro' o 'Sistema' (segue l'impostazione del dispositivo). La modifica ha effetto subito."
+        },
+        "4": {
+          "question": "Cos'è il profilo aziendale?",
+          "answer": "In Impostazioni → Profilo aziendale puoi impostare ragione sociale, numero CVR, indirizzo, logo e coordinate bancarie. Questi dati vengono usati automaticamente sulle tue fatture."
+        }
+      }
+    }
+  },
+  "title": "Aiuto e guida",
+  "description": "Trova le risposte alle tue domande su {brand}",
+  "searchPlaceholder": "Cerca nell'aiuto... (es. 'pacchetto ore', 'fattura', 'scorciatoia')",
+  "resultCount": "{count, plural, one {# risultato} many {# risultati} other {# risultati}}",
+  "popular": "Domande frequenti",
+  "searchResultsFor": "Risultati di ricerca per \"{query}\"",
+  "foundIn": "{results, plural, one {# risultato trovato} many {# risultati trovati} other {# risultati trovati}} in {topics, plural, one {# argomento} many {# argomenti} other {# argomenti}}",
+  "noResults": "Nessun risultato per \"{query}\"",
+  "questionCount": "{count, plural, one {# domanda} many {# domande} other {# domande}}",
+  "chooseTopic": "Scegli un argomento dall'elenco",
+  "cantFindTitle": "Non trovi quello che cerchi?",
+  "cantFindBody": "Contattaci se hai domande non coperte dalla documentazione.",
+  "contactSupport": "Contatta l'assistenza",
+  "screenshotAlt": "Schermata: {title}",
+  "videoDemo": "Video dimostrativo",
+  "wasHelpful": "Ti è stato utile?",
+  "yes": "Sì",
+  "no": "No",
+  "topicsHeading": "Argomenti"
+}

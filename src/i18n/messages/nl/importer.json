@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Import voltooid: {count, plural, one {# tijdboeking geïmporteerd} other {# tijdboekingen geïmporteerd}}",
+    "doneWithErrorsToast": "Import voltooid met fouten: {imported} geïmporteerd, {failed} mislukt",
+    "failedToast": "Import mislukt. Bekijk de details onder instellingen",
+    "running": "Import bezig: {pct}% ({imported}/{total})",
+    "details": "Details bekijken",
+    "done": "Import voltooid: {count, plural, one {# tijdboeking geïmporteerd} other {# tijdboekingen geïmporteerd}}",
+    "doneWithFailed": "Import voltooid: {count, plural, one {# tijdboeking geïmporteerd} other {# tijdboekingen geïmporteerd}}, {failed} mislukt",
+    "dismiss": "Sluiten"
+  },
+  "page": {
+    "pickDateFormat": "Kies een datumnotatie om door te gaan.",
+    "success": "Import succesvol voltooid!",
+    "failed": "Import mislukt. Probeer het opnieuw.",
+    "backToOnboarding": "← Terug naar onboarding",
+    "backToIntegrations": "← Terug naar integraties",
+    "onboardingMode": "Onboardingmodus ingeschakeld",
+    "onboardingNote": "Na een geslaagde import ga je automatisch verder met de onboarding.",
+    "uploadFile": "Bestand uploaden",
+    "chooseFile": "Bestand kiezen",
+    "noFile": "Geen bestand gekozen",
+    "dateFormat": "Datumnotatie",
+    "chooseFormat": "Notatie kiezen...",
+    "dateFormatHint": "Controleer je CSV-gegevens om te zien welke datumnotatie wordt gebruikt.",
+    "billingFilter": "Factuurfilter",
+    "filter": {
+      "all": "Alles importeren",
+      "unbilled": "Alleen niet gefactureerd",
+      "billed": "Alleen gefactureerd"
+    },
+    "billingFilterHint": "Filter boekingen op basis van de factuurstatus in de bron.",
+    "markAllBilled": "Alle geïmporteerde boekingen als gefactureerd markeren",
+    "markAllBilledHint": "Gebruik dit als je alleen boekingen exporteert die in de bron al zijn gefactureerd.",
+    "result": {
+      "clients": "{count, plural, one {# klant aangemaakt} other {# klanten aangemaakt}}",
+      "projects": "{count, plural, one {# project aangemaakt} other {# projecten aangemaakt}}",
+      "timeEntries": "{count, plural, one {# tijdboeking geïmporteerd} other {# tijdboekingen geïmporteerd}}",
+      "billedSplit": "({billed} gefactureerd, {unbilled} niet gefactureerd)",
+      "skippedRows": "{count, plural, one {# rij overgeslagen} other {# rijen overgeslagen}}",
+      "filteredRows": "{count, plural, one {# rij weggefilterd (factuurfilter)} other {# rijen weggefilterd (factuurfilter)}}",
+      "totalHours": "In totaal {hours} uur geïmporteerd",
+      "tasks": "{count, plural, one {# taak geïmporteerd} other {# taken geïmporteerd}}",
+      "subtasks": "{count, plural, one {# subtaak geïmporteerd} other {# subtaken geïmporteerd}}",
+      "tasksSkipped": "{count, plural, one {# taak overgeslagen} other {# taken overgeslagen}}"
+    },
+    "importing": "Importeren...",
+    "start": "Import starten",
+    "mayTakeAWhile": "Dit kan enkele minuten duren, afhankelijk van de hoeveelheid gegevens...",
+    "warnTitle": "Goed om te weten:",
+    "warn1": "De import kan niet ongedaan worden gemaakt",
+    "warn2": "Bestaande gegevens worden niet overschreven",
+    "warn3": "Dubbele gegevens worden overgeslagen"
+  }
+}

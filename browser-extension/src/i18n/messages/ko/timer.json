@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration}을(를) <b>{target}</b>에 저장했어요",
+    "stoppedOn": "{duration}을(를) <b>{target}</b>에서 중지했어요",
+    "savedInternal": "{duration}을(를) <b>내부 시간</b>으로 저장했어요",
+    "stoppedInternal": "{duration}을(를) <b>내부 시간</b>으로 중지했어요",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "패키지 <b>{name}</b>의 시간이 부족해서 모든 시간을 청구 가능 시간으로 저장했어요",
+    "deducted": "<b>{name}</b>에서 {hours} 차감, {remaining} 남음",
+    "deductedOverflow": "<b>{name}</b>에서 {hours} 차감, {remaining} 남음. 패키지가 소진되어 나머지는 청구 가능 시간이에요",
+    "pendingSave": "서버가 제때 응답하지 않았어요. 연결되면 시간이 자동으로 전송되며 한 번만 저장돼요.",
+    "close": "메시지 닫기"
+  },
+  "discard": {
+    "label": "시간 버리기",
+    "question": "{duration}을(를) 저장하지 않고 버릴까요?",
+    "keep": "시간 유지",
+    "confirm": "시간 버리기"
+  },
+  "switch": {
+    "label": "클라이언트 전환",
+    "question": "{duration}을(를) {from}에 저장하고 {to}에서 새 타이머를 시작할까요?",
+    "internal": "내부 시간",
+    "cancel": "취소",
+    "confirm": "저장 후 새로 시작"
+  },
+  "noClient": "클라이언트를 선택하지 않았어요",
+  "noClientShort": "클라이언트 없음",
+  "start": "타이머 시작",
+  "cancelNoSave": "저장하지 않고 타이머 취소",
+  "pause": "타이머 일시정지",
+  "stopSave": "중지 후 저장",
+  "resume": "타이머 다시 시작",
+  "addMinutes": "타이머에 {minutes}분 추가",
+  "addedMinutes": "+{minutes}분",
+  "pickClientProject": "클라이언트 및 프로젝트 선택",
+  "descriptionPlaceholder": "어떤 작업을 하고 있나요?",
+  "descriptionLabel": "작업 설명"
+}

@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Il piano gratuito ha spazio per 3 clienti attivi. Archivia un cliente o guarda i piani.",
+    "seePlans": "Vedi i piani"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Tutto il non fatturato",
+      "periodThisMonth": "Questo mese",
+      "periodLastMonth": "Mese scorso",
+      "draftCreated": "Bozza di fattura creata per {amount}",
+      "createFailed": "Impossibile creare la bozza di fattura",
+      "clientFallback": "il cliente",
+      "title": "Fattura {name}",
+      "description": "Crea una bozza che puoi controllare. Al cliente non viene inviato nulla.",
+      "period": "Periodo",
+      "loadError": "Impossibile caricare il tempo non fatturato. Riprova tra poco.",
+      "noUnbilled": "Nessun tempo non fatturato per {name} nel periodo.",
+      "entries": "Registrazioni",
+      "time": "Tempo",
+      "amountExVat": "Importo IVA esclusa",
+      "timePerProject": "Tempo per progetto",
+      "project": "Progetto",
+      "amount": "Importo",
+      "entryCount": "{count, plural, one {# registrazione} many {# registrazioni} other {# registrazioni}}",
+      "noRate": "{time} non ha una tariffa oraria e viene incluso come 0 DKK. Puoi correggere l'importo nella bozza.",
+      "footnote": "Le registrazioni vengono contrassegnate come fatturate e dettagliate nella bozza. Puoi eliminare di nuovo la bozza e il tempo torna a essere non fatturato.",
+      "pickEntries": "Scegli le registrazioni manualmente",
+      "cancel": "Annulla",
+      "createDraft": "Crea bozza di fattura",
+      "createDraftAmount": "Crea bozza di fattura ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# giorno dall'ultima fattura} many {# giorni dall'ultima fattura} other {# giorni dall'ultima fattura}}",
+      "oldestEntry": "{count, plural, one {la registrazione più vecchia ha # giorno} many {la registrazione più vecchia ha # giorni} other {la registrazione più vecchia ha # giorni}}",
+      "ready": "Pronto da fatturare",
+      "notInvoiced": "non è stato fatturato",
+      "notInvoicedClient": "per {client} non è stato fatturato",
+      "invoiceNow": "Fattura ora",
+      "hide": "Nascondi per 30 giorni"
+    },
+    "explainer": {
+      "point1": "Il cliente paga le ore in anticipo, così eviti di inviare fatture e solleciti dopo.",
+      "point2": "Quando registri il tempo per il cliente, viene scalato automaticamente dal pacchetto.",
+      "point3": "Il cliente può seguire il saldo nel portale clienti e tu ricevi una notifica quando il pacchetto sta per esaurirsi.",
+      "title": "Vendi ore in anticipo con i pacchetti ore",
+      "intro": "Un pacchetto ore è un blocco di ore che il cliente acquista in anticipo, ad es. 10 ore per attività ricorrenti e assistenza.",
+      "create": "Crea pacchetto ore",
+      "calculator": "Calcola il prezzo con il calcolatore"
+    },
+    "prepaid": {
+      "offer": "Vendi un pacchetto ore da {hours} ore. Dura circa {months} mesi e il cliente paga in anticipo.",
+      "offerPrice": "Vendi un pacchetto ore da {hours} ore ({price}). Dura circa {months} mesi e il cliente paga in anticipo.",
+      "sell": "Vendi un pacchetto ore",
+      "dismissLabel": "Non rilevante per {client}. Non mostrare più",
+      "dismissTitle": "Non rilevante. Non mostrare più per questo cliente",
+      "suggestionLabel": "Suggerimenti di pacchetti ore",
+      "defaultName": "Pacchetto ore {hours} ore",
+      "usageClient": "<name>{client}</name> ha avuto circa <num>{time}</num> al mese negli ultimi 3 mesi.",
+      "usageGeneric": "Il cliente ha avuto circa <num>{time}</num> al mese negli ultimi 3 mesi."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "In pausa",
+      "paymentMissing": "Pagamento mancante",
+      "active": "Attivo",
+      "paymentFailedRetry": "{store} non è riuscito a riscuotere il pagamento. Aggiorna il metodo di pagamento in {store}. Finché il pagamento non va a buon fine, hai l'accesso del piano gratuito.",
+      "paymentFailedGrace": "{store} non è riuscito a riscuotere il pagamento. Aggiorna il metodo di pagamento in {store} per mantenere l'accesso.",
+      "currentPlan": "Piano attuale",
+      "yearly": "Annuale",
+      "monthly": "Mensile",
+      "boughtVia": "Acquistato tramite {store}",
+      "expires": "Scade il {date}",
+      "renews": "Si rinnova il {date}",
+      "paymentTitle": "Pagamento",
+      "paymentInfo": "Hai acquistato l'abbonamento nell'app {brand}, quindi pagamento e ricevute sono gestiti da {store}. Cambia piano, metodo di pagamento o annulla l'abbonamento in {store}.",
+      "manage": "Gestisci in {store}"
+    },
+    "wall": {
+      "checkoutFailed": "Impossibile creare la sessione di pagamento. Riprova.",
+      "portalFailed": "Impossibile aprire il portale di fatturazione. Riprova.",
+      "headingNone": "Non hai un abbonamento attivo",
+      "headingLocked": "Il tuo accesso è sospeso",
+      "headingPastDue": "Il tuo pagamento è mancante",
+      "headingCanceled": "Il tuo abbonamento è terminato",
+      "headingTrial": "La tua prova è scaduta",
+      "subNone": "Crea un abbonamento per usare {brand}",
+      "subPastDue": "Aggiorna il metodo di pagamento per riavere l'accesso",
+      "subUpgrade": "Passa a {plan} per continuare",
+      "pastDueBody": "Non siamo riusciti a riscuotere il tuo ultimo pagamento. Aggiorna il metodo di pagamento per continuare a usare {brand}.",
+      "updatePayment": "Aggiorna il metodo di pagamento",
+      "monthly": "Mensile",
+      "yearly": "Annuale",
+      "save17": "Risparmia il 17%",
+      "perYearExVat": "/anno IVA esclusa",
+      "perMonthExVat": "/mese IVA esclusa",
+      "equivalent": "Equivale a {price}/mese, quindi risparmi 2 mesi",
+      "featureWorkspace": "Spazio di lavoro condiviso per il team con più utenti",
+      "featureTeamReports": "Report del team",
+      "featureUnlimited": "Tracciamento del tempo illimitato",
+      "featureInvoicing": "Pacchetti ore e fatturazione",
+      "featureManagement": "Gestione di clienti e progetti",
+      "featureReports": "Report ed esportazione",
+      "featureIntegrations": "Integrazioni danesi (CVR, Billy e altre)",
+      "upgradeNow": "Passa subito al piano superiore",
+      "discountNote": "Il checkout mostra il prezzo standard. Il tuo sconto del {percent}% viene applicato automaticamente.",
+      "manageAccount": "Gestisci account",
+      "exportData": "Esporta dati",
+      "signOut": "Esci"
+    }
+  }
+}

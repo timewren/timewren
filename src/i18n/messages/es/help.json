@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Primeros pasos",
+      "items": {
+        "0": {
+          "question": "¿Cómo añado mi primer cliente?",
+          "answer": "Ve a «Clientes» en el menú lateral y haz clic en «Añadir cliente». Rellena los datos del cliente, como nombre, correo y, si quieres, una tarifa por hora propia. Si no indicas tarifa, se usa tu tarifa por hora predeterminada de los ajustes."
+        },
+        "1": {
+          "question": "¿Cuál es la diferencia entre proyectos y clientes?",
+          "answer": "Los clientes son las personas o empresas para las que trabajas. Los proyectos son encargos o contratos concretos de un cliente. Puedes tener varios proyectos por cliente, p. ej. «Desarrollo web» y «Soporte continuo»."
+        },
+        "2": {
+          "question": "¿Cómo registro horas?",
+          "answer": "Ve a «Registro de horas» y usa el cronómetro (iniciar/detener) o añade tiempo manualmente. Elige un proyecto o cliente, añade una descripción y guarda. Puedes decidir si el tiempo se descuenta de un bono de horas o se factura normalmente."
+        },
+        "3": {
+          "question": "¿Cómo repito el recorrido?",
+          "answer": "Haz clic en tu foto de perfil o tus iniciales en la esquina superior derecha y elige «Iniciar recorrido». El recorrido te guía por todas las funciones principales de {brand} en 24 pasos interactivos."
+        },
+        "4": {
+          "question": "¿Hay atajos de teclado?",
+          "answer": "Sí, {brand} tiene muchos atajos de teclado para navegar y controlar el tiempo rápidamente. Pulsa «?» para ver un resumen de todos los atajos disponibles, o consulta el tema «Atajos de teclado y consejos» más abajo."
+        }
+      }
+    },
+    "clients": {
+      "title": "Clientes",
+      "items": {
+        "0": {
+          "question": "¿Cómo fijo una tarifa por hora específica para un cliente?",
+          "answer": "Al crear o editar un cliente puedes indicar una «Tarifa por hora (kr)». Esta tarifa sustituye a tu tarifa predeterminada en todos los proyectos de ese cliente, salvo que el proyecto tenga la suya."
+        },
+        "1": {
+          "question": "¿Puedo eliminar un cliente?",
+          "answer": "Para conservar la integridad de los datos, los clientes no se pueden eliminar, pero sí archivar. Los clientes archivados no aparecen en las listas, pero se conservan sus datos históricos. Puedes reactivar un cliente archivado en cualquier momento."
+        },
+        "2": {
+          "question": "¿Qué es la jerarquía de tarifas?",
+          "answer": "{brand} usa un sistema de tarifas de tres niveles: 1) tarifa por hora global (en los ajustes), 2) tarifa específica del cliente, 3) tarifa específica del proyecto. Se usa el nivel más específico. Si un proyecto tiene tarifa, se usa esa; si no, la del cliente; y si no, la global."
+        }
+      }
+    },
+    "projects": {
+      "title": "Proyectos",
+      "items": {
+        "0": {
+          "question": "¿Cuál es la diferencia entre precio por hora y precio fijo?",
+          "answer": "Los proyectos por horas se facturan según el número de horas multiplicado por la tarifa. Los proyectos de precio fijo tienen un precio predeterminado, sin importar las horas. Eliges el tipo al crear el proyecto."
+        },
+        "1": {
+          "question": "¿Cómo controlo los plazos de los proyectos?",
+          "answer": "Al crear un proyecto puedes fijar un plazo. Los proyectos con plazo muestran un aviso cuando se acerca la fecha. También puedes poner el estado en «Activo», «En pausa» o «Completado»."
+        },
+        "2": {
+          "question": "¿Puedo mover un proyecto a otro cliente?",
+          "answer": "Sí, edita el proyecto y elige un cliente nuevo en el menú desplegable. Todos los registros de tiempo y bonos de horas siguen vinculados al proyecto."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Registro de horas",
+      "items": {
+        "0": {
+          "question": "¿Cómo funciona el cronómetro?",
+          "answer": "Elige un proyecto, añade una descripción y pulsa «Iniciar». El cronómetro corre hasta que pulses «Pausa» o «Detener». Al detenerlo, el tiempo se guarda automáticamente como registro. Puedes pausar y reanudar el cronómetro cuando quieras."
+        },
+        "1": {
+          "question": "¿Puedo editar registros de tiempo anteriores?",
+          "answer": "Sí, haz clic en un registro de la lista y elige «Editar». Puedes cambiar el proyecto, la descripción, las horas y la fecha. Es útil si olvidas registrar tiempo o te equivocas."
+        },
+        "2": {
+          "question": "¿Cómo gestiono varios registros de tiempo a la vez?",
+          "answer": "Selecciona los registros con la casilla de la izquierda. Después puedes eliminar varios a la vez con el botón «Eliminar seleccionados»."
+        },
+        "3": {
+          "question": "¿Qué es el resumen semanal (hoja de horas)?",
+          "answer": "El resumen semanal muestra tus registros en una cuadrícula semanal, para que veas rápido las horas por día y proyecto. Cambia entre la vista de lista y la semanal con el conmutador de la parte superior de la página de registro de horas."
+        },
+        "4": {
+          "question": "¿Puedo importar tiempo desde CSV?",
+          "answer": "Sí, haz clic en el botón «Importar CSV» de la página de registro de horas. Sube un archivo CSV con columnas de fecha, horas, proyecto y descripción. El sistema empareja los proyectos automáticamente y crea los registros."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Tareas",
+      "items": {
+        "0": {
+          "question": "¿Cuál es la diferencia entre el tablero kanban y la vista de lista?",
+          "answer": "El tablero kanban muestra las tareas como tarjetas en columnas (p. ej. «Por hacer», «En curso», «Hecho»), para que puedas arrastrarlas entre fases. La vista de lista muestra las tareas en una tabla con orden y filtros. Cambia de vista con los botones de arriba."
+        },
+        "1": {
+          "question": "¿Cómo creo una tarea?",
+          "answer": "Haz clic en «Nueva tarea» en la página de tareas. Rellena el título, elige proyecto y cliente, fija una prioridad (baja/normal/alta/crítica) e indica un plazo si quieres. También puedes añadir una descripción con detalles."
+        },
+        "2": {
+          "question": "¿Cómo muevo tareas entre columnas?",
+          "answer": "En la vista kanban puedes arrastrar y soltar las tarjetas entre columnas. También puedes hacer clic en una tarea y cambiar su estado en el cuadro de edición."
+        },
+        "3": {
+          "question": "¿Puedo iniciar un cronómetro directamente desde una tarea?",
+          "answer": "Sí, cada tarea tiene un botón de cronómetro. Haz clic para iniciarlo con el proyecto y el título de la tarea como descripción. El tiempo se registra automáticamente en el proyecto vinculado."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Panel",
+      "items": {
+        "0": {
+          "question": "¿Qué muestra el panel?",
+          "answer": "El panel te da una visión de tu negocio freelance con widgets del resumen semanal, ingresos, proyectos activos, estado de los bonos de horas, últimos registros de tiempo y próximos plazos."
+        },
+        "1": {
+          "question": "¿Puedo personalizar el panel?",
+          "answer": "Sí, haz clic en el botón «Personalizar» de la parte superior derecha del panel. Puedes añadir, quitar y mover widgets arrastrando y soltando. Los cambios se guardan automáticamente."
+        },
+        "2": {
+          "question": "¿Qué widgets hay disponibles?",
+          "answer": "Entre los widgets disponibles están: resumen semanal (horas por día), ingresos (facturación y crecimiento), proyectos activos, resumen de bonos de horas, últimos registros, horas de hoy, próximos plazos e inicio rápido del cronómetro."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Bonos de horas",
+      "items": {
+        "0": {
+          "question": "¿Qué es un bono de horas?",
+          "answer": "Un bono de horas es un paquete de horas prepagadas que un cliente compra por adelantado. Al registrar tiempo puedes descontar horas del bono en lugar de facturarlas normalmente. Es habitual en acuerdos de soporte."
+        },
+        "1": {
+          "question": "¿Cómo creo un bono de horas?",
+          "answer": "Ve a «Bonos de horas» y haz clic en «Nuevo bono de horas». Elige un cliente, indica las horas y la tarifa por hora, y calcula el precio total. Fija una fecha de compra y, si quieres, una de caducidad. Cuando el bono esté activo, podrás usarlo al registrar tiempo."
+        },
+        "2": {
+          "question": "¿Qué pasa cuando se agota un bono de horas?",
+          "answer": "Recibes un aviso cuando a un bono le quedan menos del 10 % de sus horas. Cuando está vacío (0 horas), ya no puedes descontar tiempo. Tendrás que crear un bono nuevo o facturar el tiempo normalmente."
+        },
+        "3": {
+          "question": "¿Puedo ver el historial de un bono de horas?",
+          "answer": "Sí, abre el bono y mira en «Historial de uso». Muestra todos los registros descontados del bono, con fecha, descripción y horas."
+        }
+      }
+    },
+    "templates": {
+      "title": "Plantillas recurrentes",
+      "items": {
+        "0": {
+          "question": "¿Qué son las plantillas recurrentes?",
+          "answer": "Las plantillas recurrentes son registros de tiempo predefinidos que se crean automáticamente a intervalos regulares. Por ejemplo, puedes hacer una plantilla «Reunión semanal de estado - 1 hora» que se cree cada semana."
+        },
+        "1": {
+          "question": "¿Cómo creo una plantilla?",
+          "answer": "Ve a «Plantillas» y haz clic en «Nueva plantilla». Elige proyecto, descripción, horas y frecuencia (diaria/semanal/mensual). Indica una fecha de inicio y, si quieres, una de fin. La plantilla crea registros automáticamente según tu plan."
+        },
+        "2": {
+          "question": "¿Puedo editar o eliminar los registros generados?",
+          "answer": "Sí, los registros generados funcionan como registros normales. Puedes editarlos en «Registro de horas» o eliminarlos si no son relevantes para un día o semana."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Facturas",
+      "items": {
+        "0": {
+          "question": "¿Cómo creo una factura?",
+          "answer": "Ve a «Facturas» y haz clic en «Nueva factura». Elige un cliente y un intervalo de fechas, y el sistema reúne automáticamente todas las horas sin facturar. Revisa las líneas, añade notas si quieres y guarda."
+        },
+        "1": {
+          "question": "¿Cuál es la diferencia entre «Borrador», «Enviada» y «Pagada»?",
+          "answer": "Borrador = Todavía estás trabajando en la factura. Enviada = La factura se ha enviado al cliente pero aún no está pagada. Pagada = El cliente ha pagado la factura. Puedes actualizar el estado manualmente a medida que avance."
+        },
+        "2": {
+          "question": "¿Puedo exportar facturas a PDF?",
+          "answer": "Sí, al ver una factura hay un botón «Exportar PDF». Genera una factura profesional en PDF que puedes enviar al cliente o guardar para la contabilidad."
+        },
+        "3": {
+          "question": "¿Puedo generar una factura a partir de registros de tiempo?",
+          "answer": "Sí, haz clic en el botón «Desde registros de tiempo» al crear una factura nueva. Elige cliente e intervalo de fechas, y el sistema reúne todos los registros sin facturar como líneas de factura."
+        },
+        "4": {
+          "question": "¿Qué muestra el resumen de facturas?",
+          "answer": "En la parte superior de la página de facturas encontrarás cuatro tarjetas: total facturado, importe pagado, importe pendiente y facturas vencidas. Te dan una visión rápida de tus finanzas."
+        }
+      }
+    },
+    "reports": {
+      "title": "Informes",
+      "items": {
+        "0": {
+          "question": "¿Qué informes puedo generar?",
+          "answer": "Puedes ver informes semanales y mensuales con horas por cliente, horas por proyecto, ingresos y tendencias. Los informes se pueden filtrar por fechas y exportar a CSV para analizarlos en Excel."
+        },
+        "1": {
+          "question": "¿Cómo exporto datos a Excel?",
+          "answer": "Ve a «Informes», elige el intervalo de fechas y haz clic en «Exportar CSV». Se descarga un archivo CSV que puedes abrir en Excel, Google Sheets u otras hojas de cálculo."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Atajos de teclado y consejos",
+      "items": {
+        "0": {
+          "question": "¿Qué atajos de navegación hay?",
+          "answer": "Usa G seguida de una tecla para navegar rápido: {shortcuts}."
+        },
+        "1": {
+          "question": "¿Qué atajos de cronómetro hay?",
+          "answer": "T = iniciar/detener el cronómetro, Mayús+T = pausar/reanudar. Estos atajos funcionan en todas las páginas, así que puedes controlar el cronómetro sin cambiar de página."
+        },
+        "2": {
+          "question": "¿Qué es la paleta de comandos?",
+          "answer": "Pulsa Ctrl+K (o Cmd+K en Mac) para abrir la paleta de comandos. Ahí puedes buscar y navegar rápidamente a páginas, clientes, proyectos y acciones sin usar el ratón."
+        },
+        "3": {
+          "question": "¿Cómo veo todos los atajos?",
+          "answer": "Pulsa «?» desde cualquier página para abrir el resumen de atajos. Muestra todos los atajos de teclado disponibles agrupados por categoría."
+        },
+        "4": {
+          "question": "¿Puedo reiniciar el recorrido?",
+          "answer": "Sí, haz clic en tu foto de perfil o iniciales arriba a la derecha y elige «Iniciar recorrido» en el menú de usuario. El recorrido te guía por las 24 funciones principales."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Extensión del navegador",
+      "items": {
+        "0": {
+          "question": "¿Qué es la extensión de navegador de {brand}?",
+          "answer": "La extensión de navegador te permite registrar tiempo directamente desde el navegador sin abrir la aplicación de {brand}. Puedes iniciar/detener el cronómetro, elegir proyecto y cliente, y ver tus últimos registros."
+        },
+        "1": {
+          "question": "¿Cómo configuro los patrones de URL?",
+          "answer": "En Ajustes → Extensión del navegador puedes definir patrones de URL que vinculan automáticamente un proyecto al visitar ciertos sitios. Por ejemplo, puedes poner «github.com/client-repo/*» para elegir automáticamente el proyecto correspondiente."
+        },
+        "2": {
+          "question": "¿Cómo instalo la extensión del navegador?",
+          "answer": "Instala la extensión de {brand} desde Chrome Web Store (busca «{brand} Tidsregistrering» o ve a timetrack.dk/browser-extension). Genera un token de API en Ajustes → Extensión del navegador y pégalo en la ventana de la extensión. La extensión se conecta automáticamente a tu cuenta de {brand}."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integraciones",
+      "items": {
+        "0": {
+          "question": "¿Cómo uso la consulta del CVR?",
+          "answer": "Al crear un cliente nuevo puedes introducir un número CVR y hacer clic en «Buscar». {brand} obtiene automáticamente el nombre, la dirección y los datos de contacto del registro danés de empresas (CVR), así que no tienes que escribirlos."
+        },
+        "1": {
+          "question": "¿Cómo exporto a Billy, Dinero o e-conomic?",
+          "answer": "Ve a Ajustes → Integraciones y conecta tu cuenta. Billy y Dinero pueden recibir facturas. Desde e-conomic puedes importar tus clientes, y siempre puedes exportar la base de la factura como CSV o informe desde la página de facturas."
+        },
+        "2": {
+          "question": "¿Puedo sincronizar con Google Calendar?",
+          "answer": "Sí, en Ajustes → Integraciones puedes conectar tu Google Calendar. Los eventos del calendario pueden sugerirse automáticamente como registros de tiempo, para registrar fácilmente el tiempo según tus reuniones."
+        }
+      }
+    },
+    "security": {
+      "title": "Seguridad",
+      "items": {
+        "0": {
+          "question": "¿Qué son las passkeys?",
+          "answer": "Las passkeys son un método de inicio de sesión moderno, sin contraseña. En lugar de una contraseña usas la huella, el reconocimiento facial o el PIN de tu dispositivo. Configúralas en Ajustes → Seguridad → Passkeys."
+        },
+        "1": {
+          "question": "¿Cómo activo la autenticación en dos pasos (2FA)?",
+          "answer": "Ve a Ajustes → Seguridad → Autenticación en dos pasos. Escanea el código QR con una aplicación de autenticación (p. ej. Google Authenticator o Authy) e introduce el código de confirmación. Después se pedirá un código de 6 dígitos al iniciar sesión."
+        },
+        "2": {
+          "question": "¿Cómo gestiono las sesiones activas?",
+          "answer": "En Ajustes → Seguridad → Sesiones activas puedes ver todos los dispositivos con la sesión iniciada en tu cuenta. Puedes cerrar sesiones individuales o cerrar sesión en todos los dispositivos a la vez."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Importar y exportar",
+      "items": {
+        "0": {
+          "question": "¿Cómo importo registros de tiempo desde CSV?",
+          "answer": "Ve a Registro de horas y haz clic en «Importar CSV». Sube un archivo CSV con columnas de fecha, horas, proyecto y descripción. El sistema muestra una vista previa para que verifiques los datos antes de importar."
+        },
+        "1": {
+          "question": "¿Cómo exporto mis datos?",
+          "answer": "Puedes exportar datos desde varios sitios: Informes → Exportar CSV para los registros de tiempo, Facturas → Exportar PDF para facturas individuales y Ajustes → Datos → Exportar todos los datos para una copia de seguridad completa en CSV o JSON."
+        },
+        "2": {
+          "question": "¿Puedo descargar todos mis datos (RGPD)?",
+          "answer": "Sí, en Ajustes → Datos encontrarás un botón «Descargar mis datos». Genera una exportación completa de todos tus datos en formato JSON, como exige el RGPD. La exportación incluye clientes, proyectos, registros de tiempo, facturas y bonos de horas."
+        }
+      }
+    },
+    "settings": {
+      "title": "Ajustes",
+      "items": {
+        "0": {
+          "question": "¿Cómo cambio mi tarifa por hora predeterminada?",
+          "answer": "Ve a «Ajustes», busca el campo «Tarifa por hora predeterminada (kr)» e introduce tu nueva tarifa. Se usa por defecto para clientes y proyectos nuevos. Las tarifas de clientes y proyectos existentes no cambian."
+        },
+        "1": {
+          "question": "¿Se registran todos mis cambios?",
+          "answer": "Sí, {brand} registra todos los cambios de tarifas por hora (global, cliente, proyecto) en un historial. Siempre puedes ver cuándo y cómo se cambiaron. Esto ayuda a la transparencia y a la contabilidad."
+        },
+        "2": {
+          "question": "¿Cómo elimino mi cuenta?",
+          "answer": "En «Ajustes» hay una sección «Zona de peligro» con un botón «Eliminar cuenta». Debes confirmar con tu correo y aprobar la eliminación. ATENCIÓN: esto elimina de forma PERMANENTE todos tus datos, incluidos clientes, proyectos, registros de tiempo y facturas. Si eres miembro de un equipo, lo que hayas registrado en el equipo permanece en él sin tu nombre ni tu correo."
+        },
+        "3": {
+          "question": "¿Cómo cambio al tema oscuro?",
+          "answer": "Ve a Ajustes → Perfil y apariencia → Tema. Elige entre «Claro», «Oscuro» o «Sistema» (sigue el ajuste de tu dispositivo). El cambio se aplica de inmediato."
+        },
+        "4": {
+          "question": "¿Qué es el perfil de la empresa?",
+          "answer": "En Ajustes → Perfil de la empresa puedes configurar el nombre de la empresa, el número CVR, la dirección, el logotipo y los datos bancarios. Esta información se usa automáticamente en tus facturas."
+        }
+      }
+    }
+  },
+  "title": "Ayuda y guía",
+  "description": "Encuentra respuestas a tus preguntas sobre {brand}",
+  "searchPlaceholder": "Buscar en la ayuda… (p. ej. «bono de horas», «factura», «atajo»)",
+  "resultCount": "{count, plural, one {# resultado} other {# resultados}}",
+  "popular": "Preguntas populares",
+  "searchResultsFor": "Resultados de búsqueda para «{query}»",
+  "foundIn": "{results, plural, one {# resultado encontrado} other {# resultados encontrados}} en {topics, plural, one {# tema} other {# temas}}",
+  "noResults": "No se encontraron resultados para «{query}»",
+  "questionCount": "{count, plural, one {# pregunta} other {# preguntas}}",
+  "chooseTopic": "Elige un tema de la lista",
+  "cantFindTitle": "¿No encuentras lo que buscas?",
+  "cantFindBody": "Contáctanos si tienes preguntas que no estén cubiertas en la documentación.",
+  "contactSupport": "Contactar con el soporte",
+  "screenshotAlt": "Captura de pantalla: {title}",
+  "videoDemo": "Vídeo de demostración",
+  "wasHelpful": "¿Te ha resultado útil?",
+  "yes": "Sí",
+  "no": "No",
+  "topicsHeading": "Temas"
+}

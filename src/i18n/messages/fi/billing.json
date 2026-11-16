@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Ilmaisessa paketissa on tilaa 3 aktiiviselle asiakkaalle. Arkistoi asiakas tai katso paketit.",
+    "seePlans": "Katso paketit"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Kaikki laskuttamattomat",
+      "periodThisMonth": "Tämä kuukausi",
+      "periodLastMonth": "Edellinen kuukausi",
+      "draftCreated": "Laskuluonnos luotu summalle {amount}",
+      "createFailed": "Laskuluonnoksen luonti epäonnistui",
+      "clientFallback": "asiakas",
+      "title": "Laskuta {name}",
+      "description": "Luo luonnoksen, jonka voit tarkistaa. Asiakkaalle ei lähetetä mitään.",
+      "period": "Ajanjakso",
+      "loadError": "Laskuttamattoman ajan lataus epäonnistui. Yritä hetken kuluttua uudelleen.",
+      "noUnbilled": "Ei laskuttamatonta aikaa asiakkaalle {name} tällä ajanjaksolla.",
+      "entries": "Kirjaukset",
+      "time": "Aika",
+      "amountExVat": "Summa ilman ALV:tä",
+      "timePerProject": "Aika projektia kohden",
+      "project": "Projekti",
+      "amount": "Summa",
+      "entryCount": "{count, plural, one {# kirjaus} other {# kirjausta}}",
+      "noRate": "Kohteella {time} ei ole tuntihintaa, ja se sisältyy summaan 0 DKK. Voit korjata summan luonnoksessa.",
+      "footnote": "Kirjaukset merkitään laskutetuiksi ja eritellään luonnoksessa. Voit poistaa luonnoksen uudelleen, jolloin aika palaa laskuttamattomaksi.",
+      "pickEntries": "Valitse kirjaukset itse",
+      "cancel": "Peruuta",
+      "createDraft": "Luo laskuluonnos",
+      "createDraftAmount": "Luo laskuluonnos ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# päivä edellisestä laskusta} other {# päivää edellisestä laskusta}}",
+      "oldestEntry": "{count, plural, one {vanhin kirjaus on # päivän vanha} other {vanhin kirjaus on # päivää vanha}}",
+      "ready": "Valmis laskutettavaksi",
+      "notInvoiced": "on laskuttamatta",
+      "notInvoicedClient": "asiakkaalle {client} on laskuttamatta",
+      "invoiceNow": "Laskuta nyt",
+      "hide": "Piilota 30 päiväksi"
+    },
+    "explainer": {
+      "point1": "Asiakas maksaa tunnit etukäteen, joten sinun ei tarvitse lähettää laskuja ja muistutuksia jälkikäteen.",
+      "point2": "Kun kirjaat asiakkaalle aikaa, se vähennetään paketista automaattisesti.",
+      "point3": "Asiakas voi seurata saldoa asiakasportaalissa, ja saat ilmoituksen, kun paketti on loppumassa.",
+      "title": "Myy tunteja etukäteen tuntipaketeilla",
+      "intro": "Tuntipaketti on tuntierä, jonka asiakas ostaa etukäteen, esimerkiksi 10 tuntia toistuviin tehtäviin ja tukeen.",
+      "create": "Luo tuntipaketti",
+      "calculator": "Laske hinta laskurilla"
+    },
+    "prepaid": {
+      "offer": "Myy {hours} tunnin tuntipaketti. Se riittää noin {months} kuukaudeksi, ja asiakas maksaa etukäteen.",
+      "offerPrice": "Myy {hours} tunnin tuntipaketti ({price}). Se riittää noin {months} kuukaudeksi, ja asiakas maksaa etukäteen.",
+      "sell": "Myy tuntipaketti",
+      "dismissLabel": "Ei relevantti asiakkaalle {client}. Älä näytä enää",
+      "dismissTitle": "Ei relevantti. Älä näytä enää tälle asiakkaalle",
+      "suggestionLabel": "Tuntipakettiehdotukset",
+      "defaultName": "Tuntipaketti {hours} tuntia",
+      "usageClient": "Asiakkaalla <name>{client}</name> on ollut noin <num>{time}</num> kuukaudessa viimeisen 3 kuukauden aikana.",
+      "usageGeneric": "Asiakkaalla on ollut noin <num>{time}</num> kuukaudessa viimeisen 3 kuukauden aikana."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "Keskeytetty",
+      "paymentMissing": "Maksu puuttuu",
+      "active": "Aktiivinen",
+      "paymentFailedRetry": "{store} ei onnistunut veloittamaan maksua. Päivitä maksutapa kaupassa {store}. Kunnes maksu menee läpi, sinulla on pääsy kuten ilmaisessa paketissa.",
+      "paymentFailedGrace": "{store} ei onnistunut veloittamaan maksua. Päivitä maksutapa kaupassa {store}, jotta pääsysi säilyy.",
+      "currentPlan": "Nykyinen paketti",
+      "yearly": "Vuosittain",
+      "monthly": "Kuukausittain",
+      "boughtVia": "Ostettu kaupasta {store}",
+      "expires": "Päättyy {date}",
+      "renews": "Uusiutuu {date}",
+      "paymentTitle": "Maksu",
+      "paymentInfo": "Ostit tilauksen {brand}-sovelluksessa, joten {store} hoitaa maksun ja kuitit. Vaihda pakettia, maksutapaa tai peruuta tilaus kaupassa {store}.",
+      "manage": "Hallitse kaupassa {store}"
+    },
+    "wall": {
+      "checkoutFailed": "Maksuistunnon luonti epäonnistui. Yritä uudelleen.",
+      "portalFailed": "Laskutusportaalin avaaminen epäonnistui. Yritä uudelleen.",
+      "headingNone": "Sinulla ei ole aktiivista tilausta",
+      "headingLocked": "Pääsysi on keskeytetty",
+      "headingPastDue": "Maksusi puuttuu",
+      "headingCanceled": "Tilauksesi on päättynyt",
+      "headingTrial": "Kokeilujaksosi on päättynyt",
+      "subNone": "Luo tilaus käyttääksesi palvelua {brand}",
+      "subPastDue": "Päivitä maksutapa saadaksesi pääsyn takaisin",
+      "subUpgrade": "Päivitä pakettiin {plan} jatkaaksesi",
+      "pastDueBody": "Emme onnistuneet veloittamaan viimeisintä maksuasi. Päivitä maksutapa, jotta voit jatkaa palvelun {brand} käyttöä.",
+      "updatePayment": "Päivitä maksutapa",
+      "monthly": "Kuukausittain",
+      "yearly": "Vuosittain",
+      "save17": "Säästä 17 %",
+      "perYearExVat": "/vuosi ilman ALV:tä",
+      "perMonthExVat": "/kk ilman ALV:tä",
+      "equivalent": "Vastaa hintaa {price}/kk, joten säästät 2 kuukautta",
+      "featureWorkspace": "Jaettu tiimityötila usealle käyttäjälle",
+      "featureTeamReports": "Tiimiraportit",
+      "featureUnlimited": "Rajoittamaton tuntiseuranta",
+      "featureInvoicing": "Tuntipaketit ja laskutus",
+      "featureManagement": "Asiakas- ja projektihallinta",
+      "featureReports": "Raportit ja vienti",
+      "featureIntegrations": "Tanskalaiset integraatiot (CVR, Billy ja muut)",
+      "upgradeNow": "Päivitä nyt",
+      "discountNote": "Kassa näyttää normaalihinnan. {percent} %:n alennuksesi huomioidaan automaattisesti.",
+      "manageAccount": "Hallitse tiliä",
+      "exportData": "Vie tiedot",
+      "signOut": "Kirjaudu ulos"
+    }
+  }
+}

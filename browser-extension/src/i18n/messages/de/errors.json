@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Deine Sitzung ist abgelaufen. Melde dich erneut an.",
+  "noConnection": "Keine Verbindung. Versuche es erneut.",
+  "timeout": "Die Verbindung hat zu lange gedauert",
+  "invalidResponse": "Unerwartete Antwort vom Server",
+  "notLoggedIn": "Nicht angemeldet",
+  "notLoggedInOpenPopup": "Nicht angemeldet. Öffne das TimeTrack-Popup und melde dich an.",
+  "unknown": "Unbekannter Fehler",
+  "api": {
+    "fallback": "API-Fehler",
+    "UNAUTHORIZED": "Deine Sitzung ist abgelaufen. Melde dich erneut an.",
+    "FORBIDDEN": "Zugriff verweigert",
+    "NOT_FOUND": "Die Ressource wurde nicht gefunden",
+    "TIMEOUT": "Der Server hat nicht geantwortet",
+    "TOO_MANY_REQUESTS": "Zu viele Anfragen. Warte einen Moment und versuche es erneut",
+    "INTERNAL_SERVER_ERROR": "Serverfehler. Versuche es gleich noch einmal",
+    "BAD_REQUEST": "Ungültige Anfrage",
+    "PARSE_ERROR": "Ungültige Anfrage"
+  },
+  "auth": {
+    "invalidToken": "Ungültiges Token",
+    "validateFailed": "Das Token konnte nicht geprüft werden",
+    "loginFailed": "Anmeldung fehlgeschlagen",
+    "loginCancelled": "Die Anmeldung wurde abgebrochen. Versuche es erneut",
+    "loginCancelledShort": "Die Anmeldung wurde abgebrochen",
+    "noToken": "Kein Token erhalten",
+    "tokenValidationStatus": "Token-Prüfung fehlgeschlagen: Der Server hat mit {status} geantwortet",
+    "orgsFailed": "Organisationen konnten nicht geladen werden ({status})"
+  },
+  "url": {
+    "notAllowed": "Verwende timetrack.dk, app.timetrack.dk, beta.timetrack.dk oder localhost"
+  },
+  "entry": {
+    "hoursPositive": "Gib eine Stundenzahl größer als 0 ein",
+    "timesCannotBeRemoved": "Die Zeiten lassen sich nicht entfernen. Ändere stattdessen Start und Ende",
+    "fillStartEnd": "Fülle Start und Ende aus",
+    "endAfterStart": "Die Endzeit muss nach der Startzeit liegen"
+  },
+  "timer": {
+    "loadFailed": "Der Timer konnte nicht geladen werden",
+    "startFailed": "Der Timer konnte nicht gestartet werden",
+    "stopFailed": "Der Timer konnte nicht gestoppt werden. Versuche es erneut",
+    "stopNetwork": "Der Timer konnte nicht gestoppt werden: Netzwerkfehler",
+    "cancelFailed": "Der Timer konnte nicht verworfen werden. Versuche es erneut",
+    "cancelNetwork": "Der Timer konnte nicht verworfen werden: Netzwerkfehler",
+    "cancelStoppingElsewhere": "Der Timer wird bereits von {source} aus gestoppt",
+    "sourceWeb": "der Web-App",
+    "sourceOther": "einem anderen Gerät",
+    "pauseFailed": "Der Timer konnte nicht pausiert werden",
+    "resumeFailed": "Der Timer konnte nicht fortgesetzt werden",
+    "addTimeFailed": "Es konnte keine Zeit zum Timer hinzugefügt werden",
+    "descriptionFailed": "Die Beschreibung konnte nicht aktualisiert werden",
+    "projectFailed": "Das Projekt konnte nicht aktualisiert werden",
+    "clientFailed": "Der Kunde konnte nicht aktualisiert werden",
+    "nothingToSave": "Keine Zeit zum Speichern",
+    "offlineStop": "Du bist offline. Stoppe den Timer erneut, sobald die Verbindung wieder da ist",
+    "stopInProgress": "Ein Stopp läuft gerade{elsewhere}. Versuche es gleich noch einmal. Hängt er, wird die Zeit nach wenigen Minuten pausiert abgelegt, damit sie nicht verloren geht.",
+    "alreadyRunning": "Es läuft bereits ein Timer{elsewhere}. Stoppe oder verwirf ihn zuerst, wenn du einen neuen starten möchtest.",
+    "alreadyPaused": "Es gibt bereits einen pausierten Timer mit erfasster Zeit{elsewhere}. Stoppe oder verwirf ihn zuerst, wenn du einen neuen starten möchtest.",
+    "elsewhere": " von einem anderen Browser oder Gerät",
+    "stopAlreadyInProgress": "Ein Stopp läuft bereits von {source} aus. Sieh dir gleich deine Zeitübersicht an",
+    "prepaidPinnedUnavailable": "Das gewählte Stundenpaket konnte nicht verwendet werden, daher wurde die Zeit ohne Abzug vom Paket gespeichert",
+    "prepaidLookupFailed": "Das Stundenpaket konnte nicht abgerufen werden, daher wurde die Zeit ohne Abzug vom Paket gespeichert",
+    "prepaidDeductionFailed": "Der Abzug vom Stundenpaket ist fehlgeschlagen, daher wurde die Zeit ohne Abzug gespeichert",
+    "saveFailed": "Die Zeit konnte nicht gespeichert werden",
+    "saveFailedWith": "Die Zeit konnte nicht gespeichert werden: {reason}",
+    "unknownReason": "unbekannter Fehler",
+    "sessionMismatch": "Der Timer wurde von einem anderen Browser oder Gerät geändert. Hier ist der aktuelle.",
+    "beingStopped": "Der Timer wird gerade von einem anderen Browser oder Gerät gestoppt.",
+    "startRejectedPaused": "Es gibt bereits einen pausierten Timer mit erfasster Zeit. Stoppe oder verwirf ihn zuerst, wenn du einen neuen starten möchtest.",
+    "startRejectedStale": "Der Timer wurde gerade an anderer Stelle gestoppt. Versuche, ihn erneut zu starten.",
+    "startRejectedRunning": "Es läuft bereits ein Timer von einem anderen Browser oder Gerät. Stoppe ihn zuerst, wenn du einen neuen starten möchtest.",
+    "stopSourceWeb": "der Web-App",
+    "stopSourceOther": "einem anderen Gerät"
+  },
+  "task": {
+    "createFailed": "Die Aufgabe konnte nicht erstellt werden"
+  },
+  "serverStatus": "Der Server hat mit {status} geantwortet",
+  "clientTooOld": "Aktualisiere die TimeTrack-Erweiterung. Diese Version kann keine Zeit speichern"
+}

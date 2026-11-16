@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} 已保存到 <b>{target}</b>",
+    "stoppedOn": "{duration} 已在 <b>{target}</b> 上停止",
+    "savedInternal": "{duration} 已保存为<b>内部工时</b>",
+    "stoppedInternal": "{duration} 已作为<b>内部工时</b>停止",
+    "targetWithClient": "{client}，{project}",
+    "notEnough": "时长包 <b>{name}</b> 的小时数不足，因此全部时间已保存为可计费工时",
+    "deducted": "已从 <b>{name}</b> 扣除 {hours}，剩余 {remaining}",
+    "deductedOverflow": "已从 <b>{name}</b> 扣除 {hours}，剩余 {remaining}。时长包已用完，其余部分计为可计费工时",
+    "pendingSave": "服务器未能及时响应。联网后会自动发送这段时间，并且只会保存一次。",
+    "close": "关闭消息"
+  },
+  "discard": {
+    "label": "丢弃时间",
+    "question": "不保存并丢弃 {duration}？",
+    "keep": "保留这段时间",
+    "confirm": "丢弃这段时间"
+  },
+  "switch": {
+    "label": "切换客户",
+    "question": "将 {duration} 保存到 {from}，并在 {to} 上启动新的计时器？",
+    "internal": "内部工时",
+    "cancel": "取消",
+    "confirm": "保存并启动新的"
+  },
+  "noClient": "未选择客户",
+  "noClientShort": "无客户",
+  "start": "启动计时器",
+  "cancelNoSave": "取消计时器且不保存",
+  "pause": "暂停计时器",
+  "stopSave": "停止并保存",
+  "resume": "继续计时器",
+  "addMinutes": "为计时器增加 {minutes} 分钟",
+  "addedMinutes": "+{minutes} 分钟",
+  "pickClientProject": "选择客户和项目",
+  "descriptionPlaceholder": "你在做什么？",
+  "descriptionLabel": "工作说明"
+}

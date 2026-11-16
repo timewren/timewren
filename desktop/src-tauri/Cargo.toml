@@ -1,0 +1,93 @@
+[package]
+license = "AGPL-3.0-only"
+name = "timetrack-desktop"
+version = "0.2.22"
+description = "TimeTrack Desktop"
+authors = ["Mads Holst Jensen"]
+edition = "2021"
+
+[lib]
+name = "timetrack_desktop_lib"
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "devtools", "image-png"] }
+tauri-plugin-opener = "2"
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-notification = "2"
+tauri-plugin-os = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-deep-link = "2"
+tauri-plugin-window-state = "2"
+tauri-plugin-autostart = "2"
+tauri-plugin-dialog = "2"
+
+[target.'cfg(any(target_os = "macos", windows, target_os = "linux"))'.dependencies]
+tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.33", features = ["bundled"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4"] }
+reqwest = { version = "0.12", features = ["json", "gzip", "charset"] }
+tokio = { version = "1", features = ["full"] }
+regex = "1"
+sha2 = "0.10"
+hostname = "0.4"
+urlencoding = "2"
+sentry = "0.35"
+# Cross-platform process info (parent pid, cmd, cwd) for deriving project
+# context inside constant-title apps. Safe wrapper over OS process enumeration.
+sysinfo = { version = "0.33", default-features = false, features = ["system"] }
+# Hemmeligheder (sync-token, Billy-nøgle) i OS' egen nøglering, ikke i SQLite.
+# Kun `keyring-core` her; hver platform får SIN butik under egen cfg, så ingen
+# fremmed afhængighed (zbus/dbus) trækkes ind på tværs af mål.
+keyring-core = "1"
+
+[dev-dependencies]
+# Kun tests: `sentry::test::with_captured_events` fanger de hændelser, appen
+# ellers ville sende. Feature-unificering gør, at biblioteket KUN bygges med
+# test-Transporten når der køres `cargo test` — den udgivne binary gør ikke.
+sentry = { version = "0.35", features = ["test"] }
+
+[target.'cfg(windows)'.dependencies]
+windows-native-keyring-store = "1"
+windows = { version = "0.58", features = [
+  "Win32_UI_WindowsAndMessaging",
+  "Win32_UI_Shell",
+  "Win32_System_Threading",
+  "Win32_Foundation",
+  "Win32_UI_Input_KeyboardAndMouse",
+  "Win32_System_SystemInformation",
+  # Browser URL capture via UI Automation (tracker/url_windows.rs)
+  "Win32_UI_Accessibility",
+  "Win32_System_Com",
+  "Win32_System_Variant",
+] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+apple-native-keyring-store = { version = "1", features = ["keychain"] }
+core-graphics = "0.24"
+core-foundation = "0.10"
+cocoa = "0.26"
+objc = "0.2"
+
+# Linux har ingen "native" nøglering. Kernel-keyutils er valgt frem for
+# dbus/Secret Service, fordi sidste kræver en kørende gnome-keyring-dæmon —
+# uden den kan appen hverken gemme eller læse, og bygget bliver tungt.
+# Kerens nøglering er ikke-vedholdende: efter en genstart skal brugeren logge
+# ind igen. Det er en annoyance, ikke tab af data — intet i databasen slettes.
+[target.'cfg(all(unix, not(target_os = "macos")))'.dependencies]
+linux-keyutils-keyring-store = "1"
+
+[profile.dev]
+incremental = true
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o、GPT-4o-mini 及其他 OpenAI 模型",
+      "note": "在 platform.openai.com/api-keys 创建 API 密钥"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "通过 OpenAI SDK 使用 Claude Sonnet、Opus 和 Haiku",
+      "note": "在 console.anthropic.com/settings/keys 创建 API 密钥"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "托管在丹麦的丹麦 AI，完全符合 GDPR",
+      "badge": "推荐",
+      "note": "来自 Ordbogen A/S 的丹麦托管 AI。在 odincore.ai 创建密钥。数据不会离开丹麦。"
+    },
+    "custom": {
+      "label": "其他端点",
+      "description": "任何兼容 OpenAI 的 API"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "手动",
+      "description": "已停用 AI。所有任务都不经 AI 解析处理。"
+    },
+    "suggest": {
+      "label": "建议",
+      "description": "AI 提供分类和优先级建议，由你确认。"
+    },
+    "auto_lowrisk": {
+      "label": "自动（低风险）",
+      "description": "AI 自动处理简单任务，复杂任务交由你审批。"
+    },
+    "auto_all": {
+      "label": "完全自动",
+      "description": "AI 自动处理所有任务，无需审批。"
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "丹麦（Europe/Copenhagen）",
+    "Europe/Stockholm": "瑞典（Europe/Stockholm）",
+    "Europe/Oslo": "挪威（Europe/Oslo）",
+    "Europe/London": "英国（Europe/London）",
+    "Europe/Berlin": "德国（Europe/Berlin）",
+    "America/New_York": "美国东海岸（America/New_York）",
+    "America/Los_Angeles": "美国西海岸（America/Los_Angeles）"
+  },
+  "connectionOk": "连接正常！",
+  "connectionFailed": "连接失败",
+  "testFailed": "测试失败",
+  "emailEnabled": "已启用邮件转任务！",
+  "emailEnableFailed": "无法启用邮件转任务",
+  "emailDisabled": "已停用邮件转任务",
+  "emailDisableFailed": "无法停用邮件转任务",
+  "addressRegenerated": "已生成新的邮箱地址！",
+  "addressRegenerateFailed": "无法生成新地址",
+  "settingsUpdated": "AI 设置已更新",
+  "settingsUpdateFailed": "无法更新 AI 设置",
+  "addressCopied": "邮箱地址已复制！",
+  "keyRequired": "需要 API 密钥",
+  "urlRequired": "自定义端点需要填写 API 网址",
+  "enterKeyFirst": "请先输入 API 密钥",
+  "title": "AI 与自动化",
+  "description": "配置 AI 功能和邮件转任务设置",
+  "statusTitle": "AI 状态",
+  "statusEnabled": "AI 已启用",
+  "statusDisabled": "AI 尚未配置",
+  "statCalls": "AI 调用总数",
+  "statSuccess": "成功率",
+  "statConfidence": "平均置信度",
+  "statTime": "平均处理时间",
+  "enableHint": "要启用 AI 功能，请在下方选择 AI 提供商并输入你自己的 API 密钥。",
+  "providerTitle": "AI 提供商",
+  "providerSub": "选择 AI 功能的驱动方式：使用系统自带的 AI 或你自己的",
+  "providerIntro": "选择 AI 提供商并输入你自己的 API 密钥，即可启用 AI 功能。{brand} 使用 OpenAI SDK 格式，兼容众多提供商。",
+  "apiKey": "API 密钥",
+  "configured": "（已配置）",
+  "keyPlaceholder": "API 密钥",
+  "keyHelpOpenai": "你在 platform.openai.com 获取的 OpenAI API 密钥",
+  "keyHelpAnthropic": "你在 console.anthropic.com 获取的 Anthropic API 密钥",
+  "keyHelpOrdbogen": "你在 OdinCore.ai 获取的 API 密钥",
+  "keyHelpOther": "你的提供商的 API 密钥",
+  "apiUrl": "API 网址",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1（默认，留空即可）",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "已由预设填写",
+  "urlHelp": "API 的基础网址。留空则使用 OpenAI 的默认端点。",
+  "model": "模型",
+  "modelPlaceholderOpenai": "gpt-4o-mini（默认）",
+  "modelPlaceholderOther": "模型名称",
+  "modelHelp": "指定模型，或留空使用默认模型",
+  "testConnection": "测试连接",
+  "saveSettings": "保存设置",
+  "help": {
+    "title": "如何获取 API 密钥",
+    "sub": "选择一个推荐的提供商并按指南操作",
+    "odinDesc": "托管在丹麦的丹麦 AI，完全符合 GDPR。数据不会离开丹麦。",
+    "odin1": "前往 odincore.ai 并创建账户",
+    "odin2": "进入账户的 API 部分",
+    "odin3": "创建新的 API 密钥",
+    "odin4": "将密钥粘贴到上方的“OdinCore (Ordbogen)”下",
+    "openaiDesc": "GPT-4o-mini 速度快、价格低，很适合解析任务。",
+    "openai1": "前往 platform.openai.com 并登录",
+    "openai2": "在设置中进入“API keys”",
+    "openai3": "点击“Create new secret key”",
+    "copyPaste": "复制密钥并粘贴到上方",
+    "anthropicDesc": "Claude 模型擅长理解和分类任务。",
+    "anthropic1": "前往 console.anthropic.com 并创建账户",
+    "anthropic2": "进入“Settings” → “API keys”",
+    "anthropic3": "点击“Create key”"
+  },
+  "email": {
+    "title": "邮件转任务",
+    "sub": "把邮件发送到你的专属地址，即可自动创建任务",
+    "address": "你的专属任务邮箱",
+    "copyTitle": "复制邮箱地址",
+    "addressHelp": "把邮件发送或转发到此地址，即可自动创建任务。AI 会解析内容并提取标题、截止日期和优先级。",
+    "regenerate": "生成新地址",
+    "disable": "停用邮件转任务",
+    "notEnabled": "尚未启用邮件转任务",
+    "notEnabledText": "启用后会获得一个专属邮箱地址，可向它发送任务。邮件会自动变成仪表盘上的任务。",
+    "enable": "启用邮件转任务"
+  },
+  "autonomyTitle": "AI 自主程度",
+  "autonomySub": "选择 AI 自动处理的范围",
+  "hoursTitle": "工作时间与时区",
+  "hoursSub": "用于 AI 优先级排序和日历功能",
+  "timezone": "时区",
+  "workingHours": "工作时间",
+  "to": "至",
+  "hoursHelp": "AI 会根据这些时间建议处理任务的最佳时段",
+  "privacyTitle": "隐私与安全",
+  "privacyText": "邮件在任务创建后会立即处理并删除。我们只保留生成的任务，不保留原始邮件。AI 处理通过 OpenAI 进行，并执行严格的数据处理规范。"
+}

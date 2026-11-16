@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Zaměstnanec"
+    },
+    "department": {
+      "label": "Oddělení"
+    },
+    "project": {
+      "label": "Projekt"
+    },
+    "activityType": {
+      "label": "Činnost"
+    },
+    "absenceType": {
+      "label": "Typ absence"
+    },
+    "day": {
+      "label": "Datum"
+    },
+    "week": {
+      "label": "Týden"
+    },
+    "month": {
+      "label": "Měsíc"
+    },
+    "vacationYear": {
+      "label": "Dovolenkový rok"
+    },
+    "email": {
+      "label": "E-mail"
+    },
+    "employmentType": {
+      "label": "Typ úvazku"
+    },
+    "weeklyHours": {
+      "label": "Hodin/týden"
+    },
+    "dailyNorm": {
+      "label": "Denní norma"
+    },
+    "employeeNumber": {
+      "label": "Osobní číslo",
+      "help": "Osobní číslo zaměstnance v mzdovém systému (podle dimenze zaměstnance)"
+    },
+    "payrollCode": {
+      "label": "Mzdový kód",
+      "help": "Mzdový kód z typu činnosti (podle dimenze činnosti)"
+    },
+    "hours": {
+      "label": "Zaznamenané hodiny"
+    },
+    "normHours": {
+      "label": "Fond pracovní doby",
+      "help": "Denní norma × pracovní dny v období (po odečtení státních svátků)"
+    },
+    "workDays": {
+      "label": "Pracovní dny",
+      "help": "Plánované pracovní dny v období (bez státních svátků a dnů uzavření)"
+    },
+    "employeeCount": {
+      "label": "Počet zaměstnanců"
+    },
+    "flexDelta": {
+      "label": "Pružná doba (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Odečtená přestávka",
+      "help": "Pouze pro neplacenou přestávku (příchod/odchod)"
+    },
+    "checkInHours": {
+      "label": "Přítomnost (příchod)"
+    },
+    "workedDays": {
+      "label": "Dny se záznamy"
+    },
+    "maxDayHours": {
+      "label": "Nejdelší den",
+      "help": "Nejvyšší denní součet jednoho zaměstnance ve skupině"
+    },
+    "longDays": {
+      "label": "Dny nad 13 h",
+      "help": "Denní součet nad 13 h nechává méně než 11 h odpočinku (pravidlo 11 hodin)"
+    },
+    "avgWeeklyHours": {
+      "label": "Prům. hodin/týden",
+      "help": "Zaznamenané hodiny na týden zaměstnance se záznamy nebo absencí (pravidlo 48 hodin)"
+    },
+    "weeksOver48h": {
+      "label": "Týdny nad 48 h",
+      "help": "Počet týdnů zaměstnanců se zaznamenanými hodinami nad 48 h"
+    },
+    "fullWeeks": {
+      "label": "Týdny bez dne volna",
+      "help": "Týdny se záznamy ve všech 7 dnech a bez dne absence (týdenní odpočinek 24 h)"
+    },
+    "absenceDays": {
+      "label": "Absence (dny)"
+    },
+    "absenceHours": {
+      "label": "Absence (hodiny)"
+    },
+    "absencePeriods": {
+      "label": "Období absence"
+    },
+    "sickDays": {
+      "label": "Dny nemoci"
+    },
+    "sickHours": {
+      "label": "Hodiny nemoci"
+    },
+    "sickPeriods": {
+      "label": "Období nemoci"
+    },
+    "sickPct": {
+      "label": "Nemocnost %",
+      "help": "Dny nemoci / pracovní dny"
+    },
+    "longTermSick": {
+      "label": "Dlouhodobě nemocní",
+      "help": "Nepřetržité období nemoci delší než 30 dní v daném období"
+    },
+    "longTermSickCount": {
+      "label": "Dlouhodobě nemocní (počet)",
+      "help": "Počet zaměstnanců s obdobím nemoci delším než 30 dní"
+    },
+    "overtimeEarned": {
+      "label": "Získaný přesčas"
+    },
+    "overtimeUsed": {
+      "label": "Vybrané náhradní volno"
+    },
+    "overtimePaidOut": {
+      "label": "Vyplacený přesčas"
+    },
+    "overtimeNet": {
+      "label": "Přesčas netto",
+      "help": "Získáno − vybráno jako volno − vyplaceno"
+    },
+    "vacationAllotted": {
+      "label": "Přidělená dovolená"
+    },
+    "vacationUsed": {
+      "label": "Vyčerpaná dovolená"
+    },
+    "vacationRemaining": {
+      "label": "Zbývající dovolená"
+    },
+    "extraVacationAllotted": {
+      "label": "Přidělené dny dovolené navíc"
+    },
+    "extraVacationUsed": {
+      "label": "Vyčerpané dny dovolené navíc"
+    },
+    "extraVacationRemaining": {
+      "label": "Zbývající dny dovolené navíc"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Dovolená čerpaná v období",
+      "help": "Dny dovolené (typy, které snižují zůstatek dovolené) v období reportu"
+    },
+    "hoursByActivity": {
+      "label": "Hodiny podle činnosti",
+      "pivot": "{name} (hodiny)"
+    },
+    "absenceDaysByType": {
+      "label": "Absence podle typu (dny)",
+      "pivot": "{name} (dny)"
+    },
+    "absenceHoursByType": {
+      "label": "Absence podle typu (hodiny)",
+      "pivot": "{name} (hodiny)"
+    },
+    "quantityByWageType": {
+      "label": "Množství podle mzdového kódu",
+      "help": "Hodiny/dny podle mzdového kódu přes mzdové mapování (Nastavení → Mzdy)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Zaměstnanec",
+    "department": "Oddělení",
+    "project": "Projekt",
+    "activityType": "Činnost",
+    "absenceType": "Typ absence",
+    "day": "Den",
+    "week": "Týden",
+    "month": "Měsíc",
+    "vacationYear": "Dovolenkový rok"
+  },
+  "groups": {
+    "dimensions": "Dimenze",
+    "employee": "Zaměstnanec",
+    "time": "Čas",
+    "compliance": "Compliance",
+    "absence": "Absence",
+    "overtime": "Přesčas",
+    "payroll": "Mzdy",
+    "vacation": "Účty dovolené"
+  },
+  "presets": {
+    "this_month": "Tento měsíc",
+    "last_month": "Minulý měsíc",
+    "this_quarter": "Toto čtvrtletí",
+    "this_year": "Tento rok",
+    "last_year": "Minulý rok"
+  },
+  "types": {
+    "payroll": {
+      "label": "Mzdový report",
+      "description": "Na zaměstnance za mzdové období: hodiny, absence ve dnech a hodinách podle typu, pružná doba, přesčas a odečty přestávek. Pro mzdovou účtárnu."
+    },
+    "sickness": {
+      "label": "Nemocnost",
+      "description": "Statistika nemocnosti podle oddělení a měsíce: dny nemoci, období, procento nemocnosti a dlouhodobá nemoc (nad 30 dní)."
+    },
+    "absence": {
+      "label": "Absence",
+      "description": "Všechny typy absence (dovolená, nemoc, volno, péče…) na zaměstnance nebo oddělení: dny a hodiny."
+    },
+    "flex_overtime": {
+      "label": "Pružná doba a přesčas",
+      "description": "Vývoj zůstatku podle období: fond pracovní doby, zaznamenané hodiny, rozdíl pružné doby a přesčas získaný/vybraný/vyplacený."
+    },
+    "project_activity": {
+      "label": "Projekt a činnost",
+      "description": "Hodiny rozdělené podle projektu, typu činnosti a oddělení, pro sledování výuky, příprav, schůzek a podobně."
+    },
+    "vacation_account": {
+      "label": "Účty dovolené",
+      "description": "Účty dovolené podle dovolenkového roku: přidělené, vyčerpané a zbývající dny dovolené a dovolené navíc, na zaměstnance."
+    },
+    "compliance": {
+      "label": "Compliance (zákon o pracovní době)",
+      "description": "Porušení a upozornění na zaměstnance a týden: dny nad 13 h (11 h odpočinku), týdny nad 48 h, týdny bez dne volna (týdenní odpočinek 24 h) a průměrná týdenní pracovní doba."
+    },
+    "custom": {
+      "label": "Vlastní",
+      "description": "Libovolný výběr dimenzí a sloupců z celého katalogu: sestav přesně ten report, který ti chybí."
+    }
+  },
+  "weekdays": {
+    "1": "Pondělí",
+    "2": "Úterý",
+    "3": "Středa",
+    "4": "Čtvrtek",
+    "5": "Pátek",
+    "6": "Sobota",
+    "7": "Neděle"
+  },
+  "page": {
+    "all": "(vše)",
+    "selected": "(vybráno: {count})",
+    "clear": "Zrušit výběr",
+    "downloaded": "Report byl stažen",
+    "templateDeleted": "Šablona byla smazána",
+    "maxDimensions": "Nejvýše 4 dimenze",
+    "templateUnreadable": "Šablonu nelze načíst",
+    "needColumn": "Vyber alespoň jeden sloupec",
+    "inactive": "(neaktivní)",
+    "title": "Reporty",
+    "step1": "1. Vyber typ reportu",
+    "step2": "2. Období",
+    "holidayYearPlaceholder": "Dovolenkový rok…",
+    "holidayYear": "Dovolenkový rok {year}",
+    "from": "Od",
+    "to": "Do",
+    "step3": "3. Filtry",
+    "departments": "Oddělení",
+    "employees": "Zaměstnanci",
+    "projects": "Projekty",
+    "activities": "Činnosti",
+    "absenceTypes": "Typy absence",
+    "onlyApproved": "Pouze schválené hodiny",
+    "includeRejected": "Zahrnout zamítnuté hodiny",
+    "includePending": "Zahrnout čekající absence",
+    "includeInactive": "Zahrnout bývalé zaměstnance",
+    "includeDetails": "Zahrnout všechny záznamy (detaily)",
+    "step4": "4. Seskupit podle",
+    "step4Hint": "(pořadí = pořadí kliknutí)",
+    "step5": "5. Sloupce",
+    "run": "Spustit report",
+    "saveAsTemplate": "Uložit jako šablonu",
+    "chooseTemplateFirst": "Nejdřív ulož nebo vyber šablonu",
+    "scheduleMail": "Naplánovat e-mail",
+    "savedTemplates": "Uložené šablony",
+    "noTemplates": "Zatím žádné šablony.",
+    "sharedOrg": "Sdíleno v organizaci",
+    "onlyMe": "Jen já",
+    "standard": " · Výchozí",
+    "deleteTemplate": "Smazat šablonu",
+    "confirmDeleteTemplate": "Smazat šablonu „{name}“?",
+    "footnote": "CSV používá středníky a desetinné čárky. Zamítnuté hodiny jsou ve výchozím nastavení vyloučeny; otevřená hlášení nemoci se počítají včetně dneška. Vedoucí vidí jen svá oddělení a své zaměstnance.",
+    "cardEmployees": "Zaměstnanci",
+    "noData": "Žádná data v období {from} až {to}",
+    "noDataHint": "Zkus delší období, méně filtrů nebo jiné sloupce.",
+    "allEntries": "Všechny záznamy ({count})",
+    "truncated": "Období obsahuje více záznamů, než se vejde do seznamu detailů. Součty výše se přesto počítají ze všech dat. Pro zobrazení všech detailů vyber kratší období.",
+    "detEmployee": "Zaměstnanec",
+    "detDepartment": "Oddělení",
+    "detDate": "Datum",
+    "detHours": "Hodiny",
+    "detProject": "Projekt",
+    "detActivity": "Činnost",
+    "detPayCode": "Mzdový kód",
+    "detDescription": "Popis",
+    "detSource": "Zdroj",
+    "detStatus": "Stav",
+    "saveTemplateTitle": "Uložit jako šablonu",
+    "templateSaved": "Šablona byla uložena",
+    "name": "Název",
+    "description": "Popis",
+    "shareWithOrg": "Sdílet s celou organizací (uvidí ji všichni vedoucí a HR)",
+    "cancel": "Zrušit",
+    "save": "Uložit",
+    "scheduleTitle": "Naplánovat e-mail",
+    "scheduled": "Report se odesílá automaticky",
+    "frequency": "Frekvence",
+    "weekly": "Týdně",
+    "monthly": "Měsíčně",
+    "weekday": "Den v týdnu",
+    "dayOfMonth": "Den v měsíci",
+    "dayN": "{day}.",
+    "recipients": "Příjemci (odděl čárkami)",
+    "recipientsPlaceholder": "mzdy@example.com, vedouci@example.com",
+    "format": "Formát",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "Období v šabloně je klouzavé: „Minulý měsíc“ odeslaný 1. dne dá přesně čísla za minulý měsíc.",
+    "schedule": "Naplánovat",
+    "scheduleRemoved": "Naplánovaný e-mail byl odebrán",
+    "scheduledMails": "Naplánované e-maily",
+    "freqWeeklyLower": "týdně",
+    "freqMonthlyLower": "měsíčně",
+    "scheduleLine": "· {frequency} (den {day}) · {format} · {recipients}",
+    "lastSent": " · naposledy odesláno {date}",
+    "remove": "Odebrat",
+    "yes": "Ano",
+    "no": "Ne",
+    "card": {
+      "employees": "Zaměstnanci"
+    }
+  }
+}

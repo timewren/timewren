@@ -1,0 +1,47 @@
+---
+title: "TimeWren documentation"
+description: "Install, configure, run and integrate TimeWren, the open-source time tracker with prepaid hours and invoicing."
+---
+
+TimeWren is open-source time tracking for freelancers and small teams: clients, projects, tasks, a timer, prepaid hours and invoicing in one self-hosted app. It runs as one Docker image with PostgreSQL and a small cron container. A self-hosted instance has every feature open, with no plans, user limits or license keys, and sends no telemetry.
+
+<Screenshot name="dashboard" alt="The TimeWren dashboard with today's time, active projects and prepaid balances" />
+
+## Start here
+
+- [Quickstart](/docs/quickstart): from an empty server to your first tracked hour in about ten minutes.
+- [One-line install](/docs/install/quick): `curl -fsSL https://timewren.com/install.sh | bash` on a Linux server with Docker.
+- [Use these docs with your LLM](/docs/llm): give the docs to Claude Code, Cursor, Codex or ChatGPT and let it install, upgrade or debug TimeWren for you.
+
+## Install
+
+| Method | Best for |
+| --- | --- |
+| [One-line install](/docs/install/quick) | A single Linux server with Docker. The fastest way. |
+| [Docker Compose](/docs/install/docker-compose) | Full control over the Compose file and `.env`. |
+| [Coolify](/docs/install/coolify) | You already run Coolify. |
+| [Dokploy](/docs/install/dokploy) | You already run Dokploy. |
+| [Railway](/docs/install/railway) | A managed platform, no server to maintain. |
+| [Render](/docs/install/render) | A managed platform with a Blueprint. |
+| [Kubernetes](/docs/install/kubernetes) | A Helm chart for an existing cluster. |
+| [From source](/docs/install/from-source) | Building the image yourself or developing TimeWren. |
+
+## Configure and run
+
+- [Environment variables](/docs/configuration/environment): every variable the app reads, with defaults.
+- [Email](/docs/configuration/email), [file storage](/docs/configuration/storage) and [authentication](/docs/configuration/authentication).
+- [Upgrading](/docs/operations/upgrading), [backup and restore](/docs/operations/backup-restore), [reverse proxy and TLS](/docs/operations/reverse-proxy) and [troubleshooting](/docs/operations/troubleshooting).
+
+## Use and extend
+
+- [Prepaid hours](/docs/concepts/prepaid-hours): how hour packages, balances and warnings work.
+- Integrations: [Billy](/docs/integrations/billy), [Dinero](/docs/integrations/dinero), [e-conomic](/docs/integrations/e-conomic), [calendars](/docs/integrations/calendar), [CVR lookup](/docs/integrations/cvr) and [Zapier, Make and n8n](/docs/integrations/automation).
+- Apps: [desktop](/docs/apps/desktop), [mobile](/docs/apps/mobile) and [browser extension](/docs/apps/browser-extension).
+- Build on it: [REST API](/docs/api/rest), [webhooks](/docs/api/webhooks) and the [MCP server](/docs/api/mcp) for AI assistants.
+- [Contributing](/docs/contributing): set up a development environment and send a pull request.
+
+## For LLMs and coding agents
+
+Every page is available as plain Markdown: add `.md` to the URL (for example `https://timewren.com/docs/quickstart.md`), or send `Accept: text/markdown`. [/llms.txt](https://timewren.com/llms.txt) lists every page, and [/llms-full.txt](https://timewren.com/llms-full.txt) contains the whole English documentation in one file.
+
+The source code is at [github.com/timewren/timewren](https://github.com/timewren/timewren).

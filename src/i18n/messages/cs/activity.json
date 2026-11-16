@@ -1,0 +1,46 @@
+{
+  "title": "Protokol aktivit",
+  "count": "{count, plural, one {# aktivita} few {# aktivity} many {# aktivity} other {# aktivit}}",
+  "empty": "Zatím žádná aktivita",
+  "yes": "Ano",
+  "no": "Ne",
+  "line": "<e>{entity}</e> <n>\"{name}\"</n> <a>{action}</a>",
+  "lineNoName": "<e>{entity}</e> <a>{action}</a>",
+  "entity": {
+    "client": "Klient",
+    "project": "Projekt",
+    "time_entry": "Záznam času",
+    "invoice": "Faktura",
+    "prepaid_package": "Balíček hodin",
+    "settings": "Nastavení"
+  },
+  "action": {
+    "m": {
+      "create": "vytvořen",
+      "update": "aktualizován",
+      "delete": "smazán",
+      "archive": "archivován",
+      "restore": "obnoven",
+      "complete": "dokončen",
+      "send": "odeslán"
+    },
+    "f": {
+      "create": "vytvořena",
+      "update": "aktualizována",
+      "delete": "smazána",
+      "archive": "archivována",
+      "restore": "obnovena",
+      "complete": "dokončena",
+      "send": "odeslána"
+    },
+    "p": {
+      "create": "vytvořeno",
+      "update": "aktualizováno",
+      "delete": "smazáno",
+      "archive": "archivováno",
+      "restore": "obnoveno",
+      "complete": "dokončeno",
+      "send": "odesláno"
+    }
+  }
+}

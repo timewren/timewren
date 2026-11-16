@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "가져오기가 끝났어요: {count, plural, other {시간 기록 #건을 가져왔어요}}",
+    "doneWithErrorsToast": "오류와 함께 가져오기가 끝났어요: {imported}건 가져옴, {failed}건 실패",
+    "failedToast": "가져오지 못했어요. 자세한 내용은 설정에서 확인하세요",
+    "running": "가져오는 중: {pct}% ({imported}/{total})",
+    "details": "자세히 보기",
+    "done": "가져오기가 끝났어요: {count, plural, other {시간 기록 #건을 가져왔어요}}",
+    "doneWithFailed": "가져오기가 끝났어요: {count, plural, other {시간 기록 #건을 가져왔어요}}, {failed}건 실패",
+    "dismiss": "닫기"
+  },
+  "page": {
+    "pickDateFormat": "계속하려면 날짜 형식을 선택하세요.",
+    "success": "가져오기를 완료했어요!",
+    "failed": "가져오지 못했어요. 다시 시도하세요.",
+    "backToOnboarding": "← 온보딩으로 돌아가기",
+    "backToIntegrations": "← 연동으로 돌아가기",
+    "onboardingMode": "온보딩 모드가 켜져 있어요",
+    "onboardingNote": "가져오기에 성공하면 자동으로 온보딩을 이어서 진행해요.",
+    "uploadFile": "파일 업로드",
+    "chooseFile": "파일 선택",
+    "noFile": "선택한 파일 없음",
+    "dateFormat": "날짜 형식",
+    "chooseFormat": "형식 선택…",
+    "dateFormatHint": "CSV 데이터에서 어떤 날짜 형식을 쓰는지 확인하세요.",
+    "billingFilter": "청구 필터",
+    "filter": {
+      "all": "모두 가져오기",
+      "unbilled": "미청구만",
+      "billed": "청구됨만"
+    },
+    "billingFilterHint": "원본의 청구 상태를 기준으로 기록을 걸러내요.",
+    "markAllBilled": "가져온 모든 기록을 청구됨으로 표시",
+    "markAllBilledHint": "원본에서 이미 청구된 기록만 내보냈을 때 사용하세요.",
+    "result": {
+      "clients": "{count, plural, other {클라이언트 #개를 만들었어요}}",
+      "projects": "{count, plural, other {프로젝트 #개를 만들었어요}}",
+      "timeEntries": "{count, plural, other {시간 기록 #건을 가져왔어요}}",
+      "billedSplit": "(청구됨 {billed}건, 미청구 {unbilled}건)",
+      "skippedRows": "{count, plural, other {#개 행을 건너뛰었어요}}",
+      "filteredRows": "{count, plural, other {#개 행을 걸러냈어요 (청구 필터)}}",
+      "totalHours": "총 {hours}시간을 가져왔어요",
+      "tasks": "{count, plural, other {작업 #개를 가져왔어요}}",
+      "subtasks": "{count, plural, other {하위 작업 #개를 가져왔어요}}",
+      "tasksSkipped": "{count, plural, other {작업 #개를 건너뛰었어요}}"
+    },
+    "importing": "가져오는 중…",
+    "start": "가져오기 시작",
+    "mayTakeAWhile": "데이터 양에 따라 몇 분 걸릴 수 있어요…",
+    "warnTitle": "참고하세요:",
+    "warn1": "가져오기는 되돌릴 수 없어요",
+    "warn2": "기존 데이터는 덮어쓰지 않아요",
+    "warn3": "중복은 건너뛰어요"
+  }
+}

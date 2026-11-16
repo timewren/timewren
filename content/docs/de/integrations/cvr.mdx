@@ -1,0 +1,30 @@
+---
+title: "CVR-Abfrage"
+description: "Fülle dänische Firmendaten beim Anlegen eines Kunden aus dem CVR-Register aus. Funktioniert ohne Konfiguration über cvrapi.dk."
+---
+
+CVR ist das dänische Firmenregister. Wenn du einen Kunden anlegst, gib eine CVR-Nummer (oder einen Firmennamen oder eine Telefonnummer) ein, und TimeWren füllt die Firmendaten aus. Das hilft nur bei dänischen Unternehmen.
+
+## Was ausgefüllt wird
+
+Name, Adresse, Postleitzahl, Ort, Land (Dänemark), Branchencode und Beschreibung, Firmenstatus, Telefon, E-Mail und Gründungsdatum, soweit die Quelle sie hat. Du kannst alles vor dem Speichern bearbeiten.
+
+## Wo es verwendet wird
+
+Der Abfrage-Button im Formular für neue Kunden und die CVR-Abfrage in deinen Firmeneinstellungen. Abfragen sind auf 10 pro Minute und Benutzer begrenzt.
+
+## Quellen und Konfiguration
+
+Es ist keine Konfiguration nötig. Standardmäßig fragt TimeWren [cvrapi.dk](https://cvrapi.dk), einen kostenlosen öffentlichen Dienst, und die Anfrage scheitert nach 10 Sekunden mit einer Timeout-Meldung. cvrapi.dk begrenzt, wie viele Anfragen es annimmt, daher kann eine stark genutzte Instanz gelegentlich die Meldung "rate limited" sehen und es erneut versuchen müssen. Ist [Valkey](/de/docs/configuration/environment) konfiguriert, werden Antworten 24 Stunden zwischengespeichert, was Kontingent spart.
+
+Diese Variablen sind optional:
+
+| Variable | Standard | Bedeutung |
+| --- | --- | --- |
+| `CVR_API_TIMEOUT_MS` | `10000` | Timeout für Anfragen an cvrapi.dk in Millisekunden |
+| `CVR_SERVICE_API_KEY` | leer | Schlüssel für einen alternativen CVR-Dienst. Wenn gesetzt, wird dieser Dienst zuerst gefragt |
+| `CVR_SERVICE_URL` | der von den TimeWren-Maintainern betriebene Dienst | Basis-URL des alternativen Dienstes |
+
+Der alternative Dienst wird zuerst mit einem Timeout von 3 Sekunden versucht. Schlägt er fehl oder ist nicht erreichbar, weicht TimeWren auf cvrapi.dk aus. Solange du keinen Schlüssel für einen Dienst bekommen hast, lass `CVR_SERVICE_API_KEY` leer.
+
+> **Hinweis:** Eine Abfrage sendet die Nummer oder den Text, den du eingegeben hast, an den Dienst, der sie beantwortet (standardmäßig cvrapi.dk). Firmendaten von Hand einzugeben funktioniert immer.

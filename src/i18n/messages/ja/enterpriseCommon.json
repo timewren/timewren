@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "オーナー",
+    "admin": "管理者",
+    "hr": "人事",
+    "manager": "マネージャー",
+    "member": "従業員"
+  },
+  "employment": {
+    "fullTime": "フルタイム",
+    "partTime": "パートタイム",
+    "flexjob": "フレックスジョブ"
+  },
+  "weekStatus": {
+    "draft": "下書き",
+    "submitted": "提出済み",
+    "approved": "承認済み",
+    "rejected": "却下",
+    "reopened": "再開"
+  },
+  "save": "保存",
+  "cancel": "キャンセル",
+  "add": "追加",
+  "edit": "編集",
+  "active": "有効",
+  "inactive": "無効",
+  "periodClosing": {
+    "status": {
+      "open": "マネージャー確認待ち",
+      "approved": "確認応答待ち",
+      "acknowledged": "締め済み",
+      "reopened": "ロック解除"
+    },
+    "interval": {
+      "month": "毎月",
+      "quarter": "四半期ごと"
+    }
+  },
+  "weekdayLong": {
+    "1": "月曜日",
+    "2": "火曜日",
+    "3": "水曜日",
+    "4": "木曜日",
+    "5": "金曜日",
+    "6": "土曜日",
+    "7": "日曜日"
+  },
+  "absenceCategory": {
+    "vacation": "休暇",
+    "sickness": "病欠",
+    "leave": "休職",
+    "other": "その他"
+  },
+  "payroll": {
+    "system": {
+      "generic": "汎用（フラットCSV）",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS（デンマーク国の給与システム）",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "月",
+      "biweekly": "14日間"
+    },
+    "unit": {
+      "hours": "時間",
+      "days": "日"
+    },
+    "kind": {
+      "time": "時間（基本給コード）",
+      "absence": "不在",
+      "supplement": "手当（加算）"
+    },
+    "source": {
+      "activity": "記録した時間（アクティビティ）",
+      "absence": "不在（不在の種類）",
+      "overtime_earned": "発生した残業",
+      "overtime_used": "代休",
+      "overtime_paid_out": "支払い済みの残業",
+      "flex_positive": "フレックス（プラス時間）",
+      "flex_negative": "フレックス（マイナス時間）",
+      "break_deduction": "休憩の控除（無給休憩）"
+    },
+    "dayCondition": {
+      "any": "すべての日",
+      "weekend": "週末（土・日）",
+      "holiday": "祝日",
+      "weekend_or_holiday": "週末または祝日"
+    }
+  },
+  "normPeriod": {
+    "week": "週",
+    "month": "月",
+    "quarter": "四半期",
+    "year": "年"
+  },
+  "normYear": {
+    "calendar": "暦年（1月1日）",
+    "school": "学年（8月1日）"
+  }
+}

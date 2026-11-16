@@ -1,0 +1,120 @@
+---
+title: "Docker Compose"
+description: "Run TimeWren with the prebuilt image, PostgreSQL and a scheduler using Docker Compose, with optional Valkey and automatic HTTPS."
+---
+
+Choose this method if you want to see and control every step, or already manage servers with Compose. It uses the prebuilt multi-arch image `ghcr.io/timewren/timewren`, so nothing is built on your machine. For a scripted version of the same steps, see [One-line install](/docs/install/quick).
+
+## Requirements
+
+- Docker Engine with Compose v2.24 or newer.
+- `curl` and `openssl` (or another way to generate random hex strings).
+- A domain and a reverse proxy with TLS for anything other than localhost.
+
+## Install
+
+1. Create a directory and download the Compose file and the environment template.
+
+   ```bash
+   mkdir timewren && cd timewren
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/docker-compose.yml
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/.env.example
+   ```
+
+2. Create `.env` and fill the four required secrets with random values.
+
+   ```bash
+   cp .env.example .env
+   for v in POSTGRES_PASSWORD BETTER_AUTH_SECRET ENCRYPTION_KEY CRON_SECRET; do
+     sed -i "s|^$v=.*|$v=$(openssl rand -hex 32)|" .env
+   done
+   ```
+
+   On macOS use `sed -i ''` instead of `sed -i`. `ENCRYPTION_KEY` must be exactly 64 hex characters, which `openssl rand -hex 32` produces.
+
+3. Set the public URL in `.env`, without a trailing slash:
+
+   ```dotenv
+   NEXT_PUBLIC_APP_URL=https://timewren.example.com
+   ```
+
+4. Start the stack.
+
+   ```bash
+   docker compose up -d
+   ```
+
+5. Open the URL and create your account. The first account becomes the instance admin. Migrations run on every start, including on an empty database. The first start can take a while, and the app container has a 180 second start period before health checks count.
+
+> **Warning:** `.env.example` sets `REQUIRE_EMAIL_VERIFICATION=false` so you can sign up without a mail server. It only applies while no mail transport is configured, and it lets anyone who can reach the instance create an account. Configure [email](/docs/configuration/email) and remove the line before you expose the instance.
+
+Back up `ENCRYPTION_KEY`: without it, stored integration tokens cannot be decrypted.
+
+## Services
+
+| Service | Image | Role |
+| ------- | ----- | ---- |
+| `app` | `ghcr.io/timewren/timewren` | The web app on container port 3000. Runs migrations at start (`MIGRATE_ON_START=1`). Local files on the `storage` volume at `/app/data/storage`. |
+| `cron` | same image | Runs `node scripts/cron.mjs`, which calls the app's `/api/cron/*` endpoints with `CRON_SECRET`. Runs only after `app` is healthy. |
+| `db` | `postgres:18-alpine` | PostgreSQL, data on the `db-data` volume. Not published to the host. |
+| `valkey` | `valkey/valkey:8-alpine` | Optional, profile `valkey`. Data on the `valkey-data` volume. |
+
+The app port is published as `127.0.0.1:3000` by default. Set `APP_PORT` to change the host port and `APP_BIND=0.0.0.0` to expose it on all interfaces. Keep exactly one `cron` service. `DATABASE_URL` is built by Compose from `POSTGRES_PASSWORD`, so you do not set it yourself. The password is only used when the database is first created: changing it later does not change the existing database.
+
+For all variables, see [Environment variables](/docs/configuration/environment).
+
+## Pin a version
+
+By default the image tag is `latest`. To control upgrades, pin a release in `.env`:
+
+```dotenv
+TIMEWREN_VERSION=1.2.3
+```
+
+Then `docker compose pull && docker compose up -d` applies it. Both `app` and `cron` use the same tag.
+
+## Optional: Valkey
+
+Valkey provides shared rate limits and realtime timer sync. Add to `.env`:
+
+```dotenv
+COMPOSE_PROFILES=valkey
+VALKEY_URL=redis://valkey:6379
+RATE_LIMIT_BACKEND=valkey
+```
+
+Then run `docker compose up -d`. You can also start it for one run with `docker compose --profile valkey up -d`. A single app replica does not need Valkey.
+
+## Optional: automatic HTTPS with Caddy
+
+The repository ships an overlay that adds a Caddy reverse proxy on ports 80 and 443. Point a DNS record at the server, open TCP 80 and 443, and download the overlay:
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/docker-compose.caddy.yml
+```
+
+Add to `.env`:
+
+```dotenv
+CADDY_DOMAIN=timewren.example.com
+COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml
+NEXT_PUBLIC_APP_URL=https://timewren.example.com
+```
+
+Then `docker compose up -d`. Without `COMPOSE_FILE`, pass both files explicitly: `docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d`. For other proxies, see [Reverse proxy](/docs/operations/reverse-proxy).
+
+## Operate
+
+```bash
+docker compose ps
+docker compose logs -f app
+```
+
+To upgrade, see [Upgrading](/docs/operations/upgrading); for backups, [Backup and restore](/docs/operations/backup-restore).
+
+## Next steps
+
+- [Quickstart](/docs/quickstart)
+- [Reverse proxy](/docs/operations/reverse-proxy)
+- [Email](/docs/configuration/email) and [Storage](/docs/configuration/storage)
+- [Troubleshooting](/docs/operations/troubleshooting)

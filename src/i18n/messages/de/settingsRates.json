@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Preisverlauf",
+    "empty": "Noch keine Preisänderungen. Änderungen des Stundensatzes werden hier protokolliert",
+    "effectiveFrom": "Gilt ab {date}",
+    "planned": "Geplant",
+    "noRate": "Kein Satz",
+    "typeGlobal": "Global",
+    "typeClient": "Kunde",
+    "typeProject": "Projekt"
+  },
+  "schedule": {
+    "toastScheduled": "Neuer Stundensatz ab {date} geplant",
+    "restamped": "{count, plural, =0 {Kein bestehender Eintrag brauchte einen neuen Stundensatz} one {# nicht abgerechneter Eintrag hat den neuen Stundensatz erhalten} other {# nicht abgerechnete Einträge haben den neuen Stundensatz erhalten}}",
+    "scheduleFailed": "Stundensatz konnte nicht geplant werden",
+    "cancelled": "Geplanter Stundensatz storniert",
+    "cancelledRestamped": "{count, plural, one {# Eintrag hat wieder den vorherigen Stundensatz} other {# Einträge haben wieder den vorherigen Stundensatz}}",
+    "cancelFailed": "Stornieren fehlgeschlagen",
+    "invalidRate": "Gib einen gültigen Stundensatz ein",
+    "missingDate": "Wähle, ab welchem Datum der Satz gilt",
+    "title": "Neuen Stundensatz planen",
+    "current": "Aktuell: {rate} kr/Std.",
+    "rateLabel": "Neuer Stundensatz (kr)",
+    "dateLabel": "Gilt ab",
+    "submit": "Planen",
+    "help": "Zeit mit Datum ab diesem Tag erhält den neuen Satz, auch wenn sie nachträglich erfasst wird. Zeit davor behält den alten Satz. Nicht abgerechnete Einträge ab diesem Datum werden sofort aktualisiert.",
+    "ratePerHour": "{rate} kr/Std.",
+    "fromDate": "ab {date}",
+    "takesEffectTonight": "tritt heute Nacht in Kraft",
+    "cancel": "Stornieren"
+  }
+}

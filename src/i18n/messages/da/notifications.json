@@ -1,0 +1,327 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "Timesedler",
+      "description": "Indsendt, godkendt, afvist og genåbnet — og periodeafslutning (opgørelse, godkendelse, kvittering)"
+    },
+    "absence": {
+      "label": "Ferie og fravær",
+      "description": "Anmodninger, afgørelser, registreringer og sygemeldinger"
+    },
+    "reminder": {
+      "label": "Påmindelser",
+      "description": "Fredags-påmindelse når timesedlen mangler, og (valgfrit) når gårsdagens dækningsgrad er lav"
+    },
+    "compliance": {
+      "label": "Arbejdstidsregler",
+      "description": "Advarsler om arbejdstidsregler ved indsendelse (til ledere)"
+    },
+    "digest": {
+      "label": "Leder-digest",
+      "description": "Dagligt/ugentligt overblik til ledere"
+    }
+  },
+  "channels": {
+    "in_app": "I appen",
+    "email": "E-mail",
+    "push": "Push",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "uge {week}",
+  "periodFrom": "fra {date}",
+  "periodRange": "{start} – {end}",
+  "unknown": "Ukendt",
+  "duration": {
+    "hm": "{h} t {m} min",
+    "h": "{h} t",
+    "m": "{m} min"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "Timeseddel til godkendelse",
+      "body": "{employee} har indsendt timeseddel for {week} ({hours} timer)."
+    },
+    "factEmployee": "Medarbejder",
+    "factWeek": "Uge",
+    "factHours": "Timer",
+    "timesheetApproved": {
+      "title": "Timeseddel godkendt",
+      "body": "{manager} har godkendt din timeseddel for {week}."
+    },
+    "timesheetRejected": {
+      "title": "Timeseddel afvist",
+      "body": "{manager} har afvist din timeseddel for {week}.",
+      "bodyReason": "{manager} har afvist din timeseddel for {week}. Begrundelse: {reason}"
+    },
+    "timesheetReopened": {
+      "title": "Timeseddel genåbnet",
+      "body": "{manager} har genåbnet din timeseddel for {week} til redigering.",
+      "bodyReason": "{manager} har genåbnet din timeseddel for {week} til redigering. Årsag: {reason}"
+    },
+    "closingReady": {
+      "title": "Periodeopgørelser klar til godkendelse",
+      "body": "{count, plural, one {Opgørelsen for {period} er dannet for # medarbejder og afventer din godkendelse.} other {Opgørelserne for {period} er dannet for # medarbejdere og afventer din godkendelse.}}"
+    },
+    "factPeriod": "Periode",
+    "factStatements": "Opgørelser",
+    "closingApproved": {
+      "title": "Kvittér for din periodeopgørelse",
+      "body": "{manager} har godkendt din opgørelse for {period}. Perioden er nu låst — se opgørelsen og kvittér."
+    },
+    "closingUnlocked": {
+      "title": "Periode låst op",
+      "body": "{actor} har låst {period} op. Årsag: {reason}"
+    },
+    "absenceRequested": {
+      "title": "Fravær til godkendelse",
+      "body": "{employee} anmoder om {type} {period}."
+    },
+    "factType": "Type",
+    "absenceApproved": {
+      "title": "Fravær godkendt",
+      "body": "{manager} har godkendt din {type} {period}."
+    },
+    "absenceRejected": {
+      "title": "Fravær afvist",
+      "body": "{manager} har afvist din {type} {period}.",
+      "bodyReason": "{manager} har afvist din {type} {period}. Begrundelse: {reason}"
+    },
+    "absenceRegistered": {
+      "title": "Fravær registreret",
+      "body": "{registrar} har registreret {type} {period}."
+    },
+    "sickRegistered": {
+      "title": "Sygemelding",
+      "body": "{employee} har meldt sig syg {period}."
+    },
+    "timesheetMissing": {
+      "title": "Din timeseddel mangler",
+      "bodyHours": "Du har registreret {hours} timer i {week}, men ugen er ikke indsendt endnu.",
+      "bodyNone": "Du har ikke registreret timer i {week} endnu."
+    },
+    "coverageLow": {
+      "title": "Kun {pct} af arbejdstiden er logget",
+      "body": "Du loggede {logged} af {expected} timer {day} (under din grænse på {threshold} %). Mangler der noget?"
+    },
+    "factLogged": "Logget",
+    "factWorkTime": "Arbejdstid",
+    "factCoverage": "Dækningsgrad",
+    "hoursShort": "{hours} t",
+    "compliance": {
+      "title": "Advarsel om arbejdstidsregler",
+      "body": "{employee}s timeseddel for {week} udløser: {findings}"
+    },
+    "factFinding": "Fund",
+    "digestDaily": "Dagligt leder-overblik",
+    "digestWeekly": "Ugentligt leder-overblik",
+    "digestDailyEsc": "Dagligt leder-overblik (eskaleret)",
+    "digestWeeklyEsc": "Ugentligt leder-overblik (eskaleret)",
+    "digestEmpty": "Ingen udestående timesedler eller anmodninger.",
+    "digestMissing": "Manglende timesedler",
+    "digestPendingTs": "Timesedler til godkendelse",
+    "digestPendingAbs": "Fraværsanmodninger til godkendelse",
+    "digestFactAbs": "Fraværsanmodninger",
+    "digestSection": "{label} ({count}):",
+    "digestAge": "({days, plural, one {# dag} other {# dage}})",
+    "digestMore": "… og {count} mere",
+    "forecast": {
+      "title": "Advarsel om arbejdsplan",
+      "body": "Arbejdsplan for {week}: {findings}",
+      "bodyNamed": "{employee}: Arbejdsplan for {week}: {findings}"
+    }
+  },
+  "digestItem": {
+    "missing": "timeseddel for {week} ikke indsendt",
+    "pendingTs": "{week} afventer godkendelse",
+    "pendingAbs": "{type} {period} afventer afgørelse"
+  },
+  "emailOpenIn": "Åbn i {brand}",
+  "emailNoAddress": "Ingen e-mail-adresse",
+  "push": {
+    "open": "Åbn",
+    "dismiss": "Afvis",
+    "deadlineTitle": "⏰ Deadline påmindelse",
+    "deadlineBody": "{title} - deadline {when}",
+    "whenDays": "om {days} dage",
+    "whenTomorrow": "i morgen",
+    "whenHours": "om {hours} timer",
+    "whenOneHour": "om 1 time",
+    "whenSoon": "snart",
+    "overdueTitle": "🚨 Opgave overskredet",
+    "overdueBody": "{title} har overskredet deadline",
+    "digestTitle": "☀️ God morgen!",
+    "digestOverdue": "{overdue} overskredet, {tasks} planlagt i dag",
+    "digestTasks": "{count, plural, one {# opgave} other {# opgaver}} planlagt i dag",
+    "digestNone": "Ingen opgaver planlagt - nyd dagen!",
+    "testTitle": "🔔 Test Notifikation",
+    "testBody": "Push notifikationer er nu aktiveret for {brand}!"
+  },
+  "discord": {
+    "digestTitle": "☀️ God morgen, {name}!",
+    "digestNone": "Du har ingen planlagte opgaver i dag. Nyd dagen! 🎉",
+    "digestOverview": "Her er dit overblik for i dag:",
+    "todayTasks": "📌 Dagens opgaver ({count})",
+    "overdueTasks": "🚨 Overskredet deadline ({count})",
+    "andMore": "...og {count} mere",
+    "status": "📊 Status",
+    "yesterdayTime": "Tid registreret i går: {h}t {m}m",
+    "yesterdayDone": "Opgaver fuldført i går: {count}",
+    "digestFooter": "TimeTrack • Daglig Oversigt",
+    "testTitle": "Test Notifikation",
+    "testMessage": "Din Discord webhook er nu forbundet til TimeTrack! 🎉"
+  },
+  "taskDigestSubject": "Dine opgaver {date}",
+  "endOfDay": {
+    "titleTracked": "Dagsoversigt: {hours} registreret",
+    "titleNone": "Ingen tid registreret i dag",
+    "bodyTracked": "Du har registreret {hours} i dag.",
+    "bodyUnbilled": "{hours} er ikke faktureret.",
+    "bodyRevenue": "Anslået omsætning: {amount} kr.",
+    "bodyNone": "Husk at registrere din tid, inden dagen er omme.",
+    "footer": "TimeTrack Dagsoversigt"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "Inaktivitet registreret",
+      "message": "Timeren kører stadig efter {minutes} minutters arbejde. Du bliver spurgt om det inaktive tidsrum, når du er tilbage."
+    },
+    "invoiceOverdueOne": {
+      "title": "Faktura forfalden",
+      "message": "Faktura {numbers} har overskredet forfaldsdatoen."
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} fakturaer forfaldne",
+      "message": "Fakturaerne {numbers} har overskredet forfaldsdatoen."
+    },
+    "recurringOne": {
+      "title": "Fakturakladde klar: {name}",
+      "message": "Den gentagne faktura \"{name}\" ({amount} ekskl. moms) er oprettet som kladde. Gennemse og udsted den, når den er klar."
+    },
+    "recurringMany": {
+      "title": "{count} gentagne fakturaer klar som kladde",
+      "message": "{list} er oprettet som kladder. Gennemse og udsted dem, når de er klar."
+    },
+    "renewalDraft": {
+      "title": "Fakturakladde klar: klippekort \"{name}\"",
+      "message": "Klippekortet \"{name}\" er fornyet, og fakturaen for den nye periode er oprettet som kladde. Gennemse og udsted den, når den er klar."
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "Ny bruger tilmeldt",
+      "subscription_started": "Ny betalende abonnent",
+      "payment_failed": "Betaling fejlet",
+      "subscription_cancelled": "Abonnement opsagt",
+      "trial_ending": "Trial udlober snart",
+      "user_flagged": "Bruger flagget",
+      "support_ticket": "Ny support ticket",
+      "webhook_rejected": "Webhook afvist",
+      "seat_drift": "Seat-drift opdaget",
+      "churn_risk": "Churn-playbook udløst",
+      "subscription_duplicate": "Muligt dobbelt-abonnement",
+      "feedback_received": "Ny feedback fra bruger",
+      "beta_tester_signup": "Ny betatester til mobilappen"
+    },
+    "sub": {
+      "signup": "Ny bruger: {name}",
+      "subscription_started": "Ny abonnent: {name}",
+      "payment_failed": "Betaling fejlet: {name}",
+      "subscription_cancelled": "Abonnement opsagt: {name}",
+      "trial_ending": "Trial udlober: {name}",
+      "user_flagged": "Bruger flagget: {name}",
+      "support_ticket": "Support ticket: {name}",
+      "webhook_rejected": "Webhook afvist",
+      "seat_drift": "Seat-drift",
+      "churn_risk": "Churn-risiko",
+      "subscription_duplicate": "Muligt dobbelt-abonnement",
+      "feedback_received": "Ny feedback: {name}",
+      "beta_tester_signup": "Ny betatester: {name}"
+    },
+    "unknownName": "ukendt",
+    "fieldName": "Navn",
+    "fieldEmail": "Email",
+    "fieldPlan": "Plan",
+    "fieldType": "Type",
+    "fieldDaysLeft": "Dage tilbage",
+    "fieldReason": "Årsag",
+    "fieldTime": "Tidspunkt",
+    "seeUser": "Se bruger i admin",
+    "footer": "TimeTrack Admin",
+    "testTitle": "Test — Admin notifikationer",
+    "testBody": "Din Discord webhook er nu forbundet til TimeTrack admin-notifikationer!",
+    "supportReply": "Svar paa ticket: {subject}",
+    "supportNew": "Ny support ticket: {subject}",
+    "supportNoSubject": "Ingen emne"
+  },
+  "fallbackUser": "bruger",
+  "absenceTypeFallback": "Fravær",
+  "teams": {
+    "urlTooLong": "Webhook-URL er for lang",
+    "urlInvalid": "Ugyldig URL",
+    "urlHttps": "Webhook-URL skal bruge https",
+    "urlNotTeams": "URL'en ligner ikke en Teams-webhook (forventer *.webhook.office.com, *.logic.azure.com eller *.powerplatform.com)"
+  },
+  "fallbackTaskTitle": "Opgave fra email",
+  "deadlines": {
+    "noProject": "Intet projekt",
+    "overdueLine": "• **{title}** ({project}) - {days, plural, one {# dag} other {# dage}} overskredet",
+    "overdueTitle": "{count, plural, one {# overskredet opgave} other {# overskredne opgaver}}",
+    "overdueFooter": "TimeTrack Deadline Alert",
+    "whenToday": "i dag",
+    "whenTomorrow": "i morgen",
+    "whenDays": "om {days} dage",
+    "upcomingLine": "• **{title}** ({project}) - deadline {when}",
+    "upcomingTitle": "{count, plural, one {# opgave} other {# opgaver}} med kommende deadline",
+    "upcomingFooter": "TimeTrack Deadline Påmindelse",
+    "projOverdueTitle": "{count, plural, one {# projekt} other {# projekter}} over slutdato",
+    "projOverdueLine": "• **{name}** - slutdato overskredet med {days, plural, one {# dag} other {# dage}}",
+    "projSoonTitle": "{count, plural, one {# projekt} other {# projekter}} med kommende slutdato",
+    "projSoonLine": "• **{name}** - slutter {when}",
+    "projFooter": "TimeTrack Projekt-slutdato"
+  },
+  "slack": {
+    "noProject": "Intet projekt",
+    "noClient": "Ingen klient",
+    "project": "Projekt",
+    "client": "Klient",
+    "description": "Beskrivelse",
+    "timerStarted": "Timer startet",
+    "startedAtSlack": "Startet kl",
+    "startedAtDiscord": "Startet",
+    "timerStopped": "Timer stoppet",
+    "duration": "Varighed",
+    "durationHM": "{h}t {m}m",
+    "durationM": "{m} minutter",
+    "idleTitle": "Inaktivitet registreret",
+    "idleBodySlack": "Du har været inaktiv i *{minutes} minutter* mens timeren kører på *{project}*. Husk at stoppe timeren hvis du holder pause.",
+    "idleBodyDiscord": "Du har været inaktiv i **{minutes} minutter** mens timeren kører på **{project}**. Husk at stoppe timeren hvis du holder pause.",
+    "dailyTitle": "Daglig opsummering - {date}",
+    "totalTime": "Total tid",
+    "totalRevenue": "Total omsætning",
+    "tasksDone": "Opgaver fuldført",
+    "projects": "Projekter",
+    "noEntriesToday": "Ingen tidsregistreringer i dag",
+    "weeklyTitle": "Ugentlig rapport - Uge {week}",
+    "unbilled": "Ufaktureret",
+    "topClients": "Top klienter",
+    "noEntriesWeek": "Ingen tidsregistreringer denne uge",
+    "hoursShort": "{hours}t",
+    "minutesShort": "{m}m",
+    "testTitle": "TimeTrack Testbesked",
+    "testBodySlack": "Din Slack integration er konfigureret korrekt! Du vil nu modtage notifikationer fra TimeTrack her.",
+    "testBodyDiscord": "Din Discord integration er konfigureret korrekt! Du vil nu modtage notifikationer fra TimeTrack her.",
+    "unbilledReminderTitle": "💰 Ufaktureret tid: {hours} ({value} kr)",
+    "unbilledReminderDiscord": "Du har ufaktureret tid til en værdi af **{value} kr**.\n\n{list}",
+    "unbilledReminderSlack": "Du har ufaktureret tid til en værdi af *{value} kr*.\n\n{list}",
+    "unbilledReminderLine": "• {name}: {hours} - {value} kr",
+    "unbilledReminderFooter": "TimeTrack Ufaktureret Påmindelse",
+    "aiFocusName": "🎯 Dagens fokus ({count} opgaver)",
+    "aiWarnings": "⚠️ Advarsler",
+    "aiDeferred": "📋 Udskudt",
+    "aiDeferredValue": "{count, plural, one {# opgave} other {# opgaver}} anbefales udskudt til senere",
+    "aiGreeting": "God morgen, {name}!",
+    "aiFooter": "TimeTrack AI Forslag",
+    "aiFocusBlock": "🎯 Dagens fokus",
+    "aiWarningsBlock": "⚠️ Advarsler"
+  }
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "prepaid_packages" ADD COLUMN IF NOT EXISTS "auto_deduct" boolean DEFAULT true NOT NULL;

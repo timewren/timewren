@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "La formule gratuite accepte 3 clients actifs. Archivez un client ou consultez les formules.",
+    "seePlans": "Voir les formules"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Tout le non facturé",
+      "periodThisMonth": "Ce mois-ci",
+      "periodLastMonth": "Le mois dernier",
+      "draftCreated": "Brouillon de facture créé pour {amount}",
+      "createFailed": "Impossible de créer le brouillon de facture",
+      "clientFallback": "le client",
+      "title": "Facturer {name}",
+      "description": "Crée un brouillon que vous pouvez relire. Rien n'est envoyé au client.",
+      "period": "Période",
+      "loadError": "Impossible de charger le temps non facturé. Réessayez dans un instant.",
+      "noUnbilled": "Aucun temps non facturé pour {name} sur la période.",
+      "entries": "Saisies",
+      "time": "Temps",
+      "amountExVat": "Montant HT",
+      "timePerProject": "Temps par projet",
+      "project": "Projet",
+      "amount": "Montant",
+      "entryCount": "{count, plural, one {# saisie} many {# de saisies} other {# saisies}}",
+      "noRate": "{time} sans taux horaire, comptées pour 0 DKK. Vous pouvez corriger le montant sur le brouillon.",
+      "footnote": "Les saisies sont marquées comme facturées et détaillées sur le brouillon. Si vous supprimez le brouillon, le temps redevient non facturé.",
+      "pickEntries": "Choisir les saisies moi-même",
+      "cancel": "Annuler",
+      "createDraft": "Créer le brouillon de facture",
+      "createDraftAmount": "Créer le brouillon de facture ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# jour depuis la dernière facture} many {# de jours depuis la dernière facture} other {# jours depuis la dernière facture}}",
+      "oldestEntry": "{count, plural, one {la plus ancienne saisie date de # jour} many {la plus ancienne saisie date de # de jours} other {la plus ancienne saisie date de # jours}}",
+      "ready": "Prêt à facturer",
+      "notInvoiced": "n'a pas été facturé",
+      "notInvoicedClient": "pour {client} n'a pas été facturé",
+      "invoiceNow": "Facturer maintenant",
+      "hide": "Masquer pendant 30 jours"
+    },
+    "explainer": {
+      "point1": "Le client paie les heures à l'avance, vous évitez donc d'envoyer factures et relances ensuite.",
+      "point2": "Quand vous saisissez du temps pour le client, il est déduit automatiquement du forfait.",
+      "point3": "Le client peut suivre le solde dans le portail client, et vous êtes averti quand le forfait touche à sa fin.",
+      "title": "Vendez des heures à l'avance avec des forfaits d'heures",
+      "intro": "Un forfait d'heures est un bloc d'heures que le client achète à l'avance, par ex. 10 heures pour des tâches récurrentes et le support.",
+      "create": "Créer un forfait d'heures",
+      "calculator": "Calculer le prix avec le simulateur"
+    },
+    "prepaid": {
+      "offer": "Vendez un forfait de {hours} heures. Il dure environ {months} mois, et le client paie à l'avance.",
+      "offerPrice": "Vendez un forfait de {hours} heures ({price}). Il dure environ {months} mois, et le client paie à l'avance.",
+      "sell": "Vendre un forfait d'heures",
+      "dismissLabel": "Pas pertinent pour {client}. Ne plus afficher",
+      "dismissTitle": "Pas pertinent. Ne plus afficher pour ce client",
+      "suggestionLabel": "Suggestions de forfaits d'heures",
+      "defaultName": "Forfait de {hours} heures",
+      "usageClient": "<name>{client}</name> a consommé environ <num>{time}</num> par mois ces 3 derniers mois.",
+      "usageGeneric": "Le client a consommé environ <num>{time}</num> par mois ces 3 derniers mois."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "En pause",
+      "paymentMissing": "Paiement manquant",
+      "active": "Actif",
+      "paymentFailedRetry": "{store} n'a pas pu prélever le paiement. Mettez à jour le moyen de paiement dans {store}. Tant que le paiement n'est pas passé, vous avez l'accès de la formule gratuite.",
+      "paymentFailedGrace": "{store} n'a pas pu prélever le paiement. Mettez à jour le moyen de paiement dans {store} pour conserver votre accès.",
+      "currentPlan": "Formule actuelle",
+      "yearly": "Annuel",
+      "monthly": "Mensuel",
+      "boughtVia": "Acheté via {store}",
+      "expires": "Expire le {date}",
+      "renews": "Renouvelé le {date}",
+      "paymentTitle": "Paiement",
+      "paymentInfo": "Vous avez souscrit l'abonnement dans l'application {brand}, c'est donc {store} qui gère le paiement et les reçus. Changez de formule, de moyen de paiement ou résiliez l'abonnement dans {store}.",
+      "manage": "Gérer dans {store}"
+    },
+    "wall": {
+      "checkoutFailed": "Impossible de créer la session de paiement. Réessayez.",
+      "portalFailed": "Impossible d'ouvrir le portail de facturation. Réessayez.",
+      "headingNone": "Vous n'avez pas d'abonnement actif",
+      "headingLocked": "Votre accès est suspendu",
+      "headingPastDue": "Votre paiement est manquant",
+      "headingCanceled": "Votre abonnement est terminé",
+      "headingTrial": "Votre essai a expiré",
+      "subNone": "Souscrivez un abonnement pour utiliser {brand}",
+      "subPastDue": "Mettez à jour votre moyen de paiement pour retrouver l'accès",
+      "subUpgrade": "Passez à {plan} pour continuer",
+      "pastDueBody": "Nous n'avons pas pu prélever votre dernier paiement. Mettez à jour votre moyen de paiement pour continuer à utiliser {brand}.",
+      "updatePayment": "Mettre à jour le moyen de paiement",
+      "monthly": "Mensuel",
+      "yearly": "Annuel",
+      "save17": "Économisez 17 %",
+      "perYearExVat": "/an HT",
+      "perMonthExVat": "/mois HT",
+      "equivalent": "Soit {price}/mois, vous économisez 2 mois",
+      "featureWorkspace": "Espace d'équipe partagé avec plusieurs utilisateurs",
+      "featureTeamReports": "Rapports d'équipe",
+      "featureUnlimited": "Suivi du temps illimité",
+      "featureInvoicing": "Forfaits d'heures et facturation",
+      "featureManagement": "Gestion des clients et des projets",
+      "featureReports": "Rapports et export",
+      "featureIntegrations": "Intégrations danoises (CVR, Billy et plus)",
+      "upgradeNow": "Passer à la formule supérieure",
+      "discountNote": "Le paiement affiche le prix standard. Votre remise de {percent} % est appliquée automatiquement.",
+      "manageAccount": "Gérer le compte",
+      "exportData": "Exporter les données",
+      "signOut": "Se déconnecter"
+    }
+  }
+}

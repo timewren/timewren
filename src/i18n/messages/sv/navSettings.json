@@ -1,0 +1,166 @@
+{
+  "group": {
+    "account": "Konto",
+    "organisation": "Organisation",
+    "billing": "Fakturering",
+    "integrations": "Integrationer",
+    "advanced": "Avancerat"
+  },
+  "item": {
+    "settings": {
+      "label": "Profil och utseende",
+      "description": "Namn, timpris, arbetstid, tema och språk"
+    },
+    "settings_security": {
+      "label": "Säkerhet och inloggning",
+      "description": "Lösenord, tvåfaktorsautentisering, passkeys och sessioner"
+    },
+    "settings_notifications": {
+      "label": "Aviseringar",
+      "description": "E-post, Discord, push och tysta timmar"
+    },
+    "settings_gdpr": {
+      "label": "GDPR och dataskydd",
+      "description": "Ladda ned dina data och personuppgiftsbiträdesavtalet"
+    },
+    "settings_company": {
+      "label": "Företagsprofil",
+      "description": "CVR, adress, bank, moms och lediga företagsdagar"
+    },
+    "organization": {
+      "label": "Organisation och team",
+      "description": "Medlemmar, inbjudningar och roller"
+    },
+    "organization_permissions": {
+      "label": "Åtkomstkontroll",
+      "description": "Vad varje roll kan se och ändra"
+    },
+    "organization_audit": {
+      "label": "Aktivitetslogg",
+      "description": "Vem som ändrade vad i organisationen"
+    },
+    "settings_modules": {
+      "label": "Moduler",
+      "description": "Aktivera och inaktivera moduler för organisationen"
+    },
+    "settings_tags": {
+      "label": "Taggar",
+      "description": "Organisera tidposter, projekt och kunder"
+    },
+    "enterprise_settings": {
+      "label": "Enterprise-inställningar",
+      "description": "Arbetstid, frånvaro, ledighet, lön och inloggning"
+    },
+    "settings_subscription": {
+      "label": "Prenumeration",
+      "description": "Plan, betalning och licenser"
+    },
+    "settings_email": {
+      "label": "E-post och mallar",
+      "description": "E-postmallar för fakturor och påminnelser"
+    },
+    "settings_portal": {
+      "label": "Kundportal",
+      "description": "Logotyp, färger och domän för kundportalen"
+    },
+    "settings_integrations": {
+      "label": "Integrationer",
+      "description": "Bokföring, kalender och webbläsartillägg"
+    },
+    "settings_ai": {
+      "label": "AI och automatisering",
+      "description": "E-post till uppgift och AI-tolkning"
+    },
+    "settings_desktop": {
+      "label": "Skrivbordsapp",
+      "description": "Nedladdning, anslutna enheter och licens"
+    },
+    "settings_api": {
+      "label": "API",
+      "description": "API-nycklar och dokumentation"
+    },
+    "settings_data": {
+      "label": "Import och export",
+      "description": "Importera från CSV och exportera dina data"
+    }
+  },
+  "entry": {
+    "settings": {
+      "profilbillede": "Profilbild",
+      "name": "Namn",
+      "hourlyRate": "Standardtimpris",
+      "weeklyHourGoal": "Veckomål i timmar",
+      "startPage": "Startsida efter inloggning",
+      "arbejdstid": "Arbetstid och debiteringsgrad",
+      "fridage": "Helgdagar och lediga dagar",
+      "afrunding": "Avrundning av tid",
+      "klippekort": "Dölj belopp på timbankar",
+      "godkendelse": "Kundgodkännande",
+      "udseende": "Tema (ljust eller mörkt)",
+      "sprog": "Språk",
+      "opsaetningsguide": "Installationsguide",
+      "slet-konto": "Ta bort konto"
+    },
+    "settings_security": {
+      "to-faktor": "Tvåfaktorsautentisering",
+      "adgangskode": "Lösenord",
+      "forbundne-konti": "Anslutna konton",
+      "passkeys": "Passkeys",
+      "telefon": "Telefonnummer",
+      "betroede-enheder": "Betrodda enheter",
+      "sessioner": "Aktiva sessioner"
+    },
+    "settings_notifications": {
+      "email-notifikationer": "E-postaviseringar",
+      "stille-timer": "Tysta timmar",
+      "discord": "Discord",
+      "push": "Push i webbläsaren",
+      "pwa": "App och inaktivitet (PWA)",
+      "ugerapporter": "Automatiska veckorapporter"
+    },
+    "settings_gdpr": {
+      "databehandleraftale": "Personuppgiftsbiträdesavtal",
+      "sletning": "Radering av data"
+    },
+    "settings_company": {
+      "logo": "Företagslogotyp",
+      "adresse": "Adress",
+      "bank": "Bankuppgifter",
+      "moms": "Moms",
+      "fridage": "Helgdagar och lediga företagsdagar"
+    },
+    "settings_subscription": {
+      "plan": "Nuvarande plan",
+      "betaling": "Betalning och kvitton",
+      "pladser": "Licenser",
+      "skift-plan": "Byt plan",
+      "annuller": "Avsluta prenumeration"
+    },
+    "settings_portal": {
+      "branding": "Portalens logotyp och namn",
+      "farver": "Portalens färger",
+      "skrifttyper": "Portalens typsnitt",
+      "domaene": "Egen domän för portalen"
+    },
+    "settings_integrations": {
+      "regnskab": "Standardsystem för bokföring",
+      "dinero": "Dinero",
+      "economic": "e-conomic",
+      "google-kalender": "Google Kalender",
+      "browserudvidelse": "Webbläsartillägg",
+      "alunta": "Alunta-timbankar"
+    },
+    "settings_ai": {
+      "ai-udbyder": "AI-leverantör",
+      "email-til-opgave": "E-post till uppgift"
+    },
+    "settings_desktop": {
+      "enheder": "Anslutna enheter",
+      "licens": "Licens för skrivbordsappen"
+    },
+    "settings_data": {
+      "eksport": "Exportera data",
+      "import": "Importera data"
+    }
+  }
+}

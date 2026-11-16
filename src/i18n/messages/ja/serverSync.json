@@ -1,0 +1,475 @@
+{
+  "errors": {
+    "insufficientRights": "この操作を行う権限がありません",
+    "accessDenied": "このリソースにアクセスする権限がありません",
+    "unexpected": "予期しないエラーが発生しました",
+    "clientNotFound": "クライアントが見つかりません",
+    "clientArchived": "クライアントはアーカイブされています",
+    "projectNotFound": "プロジェクトが見つかりません",
+    "projectArchived": "プロジェクトはアーカイブされています",
+    "timeEntryNotFound": "時間記録が見つかりません",
+    "timeEntriesNotFound": "1件以上の時間記録が見つかりません",
+    "prepaidNotFound": "前払いパッケージが見つかりません",
+    "prepaidInactive": "前払いパッケージが有効ではありません",
+    "prepaidInsufficientHours": "前払いパッケージの残り時間が足りません。利用可能な時間：{available}",
+    "prepaidHasUsage": "利用実績のある前払いパッケージは削除できません。代わりに無効にしてください。",
+    "invoiceNotFound": "請求書が見つかりません",
+    "invoiceAlreadySent": "請求書はすでに送信済みです",
+    "invoiceAlreadyPaid": "請求書はすでに支払い済みです",
+    "userNotFound": "ユーザーが見つかりません",
+    "invalidValue": "{field}の値が正しくありません",
+    "operationFailed": "{operation}に失敗しました"
+  },
+  "friendly": {
+    "network": "TimeTrackに接続できません。ネットワークを確認して、もう一度お試しください。",
+    "server": "TimeTrackで問題が発生しました。しばらくしてからもう一度お試しください。",
+    "validation": "正しく入力されていない項目があります。確認して、もう一度お試しください。",
+    "unauthorized": "ログイン状態が切れました。もう一度ログインしてください。",
+    "forbidden": "この操作を行う権限がありません。",
+    "notFound": "お探しの内容は存在しません。",
+    "tooManyRequests": "短時間に試行回数が多すぎます。しばらく待ってから、もう一度お試しください。",
+    "retry": "もう一度試す",
+    "login": "ログイン"
+  },
+  "zod": {
+    "invalidExpoToken": "Expoプッシュトークンが正しくありません",
+    "invalidUrl": "URLが正しくありません",
+    "webhookEventRequired": "イベントの種類を1つ以上選択してください",
+    "descriptionRequired": "説明を入力してください",
+    "hoursMin": "時間数は0.01以上にしてください",
+    "endAfterStart": "終了時刻は開始時刻より後にしてください",
+    "cursorOrOffset": "cursorとoffsetは、どちらか一方だけを使用してください",
+    "dateFormat": "日付は yyyy-MM-dd の形式で入力してください",
+    "clientOrProject": "クライアントまたはプロジェクトのどちらかを指定してください",
+    "nameMin2": "名前は2文字以上で入力してください",
+    "invalidEmailShort": "有効なメールアドレスを入力してください",
+    "scopeRequired": "スコープを1つ以上指定してください",
+    "approvalScope": "period には periodStart+periodEnd が必要です。invoice_draft には invoiceId が必要です",
+    "invalidEmail": "有効なメールアドレスを入力してください",
+    "messageMax500": "メッセージは500文字以内で入力してください",
+    "selectProjectClientOrDescription": "プロジェクトまたはクライアントを選択するか、説明を入力してください",
+    "subjectMin5": "件名は5文字以上で入力してください",
+    "messageMin10": "メッセージは10文字以上で入力してください",
+    "invalidDate": "日付が正しくありません",
+    "atLeastOneWorkday": "少なくとも1つの曜日に勤務時間を設定してください",
+    "duplicateDate": "同じ日付が2回追加されています",
+    "nameRequired": "名前を入力してください",
+    "invalidEmailDash": "メールアドレスが正しくありません",
+    "selectProjectClientOrDescriptionShort": "プロジェクト/クライアントを選択するか、説明を入力してください",
+    "amountRequired": "金額を入力してください",
+    "amountPositive": "金額は0より大きくしてください",
+    "amountTooLarge": "金額が大きすぎます",
+    "amountDecimals": "金額の小数点以下は2桁までです",
+    "selectClient": "クライアントを選択してください",
+    "issueDateRequired": "発行日を入力してください",
+    "unknownTool": "不明なツールです",
+    "invalidCostRate": "原価が正しくありません",
+    "companyNameMin2": "会社名は2文字以上で入力してください",
+    "invalidEmailAddress": "メールアドレスが正しくありません",
+    "hourlyRateMin0": "時間単価は0以上にしてください",
+    "confirmProjectName": "確認のため、プロジェクト名を入力してください",
+    "enterName": "名前を入力してください",
+    "invalidNumber": "数値が正しくありません",
+    "descriptionMissing": "説明がありません",
+    "invalidDateFormat": "日付が正しくありません（yyyy-mm-dd の形式で入力してください）",
+    "nameMissing": "名前がありません",
+    "hoursRequired": "時間数を入力してください",
+    "atLeastOneRecipient": "宛先を1件以上指定してください",
+    "invalidHexColor": "16進数のカラーコードが正しくありません",
+    "titleRequired": "タイトルを入力してください",
+    "textRequired": "テキストを入力してください",
+    "invalidImageUrl": "画像のURLが正しくありません",
+    "enterDays": "日数を入力してください",
+    "invalidColor": "色が正しくありません",
+    "dateYmd": "日付（YYYY-MM-DD形式）",
+    "noteRequired": "メモを入力してください",
+    "unlockReason": "ロックを解除する理由を入力してください",
+    "reasonRequired": "理由を入力してください",
+    "reopenReason": "再開する理由を入力してください",
+    "templateNameRequired": "テンプレートに名前を付けてください",
+    "employeeOrDepartment": "従業員または部署のどちらかを選択してください",
+    "formatMmDd": "MM-DD の形式で入力してください"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "クライアントを作成",
+      "clientUpdated": "クライアントを更新",
+      "clientArchived": "クライアントをアーカイブ",
+      "projectCreated": "プロジェクトを作成",
+      "projectUpdated": "プロジェクトを更新",
+      "projectStatusChanged": "プロジェクトのステータスを変更",
+      "projectBudgetThreshold": "月次予算のしきい値に到達",
+      "timeEntryCreated": "時間記録を作成",
+      "timeEntryUpdated": "時間記録を更新",
+      "timeEntryDeleted": "時間記録を削除",
+      "invoiceCreated": "請求書を作成",
+      "invoiceSent": "請求書を送信",
+      "invoicePaid": "請求書が支払い済み",
+      "invoiceOverdue": "請求書が期限超過",
+      "prepaidCreated": "前払いパッケージを作成",
+      "prepaidUpdated": "前払いパッケージを更新",
+      "prepaidLowBalance": "前払いパッケージの残高わずか",
+      "prepaidExpired": "前払いパッケージが期限切れ",
+      "taskCreated": "タスクを作成",
+      "taskUpdated": "タスクを更新",
+      "taskCompleted": "タスクを完了"
+    }
+  },
+  "clients": {
+    "invalidDomain": "ドメインが正しくありません：{domain}",
+    "roundingRequired": "roundingEnabled が true の場合は、roundingMinutes と roundingMethod を設定する必要があります"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "Webhook URLを表示できません。新しいURLを生成してください。"
+  },
+  "desktop": {
+    "licenseMismatch": "ライセンスキーとメールアドレスが一致しませんでした。内容を確認するか、サポートにお問い合わせください。"
+  },
+  "common": {
+    "unknownProject": "不明なプロジェクト",
+    "unknownError": "不明なエラー",
+    "noProject": "プロジェクトなし",
+    "unknownClient": "不明なクライアント",
+    "unknown": "不明"
+  },
+  "search": {
+    "invoiceTitle": "請求書 {number}",
+    "timeEntryTitle": "時間記録",
+    "timeSubtitle": "{project} • {hours}時間",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • 残り{hours}時間",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "ログインコードが無効か、期限が切れています。もう一度ログインしてください。",
+    "import": {
+      "noWorkRuleNoTarget": "勤務外ルールの対象にプロジェクトもクライアントも指定されていません",
+      "ruleNeedsTarget": "ルールにはプロジェクトまたはクライアントを指定する必要があります",
+      "linesSumMismatch": "明細の合計（{sum}）が請求額（{amount}）と一致しません",
+      "entryNotImported": "記録 {id} はインポートされませんでした",
+      "companyProfileMissing": "会社情報がありません。請求書をインポートする前に、「設定」の「会社情報」で入力してください。",
+      "fullCreditOnly": "インポートできるのは全額のクレジットのみです。クレジットノートの金額（{amount}）は、請求額（{original}）の符号を反転した値にしてください",
+      "invoiceNotFound": "請求書 {id} は存在しません",
+      "creditNoteAmount": "クレジットノートの金額は0以下にしてください",
+      "invoiceIsDraft": "請求書 {id} は下書きのため、クレジットにできません",
+      "refMissing": {
+        "client": "クライアント {id} はインポートされませんでした",
+        "project": "プロジェクト {id} はインポートされませんでした",
+        "prepaid": "前払いパッケージ {id} はインポートされませんでした",
+        "task": "タスク {id} はインポートされませんでした",
+        "invoice": "請求書 {id} はインポートされませんでした"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "支払い済みの請求書は変更できません。必要に応じてクレジットノートを作成してください。",
+      "deleted": "削除された請求書は復元できません。",
+      "generic": "ステータスを「{from}」から「{to}」に変更することはできません。"
+    },
+    "directTime": "直接作業時間",
+    "status": {
+      "draft": "下書き",
+      "sent": "送信済み",
+      "paid": "支払い済み",
+      "overdue": "期限超過",
+      "deleted": "削除済み"
+    },
+    "specHeading": "--- 明細 ---",
+    "specLine": "{date} - {project}：{description}（{hours}時間 × {rate} kr = {amount} kr）"
+  },
+  "logbook": {
+    "endAfterStart": "終了日は開始日より後にしてください",
+    "periodMaxDays": "期間は最大{days}日までです"
+  },
+  "portal": {
+    "manualDeduction": "手動で差し引き"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "この前払いパッケージには、すでに定期請求書があります"
+  },
+  "storeBilling": {
+    "notAvailable": "アプリ内課金はまだ利用できません。"
+  },
+  "subscription": {
+    "storeManaged": "サブスクリプションのお支払いは{provider}で行われています。変更や解約は{provider}で行ってください。",
+    "teamPlanNotConfigured": "「Team」プランはまだ設定されていません（ALUNTA_PLAN_TEAM_*）。サポートにお問い合わせください。",
+    "businessPlanNotConfigured": "「Business」プランはまだ設定されていません（ALUNTA_PLAN_BUSINESS_*）。サポートにお問い合わせください。",
+    "privatePlanNotAvailable": "「Private」プランはまだ利用できません（ALUNTA_PLAN_PRIVAT_*）。別のプランを選ぶか、サポートにお問い合わせください。",
+    "freeNotPurchasable": "「Free」プランは購入できません。",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL が設定されていません"
+  },
+  "time": {
+    "invalidEntryDate": "日付が正しくありません：YYYY-MM-DD の形式で入力してください"
+  },
+  "billedLock": {
+    "onInvoice": "この時間記録は請求済みのため、変更できません。先に請求書をクレジットにするか、下書きの請求書から記録を外してください。",
+    "marked": "この時間記録は請求済みとしてマークされているため、変更できません。先にマークを外してください。",
+    "bulk": {
+      "delete": "選択した時間記録のうち{count, plural, other {#件}}は請求済みのため、削除できません。先に請求書をクレジットにするか、マークを外してください。",
+      "edit": "選択した時間記録のうち{count, plural, other {#件}}は請求済みのため、変更できません。先に請求書をクレジットにするか、マークを外してください。",
+      "move": "選択した時間記録のうち{count, plural, other {#件}}は請求済みのため、移動できません。先に請求書をクレジットにするか、マークを外してください。"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "同じ名前のアクティビティの種類がすでにあります",
+    "endAfterStart": "終了日は開始日より後にしてください",
+    "fromBeforeTo": "開始日は終了日より前にしてください",
+    "periodMaxDays": "期間は最大{days}日までです",
+    "employee": {
+      "importManagerMissing": "マネージャー {email} は、ファイルにも組織にも存在しません。従業員はマネージャーなしでインポートされました。"
+    },
+    "payroll": {
+      "hrOnly": "給与マッピングは、人事と管理者のみが利用できます"
+    },
+    "closing": {
+      "changedMeanwhile": "明細がその間に変更されました。ページを再読み込みしてください。",
+      "locked": "この期間は締め済みでロックされています。記録を変更するには、管理者が（理由を添えて）ロックを解除する必要があります。"
+    },
+    "team": {
+      "absenceLabel": "不在"
+    },
+    "timesheet": {
+      "coveredByRequest": "この日は「不在」で作成された不在リクエストの対象です。そちらで編集してください。",
+      "otherTypeAbsence": "この日には、すでに別の種類の不在があります",
+      "absenceRecordedElsewhere": "同時に別の場所から不在が登録されました。週を再読み込みしてください。",
+      "overMax": "{label}：{total}時間は1日の上限{max}時間を超えています",
+      "emptyWorkday": "{label}は勤務日ですが、記録も不在もありません",
+      "overNorm": "{label}：{total}時間は所定の{norm}時間を超えています",
+      "weekOverNorm": "この週：{total}時間は週の所定時間{norm}時間を超えています",
+      "autoLocked": "この週はロックされています。先週は{day}にロックされます。修正が必要な場合は上長にご連絡ください。",
+      "automatically": "自動的に",
+      "rollingLocked": "{weeks}より前の記録は、組織によってロックされています。修正が必要な場合は上長にご連絡ください。",
+      "weeks": "{count, plural, other {#週間}}"
+    },
+    "workPlans": {
+      "notBackwards": "プランをさかのぼって変更することはできません。今日以降の日付を選択してください。"
+    },
+    "absenceCap": {
+      "used": "{type}は{year}年の上限（年間{cap}日）に達しています",
+      "left": "{year}年の{type}は、{cap}日のうち残り{remaining}日です"
+    },
+    "rule": {
+      "avgViolation": "48時間ルール：参照期間の平均は週{avg}時間です（上限{limit}時間）",
+      "avgWarning": "48時間ルール：参照期間の平均は週{avg}時間で、上限の{limit}時間に近づいています",
+      "weekInfo": "48時間ルール：この週は現在{week}時間です。参照期間の平均は引き続き{limit}時間未満です",
+      "restBefore": "11時間の休息：{day}の勤務前の休息は{rest}時間のみです（必要：{limit}時間）",
+      "daySum": "11時間の休息：{day}に{total}時間が記録されており、休息が{limit}時間を下回ります（1日の上限：{max}時間）",
+      "weeklyRest": "週24時間の休息：{day}から始まる週で、連続した休息の最長は{rest}時間です（必要：{limit}時間）",
+      "noFreeDay": "週24時間の休息：{day}から始まる週は、7日間すべてに勤務が記録されており、丸一日の休みがありません"
+    },
+    "employment": {
+      "endBeforeStart": "終了日を開始日より前にすることはできません",
+      "onlyFirstUnknown": "開始日が不明にできるのは、最初の期間のみです",
+      "startAfterPrevStart": "開始日は、前の期間の開始日（{date}）より後にしてください",
+      "startAfterPrevEnd": "開始日は、前の雇用の終了日（{date}）より後にしてください",
+      "endBeforeNext": "終了日は、次の期間の開始日（{date}）より前にしてください",
+      "endDayBeforeNext": "終了日は、次の期間の開始日（{date}）の前日にしてください。代わりに、次の期間の開始日を移動してください。"
+    },
+    "import": {
+      "fileEmpty": "ファイルが空です",
+      "headerEmployees": "ヘッダー行には、少なくとも「navn」列と「email」列が必要です",
+      "nameMissing": "名前がありません",
+      "invalidEmail": "メールアドレスが正しくありません：「{value}」",
+      "duplicate": "ファイル内で重複しています：{email}",
+      "unknownRole": "不明なロール：「{value}」（medarbejder/leder/admin を使用してください）",
+      "invalidWeeklyHours": "時間数が正しくありません：「{value}」（1〜60）",
+      "invalidStartDate": "開始日が正しくありません：「{value}」（YYYY-MM-DD の形式で入力してください）",
+      "invalidManagerEmail": "マネージャーのメールアドレスが正しくありません：「{value}」",
+      "headerEntries": "ヘッダー行には、「email」（または「medarbejder」）、「dato」、「timer」の列が必要です",
+      "invalidDate": "日付が正しくありません：「{value}」（YYYY-MM-DD の形式で入力してください）",
+      "invalidHours": "時間数が正しくありません：「{value}」（0〜24）"
+    },
+    "period": {
+      "pickBoth": "開始日と終了日の両方を選択してください",
+      "fromBeforeToOrSame": "開始日は終了日以前にしてください",
+      "maxDaysShorter": "期間は最大{days}日までです。もっと短い範囲を選択してください。"
+    },
+    "vacation": {
+      "notEnough": "「{pool}」プールの休暇日数が足りません。残りは{remaining}日ですが、この記録には{deducted}日{tolerance}が必要です。",
+      "overdraftAllowed": "（超過可：{days}日）",
+      "overdraftNotAllowed": "（超過は許可されていません）"
+    },
+    "workPlan": {
+      "rotation": "ローテーションは1週間または2週間にしてください",
+      "weekCount": "週の数がローテーションと一致しません",
+      "invalidWeekday": "曜日が正しくありません{label}",
+      "duplicateWeekday": "同じ曜日が2回あります{label}",
+      "timeFormat": "時刻は HH:MM の形式で入力してください{label}",
+      "endAfterStart": "終了時刻は開始時刻より後にしてください{label}",
+      "breakRange": "休憩は0〜240分にしてください{label}",
+      "breakShorter": "休憩は勤務時間より短くしてください{label}",
+      "inWeek": "（第{week}週）",
+      "enterBothTimes": "開始時刻と終了時刻の両方を HH:MM の形式で入力してください",
+      "endAfterStartPlain": "終了時刻は開始時刻より後にしてください",
+      "breakShorterPlain": "休憩は勤務時間より短くしてください",
+      "rangeOrHours": "時間帯、または0〜24時間を入力してください"
+    },
+    "closure": {
+      "overlap": "は、この期間にすでに不在があります",
+      "noWorkingDays": "は、この期間に勤務日がありません",
+      "balance": "は、休暇日数が足りません",
+      "error": "を作成できませんでした（技術的なエラー）"
+    },
+    "workPlanExport": {
+      "planned": "予定どおり",
+      "deviation": "差異",
+      "dayOff": "休日",
+      "absence": "不在",
+      "free": "予定上の休み",
+      "hDate": "日付",
+      "hStatus": "ステータス",
+      "hPlan": "予定",
+      "hPlanHours": "予定（時間）",
+      "hRegisteredRange": "記録された時間帯",
+      "hBreak": "休憩（分）",
+      "hRegisteredHours": "記録（時間）",
+      "hDayOff": "休日",
+      "hNote": "メモ",
+      "hEditedBy": "編集者",
+      "hEditedUtc": "編集日時（UTC）"
+    },
+    "payrollXlsx": {
+      "sheet": "給与",
+      "period": "期間：{period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "あなたの会社名",
+      "yourName": "あなたの名前",
+      "yourEmail": "あなたのメールアドレス",
+      "yourPhone": "あなたの電話番号",
+      "clientFullName": "クライアントの氏名",
+      "clientCompany": "クライアントの会社名",
+      "clientEmail": "クライアントのメールアドレス",
+      "portalLink": "クライアントポータルへのリンク",
+      "invoiceNumber": "請求書番号",
+      "totalInclVat": "VAT込みの合計金額",
+      "amountExclVat": "VAT抜きの金額",
+      "issueDate": "発行日",
+      "paymentDeadline": "支払期限",
+      "invoiceStatus": "支払い済み/未払い/期限超過",
+      "invoiceLink": "請求書への直接リンク",
+      "daysLate": "遅延日数",
+      "projectName": "プロジェクト名",
+      "projectStatus": "進行中/完了/保留",
+      "hoursUsed": "使用時間",
+      "projectLink": "ポータル内のプロジェクトへのリンク",
+      "prepaidName": "前払いパッケージの名前",
+      "hoursRemaining": "残り時間",
+      "hoursTotal": "合計時間",
+      "percentUsed": "使用率",
+      "expiryDate": "有効期限",
+      "daysToExpiry": "有効期限までの日数",
+      "hoursForApproval": "承認待ちの合計時間",
+      "entryCount": "時間記録の件数",
+      "period": "期間",
+      "approvalLink": "承認ページへのリンク",
+      "loginLink": "ポータルのログインへのリンク",
+      "invitationLink": "招待リンク",
+      "invitationExpiry": "招待の有効期限"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "VAT 第{n}四半期",
+    "vatHalfTitle": "VAT 第{n}半期",
+    "vatQuarterDesc": "四半期分のVAT（moms）を、デンマーク税務当局（Skattestyrelsen）に申告・納付します。",
+    "vatHalfDesc": "半期分のVAT（moms）を、デンマーク税務当局（Skattestyrelsen）に申告・納付します。",
+    "vatMonthTitle": "VAT {month}",
+    "vatMonthDesc": "{year}年{month}分のVAT（moms）を、デンマーク税務当局（Skattestyrelsen）に申告・納付します。",
+    "bSkatSpring": "予定納税 B-skat（春）",
+    "bSkatAutumn": "予定納税 B-skat（秋）",
+    "bSkatDesc": "予定納税のB-skatを、デンマーク税務当局（Skattestyrelsen）に納付します。個人事業主とフリーランサーが対象です。",
+    "formTitle": "{year}年の確定申告",
+    "formDesc": "{year}年分の確定申告書（oplysningsskema）を、デンマーク税務当局（Skattestyrelsen）に提出します。",
+    "amTitle": "労働市場拠出金（AM）第{n}四半期",
+    "amDesc": "個人事業主の労働市場拠出金（AM-bidrag）を、四半期ごとに納付します。",
+    "arTitle": "{year}年度の年次報告書",
+    "arDesc": "年次報告書は、会計年度の終了から5か月以内に、デンマーク事業庁（Erhvervsstyrelsen）に提出する必要があります。",
+    "agmTitle": "{year}年度の株主総会",
+    "agmDesc": "年次報告書を承認するための定時株主総会です。",
+    "corpFormTitle": "{year}年度の法人税申告",
+    "corpFormDesc": "会計年度の法人税申告書（oplysningsskema）を、デンマーク税務当局（Skattestyrelsen）に提出する必要があります。",
+    "corpTaxSpring": "法人税の予定納税（春）",
+    "corpTaxAutumn": "法人税の予定納税（秋）",
+    "corpTaxDesc": "法人税の予定納税を、デンマーク税務当局（Skattestyrelsen）に納付します。",
+    "corpFinalTitle": "{year}年の法人税の確定納付",
+    "corpFinalDesc": "{year}年分の法人税の残額（確定納付）を納付します。",
+    "payrollTitle": "A-skat/AM拠出金 {month}",
+    "payrollDesc": "{year}年{month}の給与期間分のA-skat（源泉所得税）とAM拠出金を申告・納付します。",
+    "holidayPayTitle": "休暇手当 第{n}四半期",
+    "holidayPayDesc": "四半期分の休暇手当を、Feriekonto（デンマークの休暇手当基金）に申告・納付します。"
+  },
+  "integrations": {
+    "authExpired": "{name}との連携の有効期限が切れたか、無効です。「設定」の「連携」で再接続してください。",
+    "billy": {
+      "keyRequired": "Billy APIキーが必要です",
+      "productDescription": "TimeTrackからインポートした時間"
+    },
+    "dinero": {
+      "keyRequired": "Dinero APIキーが必要です",
+      "orgIdRequired": "Dineroの組織IDが必要です",
+      "tokenFailed": "Dineroのトークンを取得できませんでした",
+      "refreshMissing": "Dineroのリフレッシュトークンがありません",
+      "expiredReconnect": "Dineroとの連携の有効期限が切れました。再接続してください。",
+      "orgsFailed": "Dineroの組織を取得できませんでした"
+    },
+    "economic": {
+      "secretRequired": "e-conomicのApp Secret Tokenが必要です",
+      "grantRequired": "e-conomicのAgreement Grant Tokenが必要です",
+      "consultingHours": "コンサルティング業務：{hours}時間"
+    },
+    "timeops": {
+      "invalidKey": "APIキーが無効か、期限が切れています",
+      "premium": "TimeOpsのAPIを利用するには、TimeOps Premiumが必要です",
+      "network": "TimeOpsに接続できませんでした。しばらくしてからもう一度お試しください。",
+      "unexpected": "TimeOpsへの接続中に予期しないエラーが発生しました（{detail}）"
+    },
+    "icloud": {
+      "syncFailed": "iCloudの同期に失敗しました",
+      "storageMissing": "サーバーでパスワードの安全な保管が設定されていないため、現在iCloudを接続できません。サポートにお問い合わせください。",
+      "rejected": "Apple IDまたはアプリ用パスワードが拒否されました。通常のApple IDのパスワードではなく、アプリ用パスワードの全体をコピーしたか確認してください。",
+      "notConnected": "iCloudが接続されていません",
+      "notConnectedShort": "iCloudに接続されていません",
+      "calendarGone": "カレンダー「{name}」はiCloudに存在しなくなりました。カレンダーを選択し直してください。",
+      "unknownCalendar": "不明"
+    },
+    "caldav": {
+      "unknown": "iCloudの同期に失敗しました：{message}",
+      "auth": "Appleがログインを拒否しました。appleid.apple.comで新しいアプリ用パスワードを作成し、iCloudを再接続してください。",
+      "network": "現在iCloudに接続できません。自動的に再試行します。"
+    },
+    "cvr": {
+      "invalid": "CVR番号は8桁で入力してください",
+      "notFound": "このCVR番号の会社が見つかりません",
+      "rateLimited": "CVRの照会が一時的に制限されています。しばらくしてからもう一度お試しいただくか、項目を直接入力してください。",
+      "timeout": "CVRレジストリから現在応答がありません。しばらくしてからもう一度お試しいただくか、項目を直接入力してください。",
+      "unavailable": "CVRの照会は現在動作していません。しばらくしてからもう一度お試しいただくか、項目を直接入力してください。"
+    },
+    "google": {
+      "readOnly": "Googleカレンダーは読み取り専用のアクセスで接続されているため、TimeTrackは予定を作成・変更できません。この機能を使うには、「設定」の「連携」の「Googleカレンダー」で書き込み権限を付与してください。",
+      "freeSlot": "カレンダーの空き時間",
+      "deadlineIn": "期限まであと{count, plural, other {#日}}",
+      "urgent": "優先度：緊急",
+      "high": "優先度：高",
+      "clientLine": "クライアント：{name}",
+      "projectLine": "プロジェクト：{name}",
+      "hoursLine": "時間：{hours}",
+      "exportedFrom": "TimeTrackからエクスポート"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "時間記録",
+    "timeOnProject": "{name}で{hours}時間",
+    "timeForClient": "{name}向けに{hours}時間",
+    "timeOnly": "{hours}時間",
+    "invoiceTitle": "請求書 {number}",
+    "invoiceDescription": "{client}宛 {amount} kr",
+    "newClient": "新しいクライアント：{name}",
+    "noContact": "連絡先情報なし",
+    "newProject": "新しいプロジェクト：{name}",
+    "projectFor": "{client}向け",
+    "internal": "社内"
+  }
+}

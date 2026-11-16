@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Właściciel",
+    "admin": "Administrator",
+    "hr": "HR",
+    "manager": "Kierownik",
+    "member": "Pracownik"
+  },
+  "employment": {
+    "fullTime": "Pełny etat",
+    "partTime": "Część etatu",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Szkic",
+    "submitted": "Przesłano",
+    "approved": "Zatwierdzono",
+    "rejected": "Odrzucono",
+    "reopened": "Otwarto ponownie"
+  },
+  "save": "Zapisz",
+  "cancel": "Anuluj",
+  "add": "Dodaj",
+  "edit": "Edytuj",
+  "active": "Aktywny",
+  "inactive": "Nieaktywny",
+  "periodClosing": {
+    "status": {
+      "open": "Czeka na kierownika",
+      "approved": "Czeka na potwierdzenie",
+      "acknowledged": "Zamknięty",
+      "reopened": "Odblokowany"
+    },
+    "interval": {
+      "month": "Co miesiąc",
+      "quarter": "Co kwartał"
+    }
+  },
+  "weekdayLong": {
+    "1": "poniedziałek",
+    "2": "wtorek",
+    "3": "środa",
+    "4": "czwartek",
+    "5": "piątek",
+    "6": "sobota",
+    "7": "niedziela"
+  },
+  "absenceCategory": {
+    "vacation": "Urlop wypoczynkowy",
+    "sickness": "Choroba",
+    "leave": "Urlop",
+    "other": "Inne"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Ogólny (płaski CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (duński państwowy system płacowy)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Miesiąc",
+      "biweekly": "14 dni"
+    },
+    "unit": {
+      "hours": "Godziny",
+      "days": "Dni"
+    },
+    "kind": {
+      "time": "Czas (podstawowy kod płacowy)",
+      "absence": "Nieobecność",
+      "supplement": "Dodatek (doliczany)"
+    },
+    "source": {
+      "activity": "Zarejestrowane godziny (aktywność)",
+      "absence": "Nieobecność (typ nieobecności)",
+      "overtime_earned": "Zebrane nadgodziny",
+      "overtime_used": "Czas wolny w zamian",
+      "overtime_paid_out": "Wypłacone nadgodziny",
+      "flex_positive": "Elastyczny czas pracy (plus)",
+      "flex_negative": "Elastyczny czas pracy (minus)",
+      "break_deduction": "Odliczenie przerwy (przerwa niepłatna)"
+    },
+    "dayCondition": {
+      "any": "Wszystkie dni",
+      "weekend": "Weekend (sob./niedz.)",
+      "holiday": "Święto państwowe",
+      "weekend_or_holiday": "Weekend lub święto państwowe"
+    }
+  },
+  "normPeriod": {
+    "week": "Tydzień",
+    "month": "Miesiąc",
+    "quarter": "Kwartał",
+    "year": "Rok"
+  },
+  "normYear": {
+    "calendar": "Rok kalendarzowy (1 stycznia)",
+    "school": "Rok szkolny (1 sierpnia)"
+  }
+}

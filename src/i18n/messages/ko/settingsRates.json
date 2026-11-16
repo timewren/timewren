@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "요금 내역",
+    "empty": "아직 요금 변경이 없어요. 시간당 요금을 바꾸면 여기에 기록돼요",
+    "effectiveFrom": "{date}부터 적용",
+    "planned": "예약됨",
+    "noRate": "요금 없음",
+    "typeGlobal": "전체",
+    "typeClient": "클라이언트",
+    "typeProject": "프로젝트"
+  },
+  "schedule": {
+    "toastScheduled": "{date}부터 적용되는 새 시간당 요금을 예약했어요",
+    "restamped": "{count, plural, =0 {새 시간당 요금이 필요한 기존 기록이 없어요} other {청구하지 않은 기록 #개에 새 시간당 요금을 적용했어요}}",
+    "scheduleFailed": "시간당 요금을 예약하지 못했어요",
+    "cancelled": "예약된 시간당 요금을 취소했어요",
+    "cancelledRestamped": "{count, plural, other {기록 #개에 이전 시간당 요금을 다시 적용했어요}}",
+    "cancelFailed": "취소하지 못했어요",
+    "invalidRate": "올바른 시간당 요금을 입력하세요",
+    "missingDate": "요금이 적용될 날짜를 선택하세요",
+    "title": "새 시간당 요금 예약",
+    "current": "현재: {rate} kr/시간",
+    "rateLabel": "새 시간당 요금 (kr)",
+    "dateLabel": "적용 시작일",
+    "submit": "예약",
+    "help": "해당 날짜 이후의 시간은 나중에 기록하더라도 새 요금이 적용돼요. 그 날짜 이전의 시간은 기존 요금을 유지해요. 해당 날짜부터 청구하지 않은 기록은 바로 업데이트돼요.",
+    "ratePerHour": "{rate} kr/시간",
+    "fromDate": "{date}부터",
+    "takesEffectTonight": "오늘 밤 적용",
+    "cancel": "취소"
+  }
+}

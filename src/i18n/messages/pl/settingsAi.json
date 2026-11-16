@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini i inne modele OpenAI",
+      "note": "Utwórz klucz API na platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus i Haiku przez OpenAI SDK",
+      "note": "Utwórz klucz API na console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Duńska AI hostowana w Danii, w pełni zgodna z RODO",
+      "badge": "Polecane",
+      "note": "Duńska AI od Ordbogen A/S. Utwórz klucz na odincore.ai. Dane nigdy nie opuszczają Danii."
+    },
+    "custom": {
+      "label": "Inny punkt końcowy",
+      "description": "Dowolne API zgodne z OpenAI"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Ręcznie",
+      "description": "AI jest wyłączona. Wszystkie zadania są obsługiwane bez analizy przez AI."
+    },
+    "suggest": {
+      "label": "Sugestie",
+      "description": "AI sugeruje kategoryzację i priorytety, a ty je zatwierdzasz."
+    },
+    "auto_lowrisk": {
+      "label": "Automatycznie (niskie ryzyko)",
+      "description": "AI obsługuje proste zadania automatycznie. Złożone trafiają do zatwierdzenia."
+    },
+    "auto_all": {
+      "label": "W pełni automatycznie",
+      "description": "AI obsługuje wszystkie zadania automatycznie, bez zatwierdzania."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Dania (Europe/Copenhagen)",
+    "Europe/Stockholm": "Szwecja (Europe/Stockholm)",
+    "Europe/Oslo": "Norwegia (Europe/Oslo)",
+    "Europe/London": "Wielka Brytania (Europe/London)",
+    "Europe/Berlin": "Niemcy (Europe/Berlin)",
+    "America/New_York": "Wschodnie wybrzeże USA (America/New_York)",
+    "America/Los_Angeles": "Zachodnie wybrzeże USA (America/Los_Angeles)"
+  },
+  "connectionOk": "Połączenie działa!",
+  "connectionFailed": "Połączenie nie powiodło się",
+  "testFailed": "Test nie powiódł się",
+  "emailEnabled": "E-mail jako zadanie został włączony!",
+  "emailEnableFailed": "Nie udało się włączyć funkcji e-mail jako zadanie",
+  "emailDisabled": "E-mail jako zadanie został wyłączony",
+  "emailDisableFailed": "Nie udało się wyłączyć funkcji e-mail jako zadanie",
+  "addressRegenerated": "Wygenerowano nowy adres e-mail!",
+  "addressRegenerateFailed": "Nie udało się wygenerować nowego adresu",
+  "settingsUpdated": "Ustawienia AI zostały zaktualizowane",
+  "settingsUpdateFailed": "Nie udało się zaktualizować ustawień AI",
+  "addressCopied": "Adres e-mail został skopiowany!",
+  "keyRequired": "Klucz API jest wymagany",
+  "urlRequired": "Dla własnego punktu końcowego wymagany jest adres URL API",
+  "enterKeyFirst": "Najpierw podaj klucz API",
+  "title": "AI i automatyzacja",
+  "description": "Skonfiguruj funkcje AI i ustawienia funkcji e-mail jako zadanie",
+  "statusTitle": "Stan AI",
+  "statusEnabled": "AI jest włączona",
+  "statusDisabled": "AI nie jest skonfigurowana",
+  "statCalls": "Wszystkie wywołania AI",
+  "statSuccess": "Odsetek powodzeń",
+  "statConfidence": "Śr. pewność",
+  "statTime": "Śr. czas przetwarzania",
+  "enableHint": "Aby włączyć funkcje AI, wybierz poniżej dostawcę AI i podaj własny klucz API.",
+  "providerTitle": "Dostawca AI",
+  "providerSub": "Wybierz, co napędza funkcje AI: AI systemu czy własna",
+  "providerIntro": "Wybierz dostawcę AI i podaj własny klucz API, aby włączyć funkcje AI. {brand} używa formatu OpenAI SDK, który jest zgodny z wieloma dostawcami.",
+  "apiKey": "Klucz API",
+  "configured": "(skonfigurowano)",
+  "keyPlaceholder": "Klucz API",
+  "keyHelpOpenai": "Twój klucz API OpenAI z platform.openai.com",
+  "keyHelpAnthropic": "Twój klucz API Anthropic z console.anthropic.com",
+  "keyHelpOrdbogen": "Twój klucz API z OdinCore.ai",
+  "keyHelpOther": "Klucz API twojego dostawcy",
+  "apiUrl": "Adres URL API",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (domyślny, zostaw puste)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Wstępnie wypełnione z presetu",
+  "urlHelp": "Bazowy adres URL API. Zostaw puste, aby użyć domyślnego punktu końcowego OpenAI.",
+  "model": "Model",
+  "modelPlaceholderOpenai": "gpt-4o-mini (domyślny)",
+  "modelPlaceholderOther": "Nazwa modelu",
+  "modelHelp": "Podaj model albo zostaw puste, aby użyć domyślnego",
+  "testConnection": "Testuj połączenie",
+  "saveSettings": "Zapisz ustawienia",
+  "help": {
+    "title": "Jak uzyskać klucz API",
+    "sub": "Wybierz jednego z polecanych dostawców i postępuj zgodnie z instrukcją",
+    "odinDesc": "Duńska AI hostowana w Danii, w pełni zgodna z RODO. Dane nigdy nie opuszczają Danii.",
+    "odin1": "Wejdź na odincore.ai i załóż konto",
+    "odin2": "Przejdź do sekcji API na swoim koncie",
+    "odin3": "Utwórz nowy klucz API",
+    "odin4": "Wklej klucz powyżej w polu „OdinCore (Ordbogen)”",
+    "openaiDesc": "GPT-4o-mini jest szybki i tani oraz dobrze nadaje się do analizy zadań.",
+    "openai1": "Wejdź na platform.openai.com i zaloguj się",
+    "openai2": "Przejdź do „API keys” w swoich ustawieniach",
+    "openai3": "Kliknij „Create new secret key”",
+    "copyPaste": "Skopiuj klucz i wklej go powyżej",
+    "anthropicDesc": "Modele Claude świetnie rozumieją i kategoryzują zadania.",
+    "anthropic1": "Wejdź na console.anthropic.com i załóż konto",
+    "anthropic2": "Przejdź do „Settings” → „API keys”",
+    "anthropic3": "Kliknij „Create key”"
+  },
+  "email": {
+    "title": "E-mail jako zadanie",
+    "sub": "Wysyłaj e-maile na swój osobisty adres, aby automatycznie tworzyć zadania",
+    "address": "Twój osobisty e-mail do zadań",
+    "copyTitle": "Kopiuj adres e-mail",
+    "addressHelp": "Wysyłaj lub przekazuj e-maile na ten adres, aby automatycznie tworzyć zadania. AI przeanalizuje treść i wyodrębni tytuł, termin i priorytet.",
+    "regenerate": "Wygeneruj nowy adres",
+    "disable": "Wyłącz funkcję e-mail jako zadanie",
+    "notEnabled": "Funkcja e-mail jako zadanie nie jest włączona",
+    "notEnabledText": "Włącz ją, aby otrzymać osobisty adres e-mail, na który możesz wysyłać zadania. E-maile automatycznie stają się zadaniami na twoim pulpicie.",
+    "enable": "Włącz funkcję e-mail jako zadanie"
+  },
+  "autonomyTitle": "Poziom autonomii AI",
+  "autonomySub": "Wybierz, ile AI ma obsługiwać automatycznie",
+  "hoursTitle": "Godziny pracy i strefa czasowa",
+  "hoursSub": "Używane do ustalania priorytetów przez AI i w funkcjach kalendarza",
+  "timezone": "Strefa czasowa",
+  "workingHours": "Godziny pracy",
+  "to": "do",
+  "hoursHelp": "AI używa tych godzin, aby proponować najlepsze terminy zadań",
+  "privacyTitle": "Prywatność i bezpieczeństwo",
+  "privacyText": "E-maile są przetwarzane i usuwane od razu po utworzeniu zadania. Zachowujemy tylko gotowe zadanie, nie oryginalny e-mail. Przetwarzanie przez AI odbywa się za pośrednictwem OpenAI przy rygorystycznym postępowaniu z danymi."
+}

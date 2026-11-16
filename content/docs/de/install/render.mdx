@@ -1,0 +1,50 @@
+---
+title: "Render"
+description: "TimeWren auf Render aus dem Blueprint des Repositorys bereitstellen: ein Web-Dienst mit Disk, ein Scheduler-Worker und verwaltetes PostgreSQL 18."
+---
+
+Wähle diese Methode, wenn du verwaltetes Hosting auf Render willst. Das Blueprint `render.yaml` lädt das veröffentlichte Image für einen Web-Dienst und einen Scheduler-Worker, erstellt verwaltetes PostgreSQL 18 und hängt eine persistente 10-GB-Disk unter `/app/data/storage` an. Es wird nichts gebaut.
+
+> **Warnung:** Web-Dienst, Worker und Datenbank nutzen alle kostenpflichtige Tarife (`starter`, `starter` und `basic-256mb`), weil persistente Disks und Hintergrund-Worker sie erfordern. Prüfe die Kostenschätzung von Render, bevor du bereitstellst.
+
+## Voraussetzungen
+
+- Ein Render-Konto.
+- Ein Hex-String mit 64 Zeichen für `ENCRYPTION_KEY`: `openssl rand -hex 32`.
+
+## Bereitstellen
+
+1. Öffne den Blueprint-Deploy-Link für das Repository: [render.com/deploy?repo=https://github.com/timewren/timewren](https://render.com/deploy?repo=https://github.com/timewren/timewren). Alternativ erstellst du im Render-Dashboard ein Blueprint aus dem Repository `timewren/timewren`.
+2. Gib auf Nachfrage `ENCRYPTION_KEY` mit genau 64 hexadezimalen Zeichen ein. Render generiert die Sitzungs- und Cron-Geheimnisse selbst, aber sein Generator erzeugt Base64, weshalb er den Verschlüsselungsschlüssel nicht erzeugen kann.
+3. Stelle bereit. Migrationen laufen, wenn der Web-Dienst startet.
+4. Öffne die Dienst-URL und lege dein Konto an.
+
+## Was das Blueprint erstellt
+
+| Ressource | Name | Hinweise |
+| --------- | ---- | -------- |
+| Web-Dienst | `timewren` | Image `ghcr.io/timewren/timewren:latest`, Region Frankfurt, Health Check `/api/health`, eine Instanz, Disk `timewren-storage` (10 GB) unter `/app/data/storage`. |
+| Worker | `timewren-cron` | Gleiches Image, führt `node scripts/cron.mjs` mit `CRON_SECRET` über das private Netzwerk von Render gegen den Web-Dienst aus. Keine Disk, keine Datenbank-Zugangsdaten. |
+| Datenbank | `timewren-db` | PostgreSQL 18, Tarif `basic-256mb`, Datenbank und Benutzer `timetrack`. |
+
+Beide Dienste setzen `TZ` auf `Europe/Copenhagen`. Der Web-Dienst setzt außerdem `NEXT_PUBLIC_BRAND=timewren`, `MIGRATE_ON_START=1`, `STORAGE_DRIVER=local` und `REQUIRE_EMAIL_VERIFICATION=false`.
+
+## Öffentliche URL
+
+Standardmäßig wird `NEXT_PUBLIC_APP_URL` aus `RENDER_EXTERNAL_URL` übernommen. Fügst du später eine eigene Domain hinzu, setze `NEXT_PUBLIC_APP_URL` auf deren HTTPS-URL ohne abschließenden Schrägstrich. Optionale Variablen für E-Mail und Integrationen verwenden die Namen aus `.env.example`: siehe [Umgebungsvariablen](/de/docs/configuration/environment).
+
+## Gut zu wissen
+
+- Skaliere keinen der beiden Dienste über eine Instanz hinaus.
+- Ein Web-Dienst mit Disk kann keine Rolling Deploys, er stoppt also bei erneuten Bereitstellungen kurz.
+- Beide Image-URLs stehen standardmäßig auf `latest`. Bearbeite `render.yaml` in deinem eigenen Fork, um beide vor einem produktiven Rollout auf denselben Release-Tag festzulegen.
+- Das erste Konto wird Admin. Lege es sofort an, oder konfiguriere `ADMIN_EMAIL` und einen Mail-Transport, bevor du den Dienst öffentlich machst.
+- Sichere die Datenbank, die Disk und `ENCRYPTION_KEY`.
+- Das Blueprint wurde gegen das Schema von Render validiert, aber von den Maintainern nicht in einem Render-Konto bereitgestellt. Prüfe nach der ersten Bereitstellung die Registrierung, einen Upload und Download sowie einen geplanten Export.
+
+## Nächste Schritte
+
+- [Schnellstart](/de/docs/quickstart)
+- [E-Mail](/de/docs/configuration/email)
+- [Aktualisieren](/de/docs/operations/upgrading) und [Backup und Wiederherstellung](/de/docs/operations/backup-restore)
+- [Fehlerbehebung](/de/docs/operations/troubleshooting)

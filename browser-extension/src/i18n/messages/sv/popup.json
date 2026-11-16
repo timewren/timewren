@@ -1,0 +1,91 @@
+{
+  "loading": "Laddar",
+  "offline": "Offline",
+  "noInternet": "Ingen internetanslutning",
+  "openApp": "Öppna TimeTrack",
+  "openAppNewTab": "Öppna TimeTrack i en ny flik",
+  "settings": "Inställningar",
+  "logout": "Logga ut",
+  "logoutConfirm": "Logga ut från TimeTrack?",
+  "todayHours": "{duration} i dag",
+  "dailyProgress": "Dagens framsteg: {done} av {goal} h i dag",
+  "tabs": {
+    "view": "Visning",
+    "timer": "Timer",
+    "calendar": "Kalender",
+    "history": "Historik",
+    "prepaid": "Timbanker"
+  },
+  "login": {
+    "tagline": "Tidrapportering direkt från webbläsaren",
+    "connecting": "Ansluter…",
+    "connect": "Anslut till TimeTrack",
+    "secureHint": "Du loggar in säkert i ett nytt fönster. Efteråt kan du välja organisation i tillägget.",
+    "newHere": "Ny på TimeTrack?",
+    "register": "Skapa ett gratiskonto",
+    "advanced": "Avancerat: klistra in token manuellt",
+    "tokenLabel": "Tilläggstoken",
+    "tokenPlaceholder": "Klistra in din token här…",
+    "signingIn": "Loggar in…",
+    "signInToken": "Logga in med token",
+    "openSettings": "Öppna inställningar i TimeTrack"
+  },
+  "org": {
+    "label": "Organisation: {name}. Byt organisation",
+    "none": "ingen vald",
+    "choose": "Välj organisation",
+    "stopFirst": "Stoppa eller spara den aktiva timern innan du byter organisation."
+  },
+  "stopPrompt": {
+    "title": "Ingen kund vald",
+    "question": "Ingen kund vald. Spara som intern tid?",
+    "close": "Stäng utan att stoppa",
+    "pickClient": "Välj kund",
+    "saveInternal": "Spara som intern tid"
+  },
+  "sync": {
+    "syncing": "Synkar…",
+    "pending": "{count} väntar på synk",
+    "hideDetails": "Dölj detaljer",
+    "showDetails": "Visa detaljer",
+    "syncNow": "Synka nu",
+    "entry": "Tidpost: {description}",
+    "noDescription": "(ingen beskrivning)",
+    "timerUpdate": "Timeruppdatering",
+    "timerStop": "Timerstopp",
+    "tries": "{count, plural, one {försökt # gång} other {försökt # gånger}}"
+  },
+  "mini": {
+    "timerLabel": "Timer",
+    "goTo": "Gå till timern: {label}",
+    "stop": "Stoppa timer"
+  },
+  "queryError": {
+    "retry": "Försök igen"
+  },
+  "timerError": {
+    "close": "Stäng felmeddelande"
+  },
+  "update": {
+    "title": "Uppdatera TimeTrack-tillägget",
+    "body": "Version {version} är för gammal för att spara tid. Uppdateringen laddas ner automatiskt. Om det inte sker startar du om webbläsaren eller öppnar chrome://extensions och klickar på \"Uppdatera\"."
+  },
+  "idle": {
+    "pausedMessage": "Timern pausades kl. {clock} efter {away} utan aktivitet",
+    "pausedDetail": "Den inaktiva tiden har inte räknats.",
+    "resume": "Återuppta timer",
+    "close": "Stäng",
+    "awayMessage": "Du var borta i {away} (sedan {clock})",
+    "awayDetail": "Timern är fortfarande igång. Ska tiden räknas?",
+    "discard": "Ta bort {away}",
+    "keep": "Behåll tiden"
+  },
+  "confirm": {
+    "cancel": "Avbryt"
+  },
+  "logoutWarnings": {
+    "running": "Timern fortsätter gå i TimeTrack medan du är utloggad.",
+    "paused": "Den pausade timern ligger kvar i TimeTrack.",
+    "queue": "{count, plural, one {# ändring i offlinekön har} other {# ändringar i offlinekön har}} inte skickats än. De skickas när du loggar in igen."
+  }
+}

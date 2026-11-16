@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini a další modely OpenAI",
+      "note": "Klíč API vytvoříš na platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus a Haiku přes OpenAI SDK",
+      "note": "Klíč API vytvoříš na console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Dánská AI hostovaná v Dánsku, plně v souladu s GDPR",
+      "badge": "Doporučeno",
+      "note": "Dánská AI od společnosti Ordbogen A/S. Klíč vytvoříš na odincore.ai. Data nikdy neopustí Dánsko."
+    },
+    "custom": {
+      "label": "Jiný koncový bod",
+      "description": "Libovolné API kompatibilní s OpenAI"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Ruční",
+      "description": "AI je vypnutá. Všechny úkoly se zpracovávají bez analýzy pomocí AI."
+    },
+    "suggest": {
+      "label": "Návrhy",
+      "description": "AI navrhuje zařazení a prioritu, ty to schvaluješ."
+    },
+    "auto_lowrisk": {
+      "label": "Automaticky (nízké riziko)",
+      "description": "AI zpracuje jednoduché úkoly automaticky. Složité jdou ke schválení."
+    },
+    "auto_all": {
+      "label": "Plně automaticky",
+      "description": "AI zpracuje všechny úkoly automaticky bez schválení."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Dánsko (Europe/Copenhagen)",
+    "Europe/Stockholm": "Švédsko (Europe/Stockholm)",
+    "Europe/Oslo": "Norsko (Europe/Oslo)",
+    "Europe/London": "Spojené království (Europe/London)",
+    "Europe/Berlin": "Německo (Europe/Berlin)",
+    "America/New_York": "východní pobřeží USA (America/New_York)",
+    "America/Los_Angeles": "západní pobřeží USA (America/Los_Angeles)"
+  },
+  "connectionOk": "Připojení je v pořádku!",
+  "connectionFailed": "Připojení se nezdařilo",
+  "testFailed": "Test se nezdařil",
+  "emailEnabled": "E-mail na úkol je zapnutý!",
+  "emailEnableFailed": "E-mail na úkol se nepodařilo zapnout",
+  "emailDisabled": "E-mail na úkol je vypnutý",
+  "emailDisableFailed": "E-mail na úkol se nepodařilo vypnout",
+  "addressRegenerated": "Nová e-mailová adresa byla vygenerována!",
+  "addressRegenerateFailed": "Novou adresu se nepodařilo vygenerovat",
+  "settingsUpdated": "Nastavení AI bylo aktualizováno",
+  "settingsUpdateFailed": "Nastavení AI se nepodařilo aktualizovat",
+  "addressCopied": "E-mailová adresa byla zkopírována!",
+  "keyRequired": "Klíč API je povinný",
+  "urlRequired": "Pro vlastní koncový bod je povinná URL API",
+  "enterKeyFirst": "Nejdřív zadej klíč API",
+  "title": "AI a automatizace",
+  "description": "Nastav funkce AI a e-mail na úkol",
+  "statusTitle": "Stav AI",
+  "statusEnabled": "AI je zapnutá",
+  "statusDisabled": "AI není nastavena",
+  "statCalls": "Celkem volání AI",
+  "statSuccess": "Úspěšnost",
+  "statConfidence": "Prům. jistota",
+  "statTime": "Prům. doba zpracování",
+  "enableHint": "Funkce AI zapneš tak, že níže vybereš poskytovatele AI a zadáš vlastní klíč API.",
+  "providerTitle": "Poskytovatel AI",
+  "providerSub": "Vyber, čím se funkce AI pohánějí: AI systému, nebo vlastní",
+  "providerIntro": "Vyber poskytovatele AI a zadej vlastní klíč API, aby se funkce AI zapnuly. {brand} používá formát OpenAI SDK, který je kompatibilní s mnoha poskytovateli.",
+  "apiKey": "Klíč API",
+  "configured": "(nastaveno)",
+  "keyPlaceholder": "Klíč API",
+  "keyHelpOpenai": "Tvůj klíč API OpenAI z platform.openai.com",
+  "keyHelpAnthropic": "Tvůj klíč API Anthropic z console.anthropic.com",
+  "keyHelpOrdbogen": "Tvůj klíč API z OdinCore.ai",
+  "keyHelpOther": "Klíč API tvého poskytovatele",
+  "apiUrl": "URL API",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (výchozí, nech prázdné)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Předvyplněno z předvolby",
+  "urlHelp": "Základní URL API. Pro výchozí koncový bod OpenAI nech prázdné.",
+  "model": "Model",
+  "modelPlaceholderOpenai": "gpt-4o-mini (výchozí)",
+  "modelPlaceholderOther": "Název modelu",
+  "modelHelp": "Zadej model, nebo nech prázdné pro výchozí",
+  "testConnection": "Otestovat připojení",
+  "saveSettings": "Uložit nastavení",
+  "help": {
+    "title": "Jak získat klíč API",
+    "sub": "Vyber jednoho z doporučených poskytovatelů a postupuj podle návodu",
+    "odinDesc": "Dánská AI hostovaná v Dánsku, plně v souladu s GDPR. Data nikdy neopustí Dánsko.",
+    "odin1": "Přejdi na odincore.ai a vytvoř si účet",
+    "odin2": "Otevři sekci API ve svém účtu",
+    "odin3": "Vytvoř nový klíč API",
+    "odin4": "Vlož klíč výše pod „OdinCore (Ordbogen)“",
+    "openaiDesc": "GPT-4o-mini je rychlý a levný a dobře se hodí k analýze úkolů.",
+    "openai1": "Přejdi na platform.openai.com a přihlas se",
+    "openai2": "V nastavení otevři „API keys“",
+    "openai3": "Klikni na „Create new secret key“",
+    "copyPaste": "Zkopíruj klíč a vlož ho výše",
+    "anthropicDesc": "Modely Claude jsou silné v porozumění úkolům a jejich zařazování.",
+    "anthropic1": "Přejdi na console.anthropic.com a vytvoř si účet",
+    "anthropic2": "Otevři „Settings“ → „API keys“",
+    "anthropic3": "Klikni na „Create key“"
+  },
+  "email": {
+    "title": "E-mail na úkol",
+    "sub": "Posílej e-maily na svou osobní adresu a úkoly se vytvoří automaticky",
+    "address": "Tvůj osobní e-mail pro úkoly",
+    "copyTitle": "Kopírovat e-mailovou adresu",
+    "addressHelp": "Na tuto adresu posílej nebo přeposílej e-maily a úkoly se vytvoří automaticky. AI zpracuje obsah a vyčte název, termín a prioritu.",
+    "regenerate": "Vygenerovat novou adresu",
+    "disable": "Vypnout e-mail na úkol",
+    "notEnabled": "E-mail na úkol není zapnutý",
+    "notEnabledText": "Zapni ho a získáš osobní e-mailovou adresu, na kterou můžeš posílat úkoly. E-maily se automaticky změní na úkoly na tvém přehledu.",
+    "enable": "Zapnout e-mail na úkol"
+  },
+  "autonomyTitle": "Úroveň autonomie AI",
+  "autonomySub": "Vyber, kolik má AI zvládat automaticky",
+  "hoursTitle": "Pracovní doba a časové pásmo",
+  "hoursSub": "Používá se pro prioritizaci pomocí AI a funkce kalendáře",
+  "timezone": "Časové pásmo",
+  "workingHours": "Pracovní doba",
+  "to": "do",
+  "hoursHelp": "AI podle těchto časů navrhuje nejvhodnější termíny pro úkoly",
+  "privacyTitle": "Soukromí a zabezpečení",
+  "privacyText": "E-maily se zpracují a hned po vytvoření úkolu se smažou. Uchováváme jen hotový úkol, ne původní e-mail. Zpracování AI probíhá přes OpenAI při přísném nakládání s daty."
+}

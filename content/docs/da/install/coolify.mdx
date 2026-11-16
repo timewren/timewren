@@ -1,0 +1,49 @@
+---
+title: "Coolify"
+description: "Deploy TimeWren på Coolify som en Docker Compose-ressource med genererede hemmeligheder, PostgreSQL og en scheduler."
+---
+
+Vælg denne metode, hvis du allerede kører Coolify. Compose-filen henter det udgivne image, så intet bygges lokalt, og Coolify genererer alle hemmeligheder for dig.
+
+## Krav
+
+- En kørende Coolify-instans med en server og et domæne, du kan pege på den.
+- Adgang til repositoryet `https://github.com/timewren/timewren` (offentligt).
+
+## Deploy
+
+1. Opret en ny ressource i Coolify: **Docker Compose**, fra et Git-repository, med `https://github.com/timewren/timewren`.
+2. Sæt stien til Compose-filen til `/deploy/coolify/docker-compose.yml`. (Filen `docker-compose.coolify.yml` i roden er et symlink til den samme fil af hensyn til kompatibilitet.)
+3. Giv `app`-servicen et domæne, for eksempel `https://timewren.example.com`. Skabelonen sender det videre til containerport 3000.
+4. Deploy.
+
+Coolify genererer den offentlige app-URL (`NEXT_PUBLIC_APP_URL`), databaseadgangskoden, sessionshemmeligheden (`BETTER_AUTH_SECRET`), cron-hemmeligheden (`CRON_SECRET`) og en hexadecimal `ENCRYPTION_KEY` på 64 tegn. Du behøver ikke at sætte noget.
+
+## Hvad der bliver deployet
+
+| Service | Image | Rolle |
+| ------- | ----- | ---- |
+| `app` | `ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}` | Webappen. Kører migreringer ved start. Filer på volumet `storage`. |
+| `cron` | samme image | Kører `node scripts/cron.mjs` mod `http://app:3000`. |
+| `db` | `postgres:18-alpine` | PostgreSQL, data på volumet `db-data`. |
+
+Vil du låse en udgivelse fast, så sæt `TIMEWREN_VERSION` i ressourcens miljøvariabler.
+
+## Opret din konto først
+
+Domænet er offentligt, så snart det er deployet, og den første konto bliver administrator. Skabelonen sætter som standard `REQUIRE_EMAIL_VERIFICATION` til `false`, så instansen virker uden en mailserver. Åbn URL'en, og opret din konto med det samme, eller sæt `ADMIN_EMAIL` og en mailtransport (`SMTP_HOST` eller `RESEND_API_KEY`) før det første deploy. Sætter du `REQUIRE_EMAIL_VERIFICATION=true`, er bekræftelse slået til igen.
+
+## Valgfrie indstillinger
+
+Compose-filen eksponerer valgfrie variabler til mail (`SMTP_*`, `RESEND_*`), S3-lagring (`S3_*`, sammen med `STORAGE_DRIVER=s3`), login med Google og Microsoft, Dinero, e-conomic og `OPENAI_API_KEY` samt `TZ`, `ADMIN_EMAIL`, `DESKTOP_UPDATER_REPO` og `CHANGELOG_REPO`. Sæt dem som miljøvariabler på ressourcen. Se [Miljøvariabler](/da/docs/configuration/environment).
+
+## Backup
+
+Tag backup af de genererede hemmeligheder og begge navngivne volumes (`db-data` og `storage`). Behold `ENCRYPTION_KEY`: udskifter du den, kan gemte integrationstokens ikke længere læses. Ændrer du databaseadgangskoden senere, ændres den adgangskode, der er gemt i Postgres, ikke.
+
+## Næste skridt
+
+- [Kom godt i gang](/da/docs/quickstart)
+- [E-mail](/da/docs/configuration/email)
+- [Opgradering](/da/docs/operations/upgrading) og [Backup og gendannelse](/da/docs/operations/backup-restore)
+- [Fejlfinding](/da/docs/operations/troubleshooting)

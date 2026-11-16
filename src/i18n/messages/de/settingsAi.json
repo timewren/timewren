@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini und andere OpenAI-Modelle",
+      "note": "Erstelle einen API-Schlüssel unter platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus und Haiku über das OpenAI SDK",
+      "note": "Erstelle einen API-Schlüssel unter console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Dänische KI, in Dänemark gehostet, mit voller DSGVO-Konformität",
+      "badge": "Empfohlen",
+      "note": "In Dänemark gehostete KI von Ordbogen A/S. Erstelle einen Schlüssel unter odincore.ai. Daten verlassen Dänemark nie."
+    },
+    "custom": {
+      "label": "Anderer Endpunkt",
+      "description": "Jede OpenAI-kompatible API"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manuell",
+      "description": "KI ist deaktiviert. Alle Aufgaben werden ohne KI-Auswertung verarbeitet."
+    },
+    "suggest": {
+      "label": "Vorschlagen",
+      "description": "Die KI schlägt Kategorisierung und Priorisierung vor, du gibst sie frei."
+    },
+    "auto_lowrisk": {
+      "label": "Auto (geringes Risiko)",
+      "description": "Die KI erledigt einfache Aufgaben automatisch. Komplexe gehen zur Freigabe."
+    },
+    "auto_all": {
+      "label": "Vollautomatisch",
+      "description": "Die KI erledigt alle Aufgaben automatisch ohne Freigabe."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Dänemark (Europe/Copenhagen)",
+    "Europe/Stockholm": "Schweden (Europe/Stockholm)",
+    "Europe/Oslo": "Norwegen (Europe/Oslo)",
+    "Europe/London": "Vereinigtes Königreich (Europe/London)",
+    "Europe/Berlin": "Deutschland (Europe/Berlin)",
+    "America/New_York": "USA Ostküste (America/New_York)",
+    "America/Los_Angeles": "USA Westküste (America/Los_Angeles)"
+  },
+  "connectionOk": "Verbindung OK!",
+  "connectionFailed": "Verbindung fehlgeschlagen",
+  "testFailed": "Test fehlgeschlagen",
+  "emailEnabled": "E-Mail-zu-Aufgabe aktiviert!",
+  "emailEnableFailed": "E-Mail-zu-Aufgabe konnte nicht aktiviert werden",
+  "emailDisabled": "E-Mail-zu-Aufgabe deaktiviert",
+  "emailDisableFailed": "E-Mail-zu-Aufgabe konnte nicht deaktiviert werden",
+  "addressRegenerated": "Neue E-Mail-Adresse erstellt!",
+  "addressRegenerateFailed": "Neue Adresse konnte nicht erstellt werden",
+  "settingsUpdated": "KI-Einstellungen aktualisiert",
+  "settingsUpdateFailed": "KI-Einstellungen konnten nicht aktualisiert werden",
+  "addressCopied": "E-Mail-Adresse kopiert!",
+  "keyRequired": "Ein API-Schlüssel ist erforderlich",
+  "urlRequired": "Für einen eigenen Endpunkt ist eine API-URL erforderlich",
+  "enterKeyFirst": "Gib zuerst einen API-Schlüssel ein",
+  "title": "KI & Automatisierung",
+  "description": "Konfiguriere KI-Funktionen und die Einstellungen für E-Mail-zu-Aufgabe",
+  "statusTitle": "KI-Status",
+  "statusEnabled": "KI ist aktiviert",
+  "statusDisabled": "KI ist nicht konfiguriert",
+  "statCalls": "KI-Aufrufe gesamt",
+  "statSuccess": "Erfolgsquote",
+  "statConfidence": "Ø Konfidenz",
+  "statTime": "Ø Verarbeitungszeit",
+  "enableHint": "Um KI-Funktionen zu aktivieren, wähle unten einen KI-Anbieter und gib deinen eigenen API-Schlüssel an.",
+  "providerTitle": "KI-Anbieter",
+  "providerSub": "Wähle, wie KI-Funktionen betrieben werden - die KI des Systems oder deine eigene",
+  "providerIntro": "Wähle einen KI-Anbieter und gib deinen eigenen API-Schlüssel an, um KI-Funktionen zu aktivieren. {brand} nutzt das OpenAI-SDK-Format, das mit vielen Anbietern kompatibel ist.",
+  "apiKey": "API-Schlüssel",
+  "configured": "(konfiguriert)",
+  "keyPlaceholder": "API-Schlüssel",
+  "keyHelpOpenai": "Dein OpenAI-API-Schlüssel von platform.openai.com",
+  "keyHelpAnthropic": "Dein Anthropic-API-Schlüssel von console.anthropic.com",
+  "keyHelpOrdbogen": "Dein API-Schlüssel von OdinCore.ai",
+  "keyHelpOther": "API-Schlüssel für deinen Anbieter",
+  "apiUrl": "API-URL",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (Standard, leer lassen)",
+  "urlPlaceholderCustom": "https://dein-endpunkt.example.com/v1",
+  "urlPlaceholderPreset": "Aus der Voreinstellung vorausgefüllt",
+  "urlHelp": "Basis-URL der API. Für den Standard-Endpunkt von OpenAI leer lassen.",
+  "model": "Modell",
+  "modelPlaceholderOpenai": "gpt-4o-mini (Standard)",
+  "modelPlaceholderOther": "Modellname",
+  "modelHelp": "Gib ein bestimmtes Modell an oder lass das Feld leer, um den Standard zu verwenden",
+  "testConnection": "Verbindung testen",
+  "saveSettings": "Einstellungen speichern",
+  "help": {
+    "title": "So erhältst du einen API-Schlüssel",
+    "sub": "Wähle einen der empfohlenen Anbieter und folge der Anleitung",
+    "odinDesc": "Dänische KI, in Dänemark gehostet, mit voller DSGVO-Konformität. Daten verlassen Dänemark nie.",
+    "odin1": "Gehe zu odincore.ai und erstelle ein Konto",
+    "odin2": "Öffne den API-Bereich in deinem Konto",
+    "odin3": "Erstelle einen neuen API-Schlüssel",
+    "odin4": "Füge den Schlüssel oben unter „OdinCore (Ordbogen)“ ein",
+    "openaiDesc": "GPT-4o-mini ist schnell und günstig und eignet sich gut für die Auswertung von Aufgaben.",
+    "openai1": "Gehe zu platform.openai.com und melde dich an",
+    "openai2": "Öffne „API keys“ in deinen Einstellungen",
+    "openai3": "Klicke auf „Create new secret key“",
+    "copyPaste": "Kopiere den Schlüssel und füge ihn oben ein",
+    "anthropicDesc": "Die Claude-Modelle sind stark im Verstehen und Kategorisieren von Aufgaben.",
+    "anthropic1": "Gehe zu console.anthropic.com und erstelle ein Konto",
+    "anthropic2": "Öffne „Settings“ → „API keys“",
+    "anthropic3": "Klicke auf „Create key“"
+  },
+  "email": {
+    "title": "E-Mail-zu-Aufgabe",
+    "sub": "Sende E-Mails an deine persönliche Adresse, um automatisch Aufgaben zu erstellen",
+    "address": "Deine persönliche Aufgaben-E-Mail",
+    "copyTitle": "E-Mail-Adresse kopieren",
+    "addressHelp": "Sende oder leite E-Mails an diese Adresse weiter, um automatisch Aufgaben zu erstellen. Die KI wertet den Inhalt aus und extrahiert Titel, Deadline und Priorität.",
+    "regenerate": "Neue Adresse erstellen",
+    "disable": "E-Mail-zu-Aufgabe deaktivieren",
+    "notEnabled": "E-Mail-zu-Aufgabe ist nicht aktiviert",
+    "notEnabledText": "Aktiviere die Funktion, um eine persönliche E-Mail-Adresse zu erhalten, an die du Aufgaben senden kannst. E-Mails werden automatisch zu Aufgaben in deinem Dashboard.",
+    "enable": "E-Mail-zu-Aufgabe aktivieren"
+  },
+  "autonomyTitle": "KI-Autonomiestufe",
+  "autonomySub": "Wähle, wie viel die KI automatisch erledigen soll",
+  "hoursTitle": "Arbeitszeiten & Zeitzone",
+  "hoursSub": "Wird für die KI-Priorisierung und Kalenderfunktionen verwendet",
+  "timezone": "Zeitzone",
+  "workingHours": "Arbeitszeiten",
+  "to": "bis",
+  "hoursHelp": "Die KI nutzt diese Zeiten, um optimale Zeitpunkte für Aufgaben vorzuschlagen",
+  "privacyTitle": "Datenschutz & Sicherheit",
+  "privacyText": "E-Mails werden verarbeitet und unmittelbar nach dem Erstellen der Aufgabe gelöscht. Wir speichern nur die fertige Aufgabe, nicht die ursprüngliche E-Mail. Die KI-Verarbeitung erfolgt über OpenAI mit strenger Datenhandhabung."
+}

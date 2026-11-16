@@ -1,0 +1,119 @@
+---
+title: "Authentifizierung"
+description: "Anmeldemethoden in TimeWren: E-Mail und Passwort, Magic Link, Passkeys, 2FA, SMS, OAuth-Anbieter, das erste Admin-Konto und Rotation von Geheimnissen."
+---
+
+TimeWren nutzt [Better Auth](https://www.better-auth.com). Die Anmeldung mit E-Mail und Passwort funktioniert immer. Alles andere ist optional und wird aktiv, sobald du die passenden Variablen setzt. Alle Variablen stehen in `.env.example`; siehe auch [Umgebungsvariablen](/de/docs/configuration/environment).
+
+## E-Mail und Passwort
+
+Nutzer registrieren sich mit E-Mail und Passwort. Passwörter werden per Mail zurückgesetzt (der Link ist 1 Stunde gültig).
+
+Die E-Mail-Bestätigung ist standardmäßig erforderlich: Ein neuer Nutzer muss auf den Link in der Bestätigungsmail klicken (24 Stunden gültig), bevor er sich anmelden kann. Bestätigungsmails brauchen einen konfigurierten Mail-Transport, siehe [E-Mail](/de/docs/configuration/email).
+
+Die Bestätigung kannst du nur abschalten, wenn kein Mail-Transport konfiguriert ist:
+
+```dotenv
+REQUIRE_EMAIL_VERIFICATION=false
+```
+
+Das Flag wird ignoriert, sobald SMTP oder Resend gesetzt ist. Die App protokolliert in diesem Fall eine Warnung.
+
+> **Warnung:** Bei abgeschalteter Bestätigung kann jeder, der die Instanz erreicht, mit beliebiger Adresse ein Konto anlegen, auch mit der Adresse in `ADMIN_EMAIL`. Nutze das zum Einstieg, konfiguriere dann Mail und entferne die Zeile, bevor du die Instanz öffentlich machst.
+
+Anmeldeversuche sind mit Rate Limits begrenzt: 5 Passwort-Anmeldungen pro 15 Minuten, 10 Registrierungen pro 15 Minuten.
+
+## Der erste Admin
+
+Die Rolle des Instanz-Admins wird automatisch vergeben:
+
+- Ist `ADMIN_EMAIL` gesetzt (kommagetrennte Liste), wird das Konto mit dieser Adresse Instanz-Admin.
+- Ist sie leer, wird das erste angelegte Konto Admin, aber nur, solange die Instanz noch keinen Admin hat.
+
+Die Beförderung geschieht bei der Registrierung und bei der Anmeldung. Ist die Bestätigung erforderlich, wird nur eine bestätigte Adresse befördert. Jeder neue Nutzer erhält außerdem einen persönlichen Arbeitsbereich (eine Organisation, deren Inhaber er ist).
+
+```dotenv
+ADMIN_EMAIL=you@example.com
+```
+
+## Magic Link
+
+Passwortlose Anmeldung per Mail. Der Link ist 15 Minuten gültig. Er braucht einen funktionierenden Mail-Transport und hat keine eigene Einstellung.
+
+## Passkeys
+
+Nutzer können unter ihren Sicherheitseinstellungen Passkeys (WebAuthn) registrieren und sich damit anmelden. Passkeys sind an eine Domain gebunden, die Relying-Party-ID. Standardmäßig ist das der Hostname von `NEXT_PUBLIC_APP_URL`. Die App muss also auf ihrer endgültigen Domain über HTTPS ausgeliefert werden, bevor Nutzer Passkeys registrieren. Änderst du die Domain, funktionieren bestehende Passkeys nicht mehr.
+
+Setze `AUTH_RP_ID` nur, wenn du App und Marketing-Website auf verschiedene Hosts aufteilst und Passkeys an die übergeordnete Domain binden willst:
+
+```dotenv
+AUTH_RP_ID=example.com
+```
+
+## Zwei-Faktor-Authentifizierung
+
+Nutzer können die Zwei-Faktor-Authentifizierung in ihren Sicherheitseinstellungen aktivieren. Unterstützt werden:
+
+- TOTP-Authenticator-Apps (6 Stellen, 30 Sekunden Intervall)
+- 10 Backup-Codes
+- Ein Einmalcode per Mail als Rückfalloption (braucht einen Mail-Transport)
+
+Versuche der Zwei-Faktor-Bestätigung sind auf 10 pro 15 Minuten begrenzt.
+
+## SMS-Anmeldung
+
+Anmeldung mit Telefonnummer und einem 6-stelligen Code (5 Minuten gültig). Der Versand nutzt MessageBird:
+
+```dotenv
+MESSAGEBIRD_API_KEY=your-messagebird-key
+MESSAGEBIRD_ORIGINATOR=TimeWren
+```
+
+Ohne `MESSAGEBIRD_API_KEY` schlägt die Anforderung eines Codes mit dem Fehler "not configured" fehl. Ein Nutzer, der sich nur per Telefon registriert, erhält eine Platzhalter-E-Mail-Adresse auf deiner Mail-Domain (`EMAIL_DOMAIN`, standardmäßig der Marketing- oder App-Host). Der Text der SMS selbst ist derzeit auf Dänisch verfasst.
+
+## OAuth-Anbieter
+
+Jeder Anbieter braucht eine OAuth-App, die du selbst registrierst. Ein Anbieter wird nur angeboten, wenn beide seiner Variablen gesetzt sind. Die Callback-URL lautet immer `{NEXT_PUBLIC_APP_URL}/api/auth/callback/<id>`.
+
+| Anbieter | Id | Variablen | Callback-URL |
+| --- | --- | --- | --- |
+| Google | `google` | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/google` |
+| GitHub | `github` | `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/github` |
+| Discord | `discord` | `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/discord` |
+| Apple | `apple` | `APPLE_CLIENT_ID`, `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY` | `https://timewren.example.com/api/auth/callback/apple` |
+| Microsoft Entra ID | `microsoft-entra-id` | `MICROSOFT_CLIENT_ID`, `MICROSOFT_CLIENT_SECRET`, `MICROSOFT_TENANT_ID` | `https://timewren.example.com/api/auth/callback/microsoft-entra-id` |
+
+Hinweise:
+
+- Der Google-Client wird mit der [Google-Kalender-Integration](/de/docs/integrations/calendar) geteilt, die eine eigene Callback-URL hat.
+- Mit Apple anmelden: `APPLE_CLIENT_ID` ist die Services-ID. Das Client-Secret wird beim Start der App aus deinem `.p8`-Schlüssel erzeugt (`APPLE_PRIVATE_KEY`, PEM-Text mit `\n`-Zeilenumbrüchen oder die gesamte Datei Base64-kodiert). `APPLE_APP_BUNDLE_IDENTIFIER` (Standard `dk.timetrack.app`) ist die iOS-Bundle-ID für die native Anmeldung.
+- Microsoft: `MICROSOFT_TENANT_ID` ist standardmäßig `common` (jedes Microsoft-Konto). Setze eine Tenant-GUID, um die Anmeldung auf eine Organisation zu beschränken. Die Azure-Schritte stehen in `docs/MICROSOFT-LOGIN-SETUP.md` im Repository.
+- Konten von Google und GitHub werden automatisch verknüpft, wenn die E-Mail-Adresse zu einem bestehenden Konto passt. Discord-Konten werden nur verknüpft, wenn Discord die E-Mail-Adresse als verifiziert meldet.
+
+## Vertrauenswürdige Origins
+
+Browser senden Anfragen vom Origin von `NEXT_PUBLIC_APP_URL`, dem immer vertraut wird. Wird die App auch von einem anderen Web-Origin erreicht (zum Beispiel einer zweiten Domain), füge ihn hinzu:
+
+```dotenv
+TRUSTED_ORIGINS=https://timewren.example.org,https://time.example.com
+```
+
+Der Wert ist eine kommagetrennte Liste von `https://host`-Origins. Ungültige Einträge werden übersprungen.
+
+## Sitzungen
+
+Sitzungen dauern 7 Tage. Eine aktive Sitzung wird höchstens einmal alle 24 Stunden verlängert. Das Sitzungs-Cookie gilt standardmäßig nur für den Host. `AUTH_COOKIE_DOMAIN` teilt es über Subdomains hinweg, und `AUTH_COOKIE_PREFIX` ändert seinen Namen (Standard `better-auth`); beides ist nur bei getrenntem App- und Marketing-Host nötig.
+
+## BETTER_AUTH_SECRET rotieren
+
+`BETTER_AUTH_SECRET` ist das Geheimnis von Better Auth. Es verschlüsselt unter anderem die in der Datenbank gespeicherten OAuth-Login-Tokens, und eine direkte Änderung macht diese Tokens unlesbar, bis sich Nutzer erneut anmelden. Zum sicheren Rotieren nutzt du versionierte Geheimnisse:
+
+```dotenv
+BETTER_AUTH_SECRETS=2:the-new-long-random-secret,1:the-old-long-random-secret
+```
+
+Das Format ist `<version>:<secret>`, durch Kommas getrennt. Der erste Eintrag ist das aktuelle Geheimnis, das für neue Daten verwendet wird. Behalte ältere Versionen in der Liste, solange du damit geschriebene Daten lesen musst. Versionen sind nicht negative ganze Zahlen und müssen eindeutig sein. Nutze mindestens 32 Zeichen pro Geheimnis.
+
+`BETTER_AUTH_SECRET` selbst muss gesetzt bleiben. Die App liest es auch direkt, um die älteren Desktop-Gerätetokens und Abmelde-Links in Mails zu signieren. Eine Änderung seines Werts macht diese ungültig; Nutzer der Desktop-App melden sich dann erneut an.
+
+`ENCRYPTION_KEY` ist ein eigener Schlüssel (er schützt Integrations-Zugangsdaten) und von dieser Rotation nicht betroffen. Sichere beide.

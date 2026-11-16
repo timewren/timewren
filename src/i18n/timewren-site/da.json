@@ -1,0 +1,739 @@
+{
+  "languageName": "Dansk",
+  "nav": {
+    "skip": "Gå til indhold",
+    "home": "TimeWren forside",
+    "primary": "Hovedmenu",
+    "pricing": "Priser",
+    "selfHosting": "Selvhost",
+    "github": "GitHub",
+    "language": "Sprog",
+    "beta": "beta",
+    "betaNote": "Oversættelsen er ikke gennemlæst endnu.",
+    "docs": "Docs"
+  },
+  "footer": {
+    "tagline": "Open source-tidsregistrering med klippekort og fakturering.",
+    "product": "Produkt",
+    "legal": "Juridisk",
+    "privacy": "Privatliv",
+    "terms": "Vilkår",
+    "trademark": "Varemærkepolitik",
+    "madeBy": "TimeWren er lavet af Mahope i Danmark. Danske kunder kender det som TimeTrack.",
+    "resources": "Ressourcer",
+    "docs": "Dokumentation",
+    "llms": "llms.txt til LLM'er",
+    "license": "Licens (AGPL-3.0)",
+    "contact": "Kontakt"
+  },
+  "meta": {
+    "home": {
+      "title": "TimeWren: open source-tidsregistrering med klippekort",
+      "description": "Open source-tidsregistrering og kundestyring for freelancere og små teams, bygget op om klippekort. Selvhost gratis med én kommando, eller brug TimeWren Cloud."
+    },
+    "pricing": {
+      "title": "Priser | TimeWren",
+      "description": "Det er gratis at selvhoste TimeWren, for altid. TimeWren Cloud giver hosting, opdateringer, backup og support. Begge har alle funktioner."
+    },
+    "selfHosting": {
+      "title": "Selvhost | TimeWren",
+      "description": "Kør TimeWren på din egen server med Docker Compose og ét installationsscript. Krav, hurtig start og link til den fulde vejledning."
+    },
+    "privacy": {
+      "title": "Privatlivspolitik | TimeWren",
+      "description": "Sådan behandler Mahope personoplysninger på timewren.com og i TimeWren Cloud: hvad vi indsamler, underdatabehandlere, cookies og dine rettigheder."
+    },
+    "terms": {
+      "title": "Vilkår | TimeWren",
+      "description": "Vilkår for TimeWren Cloud, herunder databehandleraftalen, priser og betaling, dine data og ansvar."
+    }
+  },
+  "home": {
+    "title": "Tidsregistrering og kundestyring for freelancere, bygget op om klippekort",
+    "lead": "TimeWren er open source. Registrér din tid, sælg den til kunderne som klippekort, og fakturér fra de samme registreringer. Det passer til én freelancer eller et lille team, på din egen server eller i vores cloud.",
+    "ctaInstall": "Installér på 5 minutter",
+    "ctaGithub": "Se koden på GitHub",
+    "ctaCloud": "TimeWren Cloud",
+    "heroNote": "AGPL-3.0. Alle funktioner i alle installationer, uden licensnøgle.",
+    "oneLinerLabel": "Installér på en Linux-server med Docker:",
+    "oneLinerNote": "Scriptet tjekker Docker, skriver nye hemmeligheder i .env, henter imaget og starter det hele. Det bruger aldrig sudo og viser aldrig hemmelighederne.",
+    "copy": "Kopiér",
+    "copied": "Kopieret",
+    "heroAlt": "TimeWrens forside med en kørende timer, dagens registreringer og hurtigknapper pr. projekt",
+    "heroMobileAlt": "TimeWrens forside på en telefon",
+    "prepaid": {
+      "title": "Klippekort er bygget ind",
+      "body": "En kunde køber en blok timer på forhånd, og hver registrering klipper den tid, den brugte. Du ved altid, hvad der er tilbage, og det gør kunden også.",
+      "cardLabel": "Eksempel: et klippekort på 20 timer",
+      "cardUsed": "{used} timer brugt",
+      "cardLeft": "{left} af {total} timer tilbage",
+      "stepsTitle": "Sådan virker det",
+      "steps": [
+        [
+          "Sælg et klippekort",
+          "Opret et kort til kunden med antal timer, timepris og en udløbsdato, hvis du vil have en. Du kan runde hver registrering op til et fast klip, fx 15 minutter."
+        ],
+        [
+          "Registrér tid som du plejer",
+          "Start timeren, eller skriv tiden ind på kundens opgave. TimeWren foreslår det aktive klippekort, og tiden trækkes fra det, når du gemmer."
+        ],
+        [
+          "Hold kunden orienteret",
+          "Du får besked, når saldoen er ved at være brugt. Kunden ser brugte timer, resterende timer og hver registrering i sin egen kundeportal og kan bede om et nyt kort derfra."
+        ],
+        [
+          "Bestem, hvad der sker ved nul",
+          "Vælg pr. kort, om det stopper ved nul, må gå i overtræk, eller om den ekstra tid faktureres til en særskilt timepris. Når du godkender en fornyelse, oprettes det nye kort og en fakturakladde på én gang."
+        ]
+      ],
+      "shotAlt": "Klippekort med brugte og resterende timer pr. kunde",
+      "docs": "Læs hele vejledningen om klippekort"
+    },
+    "features": {
+      "title": "Det er med",
+      "lead": "Alt herunder er med i alle installationer, både selvhostet og i cloud.",
+      "items": [
+        {
+          "title": "Timer og registreringer",
+          "body": "Start timeren fra topbjælken eller browserudvidelsen, og den kører videre på tværs af enheder. Eller skriv, hvad du lavede, på én kort linje, så udfylder TimeWren registreringen.",
+          "points": [
+            "Timer, manuelle registreringer og ugeseddel",
+            "Hurtigknapper til de projekter, du bruger mest",
+            "Kalendervisning af ugen med aftaler fra Google eller Apple Kalender",
+            "Import af tidligere registreringer fra en CSV-fil"
+          ],
+          "alt": "Tidsregistrering med en kørende timer og dagens registreringer"
+        },
+        {
+          "title": "Kunder og projekter",
+          "body": "Hver kunde har sin egen side med projekter, klippekort, fakturaer og kontaktoplysninger. Slå et dansk firma op på CVR-nummer, så udfyldes adressen af sig selv.",
+          "points": [
+            "Timepris pr. projekt, pr. kunde eller som din standard, med historik over hver ændring",
+            "Fastprisprojekter og timeprojekter med budget",
+            "En kundeportal med dit logo, hvor kunden ser timer, klippekort og fakturaer",
+            "Arkivér i stedet for at slette, så intet går tabt"
+          ],
+          "alt": "Kundelisten med aktive projekter og saldo på klippekort"
+        },
+        {
+          "title": "Fakturering",
+          "body": "Vælg den tid, der ikke er faktureret, så bygger TimeWren fakturaen af registreringerne. Send den som PDF på mail, eller synkronisér den til dit regnskabsprogram.",
+          "points": [
+            "PDF-fakturaer med din egen skabelon og dit logo",
+            "Faste, gentagne fakturaer",
+            "Synkronisering til Billy, Dinero og e-conomic",
+            "Registreringer låses, når de er faktureret"
+          ],
+          "alt": "Fakturalisten med kladder, sendte og betalte fakturaer"
+        },
+        {
+          "title": "Integrationer",
+          "body": "Forbind de værktøjer, du allerede bruger. Integrationer er slået fra, til du sætter dem op, og på en selvhostet installation bruger de dine egne nøgler.",
+          "points": [
+            "Billy, Dinero og e-conomic til regnskab",
+            "Google Kalender og Apple Kalender",
+            "CVR-opslag af danske firmaer",
+            "Webhooks til dine egne automatiseringer"
+          ],
+          "alt": "Kalenderens ugevisning med registreringer ved siden af aftaler"
+        },
+        {
+          "title": "Opgaver",
+          "body": "Planlæg arbejdet på en kanbantavle pr. projekt, og registrér tid direkte på en opgave. Videresend en mail til din indbakkeadresse, så bliver den til en opgave.",
+          "points": [
+            "Kanbantavle med dine egne kolonner",
+            "Kommentarer, frister og ansvarlige",
+            "Mail til opgave over IMAP"
+          ],
+          "alt": "En kanbantavle med opgaver i flere kolonner"
+        },
+        {
+          "title": "Rapporter",
+          "body": "Se, hvor timerne gik hen, og hvad de tjente. Filtrér på kunde, projekt, person og periode, og eksportér til CSV eller PDF.",
+          "points": [
+            "Timer, omsætning og ufaktureret tid pr. kunde og projekt",
+            "Gemte rapportskabeloner",
+            "Eksport til CSV og PDF"
+          ],
+          "alt": "En rapport med timer og omsætning pr. kunde over en måned"
+        },
+        {
+          "title": "Teams og organisationer",
+          "body": "Invitér kolleger ind i en fælles organisation. Alle registrerer deres egen tid, og du bestemmer, hvem der kan se timepriser, fakturaer og andres timer.",
+          "points": [
+            "Roller og rettigheder",
+            "Ugesedler med godkendelse",
+            "Ressourceplan på tværs af personer og projekter",
+            "Log over ændringer i organisationen"
+          ],
+          "alt": ""
+        }
+      ]
+    },
+    "apps": {
+      "title": "Hvor du registrerer",
+      "lead": "Timeren følger med dig mellem webappen, udvidelsen og apps.",
+      "available": "Klar",
+      "coming": "På vej",
+      "items": [
+        [
+          "Webapp",
+          "I enhver browser, og kan installeres som app på computer og telefon.",
+          "available"
+        ],
+        [
+          "Browserudvidelse",
+          "Start og stop timeren fra enhver fane. Chrome og Firefox, MIT-licens.",
+          "available"
+        ],
+        ["Desktop-app", "macOS og Windows.", "coming"],
+        ["Mobilapp", "iOS og Android.", "coming"]
+      ],
+      "mobileAlt": "TimeWrens forside på en telefon"
+    },
+    "install": {
+      "title": "Installér, som det passer dig",
+      "lead": "TimeWren er ét Docker-image med PostgreSQL ved siden af. Vælg den måde, der passer til din opsætning; alle vejledninger ender med den samme kørende installation.",
+      "guide": "Vejledning",
+      "deploy": "Deploy på Render",
+      "methods": {
+        "quick": {
+          "name": "Én linje",
+          "desc": "På enhver Linux-server med Docker. Ingen git clone."
+        },
+        "dockerCompose": {
+          "name": "Docker Compose",
+          "desc": "Compose-filen og .env selv, med fuld kontrol."
+        },
+        "coolify": {
+          "name": "Coolify",
+          "desc": "Tilføj en Docker Compose-ressource med skabelonen fra deploy/coolify."
+        },
+        "dokploy": {
+          "name": "Dokploy",
+          "desc": "Importér skabelonen fra deploy/dokploy som en compose-tjeneste."
+        },
+        "railway": {
+          "name": "Railway",
+          "desc": "App og database som et Railway-projekt, sat op af railway.json."
+        },
+        "render": {
+          "name": "Render",
+          "desc": "En blueprint fra render.yaml med en webtjeneste og PostgreSQL."
+        },
+        "kubernetes": {
+          "name": "Kubernetes",
+          "desc": "Helm-chartet i charts/timewren."
+        },
+        "fromSource": {
+          "name": "Fra kildekoden",
+          "desc": "Byg imaget selv, eller kør npm run dev for at arbejde på koden."
+        }
+      }
+    },
+    "compare": {
+      "title": "Selvhost det, eller lad os drive det",
+      "lead": "Begge kører den samme kode med de samme funktioner. Forskellen er, hvem der passer serveren.",
+      "caption": "Selvhost og TimeWren Cloud sammenlignet",
+      "selfHosted": "Selvhost",
+      "cloud": "TimeWren Cloud",
+      "cloudStatus": "Kommer snart",
+      "rows": [
+        ["Pris", "Gratis, for altid", "Månedligt abonnement"],
+        ["Funktioner", "Dem alle", "Dem alle"],
+        ["Hvem driver det", "Dig, på din egen server", "Det gør vi, i EU"],
+        [
+          "Dine data",
+          "I din egen database",
+          "I vores database, under en databehandleraftale"
+        ],
+        ["Opdateringer", "Du henter det nye image", "Klares for dig"],
+        ["Backup", "Scripts følger med, du planlægger dem", "Inkluderet"],
+        ["Support", "Fællesskabet på GitHub", "Support på mail"],
+        ["Telemetri", "Slået fra som standard", "Fejlrapporter og statistik"]
+      ],
+      "guide": "Vejledning til selvhost",
+      "pricing": "Priser på Cloud"
+    },
+    "unlocked": {
+      "title": "Ingen låste funktioner",
+      "body": "Der er én udgave af TimeWren, og det hele er open source. En selvhostet installation har ingen planer, brugergrænser, prøveperioder eller licensnøgler. TimeWren Cloud kører den samme kode. Du betaler Cloud for at drive det for dig, ikke for at låse noget op."
+    },
+    "license": {
+      "title": "Open source under AGPL-3.0",
+      "body": "Du må læse, køre, ændre og dele TimeWren. Tilbyder du en ændret udgave til andre over et netværk, deler du dine ændringer under samme licens. Browserudvidelsen er MIT. Issues, diskussioner og pull requests foregår i det åbne, og bidrag skrives under efter Developer Certificate of Origin.",
+      "cta": "Læs licensen",
+      "contributing": "Sådan bidrager du"
+    },
+    "data": {
+      "title": "Dine data er dine",
+      "points": [
+        [
+          "Hvor de ligger",
+          "Selvhostet ligger det hele i din egen PostgreSQL-database og dit eget fillager. Intet sendes til os."
+        ],
+        [
+          "Tag dem med",
+          "Eksportér registreringer, kunder og fakturaer som CSV, eller bestil en fuld eksport af organisationen som en ZIP med JSON og CSV."
+        ],
+        [
+          "Intet hjem-opkald",
+          "Der er ingen brugsrapportering og ingen installationstæller. Statistik, fejlrapporter, annoncetags og versionstjek er slået fra, til du sætter dem op. Listen over telemetri nævner alle udgående forbindelser, appen kan lave."
+        ]
+      ],
+      "telemetry": "Se alle udgående forbindelser"
+    },
+    "dev": {
+      "title": "Til udviklere og LLM'er",
+      "lead": "TimeWren har et REST API og en MCP-server, og dokumentationen er skrevet, så både mennesker og kodeagenter kan læse den.",
+      "items": [
+        [
+          "REST API",
+          "Kunder, projekter, registreringer, timer, klippekort, fakturaer, opgaver, rapporter og webhooks, med en OpenAPI-beskrivelse på /api/v1/openapi.json på din installation."
+        ],
+        [
+          "MCP-server",
+          "Forbind Claude, ChatGPT eller en anden MCP-klient til /api/v1/mcp med en API-nøgle, og bed den registrere tid, tjekke en kundes saldo eller lave en fakturakladde af den ufakturerede tid."
+        ],
+        [
+          "Docs til din agent",
+          "Hver side i dokumentationen findes også som ren Markdown: tilføj .md til adressen. /llms.txt lister siderne, og /llms-full.txt har dem alle i én fil, som du kan sætte ind i en prompt eller et projekt."
+        ]
+      ],
+      "docs": "Dokumentation",
+      "llmGuide": "Brug dokumentationen med din LLM",
+      "promptLabel": "Skriv fx til din kodeagent:",
+      "prompt": "Læs https://timewren.com/llms.txt og hjælp mig med at installere TimeWren på min server."
+    },
+    "faq": {
+      "title": "Spørgsmål",
+      "items": [
+        [
+          "Er det virkelig gratis at selvhoste?",
+          "Ja. Den selvhostede udgave har alle funktioner, uden tidsgrænse, brugergrænse eller licensnøgle. Du betaler for din egen server."
+        ],
+        [
+          "Hvad koster TimeWren Cloud?",
+          "Priserne er ikke endelige endnu. Prissiden viser dem i EUR, USD og DKK, og Cloud åbner for nye konti senere."
+        ],
+        [
+          "Hvad skal jeg bruge for at selvhoste?",
+          "En Linux-server med Docker og Compose v2.24 eller nyere og 2 GB RAM. Til andet end at prøve det på localhost skal du også have et domæne og TLS."
+        ],
+        [
+          "Kan jeg flytte fra et andet tidsregistreringsprogram?",
+          "Du kan importere tidligere registreringer fra en CSV-fil med dato, timer, beskrivelse, projekt og kunde. Der er ingen direkte import fra andre programmer endnu, så eksportér til CSV fra det program, du bruger i dag."
+        ],
+        [
+          "Hvordan tager jeg backup?",
+          "Repoet har scripts til backup og gendannelse af databasen og uploadede filer. Du planlægger dem selv, fx med cron, og gemmer kopierne et andet sted."
+        ],
+        [
+          "Hvordan opdaterer jeg?",
+          "Hent det nye image og genstart. Databasemigreringer kører af sig selv ved start, og vejledningen forklarer, hvordan du går tilbage, hvis en fejler."
+        ],
+        [
+          "Hvilke sprog findes det på?",
+          "Appen findes på engelsk og dansk og på 16 sprog mere i beta, blandt andet tysk, spansk, fransk og svensk. Beta-oversættelserne er ikke gennemlæst endnu, og manglende tekst vises på engelsk. Denne side findes på engelsk, dansk, tysk og spansk."
+        ],
+        [
+          "Er der en mobilapp?",
+          "Webappen virker på telefonen og kan lægges på hjemmeskærmen. Apps til iOS og Android er på vej."
+        ],
+        [
+          "Sender en selvhostet installation data nogen steder hen?",
+          "Statistik, fejlrapporter, annoncetags og versionstjek er slået fra, til du sætter dem op. Det eneste kald, der går ud som standard, sker, når du åbner API-referencen, som henter sin visning fra jsDelivr. Listen over telemetri i dokumentationen nævner hver forbindelse og indstillingen bag den."
+        ],
+        [
+          "Hvilke regnskabsprogrammer virker det med?",
+          "Billy, Dinero og e-conomic. Alle fakturaer findes også som PDF."
+        ],
+        [
+          "Hvad har TimeWren med TimeTrack at gøre?",
+          "TimeTrack er det danske produkt på timetrack.dk, som TimeWren er vokset ud af. Det er den samme kode under et nyt navn."
+        ]
+      ]
+    }
+  },
+  "pricing": {
+    "title": "Priser",
+    "lead": "Begge muligheder har alle funktioner. Det er gratis at selvhoste, for altid. TimeWren Cloud koster et månedligt beløb for hosting, opdateringer, backup og support.",
+    "selfTitle": "Selvhost",
+    "selfPrice": "Gratis",
+    "selfPer": "for altid, med alle funktioner",
+    "selfPoints": [
+      "Alle funktioner, ingen brugergrænse",
+      "Din server, dine data",
+      "Ét installationsscript med Docker Compose",
+      "Hjælp fra fællesskabet på GitHub"
+    ],
+    "selfCta": "Læs vejledningen til selvhost",
+    "cloudTitle": "TimeWren Cloud",
+    "cloudPoints": [
+      "Alle funktioner, den samme kode",
+      "Hosting og opdateringer klares for dig",
+      "Backup er inkluderet",
+      "Support på mail"
+    ],
+    "perMonth": "pr. måned",
+    "perUserMonth": "pr. bruger pr. måned",
+    "sameFeatures": "Du betaler Cloud for at drive TimeWren, ikke for at låse det op. Skifter du mellem de to, ændrer det ikke, hvad du kan.",
+    "currency": "Valuta",
+    "users": {
+      "one": "1 bruger",
+      "upTo": "Op til {n} brugere",
+      "range": "{min} til {max} brugere"
+    },
+    "clients": {
+      "upTo": "Op til {n} aktive kunder",
+      "unlimited": "Ubegrænset antal aktive kunder"
+    },
+    "vat": "Alle priser er ekskl. moms.",
+    "billedInDkk": "Priser i EUR og USD faktureres i DKK, indtil lokal fakturering kommer.",
+    "cloudCta": "Opret en Cloud-konto",
+    "plans": {
+      "free": "Gratis",
+      "privat": "Privat",
+      "solo": "Selvstændig",
+      "team": "Team",
+      "business": "Virksomhed"
+    }
+  },
+  "selfHosting": {
+    "title": "Selvhost",
+    "lead": "TimeWren kører som en lille Docker Compose-stak: webappen, PostgreSQL og en cron-container til planlagte job. En selvhostet instans har alle funktioner, og statistik og fejlrapporter er slået fra, indtil du selv sætter dem op.",
+    "reqTitle": "Krav",
+    "req": [
+      "Docker Engine med Compose v2.24 eller nyere",
+      "2 vCPU og 2 GB RAM, eller 4 GB hvis du selv bygger imaget",
+      "10 GB fri diskplads",
+      "Et domæne og en reverse proxy med TLS, medmindre du kun prøver det på localhost"
+    ],
+    "quickTitle": "Hurtig start",
+    "quickNote": "Åbn appen og opret en konto. Den første konto bliver administrator for instansen. Migreringer kører af sig selv ved hver start.",
+    "docsTitle": "Den fulde vejledning",
+    "docsLead": "Vejledningerne dækker opsætning, opdateringer, backup og alt, hvad du kan konfigurere.",
+    "docs": [
+      ["Hurtig start", "quickstart"],
+      ["Miljøvariabler", "configuration/environment"],
+      ["Mail", "configuration/email"],
+      ["Fillager", "configuration/storage"],
+      ["Login, OAuth og passkeys", "configuration/authentication"],
+      ["Reverse proxy og TLS", "operations/reverse-proxy"],
+      ["Opdatering", "operations/upgrading"],
+      ["Backup og gendannelse", "operations/backup-restore"],
+      ["Fejlsøgning", "operations/troubleshooting"]
+    ],
+    "telemetry": "Telemetri og udgående forbindelser"
+  },
+  "legal": {
+    "englishPrevails": "Ved uoverensstemmelser er den engelske version gældende.",
+    "englishVersion": "Engelsk version",
+    "lastUpdated": "Sidst opdateret: {date}",
+    "privacy": {
+      "title": "Privatlivspolitik",
+      "intro": "Denne politik beskriver, hvilke personoplysninger Mahope indsamler, når du bruger timewren.com og TimeWren Cloud, hvordan vi bruger dem, hvem vi deler dem med, og hvilke rettigheder du har.",
+      "sections": [
+        {
+          "title": "1. Hvem er vi?",
+          "paragraphs": [
+            "TimeWren Cloud drives af Mahope (CVR 39413892), Danmark. Vi er dataansvarlig for personoplysningerne i din konto. Bruger du TimeWren Cloud til oplysninger om andre, fx medarbejdere eller dine kunder, er vi i stedet din databehandler efter databehandleraftalen i [vilkårene](terms)."
+          ]
+        },
+        {
+          "title": "2. Hvilke data indsamler vi?",
+          "items": [
+            "**Kontooplysninger:** navn, e-mail, virksomhedsnavn og telefonnummer (valgfrit).",
+            "**Brugsdata:** tidsregistreringer, kundeoplysninger, projekter, fakturaer og opgaver.",
+            "**Betalingsdata:** abonnementer betales via Alunta, som håndterer kortoplysningerne. Vi modtager aldrig dit fulde kortnummer.",
+            "**Kalenderdata:** kalenderbegivenheder, kun hvis du forbinder en kalender.",
+            "**Tekniske data:** IP-adresse, browsertype, enhedstype og fejlrapporter."
+          ]
+        },
+        {
+          "title": "3. Hvordan bruger vi dine data?",
+          "items": [
+            "Til at levere og vedligeholde TimeWren Cloud.",
+            "Til at behandle betalinger og administrere abonnementer.",
+            "Til at sende transaktionelle mails (bekræftelser, fakturaer, nulstilling af adgangskode).",
+            "Til at besvare supporthenvendelser.",
+            "Til AI-funktioner, kun hvis du slår dem til (afsnit 6).",
+            "Til at overvåge og rette tekniske fejl.",
+            "Til at overholde juridiske forpligtelser."
+          ]
+        },
+        {
+          "title": "4. Underdatabehandlere, vi altid bruger",
+          "paragraphs": [
+            "Vi deler kun data med tredjeparter, når det er nødvendigt for at drive tjenesten. Disse underdatabehandlere bruges for alle konti i TimeWren Cloud:"
+          ],
+          "items": [
+            "**Hetzner Online GmbH (Tyskland):** server, database, filer, backup og vores egen mailserver. Databasen ligger i Nürnberg, Tyskland, og filer og backup i Helsinki, Finland. Begge i EU.",
+            "**Resend, Inc. (USA):** afsender mails fra TimeWren Cloud (login-links, notifikationer, påmindelser) og modtager mails, du videresender. Resends EU-region i Irland. Grundlag: EU-standardkontraktbestemmelser og EU-U.S. Data Privacy Framework.",
+            "**Functional Software, Inc. / Sentry (USA):** fejlrapportering. En fejlrapport kan indeholde bruger-id, URL og tekniske detaljer; standard-persondata er slået fra. Grundlag: EU-U.S. Data Privacy Framework med EU-standardkontraktbestemmelser som reserve.",
+            "**Discord Inc. (USA):** interne driftsbeskeder til os, herunder navn og e-mail, når en bruger oprettes. Grundlag: EU-U.S. Data Privacy Framework og EU-standardkontraktbestemmelser."
+          ]
+        },
+        {
+          "title": "5. Tjenester, du selv vælger at forbinde",
+          "paragraphs": [
+            "De bruges kun, når du eller dine brugere slår dem til. De behandler data efter din egen aftale med udbyderen:"
+          ],
+          "items": [
+            "**Login med Microsoft (Entra ID), Google, Apple, GitHub eller Discord:** vi modtager dit navn og din e-mail fra udbyderen.",
+            "**Google Calendar og iCloud-kalender:** kalendersynkronisering, når du forbinder en kalender.",
+            "**SMS-login (MessageBird):** kun hvis du vælger telefon-login. Vi sender dit telefonnummer og en engangskode via SMS.",
+            "**Push-notifikationer (650 Industries, Inc. / Expo, USA):** til mobilappen, videresendt via Apple Push Notification Service eller Firebase Cloud Messaging. Grundlag: EU-U.S. Data Privacy Framework.",
+            "**AI-udbyder, du selv vælger (fx OpenAI eller Anthropic):** kun når en bruger selv indsætter sin egen API-nøgle (afsnit 6).",
+            "**Billy, Dinero, e-conomic og TimeOps:** bogføring, fakturering og import, når du forbinder dit regnskab.",
+            "**Slack, Microsoft Teams og Discord (webhooks):** notifikationer til dine egne kanaler, når du opretter en webhook. Webhook-URL'er gemmes krypteret (AES-256-GCM)."
+          ],
+          "after": [
+            "Vi sælger aldrig dine data. Vi bruger ikke Google Analytics, Facebook Pixel eller andre trackingværktøjer fra tredjepart."
+          ]
+        },
+        {
+          "title": "6. AI-funktioner",
+          "items": [
+            "AI-funktioner (opgaveforslag, tidsestimering, prioritering og kategorisering) er slået fra som standard.",
+            "De virker kun, når en bruger selv indsætter sin egen API-nøgle til en AI-udbyder under Indstillinger. TimeWren Cloud har ingen fælles AI-nøgle.",
+            "Kun de nødvendige data sendes (opgavetekster og tidsregistreringer), aldrig adgangskoder, betalingsoplysninger eller personlige beskeder.",
+            "Du kan slå AI-funktioner fra når som helst under Indstillinger."
+          ]
+        },
+        {
+          "title": "7. Google-brugerdata",
+          "paragraphs": [
+            "Når du forbinder Google Calendar, får TimeWren Cloud adgang til data fra din Google-konto via Googles API'er:"
+          ],
+          "items": [
+            "**Hvad vi tilgår:** som standard kun læseadgang til din kalender (calendar.readonly) og din Google-kontos e-mailadresse (userinfo.email). Vi læser listen over dine kalendere og begivenhederne i de kalendere, du vælger: titel, tidspunkt, varighed, beskrivelse, sted og din svarstatus. E-mailadressen bruger vi kun til at vise, hvilken Google-konto der er forbundet.",
+            "**Skriveadgang er valgfri:** kun hvis du selv slår en skrivende funktion til, beder vi om adgang til at oprette og ændre begivenheder (calendar.events). Den bruges udelukkende til at oprette, opdatere og slette de begivenheder, du beder TimeWren om at lave: tidsblokke til opgaver og eksporterede tidsregistreringer. Vi ændrer eller sletter aldrig andre begivenheder i din kalender.",
+            "**Hvordan vi bruger dataene:** til at vise dine møder i TimeWren, så du kan omdanne dem til tidsregistreringer, foreslå ledige tider til opgaver og give dig overblik over din arbejdsdag. Vi bruger ikke Google-data til reklame, sælger dem ikke og bruger dem ikke til at træne AI-modeller.",
+            "**Deling:** Google-data deles ikke med andre end de databehandlere, der er nødvendige for at drive tjenesten (hosting hos Hetzner i EU). Har du selv slået AI-funktioner til, sendes titler og tidspunkter på endnu ikke registrerede begivenheder til din AI-udbyder for at foreslå projekter og tidsregistreringer.",
+            "**Opbevaring og sletning:** begivenheder og adgangstokens opbevares på vores servere i EU og overføres krypteret. Adgangstokens til Google gemmes desuden krypteret i databasen (AES-256-GCM). Afbryder du forbindelsen under Indstillinger, Integrationer, sletter vi dine tokens og de begivenheder, vi har hentet fra Google. Du kan også fjerne TimeWrens adgang i din [Google-konto](https://myaccount.google.com/connections)."
+          ],
+          "after": [
+            "TimeWrens brug og overførsel af oplysninger modtaget fra Googles API'er følger [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), herunder kravene om begrænset brug (Limited Use)."
+          ]
+        },
+        {
+          "title": "8. Hvor længe gemmer vi dine data?",
+          "paragraphs": [
+            "Vi gemmer dine data, så længe du har en aktiv konto. Sletter du din konto, sletter eller anonymiserer vi dine personoplysninger inden for 30 dage, medmindre loven kræver, at vi gemmer dem længere (fx 5 år for bogføringsdata efter bogføringsloven)."
+          ],
+          "items": [
+            "**Login-sessioner:** 7 dage",
+            "**Betalingshændelser:** 90 dage",
+            "**Fejlrapporter (Sentry):** 90 dage",
+            "**Bogføringsdata:** op til 5 år"
+          ]
+        },
+        {
+          "title": "9. Dine rettigheder",
+          "paragraphs": [
+            "Efter GDPR har du ret til indsigt, rettelse og sletning, til at eksportere dine data (dataportabilitet) og til at gøre indsigelse mod behandling. Skriv til {email} for at bruge dine rettigheder. Du kan også klage til [Datatilsynet](https://www.datatilsynet.dk)."
+          ]
+        },
+        {
+          "title": "10. Sikkerhed",
+          "items": [
+            "TLS-kryptering af alle data under overførsel.",
+            "Adgangstokens, API-nøgler og adgangskoder til integrationer gemmes krypteret i databasen (AES-256-GCM).",
+            "Krypterede databasebackups.",
+            "Regelmæssige sikkerhedsopdateringer.",
+            "Adgangskontrol og autentificering."
+          ]
+        },
+        {
+          "title": "11. Cookies",
+          "paragraphs": [
+            "timewren.com sætter ingen cookies. TimeWren Cloud bruger kun strengt nødvendige cookies til login og sessioner. Vi bruger ingen marketingcookies eller trackingcookies fra tredjepart. Slår vi statistik til, sker det med vores egen selvhostede Plausible hos Hetzner i EU, som er cookieløs og ikke gemmer persondata."
+          ]
+        },
+        {
+          "title": "12. Selvhostede installationer",
+          "paragraphs": [
+            "Politikken gælder ikke TimeWren-installationer, som andre driver på deres egen server. En selvhostet installation sender ingen tidsregistreringer, kunder eller fakturaer til Mahope. Den, der driver installationen, er dataansvarlig (eller databehandler) for dataene i den og ansvarlig for sikkerhed, backup, underdatabehandlere og privatlivspolitik. Vejledningen til selvhost oplyser, hvad standardbygget henter fra tredjeparter."
+          ]
+        },
+        {
+          "title": "13. Ændringer af politikken",
+          "paragraphs": [
+            "Vi kan opdatere politikken. Ved væsentlige ændringer giver vi dig besked på mail eller i TimeWren Cloud."
+          ]
+        },
+        {
+          "title": "14. Kontakt",
+          "paragraphs": [
+            "Spørgsmål til politikken: {email}. Mahope, CVR 39413892, Danmark."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Vilkår",
+      "intro": "Vilkårene gælder, når du bruger TimeWren Cloud. Læs dem grundigt igennem.",
+      "sections": [
+        {
+          "title": "1. Accept af vilkår",
+          "paragraphs": [
+            "Ved at oprette en konto og bruge TimeWren Cloud accepterer du vilkårene. Accepterer du dem ikke, må du ikke bruge tjenesten."
+          ]
+        },
+        {
+          "title": "2. Tjenesten",
+          "paragraphs": [
+            "TimeWren Cloud er den hostede udgave af TimeWren og drives af Mahope (CVR 39413892), Danmark. Tjenesten tilbyder:"
+          ],
+          "items": [
+            "Tidsregistrering og klippekort",
+            "Projekt- og kundehåndtering",
+            "Fakturering og rapporter",
+            "Integrationer, bl.a. med danske regnskabsprogrammer (Billy, Dinero, e-conomic) og CVR"
+          ]
+        },
+        {
+          "title": "3. Open source-software og selvhost",
+          "paragraphs": [
+            "TimeWren-softwaren er open source. Den er omfattet af sin egen licens (AGPL-3.0, browserudvidelsen MIT) og ikke af disse vilkår. Vilkårene gælder kun TimeWren Cloud. De gælder ikke installationer, som andre driver på deres egen server: den, der driver en selvhostet installation, er selv ansvarlig for den, for dataene i den og for de vilkår, der gælder for dens brugere. Mahope har ingen adgang til selvhostede installationer og giver ingen løfter om oppetid, backup eller support for dem."
+          ]
+        },
+        {
+          "title": "4. Brugerkonti",
+          "paragraphs": ["Du er ansvarlig for:"],
+          "items": [
+            "At holde dine loginoplysninger sikre",
+            "Al aktivitet under din konto",
+            "At give korrekte og opdaterede oplysninger",
+            "At give os besked straks, hvis din konto bruges uden tilladelse"
+          ]
+        },
+        {
+          "title": "5. Priser og betaling",
+          "items": [
+            "**Planer og priser:** de gældende planer og priser står på [prissiden](pricing).",
+            "**Årlig betaling:** svarer til 10 måneders pris (2 måneder gratis).",
+            "**Prøveperiode:** 30 dage gratis, intet betalingskort og ingen binding.",
+            "**Valuta og moms:** priserne er ekskl. moms. Abonnementer faktureres i danske kroner (DKK). Priser vist i EUR eller USD faktureres i DKK.",
+            "**Betaling:** månedligt eller årligt forud via kort.",
+            "**Opsigelse:** du kan opsige når som helst uden binding.",
+            "**Refundering:** vi tilbyder 14 dages tilbagebetalingsgaranti. Skriv til {email} for at bede om refundering."
+          ]
+        },
+        {
+          "title": "6. AI-funktioner",
+          "paragraphs": [
+            "TimeWren Cloud har valgfrie AI-funktioner (opgaveforslag, tidsestimering, kategorisering). De virker kun, når du selv indsætter en nøgle til en AI-udbyder under Indstillinger. Ved brug gælder:"
+          ],
+          "items": [
+            "AI-funktioner er slået fra som standard og kræver dit aktive valg",
+            "Relevante opgavetekster og tidsdata sendes til den AI-udbyder, du har valgt, aldrig adgangskoder, betalingsoplysninger eller personlige beskeder",
+            "AI-forslag er vejledende og kan indeholde fejl. Du er selv ansvarlig for at tjekke og godkende dem før brug",
+            "Vi er ikke ansvarlige for nøjagtigheden af AI-genereret indhold",
+            "Du kan slå AI-funktioner fra når som helst"
+          ]
+        },
+        {
+          "title": "7. Acceptabel brug",
+          "paragraphs": ["Du må ikke bruge TimeWren Cloud til at:"],
+          "items": [
+            "Dele ulovligt indhold eller krænke andres rettigheder",
+            "Sende spam eller phishing-mails",
+            "Forsøge at hacke eller kompromittere systemet",
+            "Bruge tjenesten til ulovlige formål",
+            "Oprette flere gratis konti for at omgå begrænsninger"
+          ]
+        },
+        {
+          "title": "8. Dine data",
+          "paragraphs": [
+            "Du beholder alle rettigheder til dine data. Vi ejer ikke de data, du lægger i tjenesten. Du kan til enhver tid:"
+          ],
+          "items": [
+            "Hente alle dine data som én fil under Indstillinger, Import og eksport, også uden betalt abonnement. I et team kan ejere og administratorer hente hele teamets data, og hver medarbejder kan hente sine egne",
+            "Slette din konto og alle tilhørende data",
+            "Flytte dine data til en anden platform"
+          ]
+        },
+        {
+          "title": "9. Databehandleraftale",
+          "paragraphs": [
+            "Bruger du TimeWren Cloud til personoplysninger om andre, fx medarbejdere, kunder eller kontaktpersoner, er du dataansvarlig og Mahope din databehandler. Dette afsnit er databehandleraftalen efter GDPR artikel 28 og er en del af vilkårene. Den gælder for alle planer."
+          ],
+          "items": [
+            "**Formål og karakter:** vi behandler oplysningerne for at levere, drive, vedligeholde, sikre og supportere TimeWren Cloud til dig: registrering af arbejdstid, fravær og timesedler, dine kunder, kontaktpersoner, projekter, opgaver, klippekort og fakturagrundlag, godkendelser, notifikationer og rapporter, kundeportalen når du slår den til, eksport til dine løn- og økonomisystemer, login (også via Microsoft Entra ID-SSO), backup, fejlretning, sikkerhedsovervågning og support.",
+            "**Registrerede:** dine ansatte, ledere og administratorer, eksterne konsulenter, du opretter, dine kunder og deres kontaktpersoner, brugere af kundeportalen og afsendere af mails, du videresender eller forbinder.",
+            "**Personoplysninger:** navn, e-mail, telefonnummer, medarbejderoplysninger og arbejdstid, tids- og fraværsregistreringer, timeseddelstatus og godkendelseshistorik; for dine kunder og kontaktpersoner: navn, e-mail, telefon, adresse, CVR-nummer, noter, timepriser, fakturaer og klippekort; indhold i opgaver og mails, du opretter, videresender eller forbinder; IP-adresser og logdata fra login og handlinger.",
+            "**Følsomme oplysninger:** fraværstyper som sygdom, barns sygdom og barsel kan afsløre helbredsoplysninger. Vi behandler dem kun som fraværskategori og periode. Notér ikke helbredsoplysninger i fritekst, og instruér dine brugere i ikke at gøre det.",
+            "**Nationale identifikationsnumre** (fx CPR-numre) behandles ikke i TimeWren Cloud. Du må ikke indtaste dem.",
+            "**Instruks:** vi behandler kun oplysningerne efter din dokumenterede instruks. Aftalen, din konfiguration og din brug af funktionerne er instruksen. Vi giver straks besked, hvis en instruks efter vores opfattelse strider mod databeskyttelsesreglerne.",
+            "**Fortrolighed og sikkerhed:** alle med adgang til oplysningerne har tavshedspligt. Vi gennemfører sikkerhedsforanstaltningerne i afsnit 10 i [privatlivspolitikken](privacy), som svarer til risikoen (GDPR artikel 32).",
+            "**Bistand:** vi hjælper dig med at opfylde dine forpligtelser over for de registrerede (artikel 12 til 23) og efter artikel 32 til 36. Hver bruger kan selv hente sine egne data under Indstillinger, Import og eksport. Øvrige anmodninger håndteres af support inden for 10 arbejdsdage.",
+            "**Brud på persondatasikkerheden:** vi underretter dig uden unødig forsinkelse og senest 48 timer efter, at vi er blevet opmærksomme på et brud, der vedrører dine oplysninger. Underretningen går til dine registrerede administratorer og indeholder så vidt muligt oplysningerne i artikel 33, stk. 3. Vi hjælper dig med at anmelde bruddet til tilsynsmyndigheden og, hvor relevant, underrette de registrerede.",
+            "**Underdatabehandlere:** du giver generel godkendelse til underdatabehandlerne i afsnit 4 og 5 i [privatlivspolitikken](privacy). Vi giver dine administratorer besked på mail mindst 30 dage før, vi tilføjer eller udskifter en. Du kan gøre begrundet indsigelse inden fristen. Finder vi ikke en løsning, kan du opsige abonnementet til udgangen af varslingsperioden uden ekstra omkostninger. Vi pålægger underdatabehandlerne de samme databeskyttelsesforpligtelser og er fuldt ansvarlige for dem. Tjenester, du selv forbinder, behandler data efter din egen aftale med udbyderen.",
+            "**Overførsel uden for EU:** din database, dine filer og din backup opbevares i EU (Tyskland og Finland). Behandler en underdatabehandler oplysninger uden for EU/EØS, sikrer vi et gyldigt overførselsgrundlag (GDPR kapitel V), fx EU-U.S. Data Privacy Framework eller EU-standardkontraktbestemmelser.",
+            "**Dine forpligtelser:** du sikrer, at behandlingen har et lovligt grundlag, at de registrerede er informeret, og at dine instrukser er lovlige. Du administrerer dine brugeres adgange og roller, også fjernelse af fratrådte, og de integrationer og SSO-indstillinger, du sætter op.",
+            "**Revision:** én gang om året kan du med mindst 30 dages skriftligt varsel selv eller via en uafhængig tredjepart revidere, at vi overholder aftalen. Vi kan i stedet fremlægge vores egen sikkerhedsdokumentation, revisionserklæringer fra underdatabehandlere og svar på dit skriftlige spørgeskema. Du afholder egne omkostninger; vores tid ud over 8 timer om året faktureres efter gældende timesats.",
+            "**Varighed og sletning:** aftalen gælder, så længe vi behandler personoplysninger for dig. Ejere og administratorer kan når som helst hente alle jeres data som én fil. Når abonnementet ophører, kan I stadig hente dem i 30 dage. Derefter sletter vi alle jeres personoplysninger, medmindre loven kræver andet. Data i backup slettes, når backuppen udløber, senest 30 dage efter sletningen. Du kan bede os om at slette organisationen og alle dens data tidligere.",
+            "**Hændelseslog:** organisationens hændelseslog over tidsregistreringer og rettelser kan dokumentere, at I overholder reglerne om arbejdstidsregistrering. En eventuel pligt til at opbevare den (fx 5 år efter dansk lov) er jeres. Hent den med eksporten, før abonnementet ophører.",
+            "**Ansvar og lovvalg:** ansvaret følger GDPR artikel 82 og ansvarsbegrænsningerne i vilkårene, undtagen ved tab som følge af forsæt eller grov uagtsomhed. Dansk ret gælder, og tvister afgøres ved vores hjemting, medmindre ufravigelige regler siger andet."
+          ]
+        },
+        {
+          "title": "10. Serviceniveau",
+          "paragraphs": ["Vi stræber efter:"],
+          "items": [
+            "99,9 % oppetid på årsbasis",
+            "Daglige automatiske backups af dine data",
+            "Svar fra support inden for 24 timer"
+          ],
+          "after": [
+            "Vi varsler planlagt vedligeholdelse mindst 48 timer i forvejen."
+          ]
+        },
+        {
+          "title": "11. Opsigelse",
+          "items": [
+            "**Din opsigelse:** du kan opsige når som helst fra din konto. Du har adgang til udgangen af den periode, du har betalt for.",
+            "**Vores opsigelse:** vi kan suspendere eller lukke din konto med 30 dages varsel, hvis du overtræder vilkårene.",
+            "**Hvis TimeWren Cloud lukker:** du får besked på mail mindst 6 måneder før. Indtil da kan du hente alle dine data som én fil, også vedhæftede filer, hændelseslog og godkendelseshistorik. Har du betalt forud for en periode efter lukningen, refunderer vi den ubrugte del. Dine data slettes derefter efter afsnit 9, også i backup."
+          ]
+        },
+        {
+          "title": "12. Ansvarsfraskrivelse",
+          "paragraphs": [
+            "TimeWren Cloud leveres, som den er, uden garantier af nogen art. Vi er ikke ansvarlige for:"
+          ],
+          "items": [
+            "Tab af data eller indtjening",
+            "Indirekte tab eller følgeskader",
+            "Tredjepartsintegrationer, der fejler",
+            "Nøjagtigheden af AI-genererede forslag, estimater eller kategoriseringer"
+          ],
+          "after": [
+            "Vores samlede ansvar er begrænset til det beløb, du har betalt i de seneste 12 måneder."
+          ]
+        },
+        {
+          "title": "13. Ændringer af vilkårene",
+          "paragraphs": [
+            "Vi kan opdatere vilkårene. Ved væsentlige ændringer, også af databehandleraftalen, giver vi dig besked på mail mindst 30 dage i forvejen."
+          ]
+        },
+        {
+          "title": "14. Lovvalg",
+          "paragraphs": [
+            "Vilkårene er underlagt dansk ret. Tvister afgøres ved danske domstole. Forbrugere beholder de ufravigelige rettigheder, de har efter loven i deres eget land."
+          ]
+        },
+        {
+          "title": "15. Kontakt",
+          "paragraphs": [
+            "Spørgsmål til vilkårene: {email}. Mahope, CVR 39413892, Danmark."
+          ]
+        }
+      ]
+    }
+  }
+}

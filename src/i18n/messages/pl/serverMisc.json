@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Faktura (standardowa)",
+        "subject": "Faktura {number} od {company}",
+        "title": "Faktura {number}",
+        "text": "Dzień dobry, {client},\n\nW załączniku przesyłamy fakturę za wykonaną pracę.\n\nKwota: {amount}\nTermin płatności: {dueDate}",
+        "button": "Zobacz fakturę",
+        "footer": "Z poważaniem\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Zaproszenie do portalu",
+        "subject": "Zaproszenie do portalu klienta firmy {company}",
+        "title": "Witamy w portalu klienta",
+        "text": "Dzień dobry, {client},\n\nZapraszamy Państwa do osobistego portalu klienta firmy {company}.\n\nW portalu mogą Państwo:\n• przeglądać faktury\n• śledzić postępy projektu\n• przeglądać wpisy czasu\n• sprawdzać pakiet godzin",
+        "button": "Przyjmij zaproszenie"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Nie będziesz już otrzymywać newsletterów ani e-maili marketingowych od TimeTrack. Ważne wiadomości dotyczące konta i bezpieczeństwa nadal będą docierać.",
+    "invalidText": "Nie udało się potwierdzić wypisania. Spróbuj ponownie lub zmień ustawienia w TimeTrack.",
+    "confirmText": "Czy chcesz zrezygnować z newsletterów i e-maili marketingowych od TimeTrack? Ważne wiadomości dotyczące konta i bezpieczeństwa nadal będą docierać.",
+    "settingsButton": "Zmień ustawienia e-mail",
+    "confirmButton": "Potwierdź rezygnację",
+    "doneTitle": "Zrezygnowano z subskrypcji",
+    "invalidTitle": "Link jest nieprawidłowy",
+    "confirmTitle": "Rezygnacja z newsletterów"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "koniec okresu"
+  }
+}

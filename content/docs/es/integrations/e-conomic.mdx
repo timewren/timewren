@@ -1,0 +1,50 @@
+---
+title: "e-conomic"
+description: "Conecta e-conomic con TimeWren mediante una aplicación que registras tú: importa clientes, exporta clientes y facturas y sincroniza el estado de los pagos."
+---
+
+e-conomic es un sistema de contabilidad danés. Registras tu propia aplicación en el portal de desarrolladores de e-conomic y le das sus dos tokens al servidor. Después, cada usuario concede a la aplicación acceso a su propio acuerdo de e-conomic con un clic.
+
+## Qué hace
+
+- Importa los clientes de e-conomic como clientes.
+- Exporta un cliente a e-conomic.
+- Exporta una factura. Eliges el diseño, las condiciones de pago, el producto y si va una línea por registro de horas o una línea combinada. Opcionalmente, la factura se contabiliza al exportarla.
+- Sincroniza de vuelta a TimeWren el estado del pago.
+
+## Configuración del servidor
+
+1. Crea una aplicación en [https://www.e-conomic.com/developer](https://www.e-conomic.com/developer). Obtienes un token público de la aplicación y un token secreto de la aplicación.
+2. Añádelos a `.env`:
+
+   ```dotenv
+   ECONOMIC_APP_PUBLIC_TOKEN=your-public-token
+   ECONOMIC_APP_SECRET_TOKEN=your-secret-token
+   # Only if the callback differs from NEXT_PUBLIC_APP_URL + /api/integrations/economic/callback
+   # ECONOMIC_REDIRECT_URI=https://timewren.example.com/api/integrations/economic/callback
+   ```
+
+3. Reinicia la aplicación.
+
+Cuando un usuario aprueba el acceso, e-conomic redirige de vuelta a:
+
+```text
+https://timewren.example.com/api/integrations/economic/callback
+```
+
+El token secreto permanece en el servidor y nunca se muestra a los usuarios. `ENCRYPTION_KEY` debe estar definida, porque el token de concesión del acuerdo de cada usuario se guarda cifrado. Consulta [Variables de entorno](/es/docs/configuration/environment).
+
+Sin ambos tokens, el botón Conectar redirige de vuelta con un error `economic_not_configured`.
+
+## Conectar como usuario
+
+1. Abre Ajustes, Integraciones y elige Conectar con e-conomic.
+2. Inicia sesión en e-conomic y aprueba el acceso para tu acuerdo.
+3. De vuelta en TimeWren, elige el diseño de factura por defecto, las condiciones de pago, los productos y los ajustes de las líneas.
+4. En Sistema de contabilidad por defecto, activa opcionalmente la sincronización automática del estado.
+
+Los clientes se importan desde la página Sincronizar, dentro de Integraciones. Las facturas se exportan desde la propia factura.
+
+## Estado de los pagos
+
+El contenedor `cron` llama a `/api/cron/invoice-sync` cada 15 minutos para actualizar el estado de los pagos de los usuarios con la sincronización automática activada. También puedes ejecutar una sincronización manual desde los ajustes de integraciones. No hay endpoint de webhook de e-conomic.

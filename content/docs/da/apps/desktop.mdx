@@ -1,0 +1,49 @@
+---
+title: "Desktop-app"
+description: "TimeWrens desktop-app registrerer aktivitet automatisk og synkroniserer med din server. Hvad serveren leverer, hvordan enheder logger ind, og hvordan du tilbyder dine egne builds."
+---
+
+Desktop-appen (Windows og macOS, i beta) registrerer, hvad du arbejder på, klassificerer det og gemmer sine data lokalt i en database på din computer. Den synkroniserer tidsregistreringer, kunder og projekter med serveren og kan bruges offline. Automatisk registrering og klassificering kører på computeren.
+
+Desktop-appen bygges og udgives fra sit eget repository, adskilt fra serveren. Siden her handler om, hvad din server leverer til den. Hvordan appens serveradresse indtastes, er en indstilling i selve appen, så følg appens egen dokumentation til det.
+
+## Sådan logger en enhed ind
+
+Appen ser aldrig din adgangskode. Den åbner din instans i browseren, du logger ind der og godkender enheden, og browseren giver en engangskode tilbage til appen via et deep link.
+
+- Det nyere enhedslogin bruger PKCE og en `state`-værdi. Engangskoden er gyldig i 5 minutter og byttes til et access token (30 dage) og et refresh token (180 dage). Appen fornyer dem uden et nyt login.
+- Det ældre flow (`/auth/desktop`) udsteder et enhedstoken, der er gyldigt i 90 dage.
+
+Sørg for, at `NEXT_PUBLIC_APP_URL` er din rigtige HTTPS-adresse, fordi godkendelsessiden og redirects bygges ud fra den. De ældre enhedstokens er signeret med `BETTER_AUTH_SECRET`, så ændrer du den værdi, bliver desktopenheder logget ud, se [Godkendelse](/da/docs/configuration/authentication).
+
+## Administrér enheder
+
+Åbn Indstillinger, Desktop-app i webappen for at se tilsluttede enheder (navn, styresystem, seneste synkronisering) og fjerne en. En fjernet enhed skal logge ind igen. Tokens fra det nyere login vises også under Indstillinger, Integrationer og kan tilbagekaldes der.
+
+## Downloads og opdateringer
+
+En ny TimeWren-instans peger ikke på nogens releases. Bygger eller hoster du dine egne desktop-releases på GitHub, så fortæl serveren, hvor de ligger:
+
+```dotenv
+# Build time (byg imaget igen efter en ændring)
+NEXT_PUBLIC_DESKTOP_RELEASES_REPO=your-org/your-desktop-releases
+# Serverindstilling, bruges af det gamle updater-endpoint
+DESKTOP_UPDATER_REPO=your-org/your-desktop-app
+```
+
+- `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` (formatet `owner/repository`) bruges af siden `/download`, som linker til Windows-installeren (en fil, der ender på `-setup.exe`) og macOS-diskimaget (`.dmg`) fra den seneste release i et offentligt repository. Den udgiver ikke noget.
+- `DESKTOP_UPDATER_REPO` bruges af opdaterings-endpointet `/api/desktop/update/{target}/{arch}/{current_version}`, som omsætter den seneste GitHub-release til det svar, Tauri-updateren forventer (Windows-filer `.nsis.zip` og macOS-filer `.app.tar.gz` med `.sig`-signaturer). Opdateringer skal være signeret med den nøgle, dit app-build er lavet med. Hold signeringsnøglen og den offentlige nøgle i dine builds i overensstemmelse.
+
+Lad begge være tomme, hvis du distribuerer appen på en anden måde.
+
+## Mindste klientversioner
+
+Du kan forhindre gamle klienter i at skrive tidsdata til din server. Sæt et minimum pr. klienttype:
+
+```dotenv
+MIN_CLIENT_VERSIONS=extension=2.5.2,mobile=1.0.0+5,desktop=0.2.21
+# Vis kun forældede klienter på admin-siden om stabilitet, afvis dem ikke
+MIN_CLIENT_VERSIONS_MODE=observe
+```
+
+Klienttyperne er `web`, `pwa`, `extension`, `mobile`, `desktop`, `api` og `mcp`. Klienter identificerer sig med headeren `x-timetrack-client: <type>/<version>`. En klient under sit minimum afvises ved skrivninger af tidsregistreringer, timer og fra udvidelsen med fejlen `CLIENT_TOO_OLD`, mens læsning og login stadig er tilladt. Forespørgsler uden headeren (API-nøgler, scripts, MCP) afvises aldrig. Tom betyder, at intet håndhæves. Værdierne ovenfor er eksempler. Vælg versioner, der findes for de klienter, du udgiver.

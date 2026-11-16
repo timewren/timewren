@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Ustawienia",
+    "subtitle": "Zarządzaj powiadomieniami administratora, flagami funkcji i dziennikiem zmian"
+  },
+  "notifications": {
+    "title": "Powiadomienia",
+    "description": "Skonfiguruj powiadomienia e-mail i Discord o zdarzeniach administracyjnych",
+    "emailLabel": "E-mail administratora (lub kilka)",
+    "emailHint": "Kilku odbiorców oddziel przecinkami",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Adres URL webhooka Discord",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Testuj",
+    "eventTypes": "Typy zdarzeń",
+    "saving": "Zapisywanie…",
+    "save": "Zapisz ustawienia",
+    "saved": "Ustawienia powiadomień zostały zapisane",
+    "testSent": "Wiadomość testowa została wysłana na Discord",
+    "webhookRequired": "Najpierw podaj adres URL webhooka Discord"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Nowa rejestracja użytkownika",
+      "description": "Powiadamiaj o nowych rejestracjach użytkowników"
+    },
+    "notify_subscription_started": {
+      "label": "Nowa płatna subskrypcja",
+      "description": "Powiadamiaj o nowych płacących klientach"
+    },
+    "notify_payment_failed": {
+      "label": "Płatność nieudana",
+      "description": "Powiadamiaj o nieudanych płatnościach"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Subskrypcja anulowana",
+      "description": "Powiadamiaj o anulowaniach"
+    },
+    "notify_trial_ending": {
+      "label": "Okres próbny wkrótce się kończy",
+      "description": "Tylko Discord: powiadamiaj, gdy okres próbny zbliża się do końca"
+    },
+    "notify_user_flagged": {
+      "label": "Użytkownik oznaczony",
+      "description": "Tylko Discord: powiadamiaj, gdy użytkownik zostanie oznaczony"
+    }
+  },
+  "support": {
+    "title": "Wsparcie",
+    "description": "Zarządzaj skrzynkami wsparcia i podpisem",
+    "inboxes": "Skrzynki",
+    "add": "Dodaj",
+    "namePlaceholder": "Nazwa",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Podpis w HTML (opcjonalnie)",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "create": "Utwórz",
+    "default": "Domyślna",
+    "confirmDelete": "Usunąć tę skrzynkę?",
+    "noInboxes": "Nie utworzono jeszcze żadnych skrzynek",
+    "inboxCreated": "Skrzynka została utworzona",
+    "inboxUpdated": "Skrzynka została zaktualizowana",
+    "inboxDeleted": "Skrzynka została usunięta",
+    "signatureSaved": "Podpis został zapisany",
+    "globalSignature": "Podpis globalny",
+    "globalSignatureHint": "Podpis HTML używany, gdy skrzynka nie ma własnego podpisu",
+    "globalSignaturePlaceholder": "<p>Z poważaniem<br>TimeTrack Support</p>",
+    "preview": "Podgląd",
+    "noSignature": "Brak podpisu",
+    "savingSignature": "Zapisywanie…",
+    "saveSignature": "Zapisz podpis"
+  },
+  "debug": {
+    "title": "Rozwiązywanie problemów",
+    "description": "Narzędzia widoczne tylko dla ciebie, w tej przeglądarce",
+    "electricLabel": "Pokaż plakietkę Electric",
+    "electricDescription": "Pokazuje stan synchronizacji stopera na żywo w lewym dolnym rogu pulpitu"
+  },
+  "flags": {
+    "title": "Flagi funkcji",
+    "description": "Włączaj i wyłączaj funkcje dla wszystkich użytkowników",
+    "empty": "Nie skonfigurowano żadnych flag funkcji",
+    "lastChangedBy": "Ostatnio zmienił(a): {name}",
+    "lastChangedByDate": "Ostatnio zmienił(a): {name}, {date}"
+  },
+  "changelog": {
+    "title": "Dziennik zmian",
+    "description": "Twórz wpisy dziennika zmian wyświetlane użytkownikom",
+    "new": "Utwórz nowy wpis dziennika zmian",
+    "version": "Wersja",
+    "titleLabel": "Tytuł",
+    "titlePlaceholder": "Nowa funkcja: ...",
+    "content": "Treść (Markdown)",
+    "contentPlaceholder": "Opisz zmiany...",
+    "cancel": "Anuluj",
+    "create": "Utwórz",
+    "recent": "Ostatnie wpisy dziennika zmian",
+    "confirmDelete": "Usunąć dziennik zmian v{version}?",
+    "delete": "Usuń",
+    "created": "Dziennik zmian został utworzony",
+    "deleted": "Dziennik zmian został usunięty"
+  }
+}

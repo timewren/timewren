@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Tilaus",
+    "description": "Paketti, maksu ja laskutus",
+    "adminOnly": "Vain omistajat ja ylläpitäjät voivat muuttaa tilausta, ostaa paikkoja ja katsoa maksuja."
+  },
+  "states": {
+    "noBilling": "Tässä asennuksessa ei ole maksupalvelun tarjoajaa, joten kaikki ominaisuudet ovat avoinna eikä paketteja tai rajoja ole.",
+    "comingSoonTitle": "Maksaminen tulossa pian",
+    "comingSoon": "Käytössäsi on ilmainen paketti. Maksulliset paketit tulevat pian, ja siihen asti käyttö on maksutonta.",
+    "loading": "Ladataan tilausta…",
+    "none": "Tilausta ei löytynyt. Aloita valitsemalla paketti.",
+    "choosePlan": "Valitse paketti",
+    "previousWebPayments": "Aiemmat maksut verkossa",
+    "redirecting": "Siirrytään eteenpäin…"
+  },
+  "cycle": {
+    "monthly": "Kuukausittain",
+    "yearly": "Vuosittain",
+    "twoMonthsFree": "2 kuukautta ilmaiseksi",
+    "perMonthExclVat": "/kk ilman ALV:tä",
+    "perYearExclVat": "/vuosi ilman ALV:tä",
+    "krPerMonth": "{price} kr/kk",
+    "krPerYear": "{price} kr/vuosi"
+  },
+  "status": {
+    "active": "Aktiivinen",
+    "free": "Ilmainen",
+    "trialing": "Kokeilujakso",
+    "pastDue": "Maksu myöhässä",
+    "canceled": "Peruttu"
+  },
+  "invoiceStatus": {
+    "paid": "Maksettu",
+    "open": "Avoin",
+    "draft": "Luonnos",
+    "void": "Mitätöity",
+    "uncollectible": "Epäonnistunut",
+    "unknown": "Tuntematon"
+  },
+  "history": {
+    "title": "Maksuhistoria",
+    "columnDate": "Päivämäärä",
+    "columnNumber": "Numero",
+    "columnAmount": "Summa",
+    "columnStatus": "Tila",
+    "columnPdf": "PDF",
+    "empty": "Ei vielä maksuja. Maksuhistoriasi näkyy tässä, kun olet tehnyt ensimmäisen maksun."
+  },
+  "toast": {
+    "planChangedYearly": "Paketti vaihdettu vuosittaiseksi",
+    "planChangedMonthly": "Paketti vaihdettu kuukausittaiseksi",
+    "canceled": "Tilaus peruttu. Se pysyy aktiivisena jakson loppuun asti.",
+    "reactivated": "Tilaus aktivoitu uudelleen!",
+    "trialRequested": "Pyyntö lähetetty! Vastaamme mahdollisimman pian.",
+    "trialRequestFailed": "Pyynnön lähetys epäonnistui. Yritä uudelleen.",
+    "paymentMethodAdded": "Maksutapa lisätty!",
+    "seatsUpdated": "Paikat päivitetty! Muutoksen näkyminen voi kestää hetken.",
+    "paymentCanceled": "Maksu peruttu"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Kokeilujaksoasi on jäljellä # päivä} other {Kokeilujaksoasi on jäljellä # päivää}}",
+    "startsAutomatically": "Tilauksesi alkaa automaattisesti kokeilujakson jälkeen",
+    "addPaymentToContinue": "Lisää maksutapa jatkaaksesi kokeilujakson jälkeen",
+    "needMoreTime": "Tarvitsetko lisäaikaa?",
+    "addPayment": "Lisää maksutapa",
+    "checkoutNoteFounding": "Kassasivu näyttää normaalihinnan. Perustajajäsenen {percent} %:n alennuksesi huomioidaan automaattisesti maksun jälkeen."
+  },
+  "pendingCancel": {
+    "expiresOn": "Tilauksesi päättyy {date}",
+    "expiresUnknown": "Tilauksesi päättyy tuntemattomana päivänä",
+    "reactivateHint": "Voit aktivoida tilauksesi uudelleen ennen sitä",
+    "reactivating": "Aktivoidaan uudelleen…",
+    "reactivate": "Aktivoi uudelleen"
+  },
+  "plan": {
+    "current": "Nykyinen paketti",
+    "freeLimits": "Enintään {maxSeats} käyttäjää · {used} / {maxClients} aktiivista asiakasta käytössä. Päivitä saadaksesi lisää asiakkaita, lisää käyttäjiä, laskutuksen ja tuntipaketit.",
+    "seatsIncluded": "{count, plural, one {# käyttäjä sisältyy} other {# käyttäjää sisältyy}}",
+    "seatsWithExtra": "{count, plural, one {# käyttäjä} other {# käyttäjää}} · {included} sisältyy + {extra} lisäkäyttäjää",
+    "foundingDiscount": "Perustajajäsenen alennus {percent} %",
+    "foundingDiscountForever": "Perustajajäsenen alennus {percent} %, pysyvästi",
+    "foundingDiscountExpires": "Perustajajäsenen alennus {percent} %, päättyy {date}",
+    "trialEnds": "Kokeilujakso päättyy: {date}",
+    "nextBilling": "Seuraava laskutus: {date}"
+  },
+  "roi": {
+    "titleReturn": "Tuottosi palvelulla {brand}",
+    "titleActivity": "Toimintasi palvelussa {brand}",
+    "spent": "Käytetty palveluun {brand}",
+    "freeSoFar": "Ilmaista tähän asti!",
+    "trackedValue": "Kirjatun ajan arvo",
+    "invoicedTotal": "Laskutettu yhteensä",
+    "return": "Tuotto"
+  },
+  "payment": {
+    "title": "Maksu",
+    "portalDescription": "Hallitse maksutapaa ja laskuja maksuportaalin kautta.",
+    "manage": "Hallitse maksua",
+    "noMethod": "Maksutapaa ei ole vielä lisätty",
+    "addMethod": "Lisää maksutapa",
+    "checkoutNoteFounding": "Kassasivu näyttää normaalihinnan. {percent} %:n alennuksesi huomioidaan automaattisesti."
+  },
+  "seats": {
+    "title": "Paikat",
+    "usage": "{used} / {total} paikkaa käytössä",
+    "pendingInvites": "{count, plural, one {# paikka on varattu odottaville kutsuille} other {# paikkaa on varattu odottaville kutsuille}}",
+    "reseatsReminder": "Muista tilata uudelleen {count} lisäpaikkaasi paketin {plan} hinnalla. Tee paikkaosto loppuun alla, jotta laskutus vastaa kapasiteettiasi.",
+    "extraLabel": "Lisäpaikat (sisältyvien {included} lisäksi)",
+    "fewer": "Vähemmän paikkoja",
+    "more": "Lisää paikkoja",
+    "price": "Hinta",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr/vuosi ilman ALV:tä",
+    "priceSuffixMonthly": "kr/kk ilman ALV:tä",
+    "adjust": "Muuta paikkoja",
+    "buy": "Osta paikkoja",
+    "note": "Nykyinen paikkalisäsi korvataan uudella määrällä. Teet uuden oston, ja vanha lisä perutaan automaattisesti. Pakettisi sallii yhteensä enintään {max} paikkaa."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "Yksityishenkilöille",
+      "feature1": "1 käyttäjä"
+    },
+    "solo": {
+      "tagline": "Freelancereille",
+      "feature1": "1 käyttäjä, rajoittamaton määrä asiakkaita",
+      "feature2": "Tuntipaketit, laskutus ja integraatiot",
+      "feature3": "Web, sovellus, laajennus ja työpöytäsovellus sisältyvät"
+    },
+    "team": {
+      "tagline": "Pienille tiimeille",
+      "feature1": "Kaikki paketista {plan}",
+      "feature2": "2 käyttäjää sisältyy",
+      "feature3": "Jaetut asiakkaat, projektit ja tuntipaketit"
+    },
+    "business": {
+      "tagline": "Yrityksille",
+      "feature1": "Kaikki paketista {plan}",
+      "feature2": "5 käyttäjää sisältyy",
+      "feature3": "Liukuma-aika, poissaolot ja vaatimustenmukaisuus"
+    },
+    "usersIncluded": "{count} käyttäjää sisältyy"
+  },
+  "upgrade": {
+    "title": "Päivitä pakettisi",
+    "blocked": "Sinulla on {count, plural, one {# lisäpaikka, jota} other {# lisäpaikkaa, joita}} ei voi vielä siirtää automaattisesti pakettiin {plan}. Ota yhteyttä osoitteeseen support@timetrack.dk, niin päivitämme sinut menettämättä yhtään paikkaa.",
+    "to": "Päivitä pakettiin {plan}",
+    "note": "Päivittäessäsi teet uuden oston. Nykyinen tilauksesi perutaan automaattisesti, kun uusi on aktiivinen."
+  },
+  "choose": {
+    "title": "Valitse pakettisi",
+    "choosePlan": "Valitse {plan}",
+    "chooseAndPay": "Valitse ja maksa",
+    "note": "Sisältyvien lisäksi tulevat lisäkäyttäjät lisätään rekisteröitymisen jälkeen. Perustajajäsenen alennus (jos aktiivinen) huomioidaan automaattisesti pakettiin {plan} maksun jälkeen."
+  },
+  "discounts": {
+    "title": "Aktiiviset alennukset",
+    "rangeBoth": "{from} - {to}",
+    "rangeOpenEnded": "{from} alkaen, ei päättymispäivää",
+    "rangeUntil": "Asti {to}",
+    "rangeNone": "Ei päättymispäivää"
+  },
+  "metadata": {
+    "title": "Tilauksen tiedot",
+    "foundingTier": "Perustajataso",
+    "billingCycle": "Laskutusjakso",
+    "signupSource": "Rekisteröitymislähde",
+    "couponCode": "Alennuskoodi"
+  },
+  "upcoming": {
+    "title": "Tulevat maksut",
+    "columnPeriod": "Jakso",
+    "columnPlan": "Paketti",
+    "columnAmount": "Summa"
+  },
+  "switch": {
+    "title": "Vaihda pakettia",
+    "equivalent": "Vastaa hintaa {price} kr/kk",
+    "toMonthly": "Vaihda kuukausittaiseen",
+    "toYearly": "Vaihda vuosittaiseen"
+  },
+  "cancel": {
+    "title": "Peruuta tilaus",
+    "description": "Tilauksesi pysyy aktiivisena nykyisen laskutusjakson loppuun asti.",
+    "areYouSure": "Oletko varma?",
+    "activeUntil": "Tilauksesi pysyy aktiivisena {date} asti. Sen jälkeen menetät pääsyn maksullisiin ominaisuuksiin.",
+    "activeUntilEnd": "Tilauksesi pysyy aktiivisena jakson loppuun asti. Sen jälkeen menetät pääsyn maksullisiin ominaisuuksiin.",
+    "keep": "Säilytä tilaus",
+    "confirm": "Kyllä, peruuta tilaus",
+    "canceling": "Perutaan…"
+  }
+}

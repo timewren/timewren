@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Vlastník",
+    "admin": "Administrátor",
+    "hr": "HR",
+    "manager": "Manažer",
+    "member": "Zaměstnanec"
+  },
+  "employment": {
+    "fullTime": "Plný úvazek",
+    "partTime": "Částečný úvazek",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Koncept",
+    "submitted": "Odesláno",
+    "approved": "Schváleno",
+    "rejected": "Zamítnuto",
+    "reopened": "Znovu otevřeno"
+  },
+  "save": "Uložit",
+  "cancel": "Zrušit",
+  "add": "Přidat",
+  "edit": "Upravit",
+  "active": "Aktivní",
+  "inactive": "Neaktivní",
+  "periodClosing": {
+    "status": {
+      "open": "Čeká na manažera",
+      "approved": "Čeká na potvrzení",
+      "acknowledged": "Uzavřeno",
+      "reopened": "Odemčeno"
+    },
+    "interval": {
+      "month": "Každý měsíc",
+      "quarter": "Každé čtvrtletí"
+    }
+  },
+  "weekdayLong": {
+    "1": "pondělí",
+    "2": "úterý",
+    "3": "středa",
+    "4": "čtvrtek",
+    "5": "pátek",
+    "6": "sobota",
+    "7": "neděle"
+  },
+  "absenceCategory": {
+    "vacation": "Dovolená",
+    "sickness": "Nemoc",
+    "leave": "Volno",
+    "other": "Jiné"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Obecný (plochý CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (dánský státní mzdový systém)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Měsíc",
+      "biweekly": "14 dní"
+    },
+    "unit": {
+      "hours": "Hodiny",
+      "days": "Dny"
+    },
+    "kind": {
+      "time": "Čas (základní mzdový kód)",
+      "absence": "Absence",
+      "supplement": "Příplatek (přičítá se navíc)"
+    },
+    "source": {
+      "activity": "Zaznamenané hodiny (aktivita)",
+      "absence": "Absence (typ absence)",
+      "overtime_earned": "Získaný přesčas",
+      "overtime_used": "Náhradní volno",
+      "overtime_paid_out": "Proplacený přesčas",
+      "flex_positive": "Pružná doba (plusové hodiny)",
+      "flex_negative": "Pružná doba (minusové hodiny)",
+      "break_deduction": "Odpočet přestávky (neplacená přestávka)"
+    },
+    "dayCondition": {
+      "any": "Všechny dny",
+      "weekend": "Víkend (so/ne)",
+      "holiday": "Státní svátek",
+      "weekend_or_holiday": "Víkend nebo státní svátek"
+    }
+  },
+  "normPeriod": {
+    "week": "Týden",
+    "month": "Měsíc",
+    "quarter": "Čtvrtletí",
+    "year": "Rok"
+  },
+  "normYear": {
+    "calendar": "Kalendářní rok (1. ledna)",
+    "school": "Školní rok (1. srpna)"
+  }
+}

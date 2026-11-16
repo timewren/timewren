@@ -1,0 +1,109 @@
+{
+  "title": "Impostazioni",
+  "close": "Chiudi impostazioni",
+  "searchPlaceholder": "Cerca nelle impostazioni…",
+  "searchLabel": "Cerca nelle impostazioni",
+  "noMatch": "Nessuna impostazione corrisponde a “{query}”",
+  "keywords": {
+    "view": "vista|visualizzazione|suggerimento|sito|siti web|pacchetto|pacchetto ore|popup",
+    "appearance": "aspetto|tema|scuro|chiaro|badge|icona|lingua",
+    "newTab": "nuova scheda|scheda|pagina iniziale|widget",
+    "calendar": "calendario|giorno|data",
+    "goal": "obiettivo giornaliero|obiettivo|obiettivo ore|progresso",
+    "reminder": "promemoria|notifica|fine settimana|registrazione|registrare",
+    "data": "dati|elimina|reimposta|offline|associazioni|collegamenti|sito web|coda",
+    "advanced": "avanzate|api|url|server",
+    "shortcuts": "scorciatoie|scorciatoia|tastiera|alt",
+    "about": "informazioni sull'estensione|estensione|informazioni|versione|valuta|recensione|aiuto"
+  },
+  "view": {
+    "title": "Vista",
+    "suggestions": "Suggerimenti dal sito web",
+    "suggestionsHint": "Suggerisci un progetto in base al sito in cui ti trovi",
+    "prepaidTab": "Scheda Pacchetti",
+    "prepaidTabHint": "Mostra nel popup la scheda con i pacchetti attivi"
+  },
+  "appearance": {
+    "title": "Aspetto",
+    "theme": "Tema",
+    "themeHint": "Tema colore dell'estensione",
+    "system": "Segui il sistema",
+    "dark": "Scuro",
+    "light": "Chiaro",
+    "badge": "Numero sull'icona",
+    "badgeHint": "Cosa mostra il numero sull'icona dell'estensione",
+    "badgeTimer": "Timer attivo",
+    "badgeToday": "Ore di oggi",
+    "badgeOff": "Nascosto",
+    "language": "Lingua",
+    "languageHint": "Lingua dell'estensione",
+    "languageAuto": "Automatica (segui il browser)"
+  },
+  "newTab": {
+    "title": "Nuova scheda",
+    "enable": "Apri TimeTrack nelle nuove schede",
+    "enableHint": "Disattiva per mantenere le normali schede vuote",
+    "widgetsHint": "Scegli i widget nelle impostazioni della nuova scheda",
+    "activeWidgets": "Widget attivi: {count}"
+  },
+  "calendar": {
+    "title": "Calendario",
+    "openOn": "Apri il calendario su",
+    "openOnHint": "Quale giorno mostra il calendario all'apertura",
+    "today": "Oggi",
+    "lastViewed": "Ultimo giorno visualizzato"
+  },
+  "goal": {
+    "title": "Obiettivo giornaliero",
+    "hours": "Obiettivo di ore giornaliere",
+    "hoursHint": "Usato nella barra di progresso giornaliero del popup e della nuova scheda"
+  },
+  "reminder": {
+    "title": "Promemoria giornaliero",
+    "enable": "Ricordami di registrare le ore",
+    "enableHint": "Notifica se hai registrato troppe poche ore",
+    "time": "Orario",
+    "minHours": "Ore minime",
+    "weekends": "Anche nel fine settimana"
+  },
+  "data": {
+    "title": "Dati",
+    "clearMappingsConfirm": "Eliminare tutti i collegamenti salvati tra siti web e progetti?",
+    "clearMappingsDetail": "Riappariranno anche i suggerimenti nascosti.",
+    "delete": "Elimina",
+    "clearMappings": "Elimina collegamenti ai siti",
+    "mappingsCount": "{count, plural, one {# collegamento salvato} many {# di collegamenti salvati} other {# collegamenti salvati}}",
+    "clearQueueConfirm": "Eliminare {count, plural, one {# azione in sospeso} many {# di azioni in sospeso} other {# azioni in sospeso}}?",
+    "unsentEntries": "{count, plural, one {# registrazione non è ancora stata inviata} many {# di registrazioni non sono ancora state inviate} other {# registrazioni non sono ancora state inviate}} a TimeTrack. Il tempo viene eliminato definitivamente.",
+    "clearQueueConfirmButton": "Elimina la coda",
+    "clearQueue": "Elimina coda offline",
+    "pendingActions": "{count, plural, one {# azione in sospeso} many {# di azioni in sospeso} other {# azioni in sospeso}}",
+    "unsentSuffix": "{count, plural, one {# registrazione non inviata} many {# di registrazioni non inviate} other {# registrazioni non inviate}}",
+    "resetConfirm": "Reimpostare tutte le impostazioni?",
+    "resetDetail": "Vengono ripristinate le impostazioni predefinite dell'estensione.",
+    "resetButton": "Reimposta",
+    "reset": "Reimposta impostazioni",
+    "resetHint": "Ripristina le impostazioni predefinite"
+  },
+  "advanced": {
+    "title": "Avanzate",
+    "apiUrl": "Indirizzo API",
+    "notSaved": "{error}. L'indirizzo non è stato salvato."
+  },
+  "shortcuts": {
+    "title": "Scorciatoie da tastiera",
+    "unreadable": "Le scorciatoie non possono essere lette in questo browser.",
+    "openApp": "Apri TimeTrack",
+    "notSet": "Non impostata",
+    "change": "Modifica scorciatoie",
+    "firefoxPage": "Apre la pagina delle scorciatoie di Firefox",
+    "chromePage": "Apre chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "Estensione del browser TimeTrack, versione {version}",
+    "rateFirefox": "Valuta su Firefox Add-ons",
+    "rateChrome": "Valuta nel Chrome Web Store",
+    "rateHint": "La tua recensione aiuta altri freelance",
+    "learnMore": "Scopri di più sull'estensione"
+  }
+}

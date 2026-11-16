@@ -1,0 +1,29 @@
+# docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d
+# Point CADDY_DOMAIN at this server and allow inbound TCP 80/443.
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      CADDY_DOMAIN: ${CADDY_DOMAIN:?Set CADDY_DOMAIN to your public hostname}
+    ports:
+      - "80:80"
+      - "443:443"
+    configs:
+      - source: caddyfile
+        target: /etc/caddy/Caddyfile
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+configs:
+  caddyfile:
+    content: |
+      ${CADDY_DOMAIN} {
+        reverse_proxy app:3000
+      }
+volumes:
+  caddy-data:
+  caddy-config:

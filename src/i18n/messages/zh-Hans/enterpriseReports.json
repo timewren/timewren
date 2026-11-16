@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "员工"
+    },
+    "department": {
+      "label": "部门"
+    },
+    "project": {
+      "label": "项目"
+    },
+    "activityType": {
+      "label": "活动"
+    },
+    "absenceType": {
+      "label": "缺勤类型"
+    },
+    "day": {
+      "label": "日期"
+    },
+    "week": {
+      "label": "周"
+    },
+    "month": {
+      "label": "月"
+    },
+    "vacationYear": {
+      "label": "年假年度"
+    },
+    "email": {
+      "label": "邮件"
+    },
+    "employmentType": {
+      "label": "雇佣类型"
+    },
+    "weeklyHours": {
+      "label": "小时/周"
+    },
+    "dailyNorm": {
+      "label": "每日标准工时"
+    },
+    "employeeNumber": {
+      "label": "员工编号",
+      "help": "薪资系统中的员工编号（随员工维度）"
+    },
+    "payrollCode": {
+      "label": "薪资代码",
+      "help": "来自活动类型的薪资代码（随活动维度）"
+    },
+    "hours": {
+      "label": "已记录工时"
+    },
+    "normHours": {
+      "label": "标准工时",
+      "help": "每日标准工时 × 期间内的工作日（已扣除公共假日）"
+    },
+    "workDays": {
+      "label": "工作日",
+      "help": "期间内计划的工作日（不含公共假日和停工日）"
+    },
+    "employeeCount": {
+      "label": "员工人数"
+    },
+    "flexDelta": {
+      "label": "弹性工时（+/-）"
+    },
+    "breakDeductedHours": {
+      "label": "已扣除休息",
+      "help": "仅适用于无薪休息（签到/签退）"
+    },
+    "checkInHours": {
+      "label": "在岗时间（签到）"
+    },
+    "workedDays": {
+      "label": "有记录的天数"
+    },
+    "maxDayHours": {
+      "label": "最长一天",
+      "help": "组内单个员工的最高每日合计"
+    },
+    "longDays": {
+      "label": "超过 13 小时的天数",
+      "help": "每日合计超过 13 小时，休息时间将不足 11 小时（11 小时规则）"
+    },
+    "avgWeeklyHours": {
+      "label": "平均小时/周",
+      "help": "每个有记录或缺勤的员工周的已记录工时（48 小时规则）"
+    },
+    "weeksOver48h": {
+      "label": "超过 48 小时的周数",
+      "help": "已记录工时超过 48 小时的员工周数"
+    },
+    "fullWeeks": {
+      "label": "没有休息日的周数",
+      "help": "7 天都有记录且没有缺勤日的周（每周 24 小时休息）"
+    },
+    "absenceDays": {
+      "label": "缺勤（天）"
+    },
+    "absenceHours": {
+      "label": "缺勤（小时）"
+    },
+    "absencePeriods": {
+      "label": "缺勤期间"
+    },
+    "sickDays": {
+      "label": "病假天数"
+    },
+    "sickHours": {
+      "label": "病假小时数"
+    },
+    "sickPeriods": {
+      "label": "病假期间"
+    },
+    "sickPct": {
+      "label": "病假缺勤率 %",
+      "help": "病假天数 / 工作日"
+    },
+    "longTermSick": {
+      "label": "长期病假",
+      "help": "期间内连续病假超过 30 天"
+    },
+    "longTermSickCount": {
+      "label": "长期病假（人数）",
+      "help": "病假期间超过 30 天的员工人数"
+    },
+    "overtimeEarned": {
+      "label": "已累积加班"
+    },
+    "overtimeUsed": {
+      "label": "已调休"
+    },
+    "overtimePaidOut": {
+      "label": "已支付加班费"
+    },
+    "overtimeNet": {
+      "label": "加班净额",
+      "help": "累积 − 调休 − 已支付"
+    },
+    "vacationAllotted": {
+      "label": "分配的年假"
+    },
+    "vacationUsed": {
+      "label": "已用年假"
+    },
+    "vacationRemaining": {
+      "label": "剩余年假"
+    },
+    "extraVacationAllotted": {
+      "label": "分配的额外年假天数"
+    },
+    "extraVacationUsed": {
+      "label": "已用额外年假天数"
+    },
+    "extraVacationRemaining": {
+      "label": "剩余额外年假天数"
+    },
+    "vacationDaysInPeriod": {
+      "label": "期间内已休年假",
+      "help": "报告期间内的年假天数（扣减年假余额的类型）"
+    },
+    "hoursByActivity": {
+      "label": "各活动工时",
+      "pivot": "{name}（小时）"
+    },
+    "absenceDaysByType": {
+      "label": "各类型缺勤（天）",
+      "pivot": "{name}（天）"
+    },
+    "absenceHoursByType": {
+      "label": "各类型缺勤（小时）",
+      "pivot": "{name}（小时）"
+    },
+    "quantityByWageType": {
+      "label": "各薪资代码数量",
+      "help": "通过薪资映射得出的各薪资代码小时/天数（设置 → 薪资）",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "员工",
+    "department": "部门",
+    "project": "项目",
+    "activityType": "活动",
+    "absenceType": "缺勤类型",
+    "day": "日",
+    "week": "周",
+    "month": "月",
+    "vacationYear": "年假年度"
+  },
+  "groups": {
+    "dimensions": "维度",
+    "employee": "员工",
+    "time": "工时",
+    "compliance": "合规",
+    "absence": "缺勤",
+    "overtime": "加班",
+    "payroll": "薪资",
+    "vacation": "年假账户"
+  },
+  "presets": {
+    "this_month": "本月",
+    "last_month": "上月",
+    "this_quarter": "本季度",
+    "this_year": "今年",
+    "last_year": "去年"
+  },
+  "types": {
+    "payroll": {
+      "label": "薪资报告",
+      "description": "按薪资期间列出每位员工的工时、各类型缺勤的天数和小时数、弹性工时、加班和休息扣除。供薪资部门使用。"
+    },
+    "sickness": {
+      "label": "病假缺勤",
+      "description": "按部门和月份统计病假缺勤：病假天数、期间、缺勤率和长期病假（超过 30 天）。"
+    },
+    "absence": {
+      "label": "缺勤",
+      "description": "按员工或部门列出所有缺勤类型（年假、病假、休假、照护等）的天数和小时数。"
+    },
+    "flex_overtime": {
+      "label": "弹性工时与加班",
+      "description": "各期间的余额变化：标准工时、已记录工时、弹性工时差额，以及累积、调休和已支付的加班。"
+    },
+    "project_activity": {
+      "label": "项目与活动",
+      "description": "按项目、活动类型和部门拆分的工时，用于跟进教学、备课、会议等。"
+    },
+    "vacation_account": {
+      "label": "年假账户",
+      "description": "按年假年度列出每位员工年假和额外年假天数的分配、已用和剩余情况。"
+    },
+    "compliance": {
+      "label": "合规（工作时间法）",
+      "description": "按员工和周列出违规与警告：超过 13 小时的天数（11 小时休息）、超过 48 小时的周、没有休息日的周（每周 24 小时休息）以及平均每周工作时间。"
+    },
+    "custom": {
+      "label": "自定义",
+      "description": "从整个目录中自由选择维度和列，构建你需要的报告。"
+    }
+  },
+  "weekdays": {
+    "1": "星期一",
+    "2": "星期二",
+    "3": "星期三",
+    "4": "星期四",
+    "5": "星期五",
+    "6": "星期六",
+    "7": "星期日"
+  },
+  "page": {
+    "all": "（全部）",
+    "selected": "（已选 {count} 项）",
+    "clear": "清除选择",
+    "downloaded": "报告已下载",
+    "templateDeleted": "模板已删除",
+    "maxDimensions": "最多 4 个维度",
+    "templateUnreadable": "无法读取该模板",
+    "needColumn": "请至少选择一列",
+    "inactive": "（已停用）",
+    "title": "报告",
+    "step1": "1. 选择报告类型",
+    "step2": "2. 期间",
+    "holidayYearPlaceholder": "年假年度…",
+    "holidayYear": "年假年度 {year}",
+    "from": "从",
+    "to": "到",
+    "step3": "3. 筛选",
+    "departments": "部门",
+    "employees": "员工",
+    "projects": "项目",
+    "activities": "活动",
+    "absenceTypes": "缺勤类型",
+    "onlyApproved": "仅已批准的工时",
+    "includeRejected": "包含已拒绝的工时",
+    "includePending": "包含待处理的缺勤",
+    "includeInactive": "包含已离职员工",
+    "includeDetails": "包含全部记录（明细）",
+    "step4": "4. 分组依据",
+    "step4Hint": "（顺序即点击顺序）",
+    "step5": "5. 列",
+    "run": "运行报告",
+    "saveAsTemplate": "另存为模板",
+    "chooseTemplateFirst": "请先保存或选择一个模板",
+    "scheduleMail": "定时发送邮件",
+    "savedTemplates": "已保存的模板",
+    "noTemplates": "还没有模板。",
+    "sharedOrg": "组织内共享",
+    "onlyMe": "仅自己",
+    "standard": " · 默认",
+    "deleteTemplate": "删除模板",
+    "confirmDeleteTemplate": "删除模板“{name}”？",
+    "footnote": "CSV 使用分号分隔，小数点为丹麦式逗号。默认不含已拒绝的工时；未结束的病假报告计至今天（含当天）。经理只能看到自己部门和员工的数据。",
+    "cardEmployees": "员工",
+    "noData": "{from} 至 {to} 期间没有数据",
+    "noDataHint": "试试更长的期间、更少的筛选条件或其他列。",
+    "allEntries": "全部记录（{count}）",
+    "truncated": "该期间的记录数超出明细列表的容量。上方合计仍基于全部数据计算。请选择更短的期间以查看全部明细。",
+    "detEmployee": "员工",
+    "detDepartment": "部门",
+    "detDate": "日期",
+    "detHours": "工时",
+    "detProject": "项目",
+    "detActivity": "活动",
+    "detPayCode": "薪资代码",
+    "detDescription": "描述",
+    "detSource": "来源",
+    "detStatus": "状态",
+    "saveTemplateTitle": "另存为模板",
+    "templateSaved": "模板已保存",
+    "name": "名称",
+    "description": "描述",
+    "shareWithOrg": "与整个组织共享（所有经理和人事都能看到）",
+    "cancel": "取消",
+    "save": "保存",
+    "scheduleTitle": "定时发送邮件",
+    "scheduled": "报告将自动发送",
+    "frequency": "频率",
+    "weekly": "每周",
+    "monthly": "每月",
+    "weekday": "星期",
+    "dayOfMonth": "每月几号",
+    "dayN": "{day} 日",
+    "recipients": "收件人（用逗号分隔）",
+    "recipientsPlaceholder": "payroll@example.com, manager@example.com",
+    "format": "格式",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "模板中的期间是滚动的：在 1 号发送的“上月”报告恰好是上个月的数据。",
+    "schedule": "定时",
+    "scheduleRemoved": "定时邮件已移除",
+    "scheduledMails": "定时邮件",
+    "freqWeeklyLower": "每周",
+    "freqMonthlyLower": "每月",
+    "scheduleLine": "· {frequency}（第 {day} 天）· {format} · {recipients}",
+    "lastSent": " · 上次发送：{date}",
+    "remove": "移除",
+    "yes": "是",
+    "no": "否",
+    "card": {
+      "employees": "员工"
+    }
+  }
+}

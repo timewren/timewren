@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Abonnement",
+    "description": "Abonnement, betaling en facturatie",
+    "adminOnly": "Alleen eigenaren en beheerders kunnen het abonnement wijzigen, plaatsen kopen en betalingen bekijken."
+  },
+  "states": {
+    "noBilling": "Deze installatie heeft geen betalingsprovider, dus alle functies zijn open en er zijn geen abonnementen of limieten.",
+    "comingSoonTitle": "Betalen komt binnenkort",
+    "comingSoon": "Je zit op het gratis abonnement. Betaalde abonnementen komen binnenkort, tot die tijd kost het niets.",
+    "loading": "Abonnement laden…",
+    "none": "Geen abonnement gevonden. Begin met het kiezen van een abonnement.",
+    "choosePlan": "Kies een abonnement",
+    "previousWebPayments": "Eerdere betalingen op het web",
+    "redirecting": "Doorsturen…"
+  },
+  "cycle": {
+    "monthly": "Maandelijks",
+    "yearly": "Jaarlijks",
+    "twoMonthsFree": "2 maanden gratis",
+    "perMonthExclVat": "/mnd excl. btw",
+    "perYearExclVat": "/jr excl. btw",
+    "krPerMonth": "{price} kr./mnd",
+    "krPerYear": "{price} kr./jr"
+  },
+  "status": {
+    "active": "Actief",
+    "free": "Gratis",
+    "trialing": "Proefperiode",
+    "pastDue": "Betaling achterstallig",
+    "canceled": "Opgezegd"
+  },
+  "invoiceStatus": {
+    "paid": "Betaald",
+    "open": "Open",
+    "draft": "Concept",
+    "void": "Vervallen",
+    "uncollectible": "Mislukt",
+    "unknown": "Onbekend"
+  },
+  "history": {
+    "title": "Betalingsgeschiedenis",
+    "columnDate": "Datum",
+    "columnNumber": "Nummer",
+    "columnAmount": "Bedrag",
+    "columnStatus": "Status",
+    "columnPdf": "PDF",
+    "empty": "Nog geen betalingen. Je betalingsgeschiedenis verschijnt hier zodra je de eerste betaling hebt gedaan."
+  },
+  "toast": {
+    "planChangedYearly": "Abonnement gewijzigd naar jaarlijks",
+    "planChangedMonthly": "Abonnement gewijzigd naar maandelijks",
+    "canceled": "Abonnement opgezegd. Het blijft actief tot het einde van de periode.",
+    "reactivated": "Abonnement weer geactiveerd!",
+    "trialRequested": "Aanvraag verstuurd! We komen zo snel mogelijk bij je terug.",
+    "trialRequestFailed": "Aanvraag versturen mislukt. Probeer het opnieuw.",
+    "paymentMethodAdded": "Betaalmethode toegevoegd!",
+    "seatsUpdated": "Plaatsen bijgewerkt! Het kan even duren voordat de wijziging zichtbaar is.",
+    "paymentCanceled": "Betaling geannuleerd"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Je hebt nog # dag van je proefperiode} other {Je hebt nog # dagen van je proefperiode}}",
+    "startsAutomatically": "Je abonnement start automatisch na de proefperiode",
+    "addPaymentToContinue": "Voeg een betaalmethode toe om na de proefperiode door te gaan",
+    "needMoreTime": "Meer tijd nodig?",
+    "addPayment": "Betaling toevoegen",
+    "checkoutNoteFounding": "Bij het afrekenen zie je de standaardprijs. Je oprichterskorting van {percent}% wordt na betaling automatisch toegepast."
+  },
+  "pendingCancel": {
+    "expiresOn": "Je abonnement loopt af op {date}",
+    "expiresUnknown": "Je abonnement loopt af op een onbekende datum",
+    "reactivateHint": "Je kunt je abonnement tot die tijd weer activeren",
+    "reactivating": "Activeren…",
+    "reactivate": "Weer activeren"
+  },
+  "plan": {
+    "current": "Huidig abonnement",
+    "freeLimits": "Tot {maxSeats} gebruikers · {used} van {maxClients} actieve klanten in gebruik. Upgrade voor meer klanten, meer gebruikers, facturatie en urenpakketten.",
+    "seatsIncluded": "{count, plural, one {# gebruiker inbegrepen} other {# gebruikers inbegrepen}}",
+    "seatsWithExtra": "{count, plural, one {# gebruiker} other {# gebruikers}} · {included} inbegrepen + {extra} extra",
+    "foundingDiscount": "{percent}% oprichterskorting",
+    "foundingDiscountForever": "{percent}% oprichterskorting, voor altijd",
+    "foundingDiscountExpires": "{percent}% oprichterskorting, verloopt op {date}",
+    "trialEnds": "Proefperiode eindigt: {date}",
+    "nextBilling": "Volgende factuur: {date}"
+  },
+  "roi": {
+    "titleReturn": "Jouw rendement met {brand}",
+    "titleActivity": "Jouw activiteit in {brand}",
+    "spent": "Uitgegeven aan {brand}",
+    "freeSoFar": "Tot nu toe gratis!",
+    "trackedValue": "Waarde van geregistreerde tijd",
+    "invoicedTotal": "Totaal gefactureerd",
+    "return": "Rendement"
+  },
+  "payment": {
+    "title": "Betaling",
+    "portalDescription": "Beheer je betaalmethode en facturen via het betaalportaal.",
+    "manage": "Betaling beheren",
+    "noMethod": "Nog geen betaalmethode toegevoegd",
+    "addMethod": "Betaalmethode toevoegen",
+    "checkoutNoteFounding": "Bij het afrekenen zie je de standaardprijs. Je korting van {percent}% wordt automatisch toegepast."
+  },
+  "seats": {
+    "title": "Plaatsen",
+    "usage": "{used} van {total} plaatsen in gebruik",
+    "pendingInvites": "{count, plural, one {# plaats is bezet door openstaande uitnodigingen} other {# plaatsen zijn bezet door openstaande uitnodigingen}}",
+    "reseatsReminder": "Denk eraan je {count} extra plaatsen opnieuw af te nemen tegen het tarief van {plan}. Rond de aankoop van plaatsen hieronder af, zodat de facturatie bij je capaciteit past.",
+    "extraLabel": "Extra plaatsen (boven de {included} inbegrepen)",
+    "fewer": "Minder plaatsen",
+    "more": "Meer plaatsen",
+    "price": "Prijs",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr./jr excl. btw",
+    "priceSuffixMonthly": "kr./mnd excl. btw",
+    "adjust": "Plaatsen aanpassen",
+    "buy": "Plaatsen kopen",
+    "note": "Je huidige uitbreiding met plaatsen wordt vervangen door het nieuwe aantal. Je doet een nieuwe aankoop en de oude uitbreiding wordt automatisch opgezegd. Je abonnement staat in totaal maximaal {max} plaatsen toe."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "Voor particulieren",
+      "feature1": "1 gebruiker"
+    },
+    "solo": {
+      "tagline": "Voor freelancers",
+      "feature1": "1 gebruiker, onbeperkt klanten",
+      "feature2": "Urenpakketten, facturatie en integraties",
+      "feature3": "Web, app, extensie en desktop inbegrepen"
+    },
+    "team": {
+      "tagline": "Voor kleine teams",
+      "feature1": "Alles uit {plan}",
+      "feature2": "2 gebruikers inbegrepen",
+      "feature3": "Gedeelde klanten, projecten en urenpakketten"
+    },
+    "business": {
+      "tagline": "Voor bedrijven",
+      "feature1": "Alles uit {plan}",
+      "feature2": "5 gebruikers inbegrepen",
+      "feature3": "Flexuren, afwezigheid en compliance"
+    },
+    "usersIncluded": "{count} gebruikers incl."
+  },
+  "upgrade": {
+    "title": "Upgrade je abonnement",
+    "blocked": "Je hebt {count, plural, one {# extra plaats} other {# extra plaatsen}} die nog niet automatisch naar {plan} kunnen worden verplaatst. Neem contact op via support@timetrack.dk, dan upgraden we je zonder plaatsen te verliezen.",
+    "to": "Upgraden naar {plan}",
+    "note": "Bij een upgrade doe je een nieuwe aankoop. Je huidige abonnement wordt automatisch opgezegd zodra het nieuwe actief is."
+  },
+  "choose": {
+    "title": "Kies je abonnement",
+    "choosePlan": "{plan} kiezen",
+    "chooseAndPay": "Kiezen en betalen",
+    "note": "Extra gebruikers boven de inbegrepen aantallen voeg je na het aanmelden toe. Oprichterskorting (indien actief) wordt na betaling automatisch toegepast op {plan}."
+  },
+  "discounts": {
+    "title": "Actieve kortingen",
+    "rangeBoth": "Van {from} tot {to}",
+    "rangeOpenEnded": "Vanaf {from}, zonder einddatum",
+    "rangeUntil": "Tot {to}",
+    "rangeNone": "Zonder einddatum"
+  },
+  "metadata": {
+    "title": "Abonnementsgegevens",
+    "foundingTier": "Oprichtersniveau",
+    "billingCycle": "Factureringsperiode",
+    "signupSource": "Aanmeldbron",
+    "couponCode": "Kortingscode"
+  },
+  "upcoming": {
+    "title": "Aankomende betalingen",
+    "columnPeriod": "Periode",
+    "columnPlan": "Abonnement",
+    "columnAmount": "Bedrag"
+  },
+  "switch": {
+    "title": "Abonnement wijzigen",
+    "equivalent": "Gelijk aan {price} kr./mnd",
+    "toMonthly": "Overstappen op maandelijks",
+    "toYearly": "Overstappen op jaarlijks"
+  },
+  "cancel": {
+    "title": "Abonnement opzeggen",
+    "description": "Je abonnement blijft actief tot het einde van de huidige factureringsperiode.",
+    "areYouSure": "Weet je het zeker?",
+    "activeUntil": "Je abonnement blijft actief tot {date}. Daarna verlies je de toegang tot premiumfuncties.",
+    "activeUntilEnd": "Je abonnement blijft actief tot het einde van de periode. Daarna verlies je de toegang tot premiumfuncties.",
+    "keep": "Abonnement houden",
+    "confirm": "Ja, abonnement opzeggen",
+    "canceling": "Opzeggen…"
+  }
+}

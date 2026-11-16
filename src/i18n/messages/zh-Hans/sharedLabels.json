@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "你不属于任何组织。请申请新的邀请或联系支持。",
+  "freeMemberLocked": "该组织使用免费版，最多容纳 {seats} 名用户。你的数据已保存。请让所有者升级套餐以重新获得访问权限。",
+  "report": {
+    "hoursSuffix": " 小时",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "“Gratis”套餐最多容纳 {clients} 位活跃客户。请归档一位客户或升级套餐。",
+  "freeSeatLimit": "“Gratis”套餐最多容纳 {seats} 名用户（含待处理的邀请）。请在设置 → 订阅中升级，以邀请更多人。",
+  "ownerMustTransfer": "你拥有一个有其他成员的团队。删除账户之前，请先在“组织”中把所有权转让给其他成员。",
+  "holidays": {
+    "newYearsDay": "元旦",
+    "maundyThursday": "濯足节（复活节前的星期四）",
+    "goodFriday": "耶稣受难日",
+    "easterSunday": "复活节",
+    "easterMonday": "复活节星期一",
+    "ascensionDay": "耶稣升天节",
+    "whitSunday": "圣灵降临节",
+    "whitMonday": "圣灵降临节星期一",
+    "christmasDay": "圣诞节",
+    "boxingDay": "节礼日",
+    "greatPrayerDay": "大祈祷日",
+    "may1": "5 月 1 日",
+    "constitutionDay": "宪法日",
+    "dayAfterAscension": "耶稣升天节后的星期五",
+    "christmasEve": "平安夜",
+    "newYearsEve": "除夕（12 月 31 日）",
+    "dayOff": "休息日"
+  },
+  "speech": {
+    "language": "中文",
+    "micBlocked": "麦克风被阻止。请允许浏览器使用麦克风，然后重试。",
+    "noMic": "未找到麦克风。",
+    "langUnsupported": "此浏览器不支持在本地进行{language}语音识别。",
+    "stopped": "语音识别意外停止。请重试，或改为手动输入。",
+    "downloadFailed": "此浏览器无法下载{language}语音识别。",
+    "ready": "{language}语音识别已就绪。点按麦克风即可。",
+    "cantStart": "无法启动语音识别。请重试。"
+  },
+  "offlineSync": {
+    "fullOverlap": "你离线期间，另一台设备上已有计时器在运行。你的离线工时与其完全重叠，因此未保存。",
+    "partialOverlap": "你离线期间，另一台设备启动了计时器。你的离线工时已保存到那一刻为止。",
+    "clippedSaved": "你离线期间，另一台设备启动了计时器。你的离线工时 {from} 至 {to} 已保存为一条工时记录，另一个计时器继续运行。",
+    "resetOffline": "你在 {from} 离线开始计时时，另一台设备上已有计时器在运行。你的离线计时器已重置，另一个继续运行。",
+    "stoppedElsewhere": "你离线期间，计时器在另一台设备上被停止。工时已在那里保存，不会重复保存。",
+    "syncFailed": "有一项离线更改无法同步：{error}",
+    "defaultDescription": "工时追踪"
+  },
+  "unknownError": "未知错误",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "无法保存",
+      "retry": "重试"
+    },
+    "push": {
+      "unsupported": "此浏览器不支持推送通知",
+      "denied": "通知权限被拒绝",
+      "enabled": "推送通知已开启",
+      "enabledDesc": "你现在会收到通知",
+      "enableFailed": "无法开启通知",
+      "disabled": "推送通知已关闭",
+      "disableFailed": "无法关闭通知"
+    },
+    "periodic": {
+      "unsupported": "不支持定期同步",
+      "enabled": "自动报告已开启",
+      "enabledDesc": "你将收到每周报告",
+      "enableFailed": "无法开启自动报告",
+      "disabled": "自动报告已关闭",
+      "disableFailed": "无法关闭自动报告"
+    },
+    "taskUndo": {
+      "restored": "任务已恢复",
+      "restoreFailed": "无法恢复任务",
+      "deleted": "任务已删除",
+      "undo": "撤销"
+    },
+    "timerSync": {
+      "otherProject": "另一个项目",
+      "runningPaused": "{name} 上已有计时器在运行。请先停止它。你已暂停的时间会保留。",
+      "running": "{name} 上已有计时器在运行。请先停止它。",
+      "alreadyStopped": "该计时器已在另一台设备上停止并保存，不会再次启动。"
+    },
+    "timerKeys": {
+      "started": "计时器已开始",
+      "pressToPause": "再按一次 T 暂停",
+      "paused": "计时器已暂停",
+      "pressToResume": "{time} - 按 T 继续",
+      "resumed": "计时器已继续",
+      "cancelled": "计时器已取消"
+    },
+    "wakeLock": {
+      "unsupported": "此浏览器不支持屏幕常亮（Wake Lock）",
+      "active": "屏幕将保持常亮",
+      "activeDesc": "追踪工时时屏幕不会熄灭",
+      "released": "屏幕可以再次熄灭",
+      "failed": "无法保持屏幕常亮"
+    }
+  },
+  "store": {
+    "managedOnAccount": "你的订阅在你的账户中管理。",
+    "otherAccount": "此购买已关联到另一个 TimeTrack 账户。",
+    "ownerOnly": "只有组织所有者可以购买订阅。",
+    "multiMember": "“Privat”和“Selvstændig”仅限一名用户。你的组织有多名用户，因此订阅在你的账户中管理。",
+    "otherOrganization": "你的订阅属于另一个组织。请切换到该组织查看。",
+    "alreadySubscribed": "你已经通过 {store} 订阅。",
+    "appStoreUnreachable": "无法连接 App Store。请稍后重试。",
+    "appStoreVerify": "无法通过 App Store 验证此购买。",
+    "unknownProduct": "未知产品。请更新应用后重试。",
+    "googleNotFound": "在 Google Play 上未找到此购买。",
+    "productMismatch": "此购买与所选产品不一致。",
+    "googleAck": "无法在 Google Play 确认此购买。请重试。"
+  },
+  "accountDeletion": {
+    "storeSubscription": "你有一个通过 {store} 订阅的有效订阅。删除账户并不会使其停止，必须在 {store} 中取消。请确认你已了解这一点，以删除账户。",
+    "invalidUserId": "无效的用户 ID"
+  },
+  "orgInvite": {
+    "invalidEmail": "无效的邮箱地址",
+    "domainNotAllowed": "此组织不允许使用邮箱域名 {domain}",
+    "alreadyMember": "此人已经是该组织的成员",
+    "alreadyInvited": "此邮箱已有待处理的邀请",
+    "otherBrand": "无法邀请此邮箱地址加入组织。请使用其他地址。",
+    "noSeats": "没有空闲席位（已使用 {used}/{max}）。请在设置 → 订阅中购买更多席位或更改套餐。",
+    "noSeatsAccept": "该组织已没有空闲席位。请联系你的管理员。",
+    "lastOwnerRemove": "无法移除最后一位所有者。请先把所有权转让给其他成员。",
+    "lastOwnerDemote": "无法降级最后一位所有者。请先把所有权转让给其他成员。",
+    "acceptedPushTitle": "🎉 邀请已接受",
+    "acceptedPushBody": "{name} 现已加入 {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "批量列表中包含重复的 UUID",
+    "missing": "有一个或多个任务不存在或不在你的工作区内：{ids}",
+    "unexpectedRowCount": "行数不符合预期",
+    "unselected": "数据中包含未被选中的 UUID",
+    "statusMismatch": "任务 {id} 的状态为 {status}，预期状态为 {expected}",
+    "notEmail": "任务 {id} 不是邮件任务",
+    "customLane": "任务 {id} 使用了自定义泳道，无法安全地批量完成"
+  }
+}

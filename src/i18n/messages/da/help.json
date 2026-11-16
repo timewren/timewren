@@ -1,0 +1,343 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Kom i Gang",
+      "items": {
+        "0": {
+          "question": "Hvordan tilføjer jeg min første kunde?",
+          "answer": "Gå til 'Kunder' i sidebjælken og klik på 'Tilføj kunde'. Udfyld kundeoplysninger som navn, email og eventuelt en specifik timepris. Hvis du ikke angiver en timepris, bruges din standard timepris fra indstillinger."
+        },
+        "1": {
+          "question": "Hvad er forskellen på projekter og kunder?",
+          "answer": "Kunder er de personer eller virksomheder du arbejder for. Projekter er specifikke opgaver eller kontrakter under en kunde. Du kan have flere projekter per kunde, fx 'Website Udvikling' og 'Løbende Support' under samme kunde."
+        },
+        "2": {
+          "question": "Hvordan registrerer jeg tid?",
+          "answer": "Gå til 'Tidsregistrering' og vælg enten at bruge timeren (start/stop) eller tilføj tid manuelt. Vælg projekt eller kunde, tilføj en beskrivelse, og gem. Du kan vælge om tiden skal trækkes fra et klippekort eller faktureres normalt."
+        },
+        "3": {
+          "question": "Hvordan gennemgår jeg rundvisningen igen?",
+          "answer": "Klik på dit profilbillede eller initialer i øverste højre hjørne og vælg 'Start rundvisning'. Rundvisningen guider dig igennem alle hovedfunktioner i {brand} med 24 interaktive trin."
+        },
+        "4": {
+          "question": "Findes der tastaturgenveje?",
+          "answer": "Ja, {brand} har mange tastaturgenveje for hurtig navigation og tidsstyring. Tryk '?' for at se en oversigt over alle tilgængelige genveje, eller se emnet 'Tastaturgenveje og tips' herunder."
+        }
+      }
+    },
+    "clients": {
+      "title": "Kunder",
+      "items": {
+        "0": {
+          "question": "Hvordan opsætter jeg en specifik timepris for en kunde?",
+          "answer": "Når du opretter eller redigerer en kunde, kan du angive en 'Timepris (kr)'. Denne pris tilsidesætter din standard timepris for alle projekter under denne kunde, medmindre projektet har sin egen timepris."
+        },
+        "1": {
+          "question": "Kan jeg slette en kunde?",
+          "answer": "For at bevare dataintegriteten kan kunder ikke slettes, men de kan arkiveres. Arkiverede kunder vises ikke i lister, men deres historiske data bevares. Du kan til enhver tid genaktivere en arkiveret kunde."
+        },
+        "2": {
+          "question": "Hvad er prisniveauet?",
+          "answer": "{brand} bruger et tre-niveau prissystem: 1) Global timepris (i indstillinger), 2) Kundespecifik timepris, 3) Projekt-specifik timepris. Prisen fra det laveste niveau bruges. Fx hvis et projekt har en pris, bruges den - ellers bruges kundens pris, og ellers den globale pris."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projekter",
+      "items": {
+        "0": {
+          "question": "Hvad er forskellen på time-baseret og fast pris?",
+          "answer": "Time-baseret projekter faktureres baseret på antal timer ganget med timeprisen. Fast pris projekter har en forudbestemt pris uanset antal timer. Du angiver typen når du opretter projektet."
+        },
+        "1": {
+          "question": "Hvordan holder jeg styr på projektfrister?",
+          "answer": "Når du opretter et projekt kan du angive en deadline. Projekter med deadlines vises med en advarsel hvis fristen nærmer sig. Du kan også sætte status til 'Aktiv', 'Pause' eller 'Afsluttet'."
+        },
+        "2": {
+          "question": "Kan jeg flytte et projekt til en anden kunde?",
+          "answer": "Ja, rediger projektet og vælg en ny kunde fra dropdown-menuen. Alle tidsposteringer og klippekort forbliver tilknyttet projektet."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Tidsregistrering",
+      "items": {
+        "0": {
+          "question": "Hvordan virker timeren?",
+          "answer": "Vælg et projekt, tilføj en beskrivelse, og tryk 'Start'. Timeren løber indtil du trykker 'Pause' eller 'Stop'. Når du stopper, gemmes tiden automatisk som en tidspostering. Du kan pause og genoptage timeren efter behov."
+        },
+        "1": {
+          "question": "Kan jeg redigere tidligere tidsposteringer?",
+          "answer": "Ja, klik på en tidspostering i listen og vælg 'Rediger'. Du kan ændre projekt, beskrivelse, antal timer, og dato. Dette er nyttigt hvis du glemmer at registrere tid eller laver en fejl."
+        },
+        "2": {
+          "question": "Hvordan bruger jeg flere tidsposteringer samtidig?",
+          "answer": "Vælg tidsposteringerne ved at klikke på checkboxen til venstre. Du kan derefter slette flere tidsposteringer på én gang ved at klikke på 'Slet Valgte' knappen."
+        },
+        "3": {
+          "question": "Hvad er ugeoversigten (timesheet)?",
+          "answer": "Ugeoversigten viser dine tidsposteringer i et ugentligt gitter, så du hurtigt kan se timer per dag og projekt. Skift mellem liste- og ugeoversigt med toggle-knappen øverst på Tidsregistrering-siden."
+        },
+        "4": {
+          "question": "Kan jeg importere tid fra CSV?",
+          "answer": "Ja, klik på 'Importér CSV'-knappen på Tidsregistrering-siden. Upload en CSV-fil med kolonner for dato, timer, projekt og beskrivelse. Systemet matcher automatisk projekter og opretter tidsposteringer."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Opgaver",
+      "items": {
+        "0": {
+          "question": "Hvad er forskellen på kanban-board og listevisning?",
+          "answer": "Kanban-boardet viser opgaver som kort fordelt på kolonner, så du nemt kan trække opgaver mellem stadier. Listevisningen viser opgaver i en tabel med sortering og filtrering. Skift mellem visningerne med knapperne øverst."
+        },
+        "1": {
+          "question": "Hvordan opretter jeg en opgave?",
+          "answer": "Klik 'Ny opgave' på opgavesiden. Udfyld titel, vælg projekt og kunde, sæt prioritet (lav/normal/høj/kritisk), og angiv en eventuel deadline. Du kan også tilføje en beskrivelse med detaljer."
+        },
+        "2": {
+          "question": "Hvordan flytter jeg opgaver mellem kolonner?",
+          "answer": "I kanban-visningen kan du trække og slippe opgavekort mellem kolonnerne og op og ned i en kolonne; rækkefølgen bliver gemt. Med tastaturet: fokusér et kort og brug Alt og piletasterne. Du kan også klikke på en opgave og vælge status i panelet."
+        },
+        "3": {
+          "question": "Kan jeg starte en timer direkte fra en opgave?",
+          "answer": "Ja, hver opgave har en timer-knap. Klik på den for at starte timeren med opgavens projekt og titel som beskrivelse. Tiden registreres automatisk på det tilknyttede projekt."
+        },
+        "4": {
+          "question": "Kan jeg lave mine egne kolonner?",
+          "answer": "Ja. Klik 'Tilpas kolonner' over tavlen. Her kan du omdøbe, farve, flytte, tilføje og slette kolonner, og vælge hvad hver kolonne tæller som: ikke startet, i gang, afsluttet eller annulleret. Det bestemmer, hvordan opgaverne tæller i rapporter og filtre. Kolonner kan foldes sammen med pilene i kolonnens top."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "items": {
+        "0": {
+          "question": "Hvad viser dashboardet?",
+          "answer": "Dashboardet giver dig et overblik over din freelance-forretning med widgets for ugentlig tidsoversigt, indtjening, aktive projekter, klippekort-status, seneste tidsposteringer og kommende deadlines."
+        },
+        "1": {
+          "question": "Kan jeg tilpasse dashboardet?",
+          "answer": "Ja, klik på 'Tilpas' knappen øverst til højre på dashboardet. Du kan tilføje, fjerne og flytte widgets med drag & drop. Dine tilpasninger gemmes automatisk."
+        },
+        "2": {
+          "question": "Hvilke widgets er tilgængelige?",
+          "answer": "Tilgængelige widgets inkluderer: Ugeoversigt (timer per dag), Indtjening (omsætning og vækst), Aktive Projekter, Klippekort-oversigt, Seneste Tidsposteringer, Timer i Dag, Kommende Deadlines, og Hurtig Timer-start."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Klippekort",
+      "items": {
+        "0": {
+          "question": "Hvad er et klippekort?",
+          "answer": "Et klippekort (prepaid package) er en pakke af præbetalte timer som en kunde køber på forhånd. Når du registrerer tid kan du vælge at trække timer fra klippekortet i stedet for at fakturere dem normalt. Dette er populært for support-aftaler."
+        },
+        "1": {
+          "question": "Hvordan opretter jeg et klippekort?",
+          "answer": "Gå til 'Klippekort' og klik 'Nyt klippekort'. Vælg kunde, angiv antal timer, timepris, og beregn den samlede pris. Sæt en købsdato og eventuelt en udløbsdato. Når klippekortet er aktivt, kan du bruge det, når du registrerer tid."
+        },
+        "2": {
+          "question": "Hvad sker der når et klippekort løber tør?",
+          "answer": "Du får en advarsel når et klippekort har mindre end 10% timer tilbage. Når det er tomt (0 timer tilbage), kan du ikke længere trække tid fra det. Du skal oprette et nyt klippekort eller fakturere tiden normalt."
+        },
+        "3": {
+          "question": "Kan jeg se historik for et klippekort?",
+          "answer": "Ja, åbn klippekortet og se under 'Forbrug Historik'. Her vises alle tidsposteringer der er trukket fra klippekortet, med dato, beskrivelse, og antal timer."
+        }
+      }
+    },
+    "templates": {
+      "title": "Tilbagevendende Skabeloner",
+      "items": {
+        "0": {
+          "question": "Hvad er tilbagevendende skabeloner?",
+          "answer": "Tilbagevendende skabeloner er forudindstillede tidsposteringer der automatisk oprettes med jævne mellemrum. Fx kan du lave en skabelon for 'Ugentlig Status Møde - 1 time' der automatisk oprettes hver uge."
+        },
+        "1": {
+          "question": "Hvordan opretter jeg en skabelon?",
+          "answer": "Gå til 'Skabeloner' og klik 'Ny skabelon'. Vælg projekt, beskrivelse, antal timer, og hyppighed (daglig/ugentlig/månedlig). Angiv startdato og eventuelt slutdato. Skabelonen opretter automatisk tidsposteringer baseret på din plan."
+        },
+        "2": {
+          "question": "Kan jeg redigere eller slette genererede tidsposteringer?",
+          "answer": "Ja, de genererede tidsposteringer fungerer som normale tidsposteringer. Du kan redigere dem under 'Tidsregistrering' eller slette dem hvis de ikke er relevante for en given dag/uge."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Fakturaer",
+      "items": {
+        "0": {
+          "question": "Hvordan opretter jeg en faktura?",
+          "answer": "Gå til 'Fakturaer' og klik 'Ny faktura'. Vælg kunde, datointerval for tidsposteringer, og systemet samler automatisk alle ufakturerede timer. Gennemse linjerne, tilføj eventuelle noter, og gem."
+        },
+        "1": {
+          "question": "Hvad er forskellen på 'Kladde', 'Sendt' og 'Betalt'?",
+          "answer": "Kladde = Du arbejder stadig på fakturaen. Sendt = Fakturaen er sendt til kunden men ikke betalt endnu. Betalt = Kunden har betalt fakturaen. Du kan manuelt opdatere status efterhånden."
+        },
+        "2": {
+          "question": "Kan jeg eksportere fakturaer til PDF?",
+          "answer": "Ja, når du ser en faktura er der en 'Eksporter PDF' knap. Dette genererer en professionel PDF-faktura du kan sende til kunden eller gemme til regnskab."
+        },
+        "3": {
+          "question": "Kan jeg generere faktura fra tidsregistreringer?",
+          "answer": "Ja, klik på 'Fra tidsregistreringer'-knappen når du opretter en ny faktura. Vælg kunde og datointerval, og systemet samler automatisk alle ufakturerede tidsposteringer som fakturalinjer."
+        },
+        "4": {
+          "question": "Hvad viser fakturaoverblikket?",
+          "answer": "Øverst på fakturasiden finder du fire statistikkort: Total faktureret beløb, Betalt beløb, Udestående beløb, og Forfaldne fakturaer. Det giver dig et hurtigt overblik over din økonomi."
+        }
+      }
+    },
+    "reports": {
+      "title": "Rapporter",
+      "items": {
+        "0": {
+          "question": "Hvilke rapporter kan jeg generere?",
+          "answer": "Du kan se ugentlige og månedlige rapporter med timer per kunde, timer per projekt, indtægter, og tendenser. Rapporter kan filtreres på datointerval og eksporteres til CSV for analyse i Excel."
+        },
+        "1": {
+          "question": "Hvordan eksporterer jeg data til Excel?",
+          "answer": "Gå til 'Rapporter', vælg det ønskede datointerval, og klik 'Eksporter CSV'. Dette downloader en CSV-fil som du kan åbne i Excel, Google Sheets, eller andre regneark."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Tastaturgenveje og tips",
+      "items": {
+        "0": {
+          "question": "Hvilke navigationsgenveje findes der?",
+          "answer": "Brug G efterfulgt af en tast for hurtig navigation: {shortcuts}."
+        },
+        "1": {
+          "question": "Hvilke timer-genveje findes der?",
+          "answer": "T = Start/stop timeren, Shift+T = Pause/genoptag timeren. Disse genveje virker fra alle sider, så du hurtigt kan styre din timer uden at skifte side."
+        },
+        "2": {
+          "question": "Hvad er Command Palette?",
+          "answer": "Tryk Ctrl+K (eller Cmd+K på Mac) for at åbne Command Palette. Her kan du hurtigt søge efter og navigere til sider, kunder, projekter og handlinger uden at bruge musen."
+        },
+        "3": {
+          "question": "Hvordan ser jeg alle genveje?",
+          "answer": "Tryk '?' fra en hvilken som helst side for at åbne genvejsoversigten. Her vises alle tilgængelige tastaturgenveje grupperet efter kategori."
+        },
+        "4": {
+          "question": "Kan jeg genstarte rundvisningen?",
+          "answer": "Ja, klik på dit profilbillede/initialer øverst til højre og vælg 'Start rundvisning' i brugermenuen. Rundvisningen guider dig igennem alle 24 hovedfunktioner."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Browser Extension",
+      "items": {
+        "0": {
+          "question": "Hvad er {brand} browser extension?",
+          "answer": "Browser extension giver dig mulighed for at registrere tid direkte fra din browser uden at åbne {brand}-appen. Du kan starte/stoppe timeren, vælge projekt og kunde, og se dine seneste tidsposteringer."
+        },
+        "1": {
+          "question": "Hvordan opsætter jeg URL-mønstre?",
+          "answer": "Under Indstillinger → Browser Extension kan du definere URL-mønstre der automatisk tilknytter et projekt, når du besøger bestemte websites. Fx kan du sætte 'github.com/client-repo/*' til automatisk at vælge det tilhørende projekt."
+        },
+        "2": {
+          "question": "Hvordan installerer jeg browser extension?",
+          "answer": "Installer {brand} extension fra Chrome Web Store (søg efter ''{brand} Tidsregistrering' eller gå til timetrack.dk/browser-extension). Generer en API token under Indstillinger → Browser Extension, og indsæt den i extension popup. Extension forbinder automatisk til din {brand}-konto."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integrationer",
+      "items": {
+        "0": {
+          "question": "Hvordan bruger jeg CVR-opslag?",
+          "answer": "Når du opretter en ny kunde, kan du indtaste et CVR-nummer og klikke 'Slå op'. {brand} henter automatisk firmanavn, adresse og kontaktoplysninger fra CVR-registeret, så du slipper for at indtaste det manuelt."
+        },
+        "1": {
+          "question": "Hvordan eksporterer jeg til Billy, Dinero eller e-conomic?",
+          "answer": "Gå til Indstillinger → Integrationer, og forbind din konto. Billy og Dinero kan modtage fakturaer. Fra e-conomic kan du hente dine kunder ind, og fakturagrundlaget kan du altid eksportere som CSV eller rapport fra fakturasiden."
+        },
+        "2": {
+          "question": "Kan jeg synkronisere med Google Calendar?",
+          "answer": "Ja, under Indstillinger → Integrationer kan du forbinde din Google Calendar. Kalenderbegivenheder kan automatisk foreslås som tidsposteringer, så du nemt kan registrere tid baseret på dine møder."
+        }
+      }
+    },
+    "security": {
+      "title": "Sikkerhed",
+      "items": {
+        "0": {
+          "question": "Hvad er passkeys?",
+          "answer": "Passkeys er en moderne, passwordless login-metode. I stedet for et kodeord bruger du fingeraftryk, ansigtsgenkendelse eller din enheds PIN-kode. Opsæt passkeys under Indstillinger → Sikkerhed → Passkeys."
+        },
+        "1": {
+          "question": "Hvordan aktiverer jeg to-faktor-godkendelse (2FA)?",
+          "answer": "Gå til Indstillinger → Sikkerhed → To-faktor-godkendelse. Scan QR-koden med en authenticator-app (fx Google Authenticator eller Authy) og indtast bekræftelseskoden. Herefter kræves en 6-cifret kode ved login."
+        },
+        "2": {
+          "question": "Hvordan administrerer jeg aktive sessioner?",
+          "answer": "Under Indstillinger → Sikkerhed → Aktive Sessioner kan du se alle enheder der er logget ind på din konto. Du kan lukke individuelle sessioner eller logge ud af alle enheder på én gang."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Import og eksport",
+      "items": {
+        "0": {
+          "question": "Hvordan importerer jeg tidsregistreringer fra CSV?",
+          "answer": "Gå til Tidsregistrering og klik 'Importér CSV'. Upload en CSV-fil med kolonner for dato, timer, projekt og beskrivelse. Systemet viser en forhåndsvisning så du kan verificere data før import."
+        },
+        "1": {
+          "question": "Hvordan eksporterer jeg mine data?",
+          "answer": "Du kan eksportere data fra flere steder: Rapporter → Eksporter CSV for tidsposteringer, Fakturaer → Eksporter PDF for individuelle fakturaer, og Indstillinger → Data → Eksporter alle data for en komplet backup i CSV- eller JSON-format."
+        },
+        "2": {
+          "question": "Kan jeg downloade alle mine data (GDPR)?",
+          "answer": "Ja, under Indstillinger → Data finder du en 'Download mine data' knap. Dette genererer en komplet eksport af alle dine data i JSON-format, som krævet af GDPR. Eksporten inkluderer kunder, projekter, tidsposteringer, fakturaer og klippekort."
+        }
+      }
+    },
+    "settings": {
+      "title": "Indstillinger",
+      "items": {
+        "0": {
+          "question": "Hvordan ændrer jeg min standard timepris?",
+          "answer": "Gå til 'Indstillinger', find feltet 'Standard timepris (kr)', og indtast din nye pris. Denne pris bruges som standard for nye kunder og projekter. Eksisterende kunde- og projektpriser påvirkes ikke."
+        },
+        "1": {
+          "question": "Bliver alle mine ændringer logget?",
+          "answer": "Ja, {brand} logger alle ændringer til timepriser (global, kunde, projekt) i en prishistorik. Du kan altid se hvornår og hvordan priser blev ændret. Dette hjælper med gennemsigtighed og regnskab."
+        },
+        "2": {
+          "question": "Hvordan sletter jeg min konto?",
+          "answer": "I 'Indstillinger' er der en 'Farlig zone' sektion med en 'Slet konto' knap. Du skal bekræfte med din email og godkende sletningen. OBS: Dette sletter PERMANENT alle dine data inklusiv kunder, projekter, tidsposteringer og fakturaer. Er du medlem af et team, bliver det, du har registreret i teamet, stående hos teamet uden dit navn og din e-mail."
+        },
+        "3": {
+          "question": "Hvordan skifter jeg til mørkt tema?",
+          "answer": "Gå til Indstillinger → Profil og udseende → Tema. Vælg mellem 'Lyst', 'Mørkt' eller 'System' (følger din enheds indstilling). Ændringen træder i kraft med det samme."
+        },
+        "4": {
+          "question": "Hvad er virksomhedsprofilen?",
+          "answer": "Under Indstillinger → Virksomhedsprofil kan du opsætte dit firmanavn, CVR-nummer, adresse, logo og bankoplysninger. Disse oplysninger bruges automatisk på dine fakturaer."
+        }
+      }
+    }
+  },
+  "title": "Hjælp & Vejledning",
+  "description": "Find svar på dine spørgsmål om {brand}",
+  "searchPlaceholder": "Søg i hjælp... (fx 'klippekort', 'faktura', 'genvej')",
+  "resultCount": "{count, plural, one {# resultat} other {# resultater}}",
+  "popular": "Populære spørgsmål",
+  "searchResultsFor": "Søgeresultater for \"{query}\"",
+  "foundIn": "{results, plural, one {# resultat} other {# resultater}} fundet i {topics, plural, one {# emne} other {# emner}}",
+  "noResults": "Ingen resultater fundet for \"{query}\"",
+  "questionCount": "{count, plural, one {# spørgsmål} other {# spørgsmål}}",
+  "chooseTopic": "Vælg et emne fra listen",
+  "cantFindTitle": "Kan du ikke finde hvad du leder efter?",
+  "cantFindBody": "Kontakt os hvis du har spørgsmål der ikke er dækket i dokumentationen.",
+  "contactSupport": "Kontakt Support",
+  "screenshotAlt": "Screenshot: {title}",
+  "videoDemo": "Video demo",
+  "wasHelpful": "Var dette nyttigt?",
+  "yes": "Ja",
+  "no": "Nej",
+  "topicsHeading": "Emner"
+}

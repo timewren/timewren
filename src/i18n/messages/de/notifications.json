@@ -1,0 +1,322 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "Stundenzettel",
+      "description": "Eingereicht, freigegeben, abgelehnt und wieder geöffnet sowie Periodenabschluss (Übersicht, Freigabe, Bestätigung)"
+    },
+    "absence": {
+      "label": "Urlaub und Abwesenheit",
+      "description": "Anträge, Entscheidungen, Eintragungen und Krankmeldungen"
+    },
+    "reminder": {
+      "label": "Erinnerungen",
+      "description": "Freitagserinnerung, wenn der Stundenzettel fehlt, und (optional) bei niedriger Auslastung am Vortag"
+    },
+    "compliance": {
+      "label": "Arbeitszeitregeln",
+      "description": "Warnungen zu Arbeitszeitregeln beim Einreichen (für Leitungen)"
+    },
+    "digest": {
+      "label": "Leitungs-Digest",
+      "description": "Tägliche/wöchentliche Übersicht für Leitungen"
+    }
+  },
+  "channels": {
+    "in_app": "In der App",
+    "email": "E-Mail",
+    "push": "Push",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "Woche {week}",
+  "periodFrom": "ab {date}",
+  "periodRange": "{start} – {end}",
+  "unknown": "Unbekannt",
+  "duration": {
+    "hm": "{h} Std. {m} Min.",
+    "h": "{h} Std.",
+    "m": "{m} Min."
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "Stundenzettel zur Freigabe",
+      "body": "{employee} hat den Stundenzettel für {week} eingereicht ({hours} Stunden)."
+    },
+    "factEmployee": "Mitarbeiter:in",
+    "factWeek": "Woche",
+    "factHours": "Stunden",
+    "timesheetApproved": {
+      "title": "Stundenzettel freigegeben",
+      "body": "{manager} hat deinen Stundenzettel für {week} freigegeben."
+    },
+    "timesheetRejected": {
+      "title": "Stundenzettel abgelehnt",
+      "body": "{manager} hat deinen Stundenzettel für {week} abgelehnt.",
+      "bodyReason": "{manager} hat deinen Stundenzettel für {week} abgelehnt. Begründung: {reason}"
+    },
+    "timesheetReopened": {
+      "title": "Stundenzettel wieder geöffnet",
+      "body": "{manager} hat deinen Stundenzettel für {week} zur Bearbeitung wieder geöffnet.",
+      "bodyReason": "{manager} hat deinen Stundenzettel für {week} zur Bearbeitung wieder geöffnet. Grund: {reason}"
+    },
+    "closingReady": {
+      "title": "Periodenübersichten zur Freigabe bereit",
+      "body": "{count, plural, one {Die Periodenübersicht für {period} wurde für # Person erstellt und wartet auf deine Freigabe.} other {Die Periodenübersichten für {period} wurden für # Mitarbeitende erstellt und warten auf deine Freigabe.}}"
+    },
+    "factPeriod": "Zeitraum",
+    "factStatements": "Abrechnungen",
+    "closingApproved": {
+      "title": "Bestätige deine Periodenübersicht",
+      "body": "{manager} hat deine Periodenübersicht für {period} freigegeben. Der Zeitraum ist jetzt gesperrt: Sieh dir die Übersicht an und bestätige sie."
+    },
+    "closingUnlocked": {
+      "title": "Zeitraum entsperrt",
+      "body": "{actor} hat {period} entsperrt. Grund: {reason}"
+    },
+    "absenceRequested": {
+      "title": "Abwesenheit zur Freigabe",
+      "body": "{employee} beantragt {type} {period}."
+    },
+    "factType": "Art",
+    "absenceApproved": {
+      "title": "Abwesenheit freigegeben",
+      "body": "{manager} hat deine {type} {period} freigegeben."
+    },
+    "absenceRejected": {
+      "title": "Abwesenheit abgelehnt",
+      "body": "{manager} hat deine {type} {period} abgelehnt.",
+      "bodyReason": "{manager} hat deine {type} {period} abgelehnt. Begründung: {reason}"
+    },
+    "absenceRegistered": {
+      "title": "Abwesenheit eingetragen",
+      "body": "{registrar} hat {type} {period} eingetragen."
+    },
+    "sickRegistered": {
+      "title": "Krankmeldung",
+      "body": "{employee} hat sich {period} krankgemeldet."
+    },
+    "timesheetMissing": {
+      "title": "Dein Stundenzettel fehlt",
+      "bodyHours": "Du hast in {week} {hours} Stunden erfasst, aber die Woche wurde noch nicht eingereicht.",
+      "bodyNone": "Du hast in {week} noch keine Stunden erfasst."
+    },
+    "coverageLow": {
+      "title": "Nur {pct} der Arbeitszeit sind erfasst",
+      "body": "Du hast {day} {logged} von {expected} Stunden erfasst (unter deiner Grenze von {threshold} %). Fehlt etwas?"
+    },
+    "factLogged": "Erfasst",
+    "factWorkTime": "Arbeitszeit",
+    "factCoverage": "Auslastung",
+    "hoursShort": "{hours} Std.",
+    "compliance": {
+      "title": "Warnung zu Arbeitszeitregeln",
+      "body": "Der Stundenzettel von {employee} für {week} löst aus: {findings}"
+    },
+    "factFinding": "Befund",
+    "digestDaily": "Tägliche Leitungsübersicht",
+    "digestWeekly": "Wöchentliche Leitungsübersicht",
+    "digestDailyEsc": "Tägliche Leitungsübersicht (eskaliert)",
+    "digestWeeklyEsc": "Wöchentliche Leitungsübersicht (eskaliert)",
+    "digestEmpty": "Keine offenen Stundenzettel oder Anträge.",
+    "digestMissing": "Fehlende Stundenzettel",
+    "digestPendingTs": "Stundenzettel zur Freigabe",
+    "digestPendingAbs": "Abwesenheitsanträge zur Freigabe",
+    "digestFactAbs": "Abwesenheitsanträge",
+    "digestSection": "{label} ({count}):",
+    "digestAge": "({days, plural, one {# Tag} other {# Tage}})",
+    "digestMore": "… und {count} weitere"
+  },
+  "digestItem": {
+    "missing": "Stundenzettel für {week} nicht eingereicht",
+    "pendingTs": "{week} wartet auf Freigabe",
+    "pendingAbs": "{type} {period} wartet auf Entscheidung"
+  },
+  "emailOpenIn": "In {brand} öffnen",
+  "emailNoAddress": "Keine E-Mail-Adresse",
+  "push": {
+    "open": "Öffnen",
+    "dismiss": "Verwerfen",
+    "deadlineTitle": "⏰ Fristerinnerung",
+    "deadlineBody": "{title} - Frist {when}",
+    "whenDays": "in {days} Tagen",
+    "whenTomorrow": "morgen",
+    "whenHours": "in {hours} Stunden",
+    "whenOneHour": "in 1 Stunde",
+    "whenSoon": "bald",
+    "overdueTitle": "🚨 Aufgabe überfällig",
+    "overdueBody": "{title} hat die Frist überschritten",
+    "digestTitle": "☀️ Guten Morgen!",
+    "digestOverdue": "{overdue} überfällig, {tasks} heute geplant",
+    "digestTasks": "{count, plural, one {# Aufgabe} other {# Aufgaben}} heute geplant",
+    "digestNone": "Keine Aufgaben geplant - genieße den Tag!",
+    "testTitle": "🔔 Testbenachrichtigung",
+    "testBody": "Push-Benachrichtigungen sind jetzt für {brand} aktiviert!"
+  },
+  "discord": {
+    "digestTitle": "☀️ Guten Morgen, {name}!",
+    "digestNone": "Du hast heute keine geplanten Aufgaben. Genieße den Tag! 🎉",
+    "digestOverview": "Hier ist deine Übersicht für heute:",
+    "todayTasks": "📌 Aufgaben heute ({count})",
+    "overdueTasks": "🚨 Frist überschritten ({count})",
+    "andMore": "…und {count} weitere",
+    "status": "📊 Status",
+    "yesterdayTime": "Gestern erfasste Zeit: {h}Std. {m}Min.",
+    "yesterdayDone": "Gestern erledigte Aufgaben: {count}",
+    "digestFooter": "TimeTrack • Tagesübersicht",
+    "testTitle": "Testbenachrichtigung",
+    "testMessage": "Dein Discord-Webhook ist jetzt mit TimeTrack verbunden! 🎉"
+  },
+  "taskDigestSubject": "Deine Aufgaben {date}",
+  "endOfDay": {
+    "titleTracked": "Tagesübersicht: {hours} erfasst",
+    "titleNone": "Heute keine Zeit erfasst",
+    "bodyTracked": "Du hast heute {hours} erfasst.",
+    "bodyUnbilled": "{hours} wurden nicht abgerechnet.",
+    "bodyRevenue": "Geschätzter Umsatz: {amount} kr.",
+    "bodyNone": "Denke daran, deine Zeit zu erfassen, bevor der Tag vorbei ist.",
+    "footer": "TimeTrack Tagesübersicht"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "Inaktivität erkannt",
+      "message": "Der Timer läuft nach {minutes} Minuten Arbeit weiter. Du wirst nach der inaktiven Zeit gefragt, wenn du zurück bist."
+    },
+    "invoiceOverdueOne": {
+      "title": "Rechnung überfällig",
+      "message": "Rechnung {numbers} hat das Fälligkeitsdatum überschritten."
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} Rechnungen überfällig",
+      "message": "Die Rechnungen {numbers} haben das Fälligkeitsdatum überschritten."
+    },
+    "recurringOne": {
+      "title": "Rechnungsentwurf bereit: {name}",
+      "message": "Die wiederkehrende Rechnung \"{name}\" ({amount} zzgl. MwSt.) wurde als Entwurf erstellt. Prüfe und stelle sie aus, wenn sie bereit ist."
+    },
+    "recurringMany": {
+      "title": "{count} wiederkehrende Rechnungen als Entwurf bereit",
+      "message": "{list} wurden als Entwürfe erstellt. Prüfe und stelle sie aus, wenn sie bereit sind."
+    },
+    "renewalDraft": {
+      "title": "Rechnungsentwurf bereit: Stundenpaket \"{name}\"",
+      "message": "Das Stundenpaket \"{name}\" wurde verlängert, und die Rechnung für den neuen Zeitraum wurde als Entwurf erstellt. Prüfe und stelle sie aus, wenn sie bereit ist."
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "Neuer Nutzer registriert",
+      "subscription_started": "Neuer zahlender Abonnent",
+      "payment_failed": "Zahlung fehlgeschlagen",
+      "subscription_cancelled": "Abonnement gekündigt",
+      "trial_ending": "Testphase läuft bald ab",
+      "user_flagged": "Nutzer markiert",
+      "support_ticket": "Neues Support-Ticket",
+      "webhook_rejected": "Webhook abgelehnt",
+      "seat_drift": "Seat-Drift erkannt",
+      "churn_risk": "Churn-Playbook ausgelöst",
+      "subscription_duplicate": "Mögliches doppeltes Abonnement",
+      "feedback_received": "Neues Feedback von einem Nutzer",
+      "beta_tester_signup": "Neuer Betatester für die mobile App"
+    },
+    "sub": {
+      "signup": "Neuer Nutzer: {name}",
+      "subscription_started": "Neuer Abonnent: {name}",
+      "payment_failed": "Zahlung fehlgeschlagen: {name}",
+      "subscription_cancelled": "Abonnement gekündigt: {name}",
+      "trial_ending": "Testphase läuft ab: {name}",
+      "user_flagged": "Nutzer markiert: {name}",
+      "support_ticket": "Support-Ticket: {name}",
+      "webhook_rejected": "Webhook abgelehnt",
+      "seat_drift": "Seat-Drift",
+      "churn_risk": "Churn-Risiko",
+      "subscription_duplicate": "Mögliches doppeltes Abonnement",
+      "feedback_received": "Neues Feedback: {name}",
+      "beta_tester_signup": "Neuer Betatester: {name}"
+    },
+    "unknownName": "unbekannt",
+    "fieldName": "Name",
+    "fieldEmail": "E-Mail",
+    "fieldPlan": "Tarif",
+    "fieldType": "Typ",
+    "fieldDaysLeft": "Verbleibende Tage",
+    "fieldReason": "Grund",
+    "fieldTime": "Zeitpunkt",
+    "seeUser": "Nutzer im Admin ansehen",
+    "footer": "TimeTrack Admin",
+    "testTitle": "Test: Admin-Benachrichtigungen",
+    "testBody": "Dein Discord-Webhook ist jetzt mit den TimeTrack-Admin-Benachrichtigungen verbunden!",
+    "supportReply": "Antwort auf Ticket: {subject}",
+    "supportNew": "Neues Support-Ticket: {subject}",
+    "supportNoSubject": "Kein Betreff"
+  },
+  "fallbackUser": "Nutzer",
+  "absenceTypeFallback": "Abwesenheit",
+  "teams": {
+    "urlTooLong": "Webhook-URL ist zu lang",
+    "urlInvalid": "Ungültige URL",
+    "urlHttps": "Webhook-URL muss https verwenden",
+    "urlNotTeams": "Die URL sieht nicht wie ein Teams-Webhook aus (erwartet *.webhook.office.com, *.logic.azure.com oder *.powerplatform.com)"
+  },
+  "fallbackTaskTitle": "Aufgabe aus E-Mail",
+  "deadlines": {
+    "noProject": "Kein Projekt",
+    "overdueLine": "• **{title}** ({project}) - {days, plural, one {# Tag} other {# Tage}} überfällig",
+    "overdueTitle": "{count, plural, one {# überfällige Aufgabe} other {# überfällige Aufgaben}}",
+    "overdueFooter": "TimeTrack Fristenwarnung",
+    "whenToday": "heute",
+    "whenTomorrow": "morgen",
+    "whenDays": "in {days} Tagen",
+    "upcomingLine": "• **{title}** ({project}) - Frist {when}",
+    "upcomingTitle": "{count, plural, one {# Aufgabe} other {# Aufgaben}} mit bevorstehender Frist",
+    "upcomingFooter": "TimeTrack Fristerinnerung",
+    "projOverdueTitle": "{count, plural, one {# Projekt} other {# Projekte}} über dem Enddatum",
+    "projOverdueLine": "• **{name}** - Enddatum um {days, plural, one {# Tag} other {# Tage}} überschritten",
+    "projSoonTitle": "{count, plural, one {# Projekt} other {# Projekte}} mit bevorstehendem Enddatum",
+    "projSoonLine": "• **{name}** - endet {when}",
+    "projFooter": "TimeTrack Projekt-Enddatum"
+  },
+  "slack": {
+    "noProject": "Kein Projekt",
+    "noClient": "Kein Kunde",
+    "project": "Projekt",
+    "client": "Kunde",
+    "description": "Beschreibung",
+    "timerStarted": "Timer gestartet",
+    "startedAtSlack": "Gestartet um",
+    "startedAtDiscord": "Gestartet",
+    "timerStopped": "Timer gestoppt",
+    "duration": "Dauer",
+    "durationHM": "{h} Std. {m} Min.",
+    "durationM": "{m} Minuten",
+    "idleTitle": "Inaktivität erkannt",
+    "idleBodySlack": "Du warst *{minutes} Minuten* inaktiv, während der Timer auf *{project}* läuft. Denke daran, den Timer zu stoppen, wenn du Pause machst.",
+    "idleBodyDiscord": "Du warst **{minutes} Minuten** inaktiv, während der Timer auf **{project}** läuft. Denke daran, den Timer zu stoppen, wenn du Pause machst.",
+    "dailyTitle": "Tägliche Zusammenfassung - {date}",
+    "totalTime": "Gesamtzeit",
+    "totalRevenue": "Gesamtumsatz",
+    "tasksDone": "Aufgaben erledigt",
+    "projects": "Projekte",
+    "noEntriesToday": "Heute keine Zeiteinträge",
+    "weeklyTitle": "Wochenbericht - Woche {week}",
+    "unbilled": "Nicht abgerechnet",
+    "topClients": "Top-Kunden",
+    "noEntriesWeek": "Keine Zeiteinträge in dieser Woche",
+    "hoursShort": "{hours} Std.",
+    "minutesShort": "{m} Min.",
+    "testTitle": "TimeTrack Testnachricht",
+    "testBodySlack": "Deine Slack-Integration ist korrekt eingerichtet! Du erhältst hier jetzt Benachrichtigungen von TimeTrack.",
+    "testBodyDiscord": "Deine Discord-Integration ist korrekt eingerichtet! Du erhältst hier jetzt Benachrichtigungen von TimeTrack.",
+    "unbilledReminderTitle": "💰 Nicht abgerechnete Zeit: {hours} ({value} kr)",
+    "unbilledReminderDiscord": "Du hast nicht abgerechnete Zeit im Wert von **{value} kr**.\n\n{list}",
+    "unbilledReminderSlack": "Du hast nicht abgerechnete Zeit im Wert von *{value} kr*.\n\n{list}",
+    "unbilledReminderLine": "• {name}: {hours} - {value} kr",
+    "unbilledReminderFooter": "TimeTrack Erinnerung an nicht abgerechnete Zeit",
+    "aiFocusName": "🎯 Fokus des Tages ({count} Aufgaben)",
+    "aiWarnings": "⚠️ Warnungen",
+    "aiDeferred": "📋 Verschoben",
+    "aiDeferredValue": "{count, plural, one {# Aufgabe wird} other {# Aufgaben werden}} zum späteren Erledigen empfohlen",
+    "aiGreeting": "Guten Morgen, {name}!",
+    "aiFooter": "TimeTrack KI-Vorschläge",
+    "aiFocusBlock": "🎯 Fokus des Tages",
+    "aiWarningsBlock": "⚠️ Warnungen"
+  }
+}

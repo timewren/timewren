@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# overdue task} other {# overdue tasks}}",
+    "needsAttention": "Needs attention",
+    "lowBalance": "{count, plural, one {# prepaid package with a low balance} other {# prepaid packages with a low balance}}",
+    "lowBalanceSub": "Low balance",
+    "expiring": "{count, plural, one {# prepaid package expires soon} other {# prepaid packages expire soon}}",
+    "expiringSub": "Within 14 days",
+    "unbilled": "{amount} unbilled",
+    "unbilledSub": "Ready to invoice",
+    "title": "Action needed"
+  },
+  "appDrawer": {
+    "apps": "Apps",
+    "heading": "{brand} apps",
+    "downloadFor": "Download for {os}{version} · Beta",
+    "seeDownloads": "See downloads in settings",
+    "downloadComing": "Download is on its way. See settings",
+    "chromeExtension": "Chrome extension",
+    "chromeExtensionHint": "Track time from the browser",
+    "installApp": "Install as an app",
+    "installAppHint": "Put {brand} on your desktop",
+    "alreadyInstalled": "Already installed",
+    "addToHome": "Add to home screen or desktop"
+  },
+  "demo": {
+    "clearedKept": "Sample data cleared. {kept, plural, one {# demo client had been put to use (for example invoiced) and has been kept as a regular client.} other {# demo clients had been put to use (for example invoiced) and have been kept as regular clients.}}",
+    "cleared": "Sample data has been cleared. The account is yours.",
+    "nothingToClear": "There was no sample data to clear.",
+    "clearFailed": "Could not clear the sample data",
+    "banner": "<strong>You are looking at sample data.</strong> The clients, hours and prepaid package are made up, so you can see what {brand} looks like in use. Clear them when you want to start with your own.",
+    "confirm": "Clear sample data? The demo clients and their sample projects, hours and prepaid packages will be deleted. Everything you created yourself (for example invoices or your own hours) is kept.",
+    "clearButton": "Clear demo data"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "The desktop app for Mac and Windows{version}. It is in beta and may have bugs.",
+    "version": ", version {version}",
+    "withoutDownloads": "The desktop app is in beta. The download link will appear here as soon as {brand} can fetch the latest version.",
+    "hide": "Hide",
+    "reportHint": "Run into a bug? Use \"Report a bug or missing feature\" inside the app."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Create your first client",
+      "hasTimeEntry": "Track your first hour",
+      "hasKlippekort": "Create a prepaid package",
+      "hasInvoice": "Create your first invoice"
+    },
+    "daysLeft": "{count, plural, one {# day} other {# days}} left of your free trial",
+    "addPayment": "Add payment",
+    "gettingStarted": "Getting started ({done}/{total})",
+    "hide": "Hide",
+    "progressLabel": "Getting started progress",
+    "createAccount": "Create your account"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Client risk",
+      "daysAgo": "{days} days ago",
+      "allActive": "All your clients have had activity within the last 60 days ✓",
+      "seeAll": "View all",
+      "count": "{count, plural, one {# client with no activity in 60+ days} other {# clients with no activity in 60+ days}}",
+      "lastActive": "Last active: {date}",
+      "revenue6m": "{amount} (6 months)",
+      "hoursLeft": "{hours} h left",
+      "openClient": "Open client",
+      "sendCheckIn": "Send a check-in email",
+      "checkInSubject": "Check-in",
+      "more": "+ {count} more at-risk clients"
+    },
+    "calendarSync": {
+      "title": "Calendar vs. tracked",
+      "seeCalendar": "View calendar",
+      "captureRate": "capture rate",
+      "eventsTracked": "{tracked}/{total} events tracked",
+      "calendar": "Calendar",
+      "tracked": "Tracked",
+      "gap": "{hours}h in the calendar are not tracked",
+      "perProject": "Per project",
+      "moreProjects": "+{count} more"
+    },
+    "cashflow": {
+      "title": "Cashflow forecast",
+      "seeUnpaid": "View outstanding",
+      "empty": "No outstanding invoices or active prepaid packages",
+      "emptyHint": "Send an invoice to see the cashflow forecast",
+      "seeAllUnpaid": "View all outstanding",
+      "overdueInvoices": "{count, plural, one {# invoice overdue} other {# invoices overdue}}: ",
+      "overdue": "Overdue: ",
+      "week": "Week {number}",
+      "estimated": "(est.)",
+      "prepaidTag": "(prepaid package)",
+      "expected30": "Expected next 30 days"
+    },
+    "coverage": {
+      "title": "Utilisation rate",
+      "details": "View details",
+      "period": "Period",
+      "loadFailed": "Could not load the utilisation rate",
+      "noTime": "No time logged in this period yet.",
+      "trackTime": "Track time",
+      "billable": "Billable",
+      "nonBillable": "Non-billable",
+      "ratio": "<b>{ratio}</b> non-billable per billed hour",
+      "clientCol": "Client",
+      "splitCol": "Bill. / non-bill."
+    },
+    "dailyHours": {
+      "title": "Hours per day",
+      "details": "View details",
+      "avg": "Avg/day: ",
+      "total": "Total: ",
+      "hoursShort": "{value}h",
+      "day": {
+        "0": "Su",
+        "1": "Mo",
+        "2": "Tu",
+        "3": "We",
+        "4": "Th",
+        "5": "Fr",
+        "6": "Sa"
+      }
+    },
+    "emailSync": {
+      "title": "Email sync",
+      "started": "Sync started",
+      "startFailed": "Could not start sync",
+      "never": "Never",
+      "now": "Just now",
+      "minutes": "{value}m",
+      "hours": "{value}h",
+      "days": "{value}d",
+      "startNow": "Start sync now",
+      "statusOk": "OK",
+      "statusUnstable": "Unstable",
+      "statusError": "Error",
+      "emails": "Emails",
+      "tasks": "Tasks",
+      "clients": "Clients",
+      "analytics": "View analytics →"
+    },
+    "emailTasks": {
+      "title": "Tasks from email",
+      "review": "Review",
+      "noClient": "No client",
+      "empty": "No email tasks yet."
+    },
+    "expiringPackages": {
+      "title": "Expiring prepaid packages",
+      "seeAll": "View all",
+      "none": "No prepaid packages expire soon",
+      "noneHint": "Prepaid packages expiring within 30 days appear here",
+      "expiredAgo": "Expired {count, plural, one {# day} other {# days}} ago",
+      "expired": "Expired",
+      "today": "Today",
+      "days": "{count, plural, one {# day} other {# days}}",
+      "hoursLeft": "Hours left",
+      "value": "Value",
+      "expires": "Expires {date}",
+      "more": "+ {count} more prepaid packages",
+      "urgent": "Some prepaid packages expire within 7 days. Contact the client to renew."
+    },
+    "flexBalance": {
+      "title": "Flex balance",
+      "hours": "{value} h",
+      "entries": "{count} entries"
+    },
+    "flexNorm": {
+      "title": "Flex balance",
+      "loadFailed": "The balance could not be loaded.",
+      "noProfile": "You do not have an employee profile in the organisation.",
+      "unit": "h",
+      "carryIn": "Of which carried over: {value} h",
+      "week": "Week",
+      "month": "Month",
+      "period": "Period",
+      "summary": "{registered} of {net} h norm to date · period norm {periodNet} h",
+      "seeAccount": "View the flex account"
+    },
+    "hoursComparison": {
+      "title": "Week comparison",
+      "details": "View details",
+      "none": "No hours tracked",
+      "thisWeek": "This week",
+      "lastWeek": "Last week",
+      "format": "hh:mm",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "vsLastWeek": "compared with last week"
+    },
+    "invoiceOverview": {
+      "title": "Invoice overview",
+      "seeInvoices": "View invoices",
+      "totalInvoiced": "Total invoiced",
+      "draft": "Draft",
+      "sent": "Sent",
+      "paid": "Paid",
+      "overdue": "Overdue"
+    },
+    "lowBalance": {
+      "title": "Prepaid packages with a low balance",
+      "loadFailed": "Could not load prepaid packages",
+      "none": "No prepaid packages with a low balance",
+      "seeAll": "View all",
+      "intro": "Low balance",
+      "noClient": "No client",
+      "left": "{time} left",
+      "more": "+ {count} more"
+    },
+    "monthComparison": {
+      "title": "Month comparison",
+      "seeReports": "View reports",
+      "vs": "vs",
+      "vsValue": "vs {value}",
+      "hours": "Hours",
+      "hoursValue": "{value}h",
+      "revenue": "Revenue",
+      "entries": "Time entries"
+    },
+    "overdueTasks": {
+      "title": "Overdue tasks",
+      "none": "No tasks past their deadline ✓",
+      "seeAll": "View all",
+      "count": "{count, plural, one {# task} other {# tasks}}",
+      "noProject": "No project",
+      "deadline": "Deadline: {date}",
+      "more": "+ {count} more"
+    },
+    "pendingApprovals": {
+      "title": "Pending approvals",
+      "requestOne": "request",
+      "requestOther": "requests"
+    },
+    "prepaidStatus": {
+      "title": "Prepaid package status",
+      "allGood": "Everything is in order",
+      "seeAll": "View all",
+      "lowBalance": "Low balance",
+      "noClient": "No client",
+      "left": "{time} left",
+      "more": "+ {count} more",
+      "expiringSoon": "Expiring soon (within 30 days)",
+      "expired": "Expired",
+      "today": "Today",
+      "days": "{count, plural, one {# day} other {# days}}"
+    },
+    "productivity": {
+      "title": "Productivity across the week",
+      "details": "View details",
+      "noData": "No productivity data yet",
+      "streak": "Current streak",
+      "streakDays": "days in a row",
+      "weeklyAvg": "Weekly average",
+      "perWeek": "per week",
+      "last8": "Last 8 weeks",
+      "less": "Less",
+      "more": "More",
+      "msgHigh": "Fantastic! You have worked 7+ days in a row. Keep up the good work!",
+      "msgMid": "Well done! Keep the momentum going.",
+      "msgLow": "You are on your way! Build a strong work routine.",
+      "streakDay": "day in a row"
+    },
+    "profitability": {
+      "title": "Real hourly rate",
+      "rate": "{rate} kr/h",
+      "hours": "{hours} h",
+      "loadFailed": "Could not load data",
+      "noBilled": "No invoiced time this month",
+      "createInvoice": "Create invoice",
+      "details": "Details",
+      "agreedRate": "Agreed hourly rate",
+      "realRate": "Real hourly rate",
+      "vsAgreed": "{percent}% compared with agreed",
+      "billableAvg": "Billable avg.",
+      "footer": "{total} total · {billable} billable",
+      "footerInvoiced": "{total} total · {billable} billable · {invoiced} invoiced"
+    },
+    "projectHealth": {
+      "title": "Project health",
+      "seeAll": "View all",
+      "alertsHeading": "Budget warnings",
+      "severity": {
+        "exceeded": "Exceeded",
+        "critical": "Critical",
+        "warning": "Warning"
+      },
+      "hoursUsed": "{used} / {budget}h used",
+      "budgetAmount": "{amount} kr budget",
+      "moreAlerts": "+ {count} more warnings",
+      "noBudgets": "No projects with budgets",
+      "createProject": "Create project",
+      "onTrack": "{count, plural, one {# project on track} other {# projects on track}}",
+      "moreProjects": "+ {count} more projects"
+    },
+    "quickActions": {
+      "title": "Quick actions",
+      "created": "Time entry created",
+      "createFailed": "Could not create the time entry",
+      "fillAll": "Fill in all fields correctly",
+      "addClient": "Add client",
+      "newProject": "New project",
+      "startTimer": "Start timer",
+      "createInvoice": "Create invoice",
+      "quickEntry": "Quick time entry",
+      "draftSaved": "Draft saved",
+      "restoreDraft": "Restore saved draft",
+      "restore": "Restore",
+      "projectPlaceholder": "Select project",
+      "descriptionPlaceholder": "What did you work on?",
+      "hoursPlaceholder": "Hours",
+      "saving": "Saving...",
+      "save": "Save"
+    },
+    "recentActivity": {
+      "title": "Recent activity",
+      "none": "No activity yet",
+      "seeAll": "View all",
+      "now": "Just now",
+      "minutesAgo": "{count} min ago",
+      "hoursAgo": "{count, plural, one {# hour} other {# hours}} ago",
+      "daysAgo": "{count, plural, one {# day} other {# days}} ago"
+    },
+    "revenueByClient": {
+      "title": "Revenue per client",
+      "seeReports": "View reports",
+      "loadFailed": "Could not load revenue",
+      "none": "No revenue this month"
+    },
+    "revenueForecast": {
+      "title": "Revenue forecast",
+      "seeReports": "View reports",
+      "none": "No revenue data yet",
+      "expected": "Expected this month",
+      "amountKr": "{amount} kr",
+      "basedOn": "Based on {day} / {total} days",
+      "sixMonthAvg": "6-month average"
+    },
+    "rounding": {
+      "title": "Rounding bonus",
+      "inactive": "Rounding is not enabled. Earn extra by rounding your hours up.",
+      "enable": "Enable rounding",
+      "settings": "Settings",
+      "thisMonth": "This month",
+      "extra": "extra earned through rounding",
+      "thisYear": "Total this year"
+    },
+    "stats": {
+      "activeClients": "Active clients",
+      "activeProjects": "Active projects",
+      "hoursThisMonth": "Hours this month",
+      "revenueThisMonth": "Revenue this month"
+    },
+    "topClients": {
+      "title": "Top clients",
+      "loadFailed": "Could not load data",
+      "none": "No client data yet",
+      "seeAll": "View all",
+      "rankedBy": "Ranked by hours"
+    },
+    "unbilled": {
+      "title": "Unbilled hours",
+      "loadFailed": "Could not load data",
+      "none": "No unbilled hours",
+      "seeAll": "View all",
+      "entries": "{count, plural, one {# time entry} other {# time entries}}",
+      "totalHours": "Total hours",
+      "estimatedValue": "Estimated value"
+    },
+    "absences": {
+      "title": "Upcoming absences",
+      "loading": "Loading...",
+      "none": "No approved absence planned",
+      "employee": "Employee",
+      "absence": "Absence",
+      "from": "from {date}"
+    },
+    "deadlines": {
+      "title": "Important dates",
+      "overdue": "Overdue",
+      "today": "Today",
+      "days": "{count, plural, one {# day} other {# days}}",
+      "needsSetup": "Set your company type to see important dates",
+      "setUpNow": "Set up now",
+      "none": "No upcoming deadlines within 180 days",
+      "editSettings": "Edit company settings"
+    },
+    "upcomingTasks": {
+      "title": "Upcoming tasks",
+      "none": "No upcoming tasks",
+      "seeAll": "View all",
+      "within7": "Within 7 days",
+      "noProject": "No project",
+      "deadline": "Deadline: {date}",
+      "more": "+ {count} more"
+    },
+    "vacation": {
+      "title": "Leave balance",
+      "daysLeftIn": "days left in {label}",
+      "daysLeft": "days left"
+    },
+    "vat": {
+      "titleMonthly": "VAT this month",
+      "titleQuarterly": "VAT this period",
+      "titleSemiAnnual": "VAT this half-year",
+      "title": "VAT",
+      "exempt": "You are registered as not liable for VAT",
+      "changeInSettings": "Change in settings",
+      "createFirst": "Create your first invoice to see a VAT estimate",
+      "createInvoice": "Create invoice",
+      "invoices": "Invoices",
+      "toSettle": "VAT to settle",
+      "percentOf": "25% of {amount} invoiced",
+      "nextDeadline": "Next deadline",
+      "inDays": "(in {count, plural, one {# day} other {# days}})",
+      "overdue": "(overdue)",
+      "ytd": "Total this year",
+      "setAside": "Set aside <b>{amount}</b> in a separate account"
+    },
+    "weeklyGoal": {
+      "title": "Weekly goal",
+      "loadFailed": "Could not load the weekly goal",
+      "trackTime": "Track time",
+      "reached": "Goal reached!",
+      "onTrack": "On track",
+      "behind": "Behind",
+      "remaining": "<b>{time}</b> left",
+      "perDay": "{time}/day for {count, plural, one {# day} other {# days}}"
+    }
+  }
+}

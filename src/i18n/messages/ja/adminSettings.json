@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "設定",
+    "subtitle": "管理者向け通知、機能フラグ、更新履歴を管理します"
+  },
+  "notifications": {
+    "title": "通知",
+    "description": "管理者イベントのメール通知とDiscord通知を設定します",
+    "emailLabel": "管理者のメールアドレス",
+    "emailHint": "複数の宛先はカンマで区切ります",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord Webhook URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "テスト",
+    "eventTypes": "イベントの種類",
+    "saving": "保存中…",
+    "save": "設定を保存",
+    "saved": "通知設定を保存しました",
+    "testSent": "Discordにテストメッセージを送信しました",
+    "webhookRequired": "先にDiscord Webhook URLを入力してください"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "新規ユーザー登録",
+      "description": "新規ユーザーが登録したときに通知します"
+    },
+    "notify_subscription_started": {
+      "label": "新規有料サブスクリプション",
+      "description": "有料のお客様が増えたときに通知します"
+    },
+    "notify_payment_failed": {
+      "label": "支払いの失敗",
+      "description": "支払いが失敗したときに通知します"
+    },
+    "notify_subscription_cancelled": {
+      "label": "サブスクリプションの解約",
+      "description": "解約があったときに通知します"
+    },
+    "notify_trial_ending": {
+      "label": "トライアル終了間近",
+      "description": "Discordのみ。トライアルがまもなく終了するときに通知します"
+    },
+    "notify_user_flagged": {
+      "label": "ユーザーにフラグ付け",
+      "description": "Discordのみ。ユーザーにフラグが付いたときに通知します"
+    }
+  },
+  "support": {
+    "title": "サポート",
+    "description": "サポート用の受信箱と署名を管理します",
+    "inboxes": "受信箱",
+    "add": "追加",
+    "namePlaceholder": "名前",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "署名のHTML（任意）",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "create": "作成",
+    "default": "デフォルト",
+    "confirmDelete": "この受信箱を削除しますか？",
+    "noInboxes": "受信箱はまだありません",
+    "inboxCreated": "受信箱を作成しました",
+    "inboxUpdated": "受信箱を更新しました",
+    "inboxDeleted": "受信箱を削除しました",
+    "signatureSaved": "署名を保存しました",
+    "globalSignature": "共通の署名",
+    "globalSignatureHint": "受信箱に個別の署名がない場合に使うHTML署名です",
+    "globalSignaturePlaceholder": "<p>Kind regards<br>TimeTrack Support</p>",
+    "preview": "プレビュー",
+    "noSignature": "署名なし",
+    "savingSignature": "保存中…",
+    "saveSignature": "署名を保存"
+  },
+  "debug": {
+    "title": "トラブルシューティング",
+    "description": "このブラウザでのみ、あなたにだけ表示されるツールです",
+    "electricLabel": "Electricバッジを表示",
+    "electricDescription": "ダッシュボードの左下に、タイマーのリアルタイム同期の状態を表示します"
+  },
+  "flags": {
+    "title": "機能フラグ",
+    "description": "すべてのユーザーに対して機能を有効または無効にします",
+    "empty": "機能フラグは設定されていません",
+    "lastChangedBy": "最終変更者: {name}",
+    "lastChangedByDate": "最終変更者: {name}（{date}）"
+  },
+  "changelog": {
+    "title": "更新履歴",
+    "description": "ユーザーに表示する更新履歴を作成します",
+    "new": "新しい更新履歴を作成",
+    "version": "バージョン",
+    "titleLabel": "タイトル",
+    "titlePlaceholder": "新機能: …",
+    "content": "内容（Markdown）",
+    "contentPlaceholder": "変更内容を記入してください…",
+    "cancel": "キャンセル",
+    "create": "作成",
+    "recent": "最近の更新履歴",
+    "confirmDelete": "更新履歴 v{version} を削除しますか？",
+    "delete": "削除",
+    "created": "更新履歴を作成しました",
+    "deleted": "更新履歴を削除しました"
+  }
+}

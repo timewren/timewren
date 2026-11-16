@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Instellingen",
+    "subtitle": "Beheer beheerdersmeldingen, feature flags en de changelog"
+  },
+  "notifications": {
+    "title": "Meldingen",
+    "description": "Stel e-mail- en Discord-meldingen in voor beheergebeurtenissen",
+    "emailLabel": "E-mailadres(sen) van beheerder",
+    "emailHint": "Meerdere ontvangers gescheiden door komma's",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord-webhook-URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Testen",
+    "eventTypes": "Soorten gebeurtenissen",
+    "saving": "Opslaan…",
+    "save": "Instellingen opslaan",
+    "saved": "Meldingsinstellingen opgeslagen",
+    "testSent": "Testbericht naar Discord verzonden",
+    "webhookRequired": "Vul eerst een Discord-webhook-URL in"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Nieuwe registratie",
+      "description": "Melding bij nieuwe gebruikersregistraties"
+    },
+    "notify_subscription_started": {
+      "label": "Nieuw betaald abonnement",
+      "description": "Melding bij nieuwe betalende klanten"
+    },
+    "notify_payment_failed": {
+      "label": "Betaling mislukt",
+      "description": "Melding bij mislukte betalingen"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Abonnement opgezegd",
+      "description": "Melding bij opzeggingen"
+    },
+    "notify_trial_ending": {
+      "label": "Proefperiode loopt bijna af",
+      "description": "Alleen Discord: melding als een proefperiode bijna afloopt"
+    },
+    "notify_user_flagged": {
+      "label": "Gebruiker gemarkeerd",
+      "description": "Alleen Discord: melding als een gebruiker wordt gemarkeerd"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "description": "Beheer supportpostbussen en handtekening",
+    "inboxes": "Postbussen",
+    "add": "Toevoegen",
+    "namePlaceholder": "Naam",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Handtekening in HTML (optioneel)",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "create": "Aanmaken",
+    "default": "Standaard",
+    "confirmDelete": "Deze postbus verwijderen?",
+    "noInboxes": "Nog geen postbussen aangemaakt",
+    "inboxCreated": "Postbus aangemaakt",
+    "inboxUpdated": "Postbus bijgewerkt",
+    "inboxDeleted": "Postbus verwijderd",
+    "signatureSaved": "Handtekening opgeslagen",
+    "globalSignature": "Algemene handtekening",
+    "globalSignatureHint": "HTML-handtekening die wordt gebruikt als een postbus geen eigen handtekening heeft",
+    "globalSignaturePlaceholder": "<p>Met vriendelijke groet<br>TimeTrack Support</p>",
+    "preview": "Voorbeeld",
+    "noSignature": "Geen handtekening",
+    "savingSignature": "Opslaan…",
+    "saveSignature": "Handtekening opslaan"
+  },
+  "debug": {
+    "title": "Probleemoplossing",
+    "description": "Hulpmiddelen die alleen jij ziet, in deze browser",
+    "electricLabel": "Electric-badge tonen",
+    "electricDescription": "Toont linksonder in het dashboard de live synchronisatiestatus van de timer"
+  },
+  "flags": {
+    "title": "Feature flags",
+    "description": "Schakel functies in en uit voor alle gebruikers",
+    "empty": "Geen feature flags ingesteld",
+    "lastChangedBy": "Laatst gewijzigd door {name}",
+    "lastChangedByDate": "Laatst gewijzigd door {name}, {date}"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "description": "Maak changelog-items die aan gebruikers worden getoond",
+    "new": "Nieuw changelog-item aanmaken",
+    "version": "Versie",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Nieuwe functie: ...",
+    "content": "Inhoud (Markdown)",
+    "contentPlaceholder": "Beschrijf de wijzigingen…",
+    "cancel": "Annuleren",
+    "create": "Aanmaken",
+    "recent": "Recente changelog-items",
+    "confirmDelete": "Changelog v{version} verwijderen?",
+    "delete": "Verwijderen",
+    "created": "Changelog aangemaakt",
+    "deleted": "Changelog verwijderd"
+  }
+}

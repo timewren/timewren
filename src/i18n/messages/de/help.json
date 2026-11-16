@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Erste Schritte",
+      "items": {
+        "0": {
+          "question": "Wie füge ich meinen ersten Kunden hinzu?",
+          "answer": "Gehe in der Seitenleiste zu „Kunden“ und klicke auf „Kunde hinzufügen“. Fülle die Kundendaten wie Name, E-Mail und optional einen eigenen Stundensatz aus. Gibst du keinen Stundensatz an, gilt dein Standard-Stundensatz aus den Einstellungen."
+        },
+        "1": {
+          "question": "Was ist der Unterschied zwischen Projekten und Kunden?",
+          "answer": "Kunden sind die Personen oder Unternehmen, für die du arbeitest. Projekte sind konkrete Aufträge oder Verträge unter einem Kunden. Pro Kunde kannst du mehrere Projekte haben, z. B. „Website-Entwicklung“ und „Laufender Support“."
+        },
+        "2": {
+          "question": "Wie erfasse ich Zeit?",
+          "answer": "Gehe zu „Zeiterfassung“ und nutze entweder den Timer (Start/Stopp) oder füge Zeit manuell hinzu. Wähle Projekt oder Kunde, füge eine Beschreibung hinzu und speichere. Du kannst festlegen, ob die Zeit von einem Stundenpaket abgezogen oder normal abgerechnet wird."
+        },
+        "3": {
+          "question": "Wie sehe ich den Rundgang erneut?",
+          "answer": "Klicke oben rechts auf dein Profilbild oder deine Initialen und wähle „Rundgang starten“. Der Rundgang führt dich in 24 interaktiven Schritten durch alle Hauptfunktionen von {brand}."
+        },
+        "4": {
+          "question": "Gibt es Tastenkürzel?",
+          "answer": "Ja, {brand} hat viele Tastenkürzel für schnelle Navigation und Zeitsteuerung. Drücke „?“, um eine Übersicht aller Kürzel zu sehen, oder lies das Thema „Tastenkürzel und Tipps“ unten."
+        }
+      }
+    },
+    "clients": {
+      "title": "Kunden",
+      "items": {
+        "0": {
+          "question": "Wie lege ich einen eigenen Stundensatz für einen Kunden fest?",
+          "answer": "Wenn du einen Kunden anlegst oder bearbeitest, kannst du einen „Stundensatz (kr)“ eintragen. Dieser überschreibt deinen Standard-Stundensatz für alle Projekte dieses Kunden, sofern das Projekt keinen eigenen Stundensatz hat."
+        },
+        "1": {
+          "question": "Kann ich einen Kunden löschen?",
+          "answer": "Um die Datenintegrität zu wahren, lassen sich Kunden nicht löschen, aber archivieren. Archivierte Kunden erscheinen nicht in Listen, ihre historischen Daten bleiben aber erhalten. Du kannst einen archivierten Kunden jederzeit wieder aktivieren."
+        },
+        "2": {
+          "question": "Was ist die Stundensatz-Hierarchie?",
+          "answer": "{brand} nutzt ein dreistufiges Satzsystem: 1) globaler Stundensatz (in den Einstellungen), 2) kundenspezifischer Stundensatz, 3) projektspezifischer Stundensatz. Es gilt die jeweils spezifischste Stufe. Hat ein Projekt einen Satz, wird er verwendet, sonst der des Kunden und sonst der globale."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projekte",
+      "items": {
+        "0": {
+          "question": "Was ist der Unterschied zwischen Stundenabrechnung und Festpreis?",
+          "answer": "Stundenbasierte Projekte werden nach Stundenzahl mal Stundensatz abgerechnet. Festpreisprojekte haben unabhängig von den Stunden einen vorab festgelegten Preis. Den Typ wählst du beim Anlegen des Projekts."
+        },
+        "1": {
+          "question": "Wie behalte ich Projektfristen im Blick?",
+          "answer": "Beim Anlegen eines Projekts kannst du eine Frist setzen. Projekte mit Frist zeigen eine Warnung, wenn die Frist näher rückt. Außerdem kannst du den Status auf „Aktiv“, „Pausiert“ oder „Abgeschlossen“ setzen."
+        },
+        "2": {
+          "question": "Kann ich ein Projekt zu einem anderen Kunden verschieben?",
+          "answer": "Ja, bearbeite das Projekt und wähle im Dropdown einen neuen Kunden. Alle Zeiteinträge und Stundenpakete bleiben dem Projekt zugeordnet."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Zeiterfassung",
+      "items": {
+        "0": {
+          "question": "Wie funktioniert der Timer?",
+          "answer": "Wähle ein Projekt, füge eine Beschreibung hinzu und drücke „Start“. Der Timer läuft, bis du „Pause“ oder „Stopp“ drückst. Beim Stoppen wird die Zeit automatisch als Zeiteintrag gespeichert. Du kannst den Timer nach Bedarf pausieren und fortsetzen."
+        },
+        "1": {
+          "question": "Kann ich frühere Zeiteinträge bearbeiten?",
+          "answer": "Ja, klicke in der Liste auf einen Zeiteintrag und wähle „Bearbeiten“. Du kannst Projekt, Beschreibung, Stundenzahl und Datum ändern. Das ist praktisch, wenn du vergessen hast, Zeit zu erfassen, oder dich vertan hast."
+        },
+        "2": {
+          "question": "Wie bearbeite ich mehrere Zeiteinträge gleichzeitig?",
+          "answer": "Wähle die Zeiteinträge über das Kontrollkästchen links aus. Anschließend kannst du mehrere Zeiteinträge auf einmal mit der Schaltfläche „Ausgewählte löschen“ entfernen."
+        },
+        "3": {
+          "question": "Was ist die Wochenübersicht (Stundenzettel)?",
+          "answer": "Die Wochenübersicht zeigt deine Zeiteinträge in einem Wochenraster, sodass du Stunden pro Tag und Projekt schnell siehst. Mit dem Umschalter oben auf der Seite Zeiterfassung wechselst du zwischen Listen- und Wochenansicht."
+        },
+        "4": {
+          "question": "Kann ich Zeit aus CSV importieren?",
+          "answer": "Ja, klicke auf der Seite Zeiterfassung auf „CSV importieren“. Lade eine CSV-Datei mit Spalten für Datum, Stunden, Projekt und Beschreibung hoch. Das System ordnet Projekte automatisch zu und legt Zeiteinträge an."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Aufgaben",
+      "items": {
+        "0": {
+          "question": "Was ist der Unterschied zwischen Kanban-Board und Listenansicht?",
+          "answer": "Das Kanban-Board zeigt Aufgaben als Karten in Spalten (z. B. „Offen“, „In Arbeit“, „Erledigt“), sodass du Aufgaben leicht zwischen den Phasen ziehen kannst. Die Listenansicht zeigt Aufgaben in einer Tabelle mit Sortierung und Filter. Mit den Schaltflächen oben wechselst du die Ansicht."
+        },
+        "1": {
+          "question": "Wie lege ich eine Aufgabe an?",
+          "answer": "Klicke auf der Aufgabenseite auf „Neue Aufgabe“. Gib einen Titel ein, wähle Projekt und Kunde, setze eine Priorität (niedrig/normal/hoch/kritisch) und gib optional eine Frist an. Du kannst auch eine Beschreibung mit Details hinzufügen."
+        },
+        "2": {
+          "question": "Wie verschiebe ich Aufgaben zwischen Spalten?",
+          "answer": "In der Kanban-Ansicht kannst du Aufgabenkarten per Drag-and-drop zwischen den Spalten ziehen. Du kannst auch eine Aufgabe anklicken und ihren Status im Bearbeitungsdialog ändern."
+        },
+        "3": {
+          "question": "Kann ich einen Timer direkt aus einer Aufgabe starten?",
+          "answer": "Ja, jede Aufgabe hat eine Timer-Schaltfläche. Klicke darauf, um den Timer mit Projekt und Titel der Aufgabe als Beschreibung zu starten. Die Zeit wird automatisch auf dem verknüpften Projekt erfasst."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "items": {
+        "0": {
+          "question": "Was zeigt das Dashboard?",
+          "answer": "Das Dashboard gibt dir einen Überblick über dein Freelance-Geschäft, mit Widgets für die Wochenübersicht, Einnahmen, aktive Projekte, den Stundenpaket-Status, die letzten Zeiteinträge und anstehende Fristen."
+        },
+        "1": {
+          "question": "Kann ich das Dashboard anpassen?",
+          "answer": "Ja, klicke oben rechts auf dem Dashboard auf „Anpassen“. Du kannst Widgets per Drag-and-drop hinzufügen, entfernen und verschieben. Deine Änderungen werden automatisch gespeichert."
+        },
+        "2": {
+          "question": "Welche Widgets gibt es?",
+          "answer": "Verfügbare Widgets sind unter anderem: Wochenübersicht (Stunden pro Tag), Einnahmen (Umsatz und Wachstum), Aktive Projekte, Stundenpaket-Übersicht, Letzte Zeiteinträge, Stunden heute, Anstehende Fristen und Schnellstart des Timers."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Stundenpakete",
+      "items": {
+        "0": {
+          "question": "Was ist ein Stundenpaket?",
+          "answer": "Ein Stundenpaket ist ein Kontingent vorausbezahlter Stunden, das ein Kunde im Voraus kauft. Wenn du Zeit erfasst, kannst du die Stunden vom Paket abziehen, statt sie normal abzurechnen. Das ist bei Supportverträgen beliebt."
+        },
+        "1": {
+          "question": "Wie lege ich ein Stundenpaket an?",
+          "answer": "Gehe zu „Stundenpakete“ und klicke auf „Neues Stundenpaket“. Wähle einen Kunden, gib Stundenzahl und Stundensatz ein und berechne den Gesamtpreis. Lege ein Kaufdatum und optional ein Ablaufdatum fest. Ist das Paket aktiv, kannst du es bei der Zeiterfassung verwenden."
+        },
+        "2": {
+          "question": "Was passiert, wenn ein Stundenpaket aufgebraucht ist?",
+          "answer": "Du erhältst eine Warnung, wenn ein Stundenpaket weniger als 10 % seiner Stunden übrig hat. Ist es leer (0 Stunden übrig), kannst du keine Zeit mehr abziehen. Dann musst du ein neues Stundenpaket anlegen oder die Zeit normal abrechnen."
+        },
+        "3": {
+          "question": "Kann ich den Verlauf eines Stundenpakets sehen?",
+          "answer": "Ja, öffne das Stundenpaket und schau unter „Verbrauchsverlauf“. Dort siehst du alle vom Paket abgezogenen Zeiteinträge mit Datum, Beschreibung und Stundenzahl."
+        }
+      }
+    },
+    "templates": {
+      "title": "Wiederkehrende Vorlagen",
+      "items": {
+        "0": {
+          "question": "Was sind wiederkehrende Vorlagen?",
+          "answer": "Wiederkehrende Vorlagen sind voreingestellte Zeiteinträge, die in regelmäßigen Abständen automatisch angelegt werden. So kannst du z. B. eine Vorlage „Wöchentliches Status-Meeting - 1 Stunde“ erstellen, die jede Woche angelegt wird."
+        },
+        "1": {
+          "question": "Wie lege ich eine Vorlage an?",
+          "answer": "Gehe zu „Vorlagen“ und klicke auf „Neue Vorlage“. Wähle Projekt, Beschreibung, Stundenzahl und Häufigkeit (täglich/wöchentlich/monatlich). Gib ein Startdatum und optional ein Enddatum an. Die Vorlage legt Zeiteinträge automatisch nach deinem Plan an."
+        },
+        "2": {
+          "question": "Kann ich erzeugte Zeiteinträge bearbeiten oder löschen?",
+          "answer": "Ja, die erzeugten Zeiteinträge verhalten sich wie normale Zeiteinträge. Du kannst sie unter „Zeiterfassung“ bearbeiten oder löschen, wenn sie an einem Tag/in einer Woche nicht passen."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Rechnungen",
+      "items": {
+        "0": {
+          "question": "Wie erstelle ich eine Rechnung?",
+          "answer": "Gehe zu „Rechnungen“ und klicke auf „Neue Rechnung“. Wähle einen Kunden und einen Zeitraum für Zeiteinträge, und das System sammelt automatisch alle noch nicht abgerechneten Stunden. Prüfe die Positionen, füge ggf. Notizen hinzu und speichere."
+        },
+        "1": {
+          "question": "Was ist der Unterschied zwischen „Entwurf“, „Gesendet“ und „Bezahlt“?",
+          "answer": "Entwurf = Du arbeitest noch an der Rechnung. Gesendet = Die Rechnung wurde an den Kunden gesendet, ist aber noch nicht bezahlt. Bezahlt = Der Kunde hat die Rechnung bezahlt. Den Status kannst du im Verlauf manuell aktualisieren."
+        },
+        "2": {
+          "question": "Kann ich Rechnungen als PDF exportieren?",
+          "answer": "Ja, in der Rechnungsansicht gibt es die Schaltfläche „PDF exportieren“. Sie erzeugt eine professionelle PDF-Rechnung, die du an den Kunden senden oder für die Buchhaltung speichern kannst."
+        },
+        "3": {
+          "question": "Kann ich eine Rechnung aus Zeiteinträgen erzeugen?",
+          "answer": "Ja, klicke beim Erstellen einer neuen Rechnung auf „Aus Zeiteinträgen“. Wähle Kunde und Zeitraum, und das System übernimmt alle noch nicht abgerechneten Zeiteinträge als Rechnungspositionen."
+        },
+        "4": {
+          "question": "Was zeigt die Rechnungsübersicht?",
+          "answer": "Oben auf der Rechnungsseite findest du vier Statistikkarten: insgesamt abgerechnet, bezahlt, offen und überfällige Rechnungen. So hast du schnell einen Überblick über deine Finanzen."
+        }
+      }
+    },
+    "reports": {
+      "title": "Berichte",
+      "items": {
+        "0": {
+          "question": "Welche Berichte kann ich erzeugen?",
+          "answer": "Du kannst Wochen- und Monatsberichte mit Stunden pro Kunde, Stunden pro Projekt, Einnahmen und Trends ansehen. Berichte lassen sich nach Zeitraum filtern und für die Analyse in Excel als CSV exportieren."
+        },
+        "1": {
+          "question": "Wie exportiere ich Daten nach Excel?",
+          "answer": "Gehe zu „Berichte“, wähle den gewünschten Zeitraum und klicke auf „CSV exportieren“. Dabei wird eine CSV-Datei heruntergeladen, die du in Excel, Google Sheets oder anderen Tabellenkalkulationen öffnen kannst."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Tastenkürzel und Tipps",
+      "items": {
+        "0": {
+          "question": "Welche Navigationskürzel gibt es?",
+          "answer": "Nutze G gefolgt von einer Taste für schnelle Navigation: {shortcuts}."
+        },
+        "1": {
+          "question": "Welche Timer-Kürzel gibt es?",
+          "answer": "T = Timer starten/stoppen, Umschalt+T = Timer pausieren/fortsetzen. Diese Kürzel funktionieren auf allen Seiten, sodass du den Timer schnell steuern kannst, ohne die Seite zu wechseln."
+        },
+        "2": {
+          "question": "Was ist die Befehlspalette?",
+          "answer": "Drücke Strg+K (oder Cmd+K am Mac), um die Befehlspalette zu öffnen. Dort kannst du schnell nach Seiten, Kunden, Projekten und Aktionen suchen und dorthin navigieren, ohne die Maus zu benutzen."
+        },
+        "3": {
+          "question": "Wie sehe ich alle Kürzel?",
+          "answer": "Drücke auf einer beliebigen Seite „?“, um die Kürzelübersicht zu öffnen. Sie zeigt alle verfügbaren Tastenkürzel nach Kategorie gruppiert."
+        },
+        "4": {
+          "question": "Kann ich den Rundgang neu starten?",
+          "answer": "Ja, klicke oben rechts auf dein Profilbild bzw. deine Initialen und wähle im Benutzermenü „Rundgang starten“. Der Rundgang führt dich durch alle 24 Hauptfunktionen."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Browser-Erweiterung",
+      "items": {
+        "0": {
+          "question": "Was ist die {brand}-Browser-Erweiterung?",
+          "answer": "Mit der Browser-Erweiterung erfasst du Zeit direkt im Browser, ohne die {brand}-App zu öffnen. Du kannst den Timer starten/stoppen, Projekt und Kunde wählen und deine letzten Zeiteinträge sehen."
+        },
+        "1": {
+          "question": "Wie richte ich URL-Muster ein?",
+          "answer": "Unter Einstellungen → Browser-Erweiterung kannst du URL-Muster festlegen, die beim Besuch bestimmter Websites automatisch ein Projekt zuordnen. So kannst du z. B. „github.com/client-repo/*“ so einstellen, dass das passende Projekt automatisch gewählt wird."
+        },
+        "2": {
+          "question": "Wie installiere ich die Browser-Erweiterung?",
+          "answer": "Installiere die {brand}-Erweiterung aus dem Chrome Web Store (suche nach „{brand} Tidsregistrering“ oder gehe zu timetrack.dk/browser-extension). Erzeuge unter Einstellungen → Browser-Erweiterung ein API-Token und füge es im Popup der Erweiterung ein. Die Erweiterung verbindet sich automatisch mit deinem {brand}-Konto."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integrationen",
+      "items": {
+        "0": {
+          "question": "Wie nutze ich die CVR-Abfrage?",
+          "answer": "Wenn du einen neuen Kunden anlegst, kannst du eine CVR-Nummer eingeben und auf „Abfragen“ klicken. {brand} holt Firmenname, Adresse und Kontaktdaten automatisch aus dem dänischen CVR-Register, sodass du sie nicht manuell eintippen musst."
+        },
+        "1": {
+          "question": "Wie exportiere ich nach Billy, Dinero oder e-conomic?",
+          "answer": "Gehe zu Einstellungen → Integrationen und verbinde dein Konto. Billy und Dinero können Rechnungen empfangen. Aus e-conomic kannst du deine Kunden importieren, und die Rechnungsgrundlage kannst du jederzeit als CSV oder Bericht von der Rechnungsseite exportieren."
+        },
+        "2": {
+          "question": "Kann ich mit Google Kalender synchronisieren?",
+          "answer": "Ja, unter Einstellungen → Integrationen kannst du deinen Google Kalender verbinden. Kalendertermine können automatisch als Zeiteinträge vorgeschlagen werden, sodass du Zeit leicht anhand deiner Termine erfassen kannst."
+        }
+      }
+    },
+    "security": {
+      "title": "Sicherheit",
+      "items": {
+        "0": {
+          "question": "Was sind Passkeys?",
+          "answer": "Passkeys sind eine moderne Anmeldemethode ohne Passwort. Statt eines Passworts nutzt du Fingerabdruck, Gesichtserkennung oder die PIN deines Geräts. Passkeys richtest du unter Einstellungen → Sicherheit → Passkeys ein."
+        },
+        "1": {
+          "question": "Wie aktiviere ich die Zwei-Faktor-Authentifizierung (2FA)?",
+          "answer": "Gehe zu Einstellungen → Sicherheit → Zwei-Faktor-Authentifizierung. Scanne den QR-Code mit einer Authenticator-App (z. B. Google Authenticator oder Authy) und gib den Bestätigungscode ein. Danach ist bei der Anmeldung ein 6-stelliger Code erforderlich."
+        },
+        "2": {
+          "question": "Wie verwalte ich aktive Sitzungen?",
+          "answer": "Unter Einstellungen → Sicherheit → Aktive Sitzungen siehst du alle Geräte, die bei deinem Konto angemeldet sind. Du kannst einzelne Sitzungen beenden oder dich auf allen Geräten gleichzeitig abmelden."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Import und Export",
+      "items": {
+        "0": {
+          "question": "Wie importiere ich Zeiteinträge aus CSV?",
+          "answer": "Gehe zu Zeiterfassung und klicke auf „CSV importieren“. Lade eine CSV-Datei mit Spalten für Datum, Stunden, Projekt und Beschreibung hoch. Das System zeigt eine Vorschau, damit du die Daten vor dem Import prüfen kannst."
+        },
+        "1": {
+          "question": "Wie exportiere ich meine Daten?",
+          "answer": "Du kannst Daten an mehreren Stellen exportieren: Berichte → CSV exportieren für Zeiteinträge, Rechnungen → PDF exportieren für einzelne Rechnungen und Einstellungen → Daten → Alle Daten exportieren für ein vollständiges Backup als CSV oder JSON."
+        },
+        "2": {
+          "question": "Kann ich alle meine Daten herunterladen (DSGVO)?",
+          "answer": "Ja, unter Einstellungen → Daten findest du die Schaltfläche „Meine Daten herunterladen“. Sie erzeugt, wie von der DSGVO verlangt, einen vollständigen Export aller deiner Daten im JSON-Format. Der Export enthält Kunden, Projekte, Zeiteinträge, Rechnungen und Stundenpakete."
+        }
+      }
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "items": {
+        "0": {
+          "question": "Wie ändere ich meinen Standard-Stundensatz?",
+          "answer": "Gehe zu „Einstellungen“, suche das Feld „Standard-Stundensatz (kr)“ und trage deinen neuen Satz ein. Dieser Satz gilt als Standard für neue Kunden und Projekte. Bestehende Kunden- und Projektsätze bleiben unverändert."
+        },
+        "1": {
+          "question": "Werden alle meine Änderungen protokolliert?",
+          "answer": "Ja, {brand} protokolliert alle Änderungen an Stundensätzen (global, Kunde, Projekt) in einem Satzverlauf. Du kannst jederzeit sehen, wann und wie Sätze geändert wurden. Das unterstützt Transparenz und Buchhaltung."
+        },
+        "2": {
+          "question": "Wie lösche ich mein Konto?",
+          "answer": "In den „Einstellungen“ gibt es den Bereich „Gefahrenbereich“ mit der Schaltfläche „Konto löschen“. Du musst mit deiner E-Mail bestätigen und die Löschung freigeben. ACHTUNG: Dadurch werden alle deine Daten einschließlich Kunden, Projekten, Zeiteinträgen und Rechnungen DAUERHAFT gelöscht. Bist du Mitglied eines Teams, bleibt das, was du im Team erfasst hast, ohne deinen Namen und deine E-Mail beim Team."
+        },
+        "3": {
+          "question": "Wie wechsle ich zum dunklen Design?",
+          "answer": "Gehe zu Einstellungen → Profil und Darstellung → Design. Wähle zwischen „Hell“, „Dunkel“ oder „System“ (folgt der Einstellung deines Geräts). Die Änderung gilt sofort."
+        },
+        "4": {
+          "question": "Was ist das Firmenprofil?",
+          "answer": "Unter Einstellungen → Firmenprofil kannst du Firmenname, CVR-Nummer, Adresse, Logo und Bankverbindung hinterlegen. Diese Angaben werden automatisch auf deinen Rechnungen verwendet."
+        }
+      }
+    }
+  },
+  "title": "Hilfe und Anleitung",
+  "description": "Finde Antworten auf deine Fragen zu {brand}",
+  "searchPlaceholder": "In der Hilfe suchen… (z. B. „Stundenpaket“, „Rechnung“, „Kürzel“)",
+  "resultCount": "{count, plural, one {# Ergebnis} other {# Ergebnisse}}",
+  "popular": "Beliebte Fragen",
+  "searchResultsFor": "Suchergebnisse für „{query}“",
+  "foundIn": "{results, plural, one {# Ergebnis} other {# Ergebnisse}} in {topics, plural, one {# Thema} other {# Themen}} gefunden",
+  "noResults": "Keine Ergebnisse für „{query}“ gefunden",
+  "questionCount": "{count, plural, one {# Frage} other {# Fragen}}",
+  "chooseTopic": "Wähle ein Thema aus der Liste",
+  "cantFindTitle": "Findest du nicht, wonach du suchst?",
+  "cantFindBody": "Kontaktiere uns, wenn du Fragen hast, die in der Dokumentation nicht beantwortet werden.",
+  "contactSupport": "Support kontaktieren",
+  "screenshotAlt": "Screenshot: {title}",
+  "videoDemo": "Video-Demo",
+  "wasHelpful": "War das hilfreich?",
+  "yes": "Ja",
+  "no": "Nein",
+  "topicsHeading": "Themen"
+}

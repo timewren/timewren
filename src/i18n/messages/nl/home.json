@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Goedenacht",
+    "morning": "Goedemorgen",
+    "forenoon": "Goedemorgen",
+    "afternoon": "Goedemiddag",
+    "evening": "Goedenavond"
+  },
+  "duration": {
+    "hourUnit": "u",
+    "minUnit": "min"
+  },
+  "noName": "Zonder naam",
+  "noDescription": "Geen omschrijving",
+  "prompt": {
+    "label": "Waar heb je aan gewerkt?",
+    "placeholder": "bijv. gisteren 2 uur aan de website voor Jansen",
+    "interpret": "Verwerken",
+    "listening": "Luisteren…",
+    "hintAvailable": "Typ of dicteer en druk op Enter. Spraak wordt lokaal in je browser verwerkt en de audio wordt nergens naartoe gestuurd.",
+    "hintDownloadable": "Typ en druk op Enter.",
+    "downloading": "Spraakherkenning downloaden…",
+    "install": "Spraakherkenning downloaden (circa 60 MB, draait lokaal)",
+    "hintDefault": "Typ en druk op Enter, bijv. “1,5 u overleg met Acme van 9-10:30”. Op een telefoon kun je dicteren met de microfoon op het toetsenbord. Druk op <kbd>/</kbd> om hierheen te springen.",
+    "stopDictation": "Dicteren stoppen",
+    "dictate": "Dicteren met de microfoon",
+    "dictateTitle": "Dicteren (lokale spraakherkenning)",
+    "listeningSr": "Luisteren",
+    "missingHint": "kies hieronder een suggestie of pas het aan in het volledige formulier.",
+    "descriptionLabel": "Omschrijving",
+    "descriptionPlaceholder": "Waaraan is de tijd besteed?",
+    "usePrepaid": "Afschrijven van urenpakket {name} ({time} over)",
+    "saveWithHours": "{hours} opslaan",
+    "save": "Opslaan",
+    "editInForm": "Bewerken in het formulier",
+    "cancel": "Annuleren",
+    "keysHint": "Enter slaat op · Esc annuleert",
+    "needDescription": "Schrijf een korte omschrijving voordat je opslaat.",
+    "internal": "Opgeslagen als interne tijd.",
+    "savedOffline": "Offline opgeslagen. De tijdboeking wordt verstuurd zodra de verbinding terug is.",
+    "registered": "{hours} geregistreerd",
+    "saveFailed": "De tijdboeking kon niet worden opgeslagen"
+  },
+  "welcome": {
+    "title": "Welkom bij {brand}",
+    "titleDone": "Goed begonnen. Je eerste tijdboeking is geregistreerd",
+    "hide": "Welkom verbergen",
+    "intro": "Begin in minder dan een minuut: start nu een timer, of typ in het veld hieronder waaraan je hebt gewerkt, bijv. “gisteren 2 uur aan de website”. Bedrijfsgegevens en abonnement regel je later.",
+    "timerStarted": "De timer loopt. Stop hem in de timerbalk bovenaan als je klaar bent.",
+    "timerBusy": "De timer loopt al",
+    "startFirstTimer": "Start je eerste timer",
+    "writeLine": "Typ een regel in het veld",
+    "surveyQuestion": "Waarvoor ga je {brand} vooral gebruiken? <muted>(optioneel)</muted>",
+    "primaryUse": {
+      "time": "Mijn tijd bijhouden",
+      "invoicing": "Mijn klanten factureren",
+      "klippekort": "Urenpakketten en vooruitbetaalde uren",
+      "team": "De tijd van mijn team volgen"
+    },
+    "thanksToast": "Bedankt voor je antwoord",
+    "saveFailed": "Je antwoord kon niet worden opgeslagen. Probeer het opnieuw.",
+    "thanksNote": "Bedankt. Home toont nu de vervolgstappen die bij je passen.",
+    "privacyNote": "Het antwoord wordt alleen gebruikt om Home af te stemmen en wordt met niemand gedeeld."
+  },
+  "quickStart": {
+    "title": "Timer starten",
+    "running": "De timer loopt al. Stop hem in de timerbalk bovenaan voordat je een nieuwe start.",
+    "paused": "De timer is gepauzeerd. Hervat of bewaar hem eerst in de timerbalk bovenaan.",
+    "resumeToast": "De timer is gestart en zet de laatste boeking voort",
+    "continueLast": "Laatste voortzetten",
+    "mostUsed": "Meest gebruikt",
+    "startedOn": "Timer gestart op {name}",
+    "startOn": "Timer starten op {name}",
+    "empty": "Je meest gebruikte projecten verschijnen hier zodra je tijd hebt geregistreerd.",
+    "createProject": "Project maken"
+  },
+  "signals": {
+    "label": "Vraagt aandacht",
+    "nudge": {
+      "first-invoice": "Maak je eerste factuur op basis van je tijd",
+      "first-client": "Maak de klant aan waartoe het urenpakket behoort",
+      "first-klippekort": "Maak je eerste urenpakket",
+      "invite-team": "Nodig een collega uit"
+    },
+    "lowBalance": "{count, plural, one {1 urenpakket is bijna op} other {# urenpakketten zijn bijna op}}",
+    "unbilled": "<b>{duration}</b> niet-gefactureerde tijd, klaar voor een factuur"
+  },
+  "today": {
+    "title": "Vandaag",
+    "ofExpected": "van {duration}",
+    "loadFailed": "De boekingen van vandaag konden niet worden geladen. Vernieuw de pagina.",
+    "empty": "Vandaag nog geen tijd geregistreerd. Typ hierboven wat je hebt gedaan, of start een timer.",
+    "internal": "Interne tijd",
+    "resumeToast": "De timer is gestart en zet de boeking voort",
+    "continueLabel": "{name} voortzetten",
+    "continueFallback": "boeking",
+    "continueTitle": "Voortzetten met timer",
+    "allEntries": "Alle boekingen",
+    "fullForm": "Volledig formulier"
+  },
+  "page": {
+    "title": "Home",
+    "overview": "Overzicht"
+  }
+}

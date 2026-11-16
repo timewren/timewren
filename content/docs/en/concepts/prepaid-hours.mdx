@@ -1,0 +1,123 @@
+---
+title: "Prepaid hours"
+description: "How prepaid hour packages (klippekort) work in TimeWren: balance, deductions, overdraft, alerts, renewal and the rate hierarchy."
+---
+
+Prepaid hours are TimeWren's core concept. A client buys a block of hours up front, and the time you track for that client is deducted from the balance. The Danish word is "klippekort" (literally "clip card"), and you will see it in some API field names and in the Danish interface.
+
+<Screenshot name="prepaid-hours" alt="A prepaid package with its remaining balance and usage history" />
+
+## The model
+
+A package (`prepaid_packages`) belongs to one client and stores:
+
+| Field | Meaning |
+| --- | --- |
+| `totalHours`, `usedHours`, `remainingHours` | The balance. Remaining is never negative and never above the total. |
+| `hourlyRate`, `totalValue` | The price per hour you sold the package at, and `totalHours` times `hourlyRate`. |
+| `purchaseDate`, `expiryDate` | When it was bought, and an optional last day of validity. |
+| `clipSizeMinutes` | Optional rounding step, 1 to 480 minutes. |
+| `overdraftPolicy`, `overdraftRate` | What happens when the balance runs out. See [Overdraft](#overdraft). |
+| `autoDeduct` | Whether the package is suggested by default for new time (default on). |
+| `renewalInterval`, `renewalRollover` | Optional automatic renewal. See [Renewal](#renewal-and-invoicing). |
+| `isActive`, `isArchived`, `hiddenFromPortal` | Lifecycle and client portal visibility. |
+
+Every deduction is also written to a usage log (`prepaid_usage`) with the hours, the value, the linked time entry and a description. Manual deductions without a time entry are logged the same way.
+
+## Which entries deduct
+
+Nothing is deducted automatically behind your back. The server only deducts when a time entry is saved with an explicit package id, or when you make a manual deduction. The apps suggest a package for you:
+
+- A package is suggested when it is active, has `autoDeduct` on, has hours left and has not expired.
+- With several candidates, the one that expires first wins. Packages without an expiry come last. Ties go to the oldest purchase date.
+- In the timer's save dialog, the web app and the browser extension use the same rule. You can pick another package or choose no package for any entry.
+- Through the REST API, send `"prepaid": "auto"` when creating a time entry to apply the same rule. If the client has no matching package, the entry is created without a deduction. Send either `prepaid: "auto"` or `prepaidPackageId`, not both.
+
+An entry can only be deducted from a package of its own client. The client is the entry's direct client, or the client of its project. Deducting from another client's package is rejected. A project is not required: an entry with only a client can be deducted. An entry with neither client nor project cannot be.
+
+Prepaid entries are left out when you create invoices from tracked time, because the client has already paid for them. Editing or deleting an entry reverses its deduction and gives the hours back, and the low-balance alert can fire again afterwards.
+
+### Rounding
+
+- Without a clip size, the deducted hours are rounded to two decimals.
+- With a clip size, the entry is rounded up to whole clips. With `clipSizeMinutes` set to 15, a 50-minute entry deducts 60 minutes (four clips).
+
+A deduction fails if the package is inactive or expired. A package is valid through the whole expiry day in Danish time (Europe/Copenhagen).
+
+### Overdraft
+
+`overdraftPolicy` decides what happens when an entry is larger than the remaining balance:
+
+| Policy | Behaviour |
+| --- | --- |
+| `block` (default) | The entry is rejected with an error. |
+| `allow` | The whole entry is deducted. The balance goes to zero and the excess is recorded as overdraft hours on the package. |
+| `invoice` | Nothing is deducted. The entry becomes a normal billable entry, at `overdraftRate` if you set one. |
+
+## Alerts
+
+Two kinds of alert exist, both optional in practice because they only go to the recipients you choose. The setting `prepaidAlertRecipient` on the user is `owner` (default), `client` or `both`. Client recipients need an email address on the client, and their email links to the client portal.
+
+**Low balance.** After a deduction, if the remaining hours are at or below `PREPAID_LOW_BALANCE_THRESHOLD` of the total (default `0.2`, so 20%), an email is sent and the `prepaid.low_balance` webhook fires. It is sent once per package until the balance goes back up, for example because an entry was deleted.
+
+**Expiry.** A daily cron job (`/api/cron/prepaid-alerts`) emails about active packages that still have hours left and expire within `PREPAID_EXPIRY_WARNING_DAYS` days (default `30`). The same job deactivates expired packages and fires `prepaid.expired`.
+
+The balance indicators in the app use two levels. A package is "low" at or below the percentage threshold and "critical" at or below `PREPAID_CRITICAL_BALANCE_HOURS` hours (default `1`), so the last hour of a large package still reads as critical. The critical level changes the display only, it does not send an extra email.
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `PREPAID_LOW_BALANCE_THRESHOLD` | `0.2` | Fraction of the total that counts as low. |
+| `PREPAID_CRITICAL_BALANCE_HOURS` | `1` | Hours at or below which the balance is critical. |
+| `PREPAID_EXPIRY_WARNING_DAYS` | `30` | How many days before expiry the warning is sent. |
+
+See [Environment variables](/docs/configuration/environment) for the full list. The alerts need working [email](/docs/configuration/email) and the cron container running.
+
+## Renewal and invoicing
+
+A package can renew itself with `renewalInterval` set to `monthly`, `quarterly` or `yearly`. The daily cron job `/api/cron/prepaid-renewals` handles packages that are due:
+
+- A new package is created with a new purchase date, and the old one is archived and deactivated. The chain is tracked through `renewedFromId`.
+- The hours per period stay constant (`renewalBaseHours`).
+- With `renewalRollover` set to `carry`, the remaining hours are carried into the new period. With `none`, the new period starts at the base hours.
+- Overdraft from the old period is always settled against the new hours, in both modes. It is logged as a usage row on the new package.
+- A draft invoice is created for base hours times the hourly rate, and you get a notification. You review and issue it yourself. If the package is linked to a recurring invoice, that template is used instead.
+- A webhook fires for the new package (`prepaid.created`).
+
+To top up without automatic renewal, create a new package for the client. Several active packages can exist side by side, and the suggestion rule above decides which is used first.
+
+## Client portal
+
+Clients can see their packages in the client portal, on a Prepaid tab with balance and usage. Two switches control this: the portal permission `canViewPrepaid` (on by default) and the package setting `hiddenFromPortal`, which hides a single package completely, including from the history. Clients can also request a renewal, which shows up for you as a renewal request. Monetary values can be hidden from clients with the `hidePrepaidValue` setting, globally or per client.
+
+## REST API
+
+Packages are available as the `prepaid-packages` resource, with the `prepaid:read` and `prepaid:write` scopes. List, get, create and update are supported, and `DELETE` archives a package rather than deleting it. Authentication and scopes are described in the [REST API](/docs/api/rest) reference. Package events are delivered through [webhooks](/docs/api/webhooks).
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/prepaid-packages \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Support hours", "clientId": "CLIENT_UUID", "totalHours": 20, "hourlyRate": 100, "purchaseDate": "2026-01-05", "expiryDate": "2026-12-31"}'
+```
+
+## Rate hierarchy
+
+The rate stored on a time entry decides what it is worth when billed. TimeWren picks it in this order and uses the first one that is set:
+
+1. In an organization, a member rate for the project, then for the client, then the member's organization-wide rate.
+2. The project's hourly rate.
+3. The client's default hourly rate.
+4. Your personal default hourly rate.
+
+The rate is chosen by the date of the entry, so time logged after the fact gets the rate that applied on that day. Rate changes can be scheduled for a future date and are recorded in the rate history of the user, client or project. A billed entry keeps its rate when its date is edited. The package's own `hourlyRate` is separate: it is the price of the prepaid hours and is used for the package value and renewal invoices, not for the entry rate.
+
+## Worked example
+
+You sell Acme ApS a package of 20 hours at 100 per hour, valid until the end of the year, with a clip size of 15 minutes.
+
+1. Create the package: `totalHours` 20, `hourlyRate` 100, so `totalValue` is 2,000. Remaining is 20.
+2. You track 50 minutes of work for Acme. In the save dialog the package is preselected. The entry is rounded up to four clips, so 1.00 hour is deducted. Remaining is 19.00, used is 1.00.
+3. Over the following weeks, deductions bring the balance to 4.00 hours. That is 20% of the total, so the low-balance email goes out and the `prepaid.low_balance` webhook fires.
+4. At 1.00 hour left, the balance shows as critical.
+5. The next entry is 1.5 hours. With the default policy `block`, it is rejected. With `allow`, the 1.00 remaining hour is used and 0.50 is recorded as overdraft. With `invoice`, nothing is deducted and the entry is billed normally.
+6. Thirty days before 31 December, if hours are still left, the expiry warning is sent. On the day after, the cron job deactivates the package.

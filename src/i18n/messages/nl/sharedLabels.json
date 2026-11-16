@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Je bent geen lid van een organisatie. Vraag een nieuwe uitnodiging aan of neem contact op met support.",
+  "freeMemberLocked": "De organisatie zit op het Gratis-abonnement, dat plek biedt voor {seats} gebruikers. Je gegevens zijn bewaard. Vraag de eigenaar om te upgraden om weer toegang te krijgen.",
+  "report": {
+    "hoursSuffix": " u",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "Het Gratis-abonnement biedt plek voor {clients} actieve klanten. Archiveer een klant of upgrade.",
+  "freeSeatLimit": "Het Gratis-abonnement biedt plek voor {seats} gebruikers, inclusief openstaande uitnodigingen. Upgrade onder Instellingen → Abonnement om meer mensen uit te nodigen.",
+  "ownerMustTransfer": "Je bent eigenaar van een team met andere leden. Draag het eigenaarschap over aan een ander lid onder Organisatie voordat je je account verwijdert.",
+  "holidays": {
+    "newYearsDay": "Nieuwjaarsdag",
+    "maundyThursday": "Witte Donderdag",
+    "goodFriday": "Goede Vrijdag",
+    "easterSunday": "Eerste paasdag",
+    "easterMonday": "Tweede paasdag",
+    "ascensionDay": "Hemelvaartsdag",
+    "whitSunday": "Eerste pinksterdag",
+    "whitMonday": "Tweede pinksterdag",
+    "christmasDay": "Eerste kerstdag",
+    "boxingDay": "Tweede kerstdag",
+    "greatPrayerDay": "Grote Biddag",
+    "may1": "1 mei",
+    "constitutionDay": "Grondwetsdag",
+    "dayAfterAscension": "Vrijdag na Hemelvaartsdag",
+    "christmasEve": "Kerstavond",
+    "newYearsEve": "Oudejaarsavond",
+    "dayOff": "Vrije dag"
+  },
+  "speech": {
+    "language": "Nederlands",
+    "micBlocked": "De microfoon is geblokkeerd. Geef de browser toegang tot de microfoon en probeer het opnieuw.",
+    "noMic": "Er is geen microfoon gevonden.",
+    "langUnsupported": "Spraakherkenning voor {language} is in deze browser niet lokaal beschikbaar.",
+    "stopped": "De spraakherkenning is onverwacht gestopt. Probeer het opnieuw of typ in plaats daarvan.",
+    "downloadFailed": "Spraakherkenning voor {language} kon in deze browser niet worden gedownload.",
+    "ready": "Spraakherkenning voor {language} is klaar. Tik op de microfoon.",
+    "cantStart": "De spraakherkenning kon niet starten. Probeer het opnieuw."
+  },
+  "offlineSync": {
+    "fullOverlap": "Op een ander apparaat liep al een timer terwijl je offline was. Je offline tijd overlapte volledig en is niet opgeslagen.",
+    "partialOverlap": "Een ander apparaat heeft een timer gestart terwijl je offline was. Je offline tijd is tot dat moment opgeslagen.",
+    "clippedSaved": "Een ander apparaat heeft een timer gestart terwijl je offline was. Je offline tijd {from} - {to} is opgeslagen als tijdboeking, en de andere timer blijft lopen.",
+    "resetOffline": "Op een ander apparaat liep al een timer toen je offline startte om {from}. Je offline timer is teruggezet en de andere blijft lopen.",
+    "stoppedElsewhere": "De timer is op een ander apparaat gestopt terwijl je offline was. De tijd is daar opgeslagen en niet nogmaals.",
+    "syncFailed": "Een offline wijziging kon niet worden gesynchroniseerd: {error}",
+    "defaultDescription": "Urenregistratie"
+  },
+  "unknownError": "Onbekende fout",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Opslaan mislukt",
+      "retry": "Opnieuw proberen"
+    },
+    "push": {
+      "unsupported": "Pushmeldingen worden in deze browser niet ondersteund",
+      "denied": "Toestemming voor meldingen is geweigerd",
+      "enabled": "Pushmeldingen ingeschakeld",
+      "enabledDesc": "Je ontvangt nu meldingen",
+      "enableFailed": "Meldingen inschakelen mislukt",
+      "disabled": "Pushmeldingen uitgeschakeld",
+      "disableFailed": "Meldingen uitschakelen mislukt"
+    },
+    "periodic": {
+      "unsupported": "Periodieke synchronisatie wordt niet ondersteund",
+      "enabled": "Automatische rapporten ingeschakeld",
+      "enabledDesc": "Je ontvangt wekelijkse rapporten",
+      "enableFailed": "Automatische rapporten inschakelen mislukt",
+      "disabled": "Automatische rapporten uitgeschakeld",
+      "disableFailed": "Automatische rapporten uitschakelen mislukt"
+    },
+    "taskUndo": {
+      "restored": "Taak hersteld",
+      "restoreFailed": "Taak herstellen mislukt",
+      "deleted": "Taak verwijderd",
+      "undo": "Ongedaan maken"
+    },
+    "timerSync": {
+      "otherProject": "een ander project",
+      "runningPaused": "Er loopt al een timer op {name}. Stop die eerst. Je gepauzeerde tijd blijft bewaard.",
+      "running": "Er loopt al een timer op {name}. Stop die eerst.",
+      "alreadyStopped": "De timer was al gestopt en opgeslagen op een ander apparaat. Hij is niet opnieuw gestart."
+    },
+    "timerKeys": {
+      "started": "Timer gestart",
+      "pressToPause": "Druk nogmaals op T om te pauzeren",
+      "paused": "Timer gepauzeerd",
+      "pressToResume": "{time} - Druk op T om te hervatten",
+      "resumed": "Timer hervat",
+      "cancelled": "Timer geannuleerd"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock wordt in deze browser niet ondersteund",
+      "active": "Scherm blijft aan",
+      "activeDesc": "Je scherm gaat niet uit terwijl je tijd registreert",
+      "released": "Het scherm mag weer uitgaan",
+      "failed": "Het scherm aanhouden is mislukt"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Je abonnement wordt beheerd via je account.",
+    "otherAccount": "De aankoop is gekoppeld aan een ander TimeTrack-account.",
+    "ownerOnly": "Alleen de eigenaar van de organisatie kan een abonnement kopen.",
+    "multiMember": "Privat en Selvstændig zijn voor één gebruiker. Je organisatie heeft meerdere gebruikers, dus het abonnement wordt beheerd via je account.",
+    "otherOrganization": "Je abonnement hoort bij een andere organisatie. Schakel over naar die organisatie om het te zien.",
+    "alreadySubscribed": "Je hebt al een abonnement via {store}.",
+    "appStoreUnreachable": "De App Store was niet bereikbaar. Probeer het over een moment opnieuw.",
+    "appStoreVerify": "De aankoop kon niet worden geverifieerd bij de App Store.",
+    "unknownProduct": "Onbekend product. Werk de app bij en probeer het opnieuw.",
+    "googleNotFound": "De aankoop is niet gevonden bij Google Play.",
+    "productMismatch": "De aankoop komt niet overeen met het gekozen product.",
+    "googleAck": "De aankoop kon niet worden bevestigd bij Google Play. Probeer het opnieuw."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Je hebt een actief abonnement via {store}. Dat stopt niet als je je account verwijdert en moet worden opgezegd in {store}. Bevestig dat je dit begrijpt om het account te verwijderen.",
+    "invalidUserId": "Ongeldige gebruikers-ID"
+  },
+  "orgInvite": {
+    "invalidEmail": "Ongeldig e-mailadres",
+    "domainNotAllowed": "Het e-maildomein {domain} is niet toegestaan voor deze organisatie",
+    "alreadyMember": "Deze persoon is al lid van de organisatie",
+    "alreadyInvited": "Er staat al een uitnodiging open voor dit e-mailadres",
+    "otherBrand": "Dit e-mailadres kan niet worden uitgenodigd voor de organisatie. Gebruik een ander adres.",
+    "noSeats": "Geen vrije plekken ({used} van {max} in gebruik). Koop extra plekken of wissel van abonnement onder Instellingen → Abonnement.",
+    "noSeatsAccept": "De organisatie heeft geen vrije plekken meer. Neem contact op met je beheerder.",
+    "lastOwnerRemove": "De laatste eigenaar kan niet worden verwijderd. Draag eerst het eigenaarschap over aan een ander lid.",
+    "lastOwnerDemote": "De laatste eigenaar kan niet worden gedegradeerd. Draag eerst het eigenaarschap over aan een ander lid.",
+    "acceptedPushTitle": "🎉 Uitnodiging geaccepteerd",
+    "acceptedPushBody": "{name} is nu lid van {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "De bulklijst bevat dubbele UUID's",
+    "missing": "Een of meer taken ontbreken of vallen buiten je werkruimte: {ids}",
+    "unexpectedRowCount": "onverwacht aantal rijen",
+    "unselected": "De gegevens bevatten UUID's die niet zijn geselecteerd",
+    "statusMismatch": "Taak {id} heeft status {status}; de verwachte status was {expected}",
+    "notEmail": "Taak {id} is geen e-mailtaak",
+    "customLane": "Taak {id} gebruikt een aangepaste kolom en kan niet veilig in bulk worden afgerond"
+  }
+}

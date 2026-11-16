@@ -1,0 +1,50 @@
+---
+title: "Render"
+description: "Deploy TimeWren on Render from the repository Blueprint: a web service with a disk, a scheduler worker and managed PostgreSQL 18."
+---
+
+Choose this method if you want managed hosting on Render. The Blueprint `render.yaml` pulls the published image for a web service and a scheduler worker, creates managed PostgreSQL 18 and attaches a 10 GB persistent disk at `/app/data/storage`. Nothing is built.
+
+> **Warning:** The web service, the worker and the database all use paid plans (`starter`, `starter` and `basic-256mb`), because persistent disks and background workers need them. Check Render's cost estimate before you deploy.
+
+## Requirements
+
+- A Render account.
+- A 64-character hex string for `ENCRYPTION_KEY`: `openssl rand -hex 32`.
+
+## Deploy
+
+1. Open the Blueprint deploy link for the repository: [render.com/deploy?repo=https://github.com/timewren/timewren](https://render.com/deploy?repo=https://github.com/timewren/timewren). Alternatively create a Blueprint in the Render dashboard from the repository `timewren/timewren`.
+2. When asked, enter `ENCRYPTION_KEY` as exactly 64 hexadecimal characters. Render generates the session and cron secrets itself, but its generator emits base64, which is why it cannot generate the encryption key.
+3. Deploy. Migrations run when the web service starts.
+4. Open the service URL and create your account.
+
+## What the Blueprint creates
+
+| Resource | Name | Notes |
+| -------- | ---- | ----- |
+| Web service | `timewren` | Image `ghcr.io/timewren/timewren:latest`, region Frankfurt, health check `/api/health`, one instance, disk `timewren-storage` (10 GB) at `/app/data/storage`. |
+| Worker | `timewren-cron` | Same image, runs `node scripts/cron.mjs` against the web service over Render's private network using `CRON_SECRET`. No disk, no database credentials. |
+| Database | `timewren-db` | PostgreSQL 18, plan `basic-256mb`, database and user `timetrack`. |
+
+Both services set `TZ` to `Europe/Copenhagen`. The web service also sets `NEXT_PUBLIC_BRAND=timewren`, `MIGRATE_ON_START=1`, `STORAGE_DRIVER=local` and `REQUIRE_EMAIL_VERIFICATION=false`.
+
+## Public URL
+
+By default `NEXT_PUBLIC_APP_URL` is taken from `RENDER_EXTERNAL_URL`. If you add a custom domain later, set `NEXT_PUBLIC_APP_URL` to its HTTPS URL without a trailing slash. Optional mail and integration variables use the names in `.env.example`: see [Environment variables](/docs/configuration/environment).
+
+## Things to know
+
+- Do not scale either service beyond one instance.
+- A web service with a disk cannot do rolling deploys, so it briefly stops during redeploys.
+- Both image URLs default to `latest`. Edit `render.yaml` in your own fork to pin both to the same release tag before an operational rollout.
+- The first account becomes admin. Create it immediately, or configure `ADMIN_EMAIL` and a mail transport before you expose the service.
+- Back up the database, the disk and `ENCRYPTION_KEY`.
+- The Blueprint has been validated against Render's schema but has not been deployed to a Render account by the maintainers. After the first deploy, check registration, an upload and download, and a scheduled export.
+
+## Next steps
+
+- [Quickstart](/docs/quickstart)
+- [Email](/docs/configuration/email)
+- [Upgrading](/docs/operations/upgrading) and [Backup and restore](/docs/operations/backup-restore)
+- [Troubleshooting](/docs/operations/troubleshooting)

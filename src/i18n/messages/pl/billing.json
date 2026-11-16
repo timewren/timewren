@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Plan darmowy mieści 3 aktywnych klientów. Zarchiwizuj klienta albo zobacz plany.",
+    "seePlans": "Zobacz plany"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Wszystko nierozliczone",
+      "periodThisMonth": "Ten miesiąc",
+      "periodLastMonth": "Zeszły miesiąc",
+      "draftCreated": "Utworzono wersję roboczą faktury na kwotę {amount}",
+      "createFailed": "Nie udało się utworzyć wersji roboczej faktury",
+      "clientFallback": "klienta",
+      "title": "Wystaw fakturę: {name}",
+      "description": "Tworzy wersję roboczą do sprawdzenia. Nic nie jest wysyłane do klienta.",
+      "period": "Okres",
+      "loadError": "Nie udało się wczytać nierozliczonego czasu. Spróbuj za chwilę.",
+      "noUnbilled": "Brak nierozliczonego czasu dla: {name} w tym okresie.",
+      "entries": "Wpisy",
+      "time": "Czas",
+      "amountExVat": "Kwota bez VAT",
+      "timePerProject": "Czas według projektów",
+      "project": "Projekt",
+      "amount": "Kwota",
+      "entryCount": "{count, plural, one {# wpis} few {# wpisy} many {# wpisów} other {# wpisu}}",
+      "noRate": "Dla {time} nie ustawiono stawki godzinowej, więc doliczono je jako 0 DKK. Kwotę możesz poprawić w wersji roboczej.",
+      "footnote": "Wpisy są oznaczane jako zafakturowane i wyszczególnione w wersji roboczej. Wersję roboczą możesz usunąć, a czas znów będzie nierozliczony.",
+      "pickEntries": "Wybierz wpisy samodzielnie",
+      "cancel": "Anuluj",
+      "createDraft": "Utwórz wersję roboczą faktury",
+      "createDraftAmount": "Utwórz wersję roboczą faktury ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# dzień od ostatniej faktury} few {# dni od ostatniej faktury} many {# dni od ostatniej faktury} other {# dnia od ostatniej faktury}}",
+      "oldestEntry": "{count, plural, one {najstarszy wpis ma # dzień} few {najstarszy wpis ma # dni} many {najstarszy wpis ma # dni} other {najstarszy wpis ma # dnia}}",
+      "ready": "Gotowe do zafakturowania",
+      "notInvoiced": "nie zostało zafakturowane",
+      "notInvoicedClient": "dla klienta {client} nie zostało zafakturowane",
+      "invoiceNow": "Wystaw fakturę",
+      "hide": "Ukryj na 30 dni"
+    },
+    "explainer": {
+      "point1": "Klient płaci za godziny z góry, więc nie musisz potem wysyłać faktur ani ponagleń.",
+      "point2": "Gdy rejestrujesz czas dla klienta, jest on automatycznie odliczany od pakietu.",
+      "point3": "Klient może śledzić saldo w portalu klienta, a ty dostajesz powiadomienie, gdy pakiet się kończy.",
+      "title": "Sprzedawaj godziny z góry w pakietach godzin",
+      "intro": "Pakiet godzin to pula godzin kupowana przez klienta z góry, np. 10 godzin na stałe zadania i wsparcie.",
+      "create": "Utwórz pakiet godzin",
+      "calculator": "Oblicz cenę w kalkulatorze"
+    },
+    "prepaid": {
+      "offer": "Sprzedaj pakiet godzin na {hours} godz. Wystarczy na ok. {months} mies., a klient płaci z góry.",
+      "offerPrice": "Sprzedaj pakiet godzin na {hours} godz. ({price}). Wystarczy na ok. {months} mies., a klient płaci z góry.",
+      "sell": "Sprzedaj pakiet godzin",
+      "dismissLabel": "Nieistotne dla: {client}. Nie pokazuj ponownie",
+      "dismissTitle": "Nieistotne. Nie pokazuj ponownie dla tego klienta",
+      "suggestionLabel": "Propozycje pakietów godzin",
+      "defaultName": "Pakiet godzin: {hours} godz.",
+      "usageClient": "<name>{client}</name> ma średnio ok. <num>{time}</num> miesięcznie w ostatnich 3 miesiącach.",
+      "usageGeneric": "Klient ma średnio ok. <num>{time}</num> miesięcznie w ostatnich 3 miesiącach."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "Wstrzymana",
+      "paymentMissing": "Brak płatności",
+      "active": "Aktywna",
+      "paymentFailedRetry": "{store} nie mógł pobrać płatności. Zaktualizuj metodę płatności w {store}. Dopóki płatność nie przejdzie, masz dostęp jak w planie darmowym.",
+      "paymentFailedGrace": "{store} nie mógł pobrać płatności. Zaktualizuj metodę płatności w {store}, aby zachować dostęp.",
+      "currentPlan": "Obecny plan",
+      "yearly": "Rocznie",
+      "monthly": "Miesięcznie",
+      "boughtVia": "Kupiono przez {store}",
+      "expires": "Wygasa {date}",
+      "renews": "Odnawia się {date}",
+      "paymentTitle": "Płatność",
+      "paymentInfo": "Subskrypcję kupiono w aplikacji {brand}, więc płatności i potwierdzenia obsługuje {store}. Plan, metodę płatności lub anulowanie subskrypcji zmienisz w {store}.",
+      "manage": "Zarządzaj w {store}"
+    },
+    "wall": {
+      "checkoutFailed": "Nie udało się utworzyć sesji płatności. Spróbuj ponownie.",
+      "portalFailed": "Nie udało się otworzyć portalu rozliczeń. Spróbuj ponownie.",
+      "headingNone": "Nie masz aktywnej subskrypcji",
+      "headingLocked": "Twój dostęp jest wstrzymany",
+      "headingPastDue": "Brakuje twojej płatności",
+      "headingCanceled": "Twoja subskrypcja się zakończyła",
+      "headingTrial": "Twój okres próbny wygasł",
+      "subNone": "Wykup subskrypcję, aby korzystać z {brand}",
+      "subPastDue": "Zaktualizuj metodę płatności, aby odzyskać dostęp",
+      "subUpgrade": "Przejdź na plan {plan}, aby kontynuować",
+      "pastDueBody": "Nie udało się pobrać ostatniej płatności. Zaktualizuj metodę płatności, aby dalej korzystać z {brand}.",
+      "updatePayment": "Zaktualizuj metodę płatności",
+      "monthly": "Miesięcznie",
+      "yearly": "Rocznie",
+      "save17": "Oszczędzasz 17%",
+      "perYearExVat": "/rok bez VAT",
+      "perMonthExVat": "/mies. bez VAT",
+      "equivalent": "To {price}/mies., więc oszczędzasz 2 miesiące",
+      "featureWorkspace": "Wspólna przestrzeń zespołu z wieloma użytkownikami",
+      "featureTeamReports": "Raporty zespołu",
+      "featureUnlimited": "Nieograniczona rejestracja czasu",
+      "featureInvoicing": "Pakiety godzin i fakturowanie",
+      "featureManagement": "Zarządzanie klientami i projektami",
+      "featureReports": "Raporty i eksport",
+      "featureIntegrations": "Integracje z duńskimi usługami (CVR, Billy i inne)",
+      "upgradeNow": "Przejdź na wyższy plan",
+      "discountNote": "Kasa pokazuje cenę standardową. Twój rabat {percent}% zostanie naliczony automatycznie.",
+      "manageAccount": "Zarządzaj kontem",
+      "exportData": "Eksportuj dane",
+      "signOut": "Wyloguj się"
+    }
+  }
+}

@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# tarea vencida} other {# tareas vencidas}}",
+    "needsAttention": "Requiere atención",
+    "lowBalance": "{count, plural, one {# bono de horas con saldo bajo} other {# bonos de horas con saldo bajo}}",
+    "lowBalanceSub": "Saldo bajo",
+    "expiring": "{count, plural, one {# bono de horas caduca pronto} other {# bonos de horas caducan pronto}}",
+    "expiringSub": "En los próximos 14 días",
+    "unbilled": "{amount} sin facturar",
+    "unbilledSub": "Listo para facturar",
+    "title": "Requiere acción"
+  },
+  "appDrawer": {
+    "apps": "Aplicaciones",
+    "heading": "Aplicaciones de {brand}",
+    "downloadFor": "Descargar para {os}{version} · Beta",
+    "seeDownloads": "Ver las descargas en los ajustes",
+    "downloadComing": "La descarga llegará pronto. Consulta los ajustes",
+    "chromeExtension": "Extensión de Chrome",
+    "chromeExtensionHint": "Registra horas desde el navegador",
+    "installApp": "Instalar como aplicación",
+    "installAppHint": "Pon {brand} en tu escritorio",
+    "alreadyInstalled": "Ya instalada",
+    "addToHome": "Añadir a la pantalla de inicio o al escritorio"
+  },
+  "demo": {
+    "clearedKept": "Datos de ejemplo borrados. {kept, plural, one {# cliente de demostración ya se había usado (por ejemplo, facturado) y se conserva como cliente normal.} other {# clientes de demostración ya se habían usado (por ejemplo, facturados) y se conservan como clientes normales.}}",
+    "cleared": "Los datos de ejemplo se han borrado. La cuenta es tuya.",
+    "nothingToClear": "No había datos de ejemplo que borrar.",
+    "clearFailed": "No se pudieron borrar los datos de ejemplo",
+    "banner": "<strong>Estás viendo datos de ejemplo.</strong> Los clientes, las horas y el bono de horas son inventados para que veas cómo se ve {brand} en uso. Bórralos cuando quieras empezar con los tuyos.",
+    "confirm": "¿Borrar los datos de ejemplo? Se eliminarán los clientes de demostración y sus proyectos, horas y bonos de horas de ejemplo. Todo lo que hayas creado tú (por ejemplo, facturas u horas propias) se conserva.",
+    "clearButton": "Borrar datos de demostración"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "La aplicación de escritorio para Mac y Windows{version}. Está en beta y puede tener errores.",
+    "version": ", versión {version}",
+    "withoutDownloads": "La aplicación de escritorio está en beta. El enlace de descarga aparecerá aquí en cuanto {brand} pueda obtener la última versión.",
+    "hide": "Ocultar",
+    "reportHint": "¿Has encontrado un error? Usa «Informar de un error o carencia» dentro de la aplicación."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Crea tu primer cliente",
+      "hasTimeEntry": "Registra tu primera hora",
+      "hasKlippekort": "Crea un bono de horas",
+      "hasInvoice": "Crea tu primera factura"
+    },
+    "daysLeft": "Te {count, plural, one {queda # día} other {quedan # días}} de tu prueba gratuita",
+    "addPayment": "Añadir pago",
+    "gettingStarted": "Primeros pasos ({done}/{total})",
+    "hide": "Ocultar",
+    "progressLabel": "Progreso de los primeros pasos",
+    "createAccount": "Crea tu cuenta"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Riesgo de clientes",
+      "daysAgo": "hace {days} días",
+      "allActive": "Todos tus clientes han tenido actividad en los últimos 60 días ✓",
+      "seeAll": "Ver todos",
+      "count": "{count, plural, one {# cliente sin actividad en más de 60 días} other {# clientes sin actividad en más de 60 días}}",
+      "lastActive": "Última actividad: {date}",
+      "revenue6m": "{amount} (6 meses)",
+      "hoursLeft": "{hours} h restantes",
+      "openClient": "Abrir cliente",
+      "sendCheckIn": "Enviar correo de seguimiento",
+      "checkInSubject": "Seguimiento",
+      "more": "+ {count} clientes en riesgo más"
+    },
+    "calendarSync": {
+      "title": "Calendario vs. registrado",
+      "seeCalendar": "Ver calendario",
+      "captureRate": "tasa de captura",
+      "eventsTracked": "{tracked}/{total} eventos registrados",
+      "calendar": "Calendario",
+      "tracked": "Registrado",
+      "gap": "{hours} h del calendario no están registradas",
+      "perProject": "Por proyecto",
+      "moreProjects": "+{count} más"
+    },
+    "cashflow": {
+      "title": "Previsión de flujo de caja",
+      "seeUnpaid": "Ver pendientes",
+      "empty": "No hay facturas pendientes ni bonos de horas activos",
+      "emptyHint": "Envía una factura para ver la previsión de flujo de caja",
+      "seeAllUnpaid": "Ver todos los pendientes",
+      "overdueInvoices": "{count, plural, one {# factura vencida} other {# facturas vencidas}}: ",
+      "overdue": "Vencido: ",
+      "week": "Semana {number}",
+      "estimated": "(est.)",
+      "prepaidTag": "(bono de horas)",
+      "expected30": "Previsto en los próximos 30 días"
+    },
+    "coverage": {
+      "title": "Tasa de utilización",
+      "details": "Ver detalles",
+      "period": "Periodo",
+      "loadFailed": "No se pudo cargar la tasa de utilización",
+      "noTime": "Todavía no hay tiempo registrado en este periodo.",
+      "trackTime": "Registrar horas",
+      "billable": "Facturable",
+      "nonBillable": "No facturable",
+      "ratio": "<b>{ratio}</b> no facturable por hora facturada",
+      "clientCol": "Cliente",
+      "splitCol": "Fact. / no fact."
+    },
+    "dailyHours": {
+      "title": "Horas por día",
+      "details": "Ver detalles",
+      "avg": "Media/día: ",
+      "total": "Total: ",
+      "hoursShort": "{value} h",
+      "day": {
+        "0": "do",
+        "1": "lu",
+        "2": "ma",
+        "3": "mi",
+        "4": "ju",
+        "5": "vi",
+        "6": "sá"
+      }
+    },
+    "emailSync": {
+      "title": "Sincronización de correo",
+      "started": "Sincronización iniciada",
+      "startFailed": "No se pudo iniciar la sincronización",
+      "never": "Nunca",
+      "now": "Ahora mismo",
+      "minutes": "{value} min",
+      "hours": "{value} h",
+      "days": "{value} d",
+      "startNow": "Iniciar la sincronización ahora",
+      "statusOk": "OK",
+      "statusUnstable": "Inestable",
+      "statusError": "Error",
+      "emails": "Correos",
+      "tasks": "Tareas",
+      "clients": "Clientes",
+      "analytics": "Ver análisis →"
+    },
+    "emailTasks": {
+      "title": "Tareas desde el correo",
+      "review": "Revisar",
+      "noClient": "Sin cliente",
+      "empty": "Todavía no hay tareas de correo."
+    },
+    "expiringPackages": {
+      "title": "Bonos de horas que caducan",
+      "seeAll": "Ver todos",
+      "none": "Ningún bono de horas caduca pronto",
+      "noneHint": "Los bonos de horas que caducan en 30 días aparecen aquí",
+      "expiredAgo": "Caducó hace {count, plural, one {# día} other {# días}}",
+      "expired": "Caducado",
+      "today": "Hoy",
+      "days": "{count, plural, one {# día} other {# días}}",
+      "hoursLeft": "Horas restantes",
+      "value": "Valor",
+      "expires": "Caduca el {date}",
+      "more": "+ {count} bonos de horas más",
+      "urgent": "Algunos bonos de horas caducan en 7 días. Contacta con el cliente para renovarlos."
+    },
+    "flexBalance": {
+      "title": "Saldo de horario flexible",
+      "hours": "{value} h",
+      "entries": "{count} reg."
+    },
+    "flexNorm": {
+      "title": "Saldo flexible",
+      "loadFailed": "No se pudo cargar el saldo.",
+      "noProfile": "No tienes un perfil de empleado en la organización.",
+      "unit": "h",
+      "carryIn": "De los cuales traspasados: {value} h",
+      "week": "Semana",
+      "month": "Mes",
+      "period": "Periodo",
+      "summary": "{registered} de {net} h de jornada hasta hoy · jornada del periodo {periodNet} h",
+      "seeAccount": "Ver la cuenta de horario flexible"
+    },
+    "hoursComparison": {
+      "title": "Comparación semanal",
+      "details": "Ver detalles",
+      "none": "No hay horas registradas",
+      "thisWeek": "Esta semana",
+      "lastWeek": "Semana pasada",
+      "format": "hh:mm",
+      "increase": "Aumento",
+      "decrease": "Disminución",
+      "vsLastWeek": "en comparación con la semana pasada"
+    },
+    "invoiceOverview": {
+      "title": "Resumen de facturas",
+      "seeInvoices": "Ver facturas",
+      "totalInvoiced": "Total facturado",
+      "draft": "Borrador",
+      "sent": "Enviada",
+      "paid": "Pagada",
+      "overdue": "Vencida"
+    },
+    "lowBalance": {
+      "title": "Bonos de horas con saldo bajo",
+      "loadFailed": "No se pudieron cargar los bonos de horas",
+      "none": "Ningún bono de horas con saldo bajo",
+      "seeAll": "Ver todos",
+      "intro": "Saldo bajo",
+      "noClient": "Sin cliente",
+      "left": "{time} restantes",
+      "more": "+ {count} más"
+    },
+    "monthComparison": {
+      "title": "Comparación mensual",
+      "seeReports": "Ver informes",
+      "vs": "vs",
+      "vsValue": "vs {value}",
+      "hours": "Horas",
+      "hoursValue": "{value} h",
+      "revenue": "Ingresos",
+      "entries": "Registros"
+    },
+    "overdueTasks": {
+      "title": "Plazo superado",
+      "none": "Ninguna tarea con el plazo superado ✓",
+      "seeAll": "Ver todas",
+      "count": "{count, plural, one {# tarea} other {# tareas}}",
+      "noProject": "Sin proyecto",
+      "deadline": "Plazo: {date}",
+      "more": "+ {count} más"
+    },
+    "pendingApprovals": {
+      "title": "Aprobaciones pendientes",
+      "requestOne": "solicitud",
+      "requestOther": "solicitudes"
+    },
+    "prepaidStatus": {
+      "title": "Estado de los bonos de horas",
+      "allGood": "Todo en orden",
+      "seeAll": "Ver todos",
+      "lowBalance": "Saldo bajo",
+      "noClient": "Sin cliente",
+      "left": "{time} restantes",
+      "more": "+ {count} más",
+      "expiringSoon": "Caduca pronto (en los próximos 30 días)",
+      "expired": "Caducado",
+      "today": "Hoy",
+      "days": "{count, plural, one {# día} other {# días}}"
+    },
+    "productivity": {
+      "title": "Productividad a lo largo de la semana",
+      "details": "Ver detalles",
+      "noData": "Todavía no hay datos de productividad",
+      "streak": "Racha actual",
+      "streakDays": "días seguidos",
+      "weeklyAvg": "Media semanal",
+      "perWeek": "por semana",
+      "last8": "Últimas 8 semanas",
+      "less": "Menos",
+      "more": "Más",
+      "msgHigh": "¡Fantástico! Has trabajado 7 o más días seguidos. ¡Sigue así!",
+      "msgMid": "¡Bien hecho! Mantén el ritmo.",
+      "msgLow": "¡Ya has empezado! Construye una buena rutina de trabajo.",
+      "streakDay": "día seguido"
+    },
+    "profitability": {
+      "title": "Tarifa real por hora",
+      "rate": "{rate} kr/h",
+      "hours": "{hours} h",
+      "loadFailed": "No se pudieron cargar los datos",
+      "noBilled": "No hay tiempo facturado este mes",
+      "createInvoice": "Crear factura",
+      "details": "Detalles",
+      "agreedRate": "Tarifa por hora acordada",
+      "realRate": "Tarifa real por hora",
+      "vsAgreed": "{percent} % respecto a lo acordado",
+      "billableAvg": "Facturable media",
+      "footer": "{total} en total · {billable} facturables",
+      "footerInvoiced": "{total} en total · {billable} facturables · {invoiced} facturado"
+    },
+    "projectHealth": {
+      "title": "Estado de los proyectos",
+      "seeAll": "Ver todos",
+      "alertsHeading": "Avisos de presupuesto",
+      "severity": {
+        "exceeded": "Superado",
+        "critical": "Crítico",
+        "warning": "Aviso"
+      },
+      "hoursUsed": "{used} / {budget} h usadas",
+      "budgetAmount": "{amount} kr de presupuesto",
+      "moreAlerts": "+ {count} avisos más",
+      "noBudgets": "Ningún proyecto con presupuesto",
+      "createProject": "Crear proyecto",
+      "onTrack": "{count, plural, one {# proyecto en buen camino} other {# proyectos en buen camino}}",
+      "moreProjects": "+ {count} proyectos más"
+    },
+    "quickActions": {
+      "title": "Acciones rápidas",
+      "created": "Registro de tiempo creado",
+      "createFailed": "No se pudo crear el registro de tiempo",
+      "fillAll": "Rellena todos los campos correctamente",
+      "addClient": "Añadir cliente",
+      "newProject": "Nuevo proyecto",
+      "startTimer": "Iniciar cronómetro",
+      "createInvoice": "Crear factura",
+      "quickEntry": "Registro rápido de horas",
+      "draftSaved": "Borrador guardado",
+      "restoreDraft": "Restaurar el borrador guardado",
+      "restore": "Restaurar",
+      "projectPlaceholder": "Seleccionar proyecto",
+      "descriptionPlaceholder": "¿En qué trabajaste?",
+      "hoursPlaceholder": "Horas",
+      "saving": "Guardando…",
+      "save": "Guardar"
+    },
+    "recentActivity": {
+      "title": "Actividad reciente",
+      "none": "Todavía no hay actividad",
+      "seeAll": "Ver todo",
+      "now": "Ahora mismo",
+      "minutesAgo": "hace {count} min",
+      "hoursAgo": "hace {count, plural, one {# hora} other {# horas}}",
+      "daysAgo": "hace {count, plural, one {# día} other {# días}}"
+    },
+    "revenueByClient": {
+      "title": "Ingresos por cliente",
+      "seeReports": "Ver informes",
+      "loadFailed": "No se pudieron cargar los ingresos",
+      "none": "Sin ingresos este mes"
+    },
+    "revenueForecast": {
+      "title": "Previsión de ingresos",
+      "seeReports": "Ver informes",
+      "none": "Todavía no hay datos de ingresos",
+      "expected": "Previsto para este mes",
+      "amountKr": "{amount} kr",
+      "basedOn": "Basado en {day} / {total} días",
+      "sixMonthAvg": "Media de 6 meses"
+    },
+    "rounding": {
+      "title": "Bonificación por redondeo",
+      "inactive": "El redondeo no está activado. Gana más redondeando tus horas hacia arriba.",
+      "enable": "Activar el redondeo",
+      "settings": "Ajustes",
+      "thisMonth": "Este mes",
+      "extra": "ganado extra por el redondeo",
+      "thisYear": "Total este año"
+    },
+    "stats": {
+      "activeClients": "Clientes activos",
+      "activeProjects": "Proyectos activos",
+      "hoursThisMonth": "Horas de este mes",
+      "revenueThisMonth": "Ingresos de este mes"
+    },
+    "topClients": {
+      "title": "Principales clientes",
+      "loadFailed": "No se pudieron cargar los datos",
+      "none": "Todavía no hay datos de clientes",
+      "seeAll": "Ver todos",
+      "rankedBy": "Ordenados por horas"
+    },
+    "unbilled": {
+      "title": "Horas sin facturar",
+      "loadFailed": "No se pudieron cargar los datos",
+      "none": "No hay horas sin facturar",
+      "seeAll": "Ver todas",
+      "entries": "{count, plural, one {# registro de tiempo} other {# registros de tiempo}}",
+      "totalHours": "Total de horas",
+      "estimatedValue": "Valor estimado"
+    },
+    "absences": {
+      "title": "Próximas ausencias",
+      "loading": "Cargando…",
+      "none": "No hay ausencias aprobadas previstas",
+      "employee": "Empleado/a",
+      "absence": "Ausencia",
+      "from": "desde {date}"
+    },
+    "deadlines": {
+      "title": "Fechas importantes",
+      "overdue": "Vencido",
+      "today": "Hoy",
+      "days": "{count, plural, one {# día} other {# días}}",
+      "needsSetup": "Indica tu tipo de empresa para ver las fechas importantes",
+      "setUpNow": "Configurar ahora",
+      "none": "No hay plazos próximos en los siguientes 180 días",
+      "editSettings": "Editar los ajustes de la empresa"
+    },
+    "upcomingTasks": {
+      "title": "Próximas tareas",
+      "none": "No hay tareas próximas",
+      "seeAll": "Ver todas",
+      "within7": "En los próximos 7 días",
+      "noProject": "Sin proyecto",
+      "deadline": "Plazo: {date}",
+      "more": "+ {count} más"
+    },
+    "vacation": {
+      "title": "Saldo de vacaciones",
+      "daysLeftIn": "días restantes en {label}",
+      "daysLeft": "días restantes"
+    },
+    "vat": {
+      "titleMonthly": "IVA de este mes",
+      "titleQuarterly": "IVA de este periodo",
+      "titleSemiAnnual": "IVA de este semestre",
+      "title": "IVA",
+      "exempt": "Estás registrado como no sujeto a IVA",
+      "changeInSettings": "Cambiar en los ajustes",
+      "createFirst": "Crea tu primera factura para ver una estimación del IVA",
+      "createInvoice": "Crear factura",
+      "invoices": "Facturas",
+      "toSettle": "IVA a liquidar",
+      "percentOf": "25 % de {amount} facturado",
+      "nextDeadline": "Próximo plazo",
+      "inDays": "(en {count, plural, one {# día} other {# días}})",
+      "overdue": "(vencido)",
+      "ytd": "Total este año",
+      "setAside": "Reserva <b>{amount}</b> en una cuenta aparte"
+    },
+    "weeklyGoal": {
+      "title": "Objetivo semanal",
+      "loadFailed": "No se pudo cargar el objetivo semanal",
+      "trackTime": "Registrar horas",
+      "reached": "¡Objetivo alcanzado!",
+      "onTrack": "En buen camino",
+      "behind": "Atrasado",
+      "remaining": "<b>{time}</b> restantes",
+      "perDay": "{time}/día durante {count, plural, one {# día} other {# días}}"
+    }
+  }
+}

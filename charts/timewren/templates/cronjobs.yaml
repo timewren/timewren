@@ -1,0 +1,68 @@
+{{- if .Values.cron.enabled }}
+{{- range $endpoint, $schedule := .Values.cron.jobs }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  {{- $jobName := printf "%s-%s" (include "timewren.name" $) $endpoint }}
+  name: {{ $jobName | trunc 43 | trimSuffix "-" }}-{{ $jobName | sha256sum | trunc 8 }}
+  labels:
+    {{- include "timewren.labels" $ | nindent 4 }}
+spec:
+  schedule: {{ $schedule | quote }}
+  timeZone: {{ $.Values.cron.timeZone | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  startingDeadlineSeconds: 120
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 330
+      backoffLimit: 1
+      template:
+        metadata:
+          labels:
+            {{- include "timewren.labels" $ | nindent 12 }}
+            app.kubernetes.io/component: cron
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 100
+            runAsGroup: 101
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: cron
+              image: {{ $.Values.cron.image | quote }}
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: [ALL]
+              command: [/bin/sh, -ec]
+              args:
+                - |
+                  umask 077
+                  printf 'header = "Authorization: Bearer %s"\n' "$CRON_SECRET" > /tmp/curl-auth
+                  curl --silent --show-error --fail --max-time 300 --config /tmp/curl-auth --output /dev/null "$APP_URL/api/cron/{{ $endpoint }}"
+              env:
+                - name: CRON_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "timewren.secretName" $ }}
+                      key: CRON_SECRET
+                - name: APP_URL
+                  value: {{ printf "http://%s:%v" (include "timewren.name" $) $.Values.service.port | quote }}
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+              resources:
+                {{- toYaml $.Values.cron.resources | nindent 16 }}
+          volumes:
+            - name: tmp
+              emptyDir:
+                medium: Memory
+                sizeLimit: 1Mi
+{{- end }}
+{{- end }}

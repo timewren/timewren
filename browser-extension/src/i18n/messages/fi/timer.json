@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} tallennettu kohteelle <b>{target}</b>",
+    "stoppedOn": "{duration} pysäytetty kohteelle <b>{target}</b>",
+    "savedInternal": "{duration} tallennettu <b>sisäisenä aikana</b>",
+    "stoppedInternal": "{duration} pysäytetty <b>sisäisenä aikana</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Paketissa <b>{name}</b> ei ollut tarpeeksi tunteja, joten koko aika tallennettiin laskutettavana",
+    "deducted": "{hours} vähennetty paketista <b>{name}</b>, {remaining} jäljellä",
+    "deductedOverflow": "{hours} vähennetty paketista <b>{name}</b>, {remaining} jäljellä. Paketti loppui, joten loppuosa on laskutettavaa aikaa",
+    "pendingSave": "Palvelin ei vastannut ajoissa. Aika lähetetään automaattisesti heti, kun yhteys on käytettävissä, ja se tallennetaan vain kerran.",
+    "close": "Sulje viesti"
+  },
+  "discard": {
+    "label": "Hylkää aika",
+    "question": "Hylätäänkö {duration} tallentamatta?",
+    "keep": "Säilytä aika",
+    "confirm": "Hylkää aika"
+  },
+  "switch": {
+    "label": "Vaihda asiakasta",
+    "question": "Tallennetaanko {duration} kohteelle {from} ja käynnistetäänkö uusi ajastin kohteelle {to}?",
+    "internal": "sisäinen aika",
+    "cancel": "Peruuta",
+    "confirm": "Tallenna ja käynnistä uusi"
+  },
+  "noClient": "Asiakasta ei ole valittu",
+  "noClientShort": "Ei asiakasta",
+  "start": "Käynnistä ajastin",
+  "cancelNoSave": "Peruuta ajastin tallentamatta",
+  "pause": "Keskeytä ajastin",
+  "stopSave": "Pysäytä ja tallenna",
+  "resume": "Jatka ajastinta",
+  "addMinutes": "Lisää ajastimeen {minutes} minuuttia",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Valitse asiakas ja projekti",
+  "descriptionPlaceholder": "Mitä olet tekemässä?",
+  "descriptionLabel": "Työn kuvaus"
+}

@@ -1,0 +1,107 @@
+---
+title: "Upgrading"
+description: "Update a self-hosted TimeWren instance safely: back up, pull, restart, pin versions and recover from a failed migration."
+---
+
+Updates are manual. Nothing pulls a new version on its own, and the app does not check for one.
+
+## Update procedure
+
+1. Take a [backup](/docs/operations/backup-restore) of the database, the `storage` volume and `.env`. Do this every time: migrations only go forward.
+2. Read the release notes for what changes.
+3. Pull and restart. The commands depend on how you installed.
+
+**Image install** ([one-line install](/docs/install/quick) or [Docker Compose](/docs/install/docker-compose)): the directory has no git checkout, and `.env` may pin `TIMEWREN_VERSION` (the one-line installer always writes it). Set `NEW` to the release tag you want, then point `.env` at it, fetch that release's stack files and start:
+
+```bash
+NEW=1.3.0
+sed -i "s|^TIMEWREN_VERSION=.*|TIMEWREN_VERSION=$NEW|" .env
+grep -q '^TIMEWREN_VERSION=' .env || echo "TIMEWREN_VERSION=$NEW" >> .env
+if [ -f .timewren-release ]; then echo "$NEW" > .timewren-release; fi
+curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/$NEW/docker-compose.yml
+curl -fsSL https://raw.githubusercontent.com/timewren/timewren/$NEW/.env.example -o .env.example
+if [ -f docker-compose.caddy.yml ]; then curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/$NEW/docker-compose.caddy.yml; fi
+docker compose pull
+docker compose up -d
+```
+
+On macOS use `sed -i ''` instead of `sed -i`. Compare `.env.example` with your `.env` afterwards to spot new variables; your `.env` itself is not touched. If you deliberately run the `latest` tag without a `TIMEWREN_VERSION` line, `docker compose pull && docker compose up -d` is enough.
+
+**Source checkout** ([from source](/docs/install/from-source)): update the code and rebuild the image:
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+The `NEXT_PUBLIC_*` values for realtime, Plausible and browser Sentry are compiled into the image, so they only change with a rebuild.
+
+4. Check the result:
+
+```bash
+docker compose ps
+docker compose logs app
+```
+
+Look for the migration lines described below. `curl -i http://127.0.0.1:3000/api/health` only shows that the app is running. The app also starts after a failed migration, so a healthy answer is not proof that the update succeeded.
+
+Compose recreates the containers whose image or configuration changed. The database container is normally left alone, and its volume always is.
+
+> **Warning:** Never add `-v` to `docker compose down`, and never run `docker compose down -v` on an instance with data. It deletes the database and your uploads.
+
+## Pinning a version
+
+`docker-compose.yml` runs `ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}`. The default tag is `latest`. To pin a version, set it in `.env`:
+
+```bash
+echo 'TIMEWREN_VERSION=1.2.3' >> .env
+docker compose pull && docker compose up -d
+```
+
+Use a full `X.Y.Z` version, or `X.Y` for the newest patch release of that line. The image is also on Docker Hub as `mahoje/timewren`, and it is published for `linux/amd64` and `linux/arm64`. If you already have a `TIMEWREN_VERSION` line in `.env`, edit it instead of appending a second one.
+
+## What happens to the database
+
+The compose file sets `MIGRATE_ON_START=1`. Every time the `app` container starts, `scripts/startup.sh` runs `npm run db:migrate` (which runs `scripts/migrate-safe.ts`) before the web server starts:
+
+- It takes a Postgres advisory lock, so two containers starting at once do not migrate in parallel. A second one waits up to 5 minutes (`MIGRATION_LOCK_TIMEOUT_MS`) and then fails.
+- It applies the pending migrations from `drizzle/` through Drizzle's migrator, which runs them in a transaction.
+- On an empty database it creates the current schema and records all migrations as applied.
+- A start with nothing new prints `Database is up to date`; otherwise `N new migration(s) applied`.
+
+## If a migration fails
+
+The log shows `Migration failed:` followed by the error, and the startup script prints the exit code. Read it with:
+
+```bash
+docker compose logs app
+```
+
+The pending migrations run in one transaction, so a failing migration is not recorded. The script also runs idempotent schema patches (`ADD COLUMN IF NOT EXISTS` and similar) before the migrations, and those are committed separately. The schema can therefore differ slightly from the previous version even when the migration failed. The backup is the only guarantee of the exact previous state.
+
+The app still starts afterwards, running the new code against the old schema. Pages that use new columns or tables can fail until you fix it. If `ADMIN_DISCORD_WEBHOOK_URL` is set, a Discord alert is sent; otherwise the log is the only trace. Check the log after every update.
+
+To recover, do one of these:
+
+- Fix the cause and retry. Often it is disk space or a database user without rights. Then run `docker compose restart app`, and the migrations are retried on the next start.
+- Go back to the previous version using the backup you took in step 1.
+
+### Rolling back
+
+Do not roll back only the code after a successful migration. The older code does not know the new schema, and nothing reverses migrations. Restore the database from the backup, then start the previous version:
+
+```bash
+docker compose stop app cron
+```
+
+Restore the dump as described in [Backup and restore](/docs/operations/backup-restore#restore), then set `TIMEWREN_VERSION` in `.env` to the previous version and start again:
+
+```bash
+docker compose up -d
+```
+
+If you build yourself, run `git checkout PREVIOUS_TAG_OR_COMMIT` and `docker compose up -d --build` instead.
+
+> **Warning:** Very old installs whose `user.id` column is of type `uuid` are reset by the migration script: all tables are dropped and recreated. A backup before updating such an install is not optional.
+
+If a migration keeps failing, report it as an issue on [GitHub](https://github.com/timewren/timewren) with the lines from `docker compose logs app`.

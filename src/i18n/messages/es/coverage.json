@@ -1,0 +1,67 @@
+{
+  "hourUnit": "h",
+  "headline": {
+    "untilToday": "{logged} de {expected} hasta hoy",
+    "noWorkTimeYet": "Todavía no hay tiempo de trabajo en el periodo",
+    "of": "{logged} de {expected}",
+    "noWorkTime": "Sin tiempo de trabajo en el periodo"
+  },
+  "week": "Semana {week} ({start}–{end})",
+  "period": {
+    "day": "Día",
+    "week": "Semana",
+    "month": "Mes"
+  },
+  "bar": {
+    "label": "Facturable {billable}, no facturable {nonBillable} de {expected} de tiempo de trabajo",
+    "billable": "Facturable",
+    "nonBillable": "No facturable",
+    "notLogged": "Sin registrar"
+  },
+  "table": {
+    "client": "Cliente",
+    "billable": "Facturable",
+    "nonBillableShort": "No fact.",
+    "share": "Proporción",
+    "ratio": "No fact. por hora fact.",
+    "ratioTitle": "Horas no facturables por hora facturada",
+    "onlyNonBillable": "Solo no fact."
+  },
+  "strip": {
+    "title": "Cobertura",
+    "summary": "<n>{billable}</n> facturable · <n>{nonBillable}</n> no facturable",
+    "summaryRatio": "<n>{billable}</n> facturable · <n>{nonBillable}</n> no facturable · <n>{ratio}</n> por hora facturada",
+    "perClient": "Por cliente"
+  },
+  "page": {
+    "back": "Informes",
+    "title": "Cobertura",
+    "description": "Qué parte de tu tiempo de trabajo se ha registrado y a dónde va",
+    "periodAria": "Periodo",
+    "prev": "Periodo anterior",
+    "next": "Periodo siguiente",
+    "today": "Hoy",
+    "workTime": "Tiempo de trabajo: {hours}/semana",
+    "workTimeHr": "Tiempo de trabajo: {hours}/semana (de RR. HH.)",
+    "edit": "Editar",
+    "loadError": "No se pudo obtener la tasa de cobertura.",
+    "retry": "Reintentar",
+    "statCoverage": "Cobertura",
+    "statBillable": "Facturable",
+    "statNonBillable": "No facturable",
+    "statRatio": "No fact. por hora fact.",
+    "ofWorkTime": "{pct} del tiempo de trabajo",
+    "noTimeLogged": "Sin tiempo registrado",
+    "shareBilled": "{pct} del tiempo registrado se factura",
+    "perClient": "Por cliente",
+    "noTimeInPeriod": "Sin tiempo registrado en el periodo.",
+    "logTime": "Registrar tiempo",
+    "perDay": "Por día",
+    "colDate": "Fecha",
+    "colWorkTime": "Tiempo de trabajo",
+    "colLogged": "Registrado",
+    "colBillable": "De ello fact.",
+    "colCoverage": "Cobertura",
+    "footnote": "Cobertura = tiempo registrado ÷ tu tiempo de trabajo normal. Los festivos y las ausencias no se descuentan del tiempo de trabajo. El tiempo sin cliente se muestra como tiempo interno."
+  }
+}

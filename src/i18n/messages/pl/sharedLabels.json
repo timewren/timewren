@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Nie należysz do żadnej organizacji. Poproś o nowe zaproszenie lub skontaktuj się z pomocą techniczną.",
+  "freeMemberLocked": "Organizacja korzysta z planu Free, który ma miejsce dla {seats} użytkowników. Twoje dane są zapisane. Poproś właściciela o zmianę planu, aby odzyskać dostęp.",
+  "report": {
+    "hoursSuffix": " godz.",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "Plan „Gratis” ma miejsce dla {clients} aktywnych klientów. Zarchiwizuj klienta lub zmień plan na wyższy.",
+  "freeSeatLimit": "Plan „Gratis” ma miejsce dla {seats} użytkowników, wliczając oczekujące zaproszenia. Aby zaprosić więcej osób, zmień plan w sekcji Ustawienia → Subskrypcja.",
+  "ownerMustTransfer": "Jesteś właścicielem zespołu z innymi członkami. Przed usunięciem konta przekaż własność innemu członkowi w sekcji Organizacja.",
+  "holidays": {
+    "newYearsDay": "Nowy Rok",
+    "maundyThursday": "Wielki Czwartek",
+    "goodFriday": "Wielki Piątek",
+    "easterSunday": "Niedziela Wielkanocna",
+    "easterMonday": "Poniedziałek Wielkanocny",
+    "ascensionDay": "Wniebowstąpienie",
+    "whitSunday": "Zielone Świątki",
+    "whitMonday": "Poniedziałek Zielonych Świątek",
+    "christmasDay": "Boże Narodzenie",
+    "boxingDay": "Drugi dzień Bożego Narodzenia",
+    "greatPrayerDay": "Wielki Dzień Modlitwy (Store Bededag)",
+    "may1": "1 maja",
+    "constitutionDay": "Dzień Konstytucji",
+    "dayAfterAscension": "Piątek po Wniebowstąpieniu",
+    "christmasEve": "Wigilia",
+    "newYearsEve": "Sylwester",
+    "dayOff": "Dzień wolny"
+  },
+  "speech": {
+    "language": "polski",
+    "micBlocked": "Mikrofon jest zablokowany. Zezwól przeglądarce na dostęp do mikrofonu i spróbuj ponownie.",
+    "noMic": "Nie znaleziono mikrofonu.",
+    "langUnsupported": "Rozpoznawanie mowy ({language}) nie jest dostępne lokalnie w tej przeglądarce.",
+    "stopped": "Rozpoznawanie mowy nieoczekiwanie się zatrzymało. Spróbuj ponownie lub wpisz tekst.",
+    "downloadFailed": "Nie udało się pobrać rozpoznawania mowy ({language}) w tej przeglądarce.",
+    "ready": "Rozpoznawanie mowy ({language}) jest gotowe. Dotknij mikrofonu.",
+    "cantStart": "Nie udało się uruchomić rozpoznawania mowy. Spróbuj ponownie."
+  },
+  "offlineSync": {
+    "fullOverlap": "Na innym urządzeniu działał już stoper, podczas Twojej pracy offline. Twój czas offline w całości się z nim pokrywał i nie został zapisany.",
+    "partialOverlap": "Inne urządzenie włączyło stoper podczas Twojej pracy offline. Twój czas offline został zapisany do tego momentu.",
+    "clippedSaved": "Inne urządzenie włączyło stoper podczas Twojej pracy offline. Twój czas offline {from} do {to} został zapisany jako wpis czasu, a drugi stoper nadal działa.",
+    "resetOffline": "Na innym urządzeniu działał już stoper, gdy o {from} włączono stoper offline. Twój stoper offline został zresetowany, a drugi nadal działa.",
+    "stoppedElsewhere": "Stoper został zatrzymany na innym urządzeniu podczas Twojej pracy offline. Czas został tam zapisany i nie zapisano go ponownie.",
+    "syncFailed": "Nie udało się zsynchronizować zmiany wykonanej offline: {error}",
+    "defaultDescription": "Rejestracja czasu"
+  },
+  "unknownError": "Nieznany błąd",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Nie udało się zapisać",
+      "retry": "Spróbuj ponownie"
+    },
+    "push": {
+      "unsupported": "Powiadomienia push nie są obsługiwane w tej przeglądarce",
+      "denied": "Odmówiono zgody na powiadomienia",
+      "enabled": "Włączono powiadomienia push",
+      "enabledDesc": "Od teraz będziesz otrzymywać powiadomienia",
+      "enableFailed": "Nie udało się włączyć powiadomień",
+      "disabled": "Wyłączono powiadomienia push",
+      "disableFailed": "Nie udało się wyłączyć powiadomień"
+    },
+    "periodic": {
+      "unsupported": "Okresowa synchronizacja nie jest obsługiwana",
+      "enabled": "Włączono automatyczne raporty",
+      "enabledDesc": "Będziesz otrzymywać raporty tygodniowe",
+      "enableFailed": "Nie udało się włączyć automatycznych raportów",
+      "disabled": "Wyłączono automatyczne raporty",
+      "disableFailed": "Nie udało się wyłączyć automatycznych raportów"
+    },
+    "taskUndo": {
+      "restored": "Przywrócono zadanie",
+      "restoreFailed": "Nie udało się przywrócić zadania",
+      "deleted": "Usunięto zadanie",
+      "undo": "Cofnij"
+    },
+    "timerSync": {
+      "otherProject": "inny projekt",
+      "runningPaused": "Stoper już działa w: {name}. Najpierw go zatrzymaj. Wstrzymany czas zostanie zachowany.",
+      "running": "Stoper już działa w: {name}. Najpierw go zatrzymaj.",
+      "alreadyStopped": "Stoper został już zatrzymany i zapisany na innym urządzeniu. Nie uruchomiono go ponownie."
+    },
+    "timerKeys": {
+      "started": "Stoper uruchomiony",
+      "pressToPause": "Naciśnij T ponownie, aby wstrzymać",
+      "paused": "Stoper wstrzymany",
+      "pressToResume": "{time} - naciśnij T, aby wznowić",
+      "resumed": "Stoper wznowiony",
+      "cancelled": "Stoper anulowany"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock nie jest obsługiwany w tej przeglądarce",
+      "active": "Ekran pozostaje włączony",
+      "activeDesc": "Ekran nie wyłączy się podczas rejestracji czasu",
+      "released": "Ekran może się znów wyłączać",
+      "failed": "Nie udało się utrzymać włączonego ekranu"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Twoją subskrypcją zarządza się na Twoim koncie.",
+    "otherAccount": "Zakup jest powiązany z innym kontem TimeTrack.",
+    "ownerOnly": "Subskrypcję może kupić tylko właściciel organizacji.",
+    "multiMember": "Plany „Privat” i „Selvstændig” są przeznaczone dla jednego użytkownika. Twoja organizacja ma kilku użytkowników, więc subskrypcją zarządza się na Twoim koncie.",
+    "otherOrganization": "Twoja subskrypcja należy do innej organizacji. Przełącz się na tę organizację, aby ją zobaczyć.",
+    "alreadySubscribed": "Masz już subskrypcję w {store}.",
+    "appStoreUnreachable": "Nie udało się połączyć z App Store. Spróbuj ponownie za chwilę.",
+    "appStoreVerify": "Nie udało się zweryfikować zakupu w App Store.",
+    "unknownProduct": "Nieznany produkt. Zaktualizuj aplikację i spróbuj ponownie.",
+    "googleNotFound": "Nie znaleziono zakupu w Google Play.",
+    "productMismatch": "Zakup nie odpowiada wybranemu produktowi.",
+    "googleAck": "Nie udało się potwierdzić zakupu w Google Play. Spróbuj ponownie."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Masz aktywną subskrypcję w {store}. Nie wygasa ona po usunięciu konta i trzeba ją anulować w {store}. Potwierdź, że to rozumiesz, aby usunąć konto.",
+    "invalidUserId": "Nieprawidłowy identyfikator użytkownika"
+  },
+  "orgInvite": {
+    "invalidEmail": "Nieprawidłowy adres e-mail",
+    "domainNotAllowed": "Domena e-mail {domain} nie jest dozwolona dla tej organizacji",
+    "alreadyMember": "Ta osoba jest już członkiem organizacji",
+    "alreadyInvited": "Dla tego adresu e-mail istnieje już oczekujące zaproszenie",
+    "otherBrand": "Tego adresu e-mail nie można zaprosić do organizacji. Użyj innego adresu.",
+    "noSeats": "Brak wolnych miejsc (używane: {used} z {max}). Dokup miejsca lub zmień plan w sekcji Ustawienia → Subskrypcja.",
+    "noSeatsAccept": "Organizacja nie ma już wolnych miejsc. Skontaktuj się z administratorem.",
+    "lastOwnerRemove": "Nie można usunąć ostatniego właściciela. Najpierw przekaż własność innemu członkowi.",
+    "lastOwnerDemote": "Nie można obniżyć roli ostatniego właściciela. Najpierw przekaż własność innemu członkowi.",
+    "acceptedPushTitle": "🎉 Zaproszenie przyjęte",
+    "acceptedPushBody": "{name} jest teraz członkiem organizacji {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "Lista zbiorcza zawiera zduplikowane identyfikatory UUID",
+    "missing": "Co najmniej jedno zadanie nie istnieje lub jest poza Twoją przestrzenią roboczą: {ids}",
+    "unexpectedRowCount": "nieoczekiwana liczba wierszy",
+    "unselected": "Dane zawierają identyfikatory UUID, które nie zostały wybrane",
+    "statusMismatch": "Zadanie {id} ma status {status}, a oczekiwano statusu {expected}",
+    "notEmail": "Zadanie {id} nie jest zadaniem z e-maila",
+    "customLane": "Zadanie {id} używa własnej kolumny i nie można go bezpiecznie ukończyć zbiorczo"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Tallennetaan…",
+    "saved": "Tallennettu",
+    "blocked": "Ei tallennettu: korjaa korostettu kenttä",
+    "failed": "Tallennus epäonnistui",
+    "retry": "Yritä uudelleen"
+  },
+  "loading": {
+    "default": "Ladataan…",
+    "tip": {
+      "search": "Tiesitkö? Painamalla Ctrl+K voit hakea kaikkialta",
+      "rightClick": "Vinkki: napsauta tehtävää hiiren oikealla painikkeella nähdäksesi pikatoiminnot",
+      "templates": "Käytä pohjia toistuviin tehtäviin ja säästä aikaa",
+      "kanban": "Kanban-näkymässä voit vetää tehtäviä sarakkeiden välillä",
+      "timerFromTask": "Vinkki: käynnistä ajastin suoraan tehtävästä",
+      "prepaid": "Tuntipaketit auttavat pitämään kirjaa etukäteen maksetuista tunneista",
+      "duplicate": "Voit monistaa tuntipaketin yhdellä napsautuksella",
+      "keys": "J/K-näppäimillä liikut tehtävälistassa näppäimistöllä"
+    }
+  },
+  "member": {
+    "all": "Kaikki työntekijät",
+    "selected": "{count} työntekijää valittu"
+  },
+  "founding": "Perustaja",
+  "status": {
+    "active": "Aktiivinen",
+    "inactive": "Ei aktiivinen",
+    "pending": "Odottaa",
+    "completed": "Valmis",
+    "archived": "Arkistoitu",
+    "draft": "Luonnos",
+    "sent": "Lähetetty",
+    "paid": "Maksettu",
+    "overdue": "Erääntynyt",
+    "on_hold": "Tauolla"
+  },
+  "priority": {
+    "low": "Matala",
+    "medium": "Normaali",
+    "high": "Korkea",
+    "urgent": "Kriittinen"
+  },
+  "modal": {
+    "close": "Sulje",
+    "confirm": "Vahvista",
+    "cancel": "Peruuta",
+    "wait": "Odota…",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Lataus epäonnistui",
+    "uploaded": "Kuva ladattu",
+    "uploadError": "Kuvaa ei voitu ladata",
+    "alt": "Kuva",
+    "change": "Vaihda",
+    "upload": "Lataa",
+    "remove": "Poista",
+    "hint": "JPEG, PNG tai WebP. Enintään 8 Mt."
+  },
+  "error": {
+    "network": {
+      "title": "Verkkovirhe",
+      "message": "Palvelimeen ei saatu yhteyttä. Tarkista internetyhteytesi ja yritä uudelleen."
+    },
+    "server": {
+      "title": "Palvelinvirhe",
+      "message": "Tapahtui palvelinvirhe. Yritä myöhemmin uudelleen."
+    },
+    "notFound": {
+      "title": "Ei löytynyt",
+      "message": "Etsimääsi sisältöä ei ole olemassa tai se on poistettu."
+    },
+    "permission": {
+      "title": "Pääsy evätty",
+      "message": "Sinulla ei ole oikeutta nähdä tätä sisältöä."
+    },
+    "unknown": {
+      "title": "Jokin meni pieleen",
+      "message": "Tapahtui odottamaton virhe. Kokeile ladata sivu uudelleen."
+    },
+    "offline": "Olet offline-tilassa",
+    "connected": "Yhdistetty",
+    "details": "Virheen tiedot",
+    "retrying": "Yritetään uudelleen…",
+    "retry": "Yritä uudelleen",
+    "loading": "Ladataan…"
+  },
+  "empty": {
+    "clients": {
+      "title": "Ei vielä asiakkaita",
+      "description": "Aloita luomalla ensimmäinen asiakkaasi. Voit lisätä yhteystiedot, Y-tunnuksen, tuntihinnan ja paljon muuta.",
+      "action": "Luo ensimmäinen asiakas",
+      "guide": "Lue opas"
+    },
+    "projects": {
+      "needClientTitle": "Luo ensin asiakas",
+      "needClientDescription": "Tarvitset vähintään yhden asiakkaan ennen kuin voit luoda projekteja. Projekti kuuluu aina asiakkaalle.",
+      "createClient": "Luo asiakas",
+      "title": "Ei vielä projekteja",
+      "description": "Luo ensimmäinen projektisi, niin voit alkaa seurata aikaa ja laskuttaa asiakkaitasi. Voit valita tuntihinnan tai kiinteän hinnan.",
+      "action": "Luo projekti",
+      "seeClients": "Näytä asiakkaat"
+    },
+    "time": {
+      "needProjectTitle": "Luo ensin projekti",
+      "needProjectDescription": "Tarvitset vähintään yhden aktiivisen projektin, jotta voit seurata aikaa. Projektit auttavat järjestämään ja laskuttamaan työsi.",
+      "createProject": "Luo projekti",
+      "today": "tänään",
+      "title": "Ei kirjattua aikaa {date}",
+      "description": "Käynnistä ajastin tai lisää tuntikirjaus käsin. Voit myös luoda toistuvia pohjia säännöllisiin tehtäviin.",
+      "startTimer": "Käynnistä ajastin",
+      "seeTemplates": "Näytä pohjat"
+    },
+    "invoices": {
+      "needTimeTitle": "Kirjaa ensin aikaa",
+      "needTimeDescription": "Sinulla ei ole laskutettavaa aikaa. Aloita kirjaamalla aikaa projekteillesi.",
+      "trackTime": "Kirjaa aikaa",
+      "title": "Ei vielä laskuja",
+      "description": "Luo ensimmäinen laskusi kirjatun ajan tai kiinteiden summien perusteella. Voit mukauttaa laskupohjia asetuksissa.",
+      "action": "Luo lasku",
+      "seeUnbilled": "Näytä laskuttamaton aika"
+    },
+    "tasks": {
+      "needProjectTitle": "Luo ensin projekti",
+      "needProjectDescription": "Tehtävät kuuluvat projekteille. Luo ensin projekti, sitten voit lisätä tehtäviä.",
+      "createProject": "Luo projekti",
+      "title": "Ei tehtäviä",
+      "description": "Pidä kirjaa tehtävistäsi ja määräajoista. Voit priorisoida tehtäviä ja asettaa eräpäiviä.",
+      "action": "Luo tehtävä",
+      "seeProjects": "Näytä projektit"
+    },
+    "prepaid": {
+      "needClientTitle": "Luo ensin asiakas",
+      "needClientDescription": "Tuntipaketit (etukäteen maksetut tunnit) kuuluvat asiakkaille. Luo ensin asiakas.",
+      "createClient": "Luo asiakas",
+      "title": "Ei tuntipaketteja",
+      "description": "Tuntipaketit ovat etukäteen maksettuja tuntimääriä. Sopivat erinomaisesti jatkuvaan tukeen tai ylläpitoon vakioasiakkaille.",
+      "action": "Luo tuntipaketti",
+      "seeClients": "Näytä asiakkaat"
+    },
+    "reports": {
+      "title": "Ei näytettävää dataa",
+      "description": "Kirjaa aikaa ja luo laskuja, niin näet raporttisi ja tilastosi täällä. Mitä enemmän dataa, sitä parempi näkemys.",
+      "action": "Siirry tuntiseurantaan"
+    },
+    "search": {
+      "title": "Ei tuloksia",
+      "descriptionQuery": "Haulla \"{query}\" ei löytynyt mitään. Kokeile toista hakusanaa tai tarkista kirjoitusasu.",
+      "description": "Kokeile hakea jotain muuta.",
+      "clear": "Tyhjennä haku"
+    },
+    "error": {
+      "title": "Jokin meni pieleen",
+      "description": "Tietoja ei voitu ladata. Yritä uudelleen.",
+      "retry": "Yritä uudelleen"
+    },
+    "moduleDisabled": {
+      "title": "Ominaisuus ei ole käytössä",
+      "description": "Tämä moduuli ei ole käytössä organisaatiossasi. Ota yhteyttä ylläpitäjään, jos haluat käyttää sitä.",
+      "action": "Moduulien asetukset"
+    }
+  },
+  "client": {
+    "placeholder": "Valitse asiakas",
+    "clear": "Ei asiakasta",
+    "selected": "{count} asiakasta valittu",
+    "searchLabel": "Hae asiakkaita",
+    "searchPlaceholder": "Hae asiakkaita…",
+    "listLabel": "Asiakkaat",
+    "none": "Asiakkaita ei löytynyt",
+    "frequent": "Usein käytetyt",
+    "all": "Kaikki asiakkaat",
+    "entryCount": "{count} kirjausta"
+  },
+  "project": {
+    "placeholder": "Valitse projekti",
+    "none": "Ei projektia",
+    "searchPlaceholder": "Hae projektia tai asiakasta…",
+    "listLabel": "Projektit",
+    "recent": "Viimeksi käytetyt",
+    "empty": "Projekteja ei löytynyt",
+    "noClient": "Ei asiakasta",
+    "unknownClient": "Tuntematon asiakas"
+  },
+  "task": {
+    "placeholder": "Valitse tehtävä",
+    "searchPlaceholder": "Hae tehtävää, projektia tai asiakasta…",
+    "none": "Ei tehtävää",
+    "inProgress": "Työn alla",
+    "todo": "Tehtävä",
+    "backlog": "Odottaa",
+    "other": "Muut",
+    "noMatch": "Tehtäviä ei löytynyt",
+    "noActive": "Ei aktiivisia tehtäviä",
+    "showMoreBacklog": "Näytä {count} muuta odottavaa tehtävää"
+  }
+}

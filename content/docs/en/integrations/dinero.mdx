@@ -1,0 +1,61 @@
+---
+title: "Dinero"
+description: "Connect Dinero, the Danish accounting system, to TimeWren via Visma Connect OAuth: import contacts, export invoices and sync payments."
+---
+
+Dinero is a Danish accounting system. Because TimeWren is self-hosted, you register your own OAuth app at Visma Connect and give the credentials to the server. After that, every user connects their own Dinero account with one click.
+
+> **Note:** API access requires a Dinero Pro organization. Without one, connecting fails with "No Dinero Pro organisation found".
+
+## What it does
+
+- Imports Dinero contacts as clients (already imported contacts are skipped).
+- Exports a client to Dinero.
+- Exports an invoice as a draft, booked, or booked and sent. You choose the revenue account, payment terms and one line per entry or a combined line.
+- Syncs payment status back, so paid invoices are marked as paid in TimeWren.
+
+## Server setup
+
+1. Register an application at Visma Connect (the developer portal for Dinero's public API) and set this redirect URI, exactly as written:
+
+   ```text
+   https://timewren.example.com/api/integrations/dinero/callback
+   ```
+
+2. Add the credentials to `.env`:
+
+   ```dotenv
+   DINERO_CLIENT_ID=your-client-id
+   DINERO_CLIENT_SECRET=your-client-secret
+   # Only if the callback differs from NEXT_PUBLIC_APP_URL + /api/integrations/dinero/callback
+   # DINERO_REDIRECT_URI=https://timewren.example.com/api/integrations/dinero/callback
+   ```
+
+3. Restart the app.
+
+The sign-in uses the scopes `openid`, `dineropublicapi:read`, `dineropublicapi:write` and `offline_access`. The flow posts back to your callback URL from another site, so your instance must run on HTTPS. Local plain-HTTP testing needs an HTTPS tunnel.
+
+`ENCRYPTION_KEY` must be set, because the OAuth tokens are stored encrypted. See [Environment variables](/docs/configuration/environment).
+
+Without the client id, the Connect button redirects back with a `dinero_not_configured` error.
+
+## Connect as a user
+
+1. Open Settings, Integrations and choose Connect to Dinero.
+2. Sign in at Visma Connect and approve access. If you have access to several Dinero organizations, choose which one to connect.
+3. Choose the default revenue account (required for invoice export). Optionally map Dinero products for hours and for prepaid packages.
+4. Under Default accounting system, optionally turn on Automatic status sync.
+
+Contacts are imported from the Sync page under Integrations. Invoices are exported from the invoice itself.
+
+Older connections made with a Dinero API key keep working. The settings page offers an upgrade to OAuth.
+
+## Sync and webhooks
+
+The `cron` container calls `/api/cron/invoice-sync` every 15 minutes to update payment status for users with automatic sync on.
+
+The endpoint `/api/webhooks/dinero` is optional. It marks invoices as paid on `InvoicePaid` events and logs booked and sent events. Requests are verified with an HMAC-SHA256 signature in the `x-dinero-signature` header, using a secret you set on the server and in Dinero:
+
+```dotenv
+DINERO_WEBHOOK_SECRET=a-long-random-string
+```

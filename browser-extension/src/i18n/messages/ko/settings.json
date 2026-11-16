@@ -1,0 +1,109 @@
+{
+  "title": "설정",
+  "close": "설정 닫기",
+  "searchPlaceholder": "설정 검색…",
+  "searchLabel": "설정 검색",
+  "noMatch": "“{query}”와(과) 일치하는 설정이 없어요",
+  "keywords": {
+    "view": "보기|표시|제안|사이트|웹사이트|패키지|선불|팝업",
+    "appearance": "화면|테마|다크|라이트|배지|아이콘|언어",
+    "newTab": "새 탭|탭|시작 페이지|위젯",
+    "calendar": "캘린더|일|날짜",
+    "goal": "일일 목표|목표|시간 목표|진행률",
+    "reminder": "알림|알림 메시지|주말|기록|입력",
+    "data": "데이터|삭제|초기화|오프라인|매핑|링크|웹사이트|대기열",
+    "advanced": "고급|api|url|서버",
+    "shortcuts": "단축키|바로 가기|키보드|alt",
+    "about": "확장 프로그램 정보|확장 프로그램|정보|버전|평가|리뷰|도움말"
+  },
+  "view": {
+    "title": "보기",
+    "suggestions": "웹사이트 기반 제안",
+    "suggestionsHint": "현재 보고 있는 웹사이트에 맞춰 프로젝트를 제안해요",
+    "prepaidTab": "패키지 탭",
+    "prepaidTabHint": "팝업에 활성 패키지 탭을 표시해요"
+  },
+  "appearance": {
+    "title": "화면",
+    "theme": "테마",
+    "themeHint": "확장 프로그램의 색상 테마",
+    "system": "시스템 설정 따르기",
+    "dark": "다크",
+    "light": "라이트",
+    "badge": "아이콘의 숫자",
+    "badgeHint": "확장 프로그램 아이콘의 숫자가 나타내는 내용",
+    "badgeTimer": "실행 중인 타이머",
+    "badgeToday": "오늘 시간",
+    "badgeOff": "숨김",
+    "language": "언어",
+    "languageHint": "확장 프로그램의 언어",
+    "languageAuto": "자동 (브라우저 설정 따르기)"
+  },
+  "newTab": {
+    "title": "새 탭",
+    "enable": "새 탭에서 TimeTrack 열기",
+    "enableHint": "끄면 기본 빈 탭이 유지돼요",
+    "widgetsHint": "새 탭의 설정에서 위젯을 선택하세요",
+    "activeWidgets": "활성 위젯: {count}개"
+  },
+  "calendar": {
+    "title": "캘린더",
+    "openOn": "캘린더 열기 기준",
+    "openOnHint": "캘린더를 열 때 표시할 날",
+    "today": "오늘",
+    "lastViewed": "마지막으로 본 날"
+  },
+  "goal": {
+    "title": "일일 목표",
+    "hours": "일일 목표 시간",
+    "hoursHint": "팝업과 새 탭의 일일 진행률 표시줄에 사용돼요"
+  },
+  "reminder": {
+    "title": "일일 알림",
+    "enable": "시간 기록 알림 받기",
+    "enableHint": "시간이 부족하면 알려드려요",
+    "time": "시각",
+    "minHours": "최소 시간",
+    "weekends": "주말에도"
+  },
+  "data": {
+    "title": "데이터",
+    "clearMappingsConfirm": "저장된 웹사이트와 프로젝트 간 링크를 모두 삭제할까요?",
+    "clearMappingsDetail": "숨긴 제안도 다시 표시돼요.",
+    "delete": "삭제",
+    "clearMappings": "웹사이트 링크 삭제",
+    "mappingsCount": "{count, plural, other {저장된 링크 #개}}",
+    "clearQueueConfirm": "{count, plural, other {대기 중인 작업 #건}}을 삭제할까요?",
+    "unsentEntries": "{count, plural, other {기록 #건을}} 아직 TimeTrack으로 보내지 못했어요. 시간이 완전히 삭제돼요.",
+    "clearQueueConfirmButton": "대기열 삭제",
+    "clearQueue": "오프라인 대기열 삭제",
+    "pendingActions": "{count, plural, other {대기 중인 작업 #건}}",
+    "unsentSuffix": "{count, plural, other {미전송 기록 #건}}",
+    "resetConfirm": "모든 설정을 초기화할까요?",
+    "resetDetail": "확장 프로그램의 기본 설정으로 복원돼요.",
+    "resetButton": "초기화",
+    "reset": "설정 초기화",
+    "resetHint": "기본 설정으로 복원"
+  },
+  "advanced": {
+    "title": "고급",
+    "apiUrl": "API 주소",
+    "notSaved": "{error}. 주소를 저장하지 않았어요."
+  },
+  "shortcuts": {
+    "title": "키보드 단축키",
+    "unreadable": "이 브라우저에서는 단축키를 읽을 수 없어요.",
+    "openApp": "TimeTrack 열기",
+    "notSet": "설정 안 됨",
+    "change": "단축키 변경",
+    "firefoxPage": "Firefox 단축키 페이지를 열어요",
+    "chromePage": "chrome://extensions/shortcuts를 열어요"
+  },
+  "about": {
+    "version": "TimeTrack 브라우저 확장 프로그램, 버전 {version}",
+    "rateFirefox": "Firefox 부가 기능에서 평가하기",
+    "rateChrome": "Chrome 웹 스토어에서 평가하기",
+    "rateHint": "리뷰는 다른 프리랜서에게 도움이 돼요",
+    "learnMore": "확장 프로그램에 대해 더 알아보기"
+  }
+}

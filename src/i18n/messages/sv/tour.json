@@ -1,0 +1,130 @@
+{
+  "step": {
+    "_welcome": {
+      "title": "Välkommen till {brand}!",
+      "description": "Vi visar dig runt bland de viktigaste funktionerna så att du snabbt kommer igång. Det tar bara några minuter."
+    },
+    "_modules_setup": {
+      "title": "Ställ in ditt {brand}",
+      "description": "Här väljer du vilka moduler du vill använda. Kärnfunktionerna är påslagna. Slå på tillval som timbanker, uppgifter eller integrationer. Du kan alltid ändra det senare under Inställningar → Moduler."
+    },
+    "hjem-prompt": {
+      "title": "Skriv vad du har gjort",
+      "description": "Start är din startsida. Skriv t.ex. “2 timmar på webbplatsen för Jensen” och tryck på Enter. {brand} föreslår kund, projekt och tid, och du bekräftar innan något sparas. Tryck på / för att hoppa hit."
+    },
+    "hjem-hurtigstart": {
+      "title": "Starta en timer med ett klick",
+      "description": "Dina mest använda projekt ligger redo här. Ett klick startar timern, eller fortsätt med din senaste tidpost."
+    },
+    "nav-overblik": {
+      "title": "Översikt",
+      "description": "Siffror, intäkter, uppgifter och timbanker samlade i widgetar. Du hittar den i menyn eller med G → O."
+    },
+    "dashboard-widgets": {
+      "title": "Widgetar",
+      "description": "Översikten är byggd av widgetar. Du ser veckosammanfattningen, intäkter, aktiva projekt och mycket mer."
+    },
+    "dashboard-edit-btn": {
+      "title": "Anpassa din översikt",
+      "description": "Klicka här för att lägga till, ta bort och flytta widgetar så att översikten passar ditt arbetssätt."
+    },
+    "time-tracking-bar": {
+      "title": "Timern följer med dig",
+      "description": "Tidrapporteringsfältet är alltid synligt högst upp. Börja med att välja ett projekt och registrera din tid oavsett vilken sida du är på."
+    },
+    "timer-start-btn": {
+      "title": "Starta och stoppa",
+      "description": "Tryck här för att starta timern, eller använd kortkommandot T för snabb start/stopp."
+    },
+    "timer-project-select": {
+      "title": "Välj ett projekt",
+      "description": "Välj vilket projekt du registrerar tid på. Timpriset hämtas automatiskt från projektet eller kunden."
+    },
+    "time-entries-list": {
+      "title": "Dina tidposter",
+      "description": "Här hittar du alla dina tidposter. Redigera, filtrera efter datum och exportera till CSV."
+    },
+    "time-view-toggle": {
+      "title": "Byt vy",
+      "description": "Växla mellan listvy och veckoöversikt (tidrapport). Veckoöversikten ger dig en snabb bild av din vecka."
+    },
+    "tasks-board": {
+      "title": "Uppgiftshantering",
+      "description": "Organisera ditt arbete med en kanbantavla. Dra uppgifter mellan kolumner för att uppdatera deras status."
+    },
+    "tasks-add-btn": {
+      "title": "Skapa uppgifter",
+      "description": "Lägg till nya uppgifter med ett klick. Ange en deadline och prioritet och koppla dem till ett projekt."
+    },
+    "tasks-view-toggle": {
+      "title": "Kanban eller lista",
+      "description": "Växla mellan kanbantavlan och listvyn. Välj den som passar dig bäst."
+    },
+    "clients-list": {
+      "title": "Dina kunder",
+      "description": "Hantera kunder med kontaktuppgifter, CVR-sökning och individuella timpriser."
+    },
+    "clients-add-btn": {
+      "title": "Lägg till kunder",
+      "description": "Skapa nya kunder här. Använd CVR-sökningen för att automatiskt hämta företagsuppgifter från det danska CVR-registret."
+    },
+    "projects-list": {
+      "title": "Projekt",
+      "description": "Varje projekt hör till en kund. Ange timpriser, budgetar och deadlines per projekt."
+    },
+    "klippekort-list": {
+      "title": "Timbanker",
+      "description": "Timbanker är block av timmar som betalas i förväg. När du registrerar tid på ett projekt med en timbank dras den av från saldot automatiskt."
+    },
+    "klippekort-add-btn": {
+      "title": "Skapa en timbank",
+      "description": "Skapa en ny timbank här. Ange antal timmar och timpris och koppla den till en kund."
+    },
+    "invoices-list": {
+      "title": "Fakturor",
+      "description": "Skapa och hantera fakturor. Du kan skapa fakturor direkt från dina tidposter."
+    },
+    "invoices-actions": {
+      "title": "Skapa fakturor",
+      "description": "Skapa en ny faktura manuellt, eller generera en automatiskt från ofakturerade tidposter."
+    },
+    "invoices-stats": {
+      "title": "Fakturaöversikt",
+      "description": "Här ser du den samlade statusen: totalt fakturerat, betalt, utestående och förfallet belopp."
+    },
+    "reports-page": {
+      "title": "Rapporter och analys",
+      "description": "Analysera tid och intäkter med detaljerade rapporter, diagram och exportalternativ."
+    },
+    "settings-page": {
+      "title": "Inställningar",
+      "description": "Här kan du uppdatera din profil, ditt standardtimpris och ditt veckomål för timmar, och välja mellan ett ljust och ett mörkt tema."
+    },
+    "settings-sidebar": {
+      "title": "Fler inställningar",
+      "description": "Utforska de övriga inställningarna: företagsprofil, säkerhet, e-postintegration, aviseringar, GDPR och mycket mer."
+    },
+    "_finish": {
+      "title": "Nu är du redo!",
+      "description": "Nu kan du de viktigaste funktionerna. Använd Ctrl+K för att söka och navigera snabbt. Du kan alltid starta rundturen igen från användarmenyn."
+    }
+  },
+  "section": {
+    "welcome": "Välkommen",
+    "time": "Tidrapportering",
+    "tasks": "Uppgifter",
+    "clients": "Kunder och projekt",
+    "billing": "Timbanker och fakturering",
+    "settings": "Inställningar",
+    "finish": "Avslut"
+  },
+  "ui": {
+    "skip": "Hoppa över",
+    "back": "Tillbaka",
+    "finish": "Kom igång!",
+    "start": "Starta rundturen",
+    "next": "Nästa",
+    "navigate": "navigera",
+    "close": "stäng"
+  }
+}

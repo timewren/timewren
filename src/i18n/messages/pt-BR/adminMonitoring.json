@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Monitoramento",
+    "healthy": "{score}% saudável",
+    "cronDashboard": "Painel de tarefas cron",
+    "sections": {
+      "health": "Saúde do sistema",
+      "cron": "Tarefas cron",
+      "email": "Entrega de e-mails"
+    },
+    "tiles": {
+      "activeSessions": "Sessões ativas",
+      "sessions24h": "Sessões nas últimas 24 h",
+      "activeTimers": "Cronômetros ativos",
+      "emailsSent7d": "E-mails enviados (7 d)"
+    },
+    "cronHealth": {
+      "title": "Saúde das tarefas cron (7 dias)",
+      "runs": "Execuções",
+      "ok": "ok",
+      "errors": "erros",
+      "avgDuration": "Duração média",
+      "lastRun": "Última execução"
+    },
+    "errors": {
+      "title": "Erros (últimos 7 dias)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Todas as tarefas",
+      "allStatuses": "Todos os status",
+      "filter": {
+        "success": "Sucesso",
+        "error": "Erro",
+        "partial": "Parcial"
+      },
+      "status": {
+        "success": "sucesso",
+        "error": "erro",
+        "partial": "parcial"
+      },
+      "empty": "Nenhum log de tarefas cron encontrado",
+      "columns": {
+        "job": "Tarefa",
+        "status": "Status",
+        "started": "Início",
+        "duration": "Duração",
+        "items": "Itens",
+        "errors": "Erros"
+      }
+    },
+    "showing": "Mostrando {from}-{to} de {total}",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "email": {
+      "sent": "Enviado",
+      "delivered": "Entregue",
+      "bounced": "Devolvido",
+      "failed": "Falhou",
+      "status": {
+        "sent": "enviado",
+        "delivered": "entregue",
+        "bounced": "devolvido",
+        "failed": "falhou"
+      },
+      "last24h": "Últimas 24 horas",
+      "last7d": "Últimos 7 dias",
+      "last30d": "Últimos 30 dias",
+      "last90d": "Últimos 90 dias",
+      "allTemplates": "Todos os modelos",
+      "empty": "Nenhum log de e-mails encontrado",
+      "columns": {
+        "recipient": "Destinatário",
+        "subject": "Assunto",
+        "template": "Modelo",
+        "status": "Status",
+        "sentAt": "Enviado"
+      }
+    }
+  },
+  "cron": {
+    "title": "Tarefas cron",
+    "refresh": "Atualizar",
+    "never": "Nunca",
+    "badge": {
+      "neverRun": "Nunca executada",
+      "silent": "Silenciosa",
+      "error": "Erro",
+      "partial": "Parcial",
+      "running": "Em execução",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "sucesso",
+      "error": "erro",
+      "partial": "parcial"
+    },
+    "noRows": "Nenhuma linha de log encontrada",
+    "runColumns": {
+      "status": "Status",
+      "started": "Início",
+      "duration": "Duração",
+      "items": "Itens",
+      "errorMessage": "Mensagem de erro"
+    },
+    "tiles": {
+      "expected": "Tarefas esperadas",
+      "silent": "Tarefas silenciosas",
+      "withErrors": "Tarefas com erros (24 h)",
+      "totalRuns": "Total de execuções (24 h)"
+    },
+    "columns": {
+      "status": "Status",
+      "job": "Tarefa",
+      "cadence": "Frequência",
+      "lastRun": "Última execução",
+      "runs24h": "Execuções 24 h",
+      "errors24h": "Erros 24 h",
+      "avgDuration": "Duração média"
+    },
+    "lastError": "Último erro:",
+    "cadence": {
+      "everyMinutes": "a cada {minutes} min",
+      "hourly": "a cada hora",
+      "everyHours": "a cada {hours} horas",
+      "daily": "diariamente",
+      "weekly": "semanalmente",
+      "monthly": "mensalmente",
+      "everyDays": "a cada {days} dias"
+    }
+  }
+}

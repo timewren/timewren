@@ -1,0 +1,30 @@
+---
+title: "CVR-opslag"
+description: "Udfyld danske virksomhedsoplysninger fra CVR-registret, når du opretter en kunde. Virker uden konfiguration via cvrapi.dk."
+---
+
+CVR er det danske virksomhedsregister. Når du opretter en kunde, indtaster du et CVR-nummer (eller et firmanavn eller telefonnummer), og TimeWren udfylder virksomhedsoplysningerne. Det hjælper kun for danske virksomheder.
+
+## Hvad det udfylder
+
+Navn, adresse, postnummer, by, land (Danmark), branchekode og -beskrivelse, virksomhedsstatus, telefon, mail og startdato, når kilden har dem. Du kan rette det hele, før du gemmer.
+
+## Hvor det bruges
+
+Opslagsknappen i formularen til en ny kunde og CVR-opslaget i dine virksomhedsindstillinger. Der er højst 10 opslag pr. minut pr. bruger.
+
+## Kilder og konfiguration
+
+Der kræves ingen konfiguration. Som standard spørger TimeWren [cvrapi.dk](https://cvrapi.dk), som er en gratis offentlig tjeneste, og forespørgslen fejler med en timeout-besked efter 10 sekunder. cvrapi.dk begrænser, hvor mange forespørgsler den tager imod, så en travl instans kan engang imellem få en "rate limited"-besked og skal prøve igen. Når [Valkey](/da/docs/configuration/environment) er konfigureret, caches svarene i 24 timer, hvilket sparer på kvoten.
+
+Disse variabler er valgfrie:
+
+| Variabel | Standard | Betydning |
+| --- | --- | --- |
+| `CVR_API_TIMEOUT_MS` | `10000` | Timeout for forespørgsler til cvrapi.dk i millisekunder |
+| `CVR_SERVICE_API_KEY` | tom | Nøgle til en alternativ CVR-tjeneste. Når den er sat, spørges den tjeneste først |
+| `CVR_SERVICE_URL` | tjenesten, som TimeWrens vedligeholdere driver | Basis-URL for den alternative tjeneste |
+
+Den alternative tjeneste prøves først med en timeout på 3 sekunder. Fejler den, eller kan den ikke nås, falder TimeWren tilbage til cvrapi.dk. Medmindre du har fået en nøgle til en tjeneste, lader du `CVR_SERVICE_API_KEY` være tom.
+
+> **Bemærk:** Et opslag sender det nummer eller den tekst, du har skrevet, til den tjeneste, der svarer (som standard cvrapi.dk). Du kan altid indtaste virksomhedsoplysningerne i hånden.

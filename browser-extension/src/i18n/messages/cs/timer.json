@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} uloženo na <b>{target}</b>",
+    "stoppedOn": "{duration} zastaveno na <b>{target}</b>",
+    "savedInternal": "{duration} uloženo jako <b>interní čas</b>",
+    "stoppedInternal": "{duration} zastaveno jako <b>interní čas</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Balíček <b>{name}</b> neměl dost hodin, proto byl veškerý čas uložen jako fakturovatelný",
+    "deducted": "Odečteno {hours} z <b>{name}</b>, zbývá {remaining}",
+    "deductedOverflow": "Odečteno {hours} z <b>{name}</b>, zbývá {remaining}. Balíček se vyčerpal, zbytek je fakturovatelný čas",
+    "pendingSave": "Server neodpověděl včas. Čas se odešle automaticky, jakmile bude připojení, a uloží se pouze jednou.",
+    "close": "Zavřít zprávu"
+  },
+  "discard": {
+    "label": "Zahodit čas",
+    "question": "Zahodit {duration} bez uložení?",
+    "keep": "Ponechat čas",
+    "confirm": "Zahodit čas"
+  },
+  "switch": {
+    "label": "Přepnout klienta",
+    "question": "Uložit {duration} na {from} a spustit nové stopky pro {to}?",
+    "internal": "interní čas",
+    "cancel": "Zrušit",
+    "confirm": "Uložit a spustit nové"
+  },
+  "noClient": "Není vybrán klient",
+  "noClientShort": "Bez klienta",
+  "start": "Spustit stopky",
+  "cancelNoSave": "Zrušit stopky bez uložení",
+  "pause": "Pozastavit stopky",
+  "stopSave": "Zastavit a uložit",
+  "resume": "Obnovit stopky",
+  "addMinutes": "Přidat ke stopkám {minutes} min",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Vybrat klienta a projekt",
+  "descriptionPlaceholder": "Na čem pracuješ?",
+  "descriptionLabel": "Popis práce"
+}

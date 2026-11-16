@@ -1,0 +1,240 @@
+{
+  "welcome": {
+    "preview": "Velkommen til TimeTrack, {name}. Tre steg, så er du i gang.",
+    "subject": "Velkommen til TimeTrack, {name}",
+    "intro": "Jeg heter Mads, og jeg bygger og driver TimeTrack. Jeg laget det slik at frilansere kan holde styr på timer, klippekort og fakturaer uten et regneark ved siden av.",
+    "threeSteps": "Tre steg, så er du i gang:",
+    "step1": "1. Opprett din første kunde",
+    "step2": "2. Angi timeprisen din og opprett et prosjekt",
+    "step3": "3. Start tidtakeren når du begynner på oppgaven",
+    "why": "Hva fikk deg til å prøve TimeTrack? Svar gjerne på denne e-posten. Jeg leser alle svar selv, og det hjelper meg å bygge det rette.",
+    "questions": "Hvis du har spørsmål, kan du alltid skrive direkte til meg på [mail]{email}[/mail]."
+  },
+  "greeting": "Hei {name},",
+  "openApp": "Åpne TimeTrack",
+  "gettingStarted": {
+    "preview": "Tre steg til din første tidsoppføring",
+    "subject": "Tre steg til din første tidsoppføring",
+    "hasClientIntro": "Du har allerede opprettet din første kunde. Dette anbefaler jeg som neste steg:",
+    "hasClient1": "**Angi timeprisen din:** Gå til Innstillinger og skriv inn standard timepris. Du kan angi en annen pris per kunde eller prosjekt.",
+    "hasClient2": "**Opprett et prosjekt:** Et prosjekt samler timene per oppdrag, slik at du kan fakturere dem riktig.",
+    "hasClient3": "**Prøv tidtakeren:** Trykk Start i tidtakerlinjen øverst i TimeTrack.",
+    "noClientIntro": "Du opprettet kontoen din for noen dager siden. Her er tre steg til din første tidsoppføring:",
+    "noClient1": "**Opprett din første kunde:** Da kan du registrere tid på kunden og lage fakturaer fra den.",
+    "noClient2": "**Angi timeprisen din:** Skriv inn standard timepris, så beregner TimeTrack verdien av tiden din.",
+    "noClient3": "**Start en tidtaker:** Trykk Start i tidtakerlinjen øverst i TimeTrack.",
+    "buttonProject": "Opprett ditt første prosjekt",
+    "buttonClient": "Opprett din første kunde",
+    "stuck": "Hvis du står fast, svar på denne e-posten, så hjelper jeg deg personlig."
+  },
+  "noTimeEntry": {
+    "preview": "Skriv hva du gjorde, så fyller TimeTrack ut resten",
+    "subject": "Registrer din første tid",
+    "intro": "Du opprettet en TimeTrack-konto for noen dager siden, men har ikke registrert tid ennå.",
+    "how": "Skriv hva du gjorde i feltet øverst på hjem-siden, for eksempel «2 timer på nettside i går». Eller trykk Start tidtaker og stopp den når du er ferdig.",
+    "button": "Registrer din første tid",
+    "help": "Hvis noe skaper problemer, svar bare på denne e-posten. Jeg leser svarene selv."
+  },
+  "timeNoInvoice": {
+    "preview": "{hours} timer klare til fakturering",
+    "subject": "Tiden din er klar til å faktureres",
+    "body": "Du har {hours} timer i TimeTrack som ikke er fakturert ennå. Når du vil fakturere, kan du lage fakturaen direkte fra tidsoppføringene dine, slik at timer og beløp følger med automatisk.",
+    "button": "Lag en faktura fra tiden din",
+    "elsewhere": "Hvis du fakturerer et annet sted, kan du bare se bort fra denne e-posten."
+  },
+  "clientNoKlippekort": {
+    "preview": "Klippekort: timene trekkes automatisk",
+    "subject": "Klippekort til kundene dine",
+    "body": "Du har opprettet kunder i TimeTrack. Hvis noen av dem kjøper timer på forhånd, kan du gi dem et klippekort. Tiden trekkes da etter hvert som du registrerer den, og dere kan begge se hvor mange timer som er igjen.",
+    "button": "Opprett et klippekort",
+    "usage": "Hvis du bare fakturerer etter forbruk, trenger du ikke gjøre noe."
+  },
+  "klippekortTips": {
+    "preview": "Slik fungerer et klippekort i TimeTrack",
+    "subject": "Slik fungerer et klippekort i TimeTrack",
+    "intro": "Et klippekort er en pakke med forhåndsbetalte timer. Kunden din kjøper for eksempel 20 timer, og TimeTrack trekker timene hver gang du registrerer tid for kunden.",
+    "exampleName": "Eksempel: Hjørnebakeriet",
+    "how": "Kunden betaler før du begynner. TimeTrack holder styr på saldoen, så du slipper å regne den ut, og kunden kan se den i kundeportalen.",
+    "button": "Opprett et klippekort",
+    "sell": "Vil du vite hvordan du selger klippekort til kundene dine? Svar på denne e-posten, så deler jeg gjerne erfaringene mine."
+  },
+  "extensionTips": {
+    "preview": "Med nettleserutvidelsen kan du starte og stoppe tidtakeren fra alle sider",
+    "subject": "Start og stopp tidtakeren uten å bytte fane",
+    "intro": "TimeTrack har en nettleserutvidelse, slik at du kan starte og stoppe tidtakeren uten å bytte fane.",
+    "tip1": "Start og stopp tidtakeren i popup-vinduet og velg kunde og prosjekt der. Hurtigtasten Alt+Shift+S starter og stopper tidtakeren fra tastaturet.",
+    "tip2": "Ikonet i verktøylinjen viser tidtakeren som går, eller dagens tid når ingen tidtaker kjører.",
+    "button": "Hent den fra Chrome Web Store"
+  },
+  "aiFeatures": {
+    "preview": "Skriv én setning, så fyller TimeTrack ut tidsoppføringen",
+    "subject": "Registrer tid ved å skrive en setning",
+    "intro": "Du trenger ikke fylle ut et skjema for å registrere tid. På Hjem finnes et felt som heter «Skriv hva du gjorde». Skriv en setning og trykk Enter:",
+    "example": "2 timer på nettside for Hansen i går",
+    "suggest": "TimeTrack foreslår kunde, prosjekt, dato og tid. Ingenting lagres før du har sett forslaget og bekreftet det. På Hjem hopper du til feltet med /, og hvis nettleseren støtter det, kan du diktere setningen med mikrofonen.",
+    "parser": "Setningen leses av en vanlig tekstparser, ikke av KI. Hvis du legger inn din egen KI-nøkkel under Innstillinger, kan en KI-leverandør fylle ut det parseren ikke fant selv. Dette er valgfritt.",
+    "button": "Åpne Hjem",
+    "feedback": "Hvis feltet ikke forstår en setning du skriver, send den til meg, så kan jeg forbedre parseren."
+  },
+  "firstWeek": {
+    "preview": "Dine første uker med TimeTrack",
+    "subject": "Dine første uker med TimeTrack",
+    "minimal1": "Du opprettet kontoen din for et par uker siden, og det ser ut til at du fortsatt er i startfasen. Det er helt greit.",
+    "minimal2": "Det er lett å glemme å registrere tid når man har det travelt. Men tid du ikke registrerer, er tid du ikke kan fakturere.",
+    "tip": "**Et tips:** Prøv å registrere én dag denne uken. Start tidtakeren når du begynner på en oppgave, eller skriv etterpå hva du gjorde i feltet på Hjem.",
+    "active": "Du har brukt TimeTrack i et par uker. Dette har du registrert så langt:",
+    "trackedTime": "Registrert tid",
+    "hoursUnit": "{hours} t",
+    "clients": "Kunder",
+    "projects": "Prosjekter",
+    "closing": "Hvis du registrerer tid underveis, er fakturagrunnlaget klart når det er på tide å fakturere.",
+    "feedback": "Hvordan har det gått så langt? Fortell meg hva som fungerer og hva som ikke gjør det."
+  },
+  "upgrade": {
+    "whenNow": "i løpet av en dag",
+    "whenDays": "om {days, plural, one {# dag} other {# dager}}",
+    "preview": "Prøveperioden din utløper {when}",
+    "subject": "Prøveperioden din er i ferd med å utløpe",
+    "body": "Prøveperioden din i TimeTrack utløper {when}. Hvis du ikke velger et abonnement, fortsetter kontoen din på Free, og alt du har opprettet er fortsatt lagret.",
+    "free": "Free har plass til {clients} aktive kunder og {seats} brukere.",
+    "button": "Se abonnementer",
+    "questions": "Hvis du har spørsmål om planene eller prisene, svar på denne e-posten. Jeg hjelper gjerne."
+  },
+  "needHelp": {
+    "preview": "Trenger du hjelp, {name}?",
+    "subject": "Trenger du hjelp, {name}?",
+    "introTracking": "Du opprettet TimeTrack-kontoen din for noen dager siden. Du registrerer allerede tid.",
+    "introNoTracking": "Du opprettet TimeTrack-kontoen din for noen dager siden. Jeg ville sjekke at alt går som det skal.",
+    "placesTracking": "Her er tre steder du kan gå hvis du vil ta neste steg:",
+    "placesNoTracking": "Det kan være vanskelig å komme i gang med et nytt system. Her er tre steder å begynne:",
+    "helpCentre": "Hjelpesenter",
+    "helpCentreNote": ": svar på vanlige spørsmål",
+    "createClient": "Opprett en kunde",
+    "createClientNote": ": hvis du ikke har opprettet en ennå",
+    "writeMe": "Skriv til meg",
+    "writeMeNote": ": jeg svarer selv",
+    "missing": "Savner du noe i TimeTrack? Skriv til meg og fortell hva. Det hjelper meg å gjøre det bedre."
+  },
+  "winBack30": {
+    "preview": "Det er en stund siden, {name}",
+    "subject": "Det er en stund siden, {name}",
+    "intro": "Det er en stund siden du sist besøkte TimeTrack. Jeg håper alt er bra.",
+    "stillThere": "Dette ligger fortsatt i kontoen din:",
+    "hoursOnly": "**{hours} t** er ikke fakturert ennå.",
+    "hoursValue": "**{hours} t** er ikke fakturert ennå, til en verdi av **{value}**",
+    "tasks": "**{count, plural, one {# åpen oppgave} other {# åpne oppgaver}}** venter på deg.",
+    "how": "Hvis du skal i gang igjen, er det raskeste å skrive hva du gjorde i feltet på Hjem. TimeTrack foreslår kunde, prosjekt og tid, og du bekrefter før noe lagres.",
+    "why": "Hva fikk deg til å slutte? Svar på denne e-posten, så leser jeg det selv. Det hjelper meg å gjøre TimeTrack bedre."
+  },
+  "winBack60": {
+    "preview": "Kundene, prosjektene, timene og fakturaene dine er fortsatt lagret",
+    "subject": "Dataene dine ligger fortsatt i TimeTrack",
+    "intro": "Det er mer enn 60 dager siden du sist brukte TimeTrack. Jeg vil bare sørge for at du vet at kundene, prosjektene, timene og fakturaene dine fortsatt er lagret, så du kan fortsette der du slapp.",
+    "button": "Logg inn på TimeTrack",
+    "export": "Hvis du har valgt et annet verktøy, forstår jeg det. Vil du ta dataene dine med deg, kan du [export]eksportere dem som CSV eller JSON[/export].",
+    "feedback": "Hvis det er noe jeg kunne ha gjort bedre, vil jeg gjerne høre fra deg. Svar på denne e-posten, så leser jeg det selv."
+  },
+  "firstClient": {
+    "preview": "Din første kunde er opprettet: {client}",
+    "subject": "Din første kunde er opprettet",
+    "intro": "Du har opprettet din første kunde, **{client}**. Dette anbefaler jeg som neste steg:",
+    "step1": "1. Opprett et prosjekt for {client}",
+    "step2": "2. Start tidtakeren på prosjektet",
+    "step3": "3. Lag en faktura fra tiden når arbeidet er ferdig",
+    "button": "Opprett et prosjekt",
+    "help": "Hvis du trenger hjelp med oppsettet, svar på denne e-posten. Jeg hjelper gjerne."
+  },
+  "firstProject": {
+    "preview": "Ditt første prosjekt er klart: {project}",
+    "subject": "Ditt første prosjekt er opprettet",
+    "intro": "Ditt første prosjekt, **{project}** for **{client}**, er klart. Nå kan du starte tidtakeren.",
+    "tip1": "Trykk T for å starte tidtakeren. Trykk T igjen for å sette den på pause.",
+    "tip2": "Skriv en beskrivelse for hver oppføring, så du etterpå kan se hva tiden gikk til.",
+    "tip3": "{brand} beregner verdien ut fra timeprisen din.",
+    "button": "Registrer tid",
+    "closing": "Hvis du registrerer tid underveis, er fakturagrunnlaget klart når det er på tide å fakturere."
+  },
+  "firstTimeEntry": {
+    "preview": "Din første tidsoppføring er registrert",
+    "subject": "Din første tidsoppføring er registrert",
+    "body": "Du har registrert din første tid: **{hours} t**.",
+    "bodyProject": "Du har registrert din første tid: **{hours} t** på **{project}**.",
+    "invoice": "Når det er på tide å fakturere, kan du lage fakturaen direkte fra tidsoppføringene dine.",
+    "button": "Se tidsoppføringene dine"
+  },
+  "firstInvoice": {
+    "preview": "Faktura #{number} for {client} er opprettet",
+    "subject": "Gratulerer med din første faktura",
+    "congrats": "Gratulerer med din første faktura.",
+    "number": "Fakturanummer",
+    "client": "Kunde",
+    "amount": "Beløp",
+    "send": "Send fakturaen til {client} og hold øye med betalingen i {brand}. Automatiske påminnelser om forfalte fakturaer slår du på per kunde.",
+    "button": "Se fakturaene dine",
+    "accounting": "Du kan også sende fakturaene videre til Billy, Dinero eller e-conomic, slik at de havner i regnskapet ditt. Koble til regnskapsprogrammet under Integrasjoner."
+  },
+  "inactivity": {
+    "preview": "Det er {days} dager siden sist du var innom",
+    "subject": "Det er {days} dager siden sist du besøkte TimeTrack",
+    "kicker": "Påminnelse",
+    "heading": "Noe venter på deg",
+    "footerNote": "Påminnelsen sendes etter 14 dagers inaktivitet.",
+    "withStats": "Det er {days} dager siden du sist logget inn, og noe venter på deg:",
+    "noStats": "Det er {days} dager siden du sist logget inn. Registrer tiden din mens du husker den godt.",
+    "unbilled": "Ufakturert",
+    "hoursUnit": "{hours} t",
+    "readyToInvoice": "Klart til fakturering",
+    "readyToInvoiceSub": "registrert tid",
+    "openTasks": "Åpne oppgaver",
+    "openTasksSub": "venter på deg",
+    "button": "Registrer tid",
+    "muted": "Du kan slå av påminnelser om inaktivitet under e-postinnstillinger."
+  },
+  "toolGuide": {
+    "preview": "Din guide til {tool}",
+    "subject": "{tool}: din guide fra TimeTrack",
+    "kicker": "Guide",
+    "heading": "Takk for at du brukte {tool}",
+    "footerNote": "Du får denne e-posten fordi du ba om guiden på timetrack.dk. Det kommer ikke flere e-poster med mindre du ber om det.",
+    "intro": "Her er guiden du ba om, og en lenke tilbake til verktøyet hvis du vil fortsette å regne.",
+    "openTool": "Åpne verktøyet igjen",
+    "pitch": "TimeTrack holder styr på timer per kunde, trekker dem fra kundens klippekort og sender fakturagrunnlaget til Billy, Dinero eller e-conomic. [trial]Prøv gratis i 30 dager[/trial]."
+  },
+  "beta": {
+    "preview": "Plassen din i TimeTrack-betaen er klar. Opprett kontoen din når du har tid.",
+    "subject": "Plassen din i TimeTrack-betaen er klar",
+    "subjectNamed": "{name}, plassen din i TimeTrack-betaen er klar",
+    "greetingNamed": "Hei {name},",
+    "greeting": "Hei,",
+    "thanks": "Takk for at du meldte deg på ventelisten til TimeTrack. Plassen din i betaen er nå klar.",
+    "about": "TimeTrack er laget for frilansere i Danmark. Du registrerer timene dine og lager fakturaer fra dem. Hvis en kunde kjøper timer på forhånd, trekkes de fra et klippekort.",
+    "discountLabel": "Rabattkoden din",
+    "discountNote": "Bruk koden når du oppretter kontoen din, for å få rabatt på abonnementet.",
+    "button": "Opprett kontoen din",
+    "feedback": "Hvis du har spørsmål eller tilbakemeldinger, svar på denne e-posten. Jeg leser alle svar selv.",
+    "writeMe": "Du kan også skrive til meg på [mail]{email}[/mail]."
+  },
+  "desktopLaunch": {
+    "footerNote": "Du får denne e-posten fordi du meldte deg på ventelisten til TimeTrack Desktop.",
+    "button": "Last ned TimeTrack Desktop",
+    "defaultSubject": "TimeTrack Desktop er klar",
+    "defaultMessage": "Takk for at du meldte deg på ventelisten. TimeTrack Desktop kan nå lastes ned."
+  },
+  "desktopLicense": {
+    "preview": "Lisensnøkkelen din til TimeTrack Desktop ({tier})",
+    "subject": "Lisensnøkkelen din til TimeTrack Desktop ({tier})",
+    "kicker": "Desktop",
+    "heading": "Lisensen din til TimeTrack Desktop",
+    "footerNote": "Du får denne e-posten fordi du kjøpte eller ba om lisensen din til TimeTrack Desktop.",
+    "introNamed": "Hei {name}, her er lisensnøkkelen din til TimeTrack Desktop ({tier}).",
+    "intro": "Hei, her er lisensnøkkelen din til TimeTrack Desktop ({tier}).",
+    "howTo": "Slik aktiverer du den",
+    "step1": "1. Last ned",
+    "step2": "2. Installer",
+    "step2Value": "Åpne appen",
+    "step3": "3. Aktiver",
+    "step3Value": "Skriv inn lisensnøkkelen",
+    "keep": "Ta vare på denne e-posten: du trenger nøkkelen hvis du installerer på nytt. Lisensen dekker opptil {max, plural, one {# enhet} other {# enheter}}.",
+    "refund": "Fakturaen kommer separat fra Stripe. Hvis du ombestemmer deg, kan du få full refusjon innen 30 dager via [refund]{link}[/refund]."
+  }
+}

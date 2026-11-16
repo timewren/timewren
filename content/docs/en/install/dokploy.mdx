@@ -1,0 +1,56 @@
+---
+title: "Dokploy"
+description: "Deploy TimeWren on Dokploy from a custom template with a generated domain, four generated secrets and named volumes."
+---
+
+Choose this method if you already run Dokploy. The template pulls the published image and generates all secrets.
+
+## Requirements
+
+- A running Dokploy instance with a server and a domain.
+- The files from `deploy/dokploy/` in the repository: `docker-compose.yml` and `template.toml`.
+
+> **Note:** The template has not been submitted to the Dokploy template library, so it does not appear in the catalog. You import it yourself as a custom template.
+
+## Deploy
+
+1. Download the two files:
+
+   ```bash
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/deploy/dokploy/docker-compose.yml
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/deploy/dokploy/template.toml
+   ```
+
+2. In Dokploy, import them as a custom template (Compose and TOML).
+3. Review the generated domain, or replace it with your own, then deploy.
+
+## What the template sets
+
+`template.toml` generates a domain and four independent 64-character hexadecimal secrets, and routes the domain to the `app` service on port 3000:
+
+| Variable | Value |
+| -------- | ----- |
+| `NEXT_PUBLIC_APP_URL` | `https://` plus the generated domain |
+| `POSTGRES_PASSWORD` | generated |
+| `BETTER_AUTH_SECRET` | generated |
+| `ENCRYPTION_KEY` | generated, 64 hex characters |
+| `CRON_SECRET` | generated |
+
+PostgreSQL data and uploads live in named volumes; the template defines no host mounts (`mounts = []`). The `app` and the scheduler pull the same image, and migrations run when the app starts. Set `TIMEWREN_VERSION` to pin both services to a release.
+
+Optional mail, S3 and integration variables are exposed in the Compose file and use the names from `.env.example`. See [Environment variables](/docs/configuration/environment).
+
+## Create your account first
+
+The first account becomes admin. Register immediately, or set `ADMIN_EMAIL` and a mail transport before you expose the URL.
+
+## Back up
+
+Back up both volumes and `ENCRYPTION_KEY`.
+
+## Next steps
+
+- [Quickstart](/docs/quickstart)
+- [Email](/docs/configuration/email)
+- [Upgrading](/docs/operations/upgrading) and [Backup and restore](/docs/operations/backup-restore)
+- [Troubleshooting](/docs/operations/troubleshooting)

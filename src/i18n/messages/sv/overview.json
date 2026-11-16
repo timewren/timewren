@@ -1,0 +1,188 @@
+{
+  "catalog": {
+    "title": "Lägg till widget",
+    "close": "Stäng widgetkatalogen",
+    "search": "Sök widgetar...",
+    "allAdded": "Alla widgetar har redan lagts till",
+    "noMatch": "Inga widgetar matchar din sökning",
+    "category": {
+      "stats": "Tid och aktivitet",
+      "finance": "Ekonomi",
+      "tasks": "Uppgifter",
+      "activity": "Aktivitet",
+      "actions": "Snabbåtgärder",
+      "calendar": "Integration"
+    }
+  },
+  "page": {
+    "layoutSaved": "Översiktens layout sparades",
+    "layoutSaveFailed": "Kunde inte spara layouten",
+    "resetDone": "Översikten återställdes till standard",
+    "resetFailed": "Kunde inte återställa översikten",
+    "alreadyAdded": "Den här widgeten har redan lagts till",
+    "widgetAdded": "{title} lades till",
+    "widgetRemoved": "Widgeten togs bort",
+    "title": "Översikt",
+    "subtitle": "Siffror, uppgifter och ekonomi på ett ställe. <link>Registrera tid på Start</link>",
+    "unsaved": "Osparade ändringar",
+    "addWidget": "Lägg till widget",
+    "reset": "Återställ",
+    "save": "Spara",
+    "finish": "Klar",
+    "editDashboard": "Redigera översikten",
+    "removeWidget": "Ta bort widget",
+    "resetTitle": "Återställ översikten",
+    "resetDescription": "Vill du verkligen återställa översikten till standardlayouten?",
+    "discardTitle": "Förkasta ändringar",
+    "discardDescription": "Du har osparade ändringar. Vill du fortsätta utan att spara?",
+    "discardConfirm": "Förkasta",
+    "continue": "Fortsätt",
+    "unknownWidget": "Okänd widget: {id}"
+  },
+  "widget": {
+    "stats-clients": {
+      "title": "Aktiva kunder",
+      "description": "Antal aktiva kunder"
+    },
+    "stats-projects": {
+      "title": "Aktiva projekt",
+      "description": "Antal aktiva projekt"
+    },
+    "stats-hours": {
+      "title": "Timmar den här månaden",
+      "description": "Totalt antal timmar den här månaden"
+    },
+    "stats-revenue": {
+      "title": "Intäkter den här månaden",
+      "description": "Beräknade intäkter från timmar"
+    },
+    "tasks-upcoming": {
+      "title": "Kommande uppgifter",
+      "description": "Uppgifter som förfaller inom 7 dagar"
+    },
+    "email-tasks": {
+      "title": "Uppgifter från e-post",
+      "description": "De senaste uppgifterna som skapats från e-post"
+    },
+    "tasks-overdue": {
+      "title": "Försenade uppgifter",
+      "description": "Uppgifter som har passerat sin deadline"
+    },
+    "prepaid-low-balance": {
+      "title": "Timbanker med lågt saldo",
+      "description": "Timbanker med färre än 5 timmar kvar"
+    },
+    "unbilled-time": {
+      "title": "Ofakturerade timmar",
+      "description": "Timmar som ännu inte har fakturerats"
+    },
+    "recent-activity": {
+      "title": "Senaste aktivitet",
+      "description": "Dina senaste åtgärder"
+    },
+    "top-clients": {
+      "title": "Största kunder",
+      "description": "Kunder efter timmar eller intäkter"
+    },
+    "hours-comparison": {
+      "title": "Veckojämförelse",
+      "description": "Timmar den här veckan jämfört med förra veckan"
+    },
+    "quick-actions": {
+      "title": "Snabbåtgärder",
+      "description": "Genvägar till vanliga åtgärder"
+    },
+    "weekly-goal-tracker": {
+      "title": "Veckomål",
+      "description": "Framsteg mot ditt veckomål för timmar"
+    },
+    "revenue-forecast": {
+      "title": "Intäktsprognos",
+      "description": "Prognos för månadens intäkter"
+    },
+    "project-health": {
+      "title": "Projekthälsa",
+      "description": "Budgetstatus för aktiva projekt"
+    },
+    "expiring-packages": {
+      "title": "Timbanker som snart går ut",
+      "description": "Timbanker som snart går ut"
+    },
+    "productivity-heatmap": {
+      "title": "Produktivitet under veckan",
+      "description": "När under veckan du registrerar flest timmar"
+    },
+    "daily-hours-chart": {
+      "title": "Timmar per dag",
+      "description": "Stapeldiagram över timmar de senaste 14 dagarna"
+    },
+    "revenue-by-client": {
+      "title": "Intäkter per kund",
+      "description": "De 5 kunderna med högst intäkter den här månaden"
+    },
+    "invoice-overview": {
+      "title": "Fakturaöversikt",
+      "description": "Fakturaflödet med en statusöversikt"
+    },
+    "month-comparison": {
+      "title": "Månadsjämförelse",
+      "description": "Jämför timmar och intäkter med föregående månad"
+    },
+    "calendar-sync": {
+      "title": "Kalender mot registrerat",
+      "description": "Jämför kalendertid med registrerad tid den här veckan"
+    },
+    "prepaid-status": {
+      "title": "Timbankens status",
+      "description": "Timbanker med lågt saldo eller som snart går ut"
+    },
+    "flex-balance": {
+      "title": "Flextidssaldo",
+      "description": "Ditt sparade flextidssaldo i timmar"
+    },
+    "flex-norm": {
+      "title": "Flextidssaldo per normperiod",
+      "description": "Saldo inklusive överfört saldo och flextid för veckan, månaden och normperioden"
+    },
+    "vacation-balance": {
+      "title": "Ledighetssaldo",
+      "description": "Antal kvarvarande semesterdagar i år"
+    },
+    "upcoming-absences": {
+      "title": "Kommande frånvaro",
+      "description": "Översikt över godkänd kommande frånvaro"
+    },
+    "pending-approvals": {
+      "title": "Väntande godkännanden",
+      "description": "Antal frånvaroansökningar som väntar på godkännande"
+    },
+    "rounding-bonus": {
+      "title": "Avrundningsbonus",
+      "description": "Extra intäkter från tidsavrundning den här månaden och det här året"
+    },
+    "profitability": {
+      "title": "Verkligt timpris",
+      "description": "Avtalat jämfört med verkligt timpris: se vad du faktiskt tjänar per timme, inklusive intern tid"
+    },
+    "vat-overview": {
+      "title": "Momsöversikt",
+      "description": "Momsskuld för perioden samt nästa deadline, så att du kan lägga undan pengar till den danska skattemyndigheten (SKAT)"
+    },
+    "at-risk-clients": {
+      "title": "Kundrisk",
+      "description": "Kunder utan aktivitet på 60 dagar: upptäck tyst kundförlust i tid"
+    },
+    "cashflow": {
+      "title": "Kassaflöde 30 dagar",
+      "description": "Förväntade intäkter de kommande 4 veckorna från utestående fakturor och förnyelser av timbanker"
+    },
+    "upcoming-deadlines": {
+      "title": "Viktiga datum",
+      "description": "Deadlines för moms, skatt och årsredovisning utifrån din verksamhetsform"
+    },
+    "coverage": {
+      "title": "Debiteringsgrad",
+      "description": "Hur stor del av din arbetstid som registreras: fakturerbart, icke fakturerbart och per kund"
+    }
+  }
+}

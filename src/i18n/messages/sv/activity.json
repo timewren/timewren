@@ -1,0 +1,46 @@
+{
+  "title": "Aktivitetslogg",
+  "count": "{count, plural, one {# aktivitet} other {# aktiviteter}}",
+  "empty": "Ingen aktivitet ännu",
+  "yes": "Ja",
+  "no": "Nej",
+  "line": "<e>{entity}</e> <n>\"{name}\"</n> <a>{action}</a>",
+  "lineNoName": "<e>{entity}</e> <a>{action}</a>",
+  "entity": {
+    "client": "Kund",
+    "project": "Projekt",
+    "time_entry": "Tidpost",
+    "invoice": "Faktura",
+    "prepaid_package": "Timbank",
+    "settings": "Inställningar"
+  },
+  "action": {
+    "m": {
+      "create": "skapades",
+      "update": "uppdaterades",
+      "delete": "togs bort",
+      "archive": "arkiverades",
+      "restore": "återställdes",
+      "complete": "slutfördes",
+      "send": "skickades"
+    },
+    "f": {
+      "create": "skapades",
+      "update": "uppdaterades",
+      "delete": "togs bort",
+      "archive": "arkiverades",
+      "restore": "återställdes",
+      "complete": "slutfördes",
+      "send": "skickades"
+    },
+    "p": {
+      "create": "skapades",
+      "update": "uppdaterades",
+      "delete": "togs bort",
+      "archive": "arkiverades",
+      "restore": "återställdes",
+      "complete": "slutfördes",
+      "send": "skickades"
+    }
+  }
+}

@@ -1,0 +1,99 @@
+---
+title: "Instalación en una línea"
+description: "Instala TimeWren en un servidor Linux con Docker con un solo comando: genera los secretos, inicia el stack y espera hasta que la aplicación está sana."
+---
+
+Elige este método si tienes un servidor con Docker y quieres una instancia en marcha en pocos minutos sin clonar el repositorio. El script descarga el archivo Compose de una versión, crea un `.env` con secretos aleatorios nuevos, inicia el stack y espera a que esté sano.
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash
+```
+
+## Requisitos
+
+- Docker Engine con el plugin Compose v2, versión 2.24 o posterior (`docker compose version`).
+- `curl` y un usuario con acceso al daemon de Docker.
+- Una versión publicada de TimeWren. Si no pasas `--version`, el script le pide a la API de GitHub la última versión de `timewren/timewren`.
+- Para HTTPS automático: un registro DNS que apunte al servidor y los puertos TCP 80 y 443 de entrada abiertos.
+
+El script no instala Docker y nunca llama a `sudo`. Si falta Docker o el daemon no es accesible, indica dónde conseguirlo y se detiene.
+
+## Qué hace el script
+
+1. Comprueba que existe `docker`, que `docker compose` es v2.24 o posterior y que el daemon es accesible.
+2. Elige el directorio de instalación (ver más abajo) y, si allí faltan `docker-compose.yml` o `.env.example`, los descarga de `https://raw.githubusercontent.com/timewren/timewren/<version>/`. La versión se guarda en `.timewren-release`.
+3. Crea `.env` a partir de `.env.example` con valores aleatorios nuevos (64 caracteres hexadecimales cada uno) para `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` y `CRON_SECRET`. El archivo recibe el modo 600 y los secretos nunca se muestran.
+4. Ejecuta `docker compose pull` y `docker compose up -d`. Dentro de un checkout del código fuente (el directorio tiene `Dockerfile` y `package.json`) ejecuta en su lugar `docker compose up -d --build` y construye la imagen desde el checkout.
+5. Espera hasta que el contenedor `app` informa de que está sano, hasta 900 segundos por defecto. Si el contenedor termina o pasa a no estar sano, muestra `docker compose logs app` como siguiente paso.
+
+Cuando termina, abre la URL que definiste como `NEXT_PUBLIC_APP_URL` y crea tu cuenta. La primera cuenta se convierte en la administradora de la instancia. Las migraciones se ejecutan en cada arranque de la aplicación.
+
+> **Nota:** Haz una copia de `ENCRYPTION_KEY` del `.env`. Sin ella, las integraciones conectadas tendrán que volver a conectarse.
+
+## Opciones
+
+Las opciones van después de `bash -s --` cuando pasas el script por una tubería:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --help
+```
+
+| Opción | Significado |
+| ------ | ------- |
+| `--url URL` | URL pública que abrirá la gente. Debe empezar por `http://` o `https://`, sin credenciales. Por defecto: `http://localhost:PORT`. |
+| `--port PORT` | Puerto del host para la aplicación (se escribe como `APP_PORT`, por defecto 3000). Sin `--url`, la URL pasa a ser `http://localhost:PORT`. |
+| `--version TAG` | Etiqueta de la versión de GitHub que se instala. Por defecto: la última versión. |
+| `--dir PATH` | Directorio de instalación. Por defecto: el directorio actual. |
+| `--with-caddy --domain HOST` | Añade HTTPS automático para `HOST` con Caddy (ver más abajo). |
+| `--no-start` | Crea `.env` y se detiene antes de iniciar el stack. |
+| `--timeout SEC` | Cuánto esperar a que la aplicación esté sana. Por defecto 900. |
+| `-h`, `--help` | Muestra un breve texto de uso. |
+
+El script también lee estas variables de entorno como valores por defecto: `NEXT_PUBLIC_APP_URL`, `APP_PORT`, `TIMEWREN_VERSION`, `CADDY_DOMAIN` y `TIMEWREN_INSTALL_DIR`.
+
+Ejemplo con una versión fija en su propio directorio y una URL personalizada:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --dir /opt/timewren --version 1.2.3 --url https://timewren.example.com
+```
+
+## HTTPS automático con Caddy
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --with-caddy --domain timewren.example.com
+```
+
+`--domain` debe ser un nombre de host DNS que ya apunte a este servidor. El script define la URL como `https://timewren.example.com`, descarga `docker-compose.caddy.yml` junto al archivo Compose principal y añade estas líneas al `.env`:
+
+```dotenv
+CADDY_DOMAIN=timewren.example.com
+COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml
+```
+
+La capa adicional añade un servicio `caddy` (`caddy:2-alpine`) que escucha en los puertos 80 y 443 y redirige el dominio a `app:3000`. Si pasas `--url` junto con `--with-caddy`, debe ser igual a `https://` más el dominio. Para otros proxies, consulta [Proxy inverso](/es/docs/operations/reverse-proxy).
+
+## Dónde van los archivos
+
+Sin `--dir`, todo se crea en el directorio desde el que ejecutas el comando: `docker-compose.yml`, `.env.example`, `.env`, `.timewren-release` y, con Caddy, `docker-compose.caddy.yml`. Ejecuta el comando en un directorio vacío que elijas, o usa `--dir`. Dentro de un checkout del repositorio, el script usa en su lugar la raíz del checkout, como `./scripts/install.sh`.
+
+## Ejecutarlo de nuevo
+
+El script se puede repetir sin riesgo. Si `.env` existe, no se toca, así que tus secretos se conservan, y el stack simplemente se descarga e inicia de nuevo. En ese caso `--url`, `--port` y `--version` se ignoran: edita `.env` en su lugar. Termina con un error si alguno de los cuatro secretos está vacío o falta en el `.env` existente. Para activar Caddy en un `.env` existente, define tú mismo `CADDY_DOMAIN` y `COMPOSE_FILE`, como se muestra arriba.
+
+## Lee primero el script
+
+```bash
+curl -fsSL https://timewren.com/install.sh -o install.sh
+less install.sh
+bash install.sh
+```
+
+Los argumentos funcionan igual: `bash install.sh --with-caddy --domain timewren.example.com`.
+
+## Siguientes pasos
+
+- [Inicio rápido](/es/docs/quickstart): crea tu cuenta y tu primer cliente.
+- [Proxy inverso](/es/docs/operations/reverse-proxy): TLS con tu propio proxy.
+- [Correo electrónico](/es/docs/configuration/email): configura el correo antes de invitar a otras personas.
+- [Variables de entorno](/es/docs/configuration/environment)
+- [Docker Compose](/es/docs/install/docker-compose): el mismo stack, configurado a mano.

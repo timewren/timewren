@@ -1,0 +1,784 @@
+{
+  "core": {
+    "orgMembershipEnded": "You are no longer a member of that organisation.",
+    "noAccessToFeature": "You do not have access to this feature",
+    "adminsOnly": "Only administrators have access to this feature",
+    "subscriptionRequired": "You need an active subscription to use this feature",
+    "subscriptionExpired": "Your subscription has expired. Please renew to continue.",
+    "roleNoAccess": "Your role does not have access to this action",
+    "moduleDisabled": "The \"{module}\" module is not enabled for this organisation."
+  },
+  "alunta": {
+    "clientAlreadyMapped": "This client already has an active Alunta mapping",
+    "mappingNotFound": "Mapping not found"
+  },
+  "common": {
+    "clientNotFound": "Client not found",
+    "webhookNotFound": "Webhook not found",
+    "projectNotFound": "Project not found",
+    "unknownError": "Unknown error",
+    "notOrgMember": "You are not a member of this organisation",
+    "noAccessToClient": "You do not have access to this client",
+    "templateNotFound": "Template not found",
+    "unknownClient": "Unknown client",
+    "rateLimited": "Too many requests. Try again in {seconds} seconds.",
+    "taskNotFound": "Task not found",
+    "timeEntryNotFound": "Time entry not found",
+    "invoiceNotFound": "Invoice not found",
+    "unknownProjectName": "Unknown project",
+    "userNotFound": "User not found",
+    "invalidDate": "Invalid date",
+    "prepaidNotFound": "Prepaid package not found",
+    "notFound": "Not found",
+    "notOrgMemberShort": "You are not a member of that organisation",
+    "periodLocked": "The period before {date} is locked by the organisation. Contact an administrator."
+  },
+  "webhooks": {
+    "noValidEvents": "No valid event types selected"
+  },
+  "time": {
+    "defaultRateName": "Your default rate",
+    "chooseOnePrepaidOrNone": "Choose either a prepaid package or none",
+    "taskNotFound": "Task not found",
+    "entryExists": "The time entry already exists",
+    "prepaidNotFound": "Prepaid package not found",
+    "prepaidOtherClient": "The prepaid package belongs to a different client than the time entry's client",
+    "onInvoiceUnmark": "{count, plural, one {# of the selected time entries is on an invoice. Credit the invoice or remove the entries from the draft invoice before removing the mark.} other {# of the selected time entries are on an invoice. Credit the invoice or remove the entries from the draft invoice before removing the mark.}}",
+    "invalidWeek": "Invalid week",
+    "importInvalidDate": "Invalid date: \"{date}\"",
+    "importNoProjectOrClient": "Could not find project \"{project}\" or client \"{client}\""
+  },
+  "resourcePlan": {
+    "needsOrg": "The resource plan requires an organisation",
+    "ownEmployeesOnlyView": "You can only view the plan for your own employees",
+    "managersOnly": "Only the owner, administrators or managers can plan",
+    "weekMonday": "The week must be given as its Monday",
+    "ownEmployeesOnlyPlan": "You can only plan for your own employees",
+    "notInOrg": "The employee, project or activity does not exist in the organisation"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "Desktop purchases are not set up yet. Try again later or contact support.",
+    "includedInCloud": "The desktop app is already included in your {brand} Cloud subscription, so you do not need a separate licence. Sign in and download the app from the dashboard.",
+    "checkoutFailed": "Could not create the payment link.",
+    "licenseAlreadyInactive": "The licence is already deactivated or refunded.",
+    "notAutoRefundable": "This licence cannot be refunded automatically. Contact support.",
+    "refundWindowExpired": "The {days}-day refund period has expired for this purchase.",
+    "tooManyAttempts": "Too many attempts. Wait a moment and try again.",
+    "noLicenseFound": "No licence found.",
+    "noActiveLicenseToRefund": "No active licence to refund.",
+    "licenseNotAutoRefundable": "The licence cannot be refunded automatically. Contact support.",
+    "refundWindowExpiredShort": "The {days}-day refund period has expired."
+  },
+  "taskStatuses": {
+    "laneNotFound": "Lane not found",
+    "lanesNotFound": "One or more lanes not found",
+    "crossContext": "Cannot reorder lanes across different contexts",
+    "destinationRequired": "A destination lane is required because the lane has tasks",
+    "destinationNotFound": "Destination lane not found",
+    "destinationContext": "Destination lane must be in the same context",
+    "lastLane": "The board must have at least one column"
+  },
+  "scheduledRates": {
+    "notFound": "Scheduled rate change not found",
+    "rateFormat": "The hourly rate must be an amount of 0 or more with at most two decimals",
+    "dateFormat": "The date must have the format YYYY-MM-DD",
+    "laterApplied": "A rate change has already been applied as of {date}. A new change must take effect from the same date or later.",
+    "alreadyApplied": "The rate change has already been applied and cannot be cancelled. Edit the hourly rate on the client/project instead.",
+    "appliedMeanwhile": "The rate change was applied in the meantime and cannot be cancelled."
+  },
+  "broadcasts": {
+    "notFound": "Broadcast not found",
+    "confirmNameMismatch": "The confirmation name does not match. Type the broadcast name exactly."
+  },
+  "notifications": {
+    "invalidDiscordUrl": "Invalid Discord webhook URL",
+    "invalidSlackUrl": "Invalid Slack webhook URL",
+    "noSlackWebhook": "No Slack webhook configured",
+    "noDiscordWebhook": "No Discord webhook configured",
+    "discordTestFailed": "The Discord webhook test failed",
+    "noPushSubscription": "No push subscription configured",
+    "pushTestFailed": "The push notification test failed",
+    "channelNotFound": "Channel not found"
+  },
+  "clients": {
+    "hasInvoices": "One or more of the selected clients have invoices. Archive them instead, because invoices are accounting records and cannot be deleted.",
+    "hasBilledEntries": "One or more of the selected clients have billed time entries. Archive them instead."
+  },
+  "dashboard": {
+    "prefsTableMissing": "The dashboard preferences table does not exist yet. Run the database migration."
+  },
+  "clientPortal": {
+    "accessNotFound": "Access not found"
+  },
+  "search": {
+    "invoiceTitle": "Invoice {number}"
+  },
+  "ai": {
+    "noOwnKey": "Set up your own API key under Settings → AI to use AI suggestions.",
+    "fillableWithoutAi": "The text could be filled in without AI.",
+    "providerFailed": "Your AI provider could not produce a suggestion. Check the key and model under Settings → AI."
+  },
+  "apiKeys": {
+    "notFound": "API key not found",
+    "revokeFirst": "You must revoke the key before deleting it"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "Draft invoice not found",
+    "noEntries": "No time entries to send for approval",
+    "requestNotFound": "Request not found or already handled"
+  },
+  "beta": {
+    "thanks": "Thanks for signing up! We will email you when the beta opens.",
+    "emailNotAllowed": "This email address cannot be used to sign up.",
+    "alreadyOnList": "This email is already on the beta waiting list",
+    "signupNotFound": "Beta signup not found"
+  },
+  "calendar": {
+    "googleNotConfigured": "Google Calendar integration is not configured",
+    "notConnected": "Not connected to Google Calendar",
+    "scheduledLocally": "Task scheduled locally (no calendar connected)",
+    "timeEntryNotFound": "Time entry not found",
+    "eventNotFound": "Event not found",
+    "eventMissingTimes": "The event has no times",
+    "noConnection": "No calendar connection",
+    "noProject": "No project",
+    "noConnectionFound": "No calendar connection found",
+    "aiFailed": "The AI suggestion failed"
+  },
+  "connectedApps": {
+    "notFound": "The connection does not exist"
+  },
+  "contact": {
+    "thanks": "Thanks for your message! We will get back to you as soon as possible."
+  },
+  "dataExport": {
+    "pending": "You already have a pending export request. Please wait.",
+    "limit3": "A maximum of 3 export requests per 24 hours. Try again later.",
+    "fullNotEnabled": "The full export is not enabled yet.",
+    "orgInProgress": "An export is already in progress for the organisation. You will get an email when it is ready.",
+    "orgDailyLimit": "The organisation can order {limit} exports per day. Try again tomorrow.",
+    "notOrgMemberDot": "You are not a member of the organisation.",
+    "inProgress": "An export is already in progress. You will get an email when it is ready.",
+    "dailyLimit": "You can order {limit} exports per day. Try again tomorrow.",
+    "requestNotFound": "Export request not found",
+    "cancelPendingOnly": "Only pending requests can be cancelled",
+    "importClientNotFound": "{name}: Client \"{client}\" not found",
+    "importClientRequired": "{name}: Client is required",
+    "importInvoiceClientNotFound": "Invoice {number}: Client \"{client}\" not found",
+    "importInvoiceError": "Invoice {number}: {message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "Your department has chosen days off, and they apply to you. You cannot choose your own days off.",
+    "blockedOrg": "Your organisation has chosen days off, and they apply to you. You cannot choose your own days off.",
+    "blockedEmployee": "As an employee you follow the organisation's days off. Ask an administrator to choose days off for the organisation or your department.",
+    "orgNeedsOrg": "Days off for an organisation require an organisation",
+    "departmentNeedsBusiness": "Days off per department require the Business plan",
+    "departmentNotFound": "The department does not exist"
+  },
+  "dpa": {
+    "notFromEnv": "The data processing agreement cannot be accepted from this environment yet.",
+    "notInOrg": "You are not in an organisation",
+    "ownersAdminsOnly": "Only owners and administrators can accept the agreement"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "Rule not found"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "An IMAP password is required",
+    "cannotDecrypt": "The stored password could not be decrypted. Please re-enter your IMAP password.",
+    "connectionFailed": "IMAP connection failed: {message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "Task not found",
+    "blockBracket": "Block emails with \"[{tag}]\" in the subject",
+    "blockKeyword": "Block emails with \"{keyword}\" in the subject"
+  },
+  "ext": {
+    "notOrgMemberDot": "You are not a member of that organisation.",
+    "invalidToken": "Invalid token",
+    "tooManyAttempts": "Too many attempts. Try again in {seconds} seconds.",
+    "sessionExpired": "The session has expired or been revoked. Sign in again.",
+    "tokenExpired": "Token expired",
+    "tokenNotFound": "Token not found",
+    "timerChangedElsewhere": "The timer was changed from another device. Try again.",
+    "datesFormat": "Dates must be YYYY-MM-DD",
+    "prepaidNotFound": "Prepaid package not found",
+    "prepaidOtherClient": "The prepaid package belongs to a different client than the entry",
+    "saveEntryFailed": "Could not save the time entry",
+    "createInProgress": "Creation with this key is in progress. Try again shortly.",
+    "import": {
+      "alreadyRunning": "An import is already running. Wait until it has finished."
+    },
+    "projectOrClientNotFound": "Project or client not found"
+  },
+  "feedback": {
+    "screenshotFailed": "The screenshot could not be fetched from S3"
+  },
+  "imports": {
+    "timeopsConnect": "Could not connect to TimeOps: {detail}",
+    "networkError": "network error",
+    "apiKeyInvalid": "The API key is invalid or has expired",
+    "alreadyRunning": "An import is already running. Finish it first.",
+    "notFound": "Import not found",
+    "cannotStart": "The import cannot be started from status {status}",
+    "cannotCancel": "The import cannot be cancelled in this state"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "A timer is already running on \"{project}\" in the web app. Stop it first.",
+    "timerRunningProjectOther": "A timer is already running on \"{project}\" on another device. Stop it first.",
+    "timerRunningAnyWeb": "A timer is already running in the web app. Stop it first.",
+    "timerRunningAnyOther": "A timer is already running on another device. Stop it first."
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "The Dinero connection has expired. Please reconnect in Settings.",
+      "notConnectedShort": "Dinero is not connected",
+      "notConnected": "Dinero is not connected",
+      "connectionActive": "The connection to Dinero is active",
+      "connectionFailed": "Could not connect to Dinero",
+      "clientExported": "Client exported to Dinero",
+      "invoiceAlreadyExported": "The invoice has already been exported to Dinero",
+      "contactCreateFailed": "Could not create client \"{name}\" in Dinero: the API returned no contact ID. Try exporting the client manually first.",
+      "noAccount": "No account number configured. Choose a default account under Settings → Dinero.",
+      "invoiceExported": "Invoice exported to Dinero",
+      "invoiceNotExported": "The invoice has not been exported to Dinero",
+      "noPending": "No pending Dinero connection found. Try connecting again.",
+      "invalidOrg": "Invalid organisation selected",
+      "tokensDecryptFailed": "Could not decrypt the tokens. Try connecting again."
+    },
+    "billy": {
+      "noApiKey": "Billy API key is not set",
+      "decryptFailed": "Could not decrypt the Billy API key",
+      "connectionActive": "The connection to Billy is active",
+      "connectionFailed": "Could not connect to Billy",
+      "clientExported": "Client exported to Billy",
+      "invoiceAlreadyExported": "The invoice has already been exported to Billy",
+      "clientCreateFailed": "Could not create or find the client in Billy",
+      "productWithoutId": "Billy returned a product without an ID: {json}",
+      "invoiceWithoutId": "Billy returned an invoice without an ID: {json}",
+      "invoiceExported": "Invoice exported to Billy",
+      "exportFailed": "Could not export to Billy: {message}",
+      "invoiceNotExported": "The invoice has not been exported to Billy"
+    },
+    "unknownErrorOccurred": "An unknown error occurred",
+    "invoiceMissingClient": "The invoice has no client",
+    "economic": {
+      "noTokens": "e-conomic tokens are not set",
+      "decryptFailed": "Could not decrypt the e-conomic tokens",
+      "connectionActive": "The connection to e-conomic is active",
+      "connectionFailed": "Could not connect to e-conomic",
+      "clientExported": "Client exported to e-conomic",
+      "paymentTermsMissing": "Payment terms are missing. Choose them under Settings → Integrations.",
+      "invoiceAlreadyExported": "The invoice has already been exported to e-conomic",
+      "consultingLine": "Consulting work: {hours} hours",
+      "invoiceBooked": "Invoice booked in e-conomic",
+      "invoiceDraftCreated": "Invoice created as a draft in e-conomic",
+      "invoiceNotExported": "The invoice has not been exported to e-conomic"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: Could not detect the date format automatically. Please choose it manually.",
+      "noValidRows": "No valid rows found in the CSV file.",
+      "unknownClient": "Unknown client"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "The company details are missing. They must appear on the invoice, so fill them in under Settings → Company profile (or ask an administrator) before creating the first invoice.",
+    "templateNotFound": "Invoice template not found",
+    "issuedCannotChange": "Issued invoices cannot be changed. Create a credit note to correct amounts or terms.",
+    "deletedCannotEdit": "Deleted invoices cannot be edited.",
+    "paidNotesOnly": "Paid invoices cannot be edited. You can only add notes.",
+    "draftsOnlyDelete": "Only drafts can be deleted. Cancel issued invoices instead.",
+    "statusChangedElsewhere": "The invoice status was changed elsewhere. Reload the invoice and try again.",
+    "creditNoteNotCreditable": "A credit note cannot be credited",
+    "draftNotCreditable": "Drafts are not credited. Delete the draft instead (it has no issued number).",
+    "deletedNotCreditable": "Deleted invoices cannot be credited",
+    "alreadyCredited": "The invoice has already been credited by {number}",
+    "creditNoteNotes": "Credit note for invoice {number} dated {date}",
+    "draftOnlyAddLines": "Lines can only be added to draft invoices",
+    "timeEntryNotFound": "Time entry not found",
+    "lineNotFound": "Invoice line not found",
+    "draftOnlyEditLines": "Lines can only be edited on draft invoices",
+    "draftOnlyDeleteLines": "Lines can only be deleted from draft invoices",
+    "draftOnlyReorder": "The order can only be changed on draft invoices",
+    "clientHasNoEmail": "The client has no email address"
+  },
+  "logbook": {
+    "ownOnly": "You can only view your own logbook",
+    "notInYourOrg": "The user is not a member of your organisation",
+    "noAccessWaste": "You do not have access to the organisation's wasted time"
+  },
+  "marketing": {
+    "tooManyAttempts": "Too many attempts. Try again later."
+  },
+  "memberRates": {
+    "membersNotInOrg": "One or more members do not exist in the organisation"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "Your organisation's owner manages the subscription, so you do not need to choose a plan.",
+    "privatePlanUnavailable": "The Private plan is not available yet. Choose another plan."
+  },
+  "organization": {
+    "requiresOrg": "Requires an organisation",
+    "noActiveOrg": "No active organisation",
+    "moduleNotAssigned": "The \"{module}\" module is not assigned to this organisation",
+    "moduleUnavailable": "The \"{module}\" module is not available to you. Contact support.",
+    "noSelfTransfer": "You cannot transfer ownership to yourself",
+    "ownerOnlyTransfer": "Only the owner can transfer ownership",
+    "memberNotFound": "Member not found"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "Only owners and administrators can view the activity log"
+  },
+  "portalBranding": {
+    "noDomain": "No domain to verify",
+    "verifyFailed": "The domain could not be verified. Check that the DNS TXT record '_timetrack-verify.{domain}' contains the token: {token}"
+  },
+  "prepaid": {
+    "invalidHours": "Invalid number of hours for the prepaid deduction",
+    "otherClient": "The prepaid package belongs to a different client than the time entry's client",
+    "inactive": "Prepaid package is not active",
+    "expired": "The prepaid package has expired",
+    "insufficientHours": "Not enough hours left on the prepaid package. Available hours: {available}",
+    "insufficientHoursClip": "Not enough hours left on the prepaid package. Available hours: {available}, requires {required}h (rounded up to {minutes}-minute blocks)",
+    "multipleClients": "The selected time entries belong to several clients. Select entries from one client only.",
+    "entriesNotFound": "One or more time entries were not found",
+    "alreadyBilled": "{count, plural, one {# of the selected time entries is already billed and cannot be deducted from the prepaid package} other {# of the selected time entries are already billed and cannot be deducted from the prepaid package}}",
+    "foreignEntries": "{count, plural, one {# time entry belongs to a different client than the prepaid package} other {# time entries belong to a different client than the prepaid package}}",
+    "requestNotFound": "Request not found or already handled",
+    "gone": "The prepaid package no longer exists",
+    "renewalInvoiceNote": "Renewal of prepaid package \"{name}\", requested by the client via the portal",
+    "totalBelowUsed": "The total number of hours cannot be lower than the hours already used ({used} h)",
+    "hasUsage": "A prepaid package with registered usage cannot be deleted. Deactivate it instead.",
+    "entryNotFound": "The time entry was not found"
+  },
+  "projects": {
+    "hasBilledEntries": "The project has billed time entries and cannot be permanently deleted. Archive it instead.",
+    "nameMismatch": "The project name does not match",
+    "noneFound": "No projects found"
+  },
+  "portal": {
+    "invalidLink": "Invalid or expired link",
+    "invalidLogin": "Invalid email or password",
+    "noInvoiceAccess": "No access to invoices",
+    "noProjectAccess": "No access to projects",
+    "noTimeAccess": "No access to time entries",
+    "noPrepaidAccess": "No access to prepaid packages",
+    "tooManyRequests": "Too many requests. Try again later.",
+    "prepaidInactive": "The prepaid package is not active. Contact your supplier.",
+    "noAccess": "No access",
+    "notAllowedApprove": "Not allowed to approve time",
+    "requestNotFound": "Request not found",
+    "requestHandled": "The request has already been handled",
+    "notAllowedReject": "Not allowed to reject time"
+  },
+  "quickSignup": {
+    "created": "Account created! Signing you in...",
+    "emailNotAllowed": "This email address cannot be used to register.",
+    "emailTaken": "This email is already registered",
+    "createFailed": "Could not create the account",
+    "error": "An error occurred while creating the account"
+  },
+  "recurringInvoices": {
+    "clientArchived": "The client is archived. Restore the client first.",
+    "prepaidFixedAmount": "A prepaid package is invoiced with a fixed amount, so do not select recorded time",
+    "prepaidNoRenewal": "The prepaid package does not renew automatically. Turn on periodic renewal first.",
+    "needLine": "Add at least one line with an amount above 0",
+    "firstDateInPast": "The first invoice date cannot be before today",
+    "notFound": "Recurring invoice not found",
+    "nextDateInPast": "The next invoice date cannot be before today"
+  },
+  "recurring": {
+    "startDateRequired": "A start date is required for recurring templates",
+    "cannotPause": "A non-recurring template cannot be paused",
+    "cannotResume": "A non-recurring template cannot be resumed"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "Team profitability requires an organisation",
+    "utilisationNeedsOrg": "Utilisation rate requires an organisation",
+    "weekdayRange": "Weekday must be 1-7",
+    "linkNotFound": "Link not found",
+    "tooManyRows": "The report contains more than 10,000 entries. Narrow the date range."
+  },
+  "reportTemplates": {
+    "clientNotYours": "The client does not belong to your account.",
+    "systemNoEdit": "System templates cannot be edited. Duplicate them instead.",
+    "systemNoDelete": "System templates cannot be deleted."
+  },
+  "security": {
+    "accountNotFound": "Account not found",
+    "lastLoginMethodRemove": "You cannot remove your last sign-in method. Add a password or passkey first.",
+    "passkeyNotFound": "Passkey not found",
+    "lastLoginMethodDelete": "You cannot delete your last sign-in method. Add a password or connect an OAuth account first.",
+    "sessionNotFound": "Session not found",
+    "cannotEndCurrent": "You cannot end your current session. Sign out instead.",
+    "currentSessionNotFound": "Current session not found",
+    "phoneIsOnlyMethod": "You cannot remove your phone number because it is your only sign-in method. Add another method first.",
+    "deviceNotFound": "Device not found",
+    "rec": {
+      "addLoginMethod": "Add a sign-in method",
+      "verifyEmail": "Confirm your email address",
+      "enable2fa": "Turn on two-factor authentication",
+      "addPasskey": "Add a passkey for faster and safer sign-in",
+      "addMore": "Add more sign-in methods as a backup"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "You already have an active subscription. Use 'Manage billing' to change plan or payment method.",
+    "seatsExceedIncluded": "Your organisation uses {seats} seats, {extra} more than the {included} included in {plan}. Self-service upgrade is not possible yet without losing seats. Contact support and we will move you manually.",
+    "noCheckoutUrl": "Alunta returned no checkout URL. Contact support.",
+    "extraSeatsNeedSubscription": "Extra seats require an active subscription. Choose a plan and add payment first.",
+    "noActiveAddPayment": "No active subscription found. Please add a payment method first.",
+    "noActive": "No active subscription found",
+    "none": "No subscription found",
+    "requestFailed": "Could not send the request. Try again later.",
+    "priceSuffixYear": "kr/year",
+    "priceSuffixMonth": "kr/month",
+    "checkoutComingSoon": "Payments aren't open here yet. You're on the Free plan."
+  },
+  "tags": {
+    "nameExists": "A tag named \"{name}\" already exists",
+    "timeEntryNotFound": "Time entry not found",
+    "notYours": "One or more tags do not belong to you",
+    "projectNotFound": "Project not found",
+    "projectsNotFound": "One or more projects were not found, or you do not have access to them",
+    "clientNotFound": "Client not found"
+  },
+  "tasks": {
+    "parentNotFound": "Parent task not found",
+    "subtaskNoSubtasks": "A subtask cannot have subtasks of its own",
+    "laneNotFound": "Lane not found",
+    "laneOtherBoard": "The lane belongs to a different board than the task",
+    "moveSameBoard": "The task can only be moved within the same board",
+    "dryRunFailed": "The dry run could not be validated",
+    "bulkFailed": "The bulk change could not be validated",
+    "bulkRolledBack": "Not all selected tasks were updated; the transaction was rolled back",
+    "assignNeedsOrg": "Assigning requires an organisation",
+    "assigneeNotMember": "The assignee is not a member of the organisation",
+    "mainTaskNotFound": "Main task not found",
+    "assignedPushTitle": "📋 New task assigned",
+    "assignedPushBody": "{name} assigned you \"{task}\"",
+    "aColleague": "A colleague",
+    "invalidOrder": "Invalid order",
+    "taskNotFound": "Task not found"
+  },
+  "user": {
+    "pageUnavailable": "This page is not available to you right now",
+    "emailMismatch": "The email does not match your account",
+    "deleteFailed": "The deletion could not be completed. Contact support and we will help you.",
+    "aiConnectionOk": "Connection OK! Reply: \"{reply}\"",
+    "aiConnectionFailed": "Connection failed: {message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "You can only handle absence for your own employees",
+      "requestNotFound": "Absence request not found",
+      "approveOnlyPending": "The request can only be approved while it is pending",
+      "noSelfApprove": "You cannot approve your own absence",
+      "rejectOnlyPending": "The request can only be rejected while it is pending",
+      "typeHasPending": "An absence type with pending requests cannot be deleted. Reject or cancel them first.",
+      "managersOnlyForOthers": "Only managers and administrators can record absence for others",
+      "endBeforeStart": "The end date cannot be before the start date",
+      "endDateRequired": "An end date is required for {type}. Only sickness and leave can be recorded without an end date.",
+      "overlapOther": "The employee already has absence in this period",
+      "overlapOwn": "You already have an absence request in this period",
+      "registrationNotFound": "Absence record not found",
+      "selfReturnOnly": "You can only report yourself as recovered",
+      "periodAlreadyEnded": "The period has already ended",
+      "onlyActiveRecovered": "Only active records can be reported as recovered",
+      "lastDayBeforeStart": "The last day of absence cannot be before the start date",
+      "endedElsewhere": "The period has already been ended elsewhere. Reload the list.",
+      "recoveredPushTitle": "Reported recovered",
+      "recoveredPushBody": "Your {type} ended on {date}",
+      "requestNotFoundShort": "Request not found",
+      "ownOnlyEdit": "You can only edit your own requests",
+      "pendingOnlyEdit": "Only pending requests can be edited",
+      "alreadyCancelled": "The request has already been cancelled",
+      "fixedHolidayNoCancel": "Fixed holiday (closure period) cannot be cancelled. Contact your administrator.",
+      "changedElsewhere": "The request was changed elsewhere. Reload the list.",
+      "employeeNotInOrg": "The employee does not exist in the organisation"
+    },
+    "handledElsewhere": "The request has already been handled elsewhere. Reload the list.",
+    "yourManager": "Your manager",
+    "absenceTypeNotFound": "Absence type not found",
+    "activityTypeNotInOrg": "The activity type does not exist in your organisation",
+    "projectNotInOrg": "The project does not exist in your organisation",
+    "activityTypesNotInOrg": "One or more activity types do not exist in your organisation",
+    "projectsNotInOrg": "One or more projects do not exist in your organisation",
+    "activityTypesUnknown": "One or more activity types are unknown or archived",
+    "checkin": {
+      "already": "You are already checked in",
+      "noneOpen": "No open check-in found"
+    },
+    "closure": {
+      "maxDays": "A closure period can be at most {days} days. Create several periods instead.",
+      "needsVacationType": "Fixed holiday weeks must use an absence type that deducts holiday",
+      "notFound": "Closure period not found"
+    },
+    "employeeProfileNotFound": "Employee profile not found",
+    "compliance": {
+      "ownOnly": "You can only view your own compliance status",
+      "rejected": "The entry was rejected by the working-time rules: {reasons}"
+    },
+    "departmentNotFound": "Department not found",
+    "deptManagers": {
+      "oncePerDept": "The same user can only appear once per department",
+      "validFromBeforeTo": "Valid from must be before valid to",
+      "usersNotMembers": "One or more users are not members of the organisation"
+    },
+    "employee": {
+      "employmentEnded": "The employment has already ended",
+      "endBeforePeriodStart": "The end date cannot be before the start of the period ({date})",
+      "managerNotFound": "Manager not found",
+      "ownManager": "An employee cannot be their own manager",
+      "managerCycle": "The manager hierarchy forms a cycle",
+      "viewOwnTeamProfiles": "You can only view profiles of your own employees",
+      "profileExists": "The employee already has a profile in this organisation",
+      "hireDateManaged": "The hire date is managed by the employment history. Edit it under the Employment tab.",
+      "viewOwnTeamEmployments": "You can only view employments of your own employees",
+      "startAfterLatest": "The start date must be after the start of the latest period ({date})",
+      "endedOn": "The employment ended on {date}. A new period must start after that date.",
+      "periodNotFound": "Employment period not found",
+      "historyOwnTeamOnly": "You can only view the history of your own employees"
+    },
+    "flex": {
+      "ownBalanceOnly": "You can only view your own flex balance",
+      "recalcScope": "You can only recalculate flex for yourself or your employees",
+      "profileNotInOrg": "Employee profile not found in this organisation"
+    },
+    "holidays": {
+      "notFound": "Public holiday not found",
+      "defaultNoDelete": "Default public holidays cannot be deleted. Choose the days-off calendar preset instead."
+    },
+    "mw": {
+      "noActiveOrg": "No active organisation found",
+      "noEmployeeProfile": "You have no employee profile in this organisation. Contact an administrator.",
+      "twoFactorRequired": "The organisation requires two-factor authentication for managers and administrators. Turn on 2FA under Settings → Security and try again.",
+      "hrReadOnly": "The HR role can view but not approve or edit",
+      "managerRequired": "This action requires manager or administrator permissions",
+      "viewRequiresRole": "This view requires manager, HR or administrator permissions",
+      "ownersAdminsOnly": "Only owners and administrators have access to this feature",
+      "twoFactorAdmins": "The organisation requires two-factor authentication for administrators"
+    },
+    "notifications": {
+      "addTeamsFirst": "Add a Teams webhook before turning Teams on",
+      "noTeamsWebhook": "No Teams webhook is saved",
+      "testBody": "The Teams integration for {org} works. Manager events (timesheets, absence, sick leave, working-time rules and digest) are sent here.",
+      "theOrganisation": "the organisation",
+      "teamsRejected": "Teams rejected the test message: {message}"
+    },
+    "organizationNotFound": "Organisation not found",
+    "org": {
+      "deptHasEmployees": "A department with assigned employees cannot be deleted. Move the employees first."
+    },
+    "overtime": {
+      "ownEmployeesOnly": "You can only post for your own employees",
+      "positiveHours": "Enter a positive number of hours",
+      "notZero": "The entry cannot be 0 hours"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "The wage type does not exist in your organisation",
+      "wageTypeCodeExists": "A wage type with that code already exists",
+      "ruleNotInOrg": "The rule does not exist in your organisation",
+      "employeeNumberTaken": "The employee number is already used by someone else",
+      "exportTitle": "Payroll export: {org}"
+    },
+    "absenceTypeNotInOrg": "The absence type does not exist in your organisation",
+    "exportRateLimited": "Too many exports. Try again in {seconds} seconds.",
+    "closing": {
+      "notEnabled": "Period closing is not turned on in the organisation's settings",
+      "afterPeriodEnd": "The statement can only be created once the period has ended",
+      "approvedNoRecalc": "An approved statement cannot be recalculated. Unlock it first.",
+      "noSelfApprove": "You cannot approve your own period statement",
+      "alreadyApproved": "The statement has already been approved",
+      "ownAckOnly": "You can only acknowledge your own statement",
+      "needsManagerApproval": "The statement must be approved by your manager before you acknowledge it",
+      "notLocked": "The period is not locked",
+      "notFound": "The statement does not exist"
+    },
+    "assign": {
+      "usersNotActive": "One or more users are not active employees in the organisation"
+    },
+    "reports": {
+      "payrollHrOnly": "The payroll report is reserved for HR and administrators",
+      "shareHrOnly": "Only HR and administrators can share templates with the whole organisation",
+      "defaultNoOverwrite": "The default template cannot be overwritten. Save it under a new name.",
+      "ownEditOnly": "You can only edit your own templates",
+      "defaultNoDelete": "The default template cannot be deleted",
+      "ownDeleteOnly": "You can only delete your own templates",
+      "weekdayRange": "Weekday must be 1-7"
+    },
+    "reportTypeHrOnly": "This report type is reserved for HR and administrators",
+    "sso": {
+      "invalidTenant": "Invalid tenant ID. Expected a GUID in the form xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (Directory (tenant) ID in Azure).",
+      "microsoftNotConfigured": "Microsoft sign-in is not configured on this installation, so 'SSO only' cannot be turned on.",
+      "verifyDomainFirst": "Verify at least one domain before 'SSO only' can be turned on, otherwise the policy would apply to no one.",
+      "connectMicrosoftFirst": "Connect Microsoft to your own account first (Settings → Security → Connect Microsoft), otherwise you lock yourself out when 'SSO only' is on.",
+      "enable2faFirst": "Turn on two-factor authentication on your own account first, otherwise you lock yourself out of administration.",
+      "invalidDomain": "Invalid domain. Write e.g. example.com (without @ or https://).",
+      "publicProviders": "Public email providers (gmail.com, outlook.com etc.) cannot be used for auto-join.",
+      "domainAlreadyAdded": "The domain has already been added.",
+      "domainVerifiedElsewhere": "The domain has already been verified by another organisation. Contact support if this is a mistake.",
+      "maxDomains": "At most {max} domains per organisation.",
+      "domainNotFound": "Domain not found",
+      "domainVerifiedElsewhereShort": "The domain has already been verified by another organisation.",
+      "txtCorrectButTaken": "The TXT record is correct, but the domain has already been verified by another organisation. Contact support.",
+      "justVerifiedElsewhere": "The domain was just verified by another organisation. Contact support."
+    },
+    "team": {
+      "timesheetsOwnEmployees": "You can only handle timesheets for your own employees",
+      "employeeNotInOrg": "The employee does not exist in your organisation",
+      "weekNothingToApprove": "The week has no entries to approve",
+      "weekAlreadyApproved": "The week has already been approved",
+      "noSelfApprove": "You cannot approve your own timesheet",
+      "onlySubmittedRejectable": "Only submitted weeks can be rejected",
+      "weekInClosedPeriod": "The week is in a closed period. Unlock the period under Period closing first.",
+      "onlyApprovedReopen": "Only approved weeks can be reopened",
+      "historyOwnEmployees": "You can only view the history of your own employees"
+    },
+    "import": {
+      "noProject": "(no project)",
+      "beforeLock": "{count} rows are before the period lock {date}",
+      "submittedWeeks": "{count} submitted/approved weeks receive new rows, and they do not count in the total that was already approved"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "The week has already been approved. Ask your manager to reopen it.",
+      "weekAlreadySubmitted": "The week has already been submitted and is awaiting approval",
+      "weekNothingToSubmit": "The week has no entries to submit",
+      "activityNotAllowed": "The activity is not allowed on this project",
+      "dayHasDetailed": "The day has {hours} hours in detailed entries. Edit them under Time tracking, or enter at least that many.",
+      "chooseOtherActivity": "Choose another activity to move to",
+      "noEmployeeProfile": "You have no employee profile in this organisation",
+      "fixedHoliday": "The day is fixed holiday (closure period) and cannot be changed by you",
+      "coveredByLongAbsence": "The day is covered by a longer absence period. Edit it under Absence.",
+      "notEmployed": "You were not employed on this date",
+      "holidayNoAbsence": "The day is a day off or public holiday, so absence cannot be recorded",
+      "lastWeekEmpty": "Last week has no entries to copy",
+      "weekNothingToSave": "The week has no entries to save as a template",
+      "templateMissing": "The template does not exist"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "Only managers can edit an employee's working hours",
+      "ownOnlyView": "You can only view your own working hours",
+      "employeeNotInOrg": "The employee does not exist in the organisation",
+      "sharedPlan": "The plan is also used outside your employees. Ask an administrator to change it.",
+      "planMissing": "The plan does not exist",
+      "planArchived": "The plan is archived",
+      "laterVersion": "A later version from {date} exists. Edit that one instead.",
+      "versionFromToday": "A version that applies from today already exists. Choose a later date.",
+      "adminsOnlyDept": "Only administrators can assign a plan to a department",
+      "departmentMissing": "The department does not exist",
+      "deviationsRecorded": "Deviations are recorded when they happen. Planned absence is recorded under Holiday & absence.",
+      "noFixedPlanToday": "There is no fixed work plan this day. Record the time as time entries."
+    },
+    "dpa": {
+      "outdated": "The agreement was updated since the page was loaded. Reload and read the new version.",
+      "acceptFailed": "Could not register the acceptance",
+      "signIn": "Sign in to download it",
+      "ownersAdminsDownload": "Only owners and administrators can download the completed agreement"
+    },
+    "edit": {
+      "weekApprovedLocked": "The week is approved and locked. Ask your manager to reopen it.",
+      "weekSubmitted": "The week has been submitted for approval and cannot be edited",
+      "entryApproved": "The entry has been approved by your manager. Ask for the week to be reopened."
+    },
+    "periodMaxDaysAsync": "The period can be at most {days} days",
+    "scope": {
+      "ownEmployees": "You can only handle your own employees"
+    },
+    "dns": {
+      "unknown": "Unknown DNS error",
+      "lookupFailed": "DNS lookup failed: {error}",
+      "noRecord": "Found no TXT record \"{record}\" on {hosts}. DNS changes can take up to an hour."
+    }
+  },
+  "emailTemplates": {
+    "notFound": "Template not found",
+    "systemNoEdit": "System templates cannot be edited",
+    "systemNoDelete": "System templates cannot be deleted",
+    "alreadyExist": "Templates already exist"
+  },
+  "api": {
+    "tooManyRequestsLater": "Too many requests. Try again later.",
+    "cvr": {
+      "queryMin2": "The search term must be at least 2 characters",
+      "noCompany": "No company found",
+      "searchFailed": "An error occurred during the search",
+      "numberOrQueryRequired": "A CVR number or search term is required",
+      "eightDigits": "The CVR number must be 8 digits",
+      "noCompanyForNumber": "No company found with this CVR number",
+      "lookupFailed": "An error occurred while looking up the CVR number"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "Export not found or expired",
+      "expired": "The export has expired or is no longer available. Order a new export."
+    },
+    "notAuthorized": "Not authorised. Sign in first.",
+    "desktop": {
+      "deviceCodeMissing": "Missing device code (code)",
+      "maxDevices": "Maximum number of devices reached ({max}). Deactivate a device first.",
+      "invalidDeviceToken": "Invalid device token",
+      "userNotFound": "The user does not exist",
+      "settingsReadFailed": "Could not read settings",
+      "notInAnyOrg": "You are not a member of an organisation",
+      "adminsOnlyIntegrations": "Only administrators can change integration settings",
+      "invalidIntegrationSettings": "Invalid integration settings",
+      "settingsSaveFailed": "Could not save settings",
+      "draftOnlyEditLines": "Lines can only be changed on draft invoices",
+      "invalidPrepaidHours": "Invalid number of hours on the prepaid time entry",
+      "draftOnlyEditInvoices": "Only draft invoices can be edited",
+      "unbillOnlyWeb": "The billed mark can only be removed in the web app. Remove it there first.",
+      "entryNotFoundOrOther": "Entity not found: {id}. The entry does not exist or belongs to another user"
+    },
+    "notMemberOfChosenOrg": "You are not a member of the chosen organisation",
+    "approvalFailed": "Approval failed",
+    "invalidEmail": "Invalid email address",
+    "genericError": "An error occurred",
+    "dpa": {
+      "pdfFailed": "The PDF could not be created right now"
+    },
+    "invalidOrigin": "Invalid origin",
+    "invalidRequest": "Invalid request",
+    "ext": {
+      "invalidLoginLink": "Invalid sign-in link. Start sign-in again from the app.",
+      "invalidRedirect": "Invalid redirect URI"
+    },
+    "feedback": {
+      "notSignedIn": "Not signed in",
+      "otherUser": "The report was written by another user",
+      "tooLarge": "The report is too large",
+      "invalid": "Invalid report",
+      "saveFailed": "The feedback could not be saved"
+    },
+    "invalidJson": "Invalid JSON",
+    "integrations": {
+      "dineroFailed": "The Dinero connection could not be created. Try again.",
+      "economicFailed": "The e-conomic connection could not be created. Try again.",
+      "googleFailed": "The Google connection could not be created. Try again."
+    },
+    "invoiceSend": {
+      "invalidRecipient": "Invalid recipient email",
+      "emailNotConfigured": "The email service is not configured. Contact your administrator to set up RESEND_API_KEY or SMTP_HOST.",
+      "sendFailed": "Could not send the email. Try again later.",
+      "sent": "Email sent to {email}",
+      "error": "An error occurred while sending the email"
+    },
+    "upload": {
+      "notAuthorized": "Not authorised",
+      "noFile": "No file uploaded",
+      "imageTypes": "Only JPEG, PNG and WebP are allowed",
+      "tooBig": "The file is too large (max 8 MB)",
+      "notConfigured": "File upload is not configured (S3_ENDPOINT or STORAGE_DRIVER=local is missing)",
+      "failed": "Could not upload the file to storage",
+      "invalidImage": "The image could not be read or has too many pixels"
+    },
+    "webhookTest": {
+      "tooMany": "Too many test attempts for this webhook. Try again shortly."
+    },
+    "import": {
+      "tagNoName": "Tag has no name"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "The prepaid package belongs to a different client than the timer"
+  }
+}

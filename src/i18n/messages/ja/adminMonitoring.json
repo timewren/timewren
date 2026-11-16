@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "モニタリング",
+    "healthy": "正常率 {score}%",
+    "cronDashboard": "Cronダッシュボード",
+    "sections": {
+      "health": "システムの状態",
+      "cron": "Cronジョブ",
+      "email": "メール配信"
+    },
+    "tiles": {
+      "activeSessions": "アクティブなセッション",
+      "sessions24h": "過去24時間のセッション",
+      "activeTimers": "稼働中のタイマー",
+      "emailsSent7d": "送信メール数（7日間）"
+    },
+    "cronHealth": {
+      "title": "Cronジョブの状態（7日間）",
+      "runs": "実行回数",
+      "ok": "成功",
+      "errors": "エラー",
+      "avgDuration": "平均所要時間",
+      "lastRun": "最終実行"
+    },
+    "errors": {
+      "title": "エラー（過去7日間）",
+      "count": "{count}回"
+    },
+    "cron": {
+      "allJobs": "すべてのジョブ",
+      "allStatuses": "すべてのステータス",
+      "filter": {
+        "success": "成功",
+        "error": "エラー",
+        "partial": "一部成功"
+      },
+      "status": {
+        "success": "成功",
+        "error": "エラー",
+        "partial": "一部成功"
+      },
+      "empty": "Cronジョブのログがありません",
+      "columns": {
+        "job": "ジョブ",
+        "status": "ステータス",
+        "started": "開始",
+        "duration": "所要時間",
+        "items": "件数",
+        "errors": "エラー"
+      }
+    },
+    "showing": "{total}件中 {from}～{to}件を表示",
+    "previous": "前へ",
+    "next": "次へ",
+    "email": {
+      "sent": "送信済み",
+      "delivered": "配信済み",
+      "bounced": "バウンス",
+      "failed": "失敗",
+      "status": {
+        "sent": "送信済み",
+        "delivered": "配信済み",
+        "bounced": "バウンス",
+        "failed": "失敗"
+      },
+      "last24h": "過去24時間",
+      "last7d": "過去7日間",
+      "last30d": "過去30日間",
+      "last90d": "過去90日間",
+      "allTemplates": "すべてのテンプレート",
+      "empty": "メールのログがありません",
+      "columns": {
+        "recipient": "宛先",
+        "subject": "件名",
+        "template": "テンプレート",
+        "status": "ステータス",
+        "sentAt": "送信日時"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cronジョブ",
+    "refresh": "更新",
+    "never": "なし",
+    "badge": {
+      "neverRun": "未実行",
+      "silent": "無応答",
+      "error": "エラー",
+      "partial": "一部成功",
+      "running": "実行中",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "成功",
+      "error": "エラー",
+      "partial": "一部成功"
+    },
+    "noRows": "ログの行がありません",
+    "runColumns": {
+      "status": "ステータス",
+      "started": "開始",
+      "duration": "所要時間",
+      "items": "件数",
+      "errorMessage": "エラーメッセージ"
+    },
+    "tiles": {
+      "expected": "想定ジョブ数",
+      "silent": "無応答のジョブ",
+      "withErrors": "エラーのあるジョブ（24時間）",
+      "totalRuns": "総実行回数（24時間）"
+    },
+    "columns": {
+      "status": "ステータス",
+      "job": "ジョブ",
+      "cadence": "実行間隔",
+      "lastRun": "最終実行",
+      "runs24h": "実行回数 24時間",
+      "errors24h": "エラー 24時間",
+      "avgDuration": "平均所要時間"
+    },
+    "lastError": "直近のエラー:",
+    "cadence": {
+      "everyMinutes": "{minutes}分ごと",
+      "hourly": "毎時",
+      "everyHours": "{hours}時間ごと",
+      "daily": "毎日",
+      "weekly": "毎週",
+      "monthly": "毎月",
+      "everyDays": "{days}日ごと"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Factuur (standaard)",
+        "subject": "Factuur {number} van {company}",
+        "title": "Factuur {number}",
+        "text": "Beste {client},\n\nHierbij ontvangt u de factuur voor het uitgevoerde werk.\n\nBedrag: {amount}\nVervaldatum: {dueDate}",
+        "button": "Factuur bekijken",
+        "footer": "Met vriendelijke groet\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Portaaluitnodiging",
+        "subject": "U bent uitgenodigd voor het klantenportaal van {company}",
+        "title": "Welkom in het klantenportaal",
+        "text": "Beste {client},\n\nU bent uitgenodigd voor uw persoonlijke klantenportaal bij {company}.\n\nIn het portaal kunt u:\n• Uw facturen bekijken\n• De voortgang van projecten volgen\n• Uw tijdboekingen bekijken\n• Uw urenpakket controleren",
+        "button": "Uitnodiging accepteren"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Je ontvangt geen nieuwsbrieven en marketing-e-mails van TimeTrack meer. Belangrijke e-mails over je account en beveiliging blijf je ontvangen.",
+    "invalidText": "De afmelding kon niet worden bevestigd. Probeer het opnieuw of pas je instellingen aan in TimeTrack.",
+    "confirmText": "Wil je je afmelden voor nieuwsbrieven en marketing-e-mails van TimeTrack? Belangrijke e-mails over je account en beveiliging blijf je ontvangen.",
+    "settingsButton": "E-mailinstellingen aanpassen",
+    "confirmButton": "Afmelding bevestigen",
+    "doneTitle": "Je bent afgemeld",
+    "invalidTitle": "De link is ongeldig",
+    "confirmTitle": "Afmelden voor nieuwsbrieven"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "het einde van de periode"
+  }
+}

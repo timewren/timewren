@@ -1,0 +1,99 @@
+---
+title: "One-line install"
+description: "Install TimeWren on a Linux server with Docker using one command: it generates secrets, starts the stack and waits until the app is healthy."
+---
+
+Choose this method if you have a server with Docker and want a running instance in a few minutes without cloning the repository. The script downloads the Compose file for a release, creates a `.env` with fresh random secrets, starts the stack and waits for it to become healthy.
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash
+```
+
+## Requirements
+
+- Docker Engine with the Compose v2 plugin, version 2.24 or newer (`docker compose version`).
+- `curl`, and a user that can reach the Docker daemon.
+- A published TimeWren release. Unless you pass `--version`, the script asks the GitHub API for the latest release of `timewren/timewren`.
+- For automatic HTTPS: a DNS record pointing at the server and inbound TCP ports 80 and 443 open.
+
+The script does not install Docker and never calls `sudo`. If Docker is missing or the daemon is unreachable, it prints where to get it and stops.
+
+## What the script does
+
+1. Checks that `docker` exists, that `docker compose` is v2.24 or newer, and that the daemon is reachable.
+2. Chooses the installation directory (see below) and, if `docker-compose.yml` or `.env.example` are missing there, downloads them from `https://raw.githubusercontent.com/timewren/timewren/<version>/`. The version is remembered in `.timewren-release`.
+3. Creates `.env` from `.env.example` with new random values (64 hex characters each) for `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` and `CRON_SECRET`. The file gets mode 600 and the secrets are never printed.
+4. Runs `docker compose pull` and `docker compose up -d`. Inside a source checkout (the directory has `Dockerfile` and `package.json`) it runs `docker compose up -d --build` instead and builds the image from the checkout.
+5. Waits until the `app` container reports healthy, up to 900 seconds by default. If the container exits or becomes unhealthy, it prints `docker compose logs app` as the next step.
+
+When it finishes, open the URL you set as `NEXT_PUBLIC_APP_URL` and create your account. The first account becomes the instance admin. Migrations run on every start of the app.
+
+> **Note:** Back up `ENCRYPTION_KEY` from `.env`. Without it, connected integrations must be reconnected.
+
+## Options
+
+Options go after `bash -s --` when you pipe the script:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --help
+```
+
+| Option | Meaning |
+| ------ | ------- |
+| `--url URL` | Public URL people will open. Must start with `http://` or `https://`, no credentials. Default: `http://localhost:PORT`. |
+| `--port PORT` | Host port for the app (written as `APP_PORT`, default 3000). Without `--url`, the URL becomes `http://localhost:PORT`. |
+| `--version TAG` | GitHub release tag to install. Default: the latest release. |
+| `--dir PATH` | Installation directory. Default: the current directory. |
+| `--with-caddy --domain HOST` | Add automatic HTTPS for `HOST` with Caddy (see below). |
+| `--no-start` | Create `.env` and stop before starting the stack. |
+| `--timeout SEC` | How long to wait for the app to become healthy. Default 900. |
+| `-h`, `--help` | Print a short usage text. |
+
+The script also reads these environment variables as defaults: `NEXT_PUBLIC_APP_URL`, `APP_PORT`, `TIMEWREN_VERSION`, `CADDY_DOMAIN` and `TIMEWREN_INSTALL_DIR`.
+
+Example with a pinned release in its own directory and a custom URL:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --dir /opt/timewren --version 1.2.3 --url https://timewren.example.com
+```
+
+## Automatic HTTPS with Caddy
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --with-caddy --domain timewren.example.com
+```
+
+`--domain` must be a DNS hostname that already points at this server. The script sets the URL to `https://timewren.example.com`, downloads `docker-compose.caddy.yml` next to the main Compose file and adds these lines to `.env`:
+
+```dotenv
+CADDY_DOMAIN=timewren.example.com
+COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml
+```
+
+The overlay adds a `caddy` service (`caddy:2-alpine`) that listens on ports 80 and 443 and proxies the domain to `app:3000`. If you pass `--url` together with `--with-caddy`, it must equal `https://` plus the domain. For other proxies, see [Reverse proxy](/docs/operations/reverse-proxy).
+
+## Where files go
+
+Without `--dir`, everything is created in the directory you run the command from: `docker-compose.yml`, `.env.example`, `.env`, `.timewren-release` and, with Caddy, `docker-compose.caddy.yml`. Run the command in an empty directory of your choice, or use `--dir`. Inside a repository checkout, the script uses the checkout root instead, as `./scripts/install.sh`.
+
+## Running it again
+
+The script is safe to repeat. If `.env` exists it is left untouched, so your secrets are kept, and the stack is simply pulled and started again. In that case `--url`, `--port` and `--version` are ignored: edit `.env` instead. It stops with an error if any of the four secrets is empty or missing in the existing `.env`. To enable Caddy on an existing `.env`, set `CADDY_DOMAIN` and `COMPOSE_FILE` yourself, as shown above.
+
+## Read the script first
+
+```bash
+curl -fsSL https://timewren.com/install.sh -o install.sh
+less install.sh
+bash install.sh
+```
+
+Arguments work the same way: `bash install.sh --with-caddy --domain timewren.example.com`.
+
+## Next steps
+
+- [Quickstart](/docs/quickstart): create your account and first client.
+- [Reverse proxy](/docs/operations/reverse-proxy): TLS with your own proxy.
+- [Email](/docs/configuration/email): configure mail before inviting other people.
+- [Environment variables](/docs/configuration/environment)
+- [Docker Compose](/docs/install/docker-compose): the same stack, set up by hand.

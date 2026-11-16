@@ -1,0 +1,107 @@
+---
+title: "Opgradering"
+description: "Opdatér en selvhostet TimeWren-instans sikkert: tag backup, hent, genstart, lås versioner og kom videre efter en fejlet migrering."
+---
+
+Opdateringer er manuelle. Intet henter en ny version af sig selv, og appen tjekker ikke efter en.
+
+## Sådan opdaterer du
+
+1. Tag en [backup](/da/docs/operations/backup-restore) af databasen, volumen `storage` og `.env`. Gør det hver gang: Migreringer går kun fremad.
+2. Læs release notes for at se, hvad der ændrer sig.
+3. Hent og genstart. Kommandoerne afhænger af, hvordan du har installeret.
+
+**Image-installation** ([installation med én linje](/da/docs/install/quick) eller [Docker Compose](/da/docs/install/docker-compose)): mappen er ikke en git-checkout, og `.env` kan låse `TIMEWREN_VERSION` (installationen med én linje skriver den altid). Sæt `NEW` til det release-tag, du vil have, og peg så `.env` på det, hent den udgivelses stackfiler og start:
+
+```bash
+NEW=1.3.0
+sed -i "s|^TIMEWREN_VERSION=.*|TIMEWREN_VERSION=$NEW|" .env
+grep -q '^TIMEWREN_VERSION=' .env || echo "TIMEWREN_VERSION=$NEW" >> .env
+if [ -f .timewren-release ]; then echo "$NEW" > .timewren-release; fi
+curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/$NEW/docker-compose.yml
+curl -fsSL https://raw.githubusercontent.com/timewren/timewren/$NEW/.env.example -o .env.example
+if [ -f docker-compose.caddy.yml ]; then curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/$NEW/docker-compose.caddy.yml; fi
+docker compose pull
+docker compose up -d
+```
+
+På macOS bruger du `sed -i ''` i stedet for `sed -i`. Sammenlign bagefter `.env.example` med din `.env` for at se nye variabler; selve din `.env` røres ikke. Kører du bevidst tagget `latest` uden en `TIMEWREN_VERSION`-linje, er `docker compose pull && docker compose up -d` nok.
+
+**Kildekode-checkout** ([fra kildekode](/da/docs/install/from-source)): opdatér koden og byg imaget igen:
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+`NEXT_PUBLIC_*`-værdierne for realtid, Plausible og Sentry i browseren kompileres ind i imaget, så de ændres kun ved et nyt build.
+
+4. Tjek resultatet:
+
+```bash
+docker compose ps
+docker compose logs app
+```
+
+Kig efter de migreringslinjer, der er beskrevet nedenfor. `curl -i http://127.0.0.1:3000/api/health` viser kun, at appen kører. Appen starter også efter en fejlet migrering, så et sundt svar er ikke et bevis på, at opdateringen lykkedes.
+
+Compose genopretter de containere, hvis image eller konfiguration er ændret. Databasecontaineren lades normalt i fred, og det gør dens volumen altid.
+
+> **Advarsel:** Tilføj aldrig `-v` til `docker compose down`, og kør aldrig `docker compose down -v` på en instans med data. Det sletter databasen og dine uploads.
+
+## Lås en version
+
+`docker-compose.yml` kører `ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}`. Standardtagget er `latest`. Vil du låse en version, sætter du den i `.env`:
+
+```bash
+echo 'TIMEWREN_VERSION=1.2.3' >> .env
+docker compose pull && docker compose up -d
+```
+
+Brug en fuld `X.Y.Z`-version eller `X.Y` for den nyeste patch-release i den serie. Imaget ligger også på Docker Hub som `mahoje/timewren` og udgives til `linux/amd64` og `linux/arm64`. Har du allerede en `TIMEWREN_VERSION`-linje i `.env`, så ret den i stedet for at tilføje en til.
+
+## Hvad der sker med databasen
+
+Compose-filen sætter `MIGRATE_ON_START=1`. Hver gang containeren `app` starter, kører `scripts/startup.sh` kommandoen `npm run db:migrate` (som kører `scripts/migrate-safe.ts`), før webserveren starter:
+
+- Den tager en advisory lock i Postgres, så to containere, der starter samtidig, ikke migrerer parallelt. En container nummer to venter op til 5 minutter (`MIGRATION_LOCK_TIMEOUT_MS`) og fejler derefter.
+- Den anvender de ventende migreringer fra `drizzle/` via Drizzles migrator, som kører dem i en transaktion.
+- På en tom database opretter den det aktuelle skema og registrerer alle migreringer som anvendt.
+- En start uden noget nyt skriver `Database is up to date`, ellers `N new migration(s) applied`.
+
+## Hvis en migrering fejler
+
+Loggen viser `Migration failed:` efterfulgt af fejlen, og opstartsscriptet skriver exitkoden. Læs den med:
+
+```bash
+docker compose logs app
+```
+
+De ventende migreringer kører i én transaktion, så en fejlet migrering bliver ikke registreret. Scriptet kører også idempotente skemarettelser (`ADD COLUMN IF NOT EXISTS` og lignende) før migreringerne, og de committes separat. Skemaet kan derfor afvige en smule fra den forrige version, selv når migreringen fejlede. Kun backuppen garanterer den præcise tidligere tilstand.
+
+Appen starter stadig bagefter og kører den nye kode mod det gamle skema. Sider, der bruger nye kolonner eller tabeller, kan fejle, indtil du har rettet det. Er `ADMIN_DISCORD_WEBHOOK_URL` sat, sendes en alarm til Discord, ellers er loggen det eneste spor. Tjek loggen efter hver opdatering.
+
+Du kommer videre på en af disse måder:
+
+- Ret årsagen, og prøv igen. Ofte er det diskplads eller en databasebruger uden rettigheder. Kør derefter `docker compose restart app`, så prøves migreringerne igen ved næste start.
+- Gå tilbage til den forrige version med den backup, du tog i trin 1.
+
+### Rul tilbage
+
+Rul ikke kun koden tilbage efter en vellykket migrering. Den ældre kode kender ikke det nye skema, og intet ruller migreringer tilbage. Gendan databasen fra backuppen, og start derefter den forrige version:
+
+```bash
+docker compose stop app cron
+```
+
+Gendan dumpet som beskrevet i [Backup og gendannelse](/da/docs/operations/backup-restore), sæt derefter `TIMEWREN_VERSION` i `.env` til den forrige version, og start igen:
+
+```bash
+docker compose up -d
+```
+
+Bygger du selv, kører du i stedet `git checkout PREVIOUS_TAG_OR_COMMIT` og `docker compose up -d --build`.
+
+> **Advarsel:** Meget gamle installationer, hvor kolonnen `user.id` har typen `uuid`, nulstilles af migreringsscriptet: Alle tabeller slettes og oprettes igen. En backup før opdatering af sådan en installation er ikke valgfri.
+
+Bliver en migrering ved med at fejle, så rapportér det som et issue på [GitHub](https://github.com/timewren/timewren) med linjerne fra `docker compose logs app`.

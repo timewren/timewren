@@ -1,0 +1,121 @@
+---
+title: "Solución de problemas"
+description: "Resuelve los problemas habituales de una instancia autoalojada de TimeWren: arranque, inicio de sesión, correo, subidas, tareas cron y migraciones."
+---
+
+Empieza por el estado de los contenedores y el log de la aplicación:
+
+```bash
+docker compose ps
+docker compose logs -f app
+```
+
+## Endpoint de salud
+
+```bash
+curl -i http://127.0.0.1:3000/api/health
+```
+
+El endpoint devuelve HTTP 200 cuando todo va bien y 503 cuando falla una comprobación:
+
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-01-01T12:00:00.000Z",
+  "service": "timetrack",
+  "checks": {
+    "database": { "status": "ok" },
+    "auth": { "status": "ok" },
+    "signing_secret": { "status": "ok" },
+    "realtime": { "status": "disabled" }
+  }
+}
+```
+
+`status` es `healthy` o `unhealthy`. Las comprobaciones `database`, `auth` y `signing_secret` son `ok` o `error`, y cualquier `error` hace que la respuesta sea 503. La comprobación `realtime` también puede ser `degraded`, lo que nunca hace fallar la comprobación de salud. El campo `service` dice `timetrack` por motivos históricos. Una respuesta saludable no demuestra que la última migración haya salido bien; para eso, lee el log.
+
+El contenedor `app` muestra `starting` hasta que está sano. El primer arranque puede tardar uno o dos minutos, porque las migraciones se ejecutan antes de que el servidor escuche (la comprobación de salud permite 180 segundos).
+
+## docker compose up dice que falta una variable
+
+El mensaje la nombra, por ejemplo `Set POSTGRES_PASSWORD in .env`. Rellénala en `.env` y vuelve a ejecutar el comando. `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` y `CRON_SECRET` son obligatorias.
+
+## El inicio de sesión o el registro falla con 403 o "invalid origin"
+
+La URL del navegador difiere de `NEXT_PUBLIC_APP_URL`. Corrige el valor en `.env` y ejecuta `docker compose up -d`, o añade el nombre de host adicional a `TRUSTED_ORIGINS`. Consulta [Reverse proxy y TLS](/es/docs/operations/reverse-proxy).
+
+## Los enlaces de la aplicación o de los correos apuntan a localhost
+
+`NEXT_PUBLIC_APP_URL` no está definida, así que vuelve a `http://localhost:3000`. Defínela en `.env` y ejecuta `docker compose up -d`.
+
+## La compilación se interrumpe o se queda colgada
+
+Construir la imagen tú mismo necesita unos 5 GB de RAM en el pico. La imagen precompilada lo evita. Si tienes que construirla, añade swap o usa una máquina más grande:
+
+```bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+```
+
+## Los correos no llegan
+
+Busca líneas de correo en el log:
+
+```bash
+docker compose logs app | grep "\[Mail"
+```
+
+`[Mail:log]` significa que no hay ningún transporte configurado y no se envió nada. `[Mail] SMTP-afsendelse fejlede` va seguido del error de SMTP. Consulta [Correo electrónico](/es/docs/configuration/email).
+
+## Las integraciones almacenadas dejan de funcionar
+
+`ENCRYPTION_KEY` ha cambiado, así que los tokens almacenados no se pueden descifrar. Vuelve a poner el valor antiguo desde tu copia de seguridad y ejecuta `docker compose up -d`. Sin la clave antigua, vuelve a conectar las integraciones.
+
+## Las subidas fallan con un error de permisos
+
+El volumen `storage` debe poder escribirlo el uid 1001:
+
+```bash
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+```
+
+Las subidas también fallan cuando no hay configurado ni el driver local ni `S3_ENDPOINT`. Consulta [Almacenamiento de archivos](/es/docs/configuration/storage).
+
+## Las tareas programadas no se ejecutan
+
+El contenedor `cron` llama a los endpoints `/api/cron/*` de la aplicación:
+
+```bash
+docker compose logs cron
+```
+
+Una llamada fallida solo muestra el estado de salida 22 de curl, que significa un error HTTP como 401, 404 o 500. Comprueba primero que `CRON_SECRET` es idéntico en `app` y `cron`, y luego recrea ambos:
+
+```bash
+docker compose up -d --force-recreate app cron
+```
+
+## Una migración ha fallado
+
+El log muestra `Migration failed:` con el error. La aplicación sigue funcionando con el esquema antiguo. Corrige la causa (a menudo falta de espacio en disco) y reinicia:
+
+```bash
+docker compose restart app
+```
+
+Consulta [Actualizar](/es/docs/operations/upgrading) para la recuperación y la reversión.
+
+## Empezar de cero
+
+> **Advertencia:** `docker compose down -v` elimina la base de datos y todos los archivos subidos. Hazlo solo en una instancia desechable.
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
+## Pedir ayuda a una IA
+
+La documentación está disponible como texto plano para modelos de lenguaje. Pega una página, o el conjunto completo, en tu asistente junto con la salida de tu log (sin los secretos) y pídele que diagnostique el problema. Consulta [Documentación para LLM](/es/docs/llm) para ver las URL.

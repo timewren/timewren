@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Buonanotte",
+    "morning": "Buongiorno",
+    "forenoon": "Buongiorno",
+    "afternoon": "Buon pomeriggio",
+    "evening": "Buonasera"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Senza nome",
+  "noDescription": "Nessuna descrizione",
+  "prompt": {
+    "label": "Su cosa hai lavorato?",
+    "placeholder": "es. 2 ore sul sito per Jensen ieri",
+    "interpret": "Interpreta",
+    "listening": "In ascolto…",
+    "hintAvailable": "Scrivi o detta, poi premi Invio. Il parlato viene elaborato localmente nel browser e l'audio non viene inviato da nessuna parte.",
+    "hintDownloadable": "Scrivi e premi Invio.",
+    "downloading": "Download del riconoscimento vocale…",
+    "install": "Scarica il riconoscimento vocale (circa 60 MB, funziona in locale)",
+    "hintDefault": "Scrivi e premi Invio, es. “1,5 h riunione con Acme alle 9-10:30”. Su smartphone puoi dettare con il microfono della tastiera. Premi <kbd>/</kbd> per saltare qui.",
+    "stopDictation": "Interrompi la dettatura",
+    "dictate": "Detta con il microfono",
+    "dictateTitle": "Detta (riconoscimento vocale locale)",
+    "listeningSr": "In ascolto",
+    "missingHint": "scegli un suggerimento qui sotto, oppure correggilo nel modulo completo.",
+    "descriptionLabel": "Descrizione",
+    "descriptionPlaceholder": "A cosa è stato dedicato il tempo?",
+    "usePrepaid": "Scala dal pacchetto ore {name} ({time} rimanenti)",
+    "saveWithHours": "Salva {hours}",
+    "save": "Salva",
+    "editInForm": "Modifica nel modulo",
+    "cancel": "Annulla",
+    "keysHint": "Invio salva · Esc annulla",
+    "needDescription": "Scrivi una breve descrizione prima di salvare.",
+    "internal": "Salvato come tempo interno.",
+    "savedOffline": "Salvato offline. La registrazione ore verrà inviata quando la connessione tornerà.",
+    "registered": "{hours} registrate",
+    "saveFailed": "Impossibile salvare la registrazione ore"
+  },
+  "welcome": {
+    "title": "Benvenuto in {brand}",
+    "titleDone": "Un ottimo inizio. La tua prima registrazione ore è fatta",
+    "hide": "Nascondi il benvenuto",
+    "intro": "Parti in meno di un minuto: avvia subito un timer, oppure scrivi nel campo qui sotto su cosa hai lavorato, es. “2 ore sul sito ieri”. I dati dell'azienda e il piano puoi sistemarli dopo.",
+    "timerStarted": "Il timer è in funzione. Fermalo nella barra del timer in alto quando hai finito.",
+    "timerBusy": "Il timer è già in funzione",
+    "startFirstTimer": "Avvia il tuo primo timer",
+    "writeLine": "Scrivi una riga nel campo",
+    "surveyQuestion": "Per cosa userai soprattutto {brand}? <muted>(facoltativo)</muted>",
+    "primaryUse": {
+      "time": "Tenere traccia del mio tempo",
+      "invoicing": "Fatturare i miei clienti",
+      "klippekort": "Pacchetti ore prepagati",
+      "team": "Seguire il tempo del mio team"
+    },
+    "thanksToast": "Grazie per la risposta",
+    "saveFailed": "Impossibile salvare la risposta. Riprova.",
+    "thanksNote": "Grazie. Ora la Home mostra i prossimi passi più adatti a te.",
+    "privacyNote": "La risposta serve solo a personalizzare la Home e non viene condivisa con nessun altro."
+  },
+  "quickStart": {
+    "title": "Avvia timer",
+    "running": "Il timer è già in funzione. Fermalo nella barra del timer in alto prima di avviarne un altro.",
+    "paused": "Il timer è in pausa. Riprendilo o salvalo prima nella barra del timer in alto.",
+    "resumeToast": "Il timer è partito e prosegue l'ultima registrazione",
+    "continueLast": "Continua l'ultima",
+    "mostUsed": "Più usati",
+    "startedOn": "Timer avviato su {name}",
+    "startOn": "Avvia il timer su {name}",
+    "empty": "I progetti che usi di più compariranno qui dopo che avrai registrato un po' di tempo.",
+    "createProject": "Crea un progetto"
+  },
+  "signals": {
+    "label": "Richiede attenzione",
+    "nudge": {
+      "first-invoice": "Crea la tua prima fattura dalle ore registrate",
+      "first-client": "Crea il cliente a cui appartiene il pacchetto ore",
+      "first-klippekort": "Crea il tuo primo pacchetto ore",
+      "invite-team": "Invita un collega"
+    },
+    "lowBalance": "{count, plural, one {1 pacchetto ore sta per esaurirsi} many {# pacchetti ore stanno per esaurirsi} other {# pacchetti ore stanno per esaurirsi}}",
+    "unbilled": "<b>{duration}</b> di ore non fatturate pronte per una fattura"
+  },
+  "today": {
+    "title": "Oggi",
+    "ofExpected": "su {duration}",
+    "loadFailed": "Impossibile caricare le registrazioni di oggi. Prova a ricaricare la pagina.",
+    "empty": "Oggi non hai ancora registrato tempo. Scrivi qui sopra cosa hai fatto, oppure avvia un timer.",
+    "internal": "Tempo interno",
+    "resumeToast": "Il timer è partito e prosegue la registrazione",
+    "continueLabel": "Continua {name}",
+    "continueFallback": "registrazione",
+    "continueTitle": "Continua con il timer",
+    "allEntries": "Tutte le registrazioni",
+    "fullForm": "Modulo completo"
+  },
+  "page": {
+    "title": "Home",
+    "overview": "Panoramica"
+  }
+}

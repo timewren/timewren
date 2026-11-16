@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Primeiros passos",
+      "items": {
+        "0": {
+          "question": "Como adiciono o meu primeiro cliente?",
+          "answer": "Vai a “Clientes” na barra lateral e clica em “Adicionar cliente”. Preenche os dados do cliente, como o nome, o e-mail e, se quiseres, uma taxa horária própria. Se não indicares uma taxa horária, é usada a taxa horária predefinida das definições."
+        },
+        "1": {
+          "question": "Qual é a diferença entre projetos e clientes?",
+          "answer": "Os clientes são as pessoas ou empresas para quem trabalhas. Os projetos são trabalhos ou contratos concretos de um cliente. Podes ter vários projetos por cliente, por exemplo “Desenvolvimento de site” e “Suporte contínuo” no mesmo cliente."
+        },
+        "2": {
+          "question": "Como registo tempo?",
+          "answer": "Vai a “Registo de horas” e usa o cronómetro (iniciar/parar) ou adiciona o tempo manualmente. Escolhe um projeto ou cliente, adiciona uma descrição e guarda. Podes escolher se o tempo é descontado de uma bolsa de horas ou faturado normalmente."
+        },
+        "3": {
+          "question": "Como volto a fazer a visita guiada?",
+          "answer": "Clica na tua fotografia de perfil ou nas tuas iniciais no canto superior direito e escolhe “Iniciar visita”. A visita mostra-te todas as principais funcionalidades do {brand} em 24 passos interativos."
+        },
+        "4": {
+          "question": "Existem atalhos de teclado?",
+          "answer": "Sim, o {brand} tem muitos atalhos de teclado para navegar depressa e controlar o tempo. Prime “?” para ver um resumo de todos os atalhos disponíveis, ou consulta o tópico “Atalhos de teclado e dicas” mais abaixo."
+        }
+      }
+    },
+    "clients": {
+      "title": "Clientes",
+      "items": {
+        "0": {
+          "question": "Como defino uma taxa horária própria para um cliente?",
+          "answer": "Ao criares ou editares um cliente, podes indicar uma “Taxa horária (kr)”. Esta taxa substitui a tua taxa horária predefinida em todos os projetos desse cliente, a não ser que o projeto tenha uma taxa horária própria."
+        },
+        "1": {
+          "question": "Posso eliminar um cliente?",
+          "answer": "Para preservar a integridade dos dados, os clientes não podem ser eliminados, mas podem ser arquivados. Os clientes arquivados não aparecem nas listas, mas o seu histórico é mantido. Podes reativar um cliente arquivado em qualquer altura."
+        },
+        "2": {
+          "question": "O que é a hierarquia de taxas?",
+          "answer": "O {brand} usa um sistema de taxas com três níveis: 1) taxa horária global (nas definições), 2) taxa horária do cliente, 3) taxa horária do projeto. É usado o nível mais específico. Por exemplo, se um projeto tiver uma taxa, é essa que se usa; caso contrário, usa-se a do cliente e, na falta desta, a global."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projetos",
+      "items": {
+        "0": {
+          "question": "Qual é a diferença entre preço por hora e preço fixo?",
+          "answer": "Os projetos por hora são faturados com base no número de horas multiplicado pela taxa horária. Os projetos a preço fixo têm um preço predeterminado, independentemente do número de horas. Escolhes o tipo ao criar o projeto."
+        },
+        "1": {
+          "question": "Como acompanho os prazos dos projetos?",
+          "answer": "Ao criares um projeto, podes definir um prazo. Os projetos com prazo mostram um aviso quando este se aproxima. Também podes definir o estado como “Ativo”, “Em pausa” ou “Concluído”."
+        },
+        "2": {
+          "question": "Posso mover um projeto para outro cliente?",
+          "answer": "Sim, edita o projeto e escolhe um novo cliente na lista. Todos os registos de tempo e bolsas de horas continuam associados ao projeto."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Registo de horas",
+      "items": {
+        "0": {
+          "question": "Como funciona o cronómetro?",
+          "answer": "Escolhe um projeto, adiciona uma descrição e prime “Iniciar”. O cronómetro corre até premires “Pausa” ou “Parar”. Ao parares, o tempo é guardado automaticamente como registo de tempo. Podes pausar e retomar o cronómetro sempre que precisares."
+        },
+        "1": {
+          "question": "Posso editar registos de tempo anteriores?",
+          "answer": "Sim, clica num registo de tempo na lista e escolhe “Editar”. Podes alterar o projeto, a descrição, o número de horas e a data. Isto é útil se te esqueceres de registar tempo ou te enganares."
+        },
+        "2": {
+          "question": "Como trato vários registos de tempo de uma só vez?",
+          "answer": "Seleciona os registos de tempo clicando na caixa de seleção à esquerda. Depois podes eliminar vários registos de uma só vez com o botão “Eliminar selecionados”."
+        },
+        "3": {
+          "question": "O que é o resumo semanal (folha de horas)?",
+          "answer": "O resumo semanal mostra os teus registos de tempo numa grelha semanal, para veres depressa as horas por dia e por projeto. Alterna entre a lista e a vista semanal com o seletor no topo da página de registo de horas."
+        },
+        "4": {
+          "question": "Posso importar tempo a partir de CSV?",
+          "answer": "Sim, clica no botão “Importar CSV” na página de registo de horas. Carrega um ficheiro CSV com colunas para data, horas, projeto e descrição. O sistema associa os projetos automaticamente e cria os registos de tempo."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Tarefas",
+      "items": {
+        "0": {
+          "question": "Qual é a diferença entre o quadro kanban e a vista de lista?",
+          "answer": "O quadro kanban mostra as tarefas como cartões em colunas (por exemplo “Por fazer”, “Em curso”, “Concluído”), para arrastares facilmente as tarefas entre fases. A vista de lista mostra as tarefas numa tabela com ordenação e filtros. Alterna entre as vistas com os botões no topo."
+        },
+        "1": {
+          "question": "Como crio uma tarefa?",
+          "answer": "Clica em “Nova tarefa” na página de tarefas. Preenche o título, escolhe um projeto e um cliente, define uma prioridade (baixa/normal/alta/crítica) e indica um prazo, se quiseres. Também podes adicionar uma descrição com detalhes."
+        },
+        "2": {
+          "question": "Como movo tarefas entre colunas?",
+          "answer": "Na vista kanban, podes arrastar e largar os cartões das tarefas entre as colunas. Também podes clicar numa tarefa e alterar o estado na janela de edição."
+        },
+        "3": {
+          "question": "Posso iniciar um cronómetro diretamente a partir de uma tarefa?",
+          "answer": "Sim, todas as tarefas têm um botão de cronómetro. Clica nele para iniciar o cronómetro com o projeto e o título da tarefa como descrição. O tempo é registado automaticamente no projeto associado."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Painel",
+      "items": {
+        "0": {
+          "question": "O que mostra o painel?",
+          "answer": "O painel dá-te uma visão geral do teu negócio freelance, com widgets para o resumo semanal de tempo, ganhos, projetos ativos, estado das bolsas de horas, últimos registos de tempo e próximos prazos."
+        },
+        "1": {
+          "question": "Posso personalizar o painel?",
+          "answer": "Sim, clica no botão “Personalizar” no canto superior direito do painel. Podes adicionar, remover e mover widgets arrastando e largando. As alterações são guardadas automaticamente."
+        },
+        "2": {
+          "question": "Que widgets estão disponíveis?",
+          "answer": "Os widgets disponíveis incluem: resumo semanal (horas por dia), ganhos (faturação e crescimento), projetos ativos, resumo das bolsas de horas, últimos registos de tempo, horas de hoje, próximos prazos e início rápido do cronómetro."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Bolsas de horas",
+      "items": {
+        "0": {
+          "question": "O que é uma bolsa de horas?",
+          "answer": "Uma bolsa de horas é um bloco de horas que um cliente compra antecipadamente. Ao registares tempo, podes optar por descontar horas da bolsa em vez de as faturares normalmente. É muito usada em acordos de suporte."
+        },
+        "1": {
+          "question": "Como crio uma bolsa de horas?",
+          "answer": "Vai a “Bolsas de horas” e clica em “Nova bolsa de horas”. Escolhe um cliente, indica o número de horas e a taxa horária e calcula o preço total. Define uma data de compra e, se quiseres, uma data de validade. Quando a bolsa estiver ativa, podes usá-la ao registares tempo."
+        },
+        "2": {
+          "question": "O que acontece quando uma bolsa de horas se esgota?",
+          "answer": "Recebes um aviso quando uma bolsa de horas tem menos de 10% das horas restantes. Quando está vazia (0 horas restantes), já não podes descontar tempo dela. Tens de criar uma nova bolsa de horas ou faturar o tempo normalmente."
+        },
+        "3": {
+          "question": "Posso ver o histórico de uma bolsa de horas?",
+          "answer": "Sim, abre a bolsa de horas e vai a “Histórico de utilização”. Mostra todos os registos de tempo descontados da bolsa, com data, descrição e número de horas."
+        }
+      }
+    },
+    "templates": {
+      "title": "Modelos recorrentes",
+      "items": {
+        "0": {
+          "question": "O que são modelos recorrentes?",
+          "answer": "Os modelos recorrentes são registos de tempo predefinidos que são criados automaticamente a intervalos regulares. Por exemplo, podes criar um modelo para “Reunião semanal de ponto de situação, 1 hora” que é criado todas as semanas."
+        },
+        "1": {
+          "question": "Como crio um modelo?",
+          "answer": "Vai a “Modelos” e clica em “Novo modelo”. Escolhe um projeto, uma descrição, o número de horas e a frequência (diária/semanal/mensal). Indica uma data de início e, se quiseres, uma data de fim. O modelo cria registos de tempo automaticamente de acordo com o teu plano."
+        },
+        "2": {
+          "question": "Posso editar ou eliminar registos de tempo gerados?",
+          "answer": "Sim, os registos de tempo gerados funcionam como registos normais. Podes editá-los em “Registo de horas” ou eliminá-los se não forem relevantes num determinado dia/semana."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Faturas",
+      "items": {
+        "0": {
+          "question": "Como crio uma fatura?",
+          "answer": "Vai a “Faturas” e clica em “Nova fatura”. Escolhe um cliente e um intervalo de datas para os registos de tempo, e o sistema reúne automaticamente todas as horas por faturar. Revê as linhas, adiciona notas, se for caso disso, e guarda."
+        },
+        "1": {
+          "question": "Qual é a diferença entre “Rascunho”, “Enviada” e “Paga”?",
+          "answer": "Rascunho: ainda estás a trabalhar na fatura. Enviada: a fatura foi enviada ao cliente, mas ainda não foi paga. Paga: o cliente pagou a fatura. Podes atualizar o estado manualmente à medida que as coisas avançam."
+        },
+        "2": {
+          "question": "Posso exportar faturas para PDF?",
+          "answer": "Sim, ao veres uma fatura, há um botão “Exportar PDF”. Gera uma fatura em PDF com aspeto profissional que podes enviar ao cliente ou guardar para a contabilidade."
+        },
+        "3": {
+          "question": "Posso gerar uma fatura a partir de registos de tempo?",
+          "answer": "Sim, clica no botão “A partir de registos de tempo” ao criares uma nova fatura. Escolhe um cliente e um intervalo de datas, e o sistema reúne todos os registos de tempo por faturar como linhas da fatura."
+        },
+        "4": {
+          "question": "O que mostra o resumo das faturas?",
+          "answer": "No topo da página de faturas encontras quatro cartões de estatísticas: total faturado, montante pago, montante em aberto e faturas em atraso. Dá-te uma visão rápida das tuas finanças."
+        }
+      }
+    },
+    "reports": {
+      "title": "Relatórios",
+      "items": {
+        "0": {
+          "question": "Que relatórios posso gerar?",
+          "answer": "Podes ver relatórios semanais e mensais com horas por cliente, horas por projeto, ganhos e tendências. Os relatórios podem ser filtrados por intervalo de datas e exportados para CSV para análise no Excel."
+        },
+        "1": {
+          "question": "Como exporto dados para o Excel?",
+          "answer": "Vai a “Relatórios”, escolhe o intervalo de datas pretendido e clica em “Exportar CSV”. Isto transfere um ficheiro CSV que podes abrir no Excel, no Google Sheets ou noutras folhas de cálculo."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Atalhos de teclado e dicas",
+      "items": {
+        "0": {
+          "question": "Que atalhos de navegação existem?",
+          "answer": "Usa G seguido de uma tecla para navegar depressa: {shortcuts}."
+        },
+        "1": {
+          "question": "Que atalhos do cronómetro existem?",
+          "answer": "T = iniciar/parar o cronómetro, Shift+T = pausar/retomar o cronómetro. Estes atalhos funcionam em todas as páginas, por isso podes controlar o cronómetro depressa sem mudar de página."
+        },
+        "2": {
+          "question": "O que é a paleta de comandos?",
+          "answer": "Prime Ctrl+K (ou Cmd+K no Mac) para abrir a paleta de comandos. Aí podes pesquisar e ir rapidamente para páginas, clientes, projetos e ações sem usar o rato."
+        },
+        "3": {
+          "question": "Como vejo todos os atalhos?",
+          "answer": "Prime “?” em qualquer página para abrir o resumo de atalhos. Mostra todos os atalhos de teclado disponíveis, agrupados por categoria."
+        },
+        "4": {
+          "question": "Posso reiniciar a visita guiada?",
+          "answer": "Sim, clica na tua fotografia de perfil/iniciais no canto superior direito e escolhe “Iniciar visita” no menu do utilizador. A visita mostra-te as 24 principais funcionalidades."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Extensão do navegador",
+      "items": {
+        "0": {
+          "question": "O que é a extensão do navegador do {brand}?",
+          "answer": "A extensão do navegador permite-te registar tempo diretamente no navegador, sem abrir a aplicação {brand}. Podes iniciar/parar o cronómetro, escolher um projeto e um cliente e ver os teus últimos registos de tempo."
+        },
+        "1": {
+          "question": "Como configuro padrões de URL?",
+          "answer": "Em Definições → Extensão do navegador podes definir padrões de URL que associam automaticamente um projeto quando visitas determinados sites. Por exemplo, podes definir “github.com/client-repo/*” para escolher automaticamente o projeto correspondente."
+        },
+        "2": {
+          "question": "Como instalo a extensão do navegador?",
+          "answer": "Instala a extensão {brand} a partir da Chrome Web Store (pesquisa “{brand} Tidsregistrering” ou vai a timetrack.dk/browser-extension). Gera um token de API em Definições → Extensão do navegador e cola-o na janela da extensão. A extensão liga-se automaticamente à tua conta {brand}."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integrações",
+      "items": {
+        "0": {
+          "question": "Como uso a pesquisa de CVR?",
+          "answer": "Ao criares um novo cliente, podes introduzir um número de CVR e clicar em “Pesquisar”. O {brand} obtém automaticamente o nome da empresa, a morada e os dados de contacto no registo dinamarquês CVR, para não teres de os escrever à mão."
+        },
+        "1": {
+          "question": "Como exporto para o Billy, o Dinero ou o e-conomic?",
+          "answer": "Vai a Definições → Integrações e liga a tua conta. O Billy e o Dinero podem receber faturas. A partir do e-conomic podes importar os teus clientes, e na página da fatura podes sempre exportar a base da fatura em CSV ou como relatório."
+        },
+        "2": {
+          "question": "Posso sincronizar com o Google Calendar?",
+          "answer": "Sim, em Definições → Integrações podes ligar o teu Google Calendar. Os eventos do calendário podem ser sugeridos automaticamente como registos de tempo, para registares facilmente o tempo das tuas reuniões."
+        }
+      }
+    },
+    "security": {
+      "title": "Segurança",
+      "items": {
+        "0": {
+          "question": "O que são passkeys?",
+          "answer": "As passkeys são um método de início de sessão moderno, sem palavra-passe. Em vez de uma palavra-passe, usas uma impressão digital, o reconhecimento facial ou o PIN do dispositivo. Configura as passkeys em Definições → Segurança → Passkeys."
+        },
+        "1": {
+          "question": "Como ativo a autenticação de dois fatores (2FA)?",
+          "answer": "Vai a Definições → Segurança → Autenticação de dois fatores. Lê o código QR com uma aplicação de autenticação (por exemplo, Google Authenticator ou Authy) e introduz o código de confirmação. A partir daí, é necessário um código de 6 dígitos ao iniciares sessão."
+        },
+        "2": {
+          "question": "Como giro as sessões ativas?",
+          "answer": "Em Definições → Segurança → Sessões ativas podes ver todos os dispositivos com sessão iniciada na tua conta. Podes terminar sessões individuais ou terminar sessão em todos os dispositivos de uma vez."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Importação e exportação",
+      "items": {
+        "0": {
+          "question": "Como importo registos de tempo a partir de CSV?",
+          "answer": "Vai a Registo de horas e clica em “Importar CSV”. Carrega um ficheiro CSV com colunas para data, horas, projeto e descrição. O sistema mostra uma pré-visualização para verificares os dados antes de importar."
+        },
+        "1": {
+          "question": "Como exporto os meus dados?",
+          "answer": "Podes exportar dados em vários locais: Relatórios → Exportar CSV para registos de tempo, Faturas → Exportar PDF para faturas individuais e Definições → Dados → Exportar todos os dados para uma cópia de segurança completa em CSV ou JSON."
+        },
+        "2": {
+          "question": "Posso transferir todos os meus dados (RGPD)?",
+          "answer": "Sim, em Definições → Dados encontras o botão “Transferir os meus dados”. Gera uma exportação completa de todos os teus dados em formato JSON, tal como exige o RGPD. A exportação inclui clientes, projetos, registos de tempo, faturas e bolsas de horas."
+        }
+      }
+    },
+    "settings": {
+      "title": "Definições",
+      "items": {
+        "0": {
+          "question": "Como altero a minha taxa horária predefinida?",
+          "answer": "Vai a “Definições”, procura o campo “Taxa horária predefinida (kr)” e introduz a nova taxa. Esta taxa é usada por predefinição em novos clientes e projetos. As taxas de clientes e projetos já existentes não são afetadas."
+        },
+        "1": {
+          "question": "Todas as minhas alterações ficam registadas?",
+          "answer": "Sim, o {brand} regista todas as alterações às taxas horárias (global, cliente, projeto) num histórico de taxas. Podes ver sempre quando e como as taxas foram alteradas. Isto ajuda na transparência e na contabilidade."
+        },
+        "2": {
+          "question": "Como elimino a minha conta?",
+          "answer": "Em “Definições” há uma secção “Zona de perigo” com um botão “Eliminar conta”. Tens de confirmar com o teu e-mail e aprovar a eliminação. ATENÇÃO: isto elimina DE FORMA PERMANENTE todos os teus dados, incluindo clientes, projetos, registos de tempo e faturas. Se fores membro de uma equipa, o que registaste na equipa permanece nela, sem o teu nome e e-mail."
+        },
+        "3": {
+          "question": "Como passo para o tema escuro?",
+          "answer": "Vai a Definições → Perfil e aparência → Tema. Escolhe entre “Claro”, “Escuro” ou “Sistema” (segue a definição do teu dispositivo). A alteração é imediata."
+        },
+        "4": {
+          "question": "O que é o perfil da empresa?",
+          "answer": "Em Definições → Perfil da empresa podes configurar o nome da empresa, o número de CVR, a morada, o logótipo e os dados bancários. Estas informações são usadas automaticamente nas tuas faturas."
+        }
+      }
+    }
+  },
+  "title": "Ajuda e orientação",
+  "description": "Encontra respostas às tuas perguntas sobre o {brand}",
+  "searchPlaceholder": "Pesquisar na ajuda… (ex.: “bolsa de horas”, “fatura”, “atalho”)",
+  "resultCount": "{count, plural, one {# resultado} other {# resultados}}",
+  "popular": "Perguntas populares",
+  "searchResultsFor": "Resultados da pesquisa para “{query}”",
+  "foundIn": "{results, plural, one {# resultado encontrado} other {# resultados encontrados}} em {topics, plural, one {# tópico} other {# tópicos}}",
+  "noResults": "Nenhum resultado encontrado para “{query}”",
+  "questionCount": "{count, plural, one {# pergunta} other {# perguntas}}",
+  "chooseTopic": "Escolhe um tópico da lista",
+  "cantFindTitle": "Não encontras o que procuras?",
+  "cantFindBody": "Contacta-nos se tiveres perguntas que não estejam cobertas na documentação.",
+  "contactSupport": "Contactar o suporte",
+  "screenshotAlt": "Captura de ecrã: {title}",
+  "videoDemo": "Demonstração em vídeo",
+  "wasHelpful": "Foi útil?",
+  "yes": "Sim",
+  "no": "Não",
+  "topicsHeading": "Tópicos"
+}

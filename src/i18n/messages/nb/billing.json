@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Den gratis planen har plass til 3 aktive kunder. Arkiver en kunde eller se planene.",
+    "seePlans": "Se planer"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Alt ufakturert",
+      "periodThisMonth": "Denne måneden",
+      "periodLastMonth": "Forrige måned",
+      "draftCreated": "Fakturautkast opprettet på {amount}",
+      "createFailed": "Kunne ikke opprette fakturautkastet",
+      "clientFallback": "kunden",
+      "title": "Fakturer {name}",
+      "description": "Oppretter et utkast du kan se over. Ingenting sendes til kunden.",
+      "period": "Periode",
+      "loadError": "Kunne ikke laste ufakturert tid. Prøv igjen om litt.",
+      "noUnbilled": "Ingen ufakturert tid for {name} i perioden.",
+      "entries": "Oppføringer",
+      "time": "Tid",
+      "amountExVat": "Beløp ekskl. mva.",
+      "timePerProject": "Tid per prosjekt",
+      "project": "Prosjekt",
+      "amount": "Beløp",
+      "entryCount": "{count, plural, one {# oppføring} other {# oppføringer}}",
+      "noRate": "{time} har ingen timepris og regnes med som 0 DKK. Du kan rette beløpet på utkastet.",
+      "footnote": "Oppføringene markeres som fakturert og spesifiseres på utkastet. Du kan slette utkastet igjen, og tiden blir ufakturert.",
+      "pickEntries": "Velg oppføringer selv",
+      "cancel": "Avbryt",
+      "createDraft": "Opprett fakturautkast",
+      "createDraftAmount": "Opprett fakturautkast ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# dag siden forrige faktura} other {# dager siden forrige faktura}}",
+      "oldestEntry": "{count, plural, one {den eldste oppføringen er # dag gammel} other {den eldste oppføringen er # dager gammel}}",
+      "ready": "Klar til fakturering",
+      "notInvoiced": "er ikke fakturert",
+      "notInvoicedClient": "for {client} er ikke fakturert",
+      "invoiceNow": "Fakturer nå",
+      "hide": "Skjul i 30 dager"
+    },
+    "explainer": {
+      "point1": "Kunden betaler for timene på forhånd, så du slipper å sende fakturaer og purringer etterpå.",
+      "point2": "Når du registrerer tid for kunden, trekkes den automatisk fra klippekortet.",
+      "point3": "Kunden kan følge saldoen i kundeportalen, og du får beskjed når kortet er nesten brukt opp.",
+      "title": "Selg timer på forhånd med klippekort",
+      "intro": "Et klippekort er en pakke med timer som kunden kjøper på forhånd, for eksempel 10 timer til faste oppgaver og support.",
+      "create": "Opprett klippekort",
+      "calculator": "Regn ut prisen med kalkulatoren"
+    },
+    "prepaid": {
+      "offer": "Selg et klippekort på {hours} timer. Det varer i omtrent {months} måneder, og kunden betaler på forhånd.",
+      "offerPrice": "Selg et klippekort på {hours} timer ({price}). Det varer i omtrent {months} måneder, og kunden betaler på forhånd.",
+      "sell": "Selg et klippekort",
+      "dismissLabel": "Ikke aktuelt for {client}. Ikke vis igjen",
+      "dismissTitle": "Ikke aktuelt. Ikke vis igjen for denne kunden",
+      "suggestionLabel": "Forslag til klippekort",
+      "defaultName": "Klippekort {hours} timer",
+      "usageClient": "<name>{client}</name> har brukt omtrent <num>{time}</num> i måneden de siste 3 månedene.",
+      "usageGeneric": "Kunden har brukt omtrent <num>{time}</num> i måneden de siste 3 månedene."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "Satt på pause",
+      "paymentMissing": "Betaling mangler",
+      "active": "Aktivt",
+      "paymentFailedRetry": "{store} kunne ikke trekke betalingen. Oppdater betalingsmåten i {store}. Til betalingen går gjennom, har du tilgang som på den gratis planen.",
+      "paymentFailedGrace": "{store} kunne ikke trekke betalingen. Oppdater betalingsmåten i {store} for å beholde tilgangen.",
+      "currentPlan": "Nåværende plan",
+      "yearly": "Årlig",
+      "monthly": "Månedlig",
+      "boughtVia": "Kjøpt via {store}",
+      "expires": "Utløper {date}",
+      "renews": "Fornyes {date}",
+      "paymentTitle": "Betaling",
+      "paymentInfo": "Du kjøpte abonnementet i {brand}-appen, så {store} håndterer betaling og kvitteringer. Bytt plan, endre betalingsmåte eller si opp abonnementet i {store}.",
+      "manage": "Administrer i {store}"
+    },
+    "wall": {
+      "checkoutFailed": "Kunne ikke opprette betalingsøkten. Prøv igjen.",
+      "portalFailed": "Kunne ikke åpne faktureringsportalen. Prøv igjen.",
+      "headingNone": "Du har ikke et aktivt abonnement",
+      "headingLocked": "Tilgangen din er satt på pause",
+      "headingPastDue": "Betalingen din mangler",
+      "headingCanceled": "Abonnementet ditt er avsluttet",
+      "headingTrial": "Prøveperioden din er utløpt",
+      "subNone": "Opprett et abonnement for å bruke {brand}",
+      "subPastDue": "Oppdater betalingsmåten for å få tilgang igjen",
+      "subUpgrade": "Oppgrader til {plan} for å fortsette",
+      "pastDueBody": "Vi kunne ikke trekke den siste betalingen din. Oppdater betalingsmåten for å fortsette å bruke {brand}.",
+      "updatePayment": "Oppdater betalingsmåte",
+      "monthly": "Månedlig",
+      "yearly": "Årlig",
+      "save17": "Spar 17 %",
+      "perYearExVat": "/år ekskl. mva.",
+      "perMonthExVat": "/måned ekskl. mva.",
+      "equivalent": "Tilsvarer {price}/måned, så du sparer 2 måneder",
+      "featureWorkspace": "Felles teamområde for flere brukere",
+      "featureTeamReports": "Teamrapporter",
+      "featureUnlimited": "Ubegrenset tidsregistrering",
+      "featureInvoicing": "Klippekort og fakturering",
+      "featureManagement": "Kunde- og prosjekthåndtering",
+      "featureReports": "Rapporter og eksport",
+      "featureIntegrations": "Danske integrasjoner (CVR, Billy og flere)",
+      "upgradeNow": "Oppgrader nå",
+      "discountNote": "Kassen viser standardprisen. Rabatten din på {percent} % trekkes fra automatisk.",
+      "manageAccount": "Administrer konto",
+      "exportData": "Eksporter data",
+      "signOut": "Logg ut"
+    }
+  }
+}

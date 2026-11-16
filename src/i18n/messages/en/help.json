@@ -1,0 +1,343 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Get started",
+      "items": {
+        "0": {
+          "question": "How do I add my first client?",
+          "answer": "Go to 'Clients' in the sidebar and click 'Add client'. Fill in the client details such as name, email and, if you like, a specific hourly rate. If you do not enter an hourly rate, your default hourly rate from settings is used."
+        },
+        "1": {
+          "question": "What is the difference between projects and clients?",
+          "answer": "Clients are the people or companies you work for. Projects are specific tasks or contracts under a client. You can have several projects per client, e.g. 'Website development' and 'Ongoing support' under the same client."
+        },
+        "2": {
+          "question": "How do I track time?",
+          "answer": "Go to 'Time tracking' and either use the timer (start/stop) or add time manually. Choose a project or client, add a description and save. You can choose whether the time is deducted from a prepaid package or invoiced normally."
+        },
+        "3": {
+          "question": "How do I take the tour again?",
+          "answer": "Click your profile picture or initials in the top right corner and choose 'Start the tour'. The tour guides you through all the main features of {brand} in 24 interactive steps."
+        },
+        "4": {
+          "question": "Are there keyboard shortcuts?",
+          "answer": "Yes, {brand} has many keyboard shortcuts for quick navigation and time control. Press '?' to see an overview of all available shortcuts, or see the topic 'Keyboard shortcuts and tips' below."
+        }
+      }
+    },
+    "clients": {
+      "title": "Clients",
+      "items": {
+        "0": {
+          "question": "How do I set a specific hourly rate for a client?",
+          "answer": "When you create or edit a client, you can enter an 'Hourly rate (kr)'. This rate overrides your default hourly rate for all projects under this client, unless the project has its own hourly rate."
+        },
+        "1": {
+          "question": "Can I delete a client?",
+          "answer": "To preserve data integrity, clients cannot be deleted, but they can be archived. Archived clients do not appear in lists, but their historical data is kept. You can reactivate an archived client at any time."
+        },
+        "2": {
+          "question": "What is the rate hierarchy?",
+          "answer": "{brand} uses a three-level rate system: 1) Global hourly rate (in settings), 2) Client-specific hourly rate, 3) Project-specific hourly rate. The most specific level is used. For example, if a project has a rate, it is used - otherwise the client's rate is used, and otherwise the global rate."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projects",
+      "items": {
+        "0": {
+          "question": "What is the difference between hourly and fixed price?",
+          "answer": "Hourly projects are invoiced based on the number of hours multiplied by the hourly rate. Fixed-price projects have a predetermined price regardless of the number of hours. You choose the type when you create the project."
+        },
+        "1": {
+          "question": "How do I keep track of project deadlines?",
+          "answer": "When you create a project you can set a deadline. Projects with deadlines show a warning when the deadline approaches. You can also set the status to 'Active', 'Paused' or 'Completed'."
+        },
+        "2": {
+          "question": "Can I move a project to another client?",
+          "answer": "Yes, edit the project and choose a new client from the dropdown. All time entries and prepaid packages stay linked to the project."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Time tracking",
+      "items": {
+        "0": {
+          "question": "How does the timer work?",
+          "answer": "Choose a project, add a description and press 'Start'. The timer runs until you press 'Pause' or 'Stop'. When you stop, the time is saved automatically as a time entry. You can pause and resume the timer as needed."
+        },
+        "1": {
+          "question": "Can I edit previous time entries?",
+          "answer": "Yes, click a time entry in the list and choose 'Edit'. You can change the project, description, number of hours and date. This is useful if you forget to track time or make a mistake."
+        },
+        "2": {
+          "question": "How do I handle several time entries at once?",
+          "answer": "Select the time entries by clicking the checkbox on the left. You can then delete several time entries at once by clicking the 'Delete selected' button."
+        },
+        "3": {
+          "question": "What is the weekly overview (timesheet)?",
+          "answer": "The weekly overview shows your time entries in a weekly grid, so you can quickly see hours per day and project. Switch between list and weekly view with the toggle at the top of the Time tracking page."
+        },
+        "4": {
+          "question": "Can I import time from CSV?",
+          "answer": "Yes, click the 'Import CSV' button on the Time tracking page. Upload a CSV file with columns for date, hours, project and description. The system matches projects automatically and creates time entries."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Tasks",
+      "items": {
+        "0": {
+          "question": "What is the difference between the kanban board and the list view?",
+          "answer": "The kanban board shows tasks as cards across columns, so you can easily drag tasks between stages. The list view shows tasks in a table with sorting and filtering. Switch between the views with the buttons at the top."
+        },
+        "1": {
+          "question": "How do I create a task?",
+          "answer": "Click 'New task' on the tasks page. Fill in the title, choose a project and client, set a priority (low/normal/high/critical) and enter a deadline if you like. You can also add a description with details."
+        },
+        "2": {
+          "question": "How do I move tasks between columns?",
+          "answer": "In the kanban view you can drag and drop task cards between the columns and up and down within a column; the order is saved. With the keyboard: focus a card and use Alt and the arrow keys. You can also click a task and choose its status in the panel."
+        },
+        "3": {
+          "question": "Can I start a timer directly from a task?",
+          "answer": "Yes, every task has a timer button. Click it to start the timer with the task's project and title as the description. The time is tracked automatically on the linked project."
+        },
+        "4": {
+          "question": "Can I make my own columns?",
+          "answer": "Yes. Click 'Customise columns' above the board. There you can rename, colour, move, add and delete columns, and choose what each column counts as: not started, in progress, done or cancelled. That decides how the tasks count in reports and filters. Columns can be collapsed with the arrows at the top of the column."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "items": {
+        "0": {
+          "question": "What does the dashboard show?",
+          "answer": "The dashboard gives you an overview of your freelance business with widgets for the weekly time summary, earnings, active projects, prepaid package status, latest time entries and upcoming deadlines."
+        },
+        "1": {
+          "question": "Can I customise the dashboard?",
+          "answer": "Yes, click the 'Customise' button at the top right of the dashboard. You can add, remove and move widgets with drag and drop. Your changes are saved automatically."
+        },
+        "2": {
+          "question": "Which widgets are available?",
+          "answer": "Available widgets include: Weekly overview (hours per day), Earnings (revenue and growth), Active projects, Prepaid package overview, Latest time entries, Hours today, Upcoming deadlines, and Quick timer start."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Prepaid packages",
+      "items": {
+        "0": {
+          "question": "What is a prepaid package?",
+          "answer": "A prepaid package is a block of hours that a client buys in advance. When you track time you can choose to deduct hours from the package instead of invoicing them normally. This is popular for support agreements."
+        },
+        "1": {
+          "question": "How do I create a prepaid package?",
+          "answer": "Go to 'Prepaid packages' and click 'New prepaid package'. Choose a client, enter the number of hours and the hourly rate, and calculate the total price. Set a purchase date and optionally an expiry date. Once the package is active, you can use it when you track time."
+        },
+        "2": {
+          "question": "What happens when a prepaid package runs out?",
+          "answer": "You get a warning when a prepaid package has less than 10% of its hours left. When it is empty (0 hours left), you can no longer deduct time from it. You need to create a new prepaid package or invoice the time normally."
+        },
+        "3": {
+          "question": "Can I see the history of a prepaid package?",
+          "answer": "Yes, open the prepaid package and look under 'Usage history'. It shows all time entries deducted from the package, with date, description and number of hours."
+        }
+      }
+    },
+    "templates": {
+      "title": "Recurring templates",
+      "items": {
+        "0": {
+          "question": "What are recurring templates?",
+          "answer": "Recurring templates are preset time entries that are created automatically at regular intervals. For example, you can make a template for 'Weekly status meeting - 1 hour' that is created every week."
+        },
+        "1": {
+          "question": "How do I create a template?",
+          "answer": "Go to 'Templates' and click 'New template'. Choose a project, description, number of hours and frequency (daily/weekly/monthly). Enter a start date and optionally an end date. The template creates time entries automatically based on your plan."
+        },
+        "2": {
+          "question": "Can I edit or delete generated time entries?",
+          "answer": "Yes, the generated time entries work like normal time entries. You can edit them under 'Time tracking' or delete them if they are not relevant for a given day/week."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Invoices",
+      "items": {
+        "0": {
+          "question": "How do I create an invoice?",
+          "answer": "Go to 'Invoices' and click 'New invoice'. Choose a client and a date range for time entries, and the system collects all unbilled hours automatically. Review the lines, add any notes and save."
+        },
+        "1": {
+          "question": "What is the difference between 'Draft', 'Sent' and 'Paid'?",
+          "answer": "Draft = You are still working on the invoice. Sent = The invoice has been sent to the client but not paid yet. Paid = The client has paid the invoice. You can update the status manually as things progress."
+        },
+        "2": {
+          "question": "Can I export invoices to PDF?",
+          "answer": "Yes, when you view an invoice there is an 'Export PDF' button. It generates a professional PDF invoice you can send to the client or save for bookkeeping."
+        },
+        "3": {
+          "question": "Can I generate an invoice from time entries?",
+          "answer": "Yes, click the 'From time entries' button when you create a new invoice. Choose a client and date range, and the system collects all unbilled time entries as invoice lines."
+        },
+        "4": {
+          "question": "What does the invoice overview show?",
+          "answer": "At the top of the invoice page you find four stat cards: Total invoiced, Amount paid, Outstanding amount, and Overdue invoices. It gives you a quick overview of your finances."
+        }
+      }
+    },
+    "reports": {
+      "title": "Reports",
+      "items": {
+        "0": {
+          "question": "Which reports can I generate?",
+          "answer": "You can see weekly and monthly reports with hours per client, hours per project, earnings and trends. Reports can be filtered by date range and exported to CSV for analysis in Excel."
+        },
+        "1": {
+          "question": "How do I export data to Excel?",
+          "answer": "Go to 'Reports', choose the date range you want and click 'Export CSV'. This downloads a CSV file you can open in Excel, Google Sheets or other spreadsheets."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Keyboard shortcuts and tips",
+      "items": {
+        "0": {
+          "question": "Which navigation shortcuts are there?",
+          "answer": "Use G followed by a key for quick navigation: {shortcuts}."
+        },
+        "1": {
+          "question": "Which timer shortcuts are there?",
+          "answer": "T = Start/stop the timer, Shift+T = Pause/resume the timer. These shortcuts work from all pages, so you can control your timer quickly without switching page."
+        },
+        "2": {
+          "question": "What is the Command Palette?",
+          "answer": "Press Ctrl+K (or Cmd+K on Mac) to open the Command Palette. There you can quickly search for and navigate to pages, clients, projects and actions without using the mouse."
+        },
+        "3": {
+          "question": "How do I see all shortcuts?",
+          "answer": "Press '?' from any page to open the shortcut overview. It shows all available keyboard shortcuts grouped by category."
+        },
+        "4": {
+          "question": "Can I restart the tour?",
+          "answer": "Yes, click your profile picture/initials at the top right and choose 'Start the tour' in the user menu. The tour guides you through all 24 main features."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Browser extension",
+      "items": {
+        "0": {
+          "question": "What is the {brand} browser extension?",
+          "answer": "The browser extension lets you track time directly from your browser without opening the {brand} app. You can start/stop the timer, choose a project and client, and see your latest time entries."
+        },
+        "1": {
+          "question": "How do I set up URL patterns?",
+          "answer": "Under Settings → Browser extension you can define URL patterns that automatically link a project when you visit certain websites. For example, you can set 'github.com/client-repo/*' to automatically choose the matching project."
+        },
+        "2": {
+          "question": "How do I install the browser extension?",
+          "answer": "Install the {brand} extension from the Chrome Web Store (search for ''{brand} Tidsregistrering' or go to timetrack.dk/browser-extension). Generate an API token under Settings → Browser extension and paste it into the extension popup. The extension connects to your {brand} account automatically."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integrations",
+      "items": {
+        "0": {
+          "question": "How do I use the CVR lookup?",
+          "answer": "When you create a new client, you can enter a CVR number and click 'Look up'. {brand} automatically fetches the company name, address and contact details from the Danish CVR registry, so you do not have to type them in manually."
+        },
+        "1": {
+          "question": "How do I export to Billy, Dinero or e-conomic?",
+          "answer": "Go to Settings → Integrations and connect your account. Billy and Dinero can receive invoices. From e-conomic you can import your clients, and you can always export the invoice basis as CSV or a report from the invoice page."
+        },
+        "2": {
+          "question": "Can I sync with Google Calendar?",
+          "answer": "Yes, under Settings → Integrations you can connect your Google Calendar. Calendar events can be suggested automatically as time entries, so you can easily track time based on your meetings."
+        }
+      }
+    },
+    "security": {
+      "title": "Security",
+      "items": {
+        "0": {
+          "question": "What are passkeys?",
+          "answer": "Passkeys are a modern, passwordless login method. Instead of a password you use a fingerprint, face recognition or your device PIN. Set up passkeys under Settings → Security → Passkeys."
+        },
+        "1": {
+          "question": "How do I enable two-factor authentication (2FA)?",
+          "answer": "Go to Settings → Security → Two-factor authentication. Scan the QR code with an authenticator app (e.g. Google Authenticator or Authy) and enter the confirmation code. After that, a 6-digit code is required when you sign in."
+        },
+        "2": {
+          "question": "How do I manage active sessions?",
+          "answer": "Under Settings → Security → Active sessions you can see all devices signed in to your account. You can close individual sessions or sign out of all devices at once."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Import and export",
+      "items": {
+        "0": {
+          "question": "How do I import time entries from CSV?",
+          "answer": "Go to Time tracking and click 'Import CSV'. Upload a CSV file with columns for date, hours, project and description. The system shows a preview so you can verify the data before importing."
+        },
+        "1": {
+          "question": "How do I export my data?",
+          "answer": "You can export data from several places: Reports → Export CSV for time entries, Invoices → Export PDF for individual invoices, and Settings → Data → Export all data for a complete backup in CSV or JSON format."
+        },
+        "2": {
+          "question": "Can I download all my data (GDPR)?",
+          "answer": "Yes, under Settings → Data you find a 'Download my data' button. It generates a complete export of all your data in JSON format, as required by GDPR. The export includes clients, projects, time entries, invoices and prepaid packages."
+        }
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "items": {
+        "0": {
+          "question": "How do I change my default hourly rate?",
+          "answer": "Go to 'Settings', find the 'Default hourly rate (kr)' field and enter your new rate. This rate is used as the default for new clients and projects. Existing client and project rates are not affected."
+        },
+        "1": {
+          "question": "Are all my changes logged?",
+          "answer": "Yes, {brand} logs all changes to hourly rates (global, client, project) in a rate history. You can always see when and how rates were changed. This helps with transparency and bookkeeping."
+        },
+        "2": {
+          "question": "How do I delete my account?",
+          "answer": "In 'Settings' there is a 'Danger zone' section with a 'Delete account' button. You must confirm with your email and approve the deletion. NOTE: This PERMANENTLY deletes all your data including clients, projects, time entries and invoices. If you are a member of a team, what you have tracked in the team stays with the team without your name and email."
+        },
+        "3": {
+          "question": "How do I switch to the dark theme?",
+          "answer": "Go to Settings → Profile and appearance → Theme. Choose between 'Light', 'Dark' or 'System' (follows your device setting). The change takes effect immediately."
+        },
+        "4": {
+          "question": "What is the company profile?",
+          "answer": "Under Settings → Company profile you can set up your company name, CVR number, address, logo and bank details. This information is used automatically on your invoices."
+        }
+      }
+    }
+  },
+  "title": "Help and guidance",
+  "description": "Find answers to your questions about {brand}",
+  "searchPlaceholder": "Search help... (e.g. 'prepaid package', 'invoice', 'shortcut')",
+  "resultCount": "{count, plural, one {# result} other {# results}}",
+  "popular": "Popular questions",
+  "searchResultsFor": "Search results for \"{query}\"",
+  "foundIn": "{results, plural, one {# result} other {# results}} found in {topics, plural, one {# topic} other {# topics}}",
+  "noResults": "No results found for \"{query}\"",
+  "questionCount": "{count, plural, one {# question} other {# questions}}",
+  "chooseTopic": "Choose a topic from the list",
+  "cantFindTitle": "Cannot find what you are looking for?",
+  "cantFindBody": "Contact us if you have questions that are not covered in the documentation.",
+  "contactSupport": "Contact support",
+  "screenshotAlt": "Screenshot: {title}",
+  "videoDemo": "Video demo",
+  "wasHelpful": "Was this helpful?",
+  "yes": "Yes",
+  "no": "No",
+  "topicsHeading": "Topics"
+}

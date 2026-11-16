@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "导入完成：{count, plural, other {已导入 # 条工时记录}}",
+    "doneWithErrorsToast": "导入完成，但有错误：已导入 {imported} 条，失败 {failed} 条",
+    "failedToast": "导入失败。详情请在设置中查看",
+    "running": "正在导入：{pct}%（{imported}/{total}）",
+    "details": "查看详情",
+    "done": "导入完成：{count, plural, other {已导入 # 条工时记录}}",
+    "doneWithFailed": "导入完成：{count, plural, other {已导入 # 条工时记录}}，失败 {failed} 条",
+    "dismiss": "关闭"
+  },
+  "page": {
+    "pickDateFormat": "请选择日期格式后再继续。",
+    "success": "导入成功！",
+    "failed": "导入失败，请重试。",
+    "backToOnboarding": "← 返回新手引导",
+    "backToIntegrations": "← 返回集成",
+    "onboardingMode": "已启用新手引导模式",
+    "onboardingNote": "导入成功后，你将自动继续新手引导流程。",
+    "uploadFile": "上传文件",
+    "chooseFile": "选择文件",
+    "noFile": "未选择文件",
+    "dateFormat": "日期格式",
+    "chooseFormat": "选择格式…",
+    "dateFormatHint": "请查看 CSV 数据，确认使用的是哪种日期格式。",
+    "billingFilter": "开票筛选",
+    "filter": {
+      "all": "全部导入",
+      "unbilled": "仅未开票",
+      "billed": "仅已开票"
+    },
+    "billingFilterHint": "根据来源中的开票状态筛选记录。",
+    "markAllBilled": "将所有导入的记录标记为已开票",
+    "markAllBilledHint": "如果你从来源只导出了已经开过发票的记录，请使用此选项。",
+    "result": {
+      "clients": "{count, plural, other {已创建 # 位客户}}",
+      "projects": "{count, plural, other {已创建 # 个项目}}",
+      "timeEntries": "{count, plural, other {已导入 # 条工时记录}}",
+      "billedSplit": "（已开票 {billed} 条，未开票 {unbilled} 条）",
+      "skippedRows": "{count, plural, other {已跳过 # 行}}",
+      "filteredRows": "{count, plural, other {已过滤掉 # 行（开票筛选）}}",
+      "totalHours": "共导入 {hours} 小时",
+      "tasks": "{count, plural, other {已导入 # 个任务}}",
+      "subtasks": "{count, plural, other {已导入 # 个子任务}}",
+      "tasksSkipped": "{count, plural, other {已跳过 # 个任务}}"
+    },
+    "importing": "正在导入…",
+    "start": "开始导入",
+    "mayTakeAWhile": "根据数据量，这可能需要几分钟…",
+    "warnTitle": "请注意：",
+    "warn1": "导入无法撤销",
+    "warn2": "不会覆盖现有数据",
+    "warn3": "我们会跳过重复项"
+  }
+}

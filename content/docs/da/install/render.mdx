@@ -1,0 +1,50 @@
+---
+title: "Render"
+description: "Deploy TimeWren på Render fra repositoryets Blueprint: en webservice med en disk, en scheduler-worker og administreret PostgreSQL 18."
+---
+
+Vælg denne metode, hvis du vil have administreret hosting på Render. Blueprinten `render.yaml` henter det udgivne image til en webservice og en scheduler-worker, opretter administreret PostgreSQL 18 og tilknytter en vedvarende disk på 10 GB på `/app/data/storage`. Intet bliver bygget.
+
+> **Advarsel:** Webservicen, workeren og databasen bruger alle betalte planer (`starter`, `starter` og `basic-256mb`), fordi vedvarende diske og baggrundsworkers kræver det. Tjek Renders prisoverslag, før du deployer.
+
+## Krav
+
+- En Render-konto.
+- En hex-streng på 64 tegn til `ENCRYPTION_KEY`: `openssl rand -hex 32`.
+
+## Deploy
+
+1. Åbn Blueprint-deploylinket til repositoryet: [render.com/deploy?repo=https://github.com/timewren/timewren](https://render.com/deploy?repo=https://github.com/timewren/timewren). Alternativt kan du oprette en Blueprint i Renders dashboard fra repositoryet `timewren/timewren`.
+2. Når du bliver spurgt, indtaster du `ENCRYPTION_KEY` som præcis 64 hexadecimale tegn. Render genererer selv sessions- og cron-hemmelighederne, men dens generator laver base64, og derfor kan den ikke generere krypteringsnøglen.
+3. Deploy. Migreringer kører, når webservicen starter.
+4. Åbn servicens URL, og opret din konto.
+
+## Hvad Blueprinten opretter
+
+| Ressource | Navn | Bemærkninger |
+| -------- | ---- | ----- |
+| Webservice | `timewren` | Image `ghcr.io/timewren/timewren:latest`, region Frankfurt, health check `/api/health`, én instans, disk `timewren-storage` (10 GB) på `/app/data/storage`. |
+| Worker | `timewren-cron` | Samme image, kører `node scripts/cron.mjs` mod webservicen over Renders private netværk med `CRON_SECRET`. Ingen disk, ingen databaseloginoplysninger. |
+| Database | `timewren-db` | PostgreSQL 18, plan `basic-256mb`, database og bruger `timetrack`. |
+
+Begge services sætter `TZ` til `Europe/Copenhagen`. Webservicen sætter også `NEXT_PUBLIC_BRAND=timewren`, `MIGRATE_ON_START=1`, `STORAGE_DRIVER=local` og `REQUIRE_EMAIL_VERIFICATION=false`.
+
+## Offentlig URL
+
+Som standard tages `NEXT_PUBLIC_APP_URL` fra `RENDER_EXTERNAL_URL`. Tilføjer du senere et eget domæne, så sæt `NEXT_PUBLIC_APP_URL` til dets HTTPS-URL uden skråstreg til sidst. Valgfrie variabler til mail og integrationer bruger navnene i `.env.example`: se [Miljøvariabler](/da/docs/configuration/environment).
+
+## Godt at vide
+
+- Skalér ingen af de to services ud over én instans.
+- En webservice med en disk kan ikke lave rullende deploys, så den stopper kortvarigt under nye deploys.
+- Begge image-URL'er bruger som standard `latest`. Ret `render.yaml` i din egen fork, så begge er låst til det samme udgivelsestag, før du tager den i drift.
+- Den første konto bliver administrator. Opret den med det samme, eller konfigurér `ADMIN_EMAIL` og en mailtransport, før du gør servicen tilgængelig.
+- Tag backup af databasen, disken og `ENCRYPTION_KEY`.
+- Blueprinten er valideret mod Renders skema, men vedligeholderne har ikke deployet den til en Render-konto. Tjek efter det første deploy registrering, upload og download af en fil og en planlagt eksport.
+
+## Næste skridt
+
+- [Kom godt i gang](/da/docs/quickstart)
+- [E-mail](/da/docs/configuration/email)
+- [Opgradering](/da/docs/operations/upgrading) og [Backup og gendannelse](/da/docs/operations/backup-restore)
+- [Fejlfinding](/da/docs/operations/troubleshooting)

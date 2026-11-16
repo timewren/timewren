@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini og andre OpenAI-modeller",
+      "note": "Opprett en API-nøkkel på platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus og Haiku via OpenAI SDK",
+      "note": "Opprett en API-nøkkel på console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Dansk KI, driftet i Danmark, med full GDPR-etterlevelse",
+      "badge": "Anbefalt",
+      "note": "Dansk-driftet KI fra Ordbogen A/S. Opprett en nøkkel på odincore.ai. Dataene forlater aldri Danmark."
+    },
+    "custom": {
+      "label": "Annet endepunkt",
+      "description": "Alle OpenAI-kompatible API-er"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manuelt",
+      "description": "KI er slått av. Alle oppgaver håndteres uten KI-tolkning."
+    },
+    "suggest": {
+      "label": "Foreslå",
+      "description": "KI foreslår kategorisering og prioritering, men du godkjenner."
+    },
+    "auto_lowrisk": {
+      "label": "Automatisk (lav risiko)",
+      "description": "KI håndterer enkle oppgaver automatisk. Kompliserte går til godkjenning."
+    },
+    "auto_all": {
+      "label": "Helautomatisk",
+      "description": "KI håndterer alle oppgaver automatisk uten godkjenning."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Danmark (Europe/Copenhagen)",
+    "Europe/Stockholm": "Sverige (Europe/Stockholm)",
+    "Europe/Oslo": "Norge (Europe/Oslo)",
+    "Europe/London": "Storbritannia (Europe/London)",
+    "Europe/Berlin": "Tyskland (Europe/Berlin)",
+    "America/New_York": "USAs østkyst (America/New_York)",
+    "America/Los_Angeles": "USAs vestkyst (America/Los_Angeles)"
+  },
+  "connectionOk": "Forbindelsen fungerer!",
+  "connectionFailed": "Forbindelsen mislyktes",
+  "testFailed": "Testen mislyktes",
+  "emailEnabled": "E-post til oppgave er slått på!",
+  "emailEnableFailed": "Kunne ikke slå på e-post til oppgave",
+  "emailDisabled": "E-post til oppgave er slått av",
+  "emailDisableFailed": "Kunne ikke slå av e-post til oppgave",
+  "addressRegenerated": "Ny e-postadresse er opprettet!",
+  "addressRegenerateFailed": "Kunne ikke opprette en ny adresse",
+  "settingsUpdated": "KI-innstillingene er oppdatert",
+  "settingsUpdateFailed": "Kunne ikke oppdatere KI-innstillingene",
+  "addressCopied": "E-postadressen er kopiert!",
+  "keyRequired": "En API-nøkkel er påkrevd",
+  "urlRequired": "En API-URL er påkrevd for et egendefinert endepunkt",
+  "enterKeyFirst": "Skriv inn en API-nøkkel først",
+  "title": "KI og automatisering",
+  "description": "Sett opp KI-funksjoner og innstillinger for e-post til oppgave",
+  "statusTitle": "KI-status",
+  "statusEnabled": "KI er slått på",
+  "statusDisabled": "KI er ikke satt opp",
+  "statCalls": "KI-kall totalt",
+  "statSuccess": "Suksessrate",
+  "statConfidence": "Gj.sn. sikkerhet",
+  "statTime": "Gj.sn. behandlingstid",
+  "enableHint": "For å slå på KI-funksjoner velger du en KI-leverandør nedenfor og skriver inn din egen API-nøkkel.",
+  "providerTitle": "KI-leverandør",
+  "providerSub": "Velg hva som driver KI-funksjonene: systemets KI eller din egen",
+  "providerIntro": "Velg en KI-leverandør og skriv inn din egen API-nøkkel for å slå på KI-funksjoner. {brand} bruker OpenAI SDK-formatet, som er kompatibelt med mange leverandører.",
+  "apiKey": "API-nøkkel",
+  "configured": "(satt opp)",
+  "keyPlaceholder": "API-nøkkel",
+  "keyHelpOpenai": "Din OpenAI API-nøkkel fra platform.openai.com",
+  "keyHelpAnthropic": "Din Anthropic API-nøkkel fra console.anthropic.com",
+  "keyHelpOrdbogen": "Din API-nøkkel fra OdinCore.ai",
+  "keyHelpOther": "API-nøkkel for leverandøren din",
+  "apiUrl": "API-URL",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (standard, la stå tomt)",
+  "urlPlaceholderCustom": "https://ditt-endepunkt.example.com/v1",
+  "urlPlaceholderPreset": "Forhåndsutfylt fra forhåndsvalget",
+  "urlHelp": "Basis-URL for API-et. La stå tomt for OpenAIs standardendepunkt.",
+  "model": "Modell",
+  "modelPlaceholderOpenai": "gpt-4o-mini (standard)",
+  "modelPlaceholderOther": "Modellnavn",
+  "modelHelp": "Oppgi en modell, eller la stå tomt for å bruke standarden",
+  "testConnection": "Test forbindelsen",
+  "saveSettings": "Lagre innstillinger",
+  "help": {
+    "title": "Slik får du en API-nøkkel",
+    "sub": "Velg en av de anbefalte leverandørene og følg veiledningen",
+    "odinDesc": "Dansk KI driftet i Danmark med full GDPR-etterlevelse. Dataene forlater aldri Danmark.",
+    "odin1": "Gå til odincore.ai og opprett en konto",
+    "odin2": "Gå til API-delen i kontoen din",
+    "odin3": "Opprett en ny API-nøkkel",
+    "odin4": "Lim inn nøkkelen ovenfor under «OdinCore (Ordbogen)»",
+    "openaiDesc": "GPT-4o-mini er rask og billig og passer godt til tolkning av oppgaver.",
+    "openai1": "Gå til platform.openai.com og logg inn",
+    "openai2": "Gå til «API keys» under innstillingene dine",
+    "openai3": "Klikk på «Create new secret key»",
+    "copyPaste": "Kopier nøkkelen og lim den inn ovenfor",
+    "anthropicDesc": "Claude-modellene er sterke på å forstå og kategorisere oppgaver.",
+    "anthropic1": "Gå til console.anthropic.com og opprett en konto",
+    "anthropic2": "Gå til «Settings» → «API keys»",
+    "anthropic3": "Klikk på «Create key»"
+  },
+  "email": {
+    "title": "E-post til oppgave",
+    "sub": "Send e-post til din personlige adresse for å opprette oppgaver automatisk",
+    "address": "Din personlige oppgave-e-post",
+    "copyTitle": "Kopier e-postadressen",
+    "addressHelp": "Send eller videresend e-post til denne adressen for å opprette oppgaver automatisk. KI tolker innholdet og trekker ut tittel, frist og prioritet.",
+    "regenerate": "Opprett en ny adresse",
+    "disable": "Slå av e-post til oppgave",
+    "notEnabled": "E-post til oppgave er ikke slått på",
+    "notEnabledText": "Slå den på for å få en personlig e-postadresse du kan sende oppgaver til. E-poster blir automatisk til oppgaver på oversikten din.",
+    "enable": "Slå på e-post til oppgave"
+  },
+  "autonomyTitle": "Autonominivå for KI",
+  "autonomySub": "Velg hvor mye KI skal håndtere automatisk",
+  "hoursTitle": "Arbeidstid og tidssone",
+  "hoursSub": "Brukes til KI-prioritering og kalenderfunksjoner",
+  "timezone": "Tidssone",
+  "workingHours": "Arbeidstid",
+  "to": "til",
+  "hoursHelp": "KI bruker disse tidspunktene til å foreslå de beste tidene for oppgaver",
+  "privacyTitle": "Personvern og sikkerhet",
+  "privacyText": "E-poster behandles og slettes umiddelbart etter at oppgaven er opprettet. Vi beholder bare den ferdige oppgaven, ikke den opprinnelige e-posten. KI-behandlingen skjer via OpenAI med streng datahåndtering."
+}

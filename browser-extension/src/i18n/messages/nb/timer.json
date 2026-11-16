@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} lagret på <b>{target}</b>",
+    "stoppedOn": "{duration} stoppet på <b>{target}</b>",
+    "savedInternal": "{duration} lagret som <b>intern tid</b>",
+    "stoppedInternal": "{duration} stoppet som <b>intern tid</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Klippekortet <b>{name}</b> hadde ikke nok timer, så all tiden ble lagret som fakturerbar",
+    "deducted": "{hours} trukket fra <b>{name}</b>, {remaining} igjen",
+    "deductedOverflow": "{hours} trukket fra <b>{name}</b>, {remaining} igjen. Klippekortet ble tomt, så resten er fakturerbar tid",
+    "pendingSave": "Serveren svarte ikke i tide. Tiden sendes automatisk så snart det er forbindelse, og lagres bare én gang.",
+    "close": "Lukk melding"
+  },
+  "discard": {
+    "label": "Forkast tid",
+    "question": "Forkaste {duration} uten å lagre?",
+    "keep": "Behold tiden",
+    "confirm": "Forkast tiden"
+  },
+  "switch": {
+    "label": "Bytt kunde",
+    "question": "Lagre {duration} på {from} og start en ny tidtaker på {to}?",
+    "internal": "intern tid",
+    "cancel": "Avbryt",
+    "confirm": "Lagre og start ny"
+  },
+  "noClient": "Ingen kunde valgt",
+  "noClientShort": "Ingen kunde",
+  "start": "Start tidtakeren",
+  "cancelNoSave": "Avbryt tidtakeren uten å lagre",
+  "pause": "Sett tidtakeren på pause",
+  "stopSave": "Stopp og lagre",
+  "resume": "Fortsett tidtakeren",
+  "addMinutes": "Legg til {minutes} minutter på tidtakeren",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Velg kunde og prosjekt",
+  "descriptionPlaceholder": "Hva jobber du med?",
+  "descriptionLabel": "Beskrivelse av arbeidet"
+}

@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "설정",
+    "subtitle": "관리자 알림, 기능 플래그, 변경 내역을 관리해요"
+  },
+  "notifications": {
+    "title": "알림",
+    "description": "관리자 이벤트에 대한 이메일 및 Discord 알림을 설정해요",
+    "emailLabel": "관리자 이메일",
+    "emailHint": "수신자가 여러 명이면 쉼표로 구분하세요",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord 웹훅 URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "테스트",
+    "eventTypes": "이벤트 유형",
+    "saving": "저장 중…",
+    "save": "설정 저장",
+    "saved": "알림 설정을 저장했어요",
+    "testSent": "Discord로 테스트 메시지를 보냈어요",
+    "webhookRequired": "먼저 Discord 웹훅 URL을 입력하세요"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "신규 사용자 가입",
+      "description": "새 사용자가 가입하면 알려요"
+    },
+    "notify_subscription_started": {
+      "label": "신규 유료 구독",
+      "description": "새 유료 고객이 생기면 알려요"
+    },
+    "notify_payment_failed": {
+      "label": "결제 실패",
+      "description": "결제에 실패하면 알려요"
+    },
+    "notify_subscription_cancelled": {
+      "label": "구독 취소",
+      "description": "구독이 취소되면 알려요"
+    },
+    "notify_trial_ending": {
+      "label": "체험 기간 곧 종료",
+      "description": "Discord 전용: 체험 기간이 곧 끝나면 알려요"
+    },
+    "notify_user_flagged": {
+      "label": "사용자 플래그 지정",
+      "description": "Discord 전용: 사용자가 플래그 지정되면 알려요"
+    }
+  },
+  "support": {
+    "title": "지원",
+    "description": "지원 받은편지함과 서명을 관리해요",
+    "inboxes": "받은편지함",
+    "add": "추가",
+    "namePlaceholder": "이름",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "서명 HTML(선택)",
+    "save": "저장",
+    "cancel": "취소",
+    "create": "만들기",
+    "default": "기본",
+    "confirmDelete": "이 받은편지함을 삭제할까요?",
+    "noInboxes": "만든 받은편지함이 아직 없어요",
+    "inboxCreated": "받은편지함을 만들었어요",
+    "inboxUpdated": "받은편지함을 업데이트했어요",
+    "inboxDeleted": "받은편지함을 삭제했어요",
+    "signatureSaved": "서명을 저장했어요",
+    "globalSignature": "전체 서명",
+    "globalSignatureHint": "받은편지함에 자체 서명이 없을 때 사용하는 HTML 서명",
+    "globalSignaturePlaceholder": "<p>감사합니다<br>TimeTrack 지원팀</p>",
+    "preview": "미리보기",
+    "noSignature": "서명 없음",
+    "savingSignature": "저장 중…",
+    "saveSignature": "서명 저장"
+  },
+  "debug": {
+    "title": "문제 해결",
+    "description": "이 브라우저에서 나에게만 표시되는 도구",
+    "electricLabel": "Electric 배지 표시",
+    "electricDescription": "대시보드 왼쪽 아래에 타이머의 실시간 동기화 상태를 표시해요"
+  },
+  "flags": {
+    "title": "기능 플래그",
+    "description": "모든 사용자에 대해 기능을 켜거나 꺼요",
+    "empty": "설정된 기능 플래그가 없어요",
+    "lastChangedBy": "마지막 변경: {name}",
+    "lastChangedByDate": "마지막 변경: {name}, {date}"
+  },
+  "changelog": {
+    "title": "변경 내역",
+    "description": "사용자에게 표시되는 변경 내역 항목을 만들어요",
+    "new": "새 변경 내역 항목 만들기",
+    "version": "버전",
+    "titleLabel": "제목",
+    "titlePlaceholder": "새 기능: …",
+    "content": "내용(Markdown)",
+    "contentPlaceholder": "변경 사항을 설명하세요…",
+    "cancel": "취소",
+    "create": "만들기",
+    "recent": "최근 변경 내역 항목",
+    "confirmDelete": "변경 내역 v{version}을(를) 삭제할까요?",
+    "delete": "삭제",
+    "created": "변경 내역을 만들었어요",
+    "deleted": "변경 내역을 삭제했어요"
+  }
+}

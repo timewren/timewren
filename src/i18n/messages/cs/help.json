@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Začínáme",
+      "items": {
+        "0": {
+          "question": "Jak přidám svého prvního klienta?",
+          "answer": "Přejdi na „Klienti“ v postranním panelu a klikni na „Přidat klienta“. Vyplň údaje o klientovi, například jméno, e-mail a případně konkrétní hodinovou sazbu. Pokud hodinovou sazbu nezadáš, použije se tvá výchozí hodinová sazba z nastavení."
+        },
+        "1": {
+          "question": "Jaký je rozdíl mezi projekty a klienty?",
+          "answer": "Klienti jsou lidé nebo firmy, pro které pracuješ. Projekty jsou konkrétní zakázky nebo smlouvy pod klientem. Jeden klient může mít několik projektů, například „Vývoj webu“ a „Průběžná podpora“."
+        },
+        "2": {
+          "question": "Jak evidovat čas?",
+          "answer": "Přejdi na „Evidence času“ a použij buď stopky (start/stop), nebo přidej čas ručně. Vyber projekt nebo klienta, přidej popis a ulož. Můžeš zvolit, zda se čas odečte z balíčku hodin, nebo se vyfakturuje běžně."
+        },
+        "3": {
+          "question": "Jak spustím prohlídku znovu?",
+          "answer": "Klikni na svůj profilový obrázek nebo iniciály vpravo nahoře a vyber „Spustit prohlídku“. Prohlídka tě v 24 interaktivních krocích provede všemi hlavními funkcemi aplikace {brand}."
+        },
+        "4": {
+          "question": "Existují klávesové zkratky?",
+          "answer": "Ano, {brand} má mnoho klávesových zkratek pro rychlou navigaci a ovládání času. Stiskni „?“ a zobrazí se přehled všech dostupných zkratek, nebo se podívej na téma „Klávesové zkratky a tipy“ níže."
+        }
+      }
+    },
+    "clients": {
+      "title": "Klienti",
+      "items": {
+        "0": {
+          "question": "Jak nastavím klientovi konkrétní hodinovou sazbu?",
+          "answer": "Při vytváření nebo úpravě klienta můžeš zadat „Hodinovou sazbu (kr)“. Tato sazba přebíjí tvou výchozí hodinovou sazbu u všech projektů tohoto klienta, pokud projekt nemá vlastní hodinovou sazbu."
+        },
+        "1": {
+          "question": "Mohu klienta smazat?",
+          "answer": "Kvůli zachování integrity dat nelze klienty mazat, ale lze je archivovat. Archivovaní klienti se nezobrazují v seznamech, ale jejich historická data zůstávají zachována. Archivovaného klienta můžeš kdykoli znovu aktivovat."
+        },
+        "2": {
+          "question": "Co je hierarchie sazeb?",
+          "answer": "{brand} používá třístupňový systém sazeb: 1) globální hodinová sazba (v nastavení), 2) hodinová sazba klienta, 3) hodinová sazba projektu. Použije se nejkonkrétnější úroveň. Pokud má například projekt sazbu, použije se ta, jinak se použije sazba klienta a jinak globální sazba."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projekty",
+      "items": {
+        "0": {
+          "question": "Jaký je rozdíl mezi hodinovou a pevnou cenou?",
+          "answer": "Hodinové projekty se fakturují podle počtu hodin vynásobeného hodinovou sazbou. Projekty s pevnou cenou mají předem stanovenou cenu bez ohledu na počet hodin. Typ vybereš při vytváření projektu."
+        },
+        "1": {
+          "question": "Jak sleduji termíny projektů?",
+          "answer": "Při vytváření projektu můžeš nastavit termín. U projektů s termínem se při jeho blížícím se konci zobrazí upozornění. Stav můžeš také nastavit na „Aktivní“, „Pozastavený“ nebo „Dokončený“."
+        },
+        "2": {
+          "question": "Mohu přesunout projekt k jinému klientovi?",
+          "answer": "Ano, uprav projekt a v rozbalovací nabídce vyber nového klienta. Všechny záznamy času a balíčky hodin zůstanou k projektu připojeny."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Evidence času",
+      "items": {
+        "0": {
+          "question": "Jak fungují stopky?",
+          "answer": "Vyber projekt, přidej popis a stiskni „Start“. Stopky běží, dokud nestiskneš „Pozastavit“ nebo „Stop“. Po zastavení se čas automaticky uloží jako záznam času. Stopky můžeš podle potřeby pozastavit a znovu spustit."
+        },
+        "1": {
+          "question": "Mohu upravovat dřívější záznamy času?",
+          "answer": "Ano, klikni na záznam času v seznamu a vyber „Upravit“. Můžeš změnit projekt, popis, počet hodin i datum. Hodí se to, když zapomeneš čas zapsat nebo uděláš chybu."
+        },
+        "2": {
+          "question": "Jak pracovat s více záznamy času najednou?",
+          "answer": "Vyber záznamy času zaškrtnutím políčka vlevo. Poté můžeš několik záznamů času smazat najednou tlačítkem „Smazat vybrané“."
+        },
+        "3": {
+          "question": "Co je týdenní přehled (výkaz hodin)?",
+          "answer": "Týdenní přehled zobrazuje tvé záznamy času v týdenní mřížce, takže rychle vidíš hodiny podle dne a projektu. Mezi seznamem a týdenním zobrazením přepínáš přepínačem v horní části stránky Evidence času."
+        },
+        "4": {
+          "question": "Mohu importovat čas z CSV?",
+          "answer": "Ano, klikni na tlačítko „Importovat CSV“ na stránce Evidence času. Nahraj soubor CSV se sloupci pro datum, hodiny, projekt a popis. Systém projekty přiřadí automaticky a vytvoří záznamy času."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Úkoly",
+      "items": {
+        "0": {
+          "question": "Jaký je rozdíl mezi kanban tabulí a seznamem?",
+          "answer": "Kanban tabule zobrazuje úkoly jako karty ve sloupcích (např. „K udělání“, „Probíhá“, „Hotovo“), takže úkoly snadno přetáhneš mezi fázemi. Seznam zobrazuje úkoly v tabulce s řazením a filtrováním. Mezi zobrazeními přepínáš tlačítky nahoře."
+        },
+        "1": {
+          "question": "Jak vytvořím úkol?",
+          "answer": "Klikni na „Nový úkol“ na stránce úkolů. Vyplň název, vyber projekt a klienta, nastav prioritu (nízká/normální/vysoká/kritická) a případně zadej termín. Můžeš také přidat podrobný popis."
+        },
+        "2": {
+          "question": "Jak přesunu úkoly mezi sloupci?",
+          "answer": "V zobrazení kanban můžeš karty úkolů přetahovat mezi sloupci. Můžeš také kliknout na úkol a změnit jeho stav v dialogu úprav."
+        },
+        "3": {
+          "question": "Mohu spustit stopky přímo z úkolu?",
+          "answer": "Ano, každý úkol má tlačítko stopek. Kliknutím spustíš stopky s projektem a názvem úkolu jako popisem. Čas se automaticky eviduje na propojený projekt."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Přehled",
+      "items": {
+        "0": {
+          "question": "Co zobrazuje přehled?",
+          "answer": "Přehled ti dává souhrn tvého podnikání pomocí widgetů pro týdenní souhrn času, výdělky, aktivní projekty, stav balíčků hodin, poslední záznamy času a nadcházející termíny."
+        },
+        "1": {
+          "question": "Mohu si přehled přizpůsobit?",
+          "answer": "Ano, klikni na tlačítko „Přizpůsobit“ vpravo nahoře na přehledu. Widgety můžeš přidávat, odebírat a přesouvat přetažením. Změny se ukládají automaticky."
+        },
+        "2": {
+          "question": "Jaké widgety jsou k dispozici?",
+          "answer": "K dispozici jsou například: Týdenní přehled (hodiny podle dne), Výdělky (tržby a růst), Aktivní projekty, Přehled balíčků hodin, Poslední záznamy času, Dnešní hodiny, Nadcházející termíny a Rychlé spuštění stopek."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Balíčky hodin",
+      "items": {
+        "0": {
+          "question": "Co je balíček hodin?",
+          "answer": "Balíček hodin je blok hodin, který klient koupí předem. Při evidenci času můžeš zvolit, že se hodiny odečtou z balíčku místo běžné fakturace. Je to oblíbené u smluv o podpoře."
+        },
+        "1": {
+          "question": "Jak vytvořím balíček hodin?",
+          "answer": "Přejdi na „Balíčky hodin“ a klikni na „Nový balíček hodin“. Vyber klienta, zadej počet hodin a hodinovou sazbu a vypočítej celkovou cenu. Nastav datum nákupu a případně datum vypršení platnosti. Jakmile je balíček aktivní, můžeš ho použít při evidenci času."
+        },
+        "2": {
+          "question": "Co se stane, když se balíček hodin vyčerpá?",
+          "answer": "Když v balíčku hodin zbývá méně než 10 % hodin, zobrazí se upozornění. Když je prázdný (zbývá 0 hodin), už se z něj nedá odečítat čas. Musíš vytvořit nový balíček hodin nebo čas vyfakturovat běžně."
+        },
+        "3": {
+          "question": "Mohu vidět historii balíčku hodin?",
+          "answer": "Ano, otevři balíček hodin a podívej se do části „Historie čerpání“. Zobrazuje všechny záznamy času odečtené z balíčku s datem, popisem a počtem hodin."
+        }
+      }
+    },
+    "templates": {
+      "title": "Opakované šablony",
+      "items": {
+        "0": {
+          "question": "Co jsou opakované šablony?",
+          "answer": "Opakované šablony jsou přednastavené záznamy času, které se vytvářejí automaticky v pravidelných intervalech. Můžeš například vytvořit šablonu „Týdenní schůzka o stavu: 1 hodina“, která se vytvoří každý týden."
+        },
+        "1": {
+          "question": "Jak vytvořím šablonu?",
+          "answer": "Přejdi na „Šablony“ a klikni na „Nová šablona“. Vyber projekt, popis, počet hodin a frekvenci (denně/týdně/měsíčně). Zadej datum zahájení a případně datum ukončení. Šablona podle tvého plánu automaticky vytváří záznamy času."
+        },
+        "2": {
+          "question": "Mohu upravit nebo smazat vygenerované záznamy času?",
+          "answer": "Ano, vygenerované záznamy času fungují jako běžné záznamy času. Můžeš je upravit v „Evidenci času“ nebo smazat, pokud pro daný den či týden nejsou relevantní."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Faktury",
+      "items": {
+        "0": {
+          "question": "Jak vytvořím fakturu?",
+          "answer": "Přejdi na „Faktury“ a klikni na „Nová faktura“. Vyber klienta a časové období záznamů času a systém automaticky shromáždí všechny nevyfakturované hodiny. Zkontroluj položky, přidej případné poznámky a ulož."
+        },
+        "1": {
+          "question": "Jaký je rozdíl mezi „Koncept“, „Odesláno“ a „Zaplaceno“?",
+          "answer": "Koncept = na faktuře ještě pracuješ. Odesláno = faktura byla odeslána klientovi, ale ještě není zaplacená. Zaplaceno = klient fakturu zaplatil. Stav můžeš průběžně měnit ručně."
+        },
+        "2": {
+          "question": "Mohu exportovat faktury do PDF?",
+          "answer": "Ano, při zobrazení faktury je tlačítko „Exportovat PDF“. Vytvoří profesionální fakturu ve formátu PDF, kterou můžeš poslat klientovi nebo uložit pro účetnictví."
+        },
+        "3": {
+          "question": "Mohu vytvořit fakturu ze záznamů času?",
+          "answer": "Ano, při vytváření nové faktury klikni na tlačítko „Ze záznamů času“. Vyber klienta a časové období a systém shromáždí všechny nevyfakturované záznamy času jako položky faktury."
+        },
+        "4": {
+          "question": "Co zobrazuje přehled faktur?",
+          "answer": "V horní části stránky faktur najdeš čtyři karty se statistikami: Celkem vyfakturováno, Zaplacená částka, Nezaplacená částka a Faktury po splatnosti. Dávají ti rychlý přehled o financích."
+        }
+      }
+    },
+    "reports": {
+      "title": "Reporty",
+      "items": {
+        "0": {
+          "question": "Jaké reporty mohu vytvářet?",
+          "answer": "Můžeš zobrazit týdenní a měsíční reporty s hodinami podle klienta, hodinami podle projektu, výdělky a trendy. Reporty lze filtrovat podle období a exportovat do CSV pro analýzu v Excelu."
+        },
+        "1": {
+          "question": "Jak exportuji data do Excelu?",
+          "answer": "Přejdi na „Reporty“, vyber požadované období a klikni na „Exportovat CSV“. Stáhne se soubor CSV, který můžeš otevřít v Excelu, Google Tabulkách nebo jiných tabulkových editorech."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Klávesové zkratky a tipy",
+      "items": {
+        "0": {
+          "question": "Jaké jsou zkratky pro navigaci?",
+          "answer": "Pro rychlou navigaci stiskni G a poté klávesu: {shortcuts}."
+        },
+        "1": {
+          "question": "Jaké jsou zkratky pro stopky?",
+          "answer": "T = spustit/zastavit stopky, Shift+T = pozastavit/obnovit stopky. Tyto zkratky fungují na všech stránkách, takže stopky ovládáš rychle bez přepínání stránek."
+        },
+        "2": {
+          "question": "Co je paleta příkazů?",
+          "answer": "Stisknutím Ctrl+K (na Macu Cmd+K) otevřeš paletu příkazů. Můžeš v ní rychle vyhledávat stránky, klienty, projekty a akce a přecházet na ně bez myši."
+        },
+        "3": {
+          "question": "Jak zobrazím všechny zkratky?",
+          "answer": "Stiskni „?“ na libovolné stránce a otevře se přehled zkratek. Zobrazuje všechny dostupné klávesové zkratky seskupené podle kategorií."
+        },
+        "4": {
+          "question": "Mohu prohlídku spustit znovu?",
+          "answer": "Ano, klikni vpravo nahoře na svůj profilový obrázek či iniciály a v uživatelském menu vyber „Spustit prohlídku“. Prohlídka tě provede všemi 24 hlavními funkcemi."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Rozšíření prohlížeče",
+      "items": {
+        "0": {
+          "question": "Co je rozšíření prohlížeče {brand}?",
+          "answer": "Rozšíření prohlížeče umožňuje evidovat čas přímo z prohlížeče bez otevření aplikace {brand}. Můžeš spustit a zastavit stopky, vybrat projekt a klienta a zobrazit své poslední záznamy času."
+        },
+        "1": {
+          "question": "Jak nastavím vzory URL?",
+          "answer": "V Nastavení → Rozšíření prohlížeče můžeš definovat vzory URL, které automaticky propojí projekt při návštěvě určitých webů. Můžeš například nastavit „github.com/client-repo/*“, aby se automaticky vybral odpovídající projekt."
+        },
+        "2": {
+          "question": "Jak nainstaluji rozšíření prohlížeče?",
+          "answer": "Nainstaluj rozšíření {brand} z Internetového obchodu Chrome (vyhledej „{brand} Tidsregistrering“ nebo přejdi na timetrack.dk/browser-extension). V Nastavení → Rozšíření prohlížeče vygeneruj token API a vlož ho do vyskakovacího okna rozšíření. Rozšíření se k tvému účtu {brand} připojí automaticky."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integrace",
+      "items": {
+        "0": {
+          "question": "Jak použiji vyhledávání v CVR?",
+          "answer": "Při vytváření nového klienta můžeš zadat číslo CVR a kliknout na „Vyhledat“. {brand} automaticky načte název firmy, adresu a kontaktní údaje z dánského obchodního rejstříku CVR, takže je nemusíš zadávat ručně."
+        },
+        "1": {
+          "question": "Jak exportuji do Billy, Dinero nebo e-conomic?",
+          "answer": "Přejdi do Nastavení → Integrace a připoj svůj účet. Billy a Dinero mohou přijímat faktury. Z e-conomic můžeš importovat své klienty a podklad pro fakturu můžeš vždy exportovat jako CSV nebo report ze stránky faktury."
+        },
+        "2": {
+          "question": "Mohu se synchronizovat s Google Kalendářem?",
+          "answer": "Ano, v Nastavení → Integrace můžeš připojit svůj Google Kalendář. Události z kalendáře se mohou automaticky navrhovat jako záznamy času, takže čas snadno zapíšeš podle svých schůzek."
+        }
+      }
+    },
+    "security": {
+      "title": "Zabezpečení",
+      "items": {
+        "0": {
+          "question": "Co jsou passkeys?",
+          "answer": "Passkeys jsou moderní způsob přihlášení bez hesla. Místo hesla použiješ otisk prstu, rozpoznání obličeje nebo PIN zařízení. Passkeys nastavíš v Nastavení → Zabezpečení → Passkeys."
+        },
+        "1": {
+          "question": "Jak zapnu dvoufázové ověření (2FA)?",
+          "answer": "Přejdi do Nastavení → Zabezpečení → Dvoufázové ověření. Naskenuj QR kód v ověřovací aplikaci (např. Google Authenticator nebo Authy) a zadej potvrzovací kód. Poté se při přihlášení vyžaduje 6místný kód."
+        },
+        "2": {
+          "question": "Jak spravuji aktivní relace?",
+          "answer": "V Nastavení → Zabezpečení → Aktivní relace vidíš všechna zařízení přihlášená k tvému účtu. Jednotlivé relace můžeš ukončit nebo se odhlásit ze všech zařízení najednou."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Import a export",
+      "items": {
+        "0": {
+          "question": "Jak importuji záznamy času z CSV?",
+          "answer": "Přejdi na Evidenci času a klikni na „Importovat CSV“. Nahraj soubor CSV se sloupci pro datum, hodiny, projekt a popis. Systém zobrazí náhled, takže data můžeš před importem zkontrolovat."
+        },
+        "1": {
+          "question": "Jak exportuji svá data?",
+          "answer": "Data můžeš exportovat z několika míst: Reporty → Exportovat CSV pro záznamy času, Faktury → Exportovat PDF pro jednotlivé faktury a Nastavení → Data → Exportovat všechna data pro kompletní zálohu ve formátu CSV nebo JSON."
+        },
+        "2": {
+          "question": "Mohu si stáhnout všechna svá data (GDPR)?",
+          "answer": "Ano, v Nastavení → Data najdeš tlačítko „Stáhnout moje data“. Vytvoří kompletní export všech tvých dat ve formátu JSON, jak vyžaduje GDPR. Export obsahuje klienty, projekty, záznamy času, faktury a balíčky hodin."
+        }
+      }
+    },
+    "settings": {
+      "title": "Nastavení",
+      "items": {
+        "0": {
+          "question": "Jak změním svou výchozí hodinovou sazbu?",
+          "answer": "Přejdi do „Nastavení“, najdi pole „Výchozí hodinová sazba (kr)“ a zadej novou sazbu. Tato sazba se používá jako výchozí pro nové klienty a projekty. Stávající sazby klientů a projektů se nemění."
+        },
+        "1": {
+          "question": "Zaznamenávají se všechny moje změny?",
+          "answer": "Ano, {brand} zaznamenává všechny změny hodinových sazeb (globálních, klienta, projektu) v historii sazeb. Vždy vidíš, kdy a jak se sazby změnily. Pomáhá to s transparentností a účetnictvím."
+        },
+        "2": {
+          "question": "Jak smažu svůj účet?",
+          "answer": "V „Nastavení“ je sekce „Nebezpečná zóna“ s tlačítkem „Smazat účet“. Musíš potvrdit svým e-mailem a schválit smazání. POZOR: Tím se TRVALE smažou všechna tvá data včetně klientů, projektů, záznamů času a faktur. Pokud jsi členem týmu, to, co jsi v týmu evidoval, zůstane týmu bez tvého jména a e-mailu."
+        },
+        "3": {
+          "question": "Jak přepnu na tmavý motiv?",
+          "answer": "Přejdi do Nastavení → Profil a vzhled → Motiv. Vyber mezi „Světlý“, „Tmavý“ nebo „Systémový“ (řídí se nastavením tvého zařízení). Změna se projeví okamžitě."
+        },
+        "4": {
+          "question": "Co je profil firmy?",
+          "answer": "V Nastavení → Profil firmy můžeš nastavit název firmy, číslo CVR, adresu, logo a bankovní údaje. Tyto údaje se automaticky používají na tvých fakturách."
+        }
+      }
+    }
+  },
+  "title": "Nápověda a návody",
+  "description": "Najdi odpovědi na své otázky o aplikaci {brand}",
+  "searchPlaceholder": "Hledat v nápovědě… (např. „balíček hodin“, „faktura“, „zkratka“)",
+  "resultCount": "{count, plural, one {# výsledek} few {# výsledky} many {# výsledku} other {# výsledků}}",
+  "popular": "Oblíbené otázky",
+  "searchResultsFor": "Výsledky hledání pro „{query}“",
+  "foundIn": "{results, plural, one {# výsledek} few {# výsledky} many {# výsledku} other {# výsledků}} nalezeno v {topics, plural, one {# tématu} few {# tématech} many {# tématu} other {# tématech}}",
+  "noResults": "Pro „{query}“ nebyly nalezeny žádné výsledky",
+  "questionCount": "{count, plural, one {# otázka} few {# otázky} many {# otázky} other {# otázek}}",
+  "chooseTopic": "Vyber téma ze seznamu",
+  "cantFindTitle": "Nemůžeš najít, co hledáš?",
+  "cantFindBody": "Pokud máš otázky, na které dokumentace neodpovídá, kontaktuj nás.",
+  "contactSupport": "Kontaktovat podporu",
+  "screenshotAlt": "Snímek obrazovky: {title}",
+  "videoDemo": "Video ukázka",
+  "wasHelpful": "Bylo to užitečné?",
+  "yes": "Ano",
+  "no": "Ne",
+  "topicsHeading": "Témata"
+}

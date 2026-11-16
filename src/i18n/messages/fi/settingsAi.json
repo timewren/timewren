@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini ja muut OpenAI-mallit",
+      "note": "Luo API-avain osoitteessa platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus ja Haiku OpenAI SDK:n kautta",
+      "note": "Luo API-avain osoitteessa console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Tanskalainen tekoäly, ylläpidetään Tanskassa, täysin GDPR-yhteensopiva",
+      "badge": "Suositeltu",
+      "note": "Ordbogen A/S:n tanskalaisessa palvelussa ylläpitämä tekoäly. Luo avain osoitteessa odincore.ai. Tiedot eivät koskaan poistu Tanskasta."
+    },
+    "custom": {
+      "label": "Muu rajapinta",
+      "description": "Mikä tahansa OpenAI-yhteensopiva API"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manuaalinen",
+      "description": "Tekoäly on pois käytöstä. Kaikki tehtävät käsitellään ilman tekoälyn jäsennystä."
+    },
+    "suggest": {
+      "label": "Ehdota",
+      "description": "Tekoäly ehdottaa luokittelua ja tärkeysjärjestystä, mutta sinä hyväksyt."
+    },
+    "auto_lowrisk": {
+      "label": "Automaattinen (pieni riski)",
+      "description": "Tekoäly hoitaa yksinkertaiset tehtävät automaattisesti. Monimutkaiset menevät hyväksyttäviksi."
+    },
+    "auto_all": {
+      "label": "Täysin automaattinen",
+      "description": "Tekoäly hoitaa kaikki tehtävät automaattisesti ilman hyväksyntää."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Tanska (Europe/Copenhagen)",
+    "Europe/Stockholm": "Ruotsi (Europe/Stockholm)",
+    "Europe/Oslo": "Norja (Europe/Oslo)",
+    "Europe/London": "Britannia (Europe/London)",
+    "Europe/Berlin": "Saksa (Europe/Berlin)",
+    "America/New_York": "Yhdysvaltain itärannikko (America/New_York)",
+    "America/Los_Angeles": "Yhdysvaltain länsirannikko (America/Los_Angeles)"
+  },
+  "connectionOk": "Yhteys toimii!",
+  "connectionFailed": "Yhteys epäonnistui",
+  "testFailed": "Testi epäonnistui",
+  "emailEnabled": "Sähköposti tehtäväksi otettu käyttöön!",
+  "emailEnableFailed": "Sähköposti tehtäväksi -toiminnon käyttöönotto epäonnistui",
+  "emailDisabled": "Sähköposti tehtäväksi poistettu käytöstä",
+  "emailDisableFailed": "Sähköposti tehtäväksi -toiminnon poistaminen käytöstä epäonnistui",
+  "addressRegenerated": "Uusi sähköpostiosoite luotu!",
+  "addressRegenerateFailed": "Uuden osoitteen luonti epäonnistui",
+  "settingsUpdated": "Tekoälyasetukset päivitetty",
+  "settingsUpdateFailed": "Tekoälyasetusten päivitys epäonnistui",
+  "addressCopied": "Sähköpostiosoite kopioitu!",
+  "keyRequired": "API-avain vaaditaan",
+  "urlRequired": "Omalle rajapinnalle vaaditaan API-osoite",
+  "enterKeyFirst": "Anna ensin API-avain",
+  "title": "Tekoäly ja automaatio",
+  "description": "Määritä tekoälyominaisuudet ja sähköposti tehtäväksi -asetukset",
+  "statusTitle": "Tekoälyn tila",
+  "statusEnabled": "Tekoäly on käytössä",
+  "statusDisabled": "Tekoälyä ei ole määritetty",
+  "statCalls": "Tekoälykutsut yhteensä",
+  "statSuccess": "Onnistumisprosentti",
+  "statConfidence": "Keskimääräinen varmuus",
+  "statTime": "Keskimääräinen käsittelyaika",
+  "enableHint": "Ota tekoälyominaisuudet käyttöön valitsemalla alla tekoälyn tarjoaja ja antamalla oma API-avaimesi.",
+  "providerTitle": "Tekoälyn tarjoaja",
+  "providerSub": "Valitse, mikä tekoälyominaisuuksia pyörittää: järjestelmän tekoäly tai oma",
+  "providerIntro": "Ota tekoälyominaisuudet käyttöön valitsemalla tekoälyn tarjoaja ja antamalla oma API-avaimesi. {brand} käyttää OpenAI SDK -muotoa, joka on yhteensopiva monen tarjoajan kanssa.",
+  "apiKey": "API-avain",
+  "configured": "(määritetty)",
+  "keyPlaceholder": "API-avain",
+  "keyHelpOpenai": "OpenAI API-avaimesi osoitteesta platform.openai.com",
+  "keyHelpAnthropic": "Anthropic API-avaimesi osoitteesta console.anthropic.com",
+  "keyHelpOrdbogen": "API-avaimesi osoitteesta OdinCore.ai",
+  "keyHelpOther": "Tarjoajasi API-avain",
+  "apiUrl": "API-osoite",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (oletus, jätä tyhjäksi)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Täytetty valmiiksi esiasetuksesta",
+  "urlHelp": "API:n perusosoite. Jätä tyhjäksi käyttääksesi OpenAI:n oletusrajapintaa.",
+  "model": "Malli",
+  "modelPlaceholderOpenai": "gpt-4o-mini (oletus)",
+  "modelPlaceholderOther": "Mallin nimi",
+  "modelHelp": "Määritä malli tai jätä tyhjäksi käyttääksesi oletusta",
+  "testConnection": "Testaa yhteys",
+  "saveSettings": "Tallenna asetukset",
+  "help": {
+    "title": "Näin saat API-avaimen",
+    "sub": "Valitse yksi suositelluista tarjoajista ja seuraa ohjetta",
+    "odinDesc": "Tanskassa ylläpidettävä tanskalainen tekoäly, täysin GDPR-yhteensopiva. Tiedot eivät koskaan poistu Tanskasta.",
+    "odin1": "Siirry osoitteeseen odincore.ai ja luo tili",
+    "odin2": "Avaa tilisi API-osio",
+    "odin3": "Luo uusi API-avain",
+    "odin4": "Liitä avain yllä kohtaan “OdinCore (Ordbogen)”",
+    "openaiDesc": "GPT-4o-mini on nopea ja edullinen, ja se sopii hyvin tehtävien jäsentämiseen.",
+    "openai1": "Siirry osoitteeseen platform.openai.com ja kirjaudu sisään",
+    "openai2": "Avaa asetuksistasi “API keys”",
+    "openai3": "Napsauta “Create new secret key”",
+    "copyPaste": "Kopioi avain ja liitä se yllä",
+    "anthropicDesc": "Claude-mallit ovat vahvoja tehtävien ymmärtämisessä ja luokittelussa.",
+    "anthropic1": "Siirry osoitteeseen console.anthropic.com ja luo tili",
+    "anthropic2": "Siirry kohtaan “Settings” → “API keys”",
+    "anthropic3": "Napsauta “Create key”"
+  },
+  "email": {
+    "title": "Sähköposti tehtäväksi",
+    "sub": "Lähetä sähköposteja henkilökohtaiseen osoitteeseesi luodaksesi tehtäviä automaattisesti",
+    "address": "Henkilökohtainen tehtäväsähköpostisi",
+    "copyTitle": "Kopioi sähköpostiosoite",
+    "addressHelp": "Lähetä tai välitä sähköposteja tähän osoitteeseen luodaksesi tehtäviä automaattisesti. Tekoäly jäsentää sisällön ja poimii otsikon, määräajan ja tärkeyden.",
+    "regenerate": "Luo uusi osoite",
+    "disable": "Poista sähköposti tehtäväksi käytöstä",
+    "notEnabled": "Sähköposti tehtäväksi ei ole käytössä",
+    "notEnabledText": "Ota se käyttöön saadaksesi henkilökohtaisen sähköpostiosoitteen, johon voit lähettää tehtäviä. Sähköpostit muuttuvat automaattisesti tehtäviksi koontinäytölläsi.",
+    "enable": "Ota sähköposti tehtäväksi käyttöön"
+  },
+  "autonomyTitle": "Tekoälyn itsenäisyystaso",
+  "autonomySub": "Valitse, kuinka paljon tekoälyn pitäisi hoitaa automaattisesti",
+  "hoursTitle": "Työaika ja aikavyöhyke",
+  "hoursSub": "Käytetään tekoälyn tärkeysjärjestykseen ja kalenteriominaisuuksiin",
+  "timezone": "Aikavyöhyke",
+  "workingHours": "Työaika",
+  "to": "-",
+  "hoursHelp": "Tekoäly käyttää näitä aikoja ehdottaakseen tehtäville parhaita ajankohtia",
+  "privacyTitle": "Yksityisyys ja tietoturva",
+  "privacyText": "Sähköpostit käsitellään ja poistetaan heti tehtävän luomisen jälkeen. Säilytämme vain valmiin tehtävän, emme alkuperäistä sähköpostia. Tekoälykäsittely tapahtuu OpenAI:n kautta tiukalla tietojenkäsittelyllä."
+}

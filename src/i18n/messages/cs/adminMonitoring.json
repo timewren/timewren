@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Monitoring",
+    "healthy": "{score} % v pořádku",
+    "cronDashboard": "Přehled cron úloh",
+    "sections": {
+      "health": "Stav systému",
+      "cron": "Cron úlohy",
+      "email": "Doručování e-mailů"
+    },
+    "tiles": {
+      "activeSessions": "Aktivní relace",
+      "sessions24h": "Relace za posledních 24 h",
+      "activeTimers": "Aktivní stopky",
+      "emailsSent7d": "Odeslané e-maily (7 dní)"
+    },
+    "cronHealth": {
+      "title": "Stav cron úloh (7 dní)",
+      "runs": "Spuštění",
+      "ok": "v pořádku",
+      "errors": "chyb",
+      "avgDuration": "Prům. doba trvání",
+      "lastRun": "Poslední spuštění"
+    },
+    "errors": {
+      "title": "Chyby (posledních 7 dní)",
+      "count": "{count}×"
+    },
+    "cron": {
+      "allJobs": "Všechny úlohy",
+      "allStatuses": "Všechny stavy",
+      "filter": {
+        "success": "Úspěch",
+        "error": "Chyba",
+        "partial": "Částečně"
+      },
+      "status": {
+        "success": "úspěch",
+        "error": "chyba",
+        "partial": "částečně"
+      },
+      "empty": "Nenalezeny žádné logy cron úloh",
+      "columns": {
+        "job": "Úloha",
+        "status": "Stav",
+        "started": "Spuštěno",
+        "duration": "Doba trvání",
+        "items": "Položky",
+        "errors": "Chyby"
+      }
+    },
+    "showing": "Zobrazeno {from} až {to} z {total}",
+    "previous": "Předchozí",
+    "next": "Další",
+    "email": {
+      "sent": "Odesláno",
+      "delivered": "Doručeno",
+      "bounced": "Vráceno",
+      "failed": "Selhalo",
+      "status": {
+        "sent": "odesláno",
+        "delivered": "doručeno",
+        "bounced": "vráceno",
+        "failed": "selhalo"
+      },
+      "last24h": "Posledních 24 hodin",
+      "last7d": "Posledních 7 dní",
+      "last30d": "Posledních 30 dní",
+      "last90d": "Posledních 90 dní",
+      "allTemplates": "Všechny šablony",
+      "empty": "Nenalezeny žádné logy e-mailů",
+      "columns": {
+        "recipient": "Příjemce",
+        "subject": "Předmět",
+        "template": "Šablona",
+        "status": "Stav",
+        "sentAt": "Odesláno"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cron úlohy",
+    "refresh": "Obnovit",
+    "never": "Nikdy",
+    "badge": {
+      "neverRun": "Nikdy nespuštěno",
+      "silent": "Mlčí",
+      "error": "Chyba",
+      "partial": "Částečně",
+      "running": "Běží",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "úspěch",
+      "error": "chyba",
+      "partial": "částečně"
+    },
+    "noRows": "Nenalezeny žádné záznamy logu",
+    "runColumns": {
+      "status": "Stav",
+      "started": "Spuštěno",
+      "duration": "Doba trvání",
+      "items": "Položky",
+      "errorMessage": "Chybová zpráva"
+    },
+    "tiles": {
+      "expected": "Očekávané úlohy",
+      "silent": "Mlčící úlohy",
+      "withErrors": "Úlohy s chybami (24 h)",
+      "totalRuns": "Spuštění celkem (24 h)"
+    },
+    "columns": {
+      "status": "Stav",
+      "job": "Úloha",
+      "cadence": "Frekvence",
+      "lastRun": "Poslední spuštění",
+      "runs24h": "Spuštění za 24 h",
+      "errors24h": "Chyby za 24 h",
+      "avgDuration": "Prům. doba trvání"
+    },
+    "lastError": "Poslední chyba:",
+    "cadence": {
+      "everyMinutes": "každých {minutes} min",
+      "hourly": "každou hodinu",
+      "everyHours": "každých {hours} hodin",
+      "daily": "denně",
+      "weekly": "týdně",
+      "monthly": "měsíčně",
+      "everyDays": "každých {days} dní"
+    }
+  }
+}

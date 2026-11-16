@@ -1,0 +1,322 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "工时表",
+      "description": "已提交、已批准、已拒绝和已重新打开，以及期间结账（对账单、审批、确认）"
+    },
+    "absence": {
+      "label": "休假与缺勤",
+      "description": "申请、决定、登记和病假报告"
+    },
+    "reminder": {
+      "label": "提醒",
+      "description": "周五工时表缺失时的提醒，以及（可选）前一天利用率偏低时的提醒"
+    },
+    "compliance": {
+      "label": "工作时间规则",
+      "description": "提交时有关工作时间规则的警告（面向经理）"
+    },
+    "digest": {
+      "label": "经理摘要",
+      "description": "面向经理的每日/每周概览"
+    }
+  },
+  "channels": {
+    "in_app": "应用内",
+    "email": "邮件",
+    "push": "推送",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "第 {week} 周",
+  "periodFrom": "自 {date} 起",
+  "periodRange": "{start} 至 {end}",
+  "unknown": "未知",
+  "duration": {
+    "hm": "{h} 小时 {m} 分钟",
+    "h": "{h} 小时",
+    "m": "{m} 分钟"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "工时表等待审批",
+      "body": "{employee} 已提交 {week} 的工时表（{hours} 小时）。"
+    },
+    "factEmployee": "员工",
+    "factWeek": "周",
+    "factHours": "工时",
+    "timesheetApproved": {
+      "title": "工时表已批准",
+      "body": "{manager} 已批准你 {week} 的工时表。"
+    },
+    "timesheetRejected": {
+      "title": "工时表已拒绝",
+      "body": "{manager} 已拒绝你 {week} 的工时表。",
+      "bodyReason": "{manager} 已拒绝你 {week} 的工时表。理由：{reason}"
+    },
+    "timesheetReopened": {
+      "title": "工时表已重新打开",
+      "body": "{manager} 已重新打开你 {week} 的工时表以便编辑。",
+      "bodyReason": "{manager} 已重新打开你 {week} 的工时表以便编辑。理由：{reason}"
+    },
+    "closingReady": {
+      "title": "期间对账单待审批",
+      "body": "{count, plural, other {已为 # 名员工生成 {period} 的对账单，等待你审批。}}"
+    },
+    "factPeriod": "期间",
+    "factStatements": "对账单",
+    "closingApproved": {
+      "title": "请确认你的期间对账单",
+      "body": "{manager} 已批准你 {period} 的对账单。该期间现已锁定，请查看对账单并确认。"
+    },
+    "closingUnlocked": {
+      "title": "期间已解锁",
+      "body": "{actor} 已解锁 {period}。理由：{reason}"
+    },
+    "absenceRequested": {
+      "title": "缺勤等待审批",
+      "body": "{employee} 申请{type}，{period}。"
+    },
+    "factType": "类型",
+    "absenceApproved": {
+      "title": "缺勤已批准",
+      "body": "{manager} 已批准你的{type}，{period}。"
+    },
+    "absenceRejected": {
+      "title": "缺勤已拒绝",
+      "body": "{manager} 已拒绝你的{type}，{period}。",
+      "bodyReason": "{manager} 已拒绝你的{type}，{period}。理由：{reason}"
+    },
+    "absenceRegistered": {
+      "title": "缺勤已登记",
+      "body": "{registrar} 已登记{type}，{period}。"
+    },
+    "sickRegistered": {
+      "title": "病假报告",
+      "body": "{employee} 已报告病假，{period}。"
+    },
+    "timesheetMissing": {
+      "title": "你的工时表缺失",
+      "bodyHours": "你在 {week} 已记录 {hours} 小时，但该周尚未提交。",
+      "bodyNone": "你在 {week} 还没有记录任何工时。"
+    },
+    "coverageLow": {
+      "title": "仅记录了 {pct} 的工作时间",
+      "body": "{day}你记录了 {logged} 小时，应为 {expected} 小时（低于你设定的 {threshold}% 阈值）。是否有遗漏？"
+    },
+    "factLogged": "已记录",
+    "factWorkTime": "工作时间",
+    "factCoverage": "利用率",
+    "hoursShort": "{hours} 小时",
+    "compliance": {
+      "title": "工作时间规则警告",
+      "body": "{employee} 在 {week} 的工时表触发了：{findings}"
+    },
+    "factFinding": "发现",
+    "digestDaily": "经理每日概览",
+    "digestWeekly": "经理每周概览",
+    "digestDailyEsc": "经理每日概览（已升级）",
+    "digestWeeklyEsc": "经理每周概览（已升级）",
+    "digestEmpty": "没有未处理的工时表或申请。",
+    "digestMissing": "缺失的工时表",
+    "digestPendingTs": "待审批的工时表",
+    "digestPendingAbs": "待审批的缺勤申请",
+    "digestFactAbs": "缺勤申请",
+    "digestSection": "{label}（{count}）：",
+    "digestAge": "（{days, plural, other {# 天}}）",
+    "digestMore": "…… 另有 {count} 项"
+  },
+  "digestItem": {
+    "missing": "{week} 的工时表未提交",
+    "pendingTs": "{week} 等待审批",
+    "pendingAbs": "{type} {period} 等待决定"
+  },
+  "emailOpenIn": "在 {brand} 中打开",
+  "emailNoAddress": "没有邮箱地址",
+  "push": {
+    "open": "打开",
+    "dismiss": "忽略",
+    "deadlineTitle": "⏰ 截止日期提醒",
+    "deadlineBody": "{title} - 截止 {when}",
+    "whenDays": "{days} 天后",
+    "whenTomorrow": "明天",
+    "whenHours": "{hours} 小时后",
+    "whenOneHour": "1 小时后",
+    "whenSoon": "即将",
+    "overdueTitle": "🚨 任务已逾期",
+    "overdueBody": "{title} 已超过截止日期",
+    "digestTitle": "☀️ 早上好！",
+    "digestOverdue": "{overdue} 项已逾期，今天计划 {tasks} 项",
+    "digestTasks": "今天计划 {count, plural, other {# 项任务}}",
+    "digestNone": "今天没有计划任务，享受这一天吧！",
+    "testTitle": "🔔 测试通知",
+    "testBody": "{brand} 的推送通知现已启用！"
+  },
+  "discord": {
+    "digestTitle": "☀️ 早上好，{name}！",
+    "digestNone": "你今天没有计划任务，享受这一天吧！🎉",
+    "digestOverview": "这是你今天的概览：",
+    "todayTasks": "📌 今日任务（{count}）",
+    "overdueTasks": "🚨 已逾期（{count}）",
+    "andMore": "…… 另有 {count} 项",
+    "status": "📊 状态",
+    "yesterdayTime": "昨天已追踪工时：{h} 小时 {m} 分钟",
+    "yesterdayDone": "昨天已完成任务：{count}",
+    "digestFooter": "TimeTrack • 每日概览",
+    "testTitle": "测试通知",
+    "testMessage": "你的 Discord webhook 现已连接到 TimeTrack！🎉"
+  },
+  "taskDigestSubject": "你 {date} 的任务",
+  "endOfDay": {
+    "titleTracked": "每日总结：已追踪 {hours}",
+    "titleNone": "今天没有追踪工时",
+    "bodyTracked": "你今天已追踪 {hours}。",
+    "bodyUnbilled": "其中 {hours} 尚未开票。",
+    "bodyRevenue": "预估收入：{amount} kr。",
+    "bodyNone": "别忘了在一天结束前记录你的工时。",
+    "footer": "TimeTrack 每日总结"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "检测到闲置",
+      "message": "计时器已运行 {minutes} 分钟仍在计时。你回来后会被询问这段闲置时间如何处理。"
+    },
+    "invoiceOverdueOne": {
+      "title": "发票已逾期",
+      "message": "发票 {numbers} 已超过到期日。"
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} 张发票已逾期",
+      "message": "发票 {numbers} 已超过到期日。"
+    },
+    "recurringOne": {
+      "title": "发票草稿已就绪：{name}",
+      "message": "周期性发票“{name}”（{amount}，不含增值税）已创建为草稿。请检查，准备好后再开具。"
+    },
+    "recurringMany": {
+      "title": "{count} 张周期性发票已生成草稿",
+      "message": "{list} 已创建为草稿。请检查，准备好后再开具。"
+    },
+    "renewalDraft": {
+      "title": "发票草稿已就绪：预付时长包“{name}”",
+      "message": "预付时长包“{name}”已续期，新期间的发票已创建为草稿。请检查，准备好后再开具。"
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "新用户注册",
+      "subscription_started": "新增付费订阅用户",
+      "payment_failed": "付款失败",
+      "subscription_cancelled": "订阅已取消",
+      "trial_ending": "试用即将结束",
+      "user_flagged": "用户被标记",
+      "support_ticket": "新支持工单",
+      "webhook_rejected": "Webhook 被拒绝",
+      "seat_drift": "检测到席位偏差",
+      "churn_risk": "已触发流失挽留流程",
+      "subscription_duplicate": "可能的重复订阅",
+      "feedback_received": "收到用户的新反馈",
+      "beta_tester_signup": "移动应用新增测试用户"
+    },
+    "sub": {
+      "signup": "新用户：{name}",
+      "subscription_started": "新订阅用户：{name}",
+      "payment_failed": "付款失败：{name}",
+      "subscription_cancelled": "订阅已取消：{name}",
+      "trial_ending": "试用即将结束：{name}",
+      "user_flagged": "用户被标记：{name}",
+      "support_ticket": "支持工单：{name}",
+      "webhook_rejected": "Webhook 被拒绝",
+      "seat_drift": "席位偏差",
+      "churn_risk": "流失风险",
+      "subscription_duplicate": "可能的重复订阅",
+      "feedback_received": "新反馈：{name}",
+      "beta_tester_signup": "新测试用户：{name}"
+    },
+    "unknownName": "未知",
+    "fieldName": "姓名",
+    "fieldEmail": "邮件",
+    "fieldPlan": "套餐",
+    "fieldType": "类型",
+    "fieldDaysLeft": "剩余天数",
+    "fieldReason": "原因",
+    "fieldTime": "时间",
+    "seeUser": "在管理后台查看用户",
+    "footer": "TimeTrack 管理",
+    "testTitle": "测试：管理通知",
+    "testBody": "你的 Discord webhook 现已连接到 TimeTrack 管理通知！",
+    "supportReply": "工单回复：{subject}",
+    "supportNew": "新支持工单：{subject}",
+    "supportNoSubject": "无主题"
+  },
+  "fallbackUser": "用户",
+  "absenceTypeFallback": "缺勤",
+  "teams": {
+    "urlTooLong": "Webhook URL 过长",
+    "urlInvalid": "URL 无效",
+    "urlHttps": "Webhook URL 必须使用 https",
+    "urlNotTeams": "该 URL 看起来不是 Teams webhook（应为 *.webhook.office.com、*.logic.azure.com 或 *.powerplatform.com）"
+  },
+  "fallbackTaskTitle": "来自邮件的任务",
+  "deadlines": {
+    "noProject": "无项目",
+    "overdueLine": "• **{title}**（{project}）- 已逾期 {days, plural, other {# 天}}",
+    "overdueTitle": "{count, plural, other {# 项任务已逾期}}",
+    "overdueFooter": "TimeTrack 截止日期警报",
+    "whenToday": "今天",
+    "whenTomorrow": "明天",
+    "whenDays": "{days} 天后",
+    "upcomingLine": "• **{title}**（{project}）- 截止 {when}",
+    "upcomingTitle": "{count, plural, other {# 项任务}}即将截止",
+    "upcomingFooter": "TimeTrack 截止日期提醒",
+    "projOverdueTitle": "{count, plural, other {# 个项目}}已超过结束日期",
+    "projOverdueLine": "• **{name}** - 已超过结束日期 {days, plural, other {# 天}}",
+    "projSoonTitle": "{count, plural, other {# 个项目}}即将到结束日期",
+    "projSoonLine": "• **{name}** - {when}结束",
+    "projFooter": "TimeTrack 项目结束日期"
+  },
+  "slack": {
+    "noProject": "无项目",
+    "noClient": "无客户",
+    "project": "项目",
+    "client": "客户",
+    "description": "描述",
+    "timerStarted": "计时器已开始",
+    "startedAtSlack": "开始于",
+    "startedAtDiscord": "已开始",
+    "timerStopped": "计时器已停止",
+    "duration": "时长",
+    "durationHM": "{h} 小时 {m} 分钟",
+    "durationM": "{m} 分钟",
+    "idleTitle": "检测到闲置",
+    "idleBodySlack": "计时器正在为 *{project}* 计时，但你已闲置 *{minutes} 分钟*。如果你要休息，请记得停止计时器。",
+    "idleBodyDiscord": "计时器正在为 **{project}** 计时，但你已闲置 **{minutes} 分钟**。如果你要休息，请记得停止计时器。",
+    "dailyTitle": "每日总结 - {date}",
+    "totalTime": "总时长",
+    "totalRevenue": "总收入",
+    "tasksDone": "已完成任务",
+    "projects": "项目",
+    "noEntriesToday": "今天没有工时记录",
+    "weeklyTitle": "周报 - 第 {week} 周",
+    "unbilled": "未开票",
+    "topClients": "主要客户",
+    "noEntriesWeek": "本周没有工时记录",
+    "hoursShort": "{hours} 小时",
+    "minutesShort": "{m} 分钟",
+    "testTitle": "TimeTrack 测试消息",
+    "testBodySlack": "你的 Slack 集成配置正确！你将在这里收到来自 TimeTrack 的通知。",
+    "testBodyDiscord": "你的 Discord 集成配置正确！你将在这里收到来自 TimeTrack 的通知。",
+    "unbilledReminderTitle": "💰 未开票工时：{hours}（{value} kr）",
+    "unbilledReminderDiscord": "你有价值 **{value} kr** 的未开票工时。\n\n{list}",
+    "unbilledReminderSlack": "你有价值 *{value} kr* 的未开票工时。\n\n{list}",
+    "unbilledReminderLine": "• {name}：{hours} - {value} kr",
+    "unbilledReminderFooter": "TimeTrack 未开票提醒",
+    "aiFocusName": "🎯 今日重点（{count} 项任务）",
+    "aiWarnings": "⚠️ 警告",
+    "aiDeferred": "📋 已推迟",
+    "aiDeferredValue": "建议推迟 {count, plural, other {# 项任务}}",
+    "aiGreeting": "早上好，{name}！",
+    "aiFooter": "TimeTrack AI 建议",
+    "aiFocusBlock": "🎯 今日重点",
+    "aiWarningsBlock": "⚠️ 警告"
+  }
+}

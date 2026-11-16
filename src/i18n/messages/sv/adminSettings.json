@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Inställningar",
+    "subtitle": "Hantera adminaviseringar, funktionsflaggor och ändringsloggen"
+  },
+  "notifications": {
+    "title": "Aviseringar",
+    "description": "Ställ in e-post- och Discord-aviseringar för adminhändelser",
+    "emailLabel": "Admin-e-post",
+    "emailHint": "Kommaseparerade för flera mottagare",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord-webhook-URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Testa",
+    "eventTypes": "Händelsetyper",
+    "saving": "Sparar…",
+    "save": "Spara inställningar",
+    "saved": "Aviseringsinställningarna är sparade",
+    "testSent": "Testmeddelande skickat till Discord",
+    "webhookRequired": "Ange först en Discord-webhook-URL"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Ny användarregistrering",
+      "description": "Avisera vid nya användarregistreringar"
+    },
+    "notify_subscription_started": {
+      "label": "Ny betald prenumeration",
+      "description": "Avisera vid nya betalande kunder"
+    },
+    "notify_payment_failed": {
+      "label": "Betalning misslyckades",
+      "description": "Avisera vid misslyckade betalningar"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Prenumeration avslutad",
+      "description": "Avisera vid uppsägningar"
+    },
+    "notify_trial_ending": {
+      "label": "Provperioden går snart ut",
+      "description": "Endast Discord: avisera när en provperiod snart tar slut"
+    },
+    "notify_user_flagged": {
+      "label": "Användare flaggad",
+      "description": "Endast Discord: avisera när en användare flaggas"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "description": "Hantera supportinkorgar och signatur",
+    "inboxes": "Inkorgar",
+    "add": "Lägg till",
+    "namePlaceholder": "Namn",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Signatur i HTML (valfritt)",
+    "save": "Spara",
+    "cancel": "Avbryt",
+    "create": "Skapa",
+    "default": "Standard",
+    "confirmDelete": "Ta bort den här inkorgen?",
+    "noInboxes": "Inga inkorgar har skapats ännu",
+    "inboxCreated": "Inkorgen är skapad",
+    "inboxUpdated": "Inkorgen är uppdaterad",
+    "inboxDeleted": "Inkorgen är borttagen",
+    "signatureSaved": "Signaturen är sparad",
+    "globalSignature": "Global signatur",
+    "globalSignatureHint": "HTML-signatur som används när en inkorg saknar egen signatur",
+    "globalSignaturePlaceholder": "<p>Med vänliga hälsningar<br>TimeTrack Support</p>",
+    "preview": "Förhandsvisning",
+    "noSignature": "Ingen signatur",
+    "savingSignature": "Sparar…",
+    "saveSignature": "Spara signatur"
+  },
+  "debug": {
+    "title": "Felsökning",
+    "description": "Verktyg som bara visas för dig, i den här webbläsaren",
+    "electricLabel": "Visa Electric-märke",
+    "electricDescription": "Visar timerns live-synkstatus nere till vänster i översikten"
+  },
+  "flags": {
+    "title": "Funktionsflaggor",
+    "description": "Aktivera och inaktivera funktioner för alla användare",
+    "empty": "Inga funktionsflaggor har ställts in",
+    "lastChangedBy": "Senast ändrad av {name}",
+    "lastChangedByDate": "Senast ändrad av {name}, {date}"
+  },
+  "changelog": {
+    "title": "Ändringslogg",
+    "description": "Skapa inlägg i ändringsloggen som visas för användarna",
+    "new": "Skapa nytt inlägg i ändringsloggen",
+    "version": "Version",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Ny funktion: ...",
+    "content": "Innehåll (Markdown)",
+    "contentPlaceholder": "Beskriv ändringarna...",
+    "cancel": "Avbryt",
+    "create": "Skapa",
+    "recent": "Senaste inläggen i ändringsloggen",
+    "confirmDelete": "Ta bort ändringsloggen v{version}?",
+    "delete": "Ta bort",
+    "created": "Ändringsloggen är skapad",
+    "deleted": "Ändringsloggen är borttagen"
+  }
+}

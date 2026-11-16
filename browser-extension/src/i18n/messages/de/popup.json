@@ -1,0 +1,91 @@
+{
+  "loading": "Wird geladen",
+  "offline": "Offline",
+  "noInternet": "Keine Internetverbindung",
+  "openApp": "TimeTrack öffnen",
+  "openAppNewTab": "TimeTrack in einem neuen Tab öffnen",
+  "settings": "Einstellungen",
+  "logout": "Abmelden",
+  "logoutConfirm": "Von TimeTrack abmelden?",
+  "todayHours": "{duration} heute",
+  "dailyProgress": "Tagesfortschritt: {done} von {goal} Std. heute",
+  "tabs": {
+    "view": "Ansicht",
+    "timer": "Timer",
+    "calendar": "Kalender",
+    "history": "Verlauf",
+    "prepaid": "Stundenpakete"
+  },
+  "login": {
+    "tagline": "Zeiterfassung direkt im Browser",
+    "connecting": "Verbindung wird hergestellt…",
+    "connect": "Mit TimeTrack verbinden",
+    "secureHint": "Du meldest dich sicher in einem neuen Fenster an. Danach kannst du in der Erweiterung eine Organisation wählen.",
+    "newHere": "Neu bei TimeTrack?",
+    "register": "Kostenloses Konto erstellen",
+    "advanced": "Erweitert: Token manuell einfügen",
+    "tokenLabel": "Erweiterungs-Token",
+    "tokenPlaceholder": "Füge dein Token hier ein…",
+    "signingIn": "Anmeldung läuft…",
+    "signInToken": "Mit Token anmelden",
+    "openSettings": "Einstellungen in TimeTrack öffnen"
+  },
+  "org": {
+    "label": "Organisation: {name}. Organisation wechseln",
+    "none": "keine ausgewählt",
+    "choose": "Organisation wählen",
+    "stopFirst": "Stoppe oder speichere den aktiven Timer, bevor du die Organisation wechselst."
+  },
+  "stopPrompt": {
+    "title": "Kein Kunde ausgewählt",
+    "question": "Kein Kunde ausgewählt. Als interne Zeit speichern?",
+    "close": "Schließen, ohne zu stoppen",
+    "pickClient": "Kunde wählen",
+    "saveInternal": "Als interne Zeit speichern"
+  },
+  "sync": {
+    "syncing": "Synchronisierung läuft…",
+    "pending": "{count} warten auf Synchronisierung",
+    "hideDetails": "Details ausblenden",
+    "showDetails": "Details anzeigen",
+    "syncNow": "Jetzt synchronisieren",
+    "entry": "Zeiteintrag: {description}",
+    "noDescription": "(keine Beschreibung)",
+    "timerUpdate": "Timer-Aktualisierung",
+    "timerStop": "Timer-Stopp",
+    "tries": "{count, plural, one {# Versuch} other {# Versuche}}"
+  },
+  "mini": {
+    "timerLabel": "Timer",
+    "goTo": "Zum Timer: {label}",
+    "stop": "Timer stoppen"
+  },
+  "queryError": {
+    "retry": "Erneut versuchen"
+  },
+  "timerError": {
+    "close": "Fehlermeldung schließen"
+  },
+  "update": {
+    "title": "TimeTrack-Erweiterung aktualisieren",
+    "body": "Version {version} ist zu alt, um Zeit zu speichern. Das Update wird automatisch geladen. Falls nicht, starte den Browser neu oder öffne chrome://extensions und klicke auf \"Aktualisieren\"."
+  },
+  "idle": {
+    "pausedMessage": "Der Timer wurde um {clock} nach {away} ohne Aktivität pausiert",
+    "pausedDetail": "Diese Leerlaufzeit wurde nicht mitgezählt.",
+    "resume": "Timer fortsetzen",
+    "close": "Schließen",
+    "awayMessage": "Du warst {away} weg (seit {clock})",
+    "awayDetail": "Der Timer läuft noch. Soll die Zeit mitzählen?",
+    "discard": "{away} entfernen",
+    "keep": "Zeit behalten"
+  },
+  "confirm": {
+    "cancel": "Abbrechen"
+  },
+  "logoutWarnings": {
+    "running": "Der Timer läuft in TimeTrack weiter, während du abgemeldet bist.",
+    "paused": "Der pausierte Timer bleibt in TimeTrack erhalten.",
+    "queue": "{count, plural, one {# Änderung in der Offline-Warteschlange wurde} other {# Änderungen in der Offline-Warteschlange wurden}} noch nicht gesendet. Sie werden gesendet, sobald du dich wieder anmeldest."
+  }
+}

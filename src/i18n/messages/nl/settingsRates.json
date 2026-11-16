@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Tariefgeschiedenis",
+    "empty": "Nog geen tariefwijzigingen. Wijzigingen van het uurtarief worden hier vastgelegd",
+    "effectiveFrom": "Geldig vanaf {date}",
+    "planned": "Gepland",
+    "noRate": "Geen tarief",
+    "typeGlobal": "Algemeen",
+    "typeClient": "Klant",
+    "typeProject": "Project"
+  },
+  "schedule": {
+    "toastScheduled": "Nieuw uurtarief gepland vanaf {date}",
+    "restamped": "{count, plural, =0 {Geen bestaande boekingen hoefden een nieuw uurtarief te krijgen} one {# niet-gefactureerde boeking heeft het nieuwe uurtarief gekregen} other {# niet-gefactureerde boekingen hebben het nieuwe uurtarief gekregen}}",
+    "scheduleFailed": "Kon het uurtarief niet plannen",
+    "cancelled": "Gepland uurtarief geannuleerd",
+    "cancelledRestamped": "{count, plural, one {# boeking heeft het vorige uurtarief terug} other {# boekingen hebben het vorige uurtarief terug}}",
+    "cancelFailed": "Annuleren is mislukt",
+    "invalidRate": "Voer een geldig uurtarief in",
+    "missingDate": "Kies de datum waarop het tarief ingaat",
+    "title": "Nieuw uurtarief plannen",
+    "current": "Nu: {rate} kr/uur",
+    "rateLabel": "Nieuw uurtarief (kr)",
+    "dateLabel": "Geldig vanaf",
+    "submit": "Plannen",
+    "help": "Uren met een datum op of na de ingangsdatum krijgen het nieuwe tarief, ook als ze later worden geboekt. Uren van vóór die datum houden het oude tarief. Niet-gefactureerde boekingen vanaf de datum worden direct bijgewerkt.",
+    "ratePerHour": "{rate} kr/uur",
+    "fromDate": "vanaf {date}",
+    "takesEffectTonight": "gaat vannacht in",
+    "cancel": "Annuleren"
+  }
+}

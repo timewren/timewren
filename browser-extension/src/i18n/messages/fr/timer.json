@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} enregistré sur <b>{target}</b>",
+    "stoppedOn": "{duration} arrêté sur <b>{target}</b>",
+    "savedInternal": "{duration} enregistré comme <b>temps interne</b>",
+    "stoppedInternal": "{duration} arrêté comme <b>temps interne</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Le forfait <b>{name}</b> n'avait pas assez d'heures, tout le temps a donc été enregistré comme facturable",
+    "deducted": "{hours} déduit de <b>{name}</b>, {remaining} restantes",
+    "deductedOverflow": "{hours} déduit de <b>{name}</b>, {remaining} restantes. Le forfait est épuisé, le reste est du temps facturable",
+    "pendingSave": "Le serveur n'a pas répondu à temps. Le temps est envoyé automatiquement dès que la connexion revient, et n'est enregistré qu'une seule fois.",
+    "close": "Fermer le message"
+  },
+  "discard": {
+    "label": "Abandonner le temps",
+    "question": "Abandonner {duration} sans enregistrer ?",
+    "keep": "Garder le temps",
+    "confirm": "Abandonner le temps"
+  },
+  "switch": {
+    "label": "Changer de client",
+    "question": "Enregistrer {duration} sur {from} et démarrer un nouveau chronomètre sur {to} ?",
+    "internal": "temps interne",
+    "cancel": "Annuler",
+    "confirm": "Enregistrer et redémarrer"
+  },
+  "noClient": "Aucun client sélectionné",
+  "noClientShort": "Aucun client",
+  "start": "Démarrer le chronomètre",
+  "cancelNoSave": "Annuler le chronomètre sans enregistrer",
+  "pause": "Mettre en pause",
+  "stopSave": "Arrêter et enregistrer",
+  "resume": "Reprendre",
+  "addMinutes": "Ajouter {minutes} minutes au chronomètre",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Choisir un client et un projet",
+  "descriptionPlaceholder": "Sur quoi travaillez-vous ?",
+  "descriptionLabel": "Description du travail"
+}

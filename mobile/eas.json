@@ -1,0 +1,127 @@
+{
+  "cli": {
+    "version": ">= 16.0.0",
+    "appVersionSource": "local",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "base": {
+      "node": "22.12.0",
+      "pnpm": "10.30.3",
+      "ios": {
+        "image": "latest"
+      },
+      "android": {
+        "image": "latest"
+      },
+      "env": {
+        "STRICT_ENV_VALIDATION": "1",
+        "EXPO_PUBLIC_PAYMENTS_ENABLED": "false"
+      }
+    },
+    "development": {
+      "extends": "base",
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "env": {
+        "EXPO_PUBLIC_APP_ENV": "development",
+        "EXPO_PUBLIC_API_URL": "https://beta.timetrack.dk"
+      }
+    },
+    "simulator": {
+      "extends": "development",
+      "ios": {
+        "simulator": true,
+        "image": "latest"
+      }
+    },
+    "preview": {
+      "extends": "base",
+      "distribution": "internal",
+      "channel": "preview",
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
+      },
+      "env": {
+        "EXPO_PUBLIC_APP_ENV": "preview",
+        "EXPO_PUBLIC_API_URL": "https://beta.timetrack.dk",
+        "EXPO_PUBLIC_SENTRY_DSN": "https://6bdd4cad74c053658911a4711300c588@o1087332.ingest.us.sentry.io/4512040760573952",
+        "SENTRY_ORG": "mahope",
+        "SENTRY_PROJECT": "timetrack-app"
+      }
+    },
+    "production": {
+      "extends": "base",
+      "distribution": "store",
+      "channel": "production",
+      "android": {
+        "buildType": "app-bundle",
+        "image": "latest"
+      },
+      "env": {
+        "EXPO_PUBLIC_APP_ENV": "production",
+        "EXPO_PUBLIC_API_URL": "https://app.timetrack.dk",
+        "APP_BUILD_NUMBER": "9",
+        "EXPO_PUBLIC_SENTRY_DSN": "https://6bdd4cad74c053658911a4711300c588@o1087332.ingest.us.sentry.io/4512040760573952",
+        "SENTRY_ORG": "mahope",
+        "SENTRY_PROJECT": "timetrack-app"
+      }
+    },
+    "production-local": {
+      "extends": "production",
+      "android": {
+        "credentialsSource": "local",
+        "buildType": "app-bundle",
+        "image": "latest"
+      }
+    },
+    "apk": {
+      "extends": "production-local",
+      "distribution": "internal",
+      "android": {
+        "credentialsSource": "local",
+        "buildType": "apk",
+        "image": "latest"
+      },
+      "env": {
+        "ORG_GRADLE_PROJECT_reactNativeArchitectures": "arm64-v8a",
+        "APK_COMPRESS_NATIVE_LIBS": "1"
+      }
+    },
+    "timewren-development": {
+      "extends": "development",
+      "channel": "timewren-development",
+      "env": {
+        "APP_VARIANT": "timewren",
+        "SENTRY_ORG": "",
+        "SENTRY_PROJECT": "",
+        "EXPO_PUBLIC_SENTRY_DSN": "",
+        "APP_BUILD_NUMBER": "1"
+      }
+    },
+    "timewren-preview": {
+      "extends": "preview",
+      "channel": "timewren-preview",
+      "env": {
+        "APP_VARIANT": "timewren",
+        "SENTRY_ORG": "",
+        "SENTRY_PROJECT": "",
+        "EXPO_PUBLIC_SENTRY_DSN": "",
+        "APP_BUILD_NUMBER": "1"
+      }
+    },
+    "timewren-production": {
+      "extends": "production",
+      "channel": "timewren-production",
+      "env": {
+        "APP_VARIANT": "timewren",
+        "SENTRY_ORG": "",
+        "SENTRY_PROJECT": "",
+        "EXPO_PUBLIC_SENTRY_DSN": "",
+        "APP_BUILD_NUMBER": "1"
+      }
+    }
+  }
+}

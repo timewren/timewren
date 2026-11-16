@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Votre session a expiré. Reconnectez-vous.",
+  "noConnection": "Pas de connexion. Réessayez.",
+  "timeout": "La connexion a pris trop de temps",
+  "invalidResponse": "Réponse inattendue du serveur",
+  "notLoggedIn": "Non connecté",
+  "notLoggedInOpenPopup": "Non connecté. Ouvrez la fenêtre TimeTrack et connectez-vous.",
+  "unknown": "Erreur inconnue",
+  "api": {
+    "fallback": "Erreur d'API",
+    "UNAUTHORIZED": "Votre session a expiré. Reconnectez-vous.",
+    "FORBIDDEN": "Accès refusé",
+    "NOT_FOUND": "Ressource introuvable",
+    "TIMEOUT": "Le serveur n'a pas répondu",
+    "TOO_MANY_REQUESTS": "Trop de requêtes. Patientez un instant et réessayez",
+    "INTERNAL_SERVER_ERROR": "Erreur du serveur. Réessayez dans un instant",
+    "BAD_REQUEST": "Requête invalide",
+    "PARSE_ERROR": "Requête invalide"
+  },
+  "auth": {
+    "invalidToken": "Jeton invalide",
+    "validateFailed": "Impossible de valider le jeton",
+    "loginFailed": "Échec de la connexion",
+    "loginCancelled": "La connexion a été annulée. Réessayez",
+    "loginCancelledShort": "La connexion a été annulée",
+    "noToken": "Aucun jeton reçu",
+    "tokenValidationStatus": "Échec de la validation du jeton : le serveur a répondu {status}",
+    "orgsFailed": "Impossible de charger les organisations ({status})"
+  },
+  "url": {
+    "notAllowed": "Utilisez timetrack.dk, app.timetrack.dk, beta.timetrack.dk ou localhost"
+  },
+  "entry": {
+    "hoursPositive": "Saisissez un nombre d'heures supérieur à 0",
+    "timesCannotBeRemoved": "Les heures ne peuvent pas être supprimées. Modifiez le début et la fin",
+    "fillStartEnd": "Renseignez le début et la fin",
+    "endAfterStart": "L'heure de fin doit être postérieure à l'heure de début"
+  },
+  "timer": {
+    "loadFailed": "Impossible de charger le chronomètre",
+    "startFailed": "Impossible de démarrer le chronomètre",
+    "stopFailed": "Impossible d'arrêter le chronomètre. Réessayez",
+    "stopNetwork": "Impossible d'arrêter le chronomètre : erreur réseau",
+    "cancelFailed": "Impossible d'annuler le chronomètre. Réessayez",
+    "cancelNetwork": "Impossible d'annuler le chronomètre : erreur réseau",
+    "cancelStoppingElsewhere": "Le chronomètre est déjà en cours d'arrêt depuis {source}",
+    "sourceWeb": "l'application web",
+    "sourceOther": "un autre appareil",
+    "pauseFailed": "Impossible de mettre le chronomètre en pause",
+    "resumeFailed": "Impossible de reprendre le chronomètre",
+    "addTimeFailed": "Impossible d'ajouter du temps au chronomètre",
+    "descriptionFailed": "Impossible de mettre à jour la description",
+    "projectFailed": "Impossible de mettre à jour le projet",
+    "clientFailed": "Impossible de mettre à jour le client",
+    "nothingToSave": "Aucun temps à enregistrer",
+    "offlineStop": "Vous êtes hors ligne. Arrêtez à nouveau le chronomètre une fois la connexion rétablie",
+    "stopInProgress": "Un arrêt est en cours{elsewhere}. Réessayez dans un instant. S'il reste bloqué, le temps est mis en pause au bout de quelques minutes pour ne pas être perdu.",
+    "alreadyRunning": "Un chronomètre est déjà en cours{elsewhere}. Arrêtez-le ou annulez-le avant d'en démarrer un nouveau.",
+    "alreadyPaused": "Un chronomètre en pause contient déjà du temps{elsewhere}. Arrêtez-le ou annulez-le avant d'en démarrer un nouveau.",
+    "elsewhere": " depuis un autre navigateur ou appareil",
+    "stopAlreadyInProgress": "Un arrêt est déjà en cours depuis {source}. Consultez votre aperçu du temps dans un instant",
+    "prepaidPinnedUnavailable": "Le forfait choisi n'a pas pu être utilisé, le temps a donc été enregistré sans déduction du forfait",
+    "prepaidLookupFailed": "Le forfait n'a pas pu être retrouvé, le temps a donc été enregistré sans déduction du forfait",
+    "prepaidDeductionFailed": "La déduction du forfait a échoué, le temps a donc été enregistré sans déduction du forfait",
+    "saveFailed": "Impossible d'enregistrer le temps",
+    "saveFailedWith": "Impossible d'enregistrer le temps : {reason}",
+    "unknownReason": "erreur inconnue",
+    "sessionMismatch": "Le chronomètre a été modifié depuis un autre navigateur ou appareil. Voici l'état actuel.",
+    "beingStopped": "Le chronomètre est en cours d'arrêt depuis un autre navigateur ou appareil.",
+    "startRejectedPaused": "Un chronomètre en pause contient déjà du temps. Arrêtez-le ou annulez-le avant d'en démarrer un nouveau.",
+    "startRejectedStale": "Le chronomètre vient d'être arrêté ailleurs. Réessayez de le démarrer.",
+    "startRejectedRunning": "Un chronomètre est déjà en cours depuis un autre navigateur ou appareil. Arrêtez-le avant d'en démarrer un nouveau.",
+    "stopSourceWeb": "l'application web",
+    "stopSourceOther": "un autre appareil"
+  },
+  "task": {
+    "createFailed": "Impossible de créer la tâche"
+  },
+  "serverStatus": "Le serveur a répondu {status}",
+  "clientTooOld": "Mettez à jour l'extension TimeTrack. Cette version ne peut pas enregistrer le temps"
+}

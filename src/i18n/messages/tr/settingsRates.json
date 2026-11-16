@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Ücret geçmişi",
+    "empty": "Henüz ücret değişikliği yok. Saatlik ücret değişiklikleri burada kaydedilir",
+    "effectiveFrom": "Geçerlilik başlangıcı: {date}",
+    "planned": "Planlandı",
+    "noRate": "Ücret yok",
+    "typeGlobal": "Genel",
+    "typeClient": "Müşteri",
+    "typeProject": "Proje"
+  },
+  "schedule": {
+    "toastScheduled": "Yeni saatlik ücret {date} tarihinden itibaren planlandı",
+    "restamped": "{count, plural, =0 {Yeni saatlik ücret gerektiren mevcut kayıt yok} one {Faturalanmamış # kayıt yeni saatlik ücreti aldı} other {Faturalanmamış # kayıt yeni saatlik ücreti aldı}}",
+    "scheduleFailed": "Saatlik ücret planlanamadı",
+    "cancelled": "Planlanan saatlik ücret iptal edildi",
+    "cancelledRestamped": "{count, plural, one {# kayıt önceki saatlik ücretine geri döndü} other {# kayıt önceki saatlik ücretine geri döndü}}",
+    "cancelFailed": "İptal edilemedi",
+    "invalidRate": "Geçerli bir saatlik ücret gir",
+    "missingDate": "Ücretin hangi tarihten itibaren geçerli olacağını seç",
+    "title": "Yeni saatlik ücret planla",
+    "current": "Şimdi: {rate} kr/saat",
+    "rateLabel": "Yeni saatlik ücret (kr)",
+    "dateLabel": "Geçerlilik başlangıcı",
+    "submit": "Planla",
+    "help": "Bu tarihte veya sonrasında tarihlenen zaman, sonradan kaydedilse bile yeni ücreti alır. Tarihten önceki zaman eski ücretini korur. Tarihten itibaren faturalanmamış kayıtlar hemen güncellenir.",
+    "ratePerHour": "{rate} kr/saat",
+    "fromDate": "{date} tarihinden",
+    "takesEffectTonight": "bu gece yürürlüğe girer",
+    "cancel": "İptal"
+  }
+}

@@ -1,0 +1,120 @@
+---
+title: "Docker Compose"
+description: "Kør TimeWren med det færdigbyggede image, PostgreSQL og en scheduler via Docker Compose, med valgfri Valkey og automatisk HTTPS."
+---
+
+Vælg denne metode, hvis du vil se og styre hvert skridt, eller hvis du allerede administrerer servere med Compose. Den bruger det færdigbyggede multi-arch-image `ghcr.io/timewren/timewren`, så intet bygges på din maskine. En scriptet udgave af de samme trin finder du i [Installation med én kommando](/da/docs/install/quick).
+
+## Krav
+
+- Docker Engine med Compose v2.24 eller nyere.
+- `curl` og `openssl` (eller en anden måde at generere tilfældige hex-strenge på).
+- Et domæne og en reverse proxy med TLS til alt andet end localhost.
+
+## Installation
+
+1. Opret en mappe, og hent Compose-filen og skabelonen til miljøvariablerne.
+
+   ```bash
+   mkdir timewren && cd timewren
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/docker-compose.yml
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/.env.example
+   ```
+
+2. Opret `.env`, og udfyld de fire påkrævede hemmeligheder med tilfældige værdier.
+
+   ```bash
+   cp .env.example .env
+   for v in POSTGRES_PASSWORD BETTER_AUTH_SECRET ENCRYPTION_KEY CRON_SECRET; do
+     sed -i "s|^$v=.*|$v=$(openssl rand -hex 32)|" .env
+   done
+   ```
+
+   På macOS bruger du `sed -i ''` i stedet for `sed -i`. `ENCRYPTION_KEY` skal være præcis 64 hex-tegn, hvilket `openssl rand -hex 32` giver.
+
+3. Sæt den offentlige URL i `.env`, uden skråstreg til sidst:
+
+   ```dotenv
+   NEXT_PUBLIC_APP_URL=https://timewren.example.com
+   ```
+
+4. Start stakken.
+
+   ```bash
+   docker compose up -d
+   ```
+
+5. Åbn URL'en, og opret din konto. Den første konto bliver instansens administrator. Migreringer kører ved hver start, også på en tom database. Den første start kan tage et stykke tid, og app-containeren har en startperiode på 180 sekunder, før health checks tæller med.
+
+> **Advarsel:** `.env.example` sætter `REQUIRE_EMAIL_VERIFICATION=false`, så du kan oprette en konto uden en mailserver. Det gælder kun, så længe der ikke er konfigureret en mailtransport, og det lader alle, der kan nå instansen, oprette en konto. Konfigurér [e-mail](/da/docs/configuration/email), og fjern linjen, før du gør instansen tilgængelig udefra.
+
+Tag backup af `ENCRYPTION_KEY`: uden den kan gemte integrationstokens ikke dekrypteres.
+
+## Services
+
+| Service | Image | Rolle |
+| ------- | ----- | ---- |
+| `app` | `ghcr.io/timewren/timewren` | Webappen på containerport 3000. Kører migreringer ved start (`MIGRATE_ON_START=1`). Lokale filer på volumet `storage` under `/app/data/storage`. |
+| `cron` | samme image | Kører `node scripts/cron.mjs`, der kalder appens `/api/cron/*`-endpoints med `CRON_SECRET`. Kører først, når `app` er sund. |
+| `db` | `postgres:18-alpine` | PostgreSQL, data på volumet `db-data`. Ikke eksponeret på værten. |
+| `valkey` | `valkey/valkey:8-alpine` | Valgfri, profilen `valkey`. Data på volumet `valkey-data`. |
+
+Appens port eksponeres som standard som `127.0.0.1:3000`. Sæt `APP_PORT` for at ændre værtsporten og `APP_BIND=0.0.0.0` for at eksponere den på alle netværksinterfaces. Hav præcis én `cron`-service. `DATABASE_URL` bygges af Compose ud fra `POSTGRES_PASSWORD`, så den sætter du ikke selv. Adgangskoden bruges kun, når databasen oprettes første gang: ændrer du den senere, ændres den eksisterende database ikke.
+
+Alle variabler står i [Miljøvariabler](/da/docs/configuration/environment).
+
+## Lås en version fast
+
+Som standard er image-tagget `latest`. Vil du styre opgraderinger, så lås en udgivelse fast i `.env`:
+
+```dotenv
+TIMEWREN_VERSION=1.2.3
+```
+
+Derefter tager `docker compose pull && docker compose up -d` den i brug. Både `app` og `cron` bruger det samme tag.
+
+## Valgfrit: Valkey
+
+Valkey giver delte rate limits og synkronisering af timeren i realtid. Tilføj til `.env`:
+
+```dotenv
+COMPOSE_PROFILES=valkey
+VALKEY_URL=redis://valkey:6379
+RATE_LIMIT_BACKEND=valkey
+```
+
+Kør derefter `docker compose up -d`. Du kan også starte den for en enkelt kørsel med `docker compose --profile valkey up -d`. En enkelt app-replika har ikke brug for Valkey.
+
+## Valgfrit: automatisk HTTPS med Caddy
+
+Repositoryet indeholder et overlay, der tilføjer en Caddy-reverse proxy på port 80 og 443. Peg en DNS-post på serveren, åbn TCP 80 og 443, og hent overlayet:
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/docker-compose.caddy.yml
+```
+
+Tilføj til `.env`:
+
+```dotenv
+CADDY_DOMAIN=timewren.example.com
+COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml
+NEXT_PUBLIC_APP_URL=https://timewren.example.com
+```
+
+Kør derefter `docker compose up -d`. Uden `COMPOSE_FILE` skal du angive begge filer eksplicit: `docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d`. Til andre proxyer, se [Reverse proxy](/da/docs/operations/reverse-proxy).
+
+## Drift
+
+```bash
+docker compose ps
+docker compose logs -f app
+```
+
+Opgradering er beskrevet i [Opgradering](/da/docs/operations/upgrading), backup i [Backup og gendannelse](/da/docs/operations/backup-restore).
+
+## Næste skridt
+
+- [Kom godt i gang](/da/docs/quickstart)
+- [Reverse proxy](/da/docs/operations/reverse-proxy)
+- [E-mail](/da/docs/configuration/email) og [Lagring](/da/docs/configuration/storage)
+- [Fejlfinding](/da/docs/operations/troubleshooting)

@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Indstillinger",
+    "subtitle": "Administrer admin-notifikationer, feature flags og changelog"
+  },
+  "notifications": {
+    "title": "Notifikationer",
+    "description": "Konfigurer email- og Discord-notifikationer for admin-events",
+    "emailLabel": "Admin email(s)",
+    "emailHint": "Kommasepareret for flere modtagere",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord Webhook URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Test",
+    "eventTypes": "Event-typer",
+    "saving": "Gemmer...",
+    "save": "Gem indstillinger",
+    "saved": "Notifikationsindstillinger gemt",
+    "testSent": "Test-besked sendt til Discord",
+    "webhookRequired": "Angiv en Discord webhook URL først"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Ny bruger signup",
+      "description": "Notificer ved nye brugertilmeldinger"
+    },
+    "notify_subscription_started": {
+      "label": "Ny betalende subscription",
+      "description": "Notificer ved nye betalende kunder"
+    },
+    "notify_payment_failed": {
+      "label": "Betaling fejlet",
+      "description": "Notificer ved fejlede betalinger"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Subscription annulleret",
+      "description": "Notificer ved annulleringer"
+    },
+    "notify_trial_ending": {
+      "label": "Trial udløber snart",
+      "description": "Kun Discord -- notificer naar trial snart udloeber"
+    },
+    "notify_user_flagged": {
+      "label": "Bruger flagget",
+      "description": "Kun Discord -- notificer naar en bruger flagges"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "description": "Administrer support-indbakker og signatur",
+    "inboxes": "Indbakker",
+    "add": "Tilfoej",
+    "namePlaceholder": "Navn",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Signatur HTML (valgfri)",
+    "save": "Gem",
+    "cancel": "Annuller",
+    "create": "Opret",
+    "default": "Standard",
+    "confirmDelete": "Slet denne indbakke?",
+    "noInboxes": "Ingen indbakker oprettet endnu",
+    "inboxCreated": "Indbakke oprettet",
+    "inboxUpdated": "Indbakke opdateret",
+    "inboxDeleted": "Indbakke slettet",
+    "signatureSaved": "Signatur gemt",
+    "globalSignature": "Global signatur",
+    "globalSignatureHint": "HTML-signatur der bruges naar en indbakke ikke har sin egen signatur",
+    "globalSignaturePlaceholder": "<p>Med venlig hilsen<br>TimeTrack Support</p>",
+    "preview": "Forhåndsvisning",
+    "noSignature": "Ingen signatur",
+    "savingSignature": "Gemmer...",
+    "saveSignature": "Gem signatur"
+  },
+  "debug": {
+    "title": "Fejlsøgning",
+    "description": "Værktøjer der kun vises for dig, i denne browser",
+    "electricLabel": "Vis Electric-badge",
+    "electricDescription": "Viser live-sync-status for timeren nederst til venstre i dashboardet"
+  },
+  "flags": {
+    "title": "Feature Flags",
+    "description": "Aktiver og deaktiver features for alle brugere",
+    "empty": "Ingen feature flags konfigureret",
+    "lastChangedBy": "Sidst aendret af {name}",
+    "lastChangedByDate": "Sidst aendret af {name} - {date}"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "description": "Opret changelog-indlaeg der vises til brugere",
+    "new": "Opret nyt changelog-indlaeg",
+    "version": "Version",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Ny feature: ...",
+    "content": "Indhold (Markdown)",
+    "contentPlaceholder": "Beskriv aendringerne...",
+    "cancel": "Annuller",
+    "create": "Opret",
+    "recent": "Seneste changelog-indlæg",
+    "confirmDelete": "Slet changelog v{version}?",
+    "delete": "Slet",
+    "created": "Changelog oprettet",
+    "deleted": "Changelog slettet"
+  }
+}

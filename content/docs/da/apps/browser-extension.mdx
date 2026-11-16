@@ -1,0 +1,48 @@
+---
+title: "Browserudvidelse"
+description: "TimeWrens browserudvidelse til Chrome og Firefox: timer, hurtige registreringer og klippekortsaldo i værktøjslinjen. Forbinder til TimeWren Cloud eller din egen server."
+---
+
+Browserudvidelsen lægger en timer i din værktøjslinje. Du kan starte, sætte på pause og stoppe en timer, tilføje tidsregistreringer med valg af projekt og kunde og se status på dine klippekort. Den har også en side til nye faner og tastaturgenveje: Alt+Shift+T åbner popuppen, Alt+Shift+S sætter timeren på pause eller genoptager den, og Alt+Shift+N åbner hurtig registrering. Brugerfladen findes på dansk, engelsk, tysk og spansk.
+
+## Forbind til din egen server
+
+Udvidelsen forbinder som standard til TimeTrack Cloud. Vil du bruge din egen instans, åbner du popuppen og vælger **Brug egen server** på login-skærmen, eller du går til Indstillinger, Avanceret. Skriv den offentlige HTTPS-adresse, fx `https://tid.mitfirma.dk`, og vælg **Forbind til server**.
+
+1. Browseren spørger om adgang til netop den adresse. Udvidelsen har aldrig en generel tilladelse til alle sites: manifestet har kun `https://*/*` og `http://*/*` som valgfrie host-tilladelser, og anmodningen nævner den præcise origin, du har skrevet.
+2. Udvidelsen henter `/.well-known/timetrack.json` fra din server og tjekker, at det er en TimeTrack-server med en kompatibel API-version. Kan discovery-dokumentet ikke hentes, bliver adressen ikke gemt.
+3. Et serverskift rydder lokale kontodata og genstarter udvidelsen. Åbn den igen og log ind. Synkroniser ventende offlineregistreringer først, for de følger ikke med. Vælg **Brug TimeTrack Cloud** for at skifte tilbage.
+
+Kun HTTPS accepteres. I udviklingsbuilds er HTTP også tilladt til localhost og private netværksadresser, med en advarsel. Udvidelsen bruger browserens egen certifikatvalidering. En browser melder et ugyldigt certifikat som en generel netværksfejl, så fejlteksten beder dig tjekke både adressen og certifikatet.
+
+Tokens hører til én server. De sendes aldrig til en anden origin, og kald med token følger ikke redirects.
+
+På serveren skal `NEXT_PUBLIC_APP_URL` være den offentlige HTTPS-origin, fordi discovery-dokumentet henter sine adresser derfra. Server `/.well-known/timetrack.json` uden login. CORS for udvidelsens origins er slået til som standard; `CORS_ALLOWED_ORIGINS` kan begrænse det til præcise origins, se [Miljøvariabler](/da/docs/configuration/environment).
+
+## Byg og indlæs den
+
+Udvidelsen ligger i `browser-extension/` i repositoriet. Den er MIT-licenseret, mens resten af repositoriet er AGPL-3.0.
+
+```bash
+cd browser-extension
+npm install
+npm run build
+```
+
+I Chrome åbner du `chrome://extensions/`, slår Udviklertilstand til, vælger Indlæs upakket og vælger `browser-extension/dist`. I Firefox kører du `npm run build:firefox`, åbner `about:debugging#/runtime/this-firefox`, vælger Indlæs midlertidig tilføjelse og vælger `dist-firefox/manifest.json`.
+
+Siden her påstår ikke, at udvidelsen er udgivet i en browserbutik under navnet TimeWren.
+
+## Log ind
+
+Udvidelsen godkender med et token, ikke med din adgangskode:
+
+1. Åbn webappen, derefter Indstillinger, Integrationer, og find afsnittet Browser Extension.
+2. Generér et token med et navn som "Chrome". Det vises kun én gang.
+3. Indsæt det i udvidelsens popup.
+
+Samme sted kan du se, hvornår hvert token sidst blev brugt, og tilbagekalde det. Et tilbagekaldt token holder op med at virke med det samme.
+
+## Mindste versioner
+
+Som driftsansvarlig kan du kræve en mindste version af udvidelsen med `MIN_CLIENT_VERSIONS`, se [Desktop-app](/da/docs/apps/desktop).

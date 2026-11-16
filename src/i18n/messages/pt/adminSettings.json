@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Definições",
+    "subtitle": "Gere as notificações de administração, as funcionalidades ativas e o registo de alterações"
+  },
+  "notifications": {
+    "title": "Notificações",
+    "description": "Configura as notificações por e-mail e Discord para eventos de administração",
+    "emailLabel": "E-mail(s) de administração",
+    "emailHint": "Separados por vírgulas para vários destinatários",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "URL do webhook do Discord",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Testar",
+    "eventTypes": "Tipos de evento",
+    "saving": "A guardar…",
+    "save": "Guardar definições",
+    "saved": "Definições de notificação guardadas",
+    "testSent": "Mensagem de teste enviada para o Discord",
+    "webhookRequired": "Introduz primeiro um URL de webhook do Discord"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Novo registo de utilizador",
+      "description": "Notificar quando um utilizador se regista"
+    },
+    "notify_subscription_started": {
+      "label": "Nova subscrição paga",
+      "description": "Notificar quando há novos clientes pagantes"
+    },
+    "notify_payment_failed": {
+      "label": "Pagamento falhado",
+      "description": "Notificar quando um pagamento falha"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Subscrição cancelada",
+      "description": "Notificar quando há cancelamentos"
+    },
+    "notify_trial_ending": {
+      "label": "Período de teste a terminar",
+      "description": "Só no Discord: notifica quando um período de teste está prestes a terminar"
+    },
+    "notify_user_flagged": {
+      "label": "Utilizador sinalizado",
+      "description": "Só no Discord: notifica quando um utilizador é sinalizado"
+    }
+  },
+  "support": {
+    "title": "Suporte",
+    "description": "Gere as caixas de entrada de suporte e a assinatura",
+    "inboxes": "Caixas de entrada",
+    "add": "Adicionar",
+    "namePlaceholder": "Nome",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "HTML da assinatura (opcional)",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "default": "Predefinida",
+    "confirmDelete": "Eliminar esta caixa de entrada?",
+    "noInboxes": "Ainda não há caixas de entrada criadas",
+    "inboxCreated": "Caixa de entrada criada",
+    "inboxUpdated": "Caixa de entrada atualizada",
+    "inboxDeleted": "Caixa de entrada eliminada",
+    "signatureSaved": "Assinatura guardada",
+    "globalSignature": "Assinatura global",
+    "globalSignatureHint": "Assinatura HTML usada quando uma caixa de entrada não tem assinatura própria",
+    "globalSignaturePlaceholder": "<p>Com os melhores cumprimentos<br>Suporte TimeTrack</p>",
+    "preview": "Pré-visualização",
+    "noSignature": "Sem assinatura",
+    "savingSignature": "A guardar…",
+    "saveSignature": "Guardar assinatura"
+  },
+  "debug": {
+    "title": "Resolução de problemas",
+    "description": "Ferramentas que só são mostradas a ti, neste navegador",
+    "electricLabel": "Mostrar o indicador Electric",
+    "electricDescription": "Mostra o estado de sincronização em direto do cronómetro no canto inferior esquerdo do painel"
+  },
+  "flags": {
+    "title": "Funcionalidades ativas",
+    "description": "Ativa e desativa funcionalidades para todos os utilizadores",
+    "empty": "Nenhuma funcionalidade configurada",
+    "lastChangedBy": "Última alteração por {name}",
+    "lastChangedByDate": "Última alteração por {name}, {date}"
+  },
+  "changelog": {
+    "title": "Registo de alterações",
+    "description": "Cria entradas do registo de alterações que são mostradas aos utilizadores",
+    "new": "Criar nova entrada",
+    "version": "Versão",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Nova funcionalidade: ...",
+    "content": "Conteúdo (Markdown)",
+    "contentPlaceholder": "Descreve as alterações...",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "recent": "Entradas recentes",
+    "confirmDelete": "Eliminar o registo de alterações v{version}?",
+    "delete": "Eliminar",
+    "created": "Entrada criada",
+    "deleted": "Entrada eliminada"
+  }
+}

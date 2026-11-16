@@ -1,0 +1,99 @@
+---
+title: "Installation med én kommando"
+description: "Installér TimeWren på en Linux-server med Docker med én kommando: den genererer hemmeligheder, starter stakken og venter, til appen er sund."
+---
+
+Vælg denne metode, hvis du har en server med Docker og vil have en kørende instans på få minutter uden at klone repositoryet. Scriptet henter Compose-filen til en udgivelse, opretter en `.env` med nye tilfældige hemmeligheder, starter stakken og venter, til den er sund.
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash
+```
+
+## Krav
+
+- Docker Engine med Compose v2-pluginet, version 2.24 eller nyere (`docker compose version`).
+- `curl` og en bruger, der har adgang til Docker-daemonen.
+- En udgivet TimeWren-version. Medmindre du angiver `--version`, spørger scriptet GitHub-API'et om den seneste udgivelse af `timewren/timewren`.
+- Til automatisk HTTPS: en DNS-post, der peger på serveren, og åbne indgående TCP-porte 80 og 443.
+
+Scriptet installerer ikke Docker og kalder aldrig `sudo`. Mangler Docker, eller kan daemonen ikke nås, udskriver det, hvor du kan hente det, og stopper.
+
+## Hvad scriptet gør
+
+1. Tjekker, at `docker` findes, at `docker compose` er v2.24 eller nyere, og at daemonen kan nås.
+2. Vælger installationsmappen (se nedenfor) og henter `docker-compose.yml` og `.env.example` fra `https://raw.githubusercontent.com/timewren/timewren/<version>/`, hvis de mangler dér. Versionen gemmes i `.timewren-release`.
+3. Opretter `.env` ud fra `.env.example` med nye tilfældige værdier (64 hex-tegn hver) til `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` og `CRON_SECRET`. Filen får rettighederne 600, og hemmelighederne udskrives aldrig.
+4. Kører `docker compose pull` og `docker compose up -d`. I en klon af kildekoden (mappen har `Dockerfile` og `package.json`) kører det i stedet `docker compose up -d --build` og bygger imaget fra klonen.
+5. Venter, til containeren `app` melder sig sund, som standard i op til 900 sekunder. Stopper containeren eller bliver den usund, udskriver scriptet `docker compose logs app` som næste skridt.
+
+Når det er færdigt, åbner du den URL, du har sat som `NEXT_PUBLIC_APP_URL`, og opretter din konto. Den første konto bliver instansens administrator. Migreringer kører, hver gang appen starter.
+
+> **Bemærk:** Tag backup af `ENCRYPTION_KEY` fra `.env`. Uden den skal forbundne integrationer forbindes igen.
+
+## Valgmuligheder
+
+Når du piper scriptet, skrives valgmulighederne efter `bash -s --`:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --help
+```
+
+| Valgmulighed | Betydning |
+| ------ | ------- |
+| `--url URL` | Den offentlige URL, folk åbner. Skal starte med `http://` eller `https://`, uden loginoplysninger. Standard: `http://localhost:PORT`. |
+| `--port PORT` | Værtsport til appen (skrives som `APP_PORT`, standard 3000). Uden `--url` bliver URL'en `http://localhost:PORT`. |
+| `--version TAG` | Det GitHub-udgivelsestag, der skal installeres. Standard: den seneste udgivelse. |
+| `--dir PATH` | Installationsmappe. Standard: den aktuelle mappe. |
+| `--with-caddy --domain HOST` | Tilføj automatisk HTTPS for `HOST` med Caddy (se nedenfor). |
+| `--no-start` | Opret `.env`, og stop, før stakken startes. |
+| `--timeout SEC` | Hvor længe der ventes på, at appen bliver sund. Standard 900. |
+| `-h`, `--help` | Udskriv en kort brugsvejledning. |
+
+Scriptet læser også disse miljøvariabler som standardværdier: `NEXT_PUBLIC_APP_URL`, `APP_PORT`, `TIMEWREN_VERSION`, `CADDY_DOMAIN` og `TIMEWREN_INSTALL_DIR`.
+
+Eksempel med en fastlåst udgivelse i sin egen mappe og en tilpasset URL:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --dir /opt/timewren --version 1.2.3 --url https://timewren.example.com
+```
+
+## Automatisk HTTPS med Caddy
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --with-caddy --domain timewren.example.com
+```
+
+`--domain` skal være et DNS-værtsnavn, der allerede peger på denne server. Scriptet sætter URL'en til `https://timewren.example.com`, henter `docker-compose.caddy.yml` ved siden af den primære Compose-fil og tilføjer disse linjer til `.env`:
+
+```dotenv
+CADDY_DOMAIN=timewren.example.com
+COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml
+```
+
+Overlayet tilføjer en `caddy`-service (`caddy:2-alpine`), der lytter på port 80 og 443 og sender domænet videre til `app:3000`. Angiver du `--url` sammen med `--with-caddy`, skal den være lig med `https://` plus domænet. Til andre proxyer, se [Reverse proxy](/da/docs/operations/reverse-proxy).
+
+## Hvor filerne ender
+
+Uden `--dir` oprettes alt i den mappe, du kører kommandoen fra: `docker-compose.yml`, `.env.example`, `.env`, `.timewren-release` og, med Caddy, `docker-compose.caddy.yml`. Kør kommandoen i en tom mappe efter eget valg, eller brug `--dir`. Inde i en klon af repositoryet bruger scriptet i stedet roden af klonen, når det køres som `./scripts/install.sh`.
+
+## Kør det igen
+
+Scriptet kan trygt køres flere gange. Findes `.env`, røres den ikke, så dine hemmeligheder bevares, og stakken bliver blot hentet og startet igen. I det tilfælde ignoreres `--url`, `--port` og `--version`: ret i `.env` i stedet. Scriptet stopper med en fejl, hvis en af de fire hemmeligheder er tom eller mangler i den eksisterende `.env`. Vil du slå Caddy til på en eksisterende `.env`, så sæt selv `CADDY_DOMAIN` og `COMPOSE_FILE` som vist ovenfor.
+
+## Læs scriptet først
+
+```bash
+curl -fsSL https://timewren.com/install.sh -o install.sh
+less install.sh
+bash install.sh
+```
+
+Argumenterne virker på samme måde: `bash install.sh --with-caddy --domain timewren.example.com`.
+
+## Næste skridt
+
+- [Kom godt i gang](/da/docs/quickstart): opret din konto og din første kunde.
+- [Reverse proxy](/da/docs/operations/reverse-proxy): TLS med din egen proxy.
+- [E-mail](/da/docs/configuration/email): konfigurér mail, før du inviterer andre.
+- [Miljøvariabler](/da/docs/configuration/environment)
+- [Docker Compose](/da/docs/install/docker-compose): den samme stak, sat op i hånden.

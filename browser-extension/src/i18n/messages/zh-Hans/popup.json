@@ -1,0 +1,91 @@
+{
+  "loading": "加载中",
+  "offline": "离线",
+  "noInternet": "无网络连接",
+  "openApp": "打开 TimeTrack",
+  "openAppNewTab": "在新标签页中打开 TimeTrack",
+  "settings": "设置",
+  "logout": "退出登录",
+  "logoutConfirm": "退出 TimeTrack 登录？",
+  "todayHours": "今天 {duration}",
+  "dailyProgress": "每日进度：今天 {done} / {goal} 小时",
+  "tabs": {
+    "view": "视图",
+    "timer": "计时器",
+    "calendar": "日历",
+    "history": "历史",
+    "prepaid": "时长包"
+  },
+  "login": {
+    "tagline": "直接在浏览器中追踪工时",
+    "connecting": "正在连接…",
+    "connect": "连接到 TimeTrack",
+    "secureHint": "你将在新窗口中安全登录。之后可以在扩展中选择组织。",
+    "newHere": "初次使用 TimeTrack？",
+    "register": "创建免费账户",
+    "advanced": "高级：手动粘贴令牌",
+    "tokenLabel": "扩展令牌",
+    "tokenPlaceholder": "在此粘贴你的令牌…",
+    "signingIn": "正在登录…",
+    "signInToken": "使用令牌登录",
+    "openSettings": "在 TimeTrack 中打开设置"
+  },
+  "org": {
+    "label": "组织：{name}。切换组织",
+    "none": "未选择",
+    "choose": "选择组织",
+    "stopFirst": "切换组织前，请先停止或保存正在运行的计时器。"
+  },
+  "stopPrompt": {
+    "title": "未选择客户",
+    "question": "未选择客户。保存为内部工时吗？",
+    "close": "关闭且不停止",
+    "pickClient": "选择客户",
+    "saveInternal": "保存为内部工时"
+  },
+  "sync": {
+    "syncing": "正在同步…",
+    "pending": "{count} 项等待同步",
+    "hideDetails": "隐藏详情",
+    "showDetails": "显示详情",
+    "syncNow": "立即同步",
+    "entry": "工时记录：{description}",
+    "noDescription": "（无说明）",
+    "timerUpdate": "计时器更新",
+    "timerStop": "计时器停止",
+    "tries": "{count, plural, other {已尝试 # 次}}"
+  },
+  "mini": {
+    "timerLabel": "计时器",
+    "goTo": "转到计时器：{label}",
+    "stop": "停止计时器"
+  },
+  "queryError": {
+    "retry": "重试"
+  },
+  "timerError": {
+    "close": "关闭错误消息"
+  },
+  "update": {
+    "title": "请更新 TimeTrack 扩展",
+    "body": "版本 {version} 过旧，无法保存工时。更新会自动下载。如果没有自动更新，请重启浏览器，或打开 chrome://extensions 并点击“更新”。"
+  },
+  "idle": {
+    "pausedMessage": "计时器在 {clock} 因 {away} 无操作而暂停",
+    "pausedDetail": "这段空闲时间未被计入。",
+    "resume": "继续计时器",
+    "close": "关闭",
+    "awayMessage": "你离开了 {away}（从 {clock} 起）",
+    "awayDetail": "计时器仍在运行。这段时间要计入吗？",
+    "discard": "移除 {away}",
+    "keep": "保留这段时间"
+  },
+  "confirm": {
+    "cancel": "取消"
+  },
+  "logoutWarnings": {
+    "running": "退出登录期间，计时器会继续在 TimeTrack 中运行。",
+    "paused": "暂停的计时器会保留在 TimeTrack 中。",
+    "queue": "{count, plural, other {离线队列中有 # 项更改}}尚未发送。再次登录后会自动发送。"
+  }
+}

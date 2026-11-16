@@ -1,0 +1,211 @@
+---
+title: "REST API"
+description: "Godkend med en API-nøgle, og administrér kunder, projekter, tidsregistreringer, timeren, fakturaer og klippekort over JSON."
+---
+
+TimeWren udstiller et JSON REST API under `/api/v1`. Det bruger den samme forretningslogik som webappen, så regler som udregning af timepris, træk på klippekort og låsning af fakturerede registreringer gælder også for API-kald. Til AI-assistenter findes der også en [MCP-server](/da/docs/api/mcp), og du kan modtage hændelser med [udgående webhooks](/da/docs/api/webhooks).
+
+## Basis-URL
+
+Erstat hosten med din egen instans (værdien af `NEXT_PUBLIC_APP_URL`):
+
+```text
+https://timewren.example.com/api/v1
+```
+
+## Opret en API-nøgle
+
+1. Log ind som administrator eller ejer i organisationen.
+2. Åbn **Indstillinger** og derefter **API** (`/dashboard/settings/api`).
+3. Opret en nøgle: Giv den et navn, vælg dens scopes og eventuelt en udløbsdato.
+4. Kopiér nøglen med det samme. Den starter med `tk_live_` og vises kun én gang. Der gemmes kun en SHA-256-hash.
+
+En nøgle handler som den bruger, der oprettede den, i den organisation, der var aktiv, da den blev oprettet. Du kan tilbagekalde en nøgle når som helst. En tilbagekaldt eller udløbet nøgle giver `401`. Siden med API-nøgler kræver, at modulet `public_api` er slået til for organisationen.
+
+## Godkendelse
+
+Send nøglen som Bearer-token med hver forespørgsel:
+
+```bash
+curl https://timewren.example.com/api/v1/me \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+`GET /me` kræver intet scope. Det returnerer din profil og nøglens `scopes`, hvilket gør det til et godt første tjek. REST API'et accepterer kun API-nøgler. OAuth-tokens virker på [MCP-endpointet](/da/docs/api/mcp), men ikke her.
+
+## Scopes
+
+Hver nøgle har et eller flere scopes. Et scope er `<resource>:<permission>`:
+
+| Ressource | Dækker |
+| --- | --- |
+| `clients` | Kunder |
+| `projects` | Projekter (kræves også for at planlægge en ændring af et projekts timepris) |
+| `time` | Tidsregistreringer og timeren |
+| `invoices` | Fakturaer og fakturalinjer |
+| `prepaid` | Klippekort |
+| `tasks` | Opgaver |
+| `reports` | Rapporter, prishistorik og visning af prisændringer |
+| `webhooks` | Konfiguration af udgående webhooks |
+
+Rettighederne er `read`, `write` og `all`. Både `write` og `all` omfatter `read`. Scopet `*` giver adgang til alt. Manglende scopes giver `403` med `Missing required scope: <resource>:<permission>`.
+
+## Rate limits
+
+Godkendte forespørgsler er begrænset til 300 pr. minut pr. bruger. Hvert svar har `X-RateLimit-Limit`, `X-RateLimit-Remaining` og `X-RateLimit-Reset` (et Unix-tidsstempel i sekunder). Når grænsen er nået, får du `429` med en `Retry-After`-header i sekunder. Fejlede godkendelsesforsøg er desuden begrænset pr. IP-adresse.
+
+## Forespørgsler og svar
+
+Forespørgslers body er JSON (`Content-Type: application/json`). Vellykkede svar pakker resultatet ind i `data`:
+
+```json
+{ "data": { "id": "..." } }
+```
+
+Oprettelse af en ressource returnerer `201`. Beløb og timepriser er decimalstrenge som `"850.00"` i svar. Datoer er `YYYY-MM-DD`. CORS er åben (`Access-Control-Allow-Origin: *`) for de dokumenterede metoder.
+
+### Sideinddeling og sortering
+
+Liste-endpoints tager `page` (standard 1) og `limit` (standard 25, højst 100). En `limit` over 100 afvises med `400` og bliver ikke skåret ned. De accepterer også `sort` og `order` (`asc` eller `desc`). Ukendte sorteringsfelter falder tilbage til `createdAt`.
+
+```json
+{
+  "data": [],
+  "pagination": {
+    "page": 1,
+    "limit": 25,
+    "total": 0,
+    "totalPages": 0,
+    "hasMore": false,
+    "nextPage": null
+  }
+}
+```
+
+Bliv ved med at hente, så længe `hasMore` er `true`.
+
+### Fejl
+
+Alle fejl har samme form:
+
+```json
+{
+  "error": {
+    "code": "UNPROCESSABLE_CONTENT",
+    "message": "Validation failed",
+    "details": [{ "field": "hours", "message": "..." }]
+  }
+}
+```
+
+`details` viser de felter, der fejler. Det findes altid ved valideringsfejl (`422`), og nogle `400`-svar har det også, fx en ugyldig kombination af klippekortfelter på `POST /time-entries` eller `PATCH /time-entries/{id}`. Behandl det som valgfrit ved alle fejl. Andre koder, du vil støde på: `BAD_REQUEST` (400), `UNAUTHORIZED` (401), `FORBIDDEN` (403), `NOT_FOUND` (404), `CONFLICT` (409), `TOO_MANY_REQUESTS` (429) og `INTERNAL_SERVER_ERROR` (500). Uventede fejl indeholder aldrig stack traces.
+
+## OpenAPI og den indbyggede dokumentation
+
+| URL | Returnerer |
+| --- | --- |
+| `/api/v1/openapi.json` | OpenAPI 3.1-dokumentet, offentligt, uden godkendelse |
+| `/api/v1/docs` | En interaktiv API-reference, der er genereret ud fra OpenAPI-dokumentet |
+| `/api/v1/llms.txt` | En kort vejledning i ren tekst til AI-agenter, offentlig |
+
+Den interaktive reference indlæser Scalar-viewerens script fra `cdn.jsdelivr.net`, så browseren skal have internetadgang for at vise den. OpenAPI-dokumentet er den mest komplette kilde til felterne i forespørgsler og svar.
+
+## Ressourcer
+
+Alle stier er relative til `/api/v1`. `{id}` er et UUID.
+
+| Ressource | Metoder og stier | Scope |
+| --- | --- | --- |
+| Mig | `GET /me` | intet |
+| Kunder | `GET, POST /clients`; `GET, PATCH, DELETE /clients/{id}` | `clients` |
+| Projekter | `GET, POST /projects`; `GET, PATCH, DELETE /projects/{id}` | `projects` |
+| Tidsregistreringer | `GET, POST /time-entries`; `GET, PATCH, DELETE /time-entries/{id}`; `POST /time-entries/batch` | `time` |
+| Timer | `GET, POST, DELETE /timer` | `time` |
+| Opgaver | `GET, POST /tasks`; `GET, PATCH, DELETE /tasks/{id}` | `tasks` |
+| Fakturaer | `GET, POST /invoices`; `GET, PATCH, DELETE /invoices/{id}`; `POST /invoices/from-time-entries`; `POST /invoices/{id}/send`; `POST /invoices/{id}/mark-paid`; `GET, POST /invoices/{id}/lines`; `PATCH, DELETE /invoices/{id}/lines/{lineId}` | `invoices` |
+| Klippekort | `GET, POST /prepaid-packages`; `GET, PATCH, DELETE /prepaid-packages/{id}` | `prepaid` |
+| Rapporter | `GET /reports/unbilled`; `GET /reports/revenue`; `GET /reports/time-summary` | `reports` |
+| Prisændringer | `GET, POST /rate-changes`; `DELETE /rate-changes/{id}` | `reports` for at vise; skriveret til `clients` eller `projects` for at oprette eller annullere |
+| Prishistorik | `GET /rate-history` | `reports` |
+| Webhooks | `GET, POST /webhooks`; `GET, PATCH, DELETE /webhooks/{id}`; `POST /webhooks/{id}/test`; `GET /webhooks/{id}/deliveries`; `GET /webhooks/event-types` | `webhooks`, se [Webhooks](/da/docs/api/webhooks) |
+
+Bemærkninger om nogle af endpointene:
+
+- `GET /reports/revenue` og `GET /reports/time-summary` kræver både `from` og `to` som `YYYY-MM-DD`.
+- `GET /rate-changes` og `POST /rate-changes` kræver præcis én af `clientId` eller `projectId`. En `POST` har body'en `{ "clientId" | "projectId", "newRate", "effectiveDate": "YYYY-MM-DD" }`.
+- `POST /invoices/from-time-entries` laver en fakturakladde ud fra tidsregistreringer. Afsendelse af en faktura på mail med `POST /invoices/{id}/send` kan ikke fortrydes.
+- `DELETE /timer` nulstiller den kørende timer uden at gemme en tidsregistrering. Vil du gemme tiden, opretter du en tidsregistrering med `POST /time-entries`.
+
+### Filtre til tidsregistreringer
+
+`GET /time-entries` accepterer `clientId`, `projectId`, `from`, `to` (`YYYY-MM-DD`), `isBillable` og `isBilled` (`true` eller `false`) samt sideinddeling. Der kan sorteres på `createdAt`, `date` og `hours`.
+
+## Eksempler
+
+### Vis kunder
+
+```bash
+curl "https://timewren.example.com/api/v1/clients?limit=10&q=acme" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+`q` søger i kundelisten. Tilføj `includeArchived=true` for at få arkiverede kunder med.
+
+### Start og stop timeren
+
+Start (kræver `time:write`). Uden body starter timeren nu. Her er den knyttet til et projekt og har en beskrivelse. `projectId` og `clientId` skal være UUID'er eller `null`:
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"projectId": "11111111-1111-4111-8111-111111111111", "description": "Design review"}'
+```
+
+Tjek timerens tilstand:
+
+```bash
+curl https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Stop og kassér den:
+
+```bash
+curl -X DELETE https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Opret en tidsregistrering
+
+`hours` (et positivt tal), `date` (`YYYY-MM-DD`) og `description` er påkrævede. Valgfrie felter er `projectId`, `clientId`, `notes`, `startTime` og `endTime` (ISO 8601 med offset, `endTime` efter `startTime`), `isBillable`, `isBilled`, `taskId` og `billableRate`. Uden `billableRate` udregnes timeprisen ud fra projektets, kundens og brugerens timepriser på registreringens egen dato.
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/time-entries \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "clientId": "22222222-2222-4222-8222-222222222222",
+    "projectId": "11111111-1111-4111-8111-111111111111",
+    "description": "Wireframes for Acme ApS",
+    "hours": 1.5,
+    "date": "2026-11-09",
+    "startTime": "2026-11-09T09:00:00+01:00",
+    "endTime": "2026-11-09T10:30:00+01:00",
+    "isBillable": true,
+    "prepaid": "auto"
+  }'
+```
+
+Vil du trække fra et klippekort, sender du enten `"prepaid": "auto"` (kundens aktive klippekort med automatisk træk, der udløber først. Intet klippekort betyder intet træk) eller et eksplicit `prepaidPackageId`, aldrig begge. Svaret indeholder `prepaidDeduction` og `complianceWarnings`. Registreringer, der allerede er faktureret, er låst mod redigering og sletning.
+
+### Vis klippekort
+
+```bash
+curl "https://timewren.example.com/api/v1/prepaid-packages?clientId=22222222-2222-4222-8222-222222222222&activeOnly=true" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Filtrene er `clientId`, `activeOnly=true` og `includeArchived=true`. Der kan sorteres på `createdAt`, `name` og `totalHours`. Se [Klippekort](/da/docs/concepts/prepaid-hours) for, hvordan klippekort virker.
+
+Oprettelse af et klippekort med `POST /prepaid-packages` tager `name`, `clientId`, `totalHours` (tal), `hourlyRate` (tal) og `purchaseDate` og eventuelt `expiryDate`, `description`, `clipSizeMinutes`, `overdraftPolicy` (`block`, `allow` eller `invoice`), `overdraftRate` og `autoDeduct`.

@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Impostazioni",
+    "subtitle": "Gestisci le notifiche admin, i feature flag e il changelog"
+  },
+  "notifications": {
+    "title": "Notifiche",
+    "description": "Configura le notifiche e-mail e Discord per gli eventi admin",
+    "emailLabel": "E-mail admin",
+    "emailHint": "Separate da virgola per più destinatari",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "URL del webhook Discord",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Prova",
+    "eventTypes": "Tipi di evento",
+    "saving": "Salvataggio…",
+    "save": "Salva impostazioni",
+    "saved": "Impostazioni di notifica salvate",
+    "testSent": "Messaggio di prova inviato a Discord",
+    "webhookRequired": "Inserisci prima l'URL del webhook Discord"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Nuova registrazione utente",
+      "description": "Avvisa quando si registra un nuovo utente"
+    },
+    "notify_subscription_started": {
+      "label": "Nuovo abbonamento a pagamento",
+      "description": "Avvisa quando arriva un nuovo cliente pagante"
+    },
+    "notify_payment_failed": {
+      "label": "Pagamento non riuscito",
+      "description": "Avvisa quando un pagamento non va a buon fine"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Abbonamento annullato",
+      "description": "Avvisa quando un abbonamento viene annullato"
+    },
+    "notify_trial_ending": {
+      "label": "Prova in scadenza",
+      "description": "Solo Discord: avvisa quando una prova sta per terminare"
+    },
+    "notify_user_flagged": {
+      "label": "Utente segnalato",
+      "description": "Solo Discord: avvisa quando un utente viene segnalato"
+    }
+  },
+  "support": {
+    "title": "Supporto",
+    "description": "Gestisci le caselle di supporto e la firma",
+    "inboxes": "Caselle",
+    "add": "Aggiungi",
+    "namePlaceholder": "Nome",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Firma in HTML (facoltativa)",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "create": "Crea",
+    "default": "Predefinita",
+    "confirmDelete": "Eliminare questa casella?",
+    "noInboxes": "Ancora nessuna casella creata",
+    "inboxCreated": "Casella creata",
+    "inboxUpdated": "Casella aggiornata",
+    "inboxDeleted": "Casella eliminata",
+    "signatureSaved": "Firma salvata",
+    "globalSignature": "Firma globale",
+    "globalSignatureHint": "Firma HTML usata quando una casella non ha una firma propria",
+    "globalSignaturePlaceholder": "<p>Cordiali saluti<br>Supporto TimeTrack</p>",
+    "preview": "Anteprima",
+    "noSignature": "Nessuna firma",
+    "savingSignature": "Salvataggio…",
+    "saveSignature": "Salva firma"
+  },
+  "debug": {
+    "title": "Risoluzione dei problemi",
+    "description": "Strumenti visibili solo a te, in questo browser",
+    "electricLabel": "Mostra badge Electric",
+    "electricDescription": "Mostra lo stato di sincronizzazione live del timer in basso a sinistra nella dashboard"
+  },
+  "flags": {
+    "title": "Feature flag",
+    "description": "Attiva e disattiva funzioni per tutti gli utenti",
+    "empty": "Nessun feature flag configurato",
+    "lastChangedBy": "Ultima modifica di {name}",
+    "lastChangedByDate": "Ultima modifica di {name}, {date}"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "description": "Crea voci del changelog mostrate agli utenti",
+    "new": "Crea una nuova voce del changelog",
+    "version": "Versione",
+    "titleLabel": "Titolo",
+    "titlePlaceholder": "Nuova funzione: ...",
+    "content": "Contenuto (Markdown)",
+    "contentPlaceholder": "Descrivi le modifiche…",
+    "cancel": "Annulla",
+    "create": "Crea",
+    "recent": "Voci recenti del changelog",
+    "confirmDelete": "Eliminare il changelog v{version}?",
+    "delete": "Elimina",
+    "created": "Changelog creato",
+    "deleted": "Changelog eliminato"
+  }
+}

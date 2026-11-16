@@ -1,0 +1,330 @@
+---
+title: "Environment variables"
+description: "Complete reference of every TimeWren environment variable: defaults, which ones are required, which are baked in at build time, and what each one does."
+---
+
+TimeWren is configured entirely through environment variables. This page lists every variable the code reads, grouped by purpose. Most self-hosted instances only need the [minimum configuration](#minimum-configuration) and, later, mail and storage.
+
+## How variables are set
+
+With the Docker Compose setup, put variables in a `.env` file next to `docker-compose.yml`. The `app` service loads that file (`env_file: .env`), and a few values are also passed explicitly by `docker-compose.yml`. After editing `.env`, run `docker compose up -d` to apply runtime variables. Compose recreates the containers whose configuration changed.
+
+An empty value counts as "not set". `NEXT_PUBLIC_APP_URL=` falls back to its default, and a variable with an empty value behaves like one that is missing. Lines starting with `#` are comments, so `.env.example` ships with everything optional commented out.
+
+### Build time and runtime
+
+Variables named `NEXT_PUBLIC_*` are inlined into the browser bundle when the image is built. Changing them in `.env` afterwards has no effect on the prebuilt image. Three exceptions are read at runtime, with the build value only as a fallback: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` and `NEXT_PUBLIC_BRAND`. The server reads them from its environment, and the browser gets them from `/runtime-config.js`, which the server generates per request.
+
+The prebuilt image `ghcr.io/timewren/timewren` therefore has the other build-time variables fixed (for example `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` and the Sentry browser settings). To change those, build your own image with the matching build arguments, see [Install from source](/docs/install/from-source). The `Build time` column below says which variables this applies to.
+
+The Content-Security-Policy headers are generated in `next.config.ts` from `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` and `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, so they use the values present at build time.
+
+> **Note:** Billing variables (`ALUNTA_API_KEY`, `STRIPE_SECRET_KEY`, `STORE_BILLING_ENABLED` and everything that goes with them) are inert for self-hosting. Billing is switched on only when at least one of those three is set. Without them every feature is open: there are no user or client limits, no trial that expires, no upgrade buttons and no payment mails.
+
+## Minimum configuration
+
+These five lines are enough to start an instance. Generate each secret with `openssl rand -hex 32`.
+
+```dotenv
+POSTGRES_PASSWORD=replace-with-a-random-secret
+BETTER_AUTH_SECRET=replace-with-a-random-secret
+ENCRYPTION_KEY=replace-with-64-hex-characters
+CRON_SECRET=replace-with-a-random-secret
+NEXT_PUBLIC_APP_URL=https://timewren.example.com
+```
+
+Without a mail transport, sign-up needs `REQUIRE_EMAIL_VERIFICATION=false` (see [Required](#required)). Configure [email](/docs/configuration/email) as soon as you can.
+
+## Required
+
+Compose refuses to start when `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` or `CRON_SECRET` is missing.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | none | yes | no | Password of the bundled PostgreSQL. Compose builds `DATABASE_URL` from it. It is only used when the database is first created: changing it later does not change the existing database. |
+| `BETTER_AUTH_SECRET` | none | yes | no | Secret that signs sessions. Changing it logs everybody out. The container refuses to start without it. |
+| `ENCRYPTION_KEY` | none | yes | no | AES-256-GCM key for stored tokens and credentials (calendar, accounting, webhooks). Exactly 64 hex characters. If you lose it, those integrations must be reconnected, so back it up. |
+| `CRON_SECRET` | none | yes | no | Shared secret between the `cron` service and the app. Also needed for `/api/health?detail=1`. |
+| `DATABASE_URL` | set by Compose | conditional | no | PostgreSQL connection string. Compose sets it to the bundled `db` service, so you do not set it yourself. Only needed with a different database or when running without Compose, for example `postgresql://user:password@host:5432/timetrack`. |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | yes | no | The URL users open, without a trailing slash. Must match what the browser sees: use your `https://` domain behind a reverse proxy. See [URLs, hosts and brand](#urls-hosts-and-brand). |
+| `REQUIRE_EMAIL_VERIFICATION` | `true` | no | no | Set to `false` (or `0`) to let people sign up and log in without a mail server. Only honoured while no mail transport is configured: with `RESEND_API_KEY` or `SMTP_HOST` set, the flag is ignored with a warning. Anyone who can reach the instance can then create an account, so remove it once mail works. |
+| `ADMIN_EMAIL` | none | no | no | Instance admin addresses, comma separated. The account with a matching, verified address becomes admin. Empty: the oldest account becomes admin, but only while the instance has no admin. |
+
+## URLs, hosts and brand
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | yes | no | Public URL of the app. Read at runtime; the build value is the fallback. Used for links in mails, OAuth callbacks and the default redirect URIs of the integrations. |
+| `NEXT_PUBLIC_MARKETING_URL` | the app URL | no | no | Separate public or marketing host. Empty mirrors `NEXT_PUBLIC_APP_URL` (single host). With the `timewren` brand and no marketing URL the marketing pages are off: `/` goes to the dashboard and the other marketing paths return 404. Read at runtime. |
+| `NEXT_PUBLIC_BRAND` | `timewren` | no | no | `timewren` (self-hosting) or `timetrack` (the Danish hosted sibling, TimeTrack Cloud). Any other value, or none, gives TimeWren. Read at runtime. |
+| `SUPPORT_EMAIL` | `support@<EMAIL_DOMAIN>` | no | no | Support address shown in mails and the UI. |
+| `NEXT_PUBLIC_SUPPORT_EMAIL` | none | no | yes | Older alias of `SUPPORT_EMAIL`. `SUPPORT_EMAIL` wins when both are set. |
+| `CONTACT_EMAIL` | `support@<EMAIL_DOMAIN>` | no | no | Personal contact address on marketing pages and in personal mails. Default: the support address (`SUPPORT_EMAIL`). |
+| `EMAIL_DOMAIN` | host of the marketing URL, else of the app URL | no | no | Domain for generated mail addresses such as `noreply@` and the `task+id@` addresses. |
+| `TRUSTED_ORIGINS` | none | no | no | Extra origins accepted by the auth and CSRF checks, comma separated. Invalid entries are skipped. |
+| `CORS_ALLOWED_ORIGINS` | browser-extension origins | no | no | Replaces the CORS allowlist of the tRPC API. Exact origins, comma separated, without trailing slashes or wildcards. Unset accepts browser-extension origins. Empty disables cross-origin access. It does not replace token authentication. |
+| `APP_SCHEMES` | `timetrack://,timetrack.preview://` | no | no | Native app schemes accepted by auth, comma separated. Set it to the scheme of a custom app build, for example `timewren://`. Empty disables native origins. |
+| `DEVICE_CALLBACK_URL` | `timetrack://auth/callback` | no | no | Callback of the device login. Must be a native scheme with exactly `auth/callback`; web URLs, credentials, query and fragment are rejected. Match it to `APP_SCHEMES`. |
+| `CALLBACK_BASE_URL` | the app URL | no | no | Base for stored and registered callback links, for example webhook callbacks. |
+| `AUTH_COOKIE_DOMAIN` | none | no | no | Shares the session cookie across hosts, for example `.example.com`. Only needed with a split app and marketing host. |
+| `AUTH_RP_ID` | marketing host when the hosts are split, else the app host | no | no | Passkey relying-party ID, for example `example.com`. Only needed with a split app and marketing host. |
+| `AUTH_COOKIE_PREFIX` | `better-auth` | no | no | Prefix of the auth cookie names. |
+| `SUBDOMAIN_REDIRECT_STATUS` | `308` | no | no | HTTP status of redirects between the app and marketing hosts. Set `307` while you test a host split, because browsers cache `308`. |
+| `APP_PORT` | `3000` | no | no | Compose only: host port of the app. |
+| `APP_BIND` | `127.0.0.1` | no | no | Compose only: bind address of the app port. `0.0.0.0` exposes it on all interfaces. Keep the default behind a reverse proxy, see [Reverse proxy](/docs/operations/reverse-proxy). |
+| `CADDY_DOMAIN` | none | no | no | Compose only: domain for the optional automatic HTTPS overlay (`docker-compose.caddy.yml`). DNS must point at the server and TCP 80/443 must be open. |
+| `COMPOSE_FILE` | `docker-compose.yml` | no | no | Compose only: set to `docker-compose.yml:docker-compose.caddy.yml` to turn on the automatic HTTPS overlay together with `CADDY_DOMAIN`. |
+| `NEXT_PUBLIC_GOOGLE_ADS_ID` | none | no | yes | Google Ads tag ID for the marketing pages. Without it nothing is loaded on self-hosted instances. |
+
+## Mail
+
+Pick one transport: SMTP or Resend. Without either, mails are written to the server log instead of being sent. Details and examples are in [Email](/docs/configuration/email).
+
+The transport is chosen in this order: `MAIL_TRANSPORT` if set to a valid value, otherwise Resend when `RESEND_API_KEY` is set, otherwise SMTP when `SMTP_HOST` is set, otherwise log only.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `MAIL_TRANSPORT` | automatic | no | no | `resend`, `smtp` or `log`. Forces the transport. `smtp` requires `SMTP_HOST`. |
+| `SMTP_HOST` | none | conditional | no | SMTP server. Setting it selects SMTP unless `RESEND_API_KEY` is set or `MAIL_TRANSPORT` says otherwise. |
+| `SMTP_PORT` | `587` | no | no | SMTP port. Port `465` uses implicit TLS. |
+| `SMTP_SECURE` | `true` on port 465, else `false` | no | no | `true` for implicit TLS, `false` for STARTTLS. Empty uses the port rule. |
+| `SMTP_USER` | none | no | no | SMTP username. Authentication is only used when this is set. |
+| `SMTP_PASSWORD` | none | no | no | SMTP password. |
+| `SMTP_FROM` | the sender chosen by the app | no | no | Sender address for all SMTP mails, for example `TimeWren <mail@timewren.example.com>`. Recommended with SMTP. |
+| `RESEND_API_KEY` | none | conditional | no | API key for Resend. Setting it selects Resend. |
+| `RESEND_FROM_EMAIL` | `TimeWren <noreply@<EMAIL_DOMAIN>>` | no | no | Default sender when sending through Resend. Use an address on a domain verified in Resend. |
+| `FROM_EMAIL` | `TimeWren <noreply@<EMAIL_DOMAIN>>` | no | no | Sender of the task and notification mails. |
+| `PERSONAL_FROM_EMAIL` | the default sender | no | no | Sender of personal lifecycle mails. |
+| `PERSONAL_REPLY_TO_EMAIL` | none | no | no | Reply-To of personal lifecycle mails. Empty means no Reply-To header. |
+| `RESEND_WEBHOOK_SECRET` | none | no | no | Svix signing secret for Resend delivery webhooks (`/api/webhooks/resend`). |
+| `RESEND_AUDIENCE_ID` | none | no | no | Resend audience used for newsletter signups. |
+| `ADMIN_NOTIFICATION_EMAIL` | none | no | no | Receives admin alerts and digests, comma separated. An address saved in the admin settings takes precedence. |
+| `ADMIN_DISCORD_WEBHOOK_URL` | none | no | no | Discord webhook for admin alerts and in-app feedback. A URL saved in the admin settings takes precedence. |
+| `FEEDBACK_TO_EMAIL` | none | no | no | Receives in-app feedback by mail. Empty: feedback goes to the Discord webhook only. |
+
+## File storage
+
+Uploads, email attachments and data exports need storage. Compose sets the local driver and mounts the `storage` volume. For S3-compatible storage (AWS, Hetzner, MinIO, R2) see [Storage](/docs/configuration/storage).
+
+The driver is chosen like this: `STORAGE_DRIVER=local` wins; otherwise S3 is used when `S3_ENDPOINT` is set; otherwise there is no storage and uploads are switched off. The code never reads the value `s3` of `STORAGE_DRIVER`, so setting `S3_ENDPOINT` is what selects S3.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `STORAGE_DRIVER` | `local` in Compose, otherwise none | no | no | `local` stores files on disk. Anything else falls through to the `S3_ENDPOINT` rule. |
+| `STORAGE_LOCAL_PATH` | `./data/storage` (Compose: `/app/data/storage`) | no | no | Directory of the local driver. Compose sets it to the `storage` volume; change it only outside Compose. |
+| `S3_ENDPOINT` | none | conditional | no | Endpoint of the S3-compatible service. Setting it selects S3 (path-style addressing is always used). |
+| `S3_REGION` | `fsn1` | no | no | Region sent to the S3 client. Most S3-compatible services accept any value, but set the real one for AWS. |
+| `S3_ACCESS_KEY_ID` | empty | conditional | no | S3 access key. |
+| `S3_SECRET_ACCESS_KEY` | empty | conditional | no | S3 secret key. |
+| `S3_BUCKET` | `timetrack` | no | no | Bucket name. |
+| `S3_PREFIX` | empty | no | no | Optional namespace for all keys inside the bucket. |
+| `EMAIL_ATTACHMENT_DIR` | `storage/email-attachments` | no | no | Directory that older email attachments are read from on disk. |
+| `EMAIL_SYNC_STORE_ATTACHMENTS` | `false` | no | no | `true` uploads attachments from email-to-task sync to the configured storage. |
+
+## Authentication and login providers
+
+Email and password, magic links and passkeys work without any of these. Each social provider needs your own OAuth app, with the callback URL `{NEXT_PUBLIC_APP_URL}/api/auth/callback/<provider>`. A provider is enabled when both its ID and secret are set. See [Authentication](/docs/configuration/authentication).
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `GOOGLE_CLIENT_ID` | none | no | no | Google sign-in. Also used by the Google Calendar integration. |
+| `GOOGLE_CLIENT_SECRET` | none | no | no | Secret for the Google OAuth app. |
+| `GITHUB_CLIENT_ID` | none | no | no | GitHub sign-in. |
+| `GITHUB_CLIENT_SECRET` | none | no | no | Secret for the GitHub OAuth app. |
+| `DISCORD_CLIENT_ID` | none | no | no | Discord sign-in. |
+| `DISCORD_CLIENT_SECRET` | none | no | no | Secret for the Discord OAuth app. |
+| `MICROSOFT_CLIENT_ID` | none | no | no | Microsoft Entra ID (Azure AD) sign-in, for example company SSO. Callback: `{NEXT_PUBLIC_APP_URL}/api/auth/callback/microsoft-entra-id`. |
+| `MICROSOFT_CLIENT_SECRET` | none | no | no | Secret for the Entra ID app. |
+| `MICROSOFT_TENANT_ID` | `common` | no | no | `common`, `organizations` or a tenant GUID. |
+| `APPLE_CLIENT_ID` | none | no | no | Sign in with Apple: the Services ID, used for web login. |
+| `APPLE_TEAM_ID` | none | no | no | Apple developer team ID. |
+| `APPLE_KEY_ID` | none | no | no | ID of the Sign in with Apple key. |
+| `APPLE_PRIVATE_KEY` | none | no | no | Contents of the `.p8` key. The client secret is generated from it at startup. |
+| `APPLE_APP_BUNDLE_IDENTIFIER` | `dk.timetrack.app` | no | no | iOS bundle ID, used for native login and for revoking the token when an account is deleted. Set your own if you build the mobile app yourself. |
+| `SESSION_EXPIRY_DAYS` | `7` | no | no | Session lifetime in days. |
+| `BETTER_AUTH_SECRETS` | none | no | no | Versioned secrets for rotating `BETTER_AUTH_SECRET` without losing encrypted tokens. |
+
+## Integrations
+
+Billy needs nothing here: each user pastes their own Billy API key in the app. See [Billy](/docs/integrations/billy), [Dinero](/docs/integrations/dinero), [e-conomic](/docs/integrations/e-conomic), [Calendar](/docs/integrations/calendar) and [CVR](/docs/integrations/cvr).
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `GOOGLE_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/google/callback` | no | no | OAuth redirect URI of the Google Calendar integration. Uses `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. |
+| `DINERO_CLIENT_ID` | none | conditional | no | Visma Connect OAuth app for Dinero. Both ID and secret are needed to enable the integration. |
+| `DINERO_CLIENT_SECRET` | none | conditional | no | Secret of the Visma Connect app. |
+| `DINERO_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/dinero/callback` | no | no | OAuth redirect URI for Dinero. |
+| `DINERO_WEBHOOK_SECRET` | none | no | no | Secret used to verify Dinero webhooks. |
+| `BILLY_WEBHOOK_SECRET` | none | no | no | Secret used to verify Billy webhooks. |
+| `ECONOMIC_APP_PUBLIC_TOKEN` | none | conditional | no | Public token of your app registered at the e-conomic developer portal. Both tokens are needed to enable the integration. |
+| `ECONOMIC_APP_SECRET_TOKEN` | none | conditional | no | Secret token of the e-conomic app. |
+| `ECONOMIC_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/economic/callback` | no | no | Redirect URI for e-conomic. |
+| `CVR_SERVICE_API_KEY` | none | no | no | Key for the CVR lookup service. Empty: lookups fall back to the free cvrapi.dk. |
+| `CVR_SERVICE_URL` | the maintainer's CVR service | no | no | Base URL of the CVR lookup service used together with `CVR_SERVICE_API_KEY`. |
+| `CVR_API_TIMEOUT_MS` | `10000` | no | no | Timeout of CVR lookups in milliseconds. |
+| `GITHUB_TOKEN` | none | no | no | GitHub token for desktop-update lookups, giving a higher rate limit. |
+| `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` | none | no | yes | GitHub `owner/repo` that desktop downloads link to. Disabled unless set. |
+| `DESKTOP_UPDATER_REPO` | none | no | no | GitHub `owner/repo` for legacy desktop updates. Disabled unless set. |
+| `CHANGELOG_REPO` | none | no | no | GitHub `owner/repo` the changelog is read from. Disabled unless set. |
+
+## AI, SMS, push and email-to-task
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `OPENAI_API_KEY` | none | no | no | Enables AI suggestions and categorisation. |
+| `AI_CACHE_TTL_MS` | `60000` | no | no | Lifetime of cached AI results in milliseconds. |
+| `AI_HIGH_CONFIDENCE_THRESHOLD` | `0.8` | no | no | Confidence from which an AI suggestion counts as high confidence. |
+| `MESSAGEBIRD_API_KEY` | none | no | no | Enables SMS login via MessageBird. |
+| `MESSAGEBIRD_ORIGINATOR` | the brand short name (`TimeWren`) | no | no | Sender name of SMS messages. |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | none | no | no | Public VAPID key for Web Push. The server hands it to the browser, so it is read at runtime. Generate a key pair with `npx web-push generate-vapid-keys`. |
+| `VAPID_PRIVATE_KEY` | none | no | no | Private VAPID key. Web Push is on when both keys are set. |
+| `VAPID_EMAIL` | `mailto:support@<EMAIL_DOMAIN>` | no | no | Contact sent with push messages, as a `mailto:` URL. |
+| `EXPO_ACCESS_TOKEN` | none | no | no | Optional Expo access token for push notifications to the mobile app. |
+| `INBOUND_EMAIL_DOMAIN` | the email domain | no | no | Domain of the email-to-task addresses. |
+
+## Valkey and realtime
+
+Valkey is optional. It gives rate limits shared between processes and realtime timer sync. Start it with `docker compose --profile valkey up -d`, or set `COMPOSE_PROFILES=valkey` in `.env`.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `VALKEY_URL` | none | no | no | Connection URL, for example `redis://valkey:6379`. Without it everything falls back to in-memory behaviour. |
+| `RATE_LIMIT_BACKEND` | in-memory | no | no | `valkey` stores rate limits in Valkey. Any other value keeps them in memory. |
+| `REALTIME_ENABLED` | `true` in the Docker image | no | no | Server flag for realtime timer events. Realtime also needs `VALKEY_URL`. Set `false` to switch it off without a rebuild. |
+| `NEXT_PUBLIC_REALTIME_ENABLED` | none | no | yes | Client flag, must be `true` at build time. Both this and `REALTIME_ENABLED` must be `true`. The prebuilt image does not set it. |
+| `ELECTRIC_URL` | none | no | no | Experimental ElectricSQL timer shape proxy. Inert unless both variables are set; the endpoints then answer 503 and clients fall back. |
+| `ELECTRIC_SECRET` | none | no | no | Secret for the ElectricSQL proxy. |
+
+## Telemetry and monitoring
+
+Nothing is sent to the maintainers unless you set these. See also [Troubleshooting](/docs/operations/troubleshooting).
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | none | no | yes | URL of a Plausible analytics script. Empty: no analytics script is loaded. Also added to the CSP. |
+| `PLAUSIBLE_BASE_URL` | `https://plausible.io` | no | no | Plausible host used by the admin analytics page. |
+| `PLAUSIBLE_SITE_ID` | none | no | no | Plausible site ID for the admin analytics page. |
+| `PLAUSIBLE_API_KEY` | none | no | no | Plausible API key. The admin analytics page needs this and `PLAUSIBLE_SITE_ID`. |
+| `NEXT_PUBLIC_SENTRY_DSN` | none | no | yes | Sentry DSN for errors. Empty: Sentry reports nothing. |
+| `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` | enabled | no | yes | `false` disables Sentry in the browser. |
+| `NEXT_PUBLIC_SENTRY_ENVIRONMENT` | derived from the host | no | yes | Environment name sent with browser errors. |
+| `SENTRY_AUTH_TOKEN` | none | no | no | Source map upload at build time, and API access for the Sentry issue lookup. |
+| `SENTRY_ACCESS_TOKEN` | none | no | no | Token for the Sentry issue lookup; takes precedence over `SENTRY_AUTH_TOKEN`. |
+| `SENTRY_API_URL` | `https://sentry.io` | no | no | Sentry API base URL, for self-hosted Sentry. |
+| `SENTRY_WEBHOOK_SECRET` | none | no | no | Secret that verifies Sentry webhooks. |
+| `SENTRY_DISABLED` | none | no | yes | `1` turns the Sentry build plugin off. The Dockerfile sets it during the image build. |
+
+## Tuning
+
+All optional. The defaults are the values used by TimeWren unless you change them.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `DEFAULT_WEEKLY_HOUR_GOAL` | `37` | no | no | Default weekly hour goal for new users. |
+| `PRODUCTIVITY_HEATMAP_DAYS` | `90` | no | no | Number of days in the productivity heatmap. |
+| `PREPAID_LOW_BALANCE_THRESHOLD` | `0.2` | no | no | Fraction of a [prepaid hours](/docs/concepts/prepaid-hours) package left that counts as low. |
+| `PREPAID_CRITICAL_BALANCE_HOURS` | `1` | no | no | Hours left that count as critical, on top of the fraction rule. |
+| `PREPAID_EXPIRY_WARNING_DAYS` | `30` | no | no | How many days before expiry a package triggers a warning. |
+| `MAX_MONETARY_AMOUNT` | `100000000` | no | no | Upper limit for a single monetary amount. |
+| `PDF_ENGINE` | `react-pdf` | no | no | Invoice PDF renderer. `takumi` is an experimental alternative. |
+| `CHURN_PLAYBOOKS_DISABLED` | none | no | no | `1` switches the churn-playbook cron job off. |
+| `MIGRATE_ON_START` | `1` in Compose | no | no | `1` runs database migrations on every start. Without it migrations are skipped (outside Compose the default is off). See [Upgrading](/docs/operations/upgrading). |
+| `MIGRATION_LOCK_TIMEOUT_MS` | `300000` | no | no | How long a starting container waits for another one to finish migrating. Invalid values use the default. |
+| `SEED_DEMO_ORGS` | `false` | no | no | `true` seeds a demo organisation on startup. |
+| `MIN_CLIENT_VERSIONS` | none | no | no | Minimum client versions per client type, for example `extension=2.5.2,mobile=1.0.0+5,desktop=0.2.21`. Older clients can still read but timer and time writes are rejected. Empty: no enforcement. |
+| `MIN_CLIENT_VERSIONS_MODE` | enforce | no | no | `observe` evaluates the minimums and shows outdated clients in the admin area without rejecting anything. |
+| `SYNTHETIC_USER_EMAILS` | none | no | no | Email addresses of monitoring or test accounts that are excluded from stats and mails, comma separated. |
+| `SYNTHETIC_USER_IDS` | none | no | no | User IDs of those accounts, comma separated. |
+
+## Docker Compose and startup
+
+Compose sets some of these itself; they are listed so you know where they come from.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `TIMEWREN_VERSION` | `latest` | no | no | Compose only: image tag to run. Pin it, for example `1.2.3`, to control upgrades. |
+| `COMPOSE_PROFILES` | none | no | no | Read by Docker Compose, not by the app. Use `valkey` to start the optional Valkey service. |
+| `TZ` | `Europe/Copenhagen` | no | no | Timezone of the app and database containers. The `cron` container always runs in `Europe/Copenhagen`. |
+| `APP_URL` | `http://app:3000` | yes (cron) | no | Only read by the `cron` container: the internal URL it calls the `/api/cron/*` endpoints on. Compose sets it; do not confuse it with `NEXT_PUBLIC_APP_URL`. |
+| `NODE_ENV` | `production` in the image | no | no | Set by the image and by `npm run dev`. Leave it alone when self-hosting. |
+| `NEXT_PHASE` | set by Next.js | no | no | Set by Next.js (`phase-production-build` during `next build`). During the build the MCP OAuth resource is not written to the database. Never set it yourself. |
+| `NEXT_RUNTIME` | set by Next.js | no | no | Set by Next.js (`nodejs` or `edge`). Never set it yourself. |
+| `CI` | none | no | no | Silences build logs of the Sentry plugin when set. Set by CI systems. |
+| `CI_SKIP_TYPECHECK` | `false` | no | yes | Build argument of the Dockerfile: `true` skips the type check during `next build`. Only for CI builds that type-check separately. |
+| `NEXT_PUBLIC_APP_VERSION` | none | no | yes | Version string baked into the client, used to detect a new deploy. The Dockerfile sets it from the `APP_VERSION` build argument; empty uses the Next.js build ID. |
+
+## Hosted service only
+
+> **Warning:** Not for self-hosting. These variables belong to the hosted TimeTrack Cloud and TimeWren Cloud deployments. Leave them unset on your own instance. The `ALUNTA_*`, `STRIPE_*`, `STORE_BILLING_ENABLED` and `GOOGLE_PLAY_*` variables are the billing variables described at the top of the page.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `ALUNTA_API_KEY` | none | no | no | Turns billing on and enables the Alunta payment provider. |
+| `ALUNTA_WEBHOOK_SECRET` | none | with `ALUNTA_API_KEY` | no | Verifies Alunta webhooks. Without it the webhook answers 503 and processes nothing. |
+| `ALUNTA_WEBHOOK_ALLOW_UNSIGNED` | none | no | no | `1` or `true` accepts Alunta webhooks without a signature when the secret is set. Development only; ignored when `NODE_ENV=production`. |
+| `ALUNTA_PLAN_MONTHLY` | empty | no | no | Alunta plan ID of the monthly plan. |
+| `ALUNTA_PLAN_YEARLY` | empty | no | no | Alunta plan ID of the yearly plan. |
+| `ALUNTA_PLAN_TEAM_MONTHLY` | empty | no | no | Alunta plan ID, Team, monthly. |
+| `ALUNTA_PLAN_TEAM_YEARLY` | empty | no | no | Alunta plan ID, Team, yearly. |
+| `ALUNTA_PLAN_BUSINESS_MONTHLY` | empty | no | no | Alunta plan ID, Business, monthly. |
+| `ALUNTA_PLAN_BUSINESS_YEARLY` | empty | no | no | Alunta plan ID, Business, yearly. |
+| `ALUNTA_PLAN_TEAM_SEATS` | empty | no | no | Alunta plan ID for extra Team seats. |
+| `ALUNTA_PLAN_BUSINESS_SEATS` | empty | no | no | Alunta plan ID for extra Business seats. |
+| `ALUNTA_PLAN_PRIVAT_MONTHLY` | empty | no | no | Alunta plan ID, Privat, monthly. |
+| `ALUNTA_PLAN_PRIVAT_YEARLY` | empty | no | no | Alunta plan ID, Privat, yearly. |
+| `ALUNTA_PLAN_FOUNDING_MONTHLY` | empty | no | no | Alunta plan ID, founding plan, monthly. |
+| `ALUNTA_PLAN_FOUNDING_YEARLY` | empty | no | no | Alunta plan ID, founding plan, yearly. |
+| `ALUNTA_PLAN_LEGACY_SOLO` | empty | no | no | Alunta plan IDs of the legacy solo plan. |
+| `ALUNTA_PLAN_LEGACY_TEAM` | empty | no | no | Alunta plan IDs of the legacy Team plan. |
+| `ALUNTA_PLAN_LEGACY_BUSINESS` | empty | no | no | Alunta plan IDs of the legacy Business plan. |
+| `ALUNTA_PLAN_LEGACY_TEAM_SEATS` | empty | no | no | Alunta plan ID for extra seats on the legacy Team plan. |
+| `ALUNTA_PLAN_LEGACY_BUSINESS_SEATS` | empty | no | no | Alunta plan ID for extra seats on the legacy Business plan. |
+| `STRIPE_SECRET_KEY` | none | no | no | Turns billing on and enables Stripe. |
+| `STRIPE_WEBHOOK_SECRET` | none | no | no | Verifies Stripe webhooks. |
+| `STRIPE_TAX_ENABLED` | `false` | no | no | `true` enables Stripe Tax. |
+| `STRIPE_DESKTOP_LIFETIME_PRICE_ID` | empty | no | no | Stripe price ID of the desktop lifetime licence. |
+| `STORE_BILLING_ENABLED` | none | no | no | `1` turns billing on for in-app purchases (App Store and Google Play). |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | none | no | no | Service account for verifying Google Play purchases. |
+| `GOOGLE_PLAY_PACKAGE_NAME` | none | no | no | Android package name for Google Play. |
+| `GOOGLE_PLAY_WEBHOOK_TOKEN` | none | no | no | Token in the Google Play notification URL. |
+| `FREE_TRIAL_DAYS` | `30` | no | no | Length of the free trial. Only has an effect when billing is on. |
+| `DOKPLOY_API_URL` | none | no | no | Hosting API used to register customer domains. |
+| `DOKPLOY_API_TOKEN` | none | no | no | Token for that hosting API. |
+| `DOKPLOY_APP_ID` | none | no | no | Application ID in that hosting API. All three `DOKPLOY_*` variables are needed. |
+| `CLAUDE_AGENT_API_KEY` | none | no | no | Key used by the Sentry webhook to trigger an automated fix agent. |
+| `CLAUDE_AGENT_TRIGGER_URL` | none | no | no | Trigger URL for that agent. |
+| `UNBLOCK_PLAN_EMAIL` | none | no | no | One-off plan grant applied during the migration step at release. |
+| `UNBLOCK_PLAN_TIER` | `team` | no | no | Plan tier for that grant. |
+| `UNBLOCK_PLAN_SEATS` | none | no | no | Seat count for that grant. |
+| `SHARED_PROD_DB` | none | no | no | `1` when the database is shared with an older version; disables features that older version cannot handle. |
+| `MULTIBRAND_ENABLED` | none | no | no | `1` enables the multi-brand host registry of the hosted service. |
+| `BRANDS_CONFIG` | built-in placeholders | no | no | JSON with the real brand hosts of the hosted multi-brand setup. |
+| `TIMEWREN_APP_ENABLED` | none | no | no | `1` opens the app (login, sign-up, dashboard) on the hosted TimeWren hosts. |
+| `TIMEWREN_INDEXABLE` | none | no | no | `1` allows search engines to index the hosted TimeWren site. |
+| `TIMEWREN_GOOGLE_CLIENT_ID` | none | no | no | Client ID of the TimeWren Cloud Google app. With its secret, Google sign-in is offered on the TimeWren hosts; without it, the button is hidden and the provider is not registered there. The TimeTrack keys are never used on TimeWren hosts. |
+| `TIMEWREN_GOOGLE_CLIENT_SECRET` | none | no | no | Client secret of the TimeWren Cloud Google app. |
+| `TIMEWREN_GITHUB_CLIENT_ID` | none | no | no | Client ID of the TimeWren Cloud GitHub app. With its secret, GitHub sign-in is offered on the TimeWren hosts; without it, the button is hidden and the provider is not registered there. The TimeTrack keys are never used on TimeWren hosts. |
+| `TIMEWREN_GITHUB_CLIENT_SECRET` | none | no | no | Client secret of the TimeWren Cloud GitHub app. |
+| `TIMEWREN_DISCORD_CLIENT_ID` | none | no | no | Client ID of the TimeWren Cloud Discord app. With its secret, Discord sign-in is offered on the TimeWren hosts; without it, the button is hidden and the provider is not registered there. The TimeTrack keys are never used on TimeWren hosts. |
+| `TIMEWREN_DISCORD_CLIENT_SECRET` | none | no | no | Client secret of the TimeWren Cloud Discord app. |
+| `TIMEWREN_MICROSOFT_CLIENT_ID` | none | no | no | Client ID of the TimeWren Cloud Microsoft Entra ID app. With its secret, Microsoft Entra ID sign-in is offered on the TimeWren hosts; without it, the button is hidden and the provider is not registered there. The TimeTrack keys are never used on TimeWren hosts. |
+| `TIMEWREN_MICROSOFT_CLIENT_SECRET` | none | no | no | Client secret of the TimeWren Cloud Microsoft Entra ID app. |
+| `TIMEWREN_MICROSOFT_TENANT_ID` | `common` | no | no | Microsoft tenant for TimeWren Cloud sign-in, like `MICROSOFT_TENANT_ID`. |
+| `TIMEWREN_APPLE_CLIENT_ID` | none | no | no | Services ID of the TimeWren Cloud Sign in with Apple app. Signed with the team key (`APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`). |
+
+## Development and tests only
+
+> **Warning:** These variables are for developing TimeWren itself. Do not set them in production.
+
+For a local setup without Docker (`npm run dev`), put `DATABASE_URL` in `.env.local`, for example `postgresql://postgres:postgres@localhost:5432/freelance_crm`. `npm run docker:up` starts a matching PostgreSQL from `docker-compose.dev.yml`.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `TT_DB_TESTS` | none | no | no | `1` runs the database-backed timer model tests. They need `DATABASE_URL` pointing at a disposable database. |
+| `DATABASE_CONNECT_TIMEOUT` | `10` | no | no | Seconds the app waits for a new database connection. CI sets `60` for the model tests on shared runners. |
+| `TT_MODEL_RUNS` | `150` | no | no | Number of generated command sequences in the timer model test. |
+| `TT_MODEL_SEED` | fixed seed | no | no | Seed of the timer model test. `random` explores new sequences. |
+| `TT_MODEL_MAX_COMMANDS` | `30` | no | no | Maximum commands per generated sequence. |
+| `TT_MODEL_PATH` | none | no | no | Replays one counterexample, for example `4:2:1`, together with `TT_MODEL_SEED`. |
+| `TT_MODEL_DEBUG` | none | no | no | When set, the timer model test prints extra debug output. |
+| `TT_QUERY_COUNT` | none | no | no | `1` counts database queries per tRPC request. Ignored when `NODE_ENV` is `production`. |

@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Inhaber:in",
+    "admin": "Administrator:in",
+    "hr": "HR",
+    "manager": "Führungskraft",
+    "member": "Mitarbeiter:in"
+  },
+  "employment": {
+    "fullTime": "Vollzeit",
+    "partTime": "Teilzeit",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Entwurf",
+    "submitted": "Eingereicht",
+    "approved": "Freigegeben",
+    "rejected": "Abgelehnt",
+    "reopened": "Wieder geöffnet"
+  },
+  "save": "Speichern",
+  "cancel": "Abbrechen",
+  "add": "Hinzufügen",
+  "edit": "Bearbeiten",
+  "active": "Aktiv",
+  "inactive": "Inaktiv",
+  "periodClosing": {
+    "status": {
+      "open": "Wartet auf Führungskraft",
+      "approved": "Wartet auf Bestätigung",
+      "acknowledged": "Abgeschlossen",
+      "reopened": "Entsperrt"
+    },
+    "interval": {
+      "month": "Jeden Monat",
+      "quarter": "Jedes Quartal"
+    }
+  },
+  "weekdayLong": {
+    "1": "Montag",
+    "2": "Dienstag",
+    "3": "Mittwoch",
+    "4": "Donnerstag",
+    "5": "Freitag",
+    "6": "Samstag",
+    "7": "Sonntag"
+  },
+  "absenceCategory": {
+    "vacation": "Urlaub",
+    "sickness": "Krankheit",
+    "leave": "Elternzeit/Beurlaubung",
+    "other": "Sonstiges"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Generisch (flache CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (Lohnsystem des dänischen Staates)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Monat",
+      "biweekly": "14 Tage"
+    },
+    "unit": {
+      "hours": "Stunden",
+      "days": "Tage"
+    },
+    "kind": {
+      "time": "Zeit (Grundlohnart)",
+      "absence": "Abwesenheit",
+      "supplement": "Zuschlag (wird aufgeschlagen)"
+    },
+    "source": {
+      "activity": "Erfasste Stunden (Aktivität)",
+      "absence": "Abwesenheit (Abwesenheitsart)",
+      "overtime_earned": "Überstunden erworben",
+      "overtime_used": "Freizeitausgleich",
+      "overtime_paid_out": "Überstunden ausgezahlt",
+      "flex_positive": "Gleitzeit (Plusstunden)",
+      "flex_negative": "Gleitzeit (Minusstunden)",
+      "break_deduction": "Pausenabzug (unbezahlte Pause)"
+    },
+    "dayCondition": {
+      "any": "Alle Tage",
+      "weekend": "Wochenende (Sa/So)",
+      "holiday": "Feiertag",
+      "weekend_or_holiday": "Wochenende oder Feiertag"
+    }
+  },
+  "normPeriod": {
+    "week": "Woche",
+    "month": "Monat",
+    "quarter": "Quartal",
+    "year": "Jahr"
+  },
+  "normYear": {
+    "calendar": "Kalenderjahr (1. Januar)",
+    "school": "Schuljahr (1. August)"
+  }
+}

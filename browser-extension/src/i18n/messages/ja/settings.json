@@ -1,0 +1,109 @@
+{
+  "title": "設定",
+  "close": "設定を閉じる",
+  "searchPlaceholder": "設定を検索…",
+  "searchLabel": "設定を検索",
+  "noMatch": "「{query}」に一致する設定はありません",
+  "keywords": {
+    "view": "表示|ビュー|提案|サイト|ウェブサイト|パッケージ|前払い|ポップアップ",
+    "appearance": "外観|テーマ|ダーク|ライト|バッジ|アイコン|言語",
+    "newTab": "新しいタブ|タブ|スタートページ|ウィジェット",
+    "calendar": "カレンダー|日|日付",
+    "goal": "1日の目標|目標|時間の目標|進捗",
+    "reminder": "リマインダー|通知|週末|記録",
+    "data": "データ|削除|リセット|オフライン|紐付け|リンク|ウェブサイト|キュー",
+    "advanced": "詳細|api|url|サーバー",
+    "shortcuts": "ショートカット|キーボード|alt",
+    "about": "拡張機能について|拡張機能|について|バージョン|評価|レビュー|ヘルプ"
+  },
+  "view": {
+    "title": "表示",
+    "suggestions": "ウェブサイトからの提案",
+    "suggestionsHint": "表示中のウェブサイトに基づいてプロジェクトを提案します",
+    "prepaidTab": "パッケージタブ",
+    "prepaidTabHint": "ポップアップに有効なパッケージのタブを表示します"
+  },
+  "appearance": {
+    "title": "外観",
+    "theme": "テーマ",
+    "themeHint": "拡張機能のカラーテーマ",
+    "system": "システムに合わせる",
+    "dark": "ダーク",
+    "light": "ライト",
+    "badge": "アイコン上の数字",
+    "badgeHint": "拡張機能アイコンの数字に表示する内容",
+    "badgeTimer": "動作中のタイマー",
+    "badgeToday": "今日の時間",
+    "badgeOff": "非表示",
+    "language": "言語",
+    "languageHint": "拡張機能の言語",
+    "languageAuto": "自動(ブラウザに合わせる)"
+  },
+  "newTab": {
+    "title": "新しいタブ",
+    "enable": "新しいタブでTimeTrackを開く",
+    "enableHint": "オフにすると、通常の空のタブのままになります",
+    "widgetsHint": "ウィジェットは新しいタブの設定で選択します",
+    "activeWidgets": "有効なウィジェット: {count}"
+  },
+  "calendar": {
+    "title": "カレンダー",
+    "openOn": "カレンダーを開く日",
+    "openOnHint": "カレンダーを開いたときに表示する日",
+    "today": "今日",
+    "lastViewed": "最後に表示した日"
+  },
+  "goal": {
+    "title": "1日の目標",
+    "hours": "1日の目標時間",
+    "hoursHint": "ポップアップと新しいタブの1日の進捗バーで使われます"
+  },
+  "reminder": {
+    "title": "毎日のリマインダー",
+    "enable": "時間の記録をリマインドする",
+    "enableHint": "時間数が足りないときに通知します",
+    "time": "時刻",
+    "minHours": "最低時間数",
+    "weekends": "週末も通知する"
+  },
+  "data": {
+    "title": "データ",
+    "clearMappingsConfirm": "保存されているウェブサイトとプロジェクトの紐付けをすべて削除しますか?",
+    "clearMappingsDetail": "非表示にした提案も再び表示されます。",
+    "delete": "削除",
+    "clearMappings": "ウェブサイトの紐付けを削除",
+    "mappingsCount": "{count, plural, other {保存済みの紐付け#件}}",
+    "clearQueueConfirm": "{count, plural, other {保留中の操作#件}}を削除しますか?",
+    "unsentEntries": "{count, plural, other {#件の記録}}がまだTimeTrackに送信されていません。この時間は完全に削除されます。",
+    "clearQueueConfirmButton": "キューを削除",
+    "clearQueue": "オフラインキューを削除",
+    "pendingActions": "{count, plural, other {保留中の操作#件}}",
+    "unsentSuffix": "{count, plural, other {未送信の記録#件}}",
+    "resetConfirm": "すべての設定をリセットしますか?",
+    "resetDetail": "拡張機能の初期設定に戻ります。",
+    "resetButton": "リセット",
+    "reset": "設定をリセット",
+    "resetHint": "初期設定に戻す"
+  },
+  "advanced": {
+    "title": "詳細",
+    "apiUrl": "APIアドレス",
+    "notSaved": "{error}。アドレスは保存されていません。"
+  },
+  "shortcuts": {
+    "title": "キーボードショートカット",
+    "unreadable": "このブラウザではショートカットを読み取れません。",
+    "openApp": "TimeTrackを開く",
+    "notSet": "未設定",
+    "change": "ショートカットを変更",
+    "firefoxPage": "Firefoxのショートカットページを開きます",
+    "chromePage": "chrome://extensions/shortcuts を開きます"
+  },
+  "about": {
+    "version": "TimeTrackブラウザ拡張機能 バージョン{version}",
+    "rateFirefox": "Firefox Add-onsで評価する",
+    "rateChrome": "Chromeウェブストアで評価する",
+    "rateHint": "あなたのレビューが他のフリーランサーの助けになります",
+    "learnMore": "拡張機能について詳しく見る"
+  }
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "fil": "src/app/(app)/admin/",
+    "regel": "*",
+    "tekst": "*",
+    "grund": "Driftssider bag adminProcedure. Kun Mads ser dem, ingen kunder eller brugere."
+  },
+  {
+    "fil": "src/components/admin/",
+    "regel": "*",
+    "tekst": "*",
+    "grund": "Komponenter, der kun bruges af driftssiderne under src/app/admin (ImpersonationBanner vises kun for en admin, der er logget ind som en bruger)."
+  },
+  {
+    "fil": "src/components/settings/DataImportWizard.tsx",
+    "regel": "klient",
+    "tekst": "Klient",
+    "grund": "Kolonne-alias, der matches mod overskrifter i brugerens importerede CSV. Gamle eksporter har en \"Klient\"-kolonne, så aliasset skal blive."
+  },
+  {
+    "fil": "src/app/(marketing)/integrations/ai/page.tsx",
+    "regel": "klient",
+    "tekst": "MCP-klienter",
+    "grund": "Softwareklient (MCP-protokollens begreb), ikke en kunde."
+  },
+  {
+    "fil": "src/app/(marketing)/integrations/ai/page.tsx",
+    "regel": "klient",
+    "tekst": "andre klienter, der kan sende en API-nøgle",
+    "grund": "Softwareklienter (Claude Code, Codex m.fl.), ikke kunder."
+  },
+  {
+    "fil": "src/app/(marketing)/crm-freelancer/page.tsx",
+    "regel": "crm",
+    "tekst": "CRM til freelancere? Kunder, projekter og timer",
+    "grund": "Metadata-title møder søgeordet \"CRM til freelancere\" som spørgsmål. Siden siger, at TimeTrack ikke er et CRM."
+  },
+  {
+    "fil": "src/app/(marketing)/crm-freelancer/page.tsx",
+    "regel": "crm",
+    "tekst": "TimeTrack er ikke et fuldt CRM",
+    "grund": "Benægtelse: siger netop, at TimeTrack ikke er et CRM (metadata-description og undertitel)."
+  },
+  {
+    "fil": "src/app/(marketing)/kundeskab-alternativ/page.tsx",
+    "regel": "crm",
+    "tekst": "Dansk CRM til selvstændige",
+    "grund": "Beskriver konkurrenten Kundeskab, som selv kalder sig et CRM. Ikke en påstand om TimeTrack."
+  },
+  {
+    "fil": "src/app/(marketing)/kundeskab-alternativ/page.tsx",
+    "regel": "crm",
+    "tekst": "Kundeskab er et CRM med tid",
+    "grund": "Konkurrentfakta, der netop skiller TimeTrack fra Kundeskab."
+  },
+  {
+    "fil": "src/app/(marketing)/kundeskab-alternativ/page.tsx",
+    "regel": "crm",
+    "tekst": "Kundeskab er bygget som et CRM",
+    "grund": "Konkurrentfakta, der netop skiller TimeTrack fra Kundeskab."
+  },
+  {
+    "fil": "src/app/(marketing)/timeregistrering-advokat/page.tsx",
+    "regel": "klient",
+    "tekst": "tid pr. klient og sag",
+    "grund": "Advokatsiden: \"klient\" er advokatens eget juridiske begreb (retsplejeloven, Advokatnævnet). Siden skriver selv \"Klienten er en kunde\" som bro til TimeTracks ord."
+  },
+  {
+    "fil": "src/app/(marketing)/timeregistrering-advokat/page.tsx",
+    "regel": "klient",
+    "tekst": "Klager en klient over salæret",
+    "grund": "Advokatsiden: Advokatnævnets klagesager handler om klienter, det juridiske begreb."
+  },
+  {
+    "fil": "src/app/(marketing)/timeregistrering-advokat/page.tsx",
+    "regel": "klient",
+    "tekst": "Til erhvervsklienter med løbende rådgivning",
+    "grund": "Advokatsiden: forudbetaling fra klienter er klientmidler, et juridisk begreb."
+  },
+  {
+    "fil": "src/app/(marketing)/timeregistrering-advokat/page.tsx",
+    "regel": "klient",
+    "tekst": "klientkonto",
+    "grund": "Advokatsiden: klientkonto er et fast juridisk begreb (klientmidler), som TimeTrack ikke har."
+  },
+  {
+    "fil": "src/app/(marketing)/timeregistrering-advokat/page.tsx",
+    "regel": "klient",
+    "tekst": "Et opkald fra klienten",
+    "grund": "Advokatsiden: eksempel fra advokatens hverdag, i advokatens eget sprog."
+  },
+  {
+    "fil": "src/app/(marketing)/timeregistrering-advokat/page.tsx",
+    "regel": "klient",
+    "tekst": "Klienten vil vide, hvad timerne gik til",
+    "grund": "Advokatsiden: eksempel fra advokatens hverdag, i advokatens eget sprog."
+  },
+  {
+    "fil": "src/app/(marketing)/timeregistrering-advokat/page.tsx",
+    "regel": "klient",
+    "tekst": "Telefonmøde med klient om forbehold",
+    "grund": "Advokatsiden: eksempel på en tidsregistrering, som en advokat ville skrive den."
+  },
+  {
+    "fil": "src/app/(marketing)/timeregistrering-advokat/page.tsx",
+    "regel": "klient",
+    "tekst": "Klienten er en kunde.",
+    "grund": "Advokatsiden: broen mellem advokatens begreb og TimeTracks \"kunde\"."
+  }
+]

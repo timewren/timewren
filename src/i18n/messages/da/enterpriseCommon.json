@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Ejer",
+    "admin": "Administrator",
+    "hr": "HR",
+    "manager": "Leder",
+    "member": "Medarbejder"
+  },
+  "employment": {
+    "fullTime": "Fuldtid",
+    "partTime": "Deltid",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Kladde",
+    "submitted": "Indsendt",
+    "approved": "Godkendt",
+    "rejected": "Afvist",
+    "reopened": "Genåbnet"
+  },
+  "save": "Gem",
+  "cancel": "Annuller",
+  "add": "Tilføj",
+  "edit": "Rediger",
+  "active": "Aktiv",
+  "inactive": "Inaktiv",
+  "periodClosing": {
+    "status": {
+      "open": "Afventer leder",
+      "approved": "Afventer kvittering",
+      "acknowledged": "Afsluttet",
+      "reopened": "Låst op"
+    },
+    "interval": {
+      "month": "Hver måned",
+      "quarter": "Hvert kvartal"
+    }
+  },
+  "weekdayLong": {
+    "1": "mandag",
+    "2": "tirsdag",
+    "3": "onsdag",
+    "4": "torsdag",
+    "5": "fredag",
+    "6": "lørdag",
+    "7": "søndag"
+  },
+  "absenceCategory": {
+    "vacation": "Ferie",
+    "sickness": "Sygdom",
+    "leave": "Orlov",
+    "other": "Andet"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Generisk (flad CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (Statens Lønsystem)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Måned",
+      "biweekly": "14 dage"
+    },
+    "unit": {
+      "hours": "Timer",
+      "days": "Dage"
+    },
+    "kind": {
+      "time": "Tid (grundlønart)",
+      "absence": "Fravær",
+      "supplement": "Tillæg (lægges oven på)"
+    },
+    "source": {
+      "activity": "Registrerede timer (aktivitet)",
+      "absence": "Fravær (fraværstype)",
+      "overtime_earned": "Overtid optjent",
+      "overtime_used": "Afspadsering",
+      "overtime_paid_out": "Overtid udbetalt",
+      "flex_positive": "Flex (plus-timer)",
+      "flex_negative": "Flex (minus-timer)",
+      "break_deduction": "Pausefradrag (ubetalt pause)"
+    },
+    "dayCondition": {
+      "any": "Alle dage",
+      "weekend": "Weekend (lør/søn)",
+      "holiday": "Helligdag",
+      "weekend_or_holiday": "Weekend eller helligdag"
+    }
+  },
+  "normPeriod": {
+    "week": "Uge",
+    "month": "Måned",
+    "quarter": "Kvartal",
+    "year": "År"
+  },
+  "normYear": {
+    "calendar": "Kalenderår (1. januar)",
+    "school": "Skoleår (1. august)"
+  }
+}

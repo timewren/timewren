@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Buenas noches",
+    "morning": "Buenos días",
+    "forenoon": "Buenos días",
+    "afternoon": "Buenas tardes",
+    "evening": "Buenas noches"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Sin nombre",
+  "noDescription": "Sin descripción",
+  "prompt": {
+    "label": "¿En qué has trabajado?",
+    "placeholder": "p. ej. 2 horas en la web para Jensen ayer",
+    "interpret": "Interpretar",
+    "listening": "Escuchando…",
+    "hintAvailable": "Escribe o dicta y pulsa Intro. La voz se procesa localmente en tu navegador y el audio no se envía a ningún sitio.",
+    "hintDownloadable": "Escribe y pulsa Intro.",
+    "downloading": "Descargando el reconocimiento de voz…",
+    "install": "Descargar el reconocimiento de voz (unos 60 MB, se ejecuta en local)",
+    "hintDefault": "Escribe y pulsa Intro, p. ej. «1,5 h de reunión con Acme de 9 a 10:30». En el móvil puedes dictar con el micrófono del teclado. Pulsa <kbd>/</kbd> para venir aquí.",
+    "stopDictation": "Detener el dictado",
+    "dictate": "Dictar con el micrófono",
+    "dictateTitle": "Dictar (reconocimiento de voz local)",
+    "listeningSr": "Escuchando",
+    "missingHint": "elige una sugerencia abajo o corrígelo en el formulario completo.",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "¿En qué se fue el tiempo?",
+    "usePrepaid": "Descontar del bono de horas {name} ({time} restantes)",
+    "saveWithHours": "Guardar {hours}",
+    "save": "Guardar",
+    "editInForm": "Editar en el formulario",
+    "cancel": "Cancelar",
+    "keysHint": "Intro guarda · Esc cancela",
+    "needDescription": "Escribe una descripción breve antes de guardar.",
+    "internal": "Se guardará como tiempo interno.",
+    "savedOffline": "Guardado sin conexión. El registro de tiempo se enviará cuando vuelva la conexión.",
+    "registered": "{hours} registradas",
+    "saveFailed": "No se pudo guardar el registro de tiempo"
+  },
+  "welcome": {
+    "title": "Te damos la bienvenida a {brand}",
+    "titleDone": "Buen comienzo. Tu primer registro de tiempo está guardado",
+    "hide": "Ocultar la bienvenida",
+    "intro": "Empieza en menos de un minuto: inicia un cronómetro ahora o escribe lo que has hecho en el campo de abajo, p. ej. «2 horas en la web ayer». Los datos de la empresa y el plan puedes dejarlos para después.",
+    "timerStarted": "El cronómetro está en marcha. Detenlo en la barra superior cuando termines.",
+    "timerBusy": "El cronómetro ya está en marcha",
+    "startFirstTimer": "Inicia tu primer cronómetro",
+    "writeLine": "Escribe una línea en el campo",
+    "surveyQuestion": "¿Para qué vas a usar principalmente {brand}? <muted>(opcional)</muted>",
+    "primaryUse": {
+      "time": "Controlar mi tiempo",
+      "invoicing": "Facturar a mis clientes",
+      "klippekort": "Bonos de horas y horas prepagadas",
+      "team": "Seguir el tiempo de mi equipo"
+    },
+    "thanksToast": "Gracias por tu respuesta",
+    "saveFailed": "No se pudo guardar tu respuesta. Inténtalo de nuevo.",
+    "thanksNote": "Gracias. Inicio ahora muestra los siguientes pasos que te encajan.",
+    "privacyNote": "La respuesta solo se usa para adaptar Inicio y no se comparte con nadie."
+  },
+  "quickStart": {
+    "title": "Iniciar cronómetro",
+    "running": "El cronómetro ya está en marcha. Detenlo en la barra superior antes de iniciar otro.",
+    "paused": "El cronómetro está en pausa. Reanúdalo o guárdalo primero en la barra superior.",
+    "resumeToast": "El cronómetro ha empezado y continúa el último registro",
+    "continueLast": "Continuar el último",
+    "mostUsed": "Más usados",
+    "startedOn": "Cronómetro iniciado en {name}",
+    "startOn": "Iniciar cronómetro en {name}",
+    "empty": "Tus proyectos más usados aparecerán aquí cuando hayas registrado algo de tiempo.",
+    "createProject": "Crea un proyecto"
+  },
+  "signals": {
+    "label": "Requiere atención",
+    "nudge": {
+      "first-invoice": "Crea tu primera factura a partir de tu tiempo",
+      "first-client": "Crea el cliente al que pertenece el bono de horas",
+      "first-klippekort": "Crea tu primer bono de horas",
+      "invite-team": "Invita a un compañero"
+    },
+    "lowBalance": "{count, plural, one {1 bono de horas está a punto de agotarse} other {# bonos de horas están a punto de agotarse}}",
+    "unbilled": "<b>{duration}</b> de tiempo sin facturar listo para facturar"
+  },
+  "today": {
+    "title": "Hoy",
+    "ofExpected": "de {duration}",
+    "loadFailed": "No se pudieron cargar los registros de hoy. Prueba a recargar la página.",
+    "empty": "Todavía no hay tiempo registrado hoy. Escribe arriba lo que hiciste o inicia un cronómetro.",
+    "internal": "Tiempo interno",
+    "resumeToast": "El cronómetro ha empezado y continúa el registro",
+    "continueLabel": "Continuar {name}",
+    "continueFallback": "registro",
+    "continueTitle": "Continuar con cronómetro",
+    "allEntries": "Todos los registros",
+    "fullForm": "Formulario completo"
+  },
+  "page": {
+    "title": "Inicio",
+    "overview": "Resumen"
+  }
+}

@@ -1,0 +1,5284 @@
+{
+ "web_commit": "b65a119",
+ "kilder": ["src/components/klippekort/huller-model.ts (= browser-extension/src/lib/klippekort-huller.ts, krydstjekket)", "src/components/klippekort/huller-model.test.ts", "browser-extension/src/lib/klippekort-huller-parity.test.ts", "browser-extension/src/lib/format-hours.ts", "browser-extension/src/lib/format-hours.test.ts"],
+ "models": [
+  {
+   "total": 20,
+   "remaining": 7,
+   "expected": {
+    "totalHours": 20,
+    "remainingHours": 7,
+    "usedHours": 13,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.65,
+    "note": null,
+    "label": "7 t tilbage af 20"
+   }
+  },
+  {
+   "total": 20,
+   "remaining": 20,
+   "expected": {
+    "totalHours": 20,
+    "remainingHours": 20,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "20 t tilbage af 20"
+   }
+  },
+  {
+   "total": 20,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 20,
+    "remainingHours": 0,
+    "usedHours": 20,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 20"
+   }
+  },
+  {
+   "total": 20,
+   "remaining": -3,
+   "expected": {
+    "totalHours": 20,
+    "remainingHours": 0,
+    "usedHours": 20,
+    "overdraftHours": 3,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 20, 3 t overtrukket"
+   }
+  },
+  {
+   "total": 20,
+   "remaining": -2,
+   "expected": {
+    "totalHours": 20,
+    "remainingHours": 0,
+    "usedHours": 20,
+    "overdraftHours": 2,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 20, 2 t overtrukket"
+   }
+  },
+  {
+   "total": 10,
+   "remaining": 7.5,
+   "expected": {
+    "totalHours": 10,
+    "remainingHours": 7.5,
+    "usedHours": 2.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.25,
+    "note": null,
+    "label": "7,5 t tilbage af 10"
+   }
+  },
+  {
+   "total": 7.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 7.5,
+    "remainingHours": 0,
+    "usedHours": 7.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 7,5"
+   }
+  },
+  {
+   "total": 7.5,
+   "remaining": 0.5,
+   "expected": {
+    "totalHours": 7.5,
+    "remainingHours": 0.5,
+    "usedHours": 7,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9333333333333333,
+    "note": null,
+    "label": "0,5 t tilbage af 7,5"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 21,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 21,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "21 t tilbage af 21"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 1,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 1,
+    "usedHours": 20,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9523809523809523,
+    "note": "1 hul = 5 t",
+    "label": "1 t tilbage af 21"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 0,
+    "usedHours": 21,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 21"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": -3,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 0,
+    "usedHours": 21,
+    "overdraftHours": 3,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 21, 3 t overtrukket"
+   }
+  },
+  {
+   "total": 40,
+   "remaining": 39,
+   "expected": {
+    "totalHours": 40,
+    "remainingHours": 39,
+    "usedHours": 1,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.025,
+    "note": "1 hul = 5 t",
+    "label": "39 t tilbage af 40"
+   }
+  },
+  {
+   "total": 50,
+   "remaining": 17.5,
+   "expected": {
+    "totalHours": 50,
+    "remainingHours": 17.5,
+    "usedHours": 32.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.65,
+    "note": "1 hul = 5 t",
+    "label": "17,5 t tilbage af 50"
+   }
+  },
+  {
+   "total": 200,
+   "remaining": 120,
+   "expected": {
+    "totalHours": 200,
+    "remainingHours": 120,
+    "usedHours": 80,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4,
+    "note": "1 hul = 5 t",
+    "label": "120 t tilbage af 200"
+   }
+  },
+  {
+   "total": 200,
+   "remaining": 100,
+   "expected": {
+    "totalHours": 200,
+    "remainingHours": 100,
+    "usedHours": 100,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "100 t tilbage af 200"
+   }
+  },
+  {
+   "total": 205,
+   "remaining": 10,
+   "expected": {
+    "totalHours": 205,
+    "remainingHours": 10,
+    "usedHours": 195,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": [],
+    "useBar": true,
+    "usedFraction": 0.9512195121951219,
+    "note": "1 hul = 5 t",
+    "label": "10 t tilbage af 205"
+   }
+  },
+  {
+   "total": 205,
+   "remaining": 100,
+   "expected": {
+    "totalHours": 205,
+    "remainingHours": 100,
+    "usedHours": 105,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": [],
+    "useBar": true,
+    "usedFraction": 0.5121951219512195,
+    "note": "1 hul = 5 t",
+    "label": "100 t tilbage af 205"
+   }
+  },
+  {
+   "total": 300,
+   "remaining": 150,
+   "expected": {
+    "totalHours": 300,
+    "remainingHours": 150,
+    "usedHours": 150,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": [],
+    "useBar": true,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "150 t tilbage af 300"
+   }
+  },
+  {
+   "total": 0,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 0,
+    "remainingHours": 0,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": [],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "0 t tilbage af 0"
+   }
+  },
+  {
+   "total": 1,
+   "remaining": 0.25,
+   "expected": {
+    "totalHours": 1,
+    "remainingHours": 0.25,
+    "usedHours": 0.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv"],
+    "useBar": false,
+    "usedFraction": 0.75,
+    "note": null,
+    "label": "0,25 t tilbage af 1"
+   }
+  },
+  {
+   "total": 20,
+   "remaining": 0.30000000000000004,
+   "expected": {
+    "totalHours": 20,
+    "remainingHours": 0.30000000000000004,
+    "usedHours": 19.7,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.985,
+    "note": null,
+    "label": "0,3 t tilbage af 20"
+   }
+  },
+  {
+   "total": 35,
+   "remaining": 12.34,
+   "expected": {
+    "totalHours": 35,
+    "remainingHours": 12.34,
+    "usedHours": 22.66,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6474285714285715,
+    "note": "1 hul = 5 t",
+    "label": "12,34 t tilbage af 35"
+   }
+  },
+  {
+   "total": 12.5,
+   "remaining": 3.333,
+   "expected": {
+    "totalHours": 12.5,
+    "remainingHours": 3.333,
+    "usedHours": 9.167,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.73336,
+    "note": null,
+    "label": "3,33 t tilbage af 12,5"
+   }
+  },
+  {
+   "total": 100,
+   "remaining": 33.333,
+   "expected": {
+    "totalHours": 100,
+    "remainingHours": 33.333,
+    "usedHours": 66.667,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.66667,
+    "note": "1 hul = 5 t",
+    "label": "33,33 t tilbage af 100"
+   }
+  },
+  {
+   "total": 1,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 1,
+    "remainingHours": 0,
+    "usedHours": 1,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 1"
+   }
+  },
+  {
+   "total": 1,
+   "remaining": 0.1,
+   "expected": {
+    "totalHours": 1,
+    "remainingHours": 0.1,
+    "usedHours": 0.9,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": null,
+    "label": "0,1 t tilbage af 1"
+   }
+  },
+  {
+   "total": 1,
+   "remaining": 0.33,
+   "expected": {
+    "totalHours": 1,
+    "remainingHours": 0.33,
+    "usedHours": 0.6699999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv"],
+    "useBar": false,
+    "usedFraction": 0.6699999999999999,
+    "note": null,
+    "label": "0,33 t tilbage af 1"
+   }
+  },
+  {
+   "total": 1,
+   "remaining": 0.5,
+   "expected": {
+    "totalHours": 1,
+    "remainingHours": 0.5,
+    "usedHours": 0.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": null,
+    "label": "0,5 t tilbage af 1"
+   }
+  },
+  {
+   "total": 1,
+   "remaining": 0.9,
+   "expected": {
+    "totalHours": 1,
+    "remainingHours": 0.9,
+    "usedHours": 0.09999999999999998,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv"],
+    "useBar": false,
+    "usedFraction": 0.09999999999999998,
+    "note": null,
+    "label": "0,9 t tilbage af 1"
+   }
+  },
+  {
+   "total": 1,
+   "remaining": 1,
+   "expected": {
+    "totalHours": 1,
+    "remainingHours": 1,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "1 t tilbage af 1"
+   }
+  },
+  {
+   "total": 2.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 2.25,
+    "remainingHours": 0,
+    "usedHours": 2.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 2,25"
+   }
+  },
+  {
+   "total": 2.25,
+   "remaining": 0.23,
+   "expected": {
+    "totalHours": 2.25,
+    "remainingHours": 0.23,
+    "usedHours": 2.02,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8977777777777778,
+    "note": null,
+    "label": "0,23 t tilbage af 2,25"
+   }
+  },
+  {
+   "total": 2.25,
+   "remaining": 0.74,
+   "expected": {
+    "totalHours": 2.25,
+    "remainingHours": 0.74,
+    "usedHours": 1.51,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6711111111111111,
+    "note": null,
+    "label": "0,74 t tilbage af 2,25"
+   }
+  },
+  {
+   "total": 2.25,
+   "remaining": 1.13,
+   "expected": {
+    "totalHours": 2.25,
+    "remainingHours": 1.13,
+    "usedHours": 1.12,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4977777777777778,
+    "note": null,
+    "label": "1,13 t tilbage af 2,25"
+   }
+  },
+  {
+   "total": 2.25,
+   "remaining": 2.03,
+   "expected": {
+    "totalHours": 2.25,
+    "remainingHours": 2.03,
+    "usedHours": 0.2200000000000002,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09777777777777787,
+    "note": null,
+    "label": "2,03 t tilbage af 2,25"
+   }
+  },
+  {
+   "total": 2.25,
+   "remaining": 2.25,
+   "expected": {
+    "totalHours": 2.25,
+    "remainingHours": 2.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "2,25 t tilbage af 2,25"
+   }
+  },
+  {
+   "total": 3.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 3.5,
+    "remainingHours": 0,
+    "usedHours": 3.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 3,5"
+   }
+  },
+  {
+   "total": 3.5,
+   "remaining": 0.35,
+   "expected": {
+    "totalHours": 3.5,
+    "remainingHours": 0.35,
+    "usedHours": 3.15,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": null,
+    "label": "0,35 t tilbage af 3,5"
+   }
+  },
+  {
+   "total": 3.5,
+   "remaining": 1.16,
+   "expected": {
+    "totalHours": 3.5,
+    "remainingHours": 1.16,
+    "usedHours": 2.34,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6685714285714285,
+    "note": null,
+    "label": "1,16 t tilbage af 3,5"
+   }
+  },
+  {
+   "total": 3.5,
+   "remaining": 1.75,
+   "expected": {
+    "totalHours": 3.5,
+    "remainingHours": 1.75,
+    "usedHours": 1.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": null,
+    "label": "1,75 t tilbage af 3,5"
+   }
+  },
+  {
+   "total": 3.5,
+   "remaining": 3.15,
+   "expected": {
+    "totalHours": 3.5,
+    "remainingHours": 3.15,
+    "usedHours": 0.3500000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000002,
+    "note": null,
+    "label": "3,15 t tilbage af 3,5"
+   }
+  },
+  {
+   "total": 3.5,
+   "remaining": 3.5,
+   "expected": {
+    "totalHours": 3.5,
+    "remainingHours": 3.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "3,5 t tilbage af 3,5"
+   }
+  },
+  {
+   "total": 4.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 4.75,
+    "remainingHours": 0,
+    "usedHours": 4.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 4,75"
+   }
+  },
+  {
+   "total": 4.75,
+   "remaining": 0.48,
+   "expected": {
+    "totalHours": 4.75,
+    "remainingHours": 0.48,
+    "usedHours": 4.27,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8989473684210525,
+    "note": null,
+    "label": "0,48 t tilbage af 4,75"
+   }
+  },
+  {
+   "total": 4.75,
+   "remaining": 1.57,
+   "expected": {
+    "totalHours": 4.75,
+    "remainingHours": 1.57,
+    "usedHours": 3.1799999999999997,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6694736842105262,
+    "note": null,
+    "label": "1,57 t tilbage af 4,75"
+   }
+  },
+  {
+   "total": 4.75,
+   "remaining": 2.38,
+   "expected": {
+    "totalHours": 4.75,
+    "remainingHours": 2.38,
+    "usedHours": 2.37,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49894736842105264,
+    "note": null,
+    "label": "2,38 t tilbage af 4,75"
+   }
+  },
+  {
+   "total": 4.75,
+   "remaining": 4.28,
+   "expected": {
+    "totalHours": 4.75,
+    "remainingHours": 4.28,
+    "usedHours": 0.46999999999999975,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09894736842105258,
+    "note": null,
+    "label": "4,28 t tilbage af 4,75"
+   }
+  },
+  {
+   "total": 4.75,
+   "remaining": 4.75,
+   "expected": {
+    "totalHours": 4.75,
+    "remainingHours": 4.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "4,75 t tilbage af 4,75"
+   }
+  },
+  {
+   "total": 6,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 6,
+    "remainingHours": 0,
+    "usedHours": 6,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 6"
+   }
+  },
+  {
+   "total": 6,
+   "remaining": 0.6,
+   "expected": {
+    "totalHours": 6,
+    "remainingHours": 0.6,
+    "usedHours": 5.4,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": null,
+    "label": "0,6 t tilbage af 6"
+   }
+  },
+  {
+   "total": 6,
+   "remaining": 1.98,
+   "expected": {
+    "totalHours": 6,
+    "remainingHours": 1.98,
+    "usedHours": 4.02,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699999999999999,
+    "note": null,
+    "label": "1,98 t tilbage af 6"
+   }
+  },
+  {
+   "total": 6,
+   "remaining": 3,
+   "expected": {
+    "totalHours": 6,
+    "remainingHours": 3,
+    "usedHours": 3,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": null,
+    "label": "3 t tilbage af 6"
+   }
+  },
+  {
+   "total": 6,
+   "remaining": 5.4,
+   "expected": {
+    "totalHours": 6,
+    "remainingHours": 5.4,
+    "usedHours": 0.5999999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09999999999999994,
+    "note": null,
+    "label": "5,4 t tilbage af 6"
+   }
+  },
+  {
+   "total": 6,
+   "remaining": 6,
+   "expected": {
+    "totalHours": 6,
+    "remainingHours": 6,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "6 t tilbage af 6"
+   }
+  },
+  {
+   "total": 7.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 7.25,
+    "remainingHours": 0,
+    "usedHours": 7.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 7,25"
+   }
+  },
+  {
+   "total": 7.25,
+   "remaining": 0.73,
+   "expected": {
+    "totalHours": 7.25,
+    "remainingHours": 0.73,
+    "usedHours": 6.52,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8993103448275861,
+    "note": null,
+    "label": "0,73 t tilbage af 7,25"
+   }
+  },
+  {
+   "total": 7.25,
+   "remaining": 2.39,
+   "expected": {
+    "totalHours": 7.25,
+    "remainingHours": 2.39,
+    "usedHours": 4.859999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6703448275862068,
+    "note": null,
+    "label": "2,39 t tilbage af 7,25"
+   }
+  },
+  {
+   "total": 7.25,
+   "remaining": 3.63,
+   "expected": {
+    "totalHours": 7.25,
+    "remainingHours": 3.63,
+    "usedHours": 3.62,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49931034482758624,
+    "note": null,
+    "label": "3,63 t tilbage af 7,25"
+   }
+  },
+  {
+   "total": 7.25,
+   "remaining": 6.53,
+   "expected": {
+    "totalHours": 7.25,
+    "remainingHours": 6.53,
+    "usedHours": 0.7199999999999998,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09931034482758617,
+    "note": null,
+    "label": "6,53 t tilbage af 7,25"
+   }
+  },
+  {
+   "total": 7.25,
+   "remaining": 7.25,
+   "expected": {
+    "totalHours": 7.25,
+    "remainingHours": 7.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "7,25 t tilbage af 7,25"
+   }
+  },
+  {
+   "total": 8.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 8.5,
+    "remainingHours": 0,
+    "usedHours": 8.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 8,5"
+   }
+  },
+  {
+   "total": 8.5,
+   "remaining": 0.85,
+   "expected": {
+    "totalHours": 8.5,
+    "remainingHours": 0.85,
+    "usedHours": 7.65,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": null,
+    "label": "0,85 t tilbage af 8,5"
+   }
+  },
+  {
+   "total": 8.5,
+   "remaining": 2.81,
+   "expected": {
+    "totalHours": 8.5,
+    "remainingHours": 2.81,
+    "usedHours": 5.6899999999999995,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6694117647058823,
+    "note": null,
+    "label": "2,81 t tilbage af 8,5"
+   }
+  },
+  {
+   "total": 8.5,
+   "remaining": 4.25,
+   "expected": {
+    "totalHours": 8.5,
+    "remainingHours": 4.25,
+    "usedHours": 4.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": null,
+    "label": "4,25 t tilbage af 8,5"
+   }
+  },
+  {
+   "total": 8.5,
+   "remaining": 7.65,
+   "expected": {
+    "totalHours": 8.5,
+    "remainingHours": 7.65,
+    "usedHours": 0.8499999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09999999999999996,
+    "note": null,
+    "label": "7,65 t tilbage af 8,5"
+   }
+  },
+  {
+   "total": 8.5,
+   "remaining": 8.5,
+   "expected": {
+    "totalHours": 8.5,
+    "remainingHours": 8.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "8,5 t tilbage af 8,5"
+   }
+  },
+  {
+   "total": 9.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 9.75,
+    "remainingHours": 0,
+    "usedHours": 9.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 9,75"
+   }
+  },
+  {
+   "total": 9.75,
+   "remaining": 0.98,
+   "expected": {
+    "totalHours": 9.75,
+    "remainingHours": 0.98,
+    "usedHours": 8.77,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8994871794871795,
+    "note": null,
+    "label": "0,98 t tilbage af 9,75"
+   }
+  },
+  {
+   "total": 9.75,
+   "remaining": 3.22,
+   "expected": {
+    "totalHours": 9.75,
+    "remainingHours": 3.22,
+    "usedHours": 6.529999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6697435897435897,
+    "note": null,
+    "label": "3,22 t tilbage af 9,75"
+   }
+  },
+  {
+   "total": 9.75,
+   "remaining": 4.88,
+   "expected": {
+    "totalHours": 9.75,
+    "remainingHours": 4.88,
+    "usedHours": 4.87,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4994871794871795,
+    "note": null,
+    "label": "4,88 t tilbage af 9,75"
+   }
+  },
+  {
+   "total": 9.75,
+   "remaining": 8.78,
+   "expected": {
+    "totalHours": 9.75,
+    "remainingHours": 8.78,
+    "usedHours": 0.9700000000000006,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09948717948717956,
+    "note": null,
+    "label": "8,78 t tilbage af 9,75"
+   }
+  },
+  {
+   "total": 9.75,
+   "remaining": 9.75,
+   "expected": {
+    "totalHours": 9.75,
+    "remainingHours": 9.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "9,75 t tilbage af 9,75"
+   }
+  },
+  {
+   "total": 11,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 11,
+    "remainingHours": 0,
+    "usedHours": 11,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 11"
+   }
+  },
+  {
+   "total": 11,
+   "remaining": 1.1,
+   "expected": {
+    "totalHours": 11,
+    "remainingHours": 1.1,
+    "usedHours": 9.9,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": null,
+    "label": "1,1 t tilbage af 11"
+   }
+  },
+  {
+   "total": 11,
+   "remaining": 3.63,
+   "expected": {
+    "totalHours": 11,
+    "remainingHours": 3.63,
+    "usedHours": 7.37,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.67,
+    "note": null,
+    "label": "3,63 t tilbage af 11"
+   }
+  },
+  {
+   "total": 11,
+   "remaining": 5.5,
+   "expected": {
+    "totalHours": 11,
+    "remainingHours": 5.5,
+    "usedHours": 5.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": null,
+    "label": "5,5 t tilbage af 11"
+   }
+  },
+  {
+   "total": 11,
+   "remaining": 9.9,
+   "expected": {
+    "totalHours": 11,
+    "remainingHours": 9.9,
+    "usedHours": 1.0999999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09999999999999996,
+    "note": null,
+    "label": "9,9 t tilbage af 11"
+   }
+  },
+  {
+   "total": 11,
+   "remaining": 11,
+   "expected": {
+    "totalHours": 11,
+    "remainingHours": 11,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "11 t tilbage af 11"
+   }
+  },
+  {
+   "total": 12.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 12.25,
+    "remainingHours": 0,
+    "usedHours": 12.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 12,25"
+   }
+  },
+  {
+   "total": 12.25,
+   "remaining": 1.23,
+   "expected": {
+    "totalHours": 12.25,
+    "remainingHours": 1.23,
+    "usedHours": 11.02,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8995918367346939,
+    "note": null,
+    "label": "1,23 t tilbage af 12,25"
+   }
+  },
+  {
+   "total": 12.25,
+   "remaining": 4.04,
+   "expected": {
+    "totalHours": 12.25,
+    "remainingHours": 4.04,
+    "usedHours": 8.21,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6702040816326531,
+    "note": null,
+    "label": "4,04 t tilbage af 12,25"
+   }
+  },
+  {
+   "total": 12.25,
+   "remaining": 6.13,
+   "expected": {
+    "totalHours": 12.25,
+    "remainingHours": 6.13,
+    "usedHours": 6.12,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4995918367346939,
+    "note": null,
+    "label": "6,13 t tilbage af 12,25"
+   }
+  },
+  {
+   "total": 12.25,
+   "remaining": 11.03,
+   "expected": {
+    "totalHours": 12.25,
+    "remainingHours": 11.03,
+    "usedHours": 1.2200000000000006,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09959183673469393,
+    "note": null,
+    "label": "11,03 t tilbage af 12,25"
+   }
+  },
+  {
+   "total": 12.25,
+   "remaining": 12.25,
+   "expected": {
+    "totalHours": 12.25,
+    "remainingHours": 12.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "12,25 t tilbage af 12,25"
+   }
+  },
+  {
+   "total": 13.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 13.5,
+    "remainingHours": 0,
+    "usedHours": 13.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 13,5"
+   }
+  },
+  {
+   "total": 13.5,
+   "remaining": 1.35,
+   "expected": {
+    "totalHours": 13.5,
+    "remainingHours": 1.35,
+    "usedHours": 12.15,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": null,
+    "label": "1,35 t tilbage af 13,5"
+   }
+  },
+  {
+   "total": 13.5,
+   "remaining": 4.46,
+   "expected": {
+    "totalHours": 13.5,
+    "remainingHours": 4.46,
+    "usedHours": 9.04,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6696296296296296,
+    "note": null,
+    "label": "4,46 t tilbage af 13,5"
+   }
+  },
+  {
+   "total": 13.5,
+   "remaining": 6.75,
+   "expected": {
+    "totalHours": 13.5,
+    "remainingHours": 6.75,
+    "usedHours": 6.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": null,
+    "label": "6,75 t tilbage af 13,5"
+   }
+  },
+  {
+   "total": 13.5,
+   "remaining": 12.15,
+   "expected": {
+    "totalHours": 13.5,
+    "remainingHours": 12.15,
+    "usedHours": 1.3499999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09999999999999998,
+    "note": null,
+    "label": "12,15 t tilbage af 13,5"
+   }
+  },
+  {
+   "total": 13.5,
+   "remaining": 13.5,
+   "expected": {
+    "totalHours": 13.5,
+    "remainingHours": 13.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "13,5 t tilbage af 13,5"
+   }
+  },
+  {
+   "total": 14.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 14.75,
+    "remainingHours": 0,
+    "usedHours": 14.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 14,75"
+   }
+  },
+  {
+   "total": 14.75,
+   "remaining": 1.48,
+   "expected": {
+    "totalHours": 14.75,
+    "remainingHours": 1.48,
+    "usedHours": 13.27,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8996610169491525,
+    "note": null,
+    "label": "1,48 t tilbage af 14,75"
+   }
+  },
+  {
+   "total": 14.75,
+   "remaining": 4.87,
+   "expected": {
+    "totalHours": 14.75,
+    "remainingHours": 4.87,
+    "usedHours": 9.879999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6698305084745763,
+    "note": null,
+    "label": "4,87 t tilbage af 14,75"
+   }
+  },
+  {
+   "total": 14.75,
+   "remaining": 7.38,
+   "expected": {
+    "totalHours": 14.75,
+    "remainingHours": 7.38,
+    "usedHours": 7.37,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49966101694915255,
+    "note": null,
+    "label": "7,38 t tilbage af 14,75"
+   }
+  },
+  {
+   "total": 14.75,
+   "remaining": 13.28,
+   "expected": {
+    "totalHours": 14.75,
+    "remainingHours": 13.28,
+    "usedHours": 1.4700000000000006,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09966101694915258,
+    "note": null,
+    "label": "13,28 t tilbage af 14,75"
+   }
+  },
+  {
+   "total": 14.75,
+   "remaining": 14.75,
+   "expected": {
+    "totalHours": 14.75,
+    "remainingHours": 14.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "14,75 t tilbage af 14,75"
+   }
+  },
+  {
+   "total": 16,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 16,
+    "remainingHours": 0,
+    "usedHours": 16,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 16"
+   }
+  },
+  {
+   "total": 16,
+   "remaining": 1.6,
+   "expected": {
+    "totalHours": 16,
+    "remainingHours": 1.6,
+    "usedHours": 14.4,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": null,
+    "label": "1,6 t tilbage af 16"
+   }
+  },
+  {
+   "total": 16,
+   "remaining": 5.28,
+   "expected": {
+    "totalHours": 16,
+    "remainingHours": 5.28,
+    "usedHours": 10.719999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699999999999999,
+    "note": null,
+    "label": "5,28 t tilbage af 16"
+   }
+  },
+  {
+   "total": 16,
+   "remaining": 8,
+   "expected": {
+    "totalHours": 16,
+    "remainingHours": 8,
+    "usedHours": 8,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": null,
+    "label": "8 t tilbage af 16"
+   }
+  },
+  {
+   "total": 16,
+   "remaining": 14.4,
+   "expected": {
+    "totalHours": 16,
+    "remainingHours": 14.4,
+    "usedHours": 1.5999999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09999999999999998,
+    "note": null,
+    "label": "14,4 t tilbage af 16"
+   }
+  },
+  {
+   "total": 16,
+   "remaining": 16,
+   "expected": {
+    "totalHours": 16,
+    "remainingHours": 16,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "16 t tilbage af 16"
+   }
+  },
+  {
+   "total": 17.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 17.25,
+    "remainingHours": 0,
+    "usedHours": 17.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 17,25"
+   }
+  },
+  {
+   "total": 17.25,
+   "remaining": 1.73,
+   "expected": {
+    "totalHours": 17.25,
+    "remainingHours": 1.73,
+    "usedHours": 15.52,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8997101449275362,
+    "note": null,
+    "label": "1,73 t tilbage af 17,25"
+   }
+  },
+  {
+   "total": 17.25,
+   "remaining": 5.69,
+   "expected": {
+    "totalHours": 17.25,
+    "remainingHours": 5.69,
+    "usedHours": 11.559999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6701449275362318,
+    "note": null,
+    "label": "5,69 t tilbage af 17,25"
+   }
+  },
+  {
+   "total": 17.25,
+   "remaining": 8.63,
+   "expected": {
+    "totalHours": 17.25,
+    "remainingHours": 8.63,
+    "usedHours": 8.62,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4997101449275362,
+    "note": null,
+    "label": "8,63 t tilbage af 17,25"
+   }
+  },
+  {
+   "total": 17.25,
+   "remaining": 15.53,
+   "expected": {
+    "totalHours": 17.25,
+    "remainingHours": 15.53,
+    "usedHours": 1.7200000000000006,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09971014492753627,
+    "note": null,
+    "label": "15,53 t tilbage af 17,25"
+   }
+  },
+  {
+   "total": 17.25,
+   "remaining": 17.25,
+   "expected": {
+    "totalHours": 17.25,
+    "remainingHours": 17.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "17,25 t tilbage af 17,25"
+   }
+  },
+  {
+   "total": 18.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 18.5,
+    "remainingHours": 0,
+    "usedHours": 18.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 18,5"
+   }
+  },
+  {
+   "total": 18.5,
+   "remaining": 1.85,
+   "expected": {
+    "totalHours": 18.5,
+    "remainingHours": 1.85,
+    "usedHours": 16.65,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": null,
+    "label": "1,85 t tilbage af 18,5"
+   }
+  },
+  {
+   "total": 18.5,
+   "remaining": 6.11,
+   "expected": {
+    "totalHours": 18.5,
+    "remainingHours": 6.11,
+    "usedHours": 12.39,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6697297297297298,
+    "note": null,
+    "label": "6,11 t tilbage af 18,5"
+   }
+  },
+  {
+   "total": 18.5,
+   "remaining": 9.25,
+   "expected": {
+    "totalHours": 18.5,
+    "remainingHours": 9.25,
+    "usedHours": 9.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": null,
+    "label": "9,25 t tilbage af 18,5"
+   }
+  },
+  {
+   "total": 18.5,
+   "remaining": 16.65,
+   "expected": {
+    "totalHours": 18.5,
+    "remainingHours": 16.65,
+    "usedHours": 1.8500000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000007,
+    "note": null,
+    "label": "16,65 t tilbage af 18,5"
+   }
+  },
+  {
+   "total": 18.5,
+   "remaining": 18.5,
+   "expected": {
+    "totalHours": 18.5,
+    "remainingHours": 18.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "18,5 t tilbage af 18,5"
+   }
+  },
+  {
+   "total": 19.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 19.75,
+    "remainingHours": 0,
+    "usedHours": 19.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": null,
+    "label": "0 t tilbage af 19,75"
+   }
+  },
+  {
+   "total": 19.75,
+   "remaining": 1.98,
+   "expected": {
+    "totalHours": 19.75,
+    "remainingHours": 1.98,
+    "usedHours": 17.77,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8997468354430379,
+    "note": null,
+    "label": "1,98 t tilbage af 19,75"
+   }
+  },
+  {
+   "total": 19.75,
+   "remaining": 6.52,
+   "expected": {
+    "totalHours": 19.75,
+    "remainingHours": 6.52,
+    "usedHours": 13.23,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.669873417721519,
+    "note": null,
+    "label": "6,52 t tilbage af 19,75"
+   }
+  },
+  {
+   "total": 19.75,
+   "remaining": 9.88,
+   "expected": {
+    "totalHours": 19.75,
+    "remainingHours": 9.88,
+    "usedHours": 9.87,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49974683544303794,
+    "note": null,
+    "label": "9,88 t tilbage af 19,75"
+   }
+  },
+  {
+   "total": 19.75,
+   "remaining": 17.78,
+   "expected": {
+    "totalHours": 19.75,
+    "remainingHours": 17.78,
+    "usedHours": 1.9699999999999989,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09974683544303792,
+    "note": null,
+    "label": "17,78 t tilbage af 19,75"
+   }
+  },
+  {
+   "total": 19.75,
+   "remaining": 19.75,
+   "expected": {
+    "totalHours": 19.75,
+    "remainingHours": 19.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 1,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": null,
+    "label": "19,75 t tilbage af 19,75"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 0,
+    "usedHours": 21,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 21"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 2.1,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 2.1,
+    "usedHours": 18.9,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "2,1 t tilbage af 21"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 6.93,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 6.93,
+    "usedHours": 14.07,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.67,
+    "note": "1 hul = 5 t",
+    "label": "6,93 t tilbage af 21"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 10.5,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 10.5,
+    "usedHours": 10.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "10,5 t tilbage af 21"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 18.9,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 18.9,
+    "usedHours": 2.1000000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000006,
+    "note": "1 hul = 5 t",
+    "label": "18,9 t tilbage af 21"
+   }
+  },
+  {
+   "total": 21,
+   "remaining": 21,
+   "expected": {
+    "totalHours": 21,
+    "remainingHours": 21,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "21 t tilbage af 21"
+   }
+  },
+  {
+   "total": 22.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 22.25,
+    "remainingHours": 0,
+    "usedHours": 22.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 22,25"
+   }
+  },
+  {
+   "total": 22.25,
+   "remaining": 2.23,
+   "expected": {
+    "totalHours": 22.25,
+    "remainingHours": 2.23,
+    "usedHours": 20.02,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8997752808988764,
+    "note": "1 hul = 5 t",
+    "label": "2,23 t tilbage af 22,25"
+   }
+  },
+  {
+   "total": 22.25,
+   "remaining": 7.34,
+   "expected": {
+    "totalHours": 22.25,
+    "remainingHours": 7.34,
+    "usedHours": 14.91,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6701123595505618,
+    "note": "1 hul = 5 t",
+    "label": "7,34 t tilbage af 22,25"
+   }
+  },
+  {
+   "total": 22.25,
+   "remaining": 11.13,
+   "expected": {
+    "totalHours": 22.25,
+    "remainingHours": 11.13,
+    "usedHours": 11.12,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49977528089887635,
+    "note": "1 hul = 5 t",
+    "label": "11,13 t tilbage af 22,25"
+   }
+  },
+  {
+   "total": 22.25,
+   "remaining": 20.03,
+   "expected": {
+    "totalHours": 22.25,
+    "remainingHours": 20.03,
+    "usedHours": 2.219999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09977528089887636,
+    "note": "1 hul = 5 t",
+    "label": "20,03 t tilbage af 22,25"
+   }
+  },
+  {
+   "total": 22.25,
+   "remaining": 22.25,
+   "expected": {
+    "totalHours": 22.25,
+    "remainingHours": 22.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "22,25 t tilbage af 22,25"
+   }
+  },
+  {
+   "total": 23.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 23.5,
+    "remainingHours": 0,
+    "usedHours": 23.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 23,5"
+   }
+  },
+  {
+   "total": 23.5,
+   "remaining": 2.35,
+   "expected": {
+    "totalHours": 23.5,
+    "remainingHours": 2.35,
+    "usedHours": 21.15,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "2,35 t tilbage af 23,5"
+   }
+  },
+  {
+   "total": 23.5,
+   "remaining": 7.76,
+   "expected": {
+    "totalHours": 23.5,
+    "remainingHours": 7.76,
+    "usedHours": 15.74,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6697872340425532,
+    "note": "1 hul = 5 t",
+    "label": "7,76 t tilbage af 23,5"
+   }
+  },
+  {
+   "total": 23.5,
+   "remaining": 11.75,
+   "expected": {
+    "totalHours": 23.5,
+    "remainingHours": 11.75,
+    "usedHours": 11.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "11,75 t tilbage af 23,5"
+   }
+  },
+  {
+   "total": 23.5,
+   "remaining": 21.15,
+   "expected": {
+    "totalHours": 23.5,
+    "remainingHours": 21.15,
+    "usedHours": 2.3500000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000006,
+    "note": "1 hul = 5 t",
+    "label": "21,15 t tilbage af 23,5"
+   }
+  },
+  {
+   "total": 23.5,
+   "remaining": 23.5,
+   "expected": {
+    "totalHours": 23.5,
+    "remainingHours": 23.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "23,5 t tilbage af 23,5"
+   }
+  },
+  {
+   "total": 24.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 24.75,
+    "remainingHours": 0,
+    "usedHours": 24.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 24,75"
+   }
+  },
+  {
+   "total": 24.75,
+   "remaining": 2.48,
+   "expected": {
+    "totalHours": 24.75,
+    "remainingHours": 2.48,
+    "usedHours": 22.27,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8997979797979798,
+    "note": "1 hul = 5 t",
+    "label": "2,48 t tilbage af 24,75"
+   }
+  },
+  {
+   "total": 24.75,
+   "remaining": 8.17,
+   "expected": {
+    "totalHours": 24.75,
+    "remainingHours": 8.17,
+    "usedHours": 16.58,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6698989898989899,
+    "note": "1 hul = 5 t",
+    "label": "8,17 t tilbage af 24,75"
+   }
+  },
+  {
+   "total": 24.75,
+   "remaining": 12.38,
+   "expected": {
+    "totalHours": 24.75,
+    "remainingHours": 12.38,
+    "usedHours": 12.37,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49979797979797974,
+    "note": "1 hul = 5 t",
+    "label": "12,38 t tilbage af 24,75"
+   }
+  },
+  {
+   "total": 24.75,
+   "remaining": 22.28,
+   "expected": {
+    "totalHours": 24.75,
+    "remainingHours": 22.28,
+    "usedHours": 2.469999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09979797979797975,
+    "note": "1 hul = 5 t",
+    "label": "22,28 t tilbage af 24,75"
+   }
+  },
+  {
+   "total": 24.75,
+   "remaining": 24.75,
+   "expected": {
+    "totalHours": 24.75,
+    "remainingHours": 24.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "24,75 t tilbage af 24,75"
+   }
+  },
+  {
+   "total": 26,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 26,
+    "remainingHours": 0,
+    "usedHours": 26,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 26"
+   }
+  },
+  {
+   "total": 26,
+   "remaining": 2.6,
+   "expected": {
+    "totalHours": 26,
+    "remainingHours": 2.6,
+    "usedHours": 23.4,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "2,6 t tilbage af 26"
+   }
+  },
+  {
+   "total": 26,
+   "remaining": 8.58,
+   "expected": {
+    "totalHours": 26,
+    "remainingHours": 8.58,
+    "usedHours": 17.42,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.67,
+    "note": "1 hul = 5 t",
+    "label": "8,58 t tilbage af 26"
+   }
+  },
+  {
+   "total": 26,
+   "remaining": 13,
+   "expected": {
+    "totalHours": 26,
+    "remainingHours": 13,
+    "usedHours": 13,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "13 t tilbage af 26"
+   }
+  },
+  {
+   "total": 26,
+   "remaining": 23.4,
+   "expected": {
+    "totalHours": 26,
+    "remainingHours": 23.4,
+    "usedHours": 2.6000000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000006,
+    "note": "1 hul = 5 t",
+    "label": "23,4 t tilbage af 26"
+   }
+  },
+  {
+   "total": 26,
+   "remaining": 26,
+   "expected": {
+    "totalHours": 26,
+    "remainingHours": 26,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "26 t tilbage af 26"
+   }
+  },
+  {
+   "total": 27.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 27.25,
+    "remainingHours": 0,
+    "usedHours": 27.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 27,25"
+   }
+  },
+  {
+   "total": 27.25,
+   "remaining": 2.73,
+   "expected": {
+    "totalHours": 27.25,
+    "remainingHours": 2.73,
+    "usedHours": 24.52,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8998165137614679,
+    "note": "1 hul = 5 t",
+    "label": "2,73 t tilbage af 27,25"
+   }
+  },
+  {
+   "total": 27.25,
+   "remaining": 8.99,
+   "expected": {
+    "totalHours": 27.25,
+    "remainingHours": 8.99,
+    "usedHours": 18.259999999999998,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.670091743119266,
+    "note": "1 hul = 5 t",
+    "label": "8,99 t tilbage af 27,25"
+   }
+  },
+  {
+   "total": 27.25,
+   "remaining": 13.63,
+   "expected": {
+    "totalHours": 27.25,
+    "remainingHours": 13.63,
+    "usedHours": 13.62,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49981651376146785,
+    "note": "1 hul = 5 t",
+    "label": "13,63 t tilbage af 27,25"
+   }
+  },
+  {
+   "total": 27.25,
+   "remaining": 24.53,
+   "expected": {
+    "totalHours": 27.25,
+    "remainingHours": 24.53,
+    "usedHours": 2.719999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09981651376146784,
+    "note": "1 hul = 5 t",
+    "label": "24,53 t tilbage af 27,25"
+   }
+  },
+  {
+   "total": 27.25,
+   "remaining": 27.25,
+   "expected": {
+    "totalHours": 27.25,
+    "remainingHours": 27.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "27,25 t tilbage af 27,25"
+   }
+  },
+  {
+   "total": 28.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 28.5,
+    "remainingHours": 0,
+    "usedHours": 28.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 28,5"
+   }
+  },
+  {
+   "total": 28.5,
+   "remaining": 2.85,
+   "expected": {
+    "totalHours": 28.5,
+    "remainingHours": 2.85,
+    "usedHours": 25.65,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "2,85 t tilbage af 28,5"
+   }
+  },
+  {
+   "total": 28.5,
+   "remaining": 9.41,
+   "expected": {
+    "totalHours": 28.5,
+    "remainingHours": 9.41,
+    "usedHours": 19.09,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6698245614035088,
+    "note": "1 hul = 5 t",
+    "label": "9,41 t tilbage af 28,5"
+   }
+  },
+  {
+   "total": 28.5,
+   "remaining": 14.25,
+   "expected": {
+    "totalHours": 28.5,
+    "remainingHours": 14.25,
+    "usedHours": 14.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "14,25 t tilbage af 28,5"
+   }
+  },
+  {
+   "total": 28.5,
+   "remaining": 25.65,
+   "expected": {
+    "totalHours": 28.5,
+    "remainingHours": 25.65,
+    "usedHours": 2.8500000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000005,
+    "note": "1 hul = 5 t",
+    "label": "25,65 t tilbage af 28,5"
+   }
+  },
+  {
+   "total": 28.5,
+   "remaining": 28.5,
+   "expected": {
+    "totalHours": 28.5,
+    "remainingHours": 28.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "28,5 t tilbage af 28,5"
+   }
+  },
+  {
+   "total": 29.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 29.75,
+    "remainingHours": 0,
+    "usedHours": 29.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 29,75"
+   }
+  },
+  {
+   "total": 29.75,
+   "remaining": 2.98,
+   "expected": {
+    "totalHours": 29.75,
+    "remainingHours": 2.98,
+    "usedHours": 26.77,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8998319327731092,
+    "note": "1 hul = 5 t",
+    "label": "2,98 t tilbage af 29,75"
+   }
+  },
+  {
+   "total": 29.75,
+   "remaining": 9.82,
+   "expected": {
+    "totalHours": 29.75,
+    "remainingHours": 9.82,
+    "usedHours": 19.93,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699159663865546,
+    "note": "1 hul = 5 t",
+    "label": "9,82 t tilbage af 29,75"
+   }
+  },
+  {
+   "total": 29.75,
+   "remaining": 14.88,
+   "expected": {
+    "totalHours": 29.75,
+    "remainingHours": 14.88,
+    "usedHours": 14.87,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4998319327731092,
+    "note": "1 hul = 5 t",
+    "label": "14,88 t tilbage af 29,75"
+   }
+  },
+  {
+   "total": 29.75,
+   "remaining": 26.78,
+   "expected": {
+    "totalHours": 29.75,
+    "remainingHours": 26.78,
+    "usedHours": 2.969999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.0998319327731092,
+    "note": "1 hul = 5 t",
+    "label": "26,78 t tilbage af 29,75"
+   }
+  },
+  {
+   "total": 29.75,
+   "remaining": 29.75,
+   "expected": {
+    "totalHours": 29.75,
+    "remainingHours": 29.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "29,75 t tilbage af 29,75"
+   }
+  },
+  {
+   "total": 31,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 31,
+    "remainingHours": 0,
+    "usedHours": 31,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 31"
+   }
+  },
+  {
+   "total": 31,
+   "remaining": 3.1,
+   "expected": {
+    "totalHours": 31,
+    "remainingHours": 3.1,
+    "usedHours": 27.9,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "3,1 t tilbage af 31"
+   }
+  },
+  {
+   "total": 31,
+   "remaining": 10.23,
+   "expected": {
+    "totalHours": 31,
+    "remainingHours": 10.23,
+    "usedHours": 20.77,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.67,
+    "note": "1 hul = 5 t",
+    "label": "10,23 t tilbage af 31"
+   }
+  },
+  {
+   "total": 31,
+   "remaining": 15.5,
+   "expected": {
+    "totalHours": 31,
+    "remainingHours": 15.5,
+    "usedHours": 15.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "15,5 t tilbage af 31"
+   }
+  },
+  {
+   "total": 31,
+   "remaining": 27.9,
+   "expected": {
+    "totalHours": 31,
+    "remainingHours": 27.9,
+    "usedHours": 3.1000000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000005,
+    "note": "1 hul = 5 t",
+    "label": "27,9 t tilbage af 31"
+   }
+  },
+  {
+   "total": 31,
+   "remaining": 31,
+   "expected": {
+    "totalHours": 31,
+    "remainingHours": 31,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "31 t tilbage af 31"
+   }
+  },
+  {
+   "total": 32.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 32.25,
+    "remainingHours": 0,
+    "usedHours": 32.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 32,25"
+   }
+  },
+  {
+   "total": 32.25,
+   "remaining": 3.23,
+   "expected": {
+    "totalHours": 32.25,
+    "remainingHours": 3.23,
+    "usedHours": 29.02,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8998449612403101,
+    "note": "1 hul = 5 t",
+    "label": "3,23 t tilbage af 32,25"
+   }
+  },
+  {
+   "total": 32.25,
+   "remaining": 10.64,
+   "expected": {
+    "totalHours": 32.25,
+    "remainingHours": 10.64,
+    "usedHours": 21.61,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6700775193798449,
+    "note": "1 hul = 5 t",
+    "label": "10,64 t tilbage af 32,25"
+   }
+  },
+  {
+   "total": 32.25,
+   "remaining": 16.13,
+   "expected": {
+    "totalHours": 32.25,
+    "remainingHours": 16.13,
+    "usedHours": 16.12,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4998449612403101,
+    "note": "1 hul = 5 t",
+    "label": "16,13 t tilbage af 32,25"
+   }
+  },
+  {
+   "total": 32.25,
+   "remaining": 29.03,
+   "expected": {
+    "totalHours": 32.25,
+    "remainingHours": 29.03,
+    "usedHours": 3.219999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09984496124031005,
+    "note": "1 hul = 5 t",
+    "label": "29,03 t tilbage af 32,25"
+   }
+  },
+  {
+   "total": 32.25,
+   "remaining": 32.25,
+   "expected": {
+    "totalHours": 32.25,
+    "remainingHours": 32.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "32,25 t tilbage af 32,25"
+   }
+  },
+  {
+   "total": 33.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 33.5,
+    "remainingHours": 0,
+    "usedHours": 33.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 33,5"
+   }
+  },
+  {
+   "total": 33.5,
+   "remaining": 3.35,
+   "expected": {
+    "totalHours": 33.5,
+    "remainingHours": 3.35,
+    "usedHours": 30.15,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "3,35 t tilbage af 33,5"
+   }
+  },
+  {
+   "total": 33.5,
+   "remaining": 11.06,
+   "expected": {
+    "totalHours": 33.5,
+    "remainingHours": 11.06,
+    "usedHours": 22.439999999999998,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6698507462686566,
+    "note": "1 hul = 5 t",
+    "label": "11,06 t tilbage af 33,5"
+   }
+  },
+  {
+   "total": 33.5,
+   "remaining": 16.75,
+   "expected": {
+    "totalHours": 33.5,
+    "remainingHours": 16.75,
+    "usedHours": 16.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "16,75 t tilbage af 33,5"
+   }
+  },
+  {
+   "total": 33.5,
+   "remaining": 30.15,
+   "expected": {
+    "totalHours": 33.5,
+    "remainingHours": 30.15,
+    "usedHours": 3.3500000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000005,
+    "note": "1 hul = 5 t",
+    "label": "30,15 t tilbage af 33,5"
+   }
+  },
+  {
+   "total": 33.5,
+   "remaining": 33.5,
+   "expected": {
+    "totalHours": 33.5,
+    "remainingHours": 33.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "33,5 t tilbage af 33,5"
+   }
+  },
+  {
+   "total": 34.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 34.75,
+    "remainingHours": 0,
+    "usedHours": 34.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 34,75"
+   }
+  },
+  {
+   "total": 34.75,
+   "remaining": 3.48,
+   "expected": {
+    "totalHours": 34.75,
+    "remainingHours": 3.48,
+    "usedHours": 31.27,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8998561151079136,
+    "note": "1 hul = 5 t",
+    "label": "3,48 t tilbage af 34,75"
+   }
+  },
+  {
+   "total": 34.75,
+   "remaining": 11.47,
+   "expected": {
+    "totalHours": 34.75,
+    "remainingHours": 11.47,
+    "usedHours": 23.28,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699280575539569,
+    "note": "1 hul = 5 t",
+    "label": "11,47 t tilbage af 34,75"
+   }
+  },
+  {
+   "total": 34.75,
+   "remaining": 17.38,
+   "expected": {
+    "totalHours": 34.75,
+    "remainingHours": 17.38,
+    "usedHours": 17.37,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4998561151079137,
+    "note": "1 hul = 5 t",
+    "label": "17,38 t tilbage af 34,75"
+   }
+  },
+  {
+   "total": 34.75,
+   "remaining": 31.28,
+   "expected": {
+    "totalHours": 34.75,
+    "remainingHours": 31.28,
+    "usedHours": 3.469999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09985611510791363,
+    "note": "1 hul = 5 t",
+    "label": "31,28 t tilbage af 34,75"
+   }
+  },
+  {
+   "total": 34.75,
+   "remaining": 34.75,
+   "expected": {
+    "totalHours": 34.75,
+    "remainingHours": 34.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "34,75 t tilbage af 34,75"
+   }
+  },
+  {
+   "total": 36,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 36,
+    "remainingHours": 0,
+    "usedHours": 36,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 36"
+   }
+  },
+  {
+   "total": 36,
+   "remaining": 3.6,
+   "expected": {
+    "totalHours": 36,
+    "remainingHours": 3.6,
+    "usedHours": 32.4,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "3,6 t tilbage af 36"
+   }
+  },
+  {
+   "total": 36,
+   "remaining": 11.88,
+   "expected": {
+    "totalHours": 36,
+    "remainingHours": 11.88,
+    "usedHours": 24.119999999999997,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699999999999999,
+    "note": "1 hul = 5 t",
+    "label": "11,88 t tilbage af 36"
+   }
+  },
+  {
+   "total": 36,
+   "remaining": 18,
+   "expected": {
+    "totalHours": 36,
+    "remainingHours": 18,
+    "usedHours": 18,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "18 t tilbage af 36"
+   }
+  },
+  {
+   "total": 36,
+   "remaining": 32.4,
+   "expected": {
+    "totalHours": 36,
+    "remainingHours": 32.4,
+    "usedHours": 3.6000000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000003,
+    "note": "1 hul = 5 t",
+    "label": "32,4 t tilbage af 36"
+   }
+  },
+  {
+   "total": 36,
+   "remaining": 36,
+   "expected": {
+    "totalHours": 36,
+    "remainingHours": 36,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "36 t tilbage af 36"
+   }
+  },
+  {
+   "total": 37.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 37.25,
+    "remainingHours": 0,
+    "usedHours": 37.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 37,25"
+   }
+  },
+  {
+   "total": 37.25,
+   "remaining": 3.73,
+   "expected": {
+    "totalHours": 37.25,
+    "remainingHours": 3.73,
+    "usedHours": 33.52,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8998657718120806,
+    "note": "1 hul = 5 t",
+    "label": "3,73 t tilbage af 37,25"
+   }
+  },
+  {
+   "total": 37.25,
+   "remaining": 12.29,
+   "expected": {
+    "totalHours": 37.25,
+    "remainingHours": 12.29,
+    "usedHours": 24.96,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6700671140939598,
+    "note": "1 hul = 5 t",
+    "label": "12,29 t tilbage af 37,25"
+   }
+  },
+  {
+   "total": 37.25,
+   "remaining": 18.63,
+   "expected": {
+    "totalHours": 37.25,
+    "remainingHours": 18.63,
+    "usedHours": 18.62,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4998657718120806,
+    "note": "1 hul = 5 t",
+    "label": "18,63 t tilbage af 37,25"
+   }
+  },
+  {
+   "total": 37.25,
+   "remaining": 33.53,
+   "expected": {
+    "totalHours": 37.25,
+    "remainingHours": 33.53,
+    "usedHours": 3.719999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.0998657718120805,
+    "note": "1 hul = 5 t",
+    "label": "33,53 t tilbage af 37,25"
+   }
+  },
+  {
+   "total": 37.25,
+   "remaining": 37.25,
+   "expected": {
+    "totalHours": 37.25,
+    "remainingHours": 37.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "37,25 t tilbage af 37,25"
+   }
+  },
+  {
+   "total": 38.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 38.5,
+    "remainingHours": 0,
+    "usedHours": 38.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 38,5"
+   }
+  },
+  {
+   "total": 38.5,
+   "remaining": 3.85,
+   "expected": {
+    "totalHours": 38.5,
+    "remainingHours": 3.85,
+    "usedHours": 34.65,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "3,85 t tilbage af 38,5"
+   }
+  },
+  {
+   "total": 38.5,
+   "remaining": 12.71,
+   "expected": {
+    "totalHours": 38.5,
+    "remainingHours": 12.71,
+    "usedHours": 25.79,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6698701298701298,
+    "note": "1 hul = 5 t",
+    "label": "12,71 t tilbage af 38,5"
+   }
+  },
+  {
+   "total": 38.5,
+   "remaining": 19.25,
+   "expected": {
+    "totalHours": 38.5,
+    "remainingHours": 19.25,
+    "usedHours": 19.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "19,25 t tilbage af 38,5"
+   }
+  },
+  {
+   "total": 38.5,
+   "remaining": 34.65,
+   "expected": {
+    "totalHours": 38.5,
+    "remainingHours": 34.65,
+    "usedHours": 3.8500000000000014,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000003,
+    "note": "1 hul = 5 t",
+    "label": "34,65 t tilbage af 38,5"
+   }
+  },
+  {
+   "total": 38.5,
+   "remaining": 38.5,
+   "expected": {
+    "totalHours": 38.5,
+    "remainingHours": 38.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "38,5 t tilbage af 38,5"
+   }
+  },
+  {
+   "total": 39.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 39.75,
+    "remainingHours": 0,
+    "usedHours": 39.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 39,75"
+   }
+  },
+  {
+   "total": 39.75,
+   "remaining": 3.98,
+   "expected": {
+    "totalHours": 39.75,
+    "remainingHours": 3.98,
+    "usedHours": 35.77,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.899874213836478,
+    "note": "1 hul = 5 t",
+    "label": "3,98 t tilbage af 39,75"
+   }
+  },
+  {
+   "total": 39.75,
+   "remaining": 13.12,
+   "expected": {
+    "totalHours": 39.75,
+    "remainingHours": 13.12,
+    "usedHours": 26.630000000000003,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.669937106918239,
+    "note": "1 hul = 5 t",
+    "label": "13,12 t tilbage af 39,75"
+   }
+  },
+  {
+   "total": 39.75,
+   "remaining": 19.88,
+   "expected": {
+    "totalHours": 39.75,
+    "remainingHours": 19.88,
+    "usedHours": 19.87,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.499874213836478,
+    "note": "1 hul = 5 t",
+    "label": "19,88 t tilbage af 39,75"
+   }
+  },
+  {
+   "total": 39.75,
+   "remaining": 35.78,
+   "expected": {
+    "totalHours": 39.75,
+    "remainingHours": 35.78,
+    "usedHours": 3.969999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09987421383647796,
+    "note": "1 hul = 5 t",
+    "label": "35,78 t tilbage af 39,75"
+   }
+  },
+  {
+   "total": 39.75,
+   "remaining": 39.75,
+   "expected": {
+    "totalHours": 39.75,
+    "remainingHours": 39.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "39,75 t tilbage af 39,75"
+   }
+  },
+  {
+   "total": 41,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 41,
+    "remainingHours": 0,
+    "usedHours": 41,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 41"
+   }
+  },
+  {
+   "total": 41,
+   "remaining": 4.1,
+   "expected": {
+    "totalHours": 41,
+    "remainingHours": 4.1,
+    "usedHours": 36.9,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999999999999999,
+    "note": "1 hul = 5 t",
+    "label": "4,1 t tilbage af 41"
+   }
+  },
+  {
+   "total": 41,
+   "remaining": 13.53,
+   "expected": {
+    "totalHours": 41,
+    "remainingHours": 13.53,
+    "usedHours": 27.47,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699999999999999,
+    "note": "1 hul = 5 t",
+    "label": "13,53 t tilbage af 41"
+   }
+  },
+  {
+   "total": 41,
+   "remaining": 20.5,
+   "expected": {
+    "totalHours": 41,
+    "remainingHours": 20.5,
+    "usedHours": 20.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "20,5 t tilbage af 41"
+   }
+  },
+  {
+   "total": 41,
+   "remaining": 36.9,
+   "expected": {
+    "totalHours": 41,
+    "remainingHours": 36.9,
+    "usedHours": 4.100000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000003,
+    "note": "1 hul = 5 t",
+    "label": "36,9 t tilbage af 41"
+   }
+  },
+  {
+   "total": 41,
+   "remaining": 41,
+   "expected": {
+    "totalHours": 41,
+    "remainingHours": 41,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "41 t tilbage af 41"
+   }
+  },
+  {
+   "total": 42.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 42.25,
+    "remainingHours": 0,
+    "usedHours": 42.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 42,25"
+   }
+  },
+  {
+   "total": 42.25,
+   "remaining": 4.23,
+   "expected": {
+    "totalHours": 42.25,
+    "remainingHours": 4.23,
+    "usedHours": 38.019999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8998816568047336,
+    "note": "1 hul = 5 t",
+    "label": "4,23 t tilbage af 42,25"
+   }
+  },
+  {
+   "total": 42.25,
+   "remaining": 13.94,
+   "expected": {
+    "totalHours": 42.25,
+    "remainingHours": 13.94,
+    "usedHours": 28.310000000000002,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6700591715976332,
+    "note": "1 hul = 5 t",
+    "label": "13,94 t tilbage af 42,25"
+   }
+  },
+  {
+   "total": 42.25,
+   "remaining": 21.13,
+   "expected": {
+    "totalHours": 42.25,
+    "remainingHours": 21.13,
+    "usedHours": 21.12,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49988165680473373,
+    "note": "1 hul = 5 t",
+    "label": "21,13 t tilbage af 42,25"
+   }
+  },
+  {
+   "total": 42.25,
+   "remaining": 38.03,
+   "expected": {
+    "totalHours": 42.25,
+    "remainingHours": 38.03,
+    "usedHours": 4.219999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.0998816568047337,
+    "note": "1 hul = 5 t",
+    "label": "38,03 t tilbage af 42,25"
+   }
+  },
+  {
+   "total": 42.25,
+   "remaining": 42.25,
+   "expected": {
+    "totalHours": 42.25,
+    "remainingHours": 42.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "42,25 t tilbage af 42,25"
+   }
+  },
+  {
+   "total": 43.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 43.5,
+    "remainingHours": 0,
+    "usedHours": 43.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 43,5"
+   }
+  },
+  {
+   "total": 43.5,
+   "remaining": 4.35,
+   "expected": {
+    "totalHours": 43.5,
+    "remainingHours": 4.35,
+    "usedHours": 39.15,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": "1 hul = 5 t",
+    "label": "4,35 t tilbage af 43,5"
+   }
+  },
+  {
+   "total": 43.5,
+   "remaining": 14.36,
+   "expected": {
+    "totalHours": 43.5,
+    "remainingHours": 14.36,
+    "usedHours": 29.14,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6698850574712644,
+    "note": "1 hul = 5 t",
+    "label": "14,36 t tilbage af 43,5"
+   }
+  },
+  {
+   "total": 43.5,
+   "remaining": 21.75,
+   "expected": {
+    "totalHours": 43.5,
+    "remainingHours": 21.75,
+    "usedHours": 21.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "21,75 t tilbage af 43,5"
+   }
+  },
+  {
+   "total": 43.5,
+   "remaining": 39.15,
+   "expected": {
+    "totalHours": 43.5,
+    "remainingHours": 39.15,
+    "usedHours": 4.350000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000003,
+    "note": "1 hul = 5 t",
+    "label": "39,15 t tilbage af 43,5"
+   }
+  },
+  {
+   "total": 43.5,
+   "remaining": 43.5,
+   "expected": {
+    "totalHours": 43.5,
+    "remainingHours": 43.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "43,5 t tilbage af 43,5"
+   }
+  },
+  {
+   "total": 44.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 44.75,
+    "remainingHours": 0,
+    "usedHours": 44.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 44,75"
+   }
+  },
+  {
+   "total": 44.75,
+   "remaining": 4.48,
+   "expected": {
+    "totalHours": 44.75,
+    "remainingHours": 4.48,
+    "usedHours": 40.269999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv"],
+    "useBar": false,
+    "usedFraction": 0.8998882681564245,
+    "note": "1 hul = 5 t",
+    "label": "4,48 t tilbage af 44,75"
+   }
+  },
+  {
+   "total": 44.75,
+   "remaining": 14.77,
+   "expected": {
+    "totalHours": 44.75,
+    "remainingHours": 14.77,
+    "usedHours": 29.98,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699441340782123,
+    "note": "1 hul = 5 t",
+    "label": "14,77 t tilbage af 44,75"
+   }
+  },
+  {
+   "total": 44.75,
+   "remaining": 22.38,
+   "expected": {
+    "totalHours": 44.75,
+    "remainingHours": 22.38,
+    "usedHours": 22.37,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4998882681564246,
+    "note": "1 hul = 5 t",
+    "label": "22,38 t tilbage af 44,75"
+   }
+  },
+  {
+   "total": 44.75,
+   "remaining": 40.28,
+   "expected": {
+    "totalHours": 44.75,
+    "remainingHours": 40.28,
+    "usedHours": 4.469999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09988826815642456,
+    "note": "1 hul = 5 t",
+    "label": "40,28 t tilbage af 44,75"
+   }
+  },
+  {
+   "total": 44.75,
+   "remaining": 44.75,
+   "expected": {
+    "totalHours": 44.75,
+    "remainingHours": 44.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "44,75 t tilbage af 44,75"
+   }
+  },
+  {
+   "total": 46,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 46,
+    "remainingHours": 0,
+    "usedHours": 46,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 46"
+   }
+  },
+  {
+   "total": 46,
+   "remaining": 4.6,
+   "expected": {
+    "totalHours": 46,
+    "remainingHours": 4.6,
+    "usedHours": 41.4,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": "1 hul = 5 t",
+    "label": "4,6 t tilbage af 46"
+   }
+  },
+  {
+   "total": 46,
+   "remaining": 15.18,
+   "expected": {
+    "totalHours": 46,
+    "remainingHours": 15.18,
+    "usedHours": 30.82,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.67,
+    "note": "1 hul = 5 t",
+    "label": "15,18 t tilbage af 46"
+   }
+  },
+  {
+   "total": 46,
+   "remaining": 23,
+   "expected": {
+    "totalHours": 46,
+    "remainingHours": 23,
+    "usedHours": 23,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "23 t tilbage af 46"
+   }
+  },
+  {
+   "total": 46,
+   "remaining": 41.4,
+   "expected": {
+    "totalHours": 46,
+    "remainingHours": 41.4,
+    "usedHours": 4.600000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000003,
+    "note": "1 hul = 5 t",
+    "label": "41,4 t tilbage af 46"
+   }
+  },
+  {
+   "total": 46,
+   "remaining": 46,
+   "expected": {
+    "totalHours": 46,
+    "remainingHours": 46,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "46 t tilbage af 46"
+   }
+  },
+  {
+   "total": 47.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 47.25,
+    "remainingHours": 0,
+    "usedHours": 47.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 47,25"
+   }
+  },
+  {
+   "total": 47.25,
+   "remaining": 4.73,
+   "expected": {
+    "totalHours": 47.25,
+    "remainingHours": 4.73,
+    "usedHours": 42.519999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8998941798941799,
+    "note": "1 hul = 5 t",
+    "label": "4,73 t tilbage af 47,25"
+   }
+  },
+  {
+   "total": 47.25,
+   "remaining": 15.59,
+   "expected": {
+    "totalHours": 47.25,
+    "remainingHours": 15.59,
+    "usedHours": 31.66,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.67005291005291,
+    "note": "1 hul = 5 t",
+    "label": "15,59 t tilbage af 47,25"
+   }
+  },
+  {
+   "total": 47.25,
+   "remaining": 23.63,
+   "expected": {
+    "totalHours": 47.25,
+    "remainingHours": 23.63,
+    "usedHours": 23.62,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4998941798941799,
+    "note": "1 hul = 5 t",
+    "label": "23,63 t tilbage af 47,25"
+   }
+  },
+  {
+   "total": 47.25,
+   "remaining": 42.53,
+   "expected": {
+    "totalHours": 47.25,
+    "remainingHours": 42.53,
+    "usedHours": 4.719999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09989417989417987,
+    "note": "1 hul = 5 t",
+    "label": "42,53 t tilbage af 47,25"
+   }
+  },
+  {
+   "total": 47.25,
+   "remaining": 47.25,
+   "expected": {
+    "totalHours": 47.25,
+    "remainingHours": 47.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "47,25 t tilbage af 47,25"
+   }
+  },
+  {
+   "total": 48.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 48.5,
+    "remainingHours": 0,
+    "usedHours": 48.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 48,5"
+   }
+  },
+  {
+   "total": 48.5,
+   "remaining": 4.85,
+   "expected": {
+    "totalHours": 48.5,
+    "remainingHours": 4.85,
+    "usedHours": 43.65,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": "1 hul = 5 t",
+    "label": "4,85 t tilbage af 48,5"
+   }
+  },
+  {
+   "total": 48.5,
+   "remaining": 16.01,
+   "expected": {
+    "totalHours": 48.5,
+    "remainingHours": 16.01,
+    "usedHours": 32.489999999999995,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6698969072164948,
+    "note": "1 hul = 5 t",
+    "label": "16,01 t tilbage af 48,5"
+   }
+  },
+  {
+   "total": 48.5,
+   "remaining": 24.25,
+   "expected": {
+    "totalHours": 48.5,
+    "remainingHours": 24.25,
+    "usedHours": 24.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "24,25 t tilbage af 48,5"
+   }
+  },
+  {
+   "total": 48.5,
+   "remaining": 43.65,
+   "expected": {
+    "totalHours": 48.5,
+    "remainingHours": 43.65,
+    "usedHours": 4.850000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000003,
+    "note": "1 hul = 5 t",
+    "label": "43,65 t tilbage af 48,5"
+   }
+  },
+  {
+   "total": 48.5,
+   "remaining": 48.5,
+   "expected": {
+    "totalHours": 48.5,
+    "remainingHours": 48.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "48,5 t tilbage af 48,5"
+   }
+  },
+  {
+   "total": 49.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 49.75,
+    "remainingHours": 0,
+    "usedHours": 49.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 49,75"
+   }
+  },
+  {
+   "total": 49.75,
+   "remaining": 4.98,
+   "expected": {
+    "totalHours": 49.75,
+    "remainingHours": 4.98,
+    "usedHours": 44.769999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8998994974874371,
+    "note": "1 hul = 5 t",
+    "label": "4,98 t tilbage af 49,75"
+   }
+  },
+  {
+   "total": 49.75,
+   "remaining": 16.42,
+   "expected": {
+    "totalHours": 49.75,
+    "remainingHours": 16.42,
+    "usedHours": 33.33,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699497487437186,
+    "note": "1 hul = 5 t",
+    "label": "16,42 t tilbage af 49,75"
+   }
+  },
+  {
+   "total": 49.75,
+   "remaining": 24.88,
+   "expected": {
+    "totalHours": 49.75,
+    "remainingHours": 24.88,
+    "usedHours": 24.87,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4998994974874372,
+    "note": "1 hul = 5 t",
+    "label": "24,88 t tilbage af 49,75"
+   }
+  },
+  {
+   "total": 49.75,
+   "remaining": 44.78,
+   "expected": {
+    "totalHours": 49.75,
+    "remainingHours": 44.78,
+    "usedHours": 4.969999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09989949748743716,
+    "note": "1 hul = 5 t",
+    "label": "44,78 t tilbage af 49,75"
+   }
+  },
+  {
+   "total": 49.75,
+   "remaining": 49.75,
+   "expected": {
+    "totalHours": 49.75,
+    "remainingHours": 49.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "49,75 t tilbage af 49,75"
+   }
+  },
+  {
+   "total": 51,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 51,
+    "remainingHours": 0,
+    "usedHours": 51,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 51"
+   }
+  },
+  {
+   "total": 51,
+   "remaining": 5.1,
+   "expected": {
+    "totalHours": 51,
+    "remainingHours": 5.1,
+    "usedHours": 45.9,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": "1 hul = 5 t",
+    "label": "5,1 t tilbage af 51"
+   }
+  },
+  {
+   "total": 51,
+   "remaining": 16.83,
+   "expected": {
+    "totalHours": 51,
+    "remainingHours": 16.83,
+    "usedHours": 34.17,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.67,
+    "note": "1 hul = 5 t",
+    "label": "16,83 t tilbage af 51"
+   }
+  },
+  {
+   "total": 51,
+   "remaining": 25.5,
+   "expected": {
+    "totalHours": 51,
+    "remainingHours": 25.5,
+    "usedHours": 25.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "25,5 t tilbage af 51"
+   }
+  },
+  {
+   "total": 51,
+   "remaining": 45.9,
+   "expected": {
+    "totalHours": 51,
+    "remainingHours": 45.9,
+    "usedHours": 5.100000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000003,
+    "note": "1 hul = 5 t",
+    "label": "45,9 t tilbage af 51"
+   }
+  },
+  {
+   "total": 51,
+   "remaining": 51,
+   "expected": {
+    "totalHours": 51,
+    "remainingHours": 51,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "51 t tilbage af 51"
+   }
+  },
+  {
+   "total": 52.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 52.25,
+    "remainingHours": 0,
+    "usedHours": 52.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 52,25"
+   }
+  },
+  {
+   "total": 52.25,
+   "remaining": 5.23,
+   "expected": {
+    "totalHours": 52.25,
+    "remainingHours": 5.23,
+    "usedHours": 47.019999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999043062200957,
+    "note": "1 hul = 5 t",
+    "label": "5,23 t tilbage af 52,25"
+   }
+  },
+  {
+   "total": 52.25,
+   "remaining": 17.24,
+   "expected": {
+    "totalHours": 52.25,
+    "remainingHours": 17.24,
+    "usedHours": 35.010000000000005,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6700478468899522,
+    "note": "1 hul = 5 t",
+    "label": "17,24 t tilbage af 52,25"
+   }
+  },
+  {
+   "total": 52.25,
+   "remaining": 26.13,
+   "expected": {
+    "totalHours": 52.25,
+    "remainingHours": 26.13,
+    "usedHours": 26.12,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49990430622009574,
+    "note": "1 hul = 5 t",
+    "label": "26,13 t tilbage af 52,25"
+   }
+  },
+  {
+   "total": 52.25,
+   "remaining": 47.03,
+   "expected": {
+    "totalHours": 52.25,
+    "remainingHours": 47.03,
+    "usedHours": 5.219999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09990430622009568,
+    "note": "1 hul = 5 t",
+    "label": "47,03 t tilbage af 52,25"
+   }
+  },
+  {
+   "total": 52.25,
+   "remaining": 52.25,
+   "expected": {
+    "totalHours": 52.25,
+    "remainingHours": 52.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "52,25 t tilbage af 52,25"
+   }
+  },
+  {
+   "total": 53.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 53.5,
+    "remainingHours": 0,
+    "usedHours": 53.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 53,5"
+   }
+  },
+  {
+   "total": 53.5,
+   "remaining": 5.35,
+   "expected": {
+    "totalHours": 53.5,
+    "remainingHours": 5.35,
+    "usedHours": 48.15,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": "1 hul = 5 t",
+    "label": "5,35 t tilbage af 53,5"
+   }
+  },
+  {
+   "total": 53.5,
+   "remaining": 17.66,
+   "expected": {
+    "totalHours": 53.5,
+    "remainingHours": 17.66,
+    "usedHours": 35.84,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699065420560748,
+    "note": "1 hul = 5 t",
+    "label": "17,66 t tilbage af 53,5"
+   }
+  },
+  {
+   "total": 53.5,
+   "remaining": 26.75,
+   "expected": {
+    "totalHours": 53.5,
+    "remainingHours": 26.75,
+    "usedHours": 26.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "26,75 t tilbage af 53,5"
+   }
+  },
+  {
+   "total": 53.5,
+   "remaining": 48.15,
+   "expected": {
+    "totalHours": 53.5,
+    "remainingHours": 48.15,
+    "usedHours": 5.350000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000003,
+    "note": "1 hul = 5 t",
+    "label": "48,15 t tilbage af 53,5"
+   }
+  },
+  {
+   "total": 53.5,
+   "remaining": 53.5,
+   "expected": {
+    "totalHours": 53.5,
+    "remainingHours": 53.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "53,5 t tilbage af 53,5"
+   }
+  },
+  {
+   "total": 54.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 54.75,
+    "remainingHours": 0,
+    "usedHours": 54.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 54,75"
+   }
+  },
+  {
+   "total": 54.75,
+   "remaining": 5.48,
+   "expected": {
+    "totalHours": 54.75,
+    "remainingHours": 5.48,
+    "usedHours": 49.269999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999086757990867,
+    "note": "1 hul = 5 t",
+    "label": "5,48 t tilbage af 54,75"
+   }
+  },
+  {
+   "total": 54.75,
+   "remaining": 18.07,
+   "expected": {
+    "totalHours": 54.75,
+    "remainingHours": 18.07,
+    "usedHours": 36.68,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699543378995434,
+    "note": "1 hul = 5 t",
+    "label": "18,07 t tilbage af 54,75"
+   }
+  },
+  {
+   "total": 54.75,
+   "remaining": 27.38,
+   "expected": {
+    "totalHours": 54.75,
+    "remainingHours": 27.38,
+    "usedHours": 27.37,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49990867579908677,
+    "note": "1 hul = 5 t",
+    "label": "27,38 t tilbage af 54,75"
+   }
+  },
+  {
+   "total": 54.75,
+   "remaining": 49.28,
+   "expected": {
+    "totalHours": 54.75,
+    "remainingHours": 49.28,
+    "usedHours": 5.469999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09990867579908674,
+    "note": "1 hul = 5 t",
+    "label": "49,28 t tilbage af 54,75"
+   }
+  },
+  {
+   "total": 54.75,
+   "remaining": 54.75,
+   "expected": {
+    "totalHours": 54.75,
+    "remainingHours": 54.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "54,75 t tilbage af 54,75"
+   }
+  },
+  {
+   "total": 56,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 56,
+    "remainingHours": 0,
+    "usedHours": 56,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 56"
+   }
+  },
+  {
+   "total": 56,
+   "remaining": 5.6,
+   "expected": {
+    "totalHours": 56,
+    "remainingHours": 5.6,
+    "usedHours": 50.4,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": "1 hul = 5 t",
+    "label": "5,6 t tilbage af 56"
+   }
+  },
+  {
+   "total": 56,
+   "remaining": 18.48,
+   "expected": {
+    "totalHours": 56,
+    "remainingHours": 18.48,
+    "usedHours": 37.519999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699999999999999,
+    "note": "1 hul = 5 t",
+    "label": "18,48 t tilbage af 56"
+   }
+  },
+  {
+   "total": 56,
+   "remaining": 28,
+   "expected": {
+    "totalHours": 56,
+    "remainingHours": 28,
+    "usedHours": 28,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "28 t tilbage af 56"
+   }
+  },
+  {
+   "total": 56,
+   "remaining": 50.4,
+   "expected": {
+    "totalHours": 56,
+    "remainingHours": 50.4,
+    "usedHours": 5.600000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000002,
+    "note": "1 hul = 5 t",
+    "label": "50,4 t tilbage af 56"
+   }
+  },
+  {
+   "total": 56,
+   "remaining": 56,
+   "expected": {
+    "totalHours": 56,
+    "remainingHours": 56,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "56 t tilbage af 56"
+   }
+  },
+  {
+   "total": 57.25,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 57.25,
+    "remainingHours": 0,
+    "usedHours": 57.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 57,25"
+   }
+  },
+  {
+   "total": 57.25,
+   "remaining": 5.73,
+   "expected": {
+    "totalHours": 57.25,
+    "remainingHours": 5.73,
+    "usedHours": 51.519999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999126637554584,
+    "note": "1 hul = 5 t",
+    "label": "5,73 t tilbage af 57,25"
+   }
+  },
+  {
+   "total": 57.25,
+   "remaining": 18.89,
+   "expected": {
+    "totalHours": 57.25,
+    "remainingHours": 18.89,
+    "usedHours": 38.36,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6700436681222708,
+    "note": "1 hul = 5 t",
+    "label": "18,89 t tilbage af 57,25"
+   }
+  },
+  {
+   "total": 57.25,
+   "remaining": 28.63,
+   "expected": {
+    "totalHours": 57.25,
+    "remainingHours": 28.63,
+    "usedHours": 28.62,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.4999126637554585,
+    "note": "1 hul = 5 t",
+    "label": "28,63 t tilbage af 57,25"
+   }
+  },
+  {
+   "total": 57.25,
+   "remaining": 51.53,
+   "expected": {
+    "totalHours": 57.25,
+    "remainingHours": 51.53,
+    "usedHours": 5.719999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.0999126637554585,
+    "note": "1 hul = 5 t",
+    "label": "51,53 t tilbage af 57,25"
+   }
+  },
+  {
+   "total": 57.25,
+   "remaining": 57.25,
+   "expected": {
+    "totalHours": 57.25,
+    "remainingHours": 57.25,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "57,25 t tilbage af 57,25"
+   }
+  },
+  {
+   "total": 58.5,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 58.5,
+    "remainingHours": 0,
+    "usedHours": 58.5,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 58,5"
+   }
+  },
+  {
+   "total": 58.5,
+   "remaining": 5.85,
+   "expected": {
+    "totalHours": 58.5,
+    "remainingHours": 5.85,
+    "usedHours": 52.65,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.9,
+    "note": "1 hul = 5 t",
+    "label": "5,85 t tilbage af 58,5"
+   }
+  },
+  {
+   "total": 58.5,
+   "remaining": 19.31,
+   "expected": {
+    "totalHours": 58.5,
+    "remainingHours": 19.31,
+    "usedHours": 39.19,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699145299145298,
+    "note": "1 hul = 5 t",
+    "label": "19,31 t tilbage af 58,5"
+   }
+  },
+  {
+   "total": 58.5,
+   "remaining": 29.25,
+   "expected": {
+    "totalHours": 58.5,
+    "remainingHours": 29.25,
+    "usedHours": 29.25,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.5,
+    "note": "1 hul = 5 t",
+    "label": "29,25 t tilbage af 58,5"
+   }
+  },
+  {
+   "total": 58.5,
+   "remaining": 52.65,
+   "expected": {
+    "totalHours": 58.5,
+    "remainingHours": 52.65,
+    "usedHours": 5.850000000000001,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.10000000000000002,
+    "note": "1 hul = 5 t",
+    "label": "52,65 t tilbage af 58,5"
+   }
+  },
+  {
+   "total": 58.5,
+   "remaining": 58.5,
+   "expected": {
+    "totalHours": 58.5,
+    "remainingHours": 58.5,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "58,5 t tilbage af 58,5"
+   }
+  },
+  {
+   "total": 59.75,
+   "remaining": 0,
+   "expected": {
+    "totalHours": 59.75,
+    "remainingHours": 0,
+    "usedHours": 59.75,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt"],
+    "useBar": false,
+    "usedFraction": 1,
+    "note": "1 hul = 5 t",
+    "label": "0 t tilbage af 59,75"
+   }
+  },
+  {
+   "total": 59.75,
+   "remaining": 5.98,
+   "expected": {
+    "totalHours": 59.75,
+    "remainingHours": 5.98,
+    "usedHours": 53.769999999999996,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom"],
+    "useBar": false,
+    "usedFraction": 0.8999163179916317,
+    "note": "1 hul = 5 t",
+    "label": "5,98 t tilbage af 59,75"
+   }
+  },
+  {
+   "total": 59.75,
+   "remaining": 19.72,
+   "expected": {
+    "totalHours": 59.75,
+    "remainingHours": 19.72,
+    "usedHours": 40.03,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.6699581589958159,
+    "note": "1 hul = 5 t",
+    "label": "19,72 t tilbage af 59,75"
+   }
+  },
+  {
+   "total": 59.75,
+   "remaining": 29.88,
+   "expected": {
+    "totalHours": 59.75,
+    "remainingHours": 29.88,
+    "usedHours": 29.87,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "brugt", "brugt", "brugt", "brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.49991631799163183,
+    "note": "1 hul = 5 t",
+    "label": "29,88 t tilbage af 59,75"
+   }
+  },
+  {
+   "total": 59.75,
+   "remaining": 53.78,
+   "expected": {
+    "totalHours": 59.75,
+    "remainingHours": 53.78,
+    "usedHours": 5.969999999999999,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["brugt", "halv", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0.09991631799163178,
+    "note": "1 hul = 5 t",
+    "label": "53,78 t tilbage af 59,75"
+   }
+  },
+  {
+   "total": 59.75,
+   "remaining": 59.75,
+   "expected": {
+    "totalHours": 59.75,
+    "remainingHours": 59.75,
+    "usedHours": 0,
+    "overdraftHours": 0,
+    "hoursPerHole": 5,
+    "holes": ["tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom", "tom"],
+    "useBar": false,
+    "usedFraction": 0,
+    "note": "1 hul = 5 t",
+    "label": "59,75 t tilbage af 59,75"
+   }
+  }
+ ],
+ "nan_total_4": {
+  "totalHours": 0,
+  "remainingHours": 0,
+  "usedHours": 0,
+  "overdraftHours": 0,
+  "hoursPerHole": 1,
+  "holes": [],
+  "useBar": false,
+  "usedFraction": 0,
+  "note": null,
+  "label": "0 t tilbage af 0"
+ },
+ "formatTimer": [
+  [0, "0"],
+  [0.5, "0,5"],
+  [1, "1"],
+  [1.005, "1,01"],
+  [1.25, "1,25"],
+  [2.25, "2,25"],
+  [2.675, "2,68"],
+  [7.5, "7,5"],
+  [8, "8"],
+  [13.8, "13,8"],
+  [13.8333, "13,83"],
+  [13.835, "13,84"],
+  [20, "20"],
+  [0.125, "0,13"],
+  [0.135, "0,14"],
+  [1.115, "1,12"],
+  [1234.5, "1.234,5"],
+  [1250, "1.250"],
+  [712.5, "712,5"],
+  [1000000.255, "1.000.000,26"],
+  [99.995, "100"],
+  [0.004, "0"],
+  [0.005, "0,01"],
+  [25.75, "25,75"],
+  [0.30000000000000004, "0,3"],
+  [-2, "-2"],
+  [-1234.567, "-1.234,57"]
+ ],
+ "formatHoursShort": [
+  [0, "0 t"],
+  [0.5, "30 min"],
+  [1, "1 t"],
+  [1.005, "1,01 t"],
+  [1.25, "1,25 t"],
+  [2.25, "2,25 t"],
+  [2.675, "2,68 t"],
+  [7.5, "7,5 t"],
+  [8, "8 t"],
+  [13.8, "13,8 t"],
+  [13.8333, "13,83 t"],
+  [13.835, "13,84 t"],
+  [20, "20 t"],
+  [0.125, "8 min"],
+  [0.135, "8 min"],
+  [1.115, "1,12 t"],
+  [1234.5, "1.234,5 t"],
+  [1250, "1.250 t"],
+  [712.5, "712,5 t"],
+  [1000000.255, "1.000.000,26 t"],
+  [99.995, "100 t"],
+  [0.004, "0 min"],
+  [0.005, "0 min"],
+  [25.75, "25,75 t"],
+  [0.30000000000000004, "18 min"],
+  [-2, "0 t"],
+  [-1234.567, "0 t"],
+  [0.75, "45 min"],
+  [0.999, "60 min"],
+  [0.0083, "0 min"],
+  [0.25, "15 min"],
+  [0.5083, "30 min"],
+  [0.3333333333333333, "20 min"],
+  [0.6666666666666666, "40 min"],
+  [0.99, "59 min"],
+  [0.9916666666666667, "60 min"],
+  [-1, "0 t"],
+  [0, "0 t"],
+  [0.016666666666666666, "1 min"],
+  [0.03333333333333333, "2 min"],
+  [0.05, "3 min"],
+  [0.06666666666666667, "4 min"],
+  [0.08333333333333333, "5 min"],
+  [0.1, "6 min"],
+  [0.11666666666666667, "7 min"],
+  [0.13333333333333333, "8 min"],
+  [0.15, "9 min"],
+  [0.16666666666666666, "10 min"],
+  [0.18333333333333332, "11 min"],
+  [0.2, "12 min"],
+  [0.21666666666666667, "13 min"],
+  [0.23333333333333334, "14 min"],
+  [0.25, "15 min"],
+  [0.26666666666666666, "16 min"],
+  [0.2833333333333333, "17 min"],
+  [0.3, "18 min"],
+  [0.31666666666666665, "19 min"],
+  [0.3333333333333333, "20 min"],
+  [0.35, "21 min"],
+  [0.36666666666666664, "22 min"],
+  [0.38333333333333336, "23 min"],
+  [0.4, "24 min"],
+  [0.4166666666666667, "25 min"],
+  [0.43333333333333335, "26 min"],
+  [0.45, "27 min"],
+  [0.4666666666666667, "28 min"],
+  [0.48333333333333334, "29 min"],
+  [0.5, "30 min"],
+  [0.5166666666666667, "31 min"],
+  [0.5333333333333333, "32 min"],
+  [0.55, "33 min"],
+  [0.5666666666666667, "34 min"],
+  [0.5833333333333334, "35 min"],
+  [0.6, "36 min"],
+  [0.6166666666666667, "37 min"],
+  [0.6333333333333333, "38 min"],
+  [0.65, "39 min"],
+  [0.6666666666666666, "40 min"],
+  [0.6833333333333333, "41 min"],
+  [0.7, "42 min"],
+  [0.7166666666666667, "43 min"],
+  [0.7333333333333333, "44 min"],
+  [0.75, "45 min"],
+  [0.7666666666666667, "46 min"],
+  [0.7833333333333333, "47 min"],
+  [0.8, "48 min"],
+  [0.8166666666666667, "49 min"],
+  [0.8333333333333334, "50 min"],
+  [0.85, "51 min"],
+  [0.8666666666666667, "52 min"],
+  [0.8833333333333333, "53 min"],
+  [0.9, "54 min"],
+  [0.9166666666666666, "55 min"],
+  [0.9333333333333333, "56 min"],
+  [0.95, "57 min"],
+  [0.9666666666666667, "58 min"],
+  [0.9833333333333333, "59 min"],
+  [1, "1 t"],
+  [1.0166666666666666, "1,02 t"],
+  [1.0333333333333334, "1,03 t"],
+  [1.05, "1,05 t"],
+  [1.0666666666666667, "1,07 t"],
+  [1.0833333333333333, "1,08 t"],
+  [1.1, "1,1 t"],
+  [1.1166666666666667, "1,12 t"],
+  [1.1333333333333333, "1,13 t"],
+  [1.15, "1,15 t"],
+  [1.1666666666666667, "1,17 t"],
+  [1.1833333333333333, "1,18 t"],
+  [1.2, "1,2 t"],
+  [1.2166666666666666, "1,22 t"],
+  [1.2333333333333334, "1,23 t"],
+  [1.25, "1,25 t"],
+  [1.2666666666666666, "1,27 t"],
+  [1.2833333333333334, "1,28 t"],
+  [1.3, "1,3 t"],
+  [1.3166666666666667, "1,32 t"],
+  [1.3333333333333333, "1,33 t"],
+  [1.35, "1,35 t"],
+  [1.3666666666666667, "1,37 t"],
+  [1.3833333333333333, "1,38 t"],
+  [1.4, "1,4 t"],
+  [1.4166666666666667, "1,42 t"],
+  [1.4333333333333333, "1,43 t"],
+  [1.45, "1,45 t"],
+  [1.4666666666666666, "1,47 t"],
+  [1.4833333333333334, "1,48 t"],
+  [1.5, "1,5 t"],
+  [1.5166666666666666, "1,52 t"],
+  [1.5333333333333334, "1,53 t"],
+  [1.55, "1,55 t"],
+  [1.5666666666666667, "1,57 t"],
+  [1.5833333333333333, "1,58 t"],
+  [1.6, "1,6 t"],
+  [1.6166666666666667, "1,62 t"],
+  [1.6333333333333333, "1,63 t"],
+  [1.65, "1,65 t"],
+  [1.6666666666666667, "1,67 t"],
+  [1.6833333333333333, "1,68 t"],
+  [1.7, "1,7 t"],
+  [1.7166666666666666, "1,72 t"],
+  [1.7333333333333334, "1,73 t"],
+  [1.75, "1,75 t"],
+  [1.7666666666666666, "1,77 t"],
+  [1.7833333333333334, "1,78 t"],
+  [1.8, "1,8 t"],
+  [1.8166666666666667, "1,82 t"],
+  [1.8333333333333333, "1,83 t"],
+  [1.85, "1,85 t"],
+  [1.8666666666666667, "1,87 t"],
+  [1.8833333333333333, "1,88 t"],
+  [1.9, "1,9 t"],
+  [1.9166666666666667, "1,92 t"],
+  [1.9333333333333333, "1,93 t"],
+  [1.95, "1,95 t"],
+  [1.9666666666666666, "1,97 t"],
+  [1.9833333333333334, "1,98 t"],
+  [2, "2 t"],
+  [2.0166666666666666, "2,02 t"],
+  [2.033333333333333, "2,03 t"],
+  [2.05, "2,05 t"],
+  [2.066666666666667, "2,07 t"],
+  [2.0833333333333335, "2,08 t"],
+  [2.1, "2,1 t"],
+  [2.1166666666666667, "2,12 t"],
+  [2.1333333333333333, "2,13 t"],
+  [2.15, "2,15 t"],
+  [2.1666666666666665, "2,17 t"],
+  [2.183333333333333, "2,18 t"],
+  [2.2, "2,2 t"],
+  [2.216666666666667, "2,22 t"],
+  [2.2333333333333334, "2,23 t"],
+  [2.25, "2,25 t"],
+  [2.2666666666666666, "2,27 t"],
+  [2.283333333333333, "2,28 t"],
+  [2.3, "2,3 t"],
+  [2.316666666666667, "2,32 t"],
+  [2.3333333333333335, "2,33 t"],
+  [2.35, "2,35 t"],
+  [2.3666666666666667, "2,37 t"],
+  [2.3833333333333333, "2,38 t"],
+  [2.4, "2,4 t"],
+  [2.4166666666666665, "2,42 t"],
+  [2.433333333333333, "2,43 t"],
+  [2.45, "2,45 t"],
+  [2.466666666666667, "2,47 t"],
+  [2.4833333333333334, "2,48 t"],
+  [2.5, "2,5 t"],
+  [2.5166666666666666, "2,52 t"],
+  [2.533333333333333, "2,53 t"],
+  [2.55, "2,55 t"],
+  [2.566666666666667, "2,57 t"],
+  [2.5833333333333335, "2,58 t"],
+  [2.6, "2,6 t"],
+  [2.6166666666666667, "2,62 t"],
+  [2.6333333333333333, "2,63 t"],
+  [2.65, "2,65 t"],
+  [2.6666666666666665, "2,67 t"],
+  [2.683333333333333, "2,68 t"],
+  [2.7, "2,7 t"],
+  [2.716666666666667, "2,72 t"],
+  [2.7333333333333334, "2,73 t"],
+  [2.75, "2,75 t"],
+  [2.7666666666666666, "2,77 t"],
+  [2.783333333333333, "2,78 t"],
+  [2.8, "2,8 t"],
+  [2.816666666666667, "2,82 t"],
+  [2.8333333333333335, "2,83 t"],
+  [2.85, "2,85 t"],
+  [2.8666666666666667, "2,87 t"],
+  [2.8833333333333333, "2,88 t"],
+  [2.9, "2,9 t"],
+  [2.9166666666666665, "2,92 t"],
+  [2.933333333333333, "2,93 t"],
+  [2.95, "2,95 t"],
+  [2.966666666666667, "2,97 t"],
+  [2.9833333333333334, "2,98 t"],
+  [3, "3 t"]
+ ],
+ "formatHourlyRate": [
+  [850, "850 kr./t"],
+  [1250, "1.250 kr./t"],
+  [712.5, "712,5 kr./t"],
+  [0, "0 kr./t"],
+  [99.999, "100 kr./t"],
+  [1234567.891, "1.234.567,89 kr./t"],
+  [600.005, "600,01 kr./t"]
+ ]
+}

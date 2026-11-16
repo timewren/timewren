@@ -1,0 +1,62 @@
+---
+title: "Railway"
+description: "Deploy TimeWren på Railway med en webservice, PostgreSQL, et lagervolume og en separat scheduler-service."
+---
+
+Vælg denne metode, hvis du vil have administreret hosting på Railway. Opsætningen har tre dele: webservicen, en PostgreSQL-database og en scheduler-service. Begge services henter det udgivne image og bygger aldrig appen.
+
+> **Bemærk:** Der er endnu ikke udgivet en Railway-skabelon med ét klik, der indeholder alle services. Railways config-as-code beskriver én service, ikke et helt projekt, så du tilføjer selv databasen, volumet og scheduleren som beskrevet nedenfor.
+
+## Krav
+
+- En Railway-konto og et projekt.
+- Repositoryet `timewren/timewren`, der indeholder `railway.json` og `deploy/railway/`.
+
+## Opsætning
+
+1. Tilføj PostgreSQL til projektet. Deploy derefter webservicen fra GitHub-repositoryet `timewren/timewren` med `/railway.json` som config-sti. Mount et volume på `/app/data/storage`, og hold dig til én replika.
+
+2. Sæt disse variabler på webservicen. Railway-referencer som `${{Postgres.DATABASE_URL}}` skrives bogstaveligt, og navnet skal passe med din databaseservice:
+
+   | Variabel | Værdi |
+   | -------- | ----- |
+   | `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` |
+   | `BETTER_AUTH_SECRET` | en uafhængig tilfældig hemmelighed |
+   | `ENCRYPTION_KEY` | output fra `openssl rand -hex 32` |
+   | `CRON_SECRET` | en uafhængig tilfældig hemmelighed |
+   | `NEXT_PUBLIC_APP_URL` | offentlig HTTPS-URL, uden skråstreg til sidst |
+   | `NEXT_PUBLIC_BRAND` | `timewren` |
+   | `MIGRATE_ON_START` | `1` |
+   | `STORAGE_DRIVER` | `local` |
+   | `STORAGE_LOCAL_PATH` | `/app/data/storage` |
+   | `REQUIRE_EMAIL_VERIFICATION` | `false`, indtil mail er konfigureret |
+   | `HOSTNAME` | `0.0.0.0` |
+   | `PORT` | `3000` |
+
+3. Generér et offentligt domæne til webservicen, sæt `NEXT_PUBLIC_APP_URL` til den HTTPS-URL, og deploy igen. Tilføj valgfrie variabler til mail og integrationer fra `.env.example`, når du får brug for dem.
+
+4. Tilføj en ny service fra samme repository. Vælg `/deploy/railway/cron.json` som config-sti, og sæt:
+
+   | Variabel | Værdi |
+   | -------- | ----- |
+   | `CRON_SECRET` | `${{TimeWren.CRON_SECRET}}` |
+   | `APP_URL` | `http://${{TimeWren.RAILWAY_PRIVATE_DOMAIN}}:3000` |
+
+   Erstat `TimeWren` med det faktiske navn på din webservice. Hold dig til én scheduler-replika, uden offentligt domæne, uden volume og uden serverless-dvale.
+
+Spring ikke scheduleren over: eksporter, importer, synkroniseringer og påmindelser har brug for den. Den kører `node scripts/cron.mjs`, har aldrig brug for databaseloginoplysninger, og migreringer kører kun i webservicen ved opstart.
+
+## Sådan virker konfigurationen
+
+`railway.json` peger begge services på `deploy/railway/Dockerfile`, der kun indeholder `FROM ghcr.io/timewren/timewren:latest`. Vil du låse en udgivelse fast, så ret tagget i den Dockerfile. Webservicen bruger `/api/health` som health check og kræver mount-stien `/app/data/storage`. Valkey er valgfri og ikke nødvendig ved én app-replika.
+
+## Opret din konto først
+
+Den første registrerede konto bliver administrator. Sæt `ADMIN_EMAIL` og en mailtransport, før du gør servicen tilgængelig, hvis du vil reservere den konto. Tag backup af databasen, lagervolumet og `ENCRYPTION_KEY`.
+
+## Næste skridt
+
+- [Kom godt i gang](/da/docs/quickstart)
+- [Miljøvariabler](/da/docs/configuration/environment)
+- [E-mail](/da/docs/configuration/email)
+- [Opgradering](/da/docs/operations/upgrading) og [Backup og gendannelse](/da/docs/operations/backup-restore)

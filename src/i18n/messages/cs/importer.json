@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Import dokončen: {count, plural, one {naimportován # záznam času} few {naimportovány # záznamy času} many {naimportováno # záznamu času} other {naimportováno # záznamů času}}",
+    "doneWithErrorsToast": "Import dokončen s chybami: {imported} naimportováno, {failed} se nepovedlo",
+    "failedToast": "Import se nepovedl. Podrobnosti najdeš v nastavení",
+    "running": "Import běží: {pct} % ({imported}/{total})",
+    "details": "Zobrazit podrobnosti",
+    "done": "Import dokončen: {count, plural, one {naimportován # záznam času} few {naimportovány # záznamy času} many {naimportováno # záznamu času} other {naimportováno # záznamů času}}",
+    "doneWithFailed": "Import dokončen: {count, plural, one {naimportován # záznam času} few {naimportovány # záznamy času} many {naimportováno # záznamu času} other {naimportováno # záznamů času}}, {failed} se nepovedlo",
+    "dismiss": "Zavřít"
+  },
+  "page": {
+    "pickDateFormat": "Pro pokračování vyber formát data.",
+    "success": "Import proběhl úspěšně!",
+    "failed": "Import se nepovedl. Zkus to znovu.",
+    "backToOnboarding": "← Zpět na úvodní nastavení",
+    "backToIntegrations": "← Zpět na integrace",
+    "onboardingMode": "Režim úvodního nastavení je zapnutý",
+    "onboardingNote": "Po úspěšném importu automaticky pokračuješ v úvodním nastavení.",
+    "uploadFile": "Nahrát soubor",
+    "chooseFile": "Vybrat soubor",
+    "noFile": "Nevybrán žádný soubor",
+    "dateFormat": "Formát data",
+    "chooseFormat": "Vyber formát…",
+    "dateFormatHint": "V datech CSV zjistíš, jaký formát data se používá.",
+    "billingFilter": "Filtr fakturace",
+    "filter": {
+      "all": "Importovat vše",
+      "unbilled": "Pouze nevyfakturované",
+      "billed": "Pouze vyfakturované"
+    },
+    "billingFilterHint": "Filtruje záznamy podle stavu fakturace ve zdroji.",
+    "markAllBilled": "Označit všechny importované záznamy jako vyfakturované",
+    "markAllBilledHint": "Použij, pokud ze zdroje exportuješ jen záznamy, které už byly vyfakturovány.",
+    "result": {
+      "clients": "{count, plural, one {vytvořen # klient} few {vytvořeni # klienti} many {vytvořeno # klienta} other {vytvořeno # klientů}}",
+      "projects": "{count, plural, one {vytvořen # projekt} few {vytvořeny # projekty} many {vytvořeno # projektu} other {vytvořeno # projektů}}",
+      "timeEntries": "{count, plural, one {naimportován # záznam času} few {naimportovány # záznamy času} many {naimportováno # záznamu času} other {naimportováno # záznamů času}}",
+      "billedSplit": "({billed} vyfakturováno, {unbilled} nevyfakturováno)",
+      "skippedRows": "{count, plural, one {přeskočen # řádek} few {přeskočeny # řádky} many {přeskočeno # řádku} other {přeskočeno # řádků}}",
+      "filteredRows": "{count, plural, one {vyfiltrován # řádek (filtr fakturace)} few {vyfiltrovány # řádky (filtr fakturace)} many {vyfiltrováno # řádku (filtr fakturace)} other {vyfiltrováno # řádků (filtr fakturace)}}",
+      "totalHours": "Celkem naimportováno hodin: {hours}",
+      "tasks": "{count, plural, one {naimportován # úkol} few {naimportovány # úkoly} many {naimportováno # úkolu} other {naimportováno # úkolů}}",
+      "subtasks": "{count, plural, one {naimportován # podúkol} few {naimportovány # podúkoly} many {naimportováno # podúkolu} other {naimportováno # podúkolů}}",
+      "tasksSkipped": "{count, plural, one {přeskočen # úkol} few {přeskočeny # úkoly} many {přeskočeno # úkolu} other {přeskočeno # úkolů}}"
+    },
+    "importing": "Importuje se…",
+    "start": "Spustit import",
+    "mayTakeAWhile": "Podle množství dat to může trvat několik minut…",
+    "warnTitle": "Dobré vědět:",
+    "warn1": "Import nejde vrátit zpět",
+    "warn2": "Stávající data se nepřepisují",
+    "warn3": "Duplicity přeskakujeme"
+  }
+}

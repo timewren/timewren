@@ -1,0 +1,121 @@
+---
+title: "Fehlerbehebung"
+description: "Behebe häufige Probleme einer selbst gehosteten TimeWren-Instanz: Start, Anmeldung, Mail, Uploads, Cron-Jobs und Migrationen."
+---
+
+Beginne mit dem Status der Container und dem App-Log:
+
+```bash
+docker compose ps
+docker compose logs -f app
+```
+
+## Health-Endpunkt
+
+```bash
+curl -i http://127.0.0.1:3000/api/health
+```
+
+Der Endpunkt liefert HTTP 200, wenn alles in Ordnung ist, und 503, wenn eine Prüfung fehlschlägt:
+
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-01-01T12:00:00.000Z",
+  "service": "timetrack",
+  "checks": {
+    "database": { "status": "ok" },
+    "auth": { "status": "ok" },
+    "signing_secret": { "status": "ok" },
+    "realtime": { "status": "disabled" }
+  }
+}
+```
+
+`status` ist `healthy` oder `unhealthy`. Die Prüfungen `database`, `auth` und `signing_secret` sind `ok` oder `error`, und jedes `error` führt zur Antwort 503. Die Prüfung `realtime` kann außerdem `degraded` sein, was die Health-Prüfung nie fehlschlagen lässt. Das Feld `service` lautet aus historischen Gründen `timetrack`. Eine gesunde Antwort beweist nicht, dass die letzte Migration erfolgreich war; das siehst du im Log.
+
+Der Container `app` zeigt `starting`, bis er gesund ist. Der erste Start kann ein bis zwei Minuten dauern, weil die Migrationen laufen, bevor der Server lauscht (die Health-Prüfung erlaubt 180 Sekunden).
+
+## docker compose up meldet eine fehlende Variable
+
+Die Meldung nennt sie, zum Beispiel `Set POSTGRES_PASSWORD in .env`. Trage sie in `.env` ein und führe den Befehl erneut aus. `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` und `CRON_SECRET` sind erforderlich.
+
+## Anmeldung oder Registrierung scheitert mit 403 oder "invalid origin"
+
+Die URL im Browser weicht von `NEXT_PUBLIC_APP_URL` ab. Korrigiere den Wert in `.env` und führe `docker compose up -d` aus, oder füge den zusätzlichen Hostnamen zu `TRUSTED_ORIGINS` hinzu. Siehe [Reverse Proxy und TLS](/de/docs/operations/reverse-proxy).
+
+## Links in der App oder in Mails zeigen auf localhost
+
+`NEXT_PUBLIC_APP_URL` ist nicht gesetzt und fällt daher auf `http://localhost:3000` zurück. Setze sie in `.env` und führe `docker compose up -d` aus.
+
+## Der Build wird beendet oder hängt
+
+Das Bauen des Images erfordert in der Spitze etwa 5 GB RAM. Das vorgebaute Image vermeidet das. Wenn du selbst bauen musst, füge Swap hinzu oder nutze einen größeren Rechner:
+
+```bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+```
+
+## Mails kommen nicht an
+
+Suche im Log nach Mail-Zeilen:
+
+```bash
+docker compose logs app | grep "\[Mail"
+```
+
+`[Mail:log]` bedeutet, dass kein Transport konfiguriert ist und nichts gesendet wurde. Auf `[Mail] SMTP-afsendelse fejlede` folgt der SMTP-Fehler. Siehe [E-Mail](/de/docs/configuration/email).
+
+## Gespeicherte Integrationen funktionieren nicht mehr
+
+`ENCRYPTION_KEY` hat sich geändert, deshalb lassen sich die gespeicherten Tokens nicht entschlüsseln. Setze den alten Wert aus deiner Sicherung wieder ein und führe `docker compose up -d` aus. Ohne den alten Schlüssel verbindest du die Integrationen neu.
+
+## Uploads scheitern mit einem Berechtigungsfehler
+
+Das Volume `storage` muss für uid 1001 beschreibbar sein:
+
+```bash
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+```
+
+Uploads scheitern auch, wenn weder der lokale Treiber noch `S3_ENDPOINT` konfiguriert ist. Siehe [Dateispeicher](/de/docs/configuration/storage).
+
+## Geplante Jobs laufen nicht
+
+Der Container `cron` ruft die Endpunkte `/api/cron/*` der App auf:
+
+```bash
+docker compose logs cron
+```
+
+Ein fehlgeschlagener Aufruf zeigt nur den curl-Exit-Status 22, der für einen HTTP-Fehler wie 401, 404 oder 500 steht. Prüfe zuerst, ob `CRON_SECRET` für `app` und `cron` identisch ist, und erstelle dann beide neu:
+
+```bash
+docker compose up -d --force-recreate app cron
+```
+
+## Eine Migration ist fehlgeschlagen
+
+Das Log zeigt `Migration failed:` mit dem Fehler. Die App läuft weiter auf dem alten Schema. Behebe die Ursache (oft Speicherplatz) und starte neu:
+
+```bash
+docker compose restart app
+```
+
+Zu Wiederherstellung und Rollback siehe [Aktualisieren](/de/docs/operations/upgrading).
+
+## Von vorn beginnen
+
+> **Warnung:** `docker compose down -v` löscht die Datenbank und alle Uploads. Tu das nur auf einer Wegwerf-Instanz.
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
+## Eine KI um Hilfe bitten
+
+Die Dokumentation ist als reiner Text für Sprachmodelle verfügbar. Füge eine Seite oder alle zusammen mit deiner Log-Ausgabe (ohne Secrets) in deinen Assistenten ein und bitte ihn, das Problem zu diagnostizieren. Die URLs findest du unter [Dokumentation für LLMs](/de/docs/llm).

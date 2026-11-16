@@ -1,0 +1,46 @@
+{
+  "title": "Activity log",
+  "count": "{count, plural, one {# activity} other {# activities}}",
+  "empty": "No activity yet",
+  "yes": "Yes",
+  "no": "No",
+  "line": "<e>{entity}</e> <n>\"{name}\"</n> <a>{action}</a>",
+  "lineNoName": "<e>{entity}</e> <a>{action}</a>",
+  "entity": {
+    "client": "Client",
+    "project": "Project",
+    "time_entry": "Time entry",
+    "invoice": "Invoice",
+    "prepaid_package": "Prepaid package",
+    "settings": "Settings"
+  },
+  "action": {
+    "m": {
+      "create": "created",
+      "update": "updated",
+      "delete": "deleted",
+      "archive": "archived",
+      "restore": "restored",
+      "complete": "completed",
+      "send": "sent"
+    },
+    "f": {
+      "create": "created",
+      "update": "updated",
+      "delete": "deleted",
+      "archive": "archived",
+      "restore": "restored",
+      "complete": "completed",
+      "send": "sent"
+    },
+    "p": {
+      "create": "created",
+      "update": "updated",
+      "delete": "deleted",
+      "archive": "archived",
+      "restore": "restored",
+      "complete": "completed",
+      "send": "sent"
+    }
+  }
+}

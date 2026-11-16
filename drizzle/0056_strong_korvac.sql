@@ -1,0 +1,3 @@
+ALTER TABLE "invoices" DROP CONSTRAINT IF EXISTS "invoices_user_invoice_number_unique";--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "invoices_org_invoice_number_unique" ON "invoices" USING btree ("organization_id","invoice_number") WHERE organization_id IS NOT NULL;--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "invoices_user_invoice_number_unique" ON "invoices" USING btree ("user_id","invoice_number") WHERE organization_id IS NULL;

@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Vous n'êtes membre d'aucune organisation. Demandez une nouvelle invitation ou contactez le support.",
+  "freeMemberLocked": "L'organisation est sur l'offre Free, qui accepte {seats} utilisateurs. Vos données sont conservées. Demandez au propriétaire de passer à une offre supérieure pour retrouver l'accès.",
+  "report": {
+    "hoursSuffix": " h",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "L'offre Gratis accepte {clients} clients actifs. Archivez un client ou passez à une offre supérieure.",
+  "freeSeatLimit": "L'offre Gratis accepte {seats} utilisateurs, invitations en attente comprises. Passez à une offre supérieure sous Paramètres → Abonnement pour en inviter davantage.",
+  "ownerMustTransfer": "Vous êtes propriétaire d'une équipe comptant d'autres membres. Transférez la propriété à un autre membre sous Organisation avant de supprimer votre compte.",
+  "holidays": {
+    "newYearsDay": "Jour de l'An",
+    "maundyThursday": "Jeudi saint",
+    "goodFriday": "Vendredi saint",
+    "easterSunday": "Dimanche de Pâques",
+    "easterMonday": "Lundi de Pâques",
+    "ascensionDay": "Ascension",
+    "whitSunday": "Dimanche de Pentecôte",
+    "whitMonday": "Lundi de Pentecôte",
+    "christmasDay": "Noël",
+    "boxingDay": "Lendemain de Noël",
+    "greatPrayerDay": "Grand jour de prière",
+    "may1": "1er mai",
+    "constitutionDay": "Fête de la Constitution",
+    "dayAfterAscension": "Vendredi après l'Ascension",
+    "christmasEve": "Veille de Noël",
+    "newYearsEve": "Saint-Sylvestre",
+    "dayOff": "Jour de repos"
+  },
+  "speech": {
+    "language": "français",
+    "micBlocked": "Le microphone est bloqué. Autorisez le navigateur à utiliser le microphone et réessayez.",
+    "noMic": "Aucun microphone trouvé.",
+    "langUnsupported": "La reconnaissance vocale en {language} n'est pas disponible en local dans ce navigateur.",
+    "stopped": "La reconnaissance vocale s'est arrêtée de façon inattendue. Réessayez ou saisissez le texte.",
+    "downloadFailed": "Impossible de télécharger la reconnaissance vocale en {language} dans ce navigateur.",
+    "ready": "La reconnaissance vocale en {language} est prête. Touchez le microphone.",
+    "cantStart": "Impossible de démarrer la reconnaissance vocale. Réessayez."
+  },
+  "offlineSync": {
+    "fullOverlap": "Un autre appareil avait déjà un chronomètre en cours pendant que vous étiez hors ligne. Votre temps hors ligne le chevauchait entièrement et n'a pas été enregistré.",
+    "partialOverlap": "Un autre appareil a démarré un chronomètre pendant que vous étiez hors ligne. Votre temps hors ligne est enregistré jusqu'à ce moment.",
+    "clippedSaved": "Un autre appareil a démarré un chronomètre pendant que vous étiez hors ligne. Votre temps hors ligne de {from} à {to} est enregistré comme saisie de temps, et l'autre chronomètre continue.",
+    "resetOffline": "Un autre appareil avait déjà un chronomètre en cours quand vous avez démarré hors ligne à {from}. Votre chronomètre hors ligne a été réinitialisé et l'autre continue.",
+    "stoppedElsewhere": "Le chronomètre a été arrêté sur un autre appareil pendant que vous étiez hors ligne. Le temps y est enregistré et n'a pas été enregistré une seconde fois.",
+    "syncFailed": "Une modification hors ligne n'a pas pu être synchronisée : {error}",
+    "defaultDescription": "Suivi du temps"
+  },
+  "unknownError": "Erreur inconnue",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Enregistrement impossible",
+      "retry": "Réessayer"
+    },
+    "push": {
+      "unsupported": "Les notifications push ne sont pas prises en charge par ce navigateur",
+      "denied": "L'autorisation des notifications a été refusée",
+      "enabled": "Notifications push activées",
+      "enabledDesc": "Vous recevrez désormais des notifications",
+      "enableFailed": "Impossible d'activer les notifications",
+      "disabled": "Notifications push désactivées",
+      "disableFailed": "Impossible de désactiver les notifications"
+    },
+    "periodic": {
+      "unsupported": "La synchronisation périodique n'est pas prise en charge",
+      "enabled": "Rapports automatiques activés",
+      "enabledDesc": "Vous recevrez des rapports hebdomadaires",
+      "enableFailed": "Impossible d'activer les rapports automatiques",
+      "disabled": "Rapports automatiques désactivés",
+      "disableFailed": "Impossible de désactiver les rapports automatiques"
+    },
+    "taskUndo": {
+      "restored": "Tâche restaurée",
+      "restoreFailed": "Impossible de restaurer la tâche",
+      "deleted": "Tâche supprimée",
+      "undo": "Annuler"
+    },
+    "timerSync": {
+      "otherProject": "un autre projet",
+      "runningPaused": "Un chronomètre est déjà en cours sur {name}. Arrêtez-le d'abord. Votre temps en pause est conservé.",
+      "running": "Un chronomètre est déjà en cours sur {name}. Arrêtez-le d'abord.",
+      "alreadyStopped": "Le chronomètre avait déjà été arrêté et enregistré sur un autre appareil. Il n'a pas été redémarré."
+    },
+    "timerKeys": {
+      "started": "Chronomètre démarré",
+      "pressToPause": "Appuyez à nouveau sur T pour mettre en pause",
+      "paused": "Chronomètre en pause",
+      "pressToResume": "{time} : appuyez sur T pour reprendre",
+      "resumed": "Chronomètre repris",
+      "cancelled": "Chronomètre annulé"
+    },
+    "wakeLock": {
+      "unsupported": "Le maintien de l'écran allumé n'est pas pris en charge par ce navigateur",
+      "active": "L'écran reste allumé",
+      "activeDesc": "Votre écran ne s'éteindra pas pendant le suivi du temps",
+      "released": "L'écran peut de nouveau s'éteindre",
+      "failed": "Impossible de maintenir l'écran allumé"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Votre abonnement est géré sur votre compte.",
+    "otherAccount": "L'achat est lié à un autre compte TimeTrack.",
+    "ownerOnly": "Seul le propriétaire de l'organisation peut acheter un abonnement.",
+    "multiMember": "Privat et Selvstændig sont destinés à un seul utilisateur. Votre organisation compte plusieurs utilisateurs, l'abonnement est donc géré sur votre compte.",
+    "otherOrganization": "Votre abonnement appartient à une autre organisation. Passez à cette organisation pour le voir.",
+    "alreadySubscribed": "Vous avez déjà un abonnement via {store}.",
+    "appStoreUnreachable": "Impossible de joindre l'App Store. Réessayez dans un instant.",
+    "appStoreVerify": "L'achat n'a pas pu être vérifié auprès de l'App Store.",
+    "unknownProduct": "Produit inconnu. Mettez l'application à jour et réessayez.",
+    "googleNotFound": "L'achat est introuvable sur Google Play.",
+    "productMismatch": "L'achat ne correspond pas au produit sélectionné.",
+    "googleAck": "L'achat n'a pas pu être confirmé auprès de Google Play. Réessayez."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Vous avez un abonnement actif via {store}. Il ne s'arrête pas quand vous supprimez votre compte et doit être résilié dans {store}. Confirmez que vous en êtes conscient pour supprimer le compte.",
+    "invalidUserId": "ID d'utilisateur invalide"
+  },
+  "orgInvite": {
+    "invalidEmail": "Adresse e-mail invalide",
+    "domainNotAllowed": "Le domaine d'e-mail {domain} n'est pas autorisé pour cette organisation",
+    "alreadyMember": "Cette personne est déjà membre de l'organisation",
+    "alreadyInvited": "Une invitation est déjà en attente pour cet e-mail",
+    "otherBrand": "Cette adresse e-mail ne peut pas être invitée dans l'organisation. Utilisez une autre adresse.",
+    "noSeats": "Aucune place libre ({used} sur {max} utilisées). Achetez des places supplémentaires ou changez d'offre sous Paramètres → Abonnement.",
+    "noSeatsAccept": "L'organisation n'a plus de place libre. Contactez votre administrateur.",
+    "lastOwnerRemove": "Le dernier propriétaire ne peut pas être retiré. Transférez d'abord la propriété à un autre membre.",
+    "lastOwnerDemote": "Le dernier propriétaire ne peut pas être rétrogradé. Transférez d'abord la propriété à un autre membre.",
+    "acceptedPushTitle": "🎉 Invitation acceptée",
+    "acceptedPushBody": "{name} est maintenant membre de {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "La liste en lot contient des UUID en double",
+    "missing": "Une ou plusieurs tâches sont manquantes ou en dehors de votre espace de travail : {ids}",
+    "unexpectedRowCount": "nombre de lignes inattendu",
+    "unselected": "Les données contiennent des UUID qui n'ont pas été sélectionnés",
+    "statusMismatch": "La tâche {id} a le statut {status} ; le statut attendu était {expected}",
+    "notEmail": "La tâche {id} n'est pas une tâche d'e-mail",
+    "customLane": "La tâche {id} utilise une colonne personnalisée et ne peut pas être terminée en lot en toute sécurité"
+  }
+}

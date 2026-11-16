@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "請求書（標準）",
+        "subject": "{company}からの請求書 {number}",
+        "title": "請求書 {number}",
+        "text": "{client}様\n\n実施した作業の請求書を添付いたします。\n\n金額: {amount}\n支払期日: {dueDate}",
+        "button": "請求書を見る",
+        "footer": "どうぞよろしくお願いいたします。\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "ポータルへの招待",
+        "subject": "{company}のクライアントポータルに招待されました",
+        "title": "クライアントポータルへようこそ",
+        "text": "{client}様\n\n{company}のあなた専用クライアントポータルにご招待します。\n\nポータルでは次のことができます:\n• 請求書の確認\n• プロジェクトの進捗の確認\n• 時間記録の確認\n• 前払いパッケージの確認",
+        "button": "招待を承諾する"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "TimeTrackからのニュースレターやマーケティングメールは届かなくなります。アカウントとセキュリティに関する重要なメールは引き続き届きます。",
+    "invalidText": "配信停止を確認できませんでした。もう一度お試しいただくか、TimeTrack内で設定を調整してください。",
+    "confirmText": "TimeTrackからのニュースレターとマーケティングメールの配信を停止しますか？アカウントとセキュリティに関する重要なメールは引き続き届きます。",
+    "settingsButton": "メール設定を調整",
+    "confirmButton": "配信停止を確定",
+    "doneTitle": "配信を停止しました",
+    "invalidTitle": "リンクが無効です",
+    "confirmTitle": "ニュースレターの配信停止"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "期間の終了"
+  }
+}

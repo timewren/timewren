@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Ansatt"
+    },
+    "department": {
+      "label": "Avdeling"
+    },
+    "project": {
+      "label": "Prosjekt"
+    },
+    "activityType": {
+      "label": "Aktivitet"
+    },
+    "absenceType": {
+      "label": "Fraværstype"
+    },
+    "day": {
+      "label": "Dato"
+    },
+    "week": {
+      "label": "Uke"
+    },
+    "month": {
+      "label": "Måned"
+    },
+    "vacationYear": {
+      "label": "Feriår"
+    },
+    "email": {
+      "label": "E-post"
+    },
+    "employmentType": {
+      "label": "Ansettelsesform"
+    },
+    "weeklyHours": {
+      "label": "Timer/uke"
+    },
+    "dailyNorm": {
+      "label": "Daglig norm"
+    },
+    "employeeNumber": {
+      "label": "Ansattnr.",
+      "help": "Ansattnummer i lønnssystemet (følger ansattdimensjonen)"
+    },
+    "payrollCode": {
+      "label": "Lønnskode",
+      "help": "Lønnskode fra aktivitetstypen (følger aktivitetsdimensjonen)"
+    },
+    "hours": {
+      "label": "Loggførte timer"
+    },
+    "normHours": {
+      "label": "Normaltimer",
+      "help": "Daglig norm × arbeidsdager i perioden (helligdager trukket fra)"
+    },
+    "workDays": {
+      "label": "Arbeidsdager",
+      "help": "Planlagte arbeidsdager i perioden (uten helligdager/stengedager)"
+    },
+    "employeeCount": {
+      "label": "Antall ansatte"
+    },
+    "flexDelta": {
+      "label": "Fleksitid (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Fratrukket pause",
+      "help": "Bare for ulønnet pause (inn-/utstempling)"
+    },
+    "checkInHours": {
+      "label": "Tilstedeværelse (innstempling)"
+    },
+    "workedDays": {
+      "label": "Dager med oppføringer"
+    },
+    "maxDayHours": {
+      "label": "Lengste dag",
+      "help": "Høyeste dagstotal for én ansatt i gruppen"
+    },
+    "longDays": {
+      "label": "Dager over 13 t",
+      "help": "En dagstotal over 13 t gir under 11 t hvile (11-timersregelen)"
+    },
+    "avgWeeklyHours": {
+      "label": "Snitt timer/uke",
+      "help": "Loggførte timer per ansattuke med oppføringer eller fravær (48-timersregelen)"
+    },
+    "weeksOver48h": {
+      "label": "Uker over 48 t",
+      "help": "Antall ansattuker med over 48 t loggført"
+    },
+    "fullWeeks": {
+      "label": "Uker uten fridag",
+      "help": "Uker med oppføringer alle 7 dager og ingen fraværsdag (24 timers ukehvile)"
+    },
+    "absenceDays": {
+      "label": "Fravær (dager)"
+    },
+    "absenceHours": {
+      "label": "Fravær (timer)"
+    },
+    "absencePeriods": {
+      "label": "Fraværsperioder"
+    },
+    "sickDays": {
+      "label": "Sykedager"
+    },
+    "sickHours": {
+      "label": "Syketimer"
+    },
+    "sickPeriods": {
+      "label": "Sykeperioder"
+    },
+    "sickPct": {
+      "label": "Sykefravær %",
+      "help": "Sykedager / arbeidsdager"
+    },
+    "longTermSick": {
+      "label": "Langtidssyke",
+      "help": "Sammenhengende sykeperiode over 30 dager i perioden"
+    },
+    "longTermSickCount": {
+      "label": "Langtidssyke (antall)",
+      "help": "Antall ansatte med en sykeperiode over 30 dager"
+    },
+    "overtimeEarned": {
+      "label": "Opptjent overtid"
+    },
+    "overtimeUsed": {
+      "label": "Avspasert overtid"
+    },
+    "overtimePaidOut": {
+      "label": "Utbetalt overtid"
+    },
+    "overtimeNet": {
+      "label": "Overtid netto",
+      "help": "Opptjent − avspasert − utbetalt"
+    },
+    "vacationAllotted": {
+      "label": "Tildelt ferie"
+    },
+    "vacationUsed": {
+      "label": "Brukt ferie"
+    },
+    "vacationRemaining": {
+      "label": "Gjenstående ferie"
+    },
+    "extraVacationAllotted": {
+      "label": "Tildelte ekstra feriedager"
+    },
+    "extraVacationUsed": {
+      "label": "Brukte ekstra feriedager"
+    },
+    "extraVacationRemaining": {
+      "label": "Gjenstående ekstra feriedager"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Ferie tatt ut i perioden",
+      "help": "Feriedager (typer som trekker fra feriesaldoen) innenfor rapportperioden"
+    },
+    "hoursByActivity": {
+      "label": "Timer per aktivitet",
+      "pivot": "{name} (timer)"
+    },
+    "absenceDaysByType": {
+      "label": "Fravær per type (dager)",
+      "pivot": "{name} (dager)"
+    },
+    "absenceHoursByType": {
+      "label": "Fravær per type (timer)",
+      "pivot": "{name} (timer)"
+    },
+    "quantityByWageType": {
+      "label": "Mengde per lønnskode",
+      "help": "Timer/dager per lønnskode via lønnskobling (Innstillinger → Lønn)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Ansatt",
+    "department": "Avdeling",
+    "project": "Prosjekt",
+    "activityType": "Aktivitet",
+    "absenceType": "Fraværstype",
+    "day": "Dag",
+    "week": "Uke",
+    "month": "Måned",
+    "vacationYear": "Feriår"
+  },
+  "groups": {
+    "dimensions": "Dimensjoner",
+    "employee": "Ansatt",
+    "time": "Tid",
+    "compliance": "Etterlevelse",
+    "absence": "Fravær",
+    "overtime": "Overtid",
+    "payroll": "Lønn",
+    "vacation": "Feriekontoer"
+  },
+  "presets": {
+    "this_month": "Denne måneden",
+    "last_month": "Forrige måned",
+    "this_quarter": "Dette kvartalet",
+    "this_year": "I år",
+    "last_year": "I fjor"
+  },
+  "types": {
+    "payroll": {
+      "label": "Lønnsrapport",
+      "description": "Per ansatt for lønnsperioden: timer, fravær i dager og timer per type, fleksitid, overtid og pausetrekk. For lønnsavdelingen."
+    },
+    "sickness": {
+      "label": "Sykefravær",
+      "description": "Statistikk over sykefravær per avdeling og måned: sykedager, perioder, fraværsprosent og langtidssykdom (over 30 dager)."
+    },
+    "absence": {
+      "label": "Fravær",
+      "description": "Alle fraværstyper (ferie, sykdom, permisjon, omsorg …) per ansatt eller avdeling, i dager og timer."
+    },
+    "flex_overtime": {
+      "label": "Fleksitid og overtid",
+      "description": "Saldoutvikling per periode: normaltimer, loggførte timer, fleksitidsdifferanse og overtid opptjent/avspasert/utbetalt."
+    },
+    "project_activity": {
+      "label": "Prosjekt og aktivitet",
+      "description": "Timer fordelt på prosjekt, aktivitetstype og avdeling, til oppfølging av undervisning, forberedelse, møter og så videre."
+    },
+    "vacation_account": {
+      "label": "Feriekontoer",
+      "description": "Feriekontoer per feriår: tildelt, brukt og gjenstående for ferie og ekstra feriedager, per ansatt."
+    },
+    "compliance": {
+      "label": "Etterlevelse (arbeidstidsregler)",
+      "description": "Brudd og advarsler per ansatt og uke: dager over 13 t (11 t hvile), uker over 48 t, uker uten fridag (24 timers ukehvile) og gjennomsnittlig ukentlig arbeidstid."
+    },
+    "custom": {
+      "label": "Egendefinert",
+      "description": "Fritt valg av dimensjoner og kolonner fra hele katalogen. Bygg akkurat den rapporten du savner."
+    }
+  },
+  "weekdays": {
+    "1": "Mandag",
+    "2": "Tirsdag",
+    "3": "Onsdag",
+    "4": "Torsdag",
+    "5": "Fredag",
+    "6": "Lørdag",
+    "7": "Søndag"
+  },
+  "page": {
+    "all": "(alle)",
+    "selected": "({count} valgt)",
+    "clear": "Fjern utvalget",
+    "downloaded": "Rapporten er lastet ned",
+    "templateDeleted": "Malen er slettet",
+    "maxDimensions": "Maks. 4 dimensjoner",
+    "templateUnreadable": "Malen kan ikke leses",
+    "needColumn": "Velg minst én kolonne",
+    "inactive": "(inaktiv)",
+    "title": "Rapporter",
+    "step1": "1. Velg rapporttype",
+    "step2": "2. Periode",
+    "holidayYearPlaceholder": "Feriår…",
+    "holidayYear": "Feriår {year}",
+    "from": "Fra",
+    "to": "Til",
+    "step3": "3. Filtre",
+    "departments": "Avdelinger",
+    "employees": "Ansatte",
+    "projects": "Prosjekter",
+    "activities": "Aktiviteter",
+    "absenceTypes": "Fraværstyper",
+    "onlyApproved": "Bare godkjente timer",
+    "includeRejected": "Ta med avviste timer",
+    "includePending": "Ta med ventende fravær",
+    "includeInactive": "Ta med tidligere ansatte",
+    "includeDetails": "Ta med alle oppføringer (detaljer)",
+    "step4": "4. Grupper etter",
+    "step4Hint": "(rekkefølge = klikkrekkefølge)",
+    "step5": "5. Kolonner",
+    "run": "Kjør rapport",
+    "saveAsTemplate": "Lagre som mal",
+    "chooseTemplateFirst": "Lagre eller velg en mal først",
+    "scheduleMail": "Planlegg e-post",
+    "savedTemplates": "Lagrede maler",
+    "noTemplates": "Ingen maler ennå.",
+    "sharedOrg": "Delt i organisasjonen",
+    "onlyMe": "Bare meg",
+    "standard": " · Standard",
+    "deleteTemplate": "Slett mal",
+    "confirmDeleteTemplate": "Slette malen \"{name}\"?",
+    "footnote": "CSV bruker semikolon og dansk desimalkomma. Avviste timer er utelatt som standard, og åpne sykmeldinger telles til og med i dag. Ledere ser bare sine egne avdelinger og ansatte.",
+    "cardEmployees": "Ansatte",
+    "noData": "Ingen data i perioden {from} til {to}",
+    "noDataHint": "Prøv en lengre periode, færre filtre eller andre kolonner.",
+    "allEntries": "Alle oppføringer ({count})",
+    "truncated": "Perioden inneholder flere oppføringer enn detaljlisten kan rumme. Totalene ovenfor er likevel beregnet på alle data. Velg en kortere periode for å se alle detaljer.",
+    "detEmployee": "Ansatt",
+    "detDepartment": "Avdeling",
+    "detDate": "Dato",
+    "detHours": "Timer",
+    "detProject": "Prosjekt",
+    "detActivity": "Aktivitet",
+    "detPayCode": "Lønnskode",
+    "detDescription": "Beskrivelse",
+    "detSource": "Kilde",
+    "detStatus": "Status",
+    "saveTemplateTitle": "Lagre som mal",
+    "templateSaved": "Malen er lagret",
+    "name": "Navn",
+    "description": "Beskrivelse",
+    "shareWithOrg": "Del med hele organisasjonen (alle ledere og HR kan se den)",
+    "cancel": "Avbryt",
+    "save": "Lagre",
+    "scheduleTitle": "Planlegg e-post",
+    "scheduled": "Rapporten sendes automatisk",
+    "frequency": "Frekvens",
+    "weekly": "Ukentlig",
+    "monthly": "Månedlig",
+    "weekday": "Ukedag",
+    "dayOfMonth": "Dag i måneden",
+    "dayN": "{day}.",
+    "recipients": "Mottakere (skill med komma)",
+    "recipientsPlaceholder": "lonn@example.com, leder@example.com",
+    "format": "Format",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "Perioden i malen er rullerende: \"Forrige måned\" sendt den 1. gir nøyaktig tallene for forrige måned.",
+    "schedule": "Planlegg",
+    "scheduleRemoved": "Planlagt e-post er fjernet",
+    "scheduledMails": "Planlagte e-poster",
+    "freqWeeklyLower": "ukentlig",
+    "freqMonthlyLower": "månedlig",
+    "scheduleLine": "· {frequency} (dag {day}) · {format} · {recipients}",
+    "lastSent": " · sist sendt {date}",
+    "remove": "Fjern",
+    "yes": "Ja",
+    "no": "Nei",
+    "card": {
+      "employees": "Ansatte"
+    }
+  }
+}

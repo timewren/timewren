@@ -1,0 +1,46 @@
+---
+title: "Billy"
+description: "Connect Billy, the Danish accounting system, to TimeWren: import contacts, export clients and invoices, and sync payment status."
+---
+
+Billy is a Danish accounting system. The integration needs no setup on the server: each user pastes their own Billy API key. Without a key, nothing Billy-related happens.
+
+## What it does
+
+- Imports Billy contacts as clients. Contacts already imported, or whose CVR number matches an existing client, are skipped.
+- Exports a client to Billy.
+- Exports an invoice to Billy as a draft, approved, or approved and sent by mail. You choose the product, payment terms and whether each time entry is its own line or all entries are combined into one line. The line text is a template.
+- Syncs the payment status back: invoices paid in Billy are marked as paid in TimeWren.
+
+Billy requires a product on every invoice line. Choose a default product in the settings, or let TimeWren create one on the first export. You can choose a separate product for prepaid package hours.
+
+## Server setup
+
+Requirements on the server:
+
+- `ENCRYPTION_KEY` must be set. The API key is stored encrypted, and saving fails without the key. See [Environment variables](/docs/configuration/environment).
+- The `cron` container must be running. It calls `/api/cron/invoice-sync` every 15 minutes, which is what updates payment status for users who have automatic status sync turned on.
+
+There are no Billy-specific client credentials to register.
+
+## Connect as a user
+
+1. In Billy, create an API key under Settings, Integrations, API.
+2. In TimeWren, open Settings, Integrations and paste the key in the Billy section.
+3. Save, then use Test connection.
+4. Choose the default product and line settings.
+5. Under Default accounting system, choose Billy if it is the one you use, and turn on Automatic status sync if you want payments picked up automatically. You can also run a manual sync from the same page.
+
+Contacts are imported from the Sync page under Integrations. Invoices are exported from the invoice itself.
+
+The key belongs to the user who saved it. In a team, each person who exports uses their own key.
+
+## Webhooks (optional)
+
+The endpoint `/api/webhooks/billy` accepts Billy webhooks and marks an invoice as paid on `invoice.paid`. Set a secret on the server and configure the same secret in Billy; requests are verified with an HMAC-SHA256 signature in the `x-billy-signature` header:
+
+```dotenv
+BILLY_WEBHOOK_SECRET=a-long-random-string
+```
+
+The endpoint finds the user by their stored Billy organization id. The web settings do not store it, so for most setups rely on the 15 minute sync above instead of webhooks.

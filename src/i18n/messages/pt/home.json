@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Boa noite",
+    "morning": "Bom dia",
+    "forenoon": "Bom dia",
+    "afternoon": "Boa tarde",
+    "evening": "Boa noite"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Sem nome",
+  "noDescription": "Sem descrição",
+  "prompt": {
+    "label": "Em que estiveste a trabalhar?",
+    "placeholder": "ex.: 2 horas no site da Jensen ontem",
+    "interpret": "Interpretar",
+    "listening": "A ouvir…",
+    "hintAvailable": "Escreve ou dita e prime Enter. A voz é processada localmente no teu navegador e o áudio não é enviado para lado nenhum.",
+    "hintDownloadable": "Escreve e prime Enter.",
+    "downloading": "A descarregar o reconhecimento de voz…",
+    "install": "Descarregar reconhecimento de voz (cerca de 60 MB, corre localmente)",
+    "hintDefault": "Escreve e prime Enter, ex.: “1,5 h reunião com a Acme das 9 às 10:30”. No telemóvel podes ditar com o microfone do teclado. Prime <kbd>/</kbd> para vir diretamente aqui.",
+    "stopDictation": "Parar ditado",
+    "dictate": "Ditar com o microfone",
+    "dictateTitle": "Ditar (reconhecimento de voz local)",
+    "listeningSr": "A ouvir",
+    "missingHint": "escolhe uma sugestão abaixo ou corrige no formulário completo.",
+    "descriptionLabel": "Descrição",
+    "descriptionPlaceholder": "Em que foi gasto o tempo?",
+    "usePrepaid": "Deduzir da bolsa de horas {name} (restam {time})",
+    "saveWithHours": "Guardar {hours}",
+    "save": "Guardar",
+    "editInForm": "Editar no formulário",
+    "cancel": "Cancelar",
+    "keysHint": "Enter guarda · Esc cancela",
+    "needDescription": "Escreve uma descrição curta antes de guardar.",
+    "internal": "Guardado como tempo interno.",
+    "savedOffline": "Guardado offline. O registo de tempo será enviado quando a ligação regressar.",
+    "registered": "{hours} registadas",
+    "saveFailed": "Não foi possível guardar o registo de tempo"
+  },
+  "welcome": {
+    "title": "Bem-vindo ao {brand}",
+    "titleDone": "Bom começo. O teu primeiro registo de tempo está feito",
+    "hide": "Ocultar as boas-vindas",
+    "intro": "Começa em menos de um minuto: inicia já um cronómetro ou escreve no campo abaixo em que estiveste a trabalhar, ex.: “2 horas no site ontem”. Os dados da empresa e o plano podes tratar mais tarde.",
+    "timerStarted": "O cronómetro está a contar. Pára-o na barra do cronómetro, no topo, quando terminares.",
+    "timerBusy": "O cronómetro já está a contar",
+    "startFirstTimer": "Iniciar o primeiro cronómetro",
+    "writeLine": "Escrever uma linha no campo",
+    "surveyQuestion": "Para que vais usar sobretudo o {brand}? <muted>(opcional)</muted>",
+    "primaryUse": {
+      "time": "Registar o meu tempo",
+      "invoicing": "Faturar aos meus clientes",
+      "klippekort": "Bolsas de horas e horas pré-pagas",
+      "team": "Acompanhar o tempo da minha equipa"
+    },
+    "thanksToast": "Obrigado pela tua resposta",
+    "saveFailed": "Não foi possível guardar a tua resposta. Tenta de novo.",
+    "thanksNote": "Obrigado. O Início mostra agora os próximos passos que te servem.",
+    "privacyNote": "A resposta só é usada para adaptar o Início e não é partilhada com mais ninguém."
+  },
+  "quickStart": {
+    "title": "Iniciar cronómetro",
+    "running": "O cronómetro já está a contar. Pára-o na barra do cronómetro, no topo, antes de iniciares um novo.",
+    "paused": "O cronómetro está em pausa. Retoma-o ou guarda-o primeiro na barra do cronómetro, no topo.",
+    "resumeToast": "O cronómetro foi iniciado e continua o último registo",
+    "continueLast": "Continuar o último",
+    "mostUsed": "Mais usados",
+    "startedOn": "Cronómetro iniciado em {name}",
+    "startOn": "Iniciar cronómetro em {name}",
+    "empty": "Os teus projetos mais usados aparecem aqui assim que registares algum tempo.",
+    "createProject": "Criar um projeto"
+  },
+  "signals": {
+    "label": "Requer atenção",
+    "nudge": {
+      "first-invoice": "Cria a tua primeira fatura a partir do teu tempo",
+      "first-client": "Cria o cliente a quem a bolsa de horas pertence",
+      "first-klippekort": "Cria a tua primeira bolsa de horas",
+      "invite-team": "Convida um colega"
+    },
+    "lowBalance": "{count, plural, one {1 bolsa de horas está quase a esgotar-se} other {# bolsas de horas estão quase a esgotar-se}}",
+    "unbilled": "<b>{duration}</b> de tempo por faturar prontas para uma fatura"
+  },
+  "today": {
+    "title": "Hoje",
+    "ofExpected": "de {duration}",
+    "loadFailed": "Não foi possível carregar os registos de hoje. Tenta recarregar a página.",
+    "empty": "Ainda sem tempo registado hoje. Escreve acima o que fizeste ou inicia um cronómetro.",
+    "internal": "Tempo interno",
+    "resumeToast": "O cronómetro foi iniciado e continua o registo",
+    "continueLabel": "Continuar {name}",
+    "continueFallback": "registo",
+    "continueTitle": "Continuar com cronómetro",
+    "allEntries": "Todos os registos",
+    "fullForm": "Formulário completo"
+  },
+  "page": {
+    "title": "Início",
+    "overview": "Resumo"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Gute Nacht",
+    "morning": "Guten Morgen",
+    "forenoon": "Guten Vormittag",
+    "afternoon": "Guten Tag",
+    "evening": "Guten Abend"
+  },
+  "duration": {
+    "hourUnit": "Std.",
+    "minUnit": "Min."
+  },
+  "noName": "Ohne Namen",
+  "noDescription": "Ohne Beschreibung",
+  "prompt": {
+    "label": "Woran hast du gearbeitet?",
+    "placeholder": "z. B. 2 Stunden an der Website für Jensen gestern",
+    "interpret": "Auswerten",
+    "listening": "Hört zu…",
+    "hintAvailable": "Schreibe oder diktiere und drücke die Eingabetaste. Die Sprache wird lokal in deinem Browser verarbeitet, das Audio wird nicht weitergegeben.",
+    "hintDownloadable": "Schreibe und drücke die Eingabetaste.",
+    "downloading": "Spracherkennung wird heruntergeladen…",
+    "install": "Spracherkennung herunterladen (ca. 60 MB, läuft lokal)",
+    "hintDefault": "Schreibe und drücke die Eingabetaste, z. B. „1,5 Std. Meeting mit Acme 9-10:30 Uhr“. Am Handy kannst du mit dem Mikrofon der Tastatur diktieren. Drücke <kbd>/</kbd>, um hierher zu springen.",
+    "stopDictation": "Diktat beenden",
+    "dictate": "Mit dem Mikrofon diktieren",
+    "dictateTitle": "Diktieren (lokale Spracherkennung)",
+    "listeningSr": "Hört zu",
+    "missingHint": "wähle unten einen Vorschlag oder korrigiere es im vollständigen Formular.",
+    "descriptionLabel": "Beschreibung",
+    "descriptionPlaceholder": "Wofür ging die Zeit drauf?",
+    "usePrepaid": "Vom Stundenpaket {name} abziehen ({time} übrig)",
+    "saveWithHours": "{hours} speichern",
+    "save": "Speichern",
+    "editInForm": "Im Formular bearbeiten",
+    "cancel": "Abbrechen",
+    "keysHint": "Eingabe speichert · Esc bricht ab",
+    "needDescription": "Schreibe eine kurze Beschreibung, bevor du speicherst.",
+    "internal": "Wird als interne Zeit gespeichert.",
+    "savedOffline": "Offline gespeichert. Der Zeiteintrag wird gesendet, sobald die Verbindung wieder da ist.",
+    "registered": "{hours} erfasst",
+    "saveFailed": "Zeiteintrag konnte nicht gespeichert werden"
+  },
+  "welcome": {
+    "title": "Willkommen bei {brand}",
+    "titleDone": "Guter Start. Deine erste Zeit ist erfasst",
+    "hide": "Willkommen ausblenden",
+    "intro": "Starte in unter einer Minute: Starte jetzt einen Timer oder schreibe in das Feld unten, was du gemacht hast, z. B. „2 Stunden an der Website gestern“. Firmendaten und Tarif kannst du später erledigen.",
+    "timerStarted": "Der Timer läuft. Stoppe ihn oben in der Timer-Leiste, wenn du fertig bist.",
+    "timerBusy": "Der Timer läuft bereits",
+    "startFirstTimer": "Starte deinen ersten Timer",
+    "writeLine": "Schreibe eine Zeile ins Feld",
+    "surveyQuestion": "Wofür möchtest du {brand} hauptsächlich nutzen? <muted>(optional)</muted>",
+    "primaryUse": {
+      "time": "Meine Zeit im Blick behalten",
+      "invoicing": "Meine Kunden abrechnen",
+      "klippekort": "Stundenpakete und vorausbezahlte Stunden",
+      "team": "Die Zeit meines Teams verfolgen"
+    },
+    "thanksToast": "Danke für deine Antwort",
+    "saveFailed": "Die Antwort konnte nicht gespeichert werden. Versuche es erneut.",
+    "thanksNote": "Danke. Die Startseite zeigt dir jetzt die nächsten Schritte, die zu dir passen.",
+    "privacyNote": "Die Antwort wird nur genutzt, um die Startseite anzupassen, und nicht an andere weitergegeben."
+  },
+  "quickStart": {
+    "title": "Timer starten",
+    "running": "Der Timer läuft bereits. Stoppe ihn oben in der Timer-Leiste, bevor du einen neuen startest.",
+    "paused": "Der Timer ist pausiert. Setze ihn oben in der Timer-Leiste fort oder speichere ihn zuerst.",
+    "resumeToast": "Der Timer wurde gestartet und setzt den letzten Eintrag fort",
+    "continueLast": "Letzten fortsetzen",
+    "mostUsed": "Am häufigsten verwendet",
+    "startedOn": "Timer gestartet für {name}",
+    "startOn": "Timer starten für {name}",
+    "empty": "Deine am häufigsten verwendeten Projekte erscheinen hier, sobald du etwas Zeit erfasst hast.",
+    "createProject": "Projekt anlegen"
+  },
+  "signals": {
+    "label": "Erfordert Aufmerksamkeit",
+    "nudge": {
+      "first-invoice": "Erstelle deine erste Rechnung aus deiner Zeit",
+      "first-client": "Lege den Kunden an, zu dem das Stundenpaket gehört",
+      "first-klippekort": "Lege dein erstes Stundenpaket an",
+      "invite-team": "Lade eine Kollegin oder einen Kollegen ein"
+    },
+    "lowBalance": "{count, plural, one {1 Stundenpaket ist fast aufgebraucht} other {# Stundenpakete sind fast aufgebraucht}}",
+    "unbilled": "<b>{duration}</b> nicht abgerechnete Zeit, bereit für eine Rechnung"
+  },
+  "today": {
+    "title": "Heute",
+    "ofExpected": "von {duration}",
+    "loadFailed": "Die heutigen Einträge konnten nicht geladen werden. Lade die Seite neu.",
+    "empty": "Heute wurde noch keine Zeit erfasst. Schreibe oben, was du gemacht hast, oder starte einen Timer.",
+    "internal": "Interne Zeit",
+    "resumeToast": "Der Timer wurde gestartet und setzt den Eintrag fort",
+    "continueLabel": "{name} fortsetzen",
+    "continueFallback": "Eintrag",
+    "continueTitle": "Mit Timer fortsetzen",
+    "allEntries": "Alle Einträge",
+    "fullForm": "Vollständiges Formular"
+  },
+  "page": {
+    "title": "Start",
+    "overview": "Übersicht"
+  }
+}

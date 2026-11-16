@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "İzleme",
+    "healthy": "%{score} sağlıklı",
+    "cronDashboard": "Cron panosu",
+    "sections": {
+      "health": "Sistem sağlığı",
+      "cron": "Cron işleri",
+      "email": "E-posta teslimi"
+    },
+    "tiles": {
+      "activeSessions": "Aktif oturumlar",
+      "sessions24h": "Son 24 saatteki oturumlar",
+      "activeTimers": "Aktif zamanlayıcılar",
+      "emailsSent7d": "Gönderilen e-postalar (7 gün)"
+    },
+    "cronHealth": {
+      "title": "Cron işi sağlığı (7 gün)",
+      "runs": "Çalıştırma",
+      "ok": "başarılı",
+      "errors": "hata",
+      "avgDuration": "Ort. süre",
+      "lastRun": "Son çalıştırma"
+    },
+    "errors": {
+      "title": "Hatalar (son 7 gün)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Tüm işler",
+      "allStatuses": "Tüm durumlar",
+      "filter": {
+        "success": "Başarılı",
+        "error": "Hata",
+        "partial": "Kısmi"
+      },
+      "status": {
+        "success": "başarılı",
+        "error": "hata",
+        "partial": "kısmi"
+      },
+      "empty": "Cron işi günlüğü bulunamadı",
+      "columns": {
+        "job": "İş",
+        "status": "Durum",
+        "started": "Başlangıç",
+        "duration": "Süre",
+        "items": "Öğe",
+        "errors": "Hata"
+      }
+    },
+    "showing": "{total} kayıttan {from}-{to} arası gösteriliyor",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "email": {
+      "sent": "Gönderildi",
+      "delivered": "Teslim edildi",
+      "bounced": "Geri döndü",
+      "failed": "Başarısız",
+      "status": {
+        "sent": "gönderildi",
+        "delivered": "teslim edildi",
+        "bounced": "geri döndü",
+        "failed": "başarısız"
+      },
+      "last24h": "Son 24 saat",
+      "last7d": "Son 7 gün",
+      "last30d": "Son 30 gün",
+      "last90d": "Son 90 gün",
+      "allTemplates": "Tüm şablonlar",
+      "empty": "E-posta günlüğü bulunamadı",
+      "columns": {
+        "recipient": "Alıcı",
+        "subject": "Konu",
+        "template": "Şablon",
+        "status": "Durum",
+        "sentAt": "Gönderildi"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cron işleri",
+    "refresh": "Yenile",
+    "never": "Hiç",
+    "badge": {
+      "neverRun": "Hiç çalışmadı",
+      "silent": "Sessiz",
+      "error": "Hata",
+      "partial": "Kısmi",
+      "running": "Çalışıyor",
+      "ok": "Tamam"
+    },
+    "runStatus": {
+      "success": "başarılı",
+      "error": "hata",
+      "partial": "kısmi"
+    },
+    "noRows": "Günlük satırı bulunamadı",
+    "runColumns": {
+      "status": "Durum",
+      "started": "Başlangıç",
+      "duration": "Süre",
+      "items": "Öğe",
+      "errorMessage": "Hata mesajı"
+    },
+    "tiles": {
+      "expected": "Beklenen işler",
+      "silent": "Sessiz işler",
+      "withErrors": "Hatalı işler (24 saat)",
+      "totalRuns": "Toplam çalıştırma (24 saat)"
+    },
+    "columns": {
+      "status": "Durum",
+      "job": "İş",
+      "cadence": "Sıklık",
+      "lastRun": "Son çalıştırma",
+      "runs24h": "Çalıştırma 24 sa",
+      "errors24h": "Hata 24 sa",
+      "avgDuration": "Ort. süre"
+    },
+    "lastError": "Son hata:",
+    "cadence": {
+      "everyMinutes": "her {minutes} dakikada",
+      "hourly": "saatlik",
+      "everyHours": "her {hours} saatte",
+      "daily": "günlük",
+      "weekly": "haftalık",
+      "monthly": "aylık",
+      "everyDays": "her {days} günde"
+    }
+  }
+}

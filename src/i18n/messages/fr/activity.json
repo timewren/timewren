@@ -1,0 +1,46 @@
+{
+  "title": "Journal d'activité",
+  "count": "{count, plural, one {# activité} many {# d'activités} other {# activités}}",
+  "empty": "Aucune activité pour le moment",
+  "yes": "Oui",
+  "no": "Non",
+  "line": "<e>{entity}</e> <n>« {name} »</n> <a>{action}</a>",
+  "lineNoName": "<e>{entity}</e> <a>{action}</a>",
+  "entity": {
+    "client": "Client",
+    "project": "Projet",
+    "time_entry": "Temps saisi",
+    "invoice": "Facture",
+    "prepaid_package": "Forfait d'heures",
+    "settings": "Paramètres"
+  },
+  "action": {
+    "m": {
+      "create": "créé",
+      "update": "mis à jour",
+      "delete": "supprimé",
+      "archive": "archivé",
+      "restore": "restauré",
+      "complete": "terminé",
+      "send": "envoyé"
+    },
+    "f": {
+      "create": "créée",
+      "update": "mise à jour",
+      "delete": "supprimée",
+      "archive": "archivée",
+      "restore": "restaurée",
+      "complete": "terminée",
+      "send": "envoyée"
+    },
+    "p": {
+      "create": "créés",
+      "update": "mis à jour",
+      "delete": "supprimés",
+      "archive": "archivés",
+      "restore": "restaurés",
+      "complete": "terminés",
+      "send": "envoyés"
+    }
+  }
+}

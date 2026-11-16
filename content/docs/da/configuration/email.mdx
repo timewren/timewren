@@ -1,0 +1,93 @@
+---
+title: "E-mail"
+description: "Send mail fra TimeWren med SMTP eller Resend, vælg transport, sæt afsenderadresser, og tjek, at leveringen virker."
+---
+
+TimeWren sender mail til bekræftelse ved oprettelse, invitationer, påmindelser, fakturaer og rapporter. Du vælger én transport i `.env`: SMTP, Resend eller ingen (kun log). Uden en transport sendes intet.
+
+## Valg af transport
+
+Appen vælger den første regel, der passer:
+
+1. `MAIL_TRANSPORT` er sat til `resend`, `smtp` eller `log` (uafhængigt af store og små bogstaver). Det gennemtvinger valget.
+2. `RESEND_API_KEY` er sat: Resend.
+3. `SMTP_HOST` er sat: SMTP.
+4. Ellers: kun log.
+
+Er både `RESEND_API_KEY` og `SMTP_HOST` sat, vinder Resend, medmindre du sætter `MAIL_TRANSPORT=smtp`. Gennemtvinger du `MAIL_TRANSPORT=smtp` uden `SMTP_HOST`, fejler hver afsendelse med en fejl.
+
+## SMTP
+
+```dotenv
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=jane@example.com
+SMTP_PASSWORD=YOUR_SMTP_PASSWORD
+SMTP_FROM="TimeWren <mail@example.com>"
+```
+
+| Variabel | Opførsel |
+| -------- | --------- |
+| `SMTP_HOST` | Servernavn. Påkrævet til SMTP. |
+| `SMTP_PORT` | Standard er `587`. |
+| `SMTP_SECURE` | `true` betyder implicit TLS. Enhver anden ikke-tom værdi betyder STARTTLS. Er den tom eller ikke sat, er den kun `true` på port 465. |
+| `SMTP_USER`, `SMTP_PASSWORD` | Bruges kun til godkendelse, når `SMTP_USER` er sat. |
+| `SMTP_FROM` | Tilsidesætter afsenderen på alle mails. Anbefales med SMTP, fordi din udbyder som regel kun accepterer bekræftede adresser. |
+
+## Resend
+
+```dotenv
+RESEND_API_KEY=YOUR_RESEND_API_KEY
+RESEND_FROM_EMAIL="TimeWren <noreply@example.com>"
+```
+
+`RESEND_FROM_EMAIL` skal høre til et domæne, du har bekræftet i Resend.
+
+## Afsenderadresser
+
+| Variabel | Bruges til |
+| -------- | -------- |
+| `SMTP_FROM` | Afsender af alle mails, når SMTP-transporten bruges. |
+| `RESEND_FROM_EMAIL` | Standardafsender af de fleste mails (fakturaer, påmindelser, rapporter). |
+| `EMAIL_DOMAIN` | Domæne til genererede adresser som `noreply@`. Er den tom, bruges værten fra `NEXT_PUBLIC_MARKETING_URL`, ellers fra `NEXT_PUBLIC_APP_URL`. |
+| `SUPPORT_EMAIL` | Supportadresse, der vises i mails og i brugerfladen. Er den tom, er den `support@` plus `EMAIL_DOMAIN`. |
+| `FROM_EMAIL` | Afsender af visse notifikationsmails. |
+| `PERSONAL_FROM_EMAIL` | Afsender af personlige livscyklusmails. Er den tom, bruges standardafsenderen. |
+
+Uden `RESEND_FROM_EMAIL` er standardafsenderen `TimeWren <noreply@DOMAIN>`, hvor `DOMAIN` kommer fra `EMAIL_DOMAIN`. Med Resend vil du typisk sætte `RESEND_FROM_EMAIL` eksplicit.
+
+## Bekræftelse af e-mail
+
+Brugere skal bekræfte deres adresse, før de kan logge ind. `REQUIRE_EMAIL_VERIFICATION=false` springer det over, men kun så længe der ikke er konfigureret en transport. Så snart SMTP eller Resend er sat op, ignoreres flaget (der logges en advarsel), og bekræftelse er påkrævet igen.
+
+Kører du uden mail og uden bekræftelse, kan alle, der kan nå instansen, oprette en konto med en vilkårlig adresse. Konfigurér mail, og fjern flaget, før du gør instansen tilgængelig udefra.
+
+## ADMIN_EMAIL
+
+`ADMIN_EMAIL` er en kommasepareret liste over administratoradresserne. Er den tom, bliver den første konto, der oprettes, instansens administrator. Med bekræftelse slået fra kan en ubekræftet oprettelse tage en `ADMIN_EMAIL`-adresse, før du gør det, så opret din konto først, eller konfigurér mail.
+
+## Tjek, at mail virker
+
+Genstart appen, når du har ændret `.env` (`docker compose up -d`), og udløs derefter en mail, for eksempel ved at invitere en bruger eller oprette en konto mere. Hold øje med loggen:
+
+```bash
+docker compose logs -f app
+```
+
+| Loglinje | Betydning |
+| -------- | ------- |
+| `[Mail] Ingen mail-transport er sat (RESEND_API_KEY eller SMTP_HOST)...` | Der er ikke konfigureret en transport. Skrives én gang pr. start. |
+| `[Mail:log] til=... emne="..."` | En mail blev sprunget over, og kun modtager og emne blev logget. Indholdet logges ikke i produktion. |
+| `[Mail] SMTP-afsendelse fejlede: ...` | SMTP-serveren afviste mailen eller kunne ikke nås. Teksten efter kolonet er fejlen. |
+
+Nogle af disse beskeder er på dansk, fordi de kommer fra samme kodebase som TimeTrack Cloud. Der skrives ingen loglinje ved en vellykket SMTP-afsendelse. Er der ingen fejl, og kommer mailen ikke frem, så tjek spammappen og din udbyders afsendelseslog.
+
+## Resend-webhooks
+
+Webhooks for levering fra Resend er valgfrie. Endpointet er `/api/webhooks/resend`.
+
+1. Opret en webhook i Resend med URL'en `https://timewren.example.com/api/webhooks/resend`.
+2. Vælg hændelserne `email.delivered`, `email.bounced`, `email.failed` og, til indgående mail, `email.received`.
+3. Kopiér signeringshemmeligheden ind i `.env` som `RESEND_WEBHOOK_SECRET`, og kør `docker compose up -d`.
+
+Forespørgsler uden en gyldig Svix-signatur afvises, og endpointet afviser forespørgsler, så længe `RESEND_WEBHOOK_SECRET` ikke er sat.

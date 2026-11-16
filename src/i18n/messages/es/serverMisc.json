@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Factura (estándar)",
+        "subject": "Factura {number} de {company}",
+        "title": "Factura {number}",
+        "text": "Hola {client}:\n\nAdjunto la factura por el trabajo realizado.\n\nImporte: {amount}\nFecha de vencimiento: {dueDate}",
+        "button": "Ver factura",
+        "footer": "Un saludo\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Invitación al portal",
+        "subject": "Te han invitado al portal de clientes de {company}",
+        "title": "Te damos la bienvenida al portal de clientes",
+        "text": "Hola {client}:\n\nTe han invitado a acceder a tu portal de clientes personal de {company}.\n\nEn el portal puedes:\n• Ver tus facturas\n• Seguir el avance de los proyectos\n• Ver tus registros de tiempo\n• Consultar tu bono de horas",
+        "button": "Aceptar invitación"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Ya no recibirás boletines ni correos de marketing de TimeTrack. Los correos importantes sobre tu cuenta y la seguridad seguirán llegando.",
+    "invalidText": "No se pudo confirmar la baja. Inténtalo de nuevo o ajusta tus ajustes dentro de TimeTrack.",
+    "confirmText": "¿Quieres darte de baja de los boletines y correos de marketing de TimeTrack? Los correos importantes sobre tu cuenta y la seguridad seguirán llegando.",
+    "settingsButton": "Ajustar los ajustes de correo",
+    "confirmButton": "Confirmar baja",
+    "doneTitle": "Te has dado de baja",
+    "invalidTitle": "El enlace no es válido",
+    "confirmTitle": "Darse de baja de los boletines"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "el final del periodo"
+  }
+}

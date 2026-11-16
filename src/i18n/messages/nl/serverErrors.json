@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "Je bent geen lid meer van die organisatie.",
+    "noAccessToFeature": "Je hebt geen toegang tot deze functie",
+    "adminsOnly": "Alleen beheerders hebben toegang tot deze functie",
+    "subscriptionRequired": "Je hebt een actief abonnement nodig om deze functie te gebruiken",
+    "subscriptionExpired": "Je abonnement is verlopen. Verleng het om door te gaan.",
+    "roleNoAccess": "Je rol heeft geen toegang tot deze actie",
+    "moduleDisabled": "De module \"{module}\" is niet ingeschakeld voor deze organisatie."
+  },
+  "alunta": {
+    "clientAlreadyMapped": "Deze klant heeft al een actieve Alunta-koppeling",
+    "mappingNotFound": "Koppeling niet gevonden"
+  },
+  "common": {
+    "clientNotFound": "Klant niet gevonden",
+    "webhookNotFound": "Webhook niet gevonden",
+    "projectNotFound": "Project niet gevonden",
+    "unknownError": "Onbekende fout",
+    "notOrgMember": "Je bent geen lid van deze organisatie",
+    "noAccessToClient": "Je hebt geen toegang tot deze klant",
+    "templateNotFound": "Sjabloon niet gevonden",
+    "unknownClient": "Onbekende klant",
+    "rateLimited": "Te veel verzoeken. Probeer het over {seconds} seconden opnieuw.",
+    "taskNotFound": "Taak niet gevonden",
+    "timeEntryNotFound": "Tijdboeking niet gevonden",
+    "invoiceNotFound": "Factuur niet gevonden",
+    "unknownProjectName": "Onbekend project",
+    "userNotFound": "Gebruiker niet gevonden",
+    "invalidDate": "Ongeldige datum",
+    "prepaidNotFound": "Urenpakket niet gevonden",
+    "notFound": "Niet gevonden",
+    "notOrgMemberShort": "Je bent geen lid van die organisatie",
+    "periodLocked": "De periode vóór {date} is vergrendeld door de organisatie. Neem contact op met een beheerder."
+  },
+  "webhooks": {
+    "noValidEvents": "Geen geldige gebeurtenistypen gekozen"
+  },
+  "time": {
+    "defaultRateName": "Je standaardtarief",
+    "chooseOnePrepaidOrNone": "Kies een urenpakket of geen",
+    "taskNotFound": "Taak niet gevonden",
+    "entryExists": "De tijdboeking bestaat al",
+    "prepaidNotFound": "Urenpakket niet gevonden",
+    "prepaidOtherClient": "Het urenpakket hoort bij een andere klant dan de klant van de tijdboeking",
+    "onInvoiceUnmark": "{count, plural, one {# van de geselecteerde tijdboekingen staat op een factuur. Maak een creditnota of haal de boekingen van de conceptfactuur voordat je de markering verwijdert.} other {# van de geselecteerde tijdboekingen staan op een factuur. Maak een creditnota of haal de boekingen van de conceptfactuur voordat je de markering verwijdert.}}",
+    "invalidWeek": "Ongeldige week",
+    "importInvalidDate": "Ongeldige datum: \"{date}\"",
+    "importNoProjectOrClient": "Kon project \"{project}\" of klant \"{client}\" niet vinden"
+  },
+  "resourcePlan": {
+    "needsOrg": "De capaciteitsplanning vereist een organisatie",
+    "ownEmployeesOnlyView": "Je kunt alleen de planning van je eigen medewerkers bekijken",
+    "managersOnly": "Alleen de eigenaar, beheerders of managers kunnen plannen",
+    "weekMonday": "De week moet worden opgegeven als de maandag ervan",
+    "ownEmployeesOnlyPlan": "Je kunt alleen plannen voor je eigen medewerkers",
+    "notInOrg": "De medewerker, het project of de activiteit bestaat niet in de organisatie"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "Aankopen van de desktop-app zijn nog niet ingesteld. Probeer het later opnieuw of neem contact op met support.",
+    "includedInCloud": "De desktop-app is al inbegrepen in je {brand} Cloud-abonnement, dus je hebt geen aparte licentie nodig. Log in en download de app via het dashboard.",
+    "checkoutFailed": "Kon de betaallink niet aanmaken.",
+    "licenseAlreadyInactive": "De licentie is al gedeactiveerd of terugbetaald.",
+    "notAutoRefundable": "Deze licentie kan niet automatisch worden terugbetaald. Neem contact op met support.",
+    "refundWindowExpired": "De terugbetalingstermijn van {days} dagen voor deze aankoop is verstreken.",
+    "tooManyAttempts": "Te veel pogingen. Wacht even en probeer het opnieuw.",
+    "noLicenseFound": "Geen licentie gevonden.",
+    "noActiveLicenseToRefund": "Geen actieve licentie om terug te betalen.",
+    "licenseNotAutoRefundable": "De licentie kan niet automatisch worden terugbetaald. Neem contact op met support.",
+    "refundWindowExpiredShort": "De terugbetalingstermijn van {days} dagen is verstreken."
+  },
+  "taskStatuses": {
+    "laneNotFound": "Kolom niet gevonden",
+    "lanesNotFound": "Een of meer kolommen niet gevonden",
+    "crossContext": "Kolommen uit verschillende contexten kunnen niet worden herordend",
+    "destinationRequired": "Een doelkolom is vereist omdat de kolom taken bevat",
+    "destinationNotFound": "Doelkolom niet gevonden",
+    "destinationContext": "De doelkolom moet in dezelfde context staan"
+  },
+  "scheduledRates": {
+    "notFound": "Geplande tariefwijziging niet gevonden",
+    "rateFormat": "Het uurtarief moet een bedrag van 0 of meer zijn met hoogstens twee decimalen",
+    "dateFormat": "De datum moet het formaat JJJJ-MM-DD hebben",
+    "laterApplied": "Er is al een tariefwijziging toegepast per {date}. Een nieuwe wijziging moet op dezelfde datum of later ingaan.",
+    "alreadyApplied": "De tariefwijziging is al toegepast en kan niet worden geannuleerd. Pas in plaats daarvan het uurtarief van de klant/het project aan.",
+    "appliedMeanwhile": "De tariefwijziging is intussen toegepast en kan niet worden geannuleerd."
+  },
+  "broadcasts": {
+    "notFound": "Broadcast niet gevonden",
+    "confirmNameMismatch": "De bevestigingsnaam komt niet overeen. Typ de naam van de broadcast precies na."
+  },
+  "notifications": {
+    "invalidDiscordUrl": "Ongeldige Discord-webhook-URL",
+    "invalidSlackUrl": "Ongeldige Slack-webhook-URL",
+    "noSlackWebhook": "Geen Slack-webhook ingesteld",
+    "noDiscordWebhook": "Geen Discord-webhook ingesteld",
+    "discordTestFailed": "De test van de Discord-webhook is mislukt",
+    "noPushSubscription": "Geen pushabonnement ingesteld",
+    "pushTestFailed": "De test van de pushmelding is mislukt",
+    "channelNotFound": "Kanaal niet gevonden"
+  },
+  "clients": {
+    "hasInvoices": "Een of meer van de geselecteerde klanten hebben facturen. Archiveer ze in plaats daarvan, want facturen zijn boekhoudkundige stukken en kunnen niet worden verwijderd.",
+    "hasBilledEntries": "Een of meer van de geselecteerde klanten hebben gefactureerde tijdboekingen. Archiveer ze in plaats daarvan."
+  },
+  "dashboard": {
+    "prefsTableMissing": "De tabel met dashboardvoorkeuren bestaat nog niet. Voer de databasemigratie uit."
+  },
+  "clientPortal": {
+    "accessNotFound": "Toegang niet gevonden"
+  },
+  "search": {
+    "invoiceTitle": "Factuur {number}"
+  },
+  "ai": {
+    "noOwnKey": "Stel je eigen API-sleutel in bij Instellingen → AI om AI-suggesties te gebruiken.",
+    "fillableWithoutAi": "De tekst kon zonder AI worden ingevuld.",
+    "providerFailed": "Je AI-aanbieder kon geen suggestie opleveren. Controleer de sleutel en het model bij Instellingen → AI."
+  },
+  "apiKeys": {
+    "notFound": "API-sleutel niet gevonden",
+    "revokeFirst": "Je moet de sleutel intrekken voordat je hem verwijdert"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "Conceptfactuur niet gevonden",
+    "noEntries": "Geen tijdboekingen om ter goedkeuring te versturen",
+    "requestNotFound": "Verzoek niet gevonden of al afgehandeld"
+  },
+  "beta": {
+    "thanks": "Bedankt voor je aanmelding! We mailen je zodra de bèta opengaat.",
+    "emailNotAllowed": "Dit e-mailadres kan niet worden gebruikt om je aan te melden.",
+    "alreadyOnList": "Dit e-mailadres staat al op de wachtlijst voor de bèta",
+    "signupNotFound": "Bèta-aanmelding niet gevonden"
+  },
+  "calendar": {
+    "googleNotConfigured": "De Google Agenda-integratie is niet ingesteld",
+    "notConnected": "Niet gekoppeld met Google Agenda",
+    "scheduledLocally": "Taak lokaal gepland (geen agenda gekoppeld)",
+    "timeEntryNotFound": "Tijdboeking niet gevonden",
+    "eventNotFound": "Afspraak niet gevonden",
+    "eventMissingTimes": "De afspraak heeft geen tijden",
+    "noConnection": "Geen agendakoppeling",
+    "noProject": "Geen project",
+    "noConnectionFound": "Geen agendakoppeling gevonden",
+    "aiFailed": "De AI-suggestie is mislukt"
+  },
+  "connectedApps": {
+    "notFound": "De koppeling bestaat niet"
+  },
+  "contact": {
+    "thanks": "Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op."
+  },
+  "dataExport": {
+    "pending": "Je hebt al een openstaand exportverzoek. Even geduld.",
+    "limit3": "Maximaal 3 exportverzoeken per 24 uur. Probeer het later opnieuw.",
+    "fullNotEnabled": "De volledige export is nog niet ingeschakeld.",
+    "orgInProgress": "Er loopt al een export voor de organisatie. Je krijgt een e-mail zodra hij klaar is.",
+    "orgDailyLimit": "De organisatie kan {limit} exports per dag aanvragen. Probeer het morgen opnieuw.",
+    "notOrgMemberDot": "Je bent geen lid van de organisatie.",
+    "inProgress": "Er loopt al een export. Je krijgt een e-mail zodra hij klaar is.",
+    "dailyLimit": "Je kunt {limit} exports per dag aanvragen. Probeer het morgen opnieuw.",
+    "requestNotFound": "Exportverzoek niet gevonden",
+    "cancelPendingOnly": "Alleen openstaande verzoeken kunnen worden geannuleerd",
+    "importClientNotFound": "{name}: klant \"{client}\" niet gevonden",
+    "importClientRequired": "{name}: klant is verplicht",
+    "importInvoiceClientNotFound": "Factuur {number}: klant \"{client}\" niet gevonden",
+    "importInvoiceError": "Factuur {number}: {message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "Je afdeling heeft vrije dagen gekozen en die gelden ook voor jou. Je kunt zelf geen vrije dagen kiezen.",
+    "blockedOrg": "Je organisatie heeft vrije dagen gekozen en die gelden ook voor jou. Je kunt zelf geen vrije dagen kiezen.",
+    "blockedEmployee": "Als medewerker volg je de vrije dagen van de organisatie. Vraag een beheerder om vrije dagen te kiezen voor de organisatie of je afdeling.",
+    "orgNeedsOrg": "Vrije dagen voor een organisatie vereisen een organisatie",
+    "departmentNeedsBusiness": "Vrije dagen per afdeling vereisen het plan Business",
+    "departmentNotFound": "De afdeling bestaat niet"
+  },
+  "dpa": {
+    "notFromEnv": "De verwerkersovereenkomst kan nog niet vanuit deze omgeving worden geaccepteerd.",
+    "notInOrg": "Je zit niet in een organisatie",
+    "ownersAdminsOnly": "Alleen eigenaren en beheerders kunnen de overeenkomst accepteren"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "Regel niet gevonden"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "Een IMAP-wachtwoord is verplicht",
+    "cannotDecrypt": "Het opgeslagen wachtwoord kon niet worden ontsleuteld. Voer je IMAP-wachtwoord opnieuw in.",
+    "connectionFailed": "IMAP-verbinding mislukt: {message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "Taak niet gevonden",
+    "blockBracket": "E-mails met \"[{tag}]\" in het onderwerp blokkeren",
+    "blockKeyword": "E-mails met \"{keyword}\" in het onderwerp blokkeren"
+  },
+  "ext": {
+    "notOrgMemberDot": "Je bent geen lid van die organisatie.",
+    "invalidToken": "Ongeldig token",
+    "tooManyAttempts": "Te veel pogingen. Probeer het over {seconds} seconden opnieuw.",
+    "sessionExpired": "De sessie is verlopen of ingetrokken. Log opnieuw in.",
+    "tokenExpired": "Token verlopen",
+    "tokenNotFound": "Token niet gevonden",
+    "timerChangedElsewhere": "De timer is gewijzigd vanaf een ander apparaat. Probeer het opnieuw.",
+    "datesFormat": "Datums moeten JJJJ-MM-DD zijn",
+    "prepaidNotFound": "Urenpakket niet gevonden",
+    "prepaidOtherClient": "Het urenpakket hoort bij een andere klant dan de boeking",
+    "saveEntryFailed": "Kon de tijdboeking niet opslaan",
+    "createInProgress": "Aanmaken met deze sleutel is bezig. Probeer het zo opnieuw.",
+    "import": {
+      "alreadyRunning": "Er loopt al een import. Wacht tot die klaar is."
+    },
+    "projectOrClientNotFound": "Project of klant niet gevonden"
+  },
+  "feedback": {
+    "screenshotFailed": "Kon de schermafbeelding niet ophalen uit S3"
+  },
+  "imports": {
+    "timeopsConnect": "Kon geen verbinding maken met TimeOps: {detail}",
+    "networkError": "netwerkfout",
+    "apiKeyInvalid": "De API-sleutel is ongeldig of verlopen",
+    "alreadyRunning": "Er loopt al een import. Rond die eerst af.",
+    "notFound": "Import niet gevonden",
+    "cannotStart": "De import kan niet worden gestart vanuit status {status}",
+    "cannotCancel": "De import kan in deze status niet worden geannuleerd"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "Er loopt al een timer op \"{project}\" in de webapp. Stop die eerst.",
+    "timerRunningProjectOther": "Er loopt al een timer op \"{project}\" op een ander apparaat. Stop die eerst.",
+    "timerRunningAnyWeb": "Er loopt al een timer in de webapp. Stop die eerst.",
+    "timerRunningAnyOther": "Er loopt al een timer op een ander apparaat. Stop die eerst."
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "De Dinero-verbinding is verlopen. Koppel opnieuw bij Instellingen.",
+      "notConnectedShort": "Dinero is niet gekoppeld",
+      "notConnected": "Dinero is niet gekoppeld",
+      "connectionActive": "De verbinding met Dinero is actief",
+      "connectionFailed": "Kon geen verbinding maken met Dinero",
+      "clientExported": "Klant geëxporteerd naar Dinero",
+      "invoiceAlreadyExported": "De factuur is al geëxporteerd naar Dinero",
+      "contactCreateFailed": "Kon klant \"{name}\" niet aanmaken in Dinero: de API gaf geen contact-ID terug. Probeer de klant eerst handmatig te exporteren.",
+      "noAccount": "Geen rekeningnummer ingesteld. Kies een standaardrekening bij Instellingen → Dinero.",
+      "invoiceExported": "Factuur geëxporteerd naar Dinero",
+      "invoiceNotExported": "De factuur is niet geëxporteerd naar Dinero",
+      "noPending": "Geen openstaande Dinero-koppeling gevonden. Probeer opnieuw te koppelen.",
+      "invalidOrg": "Ongeldige organisatie gekozen",
+      "tokensDecryptFailed": "Kon de tokens niet ontsleutelen. Probeer opnieuw te koppelen."
+    },
+    "billy": {
+      "noApiKey": "Billy API-sleutel is niet ingesteld",
+      "decryptFailed": "Kon de Billy API-sleutel niet ontsleutelen",
+      "connectionActive": "De verbinding met Billy is actief",
+      "connectionFailed": "Kon geen verbinding maken met Billy",
+      "clientExported": "Klant geëxporteerd naar Billy",
+      "invoiceAlreadyExported": "De factuur is al geëxporteerd naar Billy",
+      "clientCreateFailed": "Kon de klant in Billy niet aanmaken of vinden",
+      "productWithoutId": "Billy gaf een product zonder ID terug: {json}",
+      "invoiceWithoutId": "Billy gaf een factuur zonder ID terug: {json}",
+      "invoiceExported": "Factuur geëxporteerd naar Billy",
+      "exportFailed": "Kon niet exporteren naar Billy: {message}",
+      "invoiceNotExported": "De factuur is niet geëxporteerd naar Billy"
+    },
+    "unknownErrorOccurred": "Er is een onbekende fout opgetreden",
+    "invoiceMissingClient": "De factuur heeft geen klant",
+    "economic": {
+      "noTokens": "e-conomic-tokens zijn niet ingesteld",
+      "decryptFailed": "Kon de e-conomic-tokens niet ontsleutelen",
+      "connectionActive": "De verbinding met e-conomic is actief",
+      "connectionFailed": "Kon geen verbinding maken met e-conomic",
+      "clientExported": "Klant geëxporteerd naar e-conomic",
+      "paymentTermsMissing": "Betaalvoorwaarden ontbreken. Kies ze bij Instellingen → Integraties.",
+      "invoiceAlreadyExported": "De factuur is al geëxporteerd naar e-conomic",
+      "consultingLine": "Advieswerk: {hours} uur",
+      "invoiceBooked": "Factuur geboekt in e-conomic",
+      "invoiceDraftCreated": "Factuur als concept aangemaakt in e-conomic",
+      "invoiceNotExported": "De factuur is niet geëxporteerd naar e-conomic"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: Kon het datumformaat niet automatisch herkennen. Kies het handmatig.",
+      "noValidRows": "Geen geldige rijen gevonden in het CSV-bestand.",
+      "unknownClient": "Onbekende klant"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "De bedrijfsgegevens ontbreken. Ze moeten op de factuur staan, dus vul ze in bij Instellingen → Bedrijfsprofiel (of vraag een beheerder) voordat je de eerste factuur aanmaakt.",
+    "templateNotFound": "Factuursjabloon niet gevonden",
+    "issuedCannotChange": "Uitgegeven facturen kunnen niet worden gewijzigd. Maak een creditnota om bedragen of voorwaarden te corrigeren.",
+    "deletedCannotEdit": "Verwijderde facturen kunnen niet worden bewerkt.",
+    "paidNotesOnly": "Betaalde facturen kunnen niet worden bewerkt. Je kunt alleen opmerkingen toevoegen.",
+    "draftsOnlyDelete": "Alleen concepten kunnen worden verwijderd. Annuleer uitgegeven facturen in plaats daarvan.",
+    "creditNoteNotCreditable": "Een creditnota kan niet worden gecrediteerd",
+    "draftNotCreditable": "Concepten worden niet gecrediteerd. Verwijder het concept in plaats daarvan (het heeft geen uitgegeven nummer).",
+    "deletedNotCreditable": "Verwijderde facturen kunnen niet worden gecrediteerd",
+    "alreadyCredited": "De factuur is al gecrediteerd met {number}",
+    "creditNoteNotes": "Creditnota voor factuur {number} van {date}",
+    "draftOnlyAddLines": "Regels kunnen alleen aan conceptfacturen worden toegevoegd",
+    "timeEntryNotFound": "Tijdboeking niet gevonden",
+    "lineNotFound": "Factuurregel niet gevonden",
+    "draftOnlyEditLines": "Regels kunnen alleen op conceptfacturen worden bewerkt",
+    "draftOnlyDeleteLines": "Regels kunnen alleen van conceptfacturen worden verwijderd",
+    "draftOnlyReorder": "De volgorde kan alleen op conceptfacturen worden gewijzigd",
+    "clientHasNoEmail": "De klant heeft geen e-mailadres"
+  },
+  "logbook": {
+    "ownOnly": "Je kunt alleen je eigen rittenregistratie bekijken",
+    "notInYourOrg": "De gebruiker is geen lid van je organisatie",
+    "noAccessWaste": "Je hebt geen toegang tot de verspilde tijd van de organisatie"
+  },
+  "marketing": {
+    "tooManyAttempts": "Te veel pogingen. Probeer het later opnieuw."
+  },
+  "memberRates": {
+    "membersNotInOrg": "Een of meer leden bestaan niet in de organisatie"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "De eigenaar van je organisatie beheert het abonnement, dus je hoeft geen plan te kiezen.",
+    "privatePlanUnavailable": "Het plan Privé is nog niet beschikbaar. Kies een ander plan."
+  },
+  "organization": {
+    "requiresOrg": "Vereist een organisatie",
+    "noActiveOrg": "Geen actieve organisatie",
+    "moduleNotAssigned": "De module \"{module}\" is niet toegewezen aan deze organisatie",
+    "moduleUnavailable": "De module \"{module}\" is niet beschikbaar voor jou. Neem contact op met support.",
+    "noSelfTransfer": "Je kunt het eigendom niet aan jezelf overdragen",
+    "ownerOnlyTransfer": "Alleen de eigenaar kan het eigendom overdragen",
+    "memberNotFound": "Lid niet gevonden"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "Alleen eigenaren en beheerders kunnen het activiteitenlog bekijken"
+  },
+  "portalBranding": {
+    "noDomain": "Geen domein om te verifiëren",
+    "verifyFailed": "Het domein kon niet worden geverifieerd. Controleer of het DNS TXT-record '_timetrack-verify.{domain}' het token bevat: {token}"
+  },
+  "prepaid": {
+    "invalidHours": "Ongeldig aantal uren voor de afboeking van het urenpakket",
+    "otherClient": "Het urenpakket hoort bij een andere klant dan de klant van de tijdboeking",
+    "inactive": "Urenpakket is niet actief",
+    "expired": "Het urenpakket is verlopen",
+    "insufficientHours": "Niet genoeg uren over op het urenpakket. Beschikbare uren: {available}",
+    "insufficientHoursClip": "Niet genoeg uren over op het urenpakket. Beschikbare uren: {available}, vereist {required} u (naar boven afgerond op blokken van {minutes} minuten)",
+    "multipleClients": "De geselecteerde tijdboekingen horen bij meerdere klanten. Selecteer boekingen van slechts één klant.",
+    "entriesNotFound": "Een of meer tijdboekingen zijn niet gevonden",
+    "alreadyBilled": "{count, plural, one {# van de geselecteerde tijdboekingen is al gefactureerd en kan niet van het urenpakket worden afgeboekt} other {# van de geselecteerde tijdboekingen zijn al gefactureerd en kunnen niet van het urenpakket worden afgeboekt}}",
+    "foreignEntries": "{count, plural, one {# tijdboeking hoort bij een andere klant dan het urenpakket} other {# tijdboekingen horen bij een andere klant dan het urenpakket}}",
+    "requestNotFound": "Verzoek niet gevonden of al afgehandeld",
+    "gone": "Het urenpakket bestaat niet meer",
+    "renewalInvoiceNote": "Verlenging van urenpakket \"{name}\", aangevraagd door de klant via het portaal",
+    "totalBelowUsed": "Het totale aantal uren kan niet lager zijn dan de al gebruikte uren ({used} u)",
+    "hasUsage": "Een urenpakket met geregistreerd verbruik kan niet worden verwijderd. Deactiveer het in plaats daarvan.",
+    "entryNotFound": "De tijdboeking is niet gevonden"
+  },
+  "projects": {
+    "hasBilledEntries": "Het project heeft gefactureerde tijdboekingen en kan niet definitief worden verwijderd. Archiveer het in plaats daarvan.",
+    "nameMismatch": "De projectnaam komt niet overeen",
+    "noneFound": "Geen projecten gevonden"
+  },
+  "portal": {
+    "invalidLink": "Ongeldige of verlopen link",
+    "invalidLogin": "Ongeldig e-mailadres of wachtwoord",
+    "noInvoiceAccess": "Geen toegang tot facturen",
+    "noProjectAccess": "Geen toegang tot projecten",
+    "noTimeAccess": "Geen toegang tot tijdboekingen",
+    "noPrepaidAccess": "Geen toegang tot urenpakketten",
+    "tooManyRequests": "Te veel verzoeken. Probeer het later opnieuw.",
+    "prepaidInactive": "Het urenpakket is niet actief. Neem contact op met uw leverancier.",
+    "noAccess": "Geen toegang",
+    "notAllowedApprove": "U mag geen tijd goedkeuren",
+    "requestNotFound": "Verzoek niet gevonden",
+    "requestHandled": "Het verzoek is al afgehandeld",
+    "notAllowedReject": "U mag geen tijd afwijzen"
+  },
+  "quickSignup": {
+    "created": "Account aangemaakt! Je wordt ingelogd…",
+    "emailNotAllowed": "Dit e-mailadres kan niet worden gebruikt om je te registreren.",
+    "emailTaken": "Dit e-mailadres is al geregistreerd",
+    "createFailed": "Kon het account niet aanmaken",
+    "error": "Er is een fout opgetreden bij het aanmaken van het account"
+  },
+  "recurringInvoices": {
+    "clientArchived": "De klant is gearchiveerd. Herstel eerst de klant.",
+    "prepaidFixedAmount": "Een urenpakket wordt gefactureerd tegen een vast bedrag, dus selecteer geen geregistreerde tijd",
+    "prepaidNoRenewal": "Het urenpakket wordt niet automatisch verlengd. Schakel eerst periodieke verlenging in.",
+    "needLine": "Voeg minstens één regel toe met een bedrag boven 0",
+    "firstDateInPast": "De datum van de eerste factuur mag niet vóór vandaag liggen",
+    "notFound": "Terugkerende factuur niet gevonden",
+    "nextDateInPast": "De datum van de volgende factuur mag niet vóór vandaag liggen"
+  },
+  "recurring": {
+    "startDateRequired": "Een startdatum is verplicht voor terugkerende sjablonen",
+    "cannotPause": "Een niet-terugkerend sjabloon kan niet worden gepauzeerd",
+    "cannotResume": "Een niet-terugkerend sjabloon kan niet worden hervat"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "Teamrendement vereist een organisatie",
+    "utilisationNeedsOrg": "Bezettingsgraad vereist een organisatie",
+    "weekdayRange": "De weekdag moet 1-7 zijn",
+    "linkNotFound": "Link niet gevonden",
+    "tooManyRows": "Het rapport bevat meer dan 10.000 boekingen. Beperk het datumbereik."
+  },
+  "reportTemplates": {
+    "clientNotYours": "De klant hoort niet bij jouw account.",
+    "systemNoEdit": "Systeemsjablonen kunnen niet worden bewerkt. Dupliceer ze in plaats daarvan.",
+    "systemNoDelete": "Systeemsjablonen kunnen niet worden verwijderd."
+  },
+  "security": {
+    "accountNotFound": "Account niet gevonden",
+    "lastLoginMethodRemove": "Je kunt je laatste inlogmethode niet verwijderen. Voeg eerst een wachtwoord of passkey toe.",
+    "passkeyNotFound": "Passkey niet gevonden",
+    "lastLoginMethodDelete": "Je kunt je laatste inlogmethode niet verwijderen. Voeg eerst een wachtwoord toe of koppel een OAuth-account.",
+    "sessionNotFound": "Sessie niet gevonden",
+    "cannotEndCurrent": "Je kunt je huidige sessie niet beëindigen. Log in plaats daarvan uit.",
+    "currentSessionNotFound": "Huidige sessie niet gevonden",
+    "phoneIsOnlyMethod": "Je kunt je telefoonnummer niet verwijderen, omdat het je enige inlogmethode is. Voeg eerst een andere methode toe.",
+    "deviceNotFound": "Apparaat niet gevonden",
+    "rec": {
+      "addLoginMethod": "Een inlogmethode toevoegen",
+      "verifyEmail": "Bevestig je e-mailadres",
+      "enable2fa": "Tweestapsverificatie inschakelen",
+      "addPasskey": "Een passkey toevoegen voor sneller en veiliger inloggen",
+      "addMore": "Meer inlogmethodes toevoegen als back-up"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "Je hebt al een actief abonnement. Gebruik 'Facturatie beheren' om van plan of betaalmethode te wisselen.",
+    "seatsExceedIncluded": "Je organisatie gebruikt {seats} plekken, {extra} meer dan de {included} die bij {plan} zijn inbegrepen. Zelf upgraden is nog niet mogelijk zonder plekken te verliezen. Neem contact op met support, dan verhuizen we je handmatig.",
+    "noCheckoutUrl": "Alunta gaf geen betaal-URL terug. Neem contact op met support.",
+    "extraSeatsNeedSubscription": "Extra plekken vereisen een actief abonnement. Kies eerst een plan en voeg betaling toe.",
+    "noActiveAddPayment": "Geen actief abonnement gevonden. Voeg eerst een betaalmethode toe.",
+    "noActive": "Geen actief abonnement gevonden",
+    "none": "Geen abonnement gevonden",
+    "requestFailed": "Kon het verzoek niet versturen. Probeer het later opnieuw.",
+    "priceSuffixYear": "kr/jaar",
+    "priceSuffixMonth": "kr/maand",
+    "checkoutComingSoon": "Betalen is hier nog niet mogelijk. Je zit op het gratis abonnement."
+  },
+  "tags": {
+    "nameExists": "Er bestaat al een tag met de naam \"{name}\"",
+    "timeEntryNotFound": "Tijdboeking niet gevonden",
+    "notYours": "Een of meer tags horen niet bij jou",
+    "projectNotFound": "Project niet gevonden",
+    "projectsNotFound": "Een of meer projecten zijn niet gevonden, of je hebt er geen toegang toe",
+    "clientNotFound": "Klant niet gevonden"
+  },
+  "tasks": {
+    "parentNotFound": "Bovenliggende taak niet gevonden",
+    "subtaskNoSubtasks": "Een subtaak kan geen eigen subtaken hebben",
+    "laneNotFound": "Kolom niet gevonden",
+    "laneOtherBoard": "De kolom hoort bij een ander bord dan de taak",
+    "moveSameBoard": "De taak kan alleen binnen hetzelfde bord worden verplaatst",
+    "dryRunFailed": "De proefrun kon niet worden gevalideerd",
+    "bulkFailed": "De bulkwijziging kon niet worden gevalideerd",
+    "bulkRolledBack": "Niet alle geselecteerde taken zijn bijgewerkt; de transactie is teruggedraaid",
+    "assignNeedsOrg": "Toewijzen vereist een organisatie",
+    "assigneeNotMember": "De toegewezen persoon is geen lid van de organisatie",
+    "mainTaskNotFound": "Hoofdtaak niet gevonden",
+    "assignedPushTitle": "📋 Nieuwe taak toegewezen",
+    "assignedPushBody": "{name} heeft je \"{task}\" toegewezen",
+    "aColleague": "Een collega"
+  },
+  "user": {
+    "pageUnavailable": "Deze pagina is op dit moment niet beschikbaar voor jou",
+    "emailMismatch": "Het e-mailadres komt niet overeen met je account",
+    "deleteFailed": "Het verwijderen kon niet worden voltooid. Neem contact op met support, dan helpen we je.",
+    "aiConnectionOk": "Verbinding OK! Antwoord: \"{reply}\"",
+    "aiConnectionFailed": "Verbinding mislukt: {message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "Je kunt alleen afwezigheid van je eigen medewerkers afhandelen",
+      "requestNotFound": "Afwezigheidsverzoek niet gevonden",
+      "approveOnlyPending": "Het verzoek kan alleen worden goedgekeurd zolang het in behandeling is",
+      "noSelfApprove": "Je kunt je eigen afwezigheid niet goedkeuren",
+      "rejectOnlyPending": "Het verzoek kan alleen worden afgewezen zolang het in behandeling is",
+      "typeHasPending": "Een afwezigheidstype met openstaande verzoeken kan niet worden verwijderd. Wijs ze eerst af of annuleer ze.",
+      "managersOnlyForOthers": "Alleen managers en beheerders kunnen afwezigheid voor anderen registreren",
+      "endBeforeStart": "De einddatum mag niet vóór de startdatum liggen",
+      "endDateRequired": "Een einddatum is verplicht voor {type}. Alleen ziekte en verlof kunnen zonder einddatum worden geregistreerd.",
+      "overlapOther": "De medewerker heeft in deze periode al afwezigheid",
+      "overlapOwn": "Je hebt in deze periode al een afwezigheidsverzoek",
+      "registrationNotFound": "Afwezigheidsregistratie niet gevonden",
+      "selfReturnOnly": "Je kunt alleen jezelf beter melden",
+      "periodAlreadyEnded": "De periode is al afgelopen",
+      "onlyActiveRecovered": "Alleen actieve registraties kunnen als hersteld worden gemeld",
+      "lastDayBeforeStart": "De laatste dag van afwezigheid mag niet vóór de startdatum liggen",
+      "endedElsewhere": "De periode is al elders beëindigd. Herlaad de lijst.",
+      "recoveredPushTitle": "Beter gemeld",
+      "recoveredPushBody": "Je {type} is geëindigd op {date}",
+      "requestNotFoundShort": "Verzoek niet gevonden",
+      "ownOnlyEdit": "Je kunt alleen je eigen verzoeken bewerken",
+      "pendingOnlyEdit": "Alleen openstaande verzoeken kunnen worden bewerkt",
+      "alreadyCancelled": "Het verzoek is al geannuleerd",
+      "fixedHolidayNoCancel": "Vaste vakantie (sluitingsperiode) kan niet worden geannuleerd. Neem contact op met je beheerder.",
+      "changedElsewhere": "Het verzoek is elders gewijzigd. Herlaad de lijst.",
+      "employeeNotInOrg": "De medewerker bestaat niet in de organisatie"
+    },
+    "handledElsewhere": "Het verzoek is al elders afgehandeld. Herlaad de lijst.",
+    "yourManager": "Je manager",
+    "absenceTypeNotFound": "Afwezigheidstype niet gevonden",
+    "activityTypeNotInOrg": "Het activiteitstype bestaat niet in je organisatie",
+    "projectNotInOrg": "Het project bestaat niet in je organisatie",
+    "activityTypesNotInOrg": "Een of meer activiteitstypes bestaan niet in je organisatie",
+    "projectsNotInOrg": "Een of meer projecten bestaan niet in je organisatie",
+    "activityTypesUnknown": "Een of meer activiteitstypes zijn onbekend of gearchiveerd",
+    "checkin": {
+      "already": "Je bent al ingecheckt",
+      "noneOpen": "Geen openstaande check-in gevonden"
+    },
+    "closure": {
+      "maxDays": "Een sluitingsperiode mag hoogstens {days} dagen duren. Maak in plaats daarvan meerdere perioden aan.",
+      "needsVacationType": "Vaste vakantieweken moeten een afwezigheidstype gebruiken dat van het vakantiesaldo afgaat",
+      "notFound": "Sluitingsperiode niet gevonden"
+    },
+    "employeeProfileNotFound": "Medewerkersprofiel niet gevonden",
+    "compliance": {
+      "ownOnly": "Je kunt alleen je eigen compliancestatus bekijken",
+      "rejected": "De boeking is afgewezen door de arbeidstijdregels: {reasons}"
+    },
+    "departmentNotFound": "Afdeling niet gevonden",
+    "deptManagers": {
+      "oncePerDept": "Dezelfde gebruiker kan maar één keer per afdeling voorkomen",
+      "validFromBeforeTo": "\"Geldig vanaf\" moet vóór \"geldig tot\" liggen",
+      "usersNotMembers": "Een of meer gebruikers zijn geen lid van de organisatie"
+    },
+    "employee": {
+      "employmentEnded": "Het dienstverband is al beëindigd",
+      "endBeforePeriodStart": "De einddatum mag niet vóór het begin van de periode liggen ({date})",
+      "managerNotFound": "Manager niet gevonden",
+      "ownManager": "Een medewerker kan niet zijn eigen manager zijn",
+      "managerCycle": "De managerhiërarchie vormt een cirkel",
+      "viewOwnTeamProfiles": "Je kunt alleen profielen van je eigen medewerkers bekijken",
+      "profileExists": "De medewerker heeft al een profiel in deze organisatie",
+      "hireDateManaged": "De datum van indiensttreding wordt beheerd via de dienstverbandgeschiedenis. Bewerk hem op het tabblad Dienstverband.",
+      "viewOwnTeamEmployments": "Je kunt alleen dienstverbanden van je eigen medewerkers bekijken",
+      "startAfterLatest": "De startdatum moet na het begin van de laatste periode liggen ({date})",
+      "endedOn": "Het dienstverband eindigde op {date}. Een nieuwe periode moet na die datum beginnen.",
+      "periodNotFound": "Dienstverbandperiode niet gevonden",
+      "historyOwnTeamOnly": "Je kunt alleen de geschiedenis van je eigen medewerkers bekijken"
+    },
+    "flex": {
+      "ownBalanceOnly": "Je kunt alleen je eigen flexsaldo bekijken",
+      "recalcScope": "Je kunt flexuren alleen voor jezelf of je medewerkers herberekenen",
+      "profileNotInOrg": "Medewerkersprofiel niet gevonden in deze organisatie"
+    },
+    "holidays": {
+      "notFound": "Feestdag niet gevonden",
+      "defaultNoDelete": "Standaardfeestdagen kunnen niet worden verwijderd. Kies in plaats daarvan de voorinstelling voor de vrije-dagenkalender."
+    },
+    "mw": {
+      "noActiveOrg": "Geen actieve organisatie gevonden",
+      "noEmployeeProfile": "Je hebt geen medewerkersprofiel in deze organisatie. Neem contact op met een beheerder.",
+      "twoFactorRequired": "De organisatie vereist tweestapsverificatie voor managers en beheerders. Schakel 2FA in bij Instellingen → Beveiliging en probeer het opnieuw.",
+      "hrReadOnly": "De rol HR kan bekijken, maar niet goedkeuren of bewerken",
+      "managerRequired": "Deze actie vereist manager- of beheerdersrechten",
+      "viewRequiresRole": "Deze weergave vereist manager-, HR- of beheerdersrechten",
+      "ownersAdminsOnly": "Alleen eigenaren en beheerders hebben toegang tot deze functie",
+      "twoFactorAdmins": "De organisatie vereist tweestapsverificatie voor beheerders"
+    },
+    "notifications": {
+      "addTeamsFirst": "Voeg een Teams-webhook toe voordat je Teams inschakelt",
+      "noTeamsWebhook": "Er is geen Teams-webhook opgeslagen",
+      "testBody": "De Teams-integratie voor {org} werkt. Managergebeurtenissen (urenstaten, afwezigheid, ziekteverlof, arbeidstijdregels en samenvatting) worden hierheen gestuurd.",
+      "theOrganisation": "de organisatie",
+      "teamsRejected": "Teams heeft het testbericht geweigerd: {message}"
+    },
+    "organizationNotFound": "Organisatie niet gevonden",
+    "org": {
+      "deptHasEmployees": "Een afdeling met toegewezen medewerkers kan niet worden verwijderd. Verplaats eerst de medewerkers."
+    },
+    "overtime": {
+      "ownEmployeesOnly": "Je kunt alleen boeken voor je eigen medewerkers",
+      "positiveHours": "Voer een positief aantal uren in",
+      "notZero": "De boeking mag niet 0 uur zijn"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "De loonsoort bestaat niet in je organisatie",
+      "wageTypeCodeExists": "Er bestaat al een loonsoort met die code",
+      "ruleNotInOrg": "De regel bestaat niet in je organisatie",
+      "employeeNumberTaken": "Het personeelsnummer wordt al door iemand anders gebruikt",
+      "exportTitle": "Salarisexport: {org}"
+    },
+    "absenceTypeNotInOrg": "Het afwezigheidstype bestaat niet in je organisatie",
+    "exportRateLimited": "Te veel exports. Probeer het over {seconds} seconden opnieuw.",
+    "closing": {
+      "notEnabled": "Periodeafsluiting is niet ingeschakeld in de instellingen van de organisatie",
+      "afterPeriodEnd": "De afrekening kan pas worden aangemaakt als de periode is afgelopen",
+      "approvedNoRecalc": "Een goedgekeurde afrekening kan niet opnieuw worden berekend. Ontgrendel hem eerst.",
+      "noSelfApprove": "Je kunt je eigen periodeafrekening niet goedkeuren",
+      "alreadyApproved": "De afrekening is al goedgekeurd",
+      "ownAckOnly": "Je kunt alleen je eigen afrekening bevestigen",
+      "needsManagerApproval": "De afrekening moet door je manager zijn goedgekeurd voordat je hem bevestigt",
+      "notLocked": "De periode is niet vergrendeld",
+      "notFound": "De afrekening bestaat niet"
+    },
+    "assign": {
+      "usersNotActive": "Een of meer gebruikers zijn geen actieve medewerkers in de organisatie"
+    },
+    "reports": {
+      "payrollHrOnly": "Het salarisrapport is voorbehouden aan HR en beheerders",
+      "shareHrOnly": "Alleen HR en beheerders kunnen sjablonen delen met de hele organisatie",
+      "defaultNoOverwrite": "Het standaardsjabloon kan niet worden overschreven. Sla het op onder een nieuwe naam.",
+      "ownEditOnly": "Je kunt alleen je eigen sjablonen bewerken",
+      "defaultNoDelete": "Het standaardsjabloon kan niet worden verwijderd",
+      "ownDeleteOnly": "Je kunt alleen je eigen sjablonen verwijderen",
+      "weekdayRange": "De weekdag moet 1-7 zijn"
+    },
+    "reportTypeHrOnly": "Dit rapporttype is voorbehouden aan HR en beheerders",
+    "sso": {
+      "invalidTenant": "Ongeldig tenant-ID. Verwacht een GUID in de vorm xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (Directory (tenant) ID in Azure).",
+      "microsoftNotConfigured": "Inloggen met Microsoft is niet ingesteld op deze installatie, dus 'Alleen SSO' kan niet worden ingeschakeld.",
+      "verifyDomainFirst": "Verifieer minstens één domein voordat 'Alleen SSO' kan worden ingeschakeld, anders zou het beleid voor niemand gelden.",
+      "connectMicrosoftFirst": "Koppel eerst Microsoft aan je eigen account (Instellingen → Beveiliging → Microsoft koppelen), anders sluit je jezelf buiten zodra 'Alleen SSO' aan staat.",
+      "enable2faFirst": "Schakel eerst tweestapsverificatie in op je eigen account, anders sluit je jezelf buiten het beheer.",
+      "invalidDomain": "Ongeldig domein. Schrijf bijvoorbeeld voorbeeld.com (zonder @ of https://).",
+      "publicProviders": "Openbare e-mailaanbieders (gmail.com, outlook.com enz.) kunnen niet worden gebruikt voor automatisch toetreden.",
+      "domainAlreadyAdded": "Het domein is al toegevoegd.",
+      "domainVerifiedElsewhere": "Het domein is al geverifieerd door een andere organisatie. Neem contact op met support als dit een vergissing is.",
+      "maxDomains": "Hoogstens {max} domeinen per organisatie.",
+      "domainNotFound": "Domein niet gevonden",
+      "domainVerifiedElsewhereShort": "Het domein is al geverifieerd door een andere organisatie.",
+      "txtCorrectButTaken": "Het TXT-record is correct, maar het domein is al geverifieerd door een andere organisatie. Neem contact op met support.",
+      "justVerifiedElsewhere": "Het domein is zojuist geverifieerd door een andere organisatie. Neem contact op met support."
+    },
+    "team": {
+      "timesheetsOwnEmployees": "Je kunt alleen urenstaten van je eigen medewerkers afhandelen",
+      "employeeNotInOrg": "De medewerker bestaat niet in je organisatie",
+      "weekNothingToApprove": "De week heeft geen boekingen om goed te keuren",
+      "weekAlreadyApproved": "De week is al goedgekeurd",
+      "noSelfApprove": "Je kunt je eigen urenstaat niet goedkeuren",
+      "onlySubmittedRejectable": "Alleen ingediende weken kunnen worden afgewezen",
+      "weekInClosedPeriod": "De week valt in een afgesloten periode. Ontgrendel de periode eerst bij Periodeafsluiting.",
+      "onlyApprovedReopen": "Alleen goedgekeurde weken kunnen opnieuw worden geopend",
+      "historyOwnEmployees": "Je kunt alleen de geschiedenis van je eigen medewerkers bekijken"
+    },
+    "import": {
+      "noProject": "(geen project)",
+      "beforeLock": "{count} rijen liggen vóór de periodevergrendeling {date}",
+      "submittedWeeks": "{count} ingediende/goedgekeurde weken krijgen nieuwe rijen, en die tellen niet mee in het totaal dat al was goedgekeurd"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "De week is al goedgekeurd. Vraag je manager om hem opnieuw te openen.",
+      "weekAlreadySubmitted": "De week is al ingediend en wacht op goedkeuring",
+      "weekNothingToSubmit": "De week heeft geen boekingen om in te dienen",
+      "activityNotAllowed": "De activiteit is niet toegestaan op dit project",
+      "dayHasDetailed": "De dag heeft {hours} uur aan gedetailleerde boekingen. Bewerk ze bij Urenregistratie, of voer minstens zoveel in.",
+      "chooseOtherActivity": "Kies een andere activiteit om naartoe te verplaatsen",
+      "noEmployeeProfile": "Je hebt geen medewerkersprofiel in deze organisatie",
+      "fixedHoliday": "De dag is vaste vakantie (sluitingsperiode) en kan niet door jou worden gewijzigd",
+      "coveredByLongAbsence": "De dag valt onder een langere afwezigheidsperiode. Bewerk die bij Afwezigheid.",
+      "notEmployed": "Je was op deze datum niet in dienst",
+      "holidayNoAbsence": "De dag is een vrije dag of feestdag, dus er kan geen afwezigheid worden geregistreerd",
+      "lastWeekEmpty": "Vorige week heeft geen boekingen om te kopiëren",
+      "weekNothingToSave": "De week heeft geen boekingen om als sjabloon op te slaan",
+      "templateMissing": "Het sjabloon bestaat niet"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "Alleen managers kunnen de werktijden van een medewerker bewerken",
+      "ownOnlyView": "Je kunt alleen je eigen werktijden bekijken",
+      "employeeNotInOrg": "De medewerker bestaat niet in de organisatie",
+      "sharedPlan": "Het rooster wordt ook buiten je medewerkers gebruikt. Vraag een beheerder om het te wijzigen.",
+      "planMissing": "Het rooster bestaat niet",
+      "planArchived": "Het rooster is gearchiveerd",
+      "laterVersion": "Er bestaat een latere versie vanaf {date}. Bewerk die in plaats daarvan.",
+      "versionFromToday": "Er bestaat al een versie die vanaf vandaag geldt. Kies een latere datum.",
+      "adminsOnlyDept": "Alleen beheerders kunnen een rooster aan een afdeling toewijzen",
+      "departmentMissing": "De afdeling bestaat niet",
+      "deviationsRecorded": "Afwijkingen worden geregistreerd als ze zich voordoen. Geplande afwezigheid registreer je bij Verlof en afwezigheid.",
+      "noFixedPlanToday": "Er is deze dag geen vast werkrooster. Registreer de tijd als tijdboekingen."
+    },
+    "dpa": {
+      "outdated": "De overeenkomst is bijgewerkt sinds de pagina werd geladen. Herlaad en lees de nieuwe versie.",
+      "acceptFailed": "Kon de acceptatie niet registreren",
+      "signIn": "Log in om te downloaden",
+      "ownersAdminsDownload": "Alleen eigenaren en beheerders kunnen de voltooide overeenkomst downloaden"
+    },
+    "edit": {
+      "weekApprovedLocked": "De week is goedgekeurd en vergrendeld. Vraag je manager om hem opnieuw te openen.",
+      "weekSubmitted": "De week is ter goedkeuring ingediend en kan niet worden bewerkt",
+      "entryApproved": "De boeking is goedgekeurd door je manager. Vraag om de week opnieuw te openen."
+    },
+    "periodMaxDaysAsync": "De periode mag hoogstens {days} dagen beslaan",
+    "scope": {
+      "ownEmployees": "Je kunt alleen je eigen medewerkers afhandelen"
+    },
+    "dns": {
+      "unknown": "Onbekende DNS-fout",
+      "lookupFailed": "DNS-opzoeking mislukt: {error}",
+      "noRecord": "Geen TXT-record \"{record}\" gevonden op {hosts}. DNS-wijzigingen kunnen tot een uur duren."
+    }
+  },
+  "emailTemplates": {
+    "notFound": "Sjabloon niet gevonden",
+    "systemNoEdit": "Systeemsjablonen kunnen niet worden bewerkt",
+    "systemNoDelete": "Systeemsjablonen kunnen niet worden verwijderd",
+    "alreadyExist": "Er bestaan al sjablonen"
+  },
+  "api": {
+    "tooManyRequestsLater": "Te veel verzoeken. Probeer het later opnieuw.",
+    "cvr": {
+      "queryMin2": "De zoekterm moet minstens 2 tekens bevatten",
+      "noCompany": "Geen bedrijf gevonden",
+      "searchFailed": "Er is een fout opgetreden tijdens het zoeken",
+      "numberOrQueryRequired": "Een CVR-nummer of zoekterm is verplicht",
+      "eightDigits": "Het CVR-nummer moet 8 cijfers bevatten",
+      "noCompanyForNumber": "Geen bedrijf gevonden met dit CVR-nummer",
+      "lookupFailed": "Er is een fout opgetreden bij het opzoeken van het CVR-nummer"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "Export niet gevonden of verlopen",
+      "expired": "De export is verlopen of niet meer beschikbaar. Vraag een nieuwe export aan."
+    },
+    "notAuthorized": "Niet geautoriseerd. Log eerst in.",
+    "desktop": {
+      "deviceCodeMissing": "Apparaatcode ontbreekt (code)",
+      "maxDevices": "Maximum aantal apparaten bereikt ({max}). Deactiveer eerst een apparaat.",
+      "invalidDeviceToken": "Ongeldig apparaattoken",
+      "userNotFound": "De gebruiker bestaat niet",
+      "settingsReadFailed": "Kon de instellingen niet lezen",
+      "notInAnyOrg": "Je bent geen lid van een organisatie",
+      "adminsOnlyIntegrations": "Alleen beheerders kunnen integratie-instellingen wijzigen",
+      "invalidIntegrationSettings": "Ongeldige integratie-instellingen",
+      "settingsSaveFailed": "Kon de instellingen niet opslaan",
+      "draftOnlyEditLines": "Regels kunnen alleen op conceptfacturen worden gewijzigd",
+      "invalidPrepaidHours": "Ongeldig aantal uren op de tijdboeking van het urenpakket",
+      "draftOnlyEditInvoices": "Alleen conceptfacturen kunnen worden bewerkt",
+      "unbillOnlyWeb": "De markering 'gefactureerd' kan alleen in de webapp worden verwijderd. Verwijder haar eerst daar.",
+      "entryNotFoundOrOther": "Entiteit niet gevonden: {id}. De boeking bestaat niet of hoort bij een andere gebruiker"
+    },
+    "notMemberOfChosenOrg": "Je bent geen lid van de gekozen organisatie",
+    "approvalFailed": "Goedkeuren mislukt",
+    "invalidEmail": "Ongeldig e-mailadres",
+    "genericError": "Er is een fout opgetreden",
+    "dpa": {
+      "pdfFailed": "De PDF kon op dit moment niet worden aangemaakt"
+    },
+    "invalidOrigin": "Ongeldige oorsprong",
+    "invalidRequest": "Ongeldig verzoek",
+    "ext": {
+      "invalidLoginLink": "Ongeldige inloglink. Start het inloggen opnieuw vanuit de app.",
+      "invalidRedirect": "Ongeldige redirect-URI"
+    },
+    "feedback": {
+      "notSignedIn": "Niet ingelogd",
+      "otherUser": "De melding is door een andere gebruiker geschreven",
+      "tooLarge": "De melding is te groot",
+      "invalid": "Ongeldige melding",
+      "saveFailed": "De feedback kon niet worden opgeslagen"
+    },
+    "invalidJson": "Ongeldige JSON",
+    "integrations": {
+      "dineroFailed": "De Dinero-verbinding kon niet worden aangemaakt. Probeer het opnieuw.",
+      "economicFailed": "De e-conomic-verbinding kon niet worden aangemaakt. Probeer het opnieuw.",
+      "googleFailed": "De Google-verbinding kon niet worden aangemaakt. Probeer het opnieuw."
+    },
+    "invoiceSend": {
+      "invalidRecipient": "Ongeldig e-mailadres van de ontvanger",
+      "emailNotConfigured": "De e-maildienst is niet ingesteld. Neem contact op met je beheerder om RESEND_API_KEY of SMTP_HOST in te stellen.",
+      "sendFailed": "Kon de e-mail niet versturen. Probeer het later opnieuw.",
+      "sent": "E-mail verstuurd naar {email}",
+      "error": "Er is een fout opgetreden bij het versturen van de e-mail"
+    },
+    "upload": {
+      "notAuthorized": "Niet geautoriseerd",
+      "noFile": "Geen bestand geüpload",
+      "imageTypes": "Alleen JPEG, PNG en WebP zijn toegestaan",
+      "tooBig": "Het bestand is te groot (max. 8 MB)",
+      "notConfigured": "Bestanden uploaden is niet ingesteld (S3_ENDPOINT of STORAGE_DRIVER=local ontbreekt)",
+      "failed": "Kon het bestand niet uploaden naar de opslag"
+    },
+    "webhookTest": {
+      "tooMany": "Te veel testpogingen voor deze webhook. Probeer het zo opnieuw."
+    },
+    "import": {
+      "tagNoName": "Tag heeft geen naam"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "Het urenpakket hoort bij een andere klant dan de timer"
+  }
+}

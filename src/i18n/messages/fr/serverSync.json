@@ -1,0 +1,475 @@
+{
+  "errors": {
+    "insufficientRights": "Vous n'avez pas les droits nécessaires pour cette action",
+    "accessDenied": "Vous n'avez pas accès à cette ressource",
+    "unexpected": "Une erreur inattendue s'est produite",
+    "clientNotFound": "Client introuvable",
+    "clientArchived": "Le client est archivé",
+    "projectNotFound": "Projet introuvable",
+    "projectArchived": "Le projet est archivé",
+    "timeEntryNotFound": "Saisie de temps introuvable",
+    "timeEntriesNotFound": "Une ou plusieurs saisies de temps sont introuvables",
+    "prepaidNotFound": "Forfait d'heures introuvable",
+    "prepaidInactive": "Le forfait d'heures n'est pas actif",
+    "prepaidInsufficientHours": "Il ne reste pas assez d'heures sur le forfait d'heures. Heures disponibles : {available}",
+    "prepaidHasUsage": "Un forfait d'heures avec consommation enregistrée ne peut pas être supprimé. Désactivez-le à la place.",
+    "invoiceNotFound": "Facture introuvable",
+    "invoiceAlreadySent": "La facture a déjà été envoyée",
+    "invoiceAlreadyPaid": "La facture a déjà été payée",
+    "userNotFound": "Utilisateur introuvable",
+    "invalidValue": "Valeur non valide pour {field}",
+    "operationFailed": "Échec de l'opération : {operation}"
+  },
+  "friendly": {
+    "network": "Pas de connexion à TimeTrack. Vérifiez votre réseau et réessayez.",
+    "server": "Un problème est survenu chez TimeTrack. Réessayez dans un instant.",
+    "validation": "Certains champs ne sont pas remplis correctement. Vérifiez-les et réessayez.",
+    "unauthorized": "Vous n'êtes plus connecté. Connectez-vous à nouveau.",
+    "forbidden": "Vous n'avez pas le droit de faire cela.",
+    "notFound": "Ce que vous cherchez n'existe plus.",
+    "tooManyRequests": "Trop de tentatives en peu de temps. Patientez un instant et réessayez.",
+    "retry": "Réessayer",
+    "login": "Se connecter"
+  },
+  "zod": {
+    "invalidExpoToken": "Jeton push Expo non valide",
+    "invalidUrl": "URL non valide",
+    "webhookEventRequired": "Sélectionnez au moins un type d'événement",
+    "descriptionRequired": "La description est obligatoire",
+    "hoursMin": "Les heures doivent être d'au moins 0,01",
+    "endAfterStart": "L'heure de fin doit être postérieure à l'heure de début",
+    "cursorOrOffset": "Utilisez soit cursor, soit offset, pas les deux",
+    "dateFormat": "La date doit être au format aaaa-MM-jj",
+    "clientOrProject": "Indiquez un client ou un projet",
+    "nameMin2": "Le nom doit contenir au moins 2 caractères",
+    "invalidEmailShort": "Saisissez un e-mail valide",
+    "scopeRequired": "Au moins un périmètre est requis",
+    "approvalScope": "period requiert periodStart+periodEnd ; invoice_draft requiert invoiceId",
+    "invalidEmail": "Saisissez une adresse e-mail valide",
+    "messageMax500": "Le message peut contenir 500 caractères au maximum",
+    "selectProjectClientOrDescription": "Sélectionnez un projet ou un client, ou saisissez une description",
+    "subjectMin5": "L'objet doit contenir au moins 5 caractères",
+    "messageMin10": "Le message doit contenir au moins 10 caractères",
+    "invalidDate": "Date non valide",
+    "atLeastOneWorkday": "Au moins un jour de la semaine doit avoir des heures de travail",
+    "duplicateDate": "La même date a été ajoutée deux fois",
+    "nameRequired": "Le nom est obligatoire",
+    "invalidEmailDash": "Adresse e-mail non valide",
+    "selectProjectClientOrDescriptionShort": "Sélectionnez un projet/client ou saisissez une description",
+    "amountRequired": "Le montant est obligatoire",
+    "amountPositive": "Le montant doit être supérieur à 0",
+    "amountTooLarge": "Le montant est trop élevé",
+    "amountDecimals": "Le montant peut avoir 2 décimales au maximum",
+    "selectClient": "Sélectionnez un client",
+    "issueDateRequired": "La date d'émission est obligatoire",
+    "unknownTool": "Outil inconnu",
+    "invalidCostRate": "Prix de revient non valide",
+    "companyNameMin2": "Le nom de l'entreprise doit contenir au moins 2 caractères",
+    "invalidEmailAddress": "Adresse e-mail non valide",
+    "hourlyRateMin0": "Le taux horaire doit être d'au moins 0",
+    "confirmProjectName": "Saisissez le nom du projet pour confirmer",
+    "enterName": "Saisissez votre nom",
+    "invalidNumber": "Nombre non valide",
+    "descriptionMissing": "La description est manquante",
+    "invalidDateFormat": "Date non valide (format attendu : aaaa-mm-jj)",
+    "nameMissing": "Le nom est manquant",
+    "hoursRequired": "Les heures sont obligatoires",
+    "atLeastOneRecipient": "Au moins un destinataire",
+    "invalidHexColor": "Couleur hexadécimale non valide",
+    "titleRequired": "Le titre est obligatoire",
+    "textRequired": "Le texte est obligatoire",
+    "invalidImageUrl": "URL d'image non valide",
+    "enterDays": "Saisissez un nombre de jours",
+    "invalidColor": "Couleur non valide",
+    "dateYmd": "Date au format AAAA-MM-JJ",
+    "noteRequired": "Saisissez une note",
+    "unlockReason": "Indiquez un motif de déverrouillage",
+    "reasonRequired": "Indiquez un motif",
+    "reopenReason": "Indiquez un motif de réouverture",
+    "templateNameRequired": "Donnez un nom au modèle",
+    "employeeOrDepartment": "Choisissez un collaborateur ou un service",
+    "formatMmDd": "Doit être au format MM-JJ"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "Client créé",
+      "clientUpdated": "Client mis à jour",
+      "clientArchived": "Client archivé",
+      "projectCreated": "Projet créé",
+      "projectUpdated": "Projet mis à jour",
+      "projectStatusChanged": "Statut du projet modifié",
+      "projectBudgetThreshold": "Seuil du budget mensuel atteint",
+      "timeEntryCreated": "Saisie de temps créée",
+      "timeEntryUpdated": "Saisie de temps mise à jour",
+      "timeEntryDeleted": "Saisie de temps supprimée",
+      "invoiceCreated": "Facture créée",
+      "invoiceSent": "Facture envoyée",
+      "invoicePaid": "Facture payée",
+      "invoiceOverdue": "Facture en retard",
+      "prepaidCreated": "Forfait d'heures créé",
+      "prepaidUpdated": "Forfait d'heures mis à jour",
+      "prepaidLowBalance": "Solde faible du forfait d'heures",
+      "prepaidExpired": "Forfait d'heures expiré",
+      "taskCreated": "Tâche créée",
+      "taskUpdated": "Tâche mise à jour",
+      "taskCompleted": "Tâche terminée"
+    }
+  },
+  "clients": {
+    "invalidDomain": "Domaine non valide : {domain}",
+    "roundingRequired": "roundingMinutes et roundingMethod doivent être renseignés lorsque roundingEnabled vaut true"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "L'URL du webhook ne peut pas être affichée. Générez une nouvelle URL."
+  },
+  "desktop": {
+    "licenseMismatch": "Nous n'avons pas pu associer la clé de licence et l'e-mail. Vérifiez-les ou contactez le support."
+  },
+  "common": {
+    "unknownProject": "Projet inconnu",
+    "unknownError": "Erreur inconnue",
+    "noProject": "Aucun projet",
+    "unknownClient": "Client inconnu",
+    "unknown": "Inconnu"
+  },
+  "search": {
+    "invoiceTitle": "Facture {number}",
+    "timeEntryTitle": "Saisie de temps",
+    "timeSubtitle": "{project} • {hours}h",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • {hours}h restantes",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "Le code de connexion n'est pas valide ou a expiré. Connectez-vous à nouveau.",
+    "import": {
+      "noWorkRuleNoTarget": "Une règle de non-travail ne pointe vers aucun projet ni client",
+      "ruleNeedsTarget": "Une règle doit pointer vers un projet ou un client",
+      "linesSumMismatch": "La somme des lignes ({sum}) ne correspond pas au montant de la facture ({amount})",
+      "entryNotImported": "La saisie {id} n'a pas été importée",
+      "companyProfileMissing": "Les informations de l'entreprise sont manquantes. Renseignez-les sous Paramètres → Profil de l'entreprise avant d'importer des factures.",
+      "fullCreditOnly": "Seuls les avoirs complets peuvent être importés : le montant de l'avoir ({amount}) doit être le montant de la facture ({original}) avec le signe opposé",
+      "invoiceNotFound": "La facture {id} n'existe pas",
+      "creditNoteAmount": "Un avoir doit avoir un montant inférieur ou égal à 0",
+      "invoiceIsDraft": "La facture {id} est un brouillon et ne peut pas faire l'objet d'un avoir",
+      "refMissing": {
+        "client": "Le client {id} n'a pas été importé",
+        "project": "Le projet {id} n'a pas été importé",
+        "prepaid": "Le forfait d'heures {id} n'a pas été importé",
+        "task": "La tâche {id} n'a pas été importée",
+        "invoice": "La facture {id} n'a pas été importée"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "Les factures payées ne peuvent pas être modifiées. Créez un avoir si nécessaire.",
+      "deleted": "Les factures supprimées ne peuvent pas être restaurées.",
+      "generic": "Impossible de passer du statut « {from} » à « {to} »."
+    },
+    "directTime": "Temps direct",
+    "status": {
+      "draft": "brouillon",
+      "sent": "envoyée",
+      "paid": "payée",
+      "overdue": "en retard",
+      "deleted": "supprimée"
+    },
+    "specHeading": "--- Détail ---",
+    "specLine": "{date} - {project} : {description} ({hours} h × {rate} kr = {amount} kr)"
+  },
+  "logbook": {
+    "endAfterStart": "La date de fin doit être postérieure à la date de début",
+    "periodMaxDays": "La période peut durer {days} jours au maximum"
+  },
+  "portal": {
+    "manualDeduction": "Déduction manuelle"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "Le forfait d'heures a déjà une facture récurrente"
+  },
+  "storeBilling": {
+    "notAvailable": "Les achats intégrés ne sont pas encore disponibles."
+  },
+  "subscription": {
+    "storeManaged": "Votre abonnement est payé via {provider}. Vous le modifiez ou le résiliez dans {provider}.",
+    "teamPlanNotConfigured": "La formule Team n'est pas encore configurée (ALUNTA_PLAN_TEAM_*). Contactez le support.",
+    "businessPlanNotConfigured": "La formule Business n'est pas encore configurée (ALUNTA_PLAN_BUSINESS_*). Contactez le support.",
+    "privatePlanNotAvailable": "La formule Privé n'est pas encore disponible (ALUNTA_PLAN_PRIVAT_*). Choisissez une autre formule ou contactez le support.",
+    "freeNotPurchasable": "La formule Gratuit ne peut pas être achetée.",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL n'est pas défini"
+  },
+  "time": {
+    "invalidEntryDate": "Date non valide : format attendu AAAA-MM-JJ"
+  },
+  "billedLock": {
+    "onInvoice": "La saisie de temps est facturée et ne peut pas être modifiée. Créez d'abord un avoir pour la facture ou retirez la saisie du brouillon de facture.",
+    "marked": "La saisie de temps est marquée comme facturée et ne peut pas être modifiée. Retirez d'abord la marque.",
+    "bulk": {
+      "delete": "{count, plural, one {# des saisies de temps sélectionnées est facturée et ne peut pas être supprimée. Créez d'abord un avoir pour la facture ou retirez la marque.} many {# de saisies de temps sélectionnées sont facturées et ne peuvent pas être supprimées. Créez d'abord un avoir pour la facture ou retirez la marque.} other {# des saisies de temps sélectionnées sont facturées et ne peuvent pas être supprimées. Créez d'abord un avoir pour la facture ou retirez la marque.}}",
+      "edit": "{count, plural, one {# des saisies de temps sélectionnées est facturée et ne peut pas être modifiée. Créez d'abord un avoir pour la facture ou retirez la marque.} many {# de saisies de temps sélectionnées sont facturées et ne peuvent pas être modifiées. Créez d'abord un avoir pour la facture ou retirez la marque.} other {# des saisies de temps sélectionnées sont facturées et ne peuvent pas être modifiées. Créez d'abord un avoir pour la facture ou retirez la marque.}}",
+      "move": "{count, plural, one {# des saisies de temps sélectionnées est facturée et ne peut pas être déplacée. Créez d'abord un avoir pour la facture ou retirez la marque.} many {# de saisies de temps sélectionnées sont facturées et ne peuvent pas être déplacées. Créez d'abord un avoir pour la facture ou retirez la marque.} other {# des saisies de temps sélectionnées sont facturées et ne peuvent pas être déplacées. Créez d'abord un avoir pour la facture ou retirez la marque.}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "Un type d'activité portant ce nom existe déjà",
+    "endAfterStart": "La date de fin doit être postérieure à la date de début",
+    "fromBeforeTo": "La date de début doit précéder la date de fin",
+    "periodMaxDays": "La période peut durer {days} jours au maximum",
+    "employee": {
+      "importManagerMissing": "Le responsable {email} n'existe ni dans le fichier ni dans l'organisation. Le collaborateur a été importé sans responsable."
+    },
+    "payroll": {
+      "hrOnly": "La correspondance de paie est réservée aux RH et aux administrateurs"
+    },
+    "closing": {
+      "changedMeanwhile": "Le relevé a été modifié entre-temps. Rechargez la page.",
+      "locked": "La période est clôturée et verrouillée. Un administrateur doit la déverrouiller (avec un motif) avant que les saisies puissent être modifiées."
+    },
+    "team": {
+      "absenceLabel": "Absence"
+    },
+    "timesheet": {
+      "coveredByRequest": "Ce jour est couvert par une demande d'absence créée sous Absence. Modifiez-la là-bas.",
+      "otherTypeAbsence": "Vous avez déjà une absence d'un autre type ce jour-là",
+      "absenceRecordedElsewhere": "L'absence a été enregistrée en même temps depuis un autre endroit. Rechargez la semaine.",
+      "overMax": "{label} : {total} h dépasse le maximum de {max} h par jour",
+      "emptyWorkday": "{label} est un jour ouvré sans saisie ni absence",
+      "overNorm": "{label} : {total} h dépasse votre norme de {norm} h",
+      "weekOverNorm": "La semaine : {total} h dépasse votre norme hebdomadaire de {norm} h",
+      "autoLocked": "La semaine est verrouillée. La semaine dernière est verrouillée le {day}. Contactez votre responsable pour la faire corriger.",
+      "automatically": "automatiquement",
+      "rollingLocked": "Les saisies de plus de {weeks} sont verrouillées par l'organisation. Contactez votre responsable pour les faire corriger.",
+      "weeks": "{count, plural, one {# semaine} many {# de semaines} other {# semaines}}"
+    },
+    "workPlans": {
+      "notBackwards": "Un plan ne peut pas être modifié rétroactivement. Choisissez aujourd'hui ou une date ultérieure."
+    },
+    "absenceCap": {
+      "used": "{type} est épuisé pour {year} (plafond de {cap} jours par an)",
+      "left": "Il ne reste que {remaining} jours sur {cap} de {type} en {year}"
+    },
+    "rule": {
+      "avgViolation": "Règle des 48 heures : la moyenne sur la période de référence est de {avg} h/semaine (limite : {limit} h)",
+      "avgWarning": "Règle des 48 heures : la moyenne sur la période de référence est de {avg} h/semaine et approche de la limite de {limit} h",
+      "weekInfo": "Règle des 48 heures : la semaine en est à {week} h ; la moyenne sur la période de référence reste inférieure à {limit} h",
+      "restBefore": "Repos de 11 heures : seulement {rest} h de repos avant le travail du {day} (requis : {limit} h)",
+      "daySum": "Repos de 11 heures : {total} h saisies le {day} laissent moins de {limit} h de repos (maximum {max} h par jour)",
+      "weeklyRest": "Repos hebdomadaire de 24 heures : le plus long repos continu de la semaine du {day} est de {rest} h (requis : {limit} h)",
+      "noFreeDay": "Repos hebdomadaire de 24 heures : du travail est enregistré les 7 jours de la semaine du {day}, sans jour complet de repos"
+    },
+    "employment": {
+      "endBeforeStart": "La date de fin ne peut pas précéder la date de début",
+      "onlyFirstUnknown": "Seule la première période peut avoir une date de début inconnue",
+      "startAfterPrevStart": "La date de début doit être postérieure au début de la période précédente ({date})",
+      "startAfterPrevEnd": "La date de début doit être postérieure à la fin de l'emploi précédent ({date})",
+      "endBeforeNext": "La date de fin doit précéder le début de la période suivante ({date})",
+      "endDayBeforeNext": "La date de fin doit être la veille du début de la période suivante ({date}). Déplacez plutôt la date de début de la période suivante."
+    },
+    "import": {
+      "fileEmpty": "Le fichier est vide",
+      "headerEmployees": "La ligne d'en-tête doit contenir au moins les colonnes « navn » et « email »",
+      "nameMissing": "Le nom est manquant",
+      "invalidEmail": "E-mail non valide : « {value} »",
+      "duplicate": "Doublon dans le fichier : {email}",
+      "unknownRole": "Rôle inconnu : « {value} » (utilisez medarbejder/leder/admin)",
+      "invalidWeeklyHours": "Nombre d'heures non valide : « {value} » (1-60)",
+      "invalidStartDate": "Date de début non valide : « {value} » (utilisez AAAA-MM-JJ)",
+      "invalidManagerEmail": "E-mail du responsable non valide : « {value} »",
+      "headerEntries": "La ligne d'en-tête doit contenir les colonnes « email » (ou « medarbejder »), « dato » et « timer »",
+      "invalidDate": "Date non valide : « {value} » (utilisez AAAA-MM-JJ)",
+      "invalidHours": "Nombre d'heures non valide : « {value} » (0-24)"
+    },
+    "period": {
+      "pickBoth": "Choisissez une date de début et une date de fin",
+      "fromBeforeToOrSame": "La date de début doit être antérieure ou égale à la date de fin",
+      "maxDaysShorter": "La période peut durer {days} jours au maximum. Choisissez un intervalle plus court."
+    },
+    "vacation": {
+      "notEnough": "Pas assez de jours de congés dans la catégorie {pool}. Il vous reste {remaining} jours, mais la saisie en nécessite {deducted}{tolerance}.",
+      "overdraftAllowed": " (dépassement autorisé : {days} jours)",
+      "overdraftNotAllowed": " (le dépassement n'est pas autorisé)"
+    },
+    "workPlan": {
+      "rotation": "La rotation doit être de 1 ou 2 semaines",
+      "weekCount": "Le nombre de semaines ne correspond pas à la rotation",
+      "invalidWeekday": "Jour de la semaine non valide{label}",
+      "duplicateWeekday": "Un jour de la semaine apparaît deux fois{label}",
+      "timeFormat": "Les horaires doivent être écrits au format HH:MM{label}",
+      "endAfterStart": "L'heure de fin doit être postérieure à l'heure de début{label}",
+      "breakRange": "La pause doit durer entre 0 et 240 minutes{label}",
+      "breakShorter": "La pause doit être plus courte que la journée de travail{label}",
+      "inWeek": " en semaine {week}",
+      "enterBothTimes": "Saisissez une heure de début et une heure de fin au format HH:MM",
+      "endAfterStartPlain": "L'heure de fin doit être postérieure à l'heure de début",
+      "breakShorterPlain": "La pause doit être plus courte que la journée de travail",
+      "rangeOrHours": "Saisissez une plage horaire ou de 0 à 24 heures"
+    },
+    "closure": {
+      "overlap": "a déjà une absence sur la période",
+      "noWorkingDays": "n'a aucun jour ouvré sur la période",
+      "balance": "n'a pas assez de jours de congés",
+      "error": "n'a pas pu être créé (erreur technique)"
+    },
+    "workPlanExport": {
+      "planned": "Comme prévu",
+      "deviation": "Écart",
+      "dayOff": "Jour de repos",
+      "absence": "Absence",
+      "free": "Repos selon le plan",
+      "hDate": "Date",
+      "hStatus": "Statut",
+      "hPlan": "Plan",
+      "hPlanHours": "Plan (heures)",
+      "hRegisteredRange": "Plage horaire saisie",
+      "hBreak": "Pause (min)",
+      "hRegisteredHours": "Saisi (heures)",
+      "hDayOff": "Jour de repos",
+      "hNote": "Note",
+      "hEditedBy": "Modifié par",
+      "hEditedUtc": "Modifié (UTC)"
+    },
+    "payrollXlsx": {
+      "sheet": "Paie",
+      "period": "Période : {period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "Le nom de votre entreprise",
+      "yourName": "Votre nom",
+      "yourEmail": "Votre e-mail",
+      "yourPhone": "Votre numéro de téléphone",
+      "clientFullName": "Le nom complet du client",
+      "clientCompany": "Le nom de l'entreprise du client",
+      "clientEmail": "L'e-mail du client",
+      "portalLink": "Lien vers le portail client",
+      "invoiceNumber": "Numéro de facture",
+      "totalInclVat": "Montant total TTC",
+      "amountExclVat": "Montant HT",
+      "issueDate": "Date d'émission",
+      "paymentDeadline": "Date limite de paiement",
+      "invoiceStatus": "Payée/Impayée/En retard",
+      "invoiceLink": "Lien direct vers la facture",
+      "daysLate": "Nombre de jours de retard",
+      "projectName": "Le nom du projet",
+      "projectStatus": "Actif/Terminé/En pause",
+      "hoursUsed": "Heures utilisées",
+      "projectLink": "Lien vers le projet dans le portail",
+      "prepaidName": "Le nom du forfait d'heures",
+      "hoursRemaining": "Heures restantes",
+      "hoursTotal": "Total des heures",
+      "percentUsed": "Pourcentage utilisé",
+      "expiryDate": "Date d'expiration",
+      "daysToExpiry": "Jours avant expiration",
+      "hoursForApproval": "Total des heures à valider",
+      "entryCount": "Nombre de saisies de temps",
+      "period": "Période",
+      "approvalLink": "Lien vers la page de validation",
+      "loginLink": "Lien vers la connexion au portail",
+      "invitationLink": "Lien d'invitation",
+      "invitationExpiry": "Date d'expiration de l'invitation"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "TVA T{n}",
+    "vatHalfTitle": "TVA S{n}",
+    "vatQuarterDesc": "Déclaration et paiement de la TVA du trimestre auprès de l'administration fiscale danoise (Skattestyrelsen).",
+    "vatHalfDesc": "Déclaration et paiement de la TVA du semestre auprès de l'administration fiscale danoise (Skattestyrelsen).",
+    "vatMonthTitle": "TVA {month}",
+    "vatMonthDesc": "Déclaration et paiement de la TVA de {month} {year} auprès de l'administration fiscale danoise (Skattestyrelsen).",
+    "bSkatSpring": "Impôt provisoire, B-skat (printemps)",
+    "bSkatAutumn": "Impôt provisoire, B-skat (automne)",
+    "bSkatDesc": "Paiement du B-skat (impôt provisoire) à l'administration fiscale danoise (Skattestyrelsen). Concerne les indépendants et freelances.",
+    "formTitle": "Déclaration de revenus {year}",
+    "formDesc": "Dépôt de la déclaration de revenus (oplysningsskema) de l'année de revenus {year} auprès de l'administration fiscale danoise (Skattestyrelsen).",
+    "amTitle": "Cotisation marché du travail (AM) T{n}",
+    "amDesc": "Paiement de la cotisation marché du travail (AM-bidrag) des indépendants pour le trimestre.",
+    "arTitle": "Rapport annuel exercice {year}",
+    "arDesc": "Le rapport annuel doit être remis à l'autorité danoise des entreprises (Erhvervsstyrelsen) au plus tard 5 mois après la fin de l'exercice.",
+    "agmTitle": "Assemblée générale exercice {year}",
+    "agmDesc": "Assemblée générale ordinaire pour approuver le rapport annuel.",
+    "corpFormTitle": "Déclaration fiscale de la société, exercice {year}",
+    "corpFormDesc": "La déclaration fiscale de la société (oplysningsskema) pour l'exercice doit être remise à l'administration fiscale danoise (Skattestyrelsen).",
+    "corpTaxSpring": "Acompte d'impôt sur les sociétés (printemps)",
+    "corpTaxAutumn": "Acompte d'impôt sur les sociétés (automne)",
+    "corpTaxDesc": "Paiement d'un acompte d'impôt sur les sociétés à l'administration fiscale danoise (Skattestyrelsen).",
+    "corpFinalTitle": "Solde de l'impôt sur les sociétés {year}",
+    "corpFinalDesc": "Paiement du solde de l'impôt sur les sociétés pour l'année de revenus {year}.",
+    "payrollTitle": "A-skat/cotisation AM {month}",
+    "payrollDesc": "Déclaration et paiement de l'A-skat et de la cotisation AM pour la période de paie {month} {year}.",
+    "holidayPayTitle": "Indemnité de congés T{n}",
+    "holidayPayDesc": "Déclaration et paiement de l'indemnité de congés à Feriekonto (la caisse danoise des congés payés) pour le trimestre."
+  },
+  "integrations": {
+    "authExpired": "La connexion {name} a expiré ou n'est pas valide. Reconnectez-vous sous Paramètres → Intégrations.",
+    "billy": {
+      "keyRequired": "Une clé API Billy est requise",
+      "productDescription": "Heures importées depuis TimeTrack"
+    },
+    "dinero": {
+      "keyRequired": "Une clé API Dinero est requise",
+      "orgIdRequired": "Un identifiant d'organisation Dinero est requis",
+      "tokenFailed": "Impossible d'obtenir le jeton Dinero",
+      "refreshMissing": "Le jeton d'actualisation Dinero est manquant",
+      "expiredReconnect": "La connexion Dinero a expiré. Reconnectez-vous.",
+      "orgsFailed": "Impossible d'obtenir les organisations Dinero"
+    },
+    "economic": {
+      "secretRequired": "Un App Secret Token e-conomic est requis",
+      "grantRequired": "Un Agreement Grant Token e-conomic est requis",
+      "consultingHours": "Mission de conseil : {hours} heures"
+    },
+    "timeops": {
+      "invalidKey": "La clé API n'est pas valide ou a expiré",
+      "premium": "TimeOps Premium est nécessaire pour utiliser leur API",
+      "network": "Impossible de se connecter à TimeOps. Réessayez plus tard.",
+      "unexpected": "Une erreur inattendue s'est produite lors de la connexion à TimeOps ({detail})"
+    },
+    "icloud": {
+      "syncFailed": "Échec de la synchronisation iCloud",
+      "storageMissing": "iCloud ne peut pas être connecté pour le moment, car le stockage sécurisé des mots de passe n'est pas configuré sur le serveur. Contactez le support.",
+      "rejected": "L'identifiant Apple ou le mot de passe d'application a été refusé. Vérifiez que vous avez copié tout le mot de passe d'application (et non votre mot de passe Apple habituel).",
+      "notConnected": "iCloud n'est pas connecté",
+      "notConnectedShort": "Non connecté à iCloud",
+      "calendarGone": "L'agenda « {name} » n'existe plus dans iCloud. Choisissez à nouveau les agendas.",
+      "unknownCalendar": "inconnu"
+    },
+    "caldav": {
+      "unknown": "Échec de la synchronisation iCloud : {message}",
+      "auth": "Apple a refusé la connexion. Créez un nouveau mot de passe d'application sur appleid.apple.com et reconnectez iCloud.",
+      "network": "Impossible de se connecter à iCloud pour le moment. Nous réessaierons automatiquement."
+    },
+    "cvr": {
+      "invalid": "Le numéro CVR doit comporter 8 chiffres",
+      "notFound": "Aucune entreprise trouvée avec ce numéro CVR",
+      "rateLimited": "Les recherches CVR sont temporairement limitées. Réessayez dans un instant ou remplissez les champs vous-même.",
+      "timeout": "Le registre CVR ne répond pas pour le moment. Réessayez dans un instant ou remplissez les champs vous-même.",
+      "unavailable": "La recherche CVR ne fonctionne pas pour le moment. Réessayez dans un instant ou remplissez les champs vous-même."
+    },
+    "google": {
+      "readOnly": "Votre Google Agenda est connecté en lecture seule : TimeTrack ne peut donc pas y créer ni y modifier d'événements. Accordez l'accès en écriture sous Paramètres → Intégrations → Google Agenda si vous souhaitez utiliser cette fonction.",
+      "freeSlot": "Temps libre dans l'agenda",
+      "deadlineIn": "Échéance dans {count, plural, one {# jour} many {# de jours} other {# jours}}",
+      "urgent": "Priorité urgente",
+      "high": "Priorité haute",
+      "clientLine": "Client : {name}",
+      "projectLine": "Projet : {name}",
+      "hoursLine": "Heures : {hours}",
+      "exportedFrom": "Exporté depuis TimeTrack"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "Saisie de temps",
+    "timeOnProject": "{hours} heures sur {name}",
+    "timeForClient": "{hours} heures pour {name}",
+    "timeOnly": "{hours} heures",
+    "invoiceTitle": "Facture {number}",
+    "invoiceDescription": "{amount} kr à {client}",
+    "newClient": "Nouveau client : {name}",
+    "noContact": "Pas de coordonnées",
+    "newProject": "Nouveau projet : {name}",
+    "projectFor": "Pour {client}",
+    "internal": "Interne"
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "group": {
+    "account": "Tili",
+    "organisation": "Organisaatio",
+    "billing": "Laskutus",
+    "integrations": "Integraatiot",
+    "advanced": "Lisäasetukset"
+  },
+  "item": {
+    "settings": {
+      "label": "Profiili ja ulkoasu",
+      "description": "Nimi, tuntihinta, työaika, teema ja kieli"
+    },
+    "settings_security": {
+      "label": "Tietoturva ja kirjautuminen",
+      "description": "Salasana, kaksivaiheinen tunnistus, pääsyavaimet ja istunnot"
+    },
+    "settings_notifications": {
+      "label": "Ilmoitukset",
+      "description": "Sähköposti, Discord, push-ilmoitukset ja hiljaiset tunnit"
+    },
+    "settings_gdpr": {
+      "label": "GDPR ja tietosuoja",
+      "description": "Lataa tietosi ja tietojenkäsittelysopimus"
+    },
+    "settings_company": {
+      "label": "Yritysprofiili",
+      "description": "CVR, osoite, pankki, ALV ja yrityksen vapaapäivät"
+    },
+    "organization": {
+      "label": "Organisaatio ja tiimi",
+      "description": "Jäsenet, kutsut ja roolit"
+    },
+    "organization_permissions": {
+      "label": "Käyttöoikeudet",
+      "description": "Mitä kukin rooli voi nähdä ja muuttaa"
+    },
+    "organization_audit": {
+      "label": "Toimintaloki",
+      "description": "Kuka muutti mitä organisaatiossa"
+    },
+    "settings_modules": {
+      "label": "Moduulit",
+      "description": "Ota moduuleja käyttöön ja pois käytöstä organisaatiolle"
+    },
+    "settings_tags": {
+      "label": "Tunnisteet",
+      "description": "Järjestä tuntikirjaukset, projektit ja asiakkaat"
+    },
+    "enterprise_settings": {
+      "label": "Enterprise-asetukset",
+      "description": "Työaika, poissaolot, lomat, palkka ja kirjautuminen"
+    },
+    "settings_subscription": {
+      "label": "Tilaus",
+      "description": "Paketti, maksu ja käyttäjäpaikat"
+    },
+    "settings_email": {
+      "label": "Sähköposti ja pohjat",
+      "description": "Sähköpostipohjat laskuille ja muistutuksille"
+    },
+    "settings_portal": {
+      "label": "Asiakasportaali",
+      "description": "Asiakasportaalin logo, värit ja verkkotunnus"
+    },
+    "settings_integrations": {
+      "label": "Integraatiot",
+      "description": "Kirjanpito, kalenteri ja selainlaajennus"
+    },
+    "settings_ai": {
+      "label": "Tekoäly ja automaatio",
+      "description": "Sähköposti tehtäväksi ja tekoälytulkinta"
+    },
+    "settings_desktop": {
+      "label": "Työpöytäsovellus",
+      "description": "Lataus, yhdistetyt laitteet ja lisenssi"
+    },
+    "settings_api": {
+      "label": "API",
+      "description": "API-avaimet ja dokumentaatio"
+    },
+    "settings_data": {
+      "label": "Tuonti ja vienti",
+      "description": "Tuo CSV-tiedostosta ja vie tietosi"
+    }
+  },
+  "entry": {
+    "settings": {
+      "profilbillede": "Profiilikuva",
+      "name": "Nimi",
+      "hourlyRate": "Oletustuntihinta",
+      "weeklyHourGoal": "Viikoittainen tuntitavoite",
+      "startPage": "Aloitussivu kirjautumisen jälkeen",
+      "arbejdstid": "Työaika ja käyttöaste",
+      "fridage": "Yleiset vapaapäivät ja vapaapäivät",
+      "afrunding": "Ajan pyöristys",
+      "klippekort": "Piilota summat tuntipaketeista",
+      "godkendelse": "Asiakkaan hyväksyntä",
+      "udseende": "Teema (vaalea tai tumma)",
+      "sprog": "Kieli",
+      "opsaetningsguide": "Käyttöönotto-opas",
+      "slet-konto": "Poista tili"
+    },
+    "settings_security": {
+      "to-faktor": "Kaksivaiheinen tunnistus",
+      "adgangskode": "Salasana",
+      "forbundne-konti": "Yhdistetyt tilit",
+      "passkeys": "Pääsyavaimet",
+      "telefon": "Puhelinnumero",
+      "betroede-enheder": "Luotetut laitteet",
+      "sessioner": "Aktiiviset istunnot"
+    },
+    "settings_notifications": {
+      "email-notifikationer": "Sähköposti-ilmoitukset",
+      "stille-timer": "Hiljaiset tunnit",
+      "discord": "Discord",
+      "push": "Selaimen push-ilmoitukset",
+      "pwa": "Sovellus ja passiivisuus (PWA)",
+      "ugerapporter": "Automaattiset viikkoraportit"
+    },
+    "settings_gdpr": {
+      "databehandleraftale": "Tietojenkäsittelysopimus",
+      "sletning": "Tietojen poistaminen"
+    },
+    "settings_company": {
+      "logo": "Yrityksen logo",
+      "adresse": "Osoite",
+      "bank": "Pankkitiedot",
+      "moms": "ALV",
+      "fridage": "Yleiset vapaapäivät ja yrityksen vapaapäivät"
+    },
+    "settings_subscription": {
+      "plan": "Nykyinen paketti",
+      "betaling": "Maksu ja kuitit",
+      "pladser": "Käyttäjäpaikat",
+      "skift-plan": "Vaihda pakettia",
+      "annuller": "Peruuta tilaus"
+    },
+    "settings_portal": {
+      "branding": "Portaalin logo ja nimi",
+      "farver": "Portaalin värit",
+      "skrifttyper": "Portaalin fontit",
+      "domaene": "Portaalin oma verkkotunnus"
+    },
+    "settings_integrations": {
+      "regnskab": "Oletuskirjanpitojärjestelmä",
+      "dinero": "Dinero",
+      "economic": "e-conomic",
+      "google-kalender": "Google Kalenteri",
+      "browserudvidelse": "Selainlaajennus",
+      "alunta": "Alunta-tuntipaketit"
+    },
+    "settings_ai": {
+      "ai-udbyder": "Tekoälypalvelun tarjoaja",
+      "email-til-opgave": "Sähköposti tehtäväksi"
+    },
+    "settings_desktop": {
+      "enheder": "Yhdistetyt laitteet",
+      "licens": "Työpöytäsovelluksen lisenssi"
+    },
+    "settings_data": {
+      "eksport": "Vie tiedot",
+      "import": "Tuo tiedot"
+    }
+  }
+}

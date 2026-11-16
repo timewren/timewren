@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Pierwsze kroki",
+      "items": {
+        "0": {
+          "question": "Jak dodać pierwszego klienta?",
+          "answer": "Przejdź do „Klienci” na pasku bocznym i kliknij „Dodaj klienta”. Uzupełnij dane klienta, takie jak nazwa, e-mail i, jeśli chcesz, indywidualna stawka godzinowa. Jeśli nie podasz stawki godzinowej, używana jest twoja domyślna stawka z ustawień."
+        },
+        "1": {
+          "question": "Czym różnią się projekty od klientów?",
+          "answer": "Klienci to osoby lub firmy, dla których pracujesz. Projekty to konkretne zadania lub zlecenia w ramach klienta. Jeden klient może mieć kilka projektów, np. „Tworzenie strony” i „Bieżące wsparcie”."
+        },
+        "2": {
+          "question": "Jak rejestrować czas?",
+          "answer": "Przejdź do „Rejestracja czasu” i użyj stopera (start/stop) albo dodaj czas ręcznie. Wybierz projekt lub klienta, dodaj opis i zapisz. Możesz zdecydować, czy czas ma zostać odjęty od pakietu godzin, czy zafakturowany w zwykły sposób."
+        },
+        "3": {
+          "question": "Jak ponownie uruchomić wprowadzenie?",
+          "answer": "Kliknij swoje zdjęcie profilowe lub inicjały w prawym górnym rogu i wybierz „Uruchom wprowadzenie”. Przeprowadzi cię ono przez wszystkie najważniejsze funkcje {brand} w 24 interaktywnych krokach."
+        },
+        "4": {
+          "question": "Czy są skróty klawiszowe?",
+          "answer": "Tak, {brand} ma wiele skrótów klawiszowych do szybkiej nawigacji i obsługi stopera. Naciśnij „?”, aby zobaczyć przegląd wszystkich dostępnych skrótów, albo zajrzyj do tematu „Skróty klawiszowe i wskazówki” poniżej."
+        }
+      }
+    },
+    "clients": {
+      "title": "Klienci",
+      "items": {
+        "0": {
+          "question": "Jak ustawić indywidualną stawkę godzinową dla klienta?",
+          "answer": "Podczas tworzenia lub edycji klienta możesz wpisać „Stawkę godzinową (kr)”. Ta stawka zastępuje twoją domyślną stawkę godzinową we wszystkich projektach tego klienta, chyba że projekt ma własną stawkę godzinową."
+        },
+        "1": {
+          "question": "Czy mogę usunąć klienta?",
+          "answer": "Aby zachować spójność danych, klientów nie można usuwać, ale można ich archiwizować. Zarchiwizowani klienci nie pojawiają się na listach, ale ich dane historyczne zostają zachowane. Zarchiwizowanego klienta możesz w każdej chwili przywrócić."
+        },
+        "2": {
+          "question": "Jak działa hierarchia stawek?",
+          "answer": "{brand} używa trzypoziomowego systemu stawek: 1) globalna stawka godzinowa (w ustawieniach), 2) stawka godzinowa klienta, 3) stawka godzinowa projektu. Stosowany jest najbardziej szczegółowy poziom. Na przykład jeśli projekt ma stawkę, jest ona używana, w przeciwnym razie stawka klienta, a w ostateczności stawka globalna."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projekty",
+      "items": {
+        "0": {
+          "question": "Czym różni się rozliczenie godzinowe od ceny stałej?",
+          "answer": "Projekty godzinowe są fakturowane na podstawie liczby godzin pomnożonej przez stawkę godzinową. Projekty o cenie stałej mają z góry ustaloną cenę niezależnie od liczby godzin. Typ wybierasz podczas tworzenia projektu."
+        },
+        "1": {
+          "question": "Jak śledzić terminy projektów?",
+          "answer": "Podczas tworzenia projektu możesz ustawić termin. Projekty z terminem pokazują ostrzeżenie, gdy termin się zbliża. Możesz też ustawić status „Aktywny”, „Wstrzymany” lub „Zakończony”."
+        },
+        "2": {
+          "question": "Czy mogę przenieść projekt do innego klienta?",
+          "answer": "Tak, edytuj projekt i wybierz nowego klienta z listy rozwijanej. Wszystkie wpisy czasu i pakiety godzin pozostają powiązane z projektem."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Rejestracja czasu",
+      "items": {
+        "0": {
+          "question": "Jak działa stoper?",
+          "answer": "Wybierz projekt, dodaj opis i naciśnij „Start”. Stoper działa, dopóki nie naciśniesz „Pauza” lub „Stop”. Po zatrzymaniu czas jest automatycznie zapisywany jako wpis czasu. Stoper możesz w razie potrzeby wstrzymywać i wznawiać."
+        },
+        "1": {
+          "question": "Czy mogę edytować wcześniejsze wpisy czasu?",
+          "answer": "Tak, kliknij wpis czasu na liście i wybierz „Edytuj”. Możesz zmienić projekt, opis, liczbę godzin i datę. Przydaje się to, gdy zapomnisz zarejestrować czas albo popełnisz błąd."
+        },
+        "2": {
+          "question": "Jak obsłużyć kilka wpisów czasu naraz?",
+          "answer": "Zaznacz wpisy czasu, klikając pole wyboru po lewej stronie. Następnie możesz usunąć kilka wpisów czasu naraz przyciskiem „Usuń zaznaczone”."
+        },
+        "3": {
+          "question": "Czym jest przegląd tygodnia (karta czasu)?",
+          "answer": "Przegląd tygodnia pokazuje wpisy czasu w tygodniowej siatce, dzięki czemu szybko zobaczysz godziny w podziale na dni i projekty. Przełączaj się między widokiem listy i tygodnia przełącznikiem u góry strony Rejestracja czasu."
+        },
+        "4": {
+          "question": "Czy mogę zaimportować czas z pliku CSV?",
+          "answer": "Tak, kliknij przycisk „Importuj CSV” na stronie Rejestracja czasu. Prześlij plik CSV z kolumnami daty, godzin, projektu i opisu. System automatycznie dopasuje projekty i utworzy wpisy czasu."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Zadania",
+      "items": {
+        "0": {
+          "question": "Czym różni się tablica kanban od widoku listy?",
+          "answer": "Tablica kanban pokazuje zadania jako karty w kolumnach (np. „Do zrobienia”, „W toku”, „Gotowe”), więc łatwo przeciągasz zadania między etapami. Widok listy pokazuje zadania w tabeli z sortowaniem i filtrowaniem. Widoki przełączasz przyciskami u góry."
+        },
+        "1": {
+          "question": "Jak utworzyć zadanie?",
+          "answer": "Kliknij „Nowe zadanie” na stronie zadań. Wpisz tytuł, wybierz projekt i klienta, ustaw priorytet (niski/normalny/wysoki/krytyczny) i, jeśli chcesz, podaj termin. Możesz też dodać opis ze szczegółami."
+        },
+        "2": {
+          "question": "Jak przenosić zadania między kolumnami?",
+          "answer": "W widoku kanban możesz przeciągać karty zadań między kolumnami. Możesz też kliknąć zadanie i zmienić jego status w oknie edycji."
+        },
+        "3": {
+          "question": "Czy mogę uruchomić stoper bezpośrednio z zadania?",
+          "answer": "Tak, każde zadanie ma przycisk stopera. Kliknij go, aby uruchomić stoper z projektem zadania i jego tytułem jako opisem. Czas jest automatycznie rejestrowany w powiązanym projekcie."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Pulpit",
+      "items": {
+        "0": {
+          "question": "Co pokazuje pulpit?",
+          "answer": "Pulpit daje przegląd twojej działalności freelancerskiej dzięki widżetom z tygodniowym podsumowaniem czasu, zarobkami, aktywnymi projektami, stanem pakietów godzin, ostatnimi wpisami czasu i nadchodzącymi terminami."
+        },
+        "1": {
+          "question": "Czy mogę dostosować pulpit?",
+          "answer": "Tak, kliknij przycisk „Dostosuj” w prawym górnym rogu pulpitu. Widżety możesz dodawać, usuwać i przesuwać przeciągając. Zmiany są zapisywane automatycznie."
+        },
+        "2": {
+          "question": "Jakie widżety są dostępne?",
+          "answer": "Dostępne widżety to: przegląd tygodnia (godziny na dzień), zarobki (przychód i wzrost), aktywne projekty, przegląd pakietów godzin, ostatnie wpisy czasu, godziny dzisiaj, nadchodzące terminy oraz szybki start stopera."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Pakiety godzin",
+      "items": {
+        "0": {
+          "question": "Czym jest pakiet godzin?",
+          "answer": "Pakiet godzin (duń. klippekort) to pula godzin, którą klient kupuje z góry. Rejestrując czas, możesz wybrać odejmowanie godzin od pakietu zamiast zwykłego fakturowania. To popularne rozwiązanie przy umowach wsparcia."
+        },
+        "1": {
+          "question": "Jak utworzyć pakiet godzin?",
+          "answer": "Przejdź do „Pakiety godzin” i kliknij „Nowy pakiet godzin”. Wybierz klienta, podaj liczbę godzin i stawkę godzinową oraz oblicz cenę całkowitą. Ustaw datę zakupu i opcjonalnie datę ważności. Gdy pakiet jest aktywny, możesz go używać podczas rejestracji czasu."
+        },
+        "2": {
+          "question": "Co się dzieje, gdy pakiet godzin się wyczerpie?",
+          "answer": "Gdy w pakiecie godzin zostaje mniej niż 10% godzin, pojawia się ostrzeżenie. Gdy jest pusty (0 pozostałych godzin), nie można już odejmować od niego czasu. Musisz utworzyć nowy pakiet godzin albo zafakturować czas w zwykły sposób."
+        },
+        "3": {
+          "question": "Czy mogę zobaczyć historię pakietu godzin?",
+          "answer": "Tak, otwórz pakiet godzin i zajrzyj do „Historii wykorzystania”. Zobaczysz tam wszystkie wpisy czasu odjęte od pakietu z datą, opisem i liczbą godzin."
+        }
+      }
+    },
+    "templates": {
+      "title": "Szablony cykliczne",
+      "items": {
+        "0": {
+          "question": "Czym są szablony cykliczne?",
+          "answer": "Szablony cykliczne to gotowe wpisy czasu, które są tworzone automatycznie w regularnych odstępach. Możesz na przykład zrobić szablon „Cotygodniowe spotkanie statusowe, 1 godzina”, który powstaje co tydzień."
+        },
+        "1": {
+          "question": "Jak utworzyć szablon?",
+          "answer": "Przejdź do „Szablony” i kliknij „Nowy szablon”. Wybierz projekt, opis, liczbę godzin i częstotliwość (codziennie/co tydzień/co miesiąc). Podaj datę rozpoczęcia i opcjonalnie datę zakończenia. Szablon tworzy wpisy czasu automatycznie według twojego planu."
+        },
+        "2": {
+          "question": "Czy mogę edytować lub usuwać wygenerowane wpisy czasu?",
+          "answer": "Tak, wygenerowane wpisy czasu działają jak zwykłe wpisy czasu. Możesz je edytować w „Rejestracji czasu” albo usunąć, jeśli nie są potrzebne w danym dniu lub tygodniu."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Faktury",
+      "items": {
+        "0": {
+          "question": "Jak utworzyć fakturę?",
+          "answer": "Przejdź do „Faktury” i kliknij „Nowa faktura”. Wybierz klienta i zakres dat wpisów czasu, a system automatycznie zbierze wszystkie niezafakturowane godziny. Sprawdź pozycje, dodaj ewentualne uwagi i zapisz."
+        },
+        "1": {
+          "question": "Czym różnią się statusy „Szkic”, „Wysłana” i „Opłacona”?",
+          "answer": "Szkic = nadal pracujesz nad fakturą. Wysłana = faktura została wysłana do klienta, ale nie jest jeszcze opłacona. Opłacona = klient zapłacił fakturę. Status możesz aktualizować ręcznie w miarę postępów."
+        },
+        "2": {
+          "question": "Czy mogę wyeksportować faktury do PDF?",
+          "answer": "Tak, w widoku faktury jest przycisk „Eksportuj PDF”. Generuje profesjonalną fakturę w PDF, którą możesz wysłać klientowi lub zapisać do księgowości."
+        },
+        "3": {
+          "question": "Czy mogę wygenerować fakturę z wpisów czasu?",
+          "answer": "Tak, kliknij przycisk „Z wpisów czasu” podczas tworzenia nowej faktury. Wybierz klienta i zakres dat, a system zbierze wszystkie niezafakturowane wpisy czasu jako pozycje faktury."
+        },
+        "4": {
+          "question": "Co pokazuje przegląd faktur?",
+          "answer": "Na górze strony faktur znajdziesz cztery karty ze statystykami: łącznie zafakturowano, kwota zapłacona, kwota do zapłaty i faktury przeterminowane. Dają szybki wgląd w twoje finanse."
+        }
+      }
+    },
+    "reports": {
+      "title": "Raporty",
+      "items": {
+        "0": {
+          "question": "Jakie raporty mogę generować?",
+          "answer": "Możesz zobaczyć raporty tygodniowe i miesięczne z godzinami na klienta, godzinami na projekt, zarobkami i trendami. Raporty można filtrować według zakresu dat i eksportować do CSV w celu analizy w Excelu."
+        },
+        "1": {
+          "question": "Jak wyeksportować dane do Excela?",
+          "answer": "Przejdź do „Raporty”, wybierz zakres dat i kliknij „Eksportuj CSV”. Pobierzesz plik CSV, który otworzysz w Excelu, Arkuszach Google lub innych arkuszach kalkulacyjnych."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Skróty klawiszowe i wskazówki",
+      "items": {
+        "0": {
+          "question": "Jakie są skróty do nawigacji?",
+          "answer": "Naciśnij G, a potem klawisz, aby szybko przejść do widoku: {shortcuts}."
+        },
+        "1": {
+          "question": "Jakie są skróty do stopera?",
+          "answer": "T = uruchom/zatrzymaj stoper, Shift+T = wstrzymaj/wznów stoper. Te skróty działają na wszystkich stronach, więc stoperem sterujesz szybko, bez zmiany strony."
+        },
+        "2": {
+          "question": "Czym jest paleta poleceń?",
+          "answer": "Naciśnij Ctrl+K (lub Cmd+K na Macu), aby otworzyć paletę poleceń. Możesz w niej szybko wyszukiwać i otwierać strony, klientów, projekty i akcje bez używania myszy."
+        },
+        "3": {
+          "question": "Jak zobaczyć wszystkie skróty?",
+          "answer": "Naciśnij „?” na dowolnej stronie, aby otworzyć przegląd skrótów. Pokazuje wszystkie dostępne skróty klawiszowe pogrupowane według kategorii."
+        },
+        "4": {
+          "question": "Czy mogę ponownie uruchomić wprowadzenie?",
+          "answer": "Tak, kliknij swoje zdjęcie profilowe lub inicjały w prawym górnym rogu i wybierz „Uruchom wprowadzenie” w menu użytkownika. Przeprowadzi cię ono przez wszystkie 24 główne funkcje."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Rozszerzenie przeglądarki",
+      "items": {
+        "0": {
+          "question": "Czym jest rozszerzenie przeglądarki {brand}?",
+          "answer": "Rozszerzenie przeglądarki pozwala rejestrować czas bezpośrednio z przeglądarki bez otwierania aplikacji {brand}. Możesz uruchamiać i zatrzymywać stoper, wybierać projekt i klienta oraz widzieć ostatnie wpisy czasu."
+        },
+        "1": {
+          "question": "Jak skonfigurować wzorce adresów URL?",
+          "answer": "W Ustawienia → Rozszerzenie przeglądarki możesz zdefiniować wzorce adresów URL, które automatycznie wiążą projekt po wejściu na określone strony. Możesz na przykład ustawić „github.com/client-repo/*”, aby automatycznie wybierany był pasujący projekt."
+        },
+        "2": {
+          "question": "Jak zainstalować rozszerzenie przeglądarki?",
+          "answer": "Zainstaluj rozszerzenie {brand} ze Sklepu Chrome (wyszukaj „{brand} Tidsregistrering” lub wejdź na timetrack.dk/browser-extension). Wygeneruj token API w Ustawienia → Rozszerzenie przeglądarki i wklej go w oknie rozszerzenia. Rozszerzenie automatycznie połączy się z twoim kontem {brand}."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integracje",
+      "items": {
+        "0": {
+          "question": "Jak korzystać z wyszukiwania po CVR?",
+          "answer": "Podczas tworzenia nowego klienta możesz wpisać numer CVR i kliknąć „Wyszukaj”. {brand} automatycznie pobierze nazwę firmy, adres i dane kontaktowe z duńskiego rejestru CVR, więc nie musisz wpisywać ich ręcznie."
+        },
+        "1": {
+          "question": "Jak wyeksportować dane do Billy, Dinero lub e-conomic?",
+          "answer": "Przejdź do Ustawienia → Integracje i połącz swoje konto. Billy i Dinero mogą odbierać faktury. Z e-conomic możesz zaimportować klientów, a podstawę do faktury zawsze wyeksportujesz jako CSV lub raport ze strony faktury."
+        },
+        "2": {
+          "question": "Czy mogę synchronizować z Kalendarzem Google?",
+          "answer": "Tak, w Ustawienia → Integracje możesz połączyć Kalendarz Google. Wydarzenia z kalendarza mogą być automatycznie proponowane jako wpisy czasu, więc łatwo zarejestrujesz czas na podstawie swoich spotkań."
+        }
+      }
+    },
+    "security": {
+      "title": "Bezpieczeństwo",
+      "items": {
+        "0": {
+          "question": "Czym są klucze dostępu (passkeys)?",
+          "answer": "Klucze dostępu to nowoczesna metoda logowania bez hasła. Zamiast hasła używasz odcisku palca, rozpoznawania twarzy lub kodu PIN urządzenia. Klucze dostępu skonfigurujesz w Ustawienia → Bezpieczeństwo → Klucze dostępu."
+        },
+        "1": {
+          "question": "Jak włączyć uwierzytelnianie dwuskładnikowe (2FA)?",
+          "answer": "Przejdź do Ustawienia → Bezpieczeństwo → Uwierzytelnianie dwuskładnikowe. Zeskanuj kod QR aplikacją uwierzytelniającą (np. Google Authenticator lub Authy) i wpisz kod potwierdzający. Od tego momentu przy logowaniu wymagany jest 6-cyfrowy kod."
+        },
+        "2": {
+          "question": "Jak zarządzać aktywnymi sesjami?",
+          "answer": "W Ustawienia → Bezpieczeństwo → Aktywne sesje zobaczysz wszystkie urządzenia zalogowane na twoje konto. Możesz zamknąć pojedyncze sesje albo wylogować się ze wszystkich urządzeń naraz."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Import i eksport",
+      "items": {
+        "0": {
+          "question": "Jak zaimportować wpisy czasu z pliku CSV?",
+          "answer": "Przejdź do Rejestracji czasu i kliknij „Importuj CSV”. Prześlij plik CSV z kolumnami daty, godzin, projektu i opisu. System pokaże podgląd, abyś mógł sprawdzić dane przed importem."
+        },
+        "1": {
+          "question": "Jak wyeksportować moje dane?",
+          "answer": "Dane możesz eksportować z kilku miejsc: Raporty → Eksportuj CSV dla wpisów czasu, Faktury → Eksportuj PDF dla pojedynczych faktur oraz Ustawienia → Dane → Eksportuj wszystkie dane dla pełnej kopii zapasowej w formacie CSV lub JSON."
+        },
+        "2": {
+          "question": "Czy mogę pobrać wszystkie swoje dane (RODO)?",
+          "answer": "Tak, w Ustawienia → Dane znajdziesz przycisk „Pobierz moje dane”. Generuje on pełny eksport wszystkich twoich danych w formacie JSON, zgodnie z wymogami RODO. Eksport obejmuje klientów, projekty, wpisy czasu, faktury i pakiety godzin."
+        }
+      }
+    },
+    "settings": {
+      "title": "Ustawienia",
+      "items": {
+        "0": {
+          "question": "Jak zmienić domyślną stawkę godzinową?",
+          "answer": "Przejdź do „Ustawienia”, znajdź pole „Domyślna stawka godzinowa (kr)” i wpisz nową stawkę. Ta stawka jest używana domyślnie dla nowych klientów i projektów. Istniejące stawki klientów i projektów nie zmieniają się."
+        },
+        "1": {
+          "question": "Czy wszystkie moje zmiany są zapisywane?",
+          "answer": "Tak, {brand} zapisuje wszystkie zmiany stawek godzinowych (globalnych, klienta, projektu) w historii stawek. Zawsze możesz zobaczyć, kiedy i jak zmieniały się stawki. Pomaga to w przejrzystości i księgowości."
+        },
+        "2": {
+          "question": "Jak usunąć konto?",
+          "answer": "W „Ustawieniach” jest sekcja „Strefa zagrożenia” z przyciskiem „Usuń konto”. Musisz potwierdzić swoim adresem e-mail i zatwierdzić usunięcie. UWAGA: To BEZPOWROTNIE usuwa wszystkie twoje dane, w tym klientów, projekty, wpisy czasu i faktury. Jeśli należysz do zespołu, to, co zarejestrowano w zespole, pozostaje w zespole bez twojego imienia i adresu e-mail."
+        },
+        "3": {
+          "question": "Jak przełączyć się na ciemny motyw?",
+          "answer": "Przejdź do Ustawienia → Profil i wygląd → Motyw. Wybierz „Jasny”, „Ciemny” lub „Systemowy” (zgodny z ustawieniem urządzenia). Zmiana działa od razu."
+        },
+        "4": {
+          "question": "Czym jest profil firmy?",
+          "answer": "W Ustawienia → Profil firmy możesz skonfigurować nazwę firmy, numer CVR, adres, logo i dane bankowe. Te informacje są automatycznie używane na twoich fakturach."
+        }
+      }
+    }
+  },
+  "title": "Pomoc i wskazówki",
+  "description": "Znajdź odpowiedzi na swoje pytania o {brand}",
+  "searchPlaceholder": "Szukaj w pomocy… (np. „pakiet godzin”, „faktura”, „skrót”)",
+  "resultCount": "{count, plural, one {# wynik} few {# wyniki} many {# wyników} other {# wyniku}}",
+  "popular": "Popularne pytania",
+  "searchResultsFor": "Wyniki wyszukiwania dla „{query}”",
+  "foundIn": "{results, plural, one {# wynik} few {# wyniki} many {# wyników} other {# wyniku}} w {topics, plural, one {# temacie} few {# tematach} many {# tematach} other {# temacie}}",
+  "noResults": "Brak wyników dla „{query}”",
+  "questionCount": "{count, plural, one {# pytanie} few {# pytania} many {# pytań} other {# pytania}}",
+  "chooseTopic": "Wybierz temat z listy",
+  "cantFindTitle": "Nie możesz znaleźć tego, czego szukasz?",
+  "cantFindBody": "Skontaktuj się z nami, jeśli masz pytania, których nie obejmuje dokumentacja.",
+  "contactSupport": "Skontaktuj się z pomocą techniczną",
+  "screenshotAlt": "Zrzut ekranu: {title}",
+  "videoDemo": "Wideo demonstracyjne",
+  "wasHelpful": "Czy to było pomocne?",
+  "yes": "Tak",
+  "no": "Nie",
+  "topicsHeading": "Tematy"
+}

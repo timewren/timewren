@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "attr_gclid" varchar(120);

@@ -1,0 +1,79 @@
+name: Bug report
+description: Something does not work as documented
+labels: ["type: bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Security problems go to a [private security advisory](https://github.com/timewren/timewren/security/advisories/new), not here.
+        Questions go to [Discussions](https://github.com/timewren/timewren/discussions). Please leave out personal data about your clients.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The TimeWren version (Settings, or the Docker image tag) or a commit SHA.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Installation type
+      options:
+        - Self-hosted, Docker image
+        - Self-hosted, built from source
+        - TimeTrack Cloud
+        - Local development
+    validations:
+      required: true
+  - type: dropdown
+    id: part
+    attributes:
+      label: Which part?
+      multiple: true
+      options:
+        - Web app
+        - API / MCP
+        - Browser extension
+        - Desktop app
+        - Mobile app
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The smallest set of steps that shows the problem on a fresh account or demo data.
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Server log lines (`docker compose logs app`) or browser console output. Remove tokens, emails and client names first.
+      render: shell
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser and OS, and for self-hosting the PostgreSQL version and anything you changed in the Compose file.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true
+        - label: The report contains no secrets or personal data.
+          required: true

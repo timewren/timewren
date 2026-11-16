@@ -1,0 +1,123 @@
+---
+title: "Klippekort"
+description: "Sådan virker klippekort i TimeWren: saldo, træk, overtræk, advarsler, fornyelse og satshierarkiet."
+---
+
+Klippekort er TimeWrens kernebegreb. En kunde køber en blok timer på forhånd, og den tid, du registrerer for kunden, trækkes fra saldoen. På engelsk hedder det "prepaid hours", men ordet "klippekort" ses i nogle API-feltnavne og i den danske brugerflade.
+
+<Screenshot name="prepaid-hours" alt="Et klippekort med den resterende saldo og forbrugshistorikken" />
+
+## Modellen
+
+Et klippekort (`prepaid_packages`) hører til én kunde og gemmer:
+
+| Felt | Betydning |
+| --- | --- |
+| `totalHours`, `usedHours`, `remainingHours` | Saldoen. Den resterende saldo er aldrig negativ og aldrig over det samlede antal timer. |
+| `hourlyRate`, `totalValue` | Timeprisen, du solgte klippekortet til, og `totalHours` gange `hourlyRate`. |
+| `purchaseDate`, `expiryDate` | Hvornår det blev købt, og en valgfri sidste gyldighedsdag. |
+| `clipSizeMinutes` | Valgfrit afrundingstrin, 1 til 480 minutter. |
+| `overdraftPolicy`, `overdraftRate` | Hvad der sker, når saldoen er brugt op. Se Overtræk nedenfor. |
+| `autoDeduct` | Om klippekortet som standard foreslås til ny tid (slået til som standard). |
+| `renewalInterval`, `renewalRollover` | Valgfri automatisk fornyelse. Se Fornyelse og fakturering nedenfor. |
+| `isActive`, `isArchived`, `hiddenFromPortal` | Livscyklus og synlighed i kundeportalen. |
+
+Hvert træk skrives også i en forbrugslog (`prepaid_usage`) med timerne, værdien, den tilknyttede tidsregistrering og en beskrivelse. Manuelle træk uden en tidsregistrering logges på samme måde.
+
+## Hvilke registreringer der trækkes
+
+Intet trækkes automatisk bag om ryggen på dig. Serveren trækker kun, når en tidsregistrering gemmes med et eksplicit klippekort-id, eller når du laver et manuelt træk. Apps'ene foreslår et klippekort for dig:
+
+- Et klippekort foreslås, når det er aktivt, har `autoDeduct` slået til, har timer tilbage og ikke er udløbet.
+- Er der flere kandidater, vinder det, der udløber først. Klippekort uden udløbsdato kommer sidst. Ved lighed vinder den ældste købsdato.
+- I timerens gem-dialog bruger webappen og browserudvidelsen den samme regel. Du kan vælge et andet klippekort eller intet klippekort til enhver registrering.
+- Via REST API'et sender du `"prepaid": "auto"`, når du opretter en tidsregistrering, for at bruge den samme regel. Har kunden intet passende klippekort, oprettes registreringen uden træk. Send enten `prepaid: "auto"` eller `prepaidPackageId`, ikke begge.
+
+En registrering kan kun trækkes fra et klippekort, der tilhører dens egen kunde. Kunden er registreringens direkte kunde eller kunden på dens projekt. Træk fra en anden kundes klippekort afvises. Et projekt er ikke påkrævet: en registrering med kun en kunde kan trækkes. En registrering uden både kunde og projekt kan ikke.
+
+Registreringer på klippekort udelades, når du opretter fakturaer ud fra registreret tid, fordi kunden allerede har betalt for dem. Redigerer eller sletter du en registrering, tilbageføres trækket, og timerne gives tilbage, og advarslen om lav saldo kan derefter blive sendt igen.
+
+### Afrunding
+
+- Uden klipstørrelse afrundes de trukne timer til to decimaler.
+- Med en klipstørrelse rundes registreringen op til hele klip. Med `clipSizeMinutes` sat til 15 trækker en registrering på 50 minutter 60 minutter (fire klip).
+
+Et træk fejler, hvis klippekortet er inaktivt eller udløbet. Et klippekort er gyldigt hele udløbsdagen i dansk tid (Europe/Copenhagen).
+
+### Overtræk
+
+`overdraftPolicy` afgør, hvad der sker, når en registrering er større end den resterende saldo:
+
+| Politik | Opførsel |
+| --- | --- |
+| `block` (standard) | Registreringen afvises med en fejl. |
+| `allow` | Hele registreringen trækkes. Saldoen går i nul, og det overskydende registreres som overtrækstimer på klippekortet. |
+| `invoice` | Intet trækkes. Registreringen bliver en almindelig fakturerbar registrering, til `overdraftRate`, hvis du har sat en. |
+
+## Advarsler
+
+Der findes to slags advarsler, og i praksis er begge valgfrie, fordi de kun går til de modtagere, du vælger. Indstillingen `prepaidAlertRecipient` på brugeren er `owner` (standard), `client` eller `both`. Kunder som modtagere kræver en e-mailadresse på kunden, og deres mail linker til kundeportalen.
+
+**Lav saldo.** Er de resterende timer efter et træk på eller under `PREPAID_LOW_BALANCE_THRESHOLD` af det samlede antal (standard `0.2`, altså 20 %), sendes en mail, og webhooken `prepaid.low_balance` udløses. Den sendes én gang pr. klippekort, indtil saldoen stiger igen, for eksempel fordi en registrering blev slettet.
+
+**Udløb.** Et dagligt cron-job (`/api/cron/prepaid-alerts`) sender mail om aktive klippekort, der stadig har timer tilbage og udløber inden for `PREPAID_EXPIRY_WARNING_DAYS` dage (standard `30`). Det samme job deaktiverer udløbne klippekort og udløser `prepaid.expired`.
+
+Saldoindikatorerne i appen har to niveauer. Et klippekort er "lavt" på eller under procentgrænsen og "kritisk" på eller under `PREPAID_CRITICAL_BALANCE_HOURS` timer (standard `1`), så den sidste time på et stort klippekort stadig vises som kritisk. Det kritiske niveau ændrer kun visningen; det sender ikke en ekstra mail.
+
+| Variabel | Standard | Betydning |
+| --- | --- | --- |
+| `PREPAID_LOW_BALANCE_THRESHOLD` | `0.2` | Den andel af det samlede antal timer, der regnes som lav. |
+| `PREPAID_CRITICAL_BALANCE_HOURS` | `1` | Antal timer, hvor saldoen på eller under regnes som kritisk. |
+| `PREPAID_EXPIRY_WARNING_DAYS` | `30` | Hvor mange dage før udløb advarslen sendes. |
+
+Se [Miljøvariabler](/da/docs/configuration/environment) for den fulde liste. Advarslerne kræver, at [e-mail](/da/docs/configuration/email) virker, og at cron-containeren kører.
+
+## Fornyelse og fakturering
+
+Et klippekort kan forny sig selv, når `renewalInterval` er sat til `monthly`, `quarterly` eller `yearly`. Det daglige cron-job `/api/cron/prepaid-renewals` håndterer de klippekort, der skal fornyes:
+
+- Et nyt klippekort oprettes med en ny købsdato, og det gamle arkiveres og deaktiveres. Kæden spores gennem `renewedFromId`.
+- Timerne pr. periode er konstante (`renewalBaseHours`).
+- Med `renewalRollover` sat til `carry` overføres de resterende timer til den nye periode. Med `none` starter den nye periode med grundtimerne.
+- Overtræk fra den gamle periode modregnes altid i de nye timer, i begge tilstande. Det logges som en forbrugslinje på det nye klippekort.
+- Der oprettes en fakturakladde på grundtimerne gange timeprisen, og du får en notifikation. Du gennemgår og udsteder den selv. Er klippekortet knyttet til en tilbagevendende faktura, bruges den skabelon i stedet.
+- Der udløses en webhook for det nye klippekort (`prepaid.created`).
+
+Vil du fylde op uden automatisk fornyelse, så opret et nyt klippekort til kunden. Flere aktive klippekort kan findes side om side, og forslagsreglen ovenfor afgør, hvilket der bruges først.
+
+## Kundeportal
+
+Kunder kan se deres klippekort i kundeportalen under fanen Klippekort med saldo og forbrug. To kontakter styrer det: portaltilladelsen `canViewPrepaid` (slået til som standard) og klippekortindstillingen `hiddenFromPortal`, der skjuler et enkelt klippekort helt, også i historikken. Kunder kan også bede om en fornyelse, som dukker op hos dig som en fornyelsesanmodning. Beløb kan skjules for kunder med indstillingen `hidePrepaidValue`, globalt eller pr. kunde.
+
+## REST API
+
+Klippekort er tilgængelige som ressourcen `prepaid-packages` med scopes `prepaid:read` og `prepaid:write`. Du kan liste, hente, oprette og opdatere, og `DELETE` arkiverer et klippekort i stedet for at slette det. Godkendelse og scopes er beskrevet i referencen til [REST API](/da/docs/api/rest). Hændelser for klippekort leveres via [webhooks](/da/docs/api/webhooks).
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/prepaid-packages \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Support hours", "clientId": "CLIENT_UUID", "totalHours": 20, "hourlyRate": 100, "purchaseDate": "2026-01-05", "expiryDate": "2026-12-31"}'
+```
+
+## Satshierarki
+
+Satsen, der gemmes på en tidsregistrering, afgør, hvad den er værd ved fakturering. TimeWren vælger den i denne rækkefølge og bruger den første, der er sat:
+
+1. I en organisation: en medlemssats for projektet, derefter for kunden, derefter medlemmets sats for hele organisationen.
+2. Projektets timepris.
+3. Kundens standardtimepris.
+4. Din personlige standardtimepris.
+
+Satsen vælges ud fra registreringens dato, så tid, der registreres bagefter, får den sats, der gjaldt den dag. Satsændringer kan planlægges til en fremtidig dato og registreres i satshistorikken for brugeren, kunden eller projektet. En faktureret registrering beholder sin sats, når dens dato redigeres. Klippekortets egen `hourlyRate` er noget andet: det er prisen på de forudbetalte timer og bruges til klippekortets værdi og til fornyelsesfakturaer, ikke til registreringens sats.
+
+## Gennemgået eksempel
+
+Du sælger Acme ApS et klippekort på 20 timer til 100 pr. time, gyldigt til årets udgang, med en klipstørrelse på 15 minutter.
+
+1. Opret klippekortet: `totalHours` 20, `hourlyRate` 100, så `totalValue` er 2.000. Der er 20 timer tilbage.
+2. Du registrerer 50 minutters arbejde for Acme. I gem-dialogen er klippekortet valgt på forhånd. Registreringen rundes op til fire klip, så der trækkes 1,00 time. Der er 19,00 tilbage, og 1,00 er brugt.
+3. I løbet af de næste uger bringer trækkene saldoen ned på 4,00 timer. Det er 20 % af det samlede antal, så mailen om lav saldo sendes, og webhooken `prepaid.low_balance` udløses.
+4. Med 1,00 time tilbage vises saldoen som kritisk.
+5. Den næste registrering er på 1,5 time. Med standardpolitikken `block` afvises den. Med `allow` bruges den resterende 1,00 time, og 0,50 registreres som overtræk. Med `invoice` trækkes intet, og registreringen faktureres normalt.
+6. 30 dage før 31. december sendes udløbsadvarslen, hvis der stadig er timer tilbage. Dagen efter deaktiverer cron-jobbet klippekortet.

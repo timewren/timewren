@@ -1,0 +1,46 @@
+---
+title: "Billy"
+description: "Forbind det danske regnskabsprogram Billy med TimeWren: importér kontakter, eksportér kunder og fakturaer, og synkronisér betalingsstatus."
+---
+
+Billy er et dansk regnskabsprogram. Integrationen kræver ingen opsætning på serveren: Hver bruger indsætter sin egen Billy API-nøgle. Uden en nøgle sker der intet med Billy.
+
+## Hvad den gør
+
+- Importerer kontakter fra Billy som kunder. Kontakter, der allerede er importeret, eller hvis CVR-nummer matcher en eksisterende kunde, springes over.
+- Eksporterer en kunde til Billy.
+- Eksporterer en faktura til Billy som kladde, godkendt eller godkendt og sendt på mail. Du vælger produkt, betalingsbetingelser, og om hver tidsregistrering skal være sin egen linje, eller om alle registreringer samles på én linje. Linjeteksten er en skabelon.
+- Synkroniserer betalingsstatus tilbage: Fakturaer, der er betalt i Billy, markeres som betalt i TimeWren.
+
+Billy kræver et produkt på hver fakturalinje. Vælg et standardprodukt i indstillingerne, eller lad TimeWren oprette et ved den første eksport. Du kan vælge et separat produkt til timer fra klippekort.
+
+## Opsætning på serveren
+
+Krav på serveren:
+
+- `ENCRYPTION_KEY` skal være sat. API-nøglen gemmes krypteret, og det fejler at gemme uden nøglen. Se [Miljøvariabler](/da/docs/configuration/environment).
+- Containeren `cron` skal køre. Den kalder `/api/cron/invoice-sync` hvert 15. minut, og det er det, der opdaterer betalingsstatus for brugere, der har slået automatisk statussynkronisering til.
+
+Der er ingen Billy-specifikke klientoplysninger, der skal registreres.
+
+## Forbind som bruger
+
+1. Opret en API-nøgle i Billy under Indstillinger, Integrationer, API.
+2. Åbn Indstillinger, Integrationer i TimeWren, og indsæt nøglen i afsnittet om Billy.
+3. Gem, og brug derefter Test forbindelse.
+4. Vælg standardprodukt og linjeindstillinger.
+5. Under Standard regnskabssystem vælger du Billy, hvis det er det, du bruger, og slår Automatisk statussynkronisering til, hvis betalinger skal hentes automatisk. Du kan også køre en manuel synkronisering fra samme side.
+
+Kontakter importeres fra siden Sync under Integrationer. Fakturaer eksporteres fra selve fakturaen.
+
+Nøglen tilhører den bruger, der gemte den. I et team bruger hver person, der eksporterer, sin egen nøgle.
+
+## Webhooks (valgfrit)
+
+Endpointet `/api/webhooks/billy` modtager webhooks fra Billy og markerer en faktura som betalt ved `invoice.paid`. Sæt en hemmelighed på serveren, og konfigurér den samme hemmelighed i Billy. Forespørgsler verificeres med en HMAC-SHA256-signatur i headeren `x-billy-signature`:
+
+```dotenv
+BILLY_WEBHOOK_SECRET=a-long-random-string
+```
+
+Endpointet finder brugeren ud fra det gemte organisations-id fra Billy. Webindstillingerne gemmer det ikke, så i de fleste opsætninger skal du hellere regne med synkroniseringen hvert 15. minut ovenfor end med webhooks.

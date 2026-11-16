@@ -1,0 +1,166 @@
+{
+  "group": {
+    "account": "계정",
+    "organisation": "조직",
+    "billing": "결제",
+    "integrations": "연동",
+    "advanced": "고급"
+  },
+  "item": {
+    "settings": {
+      "label": "프로필 및 화면",
+      "description": "이름, 시간당 요금, 근무 시간, 테마, 언어"
+    },
+    "settings_security": {
+      "label": "보안 및 로그인",
+      "description": "비밀번호, 2단계 인증, 패스키, 세션"
+    },
+    "settings_notifications": {
+      "label": "알림",
+      "description": "이메일, Discord, 푸시, 방해 금지 시간"
+    },
+    "settings_gdpr": {
+      "label": "GDPR 및 데이터 보호",
+      "description": "내 데이터와 데이터 처리 계약서 다운로드"
+    },
+    "settings_company": {
+      "label": "회사 프로필",
+      "description": "CVR, 주소, 은행, 부가세, 회사 휴일"
+    },
+    "organization": {
+      "label": "조직 및 팀",
+      "description": "멤버, 초대, 역할"
+    },
+    "organization_permissions": {
+      "label": "접근 제어",
+      "description": "역할별로 볼 수 있고 바꿀 수 있는 항목"
+    },
+    "organization_audit": {
+      "label": "활동 로그",
+      "description": "조직에서 누가 무엇을 바꿨는지"
+    },
+    "settings_modules": {
+      "label": "모듈",
+      "description": "조직의 모듈을 켜고 끄기"
+    },
+    "settings_tags": {
+      "label": "태그",
+      "description": "시간 기록, 프로젝트, 클라이언트 정리"
+    },
+    "enterprise_settings": {
+      "label": "엔터프라이즈 설정",
+      "description": "근무 시간, 부재, 휴가, 급여, 로그인"
+    },
+    "settings_subscription": {
+      "label": "구독",
+      "description": "요금제, 결제, 좌석"
+    },
+    "settings_email": {
+      "label": "이메일 및 템플릿",
+      "description": "청구서와 알림용 이메일 템플릿"
+    },
+    "settings_portal": {
+      "label": "클라이언트 포털",
+      "description": "클라이언트 포털의 로고, 색상, 도메인"
+    },
+    "settings_integrations": {
+      "label": "연동",
+      "description": "회계, 캘린더, 브라우저 확장 프로그램"
+    },
+    "settings_ai": {
+      "label": "AI 및 자동화",
+      "description": "이메일로 작업 만들기와 AI 해석"
+    },
+    "settings_desktop": {
+      "label": "데스크톱 앱",
+      "description": "다운로드, 연결된 기기, 라이선스"
+    },
+    "settings_api": {
+      "label": "API",
+      "description": "API 키와 문서"
+    },
+    "settings_data": {
+      "label": "가져오기 및 내보내기",
+      "description": "CSV 가져오기와 내 데이터 내보내기"
+    }
+  },
+  "entry": {
+    "settings": {
+      "profilbillede": "프로필 사진",
+      "name": "이름",
+      "hourlyRate": "기본 시간당 요금",
+      "weeklyHourGoal": "주간 목표 시간",
+      "startPage": "로그인 후 시작 페이지",
+      "arbejdstid": "근무 시간과 가동률",
+      "fridage": "공휴일과 휴무일",
+      "afrunding": "시간 반올림",
+      "klippekort": "선불 패키지 금액 숨기기",
+      "godkendelse": "클라이언트 승인",
+      "udseende": "테마 (라이트 또는 다크)",
+      "sprog": "언어",
+      "opsaetningsguide": "설정 가이드",
+      "slet-konto": "계정 삭제"
+    },
+    "settings_security": {
+      "to-faktor": "2단계 인증",
+      "adgangskode": "비밀번호",
+      "forbundne-konti": "연결된 계정",
+      "passkeys": "패스키",
+      "telefon": "전화번호",
+      "betroede-enheder": "신뢰하는 기기",
+      "sessioner": "활성 세션"
+    },
+    "settings_notifications": {
+      "email-notifikationer": "이메일 알림",
+      "stille-timer": "방해 금지 시간",
+      "discord": "Discord",
+      "push": "브라우저 푸시",
+      "pwa": "앱 및 비활성 (PWA)",
+      "ugerapporter": "자동 주간 보고서"
+    },
+    "settings_gdpr": {
+      "databehandleraftale": "데이터 처리 계약서",
+      "sletning": "데이터 삭제"
+    },
+    "settings_company": {
+      "logo": "회사 로고",
+      "adresse": "주소",
+      "bank": "은행 정보",
+      "moms": "부가세",
+      "fridage": "공휴일과 회사 휴무일"
+    },
+    "settings_subscription": {
+      "plan": "현재 요금제",
+      "betaling": "결제 및 영수증",
+      "pladser": "좌석",
+      "skift-plan": "요금제 변경",
+      "annuller": "구독 취소"
+    },
+    "settings_portal": {
+      "branding": "포털 로고와 이름",
+      "farver": "포털 색상",
+      "skrifttyper": "포털 글꼴",
+      "domaene": "포털 전용 도메인"
+    },
+    "settings_integrations": {
+      "regnskab": "기본 회계 시스템",
+      "dinero": "Dinero",
+      "economic": "e-conomic",
+      "google-kalender": "Google 캘린더",
+      "browserudvidelse": "브라우저 확장 프로그램",
+      "alunta": "Alunta 선불 패키지"
+    },
+    "settings_ai": {
+      "ai-udbyder": "AI 제공업체",
+      "email-til-opgave": "이메일로 작업 만들기"
+    },
+    "settings_desktop": {
+      "enheder": "연결된 기기",
+      "licens": "데스크톱 라이선스"
+    },
+    "settings_data": {
+      "eksport": "데이터 내보내기",
+      "import": "데이터 가져오기"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} saved on <b>{target}</b>",
+    "stoppedOn": "{duration} stopped on <b>{target}</b>",
+    "savedInternal": "{duration} saved as <b>internal time</b>",
+    "stoppedInternal": "{duration} stopped as <b>internal time</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "The package <b>{name}</b> did not have enough hours, so all the time was saved as billable",
+    "deducted": "{hours} deducted from <b>{name}</b>, {remaining} left",
+    "deductedOverflow": "{hours} deducted from <b>{name}</b>, {remaining} left. The package ran out, so the rest is billable time",
+    "pendingSave": "The server did not respond in time. The time is sent automatically as soon as there is a connection and is saved only once.",
+    "close": "Close message"
+  },
+  "discard": {
+    "label": "Discard time",
+    "question": "Discard {duration} without saving?",
+    "keep": "Keep the time",
+    "confirm": "Discard the time"
+  },
+  "switch": {
+    "label": "Switch client",
+    "question": "Save {duration} on {from} and start a new timer on {to}?",
+    "internal": "internal time",
+    "cancel": "Cancel",
+    "confirm": "Save and start new"
+  },
+  "noClient": "No client selected",
+  "noClientShort": "No client",
+  "start": "Start timer",
+  "cancelNoSave": "Cancel timer without saving",
+  "pause": "Pause timer",
+  "stopSave": "Stop and save",
+  "resume": "Resume timer",
+  "addMinutes": "Add {minutes} minutes to the timer",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Choose client and project",
+  "descriptionPlaceholder": "What are you working on?",
+  "descriptionLabel": "Description of the work"
+}

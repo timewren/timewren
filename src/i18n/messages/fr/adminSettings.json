@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Paramètres",
+    "subtitle": "Gérez les notifications admin, les fonctionnalités activables et le journal des modifications"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Configurez les notifications par e-mail et Discord pour les événements admin",
+    "emailLabel": "E-mail(s) admin",
+    "emailHint": "Séparés par des virgules pour plusieurs destinataires",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "URL du webhook Discord",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Tester",
+    "eventTypes": "Types d'événements",
+    "saving": "Enregistrement…",
+    "save": "Enregistrer les paramètres",
+    "saved": "Paramètres de notification enregistrés",
+    "testSent": "Message de test envoyé à Discord",
+    "webhookRequired": "Saisissez d'abord une URL de webhook Discord"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Nouvelle inscription",
+      "description": "Notifier à chaque nouvelle inscription"
+    },
+    "notify_subscription_started": {
+      "label": "Nouvel abonnement payant",
+      "description": "Notifier à chaque nouveau client payant"
+    },
+    "notify_payment_failed": {
+      "label": "Échec de paiement",
+      "description": "Notifier en cas d'échec de paiement"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Abonnement résilié",
+      "description": "Notifier en cas de résiliation"
+    },
+    "notify_trial_ending": {
+      "label": "Fin d'essai proche",
+      "description": "Discord uniquement : notifier lorsqu'un essai est sur le point de se terminer"
+    },
+    "notify_user_flagged": {
+      "label": "Utilisateur signalé",
+      "description": "Discord uniquement : notifier lorsqu'un utilisateur est signalé"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "description": "Gérez les boîtes de support et la signature",
+    "inboxes": "Boîtes de réception",
+    "add": "Ajouter",
+    "namePlaceholder": "Nom",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Signature HTML (facultatif)",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "default": "Par défaut",
+    "confirmDelete": "Supprimer cette boîte de réception ?",
+    "noInboxes": "Aucune boîte de réception pour le moment",
+    "inboxCreated": "Boîte de réception créée",
+    "inboxUpdated": "Boîte de réception mise à jour",
+    "inboxDeleted": "Boîte de réception supprimée",
+    "signatureSaved": "Signature enregistrée",
+    "globalSignature": "Signature globale",
+    "globalSignatureHint": "Signature HTML utilisée lorsqu'une boîte n'a pas de signature propre",
+    "globalSignaturePlaceholder": "<p>Cordialement<br>Support TimeTrack</p>",
+    "preview": "Aperçu",
+    "noSignature": "Aucune signature",
+    "savingSignature": "Enregistrement…",
+    "saveSignature": "Enregistrer la signature"
+  },
+  "debug": {
+    "title": "Dépannage",
+    "description": "Outils visibles uniquement par vous, dans ce navigateur",
+    "electricLabel": "Afficher le badge Electric",
+    "electricDescription": "Affiche l'état de synchronisation en direct du chronomètre en bas à gauche du tableau de bord"
+  },
+  "flags": {
+    "title": "Fonctionnalités activables",
+    "description": "Activez et désactivez des fonctionnalités pour tous les utilisateurs",
+    "empty": "Aucune fonctionnalité activable configurée",
+    "lastChangedBy": "Dernière modification par {name}",
+    "lastChangedByDate": "Dernière modification par {name} - {date}"
+  },
+  "changelog": {
+    "title": "Journal des modifications",
+    "description": "Créez des entrées de journal affichées aux utilisateurs",
+    "new": "Créer une entrée de journal",
+    "version": "Version",
+    "titleLabel": "Titre",
+    "titlePlaceholder": "Nouvelle fonctionnalité : ...",
+    "content": "Contenu (Markdown)",
+    "contentPlaceholder": "Décrivez les changements…",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "recent": "Entrées récentes du journal",
+    "confirmDelete": "Supprimer le journal v{version} ?",
+    "delete": "Supprimer",
+    "created": "Entrée de journal créée",
+    "deleted": "Entrée de journal supprimée"
+  }
+}

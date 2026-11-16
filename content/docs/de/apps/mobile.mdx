@@ -1,0 +1,34 @@
+---
+title: "Mobile App"
+description: "Die mobile TimeWren-App und was dein selbst gehosteter Server für sie bereitstellt: Geräteanmeldung, Push-Benachrichtigungen und Mindestversionen."
+---
+
+Die mobile App ist eine native App auf Basis von Expo. Sie wird aus einem eigenen Repository gebaut und veröffentlicht, getrennt vom Server, und meldet sich am selben Konto an wie die Web-App.
+
+Diese Seite behandelt, was dein Server für sie bereitstellt. Wie die Serveradresse der App eingegeben wird und wo die App verteilt wird, legt der Server nicht fest; das steht in der eigenen Dokumentation der App.
+
+## Anmelden
+
+Die App verwendet dieselbe Geräteanmeldung wie die Desktop-App: Sie öffnet deine Instanz im Browser, du meldest dich an und bestätigst das Gerät, und der Browser kehrt über den Deep Link `timetrack://auth/callback` zur App zurück. Das Access-Token gilt 30 Tage und wird mit einem Refresh-Token (180 Tage) erneuert, du musst dich also selten neu anmelden. Die App kann auch die von dir konfigurierten OAuth-Anbieter und "Mit Apple anmelden" nutzen, siehe [Authentifizierung](/de/docs/configuration/authentication).
+
+Der Server vertraut den App-Schemata `timetrack://` und `timetrack.preview://` automatisch. Du musst sie nicht zu `TRUSTED_ORIGINS` hinzufügen.
+
+Für natives "Mit Apple anmelden" setzt du `APPLE_APP_BUNDLE_IDENTIFIER` auf die Bundle-ID des verwendeten App-Builds (Standard `dk.timetrack.app`), zusammen mit den anderen Apple-Variablen.
+
+## Push-Benachrichtigungen
+
+Der Server sendet Push-Nachrichten über Expo an die App. Damit Benachrichtigungen funktionieren, braucht der Server ein Expo-Zugriffstoken:
+
+```dotenv
+EXPO_ACCESS_TOKEN=your-expo-access-token
+```
+
+Web Push für Browser und die PWA ist davon getrennt und verwendet die VAPID-Schlüssel. Beides ist optional.
+
+## Mindestversionen
+
+Betreiber können mit `MIN_CLIENT_VERSIONS` einen Mindest-Build verlangen, zum Beispiel `mobile=1.0.0+5`. Die App muss dafür nach dem Pluszeichen einen numerischen Build senden, damit entschieden werden kann. Das Format steht unter [Desktop-App](/de/docs/apps/desktop).
+
+## Geräte verwalten
+
+Angemeldete Geräte erscheinen als Tokens unter Einstellungen, Integrationen, mit Gerätename und letzter Nutzung. Widerrufe eines, um dieses Gerät abzumelden.

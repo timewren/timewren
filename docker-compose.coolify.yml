@@ -1,0 +1,123 @@
+# documentation: https://timewren.com/docs/install/coolify
+# slogan: Open-source time tracking, prepaid hours and invoicing.
+# category: productivity
+# tags: time-tracking,invoicing,crm
+# logo: svgs/timewren.svg
+# port: 3000
+
+# TimeWren on Coolify (https://coolify.io): app + PostgreSQL + cron.
+#
+# In Coolify: New Resource > Docker Compose (from this Git repository), set the
+# compose file to /deploy/coolify/docker-compose.yml, then give the `app` service a
+# domain. Coolify generates the secrets and the public URL marked below.
+# Nothing is required: Coolify generates all secrets.
+#
+# SECURITY: REQUIRE_EMAIL_VERIFICATION defaults to false below so the instance
+# works without a mail server. The domain is public as soon as it deploys and
+# the first account becomes admin, so open the URL and create your account
+# immediately, or set ADMIN_EMAIL and SMTP_HOST/RESEND_API_KEY before the
+# first deploy. Setting REQUIRE_EMAIL_VERIFICATION=true restores verification.
+#
+# Full guide: docs/self-hosting.md
+
+services:
+  app:
+    image: ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}
+    restart: unless-stopped
+    environment:
+      # Routes the service domain to container port 3000.
+      SERVICE_URL_APP_3000: ""
+      SERVICE_FQDN_APP: ""
+      TZ: ${TZ:-Europe/Copenhagen}
+      DATABASE_URL: postgresql://timetrack:${SERVICE_PASSWORD_POSTGRES}@db:5432/timetrack
+      BETTER_AUTH_SECRET: ${SERVICE_HEX_64_BETTERAUTH}
+      CRON_SECRET: ${SERVICE_HEX_64_CRON}
+      # Generated once by Coolify (64 hex characters). Back it up: it decrypts
+      # stored integration tokens.
+      ENCRYPTION_KEY: ${SERVICE_HEX_64_ENCRYPTION}
+      NEXT_PUBLIC_APP_URL: ${SERVICE_URL_APP}
+      NEXT_PUBLIC_BRAND: timewren
+      DESKTOP_UPDATER_REPO: ${DESKTOP_UPDATER_REPO:-}
+      CHANGELOG_REPO: ${CHANGELOG_REPO:-}
+      MIGRATE_ON_START: "1"
+      STORAGE_DRIVER: ${STORAGE_DRIVER:-local}
+      STORAGE_LOCAL_PATH: /app/data/storage
+      # Lets you sign up without a mail server. Ignored once SMTP_HOST or
+      # RESEND_API_KEY is set. The first account becomes admin.
+      REQUIRE_EMAIL_VERIFICATION: ${REQUIRE_EMAIL_VERIFICATION:-false}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      # Mail (optional): SMTP or Resend.
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-}
+      # S3-compatible storage (optional; also set STORAGE_DRIVER=s3).
+      S3_ENDPOINT: ${S3_ENDPOINT:-}
+      S3_REGION: ${S3_REGION:-}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-}
+      S3_BUCKET: ${S3_BUCKET:-timetrack}
+      # Integrations and login providers (optional).
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      MICROSOFT_CLIENT_ID: ${MICROSOFT_CLIENT_ID:-}
+      MICROSOFT_CLIENT_SECRET: ${MICROSOFT_CLIENT_SECRET:-}
+      MICROSOFT_TENANT_ID: ${MICROSOFT_TENANT_ID:-common}
+      DINERO_CLIENT_ID: ${DINERO_CLIENT_ID:-}
+      DINERO_CLIENT_SECRET: ${DINERO_CLIENT_SECRET:-}
+      ECONOMIC_APP_PUBLIC_TOKEN: ${ECONOMIC_APP_PUBLIC_TOKEN:-}
+      ECONOMIC_APP_SECRET_TOKEN: ${ECONOMIC_APP_SECRET_TOKEN:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    volumes:
+      - storage:/app/data/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - "-e"
+        - "require('http').get('http://127.0.0.1:3000/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 180s
+
+  cron:
+    image: ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}
+    command: ["node", "scripts/cron.mjs"]
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Copenhagen}
+      CRON_SECRET: ${SERVICE_HEX_64_CRON}
+      APP_URL: http://app:3000
+    depends_on:
+      app:
+        condition: service_healthy
+
+  db:
+    image: "postgres:18-alpine"
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: timetrack
+      POSTGRES_USER: timetrack
+      POSTGRES_PASSWORD: ${SERVICE_PASSWORD_POSTGRES}
+    volumes:
+      # PostgreSQL 18+ keeps data in a versioned directory below this path.
+      - "db-data:/var/lib/postgresql"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "pg_isready -U timetrack -d timetrack"
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  db-data:
+  storage:

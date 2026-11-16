@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Importazione completata: {count, plural, one {# registrazione ore importata} many {# registrazioni ore importate} other {# registrazioni ore importate}}",
+    "doneWithErrorsToast": "Importazione completata con errori: {imported} importate, {failed} non riuscite",
+    "failedToast": "Importazione non riuscita. Vedi i dettagli nelle impostazioni",
+    "running": "Importazione in corso: {pct}% ({imported}/{total})",
+    "details": "Vedi dettagli",
+    "done": "Importazione completata: {count, plural, one {# registrazione ore importata} many {# registrazioni ore importate} other {# registrazioni ore importate}}",
+    "doneWithFailed": "Importazione completata: {count, plural, one {# registrazione ore importata} many {# registrazioni ore importate} other {# registrazioni ore importate}}, {failed} non riuscite",
+    "dismiss": "Chiudi"
+  },
+  "page": {
+    "pickDateFormat": "Scegli un formato data per continuare.",
+    "success": "Importazione completata con successo!",
+    "failed": "Importazione non riuscita. Riprova.",
+    "backToOnboarding": "← Torna all'onboarding",
+    "backToIntegrations": "← Torna alle integrazioni",
+    "onboardingMode": "Modalità onboarding attiva",
+    "onboardingNote": "Dopo un'importazione riuscita proseguirai automaticamente con l'onboarding.",
+    "uploadFile": "Carica file",
+    "chooseFile": "Scegli file",
+    "noFile": "Nessun file selezionato",
+    "dateFormat": "Formato data",
+    "chooseFormat": "Scegli formato...",
+    "dateFormatHint": "Controlla i dati del CSV per vedere quale formato data è usato.",
+    "billingFilter": "Filtro di fatturazione",
+    "filter": {
+      "all": "Importa tutto",
+      "unbilled": "Solo non fatturate",
+      "billed": "Solo fatturate"
+    },
+    "billingFilterHint": "Filtra le registrazioni in base allo stato di fatturazione nella fonte.",
+    "markAllBilled": "Segna tutte le registrazioni importate come fatturate",
+    "markAllBilledHint": "Usa questa opzione se dalla fonte esporti solo registrazioni già fatturate.",
+    "result": {
+      "clients": "{count, plural, one {# cliente creato} many {# clienti creati} other {# clienti creati}}",
+      "projects": "{count, plural, one {# progetto creato} many {# progetti creati} other {# progetti creati}}",
+      "timeEntries": "{count, plural, one {# registrazione ore importata} many {# registrazioni ore importate} other {# registrazioni ore importate}}",
+      "billedSplit": "({billed} fatturate, {unbilled} non fatturate)",
+      "skippedRows": "{count, plural, one {# riga saltata} many {# righe saltate} other {# righe saltate}}",
+      "filteredRows": "{count, plural, one {# riga filtrata (filtro di fatturazione)} many {# righe filtrate (filtro di fatturazione)} other {# righe filtrate (filtro di fatturazione)}}",
+      "totalHours": "{hours} ore importate in totale",
+      "tasks": "{count, plural, one {# attività importata} many {# attività importate} other {# attività importate}}",
+      "subtasks": "{count, plural, one {# sottoattività importata} many {# sottoattività importate} other {# sottoattività importate}}",
+      "tasksSkipped": "{count, plural, one {# attività saltata} many {# attività saltate} other {# attività saltate}}"
+    },
+    "importing": "Importazione in corso...",
+    "start": "Avvia importazione",
+    "mayTakeAWhile": "Può richiedere alcuni minuti, a seconda della quantità di dati...",
+    "warnTitle": "Da sapere:",
+    "warn1": "L'importazione non può essere annullata",
+    "warn2": "I dati esistenti non vengono sovrascritti",
+    "warn3": "I duplicati vengono saltati"
+  }
+}

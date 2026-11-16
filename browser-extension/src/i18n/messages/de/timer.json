@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} gespeichert für <b>{target}</b>",
+    "stoppedOn": "{duration} gestoppt für <b>{target}</b>",
+    "savedInternal": "{duration} als <b>interne Zeit</b> gespeichert",
+    "stoppedInternal": "{duration} als <b>interne Zeit</b> gestoppt",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Das Paket <b>{name}</b> hatte nicht genug Stunden, daher wurde die gesamte Zeit als abrechenbar gespeichert",
+    "deducted": "{hours} von <b>{name}</b> abgezogen, {remaining} übrig",
+    "deductedOverflow": "{hours} von <b>{name}</b> abgezogen, {remaining} übrig. Das Paket war aufgebraucht, daher ist der Rest abrechenbare Zeit",
+    "pendingSave": "Der Server hat nicht rechtzeitig geantwortet. Die Zeit wird automatisch gesendet, sobald wieder eine Verbindung besteht, und nur einmal gespeichert.",
+    "close": "Meldung schließen"
+  },
+  "discard": {
+    "label": "Zeit verwerfen",
+    "question": "{duration} verwerfen, ohne zu speichern?",
+    "keep": "Zeit behalten",
+    "confirm": "Zeit verwerfen"
+  },
+  "switch": {
+    "label": "Kunde wechseln",
+    "question": "{duration} für {from} speichern und einen neuen Timer für {to} starten?",
+    "internal": "interne Zeit",
+    "cancel": "Abbrechen",
+    "confirm": "Speichern und neu starten"
+  },
+  "noClient": "Kein Kunde ausgewählt",
+  "noClientShort": "Kein Kunde",
+  "start": "Timer starten",
+  "cancelNoSave": "Timer verwerfen, ohne zu speichern",
+  "pause": "Timer pausieren",
+  "stopSave": "Stoppen und speichern",
+  "resume": "Timer fortsetzen",
+  "addMinutes": "{minutes} Minuten zum Timer hinzufügen",
+  "addedMinutes": "+{minutes} Min.",
+  "pickClientProject": "Kunde und Projekt wählen",
+  "descriptionPlaceholder": "Woran arbeitest du?",
+  "descriptionLabel": "Beschreibung der Arbeit"
+}

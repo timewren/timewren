@@ -1,0 +1,322 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "タイムシート",
+      "description": "提出、承認、却下、再開、および期間締め (明細、承認、確認)"
+    },
+    "absence": {
+      "label": "休暇・不在",
+      "description": "申請、決定、登録、病欠の届け出"
+    },
+    "reminder": {
+      "label": "リマインダー",
+      "description": "タイムシートが未提出のときの金曜のリマインダーと、(任意で) 前日の稼働率が低かったときの通知"
+    },
+    "compliance": {
+      "label": "労働時間ルール",
+      "description": "提出時の労働時間ルールに関する警告 (マネージャー向け)"
+    },
+    "digest": {
+      "label": "マネージャー向けダイジェスト",
+      "description": "マネージャー向けの日次・週次の概要"
+    }
+  },
+  "channels": {
+    "in_app": "アプリ内",
+    "email": "メール",
+    "push": "プッシュ",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "第 {week} 週",
+  "periodFrom": "{date} から",
+  "periodRange": "{start}〜{end}",
+  "unknown": "不明",
+  "duration": {
+    "hm": "{h} 時間 {m} 分",
+    "h": "{h} 時間",
+    "m": "{m} 分"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "承認待ちのタイムシート",
+      "body": "{employee} さんが {week} のタイムシートを提出しました ({hours} 時間)。"
+    },
+    "factEmployee": "従業員",
+    "factWeek": "週",
+    "factHours": "時間",
+    "timesheetApproved": {
+      "title": "タイムシートが承認されました",
+      "body": "{manager} さんが {week} のタイムシートを承認しました。"
+    },
+    "timesheetRejected": {
+      "title": "タイムシートが却下されました",
+      "body": "{manager} さんが {week} のタイムシートを却下しました。",
+      "bodyReason": "{manager} さんが {week} のタイムシートを却下しました。理由：{reason}"
+    },
+    "timesheetReopened": {
+      "title": "タイムシートが再開されました",
+      "body": "{manager} さんが {week} のタイムシートを編集できるように再開しました。",
+      "bodyReason": "{manager} さんが {week} のタイムシートを編集できるように再開しました。理由：{reason}"
+    },
+    "closingReady": {
+      "title": "承認待ちの期間明細",
+      "body": "{count, plural, other {{period} の明細を # 人の従業員分作成しました。承認をお待ちしています。}}"
+    },
+    "factPeriod": "期間",
+    "factStatements": "明細",
+    "closingApproved": {
+      "title": "期間明細を確認してください",
+      "body": "{manager} さんが {period} の明細を承認しました。期間はロックされました。明細を確認して、確認済みにしてください。"
+    },
+    "closingUnlocked": {
+      "title": "期間のロックが解除されました",
+      "body": "{actor} さんが {period} のロックを解除しました。理由：{reason}"
+    },
+    "absenceRequested": {
+      "title": "承認待ちの不在申請",
+      "body": "{employee} さんが {period} の {type} を申請しています。"
+    },
+    "factType": "種類",
+    "absenceApproved": {
+      "title": "不在申請が承認されました",
+      "body": "{manager} さんが {period} の {type} を承認しました。"
+    },
+    "absenceRejected": {
+      "title": "不在申請が却下されました",
+      "body": "{manager} さんが {period} の {type} を却下しました。",
+      "bodyReason": "{manager} さんが {period} の {type} を却下しました。理由：{reason}"
+    },
+    "absenceRegistered": {
+      "title": "不在を登録しました",
+      "body": "{registrar} さんが {period} の {type} を登録しました。"
+    },
+    "sickRegistered": {
+      "title": "病欠の届け出",
+      "body": "{employee} さんが {period} の病欠を届け出ました。"
+    },
+    "timesheetMissing": {
+      "title": "タイムシートが未提出です",
+      "bodyHours": "{week} に {hours} 時間を記録しましたが、まだ週が提出されていません。",
+      "bodyNone": "{week} はまだ時間が記録されていません。"
+    },
+    "coverageLow": {
+      "title": "勤務時間の {pct} しか記録されていません",
+      "body": "{day} は {expected} 時間のうち {logged} 時間を記録しました (しきい値 {threshold}% を下回っています)。記録漏れはありませんか？"
+    },
+    "factLogged": "記録済み",
+    "factWorkTime": "勤務時間",
+    "factCoverage": "稼働率",
+    "hoursShort": "{hours} 時間",
+    "compliance": {
+      "title": "労働時間ルールの警告",
+      "body": "{employee} さんの {week} のタイムシートで次の項目が検出されました：{findings}"
+    },
+    "factFinding": "検出内容",
+    "digestDaily": "マネージャー向け日次概要",
+    "digestWeekly": "マネージャー向け週次概要",
+    "digestDailyEsc": "マネージャー向け日次概要 (エスカレーション)",
+    "digestWeeklyEsc": "マネージャー向け週次概要 (エスカレーション)",
+    "digestEmpty": "未対応のタイムシートや申請はありません。",
+    "digestMissing": "未提出のタイムシート",
+    "digestPendingTs": "承認待ちのタイムシート",
+    "digestPendingAbs": "承認待ちの不在申請",
+    "digestFactAbs": "不在申請",
+    "digestSection": "{label} ({count})：",
+    "digestAge": "({days, plural, other {# 日}})",
+    "digestMore": "…ほか {count} 件"
+  },
+  "digestItem": {
+    "missing": "{week} のタイムシートが未提出",
+    "pendingTs": "{week} が承認待ち",
+    "pendingAbs": "{period} の {type} が決定待ち"
+  },
+  "emailOpenIn": "{brand} で開く",
+  "emailNoAddress": "メールアドレスがありません",
+  "push": {
+    "open": "開く",
+    "dismiss": "閉じる",
+    "deadlineTitle": "⏰ 期限のリマインダー",
+    "deadlineBody": "{title}：期限は {when}",
+    "whenDays": "{days} 日後",
+    "whenTomorrow": "明日",
+    "whenHours": "{hours} 時間後",
+    "whenOneHour": "1時間後",
+    "whenSoon": "まもなく",
+    "overdueTitle": "🚨 タスクの期限超過",
+    "overdueBody": "{title} は期限を過ぎています",
+    "digestTitle": "☀️ おはようございます",
+    "digestOverdue": "期限超過 {overdue} 件、今日の予定 {tasks} 件",
+    "digestTasks": "{count, plural, other {今日の予定のタスク # 件}}",
+    "digestNone": "今日の予定のタスクはありません。良い一日を！",
+    "testTitle": "🔔 テスト通知",
+    "testBody": "{brand} のプッシュ通知が有効になりました"
+  },
+  "discord": {
+    "digestTitle": "☀️ おはようございます、{name} さん",
+    "digestNone": "今日の予定のタスクはありません。良い一日を！🎉",
+    "digestOverview": "今日の概要です。",
+    "todayTasks": "📌 今日のタスク ({count})",
+    "overdueTasks": "🚨 期限超過 ({count})",
+    "andMore": "…ほか {count} 件",
+    "status": "📊 状況",
+    "yesterdayTime": "昨日記録した時間：{h} 時間 {m} 分",
+    "yesterdayDone": "昨日完了したタスク：{count}",
+    "digestFooter": "TimeTrack • 日次概要",
+    "testTitle": "テスト通知",
+    "testMessage": "Discord の Webhook が TimeTrack に接続されました 🎉"
+  },
+  "taskDigestSubject": "{date} のタスク",
+  "endOfDay": {
+    "titleTracked": "日次サマリー：{hours} を記録",
+    "titleNone": "今日は時間が記録されていません",
+    "bodyTracked": "今日は {hours} を記録しました。",
+    "bodyUnbilled": "{hours} が未請求です。",
+    "bodyRevenue": "推定売上：{amount} kr",
+    "bodyNone": "一日が終わる前に、時間を記録するのを忘れないでください。",
+    "footer": "TimeTrack 日次サマリー"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "操作がないことを検出しました",
+      "message": "{minutes} 分作業した後も、タイマーが動いたままです。戻ったときに、操作がなかった時間について確認します。"
+    },
+    "invoiceOverdueOne": {
+      "title": "請求書の期限超過",
+      "message": "請求書 {numbers} が支払期限を過ぎています。"
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} 件の請求書が期限超過",
+      "message": "請求書 {numbers} が支払期限を過ぎています。"
+    },
+    "recurringOne": {
+      "title": "請求書の下書きができました：{name}",
+      "message": "定期請求書「{name}」(VAT別 {amount}) を下書きとして作成しました。準備ができたら確認して発行してください。"
+    },
+    "recurringMany": {
+      "title": "{count} 件の定期請求書が下書きになりました",
+      "message": "{list} を下書きとして作成しました。準備ができたら確認して発行してください。"
+    },
+    "renewalDraft": {
+      "title": "請求書の下書きができました：前払いパッケージ「{name}」",
+      "message": "前払いパッケージ「{name}」が更新され、新しい期間の請求書を下書きとして作成しました。準備ができたら確認して発行してください。"
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "新規ユーザーが登録しました",
+      "subscription_started": "新しい有料購読者",
+      "payment_failed": "支払いに失敗しました",
+      "subscription_cancelled": "サブスクリプションが解約されました",
+      "trial_ending": "トライアルがまもなく終了します",
+      "user_flagged": "ユーザーにフラグが付きました",
+      "support_ticket": "新しいサポートチケット",
+      "webhook_rejected": "Webhook が拒否されました",
+      "seat_drift": "シート数のずれを検出しました",
+      "churn_risk": "解約防止プレイブックが起動しました",
+      "subscription_duplicate": "サブスクリプションが重複している可能性があります",
+      "feedback_received": "ユーザーから新しいフィードバック",
+      "beta_tester_signup": "モバイルアプリの新しいベータテスター"
+    },
+    "sub": {
+      "signup": "新規ユーザー：{name}",
+      "subscription_started": "新しい購読者：{name}",
+      "payment_failed": "支払い失敗：{name}",
+      "subscription_cancelled": "サブスクリプション解約：{name}",
+      "trial_ending": "トライアル終了間近：{name}",
+      "user_flagged": "ユーザーにフラグ：{name}",
+      "support_ticket": "サポートチケット：{name}",
+      "webhook_rejected": "Webhook が拒否されました",
+      "seat_drift": "シート数のずれ",
+      "churn_risk": "解約リスク",
+      "subscription_duplicate": "サブスクリプションが重複している可能性",
+      "feedback_received": "新しいフィードバック：{name}",
+      "beta_tester_signup": "新しいベータテスター：{name}"
+    },
+    "unknownName": "不明",
+    "fieldName": "名前",
+    "fieldEmail": "メール",
+    "fieldPlan": "プラン",
+    "fieldType": "種類",
+    "fieldDaysLeft": "残り日数",
+    "fieldReason": "理由",
+    "fieldTime": "時刻",
+    "seeUser": "管理画面でユーザーを見る",
+    "footer": "TimeTrack 管理",
+    "testTitle": "テスト：管理者通知",
+    "testBody": "Discord の Webhook が TimeTrack の管理者通知に接続されました",
+    "supportReply": "チケットへの返信：{subject}",
+    "supportNew": "新しいサポートチケット：{subject}",
+    "supportNoSubject": "件名なし"
+  },
+  "fallbackUser": "ユーザー",
+  "absenceTypeFallback": "不在",
+  "teams": {
+    "urlTooLong": "Webhook のURLが長すぎます",
+    "urlInvalid": "URLが正しくありません",
+    "urlHttps": "Webhook のURLには https を使用する必要があります",
+    "urlNotTeams": "Teams の Webhook のURLではないようです (*.webhook.office.com、*.logic.azure.com、*.powerplatform.com のいずれかが必要です)"
+  },
+  "fallbackTaskTitle": "メールからのタスク",
+  "deadlines": {
+    "noProject": "プロジェクトなし",
+    "overdueLine": "• **{title}** ({project})：{days, plural, other {# 日}}超過",
+    "overdueTitle": "{count, plural, other {期限超過のタスク # 件}}",
+    "overdueFooter": "TimeTrack 期限アラート",
+    "whenToday": "今日",
+    "whenTomorrow": "明日",
+    "whenDays": "{days} 日後",
+    "upcomingLine": "• **{title}** ({project})：期限は {when}",
+    "upcomingTitle": "{count, plural, other {期限が近いタスク # 件}}",
+    "upcomingFooter": "TimeTrack 期限リマインダー",
+    "projOverdueTitle": "{count, plural, other {終了日を過ぎたプロジェクト # 件}}",
+    "projOverdueLine": "• **{name}**：終了日を {days, plural, other {# 日}}過ぎています",
+    "projSoonTitle": "{count, plural, other {終了日が近いプロジェクト # 件}}",
+    "projSoonLine": "• **{name}**：{when} に終了",
+    "projFooter": "TimeTrack プロジェクト終了日"
+  },
+  "slack": {
+    "noProject": "プロジェクトなし",
+    "noClient": "クライアントなし",
+    "project": "プロジェクト",
+    "client": "クライアント",
+    "description": "説明",
+    "timerStarted": "タイマーを開始しました",
+    "startedAtSlack": "開始時刻",
+    "startedAtDiscord": "開始",
+    "timerStopped": "タイマーを停止しました",
+    "duration": "時間",
+    "durationHM": "{h} 時間 {m} 分",
+    "durationM": "{m} 分",
+    "idleTitle": "操作がないことを検出しました",
+    "idleBodySlack": "*{project}* のタイマーが動いている間、*{minutes} 分* 操作がありませんでした。休憩するときは、タイマーを停止するのを忘れないでください。",
+    "idleBodyDiscord": "**{project}** のタイマーが動いている間、**{minutes} 分** 操作がありませんでした。休憩するときは、タイマーを停止するのを忘れないでください。",
+    "dailyTitle": "日次サマリー：{date}",
+    "totalTime": "合計時間",
+    "totalRevenue": "売上合計",
+    "tasksDone": "完了したタスク",
+    "projects": "プロジェクト",
+    "noEntriesToday": "今日の時間記録はありません",
+    "weeklyTitle": "週次レポート：第 {week} 週",
+    "unbilled": "未請求",
+    "topClients": "上位クライアント",
+    "noEntriesWeek": "今週の時間記録はありません",
+    "hoursShort": "{hours} 時間",
+    "minutesShort": "{m} 分",
+    "testTitle": "TimeTrack のテストメッセージ",
+    "testBodySlack": "Slack 連携が正しく設定されました。今後、TimeTrack からの通知がここに届きます。",
+    "testBodyDiscord": "Discord 連携が正しく設定されました。今後、TimeTrack からの通知がここに届きます。",
+    "unbilledReminderTitle": "💰 未請求の時間：{hours} ({value} kr)",
+    "unbilledReminderDiscord": "**{value} kr** 相当の未請求の時間があります。\n\n{list}",
+    "unbilledReminderSlack": "*{value} kr* 相当の未請求の時間があります。\n\n{list}",
+    "unbilledReminderLine": "• {name}：{hours}、{value} kr",
+    "unbilledReminderFooter": "TimeTrack 未請求リマインダー",
+    "aiFocusName": "🎯 今日の注力 ({count} 件のタスク)",
+    "aiWarnings": "⚠️ 警告",
+    "aiDeferred": "📋 先送り",
+    "aiDeferredValue": "{count, plural, other {# 件のタスクを先送りすることをおすすめします}}",
+    "aiGreeting": "おはようございます、{name} さん",
+    "aiFooter": "TimeTrack AIの提案",
+    "aiFocusBlock": "🎯 今日の注力",
+    "aiWarningsBlock": "⚠️ 警告"
+  }
+}

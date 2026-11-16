@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "Tu enlace de acceso a {brand} funciona durante 15 minutos",
+    "kicker": "Iniciar sesión",
+    "heading": "Inicia sesión en {brand}",
+    "footerNote": "Recibes este correo porque alguien pidió un enlace de acceso para tu dirección.",
+    "body": "Haz clic en el botón para iniciar sesión. El enlace funciona durante 15 minutos y solo se puede usar una vez.",
+    "button": "Inicia sesión en {brand}",
+    "ignore": "Si no pediste iniciar sesión, puedes ignorar este correo. No pasa nada sin tu clic.",
+    "subject": "Inicia sesión en TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "Restablece tu contraseña de {brand}",
+    "kicker": "Seguridad",
+    "heading": "Restablece tu contraseña",
+    "footerNote": "Recibes este correo porque se pidió una nueva contraseña para tu cuenta.",
+    "greeting": "Hola {name},",
+    "body": "Haz clic en el botón para elegir una nueva contraseña. El enlace caduca en una hora.",
+    "button": "Elegir nueva contraseña",
+    "ignore": "Si no lo pediste, puedes ignorar este correo. Tu contraseña no ha cambiado y tu cuenta sigue segura.",
+    "subject": "Restablece tu contraseña de TimeTrack"
+  },
+  "verification": {
+    "preview": "Confirma tu correo para activar tu cuenta",
+    "kicker": "Cuenta",
+    "heading": "Confirma tu correo",
+    "footerNote": "Recibes este correo porque alguien creó una cuenta en {brand} con tu dirección de correo.",
+    "greeting": "Hola {name},",
+    "greetingFallback": "Hola,",
+    "body": "Gracias por registrarte. Haz clic en el botón para confirmar tu correo y activar tu cuenta. El enlace funciona durante 24 horas.",
+    "button": "Confirmar correo",
+    "ignore": "Si no creaste una cuenta, puedes ignorar este correo. No pasará nada más.",
+    "subject": "Confirma tu correo para TimeTrack"
+  },
+  "security": {
+    "kicker": "Seguridad",
+    "footerNote": "Este es un aviso de seguridad automático.",
+    "greeting": "Hola {name},",
+    "time": "Fecha y hora",
+    "ip": "Dirección IP",
+    "device": "Dispositivo",
+    "place": "Ubicación",
+    "notYou": "¿No fuiste tú?",
+    "openSettings": "Abrir ajustes de la cuenta",
+    "unknownDevice": "Dispositivo desconocido",
+    "browser": "Navegador",
+    "deviceOn": "{browser} en {os}"
+  },
+  "passwordChanged": {
+    "preview": "Tu contraseña de {brand} ha cambiado",
+    "heading": "Tu contraseña ha cambiado",
+    "body": "La contraseña de tu cuenta de {brand} acaba de cambiar. Si fuiste tú, no tienes que hacer nada.",
+    "calloutBody": "Restablece la contraseña con «He olvidado mi contraseña» en la página de acceso y escribe de inmediato a [mail]{email}[/mail].",
+    "subject": "Tu contraseña de TimeTrack ha cambiado"
+  },
+  "newLogin": {
+    "preview": "Nuevo inicio de sesión en {brand} desde {device}",
+    "heading": "Nuevo inicio de sesión en tu cuenta",
+    "body": "Se inició sesión en tu cuenta de {brand} desde un dispositivo que no se había usado antes. Si fuiste tú, no tienes que hacer nada.",
+    "calloutBody": "Cambia tu contraseña de inmediato y escribe a [mail]{email}[/mail]: el soporte te ayudará a proteger la cuenta.",
+    "subject": "Nuevo inicio de sesión en tu cuenta de TimeTrack"
+  },
+  "twoFactor": {
+    "preview": "Tu código de verificación de {brand}: {code}",
+    "heading": "Tu código de verificación",
+    "footerNote": "Recibes este correo porque se inició sesión en tu cuenta con verificación en dos pasos.",
+    "enterCode": "Introduce el código para continuar:",
+    "expires": "El código caduca en 3 minutos. Si no lo pediste, puedes ignorar este correo. No introduzcas nunca el código fuera de {brand}.",
+    "subject": "{code} es tu código de verificación de TimeTrack"
+  },
+  "signupPassword": {
+    "preview": "Tu contraseña temporal de {brand}",
+    "kicker": "Bienvenido",
+    "heading": "Te damos la bienvenida a {brand}, {name}",
+    "intro": "Tu cuenta ya está creada. Esta es tu contraseña temporal:",
+    "changeIt": "Cámbiala tras tu primer inicio de sesión, en Seguridad dentro de los ajustes.",
+    "button": "Inicia sesión en tu cuenta",
+    "alsoLogin": "También puedes iniciar sesión en [login]{url}[/login] con tu correo y la contraseña de arriba.",
+    "getStarted": "Cómo empezar",
+    "step1": "Crea tu primer cliente",
+    "step2": "Crea un proyecto para el cliente",
+    "step3": "Inicia el cronómetro y factura las horas cuando termines el trabajo",
+    "subject": "Tu contraseña de TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} te ha invitado a {org}",
+    "kicker": "Invitación",
+    "heading": "Te han invitado a {org}",
+    "footerNote": "Recibes este correo porque alguien te invitó a su equipo en {brand}.",
+    "role": {
+      "owner": "propietario/a",
+      "admin": "administrador/a",
+      "member": "miembro"
+    },
+    "body": "**{inviter}** te ha invitado a ser {role} de **{org}** en {brand}.",
+    "body2": "Aquí registras tiempo en los clientes y proyectos del equipo, y la persona responsable ve todas las horas juntas.",
+    "button": "Aceptar la invitación",
+    "expires": "La invitación caduca en 48 horas. Si no conoces al remitente, puedes ignorar este correo.",
+    "subject": "{inviter} te ha invitado a {org} en TimeTrack"
+  },
+  "portalInvite": {
+    "preview": "Se le ha invitado al portal de clientes de {sender}",
+    "kicker": "Portal de clientes",
+    "heading": "Le damos la bienvenida al portal de clientes",
+    "footerNote": "Enviado por {sender} a través de {brand}.",
+    "greeting": "Estimado/a {name}:",
+    "body": "{sender} le ha dado acceso a su propio portal de clientes. Allí puede ver facturas y proyectos y seguir el saldo de su bono de horas.",
+    "button": "Abrir el portal de clientes",
+    "account": "Inicie sesión con el correo **{email}** y la contraseña que le dio {sender}.",
+    "token": "El enlace es personal. No lo comparta con nadie.",
+    "questions": "Si tiene preguntas, puede escribir a {sender} en [mail]{email}[/mail].",
+    "subject": "Se le ha invitado al portal de clientes de {sender}"
+  },
+  "welcome": {
+    "preview": "Te damos la bienvenida a {brand}",
+    "kicker": "Bienvenido",
+    "heading": "Bienvenido, {name}",
+    "intro": "Gracias por crear una cuenta en {brand}. Así puedes empezar:",
+    "button": "Abrir {brand}",
+    "questions": "¿Preguntas? Consulta la [help]ayuda[/help] o escribe a [mail]{email}[/mail].",
+    "subject": "Te damos la bienvenida a TimeTrack"
+  }
+}

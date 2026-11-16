@@ -1,0 +1,330 @@
+---
+title: "Umgebungsvariablen"
+description: "Vollständige Referenz aller TimeWren-Umgebungsvariablen: Standardwerte, Pflichtvariablen, Build-Zeit-Werte und was jede Variable bewirkt."
+---
+
+TimeWren wird vollständig über Umgebungsvariablen konfiguriert. Diese Seite listet jede Variable auf, die der Code liest, gruppiert nach Zweck. Die meisten selbst gehosteten Instanzen brauchen nur die [Mindestkonfiguration](#mindestkonfiguration) und später Mail und Speicher.
+
+## So werden Variablen gesetzt
+
+Beim Docker-Compose-Setup legst du die Variablen in einer `.env`-Datei neben `docker-compose.yml` ab. Der Service `app` lädt diese Datei (`env_file: .env`), und einige Werte reicht `docker-compose.yml` zusätzlich explizit durch. Nach dem Bearbeiten von `.env` übernimmst du die Laufzeitvariablen mit `docker compose up -d`. Compose erstellt die Container neu, deren Konfiguration sich geändert hat.
+
+Ein leerer Wert gilt als "nicht gesetzt". `NEXT_PUBLIC_APP_URL=` fällt auf den Standardwert zurück, und eine Variable mit leerem Wert verhält sich wie eine fehlende. Zeilen, die mit `#` beginnen, sind Kommentare, deshalb liefert `.env.example` alles Optionale auskommentiert aus.
+
+### Build-Zeit und Laufzeit
+
+Variablen mit dem Namen `NEXT_PUBLIC_*` werden beim Bauen des Images in das Browser-Bundle eingebettet. Sie danach in `.env` zu ändern, hat auf das fertige Image keine Wirkung. Drei Ausnahmen werden zur Laufzeit gelesen, wobei der Build-Wert nur als Fallback dient: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` und `NEXT_PUBLIC_BRAND`. Der Server liest sie aus seiner Umgebung, und der Browser bekommt sie von `/runtime-config.js`, das der Server pro Anfrage erzeugt.
+
+Beim vorgebauten Image `ghcr.io/timewren/timewren` sind die übrigen Build-Zeit-Variablen daher fest (zum Beispiel `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` und die Sentry-Browser-Einstellungen). Um sie zu ändern, baust du ein eigenes Image mit den passenden Build-Argumenten, siehe [Aus dem Quellcode installieren](/de/docs/install/from-source). Die Spalte "Build-Zeit" unten zeigt, für welche Variablen das gilt.
+
+Die Content-Security-Policy-Header werden in `next.config.ts` aus `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` und `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` erzeugt, verwenden also die Werte, die zur Build-Zeit vorlagen.
+
+> **Hinweis:** Die Abrechnungsvariablen (`ALUNTA_API_KEY`, `STRIPE_SECRET_KEY`, `STORE_BILLING_ENABLED` und alles, was dazugehört) haben beim Self-Hosting keine Wirkung. Die Abrechnung wird nur eingeschaltet, wenn mindestens eine dieser drei Variablen gesetzt ist. Ohne sie sind alle Funktionen offen: keine Benutzer- oder Kundenlimits, keine ablaufende Testphase, keine Upgrade-Buttons und keine Zahlungsmails.
+
+## Mindestkonfiguration
+
+Diese fünf Zeilen reichen, um eine Instanz zu starten. Erzeuge jedes Secret mit `openssl rand -hex 32`.
+
+```dotenv
+POSTGRES_PASSWORD=replace-with-a-random-secret
+BETTER_AUTH_SECRET=replace-with-a-random-secret
+ENCRYPTION_KEY=replace-with-64-hex-characters
+CRON_SECRET=replace-with-a-random-secret
+NEXT_PUBLIC_APP_URL=https://timewren.example.com
+```
+
+Ohne Mail-Transport braucht die Registrierung `REQUIRE_EMAIL_VERIFICATION=false` (siehe [Erforderlich](#erforderlich)). Richte [E-Mail](/de/docs/configuration/email) ein, sobald du kannst.
+
+## Erforderlich
+
+Compose startet nicht, wenn `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` oder `CRON_SECRET` fehlt.
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | keiner | ja | nein | Passwort der mitgelieferten PostgreSQL. Compose baut daraus `DATABASE_URL`. Es wird nur beim erstmaligen Anlegen der Datenbank verwendet: Eine spätere Änderung ändert die bestehende Datenbank nicht. |
+| `BETTER_AUTH_SECRET` | keiner | ja | nein | Secret, mit dem Sitzungen signiert werden. Wird es geändert, werden alle abgemeldet. Der Container startet ohne es nicht. |
+| `ENCRYPTION_KEY` | keiner | ja | nein | AES-256-GCM-Schlüssel für gespeicherte Tokens und Zugangsdaten (Kalender, Buchhaltung, Webhooks). Genau 64 Hex-Zeichen. Verlierst du ihn, müssen diese Integrationen neu verbunden werden, also sichere ihn. |
+| `CRON_SECRET` | keiner | ja | nein | Gemeinsames Secret zwischen dem Service `cron` und der App. Wird auch für `/api/health?detail=1` benötigt. |
+| `DATABASE_URL` | von Compose gesetzt | bedingt | nein | PostgreSQL-Verbindungszeichenfolge. Compose setzt sie auf den mitgelieferten Service `db`, du musst sie also nicht selbst setzen. Nur nötig bei einer anderen Datenbank oder ohne Compose, zum Beispiel `postgresql://user:password@host:5432/timetrack`. |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | ja | nein | Die URL, die Nutzer öffnen, ohne abschließenden Schrägstrich. Sie muss zu dem passen, was der Browser sieht: Verwende hinter einem Reverse Proxy deine `https://`-Domain. Siehe [URLs, Hosts und Marke](#urls-hosts-und-marke). |
+| `REQUIRE_EMAIL_VERIFICATION` | `true` | nein | nein | Auf `false` (oder `0`) setzen, damit sich Leute ohne Mailserver registrieren und anmelden können. Wird nur beachtet, solange kein Mail-Transport konfiguriert ist: Ist `RESEND_API_KEY` oder `SMTP_HOST` gesetzt, wird die Einstellung mit einer Warnung ignoriert. Jeder, der die Instanz erreicht, kann dann ein Konto anlegen, entferne sie also, sobald Mail funktioniert. |
+| `ADMIN_EMAIL` | keiner | nein | nein | Admin-Adressen der Instanz, kommagetrennt. Das Konto mit einer passenden, verifizierten Adresse wird Admin. Leer: Das älteste Konto wird Admin, aber nur, solange die Instanz noch keinen Admin hat. |
+
+## URLs, Hosts und Marke
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | ja | nein | Öffentliche URL der App. Wird zur Laufzeit gelesen; der Build-Wert ist der Fallback. Wird für Links in Mails, OAuth-Callbacks und die Standard-Redirect-URIs der Integrationen verwendet. |
+| `NEXT_PUBLIC_MARKETING_URL` | die App-URL | nein | nein | Separater öffentlicher oder Marketing-Host. Leer entspricht `NEXT_PUBLIC_APP_URL` (ein einziger Host). Mit der Marke `timewren` und ohne Marketing-URL sind die Marketing-Seiten aus: `/` leitet zum Dashboard weiter, und die übrigen Marketing-Pfade liefern 404. Wird zur Laufzeit gelesen. |
+| `NEXT_PUBLIC_BRAND` | `timewren` | nein | nein | `timewren` (Self-Hosting) oder `timetrack` (der dänische gehostete Schwesterdienst, TimeTrack Cloud). Jeder andere Wert oder keiner ergibt TimeWren. Wird zur Laufzeit gelesen. |
+| `SUPPORT_EMAIL` | `support@<EMAIL_DOMAIN>` | nein | nein | Support-Adresse, die in Mails und der Oberfläche angezeigt wird. |
+| `NEXT_PUBLIC_SUPPORT_EMAIL` | keiner | nein | ja | Älterer Alias von `SUPPORT_EMAIL`. `SUPPORT_EMAIL` hat Vorrang, wenn beide gesetzt sind. |
+| `CONTACT_EMAIL` | `support@<EMAIL_DOMAIN>` | nein | nein | Persönliche Kontaktadresse auf Marketingseiten und in persönlichen Mails. Standard: die Support-Adresse (`SUPPORT_EMAIL`). |
+| `EMAIL_DOMAIN` | Host der Marketing-URL, sonst der App-URL | nein | nein | Domain für erzeugte Mailadressen wie `noreply@` und die Adressen `task+id@`. |
+| `TRUSTED_ORIGINS` | keiner | nein | nein | Zusätzliche Origins, die von den Auth- und CSRF-Prüfungen akzeptiert werden, kommagetrennt. Ungültige Einträge werden übersprungen. |
+| `CORS_ALLOWED_ORIGINS` | Origins von Browser-Erweiterungen | nein | nein | Ersetzt die CORS-Allowlist der tRPC-API. Genaue Origins, kommagetrennt, ohne Schrägstrich am Ende und ohne Wildcards. Ohne Wert werden Origins von Browser-Erweiterungen akzeptiert. Leer sperrt den Zugriff über Origins hinweg. Ersetzt nicht die Token-Authentifizierung. |
+| `APP_SCHEMES` | `timetrack://,timetrack.preview://` | nein | nein | Native App-Schemes, die Auth akzeptiert, kommagetrennt. Setze es auf das Scheme eines eigenen App-Builds, zum Beispiel `timewren://`. Leer deaktiviert native Origins. |
+| `DEVICE_CALLBACK_URL` | `timetrack://auth/callback` | nein | nein | Callback des Geräte-Logins. Muss ein natives Scheme mit genau `auth/callback` sein; Web-URLs, Zugangsdaten, Query und Fragment werden abgelehnt. Passe es an `APP_SCHEMES` an. |
+| `CALLBACK_BASE_URL` | die App-URL | nein | nein | Basis für gespeicherte und registrierte Callback-Links, zum Beispiel Webhook-Callbacks. |
+| `AUTH_COOKIE_DOMAIN` | keiner | nein | nein | Teilt das Sitzungs-Cookie über mehrere Hosts, zum Beispiel `.example.com`. Nur nötig bei getrenntem App- und Marketing-Host. |
+| `AUTH_RP_ID` | Marketing-Host bei getrennten Hosts, sonst der App-Host | nein | nein | Relying-Party-ID für Passkeys, zum Beispiel `example.com`. Nur nötig bei getrenntem App- und Marketing-Host. |
+| `AUTH_COOKIE_PREFIX` | `better-auth` | nein | nein | Präfix der Namen der Auth-Cookies. |
+| `SUBDOMAIN_REDIRECT_STATUS` | `308` | nein | nein | HTTP-Status der Weiterleitungen zwischen App- und Marketing-Host. Setze `307`, solange du eine Host-Trennung testest, da Browser `308` cachen. |
+| `APP_PORT` | `3000` | nein | nein | Nur Compose: Host-Port der App. |
+| `APP_BIND` | `127.0.0.1` | nein | nein | Nur Compose: Bind-Adresse des App-Ports. `0.0.0.0` macht ihn auf allen Schnittstellen erreichbar. Behalte hinter einem Reverse Proxy den Standardwert, siehe [Reverse Proxy](/de/docs/operations/reverse-proxy). |
+| `CADDY_DOMAIN` | keiner | nein | nein | Nur Compose: Domain für die optionale Ebene mit automatischem HTTPS (`docker-compose.caddy.yml`). DNS muss auf den Server zeigen, und TCP 80/443 müssen offen sein. |
+| `COMPOSE_FILE` | `docker-compose.yml` | nein | nein | Nur Compose: auf `docker-compose.yml:docker-compose.caddy.yml` setzen, um zusammen mit `CADDY_DOMAIN` automatisches HTTPS einzuschalten. |
+| `NEXT_PUBLIC_GOOGLE_ADS_ID` | keiner | nein | ja | Google-Ads-Tag-ID für die Marketing-Seiten. Ohne sie wird auf selbst gehosteten Instanzen nichts geladen. |
+
+## Mail
+
+Wähle einen Transport: SMTP oder Resend. Ohne einen von beiden werden Mails ins Server-Log geschrieben, statt versendet zu werden. Details und Beispiele stehen unter [E-Mail](/de/docs/configuration/email).
+
+Der Transport wird in dieser Reihenfolge gewählt: `MAIL_TRANSPORT`, wenn auf einen gültigen Wert gesetzt, sonst Resend, wenn `RESEND_API_KEY` gesetzt ist, sonst SMTP, wenn `SMTP_HOST` gesetzt ist, sonst nur Log.
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `MAIL_TRANSPORT` | automatisch | nein | nein | `resend`, `smtp` oder `log`. Erzwingt den Transport. `smtp` erfordert `SMTP_HOST`. |
+| `SMTP_HOST` | keiner | bedingt | nein | SMTP-Server. Wird er gesetzt, wird SMTP gewählt, außer `RESEND_API_KEY` ist gesetzt oder `MAIL_TRANSPORT` legt etwas anderes fest. |
+| `SMTP_PORT` | `587` | nein | nein | SMTP-Port. Port `465` verwendet implizites TLS. |
+| `SMTP_SECURE` | `true` auf Port 465, sonst `false` | nein | nein | `true` für implizites TLS, `false` für STARTTLS. Leer gilt die Port-Regel. |
+| `SMTP_USER` | keiner | nein | nein | SMTP-Benutzername. Die Authentifizierung wird nur verwendet, wenn er gesetzt ist. |
+| `SMTP_PASSWORD` | keiner | nein | nein | SMTP-Passwort. |
+| `SMTP_FROM` | der von der App gewählte Absender | nein | nein | Absenderadresse für alle SMTP-Mails, zum Beispiel `TimeWren <mail@timewren.example.com>`. Bei SMTP empfohlen. |
+| `RESEND_API_KEY` | keiner | bedingt | nein | API-Schlüssel für Resend. Wird er gesetzt, wird Resend gewählt. |
+| `RESEND_FROM_EMAIL` | `TimeWren <noreply@<EMAIL_DOMAIN>>` | nein | nein | Standardabsender beim Versand über Resend. Verwende eine Adresse auf einer in Resend verifizierten Domain. |
+| `FROM_EMAIL` | `TimeWren <noreply@<EMAIL_DOMAIN>>` | nein | nein | Absender der Aufgaben- und Benachrichtigungsmails. |
+| `PERSONAL_FROM_EMAIL` | der Standardabsender | nein | nein | Absender persönlicher Lifecycle-Mails. |
+| `PERSONAL_REPLY_TO_EMAIL` | keiner | nein | nein | Reply-To persönlicher Lifecycle-Mails. Leer bedeutet kein Reply-To-Header. |
+| `RESEND_WEBHOOK_SECRET` | keiner | nein | nein | Svix-Signing-Secret für Resend-Zustell-Webhooks (`/api/webhooks/resend`). |
+| `RESEND_AUDIENCE_ID` | keiner | nein | nein | Resend-Audience für Newsletter-Anmeldungen. |
+| `ADMIN_NOTIFICATION_EMAIL` | keiner | nein | nein | Empfängt Admin-Warnungen und Zusammenfassungen, kommagetrennt. Eine in den Admin-Einstellungen gespeicherte Adresse hat Vorrang. |
+| `ADMIN_DISCORD_WEBHOOK_URL` | keiner | nein | nein | Discord-Webhook für Admin-Warnungen und In-App-Feedback. Eine in den Admin-Einstellungen gespeicherte URL hat Vorrang. |
+| `FEEDBACK_TO_EMAIL` | keiner | nein | nein | Empfängt In-App-Feedback per Mail. Leer: Feedback geht nur an den Discord-Webhook. |
+
+## Dateispeicher
+
+Uploads, E-Mail-Anhänge und Datenexporte brauchen Speicher. Compose setzt den lokalen Treiber und bindet das Volume `storage` ein. Für S3-kompatiblen Speicher (AWS, Hetzner, MinIO, R2) siehe [Speicher](/de/docs/configuration/storage).
+
+Der Treiber wird so gewählt: `STORAGE_DRIVER=local` hat Vorrang; sonst wird S3 verwendet, wenn `S3_ENDPOINT` gesetzt ist; sonst gibt es keinen Speicher, und Uploads sind abgeschaltet. Der Code liest den Wert `s3` von `STORAGE_DRIVER` nie, S3 wird also durch das Setzen von `S3_ENDPOINT` gewählt.
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `STORAGE_DRIVER` | `local` in Compose, sonst keiner | nein | nein | `local` speichert Dateien auf der Festplatte. Alles andere fällt auf die Regel mit `S3_ENDPOINT` durch. |
+| `STORAGE_LOCAL_PATH` | `./data/storage` (Compose: `/app/data/storage`) | nein | nein | Verzeichnis des lokalen Treibers. Compose setzt es auf das Volume `storage`; ändere es nur außerhalb von Compose. |
+| `S3_ENDPOINT` | keiner | bedingt | nein | Endpoint des S3-kompatiblen Dienstes. Wird er gesetzt, wird S3 gewählt (es wird immer Path-Style-Adressierung verwendet). |
+| `S3_REGION` | `fsn1` | nein | nein | Region, die an den S3-Client gesendet wird. Die meisten S3-kompatiblen Dienste akzeptieren jeden Wert, bei AWS setzt du aber die richtige. |
+| `S3_ACCESS_KEY_ID` | leer | bedingt | nein | S3-Zugriffsschlüssel. |
+| `S3_SECRET_ACCESS_KEY` | leer | bedingt | nein | geheimer S3-Schlüssel. |
+| `S3_BUCKET` | `timetrack` | nein | nein | Bucket-Name. |
+| `S3_PREFIX` | leer | nein | nein | Optionaler Namensraum für alle Schlüssel im Bucket. |
+| `EMAIL_ATTACHMENT_DIR` | `storage/email-attachments` | nein | nein | Verzeichnis, aus dem ältere E-Mail-Anhänge von der Festplatte gelesen werden. |
+| `EMAIL_SYNC_STORE_ATTACHMENTS` | `false` | nein | nein | `true` lädt Anhänge aus der E-Mail-zu-Aufgabe-Synchronisierung in den konfigurierten Speicher hoch. |
+
+## Authentifizierung und Login-Anbieter
+
+E-Mail und Passwort, Magic Links und Passkeys funktionieren ohne diese Variablen. Jeder Social-Anbieter braucht deine eigene OAuth-App mit der Callback-URL `{NEXT_PUBLIC_APP_URL}/api/auth/callback/<provider>`. Ein Anbieter ist aktiviert, wenn sowohl seine ID als auch sein Secret gesetzt sind. Siehe [Authentifizierung](/de/docs/configuration/authentication).
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `GOOGLE_CLIENT_ID` | keiner | nein | nein | Anmeldung mit Google. Wird auch von der Google-Kalender-Integration verwendet. |
+| `GOOGLE_CLIENT_SECRET` | keiner | nein | nein | Secret der Google-OAuth-App. |
+| `GITHUB_CLIENT_ID` | keiner | nein | nein | Anmeldung mit GitHub. |
+| `GITHUB_CLIENT_SECRET` | keiner | nein | nein | Secret der GitHub-OAuth-App. |
+| `DISCORD_CLIENT_ID` | keiner | nein | nein | Anmeldung mit Discord. |
+| `DISCORD_CLIENT_SECRET` | keiner | nein | nein | Secret der Discord-OAuth-App. |
+| `MICROSOFT_CLIENT_ID` | keiner | nein | nein | Anmeldung mit Microsoft Entra ID (Azure AD), zum Beispiel Firmen-SSO. Callback: `{NEXT_PUBLIC_APP_URL}/api/auth/callback/microsoft-entra-id`. |
+| `MICROSOFT_CLIENT_SECRET` | keiner | nein | nein | Secret der Entra-ID-App. |
+| `MICROSOFT_TENANT_ID` | `common` | nein | nein | `common`, `organizations` oder eine Tenant-GUID. |
+| `APPLE_CLIENT_ID` | keiner | nein | nein | Mit Apple anmelden: die Services-ID, für den Web-Login. |
+| `APPLE_TEAM_ID` | keiner | nein | nein | Team-ID des Apple-Entwicklerkontos. |
+| `APPLE_KEY_ID` | keiner | nein | nein | ID des Schlüssels für "Mit Apple anmelden". |
+| `APPLE_PRIVATE_KEY` | keiner | nein | nein | Inhalt des `.p8`-Schlüssels. Das Client-Secret wird beim Start daraus erzeugt. |
+| `APPLE_APP_BUNDLE_IDENTIFIER` | `dk.timetrack.app` | nein | nein | iOS-Bundle-ID, verwendet für den nativen Login und zum Widerrufen des Tokens beim Löschen eines Kontos. Setze deine eigene, wenn du die mobile App selbst baust. |
+| `SESSION_EXPIRY_DAYS` | `7` | nein | nein | Lebensdauer einer Sitzung in Tagen. |
+| `BETTER_AUTH_SECRETS` | keiner | nein | nein | Versionierte Secrets, um `BETTER_AUTH_SECRET` zu rotieren, ohne verschlüsselte Tokens zu verlieren. |
+
+## Integrationen
+
+Billy braucht hier nichts: Jeder Nutzer fügt seinen eigenen Billy-API-Schlüssel in der App ein. Siehe [Billy](/de/docs/integrations/billy), [Dinero](/de/docs/integrations/dinero), [e-conomic](/de/docs/integrations/e-conomic), [Kalender](/de/docs/integrations/calendar) und [CVR](/de/docs/integrations/cvr).
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `GOOGLE_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/google/callback` | nein | nein | OAuth-Redirect-URI der Google-Kalender-Integration. Verwendet `GOOGLE_CLIENT_ID` und `GOOGLE_CLIENT_SECRET`. |
+| `DINERO_CLIENT_ID` | keiner | bedingt | nein | Visma-Connect-OAuth-App für Dinero. Zum Aktivieren der Integration werden ID und Secret benötigt. |
+| `DINERO_CLIENT_SECRET` | keiner | bedingt | nein | Secret der Visma-Connect-App. |
+| `DINERO_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/dinero/callback` | nein | nein | OAuth-Redirect-URI für Dinero. |
+| `DINERO_WEBHOOK_SECRET` | keiner | nein | nein | Secret zur Überprüfung von Dinero-Webhooks. |
+| `BILLY_WEBHOOK_SECRET` | keiner | nein | nein | Secret zur Überprüfung von Billy-Webhooks. |
+| `ECONOMIC_APP_PUBLIC_TOKEN` | keiner | bedingt | nein | Öffentliches Token deiner im e-conomic-Entwicklerportal registrierten App. Zum Aktivieren der Integration werden beide Tokens benötigt. |
+| `ECONOMIC_APP_SECRET_TOKEN` | keiner | bedingt | nein | Geheimes Token der e-conomic-App. |
+| `ECONOMIC_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/economic/callback` | nein | nein | Redirect-URI für e-conomic. |
+| `CVR_SERVICE_API_KEY` | keiner | nein | nein | Schlüssel für den CVR-Abfragedienst. Leer: Abfragen weichen auf das kostenlose cvrapi.dk aus. |
+| `CVR_SERVICE_URL` | der CVR-Dienst des Maintainers | nein | nein | Basis-URL des CVR-Abfragedienstes, der zusammen mit `CVR_SERVICE_API_KEY` verwendet wird. |
+| `CVR_API_TIMEOUT_MS` | `10000` | nein | nein | Timeout der CVR-Abfragen in Millisekunden. |
+| `GITHUB_TOKEN` | keiner | nein | nein | GitHub-Token für die Abfrage von Desktop-Updates, das ein höheres Rate-Limit ermöglicht. |
+| `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` | keiner | nein | ja | GitHub-`owner/repo`, auf das die Desktop-Downloads verlinken. Deaktiviert, solange nicht gesetzt. |
+| `DESKTOP_UPDATER_REPO` | keiner | nein | nein | GitHub-`owner/repo` für ältere Desktop-Updates. Deaktiviert, solange nicht gesetzt. |
+| `CHANGELOG_REPO` | keiner | nein | nein | GitHub-`owner/repo`, aus dem der Changelog gelesen wird. Deaktiviert, solange nicht gesetzt. |
+
+## KI, SMS, Push und E-Mail-zu-Aufgabe
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `OPENAI_API_KEY` | keiner | nein | nein | Aktiviert KI-Vorschläge und Kategorisierung. |
+| `AI_CACHE_TTL_MS` | `60000` | nein | nein | Lebensdauer zwischengespeicherter KI-Ergebnisse in Millisekunden. |
+| `AI_HIGH_CONFIDENCE_THRESHOLD` | `0.8` | nein | nein | Konfidenz, ab der ein KI-Vorschlag als hochgradig sicher gilt. |
+| `MESSAGEBIRD_API_KEY` | keiner | nein | nein | Aktiviert den SMS-Login über MessageBird. |
+| `MESSAGEBIRD_ORIGINATOR` | der Kurzname der Marke (`TimeWren`) | nein | nein | Absendername der SMS. |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | keiner | nein | nein | Öffentlicher VAPID-Schlüssel für Web Push. Der Server reicht ihn an den Browser weiter, er wird also zur Laufzeit gelesen. Ein Schlüsselpaar erzeugst du mit `npx web-push generate-vapid-keys`. |
+| `VAPID_PRIVATE_KEY` | keiner | nein | nein | Privater VAPID-Schlüssel. Web Push ist aktiv, wenn beide Schlüssel gesetzt sind. |
+| `VAPID_EMAIL` | `mailto:support@<EMAIL_DOMAIN>` | nein | nein | Kontakt, der mit Push-Nachrichten gesendet wird, als `mailto:`-URL. |
+| `EXPO_ACCESS_TOKEN` | keiner | nein | nein | Optionales Expo-Zugriffstoken für Push-Benachrichtigungen an die mobile App. |
+| `INBOUND_EMAIL_DOMAIN` | die E-Mail-Domain | nein | nein | Domain der E-Mail-zu-Aufgabe-Adressen. |
+
+## Valkey und Echtzeit
+
+Valkey ist optional. Es ermöglicht prozessübergreifend geteilte Rate-Limits und die Echtzeit-Synchronisierung des Timers. Starte es mit `docker compose --profile valkey up -d` oder setze `COMPOSE_PROFILES=valkey` in `.env`.
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `VALKEY_URL` | keiner | nein | nein | Verbindungs-URL, zum Beispiel `redis://valkey:6379`. Ohne sie fällt alles auf Verhalten im Arbeitsspeicher zurück. |
+| `RATE_LIMIT_BACKEND` | im Speicher | nein | nein | `valkey` speichert Rate-Limits in Valkey. Jeder andere Wert hält sie im Arbeitsspeicher. |
+| `REALTIME_ENABLED` | `true` im Docker-Image | nein | nein | Server-Flag für Echtzeit-Timer-Ereignisse. Echtzeit braucht außerdem `VALKEY_URL`. Mit `false` schaltest du es ohne Rebuild ab. |
+| `NEXT_PUBLIC_REALTIME_ENABLED` | keiner | nein | ja | Client-Flag, muss zur Build-Zeit `true` sein. Dieses und `REALTIME_ENABLED` müssen beide `true` sein. Das vorgebaute Image setzt es nicht. |
+| `ELECTRIC_URL` | keiner | nein | nein | Experimenteller ElectricSQL-Timer-Shape-Proxy. Ohne Wirkung, außer beide Variablen sind gesetzt; die Endpunkte antworten dann mit 503, und Clients weichen aus. |
+| `ELECTRIC_SECRET` | keiner | nein | nein | Secret für den ElectricSQL-Proxy. |
+
+## Telemetrie und Monitoring
+
+An die Maintainer wird nichts gesendet, solange du diese Variablen nicht setzt. Siehe auch [Fehlerbehebung](/de/docs/operations/troubleshooting).
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | keiner | nein | ja | URL eines Plausible-Analytics-Skripts. Leer: Es wird kein Analytics-Skript geladen. Wird außerdem zur CSP hinzugefügt. |
+| `PLAUSIBLE_BASE_URL` | `https://plausible.io` | nein | nein | Plausible-Host, den die Admin-Analytics-Seite verwendet. |
+| `PLAUSIBLE_SITE_ID` | keiner | nein | nein | Plausible-Site-ID für die Admin-Analytics-Seite. |
+| `PLAUSIBLE_API_KEY` | keiner | nein | nein | Plausible-API-Schlüssel. Die Admin-Analytics-Seite braucht ihn und `PLAUSIBLE_SITE_ID`. |
+| `NEXT_PUBLIC_SENTRY_DSN` | keiner | nein | ja | Sentry-DSN für Fehler. Leer: Sentry meldet nichts. |
+| `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` | aktiviert | nein | ja | `false` deaktiviert Sentry im Browser. |
+| `NEXT_PUBLIC_SENTRY_ENVIRONMENT` | vom Host abgeleitet | nein | ja | Umgebungsname, der mit Browser-Fehlern gesendet wird. |
+| `SENTRY_AUTH_TOKEN` | keiner | nein | nein | Upload von Source Maps zur Build-Zeit und API-Zugriff für die Sentry-Issue-Abfrage. |
+| `SENTRY_ACCESS_TOKEN` | keiner | nein | nein | Token für die Sentry-Issue-Abfrage; hat Vorrang vor `SENTRY_AUTH_TOKEN`. |
+| `SENTRY_API_URL` | `https://sentry.io` | nein | nein | Basis-URL der Sentry-API, für selbst gehostetes Sentry. |
+| `SENTRY_WEBHOOK_SECRET` | keiner | nein | nein | Secret, das Sentry-Webhooks überprüft. |
+| `SENTRY_DISABLED` | keiner | nein | ja | `1` schaltet das Sentry-Build-Plugin ab. Das Dockerfile setzt es während des Image-Builds. |
+
+## Feinabstimmung
+
+Alles optional. Die Standardwerte sind die Werte, die TimeWren verwendet, solange du sie nicht änderst.
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `DEFAULT_WEEKLY_HOUR_GOAL` | `37` | nein | nein | Standard-Wochenstundenziel für neue Nutzer. |
+| `PRODUCTIVITY_HEATMAP_DAYS` | `90` | nein | nein | Anzahl der Tage in der Produktivitäts-Heatmap. |
+| `PREPAID_LOW_BALANCE_THRESHOLD` | `0.2` | nein | nein | Anteil eines [Stundenpakets](/de/docs/concepts/prepaid-hours), der übrig sein muss, damit es als niedrig gilt. |
+| `PREPAID_CRITICAL_BALANCE_HOURS` | `1` | nein | nein | Verbleibende Stunden, die als kritisch gelten, zusätzlich zur Anteilsregel. |
+| `PREPAID_EXPIRY_WARNING_DAYS` | `30` | nein | nein | Wie viele Tage vor dem Ablauf ein Paket eine Warnung auslöst. |
+| `MAX_MONETARY_AMOUNT` | `100000000` | nein | nein | Obergrenze für einen einzelnen Geldbetrag. |
+| `PDF_ENGINE` | `react-pdf` | nein | nein | Renderer der Rechnungs-PDFs. `takumi` ist eine experimentelle Alternative. |
+| `CHURN_PLAYBOOKS_DISABLED` | keiner | nein | nein | `1` schaltet den Cron-Job für Churn-Playbooks ab. |
+| `MIGRATE_ON_START` | `1` in Compose | nein | nein | `1` führt bei jedem Start Datenbankmigrationen aus. Ohne sie werden Migrationen übersprungen (außerhalb von Compose ist der Standard aus). Siehe [Aktualisieren](/de/docs/operations/upgrading). |
+| `MIGRATION_LOCK_TIMEOUT_MS` | `300000` | nein | nein | Wie lange ein startender Container wartet, bis ein anderer die Migration abgeschlossen hat. Ungültige Werte verwenden den Standard. |
+| `SEED_DEMO_ORGS` | `false` | nein | nein | `true` legt beim Start eine Demo-Organisation an. |
+| `MIN_CLIENT_VERSIONS` | keiner | nein | nein | Mindestversionen pro Client-Typ, zum Beispiel `extension=2.5.2,mobile=1.0.0+5,desktop=0.2.21`. Ältere Clients können weiterhin lesen, aber Timer- und Zeitschreibvorgänge werden abgelehnt. Leer: keine Durchsetzung. |
+| `MIN_CLIENT_VERSIONS_MODE` | erzwingen | nein | nein | `observe` wertet die Mindestversionen aus und zeigt veraltete Clients im Admin-Bereich an, ohne etwas abzulehnen. |
+| `SYNTHETIC_USER_EMAILS` | keiner | nein | nein | E-Mail-Adressen von Monitoring- oder Testkonten, die aus Statistiken und Mails ausgeschlossen werden, kommagetrennt. |
+| `SYNTHETIC_USER_IDS` | keiner | nein | nein | Benutzer-IDs dieser Konten, kommagetrennt. |
+
+## Docker Compose und Start
+
+Compose setzt einige davon selbst; sie sind aufgelistet, damit du weißt, woher sie kommen.
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `TIMEWREN_VERSION` | `latest` | nein | nein | Nur Compose: Image-Tag, der ausgeführt wird. Pinne ihn, zum Beispiel `1.2.3`, um Updates zu steuern. |
+| `COMPOSE_PROFILES` | keiner | nein | nein | Wird von Docker Compose gelesen, nicht von der App. Verwende `valkey`, um den optionalen Valkey-Service zu starten. |
+| `TZ` | `Europe/Copenhagen` | nein | nein | Zeitzone der App- und Datenbank-Container. Der Container `cron` läuft immer in `Europe/Copenhagen`. |
+| `APP_URL` | `http://app:3000` | ja (cron) | nein | Wird nur vom Container `cron` gelesen: die interne URL, unter der er die Endpunkte `/api/cron/*` aufruft. Compose setzt sie; verwechsle sie nicht mit `NEXT_PUBLIC_APP_URL`. |
+| `NODE_ENV` | `production` im Image | nein | nein | Wird vom Image und von `npm run dev` gesetzt. Lass sie beim Self-Hosting in Ruhe. |
+| `NEXT_PHASE` | von Next.js gesetzt | nein | nein | Wird von Next.js gesetzt (`phase-production-build` während `next build`). Während des Builds wird die MCP-OAuth-Ressource nicht in die Datenbank geschrieben. Setze sie nie selbst. |
+| `NEXT_RUNTIME` | von Next.js gesetzt | nein | nein | Wird von Next.js gesetzt (`nodejs` oder `edge`). Setze sie nie selbst. |
+| `CI` | keiner | nein | nein | Unterdrückt, wenn gesetzt, die Build-Logs des Sentry-Plugins. Wird von CI-Systemen gesetzt. |
+| `CI_SKIP_TYPECHECK` | `false` | nein | ja | Build-Argument des Dockerfiles: `true` überspringt die Typprüfung während `next build`. Nur für CI-Builds, die separat typprüfen. |
+| `NEXT_PUBLIC_APP_VERSION` | keiner | nein | ja | Versionszeichenfolge, die in den Client eingebettet wird und dazu dient, ein neues Deployment zu erkennen. Das Dockerfile setzt sie aus dem Build-Argument `APP_VERSION`; leer verwendet die Next.js-Build-ID. |
+
+## Nur für den gehosteten Dienst
+
+> **Warnung:** Nicht für Self-Hosting. Diese Variablen gehören zu den gehosteten Deployments TimeTrack Cloud und TimeWren Cloud. Lass sie auf deiner eigenen Instanz ungesetzt. Die Variablen `ALUNTA_*`, `STRIPE_*`, `STORE_BILLING_ENABLED` und `GOOGLE_PLAY_*` sind die Abrechnungsvariablen, die oben auf der Seite beschrieben sind.
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `ALUNTA_API_KEY` | keiner | nein | nein | Schaltet die Abrechnung ein und aktiviert den Zahlungsanbieter Alunta. |
+| `ALUNTA_WEBHOOK_SECRET` | keiner | mit `ALUNTA_API_KEY` | nein | Überprüft Alunta-Webhooks. Ohne ihn antwortet der Webhook mit 503 und verarbeitet nichts. |
+| `ALUNTA_WEBHOOK_ALLOW_UNSIGNED` | keiner | nein | nein | `1` oder `true` akzeptiert Alunta-Webhooks ohne Signatur, wenn das Secret gesetzt ist. Nur für die Entwicklung; wird bei `NODE_ENV=production` ignoriert. |
+| `ALUNTA_PLAN_MONTHLY` | leer | nein | nein | Alunta-Plan-ID des Monatsplans. |
+| `ALUNTA_PLAN_YEARLY` | leer | nein | nein | Alunta-Plan-ID des Jahresplans. |
+| `ALUNTA_PLAN_TEAM_MONTHLY` | leer | nein | nein | Alunta-Plan-ID, Team, monatlich. |
+| `ALUNTA_PLAN_TEAM_YEARLY` | leer | nein | nein | Alunta-Plan-ID, Team, jährlich. |
+| `ALUNTA_PLAN_BUSINESS_MONTHLY` | leer | nein | nein | Alunta-Plan-ID, Business, monatlich. |
+| `ALUNTA_PLAN_BUSINESS_YEARLY` | leer | nein | nein | Alunta-Plan-ID, Business, jährlich. |
+| `ALUNTA_PLAN_TEAM_SEATS` | leer | nein | nein | Alunta-Plan-ID für zusätzliche Team-Plätze. |
+| `ALUNTA_PLAN_BUSINESS_SEATS` | leer | nein | nein | Alunta-Plan-ID für zusätzliche Business-Plätze. |
+| `ALUNTA_PLAN_PRIVAT_MONTHLY` | leer | nein | nein | Alunta-Plan-ID, Privat, monatlich. |
+| `ALUNTA_PLAN_PRIVAT_YEARLY` | leer | nein | nein | Alunta-Plan-ID, Privat, jährlich. |
+| `ALUNTA_PLAN_FOUNDING_MONTHLY` | leer | nein | nein | Alunta-Plan-ID, Gründerplan, monatlich. |
+| `ALUNTA_PLAN_FOUNDING_YEARLY` | leer | nein | nein | Alunta-Plan-ID, Gründerplan, jährlich. |
+| `ALUNTA_PLAN_LEGACY_SOLO` | leer | nein | nein | Alunta-Plan-IDs des alten Solo-Plans. |
+| `ALUNTA_PLAN_LEGACY_TEAM` | leer | nein | nein | Alunta-Plan-IDs des alten Team-Plans. |
+| `ALUNTA_PLAN_LEGACY_BUSINESS` | leer | nein | nein | Alunta-Plan-IDs des alten Business-Plans. |
+| `ALUNTA_PLAN_LEGACY_TEAM_SEATS` | leer | nein | nein | Alunta-Plan-ID für zusätzliche Plätze im alten Team-Plan. |
+| `ALUNTA_PLAN_LEGACY_BUSINESS_SEATS` | leer | nein | nein | Alunta-Plan-ID für zusätzliche Plätze im alten Business-Plan. |
+| `STRIPE_SECRET_KEY` | keiner | nein | nein | Schaltet die Abrechnung ein und aktiviert Stripe. |
+| `STRIPE_WEBHOOK_SECRET` | keiner | nein | nein | Überprüft Stripe-Webhooks. |
+| `STRIPE_TAX_ENABLED` | `false` | nein | nein | `true` aktiviert Stripe Tax. |
+| `STRIPE_DESKTOP_LIFETIME_PRICE_ID` | leer | nein | nein | Stripe-Preis-ID der Desktop-Lifetime-Lizenz. |
+| `STORE_BILLING_ENABLED` | keiner | nein | nein | `1` schaltet die Abrechnung für In-App-Käufe ein (App Store und Google Play). |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | keiner | nein | nein | Dienstkonto zur Überprüfung von Google-Play-Käufen. |
+| `GOOGLE_PLAY_PACKAGE_NAME` | keiner | nein | nein | Android-Paketname für Google Play. |
+| `GOOGLE_PLAY_WEBHOOK_TOKEN` | keiner | nein | nein | Token in der Google-Play-Benachrichtigungs-URL. |
+| `FREE_TRIAL_DAYS` | `30` | nein | nein | Länge der kostenlosen Testphase. Wirkt nur, wenn die Abrechnung aktiv ist. |
+| `DOKPLOY_API_URL` | keiner | nein | nein | Hosting-API, über die Kundendomains registriert werden. |
+| `DOKPLOY_API_TOKEN` | keiner | nein | nein | Token für diese Hosting-API. |
+| `DOKPLOY_APP_ID` | keiner | nein | nein | Anwendungs-ID in dieser Hosting-API. Alle drei `DOKPLOY_*`-Variablen werden benötigt. |
+| `CLAUDE_AGENT_API_KEY` | keiner | nein | nein | Schlüssel, den der Sentry-Webhook verwendet, um einen automatisierten Fix-Agenten auszulösen. |
+| `CLAUDE_AGENT_TRIGGER_URL` | keiner | nein | nein | Trigger-URL für diesen Agenten. |
+| `UNBLOCK_PLAN_EMAIL` | keiner | nein | nein | Einmalige Plan-Freischaltung, die im Migrationsschritt beim Release angewendet wird. |
+| `UNBLOCK_PLAN_TIER` | `team` | nein | nein | Plan-Stufe für diese Freischaltung. |
+| `UNBLOCK_PLAN_SEATS` | keiner | nein | nein | Anzahl der Plätze für diese Freischaltung. |
+| `SHARED_PROD_DB` | keiner | nein | nein | `1`, wenn die Datenbank mit einer älteren Version geteilt wird; deaktiviert Funktionen, die diese ältere Version nicht verarbeiten kann. |
+| `MULTIBRAND_ENABLED` | keiner | nein | nein | `1` aktiviert das Multi-Brand-Host-Register des gehosteten Dienstes. |
+| `BRANDS_CONFIG` | eingebaute Platzhalter | nein | nein | JSON mit den echten Marken-Hosts des gehosteten Multi-Brand-Setups. |
+| `TIMEWREN_APP_ENABLED` | keiner | nein | nein | `1` öffnet die App (Login, Registrierung, Dashboard) auf den gehosteten TimeWren-Hosts. |
+| `TIMEWREN_INDEXABLE` | keiner | nein | nein | `1` erlaubt Suchmaschinen, die gehostete TimeWren-Seite zu indexieren. |
+| `TIMEWREN_GOOGLE_CLIENT_ID` | keiner | nein | nein | Client-ID der Google-App von TimeWren Cloud. Zusammen mit dem Secret wird der Google-Login auf den TimeWren-Hosts angeboten; ohne sie ist der Button ausgeblendet und der Anbieter dort nicht registriert. Die TimeTrack-Schlüssel werden auf TimeWren-Hosts nie verwendet. |
+| `TIMEWREN_GOOGLE_CLIENT_SECRET` | keiner | nein | nein | Client-Secret der Google-App von TimeWren Cloud. |
+| `TIMEWREN_GITHUB_CLIENT_ID` | keiner | nein | nein | Client-ID der GitHub-App von TimeWren Cloud. Zusammen mit dem Secret wird der GitHub-Login auf den TimeWren-Hosts angeboten; ohne sie ist der Button ausgeblendet und der Anbieter dort nicht registriert. Die TimeTrack-Schlüssel werden auf TimeWren-Hosts nie verwendet. |
+| `TIMEWREN_GITHUB_CLIENT_SECRET` | keiner | nein | nein | Client-Secret der GitHub-App von TimeWren Cloud. |
+| `TIMEWREN_DISCORD_CLIENT_ID` | keiner | nein | nein | Client-ID der Discord-App von TimeWren Cloud. Zusammen mit dem Secret wird der Discord-Login auf den TimeWren-Hosts angeboten; ohne sie ist der Button ausgeblendet und der Anbieter dort nicht registriert. Die TimeTrack-Schlüssel werden auf TimeWren-Hosts nie verwendet. |
+| `TIMEWREN_DISCORD_CLIENT_SECRET` | keiner | nein | nein | Client-Secret der Discord-App von TimeWren Cloud. |
+| `TIMEWREN_MICROSOFT_CLIENT_ID` | keiner | nein | nein | Client-ID der Microsoft Entra ID-App von TimeWren Cloud. Zusammen mit dem Secret wird der Microsoft Entra ID-Login auf den TimeWren-Hosts angeboten; ohne sie ist der Button ausgeblendet und der Anbieter dort nicht registriert. Die TimeTrack-Schlüssel werden auf TimeWren-Hosts nie verwendet. |
+| `TIMEWREN_MICROSOFT_CLIENT_SECRET` | keiner | nein | nein | Client-Secret der Microsoft Entra ID-App von TimeWren Cloud. |
+| `TIMEWREN_MICROSOFT_TENANT_ID` | `common` | nein | nein | Microsoft-Tenant für den Login bei TimeWren Cloud, wie `MICROSOFT_TENANT_ID`. |
+| `TIMEWREN_APPLE_CLIENT_ID` | keiner | nein | nein | Services-ID der Sign-in-with-Apple-App von TimeWren Cloud. Signiert mit dem Team-Schlüssel (`APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`). |
+
+## Nur Entwicklung und Tests
+
+> **Warnung:** Diese Variablen dienen der Entwicklung von TimeWren selbst. Setze sie nicht in Produktion.
+
+Für ein lokales Setup ohne Docker (`npm run dev`) legst du `DATABASE_URL` in `.env.local` ab, zum Beispiel `postgresql://postgres:postgres@localhost:5432/freelance_crm`. `npm run docker:up` startet eine passende PostgreSQL aus `docker-compose.dev.yml`.
+
+| Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
+| --- | --- | --- | --- | --- |
+| `TT_DB_TESTS` | keiner | nein | nein | `1` führt die datenbankgestützten Timer-Modelltests aus. Sie brauchen `DATABASE_URL` mit einer Wegwerf-Datenbank. |
+| `DATABASE_CONNECT_TIMEOUT` | `10` | nein | nein | Sekunden, die die App auf eine neue Datenbankverbindung wartet. CI setzt `60` für die Timer-Modelltests auf geteilten Runnern. |
+| `TT_MODEL_RUNS` | `150` | nein | nein | Anzahl der erzeugten Befehlsfolgen im Timer-Modelltest. |
+| `TT_MODEL_SEED` | fester Seed | nein | nein | Seed des Timer-Modelltests. `random` erkundet neue Folgen. |
+| `TT_MODEL_MAX_COMMANDS` | `30` | nein | nein | Maximale Anzahl an Befehlen pro erzeugter Folge. |
+| `TT_MODEL_PATH` | keiner | nein | nein | Spielt ein Gegenbeispiel erneut ab, zum Beispiel `4:2:1`, zusammen mit `TT_MODEL_SEED`. |
+| `TT_MODEL_DEBUG` | keiner | nein | nein | Wenn gesetzt, gibt der Timer-Modelltest zusätzliche Debug-Ausgaben aus. |
+| `TT_QUERY_COUNT` | keiner | nein | nein | `1` zählt Datenbankabfragen pro tRPC-Anfrage. Wird ignoriert, wenn `NODE_ENV` auf `production` steht. |

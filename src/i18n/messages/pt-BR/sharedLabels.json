@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Você não é membro de nenhuma organização. Peça um novo convite ou fale com o suporte.",
+  "freeMemberLocked": "A organização está no plano Free, que comporta {seats} usuários. Seus dados estão salvos. Peça ao proprietário que mude de plano para voltar a ter acesso.",
+  "report": {
+    "hoursSuffix": " h",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "O plano Gratis comporta {clients} clientes ativos. Arquive um cliente ou mude de plano.",
+  "freeSeatLimit": "O plano Gratis comporta {seats} usuários, incluindo convites pendentes. Mude de plano em Configurações → Assinatura para convidar mais.",
+  "ownerMustTransfer": "Você é proprietário de uma equipe com outros membros. Transfira a propriedade para outro membro em Organização antes de excluir sua conta.",
+  "holidays": {
+    "newYearsDay": "Ano-Novo",
+    "maundyThursday": "Quinta-feira Santa",
+    "goodFriday": "Sexta-feira Santa",
+    "easterSunday": "Domingo de Páscoa",
+    "easterMonday": "Segunda-feira de Páscoa",
+    "ascensionDay": "Dia da Ascensão",
+    "whitSunday": "Domingo de Pentecostes",
+    "whitMonday": "Segunda-feira de Pentecostes",
+    "christmasDay": "Natal",
+    "boxingDay": "Segundo dia de Natal",
+    "greatPrayerDay": "Dia da Grande Oração",
+    "may1": "1º de maio",
+    "constitutionDay": "Dia da Constituição",
+    "dayAfterAscension": "Sexta-feira depois do Dia da Ascensão",
+    "christmasEve": "Véspera de Natal",
+    "newYearsEve": "Réveillon",
+    "dayOff": "Dia de folga"
+  },
+  "speech": {
+    "language": "português (Brasil)",
+    "micBlocked": "O microfone está bloqueado. Dê ao navegador acesso ao microfone e tente de novo.",
+    "noMic": "Nenhum microfone foi encontrado.",
+    "langUnsupported": "O reconhecimento de voz em {language} não está disponível localmente neste navegador.",
+    "stopped": "O reconhecimento de voz parou inesperadamente. Tente de novo ou digite.",
+    "downloadFailed": "Não foi possível baixar o reconhecimento de voz em {language} neste navegador.",
+    "ready": "O reconhecimento de voz em {language} está pronto. Toque no microfone.",
+    "cantStart": "Não foi possível iniciar o reconhecimento de voz. Tente de novo."
+  },
+  "offlineSync": {
+    "fullOverlap": "Outro dispositivo já tinha um cronômetro em andamento enquanto você estava offline. Seu tempo offline se sobrepôs por completo e não foi salvo.",
+    "partialOverlap": "Outro dispositivo iniciou um cronômetro enquanto você estava offline. Seu tempo offline foi salvo até esse momento.",
+    "clippedSaved": "Outro dispositivo iniciou um cronômetro enquanto você estava offline. Seu tempo offline, das {from} às {to}, foi salvo como registro de tempo e o outro cronômetro continua em andamento.",
+    "resetOffline": "Outro dispositivo já tinha um cronômetro em andamento quando você iniciou offline às {from}. Seu cronômetro offline foi zerado e o outro continua em andamento.",
+    "stoppedElsewhere": "O cronômetro foi parado em outro dispositivo enquanto você estava offline. O tempo ficou salvo lá e não foi salvo de novo.",
+    "syncFailed": "Não foi possível sincronizar uma alteração offline: {error}",
+    "defaultDescription": "Registro de horas"
+  },
+  "unknownError": "Erro desconhecido",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Não foi possível salvar",
+      "retry": "Tentar de novo"
+    },
+    "push": {
+      "unsupported": "Notificações push não são compatíveis com este navegador",
+      "denied": "A permissão para notificações foi negada",
+      "enabled": "Notificações push ativadas",
+      "enabledDesc": "A partir de agora você vai receber notificações",
+      "enableFailed": "Não foi possível ativar as notificações",
+      "disabled": "Notificações push desativadas",
+      "disableFailed": "Não foi possível desativar as notificações"
+    },
+    "periodic": {
+      "unsupported": "A sincronização periódica não é compatível",
+      "enabled": "Relatórios automáticos ativados",
+      "enabledDesc": "Você vai receber relatórios semanais",
+      "enableFailed": "Não foi possível ativar os relatórios automáticos",
+      "disabled": "Relatórios automáticos desativados",
+      "disableFailed": "Não foi possível desativar os relatórios automáticos"
+    },
+    "taskUndo": {
+      "restored": "Tarefa restaurada",
+      "restoreFailed": "Não foi possível restaurar a tarefa",
+      "deleted": "Tarefa excluída",
+      "undo": "Desfazer"
+    },
+    "timerSync": {
+      "otherProject": "outro projeto",
+      "runningPaused": "Já há um cronômetro em andamento em {name}. Pare-o primeiro. Seu tempo pausado é mantido.",
+      "running": "Já há um cronômetro em andamento em {name}. Pare-o primeiro.",
+      "alreadyStopped": "O cronômetro já tinha sido parado e salvo em outro dispositivo. Ele não foi iniciado de novo."
+    },
+    "timerKeys": {
+      "started": "Cronômetro iniciado",
+      "pressToPause": "Pressione T de novo para pausar",
+      "paused": "Cronômetro pausado",
+      "pressToResume": "{time} - Pressione T para retomar",
+      "resumed": "Cronômetro retomado",
+      "cancelled": "Cronômetro cancelado"
+    },
+    "wakeLock": {
+      "unsupported": "O Wake Lock não é compatível com este navegador",
+      "active": "A tela é mantida ligada",
+      "activeDesc": "A tela não vai apagar enquanto você registra tempo",
+      "released": "A tela pode apagar de novo",
+      "failed": "Não foi possível manter a tela ligada"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Sua assinatura é gerenciada na sua conta.",
+    "otherAccount": "A compra está vinculada a outra conta TimeTrack.",
+    "ownerOnly": "Somente o proprietário da organização pode comprar uma assinatura.",
+    "multiMember": "Privat e Selvstændig são para um único usuário. Sua organização tem vários usuários, então a assinatura é gerenciada na sua conta.",
+    "otherOrganization": "Sua assinatura pertence a outra organização. Troque para essa organização para vê-la.",
+    "alreadySubscribed": "Você já tem uma assinatura via {store}.",
+    "appStoreUnreachable": "Não foi possível acessar a App Store. Tente de novo daqui a pouco.",
+    "appStoreVerify": "Não foi possível verificar a compra com a App Store.",
+    "unknownProduct": "Produto desconhecido. Atualize o app e tente de novo.",
+    "googleNotFound": "A compra não foi encontrada no Google Play.",
+    "productMismatch": "A compra não corresponde ao produto selecionado.",
+    "googleAck": "Não foi possível confirmar a compra com o Google Play. Tente de novo."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Você tem uma assinatura ativa via {store}. Ela não termina quando você exclui a conta e precisa ser cancelada em {store}. Confirme que você entende isso para excluir a conta.",
+    "invalidUserId": "ID de usuário inválido"
+  },
+  "orgInvite": {
+    "invalidEmail": "Endereço de e-mail inválido",
+    "domainNotAllowed": "O domínio de e-mail {domain} não é permitido nesta organização",
+    "alreadyMember": "Esta pessoa já é membro da organização",
+    "alreadyInvited": "Já existe um convite pendente para este e-mail",
+    "otherBrand": "Este endereço de e-mail não pode ser convidado para a organização. Use outro endereço.",
+    "noSeats": "Sem vagas livres ({used} de {max} em uso). Compre mais vagas ou mude de plano em Configurações → Assinatura.",
+    "noSeatsAccept": "A organização não tem mais vagas livres. Fale com seu administrador.",
+    "lastOwnerRemove": "Não é possível remover o último proprietário. Transfira antes a propriedade para outro membro.",
+    "lastOwnerDemote": "Não é possível rebaixar o último proprietário. Transfira antes a propriedade para outro membro.",
+    "acceptedPushTitle": "🎉 Convite aceito",
+    "acceptedPushBody": "{name} agora é membro de {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "A lista em massa contém UUIDs duplicados",
+    "missing": "Uma ou mais tarefas não existem ou estão fora do seu espaço de trabalho: {ids}",
+    "unexpectedRowCount": "número de linhas inesperado",
+    "unselected": "Os dados contêm UUIDs que não foram selecionados",
+    "statusMismatch": "A tarefa {id} tem o status {status}; o status esperado era {expected}",
+    "notEmail": "A tarefa {id} não é uma tarefa de e-mail",
+    "customLane": "A tarefa {id} usa uma coluna personalizada e não pode ser concluída em massa com segurança"
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Monitoring",
+    "healthy": "{score}% sund",
+    "cronDashboard": "Cron dashboard",
+    "sections": {
+      "health": "System Health",
+      "cron": "Cron Jobs",
+      "email": "Email Delivery"
+    },
+    "tiles": {
+      "activeSessions": "Aktive sessions",
+      "sessions24h": "Sessions sidste 24t",
+      "activeTimers": "Aktive timers",
+      "emailsSent7d": "Emails sendt (7d)"
+    },
+    "cronHealth": {
+      "title": "Cron Job Health (7 dage)",
+      "runs": "Koersler",
+      "ok": "ok",
+      "errors": "fejl",
+      "avgDuration": "Gns. varighed",
+      "lastRun": "Sidst koert"
+    },
+    "errors": {
+      "title": "Fejl (sidste 7 dage)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Alle jobs",
+      "allStatuses": "Alle statusser",
+      "filter": {
+        "success": "Success",
+        "error": "Error",
+        "partial": "Partial"
+      },
+      "status": {
+        "success": "success",
+        "error": "error",
+        "partial": "partial"
+      },
+      "empty": "Ingen cron job logs fundet",
+      "columns": {
+        "job": "Job",
+        "status": "Status",
+        "started": "Startet",
+        "duration": "Varighed",
+        "items": "Items",
+        "errors": "Fejl"
+      }
+    },
+    "showing": "Viser {from}-{to} af {total}",
+    "previous": "Forrige",
+    "next": "Naeste",
+    "email": {
+      "sent": "Sendt",
+      "delivered": "Leveret",
+      "bounced": "Bounced",
+      "failed": "Fejlet",
+      "status": {
+        "sent": "sent",
+        "delivered": "delivered",
+        "bounced": "bounced",
+        "failed": "failed"
+      },
+      "last24h": "Sidste 24 timer",
+      "last7d": "Sidste 7 dage",
+      "last30d": "Sidste 30 dage",
+      "last90d": "Sidste 90 dage",
+      "allTemplates": "Alle templates",
+      "empty": "Ingen email logs fundet",
+      "columns": {
+        "recipient": "Modtager",
+        "subject": "Emne",
+        "template": "Template",
+        "status": "Status",
+        "sentAt": "Sendt"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cron-jobs",
+    "refresh": "Opdater",
+    "never": "Aldrig",
+    "badge": {
+      "neverRun": "Aldrig kørt",
+      "silent": "Stille",
+      "error": "Fejl",
+      "partial": "Delvis",
+      "running": "Kører",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "success",
+      "error": "error",
+      "partial": "partial"
+    },
+    "noRows": "Ingen logrækker fundet",
+    "runColumns": {
+      "status": "Status",
+      "started": "Startet",
+      "duration": "Varighed",
+      "items": "Items",
+      "errorMessage": "Fejlbesked"
+    },
+    "tiles": {
+      "expected": "Forventede jobs",
+      "silent": "Stille jobs",
+      "withErrors": "Jobs med fejl (24t)",
+      "totalRuns": "Kørsler i alt (24t)"
+    },
+    "columns": {
+      "status": "Status",
+      "job": "Job",
+      "cadence": "Kadence",
+      "lastRun": "Sidst kørt",
+      "runs24h": "Kørsler 24t",
+      "errors24h": "Fejl 24t",
+      "avgDuration": "Gns. varighed"
+    },
+    "lastError": "Sidste fejl:",
+    "cadence": {
+      "everyMinutes": "hvert {minutes} min",
+      "hourly": "hver time",
+      "everyHours": "hver {hours}. time",
+      "daily": "dagligt",
+      "weekly": "ugentligt",
+      "monthly": "månedligt",
+      "everyDays": "hver {days} dage"
+    }
+  }
+}

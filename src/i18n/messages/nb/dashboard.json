@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# oppgave over fristen} other {# oppgaver over fristen}}",
+    "needsAttention": "Trenger oppmerksomhet",
+    "lowBalance": "{count, plural, one {# klippekort med lav saldo} other {# klippekort med lav saldo}}",
+    "lowBalanceSub": "Lav saldo",
+    "expiring": "{count, plural, one {# klippekort utløper snart} other {# klippekort utløper snart}}",
+    "expiringSub": "Innen 14 dager",
+    "unbilled": "{amount} ufakturert",
+    "unbilledSub": "Klar til fakturering",
+    "title": "Handling kreves"
+  },
+  "appDrawer": {
+    "apps": "Apper",
+    "heading": "{brand}-apper",
+    "downloadFor": "Last ned for {os}{version} · Beta",
+    "seeDownloads": "Se nedlastinger i innstillingene",
+    "downloadComing": "Nedlastingen kommer snart. Se innstillingene",
+    "chromeExtension": "Chrome-utvidelse",
+    "chromeExtensionHint": "Registrer tid fra nettleseren",
+    "installApp": "Installer som app",
+    "installAppHint": "Legg {brand} på skrivebordet",
+    "alreadyInstalled": "Allerede installert",
+    "addToHome": "Legg til på hjemskjermen eller skrivebordet"
+  },
+  "demo": {
+    "clearedKept": "Eksempeldata er fjernet. {kept, plural, one {# demokunde var tatt i bruk (for eksempel fakturert) og er beholdt som en vanlig kunde.} other {# demokunder var tatt i bruk (for eksempel fakturert) og er beholdt som vanlige kunder.}}",
+    "cleared": "Eksempeldata er fjernet. Kontoen er din.",
+    "nothingToClear": "Det fantes ingen eksempeldata å fjerne.",
+    "clearFailed": "Kunne ikke fjerne eksempeldataene",
+    "banner": "<strong>Du ser på eksempeldata.</strong> Kundene, timene og klippekortet er funnet på, så du kan se hvordan {brand} ser ut i bruk. Fjern dem når du vil starte med dine egne.",
+    "confirm": "Fjerne eksempeldata? Demokundene og deres eksempelprosjekter, timer og klippekort slettes. Alt du har opprettet selv (for eksempel fakturaer eller dine egne timer) beholdes.",
+    "clearButton": "Fjern demodata"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "Skrivebordsappen for Mac og Windows{version}. Den er i beta og kan ha feil.",
+    "version": ", versjon {version}",
+    "withoutDownloads": "Skrivebordsappen er i beta. Nedlastingslenken vises her så snart {brand} kan hente den nyeste versjonen.",
+    "hide": "Skjul",
+    "reportHint": "Støtt på en feil? Bruk «Rapporter en feil eller manglende funksjon» i appen."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Opprett din første kunde",
+      "hasTimeEntry": "Registrer din første time",
+      "hasKlippekort": "Opprett et klippekort",
+      "hasInvoice": "Opprett din første faktura"
+    },
+    "daysLeft": "{count, plural, one {# dag} other {# dager}} igjen av gratis prøveperiode",
+    "addPayment": "Legg til betaling",
+    "gettingStarted": "Kom i gang ({done}/{total})",
+    "hide": "Skjul",
+    "progressLabel": "Fremdrift i oppstarten",
+    "createAccount": "Opprett kontoen din"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Kunderisiko",
+      "daysAgo": "{days} dager siden",
+      "allActive": "Alle kundene dine har hatt aktivitet de siste 60 dagene ✓",
+      "seeAll": "Se alle",
+      "count": "{count, plural, one {# kunde uten aktivitet på over 60 dager} other {# kunder uten aktivitet på over 60 dager}}",
+      "lastActive": "Sist aktiv: {date}",
+      "revenue6m": "{amount} (6 måneder)",
+      "hoursLeft": "{hours} t igjen",
+      "openClient": "Åpne kunde",
+      "sendCheckIn": "Send en oppfølgings-e-post",
+      "checkInSubject": "Oppfølging",
+      "more": "+ {count} flere kunder i faresonen"
+    },
+    "calendarSync": {
+      "title": "Kalender mot registrert",
+      "seeCalendar": "Se kalender",
+      "captureRate": "registreringsgrad",
+      "eventsTracked": "{tracked}/{total} hendelser registrert",
+      "calendar": "Kalender",
+      "tracked": "Registrert",
+      "gap": "{hours} t i kalenderen er ikke registrert",
+      "perProject": "Per prosjekt",
+      "moreProjects": "+{count} flere"
+    },
+    "cashflow": {
+      "title": "Kontantstrømprognose",
+      "seeUnpaid": "Se utestående",
+      "empty": "Ingen utestående fakturaer eller aktive klippekort",
+      "emptyHint": "Send en faktura for å se kontantstrømprognosen",
+      "seeAllUnpaid": "Se alle utestående",
+      "overdueInvoices": "{count, plural, one {# faktura over forfall} other {# fakturaer over forfall}}: ",
+      "overdue": "Over forfall: ",
+      "week": "Uke {number}",
+      "estimated": "(est.)",
+      "prepaidTag": "(klippekort)",
+      "expected30": "Forventet de neste 30 dagene"
+    },
+    "coverage": {
+      "title": "Faktureringsgrad",
+      "details": "Se detaljer",
+      "period": "Periode",
+      "loadFailed": "Kunne ikke laste faktureringsgraden",
+      "noTime": "Ingen tid registrert i denne perioden ennå.",
+      "trackTime": "Registrer tid",
+      "billable": "Fakturerbar",
+      "nonBillable": "Ikke fakturerbar",
+      "ratio": "<b>{ratio}</b> ikke fakturerbar per fakturert time",
+      "clientCol": "Kunde",
+      "splitCol": "Fakt. / ikke fakt."
+    },
+    "dailyHours": {
+      "title": "Timer per dag",
+      "details": "Se detaljer",
+      "avg": "Snitt/dag: ",
+      "total": "Totalt: ",
+      "hoursShort": "{value} t",
+      "day": {
+        "0": "Sø",
+        "1": "Ma",
+        "2": "Ti",
+        "3": "On",
+        "4": "To",
+        "5": "Fr",
+        "6": "Lø"
+      }
+    },
+    "emailSync": {
+      "title": "E-postsynkronisering",
+      "started": "Synkroniseringen er startet",
+      "startFailed": "Kunne ikke starte synkroniseringen",
+      "never": "Aldri",
+      "now": "Akkurat nå",
+      "minutes": "{value} min",
+      "hours": "{value} t",
+      "days": "{value} d",
+      "startNow": "Start synkronisering nå",
+      "statusOk": "OK",
+      "statusUnstable": "Ustabil",
+      "statusError": "Feil",
+      "emails": "E-poster",
+      "tasks": "Oppgaver",
+      "clients": "Kunder",
+      "analytics": "Se analyse →"
+    },
+    "emailTasks": {
+      "title": "Oppgaver fra e-post",
+      "review": "Gjennomgå",
+      "noClient": "Ingen kunde",
+      "empty": "Ingen e-postoppgaver ennå."
+    },
+    "expiringPackages": {
+      "title": "Klippekort som utløper",
+      "seeAll": "Se alle",
+      "none": "Ingen klippekort utløper snart",
+      "noneHint": "Klippekort som utløper innen 30 dager, vises her",
+      "expiredAgo": "Utløp for {count, plural, one {# dag} other {# dager}} siden",
+      "expired": "Utløpt",
+      "today": "I dag",
+      "days": "{count, plural, one {# dag} other {# dager}}",
+      "hoursLeft": "Timer igjen",
+      "value": "Verdi",
+      "expires": "Utløper {date}",
+      "more": "+ {count} flere klippekort",
+      "urgent": "Noen klippekort utløper innen 7 dager. Kontakt kunden for å fornye."
+    },
+    "flexBalance": {
+      "title": "Fleksisaldo",
+      "hours": "{value} t",
+      "entries": "{count} oppføringer"
+    },
+    "flexNorm": {
+      "title": "Fleksisaldo",
+      "loadFailed": "Saldoen kunne ikke lastes.",
+      "noProfile": "Du har ingen ansattprofil i organisasjonen.",
+      "unit": "t",
+      "carryIn": "Herav overført: {value} t",
+      "week": "Uke",
+      "month": "Måned",
+      "period": "Periode",
+      "summary": "{registered} av {net} t normaltid hittil · periodens normaltid {periodNet} t",
+      "seeAccount": "Se fleksikontoen"
+    },
+    "hoursComparison": {
+      "title": "Ukesammenligning",
+      "details": "Se detaljer",
+      "none": "Ingen timer registrert",
+      "thisWeek": "Denne uken",
+      "lastWeek": "Forrige uke",
+      "format": "hh:mm",
+      "increase": "Økning",
+      "decrease": "Nedgang",
+      "vsLastWeek": "sammenlignet med forrige uke"
+    },
+    "invoiceOverview": {
+      "title": "Fakturaoversikt",
+      "seeInvoices": "Se fakturaer",
+      "totalInvoiced": "Totalt fakturert",
+      "draft": "Utkast",
+      "sent": "Sendt",
+      "paid": "Betalt",
+      "overdue": "Over forfall"
+    },
+    "lowBalance": {
+      "title": "Klippekort med lav saldo",
+      "loadFailed": "Kunne ikke laste klippekort",
+      "none": "Ingen klippekort med lav saldo",
+      "seeAll": "Se alle",
+      "intro": "Lav saldo",
+      "noClient": "Ingen kunde",
+      "left": "{time} igjen",
+      "more": "+ {count} flere"
+    },
+    "monthComparison": {
+      "title": "Månedssammenligning",
+      "seeReports": "Se rapporter",
+      "vs": "mot",
+      "vsValue": "mot {value}",
+      "hours": "Timer",
+      "hoursValue": "{value} t",
+      "revenue": "Omsetning",
+      "entries": "Tidsoppføringer"
+    },
+    "overdueTasks": {
+      "title": "Oppgaver over fristen",
+      "none": "Ingen oppgaver er over fristen ✓",
+      "seeAll": "Se alle",
+      "count": "{count, plural, one {# oppgave} other {# oppgaver}}",
+      "noProject": "Uten prosjekt",
+      "deadline": "Frist: {date}",
+      "more": "+ {count} flere"
+    },
+    "pendingApprovals": {
+      "title": "Ventende godkjenninger",
+      "requestOne": "forespørsel",
+      "requestOther": "forespørsler"
+    },
+    "prepaidStatus": {
+      "title": "Status for klippekort",
+      "allGood": "Alt er i orden",
+      "seeAll": "Se alle",
+      "lowBalance": "Lav saldo",
+      "noClient": "Ingen kunde",
+      "left": "{time} igjen",
+      "more": "+ {count} flere",
+      "expiringSoon": "Utløper snart (innen 30 dager)",
+      "expired": "Utløpt",
+      "today": "I dag",
+      "days": "{count, plural, one {# dag} other {# dager}}"
+    },
+    "productivity": {
+      "title": "Produktivitet gjennom uken",
+      "details": "Se detaljer",
+      "noData": "Ingen produktivitetsdata ennå",
+      "streak": "Nåværende rekke",
+      "streakDays": "dager på rad",
+      "weeklyAvg": "Ukesnitt",
+      "perWeek": "per uke",
+      "last8": "Siste 8 uker",
+      "less": "Mindre",
+      "more": "Mer",
+      "msgHigh": "Fantastisk! Du har jobbet 7+ dager på rad. Fortsett det gode arbeidet!",
+      "msgMid": "Bra jobbet! Hold farten oppe.",
+      "msgLow": "Du er på vei! Bygg en god arbeidsrutine.",
+      "streakDay": "dag på rad"
+    },
+    "profitability": {
+      "title": "Reell timepris",
+      "rate": "{rate} kr/t",
+      "hours": "{hours} t",
+      "loadFailed": "Kunne ikke laste data",
+      "noBilled": "Ingen fakturert tid denne måneden",
+      "createInvoice": "Opprett faktura",
+      "details": "Detaljer",
+      "agreedRate": "Avtalt timepris",
+      "realRate": "Reell timepris",
+      "vsAgreed": "{percent} % sammenlignet med avtalt",
+      "billableAvg": "Fakturerbart snitt",
+      "footer": "{total} totalt · {billable} fakturerbart",
+      "footerInvoiced": "{total} totalt · {billable} fakturerbart · {invoiced} fakturert"
+    },
+    "projectHealth": {
+      "title": "Prosjekthelse",
+      "seeAll": "Se alle",
+      "alertsHeading": "Budsjettvarsler",
+      "severity": {
+        "exceeded": "Overskredet",
+        "critical": "Kritisk",
+        "warning": "Advarsel"
+      },
+      "hoursUsed": "{used} / {budget} t brukt",
+      "budgetAmount": "{amount} kr budsjett",
+      "moreAlerts": "+ {count} flere advarsler",
+      "noBudgets": "Ingen prosjekter med budsjett",
+      "createProject": "Opprett prosjekt",
+      "onTrack": "{count, plural, one {# prosjekt er på sporet} other {# prosjekter er på sporet}}",
+      "moreProjects": "+ {count} flere prosjekter"
+    },
+    "quickActions": {
+      "title": "Hurtighandlinger",
+      "created": "Tidsoppføring opprettet",
+      "createFailed": "Kunne ikke opprette tidsoppføringen",
+      "fillAll": "Fyll ut alle felt riktig",
+      "addClient": "Legg til kunde",
+      "newProject": "Nytt prosjekt",
+      "startTimer": "Start tidtaker",
+      "createInvoice": "Opprett faktura",
+      "quickEntry": "Hurtig tidsoppføring",
+      "draftSaved": "Utkast lagret",
+      "restoreDraft": "Gjenopprett lagret utkast",
+      "restore": "Gjenopprett",
+      "projectPlaceholder": "Velg prosjekt",
+      "descriptionPlaceholder": "Hva jobbet du med?",
+      "hoursPlaceholder": "Timer",
+      "saving": "Lagrer…",
+      "save": "Lagre"
+    },
+    "recentActivity": {
+      "title": "Siste aktivitet",
+      "none": "Ingen aktivitet ennå",
+      "seeAll": "Se alle",
+      "now": "Akkurat nå",
+      "minutesAgo": "{count} min. siden",
+      "hoursAgo": "{count, plural, one {# time} other {# timer}} siden",
+      "daysAgo": "{count, plural, one {# dag} other {# dager}} siden"
+    },
+    "revenueByClient": {
+      "title": "Omsetning per kunde",
+      "seeReports": "Se rapporter",
+      "loadFailed": "Kunne ikke laste omsetningen",
+      "none": "Ingen omsetning denne måneden"
+    },
+    "revenueForecast": {
+      "title": "Omsetningsprognose",
+      "seeReports": "Se rapporter",
+      "none": "Ingen omsetningsdata ennå",
+      "expected": "Forventet denne måneden",
+      "amountKr": "{amount} kr",
+      "basedOn": "Basert på {day} / {total} dager",
+      "sixMonthAvg": "Gjennomsnitt for 6 måneder"
+    },
+    "rounding": {
+      "title": "Avrundingsbonus",
+      "inactive": "Avrunding er ikke slått på. Tjen ekstra ved å runde timene dine opp.",
+      "enable": "Slå på avrunding",
+      "settings": "Innstillinger",
+      "thisMonth": "Denne måneden",
+      "extra": "ekstra tjent gjennom avrunding",
+      "thisYear": "Totalt i år"
+    },
+    "stats": {
+      "activeClients": "Aktive kunder",
+      "activeProjects": "Aktive prosjekter",
+      "hoursThisMonth": "Timer denne måneden",
+      "revenueThisMonth": "Omsetning denne måneden"
+    },
+    "topClients": {
+      "title": "Toppkunder",
+      "loadFailed": "Kunne ikke laste data",
+      "none": "Ingen kundedata ennå",
+      "seeAll": "Se alle",
+      "rankedBy": "Rangert etter timer"
+    },
+    "unbilled": {
+      "title": "Ufakturerte timer",
+      "loadFailed": "Kunne ikke laste data",
+      "none": "Ingen ufakturerte timer",
+      "seeAll": "Se alle",
+      "entries": "{count, plural, one {# tidsoppføring} other {# tidsoppføringer}}",
+      "totalHours": "Timer totalt",
+      "estimatedValue": "Anslått verdi"
+    },
+    "absences": {
+      "title": "Kommende fravær",
+      "loading": "Laster…",
+      "none": "Ingen godkjent fravær planlagt",
+      "employee": "Ansatt",
+      "absence": "Fravær",
+      "from": "fra {date}"
+    },
+    "deadlines": {
+      "title": "Viktige datoer",
+      "overdue": "Over fristen",
+      "today": "I dag",
+      "days": "{count, plural, one {# dag} other {# dager}}",
+      "needsSetup": "Angi firmatypen din for å se viktige datoer",
+      "setUpNow": "Sett opp nå",
+      "none": "Ingen kommende frister de neste 180 dagene",
+      "editSettings": "Rediger firmainnstillinger"
+    },
+    "upcomingTasks": {
+      "title": "Kommende oppgaver",
+      "none": "Ingen kommende oppgaver",
+      "seeAll": "Se alle",
+      "within7": "Innen 7 dager",
+      "noProject": "Uten prosjekt",
+      "deadline": "Frist: {date}",
+      "more": "+ {count} flere"
+    },
+    "vacation": {
+      "title": "Feriesaldo",
+      "daysLeftIn": "dager igjen i {label}",
+      "daysLeft": "dager igjen"
+    },
+    "vat": {
+      "titleMonthly": "Moms denne måneden",
+      "titleQuarterly": "Moms denne perioden",
+      "titleSemiAnnual": "Moms dette halvåret",
+      "title": "Moms",
+      "exempt": "Du er registrert som ikke momspliktig (merverdiavgift)",
+      "changeInSettings": "Endre i innstillingene",
+      "createFirst": "Opprett din første faktura for å se et momsanslag",
+      "createInvoice": "Opprett faktura",
+      "invoices": "Fakturaer",
+      "toSettle": "Moms å gjøre opp",
+      "percentOf": "25 % av {amount} fakturert",
+      "nextDeadline": "Neste frist",
+      "inDays": "(om {count, plural, one {# dag} other {# dager}})",
+      "overdue": "(over fristen)",
+      "ytd": "Totalt i år",
+      "setAside": "Sett av <b>{amount}</b> på en egen konto"
+    },
+    "weeklyGoal": {
+      "title": "Ukemål",
+      "loadFailed": "Kunne ikke laste ukemålet",
+      "trackTime": "Registrer tid",
+      "reached": "Målet er nådd!",
+      "onTrack": "På sporet",
+      "behind": "På etterskudd",
+      "remaining": "<b>{time}</b> igjen",
+      "perDay": "{time}/dag i {count, plural, one {# dag} other {# dager}}"
+    }
+  }
+}

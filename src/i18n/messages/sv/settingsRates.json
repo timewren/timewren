@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Prishistorik",
+    "empty": "Inga prisändringar ännu. Ändringar av timpriset loggas här",
+    "effectiveFrom": "Gäller från {date}",
+    "planned": "Schemalagd",
+    "noRate": "Inget pris",
+    "typeGlobal": "Global",
+    "typeClient": "Kund",
+    "typeProject": "Projekt"
+  },
+  "schedule": {
+    "toastScheduled": "Nytt timpris schemalagt från {date}",
+    "restamped": "{count, plural, =0 {Inga befintliga poster behövde ett nytt timpris} one {# ofakturerad post fick det nya timpriset} other {# ofakturerade poster fick det nya timpriset}}",
+    "scheduleFailed": "Det gick inte att schemalägga timpriset",
+    "cancelled": "Det schemalagda timpriset har avbrutits",
+    "cancelledRestamped": "{count, plural, one {# post fick tillbaka det tidigare timpriset} other {# poster fick tillbaka det tidigare timpriset}}",
+    "cancelFailed": "Det gick inte att avbryta",
+    "invalidRate": "Ange ett giltigt timpris",
+    "missingDate": "Välj från vilket datum priset ska gälla",
+    "title": "Schemalägg ett nytt timpris",
+    "current": "Nu: {rate} kr/timme",
+    "rateLabel": "Nytt timpris (kr)",
+    "dateLabel": "Gäller från",
+    "submit": "Schemalägg",
+    "help": "Tid daterad på eller efter datumet får det nya priset, även om den loggas senare. Tid före datumet behåller det gamla priset. Ofakturerade poster från datumet uppdateras direkt.",
+    "ratePerHour": "{rate} kr/timme",
+    "fromDate": "från {date}",
+    "takesEffectTonight": "börjar gälla i natt",
+    "cancel": "Avbryt"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Fattura (standard)",
+        "subject": "Fattura {number} da {company}",
+        "title": "Fattura {number}",
+        "text": "Gentile {client},\n\nin allegato trova la fattura per il lavoro svolto.\n\nImporto: {amount}\nScadenza: {dueDate}",
+        "button": "Visualizza fattura",
+        "footer": "Cordiali saluti\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Invito al portale",
+        "subject": "È stato invitato al portale clienti di {company}",
+        "title": "Benvenuto nel portale clienti",
+        "text": "Gentile {client},\n\nè stato invitato ad accedere al suo portale clienti personale presso {company}.\n\nNel portale può:\n• Visualizzare le sue fatture\n• Seguire l'avanzamento dei progetti\n• Consultare le sue registrazioni ore\n• Controllare il suo pacchetto ore",
+        "button": "Accetta l'invito"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Non riceverai più newsletter ed e-mail di marketing da TimeTrack. Le e-mail importanti sul tuo account e sulla sicurezza continueranno ad arrivare.",
+    "invalidText": "Non è stato possibile confermare la disiscrizione. Riprova oppure modifica le impostazioni in TimeTrack.",
+    "confirmText": "Vuoi disiscriverti dalle newsletter e dalle e-mail di marketing di TimeTrack? Le e-mail importanti sul tuo account e sulla sicurezza continueranno ad arrivare.",
+    "settingsButton": "Modifica impostazioni e-mail",
+    "confirmButton": "Conferma disiscrizione",
+    "doneTitle": "Sei disiscritto",
+    "invalidTitle": "Il link non è valido",
+    "confirmTitle": "Disiscriviti dalle newsletter"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "la fine del periodo"
+  }
+}

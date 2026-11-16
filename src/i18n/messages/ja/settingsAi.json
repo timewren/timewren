@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o、GPT-4o-miniなどのOpenAIモデル",
+      "note": "platform.openai.com/api-keys でAPIキーを作成してください"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "OpenAI SDK経由で利用するClaude Sonnet、Opus、Haiku",
+      "note": "console.anthropic.com/settings/keys でAPIキーを作成してください"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "デンマークでホストされるデンマークのAI。GDPRに完全準拠",
+      "badge": "おすすめ",
+      "note": "Ordbogen A/Sが提供するデンマーク国内ホストのAIです。odincore.aiでキーを作成してください。データがデンマーク国外に出ることはありません。"
+    },
+    "custom": {
+      "label": "その他のエンドポイント",
+      "description": "OpenAI互換の任意のAPI"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "手動",
+      "description": "AIは無効です。すべてのタスクはAI解析なしで処理されます。"
+    },
+    "suggest": {
+      "label": "提案",
+      "description": "AIが分類と優先順位付けを提案しますが、承認は自分で行います。"
+    },
+    "auto_lowrisk": {
+      "label": "自動（低リスク）",
+      "description": "単純なタスクはAIが自動的に処理します。複雑なタスクは承認に回されます。"
+    },
+    "auto_all": {
+      "label": "完全自動",
+      "description": "すべてのタスクをAIが承認なしで自動的に処理します。"
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "デンマーク（Europe/Copenhagen）",
+    "Europe/Stockholm": "スウェーデン（Europe/Stockholm）",
+    "Europe/Oslo": "ノルウェー（Europe/Oslo）",
+    "Europe/London": "イギリス（Europe/London）",
+    "Europe/Berlin": "ドイツ（Europe/Berlin）",
+    "America/New_York": "米国東海岸（America/New_York）",
+    "America/Los_Angeles": "米国西海岸（America/Los_Angeles）"
+  },
+  "connectionOk": "接続OK！",
+  "connectionFailed": "接続に失敗しました",
+  "testFailed": "テストに失敗しました",
+  "emailEnabled": "メールからタスク作成を有効にしました！",
+  "emailEnableFailed": "メールからタスク作成を有効にできませんでした",
+  "emailDisabled": "メールからタスク作成を無効にしました",
+  "emailDisableFailed": "メールからタスク作成を無効にできませんでした",
+  "addressRegenerated": "新しいメールアドレスを生成しました！",
+  "addressRegenerateFailed": "新しいアドレスを生成できませんでした",
+  "settingsUpdated": "AI設定を更新しました",
+  "settingsUpdateFailed": "AI設定を更新できませんでした",
+  "addressCopied": "メールアドレスをコピーしました！",
+  "keyRequired": "APIキーが必要です",
+  "urlRequired": "カスタムエンドポイントにはAPI URLが必要です",
+  "enterKeyFirst": "先にAPIキーを入力してください",
+  "title": "AIと自動化",
+  "description": "AI機能とメールからタスク作成の設定を行います",
+  "statusTitle": "AIステータス",
+  "statusEnabled": "AIは有効です",
+  "statusDisabled": "AIは設定されていません",
+  "statCalls": "AI呼び出し総数",
+  "statSuccess": "成功率",
+  "statConfidence": "平均信頼度",
+  "statTime": "平均処理時間",
+  "enableHint": "AI機能を有効にするには、以下でAIプロバイダーを選択し、お持ちのAPIキーを入力してください。",
+  "providerTitle": "AIプロバイダー",
+  "providerSub": "AI機能の実行方法を選択します。システムのAIまたは独自のAPIキーを使用できます",
+  "providerIntro": "AIプロバイダーを選択し、APIキーを入力するとAI機能が有効になります。{brand}はOpenAI SDK形式を使用しており、多くのプロバイダーと互換性があります。",
+  "apiKey": "APIキー",
+  "configured": "（設定済み）",
+  "keyPlaceholder": "APIキー",
+  "keyHelpOpenai": "platform.openai.comで取得したOpenAI APIキー",
+  "keyHelpAnthropic": "console.anthropic.comで取得したAnthropic APIキー",
+  "keyHelpOrdbogen": "OdinCore.aiで取得したAPIキー",
+  "keyHelpOther": "お使いのプロバイダーのAPIキー",
+  "apiUrl": "API URL",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1（デフォルト。空欄のままにしてください）",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "プリセットにより事前入力されています",
+  "urlHelp": "APIのベースURL。OpenAIのデフォルトエンドポイントを使用する場合は空欄のままにしてください。",
+  "model": "モデル",
+  "modelPlaceholderOpenai": "gpt-4o-mini（デフォルト）",
+  "modelPlaceholderOther": "モデル名",
+  "modelHelp": "モデルを指定するか、空欄のままでデフォルトを使用します",
+  "testConnection": "接続をテスト",
+  "saveSettings": "設定を保存",
+  "help": {
+    "title": "APIキーの取得方法",
+    "sub": "おすすめのプロバイダーを選んでガイドに従ってください",
+    "odinDesc": "デンマークでホストされるデンマークのAIで、GDPRに完全に準拠しています。データがデンマーク国外に出ることはありません。",
+    "odin1": "odincore.aiにアクセスしてアカウントを作成します",
+    "odin2": "アカウントのAPIセクションを開きます",
+    "odin3": "新しいAPIキーを作成します",
+    "odin4": "キーをコピーして上記の「OdinCore (Ordbogen)」の欄に貼り付けます",
+    "openaiDesc": "GPT-4o-miniは高速で安価であり、タスク解析に適しています。",
+    "openai1": "platform.openai.comにアクセスしてログインします",
+    "openai2": "設定の「API keys」を開きます",
+    "openai3": "「Create new secret key」をクリックします",
+    "copyPaste": "キーをコピーして上記に貼り付けます",
+    "anthropicDesc": "Claudeモデルはタスクの理解と分類に優れています。",
+    "anthropic1": "console.anthropic.comにアクセスしてアカウントを作成します",
+    "anthropic2": "「Settings」→「API keys」を開きます",
+    "anthropic3": "「Create key」をクリックします"
+  },
+  "email": {
+    "title": "メールからタスク作成",
+    "sub": "個人アドレスにメールを送ると、タスクが自動的に作成されます",
+    "address": "タスク用の個人メールアドレス",
+    "copyTitle": "メールアドレスをコピー",
+    "addressHelp": "このアドレスにメールを送信または転送すると、タスクが自動的に作成されます。AIが内容を解析し、タイトル・期限・優先度を抽出します。",
+    "regenerate": "新しいアドレスを生成",
+    "disable": "メールからタスク作成を無効にする",
+    "notEnabled": "メールからタスク作成は有効になっていません",
+    "notEnabledText": "有効にすると、タスクを送信できる個人メールアドレスが作成されます。メールは自動的にダッシュボードのタスクになります。",
+    "enable": "メールからタスク作成を有効にする"
+  },
+  "autonomyTitle": "AIの自律レベル",
+  "autonomySub": "AIがどこまで自動で処理するかを選択します",
+  "hoursTitle": "勤務時間とタイムゾーン",
+  "hoursSub": "AIの優先順位付けとカレンダー機能に使用されます",
+  "timezone": "タイムゾーン",
+  "workingHours": "勤務時間",
+  "to": "〜",
+  "hoursHelp": "AIはこの時間を参考に、タスクに最適な時間帯を提案します",
+  "privacyTitle": "プライバシーとセキュリティ",
+  "privacyText": "メールはタスクの作成後、すぐに処理されて削除されます。保存されるのは作成されたタスクのみで、元のメールは保存されません。AI処理は厳格なデータ管理のもとOpenAI経由で行われます。"
+}

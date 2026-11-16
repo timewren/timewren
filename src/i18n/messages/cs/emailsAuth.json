@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "Tvůj přihlašovací odkaz do {brand} platí 15 minut",
+    "kicker": "Přihlášení",
+    "heading": "Přihlas se do {brand}",
+    "footerNote": "Tento e-mail dostáváš, protože někdo požádal o přihlašovací odkaz pro tvou adresu.",
+    "body": "Přihlas se kliknutím na tlačítko. Odkaz platí 15 minut a lze ho použít jen jednou.",
+    "button": "Přihlásit se do {brand}",
+    "ignore": "Pokud jsi o přihlášení nežádal, můžeš tento e-mail ignorovat. Bez tvého kliknutí se nic nestane.",
+    "subject": "Přihlášení do TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "Obnov si heslo do {brand}",
+    "kicker": "Zabezpečení",
+    "heading": "Obnovení hesla",
+    "footerNote": "Tento e-mail dostáváš, protože někdo požádal o nové heslo k tvému účtu.",
+    "greeting": "Ahoj {name},",
+    "body": "Kliknutím na tlačítko zvolíš nové heslo. Odkaz vyprší za hodinu.",
+    "button": "Zvolit nové heslo",
+    "ignore": "Pokud jsi o to nežádal, můžeš tento e-mail ignorovat. Tvé heslo se nezměnilo a účet je v bezpečí.",
+    "subject": "Obnovení hesla do TimeTrack"
+  },
+  "verification": {
+    "preview": "Potvrď svou e-mailovou adresu a aktivuj účet",
+    "kicker": "Účet",
+    "heading": "Potvrď svou e-mailovou adresu",
+    "footerNote": "Tento e-mail dostáváš, protože někdo vytvořil účet v {brand} s tvou e-mailovou adresou.",
+    "greeting": "Ahoj {name},",
+    "greetingFallback": "Ahoj,",
+    "body": "Díky za registraci. Kliknutím na tlačítko potvrdíš e-mailovou adresu a aktivuješ účet. Odkaz platí 24 hodin.",
+    "button": "Potvrdit e-mailovou adresu",
+    "ignore": "Pokud jsi účet nevytvářel, můžeš tento e-mail ignorovat. Nic dalšího se nestane.",
+    "subject": "Potvrď svou e-mailovou adresu pro TimeTrack"
+  },
+  "security": {
+    "kicker": "Zabezpečení",
+    "footerNote": "Toto je automatické bezpečnostní upozornění.",
+    "greeting": "Ahoj {name},",
+    "time": "Čas",
+    "ip": "IP adresa",
+    "device": "Zařízení",
+    "place": "Poloha",
+    "notYou": "To jsi nebyl ty?",
+    "openSettings": "Otevřít nastavení účtu",
+    "unknownDevice": "Neznámé zařízení",
+    "browser": "Prohlížeč",
+    "deviceOn": "{browser} na {os}"
+  },
+  "passwordChanged": {
+    "preview": "Tvé heslo do {brand} bylo změněno",
+    "heading": "Tvé heslo bylo změněno",
+    "body": "Heslo k tvému účtu v {brand} bylo právě změněno. Pokud jsi to byl ty, nemusíš nic dělat.",
+    "calloutBody": "Obnov si heslo přes „Zapomenuté heslo“ na přihlašovací stránce a ihned napiš na [mail]{email}[/mail].",
+    "subject": "Tvé heslo do TimeTrack bylo změněno"
+  },
+  "newLogin": {
+    "preview": "Nové přihlášení do {brand} ze zařízení {device}",
+    "heading": "Nové přihlášení k tvému účtu",
+    "body": "Někdo se přihlásil k tvému účtu v {brand} ze zařízení, které se dosud nepoužilo. Pokud jsi to byl ty, nemusíš nic dělat.",
+    "calloutBody": "Ihned změň heslo a napiš na [mail]{email}[/mail], podpora ti pomůže účet zabezpečit.",
+    "subject": "Nové přihlášení k tvému účtu v TimeTrack"
+  },
+  "twoFactor": {
+    "preview": "Tvůj ověřovací kód pro {brand}: {code}",
+    "heading": "Tvůj ověřovací kód",
+    "footerNote": "Tento e-mail dostáváš, protože se někdo přihlásil k tvému účtu s dvoufázovým ověřením.",
+    "enterCode": "Pokračuj zadáním kódu:",
+    "expires": "Kód vyprší za 3 minuty. Pokud jsi o něj nežádal, můžeš tento e-mail ignorovat. Kód nikdy nezadávej jinde než v {brand}.",
+    "subject": "{code} je tvůj ověřovací kód pro TimeTrack"
+  },
+  "signupPassword": {
+    "preview": "Tvé dočasné heslo do {brand}",
+    "kicker": "Vítej",
+    "heading": "Vítej v {brand}, {name}",
+    "intro": "Tvůj účet byl vytvořen. Tady je tvé dočasné heslo:",
+    "changeIt": "Po prvním přihlášení ho změň v nastavení v části Zabezpečení.",
+    "button": "Přihlásit se k účtu",
+    "alsoLogin": "Můžeš se také přihlásit na [login]{url}[/login] svým e-mailem a heslem výše.",
+    "getStarted": "Jak začít",
+    "step1": "Vytvoř prvního klienta",
+    "step2": "Vytvoř pro klienta projekt",
+    "step3": "Spusť stopky a po dokončení práce vyfakturuj hodiny",
+    "subject": "Tvé heslo do TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} tě pozval do {org}",
+    "kicker": "Pozvánka",
+    "heading": "Byl jsi pozván do {org}",
+    "footerNote": "Tento e-mail dostáváš, protože tě někdo pozval do svého týmu v {brand}.",
+    "role": {
+      "owner": "vlastníkem",
+      "admin": "administrátorem",
+      "member": "členem"
+    },
+    "body": "**{inviter}** tě pozval, aby ses stal {role} organizace **{org}** v {brand}.",
+    "body2": "Zde zaznamenáváš čas u klientů a projektů týmu a vedoucí vidí hodiny na jednom místě.",
+    "button": "Přijmout pozvání",
+    "expires": "Pozvánka vyprší za 48 hodin. Pokud odesílatele neznáš, můžeš tento e-mail ignorovat.",
+    "subject": "{inviter} tě pozval do {org} v TimeTrack"
+  },
+  "portalInvite": {
+    "preview": "Byli jste pozváni do klientského portálu od {sender}",
+    "kicker": "Klientský portál",
+    "heading": "Vítejte v klientském portálu",
+    "footerNote": "Odesláno uživatelem {sender} přes {brand}.",
+    "greeting": "Dobrý den, {name},",
+    "body": "{sender} Vám zpřístupnil vlastní klientský portál. Najdete v něm faktury a projekty a můžete sledovat zůstatek svého balíčku hodin.",
+    "button": "Otevřít klientský portál",
+    "account": "Přihlaste se e-mailem **{email}** a heslem, které jste dostali od {sender}.",
+    "token": "Odkaz je osobní. Nesdílejte ho s nikým dalším.",
+    "questions": "S dotazy se můžete obrátit na {sender} na adrese [mail]{email}[/mail].",
+    "subject": "Byli jste pozváni do klientského portálu od {sender}"
+  },
+  "welcome": {
+    "preview": "Vítej v {brand}",
+    "kicker": "Vítej",
+    "heading": "Vítej, {name}",
+    "intro": "Díky, že sis vytvořil účet v {brand}. Takhle začneš:",
+    "button": "Otevřít {brand}",
+    "questions": "Máš otázky? Mrkni do [help]nápovědy[/help] nebo napiš na [mail]{email}[/mail].",
+    "subject": "Vítej v TimeTrack"
+  }
+}

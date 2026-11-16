@@ -1,0 +1,241 @@
+{
+  "welcome": {
+    "preview": "Welcome to TimeTrack, {name}. Three steps and you are up and running.",
+    "subject": "Welcome to TimeTrack, {name}",
+    "intro": "My name is Mads, and I build and run TimeTrack. I made it so freelancers can keep track of hours, prepaid packages and invoices without a spreadsheet on the side.",
+    "threeSteps": "Three steps and you are up and running:",
+    "step1": "1. Create your first client",
+    "step2": "2. Set your hourly rate and create a project",
+    "step3": "3. Start the timer when you begin the task",
+    "why": "What made you try TimeTrack? Feel free to reply to this email. I read every reply myself, and it helps me build the right thing.",
+    "questions": "If you have questions, you can always write to me directly at [mail]{email}[/mail]."
+  },
+  "greeting": "Hi {name},",
+  "openApp": "Open TimeTrack",
+  "gettingStarted": {
+    "preview": "Three steps to your first time entry",
+    "subject": "Three steps to your first time entry",
+    "hasClientIntro": "You have already created your first client. Here is what I recommend as the next step:",
+    "hasClient1": "**Set your hourly rate:** Go to Settings and enter your default hourly rate. You can set a different rate per client or project.",
+    "hasClient2": "**Create a project:** A project groups the hours per job so you can invoice them correctly.",
+    "hasClient3": "**Try the timer:** Press Start in the timer bar at the top of TimeTrack.",
+    "noClientIntro": "You created your account a few days ago. Here are three steps to your first time entry:",
+    "noClient1": "**Create your first client:** Then you can track time on the client and create invoices from it.",
+    "noClient2": "**Set your hourly rate:** Enter your default hourly rate and TimeTrack calculates the value of your time.",
+    "noClient3": "**Start a timer:** Press Start in the timer bar at the top of TimeTrack.",
+    "buttonProject": "Create your first project",
+    "buttonClient": "Create your first client",
+    "stuck": "If you get stuck, reply to this email and I will help you personally."
+  },
+  "noTimeEntry": {
+    "preview": "Write what you did and TimeTrack fills in the rest",
+    "subject": "Track your first time",
+    "intro": "You created a TimeTrack account a few days ago, but you have not tracked any time yet.",
+    "how": "Write what you did in the field at the top of the home page, e.g. “2 hours on website yesterday”. Or press Start timer and stop it when you are done.",
+    "button": "Track your first time",
+    "help": "If anything gives you trouble, just reply to this email. I read the replies myself."
+  },
+  "timeNoInvoice": {
+    "preview": "{hours} hours ready to invoice",
+    "subject": "Your time is ready to be invoiced",
+    "body": "You have {hours} hours in TimeTrack that have not been invoiced yet. When you want to invoice, you can create the invoice directly from your time entries, so hours and amounts come along automatically.",
+    "button": "Create an invoice from your time",
+    "elsewhere": "If you invoice somewhere else, you can simply disregard this email."
+  },
+  "clientNoKlippekort": {
+    "preview": "Prepaid packages: the hours are deducted automatically",
+    "subject": "Prepaid packages for your clients",
+    "body": "You have created clients in TimeTrack. If any of them buy hours in advance, you can give them a prepaid package. The time is then deducted as you track it, and you can both see how many hours are left.",
+    "button": "Create a prepaid package",
+    "usage": "If you only bill by usage, you do not need to do anything."
+  },
+  "klippekortTips": {
+    "preview": "How a prepaid package works in TimeTrack",
+    "subject": "How a prepaid package works in TimeTrack",
+    "intro": "A prepaid package is a block of prepaid hours. Your client buys, say, 20 hours, and TimeTrack deducts the hours every time you track time for the client.",
+    "exampleName": "Example: The corner bakery",
+    "how": "The client pays before you start. TimeTrack keeps track of the balance so you do not have to calculate it, and the client can see it in the client portal.",
+    "button": "Create a prepaid package",
+    "sell": "Want to know how to sell prepaid packages to your clients? Reply to this email and I am happy to share my experience."
+  },
+  "extensionTips": {
+    "preview": "The browser extension lets you start and stop the timer from any page",
+    "subject": "Start and stop the timer without switching tabs",
+    "intro": "TimeTrack has a browser extension, so you can start and stop the timer without switching tabs.",
+    "tip1": "Start and stop the timer in the popup and pick the client and project there. The shortcut Alt+Shift+S starts and stops the timer from the keyboard.",
+    "tip2": "The toolbar icon shows the running timer, or today's time when no timer is running.",
+    "button": "Get it from the Chrome Web Store"
+  },
+  "aiFeatures": {
+    "preview": "Write one sentence and TimeTrack fills in the time entry",
+    "subject": "Track time by writing a sentence",
+    "intro": "You do not need to fill in a form to track time. On Home there is a field called “Write what you did”. Write a sentence and press Enter:",
+    "example": "2 hours on website for Jensen yesterday",
+    "suggest": "TimeTrack suggests client, project, date and time. Nothing is saved until you have seen the suggestion and confirmed it. On Home you jump to the field with /, and if your browser supports it, you can dictate the sentence with the microphone.",
+    "parser": "The sentence is read by an ordinary text parser, not by AI. If you add your own AI key under Settings, an AI provider can fill in what the parser did not find on its own. This is optional.",
+    "button": "Open Home",
+    "feedback": "If the field does not understand a sentence you write, send it to me and I can improve the parser."
+  },
+  "firstWeek": {
+    "preview": "Your first weeks with TimeTrack",
+    "subject": "Your first weeks with TimeTrack",
+    "minimal1": "You created your account a couple of weeks ago, and it looks like you are still getting started. That is perfectly fine.",
+    "minimal2": "It is easy to forget to track time when you are busy. But time you do not track is time you cannot invoice.",
+    "tip": "**A tip:** Try tracking one day this week. Start the timer when you begin a task, or write afterwards what you did in the field on Home.",
+    "active": "You have been using TimeTrack for a couple of weeks. Here is what you have tracked so far:",
+    "trackedTime": "Time tracked",
+    "hoursUnit": "{hours} h",
+    "clients": "Clients",
+    "projects": "Projects",
+    "closing": "If you track time as you go, the invoice basis is ready when it is time to invoice.",
+    "feedback": "How has it gone so far? Tell me what works and what does not."
+  },
+  "upgrade": {
+    "whenNow": "within a day",
+    "whenDays": "in {days, plural, one {# day} other {# days}}",
+    "preview": "Your trial ends {when}",
+    "subject": "Your trial is about to expire",
+    "body": "Your TimeTrack trial ends {when}. If you do not choose a subscription, your account continues on Free, and everything you have created is still saved.",
+    "free": "Free has room for {clients} active clients and {seats} users.",
+    "paid": "Invoicing and prepaid packages are included on Free. If you upgrade, you get room for more active clients and users.",
+    "button": "See subscriptions",
+    "questions": "If you have questions about the plans or prices, reply to this email. I am happy to help."
+  },
+  "needHelp": {
+    "preview": "Do you need help, {name}?",
+    "subject": "Do you need help, {name}?",
+    "introTracking": "You created your TimeTrack account a few days ago. You are already tracking time.",
+    "introNoTracking": "You created your TimeTrack account a few days ago. I wanted to check that everything is going as it should.",
+    "placesTracking": "Here are three places to go if you want to take the next step:",
+    "placesNoTracking": "It can be hard to get started with a new system. Here are three places to start:",
+    "helpCentre": "Help centre",
+    "helpCentreNote": ": answers to frequently asked questions",
+    "createClient": "Create a client",
+    "createClientNote": ": if you have not created one yet",
+    "writeMe": "Write to me",
+    "writeMeNote": ": I reply myself",
+    "missing": "Missing something in TimeTrack? Write to me and tell me what. It helps me make it better."
+  },
+  "winBack30": {
+    "preview": "It has been a while, {name}",
+    "subject": "It has been a while, {name}",
+    "intro": "It has been a while since you last visited TimeTrack. I hope all is well.",
+    "stillThere": "This is still in your account:",
+    "hoursOnly": "**{hours} h** have not been invoiced yet.",
+    "hoursValue": "**{hours} h** have not been invoiced yet, worth **{value}**",
+    "tasks": "**{count, plural, one {# open task} other {# open tasks}}** waiting for you.",
+    "how": "If you are getting started again, the quickest way is to write what you did in the field on Home. TimeTrack suggests client, project and time, and you confirm before anything is saved.",
+    "why": "What made you stop? Reply to this email and I will read it myself. It helps me make TimeTrack better."
+  },
+  "winBack60": {
+    "preview": "Your clients, projects, hours and invoices are still saved",
+    "subject": "Your data is still in TimeTrack",
+    "intro": "It has been more than 60 days since you last used TimeTrack. I just want to make sure you know that your clients, projects, hours and invoices are still saved, so you can pick up where you left off.",
+    "button": "Log in to TimeTrack",
+    "export": "If you have chosen another tool, I understand. If you want to take your data with you, you can [export]export it as CSV or JSON[/export].",
+    "feedback": "If there is anything I could have done better, I would like to hear from you. Reply to this email and I will read it myself."
+  },
+  "firstClient": {
+    "preview": "Your first client is created: {client}",
+    "subject": "Your first client is created",
+    "intro": "You have created your first client, **{client}**. Here is what I recommend as the next step:",
+    "step1": "1. Create a project for {client}",
+    "step2": "2. Start the timer on the project",
+    "step3": "3. Create an invoice from the time when the work is done",
+    "button": "Create a project",
+    "help": "If you need help setting it up, reply to this email. I am happy to help."
+  },
+  "firstProject": {
+    "preview": "Your first project is ready: {project}",
+    "subject": "Your first project is created",
+    "intro": "Your first project, **{project}** for **{client}**, is ready. Now you can start the timer.",
+    "tip1": "Press T to start the timer. Press T again to pause it.",
+    "tip2": "Write a description for each entry so you can see afterwards what the time was spent on.",
+    "tip3": "{brand} calculates the value from your hourly rate.",
+    "button": "Track time",
+    "closing": "If you track time as you go, the invoice basis is ready when it is time to invoice."
+  },
+  "firstTimeEntry": {
+    "preview": "Your first time entry is recorded",
+    "subject": "Your first time entry is recorded",
+    "body": "You have tracked your first time: **{hours} h**.",
+    "bodyProject": "You have tracked your first time: **{hours} h** on **{project}**.",
+    "invoice": "When it is time to invoice, you can create the invoice directly from your time entries.",
+    "button": "See your time entries"
+  },
+  "firstInvoice": {
+    "preview": "Invoice #{number} for {client} has been created",
+    "subject": "Congratulations on your first invoice",
+    "congrats": "Congratulations on your first invoice.",
+    "number": "Invoice number",
+    "client": "Client",
+    "amount": "Amount",
+    "send": "Send the invoice to {client} and keep an eye on the payment in {brand}. You turn on automatic reminders for overdue invoices per client.",
+    "button": "See your invoices",
+    "accounting": "You can also send the invoices on to Billy, Dinero or e-conomic so they end up in your accounts. Connect your accounting software under Integrations."
+  },
+  "inactivity": {
+    "preview": "It has been {days} days since your last visit",
+    "subject": "It has been {days} days since your last visit to TimeTrack",
+    "kicker": "Reminder",
+    "heading": "Something is waiting for you",
+    "footerNote": "The reminder is sent after 14 days of inactivity.",
+    "withStats": "It has been {days} days since you last logged in, and there is something waiting:",
+    "noStats": "It has been {days} days since you last logged in. Track your time while it is fresh in your memory.",
+    "unbilled": "Unbilled",
+    "hoursUnit": "{hours} h",
+    "readyToInvoice": "Ready to invoice",
+    "readyToInvoiceSub": "of tracked time",
+    "openTasks": "Open tasks",
+    "openTasksSub": "waiting for you",
+    "button": "Track time",
+    "muted": "You can turn off inactivity reminders under email settings."
+  },
+  "toolGuide": {
+    "preview": "Your guide to {tool}",
+    "subject": "{tool}: your guide from TimeTrack",
+    "kicker": "Guide",
+    "heading": "Thanks for using {tool}",
+    "footerNote": "You are getting this email because you asked for the guide on timetrack.dk. No more emails will follow unless you ask for them.",
+    "intro": "Here is the guide you asked for, and a link back to the tool if you want to keep calculating.",
+    "openTool": "Open the tool again",
+    "pitch": "TimeTrack keeps track of hours per client, deducts them from the client's prepaid package and sends the invoice basis to Billy, Dinero or e-conomic. [trial]Try it free for 30 days[/trial]."
+  },
+  "beta": {
+    "preview": "Your place in the TimeTrack beta is ready. Create your account whenever you have time.",
+    "subject": "Your place in the TimeTrack beta is ready",
+    "subjectNamed": "{name}, your place in the TimeTrack beta is ready",
+    "greetingNamed": "Hi {name},",
+    "greeting": "Hi,",
+    "thanks": "Thanks for joining the TimeTrack waiting list. Your place in the beta is now ready.",
+    "about": "TimeTrack is made for freelancers in Denmark. You track your hours and create invoices from them. If a client buys hours in advance, they are deducted from a prepaid package.",
+    "discountLabel": "Your discount code",
+    "discountNote": "Use the code when you create your account to get a discount on the subscription.",
+    "button": "Create your account",
+    "feedback": "If you have questions or feedback, reply to this email. I read every reply myself.",
+    "writeMe": "You can also write to me at [mail]{email}[/mail]."
+  },
+  "desktopLaunch": {
+    "footerNote": "You are receiving this email because you joined the TimeTrack Desktop waiting list.",
+    "button": "Download TimeTrack Desktop",
+    "defaultSubject": "TimeTrack Desktop is ready",
+    "defaultMessage": "Thanks for joining the waiting list. TimeTrack Desktop is available to download now."
+  },
+  "desktopLicense": {
+    "preview": "Your licence key for TimeTrack Desktop ({tier})",
+    "subject": "Your licence key for TimeTrack Desktop ({tier})",
+    "kicker": "Desktop",
+    "heading": "Your licence for TimeTrack Desktop",
+    "footerNote": "You are receiving this email because you bought or asked for your TimeTrack Desktop licence.",
+    "introNamed": "Hi {name}, here is your licence key for TimeTrack Desktop ({tier}).",
+    "intro": "Hi, here is your licence key for TimeTrack Desktop ({tier}).",
+    "howTo": "How to activate it",
+    "step1": "1. Download",
+    "step2": "2. Install",
+    "step2Value": "Open the app",
+    "step3": "3. Activate",
+    "step3Value": "Enter the licence key",
+    "keep": "Keep this email: you will need the key if you install again. The licence covers up to {max, plural, one {# device} other {# devices}}.",
+    "refund": "The invoice comes separately from Stripe. If you change your mind, you can get a full refund within 30 days via [refund]{link}[/refund]."
+  }
+}

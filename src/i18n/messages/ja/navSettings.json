@@ -1,0 +1,166 @@
+{
+  "group": {
+    "account": "アカウント",
+    "organisation": "組織",
+    "billing": "請求",
+    "integrations": "連携",
+    "advanced": "詳細設定"
+  },
+  "item": {
+    "settings": {
+      "label": "プロフィールと表示",
+      "description": "名前、時間単価、勤務時間、テーマ、言語"
+    },
+    "settings_security": {
+      "label": "セキュリティとログイン",
+      "description": "パスワード、2要素認証、パスキー、セッション"
+    },
+    "settings_notifications": {
+      "label": "通知",
+      "description": "メール、Discord、プッシュ、通知を止める時間帯"
+    },
+    "settings_gdpr": {
+      "label": "GDPRとデータ保護",
+      "description": "データのダウンロードとデータ処理契約"
+    },
+    "settings_company": {
+      "label": "会社情報",
+      "description": "CVR、住所、銀行、VAT、会社の休日"
+    },
+    "organization": {
+      "label": "組織とチーム",
+      "description": "メンバー、招待、ロール"
+    },
+    "organization_permissions": {
+      "label": "アクセス制御",
+      "description": "ロールごとに閲覧・変更できる内容"
+    },
+    "organization_audit": {
+      "label": "アクティビティログ",
+      "description": "組織内で誰が何を変更したか"
+    },
+    "settings_modules": {
+      "label": "モジュール",
+      "description": "組織のモジュールをオン・オフ"
+    },
+    "settings_tags": {
+      "label": "タグ",
+      "description": "時間記録、プロジェクト、クライアントを整理"
+    },
+    "enterprise_settings": {
+      "label": "エンタープライズ設定",
+      "description": "勤務時間、不在、休暇、給与、ログイン"
+    },
+    "settings_subscription": {
+      "label": "サブスクリプション",
+      "description": "プラン、支払い、シート"
+    },
+    "settings_email": {
+      "label": "メールとテンプレート",
+      "description": "請求書とリマインダーのメールテンプレート"
+    },
+    "settings_portal": {
+      "label": "クライアントポータル",
+      "description": "クライアントポータルのロゴ、色、ドメイン"
+    },
+    "settings_integrations": {
+      "label": "連携",
+      "description": "会計、カレンダー、ブラウザ拡張機能"
+    },
+    "settings_ai": {
+      "label": "AIと自動化",
+      "description": "メールからタスクへの変換とAIによる解釈"
+    },
+    "settings_desktop": {
+      "label": "デスクトップアプリ",
+      "description": "ダウンロード、接続済みデバイス、ライセンス"
+    },
+    "settings_api": {
+      "label": "API",
+      "description": "APIキーとドキュメント"
+    },
+    "settings_data": {
+      "label": "インポートとエクスポート",
+      "description": "CSVからのインポートとデータのエクスポート"
+    }
+  },
+  "entry": {
+    "settings": {
+      "profilbillede": "プロフィール画像",
+      "name": "名前",
+      "hourlyRate": "既定の時間単価",
+      "weeklyHourGoal": "週の目標時間",
+      "startPage": "ログイン後の開始ページ",
+      "arbejdstid": "勤務時間と稼働率",
+      "fridage": "祝日と休日",
+      "afrunding": "時間の端数処理",
+      "klippekort": "前払いパッケージの金額を非表示",
+      "godkendelse": "クライアントの承認",
+      "udseende": "テーマ（ライトまたはダーク）",
+      "sprog": "言語",
+      "opsaetningsguide": "セットアップガイド",
+      "slet-konto": "アカウントを削除"
+    },
+    "settings_security": {
+      "to-faktor": "2要素認証",
+      "adgangskode": "パスワード",
+      "forbundne-konti": "連携済みアカウント",
+      "passkeys": "パスキー",
+      "telefon": "電話番号",
+      "betroede-enheder": "信頼済みデバイス",
+      "sessioner": "アクティブなセッション"
+    },
+    "settings_notifications": {
+      "email-notifikationer": "メール通知",
+      "stille-timer": "通知を止める時間帯",
+      "discord": "Discord",
+      "push": "ブラウザプッシュ",
+      "pwa": "アプリと無操作（PWA）",
+      "ugerapporter": "週次レポートの自動送信"
+    },
+    "settings_gdpr": {
+      "databehandleraftale": "データ処理契約",
+      "sletning": "データの削除"
+    },
+    "settings_company": {
+      "logo": "会社ロゴ",
+      "adresse": "住所",
+      "bank": "銀行情報",
+      "moms": "VAT",
+      "fridage": "祝日と会社の休日"
+    },
+    "settings_subscription": {
+      "plan": "現在のプラン",
+      "betaling": "支払いと領収書",
+      "pladser": "シート",
+      "skift-plan": "プランを変更",
+      "annuller": "サブスクリプションを解約"
+    },
+    "settings_portal": {
+      "branding": "ポータルのロゴと名前",
+      "farver": "ポータルの色",
+      "skrifttyper": "ポータルのフォント",
+      "domaene": "ポータルの独自ドメイン"
+    },
+    "settings_integrations": {
+      "regnskab": "既定の会計システム",
+      "dinero": "Dinero",
+      "economic": "e-conomic",
+      "google-kalender": "Googleカレンダー",
+      "browserudvidelse": "ブラウザ拡張機能",
+      "alunta": "Aluntaの前払いパッケージ"
+    },
+    "settings_ai": {
+      "ai-udbyder": "AIプロバイダー",
+      "email-til-opgave": "メールからタスクへ"
+    },
+    "settings_desktop": {
+      "enheder": "接続済みデバイス",
+      "licens": "デスクトップライセンス"
+    },
+    "settings_data": {
+      "eksport": "データをエクスポート",
+      "import": "データをインポート"
+    }
+  }
+}

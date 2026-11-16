@@ -1,0 +1,123 @@
+---
+title: "Stundenpakete"
+description: "Wie Stundenpakete (klippekort) in TimeWren funktionieren: Saldo, Abbuchungen, Überziehung, Warnungen, Verlängerung und die Stundensatz-Hierarchie."
+---
+
+Stundenpakete sind das Kernkonzept von TimeWren. Ein Kunde kauft im Voraus ein Stundenkontingent, und die Zeit, die du für diesen Kunden erfasst, wird vom Saldo abgebucht. Das dänische Wort dafür ist "klippekort" (wörtlich "Klippkarte"); du findest es in manchen API-Feldnamen und in der dänischen Oberfläche.
+
+<Screenshot name="prepaid-hours" alt="Ein Stundenpaket mit verbleibendem Saldo und Verbrauchsverlauf" />
+
+## Das Modell
+
+Ein Paket (`prepaid_packages`) gehört zu genau einem Kunden und speichert:
+
+| Feld | Bedeutung |
+| --- | --- |
+| `totalHours`, `usedHours`, `remainingHours` | Der Saldo. Der Rest ist nie negativ und nie höher als die Gesamtstunden. |
+| `hourlyRate`, `totalValue` | Der Preis pro Stunde, zu dem du das Paket verkauft hast, und `totalHours` mal `hourlyRate`. |
+| `purchaseDate`, `expiryDate` | Wann es gekauft wurde, und ein optionaler letzter Gültigkeitstag. |
+| `clipSizeMinutes` | Optionale Rundungsstufe, 1 bis 480 Minuten. |
+| `overdraftPolicy`, `overdraftRate` | Was passiert, wenn der Saldo aufgebraucht ist. Siehe Abschnitt Überziehung unten. |
+| `autoDeduct` | Ob das Paket für neue Zeit standardmäßig vorgeschlagen wird (standardmäßig an). |
+| `renewalInterval`, `renewalRollover` | Optionale automatische Verlängerung. Siehe Abschnitt Verlängerung und Rechnungsstellung unten. |
+| `isActive`, `isArchived`, `hiddenFromPortal` | Lebenszyklus und Sichtbarkeit im Kundenportal. |
+
+Jede Abbuchung wird zusätzlich in ein Nutzungsprotokoll (`prepaid_usage`) geschrieben, mit den Stunden, dem Wert, dem verknüpften Zeiteintrag und einer Beschreibung. Manuelle Abbuchungen ohne Zeiteintrag werden genauso protokolliert.
+
+## Welche Einträge abbuchen
+
+Nichts wird automatisch hinter deinem Rücken abgebucht. Der Server bucht nur ab, wenn ein Zeiteintrag mit einer ausdrücklichen Paket-ID gespeichert wird oder wenn du manuell abbuchst. Die Apps schlagen dir ein Paket vor:
+
+- Ein Paket wird vorgeschlagen, wenn es aktiv ist, `autoDeduct` an hat, noch Stunden übrig hat und nicht abgelaufen ist.
+- Bei mehreren Kandidaten gewinnt das Paket, das zuerst abläuft. Pakete ohne Ablaufdatum kommen zuletzt. Bei Gleichstand gewinnt das älteste Kaufdatum.
+- Im Speicherdialog des Timers verwenden die Web-App und die Browser-Erweiterung dieselbe Regel. Du kannst für jeden Eintrag ein anderes Paket wählen oder kein Paket.
+- Über die REST-API sendest du beim Erstellen eines Zeiteintrags `"prepaid": "auto"`, um dieselbe Regel anzuwenden. Hat der Kunde kein passendes Paket, wird der Eintrag ohne Abbuchung erstellt. Sende entweder `prepaid: "auto"` oder `prepaidPackageId`, nicht beides.
+
+Ein Eintrag kann nur von einem Paket seines eigenen Kunden abgebucht werden. Der Kunde ist der direkte Kunde des Eintrags oder der Kunde seines Projekts. Eine Abbuchung vom Paket eines anderen Kunden wird abgelehnt. Ein Projekt ist nicht erforderlich: Ein Eintrag mit nur einem Kunden kann abgebucht werden. Ein Eintrag ohne Kunde und ohne Projekt nicht.
+
+Stundenpaket-Einträge werden beim Erstellen von Rechnungen aus erfasster Zeit ausgelassen, weil der Kunde sie bereits bezahlt hat. Wird ein Eintrag bearbeitet oder gelöscht, wird seine Abbuchung rückgängig gemacht und die Stunden werden zurückgegeben; danach kann die Warnung bei niedrigem Saldo erneut ausgelöst werden.
+
+### Rundung
+
+- Ohne Clip-Größe werden die abgebuchten Stunden auf zwei Nachkommastellen gerundet.
+- Mit Clip-Größe wird der Eintrag auf ganze Clips aufgerundet. Bei `clipSizeMinutes` von 15 bucht ein Eintrag von 50 Minuten 60 Minuten ab (vier Clips).
+
+Eine Abbuchung schlägt fehl, wenn das Paket inaktiv oder abgelaufen ist. Ein Paket ist den ganzen Ablauftag über gültig, gerechnet in dänischer Zeit (Europe/Copenhagen).
+
+### Überziehung
+
+`overdraftPolicy` legt fest, was passiert, wenn ein Eintrag größer ist als der verbleibende Saldo:
+
+| Richtlinie | Verhalten |
+| --- | --- |
+| `block` (Standard) | Der Eintrag wird mit einem Fehler abgelehnt. |
+| `allow` | Der gesamte Eintrag wird abgebucht. Der Saldo geht auf null, und der Überschuss wird als Überziehungsstunden am Paket vermerkt. |
+| `invoice` | Es wird nichts abgebucht. Der Eintrag wird ein normaler abrechenbarer Eintrag, zum `overdraftRate`, falls du einen gesetzt hast. |
+
+## Warnungen
+
+Es gibt zwei Arten von Warnungen, beide in der Praxis optional, weil sie nur an die von dir gewählten Empfänger gehen. Die Einstellung `prepaidAlertRecipient` am Benutzer ist `owner` (Standard), `client` oder `both`. Kunden als Empfänger brauchen eine E-Mail-Adresse beim Kunden, und ihre E-Mail verweist auf das Kundenportal.
+
+**Niedriger Saldo.** Liegen die verbleibenden Stunden nach einer Abbuchung bei oder unter `PREPAID_LOW_BALANCE_THRESHOLD` der Gesamtstunden (Standard `0.2`, also 20 %), wird eine E-Mail gesendet und der Webhook `prepaid.low_balance` ausgelöst. Das geschieht einmal pro Paket, bis der Saldo wieder steigt, zum Beispiel weil ein Eintrag gelöscht wurde.
+
+**Ablauf.** Ein täglicher Cron-Job (`/api/cron/prepaid-alerts`) schickt E-Mails zu aktiven Paketen, die noch Stunden übrig haben und innerhalb von `PREPAID_EXPIRY_WARNING_DAYS` Tagen ablaufen (Standard `30`). Derselbe Job deaktiviert abgelaufene Pakete und löst `prepaid.expired` aus.
+
+Die Saldo-Anzeigen in der App kennen zwei Stufen. Ein Paket ist "niedrig" bei oder unter dem Prozentschwellwert und "kritisch" bei oder unter `PREPAID_CRITICAL_BALANCE_HOURS` Stunden (Standard `1`), sodass die letzte Stunde eines großen Pakets noch als kritisch erscheint. Die kritische Stufe ändert nur die Anzeige und sendet keine zusätzliche E-Mail.
+
+| Variable | Standard | Bedeutung |
+| --- | --- | --- |
+| `PREPAID_LOW_BALANCE_THRESHOLD` | `0.2` | Anteil der Gesamtstunden, der als niedrig gilt. |
+| `PREPAID_CRITICAL_BALANCE_HOURS` | `1` | Stunden, bei oder unter denen der Saldo kritisch ist. |
+| `PREPAID_EXPIRY_WARNING_DAYS` | `30` | Wie viele Tage vor Ablauf die Warnung gesendet wird. |
+
+Die vollständige Liste steht unter [Umgebungsvariablen](/de/docs/configuration/environment). Die Warnungen brauchen funktionierende [E-Mail](/de/docs/configuration/email) und einen laufenden Cron-Container.
+
+## Verlängerung und Rechnungsstellung
+
+Ein Paket kann sich selbst verlängern, wenn `renewalInterval` auf `monthly`, `quarterly` oder `yearly` gesetzt ist. Der tägliche Cron-Job `/api/cron/prepaid-renewals` bearbeitet fällige Pakete:
+
+- Ein neues Paket wird mit neuem Kaufdatum erstellt, das alte wird archiviert und deaktiviert. Die Kette wird über `renewedFromId` nachverfolgt.
+- Die Stunden pro Zeitraum bleiben konstant (`renewalBaseHours`).
+- Bei `renewalRollover` mit `carry` werden die verbleibenden Stunden in den neuen Zeitraum übernommen. Bei `none` beginnt der neue Zeitraum mit den Basisstunden.
+- Eine Überziehung aus dem alten Zeitraum wird in beiden Modi immer mit den neuen Stunden verrechnet. Sie wird als Nutzungszeile am neuen Paket protokolliert.
+- Ein Rechnungsentwurf wird für Basisstunden mal Stundensatz erstellt, und du erhältst eine Benachrichtigung. Du prüfst und stellst ihn selbst aus. Ist das Paket mit einer wiederkehrenden Rechnung verknüpft, wird stattdessen diese Vorlage verwendet.
+- Für das neue Paket wird ein Webhook ausgelöst (`prepaid.created`).
+
+Um ohne automatische Verlängerung aufzustocken, erstelle ein neues Paket für den Kunden. Mehrere aktive Pakete können nebeneinander bestehen, und die oben beschriebene Vorschlagsregel entscheidet, welches zuerst verwendet wird.
+
+## Kundenportal
+
+Kunden sehen ihre Pakete im Kundenportal auf dem Reiter Stundenpakete mit Saldo und Verbrauch. Zwei Schalter steuern das: die Portalberechtigung `canViewPrepaid` (standardmäßig an) und die Paketeinstellung `hiddenFromPortal`, die ein einzelnes Paket vollständig ausblendet, auch im Verlauf. Kunden können außerdem eine Verlängerung anfragen, die bei dir als Verlängerungsanfrage erscheint. Geldbeträge lassen sich mit der Einstellung `hidePrepaidValue` vor Kunden verbergen, global oder pro Kunde.
+
+## REST-API
+
+Pakete stehen als Ressource `prepaid-packages` zur Verfügung, mit den Scopes `prepaid:read` und `prepaid:write`. Auflisten, Abrufen, Erstellen und Aktualisieren werden unterstützt, und `DELETE` archiviert ein Paket, statt es zu löschen. Authentifizierung und Scopes sind in der [REST-API](/de/docs/api/rest)-Referenz beschrieben. Paketereignisse werden über [Webhooks](/de/docs/api/webhooks) zugestellt.
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/prepaid-packages \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Support hours", "clientId": "CLIENT_UUID", "totalHours": 20, "hourlyRate": 100, "purchaseDate": "2026-01-05", "expiryDate": "2026-12-31"}'
+```
+
+## Stundensatz-Hierarchie
+
+Der Stundensatz, der an einem Zeiteintrag gespeichert ist, bestimmt, was er bei der Abrechnung wert ist. TimeWren wählt ihn in dieser Reihenfolge und nimmt den ersten, der gesetzt ist:
+
+1. In einer Organisation: ein Mitgliedssatz für das Projekt, dann für den Kunden, dann der organisationsweite Satz des Mitglieds.
+2. Der Stundensatz des Projekts.
+3. Der Standard-Stundensatz des Kunden.
+4. Dein persönlicher Standard-Stundensatz.
+
+Der Satz richtet sich nach dem Datum des Eintrags, sodass nachträglich erfasste Zeit den Satz erhält, der an diesem Tag galt. Satzänderungen können für ein zukünftiges Datum geplant werden und werden in der Satzhistorie des Benutzers, Kunden oder Projekts festgehalten. Ein abgerechneter Eintrag behält seinen Satz, wenn sein Datum geändert wird. Der `hourlyRate` des Pakets ist davon getrennt: Er ist der Preis der Stundenpaket-Stunden und wird für den Paketwert und Verlängerungsrechnungen verwendet, nicht für den Satz des Eintrags.
+
+## Durchgerechnetes Beispiel
+
+Du verkaufst Acme ApS ein Paket mit 20 Stunden zu 100 pro Stunde, gültig bis Jahresende, mit einer Clip-Größe von 15 Minuten.
+
+1. Erstelle das Paket: `totalHours` 20, `hourlyRate` 100, also ist `totalValue` 2.000. Der Rest ist 20.
+2. Du erfasst 50 Minuten Arbeit für Acme. Im Speicherdialog ist das Paket vorausgewählt. Der Eintrag wird auf vier Clips aufgerundet, also wird 1,00 Stunde abgebucht. Der Rest ist 19,00, verbraucht sind 1,00.
+3. In den folgenden Wochen bringen Abbuchungen den Saldo auf 4,00 Stunden. Das sind 20 % der Gesamtstunden, also geht die E-Mail zum niedrigen Saldo raus und der Webhook `prepaid.low_balance` wird ausgelöst.
+4. Bei 1,00 verbleibender Stunde wird der Saldo als kritisch angezeigt.
+5. Der nächste Eintrag hat 1,5 Stunden. Mit der Standardrichtlinie `block` wird er abgelehnt. Mit `allow` wird die verbleibende 1,00 Stunde verbraucht und 0,50 als Überziehung vermerkt. Mit `invoice` wird nichts abgebucht und der Eintrag normal abgerechnet.
+6. Dreißig Tage vor dem 31. Dezember wird die Ablaufwarnung gesendet, falls noch Stunden übrig sind. Am Tag danach deaktiviert der Cron-Job das Paket.

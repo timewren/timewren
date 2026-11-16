@@ -1,0 +1,30 @@
+---
+title: "Consulta de CVR"
+description: "Rellena los datos de una empresa danesa desde el registro CVR al crear un cliente. Funciona sin configuración a través de cvrapi.dk."
+---
+
+CVR es el registro de empresas de Dinamarca. Al crear un cliente, introduce un número de CVR (o el nombre de la empresa o un teléfono) y TimeWren rellena los datos de la empresa. Solo sirve para empresas danesas.
+
+## Qué rellena
+
+Nombre, dirección, código postal, ciudad, país (Dinamarca), código y descripción de la actividad, estado de la empresa, teléfono, correo electrónico y fecha de inicio, cuando la fuente los tiene. Puedes editar todo antes de guardar.
+
+## Dónde se usa
+
+El botón de consulta del formulario de cliente nuevo y la consulta de CVR en los ajustes de tu empresa. Las consultas están limitadas a 10 por minuto y usuario.
+
+## Fuentes y configuración
+
+No hace falta configuración. Por defecto TimeWren consulta [cvrapi.dk](https://cvrapi.dk), un servicio público gratuito, y la petición falla con un mensaje de tiempo agotado a los 10 segundos. cvrapi.dk limita cuántas peticiones acepta, así que una instancia con mucho uso puede ver ocasionalmente un mensaje de "rate limited" y tener que reintentarlo. Cuando [Valkey](/es/docs/configuration/environment) está configurado, las respuestas se guardan en caché durante 24 horas, lo que ahorra cuota.
+
+Estas variables son opcionales:
+
+| Variable | Default | Significado |
+| --- | --- | --- |
+| `CVR_API_TIMEOUT_MS` | `10000` | Tiempo límite de las peticiones a cvrapi.dk en milisegundos |
+| `CVR_SERVICE_API_KEY` | vacío | Clave de un servicio de CVR alternativo. Cuando está definida, se consulta primero ese servicio |
+| `CVR_SERVICE_URL` | el servicio que gestionan los mantenedores de TimeWren | URL base del servicio alternativo |
+
+El servicio alternativo se prueba primero con un tiempo límite de 3 segundos. Si falla o no es accesible, TimeWren recurre a cvrapi.dk. Salvo que te hayan dado una clave de un servicio, deja `CVR_SERVICE_API_KEY` vacía.
+
+> **Nota:** Una consulta envía el número o el texto que has escrito al servicio que la responde (cvrapi.dk por defecto). Introducir los datos de la empresa a mano siempre funciona.

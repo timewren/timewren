@@ -1,0 +1,99 @@
+@import "@fontsource-variable/schibsted-grotesk/wght.css";
+@import "tailwindcss";
+@import "../styles/theme.css";
+@import "../styles/animations.css";
+
+:root {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-surface-base);
+  min-height: 100vh;
+}
+
+/* Widget card styling */
+.widget-card {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border-subtle);
+  /* BRAND.md: kort 14 px, ingen skygge (kun klippekortet løftes) */
+  border-radius: 14px;
+  padding: 1.5rem;
+  transition: border-color 150ms;
+}
+
+.widget-card:hover {
+  border-color: var(--color-border-strong);
+}
+
+/* Large timer display */
+.timer-display-large {
+  font-size: 4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Clock styling */
+.clock-display {
+  font-size: 6rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.date-display {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Staggered animation for widgets */
+.widget-card:nth-child(1) {
+  animation-delay: 0ms;
+}
+.widget-card:nth-child(2) {
+  animation-delay: 50ms;
+}
+.widget-card:nth-child(3) {
+  animation-delay: 100ms;
+}
+.widget-card:nth-child(4) {
+  animation-delay: 150ms;
+}
+.widget-card:nth-child(5) {
+  animation-delay: 200ms;
+}
+.widget-card:nth-child(6) {
+  animation-delay: 250ms;
+}

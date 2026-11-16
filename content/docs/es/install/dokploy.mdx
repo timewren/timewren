@@ -1,0 +1,56 @@
+---
+title: "Dokploy"
+description: "Despliega TimeWren en Dokploy desde una plantilla personalizada con dominio generado, cuatro secretos generados y volúmenes con nombre."
+---
+
+Elige este método si ya usas Dokploy. La plantilla descarga la imagen publicada y genera todos los secretos.
+
+## Requisitos
+
+- Una instancia de Dokploy en marcha con un servidor y un dominio.
+- Los archivos de `deploy/dokploy/` del repositorio: `docker-compose.yml` y `template.toml`.
+
+> **Nota:** La plantilla no se ha enviado a la biblioteca de plantillas de Dokploy, así que no aparece en el catálogo. La importas tú mismo como plantilla personalizada.
+
+## Desplegar
+
+1. Descarga los dos archivos:
+
+   ```bash
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/deploy/dokploy/docker-compose.yml
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/deploy/dokploy/template.toml
+   ```
+
+2. En Dokploy, impórtalos como plantilla personalizada (Compose y TOML).
+3. Revisa el dominio generado, o sustitúyelo por el tuyo, y despliega.
+
+## Qué define la plantilla
+
+`template.toml` genera un dominio y cuatro secretos hexadecimales independientes de 64 caracteres, y dirige el dominio al servicio `app` en el puerto 3000:
+
+| Variable | Valor |
+| -------- | ----- |
+| `NEXT_PUBLIC_APP_URL` | `https://` más el dominio generado |
+| `POSTGRES_PASSWORD` | generado |
+| `BETTER_AUTH_SECRET` | generado |
+| `ENCRYPTION_KEY` | generado, 64 caracteres hexadecimales |
+| `CRON_SECRET` | generado |
+
+Los datos de PostgreSQL y las subidas viven en volúmenes con nombre; la plantilla no define montajes del host (`mounts = []`). La `app` y el planificador descargan la misma imagen, y las migraciones se ejecutan cuando arranca la aplicación. Define `TIMEWREN_VERSION` para fijar ambos servicios a una versión.
+
+Las variables opcionales de correo, S3 e integraciones se exponen en el archivo Compose y usan los nombres de `.env.example`. Consulta [Variables de entorno](/es/docs/configuration/environment).
+
+## Crea primero tu cuenta
+
+La primera cuenta se convierte en administradora. Regístrate de inmediato, o define `ADMIN_EMAIL` y un transporte de correo antes de exponer la URL.
+
+## Copia de seguridad
+
+Haz copia de ambos volúmenes y de `ENCRYPTION_KEY`.
+
+## Siguientes pasos
+
+- [Inicio rápido](/es/docs/quickstart)
+- [Correo electrónico](/es/docs/configuration/email)
+- [Actualización](/es/docs/operations/upgrading) y [Copia de seguridad y restauración](/es/docs/operations/backup-restore)
+- [Solución de problemas](/es/docs/operations/troubleshooting)

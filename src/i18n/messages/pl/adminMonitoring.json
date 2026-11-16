@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Monitoring",
+    "healthy": "{score}% sprawnych",
+    "cronDashboard": "Pulpit zadań cron",
+    "sections": {
+      "health": "Stan systemu",
+      "cron": "Zadania cron",
+      "email": "Dostarczanie e-maili"
+    },
+    "tiles": {
+      "activeSessions": "Aktywne sesje",
+      "sessions24h": "Sesje w ciągu ostatnich 24 godz.",
+      "activeTimers": "Aktywne stopery",
+      "emailsSent7d": "Wysłane e-maile (7 dni)"
+    },
+    "cronHealth": {
+      "title": "Stan zadań cron (7 dni)",
+      "runs": "Uruchomienia",
+      "ok": "OK",
+      "errors": "błędy",
+      "avgDuration": "Śr. czas trwania",
+      "lastRun": "Ostatnie uruchomienie"
+    },
+    "errors": {
+      "title": "Błędy (ostatnie 7 dni)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Wszystkie zadania",
+      "allStatuses": "Wszystkie statusy",
+      "filter": {
+        "success": "Powodzenie",
+        "error": "Błąd",
+        "partial": "Częściowo"
+      },
+      "status": {
+        "success": "powodzenie",
+        "error": "błąd",
+        "partial": "częściowo"
+      },
+      "empty": "Nie znaleziono logów zadań cron",
+      "columns": {
+        "job": "Zadanie",
+        "status": "Status",
+        "started": "Start",
+        "duration": "Czas trwania",
+        "items": "Elementy",
+        "errors": "Błędy"
+      }
+    },
+    "showing": "Wyświetlono {from}-{to} z {total}",
+    "previous": "Poprzednia",
+    "next": "Następna",
+    "email": {
+      "sent": "Wysłano",
+      "delivered": "Dostarczono",
+      "bounced": "Odrzucono",
+      "failed": "Niepowodzenie",
+      "status": {
+        "sent": "wysłano",
+        "delivered": "dostarczono",
+        "bounced": "odrzucono",
+        "failed": "niepowodzenie"
+      },
+      "last24h": "Ostatnie 24 godziny",
+      "last7d": "Ostatnie 7 dni",
+      "last30d": "Ostatnie 30 dni",
+      "last90d": "Ostatnie 90 dni",
+      "allTemplates": "Wszystkie szablony",
+      "empty": "Nie znaleziono logów e-maili",
+      "columns": {
+        "recipient": "Odbiorca",
+        "subject": "Temat",
+        "template": "Szablon",
+        "status": "Status",
+        "sentAt": "Wysłano"
+      }
+    }
+  },
+  "cron": {
+    "title": "Zadania cron",
+    "refresh": "Odśwież",
+    "never": "Nigdy",
+    "badge": {
+      "neverRun": "Nigdy nie uruchomiono",
+      "silent": "Brak aktywności",
+      "error": "Błąd",
+      "partial": "Częściowo",
+      "running": "W toku",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "powodzenie",
+      "error": "błąd",
+      "partial": "częściowo"
+    },
+    "noRows": "Nie znaleziono wpisów logu",
+    "runColumns": {
+      "status": "Status",
+      "started": "Start",
+      "duration": "Czas trwania",
+      "items": "Elementy",
+      "errorMessage": "Komunikat błędu"
+    },
+    "tiles": {
+      "expected": "Oczekiwane zadania",
+      "silent": "Zadania bez aktywności",
+      "withErrors": "Zadania z błędami (24 godz.)",
+      "totalRuns": "Wszystkie uruchomienia (24 godz.)"
+    },
+    "columns": {
+      "status": "Status",
+      "job": "Zadanie",
+      "cadence": "Częstotliwość",
+      "lastRun": "Ostatnie uruchomienie",
+      "runs24h": "Uruchomienia 24 godz.",
+      "errors24h": "Błędy 24 godz.",
+      "avgDuration": "Śr. czas trwania"
+    },
+    "lastError": "Ostatni błąd:",
+    "cadence": {
+      "everyMinutes": "co {minutes} min",
+      "hourly": "co godzinę",
+      "everyHours": "co {hours} godz.",
+      "daily": "codziennie",
+      "weekly": "co tydzień",
+      "monthly": "co miesiąc",
+      "everyDays": "co {days} dni"
+    }
+  }
+}

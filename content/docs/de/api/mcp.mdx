@@ -1,0 +1,119 @@
+---
+title: "MCP-Server"
+description: "Verbinde Claude, Cursor, Codex und andere MCP-Clients mit TimeWren, um Zeit zu erfassen, Stundenpakete zu prüfen und Rechnungen vorzubereiten."
+---
+
+TimeWren enthält einen [Model-Context-Protocol](https://modelcontextprotocol.io)-Server, damit ein KI-Assistent mit deinen Kunden, Zeiteinträgen, Stundenpaketen und Rechnungen arbeiten kann. Er verwendet dieselbe Geschäftslogik wie die [REST-API](/de/docs/api/rest).
+
+## Endpunkt
+
+```text
+https://timewren.example.com/api/v1/mcp
+```
+
+Der Transport ist Streamable HTTP. Discovery-Dokumente werden unter `/.well-known/mcp/server-card.json` und `/.well-known/oauth-protected-resource/api/v1/mcp` ausgeliefert. Die URLs darin werden aus `NEXT_PUBLIC_APP_URL` gebaut, achte also darauf, dass sie zur öffentlichen Adresse deiner Instanz passt (siehe [Umgebungsvariablen](/de/docs/configuration/environment)).
+
+## Authentifizierung
+
+Es gibt zwei Wege der Authentifizierung. Beide senden ein Bearer-Token im Header `Authorization`.
+
+- **API-Schlüssel.** Erstelle unter **Einstellungen**, dann **API** einen Schlüssel `tk_live_...` und verwende ihn als Bearer-Token. Siehe [REST-API](/de/docs/api/rest). Das ist die einfachste Option für Claude Code, Cursor und Skripte.
+- **OAuth.** Clients, die MCP-Autorisierung unterstützen (zum Beispiel die benutzerdefinierten Connectors von Claude), ermitteln den Autorisierungsserver aus der `401`-Antwort und lassen dich im Browser bei TimeWren anmelden. Der Server unterstützt dynamische Client-Registrierung, PKCE und Refresh-Tokens. Auf dem Zustimmungsbildschirm wählst du die Organisation und prüfst die Berechtigungen. Access-Tokens beginnen mit `tt_at_` und können jederzeit widerrufen werden.
+
+Ohne gültiges Token antwortet der Endpunkt mit `401`.
+
+## Was ein MCP-Client tun kann
+
+Ein API-Schlüssel behält genau die Scopes, die du ihm beim Erstellen gegeben hast. Eine OAuth-Verbindung bekommt die Lese- und Schreib-Scopes, die auf dem Zustimmungsbildschirm angezeigt werden (`clients`, `projects`, `time`, `invoices`, `prepaid`, `tasks` und `reports`; nie `webhooks` und nie den Vollzugriffs-Scope `*`), und ist an die eine Organisation gebunden, die du gewählt hast. Jedes Tool prüft vor der Ausführung den Scope, den es braucht, nach denselben Regeln wie die REST-Routen, und liefert einen Fehler, wenn der Verbindung dieser fehlt. Anfragen sind auf 120 pro Minute und Schlüssel oder verbundener App und Benutzer begrenzt.
+
+## Tools
+
+| Tool | Scope | Was es tut |
+| --- | --- | --- |
+| `whoami` | keiner | Gibt Benutzer-ID, Organisation und Scopes der aktuellen Verbindung zurück |
+| `list_clients` | `clients:read` | Listet Kunden mit Standard-Stundensatz und Kontaktdaten auf, mit Suche und Paging |
+| `get_client` | `clients:read` | Liefert einen Kunden anhand seiner ID |
+| `create_client` | `clients:write` | Legt einen Kunden an |
+| `list_time_entries` | `time:read` | Listet Zeiteinträge auf, neueste zuerst, gefiltert nach Kunde, Projekt, Datum, abrechenbar und abgerechnet |
+| `create_time_entry` | `time:write` | Erfasst Zeit für einen Kunden oder ein Projekt, optional mit Abzug von einem Stundenpaket über `prepaid: "auto"` oder `prepaidPackageId` |
+| `update_time_entry` | `time:write` | Ändert Felder eines Zeiteintrags; abgerechnete Einträge sind gesperrt |
+| `list_prepaid_packages` | `prepaid:read` | Listet Stundenpakete mit Gesamt-, verbrauchten und verbleibenden Stunden, Ablauf und Status auf |
+| `unbilled_summary` | `reports:read` | Nicht abgerechnete abrechenbare Stunden und Betrag pro Kunde |
+| `list_invoices` | `invoices:read` | Listet Rechnungen auf, optional für einen Kunden oder Status |
+| `invoice_from_time_entries` | `invoices:write` | Zeigt eine Vorschau (`dryRun`) oder erstellt eine Rechnung als Entwurf aus den Zeiteinträgen eines Kunden; das Erstellen markiert die Einträge als abgerechnet |
+| `send_invoice` | `invoices:write` | Sendet eine Rechnung per E-Mail an den Kunden, was sich nicht rückgängig machen lässt |
+
+Listen-Tools geben einen Hinweis zurück, der dem Assistenten sagt, welche Seite er als Nächstes anfordern soll, wenn das Ergebnis nur teilweise vorliegt. `invoice_from_time_entries` und `send_invoice` ändern Daten oder kontaktieren deinen Kunden, bitte deinen Assistenten also, sich mit dir abzustimmen, bevor er sie aufruft.
+
+## Client-Konfiguration
+
+Ersetze die URL und `YOUR_API_KEY` durch deine eigenen Werte.
+
+### Claude Code
+
+```bash
+claude mcp add --transport http timewren https://timewren.example.com/api/v1/mcp --header "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Cursor
+
+Füge das in deinem Projekt zu `.cursor/mcp.json` hinzu, oder für alle Projekte zu `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "timewren": {
+      "url": "https://timewren.example.com/api/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Claude Desktop
+
+Am einfachsten ist ein benutzerdefinierter Connector: Öffne **Einstellungen**, dann **Connectors**, füge einen benutzerdefinierten Connector hinzu und gib die Endpunkt-URL ein. Du meldest dich per OAuth an, ein Schlüssel ist nicht nötig.
+
+Um stattdessen einen API-Schlüssel zu verwenden, überbrücke über `mcp-remote` in `claude_desktop_config.json` (erfordert Node.js):
+
+```json
+{
+  "mcpServers": {
+    "timewren": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://timewren.example.com/api/v1/mcp",
+        "--header",
+        "Authorization:${TIMEWREN_AUTH}"
+      ],
+      "env": {
+        "TIMEWREN_AUTH": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Codex
+
+Füge das zu `~/.codex/config.toml` hinzu und exportiere den Schlüssel als Umgebungsvariable:
+
+```toml
+[mcp_servers.timewren]
+url = "https://timewren.example.com/api/v1/mcp"
+bearer_token_env_var = "TIMEWREN_API_KEY"
+```
+
+```bash
+export TIMEWREN_API_KEY="YOUR_API_KEY"
+```
+
+## Fehlerbehebung
+
+- `401`: Das Token fehlt, ist falsch, widerrufen oder abgelaufen. Teste es mit `curl https://timewren.example.com/api/v1/me -H "Authorization: Bearer YOUR_API_KEY"`.
+- Ein Tool liefert `Forbidden: missing required scope`: Erstelle einen Schlüssel mit dem Scope, der in der Tabelle oben steht.
+- `429`: Du hast das Rate-Limit erreicht. Warte die Anzahl Sekunden aus dem Header `Retry-After` ab.

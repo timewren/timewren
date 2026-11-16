@@ -1,0 +1,129 @@
+# TimeWren, self-hosted: app + PostgreSQL + cron (+ optional Valkey).
+#
+#   cp .env.example .env     # then fill in the secrets at the top
+#   docker compose up -d
+#
+# Full guide: docs/self-hosting.md
+# For local development (Postgres only) use docker-compose.dev.yml.
+#
+# Requires Docker Compose v2.24 or newer.
+
+name: timetrack
+
+services:
+  app:
+    # Prebuilt multi-arch image from the release workflow. Pin a version in .env
+    # with TIMEWREN_VERSION=1.2.3 (default: latest).
+    image: ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}
+    # Developers: to build from this checkout instead, comment out `image:` above,
+    # uncomment the block below and run `docker compose up -d --build`.
+    # build:
+    #   context: .
+    #   args:
+    #     # NEXT_PUBLIC_APP_URL, NEXT_PUBLIC_MARKETING_URL and NEXT_PUBLIC_BRAND
+    #     # are read at runtime (see `environment` below), so they are not build
+    #     # args and changing them needs no rebuild. The ones below are still
+    #     # baked into the client bundle at BUILD time.
+    #     NEXT_PUBLIC_DESKTOP_RELEASES_REPO: ${NEXT_PUBLIC_DESKTOP_RELEASES_REPO:-}
+    #     NEXT_PUBLIC_REALTIME_ENABLED: ${NEXT_PUBLIC_REALTIME_ENABLED:-}
+    #     NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL: ${NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL:-}
+    #     NEXT_PUBLIC_SENTRY_DSN: ${NEXT_PUBLIC_SENTRY_DSN:-}
+    #     NEXT_PUBLIC_SENTRY_BROWSER_ENABLED: ${NEXT_PUBLIC_SENTRY_BROWSER_ENABLED:-}
+    #     # The build only needs these to be non-empty. Real values are set at
+    #     # runtime below, and are never written into the image.
+    #     BETTER_AUTH_SECRET: build-time-placeholder
+    #     DATABASE_URL: postgresql://build:build@localhost:5432/build
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      TZ: ${TZ:-Europe/Copenhagen}
+      # Set here so it always points at the bundled database.
+      DATABASE_URL: postgresql://timetrack:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/timetrack
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?Set BETTER_AUTH_SECRET in .env (openssl rand -hex 32)}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:?Set ENCRYPTION_KEY in .env (openssl rand -hex 32)}
+      CRON_SECRET: ${CRON_SECRET:?Set CRON_SECRET in .env (openssl rand -hex 32)}
+      # Read at runtime: change in .env and `docker compose up -d` (no rebuild).
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-}
+      NEXT_PUBLIC_BRAND: ${NEXT_PUBLIC_BRAND:-timewren}
+      # Run database migrations on every start (safe on an empty database).
+      MIGRATE_ON_START: "1"
+      # Uploads, attachments and exports on the `storage` volume. For S3/MinIO set
+      # STORAGE_DRIVER=s3 in .env and fill in the S3_* variables.
+      STORAGE_DRIVER: ${STORAGE_DRIVER:-local}
+      STORAGE_LOCAL_PATH: /app/data/storage
+    ports:
+      # Bound to localhost: put a reverse proxy with TLS in front (see the guide).
+      # Set APP_BIND=0.0.0.0 to expose the port directly.
+      - "${APP_BIND:-127.0.0.1}:${APP_PORT:-3000}:3000"
+    volumes:
+      - storage:/app/data/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:3000/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      # First start runs all migrations before the server listens.
+      start_period: 180s
+
+  # Scheduled jobs (reminders, recurring entries, syncs, digests). Calls the
+  # app's /api/cron/* endpoints with CRON_SECRET; crontab is cron/entrypoint.sh.
+  cron:
+    image: ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}
+    command: ["node", "scripts/cron.mjs"]
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Copenhagen}
+      CRON_SECRET: ${CRON_SECRET:?Set CRON_SECRET in .env (openssl rand -hex 32)}
+      APP_URL: http://app:3000
+    depends_on:
+      app:
+        condition: service_healthy
+
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: timetrack
+      POSTGRES_USER: timetrack
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      # PostgreSQL 18+ images keep their data in a versioned directory below
+      # /var/lib/postgresql, so the volume is mounted there.
+      - db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U timetrack -d timetrack"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # Optional: shared rate limits and realtime timer sync. Start with
+  #   docker compose --profile valkey up -d
+  # (or COMPOSE_PROFILES=valkey in .env) and set in .env:
+  #   VALKEY_URL=redis://valkey:6379
+  #   RATE_LIMIT_BACKEND=valkey
+  valkey:
+    image: valkey/valkey:8-alpine
+    profiles: ["valkey"]
+    restart: unless-stopped
+    volumes:
+      - valkey-data:/data
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
+  storage:
+  valkey-data:

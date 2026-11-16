@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Twoja sesja wygasła. Zaloguj się ponownie.",
+  "noConnection": "Brak połączenia. Spróbuj ponownie.",
+  "timeout": "Połączenie trwało zbyt długo",
+  "invalidResponse": "Nieoczekiwana odpowiedź serwera",
+  "notLoggedIn": "Nie zalogowano",
+  "notLoggedInOpenPopup": "Nie zalogowano. Otwórz okno rozszerzenia TimeTrack i zaloguj się.",
+  "unknown": "Nieznany błąd",
+  "api": {
+    "fallback": "Błąd API",
+    "UNAUTHORIZED": "Twoja sesja wygasła. Zaloguj się ponownie.",
+    "FORBIDDEN": "Brak dostępu",
+    "NOT_FOUND": "Nie znaleziono zasobu",
+    "TIMEOUT": "Serwer nie odpowiedział",
+    "TOO_MANY_REQUESTS": "Zbyt wiele żądań. Poczekaj chwilę i spróbuj ponownie",
+    "INTERNAL_SERVER_ERROR": "Błąd serwera. Spróbuj ponownie za chwilę",
+    "BAD_REQUEST": "Nieprawidłowe żądanie",
+    "PARSE_ERROR": "Nieprawidłowe żądanie"
+  },
+  "auth": {
+    "invalidToken": "Nieprawidłowy token",
+    "validateFailed": "Nie udało się zweryfikować tokenu",
+    "loginFailed": "Logowanie nie powiodło się",
+    "loginCancelled": "Logowanie zostało anulowane. Spróbuj ponownie",
+    "loginCancelledShort": "Logowanie zostało anulowane",
+    "noToken": "Nie otrzymano tokenu",
+    "tokenValidationStatus": "Weryfikacja tokenu nie powiodła się: serwer odpowiedział {status}",
+    "orgsFailed": "Nie udało się wczytać organizacji ({status})"
+  },
+  "url": {
+    "notAllowed": "Użyj timetrack.dk, app.timetrack.dk, beta.timetrack.dk lub localhost"
+  },
+  "entry": {
+    "hoursPositive": "Podaj liczbę godzin większą niż 0",
+    "timesCannotBeRemoved": "Nie można usunąć godzin. Zmień początek i koniec",
+    "fillStartEnd": "Uzupełnij początek i koniec",
+    "endAfterStart": "Godzina zakończenia musi być późniejsza niż godzina rozpoczęcia"
+  },
+  "timer": {
+    "loadFailed": "Nie udało się wczytać stopera",
+    "startFailed": "Nie udało się uruchomić stopera",
+    "stopFailed": "Nie udało się zatrzymać stopera. Spróbuj ponownie",
+    "stopNetwork": "Nie udało się zatrzymać stopera: błąd sieci",
+    "cancelFailed": "Nie udało się anulować stopera. Spróbuj ponownie",
+    "cancelNetwork": "Nie udało się anulować stopera: błąd sieci",
+    "cancelStoppingElsewhere": "Stoper jest już zatrzymywany z: {source}",
+    "sourceWeb": "aplikacji webowej",
+    "sourceOther": "innego urządzenia",
+    "pauseFailed": "Nie udało się wstrzymać stopera",
+    "resumeFailed": "Nie udało się wznowić stopera",
+    "addTimeFailed": "Nie udało się dodać czasu do stopera",
+    "descriptionFailed": "Nie udało się zaktualizować opisu",
+    "projectFailed": "Nie udało się zaktualizować projektu",
+    "clientFailed": "Nie udało się zaktualizować klienta",
+    "nothingToSave": "Brak czasu do zapisania",
+    "offlineStop": "Brak połączenia z internetem. Zatrzymaj stoper ponownie, gdy połączenie wróci",
+    "stopInProgress": "Trwa zatrzymywanie{elsewhere}. Spróbuj ponownie za chwilę. Jeśli się zawiesi, czas zostanie po kilku minutach zapisany jako wstrzymany, więc nie zostanie utracony.",
+    "alreadyRunning": "Stoper już działa{elsewhere}. Jeśli chcesz uruchomić nowy, najpierw zatrzymaj lub anuluj ten.",
+    "alreadyPaused": "Jest już wstrzymany stoper z naliczonym czasem{elsewhere}. Jeśli chcesz uruchomić nowy, najpierw zatrzymaj lub anuluj ten.",
+    "elsewhere": " z innej przeglądarki lub urządzenia",
+    "stopAlreadyInProgress": "Zatrzymywanie już trwa z: {source}. Za chwilę sprawdź swój przegląd czasu",
+    "prepaidPinnedUnavailable": "Nie można użyć wybranego pakietu godzin, więc czas zapisano bez odliczenia od pakietu",
+    "prepaidLookupFailed": "Nie udało się znaleźć pakietu godzin, więc czas zapisano bez odliczenia od pakietu",
+    "prepaidDeductionFailed": "Odliczenie od pakietu nie powiodło się, więc czas zapisano bez odliczenia od pakietu",
+    "saveFailed": "Nie udało się zapisać czasu",
+    "saveFailedWith": "Nie udało się zapisać czasu: {reason}",
+    "unknownReason": "nieznany błąd",
+    "sessionMismatch": "Stoper został zmieniony z innej przeglądarki lub urządzenia. Oto aktualny stan.",
+    "beingStopped": "Stoper jest zatrzymywany z innej przeglądarki lub urządzenia.",
+    "startRejectedPaused": "Jest już wstrzymany stoper z naliczonym czasem. Jeśli chcesz uruchomić nowy, najpierw zatrzymaj lub anuluj ten.",
+    "startRejectedStale": "Stoper został właśnie zatrzymany gdzie indziej. Spróbuj uruchomić go ponownie.",
+    "startRejectedRunning": "Stoper już działa na innej przeglądarce lub urządzeniu. Jeśli chcesz uruchomić nowy, najpierw zatrzymaj tamten.",
+    "stopSourceWeb": "aplikacji webowej",
+    "stopSourceOther": "innego urządzenia"
+  },
+  "task": {
+    "createFailed": "Nie udało się utworzyć zadania"
+  },
+  "serverStatus": "Serwer odpowiedział {status}",
+  "clientTooOld": "Zaktualizuj rozszerzenie TimeTrack. Ta wersja nie może zapisywać czasu"
+}

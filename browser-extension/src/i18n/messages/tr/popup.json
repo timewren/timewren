@@ -1,0 +1,91 @@
+{
+  "loading": "Yükleniyor",
+  "offline": "Çevrimdışı",
+  "noInternet": "İnternet bağlantısı yok",
+  "openApp": "TimeTrack'i aç",
+  "openAppNewTab": "TimeTrack'i yeni sekmede aç",
+  "settings": "Ayarlar",
+  "logout": "Çıkış yap",
+  "logoutConfirm": "TimeTrack'ten çıkış yapılsın mı?",
+  "todayHours": "Bugün {duration}",
+  "dailyProgress": "Günlük ilerleme: bugün {goal} sa hedefin {done} saati",
+  "tabs": {
+    "view": "Görünüm",
+    "timer": "Zamanlayıcı",
+    "calendar": "Takvim",
+    "history": "Geçmiş",
+    "prepaid": "Paketler"
+  },
+  "login": {
+    "tagline": "Zaman takibi doğrudan tarayıcında",
+    "connecting": "Bağlanıyor…",
+    "connect": "TimeTrack'e bağlan",
+    "secureHint": "Yeni bir pencerede güvenli şekilde giriş yaparsın. Sonrasında eklentide bir organizasyon seçebilirsin.",
+    "newHere": "TimeTrack'te yeni misin?",
+    "register": "Ücretsiz hesap oluştur",
+    "advanced": "Gelişmiş: token'ı elle yapıştır",
+    "tokenLabel": "Eklenti token'ı",
+    "tokenPlaceholder": "Token'ını buraya yapıştır…",
+    "signingIn": "Giriş yapılıyor…",
+    "signInToken": "Token ile giriş yap",
+    "openSettings": "TimeTrack'te ayarları aç"
+  },
+  "org": {
+    "label": "Organizasyon: {name}. Organizasyonu değiştir",
+    "none": "seçilmedi",
+    "choose": "Organizasyon seç",
+    "stopFirst": "Organizasyonu değiştirmeden önce aktif zamanlayıcıyı durdur veya kaydet."
+  },
+  "stopPrompt": {
+    "title": "Müşteri seçilmedi",
+    "question": "Müşteri seçilmedi. Dahili süre olarak kaydedilsin mi?",
+    "close": "Durdurmadan kapat",
+    "pickClient": "Müşteri seç",
+    "saveInternal": "Dahili süre olarak kaydet"
+  },
+  "sync": {
+    "syncing": "Eşitleniyor…",
+    "pending": "{count} eşitlenmeyi bekliyor",
+    "hideDetails": "Ayrıntıları gizle",
+    "showDetails": "Ayrıntıları göster",
+    "syncNow": "Şimdi eşitle",
+    "entry": "Zaman kaydı: {description}",
+    "noDescription": "(açıklama yok)",
+    "timerUpdate": "Zamanlayıcı güncellemesi",
+    "timerStop": "Zamanlayıcı durdurma",
+    "tries": "{count, plural, one {# kez denendi} other {# kez denendi}}"
+  },
+  "mini": {
+    "timerLabel": "Zamanlayıcı",
+    "goTo": "Zamanlayıcıya git: {label}",
+    "stop": "Zamanlayıcıyı durdur"
+  },
+  "queryError": {
+    "retry": "Tekrar dene"
+  },
+  "timerError": {
+    "close": "Hata mesajını kapat"
+  },
+  "update": {
+    "title": "TimeTrack eklentisini güncelle",
+    "body": "{version} sürümü süre kaydetmek için çok eski. Güncelleme otomatik olarak indirilir. Olmazsa tarayıcıyı yeniden başlat veya chrome://extensions sayfasını açıp \"Güncelle\"ye tıkla."
+  },
+  "idle": {
+    "pausedMessage": "Zamanlayıcı, {away} etkinlik olmadığı için {clock} saatinde duraklatıldı",
+    "pausedDetail": "Bu boşta geçen süre sayılmadı.",
+    "resume": "Zamanlayıcıyı sürdür",
+    "close": "Kapat",
+    "awayMessage": "{away} uzaktaydın ({clock} saatinden beri)",
+    "awayDetail": "Zamanlayıcı hâlâ çalışıyor. Süre sayılsın mı?",
+    "discard": "{away} kaldır",
+    "keep": "Süreyi sakla"
+  },
+  "confirm": {
+    "cancel": "İptal"
+  },
+  "logoutWarnings": {
+    "running": "Çıkış yapmış olsan da zamanlayıcı TimeTrack'te çalışmaya devam eder.",
+    "paused": "Duraklatılmış zamanlayıcı TimeTrack'te kalır.",
+    "queue": "{count, plural, one {Çevrimdışı kuyruktaki # değişiklik} other {Çevrimdışı kuyruktaki # değişiklik}} henüz gönderilmedi. Tekrar giriş yaptığında gönderilecek."
+  }
+}

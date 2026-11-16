@@ -1,0 +1,67 @@
+{
+  "hourUnit": "시간",
+  "headline": {
+    "untilToday": "오늘까지 {expected} 중 {logged}",
+    "noWorkTimeYet": "이 기간에는 아직 근무 시간이 없어요",
+    "of": "{expected} 중 {logged}",
+    "noWorkTime": "이 기간에는 근무 시간이 없어요"
+  },
+  "week": "{week}주차 ({start}–{end})",
+  "period": {
+    "day": "일",
+    "week": "주",
+    "month": "월"
+  },
+  "bar": {
+    "label": "근무 시간 {expected} 중 청구 가능 {billable}, 청구 불가 {nonBillable}",
+    "billable": "청구 가능",
+    "nonBillable": "청구 불가",
+    "notLogged": "기록 안 됨"
+  },
+  "table": {
+    "client": "클라이언트",
+    "billable": "청구 가능",
+    "nonBillableShort": "청구 불가",
+    "share": "비중",
+    "ratio": "청구 1시간당 청구 불가",
+    "ratioTitle": "청구한 1시간당 청구 불가 시간",
+    "onlyNonBillable": "청구 불가만"
+  },
+  "strip": {
+    "title": "커버리지",
+    "summary": "청구 가능 <n>{billable}</n> · 청구 불가 <n>{nonBillable}</n>",
+    "summaryRatio": "청구 가능 <n>{billable}</n> · 청구 불가 <n>{nonBillable}</n> · 청구 1시간당 <n>{ratio}</n>",
+    "perClient": "클라이언트별"
+  },
+  "page": {
+    "back": "보고서",
+    "title": "커버리지",
+    "description": "근무 시간 중 얼마나 기록했고 어디에 쓰였는지 확인해요",
+    "periodAria": "기간",
+    "prev": "이전 기간",
+    "next": "다음 기간",
+    "today": "오늘",
+    "workTime": "근무 시간: 주 {hours}",
+    "workTimeHr": "근무 시간: 주 {hours} (HR 기준)",
+    "edit": "편집",
+    "loadError": "커버리지 비율을 불러오지 못했어요.",
+    "retry": "다시 시도",
+    "statCoverage": "커버리지",
+    "statBillable": "청구 가능",
+    "statNonBillable": "청구 불가",
+    "statRatio": "청구 1시간당 청구 불가",
+    "ofWorkTime": "근무 시간의 {pct}",
+    "noTimeLogged": "기록된 시간 없음",
+    "shareBilled": "기록된 시간의 {pct}를 청구했어요",
+    "perClient": "클라이언트별",
+    "noTimeInPeriod": "이 기간에 기록된 시간이 없어요.",
+    "logTime": "시간 기록",
+    "perDay": "일별",
+    "colDate": "날짜",
+    "colWorkTime": "근무 시간",
+    "colLogged": "기록",
+    "colBillable": "그중 청구",
+    "colCoverage": "커버리지",
+    "footnote": "커버리지 = 기록한 시간 ÷ 평소 근무 시간. 공휴일과 부재는 근무 시간에서 빼지 않아요. 클라이언트가 없는 시간은 내부 시간으로 표시돼요."
+  }
+}

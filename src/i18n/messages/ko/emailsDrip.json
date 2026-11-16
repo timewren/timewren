@@ -1,0 +1,240 @@
+{
+  "welcome": {
+    "preview": "{name}님, TimeTrack에 오신 것을 환영해요. 세 단계면 바로 시작할 수 있어요.",
+    "subject": "{name}님, TimeTrack에 오신 것을 환영해요",
+    "intro": "저는 TimeTrack을 만들고 운영하는 Mads예요. 프리랜서가 스프레드시트 없이도 시간, 선불 패키지, 청구서를 관리할 수 있도록 만들었어요.",
+    "threeSteps": "세 단계면 바로 시작할 수 있어요.",
+    "step1": "1. 첫 클라이언트 만들기",
+    "step2": "2. 시간당 요금을 정하고 프로젝트 만들기",
+    "step3": "3. 작업을 시작할 때 타이머 켜기",
+    "why": "TimeTrack을 써 보시게 된 계기가 궁금해요. 이 이메일에 편하게 답장해 주세요. 모든 답장을 직접 읽고, 제가 올바른 것을 만드는 데 도움이 돼요.",
+    "questions": "궁금한 점이 있으면 언제든 [mail]{email}[/mail]로 직접 보내 주세요."
+  },
+  "greeting": "{name}님, 안녕하세요.",
+  "openApp": "TimeTrack 열기",
+  "gettingStarted": {
+    "preview": "첫 시간 기록까지 세 단계",
+    "subject": "첫 시간 기록까지 세 단계",
+    "hasClientIntro": "첫 클라이언트를 이미 만드셨어요. 다음 단계로 이렇게 해 보세요.",
+    "hasClient1": "**시간당 요금 정하기:** 설정에서 기본 시간당 요금을 입력하세요. 클라이언트나 프로젝트별로 다른 요금을 정할 수도 있어요.",
+    "hasClient2": "**프로젝트 만들기:** 프로젝트는 작업별로 시간을 묶어 주어서 청구를 정확하게 할 수 있어요.",
+    "hasClient3": "**타이머 써 보기:** TimeTrack 상단 타이머 바에서 시작을 누르세요.",
+    "noClientIntro": "며칠 전에 계정을 만드셨어요. 첫 시간 기록까지 세 단계를 알려 드려요.",
+    "noClient1": "**첫 클라이언트 만들기:** 그러면 클라이언트별로 시간을 기록하고 청구서를 만들 수 있어요.",
+    "noClient2": "**시간당 요금 정하기:** 기본 시간당 요금을 입력하면 TimeTrack이 내 시간의 가치를 계산해요.",
+    "noClient3": "**타이머 시작하기:** TimeTrack 상단 타이머 바에서 시작을 누르세요.",
+    "buttonProject": "첫 프로젝트 만들기",
+    "buttonClient": "첫 클라이언트 만들기",
+    "stuck": "막히는 부분이 있으면 이 이메일에 답장해 주세요. 직접 도와 드릴게요."
+  },
+  "noTimeEntry": {
+    "preview": "한 일을 적으면 나머지는 TimeTrack이 채워요",
+    "subject": "첫 시간을 기록해 보세요",
+    "intro": "며칠 전에 TimeTrack 계정을 만드셨지만 아직 기록한 시간이 없어요.",
+    "how": "홈 상단 입력란에 한 일을 적어 보세요. 예: “어제 웹사이트 작업 2시간”. 또는 타이머 시작을 누르고 끝나면 중지하세요.",
+    "button": "첫 시간 기록하기",
+    "help": "어려운 점이 있으면 이 이메일에 그냥 답장해 주세요. 답장은 직접 읽어요."
+  },
+  "timeNoInvoice": {
+    "preview": "청구할 수 있는 시간 {hours}시간",
+    "subject": "기록한 시간을 청구할 수 있어요",
+    "body": "TimeTrack에 아직 청구하지 않은 시간이 {hours}시간 있어요. 청구할 때가 되면 시간 기록에서 바로 청구서를 만들 수 있어서 시간과 금액이 자동으로 들어가요.",
+    "button": "기록한 시간으로 청구서 만들기",
+    "elsewhere": "다른 곳에서 청구하신다면 이 이메일은 무시하셔도 돼요."
+  },
+  "clientNoKlippekort": {
+    "preview": "선불 패키지: 시간이 자동으로 차감돼요",
+    "subject": "클라이언트를 위한 선불 패키지",
+    "body": "TimeTrack에 클라이언트를 만드셨어요. 시간을 미리 구매하는 클라이언트가 있다면 선불 패키지를 만들어 줄 수 있어요. 시간을 기록하면 그만큼 차감되고, 양쪽 모두 남은 시간을 확인할 수 있어요.",
+    "button": "선불 패키지 만들기",
+    "usage": "사용한 만큼만 청구하신다면 따로 하실 일은 없어요."
+  },
+  "klippekortTips": {
+    "preview": "TimeTrack에서 선불 패키지가 작동하는 방식",
+    "subject": "TimeTrack에서 선불 패키지가 작동하는 방식",
+    "intro": "선불 패키지는 미리 결제한 시간 묶음이에요. 클라이언트가 예를 들어 20시간을 구매하면, 그 클라이언트의 시간을 기록할 때마다 TimeTrack이 시간을 차감해요.",
+    "exampleName": "예시: 동네 빵집",
+    "how": "클라이언트는 작업 전에 결제해요. TimeTrack이 잔액을 관리하므로 직접 계산할 필요가 없고, 클라이언트는 클라이언트 포털에서 잔액을 볼 수 있어요.",
+    "button": "선불 패키지 만들기",
+    "sell": "클라이언트에게 선불 패키지를 판매하는 방법이 궁금하신가요? 이 이메일에 답장해 주세요. 제 경험을 기꺼이 나눌게요."
+  },
+  "extensionTips": {
+    "preview": "브라우저 확장 프로그램으로 어느 페이지에서든 타이머를 시작하고 중지해요",
+    "subject": "탭을 옮기지 않고 타이머를 시작하고 중지하세요",
+    "intro": "TimeTrack에는 브라우저 확장 프로그램이 있어서 탭을 옮기지 않고도 타이머를 시작하고 중지할 수 있어요.",
+    "tip1": "팝업에서 타이머를 시작하고 중지하며 클라이언트와 프로젝트도 고를 수 있어요. 단축키 Alt+Shift+S로 키보드에서 타이머를 시작하고 중지해요.",
+    "tip2": "도구 모음 아이콘에 실행 중인 타이머가 표시되고, 타이머가 없으면 오늘 기록한 시간이 표시돼요.",
+    "button": "Chrome 웹 스토어에서 받기"
+  },
+  "aiFeatures": {
+    "preview": "한 문장만 적으면 TimeTrack이 시간 기록을 채워요",
+    "subject": "문장 하나로 시간을 기록하세요",
+    "intro": "시간을 기록하려고 양식을 채울 필요는 없어요. 홈에 “한 일을 적어 보세요”라는 입력란이 있어요. 문장을 적고 Enter를 누르세요.",
+    "example": "어제 Jensen 웹사이트 작업 2시간",
+    "suggest": "TimeTrack이 클라이언트, 프로젝트, 날짜, 시간을 제안해요. 제안을 확인하고 승인하기 전에는 아무것도 저장되지 않아요. 홈에서는 /로 입력란으로 바로 이동할 수 있고, 브라우저가 지원하면 마이크로 문장을 말해서 입력할 수도 있어요.",
+    "parser": "문장은 AI가 아니라 일반 텍스트 파서가 읽어요. 설정에서 직접 AI 키를 추가하면 파서가 찾지 못한 부분을 AI 제공업체가 채울 수 있어요. 선택 사항이에요.",
+    "button": "홈 열기",
+    "feedback": "입력한 문장을 입력란이 이해하지 못하면 저에게 보내 주세요. 파서를 개선할 수 있어요."
+  },
+  "firstWeek": {
+    "preview": "TimeTrack과 함께한 첫 몇 주",
+    "subject": "TimeTrack과 함께한 첫 몇 주",
+    "minimal1": "계정을 만든 지 몇 주가 지났는데 아직 적응 중이신 것 같아요. 전혀 문제없어요.",
+    "minimal2": "바쁘면 시간 기록을 잊기 쉬워요. 하지만 기록하지 않은 시간은 청구할 수 없어요.",
+    "tip": "**팁:** 이번 주에 하루만 기록해 보세요. 작업을 시작할 때 타이머를 켜거나, 끝난 뒤에 홈 입력란에 한 일을 적으세요.",
+    "active": "TimeTrack을 쓰신 지 몇 주가 되었어요. 지금까지 기록한 내용이에요.",
+    "trackedTime": "기록한 시간",
+    "hoursUnit": "{hours}시간",
+    "clients": "클라이언트",
+    "projects": "프로젝트",
+    "closing": "작업하면서 시간을 기록하면 청구할 때 청구 근거가 이미 준비되어 있어요.",
+    "feedback": "지금까지 어떠셨나요? 잘 되는 점과 아쉬운 점을 알려 주세요."
+  },
+  "upgrade": {
+    "whenNow": "하루 안에",
+    "whenDays": "{days, plural, other {#일 후에}}",
+    "preview": "체험 기간이 {when} 끝나요",
+    "subject": "체험 기간이 곧 끝나요",
+    "body": "TimeTrack 체험 기간이 {when} 끝나요. 구독을 선택하지 않으면 계정은 「Free」 플랜으로 계속 유지되고, 만든 내용은 모두 그대로 저장돼요.",
+    "free": "「Free」 플랜에서는 활성 클라이언트 {clients}명, 사용자 {seats}명까지 쓸 수 있어요.",
+    "button": "구독 보기",
+    "questions": "플랜이나 가격에 궁금한 점이 있으면 이 이메일에 답장해 주세요. 기꺼이 도와 드릴게요."
+  },
+  "needHelp": {
+    "preview": "{name}님, 도움이 필요하신가요?",
+    "subject": "{name}님, 도움이 필요하신가요?",
+    "introTracking": "며칠 전에 TimeTrack 계정을 만드셨고, 벌써 시간을 기록하고 계세요.",
+    "introNoTracking": "며칠 전에 TimeTrack 계정을 만드셨어요. 모든 게 잘 되고 있는지 확인하고 싶었어요.",
+    "placesTracking": "다음 단계로 나아가고 싶을 때 가 볼 만한 곳 세 군데예요.",
+    "placesNoTracking": "새 시스템은 시작하기 어려울 수 있어요. 시작하기 좋은 곳 세 군데예요.",
+    "helpCentre": "도움말 센터",
+    "helpCentreNote": ": 자주 묻는 질문의 답변",
+    "createClient": "클라이언트 만들기",
+    "createClientNote": ": 아직 만들지 않으셨다면",
+    "writeMe": "저에게 연락하기",
+    "writeMeNote": ": 제가 직접 답해요",
+    "missing": "TimeTrack에 아쉬운 점이 있나요? 무엇인지 알려 주세요. 더 나아지는 데 도움이 돼요."
+  },
+  "winBack30": {
+    "preview": "{name}님, 오랜만이에요",
+    "subject": "{name}님, 오랜만이에요",
+    "intro": "TimeTrack에 마지막으로 방문하신 지 꽤 되었어요. 잘 지내시길 바라요.",
+    "stillThere": "계정에는 이런 내용이 그대로 있어요.",
+    "hoursOnly": "아직 청구하지 않은 시간 **{hours}시간**이 있어요.",
+    "hoursValue": "아직 청구하지 않은 시간 **{hours}시간**이 있고, 금액은 **{value}**예요.",
+    "tasks": "기다리고 있는 **{count, plural, other {진행 중인 작업 #개}}**가 있어요.",
+    "how": "다시 시작하신다면 가장 빠른 방법은 홈 입력란에 한 일을 적는 거예요. TimeTrack이 클라이언트, 프로젝트, 시간을 제안하고, 저장하기 전에 직접 확인해요.",
+    "why": "그만두신 이유가 궁금해요. 이 이메일에 답장해 주시면 직접 읽을게요. TimeTrack을 개선하는 데 도움이 돼요."
+  },
+  "winBack60": {
+    "preview": "클라이언트, 프로젝트, 시간, 청구서가 모두 그대로 저장되어 있어요",
+    "subject": "데이터가 TimeTrack에 그대로 있어요",
+    "intro": "TimeTrack을 마지막으로 쓰신 지 60일이 넘었어요. 클라이언트, 프로젝트, 시간, 청구서가 모두 그대로 저장되어 있어서 중단한 곳에서 바로 이어 갈 수 있다는 점을 알려 드리고 싶었어요.",
+    "button": "TimeTrack에 로그인",
+    "export": "다른 도구를 선택하셨다면 이해해요. 데이터를 가져가고 싶으시면 [export]CSV나 JSON으로 내보낼[/export] 수 있어요.",
+    "feedback": "제가 더 잘할 수 있었던 점이 있다면 꼭 듣고 싶어요. 이 이메일에 답장해 주시면 직접 읽을게요."
+  },
+  "firstClient": {
+    "preview": "첫 클라이언트를 만들었어요: {client}",
+    "subject": "첫 클라이언트를 만들었어요",
+    "intro": "첫 클라이언트 **{client}**를 만드셨어요. 다음 단계로 이렇게 해 보세요.",
+    "step1": "1. {client}의 프로젝트 만들기",
+    "step2": "2. 프로젝트에서 타이머 시작하기",
+    "step3": "3. 작업이 끝나면 기록한 시간으로 청구서 만들기",
+    "button": "프로젝트 만들기",
+    "help": "설정하는 데 도움이 필요하면 이 이메일에 답장해 주세요. 기꺼이 도와 드릴게요."
+  },
+  "firstProject": {
+    "preview": "첫 프로젝트가 준비되었어요: {project}",
+    "subject": "첫 프로젝트를 만들었어요",
+    "intro": "**{client}**의 첫 프로젝트 **{project}**가 준비되었어요. 이제 타이머를 시작할 수 있어요.",
+    "tip1": "T를 누르면 타이머가 시작돼요. 한 번 더 누르면 일시 중지돼요.",
+    "tip2": "기록마다 설명을 적어 두면 나중에 시간을 어디에 썼는지 알 수 있어요.",
+    "tip3": "{brand}는 시간당 요금으로 금액을 계산해요.",
+    "button": "시간 기록하기",
+    "closing": "작업하면서 시간을 기록하면 청구할 때 청구 근거가 이미 준비되어 있어요."
+  },
+  "firstTimeEntry": {
+    "preview": "첫 시간 기록을 남겼어요",
+    "subject": "첫 시간 기록을 남겼어요",
+    "body": "첫 시간을 기록했어요: **{hours}시간**.",
+    "bodyProject": "**{project}**에 첫 시간을 기록했어요: **{hours}시간**.",
+    "invoice": "청구할 때가 되면 시간 기록에서 바로 청구서를 만들 수 있어요.",
+    "button": "시간 기록 보기"
+  },
+  "firstInvoice": {
+    "preview": "{client}의 청구서 #{number}를 만들었어요",
+    "subject": "첫 청구서를 축하해요",
+    "congrats": "첫 청구서를 축하해요.",
+    "number": "청구서 번호",
+    "client": "클라이언트",
+    "amount": "금액",
+    "send": "{client}에 청구서를 보내고 {brand}에서 결제 상황을 확인하세요. 연체된 청구서의 자동 알림은 클라이언트별로 켤 수 있어요.",
+    "button": "청구서 보기",
+    "accounting": "청구서를 Billy, Dinero, e-conomic으로 넘겨서 회계 장부에 반영할 수도 있어요. 연동에서 회계 소프트웨어를 연결하세요."
+  },
+  "inactivity": {
+    "preview": "마지막 방문 후 {days}일이 지났어요",
+    "subject": "TimeTrack 마지막 방문 후 {days}일이 지났어요",
+    "kicker": "알림",
+    "heading": "기다리고 있는 것이 있어요",
+    "footerNote": "이 알림은 14일 동안 활동이 없으면 발송돼요.",
+    "withStats": "마지막 로그인 후 {days}일이 지났고, 기다리고 있는 것이 있어요.",
+    "noStats": "마지막 로그인 후 {days}일이 지났어요. 기억이 생생할 때 시간을 기록하세요.",
+    "unbilled": "미청구",
+    "hoursUnit": "{hours}시간",
+    "readyToInvoice": "청구 가능",
+    "readyToInvoiceSub": "기록한 시간",
+    "openTasks": "진행 중인 작업",
+    "openTasksSub": "기다리는 중",
+    "button": "시간 기록하기",
+    "muted": "미접속 알림은 이메일 설정에서 끌 수 있어요."
+  },
+  "toolGuide": {
+    "preview": "{tool} 가이드",
+    "subject": "{tool}: TimeTrack에서 보내는 가이드",
+    "kicker": "가이드",
+    "heading": "{tool}을(를) 사용해 주셔서 감사해요",
+    "footerNote": "timetrack.dk에서 가이드를 요청하셔서 이 이메일을 받으셨어요. 요청하지 않는 한 더 이상 이메일을 보내지 않아요.",
+    "intro": "요청하신 가이드와, 계속 계산하고 싶을 때 도구로 돌아가는 링크예요.",
+    "openTool": "도구 다시 열기",
+    "pitch": "TimeTrack은 클라이언트별 시간을 관리하고, 클라이언트의 선불 패키지에서 차감하며, 청구 근거를 Billy, Dinero, e-conomic으로 보내요. [trial]30일 동안 무료로 체험해 보세요[/trial]."
+  },
+  "beta": {
+    "preview": "TimeTrack 베타 자리가 준비되었어요. 시간 날 때 계정을 만드세요.",
+    "subject": "TimeTrack 베타 자리가 준비되었어요",
+    "subjectNamed": "{name}님, TimeTrack 베타 자리가 준비되었어요",
+    "greetingNamed": "{name}님, 안녕하세요.",
+    "greeting": "안녕하세요.",
+    "thanks": "TimeTrack 대기 명단에 등록해 주셔서 감사해요. 베타 자리가 준비되었어요.",
+    "about": "TimeTrack은 덴마크의 프리랜서를 위해 만들었어요. 시간을 기록하고 그 시간으로 청구서를 만들어요. 클라이언트가 시간을 미리 구매하면 선불 패키지에서 차감해요.",
+    "discountLabel": "할인 코드",
+    "discountNote": "계정을 만들 때 코드를 사용하면 구독 할인을 받을 수 있어요.",
+    "button": "계정 만들기",
+    "feedback": "질문이나 의견이 있으면 이 이메일에 답장해 주세요. 모든 답장을 직접 읽어요.",
+    "writeMe": "[mail]{email}[/mail]로 직접 보내셔도 돼요."
+  },
+  "desktopLaunch": {
+    "footerNote": "TimeTrack Desktop 대기 명단에 등록하셔서 이 이메일을 받으셨어요.",
+    "button": "TimeTrack Desktop 다운로드",
+    "defaultSubject": "TimeTrack Desktop이 준비되었어요",
+    "defaultMessage": "대기 명단에 등록해 주셔서 감사해요. 이제 TimeTrack Desktop을 다운로드할 수 있어요."
+  },
+  "desktopLicense": {
+    "preview": "TimeTrack Desktop({tier}) 라이선스 키",
+    "subject": "TimeTrack Desktop({tier}) 라이선스 키",
+    "kicker": "Desktop",
+    "heading": "TimeTrack Desktop 라이선스",
+    "footerNote": "TimeTrack Desktop 라이선스를 구매하셨거나 요청하셔서 이 이메일을 받으셨어요.",
+    "introNamed": "{name}님, TimeTrack Desktop({tier}) 라이선스 키예요.",
+    "intro": "안녕하세요, TimeTrack Desktop({tier}) 라이선스 키예요.",
+    "howTo": "활성화 방법",
+    "step1": "1. 다운로드",
+    "step2": "2. 설치",
+    "step2Value": "앱 열기",
+    "step3": "3. 활성화",
+    "step3Value": "라이선스 키 입력",
+    "keep": "이 이메일을 보관하세요. 다시 설치할 때 키가 필요해요. 라이선스는 {max, plural, other {최대 #대의 기기}}에서 사용할 수 있어요.",
+    "refund": "청구서는 Stripe에서 따로 보내 드려요. 마음이 바뀌시면 30일 이내에 [refund]{link}[/refund]를 통해 전액 환불받을 수 있어요."
+  }
+}

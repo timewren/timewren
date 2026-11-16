@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, other {기한이 지난 작업 #개}}",
+    "needsAttention": "확인이 필요해요",
+    "lowBalance": "{count, plural, other {잔액이 부족한 선불 패키지 #개}}",
+    "lowBalanceSub": "잔액 부족",
+    "expiring": "{count, plural, other {곧 만료되는 선불 패키지 #개}}",
+    "expiringSub": "14일 이내",
+    "unbilled": "미청구 {amount}",
+    "unbilledSub": "청구 준비 완료",
+    "title": "조치가 필요해요"
+  },
+  "appDrawer": {
+    "apps": "앱",
+    "heading": "{brand} 앱",
+    "downloadFor": "{os}{version}용 다운로드 · 베타",
+    "seeDownloads": "설정에서 다운로드 보기",
+    "downloadComing": "다운로드를 준비 중이에요. 설정을 확인하세요",
+    "chromeExtension": "Chrome 확장 프로그램",
+    "chromeExtensionHint": "브라우저에서 시간을 추적해요",
+    "installApp": "앱으로 설치",
+    "installAppHint": "{brand}을 바탕 화면에 추가해요",
+    "alreadyInstalled": "이미 설치됨",
+    "addToHome": "홈 화면 또는 바탕 화면에 추가"
+  },
+  "demo": {
+    "clearedKept": "샘플 데이터를 삭제했어요. {kept, plural, other {데모 클라이언트 #곳은 이미 사용 중이어서(예: 청구서 발행) 일반 클라이언트로 유지했어요.}}",
+    "cleared": "샘플 데이터를 삭제했어요. 이제 계정은 온전히 내 것이에요.",
+    "nothingToClear": "삭제할 샘플 데이터가 없어요.",
+    "clearFailed": "샘플 데이터를 삭제하지 못했어요",
+    "banner": "<strong>지금 샘플 데이터를 보고 있어요.</strong> 클라이언트, 시간, 선불 패키지는 {brand}를 실제로 쓰면 어떤 모습인지 보여 주려고 만든 가상 데이터예요. 내 데이터로 시작하고 싶을 때 삭제하세요.",
+    "confirm": "샘플 데이터를 삭제할까요? 데모 클라이언트와 샘플 프로젝트, 시간, 선불 패키지가 삭제돼요. 직접 만든 항목(예: 청구서나 내 시간)은 그대로 유지돼요.",
+    "clearButton": "데모 데이터 삭제"
+  },
+  "desktopCard": {
+    "beta": "베타",
+    "withDownloads": "Mac과 Windows용 데스크톱 앱{version}. 베타 버전이라 버그가 있을 수 있어요.",
+    "version": ", 버전 {version}",
+    "withoutDownloads": "데스크톱 앱은 베타 버전이에요. {brand}이 최신 버전을 가져오면 다운로드 링크가 여기에 표시돼요.",
+    "hide": "숨기기",
+    "reportHint": "버그를 발견했나요? 앱 안의 \"버그 또는 누락된 기능 신고\"를 이용하세요."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "첫 클라이언트 만들기",
+      "hasTimeEntry": "첫 시간 추적하기",
+      "hasKlippekort": "선불 패키지 만들기",
+      "hasInvoice": "첫 청구서 만들기"
+    },
+    "daysLeft": "무료 체험 {count, plural, other {#일}} 남음",
+    "addPayment": "결제 수단 추가",
+    "gettingStarted": "시작하기 ({done}/{total})",
+    "hide": "숨기기",
+    "progressLabel": "시작하기 진행률",
+    "createAccount": "계정 만들기"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "클라이언트 위험",
+      "daysAgo": "{days}일 전",
+      "allActive": "모든 클라이언트가 최근 60일 이내에 활동했어요 ✓",
+      "seeAll": "모두 보기",
+      "count": "{count, plural, other {60일 넘게 활동이 없는 클라이언트 #곳}}",
+      "lastActive": "마지막 활동: {date}",
+      "revenue6m": "{amount} (6개월)",
+      "hoursLeft": "{hours}시간 남음",
+      "openClient": "클라이언트 열기",
+      "sendCheckIn": "안부 이메일 보내기",
+      "checkInSubject": "안부 인사",
+      "more": "위험 클라이언트 {count}곳 더 있음"
+    },
+    "calendarSync": {
+      "title": "캘린더와 추적 비교",
+      "seeCalendar": "캘린더 보기",
+      "captureRate": "기록률",
+      "eventsTracked": "일정 {total}개 중 {tracked}개 추적됨",
+      "calendar": "캘린더",
+      "tracked": "추적됨",
+      "gap": "캘린더의 {hours}시간이 추적되지 않았어요",
+      "perProject": "프로젝트별",
+      "moreProjects": "+{count}개 더"
+    },
+    "cashflow": {
+      "title": "현금 흐름 예측",
+      "seeUnpaid": "미수금 보기",
+      "empty": "미수 청구서나 활성 선불 패키지가 없어요",
+      "emptyHint": "청구서를 보내면 현금 흐름 예측이 표시돼요",
+      "seeAllUnpaid": "미수금 모두 보기",
+      "overdueInvoices": "{count, plural, other {연체된 청구서 #건}}: ",
+      "overdue": "연체: ",
+      "week": "{number}주차",
+      "estimated": "(예상)",
+      "prepaidTag": "(선불 패키지)",
+      "expected30": "향후 30일 예상"
+    },
+    "coverage": {
+      "title": "가동률",
+      "details": "자세히 보기",
+      "period": "기간",
+      "loadFailed": "가동률을 불러오지 못했어요",
+      "noTime": "이 기간에 기록된 시간이 아직 없어요.",
+      "trackTime": "시간 추적",
+      "billable": "청구 가능",
+      "nonBillable": "청구 불가",
+      "ratio": "청구 시간 1시간당 청구 불가 <b>{ratio}</b>",
+      "clientCol": "클라이언트",
+      "splitCol": "청구 가능 / 불가"
+    },
+    "dailyHours": {
+      "title": "일별 시간",
+      "details": "자세히 보기",
+      "avg": "일 평균: ",
+      "total": "합계: ",
+      "hoursShort": "{value}시간",
+      "day": {
+        "0": "일",
+        "1": "월",
+        "2": "화",
+        "3": "수",
+        "4": "목",
+        "5": "금",
+        "6": "토"
+      }
+    },
+    "emailSync": {
+      "title": "이메일 동기화",
+      "started": "동기화를 시작했어요",
+      "startFailed": "동기화를 시작하지 못했어요",
+      "never": "없음",
+      "now": "방금",
+      "minutes": "{value}분",
+      "hours": "{value}시간",
+      "days": "{value}일",
+      "startNow": "지금 동기화",
+      "statusOk": "정상",
+      "statusUnstable": "불안정",
+      "statusError": "오류",
+      "emails": "이메일",
+      "tasks": "작업",
+      "clients": "클라이언트",
+      "analytics": "분석 보기 →"
+    },
+    "emailTasks": {
+      "title": "이메일에서 만든 작업",
+      "review": "검토",
+      "noClient": "클라이언트 없음",
+      "empty": "이메일에서 만든 작업이 아직 없어요."
+    },
+    "expiringPackages": {
+      "title": "만료 예정 선불 패키지",
+      "seeAll": "모두 보기",
+      "none": "곧 만료되는 선불 패키지가 없어요",
+      "noneHint": "30일 이내에 만료되는 선불 패키지가 여기에 표시돼요",
+      "expiredAgo": "{count, plural, other {#일}} 전에 만료됨",
+      "expired": "만료됨",
+      "today": "오늘",
+      "days": "{count, plural, other {#일}}",
+      "hoursLeft": "남은 시간",
+      "value": "금액",
+      "expires": "{date} 만료",
+      "more": "선불 패키지 {count}개 더 있음",
+      "urgent": "7일 이내에 만료되는 선불 패키지가 있어요. 클라이언트에게 연락해 갱신하세요."
+    },
+    "flexBalance": {
+      "title": "유연 근무 잔액",
+      "hours": "{value}시간",
+      "entries": "기록 {count}건"
+    },
+    "flexNorm": {
+      "title": "유연 근무 잔액",
+      "loadFailed": "잔액을 불러오지 못했어요.",
+      "noProfile": "조직에 직원 프로필이 없어요.",
+      "unit": "시간",
+      "carryIn": "이월분: {value}시간",
+      "week": "주",
+      "month": "월",
+      "period": "기간",
+      "summary": "현재까지 기준 {net}시간 중 {registered}시간 · 기간 기준 {periodNet}시간",
+      "seeAccount": "유연 근무 계정 보기"
+    },
+    "hoursComparison": {
+      "title": "주간 비교",
+      "details": "자세히 보기",
+      "none": "추적된 시간 없음",
+      "thisWeek": "이번 주",
+      "lastWeek": "지난주",
+      "format": "hh:mm",
+      "increase": "증가",
+      "decrease": "감소",
+      "vsLastWeek": "지난주 대비"
+    },
+    "invoiceOverview": {
+      "title": "청구서 개요",
+      "seeInvoices": "청구서 보기",
+      "totalInvoiced": "총 청구액",
+      "draft": "초안",
+      "sent": "발송됨",
+      "paid": "결제됨",
+      "overdue": "연체"
+    },
+    "lowBalance": {
+      "title": "잔액이 부족한 선불 패키지",
+      "loadFailed": "선불 패키지를 불러오지 못했어요",
+      "none": "잔액이 부족한 선불 패키지가 없어요",
+      "seeAll": "모두 보기",
+      "intro": "잔액 부족",
+      "noClient": "클라이언트 없음",
+      "left": "{time} 남음",
+      "more": "+ {count}개 더"
+    },
+    "monthComparison": {
+      "title": "월간 비교",
+      "seeReports": "보고서 보기",
+      "vs": "대비",
+      "vsValue": "{value} 대비",
+      "hours": "시간",
+      "hoursValue": "{value}시간",
+      "revenue": "수익",
+      "entries": "시간 기록"
+    },
+    "overdueTasks": {
+      "title": "기한이 지난 작업",
+      "none": "기한이 지난 작업이 없어요 ✓",
+      "seeAll": "모두 보기",
+      "count": "{count, plural, other {작업 #개}}",
+      "noProject": "프로젝트 없음",
+      "deadline": "마감: {date}",
+      "more": "+ {count}개 더"
+    },
+    "pendingApprovals": {
+      "title": "대기 중인 승인",
+      "requestOne": "건",
+      "requestOther": "건"
+    },
+    "prepaidStatus": {
+      "title": "선불 패키지 현황",
+      "allGood": "모두 정상이에요",
+      "seeAll": "모두 보기",
+      "lowBalance": "잔액 부족",
+      "noClient": "클라이언트 없음",
+      "left": "{time} 남음",
+      "more": "+ {count}개 더",
+      "expiringSoon": "곧 만료 (30일 이내)",
+      "expired": "만료됨",
+      "today": "오늘",
+      "days": "{count, plural, other {#일}}"
+    },
+    "productivity": {
+      "title": "주간 생산성",
+      "details": "자세히 보기",
+      "noData": "생산성 데이터가 아직 없어요",
+      "streak": "현재 연속 기록",
+      "streakDays": "일 연속",
+      "weeklyAvg": "주간 평균",
+      "perWeek": "주당",
+      "last8": "최근 8주",
+      "less": "적음",
+      "more": "많음",
+      "msgHigh": "대단해요! 7일 넘게 연속으로 일했어요. 이대로 쭉 이어 가요!",
+      "msgMid": "잘하고 있어요! 이 기세를 이어 가세요.",
+      "msgLow": "좋은 출발이에요! 탄탄한 업무 루틴을 만들어 보세요.",
+      "streakDay": "일 연속"
+    },
+    "profitability": {
+      "title": "실제 시간당 요금",
+      "rate": "{rate} kr/시간",
+      "hours": "{hours}시간",
+      "loadFailed": "데이터를 불러오지 못했어요",
+      "noBilled": "이번 달 청구된 시간이 없어요",
+      "createInvoice": "청구서 만들기",
+      "details": "자세히",
+      "agreedRate": "합의한 시간당 요금",
+      "realRate": "실제 시간당 요금",
+      "vsAgreed": "합의 금액 대비 {percent}%",
+      "billableAvg": "청구 가능 평균",
+      "footer": "총 {total} · 청구 가능 {billable}",
+      "footerInvoiced": "총 {total} · 청구 가능 {billable} · 청구됨 {invoiced}"
+    },
+    "projectHealth": {
+      "title": "프로젝트 상태",
+      "seeAll": "모두 보기",
+      "alertsHeading": "예산 경고",
+      "severity": {
+        "exceeded": "초과",
+        "critical": "위험",
+        "warning": "주의"
+      },
+      "hoursUsed": "{budget}시간 중 {used}시간 사용",
+      "budgetAmount": "예산 {amount} kr",
+      "moreAlerts": "+ 경고 {count}건 더",
+      "noBudgets": "예산이 설정된 프로젝트가 없어요",
+      "createProject": "프로젝트 만들기",
+      "onTrack": "{count, plural, other {순조로운 프로젝트 #개}}",
+      "moreProjects": "+ 프로젝트 {count}개 더"
+    },
+    "quickActions": {
+      "title": "빠른 작업",
+      "created": "시간 기록을 만들었어요",
+      "createFailed": "시간 기록을 만들지 못했어요",
+      "fillAll": "모든 항목을 올바르게 입력하세요",
+      "addClient": "클라이언트 추가",
+      "newProject": "새 프로젝트",
+      "startTimer": "타이머 시작",
+      "createInvoice": "청구서 만들기",
+      "quickEntry": "빠른 시간 기록",
+      "draftSaved": "초안을 저장했어요",
+      "restoreDraft": "저장된 초안 복원",
+      "restore": "복원",
+      "projectPlaceholder": "프로젝트 선택",
+      "descriptionPlaceholder": "무엇을 작업했나요?",
+      "hoursPlaceholder": "시간",
+      "saving": "저장 중…",
+      "save": "저장"
+    },
+    "recentActivity": {
+      "title": "최근 활동",
+      "none": "활동이 아직 없어요",
+      "seeAll": "모두 보기",
+      "now": "방금",
+      "minutesAgo": "{count}분 전",
+      "hoursAgo": "{count, plural, other {#시간}} 전",
+      "daysAgo": "{count, plural, other {#일}} 전"
+    },
+    "revenueByClient": {
+      "title": "클라이언트별 수익",
+      "seeReports": "보고서 보기",
+      "loadFailed": "수익을 불러오지 못했어요",
+      "none": "이번 달 수익이 없어요"
+    },
+    "revenueForecast": {
+      "title": "수익 예측",
+      "seeReports": "보고서 보기",
+      "none": "수익 데이터가 아직 없어요",
+      "expected": "이번 달 예상",
+      "amountKr": "{amount} kr",
+      "basedOn": "{total}일 중 {day}일 기준",
+      "sixMonthAvg": "6개월 평균"
+    },
+    "rounding": {
+      "title": "반올림 보너스",
+      "inactive": "반올림이 꺼져 있어요. 시간을 올림하면 추가 수익을 얻을 수 있어요.",
+      "enable": "반올림 켜기",
+      "settings": "설정",
+      "thisMonth": "이번 달",
+      "extra": "반올림으로 추가 확보",
+      "thisYear": "올해 합계"
+    },
+    "stats": {
+      "activeClients": "활성 클라이언트",
+      "activeProjects": "활성 프로젝트",
+      "hoursThisMonth": "이번 달 시간",
+      "revenueThisMonth": "이번 달 수익"
+    },
+    "topClients": {
+      "title": "상위 클라이언트",
+      "loadFailed": "데이터를 불러오지 못했어요",
+      "none": "클라이언트 데이터가 아직 없어요",
+      "seeAll": "모두 보기",
+      "rankedBy": "시간 기준 순위"
+    },
+    "unbilled": {
+      "title": "미청구 시간",
+      "loadFailed": "데이터를 불러오지 못했어요",
+      "none": "미청구 시간이 없어요",
+      "seeAll": "모두 보기",
+      "entries": "{count, plural, other {시간 기록 #건}}",
+      "totalHours": "총 시간",
+      "estimatedValue": "예상 금액"
+    },
+    "absences": {
+      "title": "예정된 부재",
+      "loading": "불러오는 중…",
+      "none": "승인된 부재 일정이 없어요",
+      "employee": "직원",
+      "absence": "부재",
+      "from": "{date}부터"
+    },
+    "deadlines": {
+      "title": "중요한 날짜",
+      "overdue": "기한 초과",
+      "today": "오늘",
+      "days": "{count, plural, other {#일}}",
+      "needsSetup": "회사 유형을 설정하면 중요한 날짜를 볼 수 있어요",
+      "setUpNow": "지금 설정",
+      "none": "180일 이내에 다가오는 마감이 없어요",
+      "editSettings": "회사 설정 수정"
+    },
+    "upcomingTasks": {
+      "title": "다가오는 작업",
+      "none": "다가오는 작업이 없어요",
+      "seeAll": "모두 보기",
+      "within7": "7일 이내",
+      "noProject": "프로젝트 없음",
+      "deadline": "마감: {date}",
+      "more": "+ {count}개 더"
+    },
+    "vacation": {
+      "title": "휴가 잔액",
+      "daysLeftIn": "{label} 남은 일수",
+      "daysLeft": "일 남음"
+    },
+    "vat": {
+      "titleMonthly": "이번 달 부가세",
+      "titleQuarterly": "이번 기간 부가세",
+      "titleSemiAnnual": "이번 반기 부가세",
+      "title": "부가세",
+      "exempt": "부가세 비과세 사업자로 등록되어 있어요",
+      "changeInSettings": "설정에서 변경",
+      "createFirst": "첫 청구서를 만들면 부가세 예상액이 표시돼요",
+      "createInvoice": "청구서 만들기",
+      "invoices": "청구서",
+      "toSettle": "납부할 부가세",
+      "percentOf": "청구액 {amount}의 25%",
+      "nextDeadline": "다음 마감",
+      "inDays": "({count, plural, other {#일}} 후)",
+      "overdue": "(기한 초과)",
+      "ytd": "올해 합계",
+      "setAside": "별도 계좌에 <b>{amount}</b>을(를) 따로 두세요"
+    },
+    "weeklyGoal": {
+      "title": "주간 목표",
+      "loadFailed": "주간 목표를 불러오지 못했어요",
+      "trackTime": "시간 추적",
+      "reached": "목표 달성!",
+      "onTrack": "순조로움",
+      "behind": "뒤처짐",
+      "remaining": "<b>{time}</b> 남음",
+      "perDay": "{count, plural, other {#일}} 동안 하루 {time}"
+    }
+  }
+}

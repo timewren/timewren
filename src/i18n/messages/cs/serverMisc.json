@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Faktura (standardní)",
+        "subject": "Faktura {number} od {company}",
+        "title": "Faktura {number}",
+        "text": "Dobrý den, {client},\n\nv příloze zasíláme fakturu za provedenou práci.\n\nČástka: {amount}\nDatum splatnosti: {dueDate}",
+        "button": "Zobrazit fakturu",
+        "footer": "S pozdravem\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Pozvánka do portálu",
+        "subject": "Pozvánka do klientského portálu společnosti {company}",
+        "title": "Vítejte v klientském portálu",
+        "text": "Dobrý den, {client},\n\nobdrželi jste pozvání do svého osobního klientského portálu společnosti {company}.\n\nV portálu můžete:\n• prohlížet své faktury\n• sledovat průběh projektů\n• zobrazit své záznamy času\n• zkontrolovat svůj balíček hodin",
+        "button": "Přijmout pozvání"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Z TimeTrack už nebudeš dostávat newslettery ani marketingové e-maily. Důležité e-maily o účtu a zabezpečení ti budou chodit dál.",
+    "invalidText": "Odhlášení se nepodařilo potvrdit. Zkus to znovu nebo uprav nastavení přímo v TimeTrack.",
+    "confirmText": "Chceš se odhlásit z odběru newsletterů a marketingových e-mailů z TimeTrack? Důležité e-maily o účtu a zabezpečení ti budou chodit dál.",
+    "settingsButton": "Upravit nastavení e-mailů",
+    "confirmButton": "Potvrdit odhlášení",
+    "doneTitle": "Odběr je zrušen",
+    "invalidTitle": "Odkaz není platný",
+    "confirmTitle": "Odhlásit odběr newsletterů"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "konec období"
+  }
+}

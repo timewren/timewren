@@ -1,0 +1,98 @@
+---
+title: "Desde el código fuente"
+description: "Compila tú mismo la imagen de TimeWren desde un clon con Docker Compose, o ejecuta el servidor de desarrollo con Node.js y PostgreSQL."
+---
+
+Elige este método si quieres ejecutar código modificado o contribuir. Si solo quieres ejecutar TimeWren, la imagen precompilada de [Docker Compose](/es/docs/install/docker-compose) es más sencilla y necesita mucha menos memoria.
+
+## Compilar la imagen tú mismo
+
+### Requisitos
+
+- Docker Engine con Compose v2.24 o posterior.
+- Unos 4 GB de RAM o más para la compilación; tarda aproximadamente de 7 a 11 minutos y alcanza unos 5 GB en el pico.
+- Unos 10 GB de espacio libre en disco.
+
+### Pasos
+
+1. Clona el repositorio y crea `.env`.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   cd timewren
+   cp .env.example .env
+   for v in POSTGRES_PASSWORD BETTER_AUTH_SECRET ENCRYPTION_KEY CRON_SECRET; do
+     sed -i "s|^$v=.*|$v=$(openssl rand -hex 32)|" .env
+   done
+   ```
+
+2. Define `NEXT_PUBLIC_APP_URL` en `.env` con la URL que abrirá la gente.
+
+3. En `docker-compose.yml`, comenta la línea `image:` del servicio `app` y descomenta el bloque `build:` que hay debajo.
+
+4. Compila e inicia.
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+   El servicio `cron` usa por defecto la imagen precompilada. Si cambias `scripts/cron.mjs` o quieres que ejecute tu compilación, apunta también el servicio `cron` a tu imagen o compílalo de la misma forma.
+
+Los argumentos de compilación `NEXT_PUBLIC_DESKTOP_RELEASES_REPO`, `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_SENTRY_DSN` y `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` se compilan dentro del bundle del navegador, por lo que cambiarlos en `.env` requiere volver a ejecutar `docker compose up -d --build`. La URL de la aplicación, la URL de marketing y la marca se leen en tiempo de ejecución y no requieren recompilar.
+
+También puedes ejecutar el instalador del checkout, `./scripts/install.sh`. En un checkout construye la imagen e inicia el stack con `docker compose up -d --build` cada vez que se ejecuta. Consulta [Instalación en una línea](/es/docs/install/quick).
+
+## Ejecutar el servidor de desarrollo
+
+### Requisitos
+
+- Node.js 22 o posterior y npm.
+- Docker, para el contenedor de PostgreSQL de desarrollo.
+
+### Pasos
+
+1. Clona el repositorio e instala las dependencias.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   cd timewren
+   npm ci
+   ```
+
+2. Crea `.env.local` con al menos una URL de base de datos y un secreto de autenticación. El contenedor de desarrollo de `docker-compose.dev.yml` escucha en el puerto 5432 con la base de datos `freelance_crm` y usuario y contraseña `postgres`.
+
+   ```dotenv
+   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/freelance_crm
+   BETTER_AUTH_SECRET=replace-with-a-long-random-string
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   CRON_SECRET=replace-with-another-random-string
+   ```
+
+3. Inicia PostgreSQL, aplica las migraciones e inicia el servidor.
+
+   ```bash
+   npm run docker:up
+   npm run db:migrate
+   npm run dev
+   ```
+
+4. Abre `http://localhost:3000`.
+
+`npm run dev:setup` inicia PostgreSQL, migra, carga datos de demostración e inicia el servidor de desarrollo en segundo plano. Otros comandos útiles:
+
+| Comando | Qué hace |
+| ------- | ------------ |
+| `npm run docker:down` | Detiene el contenedor de PostgreSQL de desarrollo. |
+| `npm run db:seed` | Carga la base de datos con datos de prueba. |
+| `npm run db:studio` | Abre Drizzle Studio. |
+| `npm run build` | Compilación de producción. |
+| `npm test` | Tests unitarios (Vitest, no hace falta base de datos). |
+| `npm run lint` | Linter Biome. |
+
+Sin `NEXT_PUBLIC_MARKETING_URL`, las páginas de marketing de la marca `timewren` están desactivadas y `/` redirige al panel.
+
+## Siguientes pasos
+
+- [Contribuir](/es/docs/contributing)
+- [Variables de entorno](/es/docs/configuration/environment)
+- [Docker Compose](/es/docs/install/docker-compose)

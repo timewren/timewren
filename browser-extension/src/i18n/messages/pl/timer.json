@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "Zapisano {duration} na: <b>{target}</b>",
+    "stoppedOn": "Zatrzymano {duration} na: <b>{target}</b>",
+    "savedInternal": "Zapisano {duration} jako <b>czas wewnętrzny</b>",
+    "stoppedInternal": "Zatrzymano {duration} jako <b>czas wewnętrzny</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "W pakiecie <b>{name}</b> nie wystarczyło godzin, więc cały czas zapisano jako rozliczalny",
+    "deducted": "Odliczono {hours} z pakietu <b>{name}</b>, zostało {remaining}",
+    "deductedOverflow": "Odliczono {hours} z pakietu <b>{name}</b>, zostało {remaining}. Pakiet się wyczerpał, więc reszta to czas rozliczalny",
+    "pendingSave": "Serwer nie odpowiedział na czas. Czas zostanie wysłany automatycznie po połączeniu i zapisany tylko raz.",
+    "close": "Zamknij komunikat"
+  },
+  "discard": {
+    "label": "Odrzuć czas",
+    "question": "Odrzucić {duration} bez zapisywania?",
+    "keep": "Zachowaj czas",
+    "confirm": "Odrzuć czas"
+  },
+  "switch": {
+    "label": "Zmień klienta",
+    "question": "Zapisać {duration} na: {from} i uruchomić nowy stoper dla: {to}?",
+    "internal": "czas wewnętrzny",
+    "cancel": "Anuluj",
+    "confirm": "Zapisz i uruchom nowy"
+  },
+  "noClient": "Nie wybrano klienta",
+  "noClientShort": "Bez klienta",
+  "start": "Uruchom stoper",
+  "cancelNoSave": "Anuluj stoper bez zapisywania",
+  "pause": "Wstrzymaj stoper",
+  "stopSave": "Zatrzymaj i zapisz",
+  "resume": "Wznów stoper",
+  "addMinutes": "Dodaj {minutes} min do stopera",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Wybierz klienta i projekt",
+  "descriptionPlaceholder": "Nad czym pracujesz?",
+  "descriptionLabel": "Opis pracy"
+}

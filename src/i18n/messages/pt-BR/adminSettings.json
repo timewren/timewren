@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Configurações",
+    "subtitle": "Gerencie as notificações de administração, os recursos ativos e o registro de alterações"
+  },
+  "notifications": {
+    "title": "Notificações",
+    "description": "Configure as notificações por e-mail e Discord para eventos de administração",
+    "emailLabel": "E-mail(s) de administração",
+    "emailHint": "Separados por vírgula para vários destinatários",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "URL do webhook do Discord",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Testar",
+    "eventTypes": "Tipos de evento",
+    "saving": "Salvando…",
+    "save": "Salvar configurações",
+    "saved": "Configurações de notificação salvas",
+    "testSent": "Mensagem de teste enviada ao Discord",
+    "webhookRequired": "Informe primeiro um URL de webhook do Discord"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Novo cadastro de usuário",
+      "description": "Notificar quando um usuário se cadastrar"
+    },
+    "notify_subscription_started": {
+      "label": "Nova assinatura paga",
+      "description": "Notificar quando houver novos clientes pagantes"
+    },
+    "notify_payment_failed": {
+      "label": "Falha no pagamento",
+      "description": "Notificar quando um pagamento falhar"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Assinatura cancelada",
+      "description": "Notificar quando houver cancelamentos"
+    },
+    "notify_trial_ending": {
+      "label": "Período de teste terminando",
+      "description": "Apenas no Discord: notifica quando um período de teste está perto do fim"
+    },
+    "notify_user_flagged": {
+      "label": "Usuário sinalizado",
+      "description": "Apenas no Discord: notifica quando um usuário é sinalizado"
+    }
+  },
+  "support": {
+    "title": "Suporte",
+    "description": "Gerencie as caixas de entrada de suporte e a assinatura",
+    "inboxes": "Caixas de entrada",
+    "add": "Adicionar",
+    "namePlaceholder": "Nome",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "HTML da assinatura (opcional)",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "default": "Padrão",
+    "confirmDelete": "Excluir esta caixa de entrada?",
+    "noInboxes": "Nenhuma caixa de entrada criada ainda",
+    "inboxCreated": "Caixa de entrada criada",
+    "inboxUpdated": "Caixa de entrada atualizada",
+    "inboxDeleted": "Caixa de entrada excluída",
+    "signatureSaved": "Assinatura salva",
+    "globalSignature": "Assinatura global",
+    "globalSignatureHint": "Assinatura em HTML usada quando uma caixa de entrada não tem assinatura própria",
+    "globalSignaturePlaceholder": "<p>Atenciosamente<br>Suporte TimeTrack</p>",
+    "preview": "Pré-visualização",
+    "noSignature": "Sem assinatura",
+    "savingSignature": "Salvando…",
+    "saveSignature": "Salvar assinatura"
+  },
+  "debug": {
+    "title": "Solução de problemas",
+    "description": "Ferramentas exibidas só para você, neste navegador",
+    "electricLabel": "Mostrar o indicador Electric",
+    "electricDescription": "Mostra o status de sincronização ao vivo do cronômetro no canto inferior esquerdo do painel"
+  },
+  "flags": {
+    "title": "Recursos ativos",
+    "description": "Ative e desative recursos para todos os usuários",
+    "empty": "Nenhum recurso configurado",
+    "lastChangedBy": "Última alteração por {name}",
+    "lastChangedByDate": "Última alteração por {name}, {date}"
+  },
+  "changelog": {
+    "title": "Registro de alterações",
+    "description": "Crie entradas do registro de alterações que são exibidas aos usuários",
+    "new": "Criar nova entrada",
+    "version": "Versão",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Novo recurso: ...",
+    "content": "Conteúdo (Markdown)",
+    "contentPlaceholder": "Descreva as alterações...",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "recent": "Entradas recentes",
+    "confirmDelete": "Excluir o registro de alterações v{version}?",
+    "delete": "Excluir",
+    "created": "Entrada criada",
+    "deleted": "Entrada excluída"
+  }
+}

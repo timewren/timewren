@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Premiers pas",
+      "items": {
+        "0": {
+          "question": "Comment ajouter mon premier client ?",
+          "answer": "Allez dans « Clients » dans la barre latérale et cliquez sur « Ajouter un client ». Renseignez les informations du client, comme le nom, l'e-mail et, si vous le souhaitez, un taux horaire spécifique. Si vous n'indiquez pas de taux horaire, votre taux horaire par défaut des paramètres est utilisé."
+        },
+        "1": {
+          "question": "Quelle est la différence entre projets et clients ?",
+          "answer": "Les clients sont les personnes ou entreprises pour lesquelles vous travaillez. Les projets sont des missions ou contrats précis rattachés à un client. Vous pouvez avoir plusieurs projets par client, par exemple « Développement de site web » et « Support continu » pour le même client."
+        },
+        "2": {
+          "question": "Comment suivre mon temps ?",
+          "answer": "Allez dans « Suivi du temps » et utilisez le chronomètre (démarrer/arrêter) ou ajoutez du temps manuellement. Choisissez un projet ou un client, ajoutez une description et enregistrez. Vous choisissez si le temps est déduit d'un forfait d'heures ou facturé normalement."
+        },
+        "3": {
+          "question": "Comment refaire la visite guidée ?",
+          "answer": "Cliquez sur votre photo de profil ou vos initiales en haut à droite et choisissez « Lancer la visite ». La visite vous présente les principales fonctions de {brand} en 24 étapes interactives."
+        },
+        "4": {
+          "question": "Existe-t-il des raccourcis clavier ?",
+          "answer": "Oui, {brand} propose de nombreux raccourcis clavier pour naviguer et contrôler le temps rapidement. Appuyez sur « ? » pour voir tous les raccourcis disponibles, ou consultez le sujet « Raccourcis clavier et astuces » ci-dessous."
+        }
+      }
+    },
+    "clients": {
+      "title": "Clients",
+      "items": {
+        "0": {
+          "question": "Comment définir un taux horaire spécifique pour un client ?",
+          "answer": "Quand vous créez ou modifiez un client, vous pouvez saisir un « Taux horaire (kr) ». Ce taux remplace votre taux horaire par défaut pour tous les projets de ce client, sauf si le projet a son propre taux horaire."
+        },
+        "1": {
+          "question": "Puis-je supprimer un client ?",
+          "answer": "Pour préserver l'intégrité des données, les clients ne peuvent pas être supprimés, mais ils peuvent être archivés. Les clients archivés n'apparaissent plus dans les listes, mais leur historique est conservé. Vous pouvez réactiver un client archivé à tout moment."
+        },
+        "2": {
+          "question": "Qu'est-ce que la hiérarchie des taux ?",
+          "answer": "{brand} utilise un système de taux à trois niveaux : 1) taux horaire global (dans les paramètres), 2) taux horaire du client, 3) taux horaire du projet. Le niveau le plus précis s'applique. Par exemple, si un projet a un taux, il est utilisé ; sinon c'est le taux du client, et à défaut le taux global."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projets",
+      "items": {
+        "0": {
+          "question": "Quelle est la différence entre taux horaire et prix fixe ?",
+          "answer": "Les projets au taux horaire sont facturés selon le nombre d'heures multiplié par le taux horaire. Les projets à prix fixe ont un prix défini à l'avance, quel que soit le nombre d'heures. Vous choisissez le type à la création du projet."
+        },
+        "1": {
+          "question": "Comment suivre les échéances d'un projet ?",
+          "answer": "Quand vous créez un projet, vous pouvez fixer une échéance. Les projets avec échéance affichent un avertissement quand la date approche. Vous pouvez aussi définir le statut sur « Actif », « En pause » ou « Terminé »."
+        },
+        "2": {
+          "question": "Puis-je déplacer un projet vers un autre client ?",
+          "answer": "Oui, modifiez le projet et choisissez un nouveau client dans la liste déroulante. Toutes les saisies de temps et tous les forfaits d'heures restent liés au projet."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Suivi du temps",
+      "items": {
+        "0": {
+          "question": "Comment fonctionne le chronomètre ?",
+          "answer": "Choisissez un projet, ajoutez une description et appuyez sur « Démarrer ». Le chronomètre tourne jusqu'à ce que vous appuyiez sur « Pause » ou « Arrêter ». À l'arrêt, le temps est enregistré automatiquement comme saisie de temps. Vous pouvez mettre en pause et reprendre le chronomètre à volonté."
+        },
+        "1": {
+          "question": "Puis-je modifier d'anciennes saisies de temps ?",
+          "answer": "Oui, cliquez sur une saisie de temps dans la liste et choisissez « Modifier ». Vous pouvez changer le projet, la description, le nombre d'heures et la date. C'est utile si vous avez oublié de suivre le temps ou fait une erreur."
+        },
+        "2": {
+          "question": "Comment traiter plusieurs saisies de temps à la fois ?",
+          "answer": "Sélectionnez les saisies de temps en cochant la case à gauche. Vous pouvez ensuite en supprimer plusieurs d'un coup avec le bouton « Supprimer la sélection »."
+        },
+        "3": {
+          "question": "Qu'est-ce que l'aperçu hebdomadaire (feuille de temps) ?",
+          "answer": "L'aperçu hebdomadaire affiche vos saisies de temps dans une grille de la semaine, pour voir rapidement les heures par jour et par projet. Passez de la vue liste à la vue hebdomadaire avec le sélecteur en haut de la page Suivi du temps."
+        },
+        "4": {
+          "question": "Puis-je importer du temps depuis un CSV ?",
+          "answer": "Oui, cliquez sur le bouton « Importer un CSV » de la page Suivi du temps. Téléversez un fichier CSV avec des colonnes pour la date, les heures, le projet et la description. Le système associe automatiquement les projets et crée les saisies de temps."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Tâches",
+      "items": {
+        "0": {
+          "question": "Quelle est la différence entre le tableau Kanban et la vue liste ?",
+          "answer": "Le tableau Kanban affiche les tâches sous forme de cartes réparties en colonnes (par ex. « À faire », « En cours », « Terminé »), pour les glisser facilement d'une étape à l'autre. La vue liste affiche les tâches dans un tableau avec tri et filtres. Passez d'une vue à l'autre avec les boutons en haut."
+        },
+        "1": {
+          "question": "Comment créer une tâche ?",
+          "answer": "Cliquez sur « Nouvelle tâche » sur la page des tâches. Renseignez le titre, choisissez un projet et un client, définissez une priorité (basse/normale/haute/critique) et, si vous le souhaitez, une échéance. Vous pouvez aussi ajouter une description détaillée."
+        },
+        "2": {
+          "question": "Comment déplacer des tâches entre les colonnes ?",
+          "answer": "Dans la vue Kanban, glissez-déposez les cartes de tâche entre les colonnes. Vous pouvez aussi cliquer sur une tâche et modifier son statut dans la fenêtre de modification."
+        },
+        "3": {
+          "question": "Puis-je lancer un chronomètre directement depuis une tâche ?",
+          "answer": "Oui, chaque tâche a un bouton de chronomètre. Cliquez dessus pour lancer le chronomètre avec le projet et le titre de la tâche comme description. Le temps est enregistré automatiquement sur le projet lié."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "items": {
+        "0": {
+          "question": "Que montre le tableau de bord ?",
+          "answer": "Le tableau de bord donne un aperçu de votre activité de freelance avec des widgets : résumé hebdomadaire du temps, revenus, projets actifs, état des forfaits d'heures, dernières saisies de temps et prochaines échéances."
+        },
+        "1": {
+          "question": "Puis-je personnaliser le tableau de bord ?",
+          "answer": "Oui, cliquez sur le bouton « Personnaliser » en haut à droite du tableau de bord. Vous pouvez ajouter, retirer et déplacer des widgets par glisser-déposer. Vos modifications sont enregistrées automatiquement."
+        },
+        "2": {
+          "question": "Quels widgets sont disponibles ?",
+          "answer": "Les widgets disponibles comprennent : aperçu de la semaine (heures par jour), revenus (chiffre d'affaires et évolution), projets actifs, aperçu des forfaits d'heures, dernières saisies de temps, heures du jour, prochaines échéances et démarrage rapide du chronomètre."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Forfaits d'heures",
+      "items": {
+        "0": {
+          "question": "Qu'est-ce qu'un forfait d'heures ?",
+          "answer": "Un forfait d'heures est un bloc d'heures qu'un client achète à l'avance. Quand vous suivez du temps, vous pouvez choisir de déduire des heures du forfait plutôt que de les facturer normalement. C'est très apprécié pour les contrats de support."
+        },
+        "1": {
+          "question": "Comment créer un forfait d'heures ?",
+          "answer": "Allez dans « Forfaits d'heures » et cliquez sur « Nouveau forfait d'heures ». Choisissez un client, indiquez le nombre d'heures et le taux horaire, puis calculez le prix total. Fixez une date d'achat et, si besoin, une date d'expiration. Une fois le forfait actif, vous pouvez l'utiliser lors du suivi du temps."
+        },
+        "2": {
+          "question": "Que se passe-t-il quand un forfait d'heures est épuisé ?",
+          "answer": "Vous recevez un avertissement quand il reste moins de 10 % des heures d'un forfait. Quand il est vide (0 heure restante), vous ne pouvez plus y déduire de temps. Il faut créer un nouveau forfait d'heures ou facturer le temps normalement."
+        },
+        "3": {
+          "question": "Puis-je voir l'historique d'un forfait d'heures ?",
+          "answer": "Oui, ouvrez le forfait d'heures et consultez « Historique d'utilisation ». Il affiche toutes les saisies de temps déduites du forfait, avec la date, la description et le nombre d'heures."
+        }
+      }
+    },
+    "templates": {
+      "title": "Modèles récurrents",
+      "items": {
+        "0": {
+          "question": "Que sont les modèles récurrents ?",
+          "answer": "Les modèles récurrents sont des saisies de temps prédéfinies, créées automatiquement à intervalles réguliers. Vous pouvez par exemple créer un modèle « Point d'avancement hebdomadaire, 1 heure » généré chaque semaine."
+        },
+        "1": {
+          "question": "Comment créer un modèle ?",
+          "answer": "Allez dans « Modèles » et cliquez sur « Nouveau modèle ». Choisissez un projet, une description, un nombre d'heures et une fréquence (quotidienne/hebdomadaire/mensuelle). Indiquez une date de début et, si besoin, une date de fin. Le modèle crée automatiquement des saisies de temps selon votre planning."
+        },
+        "2": {
+          "question": "Puis-je modifier ou supprimer les saisies de temps générées ?",
+          "answer": "Oui, les saisies de temps générées fonctionnent comme des saisies normales. Vous pouvez les modifier sous « Suivi du temps » ou les supprimer si elles ne sont pas pertinentes pour un jour ou une semaine."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Factures",
+      "items": {
+        "0": {
+          "question": "Comment créer une facture ?",
+          "answer": "Allez dans « Factures » et cliquez sur « Nouvelle facture ». Choisissez un client et une période pour les saisies de temps, et le système rassemble automatiquement toutes les heures non facturées. Relisez les lignes, ajoutez d'éventuelles remarques et enregistrez."
+        },
+        "1": {
+          "question": "Quelle est la différence entre « Brouillon », « Envoyée » et « Payée » ?",
+          "answer": "Brouillon = vous travaillez encore sur la facture. Envoyée = la facture a été envoyée au client mais n'est pas encore payée. Payée = le client a payé la facture. Vous pouvez mettre à jour le statut manuellement au fil de l'avancement."
+        },
+        "2": {
+          "question": "Puis-je exporter les factures en PDF ?",
+          "answer": "Oui, quand vous consultez une facture, un bouton « Exporter en PDF » est disponible. Il génère une facture PDF professionnelle que vous pouvez envoyer au client ou conserver pour la comptabilité."
+        },
+        "3": {
+          "question": "Puis-je générer une facture à partir de saisies de temps ?",
+          "answer": "Oui, cliquez sur le bouton « À partir des saisies de temps » en créant une nouvelle facture. Choisissez un client et une période, et le système rassemble toutes les saisies de temps non facturées comme lignes de facture."
+        },
+        "4": {
+          "question": "Que montre l'aperçu des factures ?",
+          "answer": "En haut de la page des factures, quatre cartes de statistiques : total facturé, montant payé, montant en attente et factures en retard. Elles donnent une vue rapide de vos finances."
+        }
+      }
+    },
+    "reports": {
+      "title": "Rapports",
+      "items": {
+        "0": {
+          "question": "Quels rapports puis-je générer ?",
+          "answer": "Vous disposez de rapports hebdomadaires et mensuels avec les heures par client, les heures par projet, les revenus et les tendances. Les rapports se filtrent par période et s'exportent en CSV pour une analyse dans Excel."
+        },
+        "1": {
+          "question": "Comment exporter des données vers Excel ?",
+          "answer": "Allez dans « Rapports », choisissez la période voulue et cliquez sur « Exporter en CSV ». Cela télécharge un fichier CSV que vous pouvez ouvrir dans Excel, Google Sheets ou un autre tableur."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Raccourcis clavier et astuces",
+      "items": {
+        "0": {
+          "question": "Quels sont les raccourcis de navigation ?",
+          "answer": "Utilisez G suivi d'une touche pour naviguer rapidement : {shortcuts}."
+        },
+        "1": {
+          "question": "Quels sont les raccourcis du chronomètre ?",
+          "answer": "T = démarrer/arrêter le chronomètre, Maj+T = mettre en pause/reprendre le chronomètre. Ces raccourcis fonctionnent depuis toutes les pages, vous contrôlez donc votre chronomètre sans changer de page."
+        },
+        "2": {
+          "question": "Qu'est-ce que la palette de commandes ?",
+          "answer": "Appuyez sur Ctrl+K (ou Cmd+K sur Mac) pour ouvrir la palette de commandes. Vous pouvez y rechercher et ouvrir rapidement des pages, clients, projets et actions sans utiliser la souris."
+        },
+        "3": {
+          "question": "Comment voir tous les raccourcis ?",
+          "answer": "Appuyez sur « ? » depuis n'importe quelle page pour ouvrir l'aperçu des raccourcis. Il affiche tous les raccourcis clavier disponibles, classés par catégorie."
+        },
+        "4": {
+          "question": "Puis-je relancer la visite guidée ?",
+          "answer": "Oui, cliquez sur votre photo de profil ou vos initiales en haut à droite et choisissez « Lancer la visite » dans le menu utilisateur. La visite vous présente les 24 fonctions principales."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Extension de navigateur",
+      "items": {
+        "0": {
+          "question": "Qu'est-ce que l'extension de navigateur {brand} ?",
+          "answer": "L'extension de navigateur permet de suivre le temps directement depuis votre navigateur, sans ouvrir l'application {brand}. Vous pouvez démarrer/arrêter le chronomètre, choisir un projet et un client, et voir vos dernières saisies de temps."
+        },
+        "1": {
+          "question": "Comment configurer des modèles d'URL ?",
+          "answer": "Sous Paramètres → Extension de navigateur, vous pouvez définir des modèles d'URL qui lient automatiquement un projet quand vous visitez certains sites web. Par exemple, « github.com/client-repo/* » sélectionne automatiquement le projet correspondant."
+        },
+        "2": {
+          "question": "Comment installer l'extension de navigateur ?",
+          "answer": "Installez l'extension {brand} depuis le Chrome Web Store (recherchez « {brand} Tidsregistrering » ou allez sur timetrack.dk/browser-extension). Générez un jeton d'API sous Paramètres → Extension de navigateur et collez-le dans la fenêtre de l'extension. L'extension se connecte ensuite automatiquement à votre compte {brand}."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Intégrations",
+      "items": {
+        "0": {
+          "question": "Comment utiliser la recherche CVR ?",
+          "answer": "Quand vous créez un client, saisissez un numéro CVR et cliquez sur « Rechercher ». {brand} récupère automatiquement le nom, l'adresse et les coordonnées de l'entreprise dans le registre danois CVR, sans saisie manuelle."
+        },
+        "1": {
+          "question": "Comment exporter vers Billy, Dinero ou e-conomic ?",
+          "answer": "Allez dans Paramètres → Intégrations et connectez votre compte. Billy et Dinero peuvent recevoir des factures. Depuis e-conomic, vous pouvez importer vos clients, et vous pouvez toujours exporter la base de facturation en CSV ou en rapport depuis la page des factures."
+        },
+        "2": {
+          "question": "Puis-je synchroniser avec Google Agenda ?",
+          "answer": "Oui, sous Paramètres → Intégrations, vous pouvez connecter votre Google Agenda. Les événements peuvent être proposés automatiquement comme saisies de temps, pour suivre facilement le temps de vos réunions."
+        }
+      }
+    },
+    "security": {
+      "title": "Sécurité",
+      "items": {
+        "0": {
+          "question": "Que sont les clés d'accès (passkeys) ?",
+          "answer": "Les clés d'accès sont un mode de connexion moderne sans mot de passe. Au lieu d'un mot de passe, vous utilisez une empreinte digitale, la reconnaissance faciale ou le code PIN de votre appareil. Configurez-les sous Paramètres → Sécurité → Clés d'accès."
+        },
+        "1": {
+          "question": "Comment activer l'authentification à deux facteurs (2FA) ?",
+          "answer": "Allez dans Paramètres → Sécurité → Authentification à deux facteurs. Scannez le QR code avec une application d'authentification (par ex. Google Authenticator ou Authy) et saisissez le code de confirmation. Ensuite, un code à 6 chiffres est demandé à chaque connexion."
+        },
+        "2": {
+          "question": "Comment gérer les sessions actives ?",
+          "answer": "Sous Paramètres → Sécurité → Sessions actives, vous voyez tous les appareils connectés à votre compte. Vous pouvez fermer des sessions individuelles ou vous déconnecter de tous les appareils d'un coup."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Import et export",
+      "items": {
+        "0": {
+          "question": "Comment importer des saisies de temps depuis un CSV ?",
+          "answer": "Allez dans Suivi du temps et cliquez sur « Importer un CSV ». Téléversez un fichier CSV avec des colonnes pour la date, les heures, le projet et la description. Le système affiche un aperçu pour vérifier les données avant l'import."
+        },
+        "1": {
+          "question": "Comment exporter mes données ?",
+          "answer": "Vous pouvez exporter des données à plusieurs endroits : Rapports → Exporter en CSV pour les saisies de temps, Factures → Exporter en PDF pour chaque facture, et Paramètres → Données → Exporter toutes les données pour une sauvegarde complète en CSV ou JSON."
+        },
+        "2": {
+          "question": "Puis-je télécharger toutes mes données (RGPD) ?",
+          "answer": "Oui, sous Paramètres → Données, vous trouvez un bouton « Télécharger mes données ». Il génère un export complet de toutes vos données au format JSON, comme l'exige le RGPD. L'export comprend les clients, projets, saisies de temps, factures et forfaits d'heures."
+        }
+      }
+    },
+    "settings": {
+      "title": "Paramètres",
+      "items": {
+        "0": {
+          "question": "Comment modifier mon taux horaire par défaut ?",
+          "answer": "Allez dans « Paramètres », trouvez le champ « Taux horaire par défaut (kr) » et saisissez votre nouveau taux. Il sert de valeur par défaut pour les nouveaux clients et projets. Les taux existants des clients et projets ne sont pas modifiés."
+        },
+        "1": {
+          "question": "Toutes mes modifications sont-elles journalisées ?",
+          "answer": "Oui, {brand} journalise toutes les modifications des taux horaires (global, client, projet) dans un historique des taux. Vous pouvez toujours voir quand et comment les taux ont changé. Cela aide à la transparence et à la comptabilité."
+        },
+        "2": {
+          "question": "Comment supprimer mon compte ?",
+          "answer": "Dans « Paramètres », la section « Zone de danger » contient un bouton « Supprimer le compte ». Vous devez confirmer avec votre e-mail et approuver la suppression. ATTENTION : cela supprime DÉFINITIVEMENT toutes vos données, y compris clients, projets, saisies de temps et factures. Si vous êtes membre d'une équipe, ce que vous avez enregistré dans l'équipe y reste, sans votre nom ni votre e-mail."
+        },
+        "3": {
+          "question": "Comment passer au thème sombre ?",
+          "answer": "Allez dans Paramètres → Profil et apparence → Thème. Choisissez entre « Clair », « Sombre » ou « Système » (suit le réglage de votre appareil). Le changement s'applique immédiatement."
+        },
+        "4": {
+          "question": "Qu'est-ce que le profil de l'entreprise ?",
+          "answer": "Sous Paramètres → Profil de l'entreprise, vous renseignez le nom de votre entreprise, le numéro CVR, l'adresse, le logo et les coordonnées bancaires. Ces informations sont utilisées automatiquement sur vos factures."
+        }
+      }
+    }
+  },
+  "title": "Aide et conseils",
+  "description": "Trouvez des réponses à vos questions sur {brand}",
+  "searchPlaceholder": "Rechercher dans l'aide… (ex. « forfait d'heures », « facture », « raccourci »)",
+  "resultCount": "{count, plural, one {# résultat} many {# de résultats} other {# résultats}}",
+  "popular": "Questions fréquentes",
+  "searchResultsFor": "Résultats de recherche pour « {query} »",
+  "foundIn": "{results, plural, one {# résultat trouvé} many {# de résultats trouvés} other {# résultats trouvés}} dans {topics, plural, one {# sujet} many {# de sujets} other {# sujets}}",
+  "noResults": "Aucun résultat pour « {query} »",
+  "questionCount": "{count, plural, one {# question} many {# de questions} other {# questions}}",
+  "chooseTopic": "Choisissez un sujet dans la liste",
+  "cantFindTitle": "Vous ne trouvez pas ce que vous cherchez ?",
+  "cantFindBody": "Contactez-nous si vous avez des questions qui ne sont pas couvertes par la documentation.",
+  "contactSupport": "Contacter le support",
+  "screenshotAlt": "Capture d'écran : {title}",
+  "videoDemo": "Démo vidéo",
+  "wasHelpful": "Cette réponse vous a-t-elle aidé ?",
+  "yes": "Oui",
+  "no": "Non",
+  "topicsHeading": "Sujets"
+}

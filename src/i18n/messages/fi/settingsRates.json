@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Hintahistoria",
+    "empty": "Ei vielä hintamuutoksia. Tuntihinnan muutokset kirjataan tähän",
+    "effectiveFrom": "Voimassa {date} alkaen",
+    "planned": "Ajastettu",
+    "noRate": "Ei hintaa",
+    "typeGlobal": "Yleinen",
+    "typeClient": "Asiakas",
+    "typeProject": "Projekti"
+  },
+  "schedule": {
+    "toastScheduled": "Uusi tuntihinta ajastettu alkamaan {date}",
+    "restamped": "{count, plural, =0 {Mikään nykyinen kirjaus ei tarvinnut uutta tuntihintaa} one {# laskuttamaton kirjaus sai uuden tuntihinnan} other {# laskuttamatonta kirjausta sai uuden tuntihinnan}}",
+    "scheduleFailed": "Tuntihinnan ajastus epäonnistui",
+    "cancelled": "Ajastettu tuntihinta peruttu",
+    "cancelledRestamped": "{count, plural, one {# kirjaus sai aiemman tuntihinnan takaisin} other {# kirjausta sai aiemman tuntihinnan takaisin}}",
+    "cancelFailed": "Peruutus epäonnistui",
+    "invalidRate": "Anna kelvollinen tuntihinta",
+    "missingDate": "Valitse päivä, josta alkaen hinta on voimassa",
+    "title": "Ajasta uusi tuntihinta",
+    "current": "Nyt: {rate} kr/tunti",
+    "rateLabel": "Uusi tuntihinta (kr)",
+    "dateLabel": "Voimassa alkaen",
+    "submit": "Ajasta",
+    "help": "Tämän päivän tai sitä myöhemmin päivätty aika saa uuden hinnan, vaikka se kirjattaisiin vasta myöhemmin. Ennen päivää kirjattu aika säilyttää vanhan hinnan. Päivästä alkaen laskuttamattomat kirjaukset päivitetään heti.",
+    "ratePerHour": "{rate} kr/tunti",
+    "fromDate": "alkaen {date}",
+    "takesEffectTonight": "tulee voimaan tänä yönä",
+    "cancel": "Peruuta"
+  }
+}

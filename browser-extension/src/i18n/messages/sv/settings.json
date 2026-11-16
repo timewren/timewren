@@ -1,0 +1,109 @@
+{
+  "title": "Inställningar",
+  "close": "Stäng inställningar",
+  "searchPlaceholder": "Sök bland inställningar…",
+  "searchLabel": "Sök bland inställningar",
+  "noMatch": "Inga inställningar matchar “{query}”",
+  "keywords": {
+    "view": "visning|vy|förslag|webbplats|webbplatser|timbank|timbanker|popup",
+    "appearance": "utseende|tema|mörkt|ljust|märke|ikon|språk",
+    "newTab": "ny flik|flik|startsida|widgetar",
+    "calendar": "kalender|dag|datum",
+    "goal": "dagsmål|mål|timmål|framsteg",
+    "reminder": "påminnelse|avisering|helg|tidpost|registrera",
+    "data": "data|ta bort|radera|återställ|offline|kopplingar|länkar|webbplats|kö",
+    "advanced": "avancerat|api|url|server",
+    "shortcuts": "kortkommandon|genväg|tangentbord|alt",
+    "about": "om tillägget|tillägg|om|version|betygsätt|recension|hjälp"
+  },
+  "view": {
+    "title": "Visning",
+    "suggestions": "Förslag från webbplatsen",
+    "suggestionsHint": "Föreslå ett projekt utifrån webbplatsen du är på",
+    "prepaidTab": "Fliken Timbanker",
+    "prepaidTabHint": "Visa fliken med aktiva timbanker i popupen"
+  },
+  "appearance": {
+    "title": "Utseende",
+    "theme": "Tema",
+    "themeHint": "Färgtema för tillägget",
+    "system": "Följ systemet",
+    "dark": "Mörkt",
+    "light": "Ljust",
+    "badge": "Siffra på ikonen",
+    "badgeHint": "Vad siffran på tilläggets ikon visar",
+    "badgeTimer": "Aktiv timer",
+    "badgeToday": "Dagens timmar",
+    "badgeOff": "Dold",
+    "language": "Språk",
+    "languageHint": "Tilläggets språk",
+    "languageAuto": "Automatiskt (följ webbläsaren)"
+  },
+  "newTab": {
+    "title": "Ny flik",
+    "enable": "Öppna TimeTrack på nya flikar",
+    "enableHint": "Stäng av för att behålla vanliga, tomma flikar",
+    "widgetsHint": "Välj widgetar i inställningarna på den nya fliken",
+    "activeWidgets": "Aktiva widgetar: {count}"
+  },
+  "calendar": {
+    "title": "Kalender",
+    "openOn": "Öppna kalendern på",
+    "openOnHint": "Vilken dag kalendern visar när den öppnas",
+    "today": "I dag",
+    "lastViewed": "Senast visade dag"
+  },
+  "goal": {
+    "title": "Dagsmål",
+    "hours": "Mål för timmar per dag",
+    "hoursHint": "Används i den dagliga förloppsindikatorn i popupen och på nya fliken"
+  },
+  "reminder": {
+    "title": "Daglig påminnelse",
+    "enable": "Påminn mig om att registrera tid",
+    "enableHint": "Avisering om du har för få timmar",
+    "time": "Tid",
+    "minHours": "Minsta antal timmar",
+    "weekends": "Även på helger"
+  },
+  "data": {
+    "title": "Data",
+    "clearMappingsConfirm": "Ta bort alla sparade kopplingar mellan webbplatser och projekt?",
+    "clearMappingsDetail": "Dolda förslag visas också igen.",
+    "delete": "Ta bort",
+    "clearMappings": "Ta bort webbplatskopplingar",
+    "mappingsCount": "{count, plural, one {# sparad koppling} other {# sparade kopplingar}}",
+    "clearQueueConfirm": "Ta bort {count, plural, one {# väntande åtgärd} other {# väntande åtgärder}}?",
+    "unsentEntries": "{count, plural, one {# tidpost har} other {# tidposter har}} inte skickats till TimeTrack ännu. Tiden tas bort för gott.",
+    "clearQueueConfirmButton": "Ta bort kön",
+    "clearQueue": "Ta bort offlinekön",
+    "pendingActions": "{count, plural, one {# väntande åtgärd} other {# väntande åtgärder}}",
+    "unsentSuffix": "{count, plural, one {# oskickad tidpost} other {# oskickade tidposter}}",
+    "resetConfirm": "Återställa alla inställningar?",
+    "resetDetail": "Tilläggets standardinställningar återställs.",
+    "resetButton": "Återställ",
+    "reset": "Återställ inställningar",
+    "resetHint": "Återställ standardinställningarna"
+  },
+  "advanced": {
+    "title": "Avancerat",
+    "apiUrl": "API-adress",
+    "notSaved": "{error}. Adressen har inte sparats."
+  },
+  "shortcuts": {
+    "title": "Kortkommandon",
+    "unreadable": "Kortkommandona kan inte läsas i den här webbläsaren.",
+    "openApp": "Öppna TimeTrack",
+    "notSet": "Inte angivet",
+    "change": "Ändra kortkommandon",
+    "firefoxPage": "Öppnar Firefox sida för kortkommandon",
+    "chromePage": "Öppnar chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "TimeTrack webbläsartillägg, version {version}",
+    "rateFirefox": "Betygsätt på Firefox Add-ons",
+    "rateChrome": "Betygsätt i Chrome Web Store",
+    "rateHint": "Din recension hjälper andra frilansare",
+    "learnMore": "Läs mer om tillägget"
+  }
+}

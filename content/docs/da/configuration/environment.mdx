@@ -1,0 +1,330 @@
+---
+title: "Miljøvariabler"
+description: "Komplet oversigt over alle TimeWrens miljøvariabler: standardværdier, hvilke der er påkrævede, hvilke der bages ind ved build, og hvad hver enkelt gør."
+---
+
+TimeWren konfigureres udelukkende med miljøvariabler. Siden her viser alle de variabler, koden læser, grupperet efter formål. De fleste selvhostede instanser har kun brug for [minimumskonfigurationen](#minimumskonfiguration) og senere mail og lager.
+
+## Sådan sætter du variabler
+
+Med Docker Compose-opsætningen lægger du variablerne i en `.env`-fil ved siden af `docker-compose.yml`. Tjenesten `app` indlæser filen (`env_file: .env`), og nogle få værdier sendes også eksplicit med fra `docker-compose.yml`. Når du har rettet i `.env`, kører du `docker compose up -d` for at tage runtime-variablerne i brug. Compose genopretter de containere, hvis konfiguration er ændret.
+
+En tom værdi tæller som "ikke sat". `NEXT_PUBLIC_APP_URL=` falder tilbage til standardværdien, og en variabel med tom værdi opfører sig som en, der mangler. Linjer, der starter med `#`, er kommentarer, så `.env.example` leveres med alt valgfrit udkommenteret.
+
+### Build time og runtime
+
+Variabler med navnet `NEXT_PUBLIC_*` bliver indlejret i browserbundlen, når imaget bygges. Ændrer du dem i `.env` bagefter, har det ingen effekt på det færdigbyggede image. Tre undtagelser læses ved runtime, og build-værdien bruges kun som fallback: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` og `NEXT_PUBLIC_BRAND`. Serveren læser dem fra sit miljø, og browseren får dem fra `/runtime-config.js`, som serveren genererer for hver forespørgsel.
+
+I det færdigbyggede image `ghcr.io/timewren/timewren` ligger de øvrige build time-variabler derfor fast (for eksempel `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` og Sentrys browserindstillinger). Vil du ændre dem, skal du bygge dit eget image med de tilsvarende build-argumenter, se [Installation fra kildekode](/da/docs/install/from-source). Kolonnen `Build time` nedenfor viser, hvilke variabler det gælder.
+
+Content-Security-Policy-headerne genereres i `next.config.ts` ud fra `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` og `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, så de bruger de værdier, der var til stede ved build.
+
+> **Bemærk:** Betalingsvariablerne (`ALUNTA_API_KEY`, `STRIPE_SECRET_KEY`, `STORE_BILLING_ENABLED` og alt, hvad der hører til dem) gør intet ved selvhosting. Betaling slås kun til, når mindst én af de tre er sat. Uden dem er alle funktioner åbne: Der er ingen grænser for brugere eller kunder, ingen prøveperiode, der udløber, ingen opgraderingsknapper og ingen betalingsmails.
+
+## Minimumskonfiguration
+
+Disse fem linjer er nok til at starte en instans. Generér hver hemmelighed med `openssl rand -hex 32`.
+
+```dotenv
+POSTGRES_PASSWORD=replace-with-a-random-secret
+BETTER_AUTH_SECRET=replace-with-a-random-secret
+ENCRYPTION_KEY=replace-with-64-hex-characters
+CRON_SECRET=replace-with-a-random-secret
+NEXT_PUBLIC_APP_URL=https://timewren.example.com
+```
+
+Uden en mailtransport kræver oprettelse af konti `REQUIRE_EMAIL_VERIFICATION=false` (se [Påkrævede](#påkrævede)). Konfigurér [mail](/da/docs/configuration/email), så snart du kan.
+
+## Påkrævede
+
+Compose nægter at starte, når `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` eller `CRON_SECRET` mangler.
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | ingen | ja | nej | Adgangskode til den medfølgende PostgreSQL. Compose bygger `DATABASE_URL` ud fra den. Den bruges kun, når databasen oprettes første gang: Ændrer du den senere, ændres den eksisterende database ikke. |
+| `BETTER_AUTH_SECRET` | ingen | ja | nej | Hemmelighed, der signerer sessioner. Ændrer du den, bliver alle logget ud. Containeren nægter at starte uden den. |
+| `ENCRYPTION_KEY` | ingen | ja | nej | AES-256-GCM-nøgle til gemte tokens og loginoplysninger (kalender, regnskab, webhooks). Præcis 64 hex-tegn. Mister du den, skal de integrationer forbindes igen, så tag backup af den. |
+| `CRON_SECRET` | ingen | ja | nej | Fælles hemmelighed mellem tjenesten `cron` og appen. Skal også bruges til `/api/health?detail=1`. |
+| `DATABASE_URL` | sat af Compose | betinget | nej | Forbindelsesstreng til PostgreSQL. Compose sætter den til den medfølgende tjeneste `db`, så du sætter den ikke selv. Kun nødvendig med en anden database eller uden Compose, for eksempel `postgresql://user:password@host:5432/timetrack`. |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | ja | nej | Den URL, brugerne åbner, uden skråstreg til sidst. Skal svare til det, browseren ser: Brug dit `https://`-domæne bag en reverse proxy. Se [URL'er, hosts og brand](#urler-hosts-og-brand). |
+| `REQUIRE_EMAIL_VERIFICATION` | `true` | nej | nej | Sæt til `false` (eller `0`) for at lade folk oprette konto og logge ind uden en mailserver. Respekteres kun, så længe der ikke er konfigureret en mailtransport: Er `RESEND_API_KEY` eller `SMTP_HOST` sat, ignoreres flaget med en advarsel. Alle, der kan nå instansen, kan så oprette en konto, så fjern den, når mail virker. |
+| `ADMIN_EMAIL` | ingen | nej | nej | Instansens admin-adresser, kommasepareret. Kontoen med en matchende, bekræftet adresse bliver admin. Tom: Den ældste konto bliver admin, men kun så længe instansen ikke har en admin. |
+
+## URL'er, hosts og brand
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | ja | nej | Appens offentlige URL. Læses ved runtime, og build-værdien er fallback. Bruges til links i mails, OAuth-callbacks og integrationernes standard-redirect-URI'er. |
+| `NEXT_PUBLIC_MARKETING_URL` | app-URL'en | nej | nej | Separat offentlig host eller marketinghost. Tom spejler `NEXT_PUBLIC_APP_URL` (én host). Med brandet `timewren` og uden marketing-URL er marketingsiderne slået fra: `/` går til dashboardet, og de øvrige marketingstier returnerer 404. Læses ved runtime. |
+| `NEXT_PUBLIC_BRAND` | `timewren` | nej | nej | `timewren` (selvhosting) eller `timetrack` (den danske hostede søster, TimeTrack Cloud). Enhver anden værdi, eller ingen, giver TimeWren. Læses ved runtime. |
+| `SUPPORT_EMAIL` | `support@<EMAIL_DOMAIN>` | nej | nej | Supportadresse, der vises i mails og i brugerfladen. |
+| `NEXT_PUBLIC_SUPPORT_EMAIL` | ingen | nej | ja | Ældre alias for `SUPPORT_EMAIL`. `SUPPORT_EMAIL` vinder, når begge er sat. |
+| `CONTACT_EMAIL` | `support@<EMAIL_DOMAIN>` | nej | nej | Personlig kontaktadresse på marketingsider og i personlige mails. Standard: supportadressen (`SUPPORT_EMAIL`). |
+| `EMAIL_DOMAIN` | marketing-URL'ens host, ellers app-URL'ens | nej | nej | Domæne til genererede mailadresser som `noreply@` og `task+id@`-adresserne. |
+| `TRUSTED_ORIGINS` | ingen | nej | nej | Ekstra origins, som auth- og CSRF-tjekket accepterer, kommasepareret. Ugyldige værdier springes over. |
+| `CORS_ALLOWED_ORIGINS` | browserudvidelsers origins | nej | nej | Erstatter CORS-listen for tRPC-API'et. Præcise origins, kommaseparerede, uden efterstillet skråstreg eller wildcards. Uden værdi accepteres browserudvidelsers origins. Tom værdi slår adgang på tværs af origins fra. Erstatter ikke token-godkendelse. |
+| `APP_SCHEMES` | `timetrack://,timetrack.preview://` | nej | nej | Native app-schemes, som auth accepterer, kommasepareret. Sæt den til schemet i en egen app-build, fx `timewren://`. Tom værdi slår native origins fra. |
+| `DEVICE_CALLBACK_URL` | `timetrack://auth/callback` | nej | nej | Callback til device-login. Skal være et native scheme med præcis `auth/callback`; web-adresser, brugeroplysninger, query og fragment afvises. Tilpas den til `APP_SCHEMES`. |
+| `CALLBACK_BASE_URL` | app-URL'en | nej | nej | Basis for gemte og registrerede callback-links, for eksempel webhook-callbacks. |
+| `AUTH_COOKIE_DOMAIN` | ingen | nej | nej | Deler sessionscookien på tværs af hosts, for eksempel `.example.com`. Kun nødvendig med adskilt app- og marketinghost. |
+| `AUTH_RP_ID` | marketinghosten, når hosts er adskilt, ellers apphosten | nej | nej | Relying party-ID til passkeys, for eksempel `example.com`. Kun nødvendig med adskilt app- og marketinghost. |
+| `AUTH_COOKIE_PREFIX` | `better-auth` | nej | nej | Præfiks for auth-cookiernes navne. |
+| `SUBDOMAIN_REDIRECT_STATUS` | `308` | nej | nej | HTTP-status for redirects mellem app- og marketinghost. Sæt `307`, mens du tester en opdeling af hosts, fordi browsere cacher `308`. |
+| `APP_PORT` | `3000` | nej | nej | Kun Compose: appens port på værten. |
+| `APP_BIND` | `127.0.0.1` | nej | nej | Kun Compose: bindingsadresse for appens port. `0.0.0.0` eksponerer den på alle netværksflader. Behold standarden bag en reverse proxy, se [Reverse proxy](/da/docs/operations/reverse-proxy). |
+| `CADDY_DOMAIN` | ingen | nej | nej | Kun Compose: domænet til det valgfri lag med automatisk HTTPS (`docker-compose.caddy.yml`). DNS skal pege på serveren, og TCP 80/443 skal være åbne. |
+| `COMPOSE_FILE` | `docker-compose.yml` | nej | nej | Kun Compose: sæt til `docker-compose.yml:docker-compose.caddy.yml` for at slå automatisk HTTPS til sammen med `CADDY_DOMAIN`. |
+| `NEXT_PUBLIC_GOOGLE_ADS_ID` | ingen | nej | ja | Google Ads-tag-ID til marketingsiderne. Uden den indlæses intet på selvhostede instanser. |
+
+## Mail
+
+Vælg én transport: SMTP eller Resend. Uden nogen af dem skrives mails til serverloggen i stedet for at blive sendt. Detaljer og eksempler står under [Mail](/da/docs/configuration/email).
+
+Transporten vælges i denne rækkefølge: `MAIL_TRANSPORT`, hvis den er sat til en gyldig værdi, ellers Resend, når `RESEND_API_KEY` er sat, ellers SMTP, når `SMTP_HOST` er sat, ellers kun log.
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `MAIL_TRANSPORT` | automatisk | nej | nej | `resend`, `smtp` eller `log`. Gennemtvinger transporten. `smtp` kræver `SMTP_HOST`. |
+| `SMTP_HOST` | ingen | betinget | nej | SMTP-server. Sætter du den, vælges SMTP, medmindre `RESEND_API_KEY` er sat, eller `MAIL_TRANSPORT` siger noget andet. |
+| `SMTP_PORT` | `587` | nej | nej | SMTP-port. Port `465` bruger implicit TLS. |
+| `SMTP_SECURE` | `true` på port 465, ellers `false` | nej | nej | `true` for implicit TLS, `false` for STARTTLS. Tom bruger portreglen. |
+| `SMTP_USER` | ingen | nej | nej | SMTP-brugernavn. Der godkendes kun, når den er sat. |
+| `SMTP_PASSWORD` | ingen | nej | nej | SMTP-adgangskode. |
+| `SMTP_FROM` | afsenderen, appen vælger | nej | nej | Afsenderadresse for alle SMTP-mails, for eksempel `TimeWren <mail@timewren.example.com>`. Anbefales med SMTP. |
+| `RESEND_API_KEY` | ingen | betinget | nej | API-nøgle til Resend. Sætter du den, vælges Resend. |
+| `RESEND_FROM_EMAIL` | `TimeWren <noreply@<EMAIL_DOMAIN>>` | nej | nej | Standardafsender ved afsendelse via Resend. Brug en adresse på et domæne, der er bekræftet i Resend. |
+| `FROM_EMAIL` | `TimeWren <noreply@<EMAIL_DOMAIN>>` | nej | nej | Afsender af opgave- og notifikationsmails. |
+| `PERSONAL_FROM_EMAIL` | standardafsenderen | nej | nej | Afsender af personlige livscyklusmails. |
+| `PERSONAL_REPLY_TO_EMAIL` | ingen | nej | nej | Reply-To for personlige livscyklusmails. Tom betyder ingen Reply-To-header. |
+| `RESEND_WEBHOOK_SECRET` | ingen | nej | nej | Svix-signeringshemmelighed til Resends leverings-webhooks (`/api/webhooks/resend`). |
+| `RESEND_AUDIENCE_ID` | ingen | nej | nej | Resend-audience til tilmeldinger til nyhedsbrevet. |
+| `ADMIN_NOTIFICATION_EMAIL` | ingen | nej | nej | Modtager admin-alarmer og -oversigter, kommasepareret. En adresse, der er gemt i admin-indstillingerne, har forrang. |
+| `ADMIN_DISCORD_WEBHOOK_URL` | ingen | nej | nej | Discord-webhook til admin-alarmer og feedback fra appen. En URL, der er gemt i admin-indstillingerne, har forrang. |
+| `FEEDBACK_TO_EMAIL` | ingen | nej | nej | Modtager feedback fra appen på mail. Tom: Feedback går kun til Discord-webhooken. |
+
+## Fillager
+
+Uploads, vedhæftede filer fra mails og dataeksporter kræver lager. Compose sætter den lokale driver og monterer volumen `storage`. S3-kompatibelt lager (AWS, Hetzner, MinIO, R2) er beskrevet under [Lager](/da/docs/configuration/storage).
+
+Driveren vælges sådan: `STORAGE_DRIVER=local` vinder, ellers bruges S3, når `S3_ENDPOINT` er sat, ellers er der intet lager, og uploads er slået fra. Koden læser aldrig værdien `s3` i `STORAGE_DRIVER`, så det er `S3_ENDPOINT`, der vælger S3.
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `STORAGE_DRIVER` | `local` i Compose, ellers ingen | nej | nej | `local` gemmer filer på disken. Alt andet falder igennem til reglen for `S3_ENDPOINT`. |
+| `STORAGE_LOCAL_PATH` | `./data/storage` (Compose: `/app/data/storage`) | nej | nej | Mappe til den lokale driver. Compose sætter den til volumen `storage`, så ændr den kun uden for Compose. |
+| `S3_ENDPOINT` | ingen | betinget | nej | Endpoint for den S3-kompatible tjeneste. Sætter du den, vælges S3 (der bruges altid path-style-adressering). |
+| `S3_REGION` | `fsn1` | nej | nej | Region, der sendes til S3-klienten. De fleste S3-kompatible tjenester accepterer enhver værdi, men sæt den rigtige for AWS. |
+| `S3_ACCESS_KEY_ID` | tom | betinget | nej | S3-adgangsnøgle. |
+| `S3_SECRET_ACCESS_KEY` | tom | betinget | nej | Hemmelig S3-nøgle. |
+| `S3_BUCKET` | `timetrack` | nej | nej | Bucketnavn. |
+| `S3_PREFIX` | tom | nej | nej | Valgfrit navnerum for alle nøgler i bucketten. |
+| `EMAIL_ATTACHMENT_DIR` | `storage/email-attachments` | nej | nej | Mappe på disken, som ældre vedhæftede filer fra mails læses fra. |
+| `EMAIL_SYNC_STORE_ATTACHMENTS` | `false` | nej | nej | `true` uploader vedhæftede filer fra mail-til-opgave-synkroniseringen til det konfigurerede lager. |
+
+## Godkendelse og loginudbydere
+
+Mail og adgangskode, magiske links og passkeys virker uden nogen af disse. Hver social udbyder kræver din egen OAuth-app med callback-URL'en `{NEXT_PUBLIC_APP_URL}/api/auth/callback/<provider>`. En udbyder er slået til, når både dens ID og hemmelighed er sat. Se [Godkendelse](/da/docs/configuration/authentication).
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `GOOGLE_CLIENT_ID` | ingen | nej | nej | Login med Google. Bruges også af Google Kalender-integrationen. |
+| `GOOGLE_CLIENT_SECRET` | ingen | nej | nej | Hemmelighed til Google OAuth-appen. |
+| `GITHUB_CLIENT_ID` | ingen | nej | nej | Login med GitHub. |
+| `GITHUB_CLIENT_SECRET` | ingen | nej | nej | Hemmelighed til GitHub OAuth-appen. |
+| `DISCORD_CLIENT_ID` | ingen | nej | nej | Login med Discord. |
+| `DISCORD_CLIENT_SECRET` | ingen | nej | nej | Hemmelighed til Discord OAuth-appen. |
+| `MICROSOFT_CLIENT_ID` | ingen | nej | nej | Login med Microsoft Entra ID (Azure AD), for eksempel virksomhedens SSO. Callback: `{NEXT_PUBLIC_APP_URL}/api/auth/callback/microsoft-entra-id`. |
+| `MICROSOFT_CLIENT_SECRET` | ingen | nej | nej | Hemmelighed til Entra ID-appen. |
+| `MICROSOFT_TENANT_ID` | `common` | nej | nej | `common`, `organizations` eller et tenant-GUID. |
+| `APPLE_CLIENT_ID` | ingen | nej | nej | Log ind med Apple: Services ID, der bruges til login på web. |
+| `APPLE_TEAM_ID` | ingen | nej | nej | Apples udvikler-team-ID. |
+| `APPLE_KEY_ID` | ingen | nej | nej | ID på nøglen til Log ind med Apple. |
+| `APPLE_PRIVATE_KEY` | ingen | nej | nej | Indholdet af `.p8`-nøglen. Client secret genereres ud fra den ved opstart. |
+| `APPLE_APP_BUNDLE_IDENTIFIER` | `dk.timetrack.app` | nej | nej | iOS-bundle-ID, der bruges til native login og til at tilbagekalde tokenet, når en konto slettes. Sæt dit eget, hvis du selv bygger mobilappen. |
+| `SESSION_EXPIRY_DAYS` | `7` | nej | nej | Sessionens levetid i dage. |
+| `BETTER_AUTH_SECRETS` | ingen | nej | nej | Versionerede hemmeligheder til at rotere `BETTER_AUTH_SECRET` uden at miste krypterede tokens. |
+
+## Integrationer
+
+Billy kræver intet her: Hver bruger indsætter sin egen Billy API-nøgle i appen. Se [Billy](/da/docs/integrations/billy), [Dinero](/da/docs/integrations/dinero), [e-conomic](/da/docs/integrations/e-conomic), [Kalender](/da/docs/integrations/calendar) og [CVR](/da/docs/integrations/cvr).
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `GOOGLE_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/google/callback` | nej | nej | OAuth-redirect-URI for Google Kalender-integrationen. Bruger `GOOGLE_CLIENT_ID` og `GOOGLE_CLIENT_SECRET`. |
+| `DINERO_CLIENT_ID` | ingen | betinget | nej | Visma Connect OAuth-app til Dinero. Både ID og hemmelighed skal til for at slå integrationen til. |
+| `DINERO_CLIENT_SECRET` | ingen | betinget | nej | Hemmelighed til Visma Connect-appen. |
+| `DINERO_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/dinero/callback` | nej | nej | OAuth-redirect-URI til Dinero. |
+| `DINERO_WEBHOOK_SECRET` | ingen | nej | nej | Hemmelighed, der bruges til at verificere webhooks fra Dinero. |
+| `BILLY_WEBHOOK_SECRET` | ingen | nej | nej | Hemmelighed, der bruges til at verificere webhooks fra Billy. |
+| `ECONOMIC_APP_PUBLIC_TOKEN` | ingen | betinget | nej | Offentligt token for din app, registreret i e-conomics udviklerportal. Begge tokens skal til for at slå integrationen til. |
+| `ECONOMIC_APP_SECRET_TOKEN` | ingen | betinget | nej | Hemmeligt token for e-conomic-appen. |
+| `ECONOMIC_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/economic/callback` | nej | nej | Redirect-URI til e-conomic. |
+| `CVR_SERVICE_API_KEY` | ingen | nej | nej | Nøgle til CVR-opslagstjenesten. Tom: Opslag falder tilbage til den gratis cvrapi.dk. |
+| `CVR_SERVICE_URL` | vedligeholderens CVR-tjeneste | nej | nej | Basis-URL for CVR-opslagstjenesten, der bruges sammen med `CVR_SERVICE_API_KEY`. |
+| `CVR_API_TIMEOUT_MS` | `10000` | nej | nej | Timeout for CVR-opslag i millisekunder. |
+| `GITHUB_TOKEN` | ingen | nej | nej | GitHub-token til opslag efter desktopopdateringer, som giver en højere rate limit. |
+| `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` | ingen | nej | ja | GitHub-`owner/repo`, som desktopdownloads linker til. Slået fra, medmindre den er sat. |
+| `DESKTOP_UPDATER_REPO` | ingen | nej | nej | GitHub-`owner/repo` til ældre desktopopdateringer. Slået fra, medmindre den er sat. |
+| `CHANGELOG_REPO` | ingen | nej | nej | GitHub-`owner/repo`, som changeloggen læses fra. Slået fra, medmindre den er sat. |
+
+## AI, sms, push og mail til opgave
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `OPENAI_API_KEY` | ingen | nej | nej | Slår AI-forslag og kategorisering til. |
+| `AI_CACHE_TTL_MS` | `60000` | nej | nej | Levetid for cachede AI-resultater i millisekunder. |
+| `AI_HIGH_CONFIDENCE_THRESHOLD` | `0.8` | nej | nej | Den sikkerhed, hvorfra et AI-forslag tæller som høj sikkerhed. |
+| `MESSAGEBIRD_API_KEY` | ingen | nej | nej | Slår sms-login via MessageBird til. |
+| `MESSAGEBIRD_ORIGINATOR` | brandets korte navn (`TimeWren`) | nej | nej | Afsendernavn på sms'er. |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | ingen | nej | nej | Offentlig VAPID-nøgle til Web Push. Serveren giver den videre til browseren, så den læses ved runtime. Generér et nøglepar med `npx web-push generate-vapid-keys`. |
+| `VAPID_PRIVATE_KEY` | ingen | nej | nej | Privat VAPID-nøgle. Web Push er slået til, når begge nøgler er sat. |
+| `VAPID_EMAIL` | `mailto:support@<EMAIL_DOMAIN>` | nej | nej | Kontakt, der sendes med push-beskeder, som en `mailto:`-URL. |
+| `EXPO_ACCESS_TOKEN` | ingen | nej | nej | Valgfrit Expo-adgangstoken til push-notifikationer til mobilappen. |
+| `INBOUND_EMAIL_DOMAIN` | maildomænet | nej | nej | Domæne for mail-til-opgave-adresserne. |
+
+## Valkey og realtid
+
+Valkey er valgfrit. Det giver rate limits, der deles mellem processer, og synkronisering af timeren i realtid. Start det med `docker compose --profile valkey up -d`, eller sæt `COMPOSE_PROFILES=valkey` i `.env`.
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `VALKEY_URL` | ingen | nej | nej | Forbindelses-URL, for eksempel `redis://valkey:6379`. Uden den falder alt tilbage til opførsel i hukommelsen. |
+| `RATE_LIMIT_BACKEND` | i hukommelsen | nej | nej | `valkey` gemmer rate limits i Valkey. Enhver anden værdi holder dem i hukommelsen. |
+| `REALTIME_ENABLED` | `true` i Docker-imaget | nej | nej | Serverflag for timerhændelser i realtid. Realtid kræver også `VALKEY_URL`. Sæt `false` for at slå det fra uden et nyt build. |
+| `NEXT_PUBLIC_REALTIME_ENABLED` | ingen | nej | ja | Klientflag, skal være `true` ved build. Både denne og `REALTIME_ENABLED` skal være `true`. Det færdigbyggede image sætter den ikke. |
+| `ELECTRIC_URL` | ingen | nej | nej | Eksperimentel ElectricSQL-shape-proxy til timeren. Gør intet, medmindre begge variabler er sat. Endpointene svarer så 503, og klienterne falder tilbage. |
+| `ELECTRIC_SECRET` | ingen | nej | nej | Hemmelighed til ElectricSQL-proxyen. |
+
+## Telemetri og overvågning
+
+Intet sendes til vedligeholderne, medmindre du sætter disse. Se også [Fejlfinding](/da/docs/operations/troubleshooting).
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | ingen | nej | ja | URL til et Plausible-analysescript. Tom: Der indlæses intet analysescript. Tilføjes også til CSP'en. |
+| `PLAUSIBLE_BASE_URL` | `https://plausible.io` | nej | nej | Plausible-host, som admin-siden med statistik bruger. |
+| `PLAUSIBLE_SITE_ID` | ingen | nej | nej | Plausible-site-ID til admin-siden med statistik. |
+| `PLAUSIBLE_API_KEY` | ingen | nej | nej | Plausible API-nøgle. Admin-siden med statistik kræver denne og `PLAUSIBLE_SITE_ID`. |
+| `NEXT_PUBLIC_SENTRY_DSN` | ingen | nej | ja | Sentry-DSN til fejl. Tom: Sentry rapporterer intet. |
+| `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` | slået til | nej | ja | `false` slår Sentry fra i browseren. |
+| `NEXT_PUBLIC_SENTRY_ENVIRONMENT` | afledt af hosten | nej | ja | Miljønavn, der sendes med browserfejl. |
+| `SENTRY_AUTH_TOKEN` | ingen | nej | nej | Upload af source maps ved build og API-adgang til opslag af Sentry-issues. |
+| `SENTRY_ACCESS_TOKEN` | ingen | nej | nej | Token til opslag af Sentry-issues. Har forrang frem for `SENTRY_AUTH_TOKEN`. |
+| `SENTRY_API_URL` | `https://sentry.io` | nej | nej | Basis-URL for Sentrys API, til selvhostet Sentry. |
+| `SENTRY_WEBHOOK_SECRET` | ingen | nej | nej | Hemmelighed, der verificerer webhooks fra Sentry. |
+| `SENTRY_DISABLED` | ingen | nej | ja | `1` slår Sentrys build-plugin fra. Dockerfilen sætter den under build af imaget. |
+
+## Finjustering
+
+Alle er valgfrie. Standardværdierne er dem, TimeWren bruger, medmindre du ændrer dem.
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `DEFAULT_WEEKLY_HOUR_GOAL` | `37` | nej | nej | Standardmål for ugentlige timer for nye brugere. |
+| `PRODUCTIVITY_HEATMAP_DAYS` | `90` | nej | nej | Antal dage i produktivitets-heatmappet. |
+| `PREPAID_LOW_BALANCE_THRESHOLD` | `0.2` | nej | nej | Den andel af et [klippekort](/da/docs/concepts/prepaid-hours), der skal være tilbage, før saldoen tæller som lav. |
+| `PREPAID_CRITICAL_BALANCE_HOURS` | `1` | nej | nej | Antal resterende timer, der tæller som kritisk, ud over andelsreglen. |
+| `PREPAID_EXPIRY_WARNING_DAYS` | `30` | nej | nej | Hvor mange dage før udløb et klippekort udløser en advarsel. |
+| `MAX_MONETARY_AMOUNT` | `100000000` | nej | nej | Øvre grænse for et enkelt pengebeløb. |
+| `PDF_ENGINE` | `react-pdf` | nej | nej | Renderer til faktura-PDF'er. `takumi` er et eksperimentelt alternativ. |
+| `CHURN_PLAYBOOKS_DISABLED` | ingen | nej | nej | `1` slår cronjobbet med churn-playbooks fra. |
+| `MIGRATE_ON_START` | `1` i Compose | nej | nej | `1` kører databasemigreringer ved hver opstart. Uden den springes migreringer over (uden for Compose er standarden slået fra). Se [Opgradering](/da/docs/operations/upgrading). |
+| `MIGRATION_LOCK_TIMEOUT_MS` | `300000` | nej | nej | Hvor længe en container, der starter, venter på, at en anden bliver færdig med at migrere. Ugyldige værdier giver standardværdien. |
+| `SEED_DEMO_ORGS` | `false` | nej | nej | `true` opretter en demo-organisation ved opstart. |
+| `MIN_CLIENT_VERSIONS` | ingen | nej | nej | Mindste klientversioner pr. klienttype, for eksempel `extension=2.5.2,mobile=1.0.0+5,desktop=0.2.21`. Ældre klienter kan stadig læse, men skrivninger til timer og tid afvises. Tom: Intet håndhæves. |
+| `MIN_CLIENT_VERSIONS_MODE` | håndhæv | nej | nej | `observe` evaluerer minimumsversionerne og viser forældede klienter i admin-området uden at afvise noget. |
+| `SYNTHETIC_USER_EMAILS` | ingen | nej | nej | Mailadresser på overvågnings- eller testkonti, der udelades af statistik og mails, kommasepareret. |
+| `SYNTHETIC_USER_IDS` | ingen | nej | nej | Bruger-ID'er på de samme konti, kommasepareret. |
+
+## Docker Compose og opstart
+
+Compose sætter selv nogle af disse. De står her, så du ved, hvor de kommer fra.
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `TIMEWREN_VERSION` | `latest` | nej | nej | Kun Compose: det image-tag, der skal køres. Lås det, for eksempel til `1.2.3`, for at styre opgraderinger. |
+| `COMPOSE_PROFILES` | ingen | nej | nej | Læses af Docker Compose, ikke af appen. Brug `valkey` for at starte den valgfrie Valkey-tjeneste. |
+| `TZ` | `Europe/Copenhagen` | nej | nej | Tidszone for app- og databasecontainerne. Containeren `cron` kører altid i `Europe/Copenhagen`. |
+| `APP_URL` | `http://app:3000` | ja (cron) | nej | Læses kun af containeren `cron`: den interne URL, den kalder `/api/cron/*`-endpointene på. Compose sætter den. Forveksl den ikke med `NEXT_PUBLIC_APP_URL`. |
+| `NODE_ENV` | `production` i imaget | nej | nej | Sættes af imaget og af `npm run dev`. Lad den være ved selvhosting. |
+| `NEXT_PHASE` | sat af Next.js | nej | nej | Sættes af Next.js (`phase-production-build` under `next build`). Under buildet skrives MCP-OAuth-ressourcen ikke til databasen. Sæt den aldrig selv. |
+| `NEXT_RUNTIME` | sat af Next.js | nej | nej | Sættes af Next.js (`nodejs` eller `edge`). Sæt den aldrig selv. |
+| `CI` | ingen | nej | nej | Gør Sentry-pluginets build-logs tavse, når den er sat. Sættes af CI-systemer. |
+| `CI_SKIP_TYPECHECK` | `false` | nej | ja | Build-argument til Dockerfilen: `true` springer typetjekket over under `next build`. Kun til CI-builds, der typetjekker separat. |
+| `NEXT_PUBLIC_APP_VERSION` | ingen | nej | ja | Versionsstreng, der bages ind i klienten og bruges til at opdage en ny deploy. Dockerfilen sætter den ud fra build-argumentet `APP_VERSION`. Tom bruger Next.js' build-ID. |
+
+## Kun den hostede tjeneste
+
+> **Advarsel:** Ikke til selvhosting. Disse variabler hører til de hostede deployments af TimeTrack Cloud og TimeWren Cloud. Lad dem være usat på din egen instans. Variablerne `ALUNTA_*`, `STRIPE_*`, `STORE_BILLING_ENABLED` og `GOOGLE_PLAY_*` er de betalingsvariabler, der er beskrevet øverst på siden.
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `ALUNTA_API_KEY` | ingen | nej | nej | Slår betaling til og aktiverer betalingsudbyderen Alunta. |
+| `ALUNTA_WEBHOOK_SECRET` | ingen | med `ALUNTA_API_KEY` | nej | Verificerer webhooks fra Alunta. Uden den svarer webhooken 503 og behandler intet. |
+| `ALUNTA_WEBHOOK_ALLOW_UNSIGNED` | ingen | nej | nej | `1` eller `true` accepterer webhooks fra Alunta uden signatur, når secret er sat. Kun til udvikling; ignoreres ved `NODE_ENV=production`. |
+| `ALUNTA_PLAN_MONTHLY` | tom | nej | nej | Alunta-plan-ID for månedsplanen. |
+| `ALUNTA_PLAN_YEARLY` | tom | nej | nej | Alunta-plan-ID for årsplanen. |
+| `ALUNTA_PLAN_TEAM_MONTHLY` | tom | nej | nej | Alunta-plan-ID, Team, månedlig. |
+| `ALUNTA_PLAN_TEAM_YEARLY` | tom | nej | nej | Alunta-plan-ID, Team, årlig. |
+| `ALUNTA_PLAN_BUSINESS_MONTHLY` | tom | nej | nej | Alunta-plan-ID, Business, månedlig. |
+| `ALUNTA_PLAN_BUSINESS_YEARLY` | tom | nej | nej | Alunta-plan-ID, Business, årlig. |
+| `ALUNTA_PLAN_TEAM_SEATS` | tom | nej | nej | Alunta-plan-ID for ekstra Team-pladser. |
+| `ALUNTA_PLAN_BUSINESS_SEATS` | tom | nej | nej | Alunta-plan-ID for ekstra Business-pladser. |
+| `ALUNTA_PLAN_PRIVAT_MONTHLY` | tom | nej | nej | Alunta-plan-ID, Privat, månedlig. |
+| `ALUNTA_PLAN_PRIVAT_YEARLY` | tom | nej | nej | Alunta-plan-ID, Privat, årlig. |
+| `ALUNTA_PLAN_FOUNDING_MONTHLY` | tom | nej | nej | Alunta-plan-ID, founding-plan, månedlig. |
+| `ALUNTA_PLAN_FOUNDING_YEARLY` | tom | nej | nej | Alunta-plan-ID, founding-plan, årlig. |
+| `ALUNTA_PLAN_LEGACY_SOLO` | tom | nej | nej | Alunta-plan-ID'er for den gamle solo-plan. |
+| `ALUNTA_PLAN_LEGACY_TEAM` | tom | nej | nej | Alunta-plan-ID'er for den gamle Team-plan. |
+| `ALUNTA_PLAN_LEGACY_BUSINESS` | tom | nej | nej | Alunta-plan-ID'er for den gamle Business-plan. |
+| `ALUNTA_PLAN_LEGACY_TEAM_SEATS` | tom | nej | nej | Alunta-plan-ID for ekstra pladser på den gamle Team-plan. |
+| `ALUNTA_PLAN_LEGACY_BUSINESS_SEATS` | tom | nej | nej | Alunta-plan-ID for ekstra pladser på den gamle Business-plan. |
+| `STRIPE_SECRET_KEY` | ingen | nej | nej | Slår betaling til og aktiverer Stripe. |
+| `STRIPE_WEBHOOK_SECRET` | ingen | nej | nej | Verificerer webhooks fra Stripe. |
+| `STRIPE_TAX_ENABLED` | `false` | nej | nej | `true` slår Stripe Tax til. |
+| `STRIPE_DESKTOP_LIFETIME_PRICE_ID` | tom | nej | nej | Stripe-pris-ID for livstidslicensen til desktop. |
+| `STORE_BILLING_ENABLED` | ingen | nej | nej | `1` slår betaling til for køb i appen (App Store og Google Play). |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | ingen | nej | nej | Servicekonto til at verificere køb i Google Play. |
+| `GOOGLE_PLAY_PACKAGE_NAME` | ingen | nej | nej | Android-pakkenavn til Google Play. |
+| `GOOGLE_PLAY_WEBHOOK_TOKEN` | ingen | nej | nej | Token i notifikations-URL'en fra Google Play. |
+| `FREE_TRIAL_DAYS` | `30` | nej | nej | Længden af den gratis prøveperiode. Har kun effekt, når betaling er slået til. |
+| `DOKPLOY_API_URL` | ingen | nej | nej | Hosting-API, der bruges til at registrere kundedomæner. |
+| `DOKPLOY_API_TOKEN` | ingen | nej | nej | Token til det hosting-API. |
+| `DOKPLOY_APP_ID` | ingen | nej | nej | Applikations-ID i det hosting-API. Alle tre `DOKPLOY_*`-variabler skal til. |
+| `CLAUDE_AGENT_API_KEY` | ingen | nej | nej | Nøgle, som Sentry-webhooken bruger til at starte en automatisk rette-agent. |
+| `CLAUDE_AGENT_TRIGGER_URL` | ingen | nej | nej | URL, der starter den agent. |
+| `UNBLOCK_PLAN_EMAIL` | ingen | nej | nej | Engangstildeling af en plan, der anvendes under migreringstrinnet ved en release. |
+| `UNBLOCK_PLAN_TIER` | `team` | nej | nej | Planniveau for den tildeling. |
+| `UNBLOCK_PLAN_SEATS` | ingen | nej | nej | Antal pladser for den tildeling. |
+| `SHARED_PROD_DB` | ingen | nej | nej | `1`, når databasen deles med en ældre version. Slår funktioner fra, som den ældre version ikke kan håndtere. |
+| `MULTIBRAND_ENABLED` | ingen | nej | nej | `1` slår den hostede tjenestes register over brand-hosts til. |
+| `BRANDS_CONFIG` | indbyggede pladsholdere | nej | nej | JSON med de rigtige brand-hosts i den hostede multibrand-opsætning. |
+| `TIMEWREN_APP_ENABLED` | ingen | nej | nej | `1` åbner appen (login, oprettelse, dashboard) på de hostede TimeWren-hosts. |
+| `TIMEWREN_INDEXABLE` | ingen | nej | nej | `1` tillader søgemaskiner at indeksere det hostede TimeWren-site. |
+| `TIMEWREN_GOOGLE_CLIENT_ID` | ingen | nej | nej | Client ID for TimeWren Clouds Google-app. Sammen med secret'en vises Google-login på TimeWren-hosts; uden den er knappen skjult, og udbyderen er ikke registreret dér. TimeTracks nøgler bruges aldrig på TimeWren-hosts. |
+| `TIMEWREN_GOOGLE_CLIENT_SECRET` | ingen | nej | nej | Client secret for TimeWren Clouds Google-app. |
+| `TIMEWREN_GITHUB_CLIENT_ID` | ingen | nej | nej | Client ID for TimeWren Clouds GitHub-app. Sammen med secret'en vises GitHub-login på TimeWren-hosts; uden den er knappen skjult, og udbyderen er ikke registreret dér. TimeTracks nøgler bruges aldrig på TimeWren-hosts. |
+| `TIMEWREN_GITHUB_CLIENT_SECRET` | ingen | nej | nej | Client secret for TimeWren Clouds GitHub-app. |
+| `TIMEWREN_DISCORD_CLIENT_ID` | ingen | nej | nej | Client ID for TimeWren Clouds Discord-app. Sammen med secret'en vises Discord-login på TimeWren-hosts; uden den er knappen skjult, og udbyderen er ikke registreret dér. TimeTracks nøgler bruges aldrig på TimeWren-hosts. |
+| `TIMEWREN_DISCORD_CLIENT_SECRET` | ingen | nej | nej | Client secret for TimeWren Clouds Discord-app. |
+| `TIMEWREN_MICROSOFT_CLIENT_ID` | ingen | nej | nej | Client ID for TimeWren Clouds Microsoft Entra ID-app. Sammen med secret'en vises Microsoft Entra ID-login på TimeWren-hosts; uden den er knappen skjult, og udbyderen er ikke registreret dér. TimeTracks nøgler bruges aldrig på TimeWren-hosts. |
+| `TIMEWREN_MICROSOFT_CLIENT_SECRET` | ingen | nej | nej | Client secret for TimeWren Clouds Microsoft Entra ID-app. |
+| `TIMEWREN_MICROSOFT_TENANT_ID` | `common` | nej | nej | Microsoft-tenant for login på TimeWren Cloud, som `MICROSOFT_TENANT_ID`. |
+| `TIMEWREN_APPLE_CLIENT_ID` | ingen | nej | nej | Services ID for TimeWren Clouds Sign in with Apple-app. Signeres med teamets nøgle (`APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`). |
+
+## Kun udvikling og test
+
+> **Advarsel:** Disse variabler er til udvikling af selve TimeWren. Sæt dem ikke i produktion.
+
+Til en lokal opsætning uden Docker (`npm run dev`) lægger du `DATABASE_URL` i `.env.local`, for eksempel `postgresql://postgres:postgres@localhost:5432/freelance_crm`. `npm run docker:up` starter en matchende PostgreSQL fra `docker-compose.dev.yml`.
+
+| Variabel | Standard | Påkrævet | Build time | Beskrivelse |
+| --- | --- | --- | --- | --- |
+| `TT_DB_TESTS` | ingen | nej | nej | `1` kører timermodeltestene, der bruger databasen. De kræver, at `DATABASE_URL` peger på en database, der må smides væk. |
+| `DATABASE_CONNECT_TIMEOUT` | `10` | nej | nej | Sekunder appen venter på en ny databaseforbindelse. CI sætter `60` til timermodeltestene på delte runnere. |
+| `TT_MODEL_RUNS` | `150` | nej | nej | Antal genererede kommandosekvenser i timermodeltesten. |
+| `TT_MODEL_SEED` | fast seed | nej | nej | Seed for timermodeltesten. `random` udforsker nye sekvenser. |
+| `TT_MODEL_MAX_COMMANDS` | `30` | nej | nej | Højeste antal kommandoer pr. genereret sekvens. |
+| `TT_MODEL_PATH` | ingen | nej | nej | Afspiller ét modeksempel igen, for eksempel `4:2:1`, sammen med `TT_MODEL_SEED`. |
+| `TT_MODEL_DEBUG` | ingen | nej | nej | Når den er sat, skriver timermodeltesten ekstra debug-output. |
+| `TT_QUERY_COUNT` | ingen | nej | nej | `1` tæller databaseforespørgsler pr. tRPC-forespørgsel. Ignoreres, når `NODE_ENV` er `production`. |

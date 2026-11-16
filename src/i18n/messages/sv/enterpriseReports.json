@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Anställd"
+    },
+    "department": {
+      "label": "Avdelning"
+    },
+    "project": {
+      "label": "Projekt"
+    },
+    "activityType": {
+      "label": "Aktivitet"
+    },
+    "absenceType": {
+      "label": "Frånvarotyp"
+    },
+    "day": {
+      "label": "Datum"
+    },
+    "week": {
+      "label": "Vecka"
+    },
+    "month": {
+      "label": "Månad"
+    },
+    "vacationYear": {
+      "label": "Semesterår"
+    },
+    "email": {
+      "label": "E-post"
+    },
+    "employmentType": {
+      "label": "Anställningsform"
+    },
+    "weeklyHours": {
+      "label": "Timmar/vecka"
+    },
+    "dailyNorm": {
+      "label": "Dagsnorm"
+    },
+    "employeeNumber": {
+      "label": "Anställningsnr",
+      "help": "Anställningsnummer i lönesystemet (följer dimensionen anställd)"
+    },
+    "payrollCode": {
+      "label": "Lönekod",
+      "help": "Lönekod från aktivitetstypen (följer dimensionen aktivitet)"
+    },
+    "hours": {
+      "label": "Loggade timmar"
+    },
+    "normHours": {
+      "label": "Normaltimmar",
+      "help": "Dagsnorm × arbetsdagar i perioden (helgdagar avdragna)"
+    },
+    "workDays": {
+      "label": "Arbetsdagar",
+      "help": "Planerade arbetsdagar i perioden (exklusive helgdagar/stängningsdagar)"
+    },
+    "employeeCount": {
+      "label": "Antal anställda"
+    },
+    "flexDelta": {
+      "label": "Flex (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Avdragen rast",
+      "help": "Bara för obetald rast (in-/utstämpling)"
+    },
+    "checkInHours": {
+      "label": "Närvaro (instämpling)"
+    },
+    "workedDays": {
+      "label": "Dagar med poster"
+    },
+    "maxDayHours": {
+      "label": "Längsta dag",
+      "help": "Högsta dagssumma för en anställd i gruppen"
+    },
+    "longDays": {
+      "label": "Dagar över 13 h",
+      "help": "En dagssumma över 13 h ger mindre än 11 h vila (elvatimmarsregeln)"
+    },
+    "avgWeeklyHours": {
+      "label": "Snitt timmar/vecka",
+      "help": "Loggade timmar per anställdvecka med poster eller frånvaro (48-timmarsregeln)"
+    },
+    "weeksOver48h": {
+      "label": "Veckor över 48 h",
+      "help": "Antal anställdveckor med över 48 h loggade"
+    },
+    "fullWeeks": {
+      "label": "Veckor utan ledig dag",
+      "help": "Veckor med poster alla 7 dagar och ingen frånvarodag (24 timmars veckovila)"
+    },
+    "absenceDays": {
+      "label": "Frånvaro (dagar)"
+    },
+    "absenceHours": {
+      "label": "Frånvaro (timmar)"
+    },
+    "absencePeriods": {
+      "label": "Frånvaroperioder"
+    },
+    "sickDays": {
+      "label": "Sjukdagar"
+    },
+    "sickHours": {
+      "label": "Sjuktimmar"
+    },
+    "sickPeriods": {
+      "label": "Sjukperioder"
+    },
+    "sickPct": {
+      "label": "Sjukfrånvaro %",
+      "help": "Sjukdagar / arbetsdagar"
+    },
+    "longTermSick": {
+      "label": "Långtidssjuka",
+      "help": "Sammanhängande sjukperiod på över 30 dagar i perioden"
+    },
+    "longTermSickCount": {
+      "label": "Långtidssjuka (antal)",
+      "help": "Antal anställda med en sjukperiod på över 30 dagar"
+    },
+    "overtimeEarned": {
+      "label": "Intjänad övertid"
+    },
+    "overtimeUsed": {
+      "label": "Uttagen kompledighet"
+    },
+    "overtimePaidOut": {
+      "label": "Utbetald övertid"
+    },
+    "overtimeNet": {
+      "label": "Övertid netto",
+      "help": "Intjänad minus uttagen som ledighet minus utbetald"
+    },
+    "vacationAllotted": {
+      "label": "Tilldelad semester"
+    },
+    "vacationUsed": {
+      "label": "Uttagen semester"
+    },
+    "vacationRemaining": {
+      "label": "Kvarvarande semester"
+    },
+    "extraVacationAllotted": {
+      "label": "Tilldelade extra semesterdagar"
+    },
+    "extraVacationUsed": {
+      "label": "Uttagna extra semesterdagar"
+    },
+    "extraVacationRemaining": {
+      "label": "Kvarvarande extra semesterdagar"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Semester uttagen under perioden",
+      "help": "Semesterdagar (typer som drar av semestersaldot) inom rapportperioden"
+    },
+    "hoursByActivity": {
+      "label": "Timmar per aktivitet",
+      "pivot": "{name} (timmar)"
+    },
+    "absenceDaysByType": {
+      "label": "Frånvaro per typ (dagar)",
+      "pivot": "{name} (dagar)"
+    },
+    "absenceHoursByType": {
+      "label": "Frånvaro per typ (timmar)",
+      "pivot": "{name} (timmar)"
+    },
+    "quantityByWageType": {
+      "label": "Mängd per lönekod",
+      "help": "Timmar/dagar per lönekod via lönemappning (Inställningar → Lön)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Anställd",
+    "department": "Avdelning",
+    "project": "Projekt",
+    "activityType": "Aktivitet",
+    "absenceType": "Frånvarotyp",
+    "day": "Dag",
+    "week": "Vecka",
+    "month": "Månad",
+    "vacationYear": "Semesterår"
+  },
+  "groups": {
+    "dimensions": "Dimensioner",
+    "employee": "Anställd",
+    "time": "Tid",
+    "compliance": "Regelefterlevnad",
+    "absence": "Frånvaro",
+    "overtime": "Övertid",
+    "payroll": "Lön",
+    "vacation": "Semesterkonton"
+  },
+  "presets": {
+    "this_month": "Den här månaden",
+    "last_month": "Förra månaden",
+    "this_quarter": "Det här kvartalet",
+    "this_year": "Det här året",
+    "last_year": "Förra året"
+  },
+  "types": {
+    "payroll": {
+      "label": "Lönerapport",
+      "description": "Per anställd för löneperioden: timmar, frånvaro i dagar och timmar per typ, flex, övertid och rastavdrag. Till löneadministrationen."
+    },
+    "sickness": {
+      "label": "Sjukfrånvaro",
+      "description": "Statistik över sjukfrånvaro per avdelning och månad: sjukdagar, perioder, frånvaroprocent och långtidssjukskrivning (över 30 dagar)."
+    },
+    "absence": {
+      "label": "Frånvaro",
+      "description": "Alla frånvarotyper (semester, sjukdom, ledighet, vård…) per anställd eller avdelning, i dagar och timmar."
+    },
+    "flex_overtime": {
+      "label": "Flex och övertid",
+      "description": "Saldoutveckling per period: normaltimmar, loggade timmar, flexdelta och övertid som tjänats in/tagits ut/betalats ut."
+    },
+    "project_activity": {
+      "label": "Projekt och aktivitet",
+      "description": "Timmar fördelade på projekt, aktivitetstyp och avdelning, för uppföljning av undervisning, förberedelse, möten och så vidare."
+    },
+    "vacation_account": {
+      "label": "Semesterkonton",
+      "description": "Semesterkonton per semesterår: tilldelade, uttagna och kvarvarande semesterdagar och extra semesterdagar, per anställd."
+    },
+    "compliance": {
+      "label": "Regelefterlevnad (arbetstidsregler)",
+      "description": "Överträdelser och varningar per anställd och vecka: dagar över 13 h (11 h vila), veckor över 48 h, veckor utan ledig dag (24 timmars veckovila) och genomsnittlig veckoarbetstid."
+    },
+    "custom": {
+      "label": "Anpassad",
+      "description": "Fritt val av dimensioner och kolumner ur hela katalogen: bygg exakt den rapport du saknar."
+    }
+  },
+  "weekdays": {
+    "1": "Måndag",
+    "2": "Tisdag",
+    "3": "Onsdag",
+    "4": "Torsdag",
+    "5": "Fredag",
+    "6": "Lördag",
+    "7": "Söndag"
+  },
+  "page": {
+    "all": "(alla)",
+    "selected": "({count} valda)",
+    "clear": "Rensa urval",
+    "downloaded": "Rapporten har laddats ner",
+    "templateDeleted": "Mallen har tagits bort",
+    "maxDimensions": "Högst 4 dimensioner",
+    "templateUnreadable": "Mallen kan inte läsas",
+    "needColumn": "Välj minst en kolumn",
+    "inactive": "(inaktiv)",
+    "title": "Rapporter",
+    "step1": "1. Välj rapporttyp",
+    "step2": "2. Period",
+    "holidayYearPlaceholder": "Semesterår…",
+    "holidayYear": "Semesterår {year}",
+    "from": "Från",
+    "to": "Till",
+    "step3": "3. Filter",
+    "departments": "Avdelningar",
+    "employees": "Anställda",
+    "projects": "Projekt",
+    "activities": "Aktiviteter",
+    "absenceTypes": "Frånvarotyper",
+    "onlyApproved": "Endast godkända timmar",
+    "includeRejected": "Ta med avvisade timmar",
+    "includePending": "Ta med väntande frånvaro",
+    "includeInactive": "Ta med tidigare anställda",
+    "includeDetails": "Ta med alla poster (detaljer)",
+    "step4": "4. Gruppera efter",
+    "step4Hint": "(ordning = klickordning)",
+    "step5": "5. Kolumner",
+    "run": "Kör rapport",
+    "saveAsTemplate": "Spara som mall",
+    "chooseTemplateFirst": "Spara eller välj en mall först",
+    "scheduleMail": "Schemalägg e-post",
+    "savedTemplates": "Sparade mallar",
+    "noTemplates": "Inga mallar ännu.",
+    "sharedOrg": "Delad i organisationen",
+    "onlyMe": "Bara jag",
+    "standard": " · Standard",
+    "deleteTemplate": "Ta bort mall",
+    "confirmDeleteTemplate": "Ta bort mallen \"{name}\"?",
+    "footnote": "CSV använder semikolon och danska decimalkommatecken. Avvisade timmar utesluts som standard; öppna sjukanmälningar räknas till och med i dag. Chefer ser bara sina egna avdelningar och anställda.",
+    "cardEmployees": "Anställda",
+    "noData": "Inga data under perioden {from} till {to}",
+    "noDataHint": "Prova en bredare period, färre filter eller andra kolumner.",
+    "allEntries": "Alla poster ({count})",
+    "truncated": "Perioden innehåller fler poster än detaljlistan rymmer. Summorna ovan är ändå beräknade på alla data. Välj en kortare period för att se alla detaljer.",
+    "detEmployee": "Anställd",
+    "detDepartment": "Avdelning",
+    "detDate": "Datum",
+    "detHours": "Timmar",
+    "detProject": "Projekt",
+    "detActivity": "Aktivitet",
+    "detPayCode": "Lönekod",
+    "detDescription": "Beskrivning",
+    "detSource": "Källa",
+    "detStatus": "Status",
+    "saveTemplateTitle": "Spara som mall",
+    "templateSaved": "Mallen har sparats",
+    "name": "Namn",
+    "description": "Beskrivning",
+    "shareWithOrg": "Dela med hela organisationen (alla chefer och HR kan se den)",
+    "cancel": "Avbryt",
+    "save": "Spara",
+    "scheduleTitle": "Schemalägg e-post",
+    "scheduled": "Rapporten skickas automatiskt",
+    "frequency": "Frekvens",
+    "weekly": "Veckovis",
+    "monthly": "Månadsvis",
+    "weekday": "Veckodag",
+    "dayOfMonth": "Dag i månaden",
+    "dayN": "{day}.",
+    "recipients": "Mottagare (separera med kommatecken)",
+    "recipientsPlaceholder": "lon@exempel.se, chef@exempel.se",
+    "format": "Format",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "Perioden i mallen är rullande: \"Förra månaden\" som skickas den 1:a ger exakt förra månadens siffror.",
+    "schedule": "Schemalägg",
+    "scheduleRemoved": "Schemalagd e-post borttagen",
+    "scheduledMails": "Schemalagda e-postmeddelanden",
+    "freqWeeklyLower": "veckovis",
+    "freqMonthlyLower": "månadsvis",
+    "scheduleLine": "· {frequency} (dag {day}) · {format} · {recipients}",
+    "lastSent": " · senast skickad {date}",
+    "remove": "Ta bort",
+    "yes": "Ja",
+    "no": "Nej",
+    "card": {
+      "employees": "Anställda"
+    }
+  }
+}

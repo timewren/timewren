@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "Twój link do logowania w {brand} działa przez 15 minut",
+    "kicker": "Logowanie",
+    "heading": "Zaloguj się do {brand}",
+    "footerNote": "Otrzymujesz tę wiadomość, ponieważ ktoś poprosił o link do logowania dla Twojego adresu.",
+    "body": "Kliknij przycisk, aby się zalogować. Link działa przez 15 minut i można go użyć tylko raz.",
+    "button": "Zaloguj się do {brand}",
+    "ignore": "Jeśli to nie Ty prosisz o logowanie, zignoruj tę wiadomość. Bez Twojego kliknięcia nic się nie stanie.",
+    "subject": "Zaloguj się do TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "Zresetuj hasło do {brand}",
+    "kicker": "Bezpieczeństwo",
+    "heading": "Zresetuj hasło",
+    "footerNote": "Otrzymujesz tę wiadomość, ponieważ dla Twojego konta zażądano nowego hasła.",
+    "greeting": "Cześć {name},",
+    "body": "Kliknij przycisk, aby ustawić nowe hasło. Link wygasa po godzinie.",
+    "button": "Ustaw nowe hasło",
+    "ignore": "Jeśli nie prosisz o zmianę hasła, zignoruj tę wiadomość. Hasło nie zostało zmienione, a Twoje konto jest nadal bezpieczne.",
+    "subject": "Zresetuj hasło do TimeTrack"
+  },
+  "verification": {
+    "preview": "Potwierdź adres e-mail, aby aktywować konto",
+    "kicker": "Konto",
+    "heading": "Potwierdź adres e-mail",
+    "footerNote": "Otrzymujesz tę wiadomość, ponieważ ktoś założył konto w {brand} z użyciem Twojego adresu e-mail.",
+    "greeting": "Cześć {name},",
+    "greetingFallback": "Cześć,",
+    "body": "Dziękujemy za rejestrację. Kliknij przycisk, aby potwierdzić adres e-mail i aktywować konto. Link działa przez 24 godziny.",
+    "button": "Potwierdź adres e-mail",
+    "ignore": "Jeśli nie zakładasz konta, zignoruj tę wiadomość. Nic więcej się nie wydarzy.",
+    "subject": "Potwierdź adres e-mail w TimeTrack"
+  },
+  "security": {
+    "kicker": "Bezpieczeństwo",
+    "footerNote": "To automatyczne powiadomienie o bezpieczeństwie.",
+    "greeting": "Cześć {name},",
+    "time": "Czas",
+    "ip": "Adres IP",
+    "device": "Urządzenie",
+    "place": "Lokalizacja",
+    "notYou": "To nie Ty?",
+    "openSettings": "Otwórz ustawienia konta",
+    "unknownDevice": "Nieznane urządzenie",
+    "browser": "Przeglądarka",
+    "deviceOn": "{browser} na {os}"
+  },
+  "passwordChanged": {
+    "preview": "Hasło do {brand} zostało zmienione",
+    "heading": "Twoje hasło zostało zmienione",
+    "body": "Hasło do Twojego konta w {brand} zostało właśnie zmienione. Jeśli to Ty, nie musisz nic robić.",
+    "calloutBody": "Zresetuj hasło za pomocą opcji „Nie pamiętam hasła” na stronie logowania i od razu napisz na adres [mail]{email}[/mail].",
+    "subject": "Hasło do TimeTrack zostało zmienione"
+  },
+  "newLogin": {
+    "preview": "Nowe logowanie do {brand} z urządzenia {device}",
+    "heading": "Nowe logowanie na Twoje konto",
+    "body": "Ktoś zalogował się na Twoje konto w {brand} z urządzenia, którego wcześniej nie używano. Jeśli to Ty, nie musisz nic robić.",
+    "calloutBody": "Od razu zmień hasło i napisz na adres [mail]{email}[/mail], a wsparcie pomoże zabezpieczyć konto.",
+    "subject": "Nowe logowanie na Twoje konto w TimeTrack"
+  },
+  "twoFactor": {
+    "preview": "Twój kod weryfikacyjny do {brand}: {code}",
+    "heading": "Twój kod weryfikacyjny",
+    "footerNote": "Otrzymujesz tę wiadomość, ponieważ ktoś loguje się na Twoje konto z weryfikacją dwuetapową.",
+    "enterCode": "Wpisz kod, aby kontynuować:",
+    "expires": "Kod wygasa po 3 minutach. Jeśli o niego nie prosisz, zignoruj tę wiadomość. Nigdy nie wpisuj kodu nigdzie indziej niż w {brand}.",
+    "subject": "{code} to Twój kod weryfikacyjny do TimeTrack"
+  },
+  "signupPassword": {
+    "preview": "Twoje tymczasowe hasło do {brand}",
+    "kicker": "Witaj",
+    "heading": "Witaj w {brand}, {name}",
+    "intro": "Twoje konto zostało utworzone. Oto Twoje tymczasowe hasło:",
+    "changeIt": "Zmień je po pierwszym logowaniu w sekcji Bezpieczeństwo w ustawieniach.",
+    "button": "Zaloguj się na konto",
+    "alsoLogin": "Możesz też zalogować się na [login]{url}[/login] swoim adresem e-mail i powyższym hasłem.",
+    "getStarted": "Jak zacząć",
+    "step1": "Dodaj pierwszego klienta",
+    "step2": "Utwórz projekt dla klienta",
+    "step3": "Włącz stoper i wystaw fakturę za godziny po zakończeniu pracy",
+    "subject": "Twoje hasło do TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} zaprasza Cię do {org}",
+    "kicker": "Zaproszenie",
+    "heading": "Zaproszono Cię do {org}",
+    "footerNote": "Otrzymujesz tę wiadomość, ponieważ ktoś zaprosił Cię do swojego zespołu w {brand}.",
+    "role": {
+      "owner": "właściciela",
+      "admin": "administratora",
+      "member": "członka"
+    },
+    "body": "**{inviter}** zaprasza Cię do roli {role} w **{org}** w {brand}.",
+    "body2": "Tutaj rejestrujesz czas przy klientach i projektach zespołu, a kierownik widzi godziny w jednym miejscu.",
+    "button": "Przyjmij zaproszenie",
+    "expires": "Zaproszenie wygasa po 48 godzinach. Jeśli nie znasz nadawcy, zignoruj tę wiadomość.",
+    "subject": "{inviter} zaprasza Cię do {org} w TimeTrack"
+  },
+  "portalInvite": {
+    "preview": "Zaproszenie do portalu klienta {sender}",
+    "kicker": "Portal klienta",
+    "heading": "Witamy w portalu klienta",
+    "footerNote": "Wysłano przez {sender} za pomocą {brand}.",
+    "greeting": "Dzień dobry, {name},",
+    "body": "{sender} udostępnia Państwu własny portal klienta. Można w nim przeglądać faktury i projekty oraz śledzić saldo pakietu godzin.",
+    "button": "Otwórz portal klienta",
+    "account": "Logowanie odbywa się za pomocą adresu e-mail **{email}** i hasła otrzymanego od {sender}.",
+    "token": "Link jest osobisty. Prosimy nie udostępniać go innym osobom.",
+    "questions": "W razie pytań można napisać do {sender} na adres [mail]{email}[/mail].",
+    "subject": "Zaproszenie do portalu klienta {sender}"
+  },
+  "welcome": {
+    "preview": "Witaj w {brand}",
+    "kicker": "Witaj",
+    "heading": "Witaj, {name}",
+    "intro": "Dziękujemy za założenie konta w {brand}. Oto jak zacząć:",
+    "button": "Otwórz {brand}",
+    "questions": "Pytania? Zajrzyj do [help]centrum pomocy[/help] lub napisz na adres [mail]{email}[/mail].",
+    "subject": "Witaj w TimeTrack"
+  }
+}

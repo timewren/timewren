@@ -1,0 +1,28 @@
+@import "@fontsource-variable/schibsted-grotesk/wght.css";
+@import "tailwindcss";
+@import "../styles/theme.css";
+@import "../styles/animations.css";
+
+:root {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-base);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 400px;
+  min-height: 580px;
+}
+
+#root {
+  width: 400px;
+  height: 580px;
+  overflow: hidden;
+}

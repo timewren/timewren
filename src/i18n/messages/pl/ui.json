@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Zapisywanie…",
+    "saved": "Zapisano",
+    "blocked": "Nie zapisano: popraw zaznaczone pole",
+    "failed": "Nie udało się zapisać",
+    "retry": "Spróbuj ponownie"
+  },
+  "loading": {
+    "default": "Wczytywanie…",
+    "tip": {
+      "search": "Wiesz, że Ctrl+K otwiera wyszukiwanie w całej aplikacji?",
+      "rightClick": "Wskazówka: kliknij zadanie prawym przyciskiem, by zobaczyć szybkie akcje",
+      "templates": "Używaj szablonów do powtarzalnych zadań i oszczędzaj czas",
+      "kanban": "W widoku Kanban możesz przeciągać zadania między kolumnami",
+      "timerFromTask": "Wskazówka: uruchom stoper prosto z zadania",
+      "prepaid": "Pakiety godzin pomagają pilnować opłaconych godzin",
+      "duplicate": "Pakiety godzin możesz zduplikować jednym kliknięciem",
+      "keys": "Klawiszami J/K przechodzisz po liście zadań"
+    }
+  },
+  "member": {
+    "all": "Wszyscy pracownicy",
+    "selected": "Wybrani pracownicy: {count}"
+  },
+  "founding": "Założyciel",
+  "status": {
+    "active": "Aktywne",
+    "inactive": "Nieaktywne",
+    "pending": "Oczekuje",
+    "completed": "Zakończone",
+    "archived": "Zarchiwizowane",
+    "draft": "Wersja robocza",
+    "sent": "Wysłane",
+    "paid": "Opłacone",
+    "overdue": "Po terminie",
+    "on_hold": "Wstrzymane"
+  },
+  "priority": {
+    "low": "Niski",
+    "medium": "Normalny",
+    "high": "Wysoki",
+    "urgent": "Krytyczny"
+  },
+  "modal": {
+    "close": "Zamknij",
+    "confirm": "Potwierdź",
+    "cancel": "Anuluj",
+    "wait": "Chwileczkę…",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Przesyłanie nie powiodło się",
+    "uploaded": "Obraz przesłano",
+    "uploadError": "Nie udało się przesłać obrazu",
+    "alt": "Obraz",
+    "change": "Zmień",
+    "upload": "Prześlij",
+    "remove": "Usuń",
+    "hint": "JPEG, PNG lub WebP. Maks. 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Błąd sieci",
+      "message": "Nie udało się połączyć z serwerem. Sprawdź połączenie z internetem i spróbuj ponownie."
+    },
+    "server": {
+      "title": "Błąd serwera",
+      "message": "Wystąpił błąd serwera. Spróbuj ponownie później."
+    },
+    "notFound": {
+      "title": "Nie znaleziono",
+      "message": "Szukany zasób nie istnieje albo został usunięty."
+    },
+    "permission": {
+      "title": "Brak dostępu",
+      "message": "Nie masz uprawnień do wyświetlenia tej treści."
+    },
+    "unknown": {
+      "title": "Coś poszło nie tak",
+      "message": "Wystąpił nieoczekiwany błąd. Spróbuj odświeżyć stronę."
+    },
+    "offline": "Jesteś offline",
+    "connected": "Połączono",
+    "details": "Szczegóły błędu",
+    "retrying": "Ponawianie…",
+    "retry": "Spróbuj ponownie",
+    "loading": "Wczytywanie…"
+  },
+  "empty": {
+    "clients": {
+      "title": "Brak klientów",
+      "description": "Zacznij od utworzenia pierwszego klienta. Możesz dodać dane kontaktowe, numer rejestracyjny firmy, stawkę godzinową i więcej.",
+      "action": "Utwórz pierwszego klienta",
+      "guide": "Przeczytaj poradnik"
+    },
+    "projects": {
+      "needClientTitle": "Najpierw utwórz klienta",
+      "needClientDescription": "Aby tworzyć projekty, potrzebujesz co najmniej jednego klienta. Projekt zawsze należy do klienta.",
+      "createClient": "Utwórz klienta",
+      "title": "Brak projektów",
+      "description": "Utwórz pierwszy projekt, aby rejestrować czas i fakturować klientów. Możesz wybrać stawkę godzinową albo cenę ryczałtową.",
+      "action": "Utwórz projekt",
+      "seeClients": "Pokaż klientów"
+    },
+    "time": {
+      "needProjectTitle": "Najpierw utwórz projekt",
+      "needProjectDescription": "Aby rejestrować czas, potrzebujesz co najmniej jednego aktywnego projektu. Projekty pomagają porządkować i fakturować pracę.",
+      "createProject": "Utwórz projekt",
+      "today": "dzisiaj",
+      "title": "Brak zarejestrowanego czasu: {date}",
+      "description": "Uruchom stoper albo dodaj wpis czasu ręcznie. Możesz też tworzyć powtarzalne szablony do regularnych zadań.",
+      "startTimer": "Uruchom stoper",
+      "seeTemplates": "Pokaż szablony"
+    },
+    "invoices": {
+      "needTimeTitle": "Najpierw zarejestruj czas",
+      "needTimeDescription": "Nie masz nierozliczonego czasu do zafakturowania. Zacznij od rejestracji czasu w projektach.",
+      "trackTime": "Rejestruj czas",
+      "title": "Brak faktur",
+      "description": "Utwórz pierwszą fakturę na podstawie zarejestrowanego czasu lub stałych kwot. Szablony faktur możesz dostosować w ustawieniach.",
+      "action": "Utwórz fakturę",
+      "seeUnbilled": "Pokaż nierozliczony czas"
+    },
+    "tasks": {
+      "needProjectTitle": "Najpierw utwórz projekt",
+      "needProjectDescription": "Zadania należą do projektów. Utwórz najpierw projekt, a potem dodasz zadania.",
+      "createProject": "Utwórz projekt",
+      "title": "Brak zadań",
+      "description": "Pilnuj swoich zadań i terminów. Możesz ustawiać priorytety i terminy wykonania.",
+      "action": "Utwórz zadanie",
+      "seeProjects": "Pokaż projekty"
+    },
+    "prepaid": {
+      "needClientTitle": "Najpierw utwórz klienta",
+      "needClientDescription": "Pakiety godzin (opłacone z góry) należą do klientów. Utwórz najpierw klienta.",
+      "createClient": "Utwórz klienta",
+      "title": "Brak pakietów godzin",
+      "description": "Pakiety godzin to pule godzin opłacone z góry. Idealne do stałego wsparcia lub utrzymania dla stałych klientów.",
+      "action": "Utwórz pakiet godzin",
+      "seeClients": "Pokaż klientów"
+    },
+    "reports": {
+      "title": "Brak danych do pokazania",
+      "description": "Rejestruj czas i wystawiaj faktury, aby zobaczyć tutaj raporty i statystyki. Im więcej danych, tym lepszy wgląd.",
+      "action": "Przejdź do rejestracji czasu"
+    },
+    "search": {
+      "title": "Brak wyników",
+      "descriptionQuery": "Nic nie pasuje do „{query}”. Spróbuj innej frazy albo sprawdź pisownię.",
+      "description": "Spróbuj wyszukać coś innego.",
+      "clear": "Wyczyść wyszukiwanie"
+    },
+    "error": {
+      "title": "Coś poszło nie tak",
+      "description": "Nie udało się wczytać danych. Spróbuj ponownie.",
+      "retry": "Spróbuj ponownie"
+    },
+    "moduleDisabled": {
+      "title": "Funkcja wyłączona",
+      "description": "Ten moduł nie jest włączony w twojej organizacji. Skontaktuj się z administratorem, jeśli chcesz z niego korzystać.",
+      "action": "Ustawienia modułów"
+    }
+  },
+  "client": {
+    "placeholder": "Wybierz klienta",
+    "clear": "Brak klienta",
+    "selected": "Wybrani klienci: {count}",
+    "searchLabel": "Szukaj klientów",
+    "searchPlaceholder": "Szukaj klientów…",
+    "listLabel": "Klienci",
+    "none": "Nie znaleziono klientów",
+    "frequent": "Często używane",
+    "all": "Wszyscy klienci",
+    "entryCount": "Wpisy: {count}"
+  },
+  "project": {
+    "placeholder": "Wybierz projekt",
+    "none": "Brak projektu",
+    "searchPlaceholder": "Szukaj projektu lub klienta…",
+    "listLabel": "Projekty",
+    "recent": "Ostatnio używane",
+    "empty": "Nie znaleziono projektów",
+    "noClient": "Brak klienta",
+    "unknownClient": "Nieznany klient"
+  },
+  "task": {
+    "placeholder": "Wybierz zadanie",
+    "searchPlaceholder": "Szukaj zadania, projektu lub klienta…",
+    "none": "Brak zadania",
+    "inProgress": "W toku",
+    "todo": "Do zrobienia",
+    "backlog": "Backlog",
+    "other": "Inne",
+    "noMatch": "Nie znaleziono zadań",
+    "noActive": "Brak aktywnych zadań",
+    "showMoreBacklog": "Pokaż więcej zadań z backlogu ({count})"
+  }
+}

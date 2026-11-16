@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# úkol po termínu} few {# úkoly po termínu} many {# úkolu po termínu} other {# úkolů po termínu}}",
+    "needsAttention": "Vyžaduje pozornost",
+    "lowBalance": "{count, plural, one {# balíček hodin s nízkým zůstatkem} few {# balíčky hodin s nízkým zůstatkem} many {# balíčku hodin s nízkým zůstatkem} other {# balíčků hodin s nízkým zůstatkem}}",
+    "lowBalanceSub": "Nízký zůstatek",
+    "expiring": "{count, plural, one {# balíček hodin brzy vyprší} few {# balíčky hodin brzy vyprší} many {# balíčku hodin brzy vyprší} other {# balíčků hodin brzy vyprší}}",
+    "expiringSub": "Do 14 dnů",
+    "unbilled": "Nevyfakturováno: {amount}",
+    "unbilledSub": "Připraveno k fakturaci",
+    "title": "Je potřeba jednat"
+  },
+  "appDrawer": {
+    "apps": "Aplikace",
+    "heading": "Aplikace {brand}",
+    "downloadFor": "Stáhnout pro {os}{version} · Beta",
+    "seeDownloads": "Stahování najdeš v nastavení",
+    "downloadComing": "Stažení se připravuje. Viz nastavení",
+    "chromeExtension": "Rozšíření pro Chrome",
+    "chromeExtensionHint": "Evidence času přímo z prohlížeče",
+    "installApp": "Nainstalovat jako aplikaci",
+    "installAppHint": "Dej si {brand} na plochu",
+    "alreadyInstalled": "Již nainstalováno",
+    "addToHome": "Přidat na domovskou obrazovku nebo plochu"
+  },
+  "demo": {
+    "clearedKept": "Ukázková data byla smazána. {kept, plural, one {# demo klient už byl použit (například vyfakturován), proto zůstal jako běžný klient.} few {# demo klienti už byli použiti (například vyfakturováni), proto zůstali jako běžní klienti.} many {# demo klienta už bylo použito (například vyfakturováno), proto zůstali jako běžní klienti.} other {# demo klientů už bylo použito (například vyfakturováno), proto zůstalo jako běžní klienti.}}",
+    "cleared": "Ukázková data byla smazána. Účet je tvůj.",
+    "nothingToClear": "Nebyla žádná ukázková data ke smazání.",
+    "clearFailed": "Ukázková data se nepodařilo smazat",
+    "banner": "<strong>Právě vidíš ukázková data.</strong> Klienti, hodiny a balíček hodin jsou vymyšlené, abys viděl, jak {brand} vypadá v provozu. Smaž je, až budeš chtít začít s vlastními.",
+    "confirm": "Smazat ukázková data? Demo klienti a jejich ukázkové projekty, hodiny a balíčky hodin budou smazány. Vše, co jsi vytvořil sám (například faktury nebo vlastní hodiny), zůstane zachováno.",
+    "clearButton": "Smazat demo data"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "Desktopová aplikace pro Mac a Windows{version}. Je v betě a může obsahovat chyby.",
+    "version": ", verze {version}",
+    "withoutDownloads": "Desktopová aplikace je v betě. Odkaz ke stažení se tu objeví, jakmile {brand} získá nejnovější verzi.",
+    "hide": "Skrýt",
+    "reportHint": "Narazil jsi na chybu? Použij v aplikaci „Nahlásit chybu nebo chybějící funkci“."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Vytvoř prvního klienta",
+      "hasTimeEntry": "Zaznamenej první hodinu",
+      "hasKlippekort": "Vytvoř balíček hodin",
+      "hasInvoice": "Vystav první fakturu"
+    },
+    "daysLeft": "Do konce zkušební verze zdarma {count, plural, one {zbývá # den} few {zbývají # dny} many {zbývá # dne} other {zbývá # dní}}",
+    "addPayment": "Přidat platbu",
+    "gettingStarted": "Začínáme ({done}/{total})",
+    "hide": "Skrýt",
+    "progressLabel": "Průběh začátků",
+    "createAccount": "Vytvoř si účet"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Riziko u klientů",
+      "daysAgo": "před {days} dny",
+      "allActive": "Všichni tvoji klienti měli aktivitu za posledních 60 dní ✓",
+      "seeAll": "Zobrazit vše",
+      "count": "{count, plural, one {# klient bez aktivity déle než 60 dní} few {# klienti bez aktivity déle než 60 dní} many {# klienta bez aktivity déle než 60 dní} other {# klientů bez aktivity déle než 60 dní}}",
+      "lastActive": "Naposledy aktivní: {date}",
+      "revenue6m": "{amount} (6 měsíců)",
+      "hoursLeft": "zbývá {hours} h",
+      "openClient": "Otevřít klienta",
+      "sendCheckIn": "Poslat e-mail s dotazem, jak se daří",
+      "checkInSubject": "Jak se daří",
+      "more": "+ {count} dalších rizikových klientů"
+    },
+    "calendarSync": {
+      "title": "Kalendář vs. zaznamenáno",
+      "seeCalendar": "Zobrazit kalendář",
+      "captureRate": "podíl zachycení",
+      "eventsTracked": "Zaznamenáno {tracked}/{total} událostí",
+      "calendar": "Kalendář",
+      "tracked": "Zaznamenáno",
+      "gap": "{hours} h v kalendáři není zaznamenáno",
+      "perProject": "Podle projektu",
+      "moreProjects": "+{count} dalších"
+    },
+    "cashflow": {
+      "title": "Předpověď cashflow",
+      "seeUnpaid": "Zobrazit nezaplacené",
+      "empty": "Žádné nezaplacené faktury ani aktivní balíčky hodin",
+      "emptyHint": "Odešli fakturu a uvidíš předpověď cashflow",
+      "seeAllUnpaid": "Zobrazit všechny nezaplacené",
+      "overdueInvoices": "{count, plural, one {# faktura po splatnosti} few {# faktury po splatnosti} many {# faktury po splatnosti} other {# faktur po splatnosti}}: ",
+      "overdue": "Po splatnosti: ",
+      "week": "Týden {number}",
+      "estimated": "(odhad)",
+      "prepaidTag": "(balíček hodin)",
+      "expected30": "Očekáváno v příštích 30 dnech"
+    },
+    "coverage": {
+      "title": "Vytížení",
+      "details": "Zobrazit podrobnosti",
+      "period": "Období",
+      "loadFailed": "Vytížení se nepodařilo načíst",
+      "noTime": "V tomto období zatím není zaznamenaný žádný čas.",
+      "trackTime": "Zaznamenat čas",
+      "billable": "Fakturovatelné",
+      "nonBillable": "Nefakturovatelné",
+      "ratio": "<b>{ratio}</b> nefakturovatelných na jednu vyfakturovanou hodinu",
+      "clientCol": "Klient",
+      "splitCol": "Fakt. / nefakt."
+    },
+    "dailyHours": {
+      "title": "Hodiny za den",
+      "details": "Zobrazit podrobnosti",
+      "avg": "Průměr/den: ",
+      "total": "Celkem: ",
+      "hoursShort": "{value} h",
+      "day": {
+        "0": "Ne",
+        "1": "Po",
+        "2": "Út",
+        "3": "St",
+        "4": "Čt",
+        "5": "Pá",
+        "6": "So"
+      }
+    },
+    "emailSync": {
+      "title": "Synchronizace e-mailů",
+      "started": "Synchronizace spuštěna",
+      "startFailed": "Synchronizaci se nepodařilo spustit",
+      "never": "Nikdy",
+      "now": "Právě teď",
+      "minutes": "{value} min",
+      "hours": "{value} h",
+      "days": "{value} d",
+      "startNow": "Spustit synchronizaci",
+      "statusOk": "OK",
+      "statusUnstable": "Nestabilní",
+      "statusError": "Chyba",
+      "emails": "E-maily",
+      "tasks": "Úkoly",
+      "clients": "Klienti",
+      "analytics": "Zobrazit analytiku →"
+    },
+    "emailTasks": {
+      "title": "Úkoly z e-mailů",
+      "review": "Zkontrolovat",
+      "noClient": "Bez klienta",
+      "empty": "Zatím žádné úkoly z e-mailů."
+    },
+    "expiringPackages": {
+      "title": "Balíčky hodin s blížícím se vypršením",
+      "seeAll": "Zobrazit vše",
+      "none": "Žádné balíčky hodin brzy nevyprší",
+      "noneHint": "Balíčky hodin, kterým vyprší platnost do 30 dnů, se zobrazí tady",
+      "expiredAgo": "Vypršelo {count, plural, one {před # dnem} few {před # dny} many {před # dne} other {před # dny}}",
+      "expired": "Vypršelo",
+      "today": "Dnes",
+      "days": "{count, plural, one {# den} few {# dny} many {# dne} other {# dní}}",
+      "hoursLeft": "Zbývající hodiny",
+      "value": "Hodnota",
+      "expires": "Vyprší {date}",
+      "more": "+ {count} dalších balíčků hodin",
+      "urgent": "Některým balíčkům hodin vyprší platnost do 7 dnů. Kontaktuj klienta kvůli prodloužení."
+    },
+    "flexBalance": {
+      "title": "Zůstatek pružné doby",
+      "hours": "{value} h",
+      "entries": "záznamů: {count}"
+    },
+    "flexNorm": {
+      "title": "Zůstatek pružné doby",
+      "loadFailed": "Zůstatek se nepodařilo načíst.",
+      "noProfile": "V organizaci nemáš profil zaměstnance.",
+      "unit": "h",
+      "carryIn": "Z toho převedeno: {value} h",
+      "week": "Týden",
+      "month": "Měsíc",
+      "period": "Období",
+      "summary": "{registered} z {net} h normy k dnešku · norma období {periodNet} h",
+      "seeAccount": "Zobrazit účet pružné doby"
+    },
+    "hoursComparison": {
+      "title": "Srovnání týdnů",
+      "details": "Zobrazit podrobnosti",
+      "none": "Žádné zaznamenané hodiny",
+      "thisWeek": "Tento týden",
+      "lastWeek": "Minulý týden",
+      "format": "hh:mm",
+      "increase": "Nárůst",
+      "decrease": "Pokles",
+      "vsLastWeek": "oproti minulému týdnu"
+    },
+    "invoiceOverview": {
+      "title": "Přehled faktur",
+      "seeInvoices": "Zobrazit faktury",
+      "totalInvoiced": "Celkem vyfakturováno",
+      "draft": "Koncept",
+      "sent": "Odesláno",
+      "paid": "Zaplaceno",
+      "overdue": "Po splatnosti"
+    },
+    "lowBalance": {
+      "title": "Balíčky hodin s nízkým zůstatkem",
+      "loadFailed": "Balíčky hodin se nepodařilo načíst",
+      "none": "Žádné balíčky hodin s nízkým zůstatkem",
+      "seeAll": "Zobrazit vše",
+      "intro": "Nízký zůstatek",
+      "noClient": "Bez klienta",
+      "left": "zbývá {time}",
+      "more": "+ {count} dalších"
+    },
+    "monthComparison": {
+      "title": "Srovnání měsíců",
+      "seeReports": "Zobrazit reporty",
+      "vs": "oproti",
+      "vsValue": "oproti {value}",
+      "hours": "Hodiny",
+      "hoursValue": "{value} h",
+      "revenue": "Tržby",
+      "entries": "Záznamy času"
+    },
+    "overdueTasks": {
+      "title": "Úkoly po termínu",
+      "none": "Žádné úkoly po termínu ✓",
+      "seeAll": "Zobrazit vše",
+      "count": "{count, plural, one {# úkol} few {# úkoly} many {# úkolu} other {# úkolů}}",
+      "noProject": "Bez projektu",
+      "deadline": "Termín: {date}",
+      "more": "+ {count} dalších"
+    },
+    "pendingApprovals": {
+      "title": "Čekající schválení",
+      "requestOne": "žádost",
+      "requestOther": "žádostí"
+    },
+    "prepaidStatus": {
+      "title": "Stav balíčků hodin",
+      "allGood": "Vše je v pořádku",
+      "seeAll": "Zobrazit vše",
+      "lowBalance": "Nízký zůstatek",
+      "noClient": "Bez klienta",
+      "left": "zbývá {time}",
+      "more": "+ {count} dalších",
+      "expiringSoon": "Brzy vyprší (do 30 dnů)",
+      "expired": "Vypršelo",
+      "today": "Dnes",
+      "days": "{count, plural, one {# den} few {# dny} many {# dne} other {# dní}}"
+    },
+    "productivity": {
+      "title": "Produktivita v průběhu týdne",
+      "details": "Zobrazit podrobnosti",
+      "noData": "Zatím žádná data o produktivitě",
+      "streak": "Aktuální série",
+      "streakDays": "dní v řadě",
+      "weeklyAvg": "Týdenní průměr",
+      "perWeek": "za týden",
+      "last8": "Posledních 8 týdnů",
+      "less": "Méně",
+      "more": "Více",
+      "msgHigh": "Skvělé! Pracuješ už 7 a více dní v řadě. Takhle dál!",
+      "msgMid": "Dobrá práce! Drž tempo.",
+      "msgLow": "Jsi na dobré cestě! Vybuduj si pevný pracovní rytmus.",
+      "streakDay": "den v řadě"
+    },
+    "profitability": {
+      "title": "Skutečná hodinová sazba",
+      "rate": "{rate} kr/h",
+      "hours": "{hours} h",
+      "loadFailed": "Data se nepodařilo načíst",
+      "noBilled": "Tento měsíc není vyfakturovaný žádný čas",
+      "createInvoice": "Vystavit fakturu",
+      "details": "Podrobnosti",
+      "agreedRate": "Dohodnutá hodinová sazba",
+      "realRate": "Skutečná hodinová sazba",
+      "vsAgreed": "{percent} % oproti dohodnuté",
+      "billableAvg": "Fakt. průměr",
+      "footer": "celkem {total} · fakturovatelné {billable}",
+      "footerInvoiced": "celkem {total} · fakturovatelné {billable} · vyfakturováno {invoiced}"
+    },
+    "projectHealth": {
+      "title": "Stav projektů",
+      "seeAll": "Zobrazit vše",
+      "alertsHeading": "Upozornění na rozpočet",
+      "severity": {
+        "exceeded": "Překročeno",
+        "critical": "Kritické",
+        "warning": "Varování"
+      },
+      "hoursUsed": "vyčerpáno {used} / {budget} h",
+      "budgetAmount": "rozpočet {amount} kr",
+      "moreAlerts": "+ {count} dalších upozornění",
+      "noBudgets": "Žádné projekty s rozpočtem",
+      "createProject": "Vytvořit projekt",
+      "onTrack": "{count, plural, one {# projekt v plánu} few {# projekty v plánu} many {# projektu v plánu} other {# projektů v plánu}}",
+      "moreProjects": "+ {count} dalších projektů"
+    },
+    "quickActions": {
+      "title": "Rychlé akce",
+      "created": "Záznam času byl vytvořen",
+      "createFailed": "Záznam času se nepodařilo vytvořit",
+      "fillAll": "Vyplň správně všechna pole",
+      "addClient": "Přidat klienta",
+      "newProject": "Nový projekt",
+      "startTimer": "Spustit stopky",
+      "createInvoice": "Vystavit fakturu",
+      "quickEntry": "Rychlý záznam času",
+      "draftSaved": "Koncept uložen",
+      "restoreDraft": "Obnovit uložený koncept",
+      "restore": "Obnovit",
+      "projectPlaceholder": "Vybrat projekt",
+      "descriptionPlaceholder": "Na čem jsi pracoval?",
+      "hoursPlaceholder": "Hodiny",
+      "saving": "Ukládám…",
+      "save": "Uložit"
+    },
+    "recentActivity": {
+      "title": "Nedávná aktivita",
+      "none": "Zatím žádná aktivita",
+      "seeAll": "Zobrazit vše",
+      "now": "Právě teď",
+      "minutesAgo": "před {count} min",
+      "hoursAgo": "{count, plural, one {před # hodinou} few {před # hodinami} many {před # hodiny} other {před # hodinami}}",
+      "daysAgo": "{count, plural, one {před # dnem} few {před # dny} many {před # dne} other {před # dny}}"
+    },
+    "revenueByClient": {
+      "title": "Tržby podle klienta",
+      "seeReports": "Zobrazit reporty",
+      "loadFailed": "Tržby se nepodařilo načíst",
+      "none": "Tento měsíc žádné tržby"
+    },
+    "revenueForecast": {
+      "title": "Předpověď tržeb",
+      "seeReports": "Zobrazit reporty",
+      "none": "Zatím žádná data o tržbách",
+      "expected": "Očekáváno tento měsíc",
+      "amountKr": "{amount} kr",
+      "basedOn": "Na základě {day} / {total} dní",
+      "sixMonthAvg": "Šestiměsíční průměr"
+    },
+    "rounding": {
+      "title": "Bonus ze zaokrouhlení",
+      "inactive": "Zaokrouhlení není zapnuté. Zaokrouhluj hodiny nahoru a vydělej navíc.",
+      "enable": "Zapnout zaokrouhlení",
+      "settings": "Nastavení",
+      "thisMonth": "Tento měsíc",
+      "extra": "navíc získáno zaokrouhlením",
+      "thisYear": "Celkem letos"
+    },
+    "stats": {
+      "activeClients": "Aktivní klienti",
+      "activeProjects": "Aktivní projekty",
+      "hoursThisMonth": "Hodiny tento měsíc",
+      "revenueThisMonth": "Tržby tento měsíc"
+    },
+    "topClients": {
+      "title": "Nejlepší klienti",
+      "loadFailed": "Data se nepodařilo načíst",
+      "none": "Zatím žádná data o klientech",
+      "seeAll": "Zobrazit vše",
+      "rankedBy": "Seřazeno podle hodin"
+    },
+    "unbilled": {
+      "title": "Nevyfakturované hodiny",
+      "loadFailed": "Data se nepodařilo načíst",
+      "none": "Žádné nevyfakturované hodiny",
+      "seeAll": "Zobrazit vše",
+      "entries": "{count, plural, one {# záznam času} few {# záznamy času} many {# záznamu času} other {# záznamů času}}",
+      "totalHours": "Hodin celkem",
+      "estimatedValue": "Odhadovaná hodnota"
+    },
+    "absences": {
+      "title": "Nadcházející absence",
+      "loading": "Načítám…",
+      "none": "Není naplánovaná žádná schválená absence",
+      "employee": "Zaměstnanec",
+      "absence": "Absence",
+      "from": "od {date}"
+    },
+    "deadlines": {
+      "title": "Důležitá data",
+      "overdue": "Po termínu",
+      "today": "Dnes",
+      "days": "{count, plural, one {# den} few {# dny} many {# dne} other {# dní}}",
+      "needsSetup": "Nastav typ firmy a uvidíš důležitá data",
+      "setUpNow": "Nastavit teď",
+      "none": "Žádné nadcházející termíny v příštích 180 dnech",
+      "editSettings": "Upravit nastavení firmy"
+    },
+    "upcomingTasks": {
+      "title": "Nadcházející úkoly",
+      "none": "Žádné nadcházející úkoly",
+      "seeAll": "Zobrazit vše",
+      "within7": "Do 7 dnů",
+      "noProject": "Bez projektu",
+      "deadline": "Termín: {date}",
+      "more": "+ {count} dalších"
+    },
+    "vacation": {
+      "title": "Zůstatek dovolené",
+      "daysLeftIn": "dní zbývá v {label}",
+      "daysLeft": "dní zbývá"
+    },
+    "vat": {
+      "titleMonthly": "DPH tento měsíc",
+      "titleQuarterly": "DPH za toto období",
+      "titleSemiAnnual": "DPH za toto pololetí",
+      "title": "DPH",
+      "exempt": "Jsi registrován jako neplátce DPH",
+      "changeInSettings": "Změnit v nastavení",
+      "createFirst": "Vystav první fakturu a uvidíš odhad DPH",
+      "createInvoice": "Vystavit fakturu",
+      "invoices": "Faktury",
+      "toSettle": "DPH k odvedení",
+      "percentOf": "25 % z {amount} vyfakturováno",
+      "nextDeadline": "Příští termín",
+      "inDays": "({count, plural, one {za # den} few {za # dny} many {za # dne} other {za # dní}})",
+      "overdue": "(po termínu)",
+      "ytd": "Celkem letos",
+      "setAside": "Odlož <b>{amount}</b> na samostatný účet"
+    },
+    "weeklyGoal": {
+      "title": "Týdenní cíl",
+      "loadFailed": "Týdenní cíl se nepodařilo načíst",
+      "trackTime": "Zaznamenat čas",
+      "reached": "Cíl splněn!",
+      "onTrack": "V plánu",
+      "behind": "Pozadu",
+      "remaining": "zbývá <b>{time}</b>",
+      "perDay": "{time}/den po dobu {count, plural, one {# dne} few {# dnů} many {# dne} other {# dnů}}"
+    }
+  }
+}

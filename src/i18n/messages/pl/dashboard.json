@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# zadanie po terminie} few {# zadania po terminie} many {# zadań po terminie} other {# zadania po terminie}}",
+    "needsAttention": "Wymaga uwagi",
+    "lowBalance": "{count, plural, one {# pakiet godzin z niskim saldem} few {# pakiety godzin z niskim saldem} many {# pakietów godzin z niskim saldem} other {# pakietu godzin z niskim saldem}}",
+    "lowBalanceSub": "Niskie saldo",
+    "expiring": "{count, plural, one {# pakiet godzin wkrótce wygasa} few {# pakiety godzin wkrótce wygasają} many {# pakietów godzin wkrótce wygasa} other {# pakietu godzin wkrótce wygasa}}",
+    "expiringSub": "W ciągu 14 dni",
+    "unbilled": "{amount} niezafakturowane",
+    "unbilledSub": "Gotowe do zafakturowania",
+    "title": "Wymagane działanie"
+  },
+  "appDrawer": {
+    "apps": "Aplikacje",
+    "heading": "Aplikacje {brand}",
+    "downloadFor": "Pobierz dla {os}{version} · Beta",
+    "seeDownloads": "Zobacz pliki do pobrania w ustawieniach",
+    "downloadComing": "Pobieranie wkrótce. Zobacz ustawienia",
+    "chromeExtension": "Rozszerzenie Chrome",
+    "chromeExtensionHint": "Rejestruj czas z poziomu przeglądarki",
+    "installApp": "Zainstaluj jako aplikację",
+    "installAppHint": "Dodaj {brand} na pulpit",
+    "alreadyInstalled": "Już zainstalowano",
+    "addToHome": "Dodaj do ekranu głównego lub pulpitu"
+  },
+  "demo": {
+    "clearedKept": "Dane przykładowe wyczyszczone. {kept, plural, one {# klient demo był już używany (np. zafakturowany), więc został zachowany jako zwykły klient.} few {# klientów demo było już używanych (np. zafakturowanych), więc zostało zachowanych jako zwykli klienci.} many {# klientów demo było już używanych (np. zafakturowanych), więc zostało zachowanych jako zwykli klienci.} other {# klienta demo było już używanego (np. zafakturowanego), więc zostało zachowane jako zwykły klient.}}",
+    "cleared": "Dane przykładowe zostały wyczyszczone. Konto jest twoje.",
+    "nothingToClear": "Nie było danych przykładowych do wyczyszczenia.",
+    "clearFailed": "Nie udało się wyczyścić danych przykładowych",
+    "banner": "<strong>Widzisz dane przykładowe.</strong> Klienci, godziny i pakiet godzin są wymyślone, aby pokazać, jak {brand} wygląda w użyciu. Wyczyść je, gdy zechcesz zacząć od własnych.",
+    "confirm": "Wyczyścić dane przykładowe? Klienci demo oraz ich przykładowe projekty, godziny i pakiety godzin zostaną usunięci. Wszystko, co utworzono samodzielnie (np. faktury lub własne godziny), zostaje.",
+    "clearButton": "Wyczyść dane demo"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "Aplikacja desktopowa na Maca i Windows{version}. Jest w wersji beta i może zawierać błędy.",
+    "version": ", wersja {version}",
+    "withoutDownloads": "Aplikacja desktopowa jest w wersji beta. Link do pobrania pojawi się tutaj, gdy {brand} będzie mógł pobrać najnowszą wersję.",
+    "hide": "Ukryj",
+    "reportHint": "Napotkano błąd? Użyj w aplikacji opcji „Zgłoś błąd lub brakującą funkcję”."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Utwórz pierwszego klienta",
+      "hasTimeEntry": "Zarejestruj pierwszą godzinę",
+      "hasKlippekort": "Utwórz pakiet godzin",
+      "hasInvoice": "Utwórz pierwszą fakturę"
+    },
+    "daysLeft": "{count, plural, one {Został # dzień bezpłatnego okresu próbnego} few {Zostały # dni bezpłatnego okresu próbnego} many {Zostało # dni bezpłatnego okresu próbnego} other {Zostało # dnia bezpłatnego okresu próbnego}}",
+    "addPayment": "Dodaj płatność",
+    "gettingStarted": "Pierwsze kroki ({done}/{total})",
+    "hide": "Ukryj",
+    "progressLabel": "Postęp pierwszych kroków",
+    "createAccount": "Utwórz konto"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Ryzyko utraty klienta",
+      "daysAgo": "{days} dni temu",
+      "allActive": "Wszyscy twoi klienci byli aktywni w ciągu ostatnich 60 dni ✓",
+      "seeAll": "Pokaż wszystkich",
+      "count": "{count, plural, one {# klient bez aktywności od ponad 60 dni} few {# klientów bez aktywności od ponad 60 dni} many {# klientów bez aktywności od ponad 60 dni} other {# klienta bez aktywności od ponad 60 dni}}",
+      "lastActive": "Ostatnia aktywność: {date}",
+      "revenue6m": "{amount} (6 miesięcy)",
+      "hoursLeft": "zostało {hours} h",
+      "openClient": "Otwórz klienta",
+      "sendCheckIn": "Wyślij e-mail z zapytaniem o kontakt",
+      "checkInSubject": "Krótki kontakt",
+      "more": "+ {count} więcej klientów zagrożonych"
+    },
+    "calendarSync": {
+      "title": "Kalendarz a zarejestrowany czas",
+      "seeCalendar": "Pokaż kalendarz",
+      "captureRate": "pokrycie",
+      "eventsTracked": "Zarejestrowano wydarzeń: {tracked}/{total}",
+      "calendar": "Kalendarz",
+      "tracked": "Zarejestrowane",
+      "gap": "{hours} h w kalendarzu nie jest zarejestrowane",
+      "perProject": "Według projektu",
+      "moreProjects": "+{count} więcej"
+    },
+    "cashflow": {
+      "title": "Prognoza przepływów pieniężnych",
+      "seeUnpaid": "Pokaż nieopłacone",
+      "empty": "Brak nieopłaconych faktur i aktywnych pakietów godzin",
+      "emptyHint": "Wyślij fakturę, aby zobaczyć prognozę przepływów pieniężnych",
+      "seeAllUnpaid": "Pokaż wszystkie nieopłacone",
+      "overdueInvoices": "{count, plural, one {# faktura po terminie} few {# faktury po terminie} many {# faktur po terminie} other {# faktury po terminie}}: ",
+      "overdue": "Po terminie: ",
+      "week": "Tydzień {number}",
+      "estimated": "(szac.)",
+      "prepaidTag": "(pakiet godzin)",
+      "expected30": "Oczekiwane w ciągu 30 dni"
+    },
+    "coverage": {
+      "title": "Wskaźnik wykorzystania",
+      "details": "Pokaż szczegóły",
+      "period": "Okres",
+      "loadFailed": "Nie udało się wczytać wskaźnika wykorzystania",
+      "noTime": "W tym okresie nie zarejestrowano jeszcze czasu.",
+      "trackTime": "Rejestruj czas",
+      "billable": "Rozliczalne",
+      "nonBillable": "Nierozliczalne",
+      "ratio": "<b>{ratio}</b> nierozliczalnych na każdą rozliczoną godzinę",
+      "clientCol": "Klient",
+      "splitCol": "Rozl. / nierozl."
+    },
+    "dailyHours": {
+      "title": "Godziny dziennie",
+      "details": "Pokaż szczegóły",
+      "avg": "Śr./dzień: ",
+      "total": "Razem: ",
+      "hoursShort": "{value} h",
+      "day": {
+        "0": "Nd",
+        "1": "Pn",
+        "2": "Wt",
+        "3": "Śr",
+        "4": "Cz",
+        "5": "Pt",
+        "6": "Sb"
+      }
+    },
+    "emailSync": {
+      "title": "Synchronizacja e-maili",
+      "started": "Synchronizacja rozpoczęta",
+      "startFailed": "Nie udało się rozpocząć synchronizacji",
+      "never": "Nigdy",
+      "now": "Przed chwilą",
+      "minutes": "{value} min",
+      "hours": "{value} h",
+      "days": "{value} d",
+      "startNow": "Rozpocznij synchronizację",
+      "statusOk": "OK",
+      "statusUnstable": "Niestabilna",
+      "statusError": "Błąd",
+      "emails": "E-maile",
+      "tasks": "Zadania",
+      "clients": "Klienci",
+      "analytics": "Pokaż analitykę →"
+    },
+    "emailTasks": {
+      "title": "Zadania z e-maili",
+      "review": "Przejrzyj",
+      "noClient": "Brak klienta",
+      "empty": "Brak zadań z e-maili."
+    },
+    "expiringPackages": {
+      "title": "Wygasające pakiety godzin",
+      "seeAll": "Pokaż wszystkie",
+      "none": "Żaden pakiet godzin nie wygasa wkrótce",
+      "noneHint": "Tutaj pojawią się pakiety godzin wygasające w ciągu 30 dni",
+      "expiredAgo": "{count, plural, one {Wygasł # dzień temu} few {Wygasł # dni temu} many {Wygasł # dni temu} other {Wygasł # dnia temu}}",
+      "expired": "Wygasł",
+      "today": "Dziś",
+      "days": "{count, plural, one {# dzień} few {# dni} many {# dni} other {# dnia}}",
+      "hoursLeft": "Pozostałe godziny",
+      "value": "Wartość",
+      "expires": "Wygasa {date}",
+      "more": "+ {count} więcej pakietów godzin",
+      "urgent": "Niektóre pakiety godzin wygasają w ciągu 7 dni. Skontaktuj się z klientem w sprawie odnowienia."
+    },
+    "flexBalance": {
+      "title": "Saldo elastycznego czasu pracy",
+      "hours": "{value} h",
+      "entries": "Wpisów: {count}"
+    },
+    "flexNorm": {
+      "title": "Saldo elastycznego czasu pracy",
+      "loadFailed": "Nie udało się wczytać salda.",
+      "noProfile": "Nie masz profilu pracownika w organizacji.",
+      "unit": "h",
+      "carryIn": "W tym przeniesione: {value} h",
+      "week": "Tydzień",
+      "month": "Miesiąc",
+      "period": "Okres",
+      "summary": "{registered} z {net} h normy do dziś · norma okresu {periodNet} h",
+      "seeAccount": "Pokaż konto elastycznego czasu pracy"
+    },
+    "hoursComparison": {
+      "title": "Porównanie tygodni",
+      "details": "Pokaż szczegóły",
+      "none": "Nie zarejestrowano godzin",
+      "thisWeek": "Ten tydzień",
+      "lastWeek": "Zeszły tydzień",
+      "format": "hh:mm",
+      "increase": "Wzrost",
+      "decrease": "Spadek",
+      "vsLastWeek": "w porównaniu z zeszłym tygodniem"
+    },
+    "invoiceOverview": {
+      "title": "Przegląd faktur",
+      "seeInvoices": "Pokaż faktury",
+      "totalInvoiced": "Zafakturowano łącznie",
+      "draft": "Szkic",
+      "sent": "Wysłane",
+      "paid": "Opłacone",
+      "overdue": "Po terminie"
+    },
+    "lowBalance": {
+      "title": "Pakiety godzin z niskim saldem",
+      "loadFailed": "Nie udało się wczytać pakietów godzin",
+      "none": "Brak pakietów godzin z niskim saldem",
+      "seeAll": "Pokaż wszystkie",
+      "intro": "Niskie saldo",
+      "noClient": "Brak klienta",
+      "left": "zostało {time}",
+      "more": "+ {count} więcej"
+    },
+    "monthComparison": {
+      "title": "Porównanie miesięcy",
+      "seeReports": "Pokaż raporty",
+      "vs": "vs",
+      "vsValue": "vs {value}",
+      "hours": "Godziny",
+      "hoursValue": "{value} h",
+      "revenue": "Przychód",
+      "entries": "Wpisy czasu"
+    },
+    "overdueTasks": {
+      "title": "Zadania po terminie",
+      "none": "Brak zadań po terminie ✓",
+      "seeAll": "Pokaż wszystkie",
+      "count": "{count, plural, one {# zadanie} few {# zadania} many {# zadań} other {# zadania}}",
+      "noProject": "Bez projektu",
+      "deadline": "Termin: {date}",
+      "more": "+ {count} więcej"
+    },
+    "pendingApprovals": {
+      "title": "Oczekujące zatwierdzenia",
+      "requestOne": "wniosek",
+      "requestOther": "wnioski"
+    },
+    "prepaidStatus": {
+      "title": "Status pakietów godzin",
+      "allGood": "Wszystko w porządku",
+      "seeAll": "Pokaż wszystkie",
+      "lowBalance": "Niskie saldo",
+      "noClient": "Brak klienta",
+      "left": "zostało {time}",
+      "more": "+ {count} więcej",
+      "expiringSoon": "Wkrótce wygasają (w ciągu 30 dni)",
+      "expired": "Wygasły",
+      "today": "Dziś",
+      "days": "{count, plural, one {# dzień} few {# dni} many {# dni} other {# dnia}}"
+    },
+    "productivity": {
+      "title": "Produktywność w skali tygodnia",
+      "details": "Pokaż szczegóły",
+      "noData": "Brak danych o produktywności",
+      "streak": "Obecna seria",
+      "streakDays": "dni z rzędu",
+      "weeklyAvg": "Średnia tygodniowa",
+      "perWeek": "tygodniowo",
+      "last8": "Ostatnie 8 tygodni",
+      "less": "Mniej",
+      "more": "Więcej",
+      "msgHigh": "Fantastycznie! Pracujesz już ponad 7 dni z rzędu. Tak trzymaj!",
+      "msgMid": "Dobra robota! Utrzymaj tempo.",
+      "msgLow": "Jesteś na dobrej drodze! Zbuduj solidną rutynę pracy.",
+      "streakDay": "dzień z rzędu"
+    },
+    "profitability": {
+      "title": "Rzeczywista stawka godzinowa",
+      "rate": "{rate} kr/h",
+      "hours": "{hours} h",
+      "loadFailed": "Nie udało się wczytać danych",
+      "noBilled": "W tym miesiącu brak zafakturowanego czasu",
+      "createInvoice": "Utwórz fakturę",
+      "details": "Szczegóły",
+      "agreedRate": "Uzgodniona stawka godzinowa",
+      "realRate": "Rzeczywista stawka godzinowa",
+      "vsAgreed": "{percent}% względem uzgodnionej",
+      "billableAvg": "Śr. rozliczalna",
+      "footer": "Razem {total} · rozliczalne {billable}",
+      "footerInvoiced": "Razem {total} · rozliczalne {billable} · zafakturowane {invoiced}"
+    },
+    "projectHealth": {
+      "title": "Kondycja projektów",
+      "seeAll": "Pokaż wszystkie",
+      "alertsHeading": "Ostrzeżenia budżetowe",
+      "severity": {
+        "exceeded": "Przekroczony",
+        "critical": "Krytyczny",
+        "warning": "Ostrzeżenie"
+      },
+      "hoursUsed": "wykorzystano {used} / {budget} h",
+      "budgetAmount": "budżet {amount} kr",
+      "moreAlerts": "+ {count} więcej ostrzeżeń",
+      "noBudgets": "Brak projektów z budżetem",
+      "createProject": "Utwórz projekt",
+      "onTrack": "{count, plural, one {# projekt zgodnie z planem} few {# projekty zgodnie z planem} many {# projektów zgodnie z planem} other {# projektu zgodnie z planem}}",
+      "moreProjects": "+ {count} więcej projektów"
+    },
+    "quickActions": {
+      "title": "Szybkie akcje",
+      "created": "Wpis czasu utworzony",
+      "createFailed": "Nie udało się utworzyć wpisu czasu",
+      "fillAll": "Wypełnij poprawnie wszystkie pola",
+      "addClient": "Dodaj klienta",
+      "newProject": "Nowy projekt",
+      "startTimer": "Uruchom stoper",
+      "createInvoice": "Utwórz fakturę",
+      "quickEntry": "Szybki wpis czasu",
+      "draftSaved": "Szkic zapisany",
+      "restoreDraft": "Przywróć zapisany szkic",
+      "restore": "Przywróć",
+      "projectPlaceholder": "Wybierz projekt",
+      "descriptionPlaceholder": "Nad czym pracowano?",
+      "hoursPlaceholder": "Godziny",
+      "saving": "Zapisywanie…",
+      "save": "Zapisz"
+    },
+    "recentActivity": {
+      "title": "Ostatnia aktywność",
+      "none": "Brak aktywności",
+      "seeAll": "Pokaż wszystko",
+      "now": "Przed chwilą",
+      "minutesAgo": "{count} min temu",
+      "hoursAgo": "{count, plural, one {# godzinę temu} few {# godziny temu} many {# godzin temu} other {# godziny temu}}",
+      "daysAgo": "{count, plural, one {# dzień temu} few {# dni temu} many {# dni temu} other {# dnia temu}}"
+    },
+    "revenueByClient": {
+      "title": "Przychód według klienta",
+      "seeReports": "Pokaż raporty",
+      "loadFailed": "Nie udało się wczytać przychodów",
+      "none": "W tym miesiącu brak przychodów"
+    },
+    "revenueForecast": {
+      "title": "Prognoza przychodów",
+      "seeReports": "Pokaż raporty",
+      "none": "Brak danych o przychodach",
+      "expected": "Oczekiwane w tym miesiącu",
+      "amountKr": "{amount} kr",
+      "basedOn": "Na podstawie {day} / {total} dni",
+      "sixMonthAvg": "Średnia z 6 miesięcy"
+    },
+    "rounding": {
+      "title": "Premia z zaokrąglania",
+      "inactive": "Zaokrąglanie nie jest włączone. Zarabiaj więcej, zaokrąglając godziny w górę.",
+      "enable": "Włącz zaokrąglanie",
+      "settings": "Ustawienia",
+      "thisMonth": "Ten miesiąc",
+      "extra": "dodatkowo zarobione dzięki zaokrąglaniu",
+      "thisYear": "Razem w tym roku"
+    },
+    "stats": {
+      "activeClients": "Aktywni klienci",
+      "activeProjects": "Aktywne projekty",
+      "hoursThisMonth": "Godziny w tym miesiącu",
+      "revenueThisMonth": "Przychód w tym miesiącu"
+    },
+    "topClients": {
+      "title": "Najlepsi klienci",
+      "loadFailed": "Nie udało się wczytać danych",
+      "none": "Brak danych o klientach",
+      "seeAll": "Pokaż wszystkich",
+      "rankedBy": "Według liczby godzin"
+    },
+    "unbilled": {
+      "title": "Niezafakturowane godziny",
+      "loadFailed": "Nie udało się wczytać danych",
+      "none": "Brak niezafakturowanych godzin",
+      "seeAll": "Pokaż wszystkie",
+      "entries": "{count, plural, one {# wpis czasu} few {# wpisy czasu} many {# wpisów czasu} other {# wpisu czasu}}",
+      "totalHours": "Godziny łącznie",
+      "estimatedValue": "Szacowana wartość"
+    },
+    "absences": {
+      "title": "Nadchodzące nieobecności",
+      "loading": "Wczytywanie…",
+      "none": "Brak zaplanowanych zatwierdzonych nieobecności",
+      "employee": "Pracownik",
+      "absence": "Nieobecność",
+      "from": "od {date}"
+    },
+    "deadlines": {
+      "title": "Ważne daty",
+      "overdue": "Po terminie",
+      "today": "Dziś",
+      "days": "{count, plural, one {# dzień} few {# dni} many {# dni} other {# dnia}}",
+      "needsSetup": "Ustaw typ firmy, aby zobaczyć ważne daty",
+      "setUpNow": "Skonfiguruj teraz",
+      "none": "Brak nadchodzących terminów w ciągu 180 dni",
+      "editSettings": "Edytuj ustawienia firmy"
+    },
+    "upcomingTasks": {
+      "title": "Nadchodzące zadania",
+      "none": "Brak nadchodzących zadań",
+      "seeAll": "Pokaż wszystkie",
+      "within7": "W ciągu 7 dni",
+      "noProject": "Bez projektu",
+      "deadline": "Termin: {date}",
+      "more": "+ {count} więcej"
+    },
+    "vacation": {
+      "title": "Saldo urlopu",
+      "daysLeftIn": "dni pozostało w {label}",
+      "daysLeft": "dni pozostało"
+    },
+    "vat": {
+      "titleMonthly": "VAT w tym miesiącu",
+      "titleQuarterly": "VAT w tym okresie",
+      "titleSemiAnnual": "VAT w tym półroczu",
+      "title": "VAT",
+      "exempt": "Konto jest zarejestrowane jako niebędące płatnikiem VAT",
+      "changeInSettings": "Zmień w ustawieniach",
+      "createFirst": "Utwórz pierwszą fakturę, aby zobaczyć szacunek VAT",
+      "createInvoice": "Utwórz fakturę",
+      "invoices": "Faktury",
+      "toSettle": "VAT do rozliczenia",
+      "percentOf": "25% z {amount} zafakturowanych",
+      "nextDeadline": "Następny termin",
+      "inDays": "({count, plural, one {za # dzień} few {za # dni} many {za # dni} other {za # dnia}})",
+      "overdue": "(po terminie)",
+      "ytd": "Razem w tym roku",
+      "setAside": "Odłóż <b>{amount}</b> na osobne konto"
+    },
+    "weeklyGoal": {
+      "title": "Cel tygodniowy",
+      "loadFailed": "Nie udało się wczytać celu tygodniowego",
+      "trackTime": "Rejestruj czas",
+      "reached": "Cel osiągnięty!",
+      "onTrack": "Zgodnie z planem",
+      "behind": "Z opóźnieniem",
+      "remaining": "zostało <b>{time}</b>",
+      "perDay": "{time}/dzień przez {count, plural, one {# dzień} few {# dni} many {# dni} other {# dnia}}"
+    }
+  }
+}

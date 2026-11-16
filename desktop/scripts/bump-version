@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Sæt versionen af TimeTrack Desktop (crates/tt-app) alle steder ud fra ét
+# argument. Regler: docs/v1/VERSION.md (mikroskridt, aldrig baglæns).
+#
+#   scripts/bump-version 0.2.24
+#   scripts/bump-version 0.2.24-beta.1
+#
+# Versionen står som data i crates/tt-app/Cargo.toml og Cargo.lock. Alt andet
+# læser den derfra: Info.plist (@VERSION@ i scripts/bundle-macos.sh),
+# NSIS-installeren (scripts/bundle-windows.ps1), release-desktop.yml (tagget
+# skal være v<version>) og appen selv (CARGO_PKG_VERSION). Scriptet tjekker
+# også, at CHANGELOG.md har et afsnit til versionen, og advarer ellers.
+#
+# Miljø: BUMP_ROOT=<mappe> kører mod en anden kopi af repoet (bruges af
+# scripts/test-bump-version.sh). BUMP_ALLOW_SAME=1 tillader samme version.
+set -euo pipefail
+
+new="${1:-}"
+root="${BUMP_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+toml="$root/crates/tt-app/Cargo.toml"
+lock="$root/Cargo.lock"
+changelog="$root/CHANGELOG.md"
+
+semver='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$'
+if [[ -z "$new" || ! "$new" =~ $semver ]]; then
+  echo "Brug: scripts/bump-version X.Y.Z[-beta.N] (fik '${new}')" >&2
+  exit 2
+fi
+
+old="$(sed -n 's/^version = "\(.*\)"$/\1/p' "$toml" | head -1)"
+[[ -n "$old" ]] || { echo "Kan ikke læse versionen i $toml" >&2; exit 1; }
+
+# semver-sammenligning: kerne (X.Y.Z) numerisk; samme kerne -> en udgivelse
+# uden suffiks er nyere end en forudgivelse; to forudgivelser sammenlignes
+# med sort -V.
+newer() {
+  local a="$1" b="$2" ac="${1%%-*}" bc="${2%%-*}"
+  if [[ "$ac" != "$bc" ]]; then
+    [[ "$(printf '%s\n%s\n' "$ac" "$bc" | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)" == "$ac" ]]
+    return
+  fi
+  [[ "$a" == "$b" ]] && return 1
+  [[ "$a" != *-* ]] && return 0
+  [[ "$b" != *-* ]] && return 1
+  [[ "$(printf '%s\n%s\n' "$a" "$b" | sort -V | tail -1)" == "$a" ]]
+}
+
+if [[ "$new" == "$old" ]]; then
+  [[ "${BUMP_ALLOW_SAME:-}" == 1 ]] || { echo "Versionen er allerede $old" >&2; exit 1; }
+elif ! newer "$new" "$old"; then
+  echo "Aldrig baglæns: $new er ikke nyere end $old" >&2
+  exit 1
+fi
+
+# Cargo.toml: kun package-versionen (første linje, der starter med version =).
+tmp="$(mktemp)"
+awk -v v="$new" '!done && /^version = "/ { print "version = \"" v "\""; done = 1; next } { print }' "$toml" > "$tmp"
+mv "$tmp" "$toml"
+
+# Cargo.lock: linjen efter name = "tt-app".
+tmp="$(mktemp)"
+awk -v v="$new" '
+  /^name = "tt-app"$/ { print; hit = 1; next }
+  hit && /^version = "/ { print "version = \"" v "\""; hit = 0; next }
+  { hit = 0; print }
+' "$lock" > "$tmp"
+mv "$tmp" "$lock"
+
+got_toml="$(sed -n 's/^version = "\(.*\)"$/\1/p' "$toml" | head -1)"
+got_lock="$(awk '/^name = "tt-app"$/ { getline; print; exit }' "$lock" | sed -n 's/^version = "\(.*\)"$/\1/p')"
+if [[ "$got_toml" != "$new" || "$got_lock" != "$new" ]]; then
+  echo "Fejl: Cargo.toml=$got_toml Cargo.lock=$got_lock, forventet $new" >&2
+  exit 1
+fi
+
+echo "TimeTrack Desktop: $old -> $new (crates/tt-app/Cargo.toml, Cargo.lock)"
+if ! grep -q "^## \[$new\]" "$changelog" 2>/dev/null; then
+  echo "Husk: CHANGELOG.md mangler et '## [$new] - ÅÅÅÅ-MM-DD'-afsnit (bliver release-noterne)." >&2
+fi
+echo "Tag ved udgivelse: v$new"

@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Gemmer …",
+    "saved": "Gemt",
+    "blocked": "Ikke gemt: ret det markerede felt",
+    "failed": "Kunne ikke gemme",
+    "retry": "Prøv igen"
+  },
+  "loading": {
+    "default": "Indlæser...",
+    "tip": {
+      "search": "Vidste du? Du kan bruge Ctrl+K til at søge overalt",
+      "rightClick": "Tip: Højreklik på en opgave for hurtige handlinger",
+      "templates": "Brug skabeloner til gentagne opgaver og spar tid",
+      "kanban": "Du kan trække opgaver mellem kolonner i Kanban-visningen",
+      "timerFromTask": "Tip: Start en timer direkte fra en opgave",
+      "prepaid": "Klippekort hjælper med at holde styr på forudbetalte timer",
+      "duplicate": "Du kan duplikere klippekort med ét klik",
+      "keys": "Brug J/K til at navigere opgavelisten med tastaturet"
+    }
+  },
+  "member": {
+    "all": "Alle medarbejdere",
+    "selected": "{count} medarbejdere valgt"
+  },
+  "founding": "Grundlægger",
+  "status": {
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "pending": "Afventer",
+    "completed": "Afsluttet",
+    "archived": "Arkiveret",
+    "draft": "Kladde",
+    "sent": "Sendt",
+    "paid": "Betalt",
+    "overdue": "Forfalden",
+    "on_hold": "På pause"
+  },
+  "priority": {
+    "low": "Lav",
+    "medium": "Normal",
+    "high": "Høj",
+    "urgent": "Kritisk"
+  },
+  "modal": {
+    "close": "Luk",
+    "confirm": "Bekræft",
+    "cancel": "Annuller",
+    "wait": "Vent...",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Upload fejlede",
+    "uploaded": "Billede uploadet",
+    "uploadError": "Kunne ikke uploade billede",
+    "alt": "Billede",
+    "change": "Skift",
+    "upload": "Upload",
+    "remove": "Fjern",
+    "hint": "JPEG, PNG eller WebP. Maks 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Netværksfejl",
+      "message": "Kunne ikke oprette forbindelse til serveren. Tjek din internetforbindelse og prøv igen."
+    },
+    "server": {
+      "title": "Serverfejl",
+      "message": "Der opstod en fejl på serveren. Prøv igen senere."
+    },
+    "notFound": {
+      "title": "Ikke fundet",
+      "message": "Den ressource du leder efter findes ikke eller er blevet fjernet."
+    },
+    "permission": {
+      "title": "Adgang nægtet",
+      "message": "Du har ikke tilladelse til at se dette indhold."
+    },
+    "unknown": {
+      "title": "Noget gik galt",
+      "message": "Der opstod en uventet fejl. Prøv at genindlæse siden."
+    },
+    "offline": "Du er offline",
+    "connected": "Forbundet",
+    "details": "Fejldetaljer",
+    "retrying": "Prøver igen...",
+    "retry": "Prøv igen",
+    "loading": "Indlæser..."
+  },
+  "empty": {
+    "clients": {
+      "title": "Ingen kunder endnu",
+      "description": "Kom i gang ved at oprette din første kunde. Du kan tilføje kontaktinformation, CVR-nummer, timesats og meget mere.",
+      "action": "Opret din første kunde",
+      "guide": "Læs guide"
+    },
+    "projects": {
+      "needClientTitle": "Opret en kunde først",
+      "needClientDescription": "Du skal have mindst én kunde før du kan oprette projekter. Projekter er altid tilknyttet en kunde.",
+      "createClient": "Opret kunde",
+      "title": "Ingen projekter endnu",
+      "description": "Opret dit første projekt for at begynde at registrere tid og fakturere dine kunder. Du kan vælge timepris eller fast pris.",
+      "action": "Opret projekt",
+      "seeClients": "Se kunder"
+    },
+    "time": {
+      "needProjectTitle": "Opret et projekt først",
+      "needProjectDescription": "Du skal have mindst ét aktivt projekt for at registrere tid. Projekter hjælper dig med at organisere og fakturere dit arbejde.",
+      "createProject": "Opret projekt",
+      "today": "i dag",
+      "title": "Ingen tid registreret {date}",
+      "description": "Start timeren eller tilføj en manuel tidsregistrering. Du kan også oprette gentagende skabeloner for faste opgaver.",
+      "startTimer": "Start timer",
+      "seeTemplates": "Se skabeloner"
+    },
+    "invoices": {
+      "needTimeTitle": "Registrer tid først",
+      "needTimeDescription": "Du har ingen ufaktureret tid at fakturere. Start med at registrere tid på dine projekter.",
+      "trackTime": "Registrer tid",
+      "title": "Ingen fakturaer endnu",
+      "description": "Opret din første faktura baseret på registreret tid eller faste beløb. Du kan tilpasse fakturaskabeloner i indstillinger.",
+      "action": "Opret faktura",
+      "seeUnbilled": "Se ufaktureret tid"
+    },
+    "tasks": {
+      "needProjectTitle": "Opret et projekt først",
+      "needProjectDescription": "Opgaver er tilknyttet projekter. Opret først et projekt, så kan du tilføje opgaver.",
+      "createProject": "Opret projekt",
+      "title": "Ingen opgaver",
+      "description": "Hold styr på dine opgaver og deadlines. Du kan prioritere opgaver og sætte forfaldsdatoer.",
+      "action": "Opret opgave",
+      "seeProjects": "Se projekter"
+    },
+    "prepaid": {
+      "needClientTitle": "Opret en kunde først",
+      "needClientDescription": "Klippekort (forudbetalte timer) er tilknyttet kunder. Opret først en kunde.",
+      "createClient": "Opret kunde",
+      "title": "Ingen klippekort",
+      "description": "Klippekort er forudbetalte timepakker. Perfekt til løbende support eller vedligeholdelse hos faste kunder.",
+      "action": "Opret klippekort",
+      "seeClients": "Se kunder"
+    },
+    "reports": {
+      "title": "Ingen data at vise",
+      "description": "Registrer tid og opret fakturaer for at se dine rapporter og statistikker her. Jo mere data, jo bedre indsigt.",
+      "action": "Gå til tidsregistrering"
+    },
+    "search": {
+      "title": "Ingen resultater",
+      "descriptionQuery": "Vi kunne ikke finde noget der matcher \"{query}\". Prøv et andet søgeord eller tjek stavningen.",
+      "description": "Prøv at søge efter noget andet.",
+      "clear": "Ryd søgning"
+    },
+    "error": {
+      "title": "Noget gik galt",
+      "description": "Vi kunne ikke hente dataen. Prøv venligst igen.",
+      "retry": "Prøv igen"
+    },
+    "moduleDisabled": {
+      "title": "Funktion deaktiveret",
+      "description": "Dette modul er ikke aktiveret for din organisation. Kontakt jeres administrator, hvis I ønsker at bruge det.",
+      "action": "Modul-indstillinger"
+    }
+  },
+  "client": {
+    "placeholder": "Vælg kunde",
+    "clear": "Ingen kunde",
+    "selected": "{count} kunder valgt",
+    "searchLabel": "Søg kunde",
+    "searchPlaceholder": "Søg kunde...",
+    "listLabel": "Kunder",
+    "none": "Ingen kunder fundet",
+    "frequent": "Ofte brugt",
+    "all": "Alle kunder",
+    "entryCount": "{count} reg."
+  },
+  "project": {
+    "placeholder": "Vælg projekt",
+    "none": "Intet projekt",
+    "searchPlaceholder": "Søg projekt eller kunde...",
+    "listLabel": "Projekter",
+    "recent": "Sidst brugt",
+    "empty": "Ingen projekter fundet",
+    "noClient": "Uden kunde",
+    "unknownClient": "Ukendt kunde"
+  },
+  "task": {
+    "placeholder": "Vælg opgave",
+    "searchPlaceholder": "Søg opgave, projekt eller kunde...",
+    "none": "Ingen opgave",
+    "inProgress": "I gang",
+    "todo": "Todo",
+    "backlog": "Backlog",
+    "other": "Andet",
+    "noMatch": "Ingen opgaver fundet",
+    "noActive": "Ingen aktive opgaver",
+    "showMoreBacklog": "Vis {count} flere backlog-opgaver"
+  }
+}

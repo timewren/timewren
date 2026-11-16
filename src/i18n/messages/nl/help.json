@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Aan de slag",
+      "items": {
+        "0": {
+          "question": "Hoe voeg ik mijn eerste klant toe?",
+          "answer": "Ga in de zijbalk naar 'Klanten' en klik op 'Klant toevoegen'. Vul de gegevens van de klant in, zoals naam, e-mail en eventueel een specifiek uurtarief. Als je geen uurtarief invult, wordt je standaarduurtarief uit de instellingen gebruikt."
+        },
+        "1": {
+          "question": "Wat is het verschil tussen projecten en klanten?",
+          "answer": "Klanten zijn de personen of bedrijven voor wie je werkt. Projecten zijn specifieke taken of opdrachten onder een klant. Je kunt meerdere projecten per klant hebben, bijv. 'Websiteontwikkeling' en 'Doorlopende support' onder dezelfde klant."
+        },
+        "2": {
+          "question": "Hoe registreer ik tijd?",
+          "answer": "Ga naar 'Urenregistratie' en gebruik de timer (start/stop) of voeg tijd handmatig toe. Kies een project of klant, voeg een omschrijving toe en sla op. Je kiest of de tijd van een urenpakket wordt afgetrokken of normaal wordt gefactureerd."
+        },
+        "3": {
+          "question": "Hoe volg ik de rondleiding opnieuw?",
+          "answer": "Klik rechtsboven op je profielfoto of initialen en kies 'Rondleiding starten'. De rondleiding loopt in 24 interactieve stappen door alle hoofdfuncties van {brand}."
+        },
+        "4": {
+          "question": "Zijn er sneltoetsen?",
+          "answer": "Ja, {brand} heeft veel sneltoetsen om snel te navigeren en de tijd te bedienen. Druk op '?' voor een overzicht van alle beschikbare sneltoetsen, of bekijk het onderwerp 'Sneltoetsen en tips' hieronder."
+        }
+      }
+    },
+    "clients": {
+      "title": "Klanten",
+      "items": {
+        "0": {
+          "question": "Hoe stel ik een specifiek uurtarief in voor een klant?",
+          "answer": "Als je een klant aanmaakt of bewerkt, kun je een 'Uurtarief (DKK)' invullen. Dit tarief overschrijft je standaarduurtarief voor alle projecten van deze klant, tenzij het project een eigen uurtarief heeft."
+        },
+        "1": {
+          "question": "Kan ik een klant verwijderen?",
+          "answer": "Om de gegevensintegriteit te bewaren kunnen klanten niet worden verwijderd, maar wel worden gearchiveerd. Gearchiveerde klanten verschijnen niet in lijsten, maar hun historische gegevens blijven bewaard. Je kunt een gearchiveerde klant altijd weer activeren."
+        },
+        "2": {
+          "question": "Wat is de tariefhiërarchie?",
+          "answer": "{brand} gebruikt een tariefsysteem met drie niveaus: 1) Algemeen uurtarief (in de instellingen), 2) Uurtarief per klant, 3) Uurtarief per project. Het meest specifieke niveau wordt gebruikt. Heeft een project bijvoorbeeld een tarief, dan geldt dat. Anders geldt het tarief van de klant, en anders het algemene tarief."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projecten",
+      "items": {
+        "0": {
+          "question": "Wat is het verschil tussen uurtarief en vaste prijs?",
+          "answer": "Projecten op uurbasis worden gefactureerd op basis van het aantal uren maal het uurtarief. Projecten met een vaste prijs hebben een vooraf bepaalde prijs, ongeacht het aantal uren. Je kiest het type bij het aanmaken van het project."
+        },
+        "1": {
+          "question": "Hoe houd ik projectdeadlines bij?",
+          "answer": "Als je een project aanmaakt, kun je een deadline instellen. Projecten met een deadline tonen een waarschuwing als de deadline nadert. Je kunt de status ook op 'Actief', 'Gepauzeerd' of 'Voltooid' zetten."
+        },
+        "2": {
+          "question": "Kan ik een project naar een andere klant verplaatsen?",
+          "answer": "Ja, bewerk het project en kies een nieuwe klant in de keuzelijst. Alle tijdboekingen en urenpakketten blijven aan het project gekoppeld."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Urenregistratie",
+      "items": {
+        "0": {
+          "question": "Hoe werkt de timer?",
+          "answer": "Kies een project, voeg een omschrijving toe en druk op 'Start'. De timer loopt tot je op 'Pauze' of 'Stop' drukt. Als je stopt, wordt de tijd automatisch als tijdboeking opgeslagen. Je kunt de timer naar behoefte pauzeren en hervatten."
+        },
+        "1": {
+          "question": "Kan ik eerdere tijdboekingen bewerken?",
+          "answer": "Ja, klik op een tijdboeking in de lijst en kies 'Bewerken'. Je kunt het project, de omschrijving, het aantal uren en de datum wijzigen. Handig als je bent vergeten tijd te registreren of een fout hebt gemaakt."
+        },
+        "2": {
+          "question": "Hoe verwerk ik meerdere tijdboekingen tegelijk?",
+          "answer": "Selecteer de tijdboekingen via het selectievakje links. Daarna kun je meerdere tijdboekingen tegelijk verwijderen met de knop 'Selectie verwijderen'."
+        },
+        "3": {
+          "question": "Wat is het weekoverzicht (urenstaat)?",
+          "answer": "Het weekoverzicht toont je tijdboekingen in een weekraster, zodat je snel de uren per dag en project ziet. Schakel tussen lijst- en weekweergave met de schakelaar bovenaan de pagina Urenregistratie."
+        },
+        "4": {
+          "question": "Kan ik tijd uit CSV importeren?",
+          "answer": "Ja, klik op de knop 'CSV importeren' op de pagina Urenregistratie. Upload een CSV-bestand met kolommen voor datum, uren, project en omschrijving. Het systeem koppelt projecten automatisch en maakt tijdboekingen aan."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Taken",
+      "items": {
+        "0": {
+          "question": "Wat is het verschil tussen het kanbanbord en de lijstweergave?",
+          "answer": "Het kanbanbord toont taken als kaarten in kolommen (bijv. 'Te doen', 'Bezig', 'Klaar'), zodat je taken gemakkelijk tussen fasen sleept. De lijstweergave toont taken in een tabel met sorteren en filteren. Schakel tussen de weergaven met de knoppen bovenaan."
+        },
+        "1": {
+          "question": "Hoe maak ik een taak aan?",
+          "answer": "Klik op 'Nieuwe taak' op de pagina Taken. Vul de titel in, kies een project en klant, stel een prioriteit in (laag/normaal/hoog/kritiek) en voer eventueel een deadline in. Je kunt ook een omschrijving met details toevoegen."
+        },
+        "2": {
+          "question": "Hoe verplaats ik taken tussen kolommen?",
+          "answer": "In de kanbanweergave sleep je taakkaarten tussen de kolommen. Je kunt ook op een taak klikken en de status wijzigen in het bewerkvenster."
+        },
+        "3": {
+          "question": "Kan ik een timer direct vanuit een taak starten?",
+          "answer": "Ja, elke taak heeft een timerknop. Klik erop om de timer te starten met het project en de titel van de taak als omschrijving. De tijd wordt automatisch op het gekoppelde project geregistreerd."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Overzicht",
+      "items": {
+        "0": {
+          "question": "Wat toont het overzicht?",
+          "answer": "Het overzicht geeft je een beeld van je freelancebedrijf met widgets voor het weekoverzicht van uren, verdiensten, actieve projecten, status van urenpakketten, laatste tijdboekingen en komende deadlines."
+        },
+        "1": {
+          "question": "Kan ik het overzicht aanpassen?",
+          "answer": "Ja, klik rechtsboven op het overzicht op de knop 'Aanpassen'. Je kunt widgets toevoegen, verwijderen en verplaatsen met slepen. Je wijzigingen worden automatisch opgeslagen."
+        },
+        "2": {
+          "question": "Welke widgets zijn er?",
+          "answer": "Beschikbare widgets zijn onder meer: Weekoverzicht (uren per dag), Verdiensten (omzet en groei), Actieve projecten, Overzicht urenpakketten, Laatste tijdboekingen, Uren vandaag, Komende deadlines en Snelle timerstart."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Urenpakketten",
+      "items": {
+        "0": {
+          "question": "Wat is een urenpakket?",
+          "answer": "Een urenpakket is een blok uren dat een klant vooraf koopt. Als je tijd registreert, kun je ervoor kiezen om uren van het pakket af te trekken in plaats van ze normaal te factureren. Dit is populair bij supportovereenkomsten."
+        },
+        "1": {
+          "question": "Hoe maak ik een urenpakket aan?",
+          "answer": "Ga naar 'Urenpakketten' en klik op 'Nieuw urenpakket'. Kies een klant, voer het aantal uren en het uurtarief in en bereken de totaalprijs. Stel een aankoopdatum in en eventueel een vervaldatum. Zodra het pakket actief is, kun je het gebruiken bij het registreren van tijd."
+        },
+        "2": {
+          "question": "Wat gebeurt er als een urenpakket op is?",
+          "answer": "Je krijgt een waarschuwing als een urenpakket minder dan 10% van de uren over heeft. Is het leeg (0 uur over), dan kun je er geen tijd meer van aftrekken. Maak dan een nieuw urenpakket aan of factureer de tijd normaal."
+        },
+        "3": {
+          "question": "Kan ik de geschiedenis van een urenpakket bekijken?",
+          "answer": "Ja, open het urenpakket en kijk onder 'Gebruiksgeschiedenis'. Daar staan alle tijdboekingen die van het pakket zijn afgetrokken, met datum, omschrijving en aantal uren."
+        }
+      }
+    },
+    "templates": {
+      "title": "Terugkerende sjablonen",
+      "items": {
+        "0": {
+          "question": "Wat zijn terugkerende sjablonen?",
+          "answer": "Terugkerende sjablonen zijn vooraf ingestelde tijdboekingen die met vaste tussenpozen automatisch worden aangemaakt. Je kunt bijvoorbeeld een sjabloon 'Wekelijks statusoverleg, 1 uur' maken dat elke week wordt aangemaakt."
+        },
+        "1": {
+          "question": "Hoe maak ik een sjabloon aan?",
+          "answer": "Ga naar 'Sjablonen' en klik op 'Nieuw sjabloon'. Kies een project, omschrijving, aantal uren en frequentie (dagelijks/wekelijks/maandelijks). Voer een startdatum in en eventueel een einddatum. Het sjabloon maakt automatisch tijdboekingen aan volgens je planning."
+        },
+        "2": {
+          "question": "Kan ik gegenereerde tijdboekingen bewerken of verwijderen?",
+          "answer": "Ja, de gegenereerde tijdboekingen werken als gewone tijdboekingen. Je kunt ze bewerken onder 'Urenregistratie' of verwijderen als ze voor een bepaalde dag of week niet relevant zijn."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Facturen",
+      "items": {
+        "0": {
+          "question": "Hoe maak ik een factuur aan?",
+          "answer": "Ga naar 'Facturen' en klik op 'Nieuwe factuur'. Kies een klant en een periode voor tijdboekingen, en het systeem verzamelt automatisch alle niet-gefactureerde uren. Controleer de regels, voeg eventueel notities toe en sla op."
+        },
+        "1": {
+          "question": "Wat is het verschil tussen 'Concept', 'Verzonden' en 'Betaald'?",
+          "answer": "Concept = je werkt nog aan de factuur. Verzonden = de factuur is naar de klant gestuurd maar nog niet betaald. Betaald = de klant heeft de factuur betaald. Je kunt de status handmatig bijwerken naarmate het vordert."
+        },
+        "2": {
+          "question": "Kan ik facturen naar PDF exporteren?",
+          "answer": "Ja, bij het bekijken van een factuur staat een knop 'PDF exporteren'. Die maakt een professionele PDF-factuur die je naar de klant kunt sturen of kunt bewaren voor de boekhouding."
+        },
+        "3": {
+          "question": "Kan ik een factuur uit tijdboekingen genereren?",
+          "answer": "Ja, klik op de knop 'Uit tijdboekingen' bij het aanmaken van een nieuwe factuur. Kies een klant en periode, en het systeem verzamelt alle niet-gefactureerde tijdboekingen als factuurregels."
+        },
+        "4": {
+          "question": "Wat toont het factuuroverzicht?",
+          "answer": "Bovenaan de factuurpagina vind je vier statistiekkaarten: Totaal gefactureerd, Betaald bedrag, Openstaand bedrag en Achterstallige facturen. Zo heb je snel een beeld van je financiën."
+        }
+      }
+    },
+    "reports": {
+      "title": "Rapporten",
+      "items": {
+        "0": {
+          "question": "Welke rapporten kan ik genereren?",
+          "answer": "Je ziet week- en maandrapporten met uren per klant, uren per project, verdiensten en trends. Rapporten kunnen op periode worden gefilterd en naar CSV worden geëxporteerd voor analyse in Excel."
+        },
+        "1": {
+          "question": "Hoe exporteer ik gegevens naar Excel?",
+          "answer": "Ga naar 'Rapporten', kies de gewenste periode en klik op 'CSV exporteren'. Dit downloadt een CSV-bestand dat je kunt openen in Excel, Google Sheets of andere spreadsheets."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Sneltoetsen en tips",
+      "items": {
+        "0": {
+          "question": "Welke navigatiesneltoetsen zijn er?",
+          "answer": "Gebruik G gevolgd door een toets om snel te navigeren: {shortcuts}."
+        },
+        "1": {
+          "question": "Welke timersneltoetsen zijn er?",
+          "answer": "T = timer starten/stoppen, Shift+T = timer pauzeren/hervatten. Deze sneltoetsen werken op alle pagina's, zodat je je timer snel bedient zonder van pagina te wisselen."
+        },
+        "2": {
+          "question": "Wat is het opdrachtenpalet?",
+          "answer": "Druk op Ctrl+K (of Cmd+K op Mac) om het opdrachtenpalet te openen. Daar zoek je snel pagina's, klanten, projecten en acties en ga je er direct naartoe, zonder muis."
+        },
+        "3": {
+          "question": "Hoe zie ik alle sneltoetsen?",
+          "answer": "Druk op '?' op een willekeurige pagina om het sneltoetsenoverzicht te openen. Het toont alle beschikbare sneltoetsen per categorie."
+        },
+        "4": {
+          "question": "Kan ik de rondleiding opnieuw starten?",
+          "answer": "Ja, klik rechtsboven op je profielfoto of initialen en kies 'Rondleiding starten' in het gebruikersmenu. De rondleiding loopt door alle 24 hoofdfuncties."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Browserextensie",
+      "items": {
+        "0": {
+          "question": "Wat is de browserextensie van {brand}?",
+          "answer": "Met de browserextensie registreer je tijd direct vanuit je browser, zonder de {brand}-app te openen. Je kunt de timer starten/stoppen, een project en klant kiezen en je laatste tijdboekingen zien."
+        },
+        "1": {
+          "question": "Hoe stel ik URL-patronen in?",
+          "answer": "Onder Instellingen → Browserextensie kun je URL-patronen definiëren die automatisch een project koppelen wanneer je bepaalde websites bezoekt. Je kunt bijvoorbeeld 'github.com/client-repo/*' instellen om automatisch het bijbehorende project te kiezen."
+        },
+        "2": {
+          "question": "Hoe installeer ik de browserextensie?",
+          "answer": "Installeer de {brand}-extensie uit de Chrome Web Store (zoek op ''{brand} Tidsregistrering' of ga naar timetrack.dk/browser-extension). Genereer een API-token onder Instellingen → Browserextensie en plak het in de popup van de extensie. De extensie maakt automatisch verbinding met je {brand}-account."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integraties",
+      "items": {
+        "0": {
+          "question": "Hoe gebruik ik de CVR-opzoeking?",
+          "answer": "Als je een nieuwe klant aanmaakt, kun je een CVR-nummer invoeren en op 'Opzoeken' klikken. {brand} haalt automatisch de bedrijfsnaam, het adres en de contactgegevens op uit het Deense CVR-register, zodat je ze niet handmatig hoeft in te voeren."
+        },
+        "1": {
+          "question": "Hoe exporteer ik naar Billy, Dinero of e-conomic?",
+          "answer": "Ga naar Instellingen → Integraties en koppel je account. Billy en Dinero kunnen facturen ontvangen. Vanuit e-conomic kun je je klanten importeren, en je kunt de factuurbasis altijd als CSV of rapport exporteren vanaf de factuurpagina."
+        },
+        "2": {
+          "question": "Kan ik synchroniseren met Google Agenda?",
+          "answer": "Ja, onder Instellingen → Integraties kun je je Google Agenda koppelen. Agenda-afspraken kunnen automatisch als tijdboekingen worden voorgesteld, zodat je gemakkelijk tijd registreert op basis van je vergaderingen."
+        }
+      }
+    },
+    "security": {
+      "title": "Beveiliging",
+      "items": {
+        "0": {
+          "question": "Wat zijn passkeys?",
+          "answer": "Passkeys zijn een moderne manier van inloggen zonder wachtwoord. In plaats van een wachtwoord gebruik je een vingerafdruk, gezichtsherkenning of de pincode van je apparaat. Stel passkeys in onder Instellingen → Beveiliging → Passkeys."
+        },
+        "1": {
+          "question": "Hoe schakel ik tweestapsverificatie (2FA) in?",
+          "answer": "Ga naar Instellingen → Beveiliging → Tweestapsverificatie. Scan de QR-code met een authenticator-app (bijv. Google Authenticator of Authy) en voer de bevestigingscode in. Daarna is bij het inloggen een code van 6 cijfers nodig."
+        },
+        "2": {
+          "question": "Hoe beheer ik actieve sessies?",
+          "answer": "Onder Instellingen → Beveiliging → Actieve sessies zie je alle apparaten die op je account zijn ingelogd. Je kunt afzonderlijke sessies beëindigen of op alle apparaten tegelijk uitloggen."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Importeren en exporteren",
+      "items": {
+        "0": {
+          "question": "Hoe importeer ik tijdboekingen uit CSV?",
+          "answer": "Ga naar Urenregistratie en klik op 'CSV importeren'. Upload een CSV-bestand met kolommen voor datum, uren, project en omschrijving. Het systeem toont een voorbeeld, zodat je de gegevens kunt controleren voor het importeren."
+        },
+        "1": {
+          "question": "Hoe exporteer ik mijn gegevens?",
+          "answer": "Je kunt gegevens op meerdere plaatsen exporteren: Rapporten → CSV exporteren voor tijdboekingen, Facturen → PDF exporteren voor afzonderlijke facturen, en Instellingen → Gegevens → Alle gegevens exporteren voor een volledige back-up in CSV- of JSON-formaat."
+        },
+        "2": {
+          "question": "Kan ik al mijn gegevens downloaden (AVG)?",
+          "answer": "Ja, onder Instellingen → Gegevens vind je een knop 'Mijn gegevens downloaden'. Die maakt een volledige export van al je gegevens in JSON-formaat, zoals de AVG vereist. De export bevat klanten, projecten, tijdboekingen, facturen en urenpakketten."
+        }
+      }
+    },
+    "settings": {
+      "title": "Instellingen",
+      "items": {
+        "0": {
+          "question": "Hoe wijzig ik mijn standaarduurtarief?",
+          "answer": "Ga naar 'Instellingen', zoek het veld 'Standaarduurtarief (DKK)' en voer je nieuwe tarief in. Dit tarief geldt als standaard voor nieuwe klanten en projecten. Bestaande tarieven van klanten en projecten worden niet gewijzigd."
+        },
+        "1": {
+          "question": "Worden al mijn wijzigingen vastgelegd?",
+          "answer": "Ja, {brand} legt alle wijzigingen in uurtarieven (algemeen, klant, project) vast in een tariefgeschiedenis. Je kunt altijd zien wanneer en hoe tarieven zijn gewijzigd. Dat helpt bij transparantie en boekhouding."
+        },
+        "2": {
+          "question": "Hoe verwijder ik mijn account?",
+          "answer": "In 'Instellingen' staat een sectie 'Gevarenzone' met een knop 'Account verwijderen'. Je moet bevestigen met je e-mailadres en de verwijdering goedkeuren. LET OP: hiermee worden al je gegevens DEFINITIEF verwijderd, inclusief klanten, projecten, tijdboekingen en facturen. Ben je lid van een team, dan blijft wat je in het team hebt geregistreerd bij het team, zonder je naam en e-mail."
+        },
+        "3": {
+          "question": "Hoe schakel ik over naar het donkere thema?",
+          "answer": "Ga naar Instellingen → Profiel en weergave → Thema. Kies tussen 'Licht', 'Donker' of 'Systeem' (volgt de instelling van je apparaat). De wijziging werkt direct."
+        },
+        "4": {
+          "question": "Wat is het bedrijfsprofiel?",
+          "answer": "Onder Instellingen → Bedrijfsprofiel stel je je bedrijfsnaam, CVR-nummer, adres, logo en bankgegevens in. Deze gegevens worden automatisch op je facturen gebruikt."
+        }
+      }
+    }
+  },
+  "title": "Help en uitleg",
+  "description": "Vind antwoorden op je vragen over {brand}",
+  "searchPlaceholder": "Zoek in help... (bijv. 'urenpakket', 'factuur', 'sneltoets')",
+  "resultCount": "{count, plural, one {# resultaat} other {# resultaten}}",
+  "popular": "Populaire vragen",
+  "searchResultsFor": "Zoekresultaten voor \"{query}\"",
+  "foundIn": "{results, plural, one {# resultaat} other {# resultaten}} gevonden in {topics, plural, one {# onderwerp} other {# onderwerpen}}",
+  "noResults": "Geen resultaten gevonden voor \"{query}\"",
+  "questionCount": "{count, plural, one {# vraag} other {# vragen}}",
+  "chooseTopic": "Kies een onderwerp uit de lijst",
+  "cantFindTitle": "Kun je niet vinden wat je zoekt?",
+  "cantFindBody": "Neem contact met ons op als je vragen hebt die niet in de documentatie staan.",
+  "contactSupport": "Contact opnemen met support",
+  "screenshotAlt": "Schermafbeelding: {title}",
+  "videoDemo": "Videodemo",
+  "wasHelpful": "Was dit nuttig?",
+  "yes": "Ja",
+  "no": "Nee",
+  "topicsHeading": "Onderwerpen"
+}

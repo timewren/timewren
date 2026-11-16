@@ -1,0 +1,67 @@
+{
+  "hourUnit": "小时",
+  "headline": {
+    "untilToday": "截至今天 {logged} / {expected}",
+    "noWorkTimeYet": "本期还没有工作时间",
+    "of": "{logged} / {expected}",
+    "noWorkTime": "本期没有工作时间"
+  },
+  "week": "第 {week} 周（{start} 至 {end}）",
+  "period": {
+    "day": "日",
+    "week": "周",
+    "month": "月"
+  },
+  "bar": {
+    "label": "工作时间 {expected} 中，可计费 {billable}，不可计费 {nonBillable}",
+    "billable": "可计费",
+    "nonBillable": "不可计费",
+    "notLogged": "未记录"
+  },
+  "table": {
+    "client": "客户",
+    "billable": "可计费",
+    "nonBillableShort": "不可计费",
+    "share": "占比",
+    "ratio": "每计费小时的不可计费时长",
+    "ratioTitle": "每个已计费小时对应的不可计费小时数",
+    "onlyNonBillable": "仅不可计费"
+  },
+  "strip": {
+    "title": "覆盖率",
+    "summary": "<n>{billable}</n> 可计费 · <n>{nonBillable}</n> 不可计费",
+    "summaryRatio": "<n>{billable}</n> 可计费 · <n>{nonBillable}</n> 不可计费 · 每计费小时 <n>{ratio}</n>",
+    "perClient": "按客户"
+  },
+  "page": {
+    "back": "报告",
+    "title": "覆盖率",
+    "description": "你的工作时间有多少已记录，以及花在了哪里",
+    "periodAria": "时间段",
+    "prev": "上一时间段",
+    "next": "下一时间段",
+    "today": "今天",
+    "workTime": "工作时间：{hours}/周",
+    "workTimeHr": "工作时间：{hours}/周（来自人事）",
+    "edit": "编辑",
+    "loadError": "无法获取覆盖率。",
+    "retry": "重试",
+    "statCoverage": "覆盖率",
+    "statBillable": "可计费",
+    "statNonBillable": "不可计费",
+    "statRatio": "每计费小时的不可计费时长",
+    "ofWorkTime": "占工作时间的 {pct}",
+    "noTimeLogged": "没有工时记录",
+    "shareBilled": "已记录工时的 {pct} 已计费",
+    "perClient": "按客户",
+    "noTimeInPeriod": "本期没有工时记录。",
+    "logTime": "记录工时",
+    "perDay": "按日",
+    "colDate": "日期",
+    "colWorkTime": "工作时间",
+    "colLogged": "已记录",
+    "colBillable": "其中可计费",
+    "colCoverage": "覆盖率",
+    "footnote": "覆盖率 = 已记录工时 ÷ 你的正常工作时间。工作时间不扣除法定假日和缺勤。没有客户的工时显示为内部工时。"
+  }
+}

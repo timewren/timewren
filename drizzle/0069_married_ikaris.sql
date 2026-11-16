@@ -1,0 +1,2 @@
+ALTER TABLE "clients" ADD COLUMN IF NOT EXISTS "auto_reminder_enabled" boolean DEFAULT false NOT NULL;--> statement-breakpoint
+ALTER TABLE "invoices" ADD COLUMN IF NOT EXISTS "friendly_reminder_sent_at" timestamp;

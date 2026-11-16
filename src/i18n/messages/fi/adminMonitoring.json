@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Valvonta",
+    "healthy": "{score} % kunnossa",
+    "cronDashboard": "Cron-koontinäyttö",
+    "sections": {
+      "health": "Järjestelmän tila",
+      "cron": "Cron-ajot",
+      "email": "Sähköpostien toimitus"
+    },
+    "tiles": {
+      "activeSessions": "Aktiiviset istunnot",
+      "sessions24h": "Istunnot viimeisen 24 tunnin aikana",
+      "activeTimers": "Käynnissä olevat ajastimet",
+      "emailsSent7d": "Lähetetyt sähköpostit (7 pv)"
+    },
+    "cronHealth": {
+      "title": "Cron-ajojen tila (7 päivää)",
+      "runs": "Ajot",
+      "ok": "onnistui",
+      "errors": "virhettä",
+      "avgDuration": "Keskimääräinen kesto",
+      "lastRun": "Viimeisin ajo"
+    },
+    "errors": {
+      "title": "Virheet (viimeiset 7 päivää)",
+      "count": "{count} kpl"
+    },
+    "cron": {
+      "allJobs": "Kaikki ajot",
+      "allStatuses": "Kaikki tilat",
+      "filter": {
+        "success": "Onnistui",
+        "error": "Virhe",
+        "partial": "Osittain"
+      },
+      "status": {
+        "success": "onnistui",
+        "error": "virhe",
+        "partial": "osittain"
+      },
+      "empty": "Cron-lokeja ei löytynyt",
+      "columns": {
+        "job": "Ajo",
+        "status": "Tila",
+        "started": "Alkoi",
+        "duration": "Kesto",
+        "items": "Kohteet",
+        "errors": "Virheet"
+      }
+    },
+    "showing": "Näytetään {from}-{to} / {total}",
+    "previous": "Edellinen",
+    "next": "Seuraava",
+    "email": {
+      "sent": "Lähetetty",
+      "delivered": "Toimitettu",
+      "bounced": "Palautunut",
+      "failed": "Epäonnistui",
+      "status": {
+        "sent": "lähetetty",
+        "delivered": "toimitettu",
+        "bounced": "palautunut",
+        "failed": "epäonnistui"
+      },
+      "last24h": "Viimeiset 24 tuntia",
+      "last7d": "Viimeiset 7 päivää",
+      "last30d": "Viimeiset 30 päivää",
+      "last90d": "Viimeiset 90 päivää",
+      "allTemplates": "Kaikki pohjat",
+      "empty": "Sähköpostilokeja ei löytynyt",
+      "columns": {
+        "recipient": "Vastaanottaja",
+        "subject": "Aihe",
+        "template": "Pohja",
+        "status": "Tila",
+        "sentAt": "Lähetetty"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cron-ajot",
+    "refresh": "Päivitä",
+    "never": "Ei koskaan",
+    "badge": {
+      "neverRun": "Ei ajettu",
+      "silent": "Hiljainen",
+      "error": "Virhe",
+      "partial": "Osittain",
+      "running": "Käynnissä",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "onnistui",
+      "error": "virhe",
+      "partial": "osittain"
+    },
+    "noRows": "Lokirivejä ei löytynyt",
+    "runColumns": {
+      "status": "Tila",
+      "started": "Alkoi",
+      "duration": "Kesto",
+      "items": "Kohteet",
+      "errorMessage": "Virheilmoitus"
+    },
+    "tiles": {
+      "expected": "Odotetut ajot",
+      "silent": "Hiljaiset ajot",
+      "withErrors": "Ajot virheillä (24 h)",
+      "totalRuns": "Ajoja yhteensä (24 h)"
+    },
+    "columns": {
+      "status": "Tila",
+      "job": "Ajo",
+      "cadence": "Ajoväli",
+      "lastRun": "Viimeisin ajo",
+      "runs24h": "Ajot 24 h",
+      "errors24h": "Virheet 24 h",
+      "avgDuration": "Keskim. kesto"
+    },
+    "lastError": "Viimeisin virhe:",
+    "cadence": {
+      "everyMinutes": "{minutes} min välein",
+      "hourly": "tunneittain",
+      "everyHours": "{hours} tunnin välein",
+      "daily": "päivittäin",
+      "weekly": "viikoittain",
+      "monthly": "kuukausittain",
+      "everyDays": "{days} päivän välein"
+    }
+  }
+}

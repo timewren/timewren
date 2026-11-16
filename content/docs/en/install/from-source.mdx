@@ -1,0 +1,98 @@
+---
+title: "From source"
+description: "Build the TimeWren image yourself from a clone with Docker Compose, or run the development server with Node.js and PostgreSQL."
+---
+
+Choose this method if you want to run modified code or contribute. If you only want to run TimeWren, the prebuilt image in [Docker Compose](/docs/install/docker-compose) is simpler and needs far less memory.
+
+## Build the image yourself
+
+### Requirements
+
+- Docker Engine with Compose v2.24 or newer.
+- About 4 GB of RAM or more for the build; it takes roughly 7 to 11 minutes and around 5 GB at peak.
+- About 10 GB of free disk space.
+
+### Steps
+
+1. Clone the repository and create `.env`.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   cd timewren
+   cp .env.example .env
+   for v in POSTGRES_PASSWORD BETTER_AUTH_SECRET ENCRYPTION_KEY CRON_SECRET; do
+     sed -i "s|^$v=.*|$v=$(openssl rand -hex 32)|" .env
+   done
+   ```
+
+2. Set `NEXT_PUBLIC_APP_URL` in `.env` to the URL people will open.
+
+3. In `docker-compose.yml`, comment out the `image:` line of the `app` service and uncomment the `build:` block below it.
+
+4. Build and start.
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+   The `cron` service uses the prebuilt image by default. If you change `scripts/cron.mjs` or want it to run your build, also point the `cron` service at your image or build it in the same way.
+
+The build arguments `NEXT_PUBLIC_DESKTOP_RELEASES_REPO`, `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_SENTRY_DSN` and `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` are compiled into the browser bundle, so changing them in `.env` needs `docker compose up -d --build` again. The app URL, marketing URL and brand are read at runtime and need no rebuild.
+
+You can also run the checkout's installer, `./scripts/install.sh`. In a checkout it builds the image and starts the stack with `docker compose up -d --build`, on every run. See [One-line install](/docs/install/quick).
+
+## Run the development server
+
+### Requirements
+
+- Node.js 22 or newer and npm.
+- Docker, for the development PostgreSQL container.
+
+### Steps
+
+1. Clone the repository and install dependencies.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   cd timewren
+   npm ci
+   ```
+
+2. Create `.env.local` with at least a database URL and an auth secret. The development container from `docker-compose.dev.yml` listens on port 5432 with database `freelance_crm` and user and password `postgres`.
+
+   ```dotenv
+   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/freelance_crm
+   BETTER_AUTH_SECRET=replace-with-a-long-random-string
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   CRON_SECRET=replace-with-another-random-string
+   ```
+
+3. Start PostgreSQL, apply migrations and start the server.
+
+   ```bash
+   npm run docker:up
+   npm run db:migrate
+   npm run dev
+   ```
+
+4. Open `http://localhost:3000`.
+
+`npm run dev:setup` starts PostgreSQL, migrates, seeds demo data and starts the dev server in the background. Other useful commands:
+
+| Command | What it does |
+| ------- | ------------ |
+| `npm run docker:down` | Stops the development PostgreSQL container. |
+| `npm run db:seed` | Seeds the database with test data. |
+| `npm run db:studio` | Opens Drizzle Studio. |
+| `npm run build` | Production build. |
+| `npm test` | Unit tests (Vitest, no database needed). |
+| `npm run lint` | Biome linter. |
+
+Without `NEXT_PUBLIC_MARKETING_URL`, the marketing pages of the `timewren` brand are switched off and `/` redirects to the dashboard.
+
+## Next steps
+
+- [Contributing](/docs/contributing)
+- [Environment variables](/docs/configuration/environment)
+- [Docker Compose](/docs/install/docker-compose)

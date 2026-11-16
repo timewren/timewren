@@ -1,0 +1,67 @@
+{
+  "hourUnit": "h",
+  "headline": {
+    "untilToday": "{logged} sur {expected} jusqu'à aujourd'hui",
+    "noWorkTimeYet": "Pas encore de temps de travail sur la période",
+    "of": "{logged} sur {expected}",
+    "noWorkTime": "Aucun temps de travail sur la période"
+  },
+  "week": "Semaine {week} ({start}-{end})",
+  "period": {
+    "day": "Jour",
+    "week": "Semaine",
+    "month": "Mois"
+  },
+  "bar": {
+    "label": "Facturable {billable}, non facturable {nonBillable} sur {expected} de temps de travail",
+    "billable": "Facturable",
+    "nonBillable": "Non facturable",
+    "notLogged": "Non saisi"
+  },
+  "table": {
+    "client": "Client",
+    "billable": "Facturable",
+    "nonBillableShort": "Non fact.",
+    "share": "Part",
+    "ratio": "Non fact. par h fact.",
+    "ratioTitle": "Heures non facturables par heure facturée",
+    "onlyNonBillable": "Non fact. uniquement"
+  },
+  "strip": {
+    "title": "Couverture",
+    "summary": "<n>{billable}</n> facturables · <n>{nonBillable}</n> non facturables",
+    "summaryRatio": "<n>{billable}</n> facturables · <n>{nonBillable}</n> non facturables · <n>{ratio}</n> par heure facturée",
+    "perClient": "Par client"
+  },
+  "page": {
+    "back": "Rapports",
+    "title": "Couverture",
+    "description": "Quelle part de votre temps de travail a été saisie, et où elle passe",
+    "periodAria": "Période",
+    "prev": "Période précédente",
+    "next": "Période suivante",
+    "today": "Aujourd'hui",
+    "workTime": "Temps de travail : {hours}/semaine",
+    "workTimeHr": "Temps de travail : {hours}/semaine (depuis les RH)",
+    "edit": "Modifier",
+    "loadError": "Impossible de récupérer le taux de couverture.",
+    "retry": "Réessayer",
+    "statCoverage": "Couverture",
+    "statBillable": "Facturable",
+    "statNonBillable": "Non facturable",
+    "statRatio": "Non fact. par h fact.",
+    "ofWorkTime": "{pct} du temps de travail",
+    "noTimeLogged": "Aucun temps saisi",
+    "shareBilled": "{pct} du temps saisi est facturé",
+    "perClient": "Par client",
+    "noTimeInPeriod": "Aucun temps saisi sur la période.",
+    "logTime": "Saisir du temps",
+    "perDay": "Par jour",
+    "colDate": "Date",
+    "colWorkTime": "Temps de travail",
+    "colLogged": "Saisi",
+    "colBillable": "Dont fact.",
+    "colCoverage": "Couverture",
+    "footnote": "Couverture = temps saisi ÷ votre temps de travail habituel. Les jours fériés et les absences ne sont pas déduits du temps de travail. Le temps sans client est affiché comme temps interne."
+  }
+}

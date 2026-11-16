@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Prishistorikk",
+    "empty": "Ingen prisendringer ennå. Endringer i timeprisen logges her",
+    "effectiveFrom": "Gjelder fra {date}",
+    "planned": "Planlagt",
+    "noRate": "Ingen pris",
+    "typeGlobal": "Generell",
+    "typeClient": "Kunde",
+    "typeProject": "Prosjekt"
+  },
+  "schedule": {
+    "toastScheduled": "Ny timepris planlagt fra {date}",
+    "restamped": "{count, plural, =0 {Ingen eksisterende oppføringer trengte ny timepris} one {# ufakturert oppføring fikk den nye timeprisen} other {# ufakturerte oppføringer fikk den nye timeprisen}}",
+    "scheduleFailed": "Kunne ikke planlegge timeprisen",
+    "cancelled": "Planlagt timepris avbrutt",
+    "cancelledRestamped": "{count, plural, one {# oppføring fikk den forrige timeprisen tilbake} other {# oppføringer fikk den forrige timeprisen tilbake}}",
+    "cancelFailed": "Kunne ikke avbryte",
+    "invalidRate": "Skriv inn en gyldig timepris",
+    "missingDate": "Velg datoen prisen gjelder fra",
+    "title": "Planlegg en ny timepris",
+    "current": "Nå: {rate} kr/time",
+    "rateLabel": "Ny timepris (kr)",
+    "dateLabel": "Gjelder fra",
+    "submit": "Planlegg",
+    "help": "Tid datert på eller etter datoen får den nye prisen, selv om den registreres senere. Tid før datoen beholder den gamle prisen. Ufakturerte oppføringer fra datoen oppdateres med en gang.",
+    "ratePerHour": "{rate} kr/time",
+    "fromDate": "fra {date}",
+    "takesEffectTonight": "trer i kraft i natt",
+    "cancel": "Avbryt"
+  }
+}

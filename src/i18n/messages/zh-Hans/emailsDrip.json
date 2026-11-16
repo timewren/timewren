@@ -1,0 +1,240 @@
+{
+  "welcome": {
+    "preview": "欢迎使用 TimeTrack，{name}。只需三步，你就能上手。",
+    "subject": "欢迎使用 TimeTrack，{name}",
+    "intro": "我是 Mads，TimeTrack 由我开发和运营。我做它，是为了让自由职业者不用再靠另一张电子表格，就能管理工时、预付时长包和发票。",
+    "threeSteps": "只需三步，你就能上手：",
+    "step1": "1. 创建你的第一个客户",
+    "step2": "2. 设置你的小时费率并创建项目",
+    "step3": "3. 开始工作时启动计时器",
+    "why": "是什么让你想试试 TimeTrack？欢迎直接回复这封邮件。每一封回复我都会亲自阅读，这也帮助我做出真正有用的东西。",
+    "questions": "如果你有任何问题，随时可以直接写信给我：[mail]{email}[/mail]。"
+  },
+  "greeting": "{name}，你好：",
+  "openApp": "打开 TimeTrack",
+  "gettingStarted": {
+    "preview": "三步完成你的第一条工时记录",
+    "subject": "三步完成你的第一条工时记录",
+    "hasClientIntro": "你已经创建了第一个客户。我建议的下一步是：",
+    "hasClient1": "**设置你的小时费率：**前往设置，输入你的默认小时费率。你也可以为每个客户或项目设置不同的费率。",
+    "hasClient2": "**创建项目：**项目可以按工作归集工时，方便你正确开具发票。",
+    "hasClient3": "**试试计时器：**点击 TimeTrack 顶部计时器栏中的开始。",
+    "noClientIntro": "你几天前创建了账户。下面是完成第一条工时记录的三个步骤：",
+    "noClient1": "**创建你的第一个客户：**这样你就可以在客户名下记录工时，并据此开具发票。",
+    "noClient2": "**设置你的小时费率：**输入默认小时费率，TimeTrack 会计算你工时的价值。",
+    "noClient3": "**启动计时器：**点击 TimeTrack 顶部计时器栏中的开始。",
+    "buttonProject": "创建你的第一个项目",
+    "buttonClient": "创建你的第一个客户",
+    "stuck": "如果遇到困难，请回复这封邮件，我会亲自帮你。"
+  },
+  "noTimeEntry": {
+    "preview": "写下你做了什么，其余交给 TimeTrack",
+    "subject": "记录你的第一笔工时",
+    "intro": "你几天前创建了 TimeTrack 账户，但还没有记录过任何工时。",
+    "how": "在首页顶部的输入框里写下你做了什么，例如“昨天为网站工作了 2 小时”。或者点击启动计时器，做完后再停止。",
+    "button": "记录你的第一笔工时",
+    "help": "如果遇到任何问题，直接回复这封邮件就行。回复我会亲自阅读。"
+  },
+  "timeNoInvoice": {
+    "preview": "{hours} 小时可以开具发票",
+    "subject": "你的工时可以开具发票了",
+    "body": "你在 TimeTrack 中有 {hours} 小时尚未开票。需要开票时，可以直接根据工时记录创建发票，小时数和金额会自动带入。",
+    "button": "根据你的工时创建发票",
+    "elsewhere": "如果你在别处开票，可以忽略这封邮件。"
+  },
+  "clientNoKlippekort": {
+    "preview": "预付时长包：小时数自动扣除",
+    "subject": "为你的客户准备预付时长包",
+    "body": "你已经在 TimeTrack 中创建了客户。如果其中有客户会预先购买工时，你可以为他们创建预付时长包。之后记录工时时会自动扣除，你们双方都能看到还剩多少小时。",
+    "button": "创建预付时长包",
+    "usage": "如果你只按实际用量收费，则无需做任何事。"
+  },
+  "klippekortTips": {
+    "preview": "预付时长包在 TimeTrack 中如何运作",
+    "subject": "预付时长包在 TimeTrack 中如何运作",
+    "intro": "预付时长包是一笔预付的工时。比如客户购买 20 小时，之后每次你为该客户记录工时，TimeTrack 就会扣除相应的小时数。",
+    "exampleName": "示例：街角面包店",
+    "how": "客户在你开工前付款。TimeTrack 会跟踪余额，你不用自己计算，客户也可以在客户门户中查看。",
+    "button": "创建预付时长包",
+    "sell": "想知道如何向客户销售预付时长包吗？回复这封邮件，我很乐意分享我的经验。"
+  },
+  "extensionTips": {
+    "preview": "用浏览器扩展，在任何页面都能启动和停止计时器",
+    "subject": "无需切换标签页，直接启动和停止计时器",
+    "intro": "TimeTrack 有浏览器扩展，你可以不切换标签页就启动和停止计时器。",
+    "tip1": "在弹出窗口中启动和停止计时器，并在其中选择客户和项目。快捷键 Alt+Shift+S 可用键盘启动和停止计时器。",
+    "tip2": "工具栏图标会显示正在运行的计时器；没有计时器运行时，显示今天的工时。",
+    "button": "从 Chrome 网上应用店获取"
+  },
+  "aiFeatures": {
+    "preview": "写一句话，TimeTrack 帮你填好工时记录",
+    "subject": "写一句话就能记录工时",
+    "intro": "记录工时不需要填表单。首页有一个名为“写下你做了什么”的输入框。写一句话，然后按回车：",
+    "example": "昨天为 Jensen 的网站工作了 2 小时",
+    "suggest": "TimeTrack 会给出客户、项目、日期和时间的建议。在你确认建议之前，不会保存任何内容。在首页按 / 即可跳到输入框；如果你的浏览器支持，还可以用麦克风口述这句话。",
+    "parser": "这句话由普通的文本解析器读取，而不是 AI。如果你在设置中添加了自己的 AI 密钥，AI 服务商可以补充解析器自己没有识别出的内容。这是可选的。",
+    "button": "打开首页",
+    "feedback": "如果输入框没能理解你写的某句话，把它发给我，我可以改进解析器。"
+  },
+  "firstWeek": {
+    "preview": "你使用 TimeTrack 的最初几周",
+    "subject": "你使用 TimeTrack 的最初几周",
+    "minimal1": "你几周前创建了账户，看起来还在摸索阶段。这完全没问题。",
+    "minimal2": "忙起来的时候，很容易忘记记录工时。但没有记录的时间，就无法开具发票。",
+    "tip": "**一个小建议：**这周试着记录一整天。开始任务时启动计时器，或者事后在首页的输入框里写下你做了什么。",
+    "active": "你已经使用 TimeTrack 几周了。以下是你到目前为止的记录：",
+    "trackedTime": "已记录工时",
+    "hoursUnit": "{hours} 小时",
+    "clients": "客户",
+    "projects": "项目",
+    "closing": "如果你边做边记录工时，到了开票的时候，开票依据就已经准备好了。",
+    "feedback": "到目前为止感觉如何？告诉我哪些好用，哪些不好用。"
+  },
+  "upgrade": {
+    "whenNow": "一天之内",
+    "whenDays": "{days, plural, other {# 天后}}",
+    "preview": "你的试用将于{when}结束",
+    "subject": "你的试用即将到期",
+    "body": "你的 TimeTrack 试用将于{when}结束。如果你不选择订阅，账户会继续使用免费版，你创建的所有内容仍会保留。",
+    "free": "免费版可容纳 {clients} 个活跃客户和 {seats} 位用户。",
+    "button": "查看订阅方案",
+    "questions": "如果你对方案或价格有疑问，请回复这封邮件，我很乐意帮忙。"
+  },
+  "needHelp": {
+    "preview": "{name}，需要帮助吗？",
+    "subject": "{name}，需要帮助吗？",
+    "introTracking": "你几天前创建了 TimeTrack 账户，现在已经在记录工时了。",
+    "introNoTracking": "你几天前创建了 TimeTrack 账户。我想确认一下一切是否顺利。",
+    "placesTracking": "如果你想更进一步，可以去这三个地方：",
+    "placesNoTracking": "上手一个新系统并不容易。你可以从这三个地方开始：",
+    "helpCentre": "帮助中心",
+    "helpCentreNote": "：常见问题解答",
+    "createClient": "创建客户",
+    "createClientNote": "：如果你还没有创建",
+    "writeMe": "写信给我",
+    "writeMeNote": "：我会亲自回复",
+    "missing": "觉得 TimeTrack 缺了什么？写信告诉我是什么，这能帮我把它做得更好。"
+  },
+  "winBack30": {
+    "preview": "好久不见，{name}",
+    "subject": "好久不见，{name}",
+    "intro": "你已经有一阵子没有访问 TimeTrack 了。希望一切都好。",
+    "stillThere": "你的账户里还保留着：",
+    "hoursOnly": "**{hours} 小时**尚未开票。",
+    "hoursValue": "**{hours} 小时**尚未开票，价值 **{value}**",
+    "tasks": "**{count, plural, other {# 个未完成的任务}}**在等你。",
+    "how": "如果你想重新开始，最快的方式是在首页的输入框里写下你做了什么。TimeTrack 会给出客户、项目和时间的建议，你确认后才会保存。",
+    "why": "是什么让你停下来的？回复这封邮件，我会亲自阅读。这能帮我把 TimeTrack 做得更好。"
+  },
+  "winBack60": {
+    "preview": "你的客户、项目、工时和发票仍然保存着",
+    "subject": "你的数据仍然在 TimeTrack 中",
+    "intro": "你已经超过 60 天没有使用 TimeTrack 了。我只是想让你知道，你的客户、项目、工时和发票都还保存着，你可以从上次中断的地方继续。",
+    "button": "登录 TimeTrack",
+    "export": "如果你选择了别的工具，我能理解。如果你想带走自己的数据，可以[export]将其导出为 CSV 或 JSON[/export]。",
+    "feedback": "如果有什么我本可以做得更好，我很想听听你的想法。回复这封邮件，我会亲自阅读。"
+  },
+  "firstClient": {
+    "preview": "你的第一个客户已创建：{client}",
+    "subject": "你的第一个客户已创建",
+    "intro": "你已经创建了第一个客户 **{client}**。我建议的下一步是：",
+    "step1": "1. 为 {client} 创建项目",
+    "step2": "2. 在项目上启动计时器",
+    "step3": "3. 工作完成后，根据工时创建发票",
+    "button": "创建项目",
+    "help": "如果你在设置时需要帮助，请回复这封邮件，我很乐意帮忙。"
+  },
+  "firstProject": {
+    "preview": "你的第一个项目已就绪：{project}",
+    "subject": "你的第一个项目已创建",
+    "intro": "你的第一个项目 **{project}**（客户 **{client}**）已就绪。现在可以启动计时器了。",
+    "tip1": "按 T 启动计时器，再按一次 T 暂停。",
+    "tip2": "为每条记录写上描述，这样事后就能看出时间花在了哪里。",
+    "tip3": "{brand} 会根据你的小时费率计算金额。",
+    "button": "记录工时",
+    "closing": "如果你边做边记录工时，到了开票的时候，开票依据就已经准备好了。"
+  },
+  "firstTimeEntry": {
+    "preview": "你的第一条工时记录已保存",
+    "subject": "你的第一条工时记录已保存",
+    "body": "你已经记录了第一笔工时：**{hours} 小时**。",
+    "bodyProject": "你已经记录了第一笔工时：**{project}** 上的 **{hours} 小时**。",
+    "invoice": "到了开票的时候，你可以直接根据工时记录创建发票。",
+    "button": "查看你的工时记录"
+  },
+  "firstInvoice": {
+    "preview": "已为 {client} 创建发票 #{number}",
+    "subject": "恭喜你开出第一张发票",
+    "congrats": "恭喜你开出第一张发票。",
+    "number": "发票编号",
+    "client": "客户",
+    "amount": "金额",
+    "send": "将发票发送给 {client}，并在 {brand} 中关注付款情况。你可以按客户开启逾期发票的自动提醒。",
+    "button": "查看你的发票",
+    "accounting": "你也可以把发票转发到 Billy、Dinero 或 e-conomic，让它们进入你的账目。请在“集成”中连接你的会计软件。"
+  },
+  "inactivity": {
+    "preview": "你已经 {days} 天没有访问了",
+    "subject": "你已经 {days} 天没有访问 TimeTrack 了",
+    "kicker": "提醒",
+    "heading": "有些事情在等你",
+    "footerNote": "该提醒会在 14 天未活动后发送。",
+    "withStats": "你已经 {days} 天没有登录了，有些事情在等你：",
+    "noStats": "你已经 {days} 天没有登录了。趁记忆还新鲜，把工时记下来吧。",
+    "unbilled": "未开票",
+    "hoursUnit": "{hours} 小时",
+    "readyToInvoice": "可开具发票",
+    "readyToInvoiceSub": "已记录的工时",
+    "openTasks": "未完成的任务",
+    "openTasksSub": "在等你处理",
+    "button": "记录工时",
+    "muted": "你可以在邮件设置中关闭不活跃提醒。"
+  },
+  "toolGuide": {
+    "preview": "你的 {tool} 指南",
+    "subject": "{tool}：来自 TimeTrack 的指南",
+    "kicker": "指南",
+    "heading": "感谢你使用 {tool}",
+    "footerNote": "你收到这封邮件，是因为你在 timetrack.dk 上索取了指南。除非你再次索取，否则不会再有其他邮件。",
+    "intro": "这是你索取的指南，下面还有返回该工具的链接，方便你继续计算。",
+    "openTool": "再次打开该工具",
+    "pitch": "TimeTrack 按客户跟踪工时，从客户的预付时长包中扣除，并把开票依据发送到 Billy、Dinero 或 e-conomic。[trial]免费试用 30 天[/trial]。"
+  },
+  "beta": {
+    "preview": "你在 TimeTrack 内测中的名额已就绪。有空时创建账户即可。",
+    "subject": "你在 TimeTrack 内测中的名额已就绪",
+    "subjectNamed": "{name}，你在 TimeTrack 内测中的名额已就绪",
+    "greetingNamed": "{name}，你好：",
+    "greeting": "你好：",
+    "thanks": "感谢你加入 TimeTrack 候补名单。你在内测中的名额现已就绪。",
+    "about": "TimeTrack 是为丹麦的自由职业者打造的。你可以记录工时，并据此开具发票。如果客户预先购买工时，则会从预付时长包中扣除。",
+    "discountLabel": "你的折扣码",
+    "discountNote": "创建账户时使用该折扣码，即可享受订阅折扣。",
+    "button": "创建你的账户",
+    "feedback": "如果你有问题或反馈，请回复这封邮件。每一封回复我都会亲自阅读。",
+    "writeMe": "你也可以写信给我：[mail]{email}[/mail]。"
+  },
+  "desktopLaunch": {
+    "footerNote": "你收到这封邮件，是因为你加入了 TimeTrack 桌面版的候补名单。",
+    "button": "下载 TimeTrack 桌面版",
+    "defaultSubject": "TimeTrack 桌面版已发布",
+    "defaultMessage": "感谢你加入候补名单。TimeTrack 桌面版现已开放下载。"
+  },
+  "desktopLicense": {
+    "preview": "你的 TimeTrack 桌面版许可证密钥（{tier}）",
+    "subject": "你的 TimeTrack 桌面版许可证密钥（{tier}）",
+    "kicker": "桌面版",
+    "heading": "你的 TimeTrack 桌面版许可证",
+    "footerNote": "你收到这封邮件，是因为你购买了或索取了 TimeTrack 桌面版许可证。",
+    "introNamed": "{name}，你好，这是你的 TimeTrack 桌面版（{tier}）许可证密钥。",
+    "intro": "你好，这是你的 TimeTrack 桌面版（{tier}）许可证密钥。",
+    "howTo": "如何激活",
+    "step1": "1. 下载",
+    "step2": "2. 安装",
+    "step2Value": "打开应用",
+    "step3": "3. 激活",
+    "step3Value": "输入许可证密钥",
+    "keep": "请保留这封邮件：重新安装时需要用到密钥。该许可证最多可用于 {max, plural, other {# 台设备}}。",
+    "refund": "发票将由 Stripe 另行发送。如果你改变主意，可在 30 天内通过 [refund]{link}[/refund] 获得全额退款。"
+  }
+}

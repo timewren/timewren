@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "La sessione è scaduta. Accedi di nuovo.",
+  "noConnection": "Nessuna connessione. Riprova.",
+  "timeout": "La connessione ha impiegato troppo tempo",
+  "invalidResponse": "Risposta inattesa dal server",
+  "notLoggedIn": "Accesso non effettuato",
+  "notLoggedInOpenPopup": "Accesso non effettuato. Apri il popup di TimeTrack e accedi.",
+  "unknown": "Errore sconosciuto",
+  "api": {
+    "fallback": "Errore API",
+    "UNAUTHORIZED": "La sessione è scaduta. Accedi di nuovo.",
+    "FORBIDDEN": "Accesso negato",
+    "NOT_FOUND": "Risorsa non trovata",
+    "TIMEOUT": "Il server non ha risposto",
+    "TOO_MANY_REQUESTS": "Troppe richieste. Attendi un momento e riprova",
+    "INTERNAL_SERVER_ERROR": "Errore del server. Riprova tra poco",
+    "BAD_REQUEST": "Richiesta non valida",
+    "PARSE_ERROR": "Richiesta non valida"
+  },
+  "auth": {
+    "invalidToken": "Token non valido",
+    "validateFailed": "Impossibile convalidare il token",
+    "loginFailed": "Accesso non riuscito",
+    "loginCancelled": "Accesso annullato. Riprova",
+    "loginCancelledShort": "Accesso annullato",
+    "noToken": "Nessun token ricevuto",
+    "tokenValidationStatus": "Convalida del token non riuscita: il server ha risposto {status}",
+    "orgsFailed": "Impossibile caricare le organizzazioni ({status})"
+  },
+  "url": {
+    "notAllowed": "Usa timetrack.dk, app.timetrack.dk, beta.timetrack.dk o localhost"
+  },
+  "entry": {
+    "hoursPositive": "Inserisci un numero di ore maggiore di 0",
+    "timesCannotBeRemoved": "Gli orari non possono essere rimossi. Modifica inizio e fine",
+    "fillStartEnd": "Compila sia l'inizio sia la fine",
+    "endAfterStart": "L'ora di fine deve essere successiva a quella di inizio"
+  },
+  "timer": {
+    "loadFailed": "Impossibile caricare il timer",
+    "startFailed": "Impossibile avviare il timer",
+    "stopFailed": "Impossibile fermare il timer. Riprova",
+    "stopNetwork": "Impossibile fermare il timer: errore di rete",
+    "cancelFailed": "Impossibile annullare il timer. Riprova",
+    "cancelNetwork": "Impossibile annullare il timer: errore di rete",
+    "cancelStoppingElsewhere": "Il timer sta già venendo fermato da {source}",
+    "sourceWeb": "l'app web",
+    "sourceOther": "un altro dispositivo",
+    "pauseFailed": "Impossibile mettere in pausa il timer",
+    "resumeFailed": "Impossibile riprendere il timer",
+    "addTimeFailed": "Impossibile aggiungere tempo al timer",
+    "descriptionFailed": "Impossibile aggiornare la descrizione",
+    "projectFailed": "Impossibile aggiornare il progetto",
+    "clientFailed": "Impossibile aggiornare il cliente",
+    "nothingToSave": "Nessun tempo da salvare",
+    "offlineStop": "Sei offline. Ferma di nuovo il timer quando torna la connessione",
+    "stopInProgress": "Un arresto è in corso{elsewhere}. Riprova tra un momento. Se resta bloccato, dopo qualche minuto il tempo viene messo in pausa per non andare perso.",
+    "alreadyRunning": "Un timer è già in esecuzione{elsewhere}. Fermalo o annullalo prima di avviarne uno nuovo.",
+    "alreadyPaused": "C'è già un timer in pausa con del tempo{elsewhere}. Fermalo o annullalo prima di avviarne uno nuovo.",
+    "elsewhere": " da un altro browser o dispositivo",
+    "stopAlreadyInProgress": "Un arresto è già in corso da {source}. Controlla le tue ore tra un momento",
+    "prepaidPinnedUnavailable": "Il pacchetto ore selezionato non era utilizzabile, quindi il tempo è stato salvato senza scalarlo dal pacchetto",
+    "prepaidLookupFailed": "Impossibile cercare il pacchetto ore, quindi il tempo è stato salvato senza scalarlo dal pacchetto",
+    "prepaidDeductionFailed": "Lo scalo dal pacchetto non è riuscito, quindi il tempo è stato salvato senza scalarlo dal pacchetto",
+    "saveFailed": "Impossibile salvare il tempo",
+    "saveFailedWith": "Impossibile salvare il tempo: {reason}",
+    "unknownReason": "errore sconosciuto",
+    "sessionMismatch": "Il timer è stato modificato da un altro browser o dispositivo. Ecco quello attuale.",
+    "beingStopped": "Il timer sta venendo fermato da un altro browser o dispositivo.",
+    "startRejectedPaused": "C'è già un timer in pausa con del tempo. Fermalo o annullalo prima di avviarne uno nuovo.",
+    "startRejectedStale": "Il timer è appena stato fermato altrove. Prova ad avviarlo di nuovo.",
+    "startRejectedRunning": "Un timer è già in esecuzione da un altro browser o dispositivo. Fermalo prima di avviarne uno nuovo.",
+    "stopSourceWeb": "l'app web",
+    "stopSourceOther": "un altro dispositivo"
+  },
+  "task": {
+    "createFailed": "Impossibile creare l'attività"
+  },
+  "serverStatus": "Il server ha risposto {status}",
+  "clientTooOld": "Aggiorna l'estensione TimeTrack. Questa versione non può salvare il tempo"
+}

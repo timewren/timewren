@@ -1,0 +1,475 @@
+{
+  "errors": {
+    "insufficientRights": "你没有执行此操作的足够权限",
+    "accessDenied": "你无权访问此资源",
+    "unexpected": "发生了意外错误",
+    "clientNotFound": "未找到客户",
+    "clientArchived": "客户已归档",
+    "projectNotFound": "未找到项目",
+    "projectArchived": "项目已归档",
+    "timeEntryNotFound": "未找到工时记录",
+    "timeEntriesNotFound": "有一条或多条工时记录未找到",
+    "prepaidNotFound": "未找到预付时长包",
+    "prepaidInactive": "预付时长包未启用",
+    "prepaidInsufficientHours": "预付时长包的剩余工时不足。可用工时：{available}",
+    "prepaidHasUsage": "已有使用记录的预付时长包无法删除。请改为停用。",
+    "invoiceNotFound": "未找到发票",
+    "invoiceAlreadySent": "发票已发送",
+    "invoiceAlreadyPaid": "发票已付款",
+    "userNotFound": "未找到用户",
+    "invalidValue": "{field} 的值无效",
+    "operationFailed": "{operation}失败"
+  },
+  "friendly": {
+    "network": "无法连接到 TimeTrack。请检查网络后重试。",
+    "server": "TimeTrack 出了点问题，请稍后重试。",
+    "validation": "部分字段填写不正确。请检查后重试。",
+    "unauthorized": "你已退出登录，请重新登录。",
+    "forbidden": "你没有权限执行此操作。",
+    "notFound": "你要找的内容已不存在。",
+    "tooManyRequests": "短时间内尝试次数过多。请稍等片刻再试。",
+    "retry": "重试",
+    "login": "登录"
+  },
+  "zod": {
+    "invalidExpoToken": "Expo 推送令牌无效",
+    "invalidUrl": "URL 无效",
+    "webhookEventRequired": "请至少选择一种事件类型",
+    "descriptionRequired": "请输入描述",
+    "hoursMin": "工时至少为 0.01",
+    "endAfterStart": "结束时间必须晚于开始时间",
+    "cursorOrOffset": "请只使用 cursor 或 offset 其中之一，不要同时使用",
+    "dateFormat": "日期格式必须为 yyyy-MM-dd",
+    "clientOrProject": "请指定客户或项目",
+    "nameMin2": "名称至少需要 2 个字符",
+    "invalidEmailShort": "请输入有效的邮件地址",
+    "scopeRequired": "至少需要一个权限范围",
+    "approvalScope": "period 需要 periodStart+periodEnd；invoice_draft 需要 invoiceId",
+    "invalidEmail": "请输入有效的邮件地址",
+    "messageMax500": "消息最多 500 个字符",
+    "selectProjectClientOrDescription": "请选择项目或客户，或填写描述",
+    "subjectMin5": "主题至少需要 5 个字符",
+    "messageMin10": "消息至少需要 10 个字符",
+    "invalidDate": "日期无效",
+    "atLeastOneWorkday": "至少有一个工作日需要设置工作时间",
+    "duplicateDate": "同一日期被添加了两次",
+    "nameRequired": "请输入名称",
+    "invalidEmailDash": "邮件地址无效",
+    "selectProjectClientOrDescriptionShort": "请选择项目/客户或填写描述",
+    "amountRequired": "请输入金额",
+    "amountPositive": "金额必须大于 0",
+    "amountTooLarge": "金额过大",
+    "amountDecimals": "金额最多保留 2 位小数",
+    "selectClient": "请选择客户",
+    "issueDateRequired": "请输入开具日期",
+    "unknownTool": "未知工具",
+    "invalidCostRate": "成本价无效",
+    "companyNameMin2": "公司名称至少需要 2 个字符",
+    "invalidEmailAddress": "邮件地址无效",
+    "hourlyRateMin0": "小时费率不能小于 0",
+    "confirmProjectName": "请输入项目名称以确认",
+    "enterName": "请输入你的姓名",
+    "invalidNumber": "数字无效",
+    "descriptionMissing": "缺少描述",
+    "invalidDateFormat": "日期无效（应为 yyyy-mm-dd）",
+    "nameMissing": "缺少名称",
+    "hoursRequired": "请输入工时",
+    "atLeastOneRecipient": "至少需要一位收件人",
+    "invalidHexColor": "十六进制颜色无效",
+    "titleRequired": "请输入标题",
+    "textRequired": "请输入文本",
+    "invalidImageUrl": "图片 URL 无效",
+    "enterDays": "请输入天数",
+    "invalidColor": "颜色无效",
+    "dateYmd": "日期，格式为 YYYY-MM-DD",
+    "noteRequired": "请输入备注",
+    "unlockReason": "请填写解锁原因",
+    "reasonRequired": "请说明原因",
+    "reopenReason": "请填写重新打开的原因",
+    "templateNameRequired": "请为模板命名",
+    "employeeOrDepartment": "请选择员工或部门其中之一",
+    "formatMmDd": "格式必须为 MM-DD"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "客户已创建",
+      "clientUpdated": "客户已更新",
+      "clientArchived": "客户已归档",
+      "projectCreated": "项目已创建",
+      "projectUpdated": "项目已更新",
+      "projectStatusChanged": "项目状态已更改",
+      "projectBudgetThreshold": "已达到月度预算阈值",
+      "timeEntryCreated": "工时记录已创建",
+      "timeEntryUpdated": "工时记录已更新",
+      "timeEntryDeleted": "工时记录已删除",
+      "invoiceCreated": "发票已创建",
+      "invoiceSent": "发票已发送",
+      "invoicePaid": "发票已付款",
+      "invoiceOverdue": "发票已逾期",
+      "prepaidCreated": "预付时长包已创建",
+      "prepaidUpdated": "预付时长包已更新",
+      "prepaidLowBalance": "预付时长包余额不足",
+      "prepaidExpired": "预付时长包已到期",
+      "taskCreated": "任务已创建",
+      "taskUpdated": "任务已更新",
+      "taskCompleted": "任务已完成"
+    }
+  },
+  "clients": {
+    "invalidDomain": "域名无效：{domain}",
+    "roundingRequired": "roundingEnabled 为 true 时，必须设置 roundingMinutes 和 roundingMethod"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "无法显示 Webhook URL。请生成新的 URL。"
+  },
+  "desktop": {
+    "licenseMismatch": "无法匹配许可证密钥和邮件地址。请检查后重试，或联系支持。"
+  },
+  "common": {
+    "unknownProject": "未知项目",
+    "unknownError": "未知错误",
+    "noProject": "无项目",
+    "unknownClient": "未知客户",
+    "unknown": "未知"
+  },
+  "search": {
+    "invoiceTitle": "发票 {number}",
+    "timeEntryTitle": "工时记录",
+    "timeSubtitle": "{project} • {hours} 小时",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • 剩余 {hours} 小时",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "登录码无效或已过期。请重新登录。",
+    "import": {
+      "noWorkRuleNoTarget": "非工作规则没有指向项目或客户",
+      "ruleNeedsTarget": "规则必须指向项目或客户",
+      "linesSumMismatch": "各行合计（{sum}）与发票金额（{amount}）不符",
+      "entryNotImported": "记录 {id} 未导入",
+      "companyProfileMissing": "缺少公司信息。导入发票前，请先在“设置 → 公司资料”中填写。",
+      "fullCreditOnly": "只能导入全额冲销：贷项通知单金额（{amount}）必须与发票金额（{original}）数值相同、符号相反",
+      "invoiceNotFound": "发票 {id} 不存在",
+      "creditNoteAmount": "贷项通知单的金额必须小于或等于 0",
+      "invoiceIsDraft": "发票 {id} 是草稿，无法开具贷项通知单",
+      "refMissing": {
+        "client": "客户 {id} 未导入",
+        "project": "项目 {id} 未导入",
+        "prepaid": "预付时长包 {id} 未导入",
+        "task": "任务 {id} 未导入",
+        "invoice": "发票 {id} 未导入"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "已付款的发票无法更改。如有需要，请创建贷项通知单。",
+      "deleted": "已删除的发票无法恢复。",
+      "generic": "无法将状态从“{from}”改为“{to}”。"
+    },
+    "directTime": "直接工时",
+    "status": {
+      "draft": "草稿",
+      "sent": "已发送",
+      "paid": "已付款",
+      "overdue": "已逾期",
+      "deleted": "已删除"
+    },
+    "specHeading": "--- 明细 ---",
+    "specLine": "{date} - {project}：{description}（{hours} 小时 × {rate} kr = {amount} kr）"
+  },
+  "logbook": {
+    "endAfterStart": "结束日期必须晚于开始日期",
+    "periodMaxDays": "期间最长为 {days} 天"
+  },
+  "portal": {
+    "manualDeduction": "手动扣除"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "该预付时长包已有定期发票"
+  },
+  "storeBilling": {
+    "notAvailable": "应用内购买暂不可用。"
+  },
+  "subscription": {
+    "storeManaged": "你的订阅通过 {provider} 付款。请在 {provider} 中更改或取消。",
+    "teamPlanNotConfigured": "“Team”方案尚未配置（ALUNTA_PLAN_TEAM_*）。请联系支持。",
+    "businessPlanNotConfigured": "“Business”方案尚未配置（ALUNTA_PLAN_BUSINESS_*）。请联系支持。",
+    "privatePlanNotAvailable": "“Private”方案暂不可用（ALUNTA_PLAN_PRIVAT_*）。请选择其他方案或联系支持。",
+    "freeNotPurchasable": "免费方案无法购买。",
+    "feedbackEmailMissing": "未设置 FEEDBACK_TO_EMAIL"
+  },
+  "time": {
+    "invalidEntryDate": "日期无效：应为 YYYY-MM-DD"
+  },
+  "billedLock": {
+    "onInvoice": "该工时记录已计费，无法更改。请先对发票开具贷项通知单，或从发票草稿中移除该记录。",
+    "marked": "该工时记录已标记为已计费，无法更改。请先移除标记。",
+    "bulk": {
+      "delete": "{count, plural, other {所选工时记录中有 # 条已计费，无法删除。请先对发票开具贷项通知单，或移除标记。}}",
+      "edit": "{count, plural, other {所选工时记录中有 # 条已计费，无法更改。请先对发票开具贷项通知单，或移除标记。}}",
+      "move": "{count, plural, other {所选工时记录中有 # 条已计费，无法移动。请先对发票开具贷项通知单，或移除标记。}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "已存在同名的活动类型",
+    "endAfterStart": "结束日期必须晚于开始日期",
+    "fromBeforeTo": "起始日期必须早于结束日期",
+    "periodMaxDays": "期间最长为 {days} 天",
+    "employee": {
+      "importManagerMissing": "经理 {email} 既不在文件中，也不在组织中。该员工已在没有经理的情况下导入。"
+    },
+    "payroll": {
+      "hrOnly": "薪资映射仅限人事和管理员使用"
+    },
+    "closing": {
+      "changedMeanwhile": "结算单在此期间已被更改。请刷新页面。",
+      "locked": "该期间已结账并锁定。需由管理员（说明原因）解锁后，才能更改记录。"
+    },
+    "team": {
+      "absenceLabel": "缺勤"
+    },
+    "timesheet": {
+      "coveredByRequest": "这一天已被“缺勤”下创建的缺勤申请覆盖。请在那里编辑。",
+      "otherTypeAbsence": "你在这一天已有其他类型的缺勤",
+      "absenceRecordedElsewhere": "该缺勤同时已从其他地方登记。请刷新本周。",
+      "overMax": "{label}：{total} 小时超过每天最多 {max} 小时的上限",
+      "emptyWorkday": "{label} 是工作日，但没有记录也没有缺勤",
+      "overNorm": "{label}：{total} 小时超过你的标准工时 {norm} 小时",
+      "weekOverNorm": "本周：{total} 小时超过你的每周标准工时 {norm} 小时",
+      "autoLocked": "该周已锁定。上一周会在{day}锁定。请联系你的经理进行更正。",
+      "automatically": "自动",
+      "rollingLocked": "早于{weeks}的记录已被组织锁定。请联系你的经理进行更正。",
+      "weeks": "{count, plural, other {# 周}}"
+    },
+    "workPlans": {
+      "notBackwards": "计划不能追溯更改。请选择今天或之后的日期。"
+    },
+    "absenceCap": {
+      "used": "{year} 年的{type}已用完（每年上限 {cap} 天）",
+      "left": "{year} 年的{type}在 {cap} 天中只剩 {remaining} 天"
+    },
+    "rule": {
+      "avgViolation": "48 小时规则：参考期内的平均值为 {avg} 小时/周（上限 {limit} 小时）",
+      "avgWarning": "48 小时规则：参考期内的平均值为 {avg} 小时/周，已接近 {limit} 小时的上限",
+      "weekInfo": "48 小时规则：本周目前为 {week} 小时；参考期内的平均值仍低于 {limit} 小时",
+      "restBefore": "11 小时休息：{day}上班前只休息了 {rest} 小时（要求 {limit} 小时）",
+      "daySum": "11 小时休息：{day}记录了 {total} 小时，休息时间不足 {limit} 小时（每天最多 {max} 小时）",
+      "weeklyRest": "每周 24 小时休息：从{day}开始的这一周中，最长连续休息为 {rest} 小时（要求 {limit} 小时）",
+      "noFreeDay": "每周 24 小时休息：从{day}开始的这一周中，7 天都有工作记录，没有完整的休息日"
+    },
+    "employment": {
+      "endBeforeStart": "结束日期不能早于开始日期",
+      "onlyFirstUnknown": "只有第一个期间可以不填开始日期",
+      "startAfterPrevStart": "开始日期必须晚于上一期间的开始日期（{date}）",
+      "startAfterPrevEnd": "开始日期必须晚于上一段雇佣的结束日期（{date}）",
+      "endBeforeNext": "结束日期必须早于下一期间的开始日期（{date}）",
+      "endDayBeforeNext": "结束日期必须是下一期间开始日期（{date}）的前一天。请改为调整下一期间的开始日期。"
+    },
+    "import": {
+      "fileEmpty": "文件为空",
+      "headerEmployees": "表头行至少必须包含“navn”和“email”列",
+      "nameMissing": "缺少姓名",
+      "invalidEmail": "邮件地址无效：“{value}”",
+      "duplicate": "文件中有重复项：{email}",
+      "unknownRole": "未知角色：“{value}”（请使用 medarbejder/leder/admin）",
+      "invalidWeeklyHours": "工时数无效：“{value}”（1-60）",
+      "invalidStartDate": "开始日期无效：“{value}”（请使用 YYYY-MM-DD）",
+      "invalidManagerEmail": "经理邮件地址无效：“{value}”",
+      "headerEntries": "表头行必须包含“email”（或“medarbejder”）、“dato”和“timer”列",
+      "invalidDate": "日期无效：“{value}”（请使用 YYYY-MM-DD）",
+      "invalidHours": "工时数无效：“{value}”（0-24）"
+    },
+    "period": {
+      "pickBoth": "请同时选择起始日期和结束日期",
+      "fromBeforeToOrSame": "起始日期必须早于或等于结束日期",
+      "maxDaysShorter": "期间最长为 {days} 天。请选择更短的区间。"
+    },
+    "vacation": {
+      "notEnough": "{pool}额度中的年假天数不足。你还剩 {remaining} 天，但该记录需要 {deducted} 天{tolerance}。",
+      "overdraftAllowed": "（允许透支：{days} 天）",
+      "overdraftNotAllowed": "（不允许透支）"
+    },
+    "workPlan": {
+      "rotation": "轮换周期必须为 1 周或 2 周",
+      "weekCount": "周数与轮换周期不符",
+      "invalidWeekday": "星期无效{label}",
+      "duplicateWeekday": "同一个星期出现了两次{label}",
+      "timeFormat": "时间必须写成 HH:MM{label}",
+      "endAfterStart": "结束时间必须晚于开始时间{label}",
+      "breakRange": "休息必须为 0-240 分钟{label}",
+      "breakShorter": "休息必须短于工作日{label}",
+      "inWeek": "（第 {week} 周）",
+      "enterBothTimes": "请以 HH:MM 格式同时填写开始和结束时间",
+      "endAfterStartPlain": "结束时间必须晚于开始时间",
+      "breakShorterPlain": "休息必须短于工作日",
+      "rangeOrHours": "请填写时间范围或 0-24 小时"
+    },
+    "closure": {
+      "overlap": "在该期间已有缺勤",
+      "noWorkingDays": "在该期间没有工作日",
+      "balance": "年假天数不足",
+      "error": "无法创建（技术错误）"
+    },
+    "workPlanExport": {
+      "planned": "按计划",
+      "deviation": "偏离",
+      "dayOff": "休息日",
+      "absence": "缺勤",
+      "free": "按计划休息",
+      "hDate": "日期",
+      "hStatus": "状态",
+      "hPlan": "计划",
+      "hPlanHours": "计划（小时）",
+      "hRegisteredRange": "已记录的时间范围",
+      "hBreak": "休息（分钟）",
+      "hRegisteredHours": "已记录（小时）",
+      "hDayOff": "休息日",
+      "hNote": "备注",
+      "hEditedBy": "编辑人",
+      "hEditedUtc": "编辑时间（UTC）"
+    },
+    "payrollXlsx": {
+      "sheet": "薪资",
+      "period": "期间：{period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "你的公司名称",
+      "yourName": "你的姓名",
+      "yourEmail": "你的邮件地址",
+      "yourPhone": "你的电话号码",
+      "clientFullName": "客户的全名",
+      "clientCompany": "客户的公司名称",
+      "clientEmail": "客户的邮件地址",
+      "portalLink": "客户门户链接",
+      "invoiceNumber": "发票编号",
+      "totalInclVat": "含增值税总额",
+      "amountExclVat": "不含增值税金额",
+      "issueDate": "开具日期",
+      "paymentDeadline": "付款期限",
+      "invoiceStatus": "已付/未付/逾期",
+      "invoiceLink": "发票直达链接",
+      "daysLate": "逾期天数",
+      "projectName": "项目名称",
+      "projectStatus": "进行中/已完成/已搁置",
+      "hoursUsed": "已用工时",
+      "projectLink": "门户中的项目链接",
+      "prepaidName": "预付时长包名称",
+      "hoursRemaining": "剩余工时",
+      "hoursTotal": "总工时",
+      "percentUsed": "已用百分比",
+      "expiryDate": "到期日期",
+      "daysToExpiry": "距到期的天数",
+      "hoursForApproval": "待审批的总工时",
+      "entryCount": "工时记录条数",
+      "period": "时间段",
+      "approvalLink": "审批页面链接",
+      "loginLink": "门户登录链接",
+      "invitationLink": "邀请链接",
+      "invitationExpiry": "邀请的到期日期"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "增值税 第 {n} 季度",
+    "vatHalfTitle": "增值税 第 {n} 半年",
+    "vatQuarterDesc": "向丹麦税务局（Skattestyrelsen）申报并缴纳本季度增值税（moms）。",
+    "vatHalfDesc": "向丹麦税务局（Skattestyrelsen）申报并缴纳本半年度增值税（moms）。",
+    "vatMonthTitle": "增值税 {month}",
+    "vatMonthDesc": "向丹麦税务局（Skattestyrelsen）申报并缴纳 {year} 年 {month}的增值税（moms）。",
+    "bSkatSpring": "预缴税款 B-skat（春季）",
+    "bSkatAutumn": "预缴税款 B-skat（秋季）",
+    "bSkatDesc": "向丹麦税务局（Skattestyrelsen）缴纳预缴的 B-skat。适用于个体经营者和自由职业者。",
+    "formTitle": "{year} 年纳税申报",
+    "formDesc": "向丹麦税务局（Skattestyrelsen）提交 {year} 收入年度的纳税申报表（oplysningsskema）。",
+    "amTitle": "劳动力市场缴费（AM）第 {n} 季度",
+    "amDesc": "缴纳个体经营者本季度的劳动力市场缴费（AM-bidrag）。",
+    "arTitle": "{year} 财年年度报告",
+    "arDesc": "年度报告必须在财年结束后最迟 5 个月内提交给丹麦商业管理局（Erhvervsstyrelsen）。",
+    "agmTitle": "{year} 财年股东大会",
+    "agmDesc": "批准年度报告的例行股东大会。",
+    "corpFormTitle": "{year} 财年公司纳税申报",
+    "corpFormDesc": "公司的财年纳税申报表（oplysningsskema）必须提交给丹麦税务局（Skattestyrelsen）。",
+    "corpTaxSpring": "公司税预缴（春季）",
+    "corpTaxAutumn": "公司税预缴（秋季）",
+    "corpTaxDesc": "向丹麦税务局（Skattestyrelsen）预缴公司税。",
+    "corpFinalTitle": "{year} 年公司税最终结算",
+    "corpFinalDesc": "缴纳 {year} 收入年度剩余的公司税（最终税款）。",
+    "payrollTitle": "A-skat/AM 缴费 {month}",
+    "payrollDesc": "申报并缴纳 {year} 年 {month}薪资期间的 A-skat 和 AM 缴费。",
+    "holidayPayTitle": "假期工资 第 {n} 季度",
+    "holidayPayDesc": "向 Feriekonto（丹麦假期工资基金）申报并缴纳本季度的假期工资。"
+  },
+  "integrations": {
+    "authExpired": "{name} 的连接已过期或无效。请在“设置 → 集成”中重新连接。",
+    "billy": {
+      "keyRequired": "需要 Billy API 密钥",
+      "productDescription": "从 TimeTrack 导入的工时"
+    },
+    "dinero": {
+      "keyRequired": "需要 Dinero API 密钥",
+      "orgIdRequired": "需要 Dinero 组织 ID",
+      "tokenFailed": "无法获取 Dinero 令牌",
+      "refreshMissing": "缺少 Dinero 刷新令牌",
+      "expiredReconnect": "Dinero 的连接已过期。请重新连接。",
+      "orgsFailed": "无法获取 Dinero 组织"
+    },
+    "economic": {
+      "secretRequired": "需要 e-conomic App Secret Token",
+      "grantRequired": "需要 e-conomic Agreement Grant Token",
+      "consultingHours": "咨询工作：{hours} 小时"
+    },
+    "timeops": {
+      "invalidKey": "API 密钥无效或已过期",
+      "premium": "你需要 TimeOps Premium 才能使用其 API",
+      "network": "无法连接到 TimeOps。请稍后重试。",
+      "unexpected": "连接 TimeOps 时发生意外错误（{detail}）"
+    },
+    "icloud": {
+      "syncFailed": "iCloud 同步失败",
+      "storageMissing": "目前无法连接 iCloud，因为服务器上尚未设置安全的密码存储。请联系支持。",
+      "rejected": "Apple ID 或 App 专用密码被拒绝。请确认你复制了完整的 App 专用密码（不是你平时的 Apple 密码）。",
+      "notConnected": "iCloud 未连接",
+      "notConnectedShort": "未连接 iCloud",
+      "calendarGone": "日历“{name}”在 iCloud 中已不存在。请重新选择日历。",
+      "unknownCalendar": "未知"
+    },
+    "caldav": {
+      "unknown": "iCloud 同步失败：{message}",
+      "auth": "Apple 拒绝了登录。请在 appleid.apple.com 创建新的 App 专用密码，然后重新连接 iCloud。",
+      "network": "目前无法连接 iCloud。我们会自动重试。"
+    },
+    "cvr": {
+      "invalid": "CVR 号码必须为 8 位数字",
+      "notFound": "未找到使用此 CVR 号码的公司",
+      "rateLimited": "CVR 查询暂时受限。请稍后重试，或自行填写这些字段。",
+      "timeout": "CVR 登记系统目前没有响应。请稍后重试，或自行填写这些字段。",
+      "unavailable": "CVR 查询目前无法使用。请稍后重试，或自行填写这些字段。"
+    },
+    "google": {
+      "readOnly": "你的 Google 日历是以只读权限连接的，因此 TimeTrack 无法在其中创建或更改事件。如需使用此功能，请在“设置 → 集成 → Google 日历”中授予写入权限。",
+      "freeSlot": "日历中的空闲时间",
+      "deadlineIn": "{count, plural, other {# 天}}后截止",
+      "urgent": "紧急优先级",
+      "high": "高优先级",
+      "clientLine": "客户：{name}",
+      "projectLine": "项目：{name}",
+      "hoursLine": "工时：{hours}",
+      "exportedFrom": "从 TimeTrack 导出"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "工时记录",
+    "timeOnProject": "{name} 上的 {hours} 小时",
+    "timeForClient": "为 {name} 工作的 {hours} 小时",
+    "timeOnly": "{hours} 小时",
+    "invoiceTitle": "发票 {number}",
+    "invoiceDescription": "开给 {client} 的 {amount} kr",
+    "newClient": "新客户：{name}",
+    "noContact": "无联系方式",
+    "newProject": "新项目：{name}",
+    "projectFor": "客户：{client}",
+    "internal": "内部"
+  }
+}

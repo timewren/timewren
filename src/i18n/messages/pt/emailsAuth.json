@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "A tua ligação de início de sessão em {brand} é válida durante 15 minutos",
+    "kicker": "Iniciar sessão",
+    "heading": "Inicia sessão em {brand}",
+    "footerNote": "Estás a receber este e-mail porque alguém pediu uma ligação de início de sessão para o teu endereço.",
+    "body": "Clica no botão para iniciares sessão. A ligação é válida durante 15 minutos e só pode ser usada uma vez.",
+    "button": "Iniciar sessão em {brand}",
+    "ignore": "Se não pediste para iniciar sessão, podes ignorar este e-mail. Nada acontece sem o teu clique.",
+    "subject": "Iniciar sessão no TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "Repõe a tua palavra-passe de {brand}",
+    "kicker": "Segurança",
+    "heading": "Repõe a tua palavra-passe",
+    "footerNote": "Estás a receber este e-mail porque foi pedida uma nova palavra-passe para a tua conta.",
+    "greeting": "Olá, {name},",
+    "body": "Clica no botão para escolheres uma nova palavra-passe. A ligação expira dentro de uma hora.",
+    "button": "Escolher nova palavra-passe",
+    "ignore": "Se não pediste isto, podes ignorar este e-mail. A tua palavra-passe não foi alterada e a tua conta continua segura.",
+    "subject": "Repõe a tua palavra-passe do TimeTrack"
+  },
+  "verification": {
+    "preview": "Confirma o teu endereço de e-mail para ativares a conta",
+    "kicker": "Conta",
+    "heading": "Confirma o teu endereço de e-mail",
+    "footerNote": "Estás a receber este e-mail porque alguém criou uma conta em {brand} com o teu endereço de e-mail.",
+    "greeting": "Olá, {name},",
+    "greetingFallback": "Olá,",
+    "body": "Obrigado por te registares. Clica no botão para confirmares o teu endereço de e-mail e ativares a conta. A ligação é válida durante 24 horas.",
+    "button": "Confirmar endereço de e-mail",
+    "ignore": "Se não criaste uma conta, podes ignorar este e-mail. Não vai acontecer mais nada.",
+    "subject": "Confirma o teu endereço de e-mail para o TimeTrack"
+  },
+  "security": {
+    "kicker": "Segurança",
+    "footerNote": "Este é um aviso de segurança automático.",
+    "greeting": "Olá, {name},",
+    "time": "Hora",
+    "ip": "Endereço IP",
+    "device": "Dispositivo",
+    "place": "Localização",
+    "notYou": "Não foste tu?",
+    "openSettings": "Abrir definições da conta",
+    "unknownDevice": "Dispositivo desconhecido",
+    "browser": "Navegador",
+    "deviceOn": "{browser} em {os}"
+  },
+  "passwordChanged": {
+    "preview": "A tua palavra-passe de {brand} foi alterada",
+    "heading": "A tua palavra-passe foi alterada",
+    "body": "A palavra-passe da tua conta {brand} acabou de ser alterada. Se foste tu, não precisas de fazer nada.",
+    "calloutBody": "Repõe a tua palavra-passe com \"Esqueci-me da palavra-passe\" na página de início de sessão e escreve de imediato para [mail]{email}[/mail].",
+    "subject": "A tua palavra-passe do TimeTrack foi alterada"
+  },
+  "newLogin": {
+    "preview": "Novo início de sessão em {brand} a partir de {device}",
+    "heading": "Novo início de sessão na tua conta",
+    "body": "Alguém iniciou sessão na tua conta {brand} a partir de um dispositivo que nunca tinha sido usado. Se foste tu, não precisas de fazer nada.",
+    "calloutBody": "Altera de imediato a tua palavra-passe e escreve para [mail]{email}[/mail]. O apoio ajuda-te a proteger a conta.",
+    "subject": "Novo início de sessão na tua conta do TimeTrack"
+  },
+  "twoFactor": {
+    "preview": "O teu código de verificação de {brand}: {code}",
+    "heading": "O teu código de verificação",
+    "footerNote": "Estás a receber este e-mail porque alguém iniciou sessão na tua conta com verificação em dois passos.",
+    "enterCode": "Introduz o código para continuar:",
+    "expires": "O código expira dentro de 3 minutos. Se não o pediste, podes ignorar este e-mail. Nunca introduzas o código em nenhum local que não seja {brand}.",
+    "subject": "{code} é o teu código de verificação do TimeTrack"
+  },
+  "signupPassword": {
+    "preview": "A tua palavra-passe temporária para {brand}",
+    "kicker": "Boas-vindas",
+    "heading": "Bem-vindo a {brand}, {name}",
+    "intro": "A tua conta foi criada. Esta é a tua palavra-passe temporária:",
+    "changeIt": "Altera-a após o primeiro início de sessão, em Segurança, nas definições.",
+    "button": "Iniciar sessão na tua conta",
+    "alsoLogin": "Também podes iniciar sessão em [login]{url}[/login] com o teu e-mail e a palavra-passe acima.",
+    "getStarted": "Como começar",
+    "step1": "Cria o teu primeiro cliente",
+    "step2": "Cria um projeto para o cliente",
+    "step3": "Inicia o cronómetro e fatura as horas quando o trabalho estiver concluído",
+    "subject": "A tua palavra-passe do TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} convidou-te para {org}",
+    "kicker": "Convite",
+    "heading": "Foste convidado para {org}",
+    "footerNote": "Estás a receber este e-mail porque alguém te convidou para a sua equipa em {brand}.",
+    "role": {
+      "owner": "proprietário",
+      "admin": "administrador",
+      "member": "membro"
+    },
+    "body": "**{inviter}** convidou-te para seres {role} de **{org}** em {brand}.",
+    "body2": "Aqui registas o tempo nos clientes e projetos da equipa, e o responsável vê as horas num só lugar.",
+    "button": "Aceitar o convite",
+    "expires": "O convite expira dentro de 48 horas. Se não conheces o remetente, podes ignorar este e-mail.",
+    "subject": "{inviter} convidou-te para {org} no TimeTrack"
+  },
+  "portalInvite": {
+    "preview": "Foi convidado para o portal do cliente de {sender}",
+    "kicker": "Portal do cliente",
+    "heading": "Bem-vindo ao portal do cliente",
+    "footerNote": "Enviado por {sender} através de {brand}.",
+    "greeting": "Caro(a) {name},",
+    "body": "{sender} deu-lhe acesso ao seu próprio portal do cliente. Aqui pode ver faturas e projetos e acompanhar o saldo da sua bolsa de horas.",
+    "button": "Abrir o portal do cliente",
+    "account": "Inicie sessão com o e-mail **{email}** e a palavra-passe que recebeu de {sender}.",
+    "token": "A ligação é pessoal. Não a partilhe com outras pessoas.",
+    "questions": "Se tiver dúvidas, pode escrever a {sender} para [mail]{email}[/mail].",
+    "subject": "Foi convidado para o portal do cliente de {sender}"
+  },
+  "welcome": {
+    "preview": "Bem-vindo a {brand}",
+    "kicker": "Boas-vindas",
+    "heading": "Bem-vindo, {name}",
+    "intro": "Obrigado por criares uma conta em {brand}. Eis como começar:",
+    "button": "Abrir {brand}",
+    "questions": "Dúvidas? Consulta o [help]centro de ajuda[/help] ou escreve para [mail]{email}[/mail].",
+    "subject": "Bem-vindo ao TimeTrack"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Propietario/a",
+    "admin": "Administrador/a",
+    "hr": "RR. HH.",
+    "manager": "Responsable",
+    "member": "Empleado/a"
+  },
+  "employment": {
+    "fullTime": "Jornada completa",
+    "partTime": "Jornada parcial",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Borrador",
+    "submitted": "Enviado",
+    "approved": "Aprobado",
+    "rejected": "Rechazado",
+    "reopened": "Reabierto"
+  },
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "add": "Añadir",
+  "edit": "Editar",
+  "active": "Activo",
+  "inactive": "Inactivo",
+  "periodClosing": {
+    "status": {
+      "open": "Pendiente del responsable",
+      "approved": "Pendiente de confirmación",
+      "acknowledged": "Cerrado",
+      "reopened": "Desbloqueado"
+    },
+    "interval": {
+      "month": "Cada mes",
+      "quarter": "Cada trimestre"
+    }
+  },
+  "weekdayLong": {
+    "1": "lunes",
+    "2": "martes",
+    "3": "miércoles",
+    "4": "jueves",
+    "5": "viernes",
+    "6": "sábado",
+    "7": "domingo"
+  },
+  "absenceCategory": {
+    "vacation": "Vacaciones",
+    "sickness": "Enfermedad",
+    "leave": "Permiso",
+    "other": "Otro"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Genérico (CSV plano)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (sistema de nómina del Estado danés)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Mes",
+      "biweekly": "14 días"
+    },
+    "unit": {
+      "hours": "Horas",
+      "days": "Días"
+    },
+    "kind": {
+      "time": "Tiempo (código base)",
+      "absence": "Ausencia",
+      "supplement": "Complemento (se suma encima)"
+    },
+    "source": {
+      "activity": "Horas registradas (actividad)",
+      "absence": "Ausencia (tipo de ausencia)",
+      "overtime_earned": "Horas extra acumuladas",
+      "overtime_used": "Compensación con descanso",
+      "overtime_paid_out": "Horas extra pagadas",
+      "flex_positive": "Flex (horas a favor)",
+      "flex_negative": "Flex (horas en contra)",
+      "break_deduction": "Descuento de pausa (pausa no pagada)"
+    },
+    "dayCondition": {
+      "any": "Todos los días",
+      "weekend": "Fin de semana (sáb/dom)",
+      "holiday": "Festivo",
+      "weekend_or_holiday": "Fin de semana o festivo"
+    }
+  },
+  "normPeriod": {
+    "week": "Semana",
+    "month": "Mes",
+    "quarter": "Trimestre",
+    "year": "Año"
+  },
+  "normYear": {
+    "calendar": "Año natural (1 de enero)",
+    "school": "Curso escolar (1 de agosto)"
+  }
+}

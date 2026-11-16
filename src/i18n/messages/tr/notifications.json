@@ -1,0 +1,322 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "Zaman çizelgeleri",
+      "description": "Gönderildi, onaylandı, reddedildi ve yeniden açıldı; ayrıca dönem kapanışı (özet, onay, alındı)"
+    },
+    "absence": {
+      "label": "İzin ve devamsızlık",
+      "description": "Talepler, kararlar, kayıtlar ve hastalık bildirimleri"
+    },
+    "reminder": {
+      "label": "Hatırlatmalar",
+      "description": "Zaman çizelgesi eksikse cuma hatırlatması ve (isteğe bağlı) dünkü kullanım oranı düşükse hatırlatma"
+    },
+    "compliance": {
+      "label": "Çalışma süresi kuralları",
+      "description": "Gönderim sırasında çalışma süresi kurallarına ilişkin uyarılar (yöneticiler için)"
+    },
+    "digest": {
+      "label": "Yönetici özeti",
+      "description": "Yöneticiler için günlük/haftalık genel bakış"
+    }
+  },
+  "channels": {
+    "in_app": "Uygulama içinde",
+    "email": "E-posta",
+    "push": "Anlık bildirim",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "hafta {week}",
+  "periodFrom": "{date} tarihinden",
+  "periodRange": "{start} - {end}",
+  "unknown": "Bilinmiyor",
+  "duration": {
+    "hm": "{h} sa {m} dk",
+    "h": "{h} sa",
+    "m": "{m} dk"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "Zaman çizelgesi onay bekliyor",
+      "body": "{employee}, {week} için bir zaman çizelgesi gönderdi ({hours} saat)."
+    },
+    "factEmployee": "Çalışan",
+    "factWeek": "Hafta",
+    "factHours": "Saat",
+    "timesheetApproved": {
+      "title": "Zaman çizelgesi onaylandı",
+      "body": "{manager}, {week} için zaman çizelgeni onayladı."
+    },
+    "timesheetRejected": {
+      "title": "Zaman çizelgesi reddedildi",
+      "body": "{manager}, {week} için zaman çizelgeni reddetti.",
+      "bodyReason": "{manager}, {week} için zaman çizelgeni reddetti. Gerekçe: {reason}"
+    },
+    "timesheetReopened": {
+      "title": "Zaman çizelgesi yeniden açıldı",
+      "body": "{manager}, {week} için zaman çizelgeni düzenlemeye yeniden açtı.",
+      "bodyReason": "{manager}, {week} için zaman çizelgeni düzenlemeye yeniden açtı. Gerekçe: {reason}"
+    },
+    "closingReady": {
+      "title": "Dönem özetleri onaya hazır",
+      "body": "{count, plural, one {{period} özeti # çalışan için oluşturuldu ve onayını bekliyor.} other {{period} özetleri # çalışan için oluşturuldu ve onayını bekliyor.}}"
+    },
+    "factPeriod": "Dönem",
+    "factStatements": "Özetler",
+    "closingApproved": {
+      "title": "Dönem özetini onayla",
+      "body": "{manager}, {period} özetini onayladı. Dönem artık kilitli: özeti incele ve onayla."
+    },
+    "closingUnlocked": {
+      "title": "Dönemin kilidi açıldı",
+      "body": "{actor}, {period} dönemini yeniden açtı. Gerekçe: {reason}"
+    },
+    "absenceRequested": {
+      "title": "Devamsızlık onay bekliyor",
+      "body": "{employee} şunu talep ediyor: {type} {period}."
+    },
+    "factType": "Tür",
+    "absenceApproved": {
+      "title": "Devamsızlık onaylandı",
+      "body": "{manager}, şu talebini onayladı: {type} {period}."
+    },
+    "absenceRejected": {
+      "title": "Devamsızlık reddedildi",
+      "body": "{manager}, şu talebini reddetti: {type} {period}.",
+      "bodyReason": "{manager}, şu talebini reddetti: {type} {period}. Gerekçe: {reason}"
+    },
+    "absenceRegistered": {
+      "title": "Devamsızlık kaydedildi",
+      "body": "{registrar} şunu kaydetti: {type} {period}."
+    },
+    "sickRegistered": {
+      "title": "Hastalık bildirimi",
+      "body": "{employee} {period} hasta olduğunu bildirdi."
+    },
+    "timesheetMissing": {
+      "title": "Zaman çizelgen eksik",
+      "bodyHours": "{week} için {hours} saat kaydettin, ancak hafta henüz gönderilmedi.",
+      "bodyNone": "{week} için henüz hiç saat kaydetmedin."
+    },
+    "coverageLow": {
+      "title": "Çalışma süresinin yalnızca {pct} kadarı kaydedilmiş",
+      "body": "{day} için {expected} saatin {logged} saatini kaydettin (%{threshold} eşiğinin altında). Eksik bir şey var mı?"
+    },
+    "factLogged": "Kaydedilen",
+    "factWorkTime": "Çalışma süresi",
+    "factCoverage": "Kullanım oranı",
+    "hoursShort": "{hours} sa",
+    "compliance": {
+      "title": "Çalışma süresi kuralları uyarısı",
+      "body": "{employee} kişisinin {week} zaman çizelgesi şunları tetikliyor: {findings}"
+    },
+    "factFinding": "Bulgu",
+    "digestDaily": "Günlük yönetici genel bakışı",
+    "digestWeekly": "Haftalık yönetici genel bakışı",
+    "digestDailyEsc": "Günlük yönetici genel bakışı (yükseltildi)",
+    "digestWeeklyEsc": "Haftalık yönetici genel bakışı (yükseltildi)",
+    "digestEmpty": "Bekleyen zaman çizelgesi veya talep yok.",
+    "digestMissing": "Eksik zaman çizelgeleri",
+    "digestPendingTs": "Onay bekleyen zaman çizelgeleri",
+    "digestPendingAbs": "Onay bekleyen devamsızlık talepleri",
+    "digestFactAbs": "Devamsızlık talepleri",
+    "digestSection": "{label} ({count}):",
+    "digestAge": "({days, plural, one {# gün} other {# gün}})",
+    "digestMore": "… ve {count} tane daha"
+  },
+  "digestItem": {
+    "missing": "{week} zaman çizelgesi gönderilmedi",
+    "pendingTs": "{week} onay bekliyor",
+    "pendingAbs": "{type} {period} karar bekliyor"
+  },
+  "emailOpenIn": "{brand} içinde aç",
+  "emailNoAddress": "E-posta adresi yok",
+  "push": {
+    "open": "Aç",
+    "dismiss": "Kapat",
+    "deadlineTitle": "⏰ Son tarih hatırlatması",
+    "deadlineBody": "{title} - son tarih {when}",
+    "whenDays": "{days} gün sonra",
+    "whenTomorrow": "yarın",
+    "whenHours": "{hours} saat sonra",
+    "whenOneHour": "1 saat sonra",
+    "whenSoon": "yakında",
+    "overdueTitle": "🚨 Görevin süresi geçti",
+    "overdueBody": "{title} için son tarih geçti",
+    "digestTitle": "☀️ Günaydın!",
+    "digestOverdue": "{overdue} gecikmiş, bugün {tasks} planlı",
+    "digestTasks": "Bugün {count, plural, one {# görev} other {# görev}} planlı",
+    "digestNone": "Planlanmış görev yok - günün tadını çıkar!",
+    "testTitle": "🔔 Test bildirimi",
+    "testBody": "{brand} için anlık bildirimler artık etkin!"
+  },
+  "discord": {
+    "digestTitle": "☀️ Günaydın, {name}!",
+    "digestNone": "Bugün için planlanmış görevin yok. Günün tadını çıkar! 🎉",
+    "digestOverview": "İşte bugün için genel bakışın:",
+    "todayTasks": "📌 Bugünün görevleri ({count})",
+    "overdueTasks": "🚨 Gecikmiş ({count})",
+    "andMore": "…ve {count} tane daha",
+    "status": "📊 Durum",
+    "yesterdayTime": "Dün kaydedilen zaman: {h} sa {m} dk",
+    "yesterdayDone": "Dün tamamlanan görevler: {count}",
+    "digestFooter": "TimeTrack • Günlük genel bakış",
+    "testTitle": "Test bildirimi",
+    "testMessage": "Discord webhook'un artık TimeTrack'e bağlandı! 🎉"
+  },
+  "taskDigestSubject": "{date} görevlerin",
+  "endOfDay": {
+    "titleTracked": "Günlük özet: {hours} kaydedildi",
+    "titleNone": "Bugün zaman kaydedilmedi",
+    "bodyTracked": "Bugün {hours} kaydettin.",
+    "bodyUnbilled": "{hours} faturalanmadı.",
+    "bodyRevenue": "Tahmini gelir: {amount} kr.",
+    "bodyNone": "Gün bitmeden zamanını kaydetmeyi unutma.",
+    "footer": "TimeTrack Günlük özet"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "Hareketsizlik algılandı",
+      "message": "{minutes} dakikalık çalışmadan sonra zamanlayıcı hâlâ çalışıyor. Döndüğünde boşta kalan süre sana sorulacak."
+    },
+    "invoiceOverdueOne": {
+      "title": "Fatura gecikti",
+      "message": "{numbers} numaralı faturanın vade tarihi geçti."
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} fatura gecikti",
+      "message": "{numbers} numaralı faturaların vade tarihi geçti."
+    },
+    "recurringOne": {
+      "title": "Fatura taslağı hazır: {name}",
+      "message": "\"{name}\" tekrarlayan faturası ({amount}, KDV hariç) taslak olarak oluşturuldu. Hazır olduğunda gözden geçirip düzenle."
+    },
+    "recurringMany": {
+      "title": "{count} tekrarlayan fatura taslak olarak hazır",
+      "message": "{list} taslak olarak oluşturuldu. Hazır olduklarında gözden geçirip düzenle."
+    },
+    "renewalDraft": {
+      "title": "Fatura taslağı hazır: \"{name}\" ön ödemeli paketi",
+      "message": "\"{name}\" ön ödemeli paketi yenilendi ve yeni dönemin faturası taslak olarak oluşturuldu. Hazır olduğunda gözden geçirip düzenle."
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "Yeni kullanıcı kaydoldu",
+      "subscription_started": "Yeni ücretli abone",
+      "payment_failed": "Ödeme başarısız oldu",
+      "subscription_cancelled": "Abonelik iptal edildi",
+      "trial_ending": "Deneme süresi yakında bitiyor",
+      "user_flagged": "Kullanıcı işaretlendi",
+      "support_ticket": "Yeni destek talebi",
+      "webhook_rejected": "Webhook reddedildi",
+      "seat_drift": "Koltuk sapması algılandı",
+      "churn_risk": "Kayıp senaryosu tetiklendi",
+      "subscription_duplicate": "Olası yinelenen abonelik",
+      "feedback_received": "Bir kullanıcıdan yeni geri bildirim",
+      "beta_tester_signup": "Mobil uygulama için yeni beta test kullanıcısı"
+    },
+    "sub": {
+      "signup": "Yeni kullanıcı: {name}",
+      "subscription_started": "Yeni abone: {name}",
+      "payment_failed": "Ödeme başarısız oldu: {name}",
+      "subscription_cancelled": "Abonelik iptal edildi: {name}",
+      "trial_ending": "Deneme süresi bitiyor: {name}",
+      "user_flagged": "Kullanıcı işaretlendi: {name}",
+      "support_ticket": "Destek talebi: {name}",
+      "webhook_rejected": "Webhook reddedildi",
+      "seat_drift": "Koltuk sapması",
+      "churn_risk": "Kayıp riski",
+      "subscription_duplicate": "Olası yinelenen abonelik",
+      "feedback_received": "Yeni geri bildirim: {name}",
+      "beta_tester_signup": "Yeni beta test kullanıcısı: {name}"
+    },
+    "unknownName": "bilinmiyor",
+    "fieldName": "Ad",
+    "fieldEmail": "E-posta",
+    "fieldPlan": "Plan",
+    "fieldType": "Tür",
+    "fieldDaysLeft": "Kalan gün",
+    "fieldReason": "Gerekçe",
+    "fieldTime": "Zaman",
+    "seeUser": "Kullanıcıyı yönetimde gör",
+    "footer": "TimeTrack Yönetim",
+    "testTitle": "Test: Yönetim bildirimleri",
+    "testBody": "Discord webhook'un artık TimeTrack yönetim bildirimlerine bağlandı!",
+    "supportReply": "Talebe yanıt: {subject}",
+    "supportNew": "Yeni destek talebi: {subject}",
+    "supportNoSubject": "Konu yok"
+  },
+  "fallbackUser": "kullanıcı",
+  "absenceTypeFallback": "Devamsızlık",
+  "teams": {
+    "urlTooLong": "Webhook URL'si çok uzun",
+    "urlInvalid": "Geçersiz URL",
+    "urlHttps": "Webhook URL'si https kullanmalı",
+    "urlNotTeams": "URL bir Teams webhook'una benzemiyor (*.webhook.office.com, *.logic.azure.com veya *.powerplatform.com bekleniyor)"
+  },
+  "fallbackTaskTitle": "E-postadan görev",
+  "deadlines": {
+    "noProject": "Proje yok",
+    "overdueLine": "• **{title}** ({project}) - {days, plural, one {# gün} other {# gün}} gecikti",
+    "overdueTitle": "{count, plural, one {# gecikmiş görev} other {# gecikmiş görev}}",
+    "overdueFooter": "TimeTrack Son tarih uyarısı",
+    "whenToday": "bugün",
+    "whenTomorrow": "yarın",
+    "whenDays": "{days} gün sonra",
+    "upcomingLine": "• **{title}** ({project}) - son tarih {when}",
+    "upcomingTitle": "Son tarihi yaklaşan {count, plural, one {# görev} other {# görev}}",
+    "upcomingFooter": "TimeTrack Son tarih hatırlatması",
+    "projOverdueTitle": "Bitiş tarihi geçmiş {count, plural, one {# proje} other {# proje}}",
+    "projOverdueLine": "• **{name}** - bitiş tarihi {days, plural, one {# gün} other {# gün}} önce geçti",
+    "projSoonTitle": "Bitiş tarihi yaklaşan {count, plural, one {# proje} other {# proje}}",
+    "projSoonLine": "• **{name}** - bitiş {when}",
+    "projFooter": "TimeTrack Proje bitiş tarihi"
+  },
+  "slack": {
+    "noProject": "Proje yok",
+    "noClient": "Müşteri yok",
+    "project": "Proje",
+    "client": "Müşteri",
+    "description": "Açıklama",
+    "timerStarted": "Zamanlayıcı başladı",
+    "startedAtSlack": "Başlangıç",
+    "startedAtDiscord": "Başladı",
+    "timerStopped": "Zamanlayıcı durdu",
+    "duration": "Süre",
+    "durationHM": "{h} sa {m} dk",
+    "durationM": "{m} dakika",
+    "idleTitle": "Hareketsizlik algılandı",
+    "idleBodySlack": "*{project}* üzerinde zamanlayıcı çalışırken *{minutes} dakikadır* hareketsizsin. Mola veriyorsan zamanlayıcıyı durdurmayı unutma.",
+    "idleBodyDiscord": "**{project}** üzerinde zamanlayıcı çalışırken **{minutes} dakikadır** hareketsizsin. Mola veriyorsan zamanlayıcıyı durdurmayı unutma.",
+    "dailyTitle": "Günlük özet - {date}",
+    "totalTime": "Toplam süre",
+    "totalRevenue": "Toplam gelir",
+    "tasksDone": "Tamamlanan görevler",
+    "projects": "Projeler",
+    "noEntriesToday": "Bugün zaman kaydı yok",
+    "weeklyTitle": "Haftalık rapor - Hafta {week}",
+    "unbilled": "Faturalanmamış",
+    "topClients": "En önemli müşteriler",
+    "noEntriesWeek": "Bu hafta zaman kaydı yok",
+    "hoursShort": "{hours} sa",
+    "minutesShort": "{m} dk",
+    "testTitle": "TimeTrack test mesajı",
+    "testBodySlack": "Slack entegrasyonun doğru yapılandırıldı! Artık TimeTrack bildirimlerini burada alacaksın.",
+    "testBodyDiscord": "Discord entegrasyonun doğru yapılandırıldı! Artık TimeTrack bildirimlerini burada alacaksın.",
+    "unbilledReminderTitle": "💰 Faturalanmamış zaman: {hours} ({value} kr)",
+    "unbilledReminderDiscord": "**{value} kr** değerinde faturalanmamış zamanın var.\n\n{list}",
+    "unbilledReminderSlack": "*{value} kr* değerinde faturalanmamış zamanın var.\n\n{list}",
+    "unbilledReminderLine": "• {name}: {hours} - {value} kr",
+    "unbilledReminderFooter": "TimeTrack Faturalanmamış hatırlatması",
+    "aiFocusName": "🎯 Bugünün odağı ({count} görev)",
+    "aiWarnings": "⚠️ Uyarılar",
+    "aiDeferred": "📋 Ertelenenler",
+    "aiDeferredValue": "{count, plural, one {# görevin ertelenmesi öneriliyor} other {# görevin ertelenmesi öneriliyor}}",
+    "aiGreeting": "Günaydın, {name}!",
+    "aiFooter": "TimeTrack Yapay zeka önerileri",
+    "aiFocusBlock": "🎯 Bugünün odağı",
+    "aiWarningsBlock": "⚠️ Uyarılar"
+  }
+}

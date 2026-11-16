@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Abonnement",
+    "description": "Formule, paiement et facturation",
+    "adminOnly": "Seuls les propriétaires et les administrateurs peuvent modifier l'abonnement, acheter des licences et consulter les paiements."
+  },
+  "states": {
+    "noBilling": "Cette installation n'a pas de prestataire de paiement : toutes les fonctions sont ouvertes, sans formules ni limites.",
+    "comingSoonTitle": "Le paiement arrive bientôt",
+    "comingSoon": "Vous êtes sur le forfait gratuit. Les forfaits payants arrivent bientôt ; d'ici là, c'est gratuit.",
+    "loading": "Chargement de l'abonnement…",
+    "none": "Aucun abonnement trouvé. Commencez par choisir une formule.",
+    "choosePlan": "Choisir une formule",
+    "previousWebPayments": "Paiements précédents sur le web",
+    "redirecting": "Redirection…"
+  },
+  "cycle": {
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "twoMonthsFree": "2 mois offerts",
+    "perMonthExclVat": "/mois HT",
+    "perYearExclVat": "/an HT",
+    "krPerMonth": "{price} kr./mois",
+    "krPerYear": "{price} kr./an"
+  },
+  "status": {
+    "active": "Actif",
+    "free": "Gratuit",
+    "trialing": "Période d'essai",
+    "pastDue": "Paiement en retard",
+    "canceled": "Résilié"
+  },
+  "invoiceStatus": {
+    "paid": "Payée",
+    "open": "Ouverte",
+    "draft": "Brouillon",
+    "void": "Annulée",
+    "uncollectible": "Échec",
+    "unknown": "Inconnu"
+  },
+  "history": {
+    "title": "Historique des paiements",
+    "columnDate": "Date",
+    "columnNumber": "Numéro",
+    "columnAmount": "Montant",
+    "columnStatus": "Statut",
+    "columnPdf": "PDF",
+    "empty": "Aucun paiement pour l'instant. Votre historique apparaîtra ici après votre premier paiement."
+  },
+  "toast": {
+    "planChangedYearly": "Formule passée en annuel",
+    "planChangedMonthly": "Formule passée en mensuel",
+    "canceled": "Abonnement résilié. Il reste actif jusqu'à la fin de la période.",
+    "reactivated": "Abonnement réactivé !",
+    "trialRequested": "Demande envoyée ! Nous reviendrons vers vous au plus vite.",
+    "trialRequestFailed": "Impossible d'envoyer la demande. Veuillez réessayer.",
+    "paymentMethodAdded": "Moyen de paiement ajouté !",
+    "seatsUpdated": "Licences mises à jour ! La modification peut mettre un instant à apparaître.",
+    "paymentCanceled": "Paiement annulé"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Il vous reste # jour d'essai} many {Il vous reste # de jours d'essai} other {Il vous reste # jours d'essai}}",
+    "startsAutomatically": "Votre abonnement démarre automatiquement après la période d'essai",
+    "addPaymentToContinue": "Ajoutez un moyen de paiement pour continuer après la période d'essai",
+    "needMoreTime": "Besoin de plus de temps ?",
+    "addPayment": "Ajouter un paiement",
+    "checkoutNoteFounding": "La page de paiement affiche le prix standard. Votre remise de membre fondateur de {percent} % est appliquée automatiquement après le paiement."
+  },
+  "pendingCancel": {
+    "expiresOn": "Votre abonnement expire le {date}",
+    "expiresUnknown": "Votre abonnement expire à une date inconnue",
+    "reactivateHint": "Vous pouvez le réactiver d'ici là",
+    "reactivating": "Réactivation…",
+    "reactivate": "Réactiver"
+  },
+  "plan": {
+    "current": "Formule actuelle",
+    "freeLimits": "Jusqu'à {maxSeats} utilisateurs · {used} clients actifs sur {maxClients}. Passez à une formule supérieure pour plus de clients, plus d'utilisateurs, la facturation et les forfaits d'heures.",
+    "seatsIncluded": "{count, plural, one {# utilisateur inclus} many {# d'utilisateurs inclus} other {# utilisateurs inclus}}",
+    "seatsWithExtra": "{count, plural, one {# utilisateur} many {# d'utilisateurs} other {# utilisateurs}} · {included} inclus + {extra} en plus",
+    "foundingDiscount": "Remise de membre fondateur de {percent} %",
+    "foundingDiscountForever": "Remise de membre fondateur de {percent} %, à vie",
+    "foundingDiscountExpires": "Remise de membre fondateur de {percent} %, expire le {date}",
+    "trialEnds": "Fin de l'essai : {date}",
+    "nextBilling": "Prochaine facturation : {date}"
+  },
+  "roi": {
+    "titleReturn": "Votre retour sur investissement avec {brand}",
+    "titleActivity": "Votre activité dans {brand}",
+    "spent": "Dépensé pour {brand}",
+    "freeSoFar": "Gratuit jusqu'ici !",
+    "trackedValue": "Valeur du temps suivi",
+    "invoicedTotal": "Total facturé",
+    "return": "Retour"
+  },
+  "payment": {
+    "title": "Paiement",
+    "portalDescription": "Gérez votre moyen de paiement et vos factures via le portail de paiement.",
+    "manage": "Gérer le paiement",
+    "noMethod": "Aucun moyen de paiement ajouté",
+    "addMethod": "Ajouter un moyen de paiement",
+    "checkoutNoteFounding": "La page de paiement affiche le prix standard. Votre remise de {percent} % est appliquée automatiquement."
+  },
+  "seats": {
+    "title": "Licences",
+    "usage": "{used} licences utilisées sur {total}",
+    "pendingInvites": "{count, plural, one {# licence est prise par une invitation en attente} many {# de licences sont prises par des invitations en attente} other {# licences sont prises par des invitations en attente}}",
+    "reseatsReminder": "N'oubliez pas de souscrire de nouveau vos {count} licences supplémentaires au tarif {plan}. Terminez l'achat de licences ci-dessous pour que la facturation corresponde à votre capacité.",
+    "extraLabel": "Licences supplémentaires (au-delà des {included} incluses)",
+    "fewer": "Moins de licences",
+    "more": "Plus de licences",
+    "price": "Prix",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr./an HT",
+    "priceSuffixMonthly": "kr./mois HT",
+    "adjust": "Ajuster les licences",
+    "buy": "Acheter des licences",
+    "note": "Votre option de licences actuelle est remplacée par le nouveau nombre. Vous faites un nouvel achat et l'ancienne option est résiliée automatiquement. Votre formule autorise jusqu'à {max} licences au total."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "Pour les particuliers",
+      "feature1": "1 utilisateur"
+    },
+    "solo": {
+      "tagline": "Pour les freelances",
+      "feature1": "1 utilisateur, clients illimités",
+      "feature2": "Forfaits d'heures, facturation et intégrations",
+      "feature3": "Web, application, extension et bureau inclus"
+    },
+    "team": {
+      "tagline": "Pour les petites équipes",
+      "feature1": "Tout ce qui est dans {plan}",
+      "feature2": "2 utilisateurs inclus",
+      "feature3": "Clients, projets et forfaits d'heures partagés"
+    },
+    "business": {
+      "tagline": "Pour les entreprises",
+      "feature1": "Tout ce qui est dans {plan}",
+      "feature2": "5 utilisateurs inclus",
+      "feature3": "Heures flexibles, absences et conformité"
+    },
+    "usersIncluded": "{count} utilisateurs inclus"
+  },
+  "upgrade": {
+    "title": "Passer à une formule supérieure",
+    "blocked": "Vous avez {count, plural, one {# licence supplémentaire} many {# de licences supplémentaires} other {# licences supplémentaires}} qui ne peuvent pas encore être transférées automatiquement vers {plan}. Écrivez-nous à support@timetrack.dk et nous ferons la mise à niveau sans perdre aucune licence.",
+    "to": "Passer à {plan}",
+    "note": "En changeant de formule, vous faites un nouvel achat. Votre abonnement actuel est résilié automatiquement dès que le nouveau est actif."
+  },
+  "choose": {
+    "title": "Choisissez votre formule",
+    "choosePlan": "Choisir {plan}",
+    "chooseAndPay": "Choisir et payer",
+    "note": "Les utilisateurs supplémentaires au-delà de ceux inclus s'ajoutent après l'inscription. La remise de membre fondateur (si elle est active) est appliquée automatiquement à {plan} après le paiement."
+  },
+  "discounts": {
+    "title": "Remises actives",
+    "rangeBoth": "Du {from} au {to}",
+    "rangeOpenEnded": "Depuis le {from}, sans date d'expiration",
+    "rangeUntil": "Jusqu'au {to}",
+    "rangeNone": "Sans date d'expiration"
+  },
+  "metadata": {
+    "title": "Détails de l'abonnement",
+    "foundingTier": "Niveau fondateur",
+    "billingCycle": "Période de facturation",
+    "signupSource": "Source d'inscription",
+    "couponCode": "Code de réduction"
+  },
+  "upcoming": {
+    "title": "Paiements à venir",
+    "columnPeriod": "Période",
+    "columnPlan": "Formule",
+    "columnAmount": "Montant"
+  },
+  "switch": {
+    "title": "Changer de formule",
+    "equivalent": "Soit {price} kr./mois",
+    "toMonthly": "Passer au mensuel",
+    "toYearly": "Passer à l'annuel"
+  },
+  "cancel": {
+    "title": "Résilier l'abonnement",
+    "description": "Votre abonnement reste actif jusqu'à la fin de la période de facturation en cours.",
+    "areYouSure": "Êtes-vous sûr ?",
+    "activeUntil": "Votre abonnement reste actif jusqu'au {date}. Ensuite, vous perdez l'accès aux fonctions premium.",
+    "activeUntilEnd": "Votre abonnement reste actif jusqu'à la fin de la période. Ensuite, vous perdez l'accès aux fonctions premium.",
+    "keep": "Conserver l'abonnement",
+    "confirm": "Oui, résilier l'abonnement",
+    "canceling": "Résiliation…"
+  }
+}

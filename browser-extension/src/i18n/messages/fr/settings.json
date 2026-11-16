@@ -1,0 +1,109 @@
+{
+  "title": "Paramètres",
+  "close": "Fermer les paramètres",
+  "searchPlaceholder": "Rechercher un paramètre…",
+  "searchLabel": "Rechercher un paramètre",
+  "noMatch": "Aucun paramètre ne correspond à « {query} »",
+  "keywords": {
+    "view": "aperçu|affichage|suggestion|site|sites web|forfait|prépayé|fenêtre",
+    "appearance": "apparence|thème|sombre|clair|badge|icône|langue",
+    "newTab": "nouvel onglet|onglet|page d'accueil|widgets",
+    "calendar": "calendrier|jour|date",
+    "goal": "objectif quotidien|objectif|objectif d'heures|progression",
+    "reminder": "rappel|notification|week-end|saisie|enregistrer",
+    "data": "données|supprimer|réinitialiser|hors ligne|associations|liens|site web|file d'attente",
+    "advanced": "avancé|api|url|serveur",
+    "shortcuts": "raccourcis|raccourci|clavier|alt",
+    "about": "à propos de l'extension|extension|à propos|version|noter|avis|aide"
+  },
+  "view": {
+    "title": "Aperçu",
+    "suggestions": "Suggestions selon le site web",
+    "suggestionsHint": "Suggérer un projet d'après le site sur lequel vous êtes",
+    "prepaidTab": "Onglet Forfaits",
+    "prepaidTabHint": "Afficher l'onglet des forfaits actifs dans la fenêtre de l'extension"
+  },
+  "appearance": {
+    "title": "Apparence",
+    "theme": "Thème",
+    "themeHint": "Thème de couleurs de l'extension",
+    "system": "Suivre le système",
+    "dark": "Sombre",
+    "light": "Clair",
+    "badge": "Nombre sur l'icône",
+    "badgeHint": "Ce qu'affiche le nombre sur l'icône de l'extension",
+    "badgeTimer": "Chronomètre actif",
+    "badgeToday": "Heures du jour",
+    "badgeOff": "Masqué",
+    "language": "Langue",
+    "languageHint": "Langue de l'extension",
+    "languageAuto": "Automatique (celle du navigateur)"
+  },
+  "newTab": {
+    "title": "Nouvel onglet",
+    "enable": "Ouvrir TimeTrack dans les nouveaux onglets",
+    "enableHint": "Désactivez pour garder des onglets vides classiques",
+    "widgetsHint": "Choisissez les widgets dans les paramètres du nouvel onglet",
+    "activeWidgets": "Widgets actifs : {count}"
+  },
+  "calendar": {
+    "title": "Calendrier",
+    "openOn": "Ouvrir le calendrier sur",
+    "openOnHint": "Le jour affiché à l'ouverture du calendrier",
+    "today": "Aujourd'hui",
+    "lastViewed": "Dernier jour consulté"
+  },
+  "goal": {
+    "title": "Objectif quotidien",
+    "hours": "Objectif d'heures par jour",
+    "hoursHint": "Utilisé dans la barre de progression du jour, dans la fenêtre de l'extension et le nouvel onglet"
+  },
+  "reminder": {
+    "title": "Rappel quotidien",
+    "enable": "Me rappeler d'enregistrer mon temps",
+    "enableHint": "Notification s'il y a trop peu d'heures",
+    "time": "Heure",
+    "minHours": "Minimum d'heures",
+    "weekends": "Aussi le week-end"
+  },
+  "data": {
+    "title": "Données",
+    "clearMappingsConfirm": "Supprimer tous les liens enregistrés entre sites web et projets ?",
+    "clearMappingsDetail": "Les suggestions masquées réapparaîtront aussi.",
+    "delete": "Supprimer",
+    "clearMappings": "Supprimer les liens avec les sites web",
+    "mappingsCount": "{count, plural, one {# lien enregistré} many {# de liens enregistrés} other {# liens enregistrés}}",
+    "clearQueueConfirm": "Supprimer {count, plural, one {# action en attente} many {# d'actions en attente} other {# actions en attente}} ?",
+    "unsentEntries": "Pas encore envoyé à TimeTrack : {count, plural, one {# saisie} many {# de saisies} other {# saisies}}. Le temps sera définitivement supprimé.",
+    "clearQueueConfirmButton": "Supprimer la file",
+    "clearQueue": "Supprimer la file hors ligne",
+    "pendingActions": "{count, plural, one {# action en attente} many {# d'actions en attente} other {# actions en attente}}",
+    "unsentSuffix": "{count, plural, one {# saisie non envoyée} many {# de saisies non envoyées} other {# saisies non envoyées}}",
+    "resetConfirm": "Réinitialiser tous les paramètres ?",
+    "resetDetail": "Les paramètres par défaut de l'extension seront rétablis.",
+    "resetButton": "Réinitialiser",
+    "reset": "Réinitialiser les paramètres",
+    "resetHint": "Rétablir les paramètres par défaut"
+  },
+  "advanced": {
+    "title": "Avancé",
+    "apiUrl": "Adresse de l'API",
+    "notSaved": "{error}. L'adresse n'a pas été enregistrée."
+  },
+  "shortcuts": {
+    "title": "Raccourcis clavier",
+    "unreadable": "Les raccourcis ne peuvent pas être lus dans ce navigateur.",
+    "openApp": "Ouvrir TimeTrack",
+    "notSet": "Non défini",
+    "change": "Modifier les raccourcis",
+    "firefoxPage": "Ouvre la page des raccourcis de Firefox",
+    "chromePage": "Ouvre chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "Extension de navigateur TimeTrack, version {version}",
+    "rateFirefox": "Noter sur Firefox Add-ons",
+    "rateChrome": "Noter sur le Chrome Web Store",
+    "rateHint": "Votre avis aide d'autres freelances",
+    "learnMore": "En savoir plus sur l'extension"
+  }
+}

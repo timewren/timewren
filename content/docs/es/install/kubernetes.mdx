@@ -1,0 +1,151 @@
+---
+title: "Kubernetes"
+description: "Instala TimeWren en Kubernetes con el chart de Helm: PostgreSQL y Valkey integrados opcionales, volumen persistente, Ingress y un CronJob por endpoint programado."
+---
+
+Elige este método si ya tienes un clúster de Kubernetes. El chart `charts/timewren` no tiene dependencias de charts de terceros. Despliega la aplicación, opcionalmente un PostgreSQL y un Valkey de un solo nodo, un PVC para las subidas y un CronJob por cada tarea programada.
+
+## Requisitos
+
+- Helm 3 y Kubernetes 1.27 o posterior (zonas horarias de los CronJob).
+- Una StorageClass por defecto, o clases de almacenamiento que configures explícitamente.
+- Un ingress controller si quieres publicar la aplicación. El chart no configura el DNS ni emite certificados.
+
+## Instalar
+
+1. Clona el repositorio. El chart se instala desde el checkout.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   ```
+
+2. Instala la release. Sustituye `1.2.3` por la versión que quieras y el host por el tuyo.
+
+   ```bash
+   helm upgrade --install timewren ./timewren/charts/timewren \
+     --namespace timewren --create-namespace \
+     --set image.tag=1.2.3 \
+     --set appUrl=https://timewren.example.com \
+     --set ingress.enabled=true \
+     --set ingress.className=nginx \
+     --set ingress.host=timewren.example.com
+   ```
+
+3. Añade TLS mediante `ingress.tls` y las anotaciones que necesite tu controlador de TLS (ver más abajo).
+4. Abre la URL y crea tu cuenta. La primera cuenta se convierte en administradora, salvo que se defina `extraEnv.ADMIN_EMAIL`.
+
+Sin Ingress, usa un port forward y define `appUrl=http://localhost:3000`:
+
+```bash
+kubectl port-forward -n timewren service/timewren-timewren 3000:3000
+```
+
+La aplicación espera a PostgreSQL en un init container y se ejecuta con `MIGRATE_ON_START=1`, así que las migraciones se ejecutan al arrancar. El chart define `REQUIRE_EMAIL_VERIFICATION` como `false` por defecto; el correo es opcional, y la verificación pasa a ser obligatoria cuando se configura un transporte de correo.
+
+## Valores principales
+
+| Clave | Por defecto | Finalidad |
+| --- | ------- | ------- |
+| `image.repository`, `image.tag`, `image.pullPolicy` | `ghcr.io/timewren/timewren`, `latest`, `IfNotPresent` | Imagen que se ejecuta. Fija `image.tag`. |
+| `appUrl` | `http://localhost:3000` | Origen público usado por la autenticación y los enlaces (`NEXT_PUBLIC_APP_URL`). Defínelo antes de instalar. |
+| `existingSecret` | vacío | Nombre de un Secret que gestionas tú (ver más abajo). |
+| `secrets.*` | vacío | `DATABASE_URL`, `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`. Las claves vacías se generan. |
+| `extraEnv` | `{}` | Variables adicionales de `.env.example`, como `SMTP_HOST` o `ADMIN_EMAIL`. |
+| `service.port` | `3000` | Puerto del Service. |
+| `resources` | `{}` | Requests y límites de recursos de la aplicación. |
+| `persistence.enabled`, `.existingClaim`, `.size`, `.storageClass` | `true`, vacío, `5Gi`, vacío | Almacenamiento para las subidas en `/app/data/storage`. |
+| `ingress.enabled`, `.className`, `.host`, `.annotations`, `.tls` | `false`, vacío, `timewren.example.com`, `{}`, `[]` | Ingress. |
+| `postgresql.enabled`, `.image`, `.size`, `.storageClass`, `.resources` | `true`, `postgres:18-alpine`, `10Gi`, vacío, `{}` | PostgreSQL integrado de un solo nodo. |
+| `valkey.enabled`, `.image`, `.size`, `.storageClass`, `.resources` | `false`, `valkey/valkey:8-alpine`, `1Gi`, vacío, `{}` | Valkey opcional. |
+| `cron.enabled`, `.image`, `.timeZone`, `.resources`, `.jobs` | `true`, `curlimages/curl:8.12.1`, `Europe/Copenhagen`, `{}`, ver `values.yaml` | Tareas programadas. |
+
+Las variables de correo, S3 e integraciones usan los nombres de [Variables de entorno](/es/docs/configuration/environment). Por ejemplo, un archivo de valores con SMTP:
+
+```yaml
+extraEnv:
+  SMTP_HOST: smtp.example.com
+  SMTP_PORT: "587"
+  SMTP_FROM: "TimeWren <mail@example.com>"
+  ADMIN_EMAIL: jane@example.com
+```
+
+Pon las credenciales en `existingSecret`, no en `extraEnv` ni en archivos de valores.
+
+## Secretos
+
+Por defecto el chart genera `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` (64 caracteres hexadecimales) y `CRON_SECRET` en la primera instalación y los conserva en las actualizaciones consultándolos con `lookup` de Helm. Los valores que definas en `secrets` sustituyen a los generados. No pases secretos por la línea de comandos ni los subas a un repositorio. Helm guarda los Secrets renderizados en el historial de la release, así que restringe el acceso en consecuencia. Haz copia del Secret, sobre todo de `ENCRYPTION_KEY`.
+
+Para GitOps o un gestor de secretos externo, crea tú mismo el Secret y apunta el chart hacia él. `helm template` sin conexión no puede reutilizar secretos generados. El Secret necesita estas claves exactas:
+
+| Clave | Obligatoria |
+| --- | -------- |
+| `DATABASE_URL` | Siempre. Con PostgreSQL integrado: host `<release>-timewren-postgresql`, puerto 5432, base de datos `timewren`, usuario `timewren`. |
+| `BETTER_AUTH_SECRET` | Siempre. |
+| `ENCRYPTION_KEY` | Siempre, 64 caracteres hexadecimales. |
+| `CRON_SECRET` | Siempre. Lo usan la aplicación y los CronJobs. |
+| `POSTGRES_PASSWORD` | Con PostgreSQL integrado, igual que la contraseña de `DATABASE_URL`. |
+| `VALKEY_URL` | Con Valkey integrado o externo. |
+
+Una instalación con base de datos y Valkey externos queda así:
+
+```yaml
+postgresql:
+  enabled: false
+valkey:
+  enabled: false
+existingSecret: timewren-secrets
+extraEnv:
+  RATE_LIMIT_BACKEND: valkey # only when using external Valkey
+```
+
+Como alternativa, define `secrets.DATABASE_URL` con `postgresql.enabled=false`. Reinicia la aplicación después de cambiar un Secret externo: `kubectl rollout restart -n timewren deployment/timewren-timewren`.
+
+Con `valkey.enabled=true` el chart define `VALKEY_URL` y `RATE_LIMIT_BACKEND=valkey`. El PostgreSQL y el Valkey integrados son servicios de un solo nodo para instalaciones pequeñas, sin copias de seguridad automáticas ni failover. Usa servicios gestionados cuando los necesites.
+
+## Ingress y TLS
+
+Define `ingress.enabled=true`, `ingress.className`, `ingress.host` y, para TLS, `ingress.tls` más las anotaciones de tu controlador, por ejemplo en un archivo de valores:
+
+```yaml
+appUrl: https://timewren.example.com
+ingress:
+  enabled: true
+  className: nginx
+  host: timewren.example.com
+  tls:
+    - secretName: timewren-tls
+      hosts:
+        - timewren.example.com
+```
+
+Mantén `appUrl` igual a la URL HTTPS pública.
+
+## Persistencia
+
+La aplicación se ejecuta como una única réplica con la estrategia `Recreate` y un PVC ReadWriteOnce en `/app/data/storage`; el pod usa UID y GID 1001. Reutiliza un claim preparado con `persistence.existingClaim`, o define `persistence.storageClass` y `persistence.size`. Para usar almacenamiento compatible con S3 en su lugar, define `persistence.enabled=false` y proporciona `STORAGE_DRIVER=s3`, `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` y `S3_BUCKET` mediante `extraEnv` y `existingSecret`. Desactivar la persistencia sin un driver de almacenamiento externo no es duradero. Consulta [Almacenamiento](/es/docs/configuration/storage).
+
+El PVC de la aplicación se conserva con `helm uninstall`. Los PVC no son copias de seguridad: programa por separado volcados de la base de datos y snapshots del almacenamiento.
+
+## Tareas programadas
+
+Con `cron.enabled=true` el chart crea un CronJob por cada entrada de `cron.jobs`, con el nombre del endpoint como clave y una programación cron como valor, en la zona horaria `cron.timeZone` (por defecto `Europe/Copenhagen`). Cada tarea llama a `/api/cron/<endpoint>` en el Service de la aplicación con `CRON_SECRET` como token bearer, usando `concurrencyPolicy: Forbid`. Cambia las programaciones modificando `cron.jobs`. Define `cron.enabled=false` solo si ya hay otra cosa que llame a los endpoints.
+
+## Actualizar
+
+Haz primero una copia de seguridad de la base de datos y de los archivos: volver a una imagen anterior no revierte los cambios del esquema. Después ejecuta el mismo comando con la nueva etiqueta:
+
+```bash
+helm upgrade --install timewren ./timewren/charts/timewren \
+  --namespace timewren \
+  --reuse-values \
+  --set image.tag=1.2.4
+```
+
+Descarga antes la versión correspondiente del chart (`git -C timewren pull` o cambia a la etiqueta de la release). Si usaste un archivo de valores, pásalo con `-f` en lugar de `--reuse-values`. Las migraciones se ejecutan al arrancar la aplicación; revisa los logs de la aplicación después de actualizar. Consulta [Actualización](/es/docs/operations/upgrading).
+
+## Siguientes pasos
+
+- [Inicio rápido](/es/docs/quickstart)
+- [Correo electrónico](/es/docs/configuration/email)
+- [Copia de seguridad y restauración](/es/docs/operations/backup-restore)
+- [Solución de problemas](/es/docs/operations/troubleshooting)

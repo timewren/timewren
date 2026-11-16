@@ -1,0 +1,36 @@
+name: DCO
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  sign-off:
+    name: DCO
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require author sign-off
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          missing=0
+          for sha in $(git rev-list --no-merges "$BASE_SHA..$HEAD_SHA"); do
+            email=$(git show -s --format='%ae' "$sha")
+            case "$email" in *"[bot]"*) continue ;; esac
+            author=$(git show -s --format='%an <%ae>' "$sha")
+            if ! git show -s --format='%(trailers:key=Signed-off-by,valueonly)' "$sha" | grep -Fxq -- "$author"; then
+              echo "::error::Commit $sha needs an author Signed-off-by trailer."
+              missing=1
+            fi
+          done
+          exit "$missing"

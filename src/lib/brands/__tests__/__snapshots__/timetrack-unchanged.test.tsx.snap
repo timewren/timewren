@@ -1,0 +1,160 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`timetrack.dk er uændret > metadata (forsiden/login) 1`] = `
+"{
+ "applicationName": "TimeTrack",
+ "title": {
+  "default": "TimeTrack: tidsregistrering med klippekort",
+  "template": "%s | TimeTrack"
+ },
+ "description": "Dansk tidsregistrering med klippekort til selvstændige og små bureauer, med fakturagrundlag til Billy og Dinero. Web, browserudvidelse og desktop i alle planer. Prøv gratis i 30 dage.",
+ "keywords": [
+  "timetracking",
+  "timeregistrering",
+  "tidsregistrering",
+  "timeregistrering app",
+  "timeregistrering til faktura",
+  "faktura ud fra timer",
+  "klippekort",
+  "freelance fakturering",
+  "billy",
+  "dinero",
+  "freelancer"
+ ],
+ "authors": [
+  {
+   "name": "TimeTrack"
+  }
+ ],
+ "creator": "TimeTrack",
+ "publisher": "TimeTrack",
+ "metadataBase": "http://localhost:3000/",
+ "openGraph": {
+  "type": "website",
+  "locale": "da_DK",
+  "url": "/",
+  "title": "TimeTrack: tidsregistrering med klippekort",
+  "description": "Dansk tidsregistrering med klippekort til selvstændige og små bureauer. Prøv gratis i 30 dage, uden oprettelsesgebyr.",
+  "siteName": "TimeTrack",
+  "images": [
+   {
+    "url": "/opengraph-image",
+    "width": 1200,
+    "height": 630,
+    "alt": "TimeTrack: Hvor mange timer har kunden tilbage?"
+   }
+  ]
+ },
+ "twitter": {
+  "card": "summary_large_image",
+  "title": "TimeTrack: tidsregistrering med klippekort",
+  "description": "Dansk tidsregistrering med klippekort til selvstændige og små bureauer. Prøv gratis i 30 dage.",
+  "images": [
+   "/opengraph-image"
+  ]
+ },
+ "robots": {
+  "index": true,
+  "follow": true,
+  "googleBot": {
+   "index": true,
+   "follow": true,
+   "max-image-preview": "large",
+   "max-snippet": -1
+  }
+ }
+}"
+`;
+
+exports[`timetrack.dk er uændret > middleware / giver samme svar med og uden flaget 1`] = `
+{
+  "location": null,
+  "rewrite": null,
+  "robots": null,
+  "status": 200,
+}
+`;
+
+exports[`timetrack.dk er uændret > middleware /dashboard giver samme svar med og uden flaget 1`] = `
+{
+  "location": "https://app.timetrack.dk/dashboard",
+  "rewrite": null,
+  "robots": null,
+  "status": 308,
+}
+`;
+
+exports[`timetrack.dk er uændret > middleware /login giver samme svar med og uden flaget 1`] = `
+{
+  "location": "https://app.timetrack.dk/login",
+  "rewrite": null,
+  "robots": null,
+  "status": 308,
+}
+`;
+
+exports[`timetrack.dk er uændret > middleware /priser giver samme svar med og uden flaget 1`] = `
+{
+  "location": null,
+  "rewrite": null,
+  "robots": null,
+  "status": 200,
+}
+`;
+
+exports[`timetrack.dk er uændret > velkomstmail 1`] = `
+{
+  "html": "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html dir="ltr" lang="da"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/><meta name="x-apple-disable-message-reformatting"/><meta name="color-scheme" content="light dark"/><meta name="supported-color-schemes" content="light dark"/><meta name="x-apple-disable-message-reformatting"/><meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/><style>:root { color-scheme: light dark; supported-color-schemes: light dark; }
+@media (prefers-color-scheme: dark) {
+.tt-card h1, .tt-card h2, .tt-card strong { color: #ECEFED !important; }
+.tt-card p, .tt-card td, .tt-card th, .tt-card div, .tt-card li { color: #ECEFED !important; }
+.tt-card .tt-kv-label, .tt-card .tt-muted, .tt-footer p, .tt-header .tt-muted { color: #A3ABA7 !important; }
+.tt-card .tt-kv-value { color: #ECEFED !important; }
+.tt-card a:not([style*="background"]), .tt-footer a { color: #5FB38F !important; }
+.tt-header .tt-wordmark { color: #ECEFED !important; }
+.tt-card a.tt-btn { color: #0A0A0A !important; }
+.tt-card a.tt-btn-secondary { color: #ECEFED !important; }
+.tt-body, .tt-body > table > tbody > tr > td, .tt-page { background-color: #0A0A0A !important; }
+.tt-card { background-color: #151816 !important; }
+.tt-card table[style*="background"]:not(.tt-keep), .tt-card td[style*="background"]:not(.tt-btn-td):not(.tt-hul), .tt-card div[style*="background"], .tt-card p[style*="background"] { background-color: #1C201E !important; }
+.tt-card td.tt-btn-td, .tt-card a.tt-btn { background-color: #5FB38F !important; }
+.tt-card td.tt-btn-td-secondary, .tt-card a.tt-btn-secondary { background-color: transparent !important; border-color: #6B736F !important; }
+.tt-card td.tt-hul-brugt { background-color: #5FB38F !important; border-color: #5FB38F !important; }
+.tt-card td.tt-hul-halv { background-color: #18291F !important; border-color: #5FB38F !important; }
+.tt-card td.tt-hul-tom { background-color: transparent !important; border-color: #5FB38F !important; }
+.tt-card td, .tt-card th, .tt-card hr, .tt-card { border-color: #2A2F2D !important; }
+}
+[data-ogsc] .tt-card h1, [data-ogsc] .tt-card h2, [data-ogsc] .tt-card strong { color: #ECEFED !important; }
+[data-ogsc] .tt-card p, [data-ogsc] .tt-card td, [data-ogsc] .tt-card th, [data-ogsc] .tt-card div, [data-ogsc] .tt-card li { color: #ECEFED !important; }
+[data-ogsc] .tt-card .tt-kv-label, [data-ogsc] .tt-card .tt-muted, [data-ogsc] .tt-footer p, [data-ogsc] .tt-header .tt-muted { color: #A3ABA7 !important; }
+[data-ogsc] .tt-card .tt-kv-value { color: #ECEFED !important; }
+[data-ogsc] .tt-card a:not([style*="background"]), [data-ogsc] .tt-footer a { color: #5FB38F !important; }
+[data-ogsc] .tt-header .tt-wordmark { color: #ECEFED !important; }
+[data-ogsc] .tt-card a.tt-btn { color: #0A0A0A !important; }
+[data-ogsc] .tt-card a.tt-btn-secondary { color: #ECEFED !important; }
+[data-ogsb] .tt-body, [data-ogsb] .tt-body > table > tbody > tr > td, [data-ogsb] .tt-page { background-color: #0A0A0A !important; }
+[data-ogsb] .tt-card { background-color: #151816 !important; }
+[data-ogsb] .tt-card table[style*="background"]:not(.tt-keep), [data-ogsb] .tt-card td[style*="background"]:not(.tt-btn-td):not(.tt-hul), [data-ogsb] .tt-card div[style*="background"], [data-ogsb] .tt-card p[style*="background"] { background-color: #1C201E !important; }
+[data-ogsb] .tt-card td.tt-btn-td, [data-ogsb] .tt-card a.tt-btn { background-color: #5FB38F !important; }
+[data-ogsb] .tt-card td.tt-btn-td-secondary, [data-ogsb] .tt-card a.tt-btn-secondary { background-color: transparent !important; border-color: #6B736F !important; }
+[data-ogsb] .tt-card td.tt-hul-brugt { background-color: #5FB38F !important; border-color: #5FB38F !important; }
+[data-ogsb] .tt-card td.tt-hul-halv { background-color: #18291F !important; border-color: #5FB38F !important; }
+[data-ogsb] .tt-card td.tt-hul-tom { background-color: transparent !important; border-color: #5FB38F !important; }
+[data-ogsb] .tt-card td, [data-ogsb] .tt-card th, [data-ogsb] .tt-card hr, [data-ogsb] .tt-card { border-color: #2A2F2D !important; }</style></head><body class="tt-body" style="background-color:#F2F3F0;margin:0;padding:0"><!--$--><!--html--><!--head--><div style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0" data-skip-in-text="true">Velkommen til TimeTrack<div> ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿</div></div><!--body--><table border="0" width="100%" cellPadding="0" cellSpacing="0" role="presentation" align="center"><tbody><tr><td style="background-color:#F2F3F0;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;margin:0;padding:0"><table role="presentation" border="0" cellPadding="0" cellSpacing="0" width="100%" class="tt-page" bgcolor="#F2F3F0" style="background-color:#F2F3F0"><tbody><tr><td align="center" style="padding:24px 12px"><table role="presentation" border="0" cellPadding="0" cellSpacing="0" width="100%" style="max-width:600px;margin:0 auto"><tbody><tr><td class="tt-header" data-skip-in-text="true" style="padding:0 4px 16px"><table role="presentation" border="0" cellPadding="0" cellSpacing="0" width="100%"><tbody><tr><td style="vertical-align:middle"><a href="http://localhost:3000" style="color:#1A1D1C;text-decoration:none"><img alt="" height="32" src="https://timetrack.dk/brand/tt-ikon-64.png" style="display:inline-block;outline:none;border:0;text-decoration:none;height:32px;vertical-align:middle;width:32px" width="32"/><span class="tt-wordmark" style="color:#1A1D1C;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;line-height:32px;padding-left:10px;vertical-align:middle">TimeTrack</span></a></td><td align="right" class="tt-muted" style="color:#5F6663;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;font-size:13px;line-height:32px;vertical-align:middle">Velkommen</td></tr></tbody></table></td></tr><tr><td class="tt-card" bgcolor="#FFFFFF" style="background-color:#FFFFFF;border:1px solid #DFE2DE;border-radius:10px;color:#1A1D1C;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;padding:32px 28px"><h1 style="color:#1A1D1C;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:30px;margin:0 0 16px 0">Velkommen, Mette</h1><p style="font-size:16px;line-height:24px;color:#1A1D1C;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;margin:0 0 16px 0;margin-top:0;margin-right:0;margin-bottom:16px;margin-left:0">Tak fordi du har oprettet en konto på TimeTrack. Sådan kommer du i gang:</p><p style="font-size:16px;line-height:24px;color:#1A1D1C;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;margin:0 0 16px 0;margin-top:0;margin-right:0;margin-bottom:16px;margin-left:0">1. <!-- -->Opret din første kunde<br/>2. <!-- -->Opret et projekt under kunden<br/>3. <!-- -->Start timeren og fakturér timerne, når arbejdet er gjort</p><table role="presentation" border="0" cellPadding="0" cellSpacing="0" style="margin:8px 0 24px"><tbody><tr><td class="tt-btn-td" bgcolor="#1E5B47" style="background-color:#1E5B47;border-radius:8px"><a href="https://timetrack.dk/dashboard" class="tt-btn" style="background-color:#1E5B47;border:1px solid #1E5B47;border-radius:8px;color:#FFFFFF;display:inline-block;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;font-size:16px;font-weight:600;line-height:20px;padding:13px 22px;text-decoration:none">Åbn TimeTrack</a></td></tr></tbody></table><p style="font-size:14px;line-height:20px;color:#5F6663;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;margin:16px 0 0 0;margin-top:16px;margin-right:0;margin-bottom:0;margin-left:0">Spørgsmål? Kig i <a href="https://timetrack.dk/dashboard/help" style="color:#1E5B47;text-decoration-line:none;text-decoration:underline" target="_blank">hjælpen</a> eller skriv til <a href="mailto:support@timetrack.dk" style="color:#1E5B47;text-decoration-line:none;text-decoration:underline" target="_blank">support@timetrack.dk</a>.</p></td></tr><tr><td class="tt-footer" style="padding:16px 4px 0"><p style="font-size:12px;line-height:18px;color:#5F6663;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;margin:0 0 4px 0;margin-top:0;margin-right:0;margin-bottom:4px;margin-left:0">Du modtager denne mail, fordi du har en konto på TimeTrack.</p><p style="font-size:12px;line-height:18px;color:#5F6663;font-family:&quot;Schibsted Grotesk&quot;, Arial, sans-serif;margin:0 0 4px 0;margin-top:0;margin-right:0;margin-bottom:4px;margin-left:0"><a href="http://localhost:3000" style="color:#5F6663;text-decoration-line:none;text-decoration:underline" target="_blank">TimeTrack</a> <!-- -->er lavet af Mahoje v/ Mads Holst Jensen, CVR 39413892.</p></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table><!--/$--></body></html>",
+  "text": "Velkommen, Mette
+
+Tak fordi du har oprettet en konto på TimeTrack. Sådan kommer du i gang:
+
+1. Opret din første kunde
+2. Opret et projekt under kunden
+3. Start timeren og fakturér timerne, når arbejdet er gjort
+
+Åbn TimeTrack https://timetrack.dk/dashboard
+
+Spørgsmål? Kig i hjælpen https://timetrack.dk/dashboard/help eller skriv til support@timetrack.dk.
+
+Du modtager denne mail, fordi du har en konto på TimeTrack.
+
+TimeTrack http://localhost:3000 er lavet af Mahoje v/ Mads Holst Jensen, CVR 39413892.",
+}
+`;

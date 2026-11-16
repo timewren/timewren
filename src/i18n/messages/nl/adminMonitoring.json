@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Monitoring",
+    "healthy": "{score}% gezond",
+    "cronDashboard": "Cron-dashboard",
+    "sections": {
+      "health": "Systeemstatus",
+      "cron": "Cron-taken",
+      "email": "E-mailbezorging"
+    },
+    "tiles": {
+      "activeSessions": "Actieve sessies",
+      "sessions24h": "Sessies in de laatste 24 uur",
+      "activeTimers": "Actieve timers",
+      "emailsSent7d": "Verzonden e-mails (7 d)"
+    },
+    "cronHealth": {
+      "title": "Status cron-taken (7 dagen)",
+      "runs": "Runs",
+      "ok": "ok",
+      "errors": "fouten",
+      "avgDuration": "Gem. duur",
+      "lastRun": "Laatste run"
+    },
+    "errors": {
+      "title": "Fouten (laatste 7 dagen)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Alle taken",
+      "allStatuses": "Alle statussen",
+      "filter": {
+        "success": "Geslaagd",
+        "error": "Fout",
+        "partial": "Gedeeltelijk"
+      },
+      "status": {
+        "success": "geslaagd",
+        "error": "fout",
+        "partial": "gedeeltelijk"
+      },
+      "empty": "Geen cron-logs gevonden",
+      "columns": {
+        "job": "Taak",
+        "status": "Status",
+        "started": "Gestart",
+        "duration": "Duur",
+        "items": "Items",
+        "errors": "Fouten"
+      }
+    },
+    "showing": "{from}-{to} van {total} weergegeven",
+    "previous": "Vorige",
+    "next": "Volgende",
+    "email": {
+      "sent": "Verzonden",
+      "delivered": "Bezorgd",
+      "bounced": "Gebounced",
+      "failed": "Mislukt",
+      "status": {
+        "sent": "verzonden",
+        "delivered": "bezorgd",
+        "bounced": "gebounced",
+        "failed": "mislukt"
+      },
+      "last24h": "Laatste 24 uur",
+      "last7d": "Laatste 7 dagen",
+      "last30d": "Laatste 30 dagen",
+      "last90d": "Laatste 90 dagen",
+      "allTemplates": "Alle sjablonen",
+      "empty": "Geen e-maillogs gevonden",
+      "columns": {
+        "recipient": "Ontvanger",
+        "subject": "Onderwerp",
+        "template": "Sjabloon",
+        "status": "Status",
+        "sentAt": "Verzonden"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cron-taken",
+    "refresh": "Vernieuwen",
+    "never": "Nooit",
+    "badge": {
+      "neverRun": "Nooit gedraaid",
+      "silent": "Stil",
+      "error": "Fout",
+      "partial": "Gedeeltelijk",
+      "running": "Actief",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "geslaagd",
+      "error": "fout",
+      "partial": "gedeeltelijk"
+    },
+    "noRows": "Geen logregels gevonden",
+    "runColumns": {
+      "status": "Status",
+      "started": "Gestart",
+      "duration": "Duur",
+      "items": "Items",
+      "errorMessage": "Foutmelding"
+    },
+    "tiles": {
+      "expected": "Verwachte taken",
+      "silent": "Stille taken",
+      "withErrors": "Taken met fouten (24 u)",
+      "totalRuns": "Totaal aantal runs (24 u)"
+    },
+    "columns": {
+      "status": "Status",
+      "job": "Taak",
+      "cadence": "Frequentie",
+      "lastRun": "Laatste run",
+      "runs24h": "Runs 24 u",
+      "errors24h": "Fouten 24 u",
+      "avgDuration": "Gem. duur"
+    },
+    "lastError": "Laatste fout:",
+    "cadence": {
+      "everyMinutes": "elke {minutes} min",
+      "hourly": "elk uur",
+      "everyHours": "elke {hours} uur",
+      "daily": "dagelijks",
+      "weekly": "wekelijks",
+      "monthly": "maandelijks",
+      "everyDays": "elke {days} dagen"
+    }
+  }
+}

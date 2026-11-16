@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Du bist kein Mitglied einer Organisation. Bitte um eine neue Einladung oder wende dich an den Support.",
+  "freeMemberLocked": "Die Organisation nutzt den kostenlosen Tarif, der Platz für {seats} Nutzer bietet. Deine Daten sind gespeichert. Bitte den Eigentümer, ein Upgrade durchzuführen, um wieder Zugriff zu erhalten.",
+  "report": {
+    "hoursSuffix": " Std.",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "Gratis bietet Platz für {clients} aktive Kunden. Archiviere einen Kunden oder führe ein Upgrade durch.",
+  "freeSeatLimit": "Gratis bietet Platz für {seats} Nutzer, einschließlich ausstehender Einladungen. Führe unter Einstellungen → Abonnement ein Upgrade durch, um mehr einzuladen.",
+  "ownerMustTransfer": "Du bist Eigentümer eines Teams mit weiteren Mitgliedern. Übertrage das Eigentum unter Organisation an ein anderes Mitglied, bevor du dein Konto löschst.",
+  "holidays": {
+    "newYearsDay": "Neujahr",
+    "maundyThursday": "Gründonnerstag",
+    "goodFriday": "Karfreitag",
+    "easterSunday": "Ostersonntag",
+    "easterMonday": "Ostermontag",
+    "ascensionDay": "Christi Himmelfahrt",
+    "whitSunday": "Pfingstsonntag",
+    "whitMonday": "Pfingstmontag",
+    "christmasDay": "Erster Weihnachtstag",
+    "boxingDay": "Zweiter Weihnachtstag",
+    "greatPrayerDay": "Großer Bettag",
+    "may1": "1. Mai",
+    "constitutionDay": "Verfassungstag",
+    "dayAfterAscension": "Freitag nach Christi Himmelfahrt",
+    "christmasEve": "Heiligabend",
+    "newYearsEve": "Silvester",
+    "dayOff": "Freier Tag"
+  },
+  "speech": {
+    "language": "Deutsch",
+    "micBlocked": "Das Mikrofon ist blockiert. Erlaube dem Browser den Zugriff auf das Mikrofon und versuche es erneut.",
+    "noMic": "Es wurde kein Mikrofon gefunden.",
+    "langUnsupported": "Die Spracherkennung für {language} ist in diesem Browser nicht lokal verfügbar.",
+    "stopped": "Die Spracherkennung wurde unerwartet beendet. Versuche es erneut oder tippe stattdessen.",
+    "downloadFailed": "Die Spracherkennung für {language} konnte in diesem Browser nicht heruntergeladen werden.",
+    "ready": "Die Spracherkennung für {language} ist bereit. Tippe auf das Mikrofon.",
+    "cantStart": "Die Spracherkennung konnte nicht gestartet werden. Versuche es erneut."
+  },
+  "offlineSync": {
+    "fullOverlap": "Auf einem anderen Gerät lief bereits ein Timer, während du offline warst. Deine Offline-Zeit überschnitt sich vollständig und wurde nicht gespeichert.",
+    "partialOverlap": "Auf einem anderen Gerät wurde ein Timer gestartet, während du offline warst. Deine Offline-Zeit ist bis zu diesem Zeitpunkt gespeichert.",
+    "clippedSaved": "Auf einem anderen Gerät wurde ein Timer gestartet, während du offline warst. Deine Offline-Zeit {from}–{to} wird als Zeiteintrag gespeichert, und der andere Timer läuft weiter.",
+    "resetOffline": "Auf einem anderen Gerät lief bereits ein Timer, als du um {from} offline gestartet hast. Dein Offline-Timer wurde zurückgesetzt, und der andere läuft weiter.",
+    "stoppedElsewhere": "Der Timer wurde auf einem anderen Gerät gestoppt, während du offline warst. Die Zeit ist dort gespeichert und wurde nicht erneut gespeichert.",
+    "syncFailed": "Eine Offline-Änderung konnte nicht synchronisiert werden: {error}",
+    "defaultDescription": "Zeiterfassung"
+  },
+  "unknownError": "Unbekannter Fehler",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Speichern fehlgeschlagen",
+      "retry": "Erneut versuchen"
+    },
+    "push": {
+      "unsupported": "Push-Benachrichtigungen werden in diesem Browser nicht unterstützt",
+      "denied": "Die Berechtigung für Benachrichtigungen wurde verweigert",
+      "enabled": "Push-Benachrichtigungen aktiviert",
+      "enabledDesc": "Du erhältst jetzt Benachrichtigungen",
+      "enableFailed": "Benachrichtigungen konnten nicht aktiviert werden",
+      "disabled": "Push-Benachrichtigungen deaktiviert",
+      "disableFailed": "Benachrichtigungen konnten nicht deaktiviert werden"
+    },
+    "periodic": {
+      "unsupported": "Periodische Synchronisierung wird nicht unterstützt",
+      "enabled": "Automatische Berichte aktiviert",
+      "enabledDesc": "Du erhältst wöchentliche Berichte",
+      "enableFailed": "Automatische Berichte konnten nicht aktiviert werden",
+      "disabled": "Automatische Berichte deaktiviert",
+      "disableFailed": "Automatische Berichte konnten nicht deaktiviert werden"
+    },
+    "taskUndo": {
+      "restored": "Aufgabe wiederhergestellt",
+      "restoreFailed": "Die Aufgabe konnte nicht wiederhergestellt werden",
+      "deleted": "Aufgabe gelöscht",
+      "undo": "Rückgängig"
+    },
+    "timerSync": {
+      "otherProject": "einem anderen Projekt",
+      "runningPaused": "Auf {name} läuft bereits ein Timer. Stoppe ihn zuerst. Deine pausierte Zeit bleibt erhalten.",
+      "running": "Auf {name} läuft bereits ein Timer. Stoppe ihn zuerst.",
+      "alreadyStopped": "Der Timer war bereits auf einem anderen Gerät gestoppt und gespeichert worden. Er wurde nicht erneut gestartet."
+    },
+    "timerKeys": {
+      "started": "Timer gestartet",
+      "pressToPause": "Drücke erneut T, um zu pausieren",
+      "paused": "Timer pausiert",
+      "pressToResume": "{time} - Drücke T, um fortzufahren",
+      "resumed": "Timer fortgesetzt",
+      "cancelled": "Timer abgebrochen"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock wird in diesem Browser nicht unterstützt",
+      "active": "Bildschirm bleibt aktiv",
+      "activeDesc": "Dein Bildschirm schaltet sich während der Zeiterfassung nicht aus",
+      "released": "Der Bildschirm kann sich wieder ausschalten",
+      "failed": "Der Bildschirm konnte nicht aktiv gehalten werden"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Dein Abonnement wird in deinem Konto verwaltet.",
+    "otherAccount": "Der Kauf ist mit einem anderen TimeTrack-Konto verknüpft.",
+    "ownerOnly": "Nur der Eigentümer der Organisation kann ein Abonnement kaufen.",
+    "multiMember": "Privat und Selvstændig gelten für einen Nutzer. Deine Organisation hat mehrere Nutzer, daher wird das Abonnement in deinem Konto verwaltet.",
+    "otherOrganization": "Dein Abonnement gehört zu einer anderen Organisation. Wechsle zu dieser Organisation, um es zu sehen.",
+    "alreadySubscribed": "Du hast bereits ein Abonnement über {store}.",
+    "appStoreUnreachable": "Der App Store ist nicht erreichbar. Versuche es in Kürze erneut.",
+    "appStoreVerify": "Der Kauf konnte beim App Store nicht verifiziert werden.",
+    "unknownProduct": "Unbekanntes Produkt. Aktualisiere die App und versuche es erneut.",
+    "googleNotFound": "Der Kauf wurde bei Google Play nicht gefunden.",
+    "productMismatch": "Der Kauf passt nicht zum ausgewählten Produkt.",
+    "googleAck": "Der Kauf konnte bei Google Play nicht bestätigt werden. Versuche es erneut."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Du hast ein aktives Abonnement über {store}. Es endet nicht, wenn du dein Konto löschst, und muss in {store} gekündigt werden. Bestätige, dass du das verstanden hast, um das Konto zu löschen.",
+    "invalidUserId": "Ungültige Nutzer-ID"
+  },
+  "orgInvite": {
+    "invalidEmail": "Ungültige E-Mail-Adresse",
+    "domainNotAllowed": "Die E-Mail-Domain {domain} ist für diese Organisation nicht zugelassen",
+    "alreadyMember": "Diese Person ist bereits Mitglied der Organisation",
+    "alreadyInvited": "Für diese E-Mail-Adresse gibt es bereits eine ausstehende Einladung",
+    "otherBrand": "Diese E-Mail-Adresse kann nicht in die Organisation eingeladen werden. Verwende eine andere Adresse.",
+    "noSeats": "Keine freien Plätze ({used} von {max} belegt). Kaufe weitere Plätze oder wechsle unter Einstellungen → Abonnement den Tarif.",
+    "noSeatsAccept": "Die Organisation hat keine freien Plätze mehr. Wende dich an deinen Administrator.",
+    "lastOwnerRemove": "Der letzte Eigentümer kann nicht entfernt werden. Übertrage das Eigentum zuerst an ein anderes Mitglied.",
+    "lastOwnerDemote": "Der letzte Eigentümer kann nicht herabgestuft werden. Übertrage das Eigentum zuerst an ein anderes Mitglied.",
+    "acceptedPushTitle": "🎉 Einladung angenommen",
+    "acceptedPushBody": "{name} ist jetzt Mitglied von {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "Die Sammelliste enthält doppelte UUIDs",
+    "missing": "Eine oder mehrere Aufgaben fehlen oder liegen außerhalb deines Arbeitsbereichs: {ids}",
+    "unexpectedRowCount": "unerwartete Zeilenanzahl",
+    "unselected": "Die Datenbasis enthält UUIDs, die nicht ausgewählt wurden",
+    "statusMismatch": "Aufgabe {id} hat den Status {status}; erwartet wurde {expected}",
+    "notEmail": "Aufgabe {id} ist keine E-Mail-Aufgabe",
+    "customLane": "Aufgabe {id} verwendet eine benutzerdefinierte Spalte und kann nicht sicher gesammelt abgeschlossen werden"
+  }
+}

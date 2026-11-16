@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Subscrição",
+    "description": "Plano, pagamento e faturação",
+    "adminOnly": "Apenas os proprietários e administradores podem alterar a subscrição, comprar lugares e ver pagamentos."
+  },
+  "states": {
+    "noBilling": "Esta instalação não tem fornecedor de pagamentos, por isso todas as funcionalidades estão abertas e não há planos nem limites.",
+    "comingSoonTitle": "Pagamentos em breve",
+    "comingSoon": "Está no plano gratuito. Os planos pagos chegam em breve e, até lá, não paga nada.",
+    "loading": "A carregar subscrição…",
+    "none": "Nenhuma subscrição encontrada. Começa por escolher um plano.",
+    "choosePlan": "Escolher um plano",
+    "previousWebPayments": "Pagamentos anteriores na web",
+    "redirecting": "A reencaminhar…"
+  },
+  "cycle": {
+    "monthly": "Mensal",
+    "yearly": "Anual",
+    "twoMonthsFree": "2 meses grátis",
+    "perMonthExclVat": "/mês sem IVA",
+    "perYearExclVat": "/ano sem IVA",
+    "krPerMonth": "{price} kr./mês",
+    "krPerYear": "{price} kr./ano"
+  },
+  "status": {
+    "active": "Ativa",
+    "free": "Gratuita",
+    "trialing": "Período de teste",
+    "pastDue": "Pagamento em atraso",
+    "canceled": "Cancelada"
+  },
+  "invoiceStatus": {
+    "paid": "Paga",
+    "open": "Em aberto",
+    "draft": "Rascunho",
+    "void": "Anulada",
+    "uncollectible": "Falhada",
+    "unknown": "Desconhecido"
+  },
+  "history": {
+    "title": "Histórico de pagamentos",
+    "columnDate": "Data",
+    "columnNumber": "Número",
+    "columnAmount": "Montante",
+    "columnStatus": "Estado",
+    "columnPdf": "PDF",
+    "empty": "Ainda não há pagamentos. O teu histórico de pagamentos aparecerá aqui depois do primeiro pagamento."
+  },
+  "toast": {
+    "planChangedYearly": "Plano alterado para anual",
+    "planChangedMonthly": "Plano alterado para mensal",
+    "canceled": "Subscrição cancelada. Fica ativa até ao fim do período.",
+    "reactivated": "Subscrição reativada!",
+    "trialRequested": "Pedido enviado! Respondemos-te assim que possível.",
+    "trialRequestFailed": "Não foi possível enviar o pedido. Tenta novamente.",
+    "paymentMethodAdded": "Método de pagamento adicionado!",
+    "seatsUpdated": "Lugares atualizados! Pode demorar um momento até a alteração aparecer.",
+    "paymentCanceled": "Pagamento cancelado"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Falta # dia para o fim do teu período de teste} other {Faltam # dias para o fim do teu período de teste}}",
+    "startsAutomatically": "A tua subscrição começa automaticamente após o período de teste",
+    "addPaymentToContinue": "Adiciona um método de pagamento para continuares após o período de teste",
+    "needMoreTime": "Precisas de mais tempo?",
+    "addPayment": "Adicionar pagamento",
+    "checkoutNoteFounding": "A página de pagamento mostra o preço normal. O teu desconto de membro fundador de {percent}% é aplicado automaticamente após o pagamento."
+  },
+  "pendingCancel": {
+    "expiresOn": "A tua subscrição expira a {date}",
+    "expiresUnknown": "A tua subscrição expira numa data desconhecida",
+    "reactivateHint": "Podes reativar a subscrição antes dessa data",
+    "reactivating": "A reativar…",
+    "reactivate": "Reativar"
+  },
+  "plan": {
+    "current": "Plano atual",
+    "freeLimits": "Até {maxSeats} utilizadores · {used} de {maxClients} clientes ativos em uso. Faz upgrade para teres mais clientes, mais utilizadores, faturação e bolsas de horas.",
+    "seatsIncluded": "{count, plural, one {# utilizador incluído} other {# utilizadores incluídos}}",
+    "seatsWithExtra": "{count, plural, one {# utilizador} other {# utilizadores}} · {included} incl. + {extra} extra",
+    "foundingDiscount": "Desconto de membro fundador de {percent}%",
+    "foundingDiscountForever": "Desconto de membro fundador de {percent}%, para sempre",
+    "foundingDiscountExpires": "Desconto de membro fundador de {percent}%, expira a {date}",
+    "trialEnds": "O período de teste termina a: {date}",
+    "nextBilling": "Próxima cobrança: {date}"
+  },
+  "roi": {
+    "titleReturn": "O teu retorno com o {brand}",
+    "titleActivity": "A tua atividade no {brand}",
+    "spent": "Gasto no {brand}",
+    "freeSoFar": "Grátis até agora!",
+    "trackedValue": "Valor do tempo registado",
+    "invoicedTotal": "Total faturado",
+    "return": "Retorno"
+  },
+  "payment": {
+    "title": "Pagamento",
+    "portalDescription": "Gere o teu método de pagamento e as tuas faturas através do portal de pagamentos.",
+    "manage": "Gerir pagamento",
+    "noMethod": "Ainda não foi adicionado nenhum método de pagamento",
+    "addMethod": "Adicionar método de pagamento",
+    "checkoutNoteFounding": "A página de pagamento mostra o preço normal. O teu desconto de {percent}% é aplicado automaticamente."
+  },
+  "seats": {
+    "title": "Lugares",
+    "usage": "{used} de {total} lugares em uso",
+    "pendingInvites": "{count, plural, one {# lugar está ocupado por convites pendentes} other {# lugares estão ocupados por convites pendentes}}",
+    "reseatsReminder": "Lembra-te de voltar a subscrever os teus {count} lugares extra à taxa do plano {plan}. Conclui a compra de lugares abaixo para que a faturação corresponda à tua capacidade.",
+    "extraLabel": "Lugares extra (além dos {included} incluídos)",
+    "fewer": "Menos lugares",
+    "more": "Mais lugares",
+    "price": "Preço",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr./ano sem IVA",
+    "priceSuffixMonthly": "kr./mês sem IVA",
+    "adjust": "Ajustar lugares",
+    "buy": "Comprar lugares",
+    "note": "O teu complemento de lugares atual é substituído pelo novo número. Fazes uma nova compra e o complemento antigo é cancelado automaticamente. O teu plano permite até {max} lugares no total."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "Para particulares",
+      "feature1": "1 utilizador"
+    },
+    "solo": {
+      "tagline": "Para freelancers",
+      "feature1": "1 utilizador, clientes ilimitados",
+      "feature2": "Bolsas de horas, faturação e integrações",
+      "feature3": "Web, app, extensão e computador incluídos"
+    },
+    "team": {
+      "tagline": "Para equipas pequenas",
+      "feature1": "Tudo do plano {plan}",
+      "feature2": "2 utilizadores incluídos",
+      "feature3": "Clientes, projetos e bolsas de horas partilhados"
+    },
+    "business": {
+      "tagline": "Para empresas",
+      "feature1": "Tudo do plano {plan}",
+      "feature2": "5 utilizadores incluídos",
+      "feature3": "Horário flexível, ausências e conformidade"
+    },
+    "usersIncluded": "{count} utilizadores incl."
+  },
+  "upgrade": {
+    "title": "Faz upgrade do teu plano",
+    "blocked": "{count, plural, one {Tens # lugar extra que ainda não pode ser movido} other {Tens # lugares extra que ainda não podem ser movidos}} automaticamente para o plano {plan}. Contacta-nos em support@timetrack.dk e fazemos o upgrade sem perderes nenhum lugar.",
+    "to": "Fazer upgrade para {plan}",
+    "note": "Ao fazeres upgrade, fazes uma nova compra. A tua subscrição atual é cancelada automaticamente assim que a nova estiver ativa."
+  },
+  "choose": {
+    "title": "Escolhe o teu plano",
+    "choosePlan": "Escolher {plan}",
+    "chooseAndPay": "Escolher e pagar",
+    "note": "Os utilizadores extra além dos incluídos são adicionados após o registo. O desconto de membro fundador (se ativo) é aplicado automaticamente ao plano {plan} após o pagamento."
+  },
+  "discounts": {
+    "title": "Descontos ativos",
+    "rangeBoth": "De {from} a {to}",
+    "rangeOpenEnded": "A partir de {from}, sem data de validade",
+    "rangeUntil": "Até {to}",
+    "rangeNone": "Sem data de validade"
+  },
+  "metadata": {
+    "title": "Detalhes da subscrição",
+    "foundingTier": "Nível fundador",
+    "billingCycle": "Período de faturação",
+    "signupSource": "Origem do registo",
+    "couponCode": "Código de desconto"
+  },
+  "upcoming": {
+    "title": "Próximos pagamentos",
+    "columnPeriod": "Período",
+    "columnPlan": "Plano",
+    "columnAmount": "Montante"
+  },
+  "switch": {
+    "title": "Mudar de plano",
+    "equivalent": "Equivalente a {price} kr./mês",
+    "toMonthly": "Mudar para mensal",
+    "toYearly": "Mudar para anual"
+  },
+  "cancel": {
+    "title": "Cancelar subscrição",
+    "description": "A tua subscrição fica ativa até ao fim do período de faturação atual.",
+    "areYouSure": "Tens a certeza?",
+    "activeUntil": "A tua subscrição fica ativa até {date}. Depois disso, perdes o acesso às funcionalidades premium.",
+    "activeUntilEnd": "A tua subscrição fica ativa até ao fim do período. Depois disso, perdes o acesso às funcionalidades premium.",
+    "keep": "Manter subscrição",
+    "confirm": "Sim, cancelar subscrição",
+    "canceling": "A cancelar…"
+  }
+}

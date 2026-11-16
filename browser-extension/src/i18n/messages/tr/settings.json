@@ -1,0 +1,109 @@
+{
+  "title": "Ayarlar",
+  "close": "Ayarları kapat",
+  "searchPlaceholder": "Ayarlarda ara…",
+  "searchLabel": "Ayarlarda ara",
+  "noMatch": "“{query}” ile eşleşen ayar yok",
+  "keywords": {
+    "view": "görünüm|gösterim|öneri|site|web siteleri|paket|ön ödemeli|açılır pencere",
+    "appearance": "görünüm|tema|koyu|açık|rozet|simge|dil",
+    "newTab": "yeni sekme|sekme|başlangıç sayfası|widget",
+    "calendar": "takvim|gün|tarih",
+    "goal": "günlük hedef|hedef|saat hedefi|ilerleme",
+    "reminder": "hatırlatma|bildirim|hafta sonu|kayıt|kaydet",
+    "data": "veri|sil|sıfırla|çevrimdışı|eşleştirmeler|bağlantılar|web sitesi|kuyruk",
+    "advanced": "gelişmiş|api|url|sunucu",
+    "shortcuts": "kısayollar|kısayol|klavye|alt",
+    "about": "eklenti hakkında|eklenti|hakkında|sürüm|puanla|yorum|yardım"
+  },
+  "view": {
+    "title": "Görünüm",
+    "suggestions": "Web sitesinden öneriler",
+    "suggestionsHint": "Bulunduğun web sitesine göre proje öner",
+    "prepaidTab": "Paketler sekmesi",
+    "prepaidTabHint": "Açılır pencerede aktif paketlerin sekmesini göster"
+  },
+  "appearance": {
+    "title": "Görünüm",
+    "theme": "Tema",
+    "themeHint": "Eklenti için renk teması",
+    "system": "Sistemi izle",
+    "dark": "Koyu",
+    "light": "Açık",
+    "badge": "Simgedeki sayı",
+    "badgeHint": "Eklenti simgesindeki sayının neyi gösterdiği",
+    "badgeTimer": "Aktif zamanlayıcı",
+    "badgeToday": "Bugünün saatleri",
+    "badgeOff": "Gizli",
+    "language": "Dil",
+    "languageHint": "Eklentinin dili",
+    "languageAuto": "Otomatik (tarayıcıyı izle)"
+  },
+  "newTab": {
+    "title": "Yeni sekme",
+    "enable": "Yeni sekmelerde TimeTrack'i aç",
+    "enableHint": "Normal, boş sekmeler için kapat",
+    "widgetsHint": "Widget'ları yeni sekmedeki ayarlardan seç",
+    "activeWidgets": "Aktif widget'lar: {count}"
+  },
+  "calendar": {
+    "title": "Takvim",
+    "openOn": "Takvimi şurada aç",
+    "openOnHint": "Takvim açıldığında hangi günü gösterir",
+    "today": "Bugün",
+    "lastViewed": "Son görüntülenen gün"
+  },
+  "goal": {
+    "title": "Günlük hedef",
+    "hours": "Günlük saat hedefi",
+    "hoursHint": "Açılır penceredeki ve yeni sekmedeki günlük ilerleme çubuğunda kullanılır"
+  },
+  "reminder": {
+    "title": "Günlük hatırlatma",
+    "enable": "Süre kaydetmemi hatırlat",
+    "enableHint": "Saatin çok azsa bildirim gelir",
+    "time": "Saat",
+    "minHours": "Asgari saat",
+    "weekends": "Hafta sonları da"
+  },
+  "data": {
+    "title": "Veri",
+    "clearMappingsConfirm": "Web siteleri ile projeler arasındaki tüm kayıtlı bağlantılar silinsin mi?",
+    "clearMappingsDetail": "Gizlenen öneriler de yeniden görünür.",
+    "delete": "Sil",
+    "clearMappings": "Web sitesi bağlantılarını sil",
+    "mappingsCount": "{count, plural, one {# kayıtlı bağlantı} other {# kayıtlı bağlantı}}",
+    "clearQueueConfirm": "{count, plural, one {# bekleyen işlem} other {# bekleyen işlem}} silinsin mi?",
+    "unsentEntries": "{count, plural, one {# kayıt} other {# kayıt}} henüz TimeTrack'e gönderilmedi. Süre kalıcı olarak silinir.",
+    "clearQueueConfirmButton": "Kuyruğu sil",
+    "clearQueue": "Çevrimdışı kuyruğu sil",
+    "pendingActions": "{count, plural, one {# bekleyen işlem} other {# bekleyen işlem}}",
+    "unsentSuffix": "{count, plural, one {# gönderilmemiş kayıt} other {# gönderilmemiş kayıt}}",
+    "resetConfirm": "Tüm ayarlar sıfırlansın mı?",
+    "resetDetail": "Eklentinin varsayılan ayarları geri yüklenir.",
+    "resetButton": "Sıfırla",
+    "reset": "Ayarları sıfırla",
+    "resetHint": "Varsayılan ayarları geri yükle"
+  },
+  "advanced": {
+    "title": "Gelişmiş",
+    "apiUrl": "API adresi",
+    "notSaved": "{error}. Adres kaydedilmedi."
+  },
+  "shortcuts": {
+    "title": "Klavye kısayolları",
+    "unreadable": "Kısayollar bu tarayıcıda okunamıyor.",
+    "openApp": "TimeTrack'i aç",
+    "notSet": "Ayarlanmadı",
+    "change": "Kısayolları değiştir",
+    "firefoxPage": "Firefox'un kısayollar sayfasını açar",
+    "chromePage": "chrome://extensions/shortcuts sayfasını açar"
+  },
+  "about": {
+    "version": "TimeTrack tarayıcı eklentisi, sürüm {version}",
+    "rateFirefox": "Firefox Eklentileri'nde puanla",
+    "rateChrome": "Chrome Web Mağazası'nda puanla",
+    "rateHint": "Yorumun diğer freelancer'lara yardımcı olur",
+    "learnMore": "Eklenti hakkında daha fazla oku"
+  }
+}

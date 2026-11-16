@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Omistaja",
+    "admin": "Ylläpitäjä",
+    "hr": "HR",
+    "manager": "Esihenkilö",
+    "member": "Työntekijä"
+  },
+  "employment": {
+    "fullTime": "Kokoaikainen",
+    "partTime": "Osa-aikainen",
+    "flexjob": "Joustotyö (flexjob)"
+  },
+  "weekStatus": {
+    "draft": "Luonnos",
+    "submitted": "Lähetetty",
+    "approved": "Hyväksytty",
+    "rejected": "Hylätty",
+    "reopened": "Avattu uudelleen"
+  },
+  "save": "Tallenna",
+  "cancel": "Peruuta",
+  "add": "Lisää",
+  "edit": "Muokkaa",
+  "active": "Aktiivinen",
+  "inactive": "Ei aktiivinen",
+  "periodClosing": {
+    "status": {
+      "open": "Odottaa esihenkilöä",
+      "approved": "Odottaa kuittausta",
+      "acknowledged": "Suljettu",
+      "reopened": "Avattu"
+    },
+    "interval": {
+      "month": "Joka kuukausi",
+      "quarter": "Joka neljännesvuosi"
+    }
+  },
+  "weekdayLong": {
+    "1": "maanantai",
+    "2": "tiistai",
+    "3": "keskiviikko",
+    "4": "torstai",
+    "5": "perjantai",
+    "6": "lauantai",
+    "7": "sunnuntai"
+  },
+  "absenceCategory": {
+    "vacation": "Loma",
+    "sickness": "Sairaus",
+    "leave": "Vapaa",
+    "other": "Muu"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Yleinen (pelkkä CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (Tanskan valtion palkkajärjestelmä)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Kuukausi",
+      "biweekly": "14 päivää"
+    },
+    "unit": {
+      "hours": "Tunnit",
+      "days": "Päivät"
+    },
+    "kind": {
+      "time": "Aika (peruspalkkakoodi)",
+      "absence": "Poissaolo",
+      "supplement": "Lisä (lisätään päälle)"
+    },
+    "source": {
+      "activity": "Kirjatut tunnit (toiminta)",
+      "absence": "Poissaolo (poissaolotyyppi)",
+      "overtime_earned": "Kertynyt ylityö",
+      "overtime_used": "Vapaa korvauksena",
+      "overtime_paid_out": "Maksettu ylityö",
+      "flex_positive": "Liukuma (plustunnit)",
+      "flex_negative": "Liukuma (miinustunnit)",
+      "break_deduction": "Taukovähennys (palkaton tauko)"
+    },
+    "dayCondition": {
+      "any": "Kaikki päivät",
+      "weekend": "Viikonloppu (la/su)",
+      "holiday": "Yleinen vapaapäivä",
+      "weekend_or_holiday": "Viikonloppu tai yleinen vapaapäivä"
+    }
+  },
+  "normPeriod": {
+    "week": "Viikko",
+    "month": "Kuukausi",
+    "quarter": "Neljännesvuosi",
+    "year": "Vuosi"
+  },
+  "normYear": {
+    "calendar": "Kalenterivuosi (1. tammikuuta)",
+    "school": "Lukuvuosi (1. elokuuta)"
+  }
+}

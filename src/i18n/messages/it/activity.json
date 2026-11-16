@@ -1,0 +1,46 @@
+{
+  "title": "Registro attività",
+  "count": "{count, plural, one {# attività} many {# attività} other {# attività}}",
+  "empty": "Ancora nessuna attività",
+  "yes": "Sì",
+  "no": "No",
+  "line": "<e>{entity}</e> <n>\"{name}\"</n> <a>{action}</a>",
+  "lineNoName": "<e>{entity}</e> <a>{action}</a>",
+  "entity": {
+    "client": "Cliente",
+    "project": "Progetto",
+    "time_entry": "Registrazione ore",
+    "invoice": "Fattura",
+    "prepaid_package": "Pacchetto ore",
+    "settings": "Impostazioni"
+  },
+  "action": {
+    "m": {
+      "create": "creato",
+      "update": "aggiornato",
+      "delete": "eliminato",
+      "archive": "archiviato",
+      "restore": "ripristinato",
+      "complete": "completato",
+      "send": "inviato"
+    },
+    "f": {
+      "create": "creata",
+      "update": "aggiornata",
+      "delete": "eliminata",
+      "archive": "archiviata",
+      "restore": "ripristinata",
+      "complete": "completata",
+      "send": "inviata"
+    },
+    "p": {
+      "create": "create",
+      "update": "aggiornate",
+      "delete": "eliminate",
+      "archive": "archiviate",
+      "restore": "ripristinate",
+      "complete": "completate",
+      "send": "inviate"
+    }
+  }
+}

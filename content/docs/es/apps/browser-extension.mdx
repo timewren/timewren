@@ -1,0 +1,48 @@
+---
+title: "Extensión de navegador"
+description: "La extensión de navegador de TimeWren para Chrome y Firefox: cronómetro, registros rápidos y saldo de bonos de horas en la barra de herramientas. Se conecta a TimeWren Cloud o a tu propio servidor."
+---
+
+La extensión de navegador pone un cronómetro en tu barra de herramientas. Puedes iniciar, pausar y detener un cronómetro, añadir registros de horas con selectores de proyecto y cliente, y ver el estado de tus bonos de horas. También tiene una página de pestaña nueva y atajos de teclado: Alt+Shift+T abre el popup, Alt+Shift+S pausa o reanuda el cronómetro y Alt+Shift+N abre el registro rápido. La interfaz está disponible en danés, inglés, alemán y español.
+
+## Conectar con tu propio servidor
+
+La extensión se conecta por defecto a TimeTrack Cloud. Para usar tu propia instancia, abre el popup y elige **Use own server** (usar servidor propio) en la pantalla de inicio de sesión, o ve a Ajustes, Avanzado. Introduce la dirección HTTPS pública, por ejemplo `https://time.example.com`, y elige **Connect to server**.
+
+1. El navegador pide acceso a esa única dirección. La extensión nunca tiene un permiso general para todos los sitios: el manifiesto lista `https://*/*` y `http://*/*` solo como permisos de host opcionales, y la solicitud nombra el origen exacto que escribiste.
+2. La extensión lee `/.well-known/timetrack.json` de tu servidor y comprueba que es un servidor TimeTrack con una versión de API compatible. Sin un documento de descubrimiento accesible, la dirección no se guarda.
+3. Cambiar de servidor borra los datos locales de la cuenta y reinicia la extensión. Ábrela de nuevo e inicia sesión. Sincroniza antes los registros sin conexión pendientes, porque no se trasladan. Elige **Use TimeTrack Cloud** para volver.
+
+Solo se acepta HTTPS. En las compilaciones de desarrollo también se permite HTTP para localhost y direcciones de red privada, con una advertencia. La extensión usa la validación de certificados del propio navegador. Un navegador informa de un certificado no válido como un error de red genérico, así que el mensaje te pide revisar tanto la dirección como el certificado.
+
+Los tokens pertenecen a un solo servidor. Nunca se envían a otro origen y las solicitudes con token no siguen redirecciones.
+
+En el servidor, `NEXT_PUBLIC_APP_URL` debe ser el origen HTTPS público, porque el documento de descubrimiento toma sus URL de ahí. Sirve `/.well-known/timetrack.json` sin inicio de sesión. CORS para los orígenes de la extensión está activado por defecto; `CORS_ALLOWED_ORIGINS` puede limitarlo a orígenes exactos, consulta [Variables de entorno](/es/docs/configuration/environment).
+
+## Compilarla y cargarla
+
+La extensión está en `browser-extension/` del repositorio. Tiene licencia MIT, mientras que el resto del repositorio es AGPL-3.0.
+
+```bash
+cd browser-extension
+npm install
+npm run build
+```
+
+Para Chrome, abre `chrome://extensions/`, activa el modo de desarrollador, elige Cargar descomprimida y selecciona `browser-extension/dist`. Para Firefox, ejecuta `npm run build:firefox`, abre `about:debugging#/runtime/this-firefox`, elige Cargar complemento temporal y selecciona `dist-firefox/manifest.json`.
+
+Esta página no afirma que la extensión esté publicada en ninguna tienda de navegadores con el nombre TimeWren.
+
+## Iniciar sesión
+
+La extensión se autentica con un token, no con tu contraseña:
+
+1. Abre la aplicación web, luego Ajustes, Integraciones, y busca la sección Extensión de navegador.
+2. Genera un token con un nombre como "Chrome". Solo se muestra una vez.
+3. Pégalo en el popup de la extensión.
+
+Puedes ver cuándo se usó cada token por última vez y revocarlo en el mismo lugar. Un token revocado deja de funcionar al instante.
+
+## Versiones mínimas
+
+Como operador puedes exigir una versión mínima de la extensión con `MIN_CLIENT_VERSIONS`, consulta [Aplicación de escritorio](/es/docs/apps/desktop).

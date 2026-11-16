@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Importen är klar: {count, plural, one {# tidpost importerad} other {# tidposter importerade}}",
+    "doneWithErrorsToast": "Importen är klar med fel: {imported} importerade, {failed} misslyckades",
+    "failedToast": "Importen misslyckades. Se detaljerna under inställningar",
+    "running": "Importen pågår: {pct}% ({imported}/{total})",
+    "details": "Visa detaljer",
+    "done": "Importen är klar: {count, plural, one {# tidpost importerad} other {# tidposter importerade}}",
+    "doneWithFailed": "Importen är klar: {count, plural, one {# tidpost importerad} other {# tidposter importerade}}, {failed} misslyckades",
+    "dismiss": "Stäng"
+  },
+  "page": {
+    "pickDateFormat": "Välj ett datumformat för att fortsätta.",
+    "success": "Importen lyckades!",
+    "failed": "Importen misslyckades. Försök igen.",
+    "backToOnboarding": "← Tillbaka till introduktionen",
+    "backToIntegrations": "← Tillbaka till integrationer",
+    "onboardingMode": "Introduktionsläge är aktiverat",
+    "onboardingNote": "Efter en lyckad import fortsätter du automatiskt i introduktionen.",
+    "uploadFile": "Ladda upp fil",
+    "chooseFile": "Välj fil",
+    "noFile": "Ingen fil vald",
+    "dateFormat": "Datumformat",
+    "chooseFormat": "Välj format…",
+    "dateFormatHint": "Kontrollera din CSV-data för att se vilket datumformat som används.",
+    "billingFilter": "Faktureringsfilter",
+    "filter": {
+      "all": "Importera allt",
+      "unbilled": "Endast ofakturerade",
+      "billed": "Endast fakturerade"
+    },
+    "billingFilterHint": "Filtrera poster utifrån faktureringsstatusen i källan.",
+    "markAllBilled": "Markera alla importerade poster som fakturerade",
+    "markAllBilledHint": "Använd det här om du bara exporterar poster som redan är fakturerade från källan.",
+    "result": {
+      "clients": "{count, plural, one {# kund skapad} other {# kunder skapade}}",
+      "projects": "{count, plural, one {# projekt skapat} other {# projekt skapade}}",
+      "timeEntries": "{count, plural, one {# tidpost importerad} other {# tidposter importerade}}",
+      "billedSplit": "({billed} fakturerade, {unbilled} ofakturerade)",
+      "skippedRows": "{count, plural, one {# rad hoppades över} other {# rader hoppades över}}",
+      "filteredRows": "{count, plural, one {# rad filtrerades bort (faktureringsfilter)} other {# rader filtrerades bort (faktureringsfilter)}}",
+      "totalHours": "{hours} timmar importerade totalt",
+      "tasks": "{count, plural, one {# uppgift importerad} other {# uppgifter importerade}}",
+      "subtasks": "{count, plural, one {# deluppgift importerad} other {# deluppgifter importerade}}",
+      "tasksSkipped": "{count, plural, one {# uppgift hoppades över} other {# uppgifter hoppades över}}"
+    },
+    "importing": "Importerar…",
+    "start": "Starta import",
+    "mayTakeAWhile": "Det kan ta några minuter beroende på mängden data…",
+    "warnTitle": "Bra att veta:",
+    "warn1": "Importen kan inte ångras",
+    "warn2": "Befintliga data skrivs inte över",
+    "warn3": "Dubbletter hoppas över"
+  }
+}

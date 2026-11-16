@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini and other OpenAI models",
+      "note": "Create an API key at platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus and Haiku via the OpenAI SDK",
+      "note": "Create an API key at console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Danish AI, hosted in Denmark, with full GDPR compliance",
+      "badge": "Recommended",
+      "note": "Danish-hosted AI from Ordbogen A/S. Create a key at odincore.ai. Data never leaves Denmark."
+    },
+    "custom": {
+      "label": "Other endpoint",
+      "description": "Any OpenAI-compatible API"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manual",
+      "description": "AI is disabled. All tasks are handled without AI parsing."
+    },
+    "suggest": {
+      "label": "Suggest",
+      "description": "AI suggests categorisation and prioritisation, but you approve."
+    },
+    "auto_lowrisk": {
+      "label": "Auto (low risk)",
+      "description": "AI handles simple tasks automatically. Complex ones go to approval."
+    },
+    "auto_all": {
+      "label": "Fully automatic",
+      "description": "AI handles all tasks automatically without approval."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Denmark (Europe/Copenhagen)",
+    "Europe/Stockholm": "Sweden (Europe/Stockholm)",
+    "Europe/Oslo": "Norway (Europe/Oslo)",
+    "Europe/London": "UK (Europe/London)",
+    "Europe/Berlin": "Germany (Europe/Berlin)",
+    "America/New_York": "US East Coast (America/New_York)",
+    "America/Los_Angeles": "US West Coast (America/Los_Angeles)"
+  },
+  "connectionOk": "Connection OK!",
+  "connectionFailed": "Connection failed",
+  "testFailed": "Test failed",
+  "emailEnabled": "Email-to-task enabled!",
+  "emailEnableFailed": "Could not enable email-to-task",
+  "emailDisabled": "Email-to-task disabled",
+  "emailDisableFailed": "Could not disable email-to-task",
+  "addressRegenerated": "New email address generated!",
+  "addressRegenerateFailed": "Could not generate a new address",
+  "settingsUpdated": "AI settings updated",
+  "settingsUpdateFailed": "Could not update the AI settings",
+  "addressCopied": "Email address copied!",
+  "keyRequired": "An API key is required",
+  "urlRequired": "An API URL is required for a custom endpoint",
+  "enterKeyFirst": "Enter an API key first",
+  "title": "AI & automation",
+  "description": "Configure AI features and email-to-task settings",
+  "statusTitle": "AI status",
+  "statusEnabled": "AI is enabled",
+  "statusDisabled": "AI is not configured",
+  "statCalls": "Total AI calls",
+  "statSuccess": "Success rate",
+  "statConfidence": "Avg. confidence",
+  "statTime": "Avg. processing time",
+  "enableHint": "To enable AI features, choose an AI provider below and enter your own API key.",
+  "providerTitle": "AI provider",
+  "providerSub": "Choose how AI features are powered - use the system's AI or your own",
+  "providerIntro": "Choose an AI provider and enter your own API key to enable AI features. {brand} uses the OpenAI SDK format, which is compatible with many providers.",
+  "apiKey": "API key",
+  "configured": "(configured)",
+  "keyPlaceholder": "API key",
+  "keyHelpOpenai": "Your OpenAI API key from platform.openai.com",
+  "keyHelpAnthropic": "Your Anthropic API key from console.anthropic.com",
+  "keyHelpOrdbogen": "Your API key from OdinCore.ai",
+  "keyHelpOther": "API key for your provider",
+  "apiUrl": "API URL",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (default, leave empty)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Pre-filled from the preset",
+  "urlHelp": "Base URL for the API. Leave empty for OpenAI's default endpoint.",
+  "model": "Model",
+  "modelPlaceholderOpenai": "gpt-4o-mini (default)",
+  "modelPlaceholderOther": "Model name",
+  "modelHelp": "Specify a model, or leave it empty to use the default",
+  "testConnection": "Test connection",
+  "saveSettings": "Save settings",
+  "help": {
+    "title": "How to get an API key",
+    "sub": "Choose one of the recommended providers and follow the guide",
+    "odinDesc": "Danish AI hosted in Denmark with full GDPR compliance. Data never leaves Denmark.",
+    "odin1": "Go to odincore.ai and create an account",
+    "odin2": "Go to the API section of your account",
+    "odin3": "Create a new API key",
+    "odin4": "Paste the key above under “OdinCore (Ordbogen)”",
+    "openaiDesc": "GPT-4o-mini is fast and cheap and suits task parsing well.",
+    "openai1": "Go to platform.openai.com and sign in",
+    "openai2": "Go to “API keys” under your settings",
+    "openai3": "Click “Create new secret key”",
+    "copyPaste": "Copy the key and paste it above",
+    "anthropicDesc": "The Claude models are strong at understanding and categorising tasks.",
+    "anthropic1": "Go to console.anthropic.com and create an account",
+    "anthropic2": "Go to “Settings” → “API keys”",
+    "anthropic3": "Click “Create key”"
+  },
+  "email": {
+    "title": "Email-to-Task",
+    "sub": "Send emails to your personal address to create tasks automatically",
+    "address": "Your personal task email",
+    "copyTitle": "Copy email address",
+    "addressHelp": "Send or forward emails to this address to create tasks automatically. AI will parse the content and extract the title, deadline and priority.",
+    "regenerate": "Generate a new address",
+    "disable": "Disable email-to-task",
+    "notEnabled": "Email-to-task is not enabled",
+    "notEnabledText": "Enable it to get a personal email address you can send tasks to. Emails automatically become tasks on your dashboard.",
+    "enable": "Enable email-to-task"
+  },
+  "autonomyTitle": "AI autonomy level",
+  "autonomySub": "Choose how much AI should handle automatically",
+  "hoursTitle": "Working hours & time zone",
+  "hoursSub": "Used for AI prioritisation and calendar features",
+  "timezone": "Time zone",
+  "workingHours": "Working hours",
+  "to": "to",
+  "hoursHelp": "AI uses these times to suggest the best times for tasks",
+  "privacyTitle": "Privacy & security",
+  "privacyText": "Emails are processed and deleted immediately after the task is created. We only keep the finished task, not the original email. AI processing happens via OpenAI with strict data handling."
+}

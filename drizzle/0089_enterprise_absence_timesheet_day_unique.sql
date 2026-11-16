@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS "absence_requests_timesheet_day_unique" ON "absence_requests" USING btree ("user_id","organization_id","absence_type_id","start_date") WHERE "absence_requests"."source" = 'timesheet' AND "absence_requests"."status" IN ('pending', 'approved');

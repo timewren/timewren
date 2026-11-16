@@ -1,0 +1,1 @@
+ALTER TABLE "prepaid_usage" ADD COLUMN IF NOT EXISTS "overdraft_hours" numeric(8, 2) DEFAULT '0' NOT NULL;

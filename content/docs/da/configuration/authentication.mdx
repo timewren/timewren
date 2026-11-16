@@ -1,0 +1,119 @@
+---
+title: "Godkendelse"
+description: "Loginmetoder i TimeWren: e-mail og adgangskode, magic link, passkeys, 2FA, SMS, OAuth-udbydere, den første admin-konto og rotation af hemmeligheder."
+---
+
+TimeWren bruger [Better Auth](https://www.better-auth.com). Login med e-mail og adgangskode virker altid. Alt andet er valgfrit og slås til, når du sætter de tilhørende variabler. Alle variabler står i `.env.example`; se også [Miljøvariabler](/da/docs/configuration/environment).
+
+## E-mail og adgangskode
+
+Brugere opretter sig med e-mail og adgangskode. Adgangskoder nulstilles via mail (linket er gyldigt i 1 time).
+
+Bekræftelse af e-mail er påkrævet som standard: en ny bruger skal klikke på linket i bekræftelsesmailen (gyldigt i 24 timer), før vedkommende kan logge ind. Bekræftelsesmails kræver en konfigureret mailtransport, se [E-mail](/da/docs/configuration/email).
+
+Du kan kun slå bekræftelse fra, når der ikke er konfigureret en mailtransport:
+
+```dotenv
+REQUIRE_EMAIL_VERIFICATION=false
+```
+
+Flaget ignoreres, så snart SMTP eller Resend er sat. Appen logger i så fald en advarsel.
+
+> **Advarsel:** Med bekræftelse slået fra kan alle, der kan nå instansen, oprette en konto med en vilkårlig adresse, også adressen i `ADMIN_EMAIL`. Brug det til at komme i gang, og konfigurér derefter mail, og fjern linjen, før du gør instansen tilgængelig udefra.
+
+Loginforsøg er begrænset: 5 logins med adgangskode pr. 15 minutter og 10 oprettelser pr. 15 minutter.
+
+## Den første administrator
+
+Rollen som instansadministrator tildeles automatisk:
+
+- Er `ADMIN_EMAIL` sat (kommasepareret liste), bliver kontoen med den adresse instansadministrator.
+- Er den tom, bliver den første konto, der oprettes, administrator, men kun så længe instansen endnu ikke har en administrator.
+
+Forfremmelsen sker ved oprettelse og ved login. Når bekræftelse er påkrævet, forfremmes kun en bekræftet adresse. Hver ny bruger får også et personligt arbejdsområde (en organisation, som brugeren ejer).
+
+```dotenv
+ADMIN_EMAIL=you@example.com
+```
+
+## Magic link
+
+Login uden adgangskode via mail. Linket er gyldigt i 15 minutter. Det kræver en fungerende mailtransport og har ingen indstilling for sig selv.
+
+## Passkeys
+
+Brugere kan registrere passkeys (WebAuthn) under deres sikkerhedsindstillinger og logge ind med dem. Passkeys er bundet til et domæne, det såkaldte relying party-id. Som standard er det værtsnavnet fra `NEXT_PUBLIC_APP_URL`, så appen skal leveres over HTTPS på sit endelige domæne, før folk registrerer passkeys. Ændrer du domænet, holder eksisterende passkeys op med at virke.
+
+Sæt kun `AUTH_RP_ID`, hvis du deler app og marketingside op på forskellige værter og vil have passkeys bundet til det overordnede domæne:
+
+```dotenv
+AUTH_RP_ID=example.com
+```
+
+## Totrinsgodkendelse
+
+Brugere kan slå totrinsgodkendelse til i deres sikkerhedsindstillinger. Den understøtter:
+
+- TOTP-godkendelsesapps (6 cifre, periode på 30 sekunder)
+- 10 backupkoder
+- En engangskode via mail som reserve (kræver en mailtransport)
+
+Forsøg på totrinsbekræftelse er begrænset til 10 pr. 15 minutter.
+
+## Login med SMS
+
+Login med et telefonnummer og en kode på 6 cifre (gyldig i 5 minutter). Afsendelsen sker via MessageBird:
+
+```dotenv
+MESSAGEBIRD_API_KEY=your-messagebird-key
+MESSAGEBIRD_ORIGINATOR=TimeWren
+```
+
+Uden `MESSAGEBIRD_API_KEY` fejler anmodningen om en kode med fejlen "ikke konfigureret". En bruger, der kun opretter sig med telefonnummer, får en pladsholderadresse på dit maildomæne (`EMAIL_DOMAIN`, som standard marketing- eller app-værten). Selve SMS'en er i øjeblikket skrevet på dansk.
+
+## OAuth-udbydere
+
+Hver udbyder kræver en OAuth-app, som du selv registrerer. En udbyder tilbydes kun, når begge dens variabler er sat. Callback-URL'en er altid `{NEXT_PUBLIC_APP_URL}/api/auth/callback/<id>`.
+
+| Udbyder | Id | Variabler | Callback-URL |
+| --- | --- | --- | --- |
+| Google | `google` | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/google` |
+| GitHub | `github` | `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/github` |
+| Discord | `discord` | `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` | `https://timewren.example.com/api/auth/callback/discord` |
+| Apple | `apple` | `APPLE_CLIENT_ID`, `APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY` | `https://timewren.example.com/api/auth/callback/apple` |
+| Microsoft Entra ID | `microsoft-entra-id` | `MICROSOFT_CLIENT_ID`, `MICROSOFT_CLIENT_SECRET`, `MICROSOFT_TENANT_ID` | `https://timewren.example.com/api/auth/callback/microsoft-entra-id` |
+
+Bemærkninger:
+
+- Google-klienten deles med [integrationen med Google Kalender](/da/docs/integrations/calendar), der har sin egen callback-URL.
+- Log ind med Apple: `APPLE_CLIENT_ID` er Services ID'et. Klienthemmeligheden genereres ud fra din `.p8`-nøgle (`APPLE_PRIVATE_KEY`, PEM-tekst med `\n` som linjeskift eller hele filen base64-kodet), når appen starter. `APPLE_APP_BUNDLE_IDENTIFIER` (standard `dk.timetrack.app`) er det iOS-bundle-id, der bruges til native login.
+- Microsoft: `MICROSOFT_TENANT_ID` er som standard `common` (alle Microsoft-konti). Sæt et tenant-GUID for at begrænse login til én organisation. Se `docs/MICROSOFT-LOGIN-SETUP.md` i repositoryet for trinene i Azure.
+- Konti fra Google og GitHub knyttes automatisk sammen, når e-mailadressen passer med en eksisterende konto. Discord-konti knyttes kun sammen, når Discord melder e-mailadressen som verificeret.
+
+## Betroede origins
+
+Browsere sender forespørgsler fra originen i `NEXT_PUBLIC_APP_URL`, som altid er betroet. Nås appen også fra en anden web-origin (for eksempel et ekstra domæne), så tilføj den:
+
+```dotenv
+TRUSTED_ORIGINS=https://timewren.example.org,https://time.example.com
+```
+
+Værdien er en kommasepareret liste over `https://host`-origins. Ugyldige poster springes over.
+
+## Sessioner
+
+Sessioner varer 7 dage. En aktiv session forlænges højst én gang hver 24. time. Sessionscookien er som standard host-only. `AUTH_COOKIE_DOMAIN` deler den på tværs af subdomæner, og `AUTH_COOKIE_PREFIX` ændrer dens navn (standard `better-auth`); begge er kun nødvendige, når app og marketingside ligger på hver sin vært.
+
+## Rotation af BETTER_AUTH_SECRET
+
+`BETTER_AUTH_SECRET` er hemmeligheden til Better Auth. Den krypterer blandt andet de OAuth-logintokens, der er gemt i databasen, og ændrer du den direkte, kan de tokens ikke læses, før brugerne logger ind igen. Vil du rotere den sikkert, så brug versionerede hemmeligheder:
+
+```dotenv
+BETTER_AUTH_SECRETS=2:the-new-long-random-secret,1:the-old-long-random-secret
+```
+
+Formatet er `<version>:<secret>` adskilt af kommaer. Den første post er den aktuelle hemmelighed, der bruges til nye data. Behold ældre versioner på listen, så længe du skal kunne læse data, der er skrevet med dem. Versioner er ikke-negative heltal og skal være unikke. Brug mindst 32 tegn pr. hemmelighed.
+
+`BETTER_AUTH_SECRET` skal stadig være sat. Appen læser den også direkte for at signere de ældre enhedstokens til desktop-appen og afmeldingslinks i mails, så ændrer du dens værdi, bliver de ugyldige; brugere af desktop-appen skal så logge ind igen.
+
+`ENCRYPTION_KEY` er en separat nøgle (den beskytter loginoplysninger til integrationer) og påvirkes ikke af denne rotation. Tag backup af begge.

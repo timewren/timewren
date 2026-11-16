@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini 및 기타 OpenAI 모델",
+      "note": "platform.openai.com/api-keys에서 API 키를 만드세요"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "OpenAI SDK를 통한 Claude Sonnet, Opus, Haiku",
+      "note": "console.anthropic.com/settings/keys에서 API 키를 만드세요"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "덴마크에서 호스팅되는 덴마크 AI, GDPR 완전 준수",
+      "badge": "추천",
+      "note": "Ordbogen A/S의 덴마크 호스팅 AI예요. odincore.ai에서 키를 만드세요. 데이터는 덴마크를 벗어나지 않아요."
+    },
+    "custom": {
+      "label": "기타 엔드포인트",
+      "description": "OpenAI 호환 API 모두"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "수동",
+      "description": "AI가 꺼져 있어요. 모든 작업을 AI 분석 없이 처리해요."
+    },
+    "suggest": {
+      "label": "제안",
+      "description": "AI가 분류와 우선순위를 제안하고, 승인은 직접 해요."
+    },
+    "auto_lowrisk": {
+      "label": "자동 (저위험)",
+      "description": "AI가 간단한 작업은 자동으로 처리해요. 복잡한 작업은 승인을 거쳐요."
+    },
+    "auto_all": {
+      "label": "완전 자동",
+      "description": "AI가 승인 없이 모든 작업을 자동으로 처리해요."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "덴마크 (Europe/Copenhagen)",
+    "Europe/Stockholm": "스웨덴 (Europe/Stockholm)",
+    "Europe/Oslo": "노르웨이 (Europe/Oslo)",
+    "Europe/London": "영국 (Europe/London)",
+    "Europe/Berlin": "독일 (Europe/Berlin)",
+    "America/New_York": "미국 동부 (America/New_York)",
+    "America/Los_Angeles": "미국 서부 (America/Los_Angeles)"
+  },
+  "connectionOk": "연결 성공!",
+  "connectionFailed": "연결 실패",
+  "testFailed": "테스트 실패",
+  "emailEnabled": "이메일로 작업 만들기를 켰어요!",
+  "emailEnableFailed": "이메일로 작업 만들기를 켜지 못했어요",
+  "emailDisabled": "이메일로 작업 만들기를 껐어요",
+  "emailDisableFailed": "이메일로 작업 만들기를 끄지 못했어요",
+  "addressRegenerated": "새 이메일 주소를 만들었어요!",
+  "addressRegenerateFailed": "새 주소를 만들지 못했어요",
+  "settingsUpdated": "AI 설정을 업데이트했어요",
+  "settingsUpdateFailed": "AI 설정을 업데이트하지 못했어요",
+  "addressCopied": "이메일 주소를 복사했어요!",
+  "keyRequired": "API 키가 필요해요",
+  "urlRequired": "사용자 지정 엔드포인트에는 API URL이 필요해요",
+  "enterKeyFirst": "먼저 API 키를 입력하세요",
+  "title": "AI 및 자동화",
+  "description": "AI 기능과 이메일로 작업 만들기를 설정하세요",
+  "statusTitle": "AI 상태",
+  "statusEnabled": "AI가 켜져 있어요",
+  "statusDisabled": "AI가 설정되지 않았어요",
+  "statCalls": "총 AI 호출",
+  "statSuccess": "성공률",
+  "statConfidence": "평균 신뢰도",
+  "statTime": "평균 처리 시간",
+  "enableHint": "AI 기능을 사용하려면 아래에서 AI 제공업체를 선택하고 본인의 API 키를 입력하세요.",
+  "providerTitle": "AI 제공업체",
+  "providerSub": "AI 기능을 구동할 방식을 선택하세요. 시스템 AI 또는 직접 준비한 AI를 쓸 수 있어요",
+  "providerIntro": "AI 제공업체를 선택하고 본인의 API 키를 입력해 AI 기능을 켜세요. {brand}는 많은 제공업체와 호환되는 OpenAI SDK 형식을 사용해요.",
+  "apiKey": "API 키",
+  "configured": "(설정됨)",
+  "keyPlaceholder": "API 키",
+  "keyHelpOpenai": "platform.openai.com에서 발급받은 OpenAI API 키",
+  "keyHelpAnthropic": "console.anthropic.com에서 발급받은 Anthropic API 키",
+  "keyHelpOrdbogen": "OdinCore.ai에서 발급받은 API 키",
+  "keyHelpOther": "제공업체의 API 키",
+  "apiUrl": "API URL",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (기본값, 비워 두세요)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "프리셋에서 자동 입력됨",
+  "urlHelp": "API의 기본 URL이에요. OpenAI 기본 엔드포인트를 쓰려면 비워 두세요.",
+  "model": "모델",
+  "modelPlaceholderOpenai": "gpt-4o-mini (기본값)",
+  "modelPlaceholderOther": "모델 이름",
+  "modelHelp": "모델을 지정하세요. 비워 두면 기본값을 사용해요",
+  "testConnection": "연결 테스트",
+  "saveSettings": "설정 저장",
+  "help": {
+    "title": "API 키 발급 방법",
+    "sub": "추천 제공업체 중 하나를 선택하고 안내를 따르세요",
+    "odinDesc": "덴마크에서 호스팅되는 덴마크 AI로 GDPR을 완전히 준수해요. 데이터는 덴마크를 벗어나지 않아요.",
+    "odin1": "odincore.ai에 접속해 계정을 만드세요",
+    "odin2": "계정의 API 섹션으로 이동하세요",
+    "odin3": "새 API 키를 만드세요",
+    "odin4": "위의 “OdinCore (Ordbogen)”에 키를 붙여넣으세요",
+    "openaiDesc": "GPT-4o-mini는 빠르고 저렴해서 작업 분석에 잘 맞아요.",
+    "openai1": "platform.openai.com에 접속해 로그인하세요",
+    "openai2": "설정에서 “API keys”로 이동하세요",
+    "openai3": "“Create new secret key”를 클릭하세요",
+    "copyPaste": "키를 복사해 위에 붙여넣으세요",
+    "anthropicDesc": "Claude 모델은 작업을 이해하고 분류하는 데 강해요.",
+    "anthropic1": "console.anthropic.com에 접속해 계정을 만드세요",
+    "anthropic2": "“Settings” → “API keys”로 이동하세요",
+    "anthropic3": "“Create key”를 클릭하세요"
+  },
+  "email": {
+    "title": "이메일로 작업 만들기",
+    "sub": "개인 주소로 이메일을 보내면 작업이 자동으로 만들어져요",
+    "address": "내 작업 전용 이메일",
+    "copyTitle": "이메일 주소 복사",
+    "addressHelp": "이 주소로 이메일을 보내거나 전달하면 작업이 자동으로 만들어져요. AI가 내용을 분석해 제목, 마감일, 우선순위를 추출해요.",
+    "regenerate": "새 주소 만들기",
+    "disable": "이메일로 작업 만들기 끄기",
+    "notEnabled": "이메일로 작업 만들기가 꺼져 있어요",
+    "notEnabledText": "켜면 작업을 보낼 수 있는 개인 이메일 주소를 받아요. 이메일은 자동으로 대시보드의 작업이 돼요.",
+    "enable": "이메일로 작업 만들기 켜기"
+  },
+  "autonomyTitle": "AI 자율 수준",
+  "autonomySub": "AI가 자동으로 처리할 범위를 선택하세요",
+  "hoursTitle": "근무 시간 및 시간대",
+  "hoursSub": "AI 우선순위 지정과 캘린더 기능에 사용돼요",
+  "timezone": "시간대",
+  "workingHours": "근무 시간",
+  "to": "~",
+  "hoursHelp": "AI는 이 시간을 바탕으로 작업에 가장 알맞은 시간을 제안해요",
+  "privacyTitle": "개인정보 및 보안",
+  "privacyText": "이메일은 작업이 만들어진 직후 처리되고 삭제돼요. 완성된 작업만 보관하고 원본 이메일은 보관하지 않아요. AI 처리는 엄격한 데이터 처리 기준에 따라 OpenAI를 통해 이루어져요."
+}

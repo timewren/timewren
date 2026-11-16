@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Asetukset",
+    "subtitle": "Hallitse ylläpidon ilmoituksia, ominaisuuslippuja ja muutoslokia"
+  },
+  "notifications": {
+    "title": "Ilmoitukset",
+    "description": "Määritä ylläpitotapahtumien sähköposti- ja Discord-ilmoitukset",
+    "emailLabel": "Ylläpidon sähköpostiosoitteet",
+    "emailHint": "Erota useat vastaanottajat pilkulla",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord-webhookin URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Testaa",
+    "eventTypes": "Tapahtumatyypit",
+    "saving": "Tallennetaan…",
+    "save": "Tallenna asetukset",
+    "saved": "Ilmoitusasetukset tallennettu",
+    "testSent": "Testiviesti lähetetty Discordiin",
+    "webhookRequired": "Anna ensin Discord-webhookin URL"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Uusi rekisteröityminen",
+      "description": "Ilmoita uusista rekisteröitymisistä"
+    },
+    "notify_subscription_started": {
+      "label": "Uusi maksullinen tilaus",
+      "description": "Ilmoita uusista maksavista asiakkaista"
+    },
+    "notify_payment_failed": {
+      "label": "Maksu epäonnistui",
+      "description": "Ilmoita epäonnistuneista maksuista"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Tilaus peruttu",
+      "description": "Ilmoita peruutuksista"
+    },
+    "notify_trial_ending": {
+      "label": "Kokeilujakso päättyy pian",
+      "description": "Vain Discord: ilmoita, kun kokeilujakso on päättymässä"
+    },
+    "notify_user_flagged": {
+      "label": "Käyttäjä merkitty",
+      "description": "Vain Discord: ilmoita, kun käyttäjä merkitään"
+    }
+  },
+  "support": {
+    "title": "Tuki",
+    "description": "Hallitse tukipostilaatikoita ja allekirjoitusta",
+    "inboxes": "Postilaatikot",
+    "add": "Lisää",
+    "namePlaceholder": "Nimi",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Allekirjoitus HTML:nä (valinnainen)",
+    "save": "Tallenna",
+    "cancel": "Peruuta",
+    "create": "Luo",
+    "default": "Oletus",
+    "confirmDelete": "Poistetaanko tämä postilaatikko?",
+    "noInboxes": "Postilaatikoita ei ole vielä luotu",
+    "inboxCreated": "Postilaatikko luotu",
+    "inboxUpdated": "Postilaatikko päivitetty",
+    "inboxDeleted": "Postilaatikko poistettu",
+    "signatureSaved": "Allekirjoitus tallennettu",
+    "globalSignature": "Yleinen allekirjoitus",
+    "globalSignatureHint": "HTML-allekirjoitus, jota käytetään, kun postilaatikolla ei ole omaa allekirjoitusta",
+    "globalSignaturePlaceholder": "<p>Ystävällisin terveisin<br>TimeTrack Support</p>",
+    "preview": "Esikatselu",
+    "noSignature": "Ei allekirjoitusta",
+    "savingSignature": "Tallennetaan…",
+    "saveSignature": "Tallenna allekirjoitus"
+  },
+  "debug": {
+    "title": "Vianmääritys",
+    "description": "Työkalut, jotka näkyvät vain sinulle tässä selaimessa",
+    "electricLabel": "Näytä Electric-merkki",
+    "electricDescription": "Näyttää ajastimen reaaliaikaisen synkronointitilan koontinäytön vasemmassa alakulmassa"
+  },
+  "flags": {
+    "title": "Ominaisuusliput",
+    "description": "Ota ominaisuuksia käyttöön ja pois käytöstä kaikille käyttäjille",
+    "empty": "Ominaisuuslippuja ei ole määritetty",
+    "lastChangedBy": "Viimeksi muuttanut {name}",
+    "lastChangedByDate": "Viimeksi muuttanut {name}, {date}"
+  },
+  "changelog": {
+    "title": "Muutosloki",
+    "description": "Luo muutoslokimerkintöjä, jotka näytetään käyttäjille",
+    "new": "Luo uusi muutoslokimerkintä",
+    "version": "Versio",
+    "titleLabel": "Otsikko",
+    "titlePlaceholder": "Uusi ominaisuus: ...",
+    "content": "Sisältö (Markdown)",
+    "contentPlaceholder": "Kuvaile muutokset...",
+    "cancel": "Peruuta",
+    "create": "Luo",
+    "recent": "Viimeisimmät muutoslokimerkinnät",
+    "confirmDelete": "Poistetaanko muutosloki v{version}?",
+    "delete": "Poista",
+    "created": "Muutosloki luotu",
+    "deleted": "Muutosloki poistettu"
+  }
+}

@@ -1,0 +1,107 @@
+---
+title: "Aktualisieren"
+description: "Aktualisiere eine selbst gehostete TimeWren-Instanz sicher: sichern, pullen, neu starten, Versionen pinnen und eine fehlgeschlagene Migration beheben."
+---
+
+Updates sind manuell. Nichts holt von selbst eine neue Version, und die App prüft nicht, ob es eine gibt.
+
+## Update-Ablauf
+
+1. Erstelle eine [Sicherung](/de/docs/operations/backup-restore) von Datenbank, Volume `storage` und `.env`. Tu das jedes Mal: Migrationen gehen nur vorwärts.
+2. Lies die Release Notes, um zu sehen, was sich ändert.
+3. Pullen und neu starten. Die Befehle hängen davon ab, wie du installiert hast.
+
+**Image-Installation** ([Installation mit einer Zeile](/de/docs/install/quick) oder [Docker Compose](/de/docs/install/docker-compose)): Das Verzeichnis ist kein Git-Checkout, und `.env` kann `TIMEWREN_VERSION` festlegen (die Installation mit einer Zeile schreibt sie immer). Setze `NEW` auf das gewünschte Release-Tag, lass `.env` darauf zeigen, hol die Stack-Dateien dieses Releases und starte:
+
+```bash
+NEW=1.3.0
+sed -i "s|^TIMEWREN_VERSION=.*|TIMEWREN_VERSION=$NEW|" .env
+grep -q '^TIMEWREN_VERSION=' .env || echo "TIMEWREN_VERSION=$NEW" >> .env
+if [ -f .timewren-release ]; then echo "$NEW" > .timewren-release; fi
+curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/$NEW/docker-compose.yml
+curl -fsSL https://raw.githubusercontent.com/timewren/timewren/$NEW/.env.example -o .env.example
+if [ -f docker-compose.caddy.yml ]; then curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/$NEW/docker-compose.caddy.yml; fi
+docker compose pull
+docker compose up -d
+```
+
+Unter macOS verwende `sed -i ''` statt `sed -i`. Vergleiche danach `.env.example` mit deiner `.env`, um neue Variablen zu finden; deine `.env` selbst bleibt unverändert. Wenn du bewusst das Tag `latest` ohne `TIMEWREN_VERSION`-Zeile nutzt, reicht `docker compose pull && docker compose up -d`.
+
+**Quellcode-Checkout** ([aus dem Quellcode](/de/docs/install/from-source)): Aktualisiere den Code und baue das Image neu:
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+Die `NEXT_PUBLIC_*`-Werte für Echtzeit, Plausible und Browser-Sentry sind ins Image einkompiliert und ändern sich daher nur mit einem Rebuild.
+
+4. Prüfe das Ergebnis:
+
+```bash
+docker compose ps
+docker compose logs app
+```
+
+Achte auf die unten beschriebenen Migrationszeilen. `curl -i http://127.0.0.1:3000/api/health` zeigt nur, dass die App läuft. Die App startet auch nach einer fehlgeschlagenen Migration, eine gesunde Antwort ist also kein Beweis dafür, dass das Update erfolgreich war.
+
+Compose erstellt die Container neu, deren Image oder Konfiguration sich geändert hat. Der Datenbank-Container bleibt normalerweise unberührt, und sein Volume immer.
+
+> **Warnung:** Füge `docker compose down` nie `-v` hinzu und führe `docker compose down -v` nie auf einer Instanz mit Daten aus. Es löscht die Datenbank und deine Uploads.
+
+## Eine Version pinnen
+
+`docker-compose.yml` startet `ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}`. Der Standard-Tag ist `latest`. Um eine Version zu pinnen, setze sie in `.env`:
+
+```bash
+echo 'TIMEWREN_VERSION=1.2.3' >> .env
+docker compose pull && docker compose up -d
+```
+
+Verwende eine vollständige Version `X.Y.Z` oder `X.Y` für das neueste Patch-Release dieser Linie. Das Image liegt auch auf Docker Hub als `mahoje/timewren` und wird für `linux/amd64` und `linux/arm64` veröffentlicht. Hast du bereits eine Zeile `TIMEWREN_VERSION` in `.env`, bearbeite sie, statt eine zweite anzuhängen.
+
+## Was mit der Datenbank passiert
+
+Die Compose-Datei setzt `MIGRATE_ON_START=1`. Bei jedem Start des Containers `app` führt `scripts/startup.sh` `npm run db:migrate` aus (das `scripts/migrate-safe.ts` ausführt), bevor der Webserver startet:
+
+- Es nimmt ein Postgres-Advisory-Lock, damit zwei gleichzeitig startende Container nicht parallel migrieren. Ein zweiter wartet bis zu 5 Minuten (`MIGRATION_LOCK_TIMEOUT_MS`) und schlägt dann fehl.
+- Es wendet die ausstehenden Migrationen aus `drizzle/` über den Migrator von Drizzle an, der sie in einer Transaktion ausführt.
+- Auf einer leeren Datenbank legt es das aktuelle Schema an und vermerkt alle Migrationen als angewendet.
+- Ein Start ohne Neuerungen gibt `Database is up to date` aus; sonst `N new migration(s) applied`.
+
+## Wenn eine Migration fehlschlägt
+
+Das Log zeigt `Migration failed:` gefolgt vom Fehler, und das Startskript gibt den Exit-Code aus. Lies es mit:
+
+```bash
+docker compose logs app
+```
+
+Die ausstehenden Migrationen laufen in einer Transaktion, eine fehlschlagende Migration wird also nicht verzeichnet. Das Skript führt vor den Migrationen außerdem idempotente Schema-Patches aus (`ADD COLUMN IF NOT EXISTS` und Ähnliches), die separat committet werden. Das Schema kann deshalb leicht von der vorherigen Version abweichen, auch wenn die Migration fehlgeschlagen ist. Die Sicherung ist die einzige Garantie für den exakten vorherigen Zustand.
+
+Die App startet danach trotzdem und führt den neuen Code gegen das alte Schema aus. Seiten, die neue Spalten oder Tabellen nutzen, können fehlschlagen, bis du es behoben hast. Ist `ADMIN_DISCORD_WEBHOOK_URL` gesetzt, wird eine Discord-Warnung gesendet; sonst ist das Log die einzige Spur. Prüfe das Log nach jedem Update.
+
+Zur Behebung gehst du einen dieser Wege:
+
+- Behebe die Ursache und versuche es erneut. Oft sind es Speicherplatz oder ein Datenbankbenutzer ohne Rechte. Führe dann `docker compose restart app` aus, und die Migrationen werden beim nächsten Start erneut versucht.
+- Gehe mit der Sicherung aus Schritt 1 zur vorherigen Version zurück.
+
+### Rollback
+
+Rolle nach einer erfolgreichen Migration nicht nur den Code zurück. Der ältere Code kennt das neue Schema nicht, und nichts macht Migrationen rückgängig. Stelle die Datenbank aus der Sicherung wieder her und starte dann die vorherige Version:
+
+```bash
+docker compose stop app cron
+```
+
+Stelle den Dump wie unter [Sicherung und Wiederherstellung](/de/docs/operations/backup-restore) beschrieben wieder her, setze dann `TIMEWREN_VERSION` in `.env` auf die vorherige Version und starte erneut:
+
+```bash
+docker compose up -d
+```
+
+Wenn du selbst baust, führe stattdessen `git checkout PREVIOUS_TAG_OR_COMMIT` und `docker compose up -d --build` aus.
+
+> **Warnung:** Sehr alte Installationen, deren Spalte `user.id` den Typ `uuid` hat, werden vom Migrationsskript zurückgesetzt: Alle Tabellen werden gelöscht und neu angelegt. Eine Sicherung vor dem Update einer solchen Installation ist Pflicht.
+
+Schlägt eine Migration dauerhaft fehl, melde sie als Issue auf [GitHub](https://github.com/timewren/timewren) mit den Zeilen aus `docker compose logs app`.

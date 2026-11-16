@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Bir organizasyonun üyesi değilsin. Yeni bir davet iste veya destekle iletişime geç.",
+  "freeMemberLocked": "Organizasyon, {seats} kullanıcıya yer olan Free planında. Verilerin kayıtlı. Yeniden erişim için sahibinden planı yükseltmesini iste.",
+  "report": {
+    "hoursSuffix": " sa",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "“Gratis” planında {clients} aktif müşteriye yer var. Bir müşteriyi arşivle veya planı yükselt.",
+  "freeSeatLimit": "“Gratis” planında, bekleyen davetler dahil {seats} kullanıcıya yer var. Daha fazla kişi davet etmek için Ayarlar → Abonelik altında planı yükselt.",
+  "ownerMustTransfer": "Başka üyelerin bulunduğu bir ekibin sahibisin. Hesabını silmeden önce Organizasyon altında sahipliği başka bir üyeye devret.",
+  "holidays": {
+    "newYearsDay": "Yılbaşı",
+    "maundyThursday": "Kutsal Perşembe",
+    "goodFriday": "Hayırlı Cuma",
+    "easterSunday": "Paskalya Pazarı",
+    "easterMonday": "Paskalya Pazartesisi",
+    "ascensionDay": "Göğe Yükseliş Günü",
+    "whitSunday": "Pentekost Pazarı",
+    "whitMonday": "Pentekost Pazartesisi",
+    "christmasDay": "Noel",
+    "boxingDay": "Noel'in ikinci günü",
+    "greatPrayerDay": "Büyük Dua Günü",
+    "may1": "1 Mayıs",
+    "constitutionDay": "Anayasa Günü",
+    "dayAfterAscension": "Göğe Yükseliş Günü sonrası cuma",
+    "christmasEve": "Noel Arifesi",
+    "newYearsEve": "Yılbaşı Gecesi",
+    "dayOff": "İzin günü"
+  },
+  "speech": {
+    "language": "Türkçe",
+    "micBlocked": "Mikrofon engellendi. Tarayıcıya mikrofon erişimi ver ve tekrar dene.",
+    "noMic": "Mikrofon bulunamadı.",
+    "langUnsupported": "{language} konuşma tanıma bu tarayıcıda yerel olarak kullanılamıyor.",
+    "stopped": "Konuşma tanıma beklenmedik şekilde durdu. Tekrar dene veya bunun yerine yaz.",
+    "downloadFailed": "{language} konuşma tanıma bu tarayıcıda indirilemedi.",
+    "ready": "{language} konuşma tanıma hazır. Mikrofona dokun.",
+    "cantStart": "Konuşma tanıma başlatılamadı. Tekrar dene."
+  },
+  "offlineSync": {
+    "fullOverlap": "Sen çevrimdışıyken başka bir cihazda zaten bir zamanlayıcı çalışıyordu. Çevrimdışı sürenin tamamı çakıştı ve kaydedilmedi.",
+    "partialOverlap": "Sen çevrimdışıyken başka bir cihaz zamanlayıcı başlattı. Çevrimdışı süren o ana kadar kaydedildi.",
+    "clippedSaved": "Sen çevrimdışıyken başka bir cihaz zamanlayıcı başlattı. {from}–{to} arasındaki çevrimdışı süren zaman kaydı olarak kaydedildi, diğer zamanlayıcı çalışmaya devam ediyor.",
+    "resetOffline": "{from} saatinde çevrimdışı başlattığında başka bir cihazda zaten bir zamanlayıcı çalışıyordu. Çevrimdışı zamanlayıcın sıfırlandı, diğeri çalışmaya devam ediyor.",
+    "stoppedElsewhere": "Sen çevrimdışıyken zamanlayıcı başka bir cihazda durduruldu. Süre orada kaydedildi ve tekrar kaydedilmedi.",
+    "syncFailed": "Çevrimdışı bir değişiklik eşitlenemedi: {error}",
+    "defaultDescription": "Zaman takibi"
+  },
+  "unknownError": "Bilinmeyen hata",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Kaydedilemedi",
+      "retry": "Tekrar dene"
+    },
+    "push": {
+      "unsupported": "Anlık bildirimler bu tarayıcıda desteklenmiyor",
+      "denied": "Bildirim izni reddedildi",
+      "enabled": "Anlık bildirimler açıldı",
+      "enabledDesc": "Artık bildirim alacaksın",
+      "enableFailed": "Bildirimler açılamadı",
+      "disabled": "Anlık bildirimler kapatıldı",
+      "disableFailed": "Bildirimler kapatılamadı"
+    },
+    "periodic": {
+      "unsupported": "Periyodik eşitleme desteklenmiyor",
+      "enabled": "Otomatik raporlar açıldı",
+      "enabledDesc": "Haftalık rapor alacaksın",
+      "enableFailed": "Otomatik raporlar açılamadı",
+      "disabled": "Otomatik raporlar kapatıldı",
+      "disableFailed": "Otomatik raporlar kapatılamadı"
+    },
+    "taskUndo": {
+      "restored": "Görev geri yüklendi",
+      "restoreFailed": "Görev geri yüklenemedi",
+      "deleted": "Görev silindi",
+      "undo": "Geri al"
+    },
+    "timerSync": {
+      "otherProject": "başka bir proje",
+      "runningPaused": "{name} üzerinde zaten bir zamanlayıcı çalışıyor. Önce onu durdur. Duraklatılmış süren korunur.",
+      "running": "{name} üzerinde zaten bir zamanlayıcı çalışıyor. Önce onu durdur.",
+      "alreadyStopped": "Zamanlayıcı başka bir cihazda zaten durdurulup kaydedilmişti. Tekrar başlatılmadı."
+    },
+    "timerKeys": {
+      "started": "Zamanlayıcı başlatıldı",
+      "pressToPause": "Duraklatmak için T tuşuna tekrar bas",
+      "paused": "Zamanlayıcı duraklatıldı",
+      "pressToResume": "{time} - Devam etmek için T tuşuna bas",
+      "resumed": "Zamanlayıcı devam ediyor",
+      "cancelled": "Zamanlayıcı iptal edildi"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock bu tarayıcıda desteklenmiyor",
+      "active": "Ekran açık tutuluyor",
+      "activeDesc": "Zaman takibi sırasında ekranın kapanmayacak",
+      "released": "Ekran yeniden kapanabilir",
+      "failed": "Ekran açık tutulamadı"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Aboneliğin hesabından yönetiliyor.",
+    "otherAccount": "Satın alma başka bir TimeTrack hesabına bağlı.",
+    "ownerOnly": "Yalnızca organizasyon sahibi abonelik satın alabilir.",
+    "multiMember": "“Privat” ve “Selvstændig” tek kullanıcı içindir. Organizasyonunda birden fazla kullanıcı var, bu yüzden abonelik hesabından yönetiliyor.",
+    "otherOrganization": "Aboneliğin başka bir organizasyona ait. Görmek için o organizasyona geç.",
+    "alreadySubscribed": "{store} üzerinden zaten bir aboneliğin var.",
+    "appStoreUnreachable": "App Store'a ulaşılamadı. Biraz sonra tekrar dene.",
+    "appStoreVerify": "Satın alma App Store ile doğrulanamadı.",
+    "unknownProduct": "Bilinmeyen ürün. Uygulamayı güncelle ve tekrar dene.",
+    "googleNotFound": "Satın alma Google Play'de bulunamadı.",
+    "productMismatch": "Satın alma seçilen ürünle uyuşmuyor.",
+    "googleAck": "Satın alma Google Play ile onaylanamadı. Tekrar dene."
+  },
+  "accountDeletion": {
+    "storeSubscription": "{store} üzerinden aktif bir aboneliğin var. Hesabını silince durmaz ve {store} içinden iptal edilmelidir. Hesabı silmek için bunu anladığını onayla.",
+    "invalidUserId": "Geçersiz kullanıcı kimliği"
+  },
+  "orgInvite": {
+    "invalidEmail": "Geçersiz e-posta adresi",
+    "domainNotAllowed": "{domain} e-posta alan adına bu organizasyonda izin verilmiyor",
+    "alreadyMember": "Bu kişi zaten organizasyonun üyesi",
+    "alreadyInvited": "Bu e-posta için zaten bekleyen bir davet var",
+    "otherBrand": "Bu e-posta adresi kuruluşa davet edilemez. Başka bir adres kullanın.",
+    "noSeats": "Boş koltuk yok ({max} koltuktan {used} kullanımda). Ayarlar → Abonelik altında daha fazla koltuk satın al veya planı değiştir.",
+    "noSeatsAccept": "Organizasyonda boş koltuk kalmadı. Yöneticinle iletişime geç.",
+    "lastOwnerRemove": "Son sahip kaldırılamaz. Önce sahipliği başka bir üyeye devret.",
+    "lastOwnerDemote": "Son sahibin yetkisi düşürülemez. Önce sahipliği başka bir üyeye devret.",
+    "acceptedPushTitle": "🎉 Davet kabul edildi",
+    "acceptedPushBody": "{name} artık {org} üyesi"
+  },
+  "bulkTasks": {
+    "duplicateIds": "Toplu listede yinelenen UUID'ler var",
+    "missing": "Bir veya daha fazla görev eksik ya da çalışma alanın dışında: {ids}",
+    "unexpectedRowCount": "beklenmeyen satır sayısı",
+    "unselected": "Veride seçilmemiş UUID'ler var",
+    "statusMismatch": "{id} görevinin durumu {status}; beklenen durum {expected} idi",
+    "notEmail": "{id} görevi bir e-posta görevi değil",
+    "customLane": "{id} görevi özel bir şerit kullanıyor ve güvenle toplu tamamlanamaz"
+  }
+}

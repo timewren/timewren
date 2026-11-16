@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Sahip",
+    "admin": "Yönetici",
+    "hr": "İK",
+    "manager": "Müdür",
+    "member": "Çalışan"
+  },
+  "employment": {
+    "fullTime": "Tam zamanlı",
+    "partTime": "Yarı zamanlı",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Taslak",
+    "submitted": "Gönderildi",
+    "approved": "Onaylandı",
+    "rejected": "Reddedildi",
+    "reopened": "Yeniden açıldı"
+  },
+  "save": "Kaydet",
+  "cancel": "İptal",
+  "add": "Ekle",
+  "edit": "Düzenle",
+  "active": "Aktif",
+  "inactive": "Pasif",
+  "periodClosing": {
+    "status": {
+      "open": "Yönetici onayı bekleniyor",
+      "approved": "Teyit bekleniyor",
+      "acknowledged": "Kapatıldı",
+      "reopened": "Kilidi açıldı"
+    },
+    "interval": {
+      "month": "Her ay",
+      "quarter": "Her çeyrek"
+    }
+  },
+  "weekdayLong": {
+    "1": "pazartesi",
+    "2": "salı",
+    "3": "çarşamba",
+    "4": "perşembe",
+    "5": "cuma",
+    "6": "cumartesi",
+    "7": "pazar"
+  },
+  "absenceCategory": {
+    "vacation": "Tatil",
+    "sickness": "Hastalık",
+    "leave": "İzin",
+    "other": "Diğer"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Genel (düz CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (Danimarka devlet bordro sistemi)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Ay",
+      "biweekly": "14 gün"
+    },
+    "unit": {
+      "hours": "Saat",
+      "days": "Gün"
+    },
+    "kind": {
+      "time": "Süre (temel ücret kodu)",
+      "absence": "Devamsızlık",
+      "supplement": "Ek ödeme (üstüne eklenir)"
+    },
+    "source": {
+      "activity": "Kaydedilen saatler (etkinlik)",
+      "absence": "Devamsızlık (devamsızlık türü)",
+      "overtime_earned": "Kazanılan fazla mesai",
+      "overtime_used": "Telafi izni",
+      "overtime_paid_out": "Ödenen fazla mesai",
+      "flex_positive": "Esnek mesai (artı saat)",
+      "flex_negative": "Esnek mesai (eksi saat)",
+      "break_deduction": "Mola kesintisi (ücretsiz mola)"
+    },
+    "dayCondition": {
+      "any": "Tüm günler",
+      "weekend": "Hafta sonu (Cmt/Paz)",
+      "holiday": "Resmi tatil",
+      "weekend_or_holiday": "Hafta sonu veya resmi tatil"
+    }
+  },
+  "normPeriod": {
+    "week": "Hafta",
+    "month": "Ay",
+    "quarter": "Çeyrek",
+    "year": "Yıl"
+  },
+  "normYear": {
+    "calendar": "Takvim yılı (1 Ocak)",
+    "school": "Okul yılı (1 Ağustos)"
+  }
+}

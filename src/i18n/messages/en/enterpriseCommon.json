@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Owner",
+    "admin": "Administrator",
+    "hr": "HR",
+    "manager": "Manager",
+    "member": "Employee"
+  },
+  "employment": {
+    "fullTime": "Full-time",
+    "partTime": "Part-time",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Draft",
+    "submitted": "Submitted",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "reopened": "Reopened"
+  },
+  "save": "Save",
+  "cancel": "Cancel",
+  "add": "Add",
+  "edit": "Edit",
+  "active": "Active",
+  "inactive": "Inactive",
+  "periodClosing": {
+    "status": {
+      "open": "Awaiting manager",
+      "approved": "Awaiting acknowledgement",
+      "acknowledged": "Closed",
+      "reopened": "Unlocked"
+    },
+    "interval": {
+      "month": "Every month",
+      "quarter": "Every quarter"
+    }
+  },
+  "weekdayLong": {
+    "1": "monday",
+    "2": "tuesday",
+    "3": "wednesday",
+    "4": "thursday",
+    "5": "friday",
+    "6": "saturday",
+    "7": "sunday"
+  },
+  "absenceCategory": {
+    "vacation": "Holiday",
+    "sickness": "Sickness",
+    "leave": "Leave",
+    "other": "Other"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Generic (flat CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (Danish state payroll system)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Month",
+      "biweekly": "14 days"
+    },
+    "unit": {
+      "hours": "Hours",
+      "days": "Days"
+    },
+    "kind": {
+      "time": "Time (base pay code)",
+      "absence": "Absence",
+      "supplement": "Supplement (added on top)"
+    },
+    "source": {
+      "activity": "Logged hours (activity)",
+      "absence": "Absence (absence type)",
+      "overtime_earned": "Overtime earned",
+      "overtime_used": "Time off in lieu",
+      "overtime_paid_out": "Overtime paid out",
+      "flex_positive": "Flex (plus hours)",
+      "flex_negative": "Flex (minus hours)",
+      "break_deduction": "Break deduction (unpaid break)"
+    },
+    "dayCondition": {
+      "any": "All days",
+      "weekend": "Weekend (Sat/Sun)",
+      "holiday": "Public holiday",
+      "weekend_or_holiday": "Weekend or public holiday"
+    }
+  },
+  "normPeriod": {
+    "week": "Week",
+    "month": "Month",
+    "quarter": "Quarter",
+    "year": "Year"
+  },
+  "normYear": {
+    "calendar": "Calendar year (1 January)",
+    "school": "School year (1 August)"
+  }
+}

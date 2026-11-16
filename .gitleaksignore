@@ -1,0 +1,9 @@
+# False positive in a prose table row of the Valkey design spec.
+# The word Valkey contains "key", so the generic-api-key rule fires on it.
+docs/superpowers/specs/2026-06-18-valkey-realtime-cache-design.md:generic-api-key:103
+# The first version of this file quoted that row and tripped the same rule in its own commit.
+2b89dac3f68c087d4dd51336a0c2647ab07512f9:.gitleaksignore:generic-api-key:1
+# False positives in translation catalogs: UI strings about passwords and 2FA
+# match the generic-api-key and asana-client-secret entropy rules.
+src/i18n/messages/en/settingsSecurity.json:generic-api-key:12
+src/i18n/messages/fi/settingsSecurity.json:asana-client-secret:37

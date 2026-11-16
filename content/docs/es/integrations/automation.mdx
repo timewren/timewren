@@ -1,0 +1,80 @@
+---
+title: "Automatización (Zapier, Make, n8n)"
+description: "Conecta TimeWren con Zapier, Make, n8n o cualquier herramienta HTTP mediante una clave de API y webhooks salientes."
+---
+
+TimeWren no tiene un servidor de integración especial para herramientas de automatización. Zapier, Make y n8n funcionan igual: llaman a la [API REST](/es/docs/api/rest) con una clave de API y reciben eventos mediante [webhooks](/es/docs/api/webhooks). Eso significa también que sirve cualquier otra herramienta que pueda enviar peticiones HTTP o recibir webhooks.
+
+## Crear una clave de API
+
+1. Abre Ajustes, API en tu instancia.
+2. Crea una clave, ponle un nombre como "Zapier" y elige los permisos (scopes). Los permisos son por recurso (clients, projects, time, invoices, prepaid, tasks, reports, webhooks) con lectura, escritura o todo, o acceso completo.
+3. Copia la clave. Empieza por `tk_live_` y solo se muestra una vez.
+
+Envíala como bearer token en cada petición:
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_KEY" https://timewren.example.com/api/v1/me
+```
+
+`GET /api/v1/me` funciona con cualquier clave válida, así que es la prueba de conexión adecuada. Usa la dirección de tu propia instancia como URL base, nunca la de un servicio alojado.
+
+El límite es de 300 peticiones por minuto y usuario. Las cabeceras `X-RateLimit-Limit`, `X-RateLimit-Remaining` y `X-RateLimit-Reset` muestran el estado.
+
+## Recibir eventos
+
+Crea un webhook con `POST /api/v1/webhooks` (la clave necesita el permiso `webhooks:write`). Indícale la URL de tu Zap, escenario o nodo Webhook de n8n y los eventos que quieras:
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/webhooks \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "n8n", "url": "https://n8n.example.com/webhook/timewren", "events": ["invoice.paid", "client.created"]}'
+```
+
+Eventos disponibles:
+
+| Área | Eventos |
+| --- | --- |
+| Clientes | `client.created`, `client.updated`, `client.archived` |
+| Proyectos | `project.created`, `project.updated`, `project.status_changed`, `project.budget_threshold` |
+| Registros de horas | `time_entry.created`, `time_entry.updated`, `time_entry.deleted` |
+| Facturas | `invoice.created`, `invoice.sent`, `invoice.paid`, `invoice.overdue` |
+| Bonos de horas | `prepaid.created`, `prepaid.updated`, `prepaid.low_balance`, `prepaid.expired` |
+| Tareas | `task.created`, `task.updated`, `task.completed` |
+
+Cada entrega se firma con `X-Webhook-Signature` (HMAC-SHA256 con el secreto del webhook) y lleva `X-Webhook-Event`, `X-Webhook-Timestamp` y `X-Webhook-Delivery-Attempt`. El formato del payload y la comprobación de la firma están en la página de [Webhooks](/es/docs/api/webhooks). `GET /api/v1/webhooks/event-types` devuelve la lista actual.
+
+La URL receptora debe usar HTTPS y no puede apuntar a una dirección privada o interna (localhost, rangos de IP privadas o un nombre que resuelva a una de ellas). Gestionar webhooks requiere ser administrador o propietario de la organización, algo que una cuenta individual siempre es. Si tu herramienta se ejecuta en tu propia red, ponla detrás de un nombre de host HTTPS público.
+
+## Hacer cosas
+
+Llamadas que usan la mayoría de las automatizaciones:
+
+| Acción | Petición |
+| --- | --- |
+| Crear un registro de horas | `POST /api/v1/time-entries` con `hours`, `date` (YYYY-MM-DD) y, opcionalmente, `projectId`, `clientId`, `description`, `isBillable` |
+| Crear un cliente | `POST /api/v1/clients` |
+| Crear una tarea | `POST /api/v1/tasks` con `title` y, opcionalmente, `projectId`, `status`, `priority` |
+| Iniciar o detener el cronómetro | `POST /api/v1/timer` y `DELETE /api/v1/timer` |
+| Buscar un cliente | `GET /api/v1/clients?q=search` |
+| Buscar proyectos | `GET /api/v1/projects?clientId=...` |
+| Informe de horas | `GET /api/v1/reports/time-summary?from=2026-01-01&to=2026-01-31` |
+| Informe de ingresos | `GET /api/v1/reports/revenue` |
+| Marcar una factura como pagada | `POST /api/v1/invoices/{id}/mark-paid` |
+
+La lista completa con los parámetros está en la referencia de la [API REST](/es/docs/api/rest), y cada instancia sirve su propio documento OpenAPI en `/api/v1/openapi.json` y una referencia navegable en `/api/v1/docs`.
+
+## Zapier
+
+Usa Webhooks by Zapier, o una aplicación privada creada a partir de la definición de la carpeta `integrations/zapier` del repositorio. Define autenticación por clave de API con un campo Base URL (ponle tu instancia), triggers de webhook para nuevos registros de horas, registros de horas actualizados, clientes nuevos, facturas nuevas, facturas pagadas, saldo bajo de bonos de horas y tareas completadas, además de acciones y búsquedas para las llamadas anteriores.
+
+> **Advertencia:** La acción "Create Time Entry" de esa definición envía `durationMinutes`, pero la API lee `hours`. Hasta que se cambie, crea los registros de horas desde Zapier con una petición personalizada de Webhooks by Zapier y un cuerpo como `{"hours": 1.5, "date": "2026-01-15", "projectId": "..."}`.
+
+## Make
+
+Crea una aplicación personalizada a partir de `integrations/make/modules.json` o usa el módulo HTTP. Pon como URL base la de tu instancia y como cabecera de conexión `Authorization: Bearer YOUR_API_KEY`. La misma advertencia sobre `durationMinutes` se aplica a su módulo Create Time Entry. Para los triggers, usa un módulo Custom webhook y registra su URL con `POST /api/v1/webhooks`.
+
+## n8n
+
+Usa un nodo HTTP Request con una credencial Header Auth (nombre `Authorization`, valor `Bearer YOUR_API_KEY`) para las llamadas, y un nodo Webhook para los eventos. `integrations/n8n/example-workflow.json` en el repositorio es un flujo de trabajo de informe diario de horas que puedes importar. Apunta a `https://timetrack.dk`, así que cambia la URL por la de tu instancia.

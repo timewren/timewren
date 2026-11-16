@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "保存中…",
+    "saved": "保存しました",
+    "blocked": "保存されていません。強調表示された項目を修正してください",
+    "failed": "保存できませんでした",
+    "retry": "もう一度試す"
+  },
+  "loading": {
+    "default": "読み込み中…",
+    "tip": {
+      "search": "Ctrl+Kを押すと、どこでも検索できます",
+      "rightClick": "ヒント: タスクを右クリックすると、クイック操作を使えます",
+      "templates": "テンプレートを使うと、繰り返しのタスクを手早く作れます",
+      "kanban": "カンバンビューでは、タスクを列の間でドラッグできます",
+      "timerFromTask": "ヒント: タスクからそのままタイマーを開始できます",
+      "prepaid": "前払いパッケージで、前払いした時間を把握できます",
+      "duplicate": "前払いパッケージは、ワンクリックで複製できます",
+      "keys": "J/Kキーで、タスク一覧をキーボードで移動できます"
+    }
+  },
+  "member": {
+    "all": "すべての従業員",
+    "selected": "{count, plural, other {#名}}の従業員を選択中"
+  },
+  "founding": "創設メンバー",
+  "status": {
+    "active": "有効",
+    "inactive": "無効",
+    "pending": "保留中",
+    "completed": "完了",
+    "archived": "アーカイブ済み",
+    "draft": "下書き",
+    "sent": "送信済み",
+    "paid": "支払い済み",
+    "overdue": "期限超過",
+    "on_hold": "保留"
+  },
+  "priority": {
+    "low": "低",
+    "medium": "通常",
+    "high": "高",
+    "urgent": "緊急"
+  },
+  "modal": {
+    "close": "閉じる",
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "wait": "お待ちください…",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "アップロードに失敗しました",
+    "uploaded": "画像をアップロードしました",
+    "uploadError": "画像をアップロードできませんでした",
+    "alt": "画像",
+    "change": "変更",
+    "upload": "アップロード",
+    "remove": "削除",
+    "hint": "JPEG、PNG、WebP形式。最大8 MB。"
+  },
+  "error": {
+    "network": {
+      "title": "ネットワークエラー",
+      "message": "サーバーに接続できませんでした。インターネット接続を確認して、もう一度お試しください。"
+    },
+    "server": {
+      "title": "サーバーエラー",
+      "message": "サーバーエラーが発生しました。しばらくしてからもう一度お試しください。"
+    },
+    "notFound": {
+      "title": "見つかりません",
+      "message": "お探しの内容は存在しないか、削除されました。"
+    },
+    "permission": {
+      "title": "アクセスが拒否されました",
+      "message": "この内容を表示する権限がありません。"
+    },
+    "unknown": {
+      "title": "問題が発生しました",
+      "message": "予期しないエラーが発生しました。ページを再読み込みしてみてください。"
+    },
+    "offline": "オフラインです",
+    "connected": "接続しました",
+    "details": "エラーの詳細",
+    "retrying": "再試行中…",
+    "retry": "もう一度試す",
+    "loading": "読み込み中…"
+  },
+  "empty": {
+    "clients": {
+      "title": "クライアントはまだいません",
+      "description": "最初のクライアントを作成して始めましょう。連絡先、事業者登録番号、時間単価などを追加できます。",
+      "action": "最初のクライアントを作成",
+      "guide": "ガイドを読む"
+    },
+    "projects": {
+      "needClientTitle": "先にクライアントを作成してください",
+      "needClientDescription": "プロジェクトを作成するには、クライアントが1件以上必要です。プロジェクトは必ずクライアントに紐づきます。",
+      "createClient": "クライアントを作成",
+      "title": "プロジェクトはまだありません",
+      "description": "最初のプロジェクトを作成して、時間の記録とクライアントへの請求を始めましょう。時間単価か固定価格を選べます。",
+      "action": "プロジェクトを作成",
+      "seeClients": "クライアントを見る"
+    },
+    "time": {
+      "needProjectTitle": "先にプロジェクトを作成してください",
+      "needProjectDescription": "時間を記録するには、有効なプロジェクトが1件以上必要です。プロジェクトで作業を整理し、請求できます。",
+      "createProject": "プロジェクトを作成",
+      "today": "本日",
+      "title": "{date}の時間記録はありません",
+      "description": "タイマーを開始するか、時間記録を手動で追加してください。定期的な作業向けに、繰り返しテンプレートも作れます。",
+      "startTimer": "タイマーを開始",
+      "seeTemplates": "テンプレートを見る"
+    },
+    "invoices": {
+      "needTimeTitle": "先に時間を記録してください",
+      "needTimeDescription": "請求できる未請求の時間がありません。まずプロジェクトの時間を記録しましょう。",
+      "trackTime": "時間を記録",
+      "title": "請求書はまだありません",
+      "description": "記録した時間や固定金額から、最初の請求書を作成しましょう。請求書テンプレートは設定でカスタマイズできます。",
+      "action": "請求書を作成",
+      "seeUnbilled": "未請求の時間を見る"
+    },
+    "tasks": {
+      "needProjectTitle": "先にプロジェクトを作成してください",
+      "needProjectDescription": "タスクはプロジェクトに紐づきます。先にプロジェクトを作成すると、タスクを追加できます。",
+      "createProject": "プロジェクトを作成",
+      "title": "タスクはありません",
+      "description": "タスクと期限を管理しましょう。タスクに優先度や期日を設定できます。",
+      "action": "タスクを作成",
+      "seeProjects": "プロジェクトを見る"
+    },
+    "prepaid": {
+      "needClientTitle": "先にクライアントを作成してください",
+      "needClientDescription": "前払いパッケージ（前払いした時間）はクライアントに紐づきます。先にクライアントを作成してください。",
+      "createClient": "クライアントを作成",
+      "title": "前払いパッケージはありません",
+      "description": "前払いパッケージは、事前に支払われた時間のまとまりです。継続的なサポートや保守を行う、定期的なクライアントに最適です。",
+      "action": "前払いパッケージを作成",
+      "seeClients": "クライアントを見る"
+    },
+    "reports": {
+      "title": "表示するデータがありません",
+      "description": "時間を記録して請求書を作成すると、ここにレポートと統計が表示されます。データが増えるほど、分かることが増えます。",
+      "action": "時間記録へ移動"
+    },
+    "search": {
+      "title": "結果がありません",
+      "descriptionQuery": "「{query}」に一致するものは見つかりませんでした。別の検索語を試すか、綴りを確認してください。",
+      "description": "別の言葉で検索してみてください。",
+      "clear": "検索をクリア"
+    },
+    "error": {
+      "title": "問題が発生しました",
+      "description": "データを読み込めませんでした。もう一度お試しください。",
+      "retry": "もう一度試す"
+    },
+    "moduleDisabled": {
+      "title": "機能が無効です",
+      "description": "このモジュールは、お使いの組織では有効になっていません。利用したい場合は管理者にお問い合わせください。",
+      "action": "モジュール設定"
+    }
+  },
+  "client": {
+    "placeholder": "クライアントを選択",
+    "clear": "クライアントなし",
+    "selected": "{count, plural, other {#件}}のクライアントを選択中",
+    "searchLabel": "クライアントを検索",
+    "searchPlaceholder": "クライアントを検索…",
+    "listLabel": "クライアント",
+    "none": "クライアントが見つかりません",
+    "frequent": "よく使う",
+    "all": "すべてのクライアント",
+    "entryCount": "{count, plural, other {#件}}の記録"
+  },
+  "project": {
+    "placeholder": "プロジェクトを選択",
+    "none": "プロジェクトなし",
+    "searchPlaceholder": "プロジェクトまたはクライアントを検索…",
+    "listLabel": "プロジェクト",
+    "recent": "最近使った",
+    "empty": "プロジェクトが見つかりません",
+    "noClient": "クライアントなし",
+    "unknownClient": "不明なクライアント"
+  },
+  "task": {
+    "placeholder": "タスクを選択",
+    "searchPlaceholder": "タスク、プロジェクト、クライアントを検索…",
+    "none": "タスクなし",
+    "inProgress": "進行中",
+    "todo": "未着手",
+    "backlog": "バックログ",
+    "other": "その他",
+    "noMatch": "タスクが見つかりません",
+    "noActive": "有効なタスクはありません",
+    "showMoreBacklog": "バックログのタスクをさらに{count}件表示"
+  }
+}

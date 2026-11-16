@@ -1,0 +1,113 @@
+---
+title: "Use these docs with your LLM"
+description: "Give the TimeWren docs to Claude Code, Cursor, Codex or ChatGPT, with ready-made prompts to install, upgrade, debug and integrate."
+---
+
+The TimeWren documentation is written to be read by people and by language models. Every page exists as plain Markdown, and the whole documentation fits in one file. Point your coding agent or chat assistant at it, and it can install, upgrade or debug your instance, or write an integration against the API.
+
+## What to give the model
+
+| URL | What it is | Use it when |
+| --- | --- | --- |
+| `https://timewren.com/llms-full.txt` | The whole English documentation in one Markdown file. | The model should know everything. Best for agents with a large context. |
+| `https://timewren.com/llms.txt` | An index of every page with a one-line summary and a link to its Markdown. | The model can fetch pages on its own and should pick what it needs. |
+| `https://timewren.com/docs/<page>.md` | One page as Markdown, for example `https://timewren.com/docs/operations/upgrading.md`. | You know which topic matters. |
+
+Requests for a docs page with `Accept: text/markdown` also get the Markdown version, so tools that negotiate content work without the `.md` suffix. Links inside the Markdown point to other `.md` pages, so an agent can follow them.
+
+Every page has buttons at the top: **Copy as Markdown** puts the page on your clipboard, **Open in ChatGPT** and **Open in Claude** start a chat with a prompt that already points at the page's Markdown, and **View as Markdown** opens the raw page.
+
+The docs are also available in [Danish](https://timewren.com/da/docs), [German](https://timewren.com/de/docs) and [Spanish](https://timewren.com/es/docs). `llms-full.txt` is English only; models understand it fine and can answer in your language.
+
+## Claude Code
+
+Start Claude Code on the server (or on the machine you deploy from), in the directory where TimeWren is or should be installed, and paste one of the [prompts](#ready-made-prompts) below. Claude Code fetches the URLs in the prompt by itself.
+
+To make the docs available in every session, add a line to the `CLAUDE.md` in that directory:
+
+```text
+TimeWren docs: https://timewren.com/llms.txt (full text: https://timewren.com/llms-full.txt). Read the relevant page before changing the TimeWren installation.
+```
+
+Claude Code can also work with your TimeWren data (clients, projects, time entries) through the [MCP server](/docs/api/mcp). That is separate from the docs: the docs tell the agent how TimeWren works, the MCP server lets it act in your account.
+
+## Cursor
+
+In a chat, type `@Docs`, choose **Add new doc** and enter `https://timewren.com/llms-full.txt`. Then refer to it with `@TimeWren` (or the name you gave it) in your prompts. You can also paste a page URL ending in `.md` straight into the chat.
+
+## Codex and other agents that read AGENTS.md
+
+Put the docs pointer in the `AGENTS.md` of the repository or directory you work in:
+
+```text
+## TimeWren
+Docs for the TimeWren installation: https://timewren.com/llms.txt
+Full text in one file: https://timewren.com/llms-full.txt
+Read the relevant page before changing the TimeWren installation. Never print the contents of .env.
+```
+
+The TimeWren source repository has its own `AGENTS.md` that points agents working on the code to the same docs.
+
+## ChatGPT, Claude and other chat assistants
+
+Use the **Open in ChatGPT** or **Open in Claude** button on the page you need, or paste a prompt below. If the assistant cannot open links, use **Copy as Markdown** and paste the page into the chat.
+
+Chat assistants cannot run commands on your server. They give you commands to run; read each one before you run it.
+
+## Ready-made prompts
+
+Replace the example values (domain, version) before you send a prompt. Each prompt tells the agent not to print secrets. Never paste your `.env`, API keys or database dumps into a chat yourself.
+
+### Install TimeWren on my server
+
+```text
+Install TimeWren on this Linux server. Read https://timewren.com/llms-full.txt first and follow the docs exactly, especially "Quickstart" and "One-line install".
+
+- Public URL: https://timewren.example.com (DNS already points at this server).
+- Use the official installer with automatic HTTPS if the docs offer it; otherwise set up a reverse proxy as described in "Reverse proxy and TLS".
+- Check that Docker and Docker Compose v2.24+ are installed before you start. Do not install Docker yourself; tell me if it is missing.
+- Never print the contents of .env or any secret.
+- When it runs, verify it as described in the docs (container status and the /api/health endpoint), and tell me which steps from "Make it production ready" are still open (email, backups, version pinning).
+```
+
+### Upgrade my installation
+
+```text
+Upgrade my TimeWren installation to the newest stable release. Read https://timewren.com/docs/operations/upgrading.md and https://timewren.com/docs/operations/backup-restore.md first and follow them exactly.
+
+- The installation is in the current directory (docker-compose.yml and .env are here).
+- Take a full backup first, as the docs describe, and show me where it is before you continue.
+- Tell me the current and the new version, and read the release notes on https://github.com/timewren/timewren/releases for anything that needs action.
+- After the upgrade, check the app logs for the migration result ("new migration(s) applied" or "Database is up to date") and the health endpoint. If a migration failed, stop and explain the recovery options from the docs before changing anything.
+- Never run "docker compose down -v" and never print .env.
+```
+
+### Debug my installation
+
+```text
+My TimeWren installation has a problem: <describe what you see, e.g. "login fails with 403 invalid origin">.
+
+Read https://timewren.com/docs/operations/troubleshooting.md and https://timewren.com/docs/configuration/environment.md first. Then diagnose, read-only to begin with:
+- docker compose ps, docker compose logs --tail=200 app (and cron if relevant), the /api/health endpoint.
+- Compare the configuration with the docs. You may list which variables are set in .env, but never print their values.
+Explain the root cause with evidence from the logs, propose the smallest fix, and wait for my go before you change files or restart containers. Never delete volumes.
+```
+
+### Build an integration against the API
+
+```text
+Build an integration against my TimeWren instance at https://timewren.example.com. Read https://timewren.com/docs/api/rest.md and https://timewren.com/docs/api/webhooks.md first; the OpenAPI document described there is the source of truth for fields.
+
+Goal: <describe it, e.g. "every Friday, export last week's time entries per client to a CSV">.
+
+- Read the API key from the environment variable TIMEWREN_API_KEY; never hard-code it or print it.
+- Handle pagination, rate limits (HTTP 429) and errors as the docs describe.
+- If you need events instead of polling, use webhooks and verify the signature as shown in the docs.
+- Start with a small read-only call to prove the key works, then build the rest, with tests.
+```
+
+## Tips
+
+- Give the agent the version you run (`TIMEWREN_VERSION` in `.env`, or the image tag). The docs describe the current release.
+- Ask the agent to quote the docs section it relies on. That makes it easy to check.
+- For changes to production, let the agent propose commands and run them yourself, or approve each one.

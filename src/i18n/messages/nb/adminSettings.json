@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Innstillinger",
+    "subtitle": "Administrer administratorvarsler, funksjonsflagg og endringsloggen"
+  },
+  "notifications": {
+    "title": "Varsler",
+    "description": "Sett opp e-post- og Discord-varsler for administratorhendelser",
+    "emailLabel": "Administrators e-post(er)",
+    "emailHint": "Kommaseparert ved flere mottakere",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord-webhook-URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Test",
+    "eventTypes": "Hendelsestyper",
+    "saving": "Lagrer…",
+    "save": "Lagre innstillinger",
+    "saved": "Varslingsinnstillingene er lagret",
+    "testSent": "Testmelding sendt til Discord",
+    "webhookRequired": "Skriv inn en Discord-webhook-URL først"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Ny brukerregistrering",
+      "description": "Varsle ved nye brukerregistreringer"
+    },
+    "notify_subscription_started": {
+      "label": "Nytt betalt abonnement",
+      "description": "Varsle ved nye betalende kunder"
+    },
+    "notify_payment_failed": {
+      "label": "Betaling mislyktes",
+      "description": "Varsle ved mislykkede betalinger"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Abonnement sagt opp",
+      "description": "Varsle ved oppsigelser"
+    },
+    "notify_trial_ending": {
+      "label": "Prøveperioden utløper snart",
+      "description": "Kun Discord: varsle når en prøveperiode snart utløper"
+    },
+    "notify_user_flagged": {
+      "label": "Bruker markert",
+      "description": "Kun Discord: varsle når en bruker markeres"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "description": "Administrer supportinnbokser og signatur",
+    "inboxes": "Innbokser",
+    "add": "Legg til",
+    "namePlaceholder": "Navn",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Signatur i HTML (valgfritt)",
+    "save": "Lagre",
+    "cancel": "Avbryt",
+    "create": "Opprett",
+    "default": "Standard",
+    "confirmDelete": "Slette denne innboksen?",
+    "noInboxes": "Ingen innbokser opprettet ennå",
+    "inboxCreated": "Innboks opprettet",
+    "inboxUpdated": "Innboks oppdatert",
+    "inboxDeleted": "Innboks slettet",
+    "signatureSaved": "Signatur lagret",
+    "globalSignature": "Felles signatur",
+    "globalSignatureHint": "HTML-signatur som brukes når en innboks ikke har sin egen signatur",
+    "globalSignaturePlaceholder": "<p>Med vennlig hilsen<br>TimeTrack Support</p>",
+    "preview": "Forhåndsvisning",
+    "noSignature": "Ingen signatur",
+    "savingSignature": "Lagrer…",
+    "saveSignature": "Lagre signatur"
+  },
+  "debug": {
+    "title": "Feilsøking",
+    "description": "Verktøy som bare vises for deg, i denne nettleseren",
+    "electricLabel": "Vis Electric-merke",
+    "electricDescription": "Viser sanntidsstatus for synkroniseringen av tidtakeren nederst til venstre på oversikten"
+  },
+  "flags": {
+    "title": "Funksjonsflagg",
+    "description": "Slå funksjoner på og av for alle brukere",
+    "empty": "Ingen funksjonsflagg satt opp",
+    "lastChangedBy": "Sist endret av {name}",
+    "lastChangedByDate": "Sist endret av {name} - {date}"
+  },
+  "changelog": {
+    "title": "Endringslogg",
+    "description": "Opprett oppføringer i endringsloggen som vises til brukerne",
+    "new": "Opprett ny oppføring i endringsloggen",
+    "version": "Versjon",
+    "titleLabel": "Tittel",
+    "titlePlaceholder": "Ny funksjon: ...",
+    "content": "Innhold (Markdown)",
+    "contentPlaceholder": "Beskriv endringene...",
+    "cancel": "Avbryt",
+    "create": "Opprett",
+    "recent": "Nyeste oppføringer i endringsloggen",
+    "confirmDelete": "Slette endringsloggen v{version}?",
+    "delete": "Slett",
+    "created": "Endringslogg opprettet",
+    "deleted": "Endringslogg slettet"
+  }
+}

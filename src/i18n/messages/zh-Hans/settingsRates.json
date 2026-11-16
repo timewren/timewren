@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "费率历史",
+    "empty": "还没有费率变更。小时费率的变更会记录在这里",
+    "effectiveFrom": "自 {date} 起生效",
+    "planned": "已计划",
+    "noRate": "无费率",
+    "typeGlobal": "全局",
+    "typeClient": "客户",
+    "typeProject": "项目"
+  },
+  "schedule": {
+    "toastScheduled": "新的小时费率已计划于 {date} 生效",
+    "restamped": "{count, plural, =0 {没有需要应用新小时费率的现有记录} other {# 条未开票记录已应用新的小时费率}}",
+    "scheduleFailed": "无法计划小时费率",
+    "cancelled": "已取消计划中的小时费率",
+    "cancelledRestamped": "{count, plural, other {# 条记录已恢复为之前的小时费率}}",
+    "cancelFailed": "无法取消",
+    "invalidRate": "请输入有效的小时费率",
+    "missingDate": "请选择费率的生效日期",
+    "title": "计划新的小时费率",
+    "current": "当前：{rate} kr/小时",
+    "rateLabel": "新的小时费率（kr）",
+    "dateLabel": "生效日期",
+    "submit": "计划",
+    "help": "日期在该日及之后的工时将按新费率计算，即使之后才记录。该日之前的工时保持旧费率。自该日起的未开票记录会立即更新。",
+    "ratePerHour": "{rate} kr/小时",
+    "fromDate": "自 {date} 起",
+    "takesEffectTonight": "今晚生效",
+    "cancel": "取消"
+  }
+}

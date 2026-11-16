@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="da"><head><meta charset="utf-8"><title>Logo-ark</title>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Schibsted Grotesk",system-ui,sans-serif;background:#fff;color:#1a1d1c;width:1440px;-webkit-font-smoothing:antialiased}
+.sheet{padding:48px 64px;display:grid;grid-template-columns:420px 1fr;gap:56px}
+.hero{display:grid;place-items:center;background:#f2f3f0;border-radius:16px;height:420px}
+.right{display:grid;gap:28px;align-content:start}
+.lbl{font-size:13px;color:#5f6663;margin-bottom:10px}
+.row{display:flex;gap:28px;align-items:flex-end}
+.row figure{display:grid;gap:6px;justify-items:center;font-size:12px;color:#5f6663}
+.nav{display:flex;align-items:center;justify-content:space-between;border:1px solid #dfe2de;border-radius:12px;padding:18px 24px}
+.lock{display:flex;align-items:center;gap:10px;font-weight:700;font-size:22px;letter-spacing:-.02em}
+.links{display:flex;gap:26px;font-size:15px;color:#5f6663}
+.tab{display:flex;align-items:center;gap:8px;background:#e8eae7;border-radius:10px 10px 0 0;padding:9px 14px;width:240px;font-size:13px}
+.bar{background:#f6f7f5;border:1px solid #dfe2de;border-top:0;height:10px;width:520px;border-radius:0 0 8px 8px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.box{border-radius:12px;padding:22px 24px;display:flex;align-items:center;gap:12px;font-weight:700;font-size:22px;letter-spacing:-.02em}
+.mono{background:#fff;border:1px solid #dfe2de;color:#000}
+.dark{background:#0e100f;color:#ecefed}
+.app{display:flex;gap:24px;align-items:center}
+.appicon{width:120px;height:120px;border-radius:27px;display:grid;place-items:center;box-shadow:0 10px 24px -14px rgba(0,0,0,.5)}
+.v{display:none}.v.on{display:grid}
+</style></head><body>
+<div id="out"></div>
+<script>
+const G='#1e5b47', W='#ffffff';
+const cut=(id,fg,body,holes)=>`<defs><mask id="m${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">${body}<g fill="#000">${holes}</g></mask></defs><rect width="32" height="32" fill="${fg}" mask="url(#m${id})"/>`;
+const M={
+ // 1 Klippekort med ét hul
+ v1:(fg,bg,id)=>cut(id,fg,`<rect x="2" y="7" width="28" height="18" rx="4" fill="#fff"/>`,`<circle cx="21.5" cy="16" r="4"/>`),
+ // 2 Saldo: to klip og ét tilbage
+ v2:(fg,bg,id)=>cut(id,fg,`<rect x="1.5" y="8" width="29" height="16" rx="4" fill="#fff"/>`,`<circle cx="8.5" cy="16" r="3"/><circle cx="16" cy="16" r="3"/><circle cx="23.5" cy="16" r="2.4" fill="none" stroke="#000" stroke-width="1.3"/>`),
+ // 3 Billet med hak og perforering
+ v3:(fg,bg,id)=>cut(id,fg,`<rect x="2" y="7" width="28" height="18" rx="3" fill="#fff"/>`,`<circle cx="2" cy="16" r="3.2"/><circle cx="30" cy="16" r="3.2"/><rect x="20.4" y="9" width="1.6" height="2.6" rx=".8"/><rect x="20.4" y="14.7" width="1.6" height="2.6" rx=".8"/><rect x="20.4" y="20.4" width="1.6" height="2.6" rx=".8"/>`),
+ // 3s: billet til små størrelser: større hak, én kraftig perforering
+ v3s:(fg,bg,id)=>cut(id,fg,`<rect x="1" y="6" width="30" height="20" rx="3.5" fill="#fff"/>`,`<circle cx="1" cy="16" r="4.2"/><circle cx="31" cy="16" r="4.2"/><rect x="19.6" y="9.5" width="2.8" height="4.6" rx="1.4"/><rect x="19.6" y="17.9" width="2.8" height="4.6" rx="1.4"/>`),
+ // 3f: favicon/app-form: hvid billet i grøn firkant
+ v3f:(fg,bg,id)=>`<rect x="0" y="0" width="32" height="32" rx="7" fill="${fg}"/>${cut(id,bg,`<rect x="4" y="9" width="24" height="14" rx="2.5" fill="#fff"/>`,`<circle cx="4" cy="16" r="3.3"/><circle cx="28" cy="16" r="3.3"/><rect x="18.8" y="11.3" width="2.4" height="3.6" rx="1.2"/><rect x="18.8" y="17.1" width="2.4" height="3.6" rx="1.2"/>`)}`,
+ // K1 klippeur: urskive hvor timerne er klippet ud
+ k1:(fg,bg,id)=>cut(id,fg,`<circle cx="16" cy="16" r="15" fill="#fff"/>`,`<circle cx="16.00" cy="5.40" r="2.15"/><circle cx="21.30" cy="6.82" r="2.15"/><circle cx="25.18" cy="10.70" r="2.15"/><circle cx="26.60" cy="16.00" r="2.15"/><circle cx="25.18" cy="21.30" r="2.15"/><circle cx="21.30" cy="25.18" r="2.15"/><circle cx="16.00" cy="26.60" r="2.15"/><circle cx="10.70" cy="25.18" r="2.15"/><circle cx="6.82" cy="21.30" r="0.95"/><circle cx="5.40" cy="16.00" r="0.95"/><circle cx="6.82" cy="10.70" r="0.95"/><circle cx="10.70" cy="6.82" r="0.95"/><rect x="15" y="9.5" width="2" height="7.5" rx="1"/><circle cx="16" cy="16" r="2"/>`),
+ // K2 billet hvor klippet er et ur
+ k2:(fg,bg,id)=>`${cut(id,fg,`<rect x="1.5" y="6" width="29" height="20" rx="3.5" fill="#fff"/>`,`<circle cx="1.5" cy="16" r="3.4"/><circle cx="30.5" cy="16" r="3.4"/><circle cx="18" cy="16" r="6.4"/>`)}<rect x="17.1" y="11.4" width="1.8" height="5.4" rx=".9" fill="${fg}"/><rect x="17.1" y="15.1" width="4.6" height="1.8" rx=".9" fill="${fg}"/>`,
+ // K3 T-billet: tværbjælken er en billet, revet af stammen langs en perforering
+ k3:(fg,bg,id)=>`${cut(id,fg,`<rect x="2" y="4" width="28" height="10" rx="2.5" fill="#fff"/><rect x="11.5" y="15.2" width="9" height="13" rx="2.5" fill="#fff"/>`,`<circle cx="2" cy="9" r="2.6"/><circle cx="30" cy="9" r="2.6"/>`)}<g fill="${fg}"><circle cx="13" cy="14.6" r=".7"/><circle cx="16" cy="14.6" r=".7"/><circle cx="19" cy="14.6" r=".7"/></g>`,
+ // K4 stempelkort: det gamle stemplekort til stempeluret, med afklippet hjørne, hul og én stemplet linje
+ k4:(fg,bg,id)=>cut(id,fg,`<path d="M8 2h11l7 7v19a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 6 28V4.5A2.5 2.5 0 0 1 8.5 2z" fill="#fff"/>`,`<circle cx="12" cy="7.5" r="2.3"/><rect x="10" y="13" width="12" height="1.6" rx=".8"/><rect x="10" y="17.2" width="12" height="3.2" rx="1.2"/><rect x="10" y="23" width="8" height="1.6" rx=".8"/>`),
+ // K2f: favicon/app-form: hvid billet i grøn firkant, uret som klip
+ k2f:(fg,bg,id)=>`<rect x="0" y="0" width="32" height="32" rx="7" fill="${fg}"/>${cut(id,bg,`<rect x="3" y="8" width="26" height="16" rx="2.5" fill="#fff"/>`,`<circle cx="3" cy="16" r="3"/><circle cx="29" cy="16" r="3"/><circle cx="17" cy="16" r="5.6"/>`)}<rect x="16.2" y="12" width="1.6" height="4.8" rx=".8" fill="${bg}"/><rect x="16.2" y="15.2" width="4" height="1.6" rx=".8" fill="${bg}"/>`,
+ // 4 Lille t med klip
+ v4:(fg,bg,id)=>cut(id,fg,`<rect x="2" y="2" width="28" height="28" rx="8" fill="#fff"/>`,`<rect x="11.5" y="7" width="4.6" height="17" rx="2.3"/><rect x="7.5" y="11.2" width="12.5" height="4.2" rx="2.1"/><circle cx="22.5" cy="22" r="3.3"/>`),
+ // nuværende: gradient + ur
+ cur:(fg,bg,id)=>`<defs><linearGradient id="g${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient></defs><rect x="2" y="2" width="28" height="28" rx="7" fill="url(#g${id})"/><circle cx="16" cy="16" r="8" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 11.5V16l3 2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+ // kontrol: AI-slop
+ slop:(fg,bg,id)=>`<defs><linearGradient id="s${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a855f7"/><stop offset=".5" stop-color="#6366f1"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><circle cx="16" cy="16" r="14" fill="url(#s${id})"/><path d="M16 6l2.2 6.3L24.5 14.5l-6.3 2.2L16 23l-2.2-6.3L7.5 14.5l6.3-2.2z" fill="#fff"/><circle cx="24" cy="8" r="2" fill="#fff" opacity=".85"/>`
+};
+let uid=0;
+const svg=(k,s,fg=G,bg=W)=>{if(k==='v3r')k=s<=32?'v3s':'v3';if(k==='v3x')k=s<=32?'v3f':'v3';if(k==='k2x')k=s<=32?'k2f':'k2';return `<svg width="${s}" height="${s}" viewBox="0 0 32 32" aria-hidden="true">${M[k](fg,bg,uid++)}</svg>`};
+const fixed=k=>k==='cur'||k==='slop';
+const name=k=>k==='slop'?'TimeTrack AI':'TimeTrack';
+function sheet(k){
+  const app = fixed(k)||k==='v4' ? svg(k,120, k==='v4'?G:G, W) : `<div class="appicon" style="background:${G}">${svg(k,84,W,G)}</div>`;
+  const appWrap = fixed(k)||k==='v4' ? `<div style="border-radius:27px;overflow:hidden;box-shadow:0 10px 24px -14px rgba(0,0,0,.5);width:120px;height:120px">${svg(k,120,G,W).replace('viewBox="0 0 32 32"','viewBox="2 2 28 28"')}</div>` : app;
+  return `<div class="sheet v" id="${k}">
+   <div class="hero">${svg(k,260)}</div>
+   <div class="right">
+    <div><div class="lbl">Navigation</div><div class="nav"><div class="lock">${svg(k,30)} ${name(k)}</div><div class="links"><span>Selvstændige</span><span>Bureauer</span><span>Priser</span><span>Log ind</span></div></div></div>
+    <div><div class="lbl">Browserfane (favicon i 16 px)</div><div class="tab">${svg(k,16)} TimeTrack: tidsregistrering</div><div class="bar"></div></div>
+    <div><div class="lbl">Størrelser (faktisk pixelstørrelse)</div><div class="row">${[16,24,32,48,64,128].map(s=>`<figure>${svg(k,s)}<span>${s}</span></figure>`).join('')}</div></div>
+    <div class="pair"><div><div class="lbl">Én farve</div><div class="box mono">${svg(k,30,fixed(k)?G:'#000',W)} ${name(k)}</div></div><div><div class="lbl">Mørk baggrund</div><div class="box dark">${svg(k,30,fixed(k)?G:'#5fb38f','#0e100f')} ${name(k)}</div></div></div>
+    <div><div class="lbl">App-ikon (iOS/Android)</div><div class="app">${appWrap}</div></div>
+   </div></div>`;
+}
+document.getElementById('out').innerHTML=[...Object.keys(M),'v3r','v3x','k2x'].map(sheet).join('');
+const v=(location.hash||'#v1').slice(1);document.getElementById(v).classList.add('on');
+</script></body></html>

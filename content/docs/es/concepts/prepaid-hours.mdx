@@ -1,0 +1,123 @@
+---
+title: "Bonos de horas"
+description: "Cómo funcionan los bonos de horas (klippekort) en TimeWren: saldo, descuentos, exceso, avisos, renovación y jerarquía de tarifas."
+---
+
+Los bonos de horas son el concepto central de TimeWren. Un cliente compra un bloque de horas por adelantado y el tiempo que registras para ese cliente se descuenta del saldo. La palabra danesa es "klippekort" (literalmente "tarjeta de cortes"), y la verás en algunos nombres de campos de la API y en la interfaz en danés.
+
+<Screenshot name="prepaid-hours" alt="Un bono de horas con su saldo restante y el historial de uso" />
+
+## El modelo
+
+Un bono (`prepaid_packages`) pertenece a un cliente y almacena:
+
+| Campo | Significado |
+| --- | --- |
+| `totalHours`, `usedHours`, `remainingHours` | El saldo. Las horas restantes nunca son negativas ni superan el total. |
+| `hourlyRate`, `totalValue` | El precio por hora al que vendiste el bono, y `totalHours` multiplicado por `hourlyRate`. |
+| `purchaseDate`, `expiryDate` | Cuándo se compró y un último día de validez opcional. |
+| `clipSizeMinutes` | Paso de redondeo opcional, de 1 a 480 minutos. |
+| `overdraftPolicy`, `overdraftRate` | Qué ocurre cuando se agota el saldo. Consulta la sección Exceso de horas más abajo. |
+| `autoDeduct` | Si el bono se sugiere por defecto para el tiempo nuevo (activado por defecto). |
+| `renewalInterval`, `renewalRollover` | Renovación automática opcional. Consulta la sección Renovación y facturación más abajo. |
+| `isActive`, `isArchived`, `hiddenFromPortal` | Ciclo de vida y visibilidad en el portal del cliente. |
+
+Cada descuento se escribe además en un registro de uso (`prepaid_usage`) con las horas, el valor, el registro de tiempo vinculado y una descripción. Los descuentos manuales sin registro de tiempo se anotan de la misma forma.
+
+## Qué registros descuentan
+
+No se descuenta nada automáticamente a tus espaldas. El servidor solo descuenta cuando se guarda un registro de tiempo con un id de bono explícito, o cuando haces un descuento manual. Las aplicaciones te sugieren un bono:
+
+- Se sugiere un bono cuando está activo, tiene `autoDeduct` activado, le quedan horas y no ha caducado.
+- Con varios candidatos, gana el que caduca antes. Los bonos sin caducidad van al final. Los empates los gana la fecha de compra más antigua.
+- En el diálogo de guardado del temporizador, la aplicación web y la extensión de navegador usan la misma regla. Puedes elegir otro bono o no elegir ninguno para cualquier registro.
+- Con la API REST, envía `"prepaid": "auto"` al crear un registro de tiempo para aplicar la misma regla. Si el cliente no tiene un bono que encaje, el registro se crea sin descuento. Envía `prepaid: "auto"` o `prepaidPackageId`, no ambos.
+
+Un registro solo puede descontarse de un bono de su propio cliente. El cliente es el cliente directo del registro o el cliente de su proyecto. Descontar del bono de otro cliente se rechaza. No hace falta un proyecto: se puede descontar un registro que solo tenga cliente. Un registro sin cliente ni proyecto no se puede descontar.
+
+Los registros con bono se excluyen cuando creas facturas a partir del tiempo registrado, porque el cliente ya los ha pagado. Editar o borrar un registro revierte su descuento y devuelve las horas, y el aviso de saldo bajo puede volver a dispararse después.
+
+### Redondeo
+
+- Sin tamaño de corte, las horas descontadas se redondean a dos decimales.
+- Con tamaño de corte, el registro se redondea hacia arriba a cortes enteros. Con `clipSizeMinutes` en 15, un registro de 50 minutos descuenta 60 minutos (cuatro cortes).
+
+Un descuento falla si el bono está inactivo o ha caducado. Un bono es válido durante todo el día de caducidad en hora danesa (Europe/Copenhagen).
+
+### Exceso de horas
+
+`overdraftPolicy` decide qué ocurre cuando un registro es mayor que el saldo restante:
+
+| Política | Comportamiento |
+| --- | --- |
+| `block` (por defecto) | El registro se rechaza con un error. |
+| `allow` | Se descuenta el registro completo. El saldo llega a cero y el exceso se anota como horas de exceso en el bono. |
+| `invoice` | No se descuenta nada. El registro pasa a ser un registro facturable normal, con `overdraftRate` si la has definido. |
+
+## Avisos
+
+Existen dos tipos de aviso, ambos opcionales en la práctica porque solo llegan a los destinatarios que elijas. El ajuste `prepaidAlertRecipient` del usuario es `owner` (por defecto), `client` o `both`. Los destinatarios cliente necesitan una dirección de correo en el cliente, y su correo enlaza al portal del cliente.
+
+**Saldo bajo.** Tras un descuento, si las horas restantes están en `PREPAID_LOW_BALANCE_THRESHOLD` del total o por debajo (por defecto `0.2`, es decir, el 20 %), se envía un correo y se dispara el webhook `prepaid.low_balance`. Se envía una vez por bono hasta que el saldo vuelve a subir, por ejemplo porque se borró un registro.
+
+**Caducidad.** Una tarea cron diaria (`/api/cron/prepaid-alerts`) envía correos sobre los bonos activos a los que aún les quedan horas y que caducan en `PREPAID_EXPIRY_WARNING_DAYS` días o menos (por defecto `30`). La misma tarea desactiva los bonos caducados y dispara `prepaid.expired`.
+
+Los indicadores de saldo de la aplicación usan dos niveles. Un bono está "bajo" cuando está en el umbral porcentual o por debajo, y "crítico" cuando está en `PREPAID_CRITICAL_BALANCE_HOURS` horas o menos (por defecto `1`), de modo que la última hora de un bono grande sigue marcándose como crítica. El nivel crítico solo cambia la visualización, no envía un correo adicional.
+
+| Variable | Por defecto | Significado |
+| --- | --- | --- |
+| `PREPAID_LOW_BALANCE_THRESHOLD` | `0.2` | Fracción del total que se considera baja. |
+| `PREPAID_CRITICAL_BALANCE_HOURS` | `1` | Horas por debajo de las cuales (o iguales) el saldo es crítico. |
+| `PREPAID_EXPIRY_WARNING_DAYS` | `30` | Cuántos días antes de la caducidad se envía el aviso. |
+
+Consulta [Variables de entorno](/es/docs/configuration/environment) para ver la lista completa. Los avisos necesitan [correo electrónico](/es/docs/configuration/email) funcionando y el contenedor de cron en marcha.
+
+## Renovación y facturación
+
+Un bono puede renovarse solo con `renewalInterval` definido como `monthly`, `quarterly` o `yearly`. La tarea cron diaria `/api/cron/prepaid-renewals` gestiona los bonos que toca renovar:
+
+- Se crea un bono nuevo con una nueva fecha de compra, y el antiguo se archiva y se desactiva. La cadena se sigue mediante `renewedFromId`.
+- Las horas por periodo se mantienen constantes (`renewalBaseHours`).
+- Con `renewalRollover` en `carry`, las horas restantes pasan al nuevo periodo. Con `none`, el nuevo periodo empieza con las horas base.
+- El exceso del periodo anterior siempre se salda contra las horas nuevas, en ambos modos. Se anota como una fila de uso en el bono nuevo.
+- Se crea una factura en borrador por las horas base multiplicadas por la tarifa por hora, y recibes una notificación. La revisas y la emites tú. Si el bono está vinculado a una factura recurrente, se usa esa plantilla en su lugar.
+- Se dispara un webhook para el bono nuevo (`prepaid.created`).
+
+Para recargar sin renovación automática, crea un bono nuevo para el cliente. Pueden coexistir varios bonos activos, y la regla de sugerencia de arriba decide cuál se usa primero.
+
+## Portal del cliente
+
+Los clientes pueden ver sus bonos en el portal del cliente, en una pestaña Bonos de horas con saldo y uso. Dos interruptores lo controlan: el permiso del portal `canViewPrepaid` (activado por defecto) y el ajuste del bono `hiddenFromPortal`, que oculta un bono por completo, también del historial. Los clientes también pueden solicitar una renovación, que te aparece como una solicitud de renovación. Los valores monetarios se pueden ocultar a los clientes con el ajuste `hidePrepaidValue`, de forma global o por cliente.
+
+## API REST
+
+Los bonos están disponibles como el recurso `prepaid-packages`, con los scopes `prepaid:read` y `prepaid:write`. Se admiten listar, obtener, crear y actualizar, y `DELETE` archiva un bono en lugar de borrarlo. La autenticación y los scopes se describen en la referencia de la [API REST](/es/docs/api/rest). Los eventos de los bonos se entregan mediante [webhooks](/es/docs/api/webhooks).
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/prepaid-packages \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Support hours", "clientId": "CLIENT_UUID", "totalHours": 20, "hourlyRate": 100, "purchaseDate": "2026-01-05", "expiryDate": "2026-12-31"}'
+```
+
+## Jerarquía de tarifas
+
+La tarifa almacenada en un registro de tiempo decide cuánto vale al facturarlo. TimeWren la elige en este orden y usa la primera que esté definida:
+
+1. En una organización, una tarifa de miembro para el proyecto, después para el cliente y después la tarifa del miembro para toda la organización.
+2. La tarifa por hora del proyecto.
+3. La tarifa por hora por defecto del cliente.
+4. Tu tarifa por hora personal por defecto.
+
+La tarifa se elige según la fecha del registro, de modo que el tiempo anotado a posteriori recibe la tarifa vigente ese día. Los cambios de tarifa se pueden programar para una fecha futura y quedan anotados en el historial de tarifas del usuario, cliente o proyecto. Un registro facturado conserva su tarifa cuando se edita su fecha. El `hourlyRate` del propio bono es independiente: es el precio de las horas prepagadas y se usa para el valor del bono y las facturas de renovación, no para la tarifa del registro.
+
+## Ejemplo práctico
+
+Le vendes a Acme ApS un bono de 20 horas a 100 por hora, válido hasta final de año, con un tamaño de corte de 15 minutos.
+
+1. Creas el bono: `totalHours` 20, `hourlyRate` 100, de modo que `totalValue` es 2.000. Quedan 20.
+2. Registras 50 minutos de trabajo para Acme. En el diálogo de guardado el bono viene preseleccionado. El registro se redondea hacia arriba a cuatro cortes, así que se descuenta 1,00 hora. Quedan 19,00, usadas 1,00.
+3. En las semanas siguientes, los descuentos llevan el saldo a 4,00 horas. Eso es el 20 % del total, así que sale el correo de saldo bajo y se dispara el webhook `prepaid.low_balance`.
+4. Con 1,00 hora restante, el saldo se muestra como crítico.
+5. El siguiente registro es de 1,5 horas. Con la política por defecto `block`, se rechaza. Con `allow`, se usa la 1,00 hora restante y 0,50 se anotan como exceso. Con `invoice`, no se descuenta nada y el registro se factura normalmente.
+6. Treinta días antes del 31 de diciembre, si aún quedan horas, se envía el aviso de caducidad. Al día siguiente, la tarea cron desactiva el bono.

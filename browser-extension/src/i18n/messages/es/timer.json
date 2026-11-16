@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} guardadas en <b>{target}</b>",
+    "stoppedOn": "{duration} detenidas en <b>{target}</b>",
+    "savedInternal": "{duration} guardadas como <b>tiempo interno</b>",
+    "stoppedInternal": "{duration} detenidas como <b>tiempo interno</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "El bono <b>{name}</b> no tenía horas suficientes, así que todo el tiempo se ha guardado como facturable",
+    "deducted": "{hours} descontadas de <b>{name}</b>, quedan {remaining}",
+    "deductedOverflow": "{hours} descontadas de <b>{name}</b>, quedan {remaining}. El bono se agotó, así que el resto es tiempo facturable",
+    "pendingSave": "El servidor no ha respondido a tiempo. El tiempo se enviará automáticamente en cuanto haya conexión y se guardará una sola vez.",
+    "close": "Cerrar mensaje"
+  },
+  "discard": {
+    "label": "Descartar tiempo",
+    "question": "¿Descartar {duration} sin guardar?",
+    "keep": "Conservar el tiempo",
+    "confirm": "Descartar el tiempo"
+  },
+  "switch": {
+    "label": "Cambiar de cliente",
+    "question": "¿Guardar {duration} en {from} e iniciar un nuevo cronómetro en {to}?",
+    "internal": "tiempo interno",
+    "cancel": "Cancelar",
+    "confirm": "Guardar e iniciar uno nuevo"
+  },
+  "noClient": "Ningún cliente seleccionado",
+  "noClientShort": "Sin cliente",
+  "start": "Iniciar cronómetro",
+  "cancelNoSave": "Cancelar el cronómetro sin guardar",
+  "pause": "Pausar cronómetro",
+  "stopSave": "Detener y guardar",
+  "resume": "Reanudar cronómetro",
+  "addMinutes": "Añadir {minutes} minutos al cronómetro",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Elegir cliente y proyecto",
+  "descriptionPlaceholder": "¿En qué estás trabajando?",
+  "descriptionLabel": "Descripción del trabajo"
+}

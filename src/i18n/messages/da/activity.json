@@ -1,0 +1,46 @@
+{
+  "title": "Aktivitetslog",
+  "count": "{count, plural, one {# aktivitet} other {# aktiviteter}}",
+  "empty": "Ingen aktivitet endnu",
+  "yes": "Ja",
+  "no": "Nej",
+  "line": "<e>{entity}</e> <n>\"{name}\"</n> <a>{action}</a>",
+  "lineNoName": "<e>{entity}</e> <a>{action}</a>",
+  "entity": {
+    "client": "Kunde",
+    "project": "Projekt",
+    "time_entry": "Tidsregistrering",
+    "invoice": "Faktura",
+    "prepaid_package": "Klippekort",
+    "settings": "Indstillinger"
+  },
+  "action": {
+    "m": {
+      "create": "oprettet",
+      "update": "opdateret",
+      "delete": "slettet",
+      "archive": "arkiveret",
+      "restore": "gendannet",
+      "complete": "fuldført",
+      "send": "sendt"
+    },
+    "f": {
+      "create": "oprettet",
+      "update": "opdateret",
+      "delete": "slettet",
+      "archive": "arkiveret",
+      "restore": "gendannet",
+      "complete": "fuldført",
+      "send": "sendt"
+    },
+    "p": {
+      "create": "oprettet",
+      "update": "opdateret",
+      "delete": "slettet",
+      "archive": "arkiveret",
+      "restore": "gendannet",
+      "complete": "fuldført",
+      "send": "sendt"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Einstellungen",
+    "subtitle": "Admin-Benachrichtigungen, Feature-Flags und Changelog verwalten"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "description": "E-Mail- und Discord-Benachrichtigungen für Admin-Ereignisse einrichten",
+    "emailLabel": "Admin-E-Mail-Adresse(n)",
+    "emailHint": "Mehrere Empfänger durch Kommas trennen",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord-Webhook-URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Testen",
+    "eventTypes": "Ereignistypen",
+    "saving": "Wird gespeichert…",
+    "save": "Einstellungen speichern",
+    "saved": "Benachrichtigungseinstellungen gespeichert",
+    "testSent": "Testnachricht an Discord gesendet",
+    "webhookRequired": "Gib zuerst eine Discord-Webhook-URL an"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Neue Nutzeranmeldung",
+      "description": "Bei neuen Nutzeranmeldungen benachrichtigen"
+    },
+    "notify_subscription_started": {
+      "label": "Neues bezahltes Abonnement",
+      "description": "Bei neuen zahlenden Kunden benachrichtigen"
+    },
+    "notify_payment_failed": {
+      "label": "Zahlung fehlgeschlagen",
+      "description": "Bei fehlgeschlagenen Zahlungen benachrichtigen"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Abonnement gekündigt",
+      "description": "Bei Kündigungen benachrichtigen"
+    },
+    "notify_trial_ending": {
+      "label": "Testphase läuft bald ab",
+      "description": "Nur Discord -- benachrichtigen, wenn eine Testphase bald abläuft"
+    },
+    "notify_user_flagged": {
+      "label": "Nutzer markiert",
+      "description": "Nur Discord -- benachrichtigen, wenn ein Nutzer markiert wird"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "description": "Support-Postfächer und Signatur verwalten",
+    "inboxes": "Postfächer",
+    "add": "Hinzufügen",
+    "namePlaceholder": "Name",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Signatur-HTML (optional)",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "create": "Erstellen",
+    "default": "Standard",
+    "confirmDelete": "Dieses Postfach löschen?",
+    "noInboxes": "Noch keine Postfächer angelegt",
+    "inboxCreated": "Postfach erstellt",
+    "inboxUpdated": "Postfach aktualisiert",
+    "inboxDeleted": "Postfach gelöscht",
+    "signatureSaved": "Signatur gespeichert",
+    "globalSignature": "Globale Signatur",
+    "globalSignatureHint": "HTML-Signatur, die verwendet wird, wenn ein Postfach keine eigene Signatur hat",
+    "globalSignaturePlaceholder": "<p>Viele Grüße<br>TimeTrack Support</p>",
+    "preview": "Vorschau",
+    "noSignature": "Keine Signatur",
+    "savingSignature": "Wird gespeichert…",
+    "saveSignature": "Signatur speichern"
+  },
+  "debug": {
+    "title": "Fehlersuche",
+    "description": "Werkzeuge, die nur dir in diesem Browser angezeigt werden",
+    "electricLabel": "Electric-Badge anzeigen",
+    "electricDescription": "Zeigt den Live-Sync-Status des Timers unten links im Dashboard an"
+  },
+  "flags": {
+    "title": "Feature-Flags",
+    "description": "Funktionen für alle Nutzer aktivieren und deaktivieren",
+    "empty": "Keine Feature-Flags konfiguriert",
+    "lastChangedBy": "Zuletzt geändert von {name}",
+    "lastChangedByDate": "Zuletzt geändert von {name} - {date}"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "description": "Changelog-Einträge erstellen, die Nutzern angezeigt werden",
+    "new": "Neuen Changelog-Eintrag erstellen",
+    "version": "Version",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Neue Funktion: …",
+    "content": "Inhalt (Markdown)",
+    "contentPlaceholder": "Beschreibe die Änderungen…",
+    "cancel": "Abbrechen",
+    "create": "Erstellen",
+    "recent": "Letzte Changelog-Einträge",
+    "confirmDelete": "Changelog v{version} löschen?",
+    "delete": "Löschen",
+    "created": "Changelog erstellt",
+    "deleted": "Changelog gelöscht"
+  }
+}

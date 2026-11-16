@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Medewerker"
+    },
+    "department": {
+      "label": "Afdeling"
+    },
+    "project": {
+      "label": "Project"
+    },
+    "activityType": {
+      "label": "Activiteit"
+    },
+    "absenceType": {
+      "label": "Type afwezigheid"
+    },
+    "day": {
+      "label": "Datum"
+    },
+    "week": {
+      "label": "Week"
+    },
+    "month": {
+      "label": "Maand"
+    },
+    "vacationYear": {
+      "label": "Vakantiejaar"
+    },
+    "email": {
+      "label": "E-mail"
+    },
+    "employmentType": {
+      "label": "Soort dienstverband"
+    },
+    "weeklyHours": {
+      "label": "Uren/week"
+    },
+    "dailyNorm": {
+      "label": "Dagnorm"
+    },
+    "employeeNumber": {
+      "label": "Medewerkernr.",
+      "help": "Medewerkernummer in het salarissysteem (volgt de dimensie medewerker)"
+    },
+    "payrollCode": {
+      "label": "Looncode",
+      "help": "Looncode van het activiteitstype (volgt de dimensie activiteit)"
+    },
+    "hours": {
+      "label": "Geregistreerde uren"
+    },
+    "normHours": {
+      "label": "Normuren",
+      "help": "Dagnorm × werkdagen in de periode (feestdagen afgetrokken)"
+    },
+    "workDays": {
+      "label": "Werkdagen",
+      "help": "Geplande werkdagen in de periode (exclusief feestdagen en sluitingsdagen)"
+    },
+    "employeeCount": {
+      "label": "Aantal medewerkers"
+    },
+    "flexDelta": {
+      "label": "Flex (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Pauze afgetrokken",
+      "help": "Alleen voor onbetaalde pauze (in-/uitchecken)"
+    },
+    "checkInHours": {
+      "label": "Aanwezigheid (check-in)"
+    },
+    "workedDays": {
+      "label": "Dagen met boekingen"
+    },
+    "maxDayHours": {
+      "label": "Langste dag",
+      "help": "Hoogste dagtotaal voor één medewerker in de groep"
+    },
+    "longDays": {
+      "label": "Dagen boven 13 u",
+      "help": "Een dagtotaal boven 13 u laat minder dan 11 u rust over (de 11-urenregel)"
+    },
+    "avgWeeklyHours": {
+      "label": "Gem. uren/week",
+      "help": "Geregistreerde uren per medewerkerweek met boekingen of afwezigheid (de 48-urenregel)"
+    },
+    "weeksOver48h": {
+      "label": "Weken boven 48 u",
+      "help": "Aantal medewerkerweken met meer dan 48 u geregistreerd"
+    },
+    "fullWeeks": {
+      "label": "Weken zonder vrije dag",
+      "help": "Weken met boekingen op alle 7 dagen en zonder afwezigheidsdag (24 u wekelijkse rust)"
+    },
+    "absenceDays": {
+      "label": "Afwezigheid (dagen)"
+    },
+    "absenceHours": {
+      "label": "Afwezigheid (uren)"
+    },
+    "absencePeriods": {
+      "label": "Afwezigheidsperioden"
+    },
+    "sickDays": {
+      "label": "Ziektedagen"
+    },
+    "sickHours": {
+      "label": "Ziekte-uren"
+    },
+    "sickPeriods": {
+      "label": "Ziekteperioden"
+    },
+    "sickPct": {
+      "label": "Ziekteverzuim %",
+      "help": "Ziektedagen / werkdagen"
+    },
+    "longTermSick": {
+      "label": "Langdurig ziek",
+      "help": "Ononderbroken ziekteperiode van meer dan 30 dagen in de periode"
+    },
+    "longTermSickCount": {
+      "label": "Langdurig ziek (aantal)",
+      "help": "Aantal medewerkers met een ziekteperiode van meer dan 30 dagen"
+    },
+    "overtimeEarned": {
+      "label": "Overuren opgebouwd"
+    },
+    "overtimeUsed": {
+      "label": "Compensatieverlof opgenomen"
+    },
+    "overtimePaidOut": {
+      "label": "Overuren uitbetaald"
+    },
+    "overtimeNet": {
+      "label": "Overuren netto",
+      "help": "Opgebouwd min opgenomen als vrije tijd min uitbetaald"
+    },
+    "vacationAllotted": {
+      "label": "Vakantie toegekend"
+    },
+    "vacationUsed": {
+      "label": "Vakantie opgenomen"
+    },
+    "vacationRemaining": {
+      "label": "Vakantie resterend"
+    },
+    "extraVacationAllotted": {
+      "label": "Extra vakantiedagen toegekend"
+    },
+    "extraVacationUsed": {
+      "label": "Extra vakantiedagen opgenomen"
+    },
+    "extraVacationRemaining": {
+      "label": "Extra vakantiedagen resterend"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Vakantie opgenomen in de periode",
+      "help": "Vakantiedagen (typen die het vakantiesaldo verminderen) binnen de rapportperiode"
+    },
+    "hoursByActivity": {
+      "label": "Uren per activiteit",
+      "pivot": "{name} (uren)"
+    },
+    "absenceDaysByType": {
+      "label": "Afwezigheid per type (dagen)",
+      "pivot": "{name} (dagen)"
+    },
+    "absenceHoursByType": {
+      "label": "Afwezigheid per type (uren)",
+      "pivot": "{name} (uren)"
+    },
+    "quantityByWageType": {
+      "label": "Hoeveelheid per looncode",
+      "help": "Uren/dagen per looncode via loonkoppeling (Instellingen → Salaris)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Medewerker",
+    "department": "Afdeling",
+    "project": "Project",
+    "activityType": "Activiteit",
+    "absenceType": "Type afwezigheid",
+    "day": "Dag",
+    "week": "Week",
+    "month": "Maand",
+    "vacationYear": "Vakantiejaar"
+  },
+  "groups": {
+    "dimensions": "Dimensies",
+    "employee": "Medewerker",
+    "time": "Tijd",
+    "compliance": "Naleving",
+    "absence": "Afwezigheid",
+    "overtime": "Overuren",
+    "payroll": "Salaris",
+    "vacation": "Vakantiesaldo's"
+  },
+  "presets": {
+    "this_month": "Deze maand",
+    "last_month": "Vorige maand",
+    "this_quarter": "Dit kwartaal",
+    "this_year": "Dit jaar",
+    "last_year": "Vorig jaar"
+  },
+  "types": {
+    "payroll": {
+      "label": "Salarisrapport",
+      "description": "Per medewerker voor de loonperiode: uren, afwezigheid in dagen en uren per type, flex, overuren en pauzeaftrek. Voor de salarisadministratie."
+    },
+    "sickness": {
+      "label": "Ziekteverzuim",
+      "description": "Verzuimstatistieken per afdeling en maand: ziektedagen, perioden, verzuimpercentage en langdurige ziekte (meer dan 30 dagen)."
+    },
+    "absence": {
+      "label": "Afwezigheid",
+      "description": "Alle soorten afwezigheid (vakantie, ziekte, verlof, zorg…) per medewerker of afdeling, in dagen en uren."
+    },
+    "flex_overtime": {
+      "label": "Flex en overuren",
+      "description": "Saldoontwikkeling per periode: normuren, geregistreerde uren, flexverschil en overuren opgebouwd/opgenomen/uitbetaald."
+    },
+    "project_activity": {
+      "label": "Project en activiteit",
+      "description": "Uren verdeeld naar project, activiteitstype en afdeling, om onderwijs, voorbereiding, vergaderingen enzovoort op te volgen."
+    },
+    "vacation_account": {
+      "label": "Vakantiesaldo's",
+      "description": "Vakantiesaldo's per vakantiejaar: toegekend, opgenomen en resterend voor vakantiedagen en extra vakantiedagen, per medewerker."
+    },
+    "compliance": {
+      "label": "Naleving (Arbeidstijdenwet)",
+      "description": "Overtredingen en waarschuwingen per medewerker en week: dagen boven 13 u (11 u rust), weken boven 48 u, weken zonder vrije dag (24 u wekelijkse rust) en gemiddelde wekelijkse arbeidstijd."
+    },
+    "custom": {
+      "label": "Aangepast",
+      "description": "Vrije keuze van dimensies en kolommen uit de hele catalogus: bouw precies het rapport dat je mist."
+    }
+  },
+  "weekdays": {
+    "1": "Maandag",
+    "2": "Dinsdag",
+    "3": "Woensdag",
+    "4": "Donderdag",
+    "5": "Vrijdag",
+    "6": "Zaterdag",
+    "7": "Zondag"
+  },
+  "page": {
+    "all": "(alle)",
+    "selected": "({count} geselecteerd)",
+    "clear": "Selectie wissen",
+    "downloaded": "Rapport gedownload",
+    "templateDeleted": "Sjabloon verwijderd",
+    "maxDimensions": "Maximaal 4 dimensies",
+    "templateUnreadable": "Het sjabloon kan niet worden gelezen",
+    "needColumn": "Kies minstens één kolom",
+    "inactive": "(inactief)",
+    "title": "Rapporten",
+    "step1": "1. Kies rapporttype",
+    "step2": "2. Periode",
+    "holidayYearPlaceholder": "Vakantiejaar…",
+    "holidayYear": "Vakantiejaar {year}",
+    "from": "Van",
+    "to": "Tot",
+    "step3": "3. Filters",
+    "departments": "Afdelingen",
+    "employees": "Medewerkers",
+    "projects": "Projecten",
+    "activities": "Activiteiten",
+    "absenceTypes": "Typen afwezigheid",
+    "onlyApproved": "Alleen goedgekeurde uren",
+    "includeRejected": "Afgewezen uren meenemen",
+    "includePending": "Openstaande afwezigheid meenemen",
+    "includeInactive": "Voormalige medewerkers meenemen",
+    "includeDetails": "Alle boekingen meenemen (details)",
+    "step4": "4. Groeperen op",
+    "step4Hint": "(volgorde = klikvolgorde)",
+    "step5": "5. Kolommen",
+    "run": "Rapport uitvoeren",
+    "saveAsTemplate": "Opslaan als sjabloon",
+    "chooseTemplateFirst": "Sla eerst een sjabloon op of kies er een",
+    "scheduleMail": "E-mail plannen",
+    "savedTemplates": "Opgeslagen sjablonen",
+    "noTemplates": "Nog geen sjablonen.",
+    "sharedOrg": "Gedeeld in de organisatie",
+    "onlyMe": "Alleen ik",
+    "standard": " · Standaard",
+    "deleteTemplate": "Sjabloon verwijderen",
+    "confirmDeleteTemplate": "Het sjabloon \"{name}\" verwijderen?",
+    "footnote": "CSV gebruikt puntkomma's en Deense decimale komma's. Afgewezen uren worden standaard uitgesloten; openstaande ziektemeldingen tellen mee tot en met vandaag. Managers zien alleen hun eigen afdelingen en medewerkers.",
+    "cardEmployees": "Medewerkers",
+    "noData": "Geen gegevens in de periode {from} tot {to}",
+    "noDataHint": "Probeer een langere periode, minder filters of andere kolommen.",
+    "allEntries": "Alle boekingen ({count})",
+    "truncated": "De periode bevat meer boekingen dan de detaillijst kan bevatten. De totalen hierboven zijn nog steeds over alle gegevens berekend. Kies een kortere periode om alle details te zien.",
+    "detEmployee": "Medewerker",
+    "detDepartment": "Afdeling",
+    "detDate": "Datum",
+    "detHours": "Uren",
+    "detProject": "Project",
+    "detActivity": "Activiteit",
+    "detPayCode": "Looncode",
+    "detDescription": "Omschrijving",
+    "detSource": "Bron",
+    "detStatus": "Status",
+    "saveTemplateTitle": "Opslaan als sjabloon",
+    "templateSaved": "Sjabloon opgeslagen",
+    "name": "Naam",
+    "description": "Omschrijving",
+    "shareWithOrg": "Delen met de hele organisatie (alle managers en HR kunnen het zien)",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "scheduleTitle": "E-mail plannen",
+    "scheduled": "Het rapport wordt automatisch verzonden",
+    "frequency": "Frequentie",
+    "weekly": "Wekelijks",
+    "monthly": "Maandelijks",
+    "weekday": "Weekdag",
+    "dayOfMonth": "Dag van de maand",
+    "dayN": "{day}.",
+    "recipients": "Ontvangers (scheiden met komma's)",
+    "recipientsPlaceholder": "salaris@voorbeeld.nl, manager@voorbeeld.nl",
+    "format": "Formaat",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "De periode in het sjabloon is voortschrijdend: \"Vorige maand\" verzonden op de 1e geeft precies de cijfers van de vorige maand.",
+    "schedule": "Plannen",
+    "scheduleRemoved": "Geplande e-mail verwijderd",
+    "scheduledMails": "Geplande e-mails",
+    "freqWeeklyLower": "wekelijks",
+    "freqMonthlyLower": "maandelijks",
+    "scheduleLine": "· {frequency} (dag {day}) · {format} · {recipients}",
+    "lastSent": " · laatst verzonden {date}",
+    "remove": "Verwijderen",
+    "yes": "Ja",
+    "no": "Nee",
+    "card": {
+      "employees": "Medewerkers"
+    }
+  }
+}

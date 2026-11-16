@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "무료 요금제에서는 활성 클라이언트를 3명까지 둘 수 있어요. 클라이언트를 보관하거나 요금제를 확인해 보세요.",
+    "seePlans": "요금제 보기"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "미청구 전체",
+      "periodThisMonth": "이번 달",
+      "periodLastMonth": "지난달",
+      "draftCreated": "{amount} 청구서 초안을 만들었어요",
+      "createFailed": "청구서 초안을 만들 수 없어요",
+      "clientFallback": "클라이언트",
+      "title": "{name} 청구",
+      "description": "검토할 수 있는 초안을 만들어요. 클라이언트에게는 아무것도 전송되지 않아요.",
+      "period": "기간",
+      "loadError": "미청구 시간을 불러올 수 없어요. 잠시 후 다시 시도해 주세요.",
+      "noUnbilled": "이 기간에 {name}의 미청구 시간이 없어요.",
+      "entries": "기록",
+      "time": "시간",
+      "amountExVat": "금액(부가세 별도)",
+      "timePerProject": "프로젝트별 시간",
+      "project": "프로젝트",
+      "amount": "금액",
+      "entryCount": "{count, plural, other {기록 #건}}",
+      "noRate": "{time}에는 시간당 요금이 없어 0 DKK로 포함돼요. 초안에서 금액을 수정할 수 있어요.",
+      "footnote": "해당 기록은 청구됨으로 표시되고 초안에 항목별로 나열돼요. 초안을 다시 삭제하면 해당 시간은 미청구 상태로 돌아가요.",
+      "pickEntries": "기록 직접 선택",
+      "cancel": "취소",
+      "createDraft": "청구서 초안 만들기",
+      "createDraftAmount": "청구서 초안 만들기({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, other {마지막 청구 후 #일 경과}}",
+      "oldestEntry": "{count, plural, other {가장 오래된 기록이 #일 지났어요}}",
+      "ready": "청구 준비 완료",
+      "notInvoiced": "청구되지 않았어요",
+      "notInvoicedClient": "{client}의 시간이 청구되지 않았어요",
+      "invoiceNow": "지금 청구",
+      "hide": "30일간 숨기기"
+    },
+    "explainer": {
+      "point1": "클라이언트가 시간을 미리 결제하므로 나중에 청구서나 독촉장을 보낼 필요가 없어요.",
+      "point2": "클라이언트의 시간을 기록하면 패키지에서 자동으로 차감돼요.",
+      "point3": "클라이언트는 클라이언트 포털에서 잔액을 확인할 수 있고, 패키지가 얼마 남지 않으면 알림을 받아요.",
+      "title": "선불 패키지로 시간을 미리 판매하세요",
+      "intro": "선불 패키지는 클라이언트가 미리 구매하는 시간 묶음이에요. 예를 들어 반복 작업과 지원을 위한 10시간이 있어요.",
+      "create": "선불 패키지 만들기",
+      "calculator": "계산기로 가격 계산하기"
+    },
+    "prepaid": {
+      "offer": "{hours}시간 선불 패키지를 판매해 보세요. 약 {months}개월 동안 쓸 수 있고, 클라이언트가 미리 결제해요.",
+      "offerPrice": "{hours}시간 선불 패키지({price})를 판매해 보세요. 약 {months}개월 동안 쓸 수 있고, 클라이언트가 미리 결제해요.",
+      "sell": "선불 패키지 판매",
+      "dismissLabel": "{client}에게는 해당 없음. 다시 표시하지 않기",
+      "dismissTitle": "해당 없음. 이 클라이언트에게는 다시 표시하지 않기",
+      "suggestionLabel": "선불 패키지 제안",
+      "defaultName": "선불 패키지 {hours}시간",
+      "usageClient": "<name>{client}</name>은(는) 최근 3개월 동안 한 달에 약 <num>{time}</num>을(를) 사용했어요.",
+      "usageGeneric": "이 클라이언트는 최근 3개월 동안 한 달에 약 <num>{time}</num>을(를) 사용했어요."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "일시 중지됨",
+      "paymentMissing": "결제 누락",
+      "active": "활성",
+      "paymentFailedRetry": "{store}에서 결제를 진행하지 못했어요. {store}에서 결제 수단을 업데이트해 주세요. 결제가 완료될 때까지는 무료 요금제로 이용할 수 있어요.",
+      "paymentFailedGrace": "{store}에서 결제를 진행하지 못했어요. 계속 이용하려면 {store}에서 결제 수단을 업데이트해 주세요.",
+      "currentPlan": "현재 요금제",
+      "yearly": "연간",
+      "monthly": "월간",
+      "boughtVia": "{store}에서 구매함",
+      "expires": "{date} 만료",
+      "renews": "{date} 갱신",
+      "paymentTitle": "결제",
+      "paymentInfo": "{brand} 앱에서 구독을 구매하셨으므로 결제와 영수증은 {store}에서 처리돼요. 요금제 변경, 결제 수단 변경, 구독 취소는 {store}에서 하세요.",
+      "manage": "{store}에서 관리"
+    },
+    "wall": {
+      "checkoutFailed": "결제 세션을 만들 수 없어요. 다시 시도해 주세요.",
+      "portalFailed": "결제 포털을 열 수 없어요. 다시 시도해 주세요.",
+      "headingNone": "활성 구독이 없어요",
+      "headingLocked": "이용이 일시 중지되었어요",
+      "headingPastDue": "결제가 누락되었어요",
+      "headingCanceled": "구독이 종료되었어요",
+      "headingTrial": "체험 기간이 끝났어요",
+      "subNone": "{brand}를 사용하려면 구독을 시작하세요",
+      "subPastDue": "이용을 다시 시작하려면 결제 수단을 업데이트하세요",
+      "subUpgrade": "계속하려면 {plan}(으)로 업그레이드하세요",
+      "pastDueBody": "최근 결제를 진행하지 못했어요. {brand}를 계속 사용하려면 결제 수단을 업데이트해 주세요.",
+      "updatePayment": "결제 수단 업데이트",
+      "monthly": "월간",
+      "yearly": "연간",
+      "save17": "17% 절약",
+      "perYearExVat": "/년(부가세 별도)",
+      "perMonthExVat": "/월(부가세 별도)",
+      "equivalent": "월 {price} 수준이라 2개월분을 절약해요",
+      "featureWorkspace": "여러 사용자가 함께 쓰는 팀 워크스페이스",
+      "featureTeamReports": "팀 보고서",
+      "featureUnlimited": "무제한 시간 추적",
+      "featureInvoicing": "선불 패키지 및 청구서",
+      "featureManagement": "클라이언트 및 프로젝트 관리",
+      "featureReports": "보고서 및 내보내기",
+      "featureIntegrations": "덴마크 연동(CVR, Billy 등)",
+      "upgradeNow": "지금 업그레이드",
+      "discountNote": "결제 화면에는 정가가 표시돼요. {percent}% 할인은 자동으로 적용돼요.",
+      "manageAccount": "계정 관리",
+      "exportData": "데이터 내보내기",
+      "signOut": "로그아웃"
+    }
+  }
+}

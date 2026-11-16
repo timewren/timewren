@@ -1,0 +1,141 @@
+{
+  "orglessForbidden": "You are not a member of an organisation. Ask for a new invitation or contact support.",
+  "freeMemberLocked": "The organisation is on the Free plan, which has room for {seats} users. Your data is saved. Ask the owner to upgrade to get access again.",
+  "report": {
+    "hoursSuffix": " h",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "The Gratis plan has room for {clients} active clients. Archive a client or upgrade.",
+  "freeSeatLimit": "The Gratis plan has room for {seats} users, including pending invitations. Upgrade under Settings → Subscription to invite more.",
+  "ownerMustTransfer": "You own a team with other members. Transfer ownership to another member under Organization before you delete your account.",
+  "holidays": {
+    "newYearsDay": "New Year's Day",
+    "maundyThursday": "Maundy Thursday",
+    "goodFriday": "Good Friday",
+    "easterSunday": "Easter Sunday",
+    "easterMonday": "Easter Monday",
+    "ascensionDay": "Ascension Day",
+    "whitSunday": "Whit Sunday",
+    "whitMonday": "Whit Monday",
+    "christmasDay": "Christmas Day",
+    "boxingDay": "Boxing Day",
+    "greatPrayerDay": "Great Prayer Day",
+    "may1": "1 May",
+    "constitutionDay": "Constitution Day",
+    "dayAfterAscension": "Friday after Ascension Day",
+    "christmasEve": "Christmas Eve",
+    "newYearsEve": "New Year's Eve",
+    "dayOff": "Day off"
+  },
+  "speech": {
+    "language": "English",
+    "micBlocked": "The microphone is blocked. Give the browser access to the microphone and try again.",
+    "noMic": "No microphone was found.",
+    "langUnsupported": "{language} speech recognition is not available locally in this browser.",
+    "stopped": "Speech recognition stopped unexpectedly. Try again, or type instead.",
+    "downloadFailed": "{language} speech recognition could not be downloaded in this browser.",
+    "ready": "{language} speech recognition is ready. Tap the microphone.",
+    "cantStart": "Speech recognition could not start. Try again."
+  },
+  "offlineSync": {
+    "fullOverlap": "Another device already had a timer running while you were offline. Your offline time overlapped completely and was not saved.",
+    "partialOverlap": "Another device started a timer while you were offline. Your offline time is saved up to that point.",
+    "clippedSaved": "Another device started a timer while you were offline. Your offline time {from}–{to} is saved as a time entry, and the other timer keeps running.",
+    "resetOffline": "Another device already had a timer running when you started offline at {from}. Your offline timer has been reset and the other one keeps running.",
+    "stoppedElsewhere": "The timer was stopped on another device while you were offline. The time is saved there and was not saved again.",
+    "syncFailed": "An offline change could not be synced: {error}",
+    "defaultDescription": "Time tracking"
+  },
+  "unknownError": "Unknown error",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Could not save",
+      "retry": "Try again"
+    },
+    "push": {
+      "unsupported": "Push notifications are not supported in this browser",
+      "denied": "Permission for notifications was denied",
+      "enabled": "Push notifications enabled",
+      "enabledDesc": "You will now receive notifications",
+      "enableFailed": "Could not enable notifications",
+      "disabled": "Push notifications disabled",
+      "disableFailed": "Could not disable notifications"
+    },
+    "periodic": {
+      "unsupported": "Periodic sync is not supported",
+      "enabled": "Automatic reports enabled",
+      "enabledDesc": "You will receive weekly reports",
+      "enableFailed": "Could not enable automatic reports",
+      "disabled": "Automatic reports disabled",
+      "disableFailed": "Could not disable automatic reports"
+    },
+    "taskUndo": {
+      "restored": "Task restored",
+      "restoreFailed": "Could not restore the task",
+      "deleted": "Task deleted",
+      "undo": "Undo"
+    },
+    "timerSync": {
+      "otherProject": "another project",
+      "runningPaused": "A timer is already running on {name}. Stop it first. Your paused time is kept.",
+      "running": "A timer is already running on {name}. Stop it first.",
+      "alreadyStopped": "The timer had already been stopped and saved on another device. It was not started again."
+    },
+    "timerKeys": {
+      "started": "Timer started",
+      "pressToPause": "Press T again to pause",
+      "paused": "Timer paused",
+      "pressToResume": "{time} - Press T to resume",
+      "resumed": "Timer resumed",
+      "cancelled": "Timer cancelled"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock is not supported in this browser",
+      "active": "Screen is kept awake",
+      "activeDesc": "Your screen will not turn off while tracking time",
+      "released": "The screen can turn off again",
+      "failed": "Could not keep the screen awake"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Your subscription is managed on your account.",
+    "otherAccount": "The purchase is linked to another TimeTrack account.",
+    "ownerOnly": "Only the organisation owner can buy a subscription.",
+    "multiMember": "Privat and Selvstændig are for one user. Your organisation has several users, so the subscription is managed on your account.",
+    "otherOrganization": "Your subscription belongs to another organisation. Switch to that organisation to see it.",
+    "alreadySubscribed": "You already have a subscription via {store}.",
+    "appStoreUnreachable": "The App Store could not be reached. Try again in a moment.",
+    "appStoreVerify": "The purchase could not be verified with the App Store.",
+    "unknownProduct": "Unknown product. Update the app and try again.",
+    "googleNotFound": "The purchase was not found at Google Play.",
+    "productMismatch": "The purchase does not match the selected product.",
+    "googleAck": "The purchase could not be confirmed with Google Play. Try again."
+  },
+  "accountDeletion": {
+    "storeSubscription": "You have an active subscription via {store}. It does not stop when you delete your account and must be cancelled in {store}. Confirm that you understand this to delete the account.",
+    "invalidUserId": "Invalid user ID"
+  },
+  "orgInvite": {
+    "invalidEmail": "Invalid email address",
+    "domainNotAllowed": "The email domain {domain} is not allowed for this organisation",
+    "alreadyMember": "This person is already a member of the organisation",
+    "alreadyInvited": "There is already a pending invitation for this email",
+    "otherBrand": "This email address can't be invited to the organization. Use a different address.",
+    "noSeats": "No free seats ({used} of {max} in use). Buy more seats or change plan under Settings → Subscription.",
+    "noSeatsAccept": "The organisation has no more free seats. Contact your administrator.",
+    "lastOwnerRemove": "The last owner cannot be removed. Transfer ownership to another member first.",
+    "lastOwnerDemote": "The last owner cannot be demoted. Transfer ownership to another member first.",
+    "acceptedPushTitle": "🎉 Invitation accepted",
+    "acceptedPushBody": "{name} is now a member of {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "The bulk list contains duplicate UUIDs",
+    "missing": "One or more tasks are missing or outside your workspace: {ids}",
+    "unexpectedRowCount": "unexpected row count",
+    "unselected": "The data contains UUIDs that were not selected",
+    "statusMismatch": "Task {id} has status {status}; expected status was {expected}",
+    "notEmail": "Task {id} is not an email task",
+    "customLane": "Task {id} uses a custom lane and cannot be safely bulk-completed"
+  },
+  "privatClientLimit": "The Privat plan has room for {clients} active clients. Archive a client or switch to Selvstændig."
+}

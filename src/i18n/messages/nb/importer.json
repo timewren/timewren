@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Importen er ferdig: {count, plural, one {# tidsoppføring importert} other {# tidsoppføringer importert}}",
+    "doneWithErrorsToast": "Importen er ferdig med feil: {imported} importert, {failed} mislyktes",
+    "failedToast": "Importen mislyktes. Se detaljene under innstillinger",
+    "running": "Import pågår: {pct} % ({imported}/{total})",
+    "details": "Se detaljer",
+    "done": "Importen er ferdig: {count, plural, one {# tidsoppføring importert} other {# tidsoppføringer importert}}",
+    "doneWithFailed": "Importen er ferdig: {count, plural, one {# tidsoppføring importert} other {# tidsoppføringer importert}}, {failed} mislyktes",
+    "dismiss": "Lukk"
+  },
+  "page": {
+    "pickDateFormat": "Velg et datoformat for å fortsette.",
+    "success": "Importen er fullført!",
+    "failed": "Importen mislyktes. Prøv igjen.",
+    "backToOnboarding": "← Tilbake til oppstarten",
+    "backToIntegrations": "← Tilbake til integrasjoner",
+    "onboardingMode": "Oppstartsmodus er slått på",
+    "onboardingNote": "Etter en vellykket import fortsetter du automatisk i oppstartsguiden.",
+    "uploadFile": "Last opp fil",
+    "chooseFile": "Velg fil",
+    "noFile": "Ingen fil valgt",
+    "dateFormat": "Datoformat",
+    "chooseFormat": "Velg format…",
+    "dateFormatHint": "Sjekk CSV-dataene dine for å se hvilket datoformat som brukes.",
+    "billingFilter": "Faktureringsfilter",
+    "filter": {
+      "all": "Importer alt",
+      "unbilled": "Bare ufakturert",
+      "billed": "Bare fakturert"
+    },
+    "billingFilterHint": "Filtrer oppføringer etter faktureringsstatusen i kilden.",
+    "markAllBilled": "Marker alle importerte oppføringer som fakturert",
+    "markAllBilledHint": "Bruk dette hvis du bare eksporterer oppføringer som allerede er fakturert fra kilden.",
+    "result": {
+      "clients": "{count, plural, one {# kunde opprettet} other {# kunder opprettet}}",
+      "projects": "{count, plural, one {# prosjekt opprettet} other {# prosjekter opprettet}}",
+      "timeEntries": "{count, plural, one {# tidsoppføring importert} other {# tidsoppføringer importert}}",
+      "billedSplit": "({billed} fakturert, {unbilled} ikke fakturert)",
+      "skippedRows": "{count, plural, one {# rad hoppet over} other {# rader hoppet over}}",
+      "filteredRows": "{count, plural, one {# rad filtrert bort (faktureringsfilter)} other {# rader filtrert bort (faktureringsfilter)}}",
+      "totalHours": "{hours} timer importert totalt",
+      "tasks": "{count, plural, one {# oppgave importert} other {# oppgaver importert}}",
+      "subtasks": "{count, plural, one {# deloppgave importert} other {# deloppgaver importert}}",
+      "tasksSkipped": "{count, plural, one {# oppgave hoppet over} other {# oppgaver hoppet over}}"
+    },
+    "importing": "Importerer…",
+    "start": "Start import",
+    "mayTakeAWhile": "Dette kan ta noen minutter, avhengig av datamengden…",
+    "warnTitle": "Greit å vite:",
+    "warn1": "Importen kan ikke angres",
+    "warn2": "Eksisterende data overskrives ikke",
+    "warn3": "Vi hopper over duplikater"
+  }
+}

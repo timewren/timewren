@@ -1,0 +1,1340 @@
+/*
+ * TimeWren marketing. Kun brandkittets fem farver (public/brand/timewren/README.md):
+ * Ink #1C2119, Wren #8A5A2B, Thicket #3F5A3A, Lichen #E8EDE3, Dawn #E8B04B,
+ * plus hvid. Dæmpet tekst og linjer er Ink/Lichen med gennemsigtighed.
+ * Dawn bruges ét sted: de klippede huller på klippekortet i mørk tilstand.
+ * Kontrasterne er testet i src/lib/brands/__tests__/timewren-site-ui.test.tsx.
+ */
+
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --band: #e8ede3;
+  --text: #1c2119;
+  --muted: rgb(28 33 25 / 0.76);
+  --line: rgb(28 33 25 / 0.16);
+  --link: #3f5a3a;
+  --btn-bg: #3f5a3a;
+  --btn-text: #ffffff;
+  --btn2-text: #1c2119;
+  --punch: #8a5a2b;
+  --hole-ring: rgb(28 33 25 / 0.55);
+  --card: #ffffff;
+  --code-bg: #1c2119;
+  --code-text: #e8ede3;
+  --focus: #8a5a2b;
+
+  --font-display: var(--tw-font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-body:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --wrap: 72rem;
+  --gutter: 1.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c2119;
+    --band: #3f5a3a;
+    --text: #e8ede3;
+    --muted: rgb(232 237 227 / 0.8);
+    --line: rgb(232 237 227 / 0.2);
+    --link: #e8ede3;
+    --btn-bg: #e8ede3;
+    --btn-text: #1c2119;
+    --btn2-text: #e8ede3;
+    --punch: #e8b04b;
+    --hole-ring: rgb(232 237 227 / 0.6);
+    --card: #1c2119;
+    --code-bg: #1c2119;
+    --code-text: #e8ede3;
+    --focus: #e8ede3;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3 {
+  overflow-wrap: break-word;
+  font-family: var(--font-display);
+  font-weight: 680;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* Lange sammensatte ord (de: "Stundenkontingente") deles med bindestreg på mobil. */
+@media (max-width: 40rem) {
+  h1,
+  h2,
+  h3 {
+    hyphens: auto;
+  }
+}
+
+h2 {
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.skip {
+  position: absolute;
+  left: 0.5rem;
+  top: -4rem;
+  z-index: 10;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+}
+
+.skip:focus {
+  top: 0.5rem;
+}
+
+/* Header */
+
+.top {
+  border-bottom: 1px solid var(--line);
+}
+
+.top-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4rem;
+}
+
+.brand {
+  display: inline-flex;
+  flex: none;
+  padding-block: 0.5rem;
+  margin-right: auto;
+}
+
+.brand img {
+  width: 132px;
+  height: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav a,
+.lang summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.625rem;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+}
+
+.nav a:hover,
+.lang summary:hover {
+  text-decoration: underline;
+}
+
+.nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.nav .nav-hide {
+  display: none;
+}
+
+@media (min-width: 40rem) {
+  .nav .nav-hide {
+    display: inline-flex;
+  }
+}
+
+.lang {
+  position: relative;
+}
+
+.lang summary {
+  cursor: pointer;
+  list-style: none;
+  gap: 0.375rem;
+}
+
+.lang summary::-webkit-details-marker {
+  display: none;
+}
+
+.lang summary::after {
+  content: "";
+  width: 0.45em;
+  height: 0.45em;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-0.15em) rotate(45deg);
+}
+
+.lang ul {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.25rem);
+  z-index: 5;
+  margin: 0;
+  padding: 0.375rem;
+  list-style: none;
+  min-width: 12rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.lang li a {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 44px;
+  align-items: center;
+  padding-inline: 0.625rem;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.lang li a:hover {
+  background: var(--band);
+}
+
+.lang li a[aria-current="true"] {
+  font-weight: 650;
+}
+
+.beta {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* Knapper */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 1.5px solid var(--btn-bg);
+  background: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+.btn:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.btn-quiet {
+  background: transparent;
+  color: var(--btn2-text);
+  border-color: var(--line);
+}
+
+/* Sektioner */
+
+.section {
+  padding-block: 4rem;
+}
+
+@media (min-width: 60rem) {
+  .section {
+    padding-block: 6rem;
+  }
+}
+
+.band {
+  background: var(--band);
+}
+
+.lead {
+  font-size: 1.1875rem;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.prose {
+  max-width: 62ch;
+}
+
+.prose > * + * {
+  margin-top: 1rem;
+}
+
+.stack > * + * {
+  margin-top: 1.5rem;
+}
+
+.split {
+  display: grid;
+  gap: 2.5rem;
+}
+
+/* Grid-børn krymper ikke under indholdet (fx en kodeblok) uden min-width: 0. */
+.split > *,
+.pair > * {
+  min-width: 0;
+}
+
+.pair {
+  display: grid;
+  gap: 3rem;
+}
+
+@media (min-width: 60rem) {
+  .pair {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.section-lead {
+  margin-top: 1rem;
+}
+
+@media (min-width: 60rem) {
+  .split {
+    grid-template-columns: 5fr 6fr;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.ticks {
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticks li {
+  position: relative;
+  padding-left: 1.75rem;
+}
+
+.ticks li + li {
+  margin-top: 0.5rem;
+}
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.45em;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  border: 2px solid var(--hole-ring);
+}
+
+/* Hero */
+
+.hero {
+  padding-block: 3.5rem 0;
+}
+
+@media (min-width: 60rem) {
+  .hero {
+    padding-block: 6rem 0;
+  }
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 0.9rem + 4.8vw, 4.75rem);
+  line-height: 1.02;
+  max-width: 16ch;
+}
+
+.hero .lead {
+  margin-top: 1.5rem;
+}
+
+.hero .actions {
+  margin-top: 2rem;
+}
+
+.hero-note {
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* Én-linjen og kommandoer med kopiér-knap */
+
+.one-liner {
+  margin-top: 2.5rem;
+  max-width: 44rem;
+}
+
+.one-liner > p {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Knappen under kommandoen, så den aldrig dækker teksten. */
+.command {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.copy {
+  min-height: 44px;
+  min-width: 5rem;
+  padding: 0 0.875rem;
+  border: 1.5px solid rgb(232 237 227 / 0.4);
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Én-linjen er kort nok til knappen inde i kodeblokken på brede skærme. */
+@media (min-width: 40.0625rem) {
+  .one-liner .copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+
+.copy:hover {
+  border-color: var(--code-text);
+}
+
+.copy:focus-visible {
+  outline-color: var(--code-text);
+}
+
+/* Klippekort trin for trin */
+
+.steps-title {
+  margin-top: 4rem;
+}
+
+.steps {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 3rem;
+  }
+}
+
+@media (min-width: 72rem) {
+  .steps {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: andre containere, så selektorerne rammer aldrig de samme elementer */
+.steps li {
+  counter-increment: step;
+  border-top: 1.5px solid var(--text);
+  padding-top: 1rem;
+}
+
+.steps li::before {
+  content: counter(step);
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 680;
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  color: var(--punch);
+}
+
+.steps h4 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 680;
+  margin: 0 0 0.375rem;
+}
+
+.steps p {
+  color: var(--muted);
+}
+
+.more {
+  margin-top: 2rem;
+}
+
+/* Installationsmåder */
+
+.methods {
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 48rem) {
+  .methods {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: andre containere, så selektorerne rammer aldrig de samme elementer */
+.methods li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+}
+
+.methods h3,
+.methods h2 {
+  font-size: 1.125rem;
+}
+
+.methods p {
+  color: var(--muted);
+}
+
+.method-links {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+}
+
+.method-links > a:not(.btn) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.compare-actions {
+  margin-top: 2rem;
+}
+
+/* Rammen følger billedets egne mål (width/height fra webp-headeren). */
+.shot {
+  margin: 3rem 0 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.shot img {
+  width: 100%;
+  height: auto;
+}
+
+/* Telefonbilleder: smalle og centreret, også når de er art direction. */
+.shot.phone {
+  max-width: 20rem;
+  border-radius: 20px;
+}
+
+@media (max-width: 40rem) {
+  .shot.has-mobile {
+    max-width: 20rem;
+    margin-inline: auto;
+    border-radius: 20px;
+  }
+}
+
+.hero .shot {
+  margin-top: 3.5rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 0;
+}
+
+/* Klippekortet: det ene dristige element. */
+
+.punchcard {
+  position: relative;
+  background: var(--card);
+  border: 1.5px solid var(--text);
+  border-radius: 14px;
+  padding: 1.5rem;
+  max-width: 24rem;
+}
+
+.punchcard-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  padding-bottom: 1rem;
+  border-bottom: 1.5px dashed var(--line);
+}
+
+.punchcard-head p {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: 1.0625rem;
+}
+
+.punchcard-head picture {
+  flex: none;
+}
+
+.punchcard-head img {
+  width: 28px;
+  height: 28px;
+}
+
+.holes {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.875rem;
+  margin: 1.25rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hole {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid var(--hole-ring);
+  position: relative;
+}
+
+.hole.punched::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--punch);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hole.punched::after {
+    animation: punch 260ms cubic-bezier(0.3, 1.4, 0.5, 1) both;
+    animation-delay: calc(var(--i) * 70ms + 300ms);
+  }
+}
+
+@keyframes punch {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.punchcard-foot {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.punchcard-foot strong {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 680;
+}
+
+.punchcard-foot span {
+  color: var(--muted);
+}
+
+/* Fakta-lister (data, udviklere) */
+
+.facts {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.facts div {
+  display: grid;
+  gap: 0.25rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+@media (min-width: 40rem) {
+  .facts div {
+    grid-template-columns: 11rem 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.facts dt {
+  font-weight: 650;
+}
+
+.facts dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Funktionsgennemgang: tekst og screenshot side om side, skiftevis. */
+
+.features {
+  margin-top: 3rem;
+  display: grid;
+  gap: 4rem;
+}
+
+.feature {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.feature > * {
+  min-width: 0;
+}
+
+.feature h3 {
+  font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+}
+
+.feature .stack > * + * {
+  margin-top: 1rem;
+}
+
+.feature .shot {
+  margin: 0;
+}
+
+@media (min-width: 60rem) {
+  .features {
+    gap: 6rem;
+  }
+  .feature {
+    grid-template-columns: 5fr 7fr;
+    gap: 4rem;
+  }
+  /* Hver anden: screenshot til venstre, stadig i den brede kolonne. */
+  .feature:nth-child(even) {
+    grid-template-columns: 7fr 5fr;
+  }
+  .feature:nth-child(even) > .stack {
+    order: 2;
+  }
+  /* Uden screenshot: teksten i den smalle kolonne er nok. */
+  .feature > .stack:only-child {
+    max-width: 62ch;
+  }
+}
+
+/* Sammenligning */
+
+.table-scroll {
+  overflow-x: auto;
+  margin-top: 2.5rem;
+}
+
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.compare caption {
+  text-align: left;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.compare th,
+.compare td {
+  padding: 0.875rem 1rem 0.875rem 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.compare thead th {
+  font-family: var(--font-display);
+  font-weight: 680;
+  font-size: 1.125rem;
+  border-bottom: 1.5px solid var(--text);
+}
+
+.compare tbody th {
+  font-weight: 600;
+  width: 30%;
+}
+
+@media (max-width: 40rem) {
+  .compare {
+    font-size: 0.9375rem;
+    hyphens: auto;
+  }
+  .compare th,
+  .compare td {
+    padding-right: 0.625rem;
+  }
+  .compare .status {
+    display: table;
+    margin: 0.375rem 0 0;
+  }
+}
+
+.status {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.0625rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  vertical-align: 0.15em;
+}
+
+pre.code {
+  margin: 0;
+  padding: 1.25rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow-x: auto;
+  line-height: 1.7;
+}
+
+/* Apps */
+
+.apps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: andre containere, så selektorerne rammer aldrig de samme elementer */
+.apps li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 1.5rem;
+  padding-block: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.apps h3 {
+  font-size: 1.125rem;
+}
+
+.apps p {
+  grid-column: 1;
+  color: var(--muted);
+}
+
+.apps .status {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  margin: 0;
+}
+
+.apps .status[data-state="coming"] {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+/* FAQ */
+
+.faq {
+  margin-top: 2rem;
+  border-top: 1px solid var(--line);
+  max-width: 48rem;
+}
+
+.faq details {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  min-height: 3.5rem;
+  padding-block: 0.75rem;
+  font-weight: 600;
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 400;
+  flex: none;
+}
+
+.faq details[open] summary::after {
+  content: "\2212";
+}
+
+.faq details p {
+  padding-bottom: 1.25rem;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+/* Prisside */
+
+.plans {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+@media (min-width: 60rem) {
+  .plans {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+.plan {
+  padding: 2rem;
+  border-radius: 14px;
+  border: 1.5px solid var(--text);
+}
+
+.plan.cloud {
+  background: var(--band);
+  border-color: transparent;
+}
+
+.plan .price {
+  margin-top: 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 680;
+  font-size: clamp(2.25rem, 1.8rem + 1.6vw, 3rem);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+.plan .per {
+  margin-top: 0.25rem;
+  color: var(--muted);
+}
+
+.plan .ticks {
+  margin-top: 1.5rem;
+}
+
+.plan .btn {
+  margin-top: 2rem;
+}
+
+.cloud-plans {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: andre containere, så selektorerne rammer aldrig de samme elementer */
+.cloud-plans li {
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.cloud-plans .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cloud-plans .amount {
+  font-family: var(--font-display);
+  font-weight: 680;
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.cloud-plans .cost {
+  margin: 0;
+  text-align: end;
+}
+
+.cloud-plans .unit {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* Smalle skærme: navn til venstre, pris over enheden til højre. */
+@media (max-width: 40rem) {
+  .cloud-plans .row {
+    flex-wrap: nowrap;
+  }
+
+  .cloud-plans .unit {
+    display: block;
+    line-height: 1.3;
+  }
+}
+
+.cloud-plans small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* Valutavælger: alle priser står i HTML'en, CSS viser den valgte (uden JS). */
+
+.currency {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.currency legend {
+  float: left;
+  margin-inline-end: 0.5rem;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.currency label {
+  position: relative;
+  display: inline-flex;
+}
+
+.currency input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.currency span {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0.875rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.currency input:checked + span {
+  background: var(--btn-bg);
+  border-color: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+.currency input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.plan.cloud:has(#currency-EUR:checked)
+  [data-currency]:not([data-currency="EUR"]),
+.plan.cloud:has(#currency-USD:checked)
+  [data-currency]:not([data-currency="USD"]),
+.plan.cloud:has(#currency-DKK:checked)
+  [data-currency]:not([data-currency="DKK"]),
+.plan.cloud:has(#currency-DKK:checked) .billed-dkk {
+  display: none;
+}
+
+.note {
+  margin-top: 2.5rem;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+/* Undersider */
+
+.page-head {
+  padding-block: 3.5rem 0;
+}
+
+@media (min-width: 60rem) {
+  .page-head {
+    padding-block: 5rem 0;
+  }
+}
+
+.page-head h1 {
+  font-size: clamp(2.25rem, 1.6rem + 2.8vw, 3.5rem);
+}
+
+.page-head .lead {
+  margin-top: 1.25rem;
+}
+
+.doc-links {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  columns: 2 14rem;
+  column-gap: 2rem;
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: andre containere, så selektorerne rammer aldrig de samme elementer */
+.doc-links li {
+  break-inside: avoid;
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: andre containere, så selektorerne rammer aldrig de samme elementer */
+.doc-links a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.legal {
+  padding-bottom: 5rem;
+}
+
+.legal h2 {
+  font-size: 1.375rem;
+  margin-top: 2.5rem;
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: andre containere, så selektorerne rammer aldrig de samme elementer */
+.legal p,
+.legal ul {
+  margin-top: 0.75rem;
+}
+
+.legal li + li {
+  margin-top: 0.5rem;
+}
+
+.legal .updated {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.legal section {
+  max-width: 68ch;
+}
+
+/* Footer */
+
+.foot {
+  border-top: 1px solid var(--line);
+  padding-block: 3rem;
+  font-size: 0.9375rem;
+}
+
+.foot-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 40rem) {
+  .foot-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 60rem) {
+  .foot-grid {
+    grid-template-columns: 2fr repeat(4, 1fr);
+  }
+}
+
+.foot img {
+  width: 120px;
+  height: auto;
+}
+
+/* biome-ignore lint/style/noDescendingSpecificity: andre containere, så selektorerne rammer aldrig de samme elementer */
+.foot p {
+  color: var(--muted);
+  margin-top: 0.75rem;
+  max-width: 36ch;
+}
+
+.foot h2 {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+.foot ul {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.foot li a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--text);
+}
+
+.foot .made {
+  margin-top: 2.5rem;
+  max-width: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Varianter, der skal stå efter grundreglerne (.status, pre.code). */
+
+.btn .status {
+  margin-left: 0.625rem;
+  vertical-align: 0;
+}
+
+.methods pre.code {
+  font-size: 0.875rem;
+}
+
+.command pre.code {
+  align-self: stretch;
+}
+
+/* Prompts er tekst, ikke kode: de må ombrydes. */
+.command.wrap pre.code {
+  white-space: pre-wrap;
+}
+
+@media (min-width: 40.0625rem) {
+  .one-liner pre.code {
+    padding-right: 6.5rem;
+  }
+}

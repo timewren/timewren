@@ -1,0 +1,91 @@
+{
+  "loading": "Caricamento",
+  "offline": "Offline",
+  "noInternet": "Nessuna connessione a internet",
+  "openApp": "Apri TimeTrack",
+  "openAppNewTab": "Apri TimeTrack in una nuova scheda",
+  "settings": "Impostazioni",
+  "logout": "Esci",
+  "logoutConfirm": "Uscire da TimeTrack?",
+  "todayHours": "{duration} oggi",
+  "dailyProgress": "Progresso giornaliero: {done} di {goal} h oggi",
+  "tabs": {
+    "view": "Vista",
+    "timer": "Timer",
+    "calendar": "Calendario",
+    "history": "Cronologia",
+    "prepaid": "Pacchetti"
+  },
+  "login": {
+    "tagline": "Tracciamento del tempo direttamente dal browser",
+    "connecting": "Connessione…",
+    "connect": "Connetti a TimeTrack",
+    "secureHint": "Accedi in sicurezza in una nuova finestra. Poi potrai scegliere un'organizzazione nell'estensione.",
+    "newHere": "Nuovo su TimeTrack?",
+    "register": "Crea un account gratuito",
+    "advanced": "Avanzate: incolla il token a mano",
+    "tokenLabel": "Token dell'estensione",
+    "tokenPlaceholder": "Incolla qui il tuo token…",
+    "signingIn": "Accesso…",
+    "signInToken": "Accedi con il token",
+    "openSettings": "Apri le impostazioni in TimeTrack"
+  },
+  "org": {
+    "label": "Organizzazione: {name}. Cambia organizzazione",
+    "none": "nessuna selezionata",
+    "choose": "Scegli organizzazione",
+    "stopFirst": "Ferma o salva il timer attivo prima di cambiare organizzazione."
+  },
+  "stopPrompt": {
+    "title": "Nessun cliente selezionato",
+    "question": "Nessun cliente selezionato. Salvare come tempo interno?",
+    "close": "Chiudi senza fermare",
+    "pickClient": "Scegli cliente",
+    "saveInternal": "Salva come tempo interno"
+  },
+  "sync": {
+    "syncing": "Sincronizzazione…",
+    "pending": "{count} in attesa di sincronizzazione",
+    "hideDetails": "Nascondi dettagli",
+    "showDetails": "Mostra dettagli",
+    "syncNow": "Sincronizza ora",
+    "entry": "Registrazione ore: {description}",
+    "noDescription": "(nessuna descrizione)",
+    "timerUpdate": "Aggiornamento timer",
+    "timerStop": "Arresto timer",
+    "tries": "{count, plural, one {# tentativo} many {# di tentativi} other {# tentativi}}"
+  },
+  "mini": {
+    "timerLabel": "Timer",
+    "goTo": "Vai al timer: {label}",
+    "stop": "Ferma timer"
+  },
+  "queryError": {
+    "retry": "Riprova"
+  },
+  "timerError": {
+    "close": "Chiudi messaggio di errore"
+  },
+  "update": {
+    "title": "Aggiorna l'estensione TimeTrack",
+    "body": "La versione {version} è troppo vecchia per salvare il tempo. L'aggiornamento viene scaricato automaticamente. Se non succede, riavvia il browser oppure apri chrome://extensions e clicca su \"Aggiorna\"."
+  },
+  "idle": {
+    "pausedMessage": "Il timer è stato messo in pausa alle {clock} dopo {away} di inattività",
+    "pausedDetail": "Quel tempo di inattività non è stato conteggiato.",
+    "resume": "Riprendi timer",
+    "close": "Chiudi",
+    "awayMessage": "Sei stato assente per {away} (dalle {clock})",
+    "awayDetail": "Il timer è ancora in esecuzione. Vuoi conteggiare il tempo?",
+    "discard": "Rimuovi {away}",
+    "keep": "Mantieni il tempo"
+  },
+  "confirm": {
+    "cancel": "Annulla"
+  },
+  "logoutWarnings": {
+    "running": "Il timer continua a girare in TimeTrack mentre sei disconnesso.",
+    "paused": "Il timer in pausa resta in TimeTrack.",
+    "queue": "{count, plural, one {# modifica nella coda offline non è ancora stata inviata} many {# di modifiche nella coda offline non sono ancora state inviate} other {# modifiche nella coda offline non sono ancora state inviate}}. Verranno inviate al prossimo accesso."
+  }
+}

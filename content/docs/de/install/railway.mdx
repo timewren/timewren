@@ -1,0 +1,62 @@
+---
+title: "Railway"
+description: "TimeWren auf Railway bereitstellen, mit einem Web-Dienst, PostgreSQL, einem Storage-Volume und einem separaten Scheduler-Dienst."
+---
+
+Wähle diese Methode, wenn du verwaltetes Hosting auf Railway willst. Das Setup besteht aus drei Teilen: dem Web-Dienst, einer PostgreSQL-Datenbank und einem Scheduler-Dienst. Beide Dienste laden das veröffentlichte Image und bauen die App nie.
+
+> **Hinweis:** Eine Railway-Vorlage mit allen Diensten für die Ein-Klick-Bereitstellung ist noch nicht veröffentlicht. Die Config-as-Code von Railway beschreibt einen Dienst, nicht ein ganzes Projekt, daher fügst du Datenbank, Volume und Scheduler wie unten beschrieben selbst hinzu.
+
+## Voraussetzungen
+
+- Ein Railway-Konto und ein Projekt.
+- Das Repository `timewren/timewren`, das `railway.json` und `deploy/railway/` enthält.
+
+## Einrichten
+
+1. Füge dem Projekt PostgreSQL hinzu. Stelle dann den Web-Dienst aus dem GitHub-Repository `timewren/timewren` mit `/railway.json` als Konfigurationspfad bereit. Binde ein Volume unter `/app/data/storage` ein und behalte genau eine Replik.
+
+2. Setze diese Variablen am Web-Dienst. Railway-Referenzen wie `${{Postgres.DATABASE_URL}}` sind wörtliche Werte, und der Name muss zu deinem Datenbankdienst passen:
+
+   | Variable | Wert |
+   | -------- | ---- |
+   | `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` |
+   | `BETTER_AUTH_SECRET` | ein unabhängiges zufälliges Geheimnis |
+   | `ENCRYPTION_KEY` | Ausgabe von `openssl rand -hex 32` |
+   | `CRON_SECRET` | ein unabhängiges zufälliges Geheimnis |
+   | `NEXT_PUBLIC_APP_URL` | öffentliche HTTPS-URL, ohne abschließenden Schrägstrich |
+   | `NEXT_PUBLIC_BRAND` | `timewren` |
+   | `MIGRATE_ON_START` | `1` |
+   | `STORAGE_DRIVER` | `local` |
+   | `STORAGE_LOCAL_PATH` | `/app/data/storage` |
+   | `REQUIRE_EMAIL_VERIFICATION` | `false`, bis E-Mail konfiguriert ist |
+   | `HOSTNAME` | `0.0.0.0` |
+   | `PORT` | `3000` |
+
+3. Erzeuge eine öffentliche Domain für den Web-Dienst, setze `NEXT_PUBLIC_APP_URL` auf diese HTTPS-URL und stelle erneut bereit. Füge optionale Variablen für E-Mail und Integrationen aus `.env.example` hinzu, wenn du sie brauchst.
+
+4. Füge aus demselben Repository einen zweiten Dienst hinzu. Wähle `/deploy/railway/cron.json` als Konfigurationspfad und setze:
+
+   | Variable | Wert |
+   | -------- | ---- |
+   | `CRON_SECRET` | `${{TimeWren.CRON_SECRET}}` |
+   | `APP_URL` | `http://${{TimeWren.RAILWAY_PRIVATE_DOMAIN}}:3000` |
+
+   Ersetze `TimeWren` durch den tatsächlichen Namen deines Web-Dienstes. Behalte eine Scheduler-Replik, keine öffentliche Domain, kein Volume und kein Serverless-Schlafen.
+
+Überspringe den Scheduler nicht: Exporte, Importe, Synchronisierungen und Erinnerungen brauchen ihn. Er führt `node scripts/cron.mjs` aus, braucht nie Datenbank-Zugangsdaten, und Migrationen laufen nur im Web-Dienst beim Start.
+
+## Wie die Konfiguration funktioniert
+
+`railway.json` verweist beide Dienste auf `deploy/railway/Dockerfile`, das nur `FROM ghcr.io/timewren/timewren:latest` enthält. Um ein Release festzulegen, ändere den Tag in diesem Dockerfile. Der Web-Dienst nutzt `/api/health` als Health Check und benötigt den Mount-Pfad `/app/data/storage`. Valkey ist optional und für eine App-Replik nicht nötig.
+
+## Zuerst dein Konto anlegen
+
+Das erste registrierte Konto wird Admin. Setze `ADMIN_EMAIL` und einen Mail-Transport, bevor du den Dienst öffentlich machst, falls du dieses Konto reservieren willst. Sichere die Datenbank, das Storage-Volume und `ENCRYPTION_KEY`.
+
+## Nächste Schritte
+
+- [Schnellstart](/de/docs/quickstart)
+- [Umgebungsvariablen](/de/docs/configuration/environment)
+- [E-Mail](/de/docs/configuration/email)
+- [Aktualisieren](/de/docs/operations/upgrading) und [Backup und Wiederherstellung](/de/docs/operations/backup-restore)

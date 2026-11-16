@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Ayarlar",
+    "subtitle": "Yönetici bildirimlerini, özellik bayraklarını ve değişiklik günlüğünü yönet"
+  },
+  "notifications": {
+    "title": "Bildirimler",
+    "description": "Yönetici olayları için e-posta ve Discord bildirimlerini yapılandır",
+    "emailLabel": "Yönetici e-postası/e-postaları",
+    "emailHint": "Birden fazla alıcı için virgülle ayır",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord webhook URL'si",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Test et",
+    "eventTypes": "Olay türleri",
+    "saving": "Kaydediliyor…",
+    "save": "Ayarları kaydet",
+    "saved": "Bildirim ayarları kaydedildi",
+    "testSent": "Test mesajı Discord'a gönderildi",
+    "webhookRequired": "Önce bir Discord webhook URL'si gir"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Yeni kullanıcı kaydı",
+      "description": "Yeni kullanıcı kayıtlarında bildir"
+    },
+    "notify_subscription_started": {
+      "label": "Yeni ücretli abonelik",
+      "description": "Yeni ödeme yapan müşterilerde bildir"
+    },
+    "notify_payment_failed": {
+      "label": "Ödeme başarısız",
+      "description": "Başarısız ödemelerde bildir"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Abonelik iptal edildi",
+      "description": "İptallerde bildir"
+    },
+    "notify_trial_ending": {
+      "label": "Deneme süresi yakında bitiyor",
+      "description": "Yalnızca Discord: deneme süresi bitmek üzereyken bildir"
+    },
+    "notify_user_flagged": {
+      "label": "Kullanıcı işaretlendi",
+      "description": "Yalnızca Discord: bir kullanıcı işaretlendiğinde bildir"
+    }
+  },
+  "support": {
+    "title": "Destek",
+    "description": "Destek gelen kutularını ve imzayı yönet",
+    "inboxes": "Gelen kutuları",
+    "add": "Ekle",
+    "namePlaceholder": "Ad",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "İmza HTML'i (isteğe bağlı)",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "create": "Oluştur",
+    "default": "Varsayılan",
+    "confirmDelete": "Bu gelen kutusu silinsin mi?",
+    "noInboxes": "Henüz gelen kutusu oluşturulmadı",
+    "inboxCreated": "Gelen kutusu oluşturuldu",
+    "inboxUpdated": "Gelen kutusu güncellendi",
+    "inboxDeleted": "Gelen kutusu silindi",
+    "signatureSaved": "İmza kaydedildi",
+    "globalSignature": "Genel imza",
+    "globalSignatureHint": "Bir gelen kutusunun kendi imzası olmadığında kullanılan HTML imzası",
+    "globalSignaturePlaceholder": "<p>Saygılarımla<br>TimeTrack Destek</p>",
+    "preview": "Önizleme",
+    "noSignature": "İmza yok",
+    "savingSignature": "Kaydediliyor…",
+    "saveSignature": "İmzayı kaydet"
+  },
+  "debug": {
+    "title": "Sorun giderme",
+    "description": "Yalnızca sana, bu tarayıcıda gösterilen araçlar",
+    "electricLabel": "Electric rozetini göster",
+    "electricDescription": "Zamanlayıcının canlı eşitleme durumunu panonun sol altında gösterir"
+  },
+  "flags": {
+    "title": "Özellik bayrakları",
+    "description": "Özellikleri tüm kullanıcılar için aç veya kapat",
+    "empty": "Yapılandırılmış özellik bayrağı yok",
+    "lastChangedBy": "Son değiştiren: {name}",
+    "lastChangedByDate": "Son değiştiren: {name} - {date}"
+  },
+  "changelog": {
+    "title": "Değişiklik günlüğü",
+    "description": "Kullanıcılara gösterilen değişiklik günlüğü girdileri oluştur",
+    "new": "Yeni değişiklik günlüğü girdisi oluştur",
+    "version": "Sürüm",
+    "titleLabel": "Başlık",
+    "titlePlaceholder": "Yeni özellik: ...",
+    "content": "İçerik (Markdown)",
+    "contentPlaceholder": "Değişiklikleri açıkla…",
+    "cancel": "İptal",
+    "create": "Oluştur",
+    "recent": "Son değişiklik günlüğü girdileri",
+    "confirmDelete": "v{version} değişiklik günlüğü silinsin mi?",
+    "delete": "Sil",
+    "created": "Değişiklik günlüğü oluşturuldu",
+    "deleted": "Değişiklik günlüğü silindi"
+  }
+}

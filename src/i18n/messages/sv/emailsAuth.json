@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "Din inloggningslänk till {brand} fungerar i 15 minuter",
+    "kicker": "Logga in",
+    "heading": "Logga in på {brand}",
+    "footerNote": "Du får det här mejlet eftersom någon har begärt en inloggningslänk till din adress.",
+    "body": "Klicka på knappen för att logga in. Länken fungerar i 15 minuter och kan bara användas en gång.",
+    "button": "Logga in på {brand}",
+    "ignore": "Om du inte har begärt att logga in kan du bortse från det här mejlet. Ingenting händer utan att du klickar.",
+    "subject": "Logga in på TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "Återställ ditt lösenord till {brand}",
+    "kicker": "Säkerhet",
+    "heading": "Återställ ditt lösenord",
+    "footerNote": "Du får det här mejlet eftersom ett nytt lösenord har begärts för ditt konto.",
+    "greeting": "Hej {name},",
+    "body": "Klicka på knappen för att välja ett nytt lösenord. Länken går ut om en timme.",
+    "button": "Välj nytt lösenord",
+    "ignore": "Om du inte har begärt det här kan du bortse från mejlet. Ditt lösenord är oförändrat och ditt konto är fortfarande säkert.",
+    "subject": "Återställ ditt lösenord till TimeTrack"
+  },
+  "verification": {
+    "preview": "Bekräfta din e-postadress för att aktivera ditt konto",
+    "kicker": "Konto",
+    "heading": "Bekräfta din e-postadress",
+    "footerNote": "Du får det här mejlet eftersom någon har skapat ett konto på {brand} med din e-postadress.",
+    "greeting": "Hej {name},",
+    "greetingFallback": "Hej,",
+    "body": "Tack för att du registrerade dig. Klicka på knappen för att bekräfta din e-postadress och aktivera ditt konto. Länken fungerar i 24 timmar.",
+    "button": "Bekräfta e-postadress",
+    "ignore": "Om du inte har skapat ett konto kan du bortse från det här mejlet. Inget mer händer.",
+    "subject": "Bekräfta din e-postadress för TimeTrack"
+  },
+  "security": {
+    "kicker": "Säkerhet",
+    "footerNote": "Det här är ett automatiskt säkerhetsmeddelande.",
+    "greeting": "Hej {name},",
+    "time": "Tid",
+    "ip": "IP-adress",
+    "device": "Enhet",
+    "place": "Plats",
+    "notYou": "Var det inte du?",
+    "openSettings": "Öppna kontoinställningar",
+    "unknownDevice": "Okänd enhet",
+    "browser": "Webbläsare",
+    "deviceOn": "{browser} på {os}"
+  },
+  "passwordChanged": {
+    "preview": "Ditt lösenord till {brand} har ändrats",
+    "heading": "Ditt lösenord har ändrats",
+    "body": "Lösenordet till ditt {brand}-konto har just ändrats. Om det var du behöver du inte göra något.",
+    "calloutBody": "Återställ ditt lösenord med \"Glömt lösenord\" på inloggningssidan och skriv direkt till [mail]{email}[/mail].",
+    "subject": "Ditt lösenord till TimeTrack har ändrats"
+  },
+  "newLogin": {
+    "preview": "Ny inloggning på {brand} från {device}",
+    "heading": "Ny inloggning på ditt konto",
+    "body": "Någon har loggat in på ditt {brand}-konto från en enhet som inte har använts tidigare. Om det var du behöver du inte göra något.",
+    "calloutBody": "Byt lösenord direkt och skriv till [mail]{email}[/mail], så hjälper supporten dig att säkra kontot.",
+    "subject": "Ny inloggning på ditt TimeTrack-konto"
+  },
+  "twoFactor": {
+    "preview": "Din verifieringskod för {brand}: {code}",
+    "heading": "Din verifieringskod",
+    "footerNote": "Du får det här mejlet eftersom någon har loggat in på ditt konto med tvåstegsverifiering.",
+    "enterCode": "Ange koden för att fortsätta:",
+    "expires": "Koden går ut om 3 minuter. Om du inte har begärt den kan du bortse från mejlet. Ange aldrig koden någon annanstans än på {brand}.",
+    "subject": "{code} är din verifieringskod för TimeTrack"
+  },
+  "signupPassword": {
+    "preview": "Ditt tillfälliga lösenord till {brand}",
+    "kicker": "Välkommen",
+    "heading": "Välkommen till {brand}, {name}",
+    "intro": "Ditt konto har skapats. Här är ditt tillfälliga lösenord:",
+    "changeIt": "Byt det efter din första inloggning under Säkerhet i inställningarna.",
+    "button": "Logga in på ditt konto",
+    "alsoLogin": "Du kan också logga in på [login]{url}[/login] med din e-postadress och lösenordet ovan.",
+    "getStarted": "Så kommer du igång",
+    "step1": "Skapa din första kund",
+    "step2": "Skapa ett projekt för kunden",
+    "step3": "Starta timern och fakturera timmarna när arbetet är klart",
+    "subject": "Ditt lösenord till TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} har bjudit in dig till {org}",
+    "kicker": "Inbjudan",
+    "heading": "Du har blivit inbjuden till {org}",
+    "footerNote": "Du får det här mejlet eftersom någon har bjudit in dig till sitt team på {brand}.",
+    "role": {
+      "owner": "ägare",
+      "admin": "administratör",
+      "member": "medlem"
+    },
+    "body": "**{inviter}** har bjudit in dig att bli {role} i **{org}** på {brand}.",
+    "body2": "Här registrerar du tid på teamets kunder och projekt, och chefen kan se timmarna på ett ställe.",
+    "button": "Acceptera inbjudan",
+    "expires": "Inbjudan går ut om 48 timmar. Om du inte känner avsändaren kan du bortse från det här mejlet.",
+    "subject": "{inviter} har bjudit in dig till {org} på TimeTrack"
+  },
+  "portalInvite": {
+    "preview": "Du har blivit inbjuden till {sender}s kundportal",
+    "kicker": "Kundportal",
+    "heading": "Välkommen till kundportalen",
+    "footerNote": "Skickat av {sender} via {brand}.",
+    "greeting": "Hej {name},",
+    "body": "{sender} har gett dig åtkomst till din egen kundportal. Där kan du se fakturor och projekt och följa saldot på din timbank.",
+    "button": "Öppna kundportalen",
+    "account": "Logga in med e-postadressen **{email}** och lösenordet du fick av {sender}.",
+    "token": "Länken är personlig. Dela den inte med andra.",
+    "questions": "Har du frågor kan du skriva till {sender} på [mail]{email}[/mail].",
+    "subject": "Du har blivit inbjuden till {sender}s kundportal"
+  },
+  "welcome": {
+    "preview": "Välkommen till {brand}",
+    "kicker": "Välkommen",
+    "heading": "Välkommen, {name}",
+    "intro": "Tack för att du skapade ett konto på {brand}. Så här kommer du igång:",
+    "button": "Öppna {brand}",
+    "questions": "Frågor? Titta i [help]hjälpcentret[/help] eller skriv till [mail]{email}[/mail].",
+    "subject": "Välkommen till TimeTrack"
+  }
+}

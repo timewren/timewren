@@ -1,0 +1,484 @@
+/* Kun src/ scannes for klasser. Uden source() scanner Tailwind hele repoet
+   (browser-extension, docs, scripts …), og deres klasser endte i appens
+   render-blokerende CSS. */
+@import "tailwindcss" source("../");
+/* shadcn/typeset — ét stylesheet til renderet markdown (Nyheder, noter, kommentarer, juridiske sider) */
+@import "./typeset.css";
+
+/* Enable class-based dark mode (Tailwind v4 defaults to media query) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Brand-tokens (docs/BRAND.md → Farver, Dark mode, Kanter og fokus).
+ * Samme værdier som docs/brand/tokens.json, der bruges af mails, PDF,
+ * extension, desktop og mobil. Ret begge steder.
+ *
+ * --tt-* skifter med lys/mørk (klassen .dark og media-fallback nedenfor).
+ * Brug dem via utilities som bg-tt-papir, text-tt-blaek, border-tt-kant,
+ * bg-tt-gran, text-tt-paa-gran. brand-50..900 er en fast skala (skifter
+ * ikke i mørk); brug tt-gran, når farven skal løftes i dark mode.
+ */
+:root {
+  --tt-papir: #ffffff;
+  --tt-flade: #f2f3f0;
+  --tt-flade-hoej: #ffffff;
+  --tt-streg: #dfe2de;
+  --tt-kant: #8a918d;
+  --tt-blaek: #1a1d1c;
+  --tt-graa: #5f6663;
+  --tt-gran: #1e5b47;
+  --tt-gran-lys: #e2ede8;
+  --tt-gran-moerk: #164536;
+  --tt-paa-gran: #ffffff;
+  --tt-fokus: #1e5b47;
+
+  --background: var(--tt-papir);
+  --foreground: var(--tt-blaek);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* Schibsted Grotesk har ingen CJK-tegn: ja, ko og zh-Hans falder tilbage til systemets egne skrifttyper (ingen fontfiler sendes). */
+  --font-sans:
+    var(--font-schibsted), "Schibsted Grotesk", Arial, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", "PingFang SC", "Microsoft YaHei", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK JP", "Noto Sans CJK KR", "Noto Sans CJK SC", sans-serif;
+  --font-mono: var(--font-geist-mono);
+
+  /* Neutrale tokens og brand, der skifter med temaet */
+  --color-tt-papir: var(--tt-papir);
+  --color-tt-flade: var(--tt-flade);
+  --color-tt-flade-hoej: var(--tt-flade-hoej);
+  --color-tt-streg: var(--tt-streg);
+  --color-tt-kant: var(--tt-kant);
+  --color-tt-blaek: var(--tt-blaek);
+  --color-tt-graa: var(--tt-graa);
+  --color-tt-gran: var(--tt-gran);
+  --color-tt-gran-lys: var(--tt-gran-lys);
+  --color-tt-gran-moerk: var(--tt-gran-moerk);
+  --color-tt-paa-gran: var(--tt-paa-gran);
+  --color-tt-fokus: var(--tt-fokus);
+  --color-tt-flade-varm: var(--tt-flade-varm);
+
+  /* Granskov-skala, genereret i OKLCH fra #1E5B47 (600). 100 = gran-lys,
+     400 = granskov i dark mode, 700 = gran-moerk (hover). */
+  --color-brand-50: #effaf5;
+  --color-brand-100: #e2ede8;
+  --color-brand-200: #c2dfd3;
+  --color-brand-300: #9ac6b4;
+  --color-brand-400: #5fb38f;
+  --color-brand-500: #437e68;
+  --color-brand-600: #1e5b47;
+  --color-brand-700: #164536;
+  --color-brand-800: #053728;
+  --color-brand-900: #01251a;
+
+  /* Success colors */
+  --color-success-50: #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+  --color-success-900: #064e3b;
+
+  /* Warning colors */
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+
+  /* Danger colors */
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-300: #fca5a5;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-900: #7f1d1d;
+
+  /* Surface colors */
+  --color-surface: #f8fafc;
+  --color-surface-dark: #1a1a1a;
+
+  /* Override default border-radius (Tailwind default is 4px, project uses 8px) */
+  --radius: 0.5rem;
+
+  /* Custom shadows */
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-card-hover:
+    0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  /* Custom breakpoint */
+  --breakpoint-xs: 480px;
+}
+
+/* Dark theme via class (primary method)
+   Uses neutral blacks instead of Tailwind's blue-tinted grays
+   for a true black dark mode (Facebook-style). */
+:root.dark {
+  --tt-papir: #0a0a0a;
+  --tt-flade: #151816;
+  --tt-flade-hoej: #1c201e;
+  --tt-streg: #2a2f2d;
+  --tt-kant: #6b736f;
+  --tt-blaek: #ecefed;
+  --tt-graa: #a3aba7;
+  --tt-gran: #5fb38f;
+  --tt-gran-lys: #18291f;
+  --tt-gran-moerk: #7fc4a6;
+  --tt-paa-gran: #0a0a0a;
+  --tt-fokus: #5fb38f;
+
+  /* Override Tailwind gray palette — neutral blacks, no blue tint */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f0f0f0;
+  --color-gray-200: #d4d4d4;
+  --color-gray-300: #b0b0b0;
+  --color-gray-400: #a0a0a0;
+  --color-gray-500: #6a6a6a;
+  --color-gray-600: #3a3a3a;
+  --color-gray-700: #2a2a2a;
+  --color-gray-800: #1a1a1a;
+  --color-gray-900: #121212;
+  --color-gray-950: #0a0a0a;
+}
+
+/* Dark theme via media query (fallback) */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --tt-papir: #0a0a0a;
+    --tt-flade: #151816;
+    --tt-flade-hoej: #1c201e;
+    --tt-streg: #2a2f2d;
+    --tt-kant: #6b736f;
+    --tt-blaek: #ecefed;
+    --tt-graa: #a3aba7;
+    --tt-gran: #5fb38f;
+    --tt-gran-lys: #18291f;
+    --tt-gran-moerk: #7fc4a6;
+    --tt-paa-gran: #0a0a0a;
+    --tt-fokus: #5fb38f;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Altid-lyse flader (marketing-sider er hvide uanset tema): .tt-lys
+   nulstiller tokens til lyse værdier for sit undertræ. */
+.tt-lys {
+  --tt-papir: #ffffff;
+  --tt-flade: #f2f3f0;
+  --tt-flade-hoej: #ffffff;
+  --tt-streg: #dfe2de;
+  --tt-kant: #8a918d;
+  --tt-blaek: #1a1d1c;
+  --tt-graa: #5f6663;
+  --tt-gran: #1e5b47;
+  --tt-gran-lys: #e2ede8;
+  --tt-gran-moerk: #164536;
+  --tt-paa-gran: #ffffff;
+  --tt-fokus: #1e5b47;
+  /* Varm æggeskal (issue #875, variant A): kun til navngivne marketing-flader
+     (bg-tt-flade-varm), ikke til --tt-flade selv. App/dashboard bruger aldrig
+     .tt-lys og ser den uændret, neutrale flade. */
+  --tt-flade-varm: #f5f0e6;
+}
+
+/* Fokus (BRAND.md → Kanter, fokus og trykflader): 2 px brand med 2 px
+   offset som standard for alt, der ikke selv sætter en fokusstil. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--tt-fokus);
+    outline-offset: 2px;
+  }
+}
+
+/* Feedback-panelet (bugbottle/ui) i TimeTracks tokens. --bb-* gennemtrænger
+   panelets shadow root, og --tt-* skifter selv med lys/mørk. Desktop: knappen
+   står over timer-knappen som den gamle boble (bottom-24 right-7). Under lg
+   er der ingen flydende knap; brugermenuens "Send feedback" kalder open(). */
+[data-bugbottle="ui"] {
+  --bb-primary: var(--tt-gran);
+  --bb-on-primary: var(--tt-paa-gran);
+  --bb-accent-text: var(--tt-gran);
+  --bb-bg: var(--tt-flade-hoej);
+  --bb-text: var(--tt-blaek);
+  --bb-muted: var(--tt-graa);
+  --bb-border: var(--tt-streg);
+  --bb-error: #b91c1c;
+  --bb-radius: 12px;
+  --bb-font:
+    var(--font-schibsted), "Schibsted Grotesk", Arial, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", "PingFang SC", "Microsoft YaHei", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK JP", "Noto Sans CJK KR", "Noto Sans CJK SC", sans-serif;
+  --bb-shadow: 0 12px 32px rgb(0 0 0 / 0.14);
+  --bb-z: 60;
+  --bb-offset-x: 1rem;
+  --bb-offset-y: 1rem;
+}
+:root.dark [data-bugbottle="ui"] {
+  --bb-error: #f87171;
+  --bb-shadow: 0 12px 32px rgb(0 0 0 / 0.5);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) [data-bugbottle="ui"] {
+    --bb-error: #f87171;
+    --bb-shadow: 0 12px 32px rgb(0 0 0 / 0.5);
+  }
+}
+@media (min-width: 64rem) {
+  [data-bugbottle="ui"] {
+    --bb-offset-x: 1.75rem;
+    --bb-offset-y: 6rem;
+  }
+}
+@media (max-width: 63.99rem) {
+  [data-bugbottle="ui"]::part(trigger) {
+    display: none;
+  }
+}
+
+/* cmdk Command Palette Styles */
+[cmdk-group-heading] {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgb(107 114 128);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+:root.dark [cmdk-group-heading] {
+  color: rgb(156 163 175);
+}
+
+[cmdk-group]:not(:first-child) {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgb(229 231 235);
+}
+
+:root.dark [cmdk-group]:not(:first-child) {
+  border-color: rgb(42 42 42);
+}
+
+[cmdk-item] {
+  content-visibility: auto;
+}
+
+[cmdk-item][data-selected="true"] {
+  background-color: rgb(239 246 255);
+}
+
+:root.dark [cmdk-item][data-selected="true"] {
+  background-color: rgb(42 42 42);
+}
+
+/* Safe area utilities for iOS devices */
+.h-safe-area-inset-bottom {
+  height: env(safe-area-inset-bottom, 0px);
+}
+
+.pb-safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.mb-safe-area-inset-bottom {
+  margin-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Touch-friendly utilities */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+.touch-none {
+  touch-action: none;
+}
+
+.touch-pan-x {
+  touch-action: pan-x;
+}
+
+.touch-pan-y {
+  touch-action: pan-y;
+}
+
+/* Swipe animation utilities */
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-in.slide-in-from-bottom {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+/* Prevent text selection during swipe */
+.select-none-touch {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Smooth scrolling for mobile */
+@media (max-width: 768px) {
+  .scroll-smooth-touch {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Mobile tap highlight removal */
+.no-tap-highlight {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scroll-reveal animations */
+/* Cookie-banneret server-renderes; skjul det før paint når der allerede er
+   givet samtykke (attributten sættes af inline-scriptet i root-layoutet). */
+html[data-cookie-consent="given"] [data-cookie-banner] {
+  display: none;
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.scroll-reveal.scroll-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Float animation for preview elements */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Pulse-live indicator */
+@keyframes pulse-live {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.animate-pulse-live {
+  animation: pulse-live 2s ease-in-out infinite;
+}
+
+/* Step connector line */
+.step-connector {
+  position: relative;
+}
+
+.step-connector::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -1rem;
+  width: 2rem;
+  height: 2px;
+  background: var(--color-brand-600, #1e5b47);
+}
+
+@media (max-width: 767px) {
+  .step-connector::after {
+    display: none;
+  }
+}
+
+/* Range slider styling */
+.range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--color-brand-600, #1e5b47);
+  outline: none;
+  cursor: pointer;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid rgb(59 130 246);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  cursor: pointer;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid rgb(59 130 246);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  cursor: pointer;
+}
+
+/* TipTap comment editor dark mode fixes */
+:root.dark .comment-editor .ProseMirror p.is-editor-empty:first-child::before {
+  color: #6a6a6a;
+}
+
+:root.dark .prose pre,
+:root.dark .prose code:not([class]) {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+/* Typeset-presets. `typeset` slår stilen til; presetten sætter rytmen.
+   Farver følger gray-skalaen i lys/mørk, så markdown matcher resten af UI'et. */
+.typeset {
+  --typeset-font-heading: var(--font-sans);
+  --typeset-font-mono: var(--font-geist-mono);
+  --typeset-muted: var(--color-gray-500);
+  --typeset-rule: var(--color-gray-200);
+}
+.dark .typeset {
+  --typeset-muted: var(--color-gray-400);
+  --typeset-rule: var(--color-gray-800);
+}
+/* Kompakt: noter, kommentarer, changelog-modal */
+.typeset-app {
+  --typeset-size: 0.875rem;
+  --typeset-leading: 1.6;
+  --typeset-flow: 0.75em;
+}
+/* Læsning: juridiske sider, changelog-siden */
+.typeset-doc {
+  --typeset-size: 1rem;
+  --typeset-leading: 1.75;
+  --typeset-flow: 1.25em;
+}

@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Fatura (standart)",
+        "subject": "{company} tarafından fatura {number}",
+        "title": "Fatura {number}",
+        "text": "Sayın {client},\n\nYapılan iş için fatura ektedir.\n\nTutar: {amount}\nSon ödeme tarihi: {dueDate}",
+        "button": "Faturayı görüntüle",
+        "footer": "Saygılarımızla\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Portal daveti",
+        "subject": "{company} müşteri portalına davet edildiniz",
+        "title": "Müşteri portalına hoş geldiniz",
+        "text": "Sayın {client},\n\n{company} bünyesindeki kişisel müşteri portalınıza erişmeye davet edildiniz.\n\nPortalda şunları yapabilirsiniz:\n• Faturalarınızı görüntüleme\n• Proje ilerlemesini takip etme\n• Zaman kayıtlarınızı görüntüleme\n• Ön ödemeli paketinizi kontrol etme",
+        "button": "Daveti kabul et"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Artık TimeTrack'ten bülten ve pazarlama e-postaları almayacaksın. Hesabın ve güvenliğinle ilgili önemli e-postalar gelmeye devam edecek.",
+    "invalidText": "Abonelikten çıkma onaylanamadı. Tekrar dene ya da TimeTrack içindeki ayarlarını düzenle.",
+    "confirmText": "TimeTrack bültenlerinden ve pazarlama e-postalarından çıkmak istiyor musun? Hesabın ve güvenliğinle ilgili önemli e-postalar gelmeye devam edecek.",
+    "settingsButton": "E-posta ayarlarını düzenle",
+    "confirmButton": "Abonelikten çıkmayı onayla",
+    "doneTitle": "Abonelikten çıktın",
+    "invalidTitle": "Bağlantı geçersiz",
+    "confirmTitle": "Bültenlerden çık"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "dönemin sonu"
+  }
+}

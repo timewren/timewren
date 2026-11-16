@@ -1,0 +1,67 @@
+---
+title: "Fillagring"
+description: "Hvor TimeWren gemmer uploads, vedhæftede filer og eksporter: et lokalt Docker-volume eller en S3-kompatibel bucket."
+---
+
+TimeWren gemmer som standard filer på lokal disk. Du kan i stedet skifte til en vilkårlig S3-kompatibel tjeneste.
+
+## Hvad der gemmes
+
+- Uploads: avatarer, logoer og billeder i opgaver.
+- Vedhæftede filer fra mails, kun når `EMAIL_SYNC_STORE_ATTACHMENTS=true` (se nedenfor).
+- Dataeksporter.
+
+Er der ikke konfigureret nogen lagring, er uploads slået fra.
+
+## Lokalt volume
+
+`docker-compose.yml` sætter `STORAGE_DRIVER=local` og `STORAGE_LOCAL_PATH=/app/data/storage` og mounter det navngivne volume `storage` dér. Med standardprojektnavnet hedder volumet `timetrack_storage`. Filerne ligger i `objects/` og deres metadata i `meta/` under den sti.
+
+Appen kører som uid 1001 (brugeren `nextjs`). Volumet skal være skrivbart for den bruger. Fejler uploads med en rettighedsfejl, så ret ejerskabet:
+
+```bash
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+```
+
+Tag volumet med i din [backup](/da/docs/operations/backup-restore); `scripts/backup.sh` arkiverer det for dig.
+
+## S3-kompatibel lagring
+
+Virker med AWS S3, Hetzner Object Storage, Cloudflare R2, MinIO og lignende. I `.env`:
+
+```dotenv
+S3_ENDPOINT=https://s3.example.com
+S3_REGION=eu-central-1
+S3_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
+S3_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+S3_BUCKET=timewren
+S3_PREFIX=prod
+```
+
+Driveren vælges sådan:
+
+- `STORAGE_DRIVER=local`: lokal disk, også selvom `S3_ENDPOINT` er sat.
+- Ellers S3, når `S3_ENDPOINT` er sat.
+- Ellers ingen lagring.
+
+`docker-compose.yml` sætter som standard `STORAGE_DRIVER` til `local`, så vil du bruge S3, skal du ændre den. Sæt `STORAGE_DRIVER` til en hvilken som helst anden værdi end `local` (for eksempel `s3`), og sæt `S3_ENDPOINT`; selve værdien `s3` læses ikke, kun `local` har en betydning. Kør derefter `docker compose up -d`.
+
+| Variabel | Bemærkninger |
+| -------- | ----- |
+| `S3_ENDPOINT` | Tjenestens fulde URL. Påkrævet. Der bruges altid path-style-adressering. |
+| `S3_REGION` | Standard er `fsn1`. Sæt den til din udbyders region. |
+| `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | Loginoplysninger med læse-, skrive- og sletteadgang til bucketen. |
+| `S3_BUCKET` | Standard er `timetrack`. |
+| `S3_PREFIX` | Valgfri. Sættes foran alle nøgler, så flere instanser kan dele én bucket. |
+
+Appen lister og sletter objektversioner, når den fjerner persondata, så giv loginoplysningerne rettigheder til det, hvis din bucket har versionering.
+
+## Skift af driver
+
+Filer migreres ikke automatisk i nogen retning. Når du har skiftet fra lokal til S3 (eller tilbage), bliver eksisterende filer, hvor de var, og appen finder dem ikke. Kopiér dem selv, med den struktur appen forventer, før du skifter, eller accepter, at gamle uploads forsvinder fra brugerfladen.
+
+## Vedhæftede filer fra mails
+
+Som standard gemmer IMAP-synkroniseringen af mail kun metadata om vedhæftede filer (navn, størrelse, type). Sæt `EMAIL_SYNC_STORE_ATTACHMENTS=true` for at uploade filerne til dit lager (lokalt eller S3). Vedhæftede filer over 10 MB gemmes aldrig, og er der ikke konfigureret lagring, falder synkroniseringen tilbage til kun metadata.
+
+`EMAIL_ATTACHMENT_DIR` (standard `storage/email-attachments`, relativt til appens arbejdsmappe) er den gamle lokale sti, som ældre vedhæftede filer læses fra. Den lader du normalt være.

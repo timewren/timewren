@@ -1,0 +1,72 @@
+---
+title: "Inicio rápido"
+description: "De un servidor Linux vacío a tu primera hora registrada: instala TimeWren, crea la cuenta de administrador y registra tiempo en un bono de horas."
+---
+
+Esta guía pone en marcha una instancia de TimeWren en un servidor Linux y te acompaña por el primer cliente, proyecto, bono de horas y registro de tiempo. Lleva unos diez minutos.
+
+## Antes de empezar
+
+Necesitas:
+
+- Un servidor Linux (amd64 o arm64) con 2 vCPU, 2 GB de RAM y 10 GB de disco libre. Con 4 GB de RAM irás más cómodo.
+- Docker Engine con Docker Compose v2.24 o posterior. Compruébalo con `docker compose version`.
+- Para cualquier uso más allá de una prueba local: un nombre de dominio que apunte al servidor, para poder servir TimeWren por HTTPS.
+
+TimeWren no instala Docker por ti. Si falta, sigue primero la [guía de instalación de Docker](https://docs.docker.com/engine/install/).
+
+## 1. Instalar
+
+Ejecuta el instalador con un usuario normal que pueda usar Docker:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash
+```
+
+El script comprueba Docker y Compose, crea el `.env` con secretos aleatorios nuevos, descarga la imagen precompilada, inicia el stack y espera hasta que la aplicación está sana. Nunca muestra los secretos y nunca llama a `sudo`. Si lo vuelves a ejecutar, conserva tu `.env` y solo reinicia el stack.
+
+¿Tienes un dominio cuyo DNS ya apunta a este servidor? Entonces deja que el instalador añada HTTPS automático con Caddy:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --with-caddy --domain timewren.example.com
+```
+
+¿Prefieres leer primero el script o instalar de otra forma? Consulta [Instalación en una línea](/es/docs/install/quick) para ver todas las opciones, o elige [Docker Compose](/es/docs/install/docker-compose), [Kubernetes](/es/docs/install/kubernetes) o una plataforma como [Coolify](/es/docs/install/coolify).
+
+## 2. Crear la cuenta de administrador
+
+Abre la URL que mostró el instalador (en una prueba local, `http://localhost:3000`) y regístrate. **La primera cuenta se convierte en la administradora de la instancia.** Créala de inmediato, antes de que nadie más pueda acceder a la instancia.
+
+Sin un servidor de correo, la instancia permite registrarse sin verificar el correo electrónico. Eso está bien para una primera prueba, pero significa que cualquiera que pueda acceder a la instancia puede crear una cuenta. Configura el [correo electrónico](/es/docs/configuration/email) antes de exponer TimeWren a internet.
+
+## 3. Registrar tus primeras horas
+
+<Screenshot name="timer" alt="El temporizador en marcha en un proyecto" />
+
+1. Abre **Clientes** y añade un cliente, por ejemplo la ficticia "Acme ApS".
+2. Abre **Proyectos** y crea un proyecto para ese cliente. El tiempo de un proyecto se puede facturar y puede descontarse de un bono de horas.
+3. Abre **Bonos de horas** y crea un bono para el cliente, por ejemplo de 20 horas. Lee [Bonos de horas](/es/docs/concepts/prepaid-hours) para saber cómo funcionan los saldos y los avisos.
+4. Inicia el temporizador en el proyecto, páralo y observa cómo baja el saldo del bono.
+5. Cuando quieras facturar, crea una factura a partir del tiempo registrado en **Facturas**, o conecta [Billy](/es/docs/integrations/billy), [Dinero](/es/docs/integrations/dinero) o [e-conomic](/es/docs/integrations/e-conomic).
+
+## 4. Prepararlo para producción
+
+Repasa esta lista antes de depender de la instancia:
+
+- **HTTPS y la URL pública.** Define `NEXT_PUBLIC_APP_URL` con la URL que abre la gente y coloca delante un proxy inverso con TLS. Consulta [Proxy inverso y TLS](/es/docs/operations/reverse-proxy).
+- **Correo electrónico.** Configura SMTP o Resend para que se envíen las verificaciones, las invitaciones y los recordatorios. Consulta [Correo electrónico](/es/docs/configuration/email).
+- **Copias de seguridad.** Haz copia de la base de datos, del volumen de almacenamiento y del `.env`, y guarda bien `ENCRYPTION_KEY`. Consulta [Copia de seguridad y restauración](/es/docs/operations/backup-restore).
+- **Actualizaciones.** Fija una versión y aprende el procedimiento de actualización. Consulta [Actualización](/es/docs/operations/upgrading).
+
+Todos los ajustes están en [Variables de entorno](/es/docs/configuration/environment).
+
+## Comprobar que funciona
+
+Desde el servidor:
+
+```bash
+docker compose ps
+curl -i http://127.0.0.1:3000/api/health
+```
+
+Ejecútalos en el directorio de instalación (donde están `docker-compose.yml` y `.env`). Si algo falla, consulta [Solución de problemas](/es/docs/operations/troubleshooting), o pásale el problema a tu agente de programación con los prompts de [Usa esta documentación con tu LLM](/es/docs/llm).

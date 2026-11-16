@@ -1,0 +1,91 @@
+{
+  "loading": "Indlæser",
+  "offline": "Offline",
+  "noInternet": "Ingen internetforbindelse",
+  "openApp": "Åbn TimeTrack",
+  "openAppNewTab": "Åbn TimeTrack i en ny fane",
+  "settings": "Indstillinger",
+  "logout": "Log ud",
+  "logoutConfirm": "Log ud af TimeTrack?",
+  "todayHours": "{duration} i dag",
+  "dailyProgress": "Daglig fremgang: {done} i dag af {goal} t",
+  "tabs": {
+    "view": "Visning",
+    "timer": "Timer",
+    "calendar": "Kalender",
+    "history": "Historik",
+    "prepaid": "Klippekort"
+  },
+  "login": {
+    "tagline": "Tidsregistrering direkte fra browseren",
+    "connecting": "Forbinder…",
+    "connect": "Forbind til TimeTrack",
+    "secureHint": "Du logger ind sikkert i et nyt vindue. Bagefter kan du vælge organisation i udvidelsen.",
+    "newHere": "Ny i TimeTrack?",
+    "register": "Opret gratis konto",
+    "advanced": "Avanceret: indsæt token manuelt",
+    "tokenLabel": "Udvidelsestoken",
+    "tokenPlaceholder": "Indsæt din token her…",
+    "signingIn": "Logger ind…",
+    "signInToken": "Log ind med token",
+    "openSettings": "Åbn indstillinger i TimeTrack"
+  },
+  "org": {
+    "label": "Organisation: {name}. Skift organisation",
+    "none": "ingen valgt",
+    "choose": "Vælg organisation",
+    "stopFirst": "Stop eller gem den aktive timer, før du skifter organisation."
+  },
+  "stopPrompt": {
+    "title": "Ingen kunde valgt",
+    "question": "Ingen kunde valgt. Gem som intern tid?",
+    "close": "Luk uden at stoppe",
+    "pickClient": "Vælg kunde",
+    "saveInternal": "Gem som intern tid"
+  },
+  "sync": {
+    "syncing": "Synkroniserer…",
+    "pending": "{count} venter på synkronisering",
+    "hideDetails": "Skjul detaljer",
+    "showDetails": "Vis detaljer",
+    "syncNow": "Synkronisér nu",
+    "entry": "Tidsregistrering: {description}",
+    "noDescription": "(ingen beskrivelse)",
+    "timerUpdate": "Timer-opdatering",
+    "timerStop": "Stop af timer",
+    "tries": "{count, plural, one {forsøgt # gang} other {forsøgt # gange}}"
+  },
+  "mini": {
+    "timerLabel": "Timer",
+    "goTo": "Gå til timer: {label}",
+    "stop": "Stop timer"
+  },
+  "queryError": {
+    "retry": "Prøv igen"
+  },
+  "timerError": {
+    "close": "Luk fejlbesked"
+  },
+  "update": {
+    "title": "Opdatér TimeTrack-udvidelsen",
+    "body": "Version {version} er for gammel til at gemme tid. Opdateringen hentes automatisk. Sker det ikke, så genstart browseren eller åbn chrome://extensions og klik \"Opdater\"."
+  },
+  "idle": {
+    "pausedMessage": "Timeren blev sat på pause kl. {clock} efter {away} uden aktivitet",
+    "pausedDetail": "Den stilstand er ikke talt med.",
+    "resume": "Genoptag timer",
+    "close": "Luk",
+    "awayMessage": "Du var væk i {away} (siden kl. {clock})",
+    "awayDetail": "Timeren kører stadig. Skal tiden tælle med?",
+    "discard": "Fjern {away}",
+    "keep": "Behold tiden"
+  },
+  "confirm": {
+    "cancel": "Annuller"
+  },
+  "logoutWarnings": {
+    "running": "Timeren kører videre i TimeTrack, mens du er logget ud.",
+    "paused": "Den pausede timer bliver liggende i TimeTrack.",
+    "queue": "{count, plural, one {# ændring} other {# ændringer}} i offline-køen er ikke sendt endnu. De sendes, når du logger ind igen."
+  }
+}

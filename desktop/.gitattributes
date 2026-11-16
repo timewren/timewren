@@ -1,0 +1,15 @@
+# Lines must stay LF everywhere. GitHub's windows-latest runners have
+# core.autocrlf=true, so without this a checkout rewrites every tracked file
+# to CRLF and `biome check` fails on formatting alone — a red gate that never
+# reproduces on a macOS/Linux dev machine.
+* text=auto eol=lf
+
+# Binaries must not be line-ending converted.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.db binary
+*.sqlite binary

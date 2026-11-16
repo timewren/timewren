@@ -1,0 +1,50 @@
+---
+title: "Render"
+description: "Despliega TimeWren en Render desde el Blueprint del repositorio: un servicio web con disco, un worker planificador y PostgreSQL 18 gestionado."
+---
+
+Elige este método si quieres alojamiento gestionado en Render. El Blueprint `render.yaml` descarga la imagen publicada para un servicio web y un worker planificador, crea PostgreSQL 18 gestionado y conecta un disco persistente de 10 GB en `/app/data/storage`. No se compila nada.
+
+> **Advertencia:** El servicio web, el worker y la base de datos usan planes de pago (`starter`, `starter` y `basic-256mb`), porque los discos persistentes y los workers en segundo plano los necesitan. Consulta la estimación de costes de Render antes de desplegar.
+
+## Requisitos
+
+- Una cuenta de Render.
+- Una cadena hexadecimal de 64 caracteres para `ENCRYPTION_KEY`: `openssl rand -hex 32`.
+
+## Desplegar
+
+1. Abre el enlace de despliegue del Blueprint del repositorio: [render.com/deploy?repo=https://github.com/timewren/timewren](https://render.com/deploy?repo=https://github.com/timewren/timewren). También puedes crear un Blueprint en el panel de Render a partir del repositorio `timewren/timewren`.
+2. Cuando te lo pida, introduce `ENCRYPTION_KEY` como exactamente 64 caracteres hexadecimales. Render genera él mismo los secretos de sesión y de cron, pero su generador produce base64, por lo que no puede generar la clave de cifrado.
+3. Despliega. Las migraciones se ejecutan cuando arranca el servicio web.
+4. Abre la URL del servicio y crea tu cuenta.
+
+## Qué crea el Blueprint
+
+| Recurso | Nombre | Notas |
+| -------- | ---- | ----- |
+| Servicio web | `timewren` | Imagen `ghcr.io/timewren/timewren:latest`, región Fráncfort, comprobación de salud `/api/health`, una instancia, disco `timewren-storage` (10 GB) en `/app/data/storage`. |
+| Worker | `timewren-cron` | La misma imagen, ejecuta `node scripts/cron.mjs` contra el servicio web por la red privada de Render usando `CRON_SECRET`. Sin disco, sin credenciales de la base de datos. |
+| Base de datos | `timewren-db` | PostgreSQL 18, plan `basic-256mb`, base de datos y usuario `timetrack`. |
+
+Ambos servicios definen `TZ` como `Europe/Copenhagen`. El servicio web también define `NEXT_PUBLIC_BRAND=timewren`, `MIGRATE_ON_START=1`, `STORAGE_DRIVER=local` y `REQUIRE_EMAIL_VERIFICATION=false`.
+
+## URL pública
+
+Por defecto `NEXT_PUBLIC_APP_URL` se toma de `RENDER_EXTERNAL_URL`. Si más adelante añades un dominio personalizado, define `NEXT_PUBLIC_APP_URL` con su URL HTTPS sin barra final. Las variables opcionales de correo e integraciones usan los nombres de `.env.example`: consulta [Variables de entorno](/es/docs/configuration/environment).
+
+## Cosas que conviene saber
+
+- No escales ninguno de los dos servicios más allá de una instancia.
+- Un servicio web con disco no puede hacer despliegues progresivos, así que se detiene brevemente durante los redespliegues.
+- Las dos URL de imagen usan `latest` por defecto. Edita `render.yaml` en tu propio fork para fijar ambas a la misma etiqueta de versión antes de un despliegue operativo.
+- La primera cuenta se convierte en administradora. Créala de inmediato, o configura `ADMIN_EMAIL` y un transporte de correo antes de exponer el servicio.
+- Haz copia de la base de datos, del disco y de `ENCRYPTION_KEY`.
+- El Blueprint se ha validado contra el esquema de Render, pero los mantenedores no lo han desplegado en una cuenta de Render. Tras el primer despliegue, comprueba el registro, una subida y una descarga, y una exportación programada.
+
+## Siguientes pasos
+
+- [Inicio rápido](/es/docs/quickstart)
+- [Correo electrónico](/es/docs/configuration/email)
+- [Actualización](/es/docs/operations/upgrading) y [Copia de seguridad y restauración](/es/docs/operations/backup-restore)
+- [Solución de problemas](/es/docs/operations/troubleshooting)

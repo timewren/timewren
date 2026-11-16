@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Facture (standard)",
+        "subject": "Facture {number} de {company}",
+        "title": "Facture {number}",
+        "text": "Bonjour {client},\n\nVeuillez trouver ci-joint la facture correspondant au travail réalisé.\n\nMontant : {amount}\nDate d'échéance : {dueDate}",
+        "button": "Voir la facture",
+        "footer": "Cordialement\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Invitation au portail",
+        "subject": "Vous êtes invité au portail client de {company}",
+        "title": "Bienvenue sur le portail client",
+        "text": "Bonjour {client},\n\nVous êtes invité à accéder à votre portail client personnel chez {company}.\n\nDans le portail, vous pouvez :\n• Consulter vos factures\n• Suivre l'avancement des projets\n• Consulter vos saisies de temps\n• Vérifier votre forfait d'heures",
+        "button": "Accepter l'invitation"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Vous ne recevrez plus les newsletters ni les e-mails marketing de TimeTrack. Les e-mails importants concernant votre compte et la sécurité continueront d'arriver.",
+    "invalidText": "La désinscription n'a pas pu être confirmée. Réessayez ou ajustez vos paramètres dans TimeTrack.",
+    "confirmText": "Voulez-vous vous désinscrire des newsletters et des e-mails marketing de TimeTrack ? Les e-mails importants concernant votre compte et la sécurité continueront d'arriver.",
+    "settingsButton": "Ajuster les paramètres e-mail",
+    "confirmButton": "Confirmer la désinscription",
+    "doneTitle": "Vous êtes désinscrit",
+    "invalidTitle": "Le lien est invalide",
+    "confirmTitle": "Se désinscrire des newsletters"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "la fin de la période"
+  }
+}

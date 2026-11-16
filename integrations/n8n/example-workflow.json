@@ -1,0 +1,35 @@
+{
+  "name": "TimeTrack \u2192 Slack Daily Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "hours", "hoursInterval": 24 }] }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://timetrack.dk/api/v1/reports/time-summary",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "from", "value": "={{ $now.format('yyyy-MM-dd') }}" },
+            { "name": "to", "value": "={{ $now.format('yyyy-MM-dd') }}" }
+          ]
+        }
+      },
+      "name": "Get Time Summary",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [450, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [[{ "node": "Get Time Summary", "type": "main", "index": 0 }]]
+    }
+  }
+}

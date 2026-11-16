@@ -1,0 +1,9 @@
+/ cookie=da cache-control=s-maxage=31536000 x-nextjs-cache=HIT
+/klippekort cookie=da cache-control=s-maxage=31536000 x-nextjs-cache=HIT
+/ cookie=en cache-control=s-maxage=31536000 x-nextjs-cache=HIT
+/klippekort cookie=en cache-control=s-maxage=31536000 x-nextjs-cache=HIT
+  ✓  1 tests/static-marketing/locale.spec.ts:6:5 › marketing cache headers and app locale isolation (712ms)
+  ✓  2 tests/static-marketing/locale.spec.ts:52:5 › switching locale and navigating between marketing and app roots (1.8s)
+  ✓  3 tests/static-marketing/locale.spec.ts:82:5 › settings language switch translates the dashboard in both directions (1.8s)
+  ✓  4 tests/static-marketing/locale.spec.ts:156:5 › unknown URLs retain the branded 404 (36ms)
+  4 passed (10.4s)

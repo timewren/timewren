@@ -1,0 +1,67 @@
+{
+  "hourUnit": "u",
+  "headline": {
+    "untilToday": "{logged} van {expected} tot vandaag",
+    "noWorkTimeYet": "Nog geen werktijd in de periode",
+    "of": "{logged} van {expected}",
+    "noWorkTime": "Geen werktijd in de periode"
+  },
+  "week": "Week {week} ({start}-{end})",
+  "period": {
+    "day": "Dag",
+    "week": "Week",
+    "month": "Maand"
+  },
+  "bar": {
+    "label": "Factureerbaar {billable}, niet-factureerbaar {nonBillable} van {expected} werktijd",
+    "billable": "Factureerbaar",
+    "nonBillable": "Niet-factureerbaar",
+    "notLogged": "Niet geboekt"
+  },
+  "table": {
+    "client": "Klant",
+    "billable": "Factureerbaar",
+    "nonBillableShort": "Niet-fact.",
+    "share": "Aandeel",
+    "ratio": "Niet-fact. per fact. uur",
+    "ratioTitle": "Niet-factureerbare uren per gefactureerd uur",
+    "onlyNonBillable": "Alleen niet-fact."
+  },
+  "strip": {
+    "title": "Dekking",
+    "summary": "<n>{billable}</n> factureerbaar · <n>{nonBillable}</n> niet-factureerbaar",
+    "summaryRatio": "<n>{billable}</n> factureerbaar · <n>{nonBillable}</n> niet-factureerbaar · <n>{ratio}</n> per gefactureerd uur",
+    "perClient": "Per klant"
+  },
+  "page": {
+    "back": "Rapporten",
+    "title": "Dekking",
+    "description": "Hoeveel van je werktijd is geboekt en waar die naartoe gaat",
+    "periodAria": "Periode",
+    "prev": "Vorige periode",
+    "next": "Volgende periode",
+    "today": "Vandaag",
+    "workTime": "Werktijd: {hours}/week",
+    "workTimeHr": "Werktijd: {hours}/week (uit HR)",
+    "edit": "Bewerken",
+    "loadError": "Kon de dekkingsgraad niet ophalen.",
+    "retry": "Opnieuw proberen",
+    "statCoverage": "Dekking",
+    "statBillable": "Factureerbaar",
+    "statNonBillable": "Niet-factureerbaar",
+    "statRatio": "Niet-fact. per fact. uur",
+    "ofWorkTime": "{pct} van de werktijd",
+    "noTimeLogged": "Geen tijd geboekt",
+    "shareBilled": "{pct} van de geboekte tijd wordt gefactureerd",
+    "perClient": "Per klant",
+    "noTimeInPeriod": "Geen tijd geboekt in deze periode.",
+    "logTime": "Tijd boeken",
+    "perDay": "Per dag",
+    "colDate": "Datum",
+    "colWorkTime": "Werktijd",
+    "colLogged": "Geboekt",
+    "colBillable": "Waarvan fact.",
+    "colCoverage": "Dekking",
+    "footnote": "Dekking = geboekte tijd ÷ je normale werktijd. Feestdagen en afwezigheid worden niet van de werktijd afgetrokken. Tijd zonder klant wordt getoond als interne tijd."
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "group": {
+    "account": "Konto",
+    "organisation": "Organizacja",
+    "billing": "Rozliczenia",
+    "integrations": "Integracje",
+    "advanced": "Zaawansowane"
+  },
+  "item": {
+    "settings": {
+      "label": "Profil i wygląd",
+      "description": "Imię i nazwisko, stawka godzinowa, godziny pracy, motyw i język"
+    },
+    "settings_security": {
+      "label": "Bezpieczeństwo i logowanie",
+      "description": "Hasło, weryfikacja dwuetapowa, klucze dostępu i sesje"
+    },
+    "settings_notifications": {
+      "label": "Powiadomienia",
+      "description": "E-mail, Discord, powiadomienia push i godziny ciszy"
+    },
+    "settings_gdpr": {
+      "label": "RODO i ochrona danych",
+      "description": "Pobierz swoje dane oraz umowa powierzenia przetwarzania danych"
+    },
+    "settings_company": {
+      "label": "Profil firmy",
+      "description": "CVR, adres, bank, VAT i dni wolne firmy"
+    },
+    "organization": {
+      "label": "Organizacja i zespół",
+      "description": "Członkowie, zaproszenia i role"
+    },
+    "organization_permissions": {
+      "label": "Kontrola dostępu",
+      "description": "Co może widzieć i zmieniać każda rola"
+    },
+    "organization_audit": {
+      "label": "Dziennik aktywności",
+      "description": "Kto co zmienił w organizacji"
+    },
+    "settings_modules": {
+      "label": "Moduły",
+      "description": "Włączaj i wyłączaj moduły w organizacji"
+    },
+    "settings_tags": {
+      "label": "Tagi",
+      "description": "Porządkuj wpisy czasu, projekty i klientów"
+    },
+    "enterprise_settings": {
+      "label": "Ustawienia Enterprise",
+      "description": "Godziny pracy, nieobecności, urlopy, płace i logowanie"
+    },
+    "settings_subscription": {
+      "label": "Subskrypcja",
+      "description": "Plan, płatności i miejsca"
+    },
+    "settings_email": {
+      "label": "E-mail i szablony",
+      "description": "Szablony e-maili dla faktur i przypomnień"
+    },
+    "settings_portal": {
+      "label": "Portal klienta",
+      "description": "Logo, kolory i domena portalu klienta"
+    },
+    "settings_integrations": {
+      "label": "Integracje",
+      "description": "Księgowość, kalendarz i rozszerzenie przeglądarki"
+    },
+    "settings_ai": {
+      "label": "AI i automatyzacja",
+      "description": "E-mail jako zadanie i interpretacja przez AI"
+    },
+    "settings_desktop": {
+      "label": "Aplikacja desktopowa",
+      "description": "Pobieranie, połączone urządzenia i licencja"
+    },
+    "settings_api": {
+      "label": "API",
+      "description": "Klucze API i dokumentacja"
+    },
+    "settings_data": {
+      "label": "Import i eksport",
+      "description": "Import z CSV i eksport twoich danych"
+    }
+  },
+  "entry": {
+    "settings": {
+      "profilbillede": "Zdjęcie profilowe",
+      "name": "Imię i nazwisko",
+      "hourlyRate": "Domyślna stawka godzinowa",
+      "weeklyHourGoal": "Tygodniowy cel godzin",
+      "startPage": "Strona startowa po zalogowaniu",
+      "arbejdstid": "Godziny pracy i wskaźnik wykorzystania",
+      "fridage": "Dni ustawowo wolne od pracy i dni wolne",
+      "afrunding": "Zaokrąglanie czasu",
+      "klippekort": "Ukryj kwoty w pakietach godzin",
+      "godkendelse": "Zatwierdzanie przez klienta",
+      "udseende": "Motyw (jasny lub ciemny)",
+      "sprog": "Język",
+      "opsaetningsguide": "Przewodnik konfiguracji",
+      "slet-konto": "Usuń konto"
+    },
+    "settings_security": {
+      "to-faktor": "Uwierzytelnianie dwuskładnikowe",
+      "adgangskode": "Hasło",
+      "forbundne-konti": "Połączone konta",
+      "passkeys": "Klucze dostępu",
+      "telefon": "Numer telefonu",
+      "betroede-enheder": "Zaufane urządzenia",
+      "sessioner": "Aktywne sesje"
+    },
+    "settings_notifications": {
+      "email-notifikationer": "Powiadomienia e-mail",
+      "stille-timer": "Godziny ciszy",
+      "discord": "Discord",
+      "push": "Powiadomienia push w przeglądarce",
+      "pwa": "Aplikacja i nieaktywność (PWA)",
+      "ugerapporter": "Automatyczne raporty tygodniowe"
+    },
+    "settings_gdpr": {
+      "databehandleraftale": "Umowa powierzenia przetwarzania danych",
+      "sletning": "Usuwanie danych"
+    },
+    "settings_company": {
+      "logo": "Logo firmy",
+      "adresse": "Adres",
+      "bank": "Dane bankowe",
+      "moms": "VAT",
+      "fridage": "Dni ustawowo wolne od pracy i dni wolne firmy"
+    },
+    "settings_subscription": {
+      "plan": "Obecny plan",
+      "betaling": "Płatności i rachunki",
+      "pladser": "Miejsca",
+      "skift-plan": "Zmień plan",
+      "annuller": "Anuluj subskrypcję"
+    },
+    "settings_portal": {
+      "branding": "Logo i nazwa portalu",
+      "farver": "Kolory portalu",
+      "skrifttyper": "Czcionki portalu",
+      "domaene": "Własna domena portalu"
+    },
+    "settings_integrations": {
+      "regnskab": "Domyślny system księgowy",
+      "dinero": "Dinero",
+      "economic": "e-conomic",
+      "google-kalender": "Kalendarz Google",
+      "browserudvidelse": "Rozszerzenie przeglądarki",
+      "alunta": "Pakiety godzin Alunta"
+    },
+    "settings_ai": {
+      "ai-udbyder": "Dostawca AI",
+      "email-til-opgave": "E-mail jako zadanie"
+    },
+    "settings_desktop": {
+      "enheder": "Połączone urządzenia",
+      "licens": "Licencja aplikacji desktopowej"
+    },
+    "settings_data": {
+      "eksport": "Eksportuj dane",
+      "import": "Importuj dane"
+    }
+  }
+}

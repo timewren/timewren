@@ -1,0 +1,204 @@
+{
+  "name": "TimeTrack",
+  "label": "TimeTrack",
+  "description": "Freelance CRM and time tracking for Danish freelancers",
+  "version": "1.0.0",
+  "baseUrl": "https://timetrack.dk",
+  "authentication": {
+    "type": "apiKey",
+    "header": "Authorization",
+    "prefix": "Bearer ",
+    "testUrl": "/api/v1/me"
+  },
+  "modules": [
+    {
+      "name": "watchNewTimeEntry",
+      "label": "Watch New Time Entries",
+      "type": "trigger",
+      "webhook": {
+        "subscribeUrl": "/api/v1/webhooks",
+        "unsubscribeUrl": "/api/v1/webhooks/{{webhookId}}",
+        "event": "time_entry.created"
+      }
+    },
+    {
+      "name": "watchNewClient",
+      "label": "Watch New Clients",
+      "type": "trigger",
+      "webhook": {
+        "subscribeUrl": "/api/v1/webhooks",
+        "unsubscribeUrl": "/api/v1/webhooks/{{webhookId}}",
+        "event": "client.created"
+      }
+    },
+    {
+      "name": "watchInvoicePaid",
+      "label": "Watch Invoice Paid",
+      "type": "trigger",
+      "webhook": {
+        "subscribeUrl": "/api/v1/webhooks",
+        "unsubscribeUrl": "/api/v1/webhooks/{{webhookId}}",
+        "event": "invoice.paid"
+      }
+    },
+    {
+      "name": "watchPrepaidLowBalance",
+      "label": "Watch Prepaid Low Balance",
+      "type": "trigger",
+      "webhook": {
+        "subscribeUrl": "/api/v1/webhooks",
+        "unsubscribeUrl": "/api/v1/webhooks/{{webhookId}}",
+        "event": "prepaid.low_balance"
+      }
+    },
+    {
+      "name": "watchTaskCompleted",
+      "label": "Watch Task Completed",
+      "type": "trigger",
+      "webhook": {
+        "subscribeUrl": "/api/v1/webhooks",
+        "unsubscribeUrl": "/api/v1/webhooks/{{webhookId}}",
+        "event": "task.completed"
+      }
+    },
+    {
+      "name": "watchNewInvoice",
+      "label": "Watch New Invoices",
+      "type": "trigger",
+      "webhook": {
+        "subscribeUrl": "/api/v1/webhooks",
+        "unsubscribeUrl": "/api/v1/webhooks/{{webhookId}}",
+        "event": "invoice.created"
+      }
+    },
+    {
+      "name": "watchTimeEntryUpdated",
+      "label": "Watch Time Entry Updated",
+      "type": "trigger",
+      "webhook": {
+        "subscribeUrl": "/api/v1/webhooks",
+        "unsubscribeUrl": "/api/v1/webhooks/{{webhookId}}",
+        "event": "time_entry.updated"
+      }
+    },
+    {
+      "name": "createTimeEntry",
+      "label": "Create Time Entry",
+      "type": "action",
+      "method": "POST",
+      "url": "/api/v1/time-entries",
+      "fields": [
+        {
+          "name": "projectId",
+          "label": "Project ID",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "description",
+          "label": "Description",
+          "type": "text",
+          "required": true
+        },
+        { "name": "date", "label": "Date", "type": "date", "required": true },
+        {
+          "name": "durationMinutes",
+          "label": "Duration (minutes)",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "isBillable",
+          "label": "Billable",
+          "type": "boolean",
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "createClient",
+      "label": "Create Client",
+      "type": "action",
+      "method": "POST",
+      "url": "/api/v1/clients",
+      "fields": [
+        { "name": "name", "label": "Name", "type": "text", "required": true },
+        { "name": "email", "label": "Email", "type": "text" },
+        { "name": "phone", "label": "Phone", "type": "text" },
+        { "name": "company", "label": "Company", "type": "text" },
+        { "name": "cvrNumber", "label": "CVR Number", "type": "text" }
+      ]
+    },
+    {
+      "name": "createTask",
+      "label": "Create Task",
+      "type": "action",
+      "method": "POST",
+      "url": "/api/v1/tasks",
+      "fields": [
+        {
+          "name": "projectId",
+          "label": "Project ID",
+          "type": "text",
+          "required": true
+        },
+        { "name": "title", "label": "Title", "type": "text", "required": true },
+        { "name": "description", "label": "Description", "type": "text" },
+        {
+          "name": "status",
+          "label": "Status",
+          "type": "select",
+          "options": ["todo", "in_progress", "done"]
+        },
+        {
+          "name": "priority",
+          "label": "Priority",
+          "type": "select",
+          "options": ["low", "medium", "high", "urgent"]
+        }
+      ]
+    },
+    {
+      "name": "startTimer",
+      "label": "Start Timer",
+      "type": "action",
+      "method": "POST",
+      "url": "/api/v1/timer",
+      "fields": [
+        { "name": "projectId", "label": "Project ID", "type": "text" },
+        { "name": "clientId", "label": "Client ID", "type": "text" },
+        { "name": "description", "label": "Description", "type": "text" }
+      ]
+    },
+    {
+      "name": "stopTimer",
+      "label": "Stop Timer",
+      "type": "action",
+      "method": "DELETE",
+      "url": "/api/v1/timer"
+    },
+    {
+      "name": "findClient",
+      "label": "Find Client",
+      "type": "search",
+      "method": "GET",
+      "url": "/api/v1/clients",
+      "fields": [
+        {
+          "name": "q",
+          "label": "Search Query",
+          "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "findProject",
+      "label": "Find Project",
+      "type": "search",
+      "method": "GET",
+      "url": "/api/v1/projects",
+      "fields": [{ "name": "clientId", "label": "Client ID", "type": "text" }]
+    }
+  ]
+}

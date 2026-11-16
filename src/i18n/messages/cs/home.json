@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Dobrou noc",
+    "morning": "Dobré ráno",
+    "forenoon": "Dobré dopoledne",
+    "afternoon": "Dobré odpoledne",
+    "evening": "Dobrý večer"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Bez názvu",
+  "noDescription": "Bez popisu",
+  "prompt": {
+    "label": "Na čem právě pracuješ?",
+    "placeholder": "např. 2 hodiny na webu pro Nováka včera",
+    "interpret": "Zpracovat",
+    "listening": "Poslouchám…",
+    "hintAvailable": "Napiš nebo nadiktuj a stiskni Enter. Řeč se zpracovává lokálně ve tvém prohlížeči a zvuk se nikam neodesílá.",
+    "hintDownloadable": "Napiš a stiskni Enter.",
+    "downloading": "Stahování rozpoznávání řeči…",
+    "install": "Stáhnout rozpoznávání řeči (asi 60 MB, běží lokálně)",
+    "hintDefault": "Napiš a stiskni Enter, např. „1,5 h schůzka s Acme od 9 do 10:30“. V telefonu můžeš diktovat mikrofonem na klávesnici. Klávesou <kbd>/</kbd> se sem přesuneš.",
+    "stopDictation": "Zastavit diktování",
+    "dictate": "Diktovat mikrofonem",
+    "dictateTitle": "Diktovat (lokální rozpoznávání řeči)",
+    "listeningSr": "Poslouchám",
+    "missingHint": "vyber návrh níže nebo to oprav v úplném formuláři.",
+    "descriptionLabel": "Popis",
+    "descriptionPlaceholder": "Čemu byl čas věnován?",
+    "usePrepaid": "Odečíst z balíčku hodin {name} (zbývá {time})",
+    "saveWithHours": "Uložit {hours}",
+    "save": "Uložit",
+    "editInForm": "Upravit ve formuláři",
+    "cancel": "Zrušit",
+    "keysHint": "Enter uloží · Esc zruší",
+    "needDescription": "Před uložením napiš krátký popis.",
+    "internal": "Uloženo jako interní čas.",
+    "savedOffline": "Uloženo offline. Záznam času se odešle, až se obnoví připojení.",
+    "registered": "Zaznamenáno: {hours}",
+    "saveFailed": "Záznam času se nepodařilo uložit"
+  },
+  "welcome": {
+    "title": "Vítej v {brand}",
+    "titleDone": "Dobrý začátek. Tvůj první záznam času je zaznamenán",
+    "hide": "Skrýt uvítání",
+    "intro": "Začni za méně než minutu: spusť stopky, nebo do pole níže napiš, na čem pracuješ, např. „2 hodiny na webu včera“. Firemní údaje a tarif můžeš vyřešit později.",
+    "timerStarted": "Stopky běží. Až skončíš, zastav je v liště stopek nahoře.",
+    "timerBusy": "Stopky už běží",
+    "startFirstTimer": "Spustit první stopky",
+    "writeLine": "Napsat řádek do pole",
+    "surveyQuestion": "K čemu budeš {brand} používat hlavně? <muted>(nepovinné)</muted>",
+    "primaryUse": {
+      "time": "Evidovat svůj čas",
+      "invoicing": "Fakturovat klientům",
+      "klippekort": "Balíčky hodin a předplacené hodiny",
+      "team": "Sledovat čas svého týmu"
+    },
+    "thanksToast": "Díky za odpověď",
+    "saveFailed": "Odpověď se nepodařilo uložit. Zkus to znovu.",
+    "thanksNote": "Díky. Úvod teď zobrazuje další kroky, které se ti hodí.",
+    "privacyNote": "Odpověď se používá jen k přizpůsobení úvodu a nikomu dalšímu se nesděluje."
+  },
+  "quickStart": {
+    "title": "Spustit stopky",
+    "running": "Stopky už běží. Než spustíš nové, zastav je v liště stopek nahoře.",
+    "paused": "Stopky jsou pozastaveny. Nejdřív je v liště stopek nahoře obnov nebo ulož.",
+    "resumeToast": "Stopky se spustily a pokračují v posledním záznamu",
+    "continueLast": "Pokračovat v posledním",
+    "mostUsed": "Nejpoužívanější",
+    "startedOn": "Stopky spuštěny na {name}",
+    "startOn": "Spustit stopky na {name}",
+    "empty": "Tvoje nejpoužívanější projekty se tu zobrazí, až zaznamenáš nějaký čas.",
+    "createProject": "Vytvořit projekt"
+  },
+  "signals": {
+    "label": "Vyžaduje pozornost",
+    "nudge": {
+      "first-invoice": "Vytvoř první fakturu ze svého času",
+      "first-client": "Vytvoř klienta, ke kterému balíček hodin patří",
+      "first-klippekort": "Vytvoř první balíček hodin",
+      "invite-team": "Pozvi kolegu"
+    },
+    "lowBalance": "{count, plural, one {1 balíček hodin se brzy vyčerpá} few {# balíčky hodin se brzy vyčerpají} many {# balíčku hodin se brzy vyčerpá} other {# balíčků hodin se brzy vyčerpá}}",
+    "unbilled": "<b>{duration}</b> nevyfakturovaného času připraveného k fakturaci"
+  },
+  "today": {
+    "title": "Dnes",
+    "ofExpected": "z {duration}",
+    "loadFailed": "Dnešní záznamy se nepodařilo načíst. Zkus stránku obnovit.",
+    "empty": "Dnes zatím není zaznamenán žádný čas. Napiš nahoře, co děláš, nebo spusť stopky.",
+    "internal": "Interní čas",
+    "resumeToast": "Stopky se spustily a pokračují v záznamu",
+    "continueLabel": "Pokračovat v {name}",
+    "continueFallback": "záznam",
+    "continueTitle": "Pokračovat se stopkami",
+    "allEntries": "Všechny záznamy",
+    "fullForm": "Úplný formulář"
+  },
+  "page": {
+    "title": "Úvod",
+    "overview": "Přehled"
+  }
+}

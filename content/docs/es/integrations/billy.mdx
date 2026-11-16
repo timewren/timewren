@@ -1,0 +1,46 @@
+---
+title: "Billy"
+description: "Conecta Billy, el sistema de contabilidad danés, con TimeWren: importa contactos, exporta clientes y facturas y sincroniza el estado de los pagos."
+---
+
+Billy es un sistema de contabilidad danés. La integración no necesita configuración en el servidor: cada usuario pega su propia clave de API de Billy. Sin clave, no ocurre nada relacionado con Billy.
+
+## Qué hace
+
+- Importa los contactos de Billy como clientes. Los contactos ya importados, o cuyo número de CVR coincide con el de un cliente existente, se omiten.
+- Exporta un cliente a Billy.
+- Exporta una factura a Billy como borrador, aprobada, o aprobada y enviada por correo. Eliges el producto, las condiciones de pago y si cada registro de horas es su propia línea o si todos se combinan en una sola. El texto de la línea es una plantilla.
+- Sincroniza de vuelta el estado del pago: las facturas pagadas en Billy se marcan como pagadas en TimeWren.
+
+Billy exige un producto en cada línea de factura. Elige un producto por defecto en los ajustes, o deja que TimeWren cree uno en la primera exportación. Puedes elegir un producto aparte para las horas de los bonos de horas.
+
+## Configuración del servidor
+
+Requisitos en el servidor:
+
+- `ENCRYPTION_KEY` debe estar definida. La clave de API se guarda cifrada, y guardarla falla sin la clave. Consulta [Variables de entorno](/es/docs/configuration/environment).
+- El contenedor `cron` debe estar en marcha. Llama a `/api/cron/invoice-sync` cada 15 minutos, que es lo que actualiza el estado de los pagos de los usuarios que tienen activada la sincronización automática del estado.
+
+No hay credenciales de cliente específicas de Billy que registrar.
+
+## Conectar como usuario
+
+1. En Billy, crea una clave de API en Settings, Integrations, API.
+2. En TimeWren, abre Ajustes, Integraciones y pega la clave en la sección de Billy.
+3. Guarda y usa Probar conexión.
+4. Elige el producto por defecto y los ajustes de las líneas.
+5. En Sistema de contabilidad por defecto, elige Billy si es el que usas y activa la sincronización automática del estado si quieres que los pagos se recojan automáticamente. También puedes ejecutar una sincronización manual desde la misma página.
+
+Los contactos se importan desde la página Sincronizar, dentro de Integraciones. Las facturas se exportan desde la propia factura.
+
+La clave pertenece al usuario que la guardó. En un equipo, cada persona que exporta usa su propia clave.
+
+## Webhooks (opcional)
+
+El endpoint `/api/webhooks/billy` acepta webhooks de Billy y marca una factura como pagada con `invoice.paid`. Define un secreto en el servidor y configura el mismo secreto en Billy; las peticiones se verifican con una firma HMAC-SHA256 en la cabecera `x-billy-signature`:
+
+```dotenv
+BILLY_WEBHOOK_SECRET=a-long-random-string
+```
+
+El endpoint encuentra al usuario por su ID de organización de Billy almacenado. Los ajustes web no lo guardan, así que en la mayoría de las configuraciones es mejor confiar en la sincronización de 15 minutos descrita arriba en lugar de los webhooks.

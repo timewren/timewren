@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Başlangıç",
+      "items": {
+        "0": {
+          "question": "İlk müşterimi nasıl eklerim?",
+          "answer": "Kenar çubuğundan 'Müşteriler'e git ve 'Müşteri ekle'ye tıkla. Ad, e-posta gibi müşteri bilgilerini ve istersen özel bir saatlik ücreti doldur. Saatlik ücret girmezsen ayarlardaki varsayılan saatlik ücretin kullanılır."
+        },
+        "1": {
+          "question": "Projeler ile müşteriler arasındaki fark nedir?",
+          "answer": "Müşteriler, için çalıştığın kişi veya şirketlerdir. Projeler ise bir müşteri altındaki belirli işler veya sözleşmelerdir. Müşteri başına birden fazla projen olabilir; örneğin aynı müşteri altında 'Web sitesi geliştirme' ve 'Sürekli destek'."
+        },
+        "2": {
+          "question": "Zamanı nasıl takip ederim?",
+          "answer": "'Zaman takibi'ne git ve zamanlayıcıyı (başlat/durdur) kullan ya da süreyi elle ekle. Bir proje veya müşteri seç, açıklama ekle ve kaydet. Sürenin ön ödemeli paketten düşülmesini mi yoksa normal faturalanmasını mı istediğini seçebilirsin."
+        },
+        "3": {
+          "question": "Turu nasıl yeniden yaparım?",
+          "answer": "Sağ üst köşedeki profil resmine veya baş harflerine tıkla ve 'Turu başlat'ı seç. Tur, {brand} uygulamasının tüm ana özelliklerinde seni 24 etkileşimli adımda gezdirir."
+        },
+        "4": {
+          "question": "Klavye kısayolları var mı?",
+          "answer": "Evet, {brand} hızlı gezinme ve zaman kontrolü için pek çok klavye kısayoluna sahip. Tüm kısayolların genel bakışı için '?' tuşuna bas ya da aşağıdaki 'Klavye kısayolları ve ipuçları' konusuna bak."
+        }
+      }
+    },
+    "clients": {
+      "title": "Müşteriler",
+      "items": {
+        "0": {
+          "question": "Bir müşteri için özel saatlik ücreti nasıl belirlerim?",
+          "answer": "Bir müşteri oluştururken veya düzenlerken 'Saatlik ücret (kr)' girebilirsin. Bu ücret, projenin kendi saatlik ücreti yoksa bu müşterinin tüm projeleri için varsayılan saatlik ücretini geçersiz kılar."
+        },
+        "1": {
+          "question": "Bir müşteriyi silebilir miyim?",
+          "answer": "Veri bütünlüğünü korumak için müşteriler silinemez ama arşivlenebilir. Arşivlenen müşteriler listelerde görünmez, ancak geçmiş verileri saklanır. Arşivlenmiş bir müşteriyi istediğin zaman yeniden etkinleştirebilirsin."
+        },
+        "2": {
+          "question": "Ücret hiyerarşisi nedir?",
+          "answer": "{brand} üç kademeli bir ücret sistemi kullanır: 1) Genel saatlik ücret (ayarlarda), 2) Müşteriye özel saatlik ücret, 3) Projeye özel saatlik ücret. En özel kademe kullanılır. Örneğin bir projenin ücreti varsa o kullanılır, yoksa müşterinin ücreti, o da yoksa genel ücret."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projeler",
+      "items": {
+        "0": {
+          "question": "Saatlik ve sabit fiyat arasındaki fark nedir?",
+          "answer": "Saatlik projeler, saat sayısı çarpı saatlik ücret üzerinden faturalanır. Sabit fiyatlı projelerin saat sayısından bağımsız, önceden belirlenmiş bir fiyatı vardır. Türü projeyi oluştururken seçersin."
+        },
+        "1": {
+          "question": "Proje son tarihlerini nasıl takip ederim?",
+          "answer": "Bir proje oluştururken son tarih belirleyebilirsin. Son tarihi olan projeler, tarih yaklaştığında uyarı gösterir. Durumu 'Aktif', 'Duraklatıldı' veya 'Tamamlandı' olarak da ayarlayabilirsin."
+        },
+        "2": {
+          "question": "Bir projeyi başka bir müşteriye taşıyabilir miyim?",
+          "answer": "Evet, projeyi düzenle ve açılır listeden yeni bir müşteri seç. Tüm zaman kayıtları ve ön ödemeli paketler projeye bağlı kalır."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Zaman takibi",
+      "items": {
+        "0": {
+          "question": "Zamanlayıcı nasıl çalışır?",
+          "answer": "Bir proje seç, açıklama ekle ve 'Başlat'a bas. Zamanlayıcı, 'Duraklat'a veya 'Durdur'a basana kadar çalışır. Durdurduğunda süre otomatik olarak zaman kaydı olarak saklanır. Zamanlayıcıyı gerektiğinde duraklatıp sürdürebilirsin."
+        },
+        "1": {
+          "question": "Önceki zaman kayıtlarını düzenleyebilir miyim?",
+          "answer": "Evet, listeden bir zaman kaydına tıkla ve 'Düzenle'yi seç. Projeyi, açıklamayı, saat sayısını ve tarihi değiştirebilirsin. Zaman takibini unuttuğunda veya hata yaptığında işe yarar."
+        },
+        "2": {
+          "question": "Birden fazla zaman kaydını aynı anda nasıl yönetirim?",
+          "answer": "Soldaki onay kutusuna tıklayarak zaman kayıtlarını seç. Ardından 'Seçilenleri sil' düğmesine tıklayarak birden fazla zaman kaydını aynı anda silebilirsin."
+        },
+        "3": {
+          "question": "Haftalık genel bakış (zaman çizelgesi) nedir?",
+          "answer": "Haftalık genel bakış zaman kayıtlarını haftalık bir tabloda gösterir; böylece günlere ve projelere göre saatleri hızlıca görebilirsin. Zaman takibi sayfasının üstündeki düğmeyle liste ve haftalık görünüm arasında geçiş yap."
+        },
+        "4": {
+          "question": "Zamanı CSV'den içe aktarabilir miyim?",
+          "answer": "Evet, Zaman takibi sayfasındaki 'CSV içe aktar' düğmesine tıkla. Tarih, saat, proje ve açıklama sütunları olan bir CSV dosyası yükle. Sistem projeleri otomatik eşleştirir ve zaman kayıtları oluşturur."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Görevler",
+      "items": {
+        "0": {
+          "question": "Kanban panosu ile liste görünümü arasındaki fark nedir?",
+          "answer": "Kanban panosu görevleri sütunlar halinde kartlar olarak gösterir (ör. 'Yapılacak', 'Devam ediyor', 'Bitti'); böylece görevleri aşamalar arasında kolayca sürükleyebilirsin. Liste görünümü görevleri sıralama ve filtreleme olan bir tabloda gösterir. Görünümler arasında üstteki düğmelerle geçiş yap."
+        },
+        "1": {
+          "question": "Görevi nasıl oluştururum?",
+          "answer": "Görevler sayfasında 'Yeni görev'e tıkla. Başlığı doldur, bir proje ve müşteri seç, öncelik belirle (düşük/normal/yüksek/kritik) ve istersen son tarih gir. Ayrıntılarla bir açıklama da ekleyebilirsin."
+        },
+        "2": {
+          "question": "Görevleri sütunlar arasında nasıl taşırım?",
+          "answer": "Kanban görünümünde görev kartlarını sütunlar arasında sürükleyip bırakabilirsin. Bir göreve tıklayıp düzenleme penceresinde durumunu da değiştirebilirsin."
+        },
+        "3": {
+          "question": "Zamanlayıcıyı doğrudan bir görevden başlatabilir miyim?",
+          "answer": "Evet, her görevin bir zamanlayıcı düğmesi vardır. Ona tıklayınca zamanlayıcı, görevin projesi ve başlığı açıklama olarak başlar. Süre bağlı projede otomatik olarak takip edilir."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Genel bakış",
+      "items": {
+        "0": {
+          "question": "Genel bakış ne gösterir?",
+          "answer": "Genel bakış, haftalık süre özeti, kazanç, aktif projeler, ön ödemeli paket durumu, son zaman kayıtları ve yaklaşan son tarihler widget'larıyla serbest çalışma işin hakkında genel bir görünüm sunar."
+        },
+        "1": {
+          "question": "Genel bakışı özelleştirebilir miyim?",
+          "answer": "Evet, genel bakışın sağ üstündeki 'Özelleştir' düğmesine tıkla. Widget'ları sürükleyip bırakarak ekleyebilir, kaldırabilir ve taşıyabilirsin. Değişikliklerin otomatik olarak kaydedilir."
+        },
+        "2": {
+          "question": "Hangi widget'lar var?",
+          "answer": "Mevcut widget'lar: Haftalık genel bakış (günlük saatler), Kazanç (gelir ve büyüme), Aktif projeler, Ön ödemeli paket genel bakışı, Son zaman kayıtları, Bugünkü saatler, Yaklaşan son tarihler ve Hızlı zamanlayıcı başlatma."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Ön ödemeli paketler",
+      "items": {
+        "0": {
+          "question": "Ön ödemeli paket nedir?",
+          "answer": "Ön ödemeli paket, bir müşterinin önceden satın aldığı saat bloğudur. Zaman takibi yaparken saatleri normal faturalamak yerine paketten düşmeyi seçebilirsin. Destek anlaşmaları için yaygındır."
+        },
+        "1": {
+          "question": "Ön ödemeli paketi nasıl oluştururum?",
+          "answer": "'Ön ödemeli paketler'e git ve 'Yeni ön ödemeli paket'e tıkla. Bir müşteri seç, saat sayısını ve saatlik ücreti gir, toplam fiyatı hesapla. Bir satın alma tarihi ve isteğe bağlı olarak bitiş tarihi belirle. Paket aktif olunca zaman takibi yaparken kullanabilirsin."
+        },
+        "2": {
+          "question": "Ön ödemeli paket bittiğinde ne olur?",
+          "answer": "Bir ön ödemeli paketin saatlerinin %10'undan azı kaldığında uyarı alırsın. Paket boşaldığında (0 saat kaldığında) artık ondan süre düşemezsin. Yeni bir ön ödemeli paket oluşturman veya süreyi normal şekilde faturalaman gerekir."
+        },
+        "3": {
+          "question": "Bir ön ödemeli paketin geçmişini görebilir miyim?",
+          "answer": "Evet, ön ödemeli paketi aç ve 'Kullanım geçmişi'ne bak. Paketten düşülen tüm zaman kayıtlarını tarih, açıklama ve saat sayısıyla gösterir."
+        }
+      }
+    },
+    "templates": {
+      "title": "Yinelenen şablonlar",
+      "items": {
+        "0": {
+          "question": "Yinelenen şablonlar nedir?",
+          "answer": "Yinelenen şablonlar, düzenli aralıklarla otomatik oluşturulan hazır zaman kayıtlarıdır. Örneğin her hafta oluşturulan 'Haftalık durum toplantısı - 1 saat' için bir şablon yapabilirsin."
+        },
+        "1": {
+          "question": "Şablonu nasıl oluştururum?",
+          "answer": "'Şablonlar'a git ve 'Yeni şablon'a tıkla. Bir proje, açıklama, saat sayısı ve sıklık (günlük/haftalık/aylık) seç. Başlangıç tarihi ve isteğe bağlı olarak bitiş tarihi gir. Şablon, planına göre otomatik zaman kayıtları oluşturur."
+        },
+        "2": {
+          "question": "Oluşturulan zaman kayıtlarını düzenleyebilir veya silebilir miyim?",
+          "answer": "Evet, oluşturulan zaman kayıtları normal zaman kayıtları gibi çalışır. Bunları 'Zaman takibi' altında düzenleyebilir ya da belirli bir gün/hafta için geçerli değilse silebilirsin."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Faturalar",
+      "items": {
+        "0": {
+          "question": "Fatura nasıl oluştururum?",
+          "answer": "'Faturalar'a git ve 'Yeni fatura'ya tıkla. Bir müşteri ve zaman kayıtları için tarih aralığı seç; sistem faturalanmamış tüm saatleri otomatik toplar. Kalemleri gözden geçir, varsa not ekle ve kaydet."
+        },
+        "1": {
+          "question": "'Taslak', 'Gönderildi' ve 'Ödendi' arasındaki fark nedir?",
+          "answer": "Taslak = Fatura üzerinde hâlâ çalışıyorsun. Gönderildi = Fatura müşteriye gönderildi ama henüz ödenmedi. Ödendi = Müşteri faturayı ödedi. Durumu işler ilerledikçe elle güncelleyebilirsin."
+        },
+        "2": {
+          "question": "Faturaları PDF olarak dışa aktarabilir miyim?",
+          "answer": "Evet, bir faturayı görüntülerken 'PDF dışa aktar' düğmesi var. Müşteriye gönderebileceğin veya muhasebe için saklayabileceğin profesyonel bir PDF fatura oluşturur."
+        },
+        "3": {
+          "question": "Zaman kayıtlarından fatura oluşturabilir miyim?",
+          "answer": "Evet, yeni fatura oluştururken 'Zaman kayıtlarından' düğmesine tıkla. Bir müşteri ve tarih aralığı seç; sistem faturalanmamış tüm zaman kayıtlarını fatura kalemleri olarak toplar."
+        },
+        "4": {
+          "question": "Fatura genel bakışı ne gösterir?",
+          "answer": "Fatura sayfasının üstünde dört istatistik kartı bulursun: Toplam faturalanan, Ödenen tutar, Bekleyen tutar ve Gecikmiş faturalar. Finansına hızlı bir genel bakış sunar."
+        }
+      }
+    },
+    "reports": {
+      "title": "Raporlar",
+      "items": {
+        "0": {
+          "question": "Hangi raporları oluşturabilirim?",
+          "answer": "Müşteri başına saatler, proje başına saatler, kazanç ve eğilimler içeren haftalık ve aylık raporları görebilirsin. Raporlar tarih aralığına göre filtrelenebilir ve Excel'de analiz için CSV olarak dışa aktarılabilir."
+        },
+        "1": {
+          "question": "Verileri Excel'e nasıl aktarırım?",
+          "answer": "'Raporlar'a git, istediğin tarih aralığını seç ve 'CSV dışa aktar'a tıkla. Excel, Google Sheets veya diğer elektronik tablolarda açabileceğin bir CSV dosyası indirilir."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Klavye kısayolları ve ipuçları",
+      "items": {
+        "0": {
+          "question": "Hangi gezinme kısayolları var?",
+          "answer": "Hızlı gezinme için G ve ardından bir tuş kullan: {shortcuts}."
+        },
+        "1": {
+          "question": "Hangi zamanlayıcı kısayolları var?",
+          "answer": "T = Zamanlayıcıyı başlat/durdur, Shift+T = Zamanlayıcıyı duraklat/sürdür. Bu kısayollar tüm sayfalarda çalışır; böylece sayfa değiştirmeden zamanlayıcını hızlıca kontrol edebilirsin."
+        },
+        "2": {
+          "question": "Komut Paleti nedir?",
+          "answer": "Komut Paleti'ni açmak için Ctrl+K (Mac'te Cmd+K) tuşuna bas. Orada fareyi kullanmadan sayfaları, müşterileri, projeleri ve işlemleri hızlıca arayıp gidebilirsin."
+        },
+        "3": {
+          "question": "Tüm kısayolları nasıl görürüm?",
+          "answer": "Kısayol genel bakışını açmak için herhangi bir sayfada '?' tuşuna bas. Tüm kullanılabilir klavye kısayollarını kategoriye göre gruplanmış olarak gösterir."
+        },
+        "4": {
+          "question": "Turu yeniden başlatabilir miyim?",
+          "answer": "Evet, sağ üstteki profil resmine/baş harflerine tıkla ve kullanıcı menüsünde 'Turu başlat'ı seç. Tur seni 24 ana özelliğin tamamında gezdirir."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Tarayıcı uzantısı",
+      "items": {
+        "0": {
+          "question": "{brand} tarayıcı uzantısı nedir?",
+          "answer": "Tarayıcı uzantısı, {brand} uygulamasını açmadan doğrudan tarayıcından zaman takibi yapmanı sağlar. Zamanlayıcıyı başlatıp durdurabilir, proje ve müşteri seçebilir, son zaman kayıtlarını görebilirsin."
+        },
+        "1": {
+          "question": "URL kalıplarını nasıl ayarlarım?",
+          "answer": "Ayarlar → Tarayıcı uzantısı altında, belirli web sitelerini ziyaret ettiğinde bir projeyi otomatik bağlayan URL kalıpları tanımlayabilirsin. Örneğin 'github.com/client-repo/*' kalıbıyla ilgili projenin otomatik seçilmesini sağlayabilirsin."
+        },
+        "2": {
+          "question": "Tarayıcı uzantısını nasıl yüklerim?",
+          "answer": "{brand} uzantısını Chrome Web Mağazası'ndan yükle (''{brand} Tidsregistrering' ara ya da timetrack.dk/browser-extension adresine git). Ayarlar → Tarayıcı uzantısı altında bir API belirteci oluştur ve uzantı penceresine yapıştır. Uzantı {brand} hesabına otomatik bağlanır."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Entegrasyonlar",
+      "items": {
+        "0": {
+          "question": "CVR sorgusunu nasıl kullanırım?",
+          "answer": "Yeni bir müşteri oluştururken bir CVR numarası girip 'Sorgula'ya tıklayabilirsin. {brand}, şirket adını, adresini ve iletişim bilgilerini Danimarka CVR kaydından otomatik alır; böylece elle yazman gerekmez."
+        },
+        "1": {
+          "question": "Billy, Dinero veya e-conomic'e nasıl aktarırım?",
+          "answer": "Ayarlar → Entegrasyonlar'a git ve hesabını bağla. Billy ve Dinero faturaları alabilir. e-conomic'ten müşterilerini içe aktarabilirsin ve fatura sayfasından fatura temelini her zaman CSV veya rapor olarak dışa aktarabilirsin."
+        },
+        "2": {
+          "question": "Google Takvim ile senkronize edebilir miyim?",
+          "answer": "Evet, Ayarlar → Entegrasyonlar altında Google Takvim'ini bağlayabilirsin. Takvim etkinlikleri otomatik olarak zaman kaydı önerisi olabilir; böylece toplantılarına göre kolayca zaman takibi yapabilirsin."
+        }
+      }
+    },
+    "security": {
+      "title": "Güvenlik",
+      "items": {
+        "0": {
+          "question": "Geçiş anahtarları nedir?",
+          "answer": "Geçiş anahtarları, modern ve parolasız bir giriş yöntemidir. Parola yerine parmak izi, yüz tanıma veya cihaz PIN'in kullanılır. Geçiş anahtarlarını Ayarlar → Güvenlik → Geçiş anahtarları altında kur."
+        },
+        "1": {
+          "question": "İki adımlı doğrulamayı (2FA) nasıl etkinleştiririm?",
+          "answer": "Ayarlar → Güvenlik → İki adımlı doğrulama bölümüne git. QR kodu bir kimlik doğrulayıcı uygulamayla (ör. Google Authenticator veya Authy) tara ve onay kodunu gir. Bundan sonra oturum açarken 6 haneli bir kod gerekir."
+        },
+        "2": {
+          "question": "Aktif oturumları nasıl yönetirim?",
+          "answer": "Ayarlar → Güvenlik → Aktif oturumlar altında hesabında oturum açmış tüm cihazları görebilirsin. Tek tek oturumları kapatabilir ya da tüm cihazlardan aynı anda çıkış yapabilirsin."
+        }
+      }
+    },
+    "import-export": {
+      "title": "İçe ve dışa aktarma",
+      "items": {
+        "0": {
+          "question": "Zaman kayıtlarını CSV'den nasıl içe aktarırım?",
+          "answer": "Zaman takibi'ne git ve 'CSV içe aktar'a tıkla. Tarih, saat, proje ve açıklama sütunları olan bir CSV dosyası yükle. Sistem, içe aktarmadan önce verileri doğrulayabilmen için bir önizleme gösterir."
+        },
+        "1": {
+          "question": "Verilerimi nasıl dışa aktarırım?",
+          "answer": "Verileri birkaç yerden dışa aktarabilirsin: zaman kayıtları için Raporlar → CSV dışa aktar, tek tek faturalar için Faturalar → PDF dışa aktar ve CSV veya JSON biçiminde eksiksiz yedek için Ayarlar → Veriler → Tüm verileri dışa aktar."
+        },
+        "2": {
+          "question": "Tüm verilerimi indirebilir miyim (GDPR)?",
+          "answer": "Evet, Ayarlar → Veriler altında 'Verilerimi indir' düğmesi var. GDPR'nin gerektirdiği şekilde tüm verilerinin JSON biçiminde eksiksiz dışa aktarımını oluşturur. Dışa aktarım müşterileri, projeleri, zaman kayıtlarını, faturaları ve ön ödemeli paketleri içerir."
+        }
+      }
+    },
+    "settings": {
+      "title": "Ayarlar",
+      "items": {
+        "0": {
+          "question": "Varsayılan saatlik ücretimi nasıl değiştiririm?",
+          "answer": "'Ayarlar'a git, 'Varsayılan saatlik ücret (kr)' alanını bul ve yeni ücretini gir. Bu ücret yeni müşteriler ve projeler için varsayılan olarak kullanılır. Mevcut müşteri ve proje ücretleri etkilenmez."
+        },
+        "1": {
+          "question": "Tüm değişikliklerim kaydediliyor mu?",
+          "answer": "Evet, {brand} saatlik ücretlerdeki (genel, müşteri, proje) tüm değişiklikleri bir ücret geçmişine kaydeder. Ücretlerin ne zaman ve nasıl değiştirildiğini her zaman görebilirsin. Bu, şeffaflık ve muhasebe için yardımcı olur."
+        },
+        "2": {
+          "question": "Hesabımı nasıl silerim?",
+          "answer": "'Ayarlar'da 'Tehlikeli bölge' kısmında 'Hesabı sil' düğmesi var. E-postanla onaylaman ve silmeyi kabul etmen gerekir. DİKKAT: Bu işlem müşteriler, projeler, zaman kayıtları ve faturalar dahil tüm verilerini KALICI olarak siler. Bir ekibin üyesiysen, ekipte takip ettiklerin adın ve e-postan olmadan ekipte kalır."
+        },
+        "3": {
+          "question": "Koyu temaya nasıl geçerim?",
+          "answer": "Ayarlar → Profil ve görünüm → Tema'ya git. 'Açık', 'Koyu' veya 'Sistem' (cihaz ayarını izler) arasında seç. Değişiklik hemen geçerli olur."
+        },
+        "4": {
+          "question": "Şirket profili nedir?",
+          "answer": "Ayarlar → Şirket profili altında şirket adını, CVR numarasını, adresini, logonu ve banka bilgilerini belirleyebilirsin. Bu bilgiler faturalarında otomatik olarak kullanılır."
+        }
+      }
+    }
+  },
+  "title": "Yardım ve rehberlik",
+  "description": "{brand} hakkındaki sorularının yanıtlarını bul",
+  "searchPlaceholder": "Yardımda ara… (ör. 'ön ödemeli paket', 'fatura', 'kısayol')",
+  "resultCount": "{count, plural, one {# sonuç} other {# sonuç}}",
+  "popular": "Popüler sorular",
+  "searchResultsFor": "\"{query}\" için arama sonuçları",
+  "foundIn": "{topics, plural, one {# konuda} other {# konuda}} {results, plural, one {# sonuç} other {# sonuç}} bulundu",
+  "noResults": "\"{query}\" için sonuç bulunamadı",
+  "questionCount": "{count, plural, one {# soru} other {# soru}}",
+  "chooseTopic": "Listeden bir konu seç",
+  "cantFindTitle": "Aradığını bulamıyor musun?",
+  "cantFindBody": "Dokümantasyonda yer almayan sorularınız varsa bizimle iletişime geçin.",
+  "contactSupport": "Destekle iletişime geç",
+  "screenshotAlt": "Ekran görüntüsü: {title}",
+  "videoDemo": "Video demosu",
+  "wasHelpful": "Bu yararlı oldu mu?",
+  "yes": "Evet",
+  "no": "Hayır",
+  "topicsHeading": "Konular"
+}

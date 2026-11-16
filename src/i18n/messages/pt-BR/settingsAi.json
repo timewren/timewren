@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini e outros modelos da OpenAI",
+      "note": "Crie uma chave de API em platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus e Haiku pelo SDK da OpenAI",
+      "note": "Crie uma chave de API em console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "IA dinamarquesa, hospedada na Dinamarca, em total conformidade com a LGPD e o GDPR",
+      "badge": "Recomendado",
+      "note": "IA hospedada na Dinamarca pela Ordbogen A/S. Crie uma chave em odincore.ai. Os dados nunca saem da Dinamarca."
+    },
+    "custom": {
+      "label": "Outro endpoint",
+      "description": "Qualquer API compatível com a OpenAI"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manual",
+      "description": "A IA está desativada. Todas as tarefas são tratadas sem análise por IA."
+    },
+    "suggest": {
+      "label": "Sugerir",
+      "description": "A IA sugere categorização e priorização, mas você aprova."
+    },
+    "auto_lowrisk": {
+      "label": "Automático (baixo risco)",
+      "description": "A IA trata as tarefas simples automaticamente. As complexas vão para aprovação."
+    },
+    "auto_all": {
+      "label": "Totalmente automático",
+      "description": "A IA trata todas as tarefas automaticamente, sem aprovação."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Dinamarca (Europe/Copenhagen)",
+    "Europe/Stockholm": "Suécia (Europe/Stockholm)",
+    "Europe/Oslo": "Noruega (Europe/Oslo)",
+    "Europe/London": "Reino Unido (Europe/London)",
+    "Europe/Berlin": "Alemanha (Europe/Berlin)",
+    "America/New_York": "Costa Leste dos EUA (America/New_York)",
+    "America/Los_Angeles": "Costa Oeste dos EUA (America/Los_Angeles)"
+  },
+  "connectionOk": "Conexão OK!",
+  "connectionFailed": "Falha na conexão",
+  "testFailed": "O teste falhou",
+  "emailEnabled": "E-mail para tarefa ativado!",
+  "emailEnableFailed": "Não foi possível ativar o e-mail para tarefa",
+  "emailDisabled": "E-mail para tarefa desativado",
+  "emailDisableFailed": "Não foi possível desativar o e-mail para tarefa",
+  "addressRegenerated": "Novo endereço de e-mail gerado!",
+  "addressRegenerateFailed": "Não foi possível gerar um novo endereço",
+  "settingsUpdated": "Configurações de IA atualizadas",
+  "settingsUpdateFailed": "Não foi possível atualizar as configurações de IA",
+  "addressCopied": "Endereço de e-mail copiado!",
+  "keyRequired": "É necessária uma chave de API",
+  "urlRequired": "É necessário um URL de API para um endpoint personalizado",
+  "enterKeyFirst": "Informe primeiro uma chave de API",
+  "title": "IA e automação",
+  "description": "Configure os recursos de IA e o e-mail para tarefa",
+  "statusTitle": "Status da IA",
+  "statusEnabled": "A IA está ativada",
+  "statusDisabled": "A IA não está configurada",
+  "statCalls": "Total de chamadas de IA",
+  "statSuccess": "Taxa de sucesso",
+  "statConfidence": "Confiança média",
+  "statTime": "Tempo médio de processamento",
+  "enableHint": "Para ativar os recursos de IA, escolha um provedor de IA abaixo e informe sua própria chave de API.",
+  "providerTitle": "Provedor de IA",
+  "providerSub": "Escolha como os recursos de IA funcionam: com a IA do sistema ou com a sua própria",
+  "providerIntro": "Escolha um provedor de IA e informe sua própria chave de API para ativar os recursos de IA. O {brand} usa o formato do SDK da OpenAI, que é compatível com muitos provedores.",
+  "apiKey": "Chave de API",
+  "configured": "(configurada)",
+  "keyPlaceholder": "Chave de API",
+  "keyHelpOpenai": "Sua chave de API da OpenAI, em platform.openai.com",
+  "keyHelpAnthropic": "Sua chave de API da Anthropic, em console.anthropic.com",
+  "keyHelpOrdbogen": "Sua chave de API do OdinCore.ai",
+  "keyHelpOther": "Chave de API do seu provedor",
+  "apiUrl": "URL da API",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (padrão, deixe vazio)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Preenchido a partir da predefinição",
+  "urlHelp": "URL base da API. Deixe vazio para usar o endpoint padrão da OpenAI.",
+  "model": "Modelo",
+  "modelPlaceholderOpenai": "gpt-4o-mini (padrão)",
+  "modelPlaceholderOther": "Nome do modelo",
+  "modelHelp": "Informe um modelo ou deixe vazio para usar o padrão",
+  "testConnection": "Testar conexão",
+  "saveSettings": "Salvar configurações",
+  "help": {
+    "title": "Como obter uma chave de API",
+    "sub": "Escolha um dos provedores recomendados e siga o guia",
+    "odinDesc": "IA dinamarquesa hospedada na Dinamarca, em total conformidade com a LGPD e o GDPR. Os dados nunca saem da Dinamarca.",
+    "odin1": "Acesse odincore.ai e crie uma conta",
+    "odin2": "Vá até a seção de API da sua conta",
+    "odin3": "Crie uma nova chave de API",
+    "odin4": "Cole a chave acima, em “OdinCore (Ordbogen)”",
+    "openaiDesc": "O GPT-4o-mini é rápido e barato e funciona bem para a análise de tarefas.",
+    "openai1": "Acesse platform.openai.com e entre",
+    "openai2": "Vá até “API keys” nas suas configurações",
+    "openai3": "Clique em “Create new secret key”",
+    "copyPaste": "Copie a chave e cole acima",
+    "anthropicDesc": "Os modelos Claude são muito bons em entender e categorizar tarefas.",
+    "anthropic1": "Acesse console.anthropic.com e crie uma conta",
+    "anthropic2": "Vá até “Settings” → “API keys”",
+    "anthropic3": "Clique em “Create key”"
+  },
+  "email": {
+    "title": "E-mail para tarefa",
+    "sub": "Envie e-mails para o seu endereço pessoal para criar tarefas automaticamente",
+    "address": "Seu e-mail pessoal de tarefas",
+    "copyTitle": "Copiar endereço de e-mail",
+    "addressHelp": "Envie ou encaminhe e-mails para este endereço para criar tarefas automaticamente. A IA analisa o conteúdo e extrai o título, o prazo e a prioridade.",
+    "regenerate": "Gerar um novo endereço",
+    "disable": "Desativar o e-mail para tarefa",
+    "notEnabled": "O e-mail para tarefa não está ativado",
+    "notEnabledText": "Ative para ter um endereço de e-mail pessoal para onde você pode enviar tarefas. Os e-mails viram tarefas automaticamente no seu painel.",
+    "enable": "Ativar o e-mail para tarefa"
+  },
+  "autonomyTitle": "Nível de autonomia da IA",
+  "autonomySub": "Escolha o quanto a IA deve tratar automaticamente",
+  "hoursTitle": "Horário de trabalho e fuso horário",
+  "hoursSub": "Usado para a priorização por IA e para os recursos de calendário",
+  "timezone": "Fuso horário",
+  "workingHours": "Horário de trabalho",
+  "to": "às",
+  "hoursHelp": "A IA usa esses horários para sugerir os melhores momentos para as tarefas",
+  "privacyTitle": "Privacidade e segurança",
+  "privacyText": "Os e-mails são processados e excluídos logo depois que a tarefa é criada. Guardamos apenas a tarefa final, não o e-mail original. O processamento por IA é feito pela OpenAI, com tratamento rigoroso de dados."
+}

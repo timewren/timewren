@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Non sei membro di un'organizzazione. Chiedi un nuovo invito o contatta il supporto.",
+  "freeMemberLocked": "L'organizzazione ha il piano Free, che prevede {seats} utenti. I tuoi dati sono salvati. Chiedi al proprietario di passare a un piano superiore per riavere l'accesso.",
+  "report": {
+    "hoursSuffix": " h",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "Il piano Gratis prevede {clients} clienti attivi. Archivia un cliente o passa a un piano superiore.",
+  "freeSeatLimit": "Il piano Gratis prevede {seats} utenti, inclusi gli inviti in sospeso. Passa a un piano superiore in Impostazioni → Abbonamento per invitarne altri.",
+  "ownerMustTransfer": "Sei proprietario di un team con altri membri. Trasferisci la proprietà a un altro membro in Organizzazione prima di eliminare il tuo account.",
+  "holidays": {
+    "newYearsDay": "Capodanno",
+    "maundyThursday": "Giovedì santo",
+    "goodFriday": "Venerdì santo",
+    "easterSunday": "Domenica di Pasqua",
+    "easterMonday": "Lunedì dell'Angelo",
+    "ascensionDay": "Ascensione",
+    "whitSunday": "Pentecoste",
+    "whitMonday": "Lunedì di Pentecoste",
+    "christmasDay": "Natale",
+    "boxingDay": "Santo Stefano",
+    "greatPrayerDay": "Giorno della grande preghiera",
+    "may1": "1° maggio",
+    "constitutionDay": "Giorno della Costituzione",
+    "dayAfterAscension": "Venerdì dopo l'Ascensione",
+    "christmasEve": "Vigilia di Natale",
+    "newYearsEve": "San Silvestro",
+    "dayOff": "Giorno libero"
+  },
+  "speech": {
+    "language": "italiano",
+    "micBlocked": "Il microfono è bloccato. Concedi al browser l'accesso al microfono e riprova.",
+    "noMic": "Nessun microfono trovato.",
+    "langUnsupported": "Il riconoscimento vocale in {language} non è disponibile in locale in questo browser.",
+    "stopped": "Il riconoscimento vocale si è interrotto inaspettatamente. Riprova, oppure scrivi.",
+    "downloadFailed": "Impossibile scaricare il riconoscimento vocale in {language} in questo browser.",
+    "ready": "Il riconoscimento vocale in {language} è pronto. Tocca il microfono.",
+    "cantStart": "Impossibile avviare il riconoscimento vocale. Riprova."
+  },
+  "offlineSync": {
+    "fullOverlap": "Un altro dispositivo aveva già un timer in esecuzione mentre eri offline. Il tuo tempo offline si sovrapponeva completamente e non è stato salvato.",
+    "partialOverlap": "Un altro dispositivo ha avviato un timer mentre eri offline. Il tuo tempo offline è salvato fino a quel punto.",
+    "clippedSaved": "Un altro dispositivo ha avviato un timer mentre eri offline. Il tuo tempo offline {from}–{to} è salvato come registrazione ore e l'altro timer continua a funzionare.",
+    "resetOffline": "Un altro dispositivo aveva già un timer in esecuzione quando hai iniziato offline alle {from}. Il tuo timer offline è stato reimpostato e l'altro continua a funzionare.",
+    "stoppedElsewhere": "Il timer è stato fermato su un altro dispositivo mentre eri offline. Il tempo è salvato lì e non è stato salvato di nuovo.",
+    "syncFailed": "Impossibile sincronizzare una modifica offline: {error}",
+    "defaultDescription": "Tracciamento del tempo"
+  },
+  "unknownError": "Errore sconosciuto",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Impossibile salvare",
+      "retry": "Riprova"
+    },
+    "push": {
+      "unsupported": "Le notifiche push non sono supportate in questo browser",
+      "denied": "Il permesso per le notifiche è stato negato",
+      "enabled": "Notifiche push attivate",
+      "enabledDesc": "Da ora riceverai le notifiche",
+      "enableFailed": "Impossibile attivare le notifiche",
+      "disabled": "Notifiche push disattivate",
+      "disableFailed": "Impossibile disattivare le notifiche"
+    },
+    "periodic": {
+      "unsupported": "La sincronizzazione periodica non è supportata",
+      "enabled": "Report automatici attivati",
+      "enabledDesc": "Riceverai report settimanali",
+      "enableFailed": "Impossibile attivare i report automatici",
+      "disabled": "Report automatici disattivati",
+      "disableFailed": "Impossibile disattivare i report automatici"
+    },
+    "taskUndo": {
+      "restored": "Attività ripristinata",
+      "restoreFailed": "Impossibile ripristinare l'attività",
+      "deleted": "Attività eliminata",
+      "undo": "Annulla"
+    },
+    "timerSync": {
+      "otherProject": "un altro progetto",
+      "runningPaused": "Un timer è già in esecuzione su {name}. Fermalo prima. Il tempo in pausa viene conservato.",
+      "running": "Un timer è già in esecuzione su {name}. Fermalo prima.",
+      "alreadyStopped": "Il timer era già stato fermato e salvato su un altro dispositivo. Non è stato riavviato."
+    },
+    "timerKeys": {
+      "started": "Timer avviato",
+      "pressToPause": "Premi di nuovo T per mettere in pausa",
+      "paused": "Timer in pausa",
+      "pressToResume": "{time} - Premi T per riprendere",
+      "resumed": "Timer ripreso",
+      "cancelled": "Timer annullato"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock non è supportato in questo browser",
+      "active": "Lo schermo resta acceso",
+      "activeDesc": "Lo schermo non si spegnerà mentre registri il tempo",
+      "released": "Lo schermo può spegnersi di nuovo",
+      "failed": "Impossibile tenere acceso lo schermo"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Il tuo abbonamento è gestito sul tuo account.",
+    "otherAccount": "L'acquisto è collegato a un altro account TimeTrack.",
+    "ownerOnly": "Solo il proprietario dell'organizzazione può acquistare un abbonamento.",
+    "multiMember": "Privat e Selvstændig sono per un solo utente. La tua organizzazione ha più utenti, quindi l'abbonamento è gestito sul tuo account.",
+    "otherOrganization": "Il tuo abbonamento appartiene a un'altra organizzazione. Passa a quell'organizzazione per vederlo.",
+    "alreadySubscribed": "Hai già un abbonamento tramite {store}.",
+    "appStoreUnreachable": "Impossibile raggiungere l'App Store. Riprova tra un momento.",
+    "appStoreVerify": "Impossibile verificare l'acquisto con l'App Store.",
+    "unknownProduct": "Prodotto sconosciuto. Aggiorna l'app e riprova.",
+    "googleNotFound": "L'acquisto non è stato trovato su Google Play.",
+    "productMismatch": "L'acquisto non corrisponde al prodotto selezionato.",
+    "googleAck": "Impossibile confermare l'acquisto con Google Play. Riprova."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Hai un abbonamento attivo tramite {store}. Non si interrompe quando elimini il tuo account e va annullato in {store}. Conferma di aver capito per eliminare l'account.",
+    "invalidUserId": "ID utente non valido"
+  },
+  "orgInvite": {
+    "invalidEmail": "Indirizzo e-mail non valido",
+    "domainNotAllowed": "Il dominio e-mail {domain} non è consentito per questa organizzazione",
+    "alreadyMember": "Questa persona è già membro dell'organizzazione",
+    "alreadyInvited": "C'è già un invito in sospeso per questa e-mail",
+    "otherBrand": "Questo indirizzo e-mail non può essere invitato nell'organizzazione. Usa un altro indirizzo.",
+    "noSeats": "Nessun posto libero ({used} su {max} in uso). Acquista altri posti o cambia piano in Impostazioni → Abbonamento.",
+    "noSeatsAccept": "L'organizzazione non ha più posti liberi. Contatta il tuo amministratore.",
+    "lastOwnerRemove": "L'ultimo proprietario non può essere rimosso. Trasferisci prima la proprietà a un altro membro.",
+    "lastOwnerDemote": "L'ultimo proprietario non può essere retrocesso. Trasferisci prima la proprietà a un altro membro.",
+    "acceptedPushTitle": "🎉 Invito accettato",
+    "acceptedPushBody": "{name} è ora membro di {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "L'elenco in blocco contiene UUID duplicati",
+    "missing": "Una o più attività mancano o sono fuori dal tuo spazio di lavoro: {ids}",
+    "unexpectedRowCount": "numero di righe inatteso",
+    "unselected": "I dati contengono UUID che non erano stati selezionati",
+    "statusMismatch": "L'attività {id} ha lo stato {status}; lo stato atteso era {expected}",
+    "notEmail": "L'attività {id} non è un'attività e-mail",
+    "customLane": "L'attività {id} usa una colonna personalizzata e non può essere completata in blocco in sicurezza"
+  }
+}

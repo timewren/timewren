@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "편안한 밤 되세요",
+    "morning": "좋은 아침이에요",
+    "forenoon": "좋은 아침이에요",
+    "afternoon": "좋은 오후예요",
+    "evening": "좋은 저녁이에요"
+  },
+  "duration": {
+    "hourUnit": "시간",
+    "minUnit": "분"
+  },
+  "noName": "이름 없음",
+  "noDescription": "설명 없음",
+  "prompt": {
+    "label": "어떤 작업을 하셨나요?",
+    "placeholder": "예: 어제 Jensen 웹사이트 작업 2시간",
+    "interpret": "해석",
+    "listening": "듣는 중…",
+    "hintAvailable": "입력하거나 음성으로 말한 뒤 Enter를 누르세요. 음성은 브라우저에서 로컬로 처리되며 오디오는 어디로도 전송되지 않아요.",
+    "hintDownloadable": "입력하고 Enter를 누르세요.",
+    "downloading": "음성 인식을 내려받는 중…",
+    "install": "음성 인식 내려받기 (약 60MB, 로컬에서 실행)",
+    "hintDefault": "입력하고 Enter를 누르세요. 예: “Acme와 회의 1.5시간, 9-10:30”. 휴대폰에서는 키보드의 마이크로 음성 입력을 할 수 있어요. <kbd>/</kbd>를 누르면 여기로 이동해요.",
+    "stopDictation": "음성 입력 중지",
+    "dictate": "마이크로 음성 입력",
+    "dictateTitle": "음성 입력 (로컬 음성 인식)",
+    "listeningSr": "듣는 중",
+    "missingHint": "아래 제안을 고르거나 전체 양식에서 수정하세요.",
+    "descriptionLabel": "설명",
+    "descriptionPlaceholder": "무엇에 시간을 썼나요?",
+    "usePrepaid": "선불 패키지 {name}에서 차감 ({time} 남음)",
+    "saveWithHours": "{hours} 저장",
+    "save": "저장",
+    "editInForm": "양식에서 편집",
+    "cancel": "취소",
+    "keysHint": "Enter로 저장 · Esc로 취소",
+    "needDescription": "저장하기 전에 짧은 설명을 적어 주세요.",
+    "internal": "내부 시간으로 저장했어요.",
+    "savedOffline": "오프라인으로 저장했어요. 연결이 복구되면 시간 기록을 전송해요.",
+    "registered": "{hours} 기록함",
+    "saveFailed": "시간 기록을 저장하지 못했어요"
+  },
+  "welcome": {
+    "title": "{brand}에 오신 것을 환영해요",
+    "titleDone": "좋은 시작이에요. 첫 시간 기록을 남겼어요",
+    "hide": "환영 메시지 숨기기",
+    "intro": "1분 안에 시작해 보세요. 지금 타이머를 시작하거나, 아래 입력란에 작업한 내용을 적어 보세요. 예: “어제 웹사이트 작업 2시간”. 회사 정보와 플랜은 나중에 정해도 돼요.",
+    "timerStarted": "타이머가 실행 중이에요. 끝나면 상단 타이머 바에서 중지하세요.",
+    "timerBusy": "타이머가 이미 실행 중이에요",
+    "startFirstTimer": "첫 타이머 시작",
+    "writeLine": "입력란에 한 줄 적기",
+    "surveyQuestion": "{brand}를 주로 어떤 용도로 쓰실 건가요? <muted>(선택)</muted>",
+    "primaryUse": {
+      "time": "내 시간 추적",
+      "invoicing": "클라이언트에게 청구서 발행",
+      "klippekort": "선불 패키지와 선불 시간",
+      "team": "팀의 시간 확인"
+    },
+    "thanksToast": "답변해 주셔서 감사해요",
+    "saveFailed": "답변을 저장하지 못했어요. 다시 시도해 주세요.",
+    "thanksNote": "감사해요. 이제 홈에 나에게 맞는 다음 단계가 표시돼요.",
+    "privacyNote": "답변은 홈을 맞춤 구성하는 데만 사용되며 다른 사람과 공유되지 않아요."
+  },
+  "quickStart": {
+    "title": "타이머 시작",
+    "running": "타이머가 이미 실행 중이에요. 새로 시작하기 전에 상단 타이머 바에서 중지하세요.",
+    "paused": "타이머가 일시 중지됐어요. 먼저 상단 타이머 바에서 다시 시작하거나 저장하세요.",
+    "resumeToast": "타이머를 시작했고 최근 기록을 이어서 진행해요",
+    "continueLast": "최근 작업 이어서 하기",
+    "mostUsed": "자주 사용",
+    "startedOn": "{name}에서 타이머를 시작했어요",
+    "startOn": "{name}에서 타이머 시작",
+    "empty": "시간을 기록하면 자주 사용하는 프로젝트가 여기에 표시돼요.",
+    "createProject": "프로젝트 만들기"
+  },
+  "signals": {
+    "label": "확인 필요",
+    "nudge": {
+      "first-invoice": "기록한 시간으로 첫 청구서를 만들어 보세요",
+      "first-client": "선불 패키지가 속할 클라이언트를 만드세요",
+      "first-klippekort": "첫 선불 패키지를 만들어 보세요",
+      "invite-team": "동료를 초대하세요"
+    },
+    "lowBalance": "{count, plural, other {선불 패키지 #개의 잔액이 거의 소진됐어요}}",
+    "unbilled": "청구서로 만들 수 있는 미청구 시간 <b>{duration}</b>"
+  },
+  "today": {
+    "title": "오늘",
+    "ofExpected": "/ {duration}",
+    "loadFailed": "오늘의 기록을 불러오지 못했어요. 페이지를 새로고침해 보세요.",
+    "empty": "오늘 기록한 시간이 아직 없어요. 위에 작업 내용을 입력하거나 타이머를 시작하세요.",
+    "internal": "내부 시간",
+    "resumeToast": "타이머를 시작했고 기록을 이어서 진행해요",
+    "continueLabel": "{name} 이어서 하기",
+    "continueFallback": "기록",
+    "continueTitle": "타이머로 이어서 하기",
+    "allEntries": "모든 기록",
+    "fullForm": "전체 양식"
+  },
+  "page": {
+    "title": "홈",
+    "overview": "개요"
+  }
+}

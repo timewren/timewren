@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: freelance_crm
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      # PostgreSQL 18+ keeps its data in a versioned directory below
+      # /var/lib/postgresql. New volume name: an old PG16 volume can't be reused.
+      # Remove it with `docker volume rm <project>_postgres_data` if you have one.
+      - postgres18_data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres18_data:

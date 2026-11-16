@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Kom i gang",
+      "items": {
+        "0": {
+          "question": "Hvordan legger jeg til min første kunde?",
+          "answer": "Gå til «Kunder» i sidemenyen og klikk på «Legg til kunde». Fyll inn opplysninger om kunden, som navn, e-postadresse og eventuelt en egen timepris. Hvis du ikke skriver inn en timepris, brukes standard timepris fra innstillingene."
+        },
+        "1": {
+          "question": "Hva er forskjellen på prosjekter og kunder?",
+          "answer": "Kunder er personene eller selskapene du jobber for. Prosjekter er konkrete oppdrag eller avtaler under en kunde. Du kan ha flere prosjekter per kunde, for eksempel «Utvikling av nettsted» og «Løpende support» under samme kunde."
+        },
+        "2": {
+          "question": "Hvordan registrerer jeg tid?",
+          "answer": "Gå til «Tidsregistrering» og bruk enten tidtakeren (start/stopp) eller legg til tid manuelt. Velg et prosjekt eller en kunde, legg til en beskrivelse og lagre. Du kan velge om tiden skal trekkes fra et klippekort eller faktureres som vanlig."
+        },
+        "3": {
+          "question": "Hvordan tar jeg omvisningen på nytt?",
+          "answer": "Klikk på profilbildet eller initialene dine øverst til høyre og velg «Start omvisningen». Omvisningen viser deg alle hovedfunksjonene i {brand} i 24 interaktive steg."
+        },
+        "4": {
+          "question": "Finnes det hurtigtaster?",
+          "answer": "Ja, {brand} har mange hurtigtaster for rask navigasjon og styring av tidtakeren. Trykk «?» for å se en oversikt over alle tilgjengelige hurtigtaster, eller se emnet «Hurtigtaster og tips» nedenfor."
+        }
+      }
+    },
+    "clients": {
+      "title": "Kunder",
+      "items": {
+        "0": {
+          "question": "Hvordan setter jeg en egen timepris for en kunde?",
+          "answer": "Når du oppretter eller redigerer en kunde, kan du skrive inn en «Timepris (kr)». Denne prisen overstyrer standard timepris for alle prosjekter under kunden, med mindre prosjektet har sin egen timepris."
+        },
+        "1": {
+          "question": "Kan jeg slette en kunde?",
+          "answer": "For å bevare dataintegriteten kan kunder ikke slettes, men de kan arkiveres. Arkiverte kunder vises ikke i listene, men de historiske dataene beholdes. Du kan når som helst aktivere en arkivert kunde igjen."
+        },
+        "2": {
+          "question": "Hva er prishierarkiet?",
+          "answer": "{brand} bruker et system med tre nivåer for priser: 1) Global timepris (i innstillingene), 2) Timepris for kunden, 3) Timepris for prosjektet. Det mest spesifikke nivået brukes. Hvis et prosjekt har en pris, brukes den. Ellers brukes kundens pris, og ellers den globale prisen."
+        }
+      }
+    },
+    "projects": {
+      "title": "Prosjekter",
+      "items": {
+        "0": {
+          "question": "Hva er forskjellen på timepris og fastpris?",
+          "answer": "Prosjekter med timepris faktureres ut fra antall timer ganger timeprisen. Prosjekter med fastpris har en forhåndsbestemt pris uavhengig av antall timer. Du velger typen når du oppretter prosjektet."
+        },
+        "1": {
+          "question": "Hvordan holder jeg oversikt over frister i prosjekter?",
+          "answer": "Når du oppretter et prosjekt, kan du sette en frist. Prosjekter med frister viser en advarsel når fristen nærmer seg. Du kan også sette statusen til «Aktiv», «På pause» eller «Fullført»."
+        },
+        "2": {
+          "question": "Kan jeg flytte et prosjekt til en annen kunde?",
+          "answer": "Ja, rediger prosjektet og velg en ny kunde fra nedtrekkslisten. Alle tidsoppføringer og klippekort forblir knyttet til prosjektet."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Tidsregistrering",
+      "items": {
+        "0": {
+          "question": "Hvordan fungerer tidtakeren?",
+          "answer": "Velg et prosjekt, legg til en beskrivelse og trykk «Start». Tidtakeren går til du trykker «Pause» eller «Stopp». Når du stopper, lagres tiden automatisk som en tidsoppføring. Du kan sette tidtakeren på pause og fortsette den etter behov."
+        },
+        "1": {
+          "question": "Kan jeg redigere tidligere tidsoppføringer?",
+          "answer": "Ja, klikk på en tidsoppføring i listen og velg «Rediger». Du kan endre prosjekt, beskrivelse, antall timer og dato. Det er nyttig hvis du glemmer å registrere tid eller gjør en feil."
+        },
+        "2": {
+          "question": "Hvordan håndterer jeg flere tidsoppføringer samtidig?",
+          "answer": "Velg tidsoppføringene ved å klikke på avmerkingsboksen til venstre. Deretter kan du slette flere tidsoppføringer samtidig med knappen «Slett valgte»."
+        },
+        "3": {
+          "question": "Hva er ukeoversikten (timelisten)?",
+          "answer": "Ukeoversikten viser tidsoppføringene dine i et rutenett per uke, slik at du raskt ser timer per dag og prosjekt. Bytt mellom liste og ukevisning med bryteren øverst på siden for tidsregistrering."
+        },
+        "4": {
+          "question": "Kan jeg importere tid fra CSV?",
+          "answer": "Ja, klikk på knappen «Importer CSV» på siden for tidsregistrering. Last opp en CSV-fil med kolonner for dato, timer, prosjekt og beskrivelse. Systemet kobler prosjekter automatisk og oppretter tidsoppføringer."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Oppgaver",
+      "items": {
+        "0": {
+          "question": "Hva er forskjellen på kanban-tavlen og listevisningen?",
+          "answer": "Kanban-tavlen viser oppgaver som kort i kolonner (for eksempel «Skal gjøres», «Pågår», «Ferdig»), slik at du enkelt kan dra oppgaver mellom stadiene. Listevisningen viser oppgaver i en tabell med sortering og filtrering. Bytt mellom visningene med knappene øverst."
+        },
+        "1": {
+          "question": "Hvordan oppretter jeg en oppgave?",
+          "answer": "Klikk på «Ny oppgave» på oppgavesiden. Fyll inn tittelen, velg et prosjekt og en kunde, sett en prioritet (lav/normal/høy/kritisk) og skriv eventuelt inn en frist. Du kan også legge til en beskrivelse med detaljer."
+        },
+        "2": {
+          "question": "Hvordan flytter jeg oppgaver mellom kolonner?",
+          "answer": "I kanban-visningen kan du dra og slippe oppgavekort mellom kolonnene. Du kan også klikke på en oppgave og endre statusen i redigeringsvinduet."
+        },
+        "3": {
+          "question": "Kan jeg starte en tidtaker direkte fra en oppgave?",
+          "answer": "Ja, hver oppgave har en tidtakerknapp. Klikk på den for å starte tidtakeren med oppgavens prosjekt og tittel som beskrivelse. Tiden registreres automatisk på det tilknyttede prosjektet."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Oversikt",
+      "items": {
+        "0": {
+          "question": "Hva viser oversikten?",
+          "answer": "Oversikten gir deg et overblikk over virksomheten din som frilanser, med widgeter for ukens tidssammendrag, inntjening, aktive prosjekter, status for klippekort, siste tidsoppføringer og kommende frister."
+        },
+        "1": {
+          "question": "Kan jeg tilpasse oversikten?",
+          "answer": "Ja, klikk på knappen «Tilpass» øverst til høyre på oversikten. Du kan legge til, fjerne og flytte widgeter med dra og slipp. Endringene lagres automatisk."
+        },
+        "2": {
+          "question": "Hvilke widgeter finnes?",
+          "answer": "Tilgjengelige widgeter er blant annet: Ukeoversikt (timer per dag), Inntjening (omsetning og vekst), Aktive prosjekter, Oversikt over klippekort, Siste tidsoppføringer, Timer i dag, Kommende frister og Rask start av tidtaker."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Klippekort",
+      "items": {
+        "0": {
+          "question": "Hva er et klippekort?",
+          "answer": "Et klippekort er en blokk med timer som en kunde kjøper på forhånd. Når du registrerer tid, kan du velge å trekke timer fra klippekortet i stedet for å fakturere dem som vanlig. Det er populært for supportavtaler."
+        },
+        "1": {
+          "question": "Hvordan oppretter jeg et klippekort?",
+          "answer": "Gå til «Klippekort» og klikk på «Nytt klippekort». Velg en kunde, skriv inn antall timer og timeprisen, og beregn totalprisen. Sett en kjøpsdato og eventuelt en utløpsdato. Når klippekortet er aktivt, kan du bruke det når du registrerer tid."
+        },
+        "2": {
+          "question": "Hva skjer når et klippekort er brukt opp?",
+          "answer": "Du får en advarsel når et klippekort har under 10 % av timene igjen. Når det er tomt (0 timer igjen), kan du ikke lenger trekke tid fra det. Du må opprette et nytt klippekort eller fakturere tiden som vanlig."
+        },
+        "3": {
+          "question": "Kan jeg se historikken for et klippekort?",
+          "answer": "Ja, åpne klippekortet og se under «Forbrukshistorikk». Der vises alle tidsoppføringer som er trukket fra klippekortet, med dato, beskrivelse og antall timer."
+        }
+      }
+    },
+    "templates": {
+      "title": "Gjentakende maler",
+      "items": {
+        "0": {
+          "question": "Hva er gjentakende maler?",
+          "answer": "Gjentakende maler er ferdige tidsoppføringer som opprettes automatisk med jevne mellomrom. Du kan for eksempel lage en mal for «Ukentlig statusmøte - 1 time» som opprettes hver uke."
+        },
+        "1": {
+          "question": "Hvordan oppretter jeg en mal?",
+          "answer": "Gå til «Maler» og klikk på «Ny mal». Velg et prosjekt, en beskrivelse, antall timer og frekvens (daglig/ukentlig/månedlig). Skriv inn en startdato og eventuelt en sluttdato. Malen oppretter tidsoppføringer automatisk etter planen din."
+        },
+        "2": {
+          "question": "Kan jeg redigere eller slette opprettede tidsoppføringer?",
+          "answer": "Ja, de opprettede tidsoppføringene fungerer som vanlige tidsoppføringer. Du kan redigere dem under «Tidsregistrering» eller slette dem hvis de ikke er relevante for en bestemt dag/uke."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Fakturaer",
+      "items": {
+        "0": {
+          "question": "Hvordan oppretter jeg en faktura?",
+          "answer": "Gå til «Fakturaer» og klikk på «Ny faktura». Velg en kunde og en periode for tidsoppføringene, så samler systemet automatisk alle ufakturerte timer. Se gjennom linjene, legg til eventuelle merknader og lagre."
+        },
+        "1": {
+          "question": "Hva er forskjellen på «Utkast», «Sendt» og «Betalt»?",
+          "answer": "Utkast = Du jobber fortsatt med fakturaen. Sendt = Fakturaen er sendt til kunden, men ikke betalt ennå. Betalt = Kunden har betalt fakturaen. Du kan oppdatere statusen manuelt underveis."
+        },
+        "2": {
+          "question": "Kan jeg eksportere fakturaer til PDF?",
+          "answer": "Ja, når du ser på en faktura, finnes det en knapp «Eksporter PDF». Den lager en profesjonell PDF-faktura som du kan sende til kunden eller lagre til bokføringen."
+        },
+        "3": {
+          "question": "Kan jeg lage en faktura ut fra tidsoppføringer?",
+          "answer": "Ja, klikk på knappen «Fra tidsoppføringer» når du oppretter en ny faktura. Velg en kunde og en periode, så samler systemet alle ufakturerte tidsoppføringer som fakturalinjer."
+        },
+        "4": {
+          "question": "Hva viser fakturaoversikten?",
+          "answer": "Øverst på fakturasiden finner du fire statuskort: Totalt fakturert, Betalt beløp, Utestående beløp og Forfalte fakturaer. Det gir deg et raskt overblikk over økonomien din."
+        }
+      }
+    },
+    "reports": {
+      "title": "Rapporter",
+      "items": {
+        "0": {
+          "question": "Hvilke rapporter kan jeg lage?",
+          "answer": "Du kan se uke- og månedsrapporter med timer per kunde, timer per prosjekt, inntjening og trender. Rapportene kan filtreres etter periode og eksporteres til CSV for analyse i Excel."
+        },
+        "1": {
+          "question": "Hvordan eksporterer jeg data til Excel?",
+          "answer": "Gå til «Rapporter», velg ønsket periode og klikk på «Eksporter CSV». Da lastes det ned en CSV-fil som du kan åpne i Excel, Google Regneark eller andre regneark."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Hurtigtaster og tips",
+      "items": {
+        "0": {
+          "question": "Hvilke hurtigtaster finnes for navigasjon?",
+          "answer": "Bruk G etterfulgt av en tast for rask navigasjon: {shortcuts}."
+        },
+        "1": {
+          "question": "Hvilke hurtigtaster finnes for tidtakeren?",
+          "answer": "T = Start/stopp tidtakeren, Shift+T = Pause/fortsett tidtakeren. Disse hurtigtastene fungerer fra alle sider, så du kan styre tidtakeren raskt uten å bytte side."
+        },
+        "2": {
+          "question": "Hva er kommandopaletten?",
+          "answer": "Trykk Ctrl+K (eller Cmd+K på Mac) for å åpne kommandopaletten. Der kan du raskt søke etter og gå til sider, kunder, prosjekter og handlinger uten å bruke musen."
+        },
+        "3": {
+          "question": "Hvordan ser jeg alle hurtigtastene?",
+          "answer": "Trykk «?» fra en hvilken som helst side for å åpne oversikten over hurtigtaster. Den viser alle tilgjengelige hurtigtaster gruppert etter kategori."
+        },
+        "4": {
+          "question": "Kan jeg starte omvisningen på nytt?",
+          "answer": "Ja, klikk på profilbildet/initialene øverst til høyre og velg «Start omvisningen» i brukermenyen. Omvisningen viser deg alle de 24 hovedfunksjonene."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Nettleserutvidelse",
+      "items": {
+        "0": {
+          "question": "Hva er nettleserutvidelsen for {brand}?",
+          "answer": "Med nettleserutvidelsen kan du registrere tid direkte fra nettleseren uten å åpne {brand}-appen. Du kan starte/stoppe tidtakeren, velge prosjekt og kunde og se de siste tidsoppføringene dine."
+        },
+        "1": {
+          "question": "Hvordan setter jeg opp URL-mønstre?",
+          "answer": "Under Innstillinger → Nettleserutvidelse kan du definere URL-mønstre som automatisk kobler et prosjekt når du besøker bestemte nettsteder. Du kan for eksempel sette «github.com/kunde-repo/*» for å velge det tilhørende prosjektet automatisk."
+        },
+        "2": {
+          "question": "Hvordan installerer jeg nettleserutvidelsen?",
+          "answer": "Installer {brand}-utvidelsen fra Chrome Web Store (søk etter «{brand} Tidsregistrering» eller gå til timetrack.dk/browser-extension). Opprett et API-token under Innstillinger → Nettleserutvidelse og lim det inn i utvidelsens popup. Utvidelsen kobler seg automatisk til {brand}-kontoen din."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integrasjoner",
+      "items": {
+        "0": {
+          "question": "Hvordan bruker jeg CVR-oppslaget?",
+          "answer": "Når du oppretter en ny kunde, kan du skrive inn et CVR-nummer og klikke på «Slå opp». {brand} henter automatisk selskapsnavn, adresse og kontaktopplysninger fra det danske CVR-registeret, så du slipper å skrive dem inn manuelt."
+        },
+        "1": {
+          "question": "Hvordan eksporterer jeg til Billy, Dinero eller e-conomic?",
+          "answer": "Gå til Innstillinger → Integrasjoner og koble til kontoen din. Billy og Dinero kan motta fakturaer. Fra e-conomic kan du importere kundene dine, og du kan alltid eksportere fakturagrunnlaget som CSV eller rapport fra fakturasiden."
+        },
+        "2": {
+          "question": "Kan jeg synkronisere med Google Kalender?",
+          "answer": "Ja, under Innstillinger → Integrasjoner kan du koble til Google Kalender. Kalenderhendelser kan foreslås automatisk som tidsoppføringer, slik at du enkelt kan registrere tid ut fra møtene dine."
+        }
+      }
+    },
+    "security": {
+      "title": "Sikkerhet",
+      "items": {
+        "0": {
+          "question": "Hva er passnøkler?",
+          "answer": "Passnøkler er en moderne innloggingsmetode uten passord. I stedet for et passord bruker du fingeravtrykk, ansiktsgjenkjenning eller PIN-koden på enheten. Sett opp passnøkler under Innstillinger → Sikkerhet → Passnøkler."
+        },
+        "1": {
+          "question": "Hvordan slår jeg på tofaktorautentisering (2FA)?",
+          "answer": "Gå til Innstillinger → Sikkerhet → Tofaktorautentisering. Skann QR-koden med en autentiseringsapp (for eksempel Google Authenticator eller Authy) og skriv inn bekreftelseskoden. Etter det kreves en kode på 6 sifre når du logger inn."
+        },
+        "2": {
+          "question": "Hvordan administrerer jeg aktive økter?",
+          "answer": "Under Innstillinger → Sikkerhet → Aktive økter ser du alle enhetene som er logget inn på kontoen din. Du kan avslutte enkeltøkter eller logge ut av alle enheter samtidig."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Import og eksport",
+      "items": {
+        "0": {
+          "question": "Hvordan importerer jeg tidsoppføringer fra CSV?",
+          "answer": "Gå til Tidsregistrering og klikk på «Importer CSV». Last opp en CSV-fil med kolonner for dato, timer, prosjekt og beskrivelse. Systemet viser en forhåndsvisning, slik at du kan kontrollere dataene før du importerer."
+        },
+        "1": {
+          "question": "Hvordan eksporterer jeg dataene mine?",
+          "answer": "Du kan eksportere data fra flere steder: Rapporter → Eksporter CSV for tidsoppføringer, Fakturaer → Eksporter PDF for enkeltfakturaer, og Innstillinger → Data → Eksporter alle data for en fullstendig sikkerhetskopi i CSV- eller JSON-format."
+        },
+        "2": {
+          "question": "Kan jeg laste ned alle dataene mine (GDPR)?",
+          "answer": "Ja, under Innstillinger → Data finner du en knapp «Last ned dataene mine». Den lager en fullstendig eksport av alle dataene dine i JSON-format, slik GDPR krever. Eksporten inneholder kunder, prosjekter, tidsoppføringer, fakturaer og klippekort."
+        }
+      }
+    },
+    "settings": {
+      "title": "Innstillinger",
+      "items": {
+        "0": {
+          "question": "Hvordan endrer jeg standard timepris?",
+          "answer": "Gå til «Innstillinger», finn feltet «Standard timepris (kr)» og skriv inn den nye prisen. Denne prisen brukes som standard for nye kunder og prosjekter. Eksisterende priser for kunder og prosjekter påvirkes ikke."
+        },
+        "1": {
+          "question": "Blir alle endringene mine logget?",
+          "answer": "Ja, {brand} logger alle endringer av timepriser (globale, for kunder og for prosjekter) i en satshistorikk. Du kan alltid se når og hvordan prisene ble endret. Det gir åpenhet og hjelper med bokføringen."
+        },
+        "2": {
+          "question": "Hvordan sletter jeg kontoen min?",
+          "answer": "I «Innstillinger» finnes det et avsnitt «Faresone» med en knapp «Slett konto». Du må bekrefte med e-postadressen din og godkjenne slettingen. MERK: Dette sletter ALLE dataene dine for godt, inkludert kunder, prosjekter, tidsoppføringer og fakturaer. Hvis du er medlem av et team, blir det du har registrert i teamet, igjen i teamet uten navn og e-postadresse."
+        },
+        "3": {
+          "question": "Hvordan bytter jeg til det mørke temaet?",
+          "answer": "Gå til Innstillinger → Profil og utseende → Tema. Velg mellom «Lys», «Mørk» eller «System» (følger innstillingen på enheten). Endringen trer i kraft med en gang."
+        },
+        "4": {
+          "question": "Hva er selskapsprofilen?",
+          "answer": "Under Innstillinger → Selskapsprofil kan du sette opp selskapsnavn, CVR-nummer, adresse, logo og bankopplysninger. Disse opplysningene brukes automatisk på fakturaene dine."
+        }
+      }
+    }
+  },
+  "title": "Hjelp og veiledning",
+  "description": "Finn svar på spørsmål om {brand}",
+  "searchPlaceholder": "Søk i hjelpen… (f.eks. «klippekort», «faktura», «hurtigtast»)",
+  "resultCount": "{count, plural, one {# resultat} other {# resultater}}",
+  "popular": "Populære spørsmål",
+  "searchResultsFor": "Søkeresultater for «{query}»",
+  "foundIn": "Fant {results, plural, one {# resultat} other {# resultater}} i {topics, plural, one {# emne} other {# emner}}",
+  "noResults": "Fant ingen resultater for «{query}»",
+  "questionCount": "{count, plural, one {# spørsmål} other {# spørsmål}}",
+  "chooseTopic": "Velg et emne fra listen",
+  "cantFindTitle": "Finner du ikke det du leter etter?",
+  "cantFindBody": "Ta kontakt hvis du har spørsmål som ikke er dekket i dokumentasjonen.",
+  "contactSupport": "Kontakt support",
+  "screenshotAlt": "Skjermbilde: {title}",
+  "videoDemo": "Videodemo",
+  "wasHelpful": "Var dette nyttig?",
+  "yes": "Ja",
+  "no": "Nei",
+  "topicsHeading": "Emner"
+}

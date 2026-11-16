@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "従業員"
+    },
+    "department": {
+      "label": "部署"
+    },
+    "project": {
+      "label": "プロジェクト"
+    },
+    "activityType": {
+      "label": "作業"
+    },
+    "absenceType": {
+      "label": "不在の種類"
+    },
+    "day": {
+      "label": "日付"
+    },
+    "week": {
+      "label": "週"
+    },
+    "month": {
+      "label": "月"
+    },
+    "vacationYear": {
+      "label": "休暇年度"
+    },
+    "email": {
+      "label": "メール"
+    },
+    "employmentType": {
+      "label": "雇用形態"
+    },
+    "weeklyHours": {
+      "label": "時間/週"
+    },
+    "dailyNorm": {
+      "label": "1日の所定時間"
+    },
+    "employeeNumber": {
+      "label": "従業員番号",
+      "help": "給与システムでの従業員番号（従業員ディメンションに連動）"
+    },
+    "payrollCode": {
+      "label": "給与コード",
+      "help": "作業の種類に設定された給与コード（作業ディメンションに連動）"
+    },
+    "hours": {
+      "label": "記録時間"
+    },
+    "normHours": {
+      "label": "所定時間",
+      "help": "1日の所定時間 × 期間内の勤務日数（祝日を除く）"
+    },
+    "workDays": {
+      "label": "勤務日数",
+      "help": "期間内の勤務予定日数（祝日・休業日を除く）"
+    },
+    "employeeCount": {
+      "label": "従業員数"
+    },
+    "flexDelta": {
+      "label": "フレックス（+/-）"
+    },
+    "breakDeductedHours": {
+      "label": "休憩控除",
+      "help": "無給の休憩（チェックイン/アウト）のみ"
+    },
+    "checkInHours": {
+      "label": "在席（チェックイン）"
+    },
+    "workedDays": {
+      "label": "記録のある日数"
+    },
+    "maxDayHours": {
+      "label": "最長の日",
+      "help": "グループ内で、従業員1人あたりの1日の合計が最も長い時間"
+    },
+    "longDays": {
+      "label": "13時間超の日数",
+      "help": "1日の合計が13時間を超えると、休息が11時間を下回ります（11時間ルール）"
+    },
+    "avgWeeklyHours": {
+      "label": "平均時間/週",
+      "help": "記録または不在のある従業員週ごとの記録時間（48時間ルール）"
+    },
+    "weeksOver48h": {
+      "label": "48時間超の週数",
+      "help": "記録が48時間を超えた従業員週の数"
+    },
+    "fullWeeks": {
+      "label": "休みのない週数",
+      "help": "7日すべてに記録があり、不在の日がない週（週24時間の休息）"
+    },
+    "absenceDays": {
+      "label": "不在（日）"
+    },
+    "absenceHours": {
+      "label": "不在（時間）"
+    },
+    "absencePeriods": {
+      "label": "不在の期間数"
+    },
+    "sickDays": {
+      "label": "病欠日数"
+    },
+    "sickHours": {
+      "label": "病欠時間"
+    },
+    "sickPeriods": {
+      "label": "病欠の期間数"
+    },
+    "sickPct": {
+      "label": "病欠率 %",
+      "help": "病欠日数 / 勤務日数"
+    },
+    "longTermSick": {
+      "label": "長期病欠",
+      "help": "期間内に30日を超えて連続した病欠"
+    },
+    "longTermSickCount": {
+      "label": "長期病欠（人数）",
+      "help": "30日を超える病欠期間のある従業員の数"
+    },
+    "overtimeEarned": {
+      "label": "発生した残業"
+    },
+    "overtimeUsed": {
+      "label": "取得した代休"
+    },
+    "overtimePaidOut": {
+      "label": "支払い済みの残業"
+    },
+    "overtimeNet": {
+      "label": "残業の正味",
+      "help": "発生 − 代休として取得 − 支払い済み"
+    },
+    "vacationAllotted": {
+      "label": "付与された休暇"
+    },
+    "vacationUsed": {
+      "label": "取得した休暇"
+    },
+    "vacationRemaining": {
+      "label": "残りの休暇"
+    },
+    "extraVacationAllotted": {
+      "label": "付与された特別休暇日数"
+    },
+    "extraVacationUsed": {
+      "label": "取得した特別休暇日数"
+    },
+    "extraVacationRemaining": {
+      "label": "残りの特別休暇日数"
+    },
+    "vacationDaysInPeriod": {
+      "label": "期間内に取得した休暇",
+      "help": "レポート期間内の休暇日数（休暇残高から差し引かれる種類）"
+    },
+    "hoursByActivity": {
+      "label": "作業ごとの時間",
+      "pivot": "{name}（時間）"
+    },
+    "absenceDaysByType": {
+      "label": "種類ごとの不在（日）",
+      "pivot": "{name}（日）"
+    },
+    "absenceHoursByType": {
+      "label": "種類ごとの不在（時間）",
+      "pivot": "{name}（時間）"
+    },
+    "quantityByWageType": {
+      "label": "給与コードごとの数量",
+      "help": "給与マッピングによる給与コードごとの時間/日数（設定 → 給与）",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "従業員",
+    "department": "部署",
+    "project": "プロジェクト",
+    "activityType": "作業",
+    "absenceType": "不在の種類",
+    "day": "日",
+    "week": "週",
+    "month": "月",
+    "vacationYear": "休暇年度"
+  },
+  "groups": {
+    "dimensions": "ディメンション",
+    "employee": "従業員",
+    "time": "時間",
+    "compliance": "コンプライアンス",
+    "absence": "不在",
+    "overtime": "残業",
+    "payroll": "給与",
+    "vacation": "休暇アカウント"
+  },
+  "presets": {
+    "this_month": "今月",
+    "last_month": "先月",
+    "this_quarter": "今四半期",
+    "this_year": "今年",
+    "last_year": "昨年"
+  },
+  "types": {
+    "payroll": {
+      "label": "給与レポート",
+      "description": "給与期間の従業員ごとの、時間、種類別の不在（日数・時間）、フレックス、残業、休憩控除です。給与担当者向けです。"
+    },
+    "sickness": {
+      "label": "病欠",
+      "description": "部署別・月別の病欠の統計です。病欠日数、期間数、病欠率、長期病欠（30日超）を確認できます。"
+    },
+    "absence": {
+      "label": "不在",
+      "description": "従業員別または部署別の、すべての不在の種類（休暇、病欠、休職、介護など）。日数と時間を確認できます。"
+    },
+    "flex_overtime": {
+      "label": "フレックスと残業",
+      "description": "期間ごとの残高の推移です。所定時間、記録時間、フレックス差分、発生・取得・支払い済みの残業を確認できます。"
+    },
+    "project_activity": {
+      "label": "プロジェクトと作業",
+      "description": "プロジェクト、作業の種類、部署ごとの時間です。授業、準備、会議などの状況を把握できます。"
+    },
+    "vacation_account": {
+      "label": "休暇アカウント",
+      "description": "休暇年度ごとの休暇アカウントです。従業員別に、休暇と特別休暇日数の付与、取得、残りを確認できます。"
+    },
+    "compliance": {
+      "label": "コンプライアンス（労働時間法）",
+      "description": "従業員別・週別の違反と警告です。13時間超の日（休息11時間）、48時間超の週、休みのない週（週24時間の休息）、平均週労働時間を確認できます。"
+    },
+    "custom": {
+      "label": "カスタム",
+      "description": "カタログ全体からディメンションと列を自由に選べます。足りないレポートを自分で作成できます。"
+    }
+  },
+  "weekdays": {
+    "1": "月曜日",
+    "2": "火曜日",
+    "3": "水曜日",
+    "4": "木曜日",
+    "5": "金曜日",
+    "6": "土曜日",
+    "7": "日曜日"
+  },
+  "page": {
+    "all": "（すべて）",
+    "selected": "（{count} 件選択中）",
+    "clear": "選択を解除",
+    "downloaded": "レポートをダウンロードしました",
+    "templateDeleted": "テンプレートを削除しました",
+    "maxDimensions": "ディメンションは最大4つまでです",
+    "templateUnreadable": "テンプレートを読み込めません",
+    "needColumn": "列を1つ以上選択してください",
+    "inactive": "（無効）",
+    "title": "レポート",
+    "step1": "1. レポートの種類を選択",
+    "step2": "2. 期間",
+    "holidayYearPlaceholder": "休暇年度…",
+    "holidayYear": "{year} 休暇年度",
+    "from": "開始",
+    "to": "終了",
+    "step3": "3. フィルター",
+    "departments": "部署",
+    "employees": "従業員",
+    "projects": "プロジェクト",
+    "activities": "作業",
+    "absenceTypes": "不在の種類",
+    "onlyApproved": "承認済みの時間のみ",
+    "includeRejected": "却下された時間を含める",
+    "includePending": "承認待ちの不在を含める",
+    "includeInactive": "退職した従業員を含める",
+    "includeDetails": "すべての記録（詳細）を含める",
+    "step4": "4. グループ化",
+    "step4Hint": "（順序 = クリックした順）",
+    "step5": "5. 列",
+    "run": "レポートを実行",
+    "saveAsTemplate": "テンプレートとして保存",
+    "chooseTemplateFirst": "先にテンプレートを保存または選択してください",
+    "scheduleMail": "メール送信をスケジュール",
+    "savedTemplates": "保存済みテンプレート",
+    "noTemplates": "テンプレートはまだありません。",
+    "sharedOrg": "組織内で共有",
+    "onlyMe": "自分のみ",
+    "standard": " · 既定",
+    "deleteTemplate": "テンプレートを削除",
+    "confirmDeleteTemplate": "テンプレート「{name}」を削除しますか？",
+    "footnote": "CSVはセミコロン区切りで、小数点にはデンマーク式のカンマを使います。却下された時間は既定で除外されます。未完了の病欠は今日まで含まれます。マネージャーには、自分の部署と従業員のみが表示されます。",
+    "cardEmployees": "従業員",
+    "noData": "{from} – {to} の期間にデータがありません",
+    "noDataHint": "期間を広げるか、フィルターを減らすか、別の列をお試しください。",
+    "allEntries": "すべての記録（{count} 件）",
+    "truncated": "期間内の記録が多く、詳細リストに収まりません。上の合計は、すべてのデータで計算されています。すべての詳細を見るには、期間を短くしてください。",
+    "detEmployee": "従業員",
+    "detDepartment": "部署",
+    "detDate": "日付",
+    "detHours": "時間",
+    "detProject": "プロジェクト",
+    "detActivity": "作業",
+    "detPayCode": "給与コード",
+    "detDescription": "説明",
+    "detSource": "ソース",
+    "detStatus": "ステータス",
+    "saveTemplateTitle": "テンプレートとして保存",
+    "templateSaved": "テンプレートを保存しました",
+    "name": "名称",
+    "description": "説明",
+    "shareWithOrg": "組織全体で共有する（すべてのマネージャーと人事が閲覧できます）",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "scheduleTitle": "メール送信をスケジュール",
+    "scheduled": "レポートは自動で送信されます",
+    "frequency": "頻度",
+    "weekly": "毎週",
+    "monthly": "毎月",
+    "weekday": "曜日",
+    "dayOfMonth": "日付",
+    "dayN": "{day}日",
+    "recipients": "宛先（カンマで区切る）",
+    "recipientsPlaceholder": "payroll@example.com, manager@example.com",
+    "format": "形式",
+    "formatXlsx": "Excel（XLSX）",
+    "rollingNote": "テンプレートの期間は相対指定です。1日に送信される「先月」は、ちょうど先月の数値になります。",
+    "schedule": "スケジュール",
+    "scheduleRemoved": "メール送信のスケジュールを削除しました",
+    "scheduledMails": "スケジュール済みのメール",
+    "freqWeeklyLower": "毎週",
+    "freqMonthlyLower": "毎月",
+    "scheduleLine": "· {frequency}（{day}日） · {format} · {recipients}",
+    "lastSent": " · 最終送信 {date}",
+    "remove": "削除",
+    "yes": "はい",
+    "no": "いいえ",
+    "card": {
+      "employees": "従業員"
+    }
+  }
+}

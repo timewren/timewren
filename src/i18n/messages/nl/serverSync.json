@@ -1,0 +1,475 @@
+{
+  "errors": {
+    "insufficientRights": "Je hebt onvoldoende rechten voor deze actie",
+    "accessDenied": "Je hebt geen toegang tot deze bron",
+    "unexpected": "Er is een onverwachte fout opgetreden",
+    "clientNotFound": "Klant niet gevonden",
+    "clientArchived": "Klant is gearchiveerd",
+    "projectNotFound": "Project niet gevonden",
+    "projectArchived": "Project is gearchiveerd",
+    "timeEntryNotFound": "Tijdboeking niet gevonden",
+    "timeEntriesNotFound": "Een of meer tijdboekingen zijn niet gevonden",
+    "prepaidNotFound": "Urenpakket niet gevonden",
+    "prepaidInactive": "Urenpakket is niet actief",
+    "prepaidInsufficientHours": "Te weinig uren over op het urenpakket. Beschikbare uren: {available}",
+    "prepaidHasUsage": "Een urenpakket met geregistreerd gebruik kan niet worden verwijderd. Deactiveer het in plaats daarvan.",
+    "invoiceNotFound": "Factuur niet gevonden",
+    "invoiceAlreadySent": "Factuur is al verstuurd",
+    "invoiceAlreadyPaid": "Factuur is al betaald",
+    "userNotFound": "Gebruiker niet gevonden",
+    "invalidValue": "Ongeldige waarde voor {field}",
+    "operationFailed": "{operation} mislukt"
+  },
+  "friendly": {
+    "network": "Geen verbinding met TimeTrack. Controleer je netwerk en probeer het opnieuw.",
+    "server": "Er ging iets mis bij TimeTrack. Probeer het zo meteen opnieuw.",
+    "validation": "Sommige velden zijn niet goed ingevuld. Controleer ze en probeer het opnieuw.",
+    "unauthorized": "Je bent niet meer ingelogd. Log opnieuw in.",
+    "forbidden": "Je hebt geen toestemming om dit te doen.",
+    "notFound": "Wat je zoekt bestaat niet meer.",
+    "tooManyRequests": "Te veel pogingen in korte tijd. Wacht even en probeer het opnieuw.",
+    "retry": "Opnieuw proberen",
+    "login": "Inloggen"
+  },
+  "zod": {
+    "invalidExpoToken": "Ongeldig Expo-pushtoken",
+    "invalidUrl": "Ongeldige URL",
+    "webhookEventRequired": "Kies minstens één gebeurtenistype",
+    "descriptionRequired": "Omschrijving is verplicht",
+    "hoursMin": "Uren moeten minstens 0,01 zijn",
+    "endAfterStart": "De eindtijd moet na de starttijd liggen",
+    "cursorOrOffset": "Gebruik cursor of offset, niet beide",
+    "dateFormat": "De datum moet de notatie jjjj-MM-dd hebben",
+    "clientOrProject": "Geef een klant of een project op",
+    "nameMin2": "De naam moet minstens 2 tekens bevatten",
+    "invalidEmailShort": "Vul een geldig e-mailadres in",
+    "scopeRequired": "Minstens één scope is verplicht",
+    "approvalScope": "period vereist periodStart+periodEnd; invoice_draft vereist invoiceId",
+    "invalidEmail": "Vul een geldig e-mailadres in",
+    "messageMax500": "Het bericht mag maximaal 500 tekens bevatten",
+    "selectProjectClientOrDescription": "Kies een project of een klant, of vul een omschrijving in",
+    "subjectMin5": "Het onderwerp moet minstens 5 tekens bevatten",
+    "messageMin10": "Het bericht moet minstens 10 tekens bevatten",
+    "invalidDate": "Ongeldige datum",
+    "atLeastOneWorkday": "Minstens één weekdag moet werkuren hebben",
+    "duplicateDate": "Dezelfde datum is twee keer toegevoegd",
+    "nameRequired": "Naam is verplicht",
+    "invalidEmailDash": "Ongeldig e-mailadres",
+    "selectProjectClientOrDescriptionShort": "Kies een project/klant of vul een omschrijving in",
+    "amountRequired": "Bedrag is verplicht",
+    "amountPositive": "Het bedrag moet groter zijn dan 0",
+    "amountTooLarge": "Het bedrag is te groot",
+    "amountDecimals": "Het bedrag mag maximaal 2 decimalen hebben",
+    "selectClient": "Kies een klant",
+    "issueDateRequired": "Factuurdatum is verplicht",
+    "unknownTool": "Onbekende tool",
+    "invalidCostRate": "Ongeldige kostprijs",
+    "companyNameMin2": "De bedrijfsnaam moet minstens 2 tekens bevatten",
+    "invalidEmailAddress": "Ongeldig e-mailadres",
+    "hourlyRateMin0": "Het uurtarief moet minstens 0 zijn",
+    "confirmProjectName": "Vul de projectnaam in om te bevestigen",
+    "enterName": "Vul je naam in",
+    "invalidNumber": "Ongeldig getal",
+    "descriptionMissing": "Omschrijving ontbreekt",
+    "invalidDateFormat": "Ongeldige datum (verwacht jjjj-mm-dd)",
+    "nameMissing": "Naam ontbreekt",
+    "hoursRequired": "Uren zijn verplicht",
+    "atLeastOneRecipient": "Minstens één ontvanger",
+    "invalidHexColor": "Ongeldige hex-kleur",
+    "titleRequired": "Titel is verplicht",
+    "textRequired": "Tekst is verplicht",
+    "invalidImageUrl": "Ongeldige afbeeldings-URL",
+    "enterDays": "Vul een aantal dagen in",
+    "invalidColor": "Ongeldige kleur",
+    "dateYmd": "Datum als JJJJ-MM-DD",
+    "noteRequired": "Vul een notitie in",
+    "unlockReason": "Geef een reden voor het ontgrendelen",
+    "reasonRequired": "Geef een reden op",
+    "reopenReason": "Geef een reden voor het heropenen",
+    "templateNameRequired": "Geef het sjabloon een naam",
+    "employeeOrDepartment": "Kies een medewerker of een afdeling",
+    "formatMmDd": "Moet de notatie MM-DD hebben"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "Klant aangemaakt",
+      "clientUpdated": "Klant bijgewerkt",
+      "clientArchived": "Klant gearchiveerd",
+      "projectCreated": "Project aangemaakt",
+      "projectUpdated": "Project bijgewerkt",
+      "projectStatusChanged": "Projectstatus gewijzigd",
+      "projectBudgetThreshold": "Drempel van maandbudget bereikt",
+      "timeEntryCreated": "Tijdboeking aangemaakt",
+      "timeEntryUpdated": "Tijdboeking bijgewerkt",
+      "timeEntryDeleted": "Tijdboeking verwijderd",
+      "invoiceCreated": "Factuur aangemaakt",
+      "invoiceSent": "Factuur verstuurd",
+      "invoicePaid": "Factuur betaald",
+      "invoiceOverdue": "Factuur achterstallig",
+      "prepaidCreated": "Urenpakket aangemaakt",
+      "prepaidUpdated": "Urenpakket bijgewerkt",
+      "prepaidLowBalance": "Urenpakket met laag saldo",
+      "prepaidExpired": "Urenpakket verlopen",
+      "taskCreated": "Taak aangemaakt",
+      "taskUpdated": "Taak bijgewerkt",
+      "taskCompleted": "Taak afgerond"
+    }
+  },
+  "clients": {
+    "invalidDomain": "Ongeldig domein: {domain}",
+    "roundingRequired": "roundingMinutes en roundingMethod moeten zijn ingesteld wanneer roundingEnabled true is"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "De webhook-URL kan niet worden getoond. Genereer een nieuwe URL."
+  },
+  "desktop": {
+    "licenseMismatch": "We konden de licentiesleutel en het e-mailadres niet koppelen. Controleer ze of neem contact op met support."
+  },
+  "common": {
+    "unknownProject": "Onbekend project",
+    "unknownError": "Onbekende fout",
+    "noProject": "Geen project",
+    "unknownClient": "Onbekende klant",
+    "unknown": "Onbekend"
+  },
+  "search": {
+    "invoiceTitle": "Factuur {number}",
+    "timeEntryTitle": "Tijdboeking",
+    "timeSubtitle": "{project} • {hours}u",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • {hours}u over",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "De inlogcode is ongeldig of verlopen. Log opnieuw in.",
+    "import": {
+      "noWorkRuleNoTarget": "Een regel voor niet-werk verwijst niet naar een project of een klant",
+      "ruleNeedsTarget": "Een regel moet naar een project of een klant verwijzen",
+      "linesSumMismatch": "De som van de regels ({sum}) komt niet overeen met het factuurbedrag ({amount})",
+      "entryNotImported": "Boeking {id} is niet geïmporteerd",
+      "companyProfileMissing": "De bedrijfsgegevens ontbreken. Vul ze in onder Instellingen → Bedrijfsprofiel voordat je facturen importeert.",
+      "fullCreditOnly": "Alleen volledige creditering kan worden geïmporteerd: het bedrag van de creditnota ({amount}) moet het factuurbedrag ({original}) met omgekeerd teken zijn",
+      "invoiceNotFound": "Factuur {id} bestaat niet",
+      "creditNoteAmount": "Een creditnota moet een bedrag van 0 of minder hebben",
+      "invoiceIsDraft": "Factuur {id} is een concept en kan niet worden gecrediteerd",
+      "refMissing": {
+        "client": "Klant {id} is niet geïmporteerd",
+        "project": "Project {id} is niet geïmporteerd",
+        "prepaid": "Urenpakket {id} is niet geïmporteerd",
+        "task": "Taak {id} is niet geïmporteerd",
+        "invoice": "Factuur {id} is niet geïmporteerd"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "Betaalde facturen kunnen niet worden gewijzigd. Maak indien nodig een creditnota.",
+      "deleted": "Verwijderde facturen kunnen niet worden hersteld.",
+      "generic": "De status kan niet van \"{from}\" naar \"{to}\" worden gewijzigd."
+    },
+    "directTime": "Directe tijd",
+    "status": {
+      "draft": "concept",
+      "sent": "verstuurd",
+      "paid": "betaald",
+      "overdue": "achterstallig",
+      "deleted": "verwijderd"
+    },
+    "specHeading": "--- Specificatie ---",
+    "specLine": "{date} - {project}: {description} ({hours} u × {rate} kr = {amount} kr)"
+  },
+  "logbook": {
+    "endAfterStart": "De einddatum moet na de startdatum liggen",
+    "periodMaxDays": "De periode mag maximaal {days} dagen zijn"
+  },
+  "portal": {
+    "manualDeduction": "Handmatige afschrijving"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "Het urenpakket heeft al een terugkerende factuur"
+  },
+  "storeBilling": {
+    "notAvailable": "Aankopen in de app zijn nog niet beschikbaar."
+  },
+  "subscription": {
+    "storeManaged": "Je abonnement wordt betaald via {provider}. Je wijzigt of annuleert het in {provider}.",
+    "teamPlanNotConfigured": "Het Team-abonnement is nog niet geconfigureerd (ALUNTA_PLAN_TEAM_*). Neem contact op met support.",
+    "businessPlanNotConfigured": "Het Business-abonnement is nog niet geconfigureerd (ALUNTA_PLAN_BUSINESS_*). Neem contact op met support.",
+    "privatePlanNotAvailable": "Het Private-abonnement is nog niet beschikbaar (ALUNTA_PLAN_PRIVAT_*). Kies een ander abonnement of neem contact op met support.",
+    "freeNotPurchasable": "Het Gratis-abonnement kan niet worden aangeschaft.",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL is niet ingesteld"
+  },
+  "time": {
+    "invalidEntryDate": "Ongeldige datum: verwacht JJJJ-MM-DD"
+  },
+  "billedLock": {
+    "onInvoice": "De tijdboeking is gefactureerd en kan niet worden gewijzigd. Crediteer eerst de factuur of verwijder de boeking uit de conceptfactuur.",
+    "marked": "De tijdboeking is als gefactureerd gemarkeerd en kan niet worden gewijzigd. Verwijder eerst de markering.",
+    "bulk": {
+      "delete": "{count, plural, one {# van de geselecteerde tijdboekingen is gefactureerd en kan niet worden verwijderd. Crediteer eerst de factuur of verwijder de markering.} other {# van de geselecteerde tijdboekingen zijn gefactureerd en kunnen niet worden verwijderd. Crediteer eerst de factuur of verwijder de markering.}}",
+      "edit": "{count, plural, one {# van de geselecteerde tijdboekingen is gefactureerd en kan niet worden gewijzigd. Crediteer eerst de factuur of verwijder de markering.} other {# van de geselecteerde tijdboekingen zijn gefactureerd en kunnen niet worden gewijzigd. Crediteer eerst de factuur of verwijder de markering.}}",
+      "move": "{count, plural, one {# van de geselecteerde tijdboekingen is gefactureerd en kan niet worden verplaatst. Crediteer eerst de factuur of verwijder de markering.} other {# van de geselecteerde tijdboekingen zijn gefactureerd en kunnen niet worden verplaatst. Crediteer eerst de factuur of verwijder de markering.}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "Er bestaat al een activiteitstype met die naam",
+    "endAfterStart": "De einddatum moet na de startdatum liggen",
+    "fromBeforeTo": "De begindatum moet vóór de einddatum liggen",
+    "periodMaxDays": "De periode mag maximaal {days} dagen zijn",
+    "employee": {
+      "importManagerMissing": "Leidinggevende {email} bestaat niet in het bestand en niet in de organisatie. De medewerker is zonder leidinggevende geïmporteerd."
+    },
+    "payroll": {
+      "hrOnly": "De loonkoppeling is voorbehouden aan HR en beheerders"
+    },
+    "closing": {
+      "changedMeanwhile": "De afrekening is ondertussen gewijzigd. Laad de pagina opnieuw.",
+      "locked": "De periode is afgesloten en vergrendeld. Een beheerder moet haar (met een reden) ontgrendelen voordat boekingen kunnen worden gewijzigd."
+    },
+    "team": {
+      "absenceLabel": "Afwezigheid"
+    },
+    "timesheet": {
+      "coveredByRequest": "De dag valt onder een afwezigheidsaanvraag die onder Afwezigheid is aangemaakt. Bewerk haar daar.",
+      "otherTypeAbsence": "Je hebt op deze dag al afwezigheid van een ander type",
+      "absenceRecordedElsewhere": "De afwezigheid is tegelijkertijd ergens anders geregistreerd. Laad de week opnieuw.",
+      "overMax": "{label}: {total} u overschrijdt het maximum van {max} u per dag",
+      "emptyWorkday": "{label} is een werkdag zonder boekingen of afwezigheid",
+      "overNorm": "{label}: {total} u is meer dan je norm van {norm} u",
+      "weekOverNorm": "De week: {total} u is meer dan je weeknorm van {norm} u",
+      "autoLocked": "De week is vergrendeld. Vorige week wordt vergrendeld op {day}. Neem contact op met je leidinggevende om dit te laten corrigeren.",
+      "automatically": "automatisch",
+      "rollingLocked": "Boekingen ouder dan {weeks} zijn door de organisatie vergrendeld. Neem contact op met je leidinggevende om ze te laten corrigeren.",
+      "weeks": "{count, plural, one {# week} other {# weken}}"
+    },
+    "workPlans": {
+      "notBackwards": "Een rooster kan niet met terugwerkende kracht worden gewijzigd. Kies vandaag of een latere datum."
+    },
+    "absenceCap": {
+      "used": "{type} is op voor {year} (maximaal {cap} dagen per jaar)",
+      "left": "Er zijn in {year} nog maar {remaining} van {cap} dagen {type} over"
+    },
+    "rule": {
+      "avgViolation": "48-urenregel: het gemiddelde over de referentieperiode is {avg} u/week (grens {limit} u)",
+      "avgWarning": "48-urenregel: het gemiddelde over de referentieperiode is {avg} u/week en nadert de grens van {limit} u",
+      "weekInfo": "48-urenregel: de week staat nu op {week} u; het gemiddelde over de referentieperiode ligt nog onder {limit} u",
+      "restBefore": "11 uur rust: slechts {rest} u rust vóór het werk op {day} (vereist {limit} u)",
+      "daySum": "11 uur rust: {total} u geregistreerd op {day} laat minder dan {limit} u rust over (max {max} u per dag)",
+      "weeklyRest": "24 uur wekelijkse rust: de langste ononderbroken rust in de week vanaf {day} is {rest} u (vereist {limit} u)",
+      "noFreeDay": "24 uur wekelijkse rust: er is werk geregistreerd op alle 7 dagen in de week vanaf {day}, zonder volledige vrije dag"
+    },
+    "employment": {
+      "endBeforeStart": "De einddatum mag niet vóór de startdatum liggen",
+      "onlyFirstUnknown": "Alleen de eerste periode mag een onbekende startdatum hebben",
+      "startAfterPrevStart": "De startdatum moet na de start van de vorige periode liggen ({date})",
+      "startAfterPrevEnd": "De startdatum moet na het einde van het vorige dienstverband liggen ({date})",
+      "endBeforeNext": "De einddatum moet vóór de start van de volgende periode liggen ({date})",
+      "endDayBeforeNext": "De einddatum moet de dag vóór de start van de volgende periode zijn ({date}). Verplaats in plaats daarvan de startdatum van de volgende periode."
+    },
+    "import": {
+      "fileEmpty": "Het bestand is leeg",
+      "headerEmployees": "De koprij moet minstens de kolommen \"navn\" en \"email\" bevatten",
+      "nameMissing": "Naam ontbreekt",
+      "invalidEmail": "Ongeldig e-mailadres: \"{value}\"",
+      "duplicate": "Dubbel in het bestand: {email}",
+      "unknownRole": "Onbekende rol: \"{value}\" (gebruik medarbejder/leder/admin)",
+      "invalidWeeklyHours": "Ongeldig aantal uren: \"{value}\" (1-60)",
+      "invalidStartDate": "Ongeldige startdatum: \"{value}\" (gebruik JJJJ-MM-DD)",
+      "invalidManagerEmail": "Ongeldig e-mailadres van leidinggevende: \"{value}\"",
+      "headerEntries": "De koprij moet de kolommen \"email\" (of \"medarbejder\"), \"dato\" en \"timer\" bevatten",
+      "invalidDate": "Ongeldige datum: \"{value}\" (gebruik JJJJ-MM-DD)",
+      "invalidHours": "Ongeldig aantal uren: \"{value}\" (0-24)"
+    },
+    "period": {
+      "pickBoth": "Kies zowel een begin- als een einddatum",
+      "fromBeforeToOrSame": "De begindatum moet op of vóór de einddatum liggen",
+      "maxDaysShorter": "De periode mag maximaal {days} dagen zijn. Kies een korter interval."
+    },
+    "vacation": {
+      "notEnough": "Te weinig verlofdagen in het saldo {pool}. Je hebt nog {remaining} dagen, maar de boeking vereist {deducted} dagen{tolerance}.",
+      "overdraftAllowed": " (tekort toegestaan: {days} dagen)",
+      "overdraftNotAllowed": " (tekort is niet toegestaan)"
+    },
+    "workPlan": {
+      "rotation": "De rotatie moet 1 of 2 weken zijn",
+      "weekCount": "Het aantal weken komt niet overeen met de rotatie",
+      "invalidWeekday": "Ongeldige weekdag{label}",
+      "duplicateWeekday": "Een weekdag komt twee keer voor{label}",
+      "timeFormat": "Tijden moeten als UU:MM worden geschreven{label}",
+      "endAfterStart": "De eindtijd moet na de starttijd liggen{label}",
+      "breakRange": "De pauze moet 0-240 minuten zijn{label}",
+      "breakShorter": "De pauze moet korter zijn dan de werkdag{label}",
+      "inWeek": " in week {week}",
+      "enterBothTimes": "Vul zowel een begin- als een eindtijd in als UU:MM",
+      "endAfterStartPlain": "De eindtijd moet na de starttijd liggen",
+      "breakShorterPlain": "De pauze moet korter zijn dan de werkdag",
+      "rangeOrHours": "Vul een tijdsbereik of 0-24 uur in"
+    },
+    "closure": {
+      "overlap": "heeft al afwezigheid in de periode",
+      "noWorkingDays": "heeft geen werkdagen in de periode",
+      "balance": "heeft niet genoeg verlofdagen",
+      "error": "kon niet worden aangemaakt (technische fout)"
+    },
+    "workPlanExport": {
+      "planned": "Volgens rooster",
+      "deviation": "Afwijking",
+      "dayOff": "Vrije dag",
+      "absence": "Afwezigheid",
+      "free": "Vrij volgens rooster",
+      "hDate": "Datum",
+      "hStatus": "Status",
+      "hPlan": "Rooster",
+      "hPlanHours": "Rooster (uren)",
+      "hRegisteredRange": "Geregistreerd tijdsbereik",
+      "hBreak": "Pauze (min)",
+      "hRegisteredHours": "Geregistreerd (uren)",
+      "hDayOff": "Vrije dag",
+      "hNote": "Notitie",
+      "hEditedBy": "Bewerkt door",
+      "hEditedUtc": "Bewerkt (UTC)"
+    },
+    "payrollXlsx": {
+      "sheet": "Salaris",
+      "period": "Periode: {period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "Je bedrijfsnaam",
+      "yourName": "Je naam",
+      "yourEmail": "Je e-mailadres",
+      "yourPhone": "Je telefoonnummer",
+      "clientFullName": "De volledige naam van de klant",
+      "clientCompany": "De bedrijfsnaam van de klant",
+      "clientEmail": "Het e-mailadres van de klant",
+      "portalLink": "Link naar het klantenportaal",
+      "invoiceNumber": "Factuurnummer",
+      "totalInclVat": "Totaalbedrag inclusief btw",
+      "amountExclVat": "Bedrag exclusief btw",
+      "issueDate": "Factuurdatum",
+      "paymentDeadline": "Betaaltermijn",
+      "invoiceStatus": "Betaald/Onbetaald/Achterstallig",
+      "invoiceLink": "Directe link naar de factuur",
+      "daysLate": "Aantal dagen te laat",
+      "projectName": "De naam van het project",
+      "projectStatus": "Actief/Afgerond/On hold",
+      "hoursUsed": "Gebruikte uren",
+      "projectLink": "Link naar het project in het portaal",
+      "prepaidName": "De naam van het urenpakket",
+      "hoursRemaining": "Resterende uren",
+      "hoursTotal": "Totaal aantal uren",
+      "percentUsed": "Percentage gebruikt",
+      "expiryDate": "Vervaldatum",
+      "daysToExpiry": "Dagen tot vervaldatum",
+      "hoursForApproval": "Totaal aantal uren ter goedkeuring",
+      "entryCount": "Aantal tijdboekingen",
+      "period": "Tijdsperiode",
+      "approvalLink": "Link naar de goedkeuringspagina",
+      "loginLink": "Link naar de portaalaanmelding",
+      "invitationLink": "Uitnodigingslink",
+      "invitationExpiry": "De vervaldatum van de uitnodiging"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "Btw K{n}",
+    "vatHalfTitle": "Btw H{n}",
+    "vatQuarterDesc": "Aangifte en betaling van btw over het kwartaal aan de Deense belastingdienst (Skattestyrelsen).",
+    "vatHalfDesc": "Aangifte en betaling van btw over het halfjaar aan de Deense belastingdienst (Skattestyrelsen).",
+    "vatMonthTitle": "Btw {month}",
+    "vatMonthDesc": "Aangifte en betaling van btw over {month} {year} aan de Deense belastingdienst (Skattestyrelsen).",
+    "bSkatSpring": "Voorlopige belasting, B-skat (voorjaar)",
+    "bSkatAutumn": "Voorlopige belasting, B-skat (najaar)",
+    "bSkatDesc": "Betaling van voorlopige B-skat aan de Deense belastingdienst (Skattestyrelsen). Geldt voor zelfstandigen en freelancers.",
+    "formTitle": "Belastingaangifte {year}",
+    "formDesc": "Indienen van de belastingaangifte (oplysningsskema) voor het inkomstenjaar {year} bij de Deense belastingdienst (Skattestyrelsen).",
+    "amTitle": "Arbeidsmarktbijdrage (AM) K{n}",
+    "amDesc": "Betaling van de arbeidsmarktbijdrage (AM-bidrag) voor zelfstandigen over het kwartaal.",
+    "arTitle": "Jaarrekening boekjaar {year}",
+    "arDesc": "De jaarrekening moet uiterlijk 5 maanden na het einde van het boekjaar worden ingediend bij het Deense bedrijvenregister (Erhvervsstyrelsen).",
+    "agmTitle": "Algemene vergadering boekjaar {year}",
+    "agmDesc": "Gewone algemene vergadering voor de goedkeuring van de jaarrekening.",
+    "corpFormTitle": "Vennootschapsbelastingaangifte boekjaar {year}",
+    "corpFormDesc": "De belastingaangifte (oplysningsskema) van het bedrijf over het boekjaar moet worden ingediend bij de Deense belastingdienst (Skattestyrelsen).",
+    "corpTaxSpring": "Voorschot vennootschapsbelasting (voorjaar)",
+    "corpTaxAutumn": "Voorschot vennootschapsbelasting (najaar)",
+    "corpTaxDesc": "Voorschotbetaling van vennootschapsbelasting aan de Deense belastingdienst (Skattestyrelsen).",
+    "corpFinalTitle": "Eindafrekening vennootschapsbelasting {year}",
+    "corpFinalDesc": "Betaling van de resterende vennootschapsbelasting (restskat) voor het inkomstenjaar {year}.",
+    "payrollTitle": "A-skat/AM-bijdrage {month}",
+    "payrollDesc": "Aangifte en betaling van A-skat (loonbelasting) en AM-bijdrage voor de loonperiode {month} {year}.",
+    "holidayPayTitle": "Vakantiegeld K{n}",
+    "holidayPayDesc": "Aangifte en betaling van vakantiegeld aan Feriekonto (het Deense vakantiegeldfonds) over het kwartaal."
+  },
+  "integrations": {
+    "authExpired": "De koppeling met {name} is verlopen of ongeldig. Koppel opnieuw onder Instellingen → Integraties.",
+    "billy": {
+      "keyRequired": "Een Billy API-sleutel is verplicht",
+      "productDescription": "Uren geïmporteerd uit TimeTrack"
+    },
+    "dinero": {
+      "keyRequired": "Een Dinero API-sleutel is verplicht",
+      "orgIdRequired": "Een Dinero-organisatie-ID is verplicht",
+      "tokenFailed": "Het Dinero-token kon niet worden opgehaald",
+      "refreshMissing": "Het Dinero-refreshtoken ontbreekt",
+      "expiredReconnect": "De Dinero-koppeling is verlopen. Koppel opnieuw.",
+      "orgsFailed": "De Dinero-organisaties konden niet worden opgehaald"
+    },
+    "economic": {
+      "secretRequired": "Een e-conomic App Secret Token is verplicht",
+      "grantRequired": "Een e-conomic Agreement Grant Token is verplicht",
+      "consultingHours": "Advieswerk: {hours} uur"
+    },
+    "timeops": {
+      "invalidKey": "De API-sleutel is ongeldig of verlopen",
+      "premium": "Je hebt TimeOps Premium nodig om hun API te gebruiken",
+      "network": "Verbinding met TimeOps mislukt. Probeer het later opnieuw.",
+      "unexpected": "Er is een onverwachte fout opgetreden bij het verbinden met TimeOps ({detail})"
+    },
+    "icloud": {
+      "syncFailed": "iCloud-synchronisatie mislukt",
+      "storageMissing": "iCloud kan nu niet worden gekoppeld omdat veilige wachtwoordopslag op de server niet is ingesteld. Neem contact op met support.",
+      "rejected": "Het Apple ID of het appspecifieke wachtwoord is geweigerd. Controleer of je het hele appspecifieke wachtwoord hebt gekopieerd (niet je gewone Apple-wachtwoord).",
+      "notConnected": "iCloud is niet gekoppeld",
+      "notConnectedShort": "Niet gekoppeld aan iCloud",
+      "calendarGone": "De agenda \"{name}\" bestaat niet meer in iCloud. Kies de agenda's opnieuw.",
+      "unknownCalendar": "onbekend"
+    },
+    "caldav": {
+      "unknown": "iCloud-synchronisatie mislukt: {message}",
+      "auth": "Apple heeft het inloggen geweigerd. Maak een nieuw appspecifiek wachtwoord aan op appleid.apple.com en koppel iCloud opnieuw.",
+      "network": "Verbinding met iCloud is nu niet mogelijk. We proberen het automatisch opnieuw."
+    },
+    "cvr": {
+      "invalid": "Het CVR-nummer moet uit 8 cijfers bestaan",
+      "notFound": "Geen bedrijf gevonden met dit CVR-nummer",
+      "rateLimited": "CVR-opzoekingen zijn tijdelijk beperkt. Probeer het zo meteen opnieuw, of vul de velden zelf in.",
+      "timeout": "Het CVR-register reageert nu niet. Probeer het zo meteen opnieuw, of vul de velden zelf in.",
+      "unavailable": "De CVR-opzoeking werkt nu niet. Probeer het zo meteen opnieuw, of vul de velden zelf in."
+    },
+    "google": {
+      "readOnly": "Je Google Agenda is gekoppeld met alleen-lezentoegang, dus TimeTrack mag er geen afspraken in maken of wijzigen. Geef schrijftoegang onder Instellingen → Integraties → Google Agenda als je de functie wilt gebruiken.",
+      "freeSlot": "Vrije tijd in de agenda",
+      "deadlineIn": "Deadline over {count, plural, one {# dag} other {# dagen}}",
+      "urgent": "Urgente prioriteit",
+      "high": "Hoge prioriteit",
+      "clientLine": "Klant: {name}",
+      "projectLine": "Project: {name}",
+      "hoursLine": "Uren: {hours}",
+      "exportedFrom": "Geëxporteerd uit TimeTrack"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "Tijdboeking",
+    "timeOnProject": "{hours} uur aan {name}",
+    "timeForClient": "{hours} uur voor {name}",
+    "timeOnly": "{hours} uur",
+    "invoiceTitle": "Factuur {number}",
+    "invoiceDescription": "{amount} kr aan {client}",
+    "newClient": "Nieuwe klant: {name}",
+    "noContact": "Geen contactgegevens",
+    "newProject": "Nieuw project: {name}",
+    "projectFor": "Voor {client}",
+    "internal": "Intern"
+  }
+}

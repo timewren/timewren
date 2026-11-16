@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Předplatné",
+    "description": "Tarif, platba a fakturace",
+    "adminOnly": "Předplatné, nákup míst a platby mohou spravovat jen vlastníci a administrátoři."
+  },
+  "states": {
+    "noBilling": "Tato instalace nemá poskytovatele plateb, takže jsou všechny funkce otevřené a neexistují žádné tarify ani limity.",
+    "comingSoonTitle": "Platby již brzy",
+    "comingSoon": "Používáte bezplatný tarif. Placené tarify přijdou brzy a do té doby nic neplatíte.",
+    "loading": "Načítání předplatného…",
+    "none": "Nebylo nalezeno žádné předplatné. Začni výběrem tarifu.",
+    "choosePlan": "Vyber tarif",
+    "previousWebPayments": "Dřívější platby na webu",
+    "redirecting": "Přesměrování…"
+  },
+  "cycle": {
+    "monthly": "Měsíčně",
+    "yearly": "Ročně",
+    "twoMonthsFree": "2 měsíce zdarma",
+    "perMonthExclVat": "/měs. bez DPH",
+    "perYearExclVat": "/rok bez DPH",
+    "krPerMonth": "{price} kr./měs.",
+    "krPerYear": "{price} kr./rok"
+  },
+  "status": {
+    "active": "Aktivní",
+    "free": "Zdarma",
+    "trialing": "Zkušební období",
+    "pastDue": "Platba po splatnosti",
+    "canceled": "Zrušeno"
+  },
+  "invoiceStatus": {
+    "paid": "Zaplaceno",
+    "open": "Otevřená",
+    "draft": "Koncept",
+    "void": "Neplatná",
+    "uncollectible": "Neúspěšná",
+    "unknown": "Neznámý"
+  },
+  "history": {
+    "title": "Historie plateb",
+    "columnDate": "Datum",
+    "columnNumber": "Číslo",
+    "columnAmount": "Částka",
+    "columnStatus": "Stav",
+    "columnPdf": "PDF",
+    "empty": "Zatím žádné platby. Historie plateb se zobrazí tady po tvé první platbě."
+  },
+  "toast": {
+    "planChangedYearly": "Tarif byl změněn na roční",
+    "planChangedMonthly": "Tarif byl změněn na měsíční",
+    "canceled": "Předplatné bylo zrušeno. Zůstane aktivní do konce období.",
+    "reactivated": "Předplatné bylo obnoveno!",
+    "trialRequested": "Žádost byla odeslána! Ozveme se ti co nejdříve.",
+    "trialRequestFailed": "Žádost se nepodařilo odeslat. Zkus to prosím znovu.",
+    "paymentMethodAdded": "Platební metoda byla přidána!",
+    "seatsUpdated": "Místa byla aktualizována! Může chvíli trvat, než se změna projeví.",
+    "paymentCanceled": "Platba byla zrušena"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Do konce zkušebního období ti zbývá # den} few {Do konce zkušebního období ti zbývají # dny} many {Do konce zkušebního období ti zbývá # dne} other {Do konce zkušebního období ti zbývá # dní}}",
+    "startsAutomatically": "Tvé předplatné se po zkušebním období spustí automaticky",
+    "addPaymentToContinue": "Přidej platební metodu, abys mohl(a) pokračovat po zkušebním období",
+    "needMoreTime": "Potřebuješ víc času?",
+    "addPayment": "Přidat platbu",
+    "checkoutNoteFounding": "Stránka objednávky zobrazuje standardní cenu. Tvá sleva {percent} % pro zakládající členy se po zaplacení uplatní automaticky."
+  },
+  "pendingCancel": {
+    "expiresOn": "Tvé předplatné vyprší {date}",
+    "expiresUnknown": "Tvé předplatné vyprší v neznámém termínu",
+    "reactivateHint": "Do té doby můžeš předplatné obnovit",
+    "reactivating": "Obnovování…",
+    "reactivate": "Obnovit"
+  },
+  "plan": {
+    "current": "Aktuální tarif",
+    "freeLimits": "Až {maxSeats} uživatelů · využito {used} z {maxClients} aktivních klientů. Upgradem získáš více klientů, více uživatelů, fakturaci a balíčky hodin.",
+    "seatsIncluded": "{count, plural, one {# uživatel v ceně} few {# uživatelé v ceně} many {# uživatele v ceně} other {# uživatelů v ceně}}",
+    "seatsWithExtra": "{count, plural, one {# uživatel} few {# uživatelé} many {# uživatele} other {# uživatelů}} · {included} v ceně + {extra} navíc",
+    "foundingDiscount": "Sleva {percent} % pro zakládající členy",
+    "foundingDiscountForever": "Sleva {percent} % pro zakládající členy, navždy",
+    "foundingDiscountExpires": "Sleva {percent} % pro zakládající členy, vyprší {date}",
+    "trialEnds": "Zkušební období končí: {date}",
+    "nextBilling": "Další fakturace: {date}"
+  },
+  "roi": {
+    "titleReturn": "Tvá návratnost s {brand}",
+    "titleActivity": "Tvá aktivita v {brand}",
+    "spent": "Utraceno za {brand}",
+    "freeSoFar": "Zatím zdarma!",
+    "trackedValue": "Hodnota evidovaného času",
+    "invoicedTotal": "Celkem fakturováno",
+    "return": "Návratnost"
+  },
+  "payment": {
+    "title": "Platba",
+    "portalDescription": "Platební metodu a faktury spravuj v platebním portálu.",
+    "manage": "Spravovat platbu",
+    "noMethod": "Zatím není přidána žádná platební metoda",
+    "addMethod": "Přidat platební metodu",
+    "checkoutNoteFounding": "Stránka objednávky zobrazuje standardní cenu. Tvá sleva {percent} % se uplatní automaticky."
+  },
+  "seats": {
+    "title": "Místa",
+    "usage": "Využito {used} z {total} míst",
+    "pendingInvites": "{count, plural, one {# místo je obsazeno čekající pozvánkou} few {# místa jsou obsazena čekajícími pozvánkami} many {# místa je obsazeno čekajícími pozvánkami} other {# míst je obsazeno čekajícími pozvánkami}}",
+    "reseatsReminder": "Nezapomeň znovu objednat svá extra místa ({count}) za sazbu {plan}. Dokonči níže nákup míst, aby fakturace odpovídala tvé kapacitě.",
+    "extraLabel": "Extra místa (nad {included} v ceně)",
+    "fewer": "Méně míst",
+    "more": "Více míst",
+    "price": "Cena",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr./rok bez DPH",
+    "priceSuffixMonthly": "kr./měs. bez DPH",
+    "adjust": "Upravit místa",
+    "buy": "Koupit místa",
+    "note": "Tvé současné rozšíření o místa se nahradí novým počtem. Provedeš nový nákup a staré rozšíření se automaticky zruší. Tvůj tarif umožňuje celkem až {max} míst."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "Pro jednotlivce",
+      "feature1": "1 uživatel"
+    },
+    "solo": {
+      "tagline": "Pro freelancery",
+      "feature1": "1 uživatel, neomezený počet klientů",
+      "feature2": "Balíčky hodin, fakturace a integrace",
+      "feature3": "Web, aplikace, rozšíření a desktop v ceně"
+    },
+    "team": {
+      "tagline": "Pro malé týmy",
+      "feature1": "Vše z tarifu {plan}",
+      "feature2": "2 uživatelé v ceně",
+      "feature3": "Sdílení klientů, projektů a balíčků hodin"
+    },
+    "business": {
+      "tagline": "Pro firmy",
+      "feature1": "Vše z tarifu {plan}",
+      "feature2": "5 uživatelů v ceně",
+      "feature3": "Pružná pracovní doba, absence a compliance"
+    },
+    "usersIncluded": "{count} uživatelů v ceně"
+  },
+  "upgrade": {
+    "title": "Upgraduj svůj tarif",
+    "blocked": "Máš {count, plural, one {# extra místo, které} few {# extra místa, která} many {# extra místa, které} other {# extra míst, která}} zatím nelze automaticky přesunout do tarifu {plan}. Napiš nám na support@timetrack.dk a upgradujeme tě bez ztráty míst.",
+    "to": "Upgradovat na {plan}",
+    "note": "Při upgradu provedeš nový nákup. Tvé současné předplatné se automaticky zruší, jakmile bude nové aktivní."
+  },
+  "choose": {
+    "title": "Vyber svůj tarif",
+    "choosePlan": "Vybrat {plan}",
+    "chooseAndPay": "Vybrat a zaplatit",
+    "note": "Další uživatele nad rámec těch v ceně přidáš po registraci. Sleva pro zakládající členy (pokud je aktivní) se u tarifu {plan} uplatní automaticky po zaplacení."
+  },
+  "discounts": {
+    "title": "Aktivní slevy",
+    "rangeBoth": "Od {from} do {to}",
+    "rangeOpenEnded": "Od {from}, bez data vypršení",
+    "rangeUntil": "Do {to}",
+    "rangeNone": "Bez data vypršení"
+  },
+  "metadata": {
+    "title": "Podrobnosti předplatného",
+    "foundingTier": "Zakládající úroveň",
+    "billingCycle": "Fakturační období",
+    "signupSource": "Zdroj registrace",
+    "couponCode": "Slevový kód"
+  },
+  "upcoming": {
+    "title": "Nadcházející platby",
+    "columnPeriod": "Období",
+    "columnPlan": "Tarif",
+    "columnAmount": "Částka"
+  },
+  "switch": {
+    "title": "Změnit tarif",
+    "equivalent": "Odpovídá {price} kr./měs.",
+    "toMonthly": "Přepnout na měsíční",
+    "toYearly": "Přepnout na roční"
+  },
+  "cancel": {
+    "title": "Zrušit předplatné",
+    "description": "Tvé předplatné zůstane aktivní do konce aktuálního fakturačního období.",
+    "areYouSure": "Opravdu?",
+    "activeUntil": "Tvé předplatné zůstane aktivní do {date}. Poté ztratíš přístup k prémiovým funkcím.",
+    "activeUntilEnd": "Tvé předplatné zůstane aktivní do konce období. Poté ztratíš přístup k prémiovým funkcím.",
+    "keep": "Ponechat předplatné",
+    "confirm": "Ano, zrušit předplatné",
+    "canceling": "Rušení…"
+  }
+}

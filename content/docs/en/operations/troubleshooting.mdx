@@ -1,0 +1,121 @@
+---
+title: "Troubleshooting"
+description: "Fix common problems with a self-hosted TimeWren instance: startup, sign-in, mail, uploads, cron jobs and migrations."
+---
+
+Start with the status of the containers and the app log:
+
+```bash
+docker compose ps
+docker compose logs -f app
+```
+
+## Health endpoint
+
+```bash
+curl -i http://127.0.0.1:3000/api/health
+```
+
+The endpoint returns HTTP 200 when everything is fine and 503 when a check fails:
+
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-01-01T12:00:00.000Z",
+  "service": "timetrack",
+  "checks": {
+    "database": { "status": "ok" },
+    "auth": { "status": "ok" },
+    "signing_secret": { "status": "ok" },
+    "realtime": { "status": "disabled" }
+  }
+}
+```
+
+`status` is `healthy` or `unhealthy`. The `database`, `auth` and `signing_secret` checks are `ok` or `error`, and any `error` makes the response 503. The `realtime` check can also be `degraded`, which never fails the health check. The `service` field says `timetrack` for historical reasons. A healthy answer does not prove that the last migration succeeded; read the log for that.
+
+The `app` container shows `starting` until it is healthy. The first start can take a minute or two, because migrations run before the server listens (the health check allows 180 seconds).
+
+## docker compose up says a variable is missing
+
+The message names it, for example `Set POSTGRES_PASSWORD in .env`. Fill it in `.env` and run the command again. `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` and `CRON_SECRET` are required.
+
+## Sign-in or sign-up fails with 403 or "invalid origin"
+
+The URL in the browser differs from `NEXT_PUBLIC_APP_URL`. Fix the value in `.env` and run `docker compose up -d`, or add the extra hostname to `TRUSTED_ORIGINS`. See [Reverse proxy and TLS](/docs/operations/reverse-proxy).
+
+## Links in the app or in mails point at localhost
+
+`NEXT_PUBLIC_APP_URL` is unset, so it falls back to `http://localhost:3000`. Set it in `.env` and run `docker compose up -d`.
+
+## The build is killed or hangs
+
+Building the image yourself needs about 5 GB of RAM at peak. The prebuilt image avoids this. If you must build, add swap or use a bigger machine:
+
+```bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+```
+
+## Mails do not arrive
+
+Look for mail lines in the log:
+
+```bash
+docker compose logs app | grep "\[Mail"
+```
+
+`[Mail:log]` means no transport is configured and nothing was sent. `[Mail] SMTP-afsendelse fejlede` is followed by the SMTP error. See [Email](/docs/configuration/email).
+
+## Stored integrations stop working
+
+`ENCRYPTION_KEY` changed, so the stored tokens cannot be decrypted. Put the old value back from your backup and run `docker compose up -d`. Without the old key, reconnect the integrations.
+
+## Uploads fail with a permission error
+
+The `storage` volume must be writable by uid 1001:
+
+```bash
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+```
+
+Uploads also fail when neither the local driver nor `S3_ENDPOINT` is configured. See [File storage](/docs/configuration/storage).
+
+## Scheduled jobs do not run
+
+The `cron` container calls the app's `/api/cron/*` endpoints:
+
+```bash
+docker compose logs cron
+```
+
+A failed call shows only a curl exit status 22, which means an HTTP error such as 401, 404 or 500. Check first that `CRON_SECRET` is identical for `app` and `cron`, then recreate both:
+
+```bash
+docker compose up -d --force-recreate app cron
+```
+
+## A migration failed
+
+The log shows `Migration failed:` with the error. The app keeps running on the old schema. Fix the cause (often disk space) and restart:
+
+```bash
+docker compose restart app
+```
+
+See [Upgrading](/docs/operations/upgrading#if-a-migration-fails) for recovery and rollback.
+
+## Start over
+
+> **Warning:** `docker compose down -v` deletes the database and all uploads. Only do this on a throwaway instance.
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
+## Ask an AI to help
+
+The docs are available as plain text for language models. Paste a page, or the whole set, into your assistant together with your log output (with secrets removed), and ask it to diagnose the problem. See [Docs for LLMs](/docs/llm) for the URLs.

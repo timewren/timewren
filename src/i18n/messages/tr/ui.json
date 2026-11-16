@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Kaydediliyor …",
+    "saved": "Kaydedildi",
+    "blocked": "Kaydedilmedi: vurgulanan alanı düzelt",
+    "failed": "Kaydedilemedi",
+    "retry": "Tekrar dene"
+  },
+  "loading": {
+    "default": "Yükleniyor…",
+    "tip": {
+      "search": "Biliyor muydun? Ctrl+K ile her yerde arama yapabilirsin",
+      "rightClick": "İpucu: Hızlı işlemler için bir göreve sağ tıkla",
+      "templates": "Tekrarlayan görevler için şablonları kullan ve zaman kazan",
+      "kanban": "Kanban görünümünde görevleri sütunlar arasında sürükleyebilirsin",
+      "timerFromTask": "İpucu: Zamanlayıcıyı doğrudan bir görevden başlat",
+      "prepaid": "Ön ödemeli paketler, ön ödemeli saatleri takip etmene yardımcı olur",
+      "duplicate": "Ön ödemeli paketleri tek tıkla kopyalayabilirsin",
+      "keys": "Görev listesinde klavyeyle gezinmek için J/K tuşlarını kullan"
+    }
+  },
+  "member": {
+    "all": "Tüm çalışanlar",
+    "selected": "{count} çalışan seçildi"
+  },
+  "founding": "Kurucu",
+  "status": {
+    "active": "Etkin",
+    "inactive": "Etkin değil",
+    "pending": "Beklemede",
+    "completed": "Tamamlandı",
+    "archived": "Arşivlendi",
+    "draft": "Taslak",
+    "sent": "Gönderildi",
+    "paid": "Ödendi",
+    "overdue": "Gecikmiş",
+    "on_hold": "Askıda"
+  },
+  "priority": {
+    "low": "Düşük",
+    "medium": "Normal",
+    "high": "Yüksek",
+    "urgent": "Kritik"
+  },
+  "modal": {
+    "close": "Kapat",
+    "confirm": "Onayla",
+    "cancel": "İptal",
+    "wait": "Lütfen bekle…",
+    "ok": "Tamam"
+  },
+  "image": {
+    "uploadFailed": "Yükleme başarısız oldu",
+    "uploaded": "Görsel yüklendi",
+    "uploadError": "Görsel yüklenemedi",
+    "alt": "Görsel",
+    "change": "Değiştir",
+    "upload": "Yükle",
+    "remove": "Kaldır",
+    "hint": "JPEG, PNG veya WebP. En fazla 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Ağ hatası",
+      "message": "Sunucuya bağlanılamadı. İnternet bağlantını kontrol edip tekrar dene."
+    },
+    "server": {
+      "title": "Sunucu hatası",
+      "message": "Bir sunucu hatası oluştu. Daha sonra tekrar dene."
+    },
+    "notFound": {
+      "title": "Bulunamadı",
+      "message": "Aradığın kaynak mevcut değil veya kaldırılmış."
+    },
+    "permission": {
+      "title": "Erişim reddedildi",
+      "message": "Bu içeriği görüntüleme iznin yok."
+    },
+    "unknown": {
+      "title": "Bir şeyler ters gitti",
+      "message": "Beklenmeyen bir hata oluştu. Sayfayı yenilemeyi dene."
+    },
+    "offline": "Çevrimdışısın",
+    "connected": "Bağlandı",
+    "details": "Hata ayrıntıları",
+    "retrying": "Tekrar deneniyor…",
+    "retry": "Tekrar dene",
+    "loading": "Yükleniyor…"
+  },
+  "empty": {
+    "clients": {
+      "title": "Henüz müşteri yok",
+      "description": "İlk müşterini oluşturarak başla. İletişim bilgileri, şirket sicil numarası, saatlik ücret ve daha fazlasını ekleyebilirsin.",
+      "action": "İlk müşterini oluştur",
+      "guide": "Rehberi oku"
+    },
+    "projects": {
+      "needClientTitle": "Önce bir müşteri oluştur",
+      "needClientDescription": "Proje oluşturabilmek için en az bir müşterin olmalı. Projeler her zaman bir müşteriye aittir.",
+      "createClient": "Müşteri oluştur",
+      "title": "Henüz proje yok",
+      "description": "Zaman takibine ve müşterilerini faturalamaya başlamak için ilk projeni oluştur. Saatlik ücret veya sabit fiyat seçebilirsin.",
+      "action": "Proje oluştur",
+      "seeClients": "Müşterileri gör"
+    },
+    "time": {
+      "needProjectTitle": "Önce bir proje oluştur",
+      "needProjectDescription": "Zaman takibi yapmak için en az bir etkin proje gerekir. Projeler işini düzenlemene ve faturalamana yardımcı olur.",
+      "createProject": "Proje oluştur",
+      "today": "bugün",
+      "title": "{date} için zaman takibi yok",
+      "description": "Zamanlayıcıyı başlat veya elle bir zaman kaydı ekle. Düzenli görevler için tekrarlayan şablonlar da oluşturabilirsin.",
+      "startTimer": "Zamanlayıcıyı başlat",
+      "seeTemplates": "Şablonları gör"
+    },
+    "invoices": {
+      "needTimeTitle": "Önce zaman kaydet",
+      "needTimeDescription": "Faturalanacak faturalanmamış zamanın yok. Önce projelerinde zaman kaydederek başla.",
+      "trackTime": "Zaman kaydet",
+      "title": "Henüz fatura yok",
+      "description": "Kaydedilen zamana veya sabit tutarlara göre ilk faturanı oluştur. Fatura şablonlarını ayarlardan özelleştirebilirsin.",
+      "action": "Fatura oluştur",
+      "seeUnbilled": "Faturalanmamış zamanı gör"
+    },
+    "tasks": {
+      "needProjectTitle": "Önce bir proje oluştur",
+      "needProjectDescription": "Görevler projelere aittir. Önce bir proje oluştur, sonra görev ekleyebilirsin.",
+      "createProject": "Proje oluştur",
+      "title": "Görev yok",
+      "description": "Görevlerini ve son tarihlerini takip et. Görevlere öncelik verebilir ve bitiş tarihi belirleyebilirsin.",
+      "action": "Görev oluştur",
+      "seeProjects": "Projeleri gör"
+    },
+    "prepaid": {
+      "needClientTitle": "Önce bir müşteri oluştur",
+      "needClientDescription": "Ön ödemeli paketler (ön ödemeli saatler) müşterilere aittir. Önce bir müşteri oluştur.",
+      "createClient": "Müşteri oluştur",
+      "title": "Ön ödemeli paket yok",
+      "description": "Ön ödemeli paketler, peşin ödenen saat bloklarıdır. Düzenli müşterilere sürekli destek veya bakım için idealdir.",
+      "action": "Ön ödemeli paket oluştur",
+      "seeClients": "Müşterileri gör"
+    },
+    "reports": {
+      "title": "Gösterilecek veri yok",
+      "description": "Raporlarını ve istatistiklerini burada görmek için zaman kaydet ve fatura oluştur. Ne kadar çok veri olursa içgörü o kadar iyi olur.",
+      "action": "Zaman takibine git"
+    },
+    "search": {
+      "title": "Sonuç yok",
+      "descriptionQuery": "\"{query}\" ile eşleşen bir şey bulamadık. Başka bir arama terimi dene veya yazımı kontrol et.",
+      "description": "Başka bir şey aramayı dene.",
+      "clear": "Aramayı temizle"
+    },
+    "error": {
+      "title": "Bir şeyler ters gitti",
+      "description": "Veriler yüklenemedi. Lütfen tekrar dene.",
+      "retry": "Tekrar dene"
+    },
+    "moduleDisabled": {
+      "title": "Özellik devre dışı",
+      "description": "Bu modül organizasyonun için etkin değil. Kullanmak istiyorsan yöneticinle iletişime geç.",
+      "action": "Modül ayarları"
+    }
+  },
+  "client": {
+    "placeholder": "Müşteri seç",
+    "clear": "Müşteri yok",
+    "selected": "{count} müşteri seçildi",
+    "searchLabel": "Müşteri ara",
+    "searchPlaceholder": "Müşteri ara…",
+    "listLabel": "Müşteriler",
+    "none": "Müşteri bulunamadı",
+    "frequent": "Sık kullanılanlar",
+    "all": "Tüm müşteriler",
+    "entryCount": "{count} kayıt"
+  },
+  "project": {
+    "placeholder": "Proje seç",
+    "none": "Proje yok",
+    "searchPlaceholder": "Proje veya müşteri ara…",
+    "listLabel": "Projeler",
+    "recent": "Son kullanılanlar",
+    "empty": "Proje bulunamadı",
+    "noClient": "Müşteri yok",
+    "unknownClient": "Bilinmeyen müşteri"
+  },
+  "task": {
+    "placeholder": "Görev seç",
+    "searchPlaceholder": "Görev, proje veya müşteri ara…",
+    "none": "Görev yok",
+    "inProgress": "Devam ediyor",
+    "todo": "Yapılacak",
+    "backlog": "Birikmiş işler",
+    "other": "Diğer",
+    "noMatch": "Görev bulunamadı",
+    "noActive": "Etkin görev yok",
+    "showMoreBacklog": "{count} birikmiş görev daha göster"
+  }
+}

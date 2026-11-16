@@ -1,0 +1,12 @@
+# Standardreglerne plus pladsholdere fra TimeWren-docs, som ikke er hemmeligheder.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Pladsholdere i dokumentation og eksempler"
+regexTarget = "line"
+regexes = [
+  '''Bearer YOUR_API_KEY''',
+  '''=replace-with-[a-z0-9-]+''',
+  '''"configuration/authentication"''',
+]

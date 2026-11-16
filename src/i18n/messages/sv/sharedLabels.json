@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Du är inte medlem i någon organisation. Be om en ny inbjudan eller kontakta supporten.",
+  "freeMemberLocked": "Organisationen har planen Free, som rymmer {seats} användare. Dina data är sparade. Be ägaren uppgradera för att få åtkomst igen.",
+  "report": {
+    "hoursSuffix": " h",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "Planen Gratis rymmer {clients} aktiva kunder. Arkivera en kund eller uppgradera.",
+  "freeSeatLimit": "Planen Gratis rymmer {seats} användare, inklusive väntande inbjudningar. Uppgradera under Inställningar → Prenumeration för att bjuda in fler.",
+  "ownerMustTransfer": "Du äger ett team med andra medlemmar. Överför ägarskapet till en annan medlem under Organisation innan du tar bort ditt konto.",
+  "holidays": {
+    "newYearsDay": "Nyårsdagen",
+    "maundyThursday": "Skärtorsdag",
+    "goodFriday": "Långfredag",
+    "easterSunday": "Påskdagen",
+    "easterMonday": "Annandag påsk",
+    "ascensionDay": "Kristi himmelsfärdsdag",
+    "whitSunday": "Pingstdagen",
+    "whitMonday": "Annandag pingst",
+    "christmasDay": "Juldagen",
+    "boxingDay": "Annandag jul",
+    "greatPrayerDay": "Stora bönedagen",
+    "may1": "1 maj",
+    "constitutionDay": "Grundlagsdagen",
+    "dayAfterAscension": "Fredagen efter Kristi himmelsfärdsdag",
+    "christmasEve": "Julafton",
+    "newYearsEve": "Nyårsafton",
+    "dayOff": "Ledig dag"
+  },
+  "speech": {
+    "language": "svenska",
+    "micBlocked": "Mikrofonen är blockerad. Ge webbläsaren åtkomst till mikrofonen och försök igen.",
+    "noMic": "Ingen mikrofon hittades.",
+    "langUnsupported": "Taligenkänning för {language} är inte tillgänglig lokalt i den här webbläsaren.",
+    "stopped": "Taligenkänningen stoppades oväntat. Försök igen eller skriv i stället.",
+    "downloadFailed": "Taligenkänning för {language} kunde inte laddas ned i den här webbläsaren.",
+    "ready": "Taligenkänning för {language} är redo. Tryck på mikrofonen.",
+    "cantStart": "Taligenkänningen kunde inte starta. Försök igen."
+  },
+  "offlineSync": {
+    "fullOverlap": "En annan enhet hade redan en timer igång medan du var offline. Din offlinetid överlappade helt och sparades inte.",
+    "partialOverlap": "En annan enhet startade en timer medan du var offline. Din offlinetid är sparad fram till dess.",
+    "clippedSaved": "En annan enhet startade en timer medan du var offline. Din offlinetid {from}-{to} är sparad som en tidpost och den andra timern fortsätter.",
+    "resetOffline": "En annan enhet hade redan en timer igång när du startade offline kl. {from}. Din offlinetimer har nollställts och den andra fortsätter.",
+    "stoppedElsewhere": "Timern stoppades på en annan enhet medan du var offline. Tiden är sparad där och sparades inte igen.",
+    "syncFailed": "En offlineändring kunde inte synkroniseras: {error}",
+    "defaultDescription": "Tidrapportering"
+  },
+  "unknownError": "Okänt fel",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Det gick inte att spara",
+      "retry": "Försök igen"
+    },
+    "push": {
+      "unsupported": "Pushnotiser stöds inte i den här webbläsaren",
+      "denied": "Behörighet för notiser nekades",
+      "enabled": "Pushnotiser aktiverade",
+      "enabledDesc": "Du får nu notiser",
+      "enableFailed": "Det gick inte att aktivera notiser",
+      "disabled": "Pushnotiser avaktiverade",
+      "disableFailed": "Det gick inte att avaktivera notiser"
+    },
+    "periodic": {
+      "unsupported": "Periodisk synkronisering stöds inte",
+      "enabled": "Automatiska rapporter aktiverade",
+      "enabledDesc": "Du får veckorapporter",
+      "enableFailed": "Det gick inte att aktivera automatiska rapporter",
+      "disabled": "Automatiska rapporter avaktiverade",
+      "disableFailed": "Det gick inte att avaktivera automatiska rapporter"
+    },
+    "taskUndo": {
+      "restored": "Uppgiften är återställd",
+      "restoreFailed": "Det gick inte att återställa uppgiften",
+      "deleted": "Uppgiften är borttagen",
+      "undo": "Ångra"
+    },
+    "timerSync": {
+      "otherProject": "ett annat projekt",
+      "runningPaused": "En timer går redan på {name}. Stoppa den först. Din pausade tid sparas.",
+      "running": "En timer går redan på {name}. Stoppa den först.",
+      "alreadyStopped": "Timern hade redan stoppats och sparats på en annan enhet. Den startades inte igen."
+    },
+    "timerKeys": {
+      "started": "Timern startad",
+      "pressToPause": "Tryck på T igen för att pausa",
+      "paused": "Timern pausad",
+      "pressToResume": "{time} - Tryck på T för att fortsätta",
+      "resumed": "Timern fortsätter",
+      "cancelled": "Timern avbruten"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock stöds inte i den här webbläsaren",
+      "active": "Skärmen hålls tänd",
+      "activeDesc": "Skärmen stängs inte av medan du registrerar tid",
+      "released": "Skärmen kan stängas av igen",
+      "failed": "Det gick inte att hålla skärmen tänd"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Din prenumeration hanteras på ditt konto.",
+    "otherAccount": "Köpet är kopplat till ett annat TimeTrack-konto.",
+    "ownerOnly": "Bara organisationens ägare kan köpa en prenumeration.",
+    "multiMember": "Privat och Selvstændig är för en användare. Din organisation har flera användare, så prenumerationen hanteras på ditt konto.",
+    "otherOrganization": "Din prenumeration tillhör en annan organisation. Byt till den organisationen för att se den.",
+    "alreadySubscribed": "Du har redan en prenumeration via {store}.",
+    "appStoreUnreachable": "Det gick inte att nå App Store. Försök igen om en stund.",
+    "appStoreVerify": "Köpet kunde inte verifieras med App Store.",
+    "unknownProduct": "Okänd produkt. Uppdatera appen och försök igen.",
+    "googleNotFound": "Köpet hittades inte hos Google Play.",
+    "productMismatch": "Köpet stämmer inte med den valda produkten.",
+    "googleAck": "Köpet kunde inte bekräftas med Google Play. Försök igen."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Du har en aktiv prenumeration via {store}. Den upphör inte när du tar bort kontot och måste sägas upp i {store}. Bekräfta att du förstår det för att ta bort kontot.",
+    "invalidUserId": "Ogiltigt användar-ID"
+  },
+  "orgInvite": {
+    "invalidEmail": "Ogiltig e-postadress",
+    "domainNotAllowed": "E-postdomänen {domain} är inte tillåten för den här organisationen",
+    "alreadyMember": "Den här personen är redan medlem i organisationen",
+    "alreadyInvited": "Det finns redan en väntande inbjudan för den här e-postadressen",
+    "otherBrand": "Den här e-postadressen kan inte bjudas in till organisationen. Använd en annan adress.",
+    "noSeats": "Inga lediga platser ({used} av {max} används). Köp fler platser eller byt plan under Inställningar → Prenumeration.",
+    "noSeatsAccept": "Organisationen har inga fler lediga platser. Kontakta din administratör.",
+    "lastOwnerRemove": "Den sista ägaren kan inte tas bort. Överför ägarskapet till en annan medlem först.",
+    "lastOwnerDemote": "Den sista ägaren kan inte degraderas. Överför ägarskapet till en annan medlem först.",
+    "acceptedPushTitle": "🎉 Inbjudan accepterad",
+    "acceptedPushBody": "{name} är nu medlem i {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "Masslistan innehåller dubbla UUID:n",
+    "missing": "En eller flera uppgifter saknas eller ligger utanför din arbetsyta: {ids}",
+    "unexpectedRowCount": "oväntat antal rader",
+    "unselected": "Datan innehåller UUID:n som inte var valda",
+    "statusMismatch": "Uppgift {id} har status {status}, förväntad status var {expected}",
+    "notEmail": "Uppgift {id} är inte en e-postuppgift",
+    "customLane": "Uppgift {id} använder en egen kolumn och kan inte slutföras säkert i bulk"
+  }
+}

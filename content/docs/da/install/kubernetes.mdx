@@ -1,0 +1,151 @@
+---
+title: "Kubernetes"
+description: "Installér TimeWren på Kubernetes med Helm-chartet: valgfri medfølgende PostgreSQL og Valkey, et persistent volume, Ingress og ét CronJob pr. planlagt endpoint."
+---
+
+Vælg denne metode, hvis du allerede kører et Kubernetes-cluster. Chartet `charts/timewren` har ingen afhængigheder til charts fra tredjepart. Det deployer appen, eventuelt en PostgreSQL og en Valkey på én node, en PVC til uploads og ét CronJob pr. planlagt job.
+
+## Krav
+
+- Helm 3 og Kubernetes 1.27 eller nyere (tidszoner i CronJobs).
+- En standard-StorageClass eller storage classes, som du konfigurerer eksplicit.
+- En ingress controller, hvis du vil gøre appen offentligt tilgængelig. Chartet konfigurerer ikke DNS og udsteder ikke certifikater.
+
+## Installation
+
+1. Klon repositoryet. Chartet installeres fra klonen.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   ```
+
+2. Installér releasen. Erstat `1.2.3` med den udgivelse, du vil have, og værten med din egen.
+
+   ```bash
+   helm upgrade --install timewren ./timewren/charts/timewren \
+     --namespace timewren --create-namespace \
+     --set image.tag=1.2.3 \
+     --set appUrl=https://timewren.example.com \
+     --set ingress.enabled=true \
+     --set ingress.className=nginx \
+     --set ingress.host=timewren.example.com
+   ```
+
+3. Tilføj TLS via `ingress.tls` og de annotations, din TLS-controller har brug for (se nedenfor).
+4. Åbn URL'en, og opret din konto. Den første konto bliver administrator, medmindre `extraEnv.ADMIN_EMAIL` er sat.
+
+Uden en Ingress kan du bruge en port forward og sætte `appUrl=http://localhost:3000`:
+
+```bash
+kubectl port-forward -n timewren service/timewren-timewren 3000:3000
+```
+
+Appen venter på PostgreSQL i en init-container og kører med `MIGRATE_ON_START=1`, så migreringer kører, når den starter. Chartet sætter som standard `REQUIRE_EMAIL_VERIFICATION` til `false`; mail er valgfrit, og bekræftelse bliver påkrævet, når en mailtransport er konfigureret.
+
+## Vigtige værdier
+
+| Nøgle | Standard | Formål |
+| --- | ------- | ------- |
+| `image.repository`, `image.tag`, `image.pullPolicy` | `ghcr.io/timewren/timewren`, `latest`, `IfNotPresent` | Det image, der skal køres. Lås `image.tag` fast. |
+| `appUrl` | `http://localhost:3000` | Offentlig origin, som godkendelse og links bruger (`NEXT_PUBLIC_APP_URL`). Sæt den før installationen. |
+| `existingSecret` | tom | Navnet på et Secret, du selv administrerer (se nedenfor). |
+| `secrets.*` | tom | `DATABASE_URL`, `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`. Tomme nøgler genereres. |
+| `extraEnv` | `{}` | Ekstra variabler fra `.env.example`, for eksempel `SMTP_HOST` eller `ADMIN_EMAIL`. |
+| `service.port` | `3000` | Servicens port. |
+| `resources` | `{}` | Appens resource requests og limits. |
+| `persistence.enabled`, `.existingClaim`, `.size`, `.storageClass` | `true`, tom, `5Gi`, tom | Lagring af uploads på `/app/data/storage`. |
+| `ingress.enabled`, `.className`, `.host`, `.annotations`, `.tls` | `false`, tom, `timewren.example.com`, `{}`, `[]` | Ingress. |
+| `postgresql.enabled`, `.image`, `.size`, `.storageClass`, `.resources` | `true`, `postgres:18-alpine`, `10Gi`, tom, `{}` | Medfølgende PostgreSQL på én node. |
+| `valkey.enabled`, `.image`, `.size`, `.storageClass`, `.resources` | `false`, `valkey/valkey:8-alpine`, `1Gi`, tom, `{}` | Valgfri Valkey. |
+| `cron.enabled`, `.image`, `.timeZone`, `.resources`, `.jobs` | `true`, `curlimages/curl:8.12.1`, `Europe/Copenhagen`, `{}`, se `values.yaml` | Planlagte jobs. |
+
+Variabler til mail, S3 og integrationer bruger navnene i [Miljøvariabler](/da/docs/configuration/environment). For eksempel en values-fil med SMTP:
+
+```yaml
+extraEnv:
+  SMTP_HOST: smtp.example.com
+  SMTP_PORT: "587"
+  SMTP_FROM: "TimeWren <mail@example.com>"
+  ADMIN_EMAIL: jane@example.com
+```
+
+Læg loginoplysninger i `existingSecret`, ikke i `extraEnv` eller i values-filer.
+
+## Hemmeligheder
+
+Som standard genererer chartet `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` (64 hex-tegn) og `CRON_SECRET` ved første installation og beholder dem ved opgraderinger ved at slå dem op med Helms `lookup`. Værdier, du sætter under `secrets`, tilsidesætter de genererede. Angiv ikke hemmeligheder på kommandolinjen, og commit dem ikke. Helm gemmer de renderede Secrets i release-historikken, så begræns adgangen til den. Tag backup af Secret'et, især `ENCRYPTION_KEY`.
+
+Til GitOps eller en ekstern secret manager opretter du selv Secret'et og peger chartet på det. En offline `helm template` kan ikke genbruge genererede hemmeligheder. Secret'et skal have præcis disse nøgler:
+
+| Nøgle | Påkrævet |
+| --- | -------- |
+| `DATABASE_URL` | Altid. Med medfølgende PostgreSQL: værten `<release>-timewren-postgresql`, port 5432, databasen `timewren`, brugeren `timewren`. |
+| `BETTER_AUTH_SECRET` | Altid. |
+| `ENCRYPTION_KEY` | Altid, 64 hexadecimale tegn. |
+| `CRON_SECRET` | Altid. Bruges af appen og af CronJobs. |
+| `POSTGRES_PASSWORD` | Med medfølgende PostgreSQL, og den skal passe med adgangskoden i `DATABASE_URL`. |
+| `VALKEY_URL` | Med medfølgende eller ekstern Valkey. |
+
+En installation med ekstern database og Valkey ser så sådan ud:
+
+```yaml
+postgresql:
+  enabled: false
+valkey:
+  enabled: false
+existingSecret: timewren-secrets
+extraEnv:
+  RATE_LIMIT_BACKEND: valkey # kun ved brug af ekstern Valkey
+```
+
+Alternativt kan du sætte `secrets.DATABASE_URL` med `postgresql.enabled=false`. Genstart appen, når du har ændret et eksternt Secret: `kubectl rollout restart -n timewren deployment/timewren-timewren`.
+
+Med `valkey.enabled=true` sætter chartet `VALKEY_URL` og `RATE_LIMIT_BACKEND=valkey`. Den medfølgende PostgreSQL og Valkey er services på én node til små installationer, uden automatisk backup eller failover. Brug administrerede services, når du har brug for det.
+
+## Ingress og TLS
+
+Sæt `ingress.enabled=true`, `ingress.className`, `ingress.host` og, til TLS, `ingress.tls` plus din controllers annotations, for eksempel i en values-fil:
+
+```yaml
+appUrl: https://timewren.example.com
+ingress:
+  enabled: true
+  className: nginx
+  host: timewren.example.com
+  tls:
+    - secretName: timewren-tls
+      hosts:
+        - timewren.example.com
+```
+
+Hold `appUrl` lig med den offentlige HTTPS-URL.
+
+## Persistens
+
+Appen kører som én replika med strategien `Recreate` og en ReadWriteOnce-PVC på `/app/data/storage`; poden bruger UID og GID 1001. Genbrug et forberedt claim med `persistence.existingClaim`, eller sæt `persistence.storageClass` og `persistence.size`. Vil du hellere bruge S3-kompatibel lagring, så sæt `persistence.enabled=false`, og angiv `STORAGE_DRIVER=s3`, `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` og `S3_BUCKET` via `extraEnv` og `existingSecret`. Slår du persistens fra uden en ekstern lagerdriver, bliver data ikke bevaret. Se [Lagring](/da/docs/configuration/storage).
+
+Appens PVC beholdes ved `helm uninstall`. PVC'er er ikke backup: planlæg databasedumps og snapshots af lageret separat.
+
+## Planlagte jobs
+
+Med `cron.enabled=true` opretter chartet ét CronJob pr. post i `cron.jobs`, hvor nøglen er endpointets navn og værdien en cron-tidsplan, i tidszonen `cron.timeZone` (standard `Europe/Copenhagen`). Hvert job kalder `/api/cron/<endpoint>` på appens Service med `CRON_SECRET` som bearer token og bruger `concurrencyPolicy: Forbid`. Du ændrer tidsplanerne ved at ændre `cron.jobs`. Sæt kun `cron.enabled=false`, hvis noget andet allerede kalder endpointsene.
+
+## Opgradering
+
+Tag først en backup af database og filer: rulles imaget tilbage, rulles ændringer i skemaet ikke tilbage. Kør derefter den samme kommando med det nye tag:
+
+```bash
+helm upgrade --install timewren ./timewren/charts/timewren \
+  --namespace timewren \
+  --reuse-values \
+  --set image.tag=1.2.4
+```
+
+Hent først den tilsvarende chart-version (`git -C timewren pull`, eller tjek udgivelsestagget ud). Har du brugt en values-fil, så angiv den med `-f` i stedet for `--reuse-values`. Migreringer kører ved appens start; tjek app-loggene efter opgraderingen. Se [Opgradering](/da/docs/operations/upgrading).
+
+## Næste skridt
+
+- [Kom godt i gang](/da/docs/quickstart)
+- [E-mail](/da/docs/configuration/email)
+- [Backup og gendannelse](/da/docs/operations/backup-restore)
+- [Fejlfinding](/da/docs/operations/troubleshooting)

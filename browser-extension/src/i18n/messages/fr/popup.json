@@ -1,0 +1,91 @@
+{
+  "loading": "Chargement",
+  "offline": "Hors ligne",
+  "noInternet": "Pas de connexion internet",
+  "openApp": "Ouvrir TimeTrack",
+  "openAppNewTab": "Ouvrir TimeTrack dans un nouvel onglet",
+  "settings": "Paramètres",
+  "logout": "Se déconnecter",
+  "logoutConfirm": "Se déconnecter de TimeTrack ?",
+  "todayHours": "{duration} aujourd'hui",
+  "dailyProgress": "Progression du jour : {done} sur {goal} h aujourd'hui",
+  "tabs": {
+    "view": "Aperçu",
+    "timer": "Chronomètre",
+    "calendar": "Calendrier",
+    "history": "Historique",
+    "prepaid": "Forfaits"
+  },
+  "login": {
+    "tagline": "Le suivi du temps, directement dans votre navigateur",
+    "connecting": "Connexion…",
+    "connect": "Se connecter à TimeTrack",
+    "secureHint": "Vous vous connectez en toute sécurité dans une nouvelle fenêtre. Vous pourrez ensuite choisir une organisation dans l'extension.",
+    "newHere": "Nouveau sur TimeTrack ?",
+    "register": "Créer un compte gratuit",
+    "advanced": "Avancé : coller le jeton manuellement",
+    "tokenLabel": "Jeton de l'extension",
+    "tokenPlaceholder": "Collez votre jeton ici…",
+    "signingIn": "Connexion…",
+    "signInToken": "Se connecter avec le jeton",
+    "openSettings": "Ouvrir les paramètres dans TimeTrack"
+  },
+  "org": {
+    "label": "Organisation : {name}. Changer d'organisation",
+    "none": "aucune sélectionnée",
+    "choose": "Choisir une organisation",
+    "stopFirst": "Arrêtez ou enregistrez le chronomètre en cours avant de changer d'organisation."
+  },
+  "stopPrompt": {
+    "title": "Aucun client sélectionné",
+    "question": "Aucun client sélectionné. Enregistrer comme temps interne ?",
+    "close": "Fermer sans arrêter",
+    "pickClient": "Choisir un client",
+    "saveInternal": "Enregistrer comme temps interne"
+  },
+  "sync": {
+    "syncing": "Synchronisation…",
+    "pending": "{count} en attente de synchronisation",
+    "hideDetails": "Masquer les détails",
+    "showDetails": "Afficher les détails",
+    "syncNow": "Synchroniser",
+    "entry": "Saisie de temps : {description}",
+    "noDescription": "(sans description)",
+    "timerUpdate": "Mise à jour du chronomètre",
+    "timerStop": "Arrêt du chronomètre",
+    "tries": "{count, plural, one {# tentative} many {# de tentatives} other {# tentatives}}"
+  },
+  "mini": {
+    "timerLabel": "Chronomètre",
+    "goTo": "Aller au chronomètre : {label}",
+    "stop": "Arrêter le chronomètre"
+  },
+  "queryError": {
+    "retry": "Réessayer"
+  },
+  "timerError": {
+    "close": "Fermer le message d'erreur"
+  },
+  "update": {
+    "title": "Mettez à jour l'extension TimeTrack",
+    "body": "La version {version} est trop ancienne pour enregistrer le temps. La mise à jour se télécharge automatiquement. Si ce n'est pas le cas, redémarrez le navigateur ou ouvrez chrome://extensions et cliquez sur « Mettre à jour »."
+  },
+  "idle": {
+    "pausedMessage": "Le chronomètre a été mis en pause à {clock} après {away} d'inactivité",
+    "pausedDetail": "Ce temps d'inactivité n'a pas été compté.",
+    "resume": "Reprendre",
+    "close": "Fermer",
+    "awayMessage": "Vous étiez absent pendant {away} (depuis {clock})",
+    "awayDetail": "Le chronomètre tourne toujours. Faut-il compter ce temps ?",
+    "discard": "Retirer {away}",
+    "keep": "Garder le temps"
+  },
+  "confirm": {
+    "cancel": "Annuler"
+  },
+  "logoutWarnings": {
+    "running": "Le chronomètre continue de tourner dans TimeTrack pendant que vous êtes déconnecté.",
+    "paused": "Le chronomètre en pause reste dans TimeTrack.",
+    "queue": "Pas encore envoyé : {count, plural, one {# modification} many {# de modifications} other {# modifications}} dans la file hors ligne. L'envoi aura lieu à votre prochaine connexion."
+  }
+}

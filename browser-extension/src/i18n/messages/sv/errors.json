@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Din session har gått ut. Logga in igen.",
+  "noConnection": "Ingen anslutning. Försök igen.",
+  "timeout": "Anslutningen tog för lång tid",
+  "invalidResponse": "Oväntat svar från servern",
+  "notLoggedIn": "Inte inloggad",
+  "notLoggedInOpenPopup": "Inte inloggad. Öppna TimeTrack-popupen och logga in.",
+  "unknown": "Okänt fel",
+  "api": {
+    "fallback": "API-fel",
+    "UNAUTHORIZED": "Din session har gått ut. Logga in igen.",
+    "FORBIDDEN": "Åtkomst nekad",
+    "NOT_FOUND": "Resursen hittades inte",
+    "TIMEOUT": "Servern svarade inte",
+    "TOO_MANY_REQUESTS": "För många förfrågningar. Vänta en stund och försök igen",
+    "INTERNAL_SERVER_ERROR": "Serverfel. Försök igen om en stund",
+    "BAD_REQUEST": "Ogiltig förfrågan",
+    "PARSE_ERROR": "Ogiltig förfrågan"
+  },
+  "auth": {
+    "invalidToken": "Ogiltig token",
+    "validateFailed": "Kunde inte validera token",
+    "loginFailed": "Inloggningen misslyckades",
+    "loginCancelled": "Inloggningen avbröts. Försök igen",
+    "loginCancelledShort": "Inloggningen avbröts",
+    "noToken": "Ingen token mottagen",
+    "tokenValidationStatus": "Tokenvalideringen misslyckades: servern svarade {status}",
+    "orgsFailed": "Kunde inte ladda organisationer ({status})"
+  },
+  "url": {
+    "notAllowed": "Använd timetrack.dk, app.timetrack.dk, beta.timetrack.dk eller localhost"
+  },
+  "entry": {
+    "hoursPositive": "Ange ett antal timmar större än 0",
+    "timesCannotBeRemoved": "Tiderna kan inte tas bort. Redigera start och slut i stället",
+    "fillStartEnd": "Fyll i både start och slut",
+    "endAfterStart": "Sluttiden måste vara efter starttiden"
+  },
+  "timer": {
+    "loadFailed": "Kunde inte ladda timern",
+    "startFailed": "Kunde inte starta timern",
+    "stopFailed": "Kunde inte stoppa timern. Försök igen",
+    "stopNetwork": "Kunde inte stoppa timern: nätverksfel",
+    "cancelFailed": "Kunde inte avbryta timern. Försök igen",
+    "cancelNetwork": "Kunde inte avbryta timern: nätverksfel",
+    "cancelStoppingElsewhere": "Timern stoppas redan från {source}",
+    "sourceWeb": "webbappen",
+    "sourceOther": "en annan enhet",
+    "pauseFailed": "Kunde inte pausa timern",
+    "resumeFailed": "Kunde inte återuppta timern",
+    "addTimeFailed": "Kunde inte lägga till tid på timern",
+    "descriptionFailed": "Kunde inte uppdatera beskrivningen",
+    "projectFailed": "Kunde inte uppdatera projektet",
+    "clientFailed": "Kunde inte uppdatera kunden",
+    "nothingToSave": "Ingen tid att spara",
+    "offlineStop": "Du är offline. Stoppa timern igen när anslutningen är tillbaka",
+    "stopInProgress": "Ett stopp pågår{elsewhere}. Försök igen om en stund. Om det hänger sig parkeras tiden som pausad efter några minuter så att den inte går förlorad.",
+    "alreadyRunning": "En timer är redan igång{elsewhere}. Stoppa eller avbryt den först om du vill starta en ny.",
+    "alreadyPaused": "Det finns redan en pausad timer med tid på{elsewhere}. Stoppa eller avbryt den först om du vill starta en ny.",
+    "elsewhere": " från en annan webbläsare eller enhet",
+    "stopAlreadyInProgress": "Ett stopp pågår redan från {source}. Kontrollera din tidsöversikt om en stund",
+    "prepaidPinnedUnavailable": "Den valda timbanken kunde inte användas, så tiden sparades utan timbanksavdrag",
+    "prepaidLookupFailed": "Timbanken kunde inte slås upp, så tiden sparades utan timbanksavdrag",
+    "prepaidDeductionFailed": "Avdraget från timbanken misslyckades, så tiden sparades utan avdrag från timbanken",
+    "saveFailed": "Kunde inte spara tiden",
+    "saveFailedWith": "Kunde inte spara tiden: {reason}",
+    "unknownReason": "okänt fel",
+    "sessionMismatch": "Timern ändrades från en annan webbläsare eller enhet. Här är den aktuella.",
+    "beingStopped": "Timern stoppas från en annan webbläsare eller enhet.",
+    "startRejectedPaused": "Det finns redan en pausad timer med tid på. Stoppa eller avbryt den först om du vill starta en ny.",
+    "startRejectedStale": "Timern stoppades precis på ett annat ställe. Försök starta igen.",
+    "startRejectedRunning": "En timer är redan igång från en annan webbläsare eller enhet. Stoppa den först om du vill starta en ny.",
+    "stopSourceWeb": "webbappen",
+    "stopSourceOther": "en annan enhet"
+  },
+  "task": {
+    "createFailed": "Kunde inte skapa uppgiften"
+  },
+  "serverStatus": "Servern svarade {status}",
+  "clientTooOld": "Uppdatera TimeTrack-tillägget. Den här versionen kan inte spara tid"
+}

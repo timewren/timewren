@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "Vous n'êtes plus membre de cette organisation.",
+    "noAccessToFeature": "Vous n'avez pas accès à cette fonctionnalité",
+    "adminsOnly": "Seuls les administrateurs ont accès à cette fonctionnalité",
+    "subscriptionRequired": "Vous avez besoin d'un abonnement actif pour utiliser cette fonctionnalité",
+    "subscriptionExpired": "Votre abonnement a expiré. Renouvelez-le pour continuer.",
+    "roleNoAccess": "Votre rôle n'a pas accès à cette action",
+    "moduleDisabled": "Le module «  {module}  » n'est pas activé pour cette organisation."
+  },
+  "alunta": {
+    "clientAlreadyMapped": "Ce client a déjà une correspondance Alunta active",
+    "mappingNotFound": "Correspondance introuvable"
+  },
+  "common": {
+    "clientNotFound": "Client introuvable",
+    "webhookNotFound": "Webhook introuvable",
+    "projectNotFound": "Projet introuvable",
+    "unknownError": "Erreur inconnue",
+    "notOrgMember": "Vous n'êtes pas membre de cette organisation",
+    "noAccessToClient": "Vous n'avez pas accès à ce client",
+    "templateNotFound": "Modèle introuvable",
+    "unknownClient": "Client inconnu",
+    "rateLimited": "Trop de requêtes. Réessayez dans {seconds} secondes.",
+    "taskNotFound": "Tâche introuvable",
+    "timeEntryNotFound": "Saisie de temps introuvable",
+    "invoiceNotFound": "Facture introuvable",
+    "unknownProjectName": "Projet inconnu",
+    "userNotFound": "Utilisateur introuvable",
+    "invalidDate": "Date non valide",
+    "prepaidNotFound": "Forfait d'heures introuvable",
+    "notFound": "Introuvable",
+    "notOrgMemberShort": "Vous n'êtes pas membre de cette organisation",
+    "periodLocked": "La période antérieure au {date} est verrouillée par l'organisation. Contactez un administrateur."
+  },
+  "webhooks": {
+    "noValidEvents": "Aucun type d'événement valide sélectionné"
+  },
+  "time": {
+    "defaultRateName": "Votre taux par défaut",
+    "chooseOnePrepaidOrNone": "Choisissez un forfait d'heures ou aucun",
+    "taskNotFound": "Tâche introuvable",
+    "entryExists": "La saisie de temps existe déjà",
+    "prepaidNotFound": "Forfait d'heures introuvable",
+    "prepaidOtherClient": "Le forfait d'heures appartient à un autre client que celui de la saisie de temps",
+    "onInvoiceUnmark": "{count, plural, one {# des saisies de temps sélectionnées figure sur une facture. Créez un avoir pour la facture ou retirez les saisies de la facture brouillon avant de retirer la marque.} many {# de saisies de temps sélectionnées figurent sur une facture. Créez un avoir pour la facture ou retirez les saisies de la facture brouillon avant de retirer la marque.} other {# des saisies de temps sélectionnées figurent sur une facture. Créez un avoir pour la facture ou retirez les saisies de la facture brouillon avant de retirer la marque.}}",
+    "invalidWeek": "Semaine non valide",
+    "importInvalidDate": "Date non valide : «  {date}  »",
+    "importNoProjectOrClient": "Projet «  {project}  » ou client «  {client}  » introuvable"
+  },
+  "resourcePlan": {
+    "needsOrg": "Le plan de charge nécessite une organisation",
+    "ownEmployeesOnlyView": "Vous ne pouvez consulter le plan que pour vos propres collaborateurs",
+    "managersOnly": "Seuls le propriétaire, les administrateurs ou les responsables peuvent planifier",
+    "weekMonday": "La semaine doit être indiquée par son lundi",
+    "ownEmployeesOnlyPlan": "Vous ne pouvez planifier que pour vos propres collaborateurs",
+    "notInOrg": "Le collaborateur, le projet ou l'activité n'existe pas dans l'organisation"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "Les achats de l'application de bureau ne sont pas encore configurés. Réessayez plus tard ou contactez le support.",
+    "includedInCloud": "L'application de bureau est déjà incluse dans votre abonnement {brand} Cloud, vous n'avez donc pas besoin d'une licence distincte. Connectez-vous et téléchargez l'application depuis le tableau de bord.",
+    "checkoutFailed": "Impossible de créer le lien de paiement.",
+    "licenseAlreadyInactive": "La licence est déjà désactivée ou remboursée.",
+    "notAutoRefundable": "Cette licence ne peut pas être remboursée automatiquement. Contactez le support.",
+    "refundWindowExpired": "Le délai de remboursement de {days} jours est écoulé pour cet achat.",
+    "tooManyAttempts": "Trop de tentatives. Patientez un instant et réessayez.",
+    "noLicenseFound": "Aucune licence trouvée.",
+    "noActiveLicenseToRefund": "Aucune licence active à rembourser.",
+    "licenseNotAutoRefundable": "La licence ne peut pas être remboursée automatiquement. Contactez le support.",
+    "refundWindowExpiredShort": "Le délai de remboursement de {days} jours est écoulé."
+  },
+  "taskStatuses": {
+    "laneNotFound": "Colonne introuvable",
+    "lanesNotFound": "Une ou plusieurs colonnes introuvables",
+    "crossContext": "Impossible de réorganiser des colonnes de contextes différents",
+    "destinationRequired": "Une colonne de destination est requise, car la colonne contient des tâches",
+    "destinationNotFound": "Colonne de destination introuvable",
+    "destinationContext": "La colonne de destination doit se trouver dans le même contexte"
+  },
+  "scheduledRates": {
+    "notFound": "Changement de taux planifié introuvable",
+    "rateFormat": "Le taux horaire doit être un montant de 0 ou plus, avec au plus deux décimales",
+    "dateFormat": "La date doit être au format AAAA-MM-JJ",
+    "laterApplied": "Un changement de taux a déjà été appliqué au {date}. Un nouveau changement doit prendre effet à cette date ou après.",
+    "alreadyApplied": "Le changement de taux a déjà été appliqué et ne peut pas être annulé. Modifiez plutôt le taux horaire sur le client ou le projet.",
+    "appliedMeanwhile": "Le changement de taux a été appliqué entre-temps et ne peut pas être annulé."
+  },
+  "broadcasts": {
+    "notFound": "Diffusion introuvable",
+    "confirmNameMismatch": "Le nom de confirmation ne correspond pas. Saisissez exactement le nom de la diffusion."
+  },
+  "notifications": {
+    "invalidDiscordUrl": "URL de webhook Discord non valide",
+    "invalidSlackUrl": "URL de webhook Slack non valide",
+    "noSlackWebhook": "Aucun webhook Slack configuré",
+    "noDiscordWebhook": "Aucun webhook Discord configuré",
+    "discordTestFailed": "Le test du webhook Discord a échoué",
+    "noPushSubscription": "Aucun abonnement push configuré",
+    "pushTestFailed": "Le test de la notification push a échoué",
+    "channelNotFound": "Canal introuvable"
+  },
+  "clients": {
+    "hasInvoices": "Un ou plusieurs des clients sélectionnés ont des factures. Archivez-les plutôt, car les factures sont des pièces comptables et ne peuvent pas être supprimées.",
+    "hasBilledEntries": "Un ou plusieurs des clients sélectionnés ont des saisies de temps facturées. Archivez-les plutôt."
+  },
+  "dashboard": {
+    "prefsTableMissing": "La table des préférences du tableau de bord n'existe pas encore. Exécutez la migration de la base de données."
+  },
+  "clientPortal": {
+    "accessNotFound": "Accès introuvable"
+  },
+  "search": {
+    "invoiceTitle": "Facture {number}"
+  },
+  "ai": {
+    "noOwnKey": "Configurez votre propre clé d'API sous Paramètres → IA pour utiliser les suggestions de l'IA.",
+    "fillableWithoutAi": "Le texte pouvait être rempli sans IA.",
+    "providerFailed": "Votre fournisseur d'IA n'a pas pu produire de suggestion. Vérifiez la clé et le modèle sous Paramètres → IA."
+  },
+  "apiKeys": {
+    "notFound": "Clé d'API introuvable",
+    "revokeFirst": "Vous devez révoquer la clé avant de la supprimer"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "Facture brouillon introuvable",
+    "noEntries": "Aucune saisie de temps à envoyer pour validation",
+    "requestNotFound": "Demande introuvable ou déjà traitée"
+  },
+  "beta": {
+    "thanks": "Merci pour votre inscription ! Nous vous écrirons à l'ouverture de la bêta.",
+    "emailNotAllowed": "Cette adresse e-mail ne peut pas être utilisée pour s'inscrire.",
+    "alreadyOnList": "Cette adresse e-mail figure déjà sur la liste d'attente de la bêta",
+    "signupNotFound": "Inscription à la bêta introuvable"
+  },
+  "calendar": {
+    "googleNotConfigured": "L'intégration Google Agenda n'est pas configurée",
+    "notConnected": "Non connecté à Google Agenda",
+    "scheduledLocally": "Tâche planifiée localement (aucun calendrier connecté)",
+    "timeEntryNotFound": "Saisie de temps introuvable",
+    "eventNotFound": "Événement introuvable",
+    "eventMissingTimes": "L'événement n'a pas d'horaires",
+    "noConnection": "Aucune connexion au calendrier",
+    "noProject": "Aucun projet",
+    "noConnectionFound": "Aucune connexion au calendrier trouvée",
+    "aiFailed": "La suggestion de l'IA a échoué"
+  },
+  "connectedApps": {
+    "notFound": "La connexion n'existe pas"
+  },
+  "contact": {
+    "thanks": "Merci pour votre message ! Nous vous répondrons dès que possible."
+  },
+  "dataExport": {
+    "pending": "Vous avez déjà une demande d'export en attente. Patientez.",
+    "limit3": "3 demandes d'export au maximum par 24 heures. Réessayez plus tard.",
+    "fullNotEnabled": "L'export complet n'est pas encore activé.",
+    "orgInProgress": "Un export est déjà en cours pour l'organisation. Vous recevrez un e-mail quand il sera prêt.",
+    "orgDailyLimit": "L'organisation peut demander {limit} exports par jour. Réessayez demain.",
+    "notOrgMemberDot": "Vous n'êtes pas membre de l'organisation.",
+    "inProgress": "Un export est déjà en cours. Vous recevrez un e-mail quand il sera prêt.",
+    "dailyLimit": "Vous pouvez demander {limit} exports par jour. Réessayez demain.",
+    "requestNotFound": "Demande d'export introuvable",
+    "cancelPendingOnly": "Seules les demandes en attente peuvent être annulées",
+    "importClientNotFound": "{name} : client «  {client}  » introuvable",
+    "importClientRequired": "{name} : le client est obligatoire",
+    "importInvoiceClientNotFound": "Facture {number} : client «  {client}  » introuvable",
+    "importInvoiceError": "Facture {number} : {message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "Votre service a choisi des jours de congé, et ils s'appliquent à vous. Vous ne pouvez pas choisir vos propres jours de congé.",
+    "blockedOrg": "Votre organisation a choisi des jours de congé, et ils s'appliquent à vous. Vous ne pouvez pas choisir vos propres jours de congé.",
+    "blockedEmployee": "En tant que collaborateur, vous suivez les jours de congé de l'organisation. Demandez à un administrateur de choisir les jours de congé de l'organisation ou de votre service.",
+    "orgNeedsOrg": "Les jours de congé d'une organisation nécessitent une organisation",
+    "departmentNeedsBusiness": "Les jours de congé par service nécessitent l'offre Business",
+    "departmentNotFound": "Le service n'existe pas"
+  },
+  "dpa": {
+    "notFromEnv": "L'accord de traitement des données ne peut pas encore être accepté depuis cet environnement.",
+    "notInOrg": "Vous n'appartenez à aucune organisation",
+    "ownersAdminsOnly": "Seuls les propriétaires et les administrateurs peuvent accepter l'accord"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "Règle introuvable"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "Un mot de passe IMAP est requis",
+    "cannotDecrypt": "Le mot de passe enregistré n'a pas pu être déchiffré. Saisissez à nouveau votre mot de passe IMAP.",
+    "connectionFailed": "Échec de la connexion IMAP : {message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "Tâche introuvable",
+    "blockBracket": "Bloquer les e-mails contenant « [{tag}] » dans l'objet",
+    "blockKeyword": "Bloquer les e-mails contenant «  {keyword}  » dans l'objet"
+  },
+  "ext": {
+    "notOrgMemberDot": "Vous n'êtes pas membre de cette organisation.",
+    "invalidToken": "Jeton non valide",
+    "tooManyAttempts": "Trop de tentatives. Réessayez dans {seconds} secondes.",
+    "sessionExpired": "La session a expiré ou a été révoquée. Reconnectez-vous.",
+    "tokenExpired": "Jeton expiré",
+    "tokenNotFound": "Jeton introuvable",
+    "timerChangedElsewhere": "Le chronomètre a été modifié depuis un autre appareil. Réessayez.",
+    "datesFormat": "Les dates doivent être au format AAAA-MM-JJ",
+    "prepaidNotFound": "Forfait d'heures introuvable",
+    "prepaidOtherClient": "Le forfait d'heures appartient à un autre client que celui de la saisie",
+    "saveEntryFailed": "Impossible d'enregistrer la saisie de temps",
+    "createInProgress": "La création avec cette clé est en cours. Réessayez dans un instant.",
+    "import": {
+      "alreadyRunning": "Un import est déjà en cours. Attendez qu'il soit terminé."
+    },
+    "projectOrClientNotFound": "Projet ou client introuvable"
+  },
+  "feedback": {
+    "screenshotFailed": "Impossible de récupérer la capture d'écran depuis S3"
+  },
+  "imports": {
+    "timeopsConnect": "Impossible de se connecter à TimeOps : {detail}",
+    "networkError": "erreur réseau",
+    "apiKeyInvalid": "La clé d'API est invalide ou a expiré",
+    "alreadyRunning": "Un import est déjà en cours. Terminez-le d'abord.",
+    "notFound": "Import introuvable",
+    "cannotStart": "L'import ne peut pas être lancé depuis le statut {status}",
+    "cannotCancel": "L'import ne peut pas être annulé dans cet état"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "Un chronomètre est déjà en cours sur «  {project}  » dans l'application web. Arrêtez-le d'abord.",
+    "timerRunningProjectOther": "Un chronomètre est déjà en cours sur «  {project}  » sur un autre appareil. Arrêtez-le d'abord.",
+    "timerRunningAnyWeb": "Un chronomètre est déjà en cours dans l'application web. Arrêtez-le d'abord.",
+    "timerRunningAnyOther": "Un chronomètre est déjà en cours sur un autre appareil. Arrêtez-le d'abord."
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "La connexion à Dinero a expiré. Reconnectez-vous dans les paramètres.",
+      "notConnectedShort": "Dinero n'est pas connecté",
+      "notConnected": "Dinero n'est pas connecté",
+      "connectionActive": "La connexion à Dinero est active",
+      "connectionFailed": "Impossible de se connecter à Dinero",
+      "clientExported": "Client exporté vers Dinero",
+      "invoiceAlreadyExported": "La facture a déjà été exportée vers Dinero",
+      "contactCreateFailed": "Impossible de créer le client «  {name}  » dans Dinero : l'API n'a renvoyé aucun identifiant de contact. Essayez d'abord d'exporter le client manuellement.",
+      "noAccount": "Aucun numéro de compte configuré. Choisissez un compte par défaut sous Paramètres → Dinero.",
+      "invoiceExported": "Facture exportée vers Dinero",
+      "invoiceNotExported": "La facture n'a pas été exportée vers Dinero",
+      "noPending": "Aucune connexion Dinero en attente trouvée. Essayez de vous reconnecter.",
+      "invalidOrg": "Organisation sélectionnée non valide",
+      "tokensDecryptFailed": "Impossible de déchiffrer les jetons. Essayez de vous reconnecter."
+    },
+    "billy": {
+      "noApiKey": "La clé d'API Billy n'est pas définie",
+      "decryptFailed": "Impossible de déchiffrer la clé d'API Billy",
+      "connectionActive": "La connexion à Billy est active",
+      "connectionFailed": "Impossible de se connecter à Billy",
+      "clientExported": "Client exporté vers Billy",
+      "invoiceAlreadyExported": "La facture a déjà été exportée vers Billy",
+      "clientCreateFailed": "Impossible de créer ou de trouver le client dans Billy",
+      "productWithoutId": "Billy a renvoyé un produit sans identifiant : {json}",
+      "invoiceWithoutId": "Billy a renvoyé une facture sans identifiant : {json}",
+      "invoiceExported": "Facture exportée vers Billy",
+      "exportFailed": "Impossible d'exporter vers Billy : {message}",
+      "invoiceNotExported": "La facture n'a pas été exportée vers Billy"
+    },
+    "unknownErrorOccurred": "Une erreur inconnue s'est produite",
+    "invoiceMissingClient": "La facture n'a pas de client",
+    "economic": {
+      "noTokens": "Les jetons e-conomic ne sont pas définis",
+      "decryptFailed": "Impossible de déchiffrer les jetons e-conomic",
+      "connectionActive": "La connexion à e-conomic est active",
+      "connectionFailed": "Impossible de se connecter à e-conomic",
+      "clientExported": "Client exporté vers e-conomic",
+      "paymentTermsMissing": "Les conditions de paiement sont manquantes. Choisissez-les sous Paramètres → Intégrations.",
+      "invoiceAlreadyExported": "La facture a déjà été exportée vers e-conomic",
+      "consultingLine": "Prestation de conseil : {hours} heures",
+      "invoiceBooked": "Facture comptabilisée dans e-conomic",
+      "invoiceDraftCreated": "Facture créée en brouillon dans e-conomic",
+      "invoiceNotExported": "La facture n'a pas été exportée vers e-conomic"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: Impossible de détecter automatiquement le format de date. Choisissez-le manuellement.",
+      "noValidRows": "Aucune ligne valide trouvée dans le fichier CSV.",
+      "unknownClient": "Client inconnu"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "Les informations de l'entreprise sont manquantes. Elles doivent figurer sur la facture : renseignez-les sous Paramètres → Profil de l'entreprise (ou demandez à un administrateur) avant de créer la première facture.",
+    "templateNotFound": "Modèle de facture introuvable",
+    "issuedCannotChange": "Les factures émises ne peuvent pas être modifiées. Créez un avoir pour corriger les montants ou les conditions.",
+    "deletedCannotEdit": "Les factures supprimées ne peuvent pas être modifiées.",
+    "paidNotesOnly": "Les factures payées ne peuvent pas être modifiées. Vous pouvez seulement ajouter des remarques.",
+    "draftsOnlyDelete": "Seuls les brouillons peuvent être supprimés. Annulez plutôt les factures émises.",
+    "creditNoteNotCreditable": "Un avoir ne peut pas être crédité",
+    "draftNotCreditable": "Les brouillons ne font pas l'objet d'un avoir. Supprimez plutôt le brouillon (il n'a pas de numéro émis).",
+    "deletedNotCreditable": "Les factures supprimées ne peuvent pas faire l'objet d'un avoir",
+    "alreadyCredited": "La facture a déjà fait l'objet de l'avoir {number}",
+    "creditNoteNotes": "Avoir pour la facture {number} du {date}",
+    "draftOnlyAddLines": "Des lignes ne peuvent être ajoutées qu'aux factures brouillon",
+    "timeEntryNotFound": "Saisie de temps introuvable",
+    "lineNotFound": "Ligne de facture introuvable",
+    "draftOnlyEditLines": "Les lignes ne peuvent être modifiées que sur les factures brouillon",
+    "draftOnlyDeleteLines": "Les lignes ne peuvent être supprimées que des factures brouillon",
+    "draftOnlyReorder": "L'ordre ne peut être modifié que sur les factures brouillon",
+    "clientHasNoEmail": "Le client n'a pas d'adresse e-mail"
+  },
+  "logbook": {
+    "ownOnly": "Vous ne pouvez consulter que votre propre carnet de déplacements",
+    "notInYourOrg": "L'utilisateur n'est pas membre de votre organisation",
+    "noAccessWaste": "Vous n'avez pas accès au temps perdu de l'organisation"
+  },
+  "marketing": {
+    "tooManyAttempts": "Trop de tentatives. Réessayez plus tard."
+  },
+  "memberRates": {
+    "membersNotInOrg": "Un ou plusieurs membres n'existent pas dans l'organisation"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "Le propriétaire de votre organisation gère l'abonnement, vous n'avez donc pas besoin de choisir une offre.",
+    "privatePlanUnavailable": "L'offre Private n'est pas encore disponible. Choisissez une autre offre."
+  },
+  "organization": {
+    "requiresOrg": "Nécessite une organisation",
+    "noActiveOrg": "Aucune organisation active",
+    "moduleNotAssigned": "Le module «  {module}  » n'est pas attribué à cette organisation",
+    "moduleUnavailable": "Le module «  {module}  » n'est pas disponible pour vous. Contactez le support.",
+    "noSelfTransfer": "Vous ne pouvez pas vous transférer la propriété",
+    "ownerOnlyTransfer": "Seul le propriétaire peut transférer la propriété",
+    "memberNotFound": "Membre introuvable"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "Seuls les propriétaires et les administrateurs peuvent consulter le journal d'activité"
+  },
+  "portalBranding": {
+    "noDomain": "Aucun domaine à vérifier",
+    "verifyFailed": "Le domaine n'a pas pu être vérifié. Vérifiez que l'enregistrement DNS TXT '_timetrack-verify.{domain}' contient le jeton : {token}"
+  },
+  "prepaid": {
+    "invalidHours": "Nombre d'heures non valide pour la déduction du forfait d'heures",
+    "otherClient": "Le forfait d'heures appartient à un autre client que celui de la saisie de temps",
+    "inactive": "Le forfait d'heures n'est pas actif",
+    "expired": "Le forfait d'heures a expiré",
+    "insufficientHours": "Pas assez d'heures restantes sur le forfait d'heures. Heures disponibles : {available}",
+    "insufficientHoursClip": "Pas assez d'heures restantes sur le forfait d'heures. Heures disponibles : {available}, {required} h requises (arrondies par blocs de {minutes} minutes)",
+    "multipleClients": "Les saisies de temps sélectionnées appartiennent à plusieurs clients. Sélectionnez des saisies d'un seul client.",
+    "entriesNotFound": "Une ou plusieurs saisies de temps sont introuvables",
+    "alreadyBilled": "{count, plural, one {# des saisies de temps sélectionnées est déjà facturée et ne peut pas être déduite du forfait d'heures} many {# de saisies de temps sélectionnées sont déjà facturées et ne peuvent pas être déduites du forfait d'heures} other {# des saisies de temps sélectionnées sont déjà facturées et ne peuvent pas être déduites du forfait d'heures}}",
+    "foreignEntries": "{count, plural, one {# saisie de temps appartient à un autre client que le forfait d'heures} many {# de saisies de temps appartiennent à un autre client que le forfait d'heures} other {# saisies de temps appartiennent à un autre client que le forfait d'heures}}",
+    "requestNotFound": "Demande introuvable ou déjà traitée",
+    "gone": "Le forfait d'heures n'existe plus",
+    "renewalInvoiceNote": "Renouvellement du forfait d'heures «  {name}  », demandé par le client via le portail",
+    "totalBelowUsed": "Le nombre total d'heures ne peut pas être inférieur aux heures déjà utilisées ({used} h)",
+    "hasUsage": "Un forfait d'heures avec consommation enregistrée ne peut pas être supprimé. Désactivez-le plutôt.",
+    "entryNotFound": "La saisie de temps est introuvable"
+  },
+  "projects": {
+    "hasBilledEntries": "Le projet a des saisies de temps facturées et ne peut pas être supprimé définitivement. Archivez-le plutôt.",
+    "nameMismatch": "Le nom du projet ne correspond pas",
+    "noneFound": "Aucun projet trouvé"
+  },
+  "portal": {
+    "invalidLink": "Lien non valide ou expiré",
+    "invalidLogin": "E-mail ou mot de passe non valide",
+    "noInvoiceAccess": "Pas d'accès aux factures",
+    "noProjectAccess": "Pas d'accès aux projets",
+    "noTimeAccess": "Pas d'accès aux saisies de temps",
+    "noPrepaidAccess": "Pas d'accès aux forfaits d'heures",
+    "tooManyRequests": "Trop de requêtes. Réessayez plus tard.",
+    "prepaidInactive": "Le forfait d'heures n'est pas actif. Contactez votre fournisseur.",
+    "noAccess": "Pas d'accès",
+    "notAllowedApprove": "Vous n'êtes pas autorisé à valider le temps",
+    "requestNotFound": "Demande introuvable",
+    "requestHandled": "La demande a déjà été traitée",
+    "notAllowedReject": "Vous n'êtes pas autorisé à refuser le temps"
+  },
+  "quickSignup": {
+    "created": "Compte créé ! Connexion en cours…",
+    "emailNotAllowed": "Cette adresse e-mail ne peut pas être utilisée pour s'inscrire.",
+    "emailTaken": "Cette adresse e-mail est déjà enregistrée",
+    "createFailed": "Impossible de créer le compte",
+    "error": "Une erreur s'est produite lors de la création du compte"
+  },
+  "recurringInvoices": {
+    "clientArchived": "Le client est archivé. Restaurez d'abord le client.",
+    "prepaidFixedAmount": "Un forfait d'heures est facturé à montant fixe, ne sélectionnez donc pas de temps saisi",
+    "prepaidNoRenewal": "Le forfait d'heures ne se renouvelle pas automatiquement. Activez d'abord le renouvellement périodique.",
+    "needLine": "Ajoutez au moins une ligne avec un montant supérieur à 0",
+    "firstDateInPast": "La date de la première facture ne peut pas être antérieure à aujourd'hui",
+    "notFound": "Facture récurrente introuvable",
+    "nextDateInPast": "La date de la prochaine facture ne peut pas être antérieure à aujourd'hui"
+  },
+  "recurring": {
+    "startDateRequired": "Une date de début est requise pour les modèles récurrents",
+    "cannotPause": "Un modèle non récurrent ne peut pas être mis en pause",
+    "cannotResume": "Un modèle non récurrent ne peut pas être repris"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "La rentabilité de l'équipe nécessite une organisation",
+    "utilisationNeedsOrg": "Le taux d'utilisation nécessite une organisation",
+    "weekdayRange": "Le jour de la semaine doit être compris entre 1 et 7",
+    "linkNotFound": "Lien introuvable",
+    "tooManyRows": "Le rapport contient plus de 10 000 saisies. Réduisez la période."
+  },
+  "reportTemplates": {
+    "clientNotYours": "Le client n'appartient pas à votre compte.",
+    "systemNoEdit": "Les modèles système ne peuvent pas être modifiés. Dupliquez-les plutôt.",
+    "systemNoDelete": "Les modèles système ne peuvent pas être supprimés."
+  },
+  "security": {
+    "accountNotFound": "Compte introuvable",
+    "lastLoginMethodRemove": "Vous ne pouvez pas retirer votre dernière méthode de connexion. Ajoutez d'abord un mot de passe ou une passkey.",
+    "passkeyNotFound": "Passkey introuvable",
+    "lastLoginMethodDelete": "Vous ne pouvez pas supprimer votre dernière méthode de connexion. Ajoutez d'abord un mot de passe ou connectez un compte OAuth.",
+    "sessionNotFound": "Session introuvable",
+    "cannotEndCurrent": "Vous ne pouvez pas terminer votre session en cours. Déconnectez-vous plutôt.",
+    "currentSessionNotFound": "Session en cours introuvable",
+    "phoneIsOnlyMethod": "Vous ne pouvez pas retirer votre numéro de téléphone, car c'est votre seule méthode de connexion. Ajoutez d'abord une autre méthode.",
+    "deviceNotFound": "Appareil introuvable",
+    "rec": {
+      "addLoginMethod": "Ajouter une méthode de connexion",
+      "verifyEmail": "Confirmer votre adresse e-mail",
+      "enable2fa": "Activer la double authentification",
+      "addPasskey": "Ajouter une passkey pour se connecter plus vite et en toute sécurité",
+      "addMore": "Ajouter d'autres méthodes de connexion comme solution de secours"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "Vous avez déjà un abonnement actif. Utilisez « Gérer la facturation » pour changer d'offre ou de moyen de paiement.",
+    "seatsExceedIncluded": "Votre organisation utilise {seats} licences, soit {extra} de plus que les {included} incluses dans {plan}. La mise à niveau en libre-service n'est pas encore possible sans perdre de licences. Contactez le support et nous ferons le changement manuellement.",
+    "noCheckoutUrl": "Alunta n'a renvoyé aucune URL de paiement. Contactez le support.",
+    "extraSeatsNeedSubscription": "Les licences supplémentaires nécessitent un abonnement actif. Choisissez d'abord une offre et ajoutez un moyen de paiement.",
+    "noActiveAddPayment": "Aucun abonnement actif trouvé. Ajoutez d'abord un moyen de paiement.",
+    "noActive": "Aucun abonnement actif trouvé",
+    "none": "Aucun abonnement trouvé",
+    "requestFailed": "Impossible d'envoyer la demande. Réessayez plus tard.",
+    "priceSuffixYear": "kr/an",
+    "priceSuffixMonth": "kr/mois",
+    "checkoutComingSoon": "Le paiement n'est pas encore ouvert ici. Vous êtes sur le forfait gratuit."
+  },
+  "tags": {
+    "nameExists": "Un tag nommé «  {name}  » existe déjà",
+    "timeEntryNotFound": "Saisie de temps introuvable",
+    "notYours": "Un ou plusieurs tags ne vous appartiennent pas",
+    "projectNotFound": "Projet introuvable",
+    "projectsNotFound": "Un ou plusieurs projets sont introuvables, ou vous n'y avez pas accès",
+    "clientNotFound": "Client introuvable"
+  },
+  "tasks": {
+    "parentNotFound": "Tâche parente introuvable",
+    "subtaskNoSubtasks": "Une sous-tâche ne peut pas avoir de sous-tâches",
+    "laneNotFound": "Colonne introuvable",
+    "laneOtherBoard": "La colonne appartient à un autre tableau que la tâche",
+    "moveSameBoard": "La tâche ne peut être déplacée qu'au sein du même tableau",
+    "dryRunFailed": "La simulation n'a pas pu être validée",
+    "bulkFailed": "La modification groupée n'a pas pu être validée",
+    "bulkRolledBack": "Toutes les tâches sélectionnées n'ont pas été mises à jour ; la transaction a été annulée",
+    "assignNeedsOrg": "L'attribution nécessite une organisation",
+    "assigneeNotMember": "La personne assignée n'est pas membre de l'organisation",
+    "mainTaskNotFound": "Tâche principale introuvable",
+    "assignedPushTitle": "📋 Nouvelle tâche assignée",
+    "assignedPushBody": "{name} vous a assigné «  {task}  »",
+    "aColleague": "Un collègue"
+  },
+  "user": {
+    "pageUnavailable": "Cette page n'est pas disponible pour vous pour le moment",
+    "emailMismatch": "L'e-mail ne correspond pas à votre compte",
+    "deleteFailed": "La suppression n'a pas pu être menée à bien. Contactez le support et nous vous aiderons.",
+    "aiConnectionOk": "Connexion OK ! Réponse : «  {reply}  »",
+    "aiConnectionFailed": "Échec de la connexion : {message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "Vous ne pouvez gérer les absences que de vos propres collaborateurs",
+      "requestNotFound": "Demande d'absence introuvable",
+      "approveOnlyPending": "La demande ne peut être validée que tant qu'elle est en attente",
+      "noSelfApprove": "Vous ne pouvez pas valider votre propre absence",
+      "rejectOnlyPending": "La demande ne peut être refusée que tant qu'elle est en attente",
+      "typeHasPending": "Un type d'absence avec des demandes en attente ne peut pas être supprimé. Refusez-les ou annulez-les d'abord.",
+      "managersOnlyForOthers": "Seuls les responsables et les administrateurs peuvent enregistrer une absence pour d'autres personnes",
+      "endBeforeStart": "La date de fin ne peut pas être antérieure à la date de début",
+      "endDateRequired": "Une date de fin est requise pour {type}. Seuls la maladie et le congé peuvent être enregistrés sans date de fin.",
+      "overlapOther": "Le collaborateur a déjà une absence sur cette période",
+      "overlapOwn": "Vous avez déjà une demande d'absence sur cette période",
+      "registrationNotFound": "Enregistrement d'absence introuvable",
+      "selfReturnOnly": "Vous ne pouvez signaler que votre propre rétablissement",
+      "periodAlreadyEnded": "La période est déjà terminée",
+      "onlyActiveRecovered": "Seuls les enregistrements actifs peuvent être signalés comme rétablis",
+      "lastDayBeforeStart": "Le dernier jour d'absence ne peut pas être antérieur à la date de début",
+      "endedElsewhere": "La période a déjà été terminée ailleurs. Rechargez la liste.",
+      "recoveredPushTitle": "Rétablissement signalé",
+      "recoveredPushBody": "Fin de votre {type} le {date}",
+      "requestNotFoundShort": "Demande introuvable",
+      "ownOnlyEdit": "Vous ne pouvez modifier que vos propres demandes",
+      "pendingOnlyEdit": "Seules les demandes en attente peuvent être modifiées",
+      "alreadyCancelled": "La demande a déjà été annulée",
+      "fixedHolidayNoCancel": "Les congés fixes (période de fermeture) ne peuvent pas être annulés. Contactez votre administrateur.",
+      "changedElsewhere": "La demande a été modifiée ailleurs. Rechargez la liste.",
+      "employeeNotInOrg": "Le collaborateur n'existe pas dans l'organisation"
+    },
+    "handledElsewhere": "La demande a déjà été traitée ailleurs. Rechargez la liste.",
+    "yourManager": "Votre responsable",
+    "absenceTypeNotFound": "Type d'absence introuvable",
+    "activityTypeNotInOrg": "Le type d'activité n'existe pas dans votre organisation",
+    "projectNotInOrg": "Le projet n'existe pas dans votre organisation",
+    "activityTypesNotInOrg": "Un ou plusieurs types d'activité n'existent pas dans votre organisation",
+    "projectsNotInOrg": "Un ou plusieurs projets n'existent pas dans votre organisation",
+    "activityTypesUnknown": "Un ou plusieurs types d'activité sont inconnus ou archivés",
+    "checkin": {
+      "already": "Vous êtes déjà pointé",
+      "noneOpen": "Aucun pointage ouvert trouvé"
+    },
+    "closure": {
+      "maxDays": "Une période de fermeture peut durer {days} jours au maximum. Créez plutôt plusieurs périodes.",
+      "needsVacationType": "Les semaines de congés fixes doivent utiliser un type d'absence qui décompte les congés",
+      "notFound": "Période de fermeture introuvable"
+    },
+    "employeeProfileNotFound": "Profil de collaborateur introuvable",
+    "compliance": {
+      "ownOnly": "Vous ne pouvez consulter que votre propre état de conformité",
+      "rejected": "La saisie a été refusée par les règles de temps de travail : {reasons}"
+    },
+    "departmentNotFound": "Service introuvable",
+    "deptManagers": {
+      "oncePerDept": "Un même utilisateur ne peut apparaître qu'une fois par service",
+      "validFromBeforeTo": "La date de début de validité doit précéder la date de fin",
+      "usersNotMembers": "Un ou plusieurs utilisateurs ne sont pas membres de l'organisation"
+    },
+    "employee": {
+      "employmentEnded": "L'emploi est déjà terminé",
+      "endBeforePeriodStart": "La date de fin ne peut pas être antérieure au début de la période ({date})",
+      "managerNotFound": "Responsable introuvable",
+      "ownManager": "Un collaborateur ne peut pas être son propre responsable",
+      "managerCycle": "La hiérarchie des responsables forme une boucle",
+      "viewOwnTeamProfiles": "Vous ne pouvez consulter que les profils de vos propres collaborateurs",
+      "profileExists": "Le collaborateur a déjà un profil dans cette organisation",
+      "hireDateManaged": "La date d'embauche est gérée par l'historique d'emploi. Modifiez-la dans l'onglet Emploi.",
+      "viewOwnTeamEmployments": "Vous ne pouvez consulter que les emplois de vos propres collaborateurs",
+      "startAfterLatest": "La date de début doit être postérieure au début de la dernière période ({date})",
+      "endedOn": "L'emploi s'est terminé le {date}. Une nouvelle période doit commencer après cette date.",
+      "periodNotFound": "Période d'emploi introuvable",
+      "historyOwnTeamOnly": "Vous ne pouvez consulter que l'historique de vos propres collaborateurs"
+    },
+    "flex": {
+      "ownBalanceOnly": "Vous ne pouvez consulter que votre propre solde d'heures flexibles",
+      "recalcScope": "Vous ne pouvez recalculer les heures flexibles que pour vous-même ou vos collaborateurs",
+      "profileNotInOrg": "Profil de collaborateur introuvable dans cette organisation"
+    },
+    "holidays": {
+      "notFound": "Jour férié introuvable",
+      "defaultNoDelete": "Les jours fériés par défaut ne peuvent pas être supprimés. Choisissez plutôt le préréglage du calendrier des jours de congé."
+    },
+    "mw": {
+      "noActiveOrg": "Aucune organisation active trouvée",
+      "noEmployeeProfile": "Vous n'avez pas de profil de collaborateur dans cette organisation. Contactez un administrateur.",
+      "twoFactorRequired": "L'organisation exige la double authentification pour les responsables et les administrateurs. Activez la 2FA sous Paramètres → Sécurité et réessayez.",
+      "hrReadOnly": "Le rôle RH peut consulter, mais pas valider ni modifier",
+      "managerRequired": "Cette action nécessite les droits de responsable ou d'administrateur",
+      "viewRequiresRole": "Cette vue nécessite les droits de responsable, de RH ou d'administrateur",
+      "ownersAdminsOnly": "Seuls les propriétaires et les administrateurs ont accès à cette fonctionnalité",
+      "twoFactorAdmins": "L'organisation exige la double authentification pour les administrateurs"
+    },
+    "notifications": {
+      "addTeamsFirst": "Ajoutez un webhook Teams avant d'activer Teams",
+      "noTeamsWebhook": "Aucun webhook Teams n'est enregistré",
+      "testBody": "L'intégration Teams de {org} fonctionne. Les événements destinés aux responsables (feuilles de temps, absences, arrêts maladie, règles de temps de travail et résumé) sont envoyés ici.",
+      "theOrganisation": "l'organisation",
+      "teamsRejected": "Teams a refusé le message de test : {message}"
+    },
+    "organizationNotFound": "Organisation introuvable",
+    "org": {
+      "deptHasEmployees": "Un service auquel des collaborateurs sont affectés ne peut pas être supprimé. Déplacez d'abord les collaborateurs."
+    },
+    "overtime": {
+      "ownEmployeesOnly": "Vous ne pouvez comptabiliser que pour vos propres collaborateurs",
+      "positiveHours": "Saisissez un nombre d'heures positif",
+      "notZero": "La saisie ne peut pas être de 0 heure"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "Le type de salaire n'existe pas dans votre organisation",
+      "wageTypeCodeExists": "Un type de salaire avec ce code existe déjà",
+      "ruleNotInOrg": "La règle n'existe pas dans votre organisation",
+      "employeeNumberTaken": "Le numéro de collaborateur est déjà utilisé par quelqu'un d'autre",
+      "exportTitle": "Export de paie : {org}"
+    },
+    "absenceTypeNotInOrg": "Le type d'absence n'existe pas dans votre organisation",
+    "exportRateLimited": "Trop d'exports. Réessayez dans {seconds} secondes.",
+    "closing": {
+      "notEnabled": "La clôture de période n'est pas activée dans les paramètres de l'organisation",
+      "afterPeriodEnd": "Le relevé ne peut être créé qu'une fois la période terminée",
+      "approvedNoRecalc": "Un relevé validé ne peut pas être recalculé. Déverrouillez-le d'abord.",
+      "noSelfApprove": "Vous ne pouvez pas valider votre propre relevé de période",
+      "alreadyApproved": "Le relevé a déjà été validé",
+      "ownAckOnly": "Vous ne pouvez accuser réception que de votre propre relevé",
+      "needsManagerApproval": "Le relevé doit être validé par votre responsable avant que vous en accusiez réception",
+      "notLocked": "La période n'est pas verrouillée",
+      "notFound": "Le relevé n'existe pas"
+    },
+    "assign": {
+      "usersNotActive": "Un ou plusieurs utilisateurs ne sont pas des collaborateurs actifs de l'organisation"
+    },
+    "reports": {
+      "payrollHrOnly": "Le rapport de paie est réservé aux RH et aux administrateurs",
+      "shareHrOnly": "Seuls les RH et les administrateurs peuvent partager des modèles avec toute l'organisation",
+      "defaultNoOverwrite": "Le modèle par défaut ne peut pas être écrasé. Enregistrez-le sous un nouveau nom.",
+      "ownEditOnly": "Vous ne pouvez modifier que vos propres modèles",
+      "defaultNoDelete": "Le modèle par défaut ne peut pas être supprimé",
+      "ownDeleteOnly": "Vous ne pouvez supprimer que vos propres modèles",
+      "weekdayRange": "Le jour de la semaine doit être compris entre 1 et 7"
+    },
+    "reportTypeHrOnly": "Ce type de rapport est réservé aux RH et aux administrateurs",
+    "sso": {
+      "invalidTenant": "ID de tenant non valide. Un GUID au format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx est attendu (ID de l'annuaire (tenant) dans Azure).",
+      "microsoftNotConfigured": "La connexion Microsoft n'est pas configurée sur cette installation, l'option « SSO uniquement » ne peut donc pas être activée.",
+      "verifyDomainFirst": "Vérifiez au moins un domaine avant d'activer « SSO uniquement », sinon la politique ne s'appliquerait à personne.",
+      "connectMicrosoftFirst": "Connectez d'abord Microsoft à votre propre compte (Paramètres → Sécurité → Connecter Microsoft), sinon vous vous verrouillez l'accès lorsque « SSO uniquement » est activé.",
+      "enable2faFirst": "Activez d'abord la double authentification sur votre propre compte, sinon vous vous verrouillez l'accès à l'administration.",
+      "invalidDomain": "Domaine non valide. Saisissez par exemple exemple.com (sans @ ni https://).",
+      "publicProviders": "Les fournisseurs d'e-mail grand public (gmail.com, outlook.com, etc.) ne peuvent pas être utilisés pour l'adhésion automatique.",
+      "domainAlreadyAdded": "Le domaine a déjà été ajouté.",
+      "domainVerifiedElsewhere": "Le domaine a déjà été vérifié par une autre organisation. Contactez le support s'il s'agit d'une erreur.",
+      "maxDomains": "{max} domaines au maximum par organisation.",
+      "domainNotFound": "Domaine introuvable",
+      "domainVerifiedElsewhereShort": "Le domaine a déjà été vérifié par une autre organisation.",
+      "txtCorrectButTaken": "L'enregistrement TXT est correct, mais le domaine a déjà été vérifié par une autre organisation. Contactez le support.",
+      "justVerifiedElsewhere": "Le domaine vient d'être vérifié par une autre organisation. Contactez le support."
+    },
+    "team": {
+      "timesheetsOwnEmployees": "Vous ne pouvez gérer les feuilles de temps que de vos propres collaborateurs",
+      "employeeNotInOrg": "Le collaborateur n'existe pas dans votre organisation",
+      "weekNothingToApprove": "La semaine n'a aucune saisie à valider",
+      "weekAlreadyApproved": "La semaine a déjà été validée",
+      "noSelfApprove": "Vous ne pouvez pas valider votre propre feuille de temps",
+      "onlySubmittedRejectable": "Seules les semaines soumises peuvent être refusées",
+      "weekInClosedPeriod": "La semaine appartient à une période clôturée. Déverrouillez d'abord la période sous Clôture de période.",
+      "onlyApprovedReopen": "Seules les semaines validées peuvent être rouvertes",
+      "historyOwnEmployees": "Vous ne pouvez consulter que l'historique de vos propres collaborateurs"
+    },
+    "import": {
+      "noProject": "(sans projet)",
+      "beforeLock": "{count} lignes sont antérieures au verrouillage de période du {date}",
+      "submittedWeeks": "{count} semaines soumises ou validées reçoivent de nouvelles lignes, qui ne comptent pas dans le total déjà validé"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "La semaine a déjà été validée. Demandez à votre responsable de la rouvrir.",
+      "weekAlreadySubmitted": "La semaine a déjà été soumise et attend validation",
+      "weekNothingToSubmit": "La semaine n'a aucune saisie à soumettre",
+      "activityNotAllowed": "L'activité n'est pas autorisée sur ce projet",
+      "dayHasDetailed": "La journée comporte {hours} heures de saisies détaillées. Modifiez-les sous Suivi du temps, ou saisissez au moins autant d'heures.",
+      "chooseOtherActivity": "Choisissez une autre activité vers laquelle déplacer",
+      "noEmployeeProfile": "Vous n'avez pas de profil de collaborateur dans cette organisation",
+      "fixedHoliday": "Ce jour est un congé fixe (période de fermeture) et vous ne pouvez pas le modifier",
+      "coveredByLongAbsence": "Ce jour est couvert par une période d'absence plus longue. Modifiez-la sous Absences.",
+      "notEmployed": "Vous n'étiez pas employé à cette date",
+      "holidayNoAbsence": "Ce jour est un jour de congé ou un jour férié, une absence ne peut donc pas être enregistrée",
+      "lastWeekEmpty": "La semaine dernière n'a aucune saisie à copier",
+      "weekNothingToSave": "La semaine n'a aucune saisie à enregistrer comme modèle",
+      "templateMissing": "Le modèle n'existe pas"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "Seuls les responsables peuvent modifier le temps de travail d'un collaborateur",
+      "ownOnlyView": "Vous ne pouvez consulter que votre propre temps de travail",
+      "employeeNotInOrg": "Le collaborateur n'existe pas dans l'organisation",
+      "sharedPlan": "Le planning est aussi utilisé en dehors de vos collaborateurs. Demandez à un administrateur de le modifier.",
+      "planMissing": "Le planning n'existe pas",
+      "planArchived": "Le planning est archivé",
+      "laterVersion": "Une version ultérieure du {date} existe. Modifiez plutôt celle-ci.",
+      "versionFromToday": "Une version applicable à partir d'aujourd'hui existe déjà. Choisissez une date ultérieure.",
+      "adminsOnlyDept": "Seuls les administrateurs peuvent affecter un planning à un service",
+      "departmentMissing": "Le service n'existe pas",
+      "deviationsRecorded": "Les écarts sont enregistrés au moment où ils surviennent. Les absences prévues sont enregistrées sous Congés et absences.",
+      "noFixedPlanToday": "Il n'y a pas de planning fixe ce jour. Enregistrez le temps sous forme de saisies de temps."
+    },
+    "dpa": {
+      "outdated": "L'accord a été mis à jour depuis le chargement de la page. Rechargez la page et lisez la nouvelle version.",
+      "acceptFailed": "Impossible d'enregistrer l'acceptation",
+      "signIn": "Connectez-vous pour le télécharger",
+      "ownersAdminsDownload": "Seuls les propriétaires et les administrateurs peuvent télécharger l'accord finalisé"
+    },
+    "edit": {
+      "weekApprovedLocked": "La semaine est validée et verrouillée. Demandez à votre responsable de la rouvrir.",
+      "weekSubmitted": "La semaine a été soumise pour validation et ne peut pas être modifiée",
+      "entryApproved": "La saisie a été validée par votre responsable. Demandez la réouverture de la semaine."
+    },
+    "periodMaxDaysAsync": "La période peut durer {days} jours au maximum",
+    "scope": {
+      "ownEmployees": "Vous ne pouvez gérer que vos propres collaborateurs"
+    },
+    "dns": {
+      "unknown": "Erreur DNS inconnue",
+      "lookupFailed": "Échec de la recherche DNS : {error}",
+      "noRecord": "Aucun enregistrement TXT «  {record}  » trouvé sur {hosts}. Les modifications DNS peuvent prendre jusqu'à une heure."
+    }
+  },
+  "emailTemplates": {
+    "notFound": "Modèle introuvable",
+    "systemNoEdit": "Les modèles système ne peuvent pas être modifiés",
+    "systemNoDelete": "Les modèles système ne peuvent pas être supprimés",
+    "alreadyExist": "Les modèles existent déjà"
+  },
+  "api": {
+    "tooManyRequestsLater": "Trop de requêtes. Réessayez plus tard.",
+    "cvr": {
+      "queryMin2": "Le terme de recherche doit comporter au moins 2 caractères",
+      "noCompany": "Aucune entreprise trouvée",
+      "searchFailed": "Une erreur s'est produite pendant la recherche",
+      "numberOrQueryRequired": "Un numéro CVR ou un terme de recherche est requis",
+      "eightDigits": "Le numéro CVR doit comporter 8 chiffres",
+      "noCompanyForNumber": "Aucune entreprise trouvée avec ce numéro CVR",
+      "lookupFailed": "Une erreur s'est produite lors de la recherche du numéro CVR"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "Export introuvable ou expiré",
+      "expired": "L'export a expiré ou n'est plus disponible. Demandez-en un nouveau."
+    },
+    "notAuthorized": "Non autorisé. Connectez-vous d'abord.",
+    "desktop": {
+      "deviceCodeMissing": "Code d'appareil manquant (code)",
+      "maxDevices": "Nombre maximal d'appareils atteint ({max}). Désactivez d'abord un appareil.",
+      "invalidDeviceToken": "Jeton d'appareil non valide",
+      "userNotFound": "L'utilisateur n'existe pas",
+      "settingsReadFailed": "Impossible de lire les paramètres",
+      "notInAnyOrg": "Vous n'êtes membre d'aucune organisation",
+      "adminsOnlyIntegrations": "Seuls les administrateurs peuvent modifier les paramètres d'intégration",
+      "invalidIntegrationSettings": "Paramètres d'intégration non valides",
+      "settingsSaveFailed": "Impossible d'enregistrer les paramètres",
+      "draftOnlyEditLines": "Les lignes ne peuvent être modifiées que sur les factures brouillon",
+      "invalidPrepaidHours": "Nombre d'heures non valide sur la saisie de temps du forfait d'heures",
+      "draftOnlyEditInvoices": "Seules les factures brouillon peuvent être modifiées",
+      "unbillOnlyWeb": "La marque « facturé » ne peut être retirée que dans l'application web. Retirez-la d'abord là-bas.",
+      "entryNotFoundOrOther": "Entité introuvable : {id}. La saisie n'existe pas ou appartient à un autre utilisateur"
+    },
+    "notMemberOfChosenOrg": "Vous n'êtes pas membre de l'organisation choisie",
+    "approvalFailed": "Échec de la validation",
+    "invalidEmail": "Adresse e-mail non valide",
+    "genericError": "Une erreur s'est produite",
+    "dpa": {
+      "pdfFailed": "Le PDF n'a pas pu être créé pour le moment"
+    },
+    "invalidOrigin": "Origine non valide",
+    "invalidRequest": "Requête non valide",
+    "ext": {
+      "invalidLoginLink": "Lien de connexion non valide. Relancez la connexion depuis l'application.",
+      "invalidRedirect": "URI de redirection non valide"
+    },
+    "feedback": {
+      "notSignedIn": "Non connecté",
+      "otherUser": "Le rapport a été rédigé par un autre utilisateur",
+      "tooLarge": "Le rapport est trop volumineux",
+      "invalid": "Rapport non valide",
+      "saveFailed": "Le retour n'a pas pu être enregistré"
+    },
+    "invalidJson": "JSON non valide",
+    "integrations": {
+      "dineroFailed": "La connexion à Dinero n'a pas pu être créée. Réessayez.",
+      "economicFailed": "La connexion à e-conomic n'a pas pu être créée. Réessayez.",
+      "googleFailed": "La connexion à Google n'a pas pu être créée. Réessayez."
+    },
+    "invoiceSend": {
+      "invalidRecipient": "Adresse e-mail du destinataire non valide",
+      "emailNotConfigured": "Le service d'e-mail n'est pas configuré. Contactez votre administrateur pour configurer RESEND_API_KEY ou SMTP_HOST.",
+      "sendFailed": "Impossible d'envoyer l'e-mail. Réessayez plus tard.",
+      "sent": "E-mail envoyé à {email}",
+      "error": "Une erreur s'est produite lors de l'envoi de l'e-mail"
+    },
+    "upload": {
+      "notAuthorized": "Non autorisé",
+      "noFile": "Aucun fichier envoyé",
+      "imageTypes": "Seuls les formats JPEG, PNG et WebP sont autorisés",
+      "tooBig": "Le fichier est trop volumineux (8 Mo max.)",
+      "notConfigured": "L'envoi de fichiers n'est pas configuré (S3_ENDPOINT ou STORAGE_DRIVER=local manquant)",
+      "failed": "Impossible d'envoyer le fichier vers le stockage"
+    },
+    "webhookTest": {
+      "tooMany": "Trop de tentatives de test pour ce webhook. Réessayez dans un instant."
+    },
+    "import": {
+      "tagNoName": "Le tag n'a pas de nom"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "Le forfait d'heures appartient à un autre client que celui du chronomètre"
+  }
+}

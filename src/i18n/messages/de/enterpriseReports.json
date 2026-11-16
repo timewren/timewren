@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Mitarbeiter:in"
+    },
+    "department": {
+      "label": "Abteilung"
+    },
+    "project": {
+      "label": "Projekt"
+    },
+    "activityType": {
+      "label": "Aktivität"
+    },
+    "absenceType": {
+      "label": "Abwesenheitsart"
+    },
+    "day": {
+      "label": "Datum"
+    },
+    "week": {
+      "label": "Woche"
+    },
+    "month": {
+      "label": "Monat"
+    },
+    "vacationYear": {
+      "label": "Urlaubsjahr"
+    },
+    "email": {
+      "label": "E-Mail"
+    },
+    "employmentType": {
+      "label": "Beschäftigungsart"
+    },
+    "weeklyHours": {
+      "label": "Std./Woche"
+    },
+    "dailyNorm": {
+      "label": "Tagessollzeit"
+    },
+    "employeeNumber": {
+      "label": "Personalnr.",
+      "help": "Personalnummer im Lohnsystem (folgt der Dimension „Mitarbeiter:in“)"
+    },
+    "payrollCode": {
+      "label": "Lohnart",
+      "help": "Lohnart der Aktivitätsart (folgt der Aktivitäts-Dimension)"
+    },
+    "hours": {
+      "label": "Erfasste Stunden"
+    },
+    "normHours": {
+      "label": "Sollzeit",
+      "help": "Tagessollzeit × Arbeitstage im Zeitraum (Feiertage abgezogen)"
+    },
+    "workDays": {
+      "label": "Arbeitstage",
+      "help": "Geplante Arbeitstage im Zeitraum (ohne Feiertage/Betriebsferien)"
+    },
+    "employeeCount": {
+      "label": "Anzahl Mitarbeitende"
+    },
+    "flexDelta": {
+      "label": "Gleitzeit (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Pause abgezogen",
+      "help": "Nur bei unbezahlter Pause (Check-in/-out)"
+    },
+    "checkInHours": {
+      "label": "Anwesenheit (Check-in)"
+    },
+    "workedDays": {
+      "label": "Tage mit Einträgen"
+    },
+    "maxDayHours": {
+      "label": "Längster Tag",
+      "help": "Höchste Tagessumme einer Person in der Gruppe"
+    },
+    "longDays": {
+      "label": "Tage über 13 Std.",
+      "help": "Eine Tagessumme über 13 Std. lässt weniger als 11 Std. Ruhe (11-Stunden-Regel)"
+    },
+    "avgWeeklyHours": {
+      "label": "Ø Std./Woche",
+      "help": "Erfasste Stunden pro Personenwoche mit Einträgen oder Abwesenheit (48-Stunden-Regel)"
+    },
+    "weeksOver48h": {
+      "label": "Wochen über 48 Std.",
+      "help": "Anzahl Personenwochen mit über 48 Std. erfasst"
+    },
+    "fullWeeks": {
+      "label": "Wochen ohne freien Tag",
+      "help": "Wochen mit Einträgen an allen 7 Tagen und ohne Abwesenheitstag (24 Std. Wochenruhe)"
+    },
+    "absenceDays": {
+      "label": "Abwesenheit (Tage)"
+    },
+    "absenceHours": {
+      "label": "Abwesenheit (Stunden)"
+    },
+    "absencePeriods": {
+      "label": "Abwesenheitszeiträume"
+    },
+    "sickDays": {
+      "label": "Krankheitstage"
+    },
+    "sickHours": {
+      "label": "Krankheitsstunden"
+    },
+    "sickPeriods": {
+      "label": "Krankheitszeiträume"
+    },
+    "sickPct": {
+      "label": "Krankenstand %",
+      "help": "Krankheitstage / Arbeitstage"
+    },
+    "longTermSick": {
+      "label": "Langzeitkrank",
+      "help": "Zusammenhängender Krankheitszeitraum über 30 Tage im Zeitraum"
+    },
+    "longTermSickCount": {
+      "label": "Langzeitkranke",
+      "help": "Anzahl Mitarbeitender mit einem Krankheitszeitraum über 30 Tage"
+    },
+    "overtimeEarned": {
+      "label": "Überstunden erworben"
+    },
+    "overtimeUsed": {
+      "label": "Freizeitausgleich genommen"
+    },
+    "overtimePaidOut": {
+      "label": "Überstunden ausgezahlt"
+    },
+    "overtimeNet": {
+      "label": "Überstunden netto",
+      "help": "Erworben − genommen − ausgezahlt"
+    },
+    "vacationAllotted": {
+      "label": "Urlaub zugeteilt"
+    },
+    "vacationUsed": {
+      "label": "Urlaub genommen"
+    },
+    "vacationRemaining": {
+      "label": "Resturlaub"
+    },
+    "extraVacationAllotted": {
+      "label": "Zusätzliche Urlaubstage zugeteilt"
+    },
+    "extraVacationUsed": {
+      "label": "Zusätzliche Urlaubstage genommen"
+    },
+    "extraVacationRemaining": {
+      "label": "Zusätzliche Urlaubstage übrig"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Urlaub im Zeitraum genommen",
+      "help": "Urlaubstage (Arten, die den Urlaubssaldo abziehen) im Berichtszeitraum"
+    },
+    "hoursByActivity": {
+      "label": "Stunden pro Aktivität",
+      "pivot": "{name} (Stunden)"
+    },
+    "absenceDaysByType": {
+      "label": "Abwesenheit pro Art (Tage)",
+      "pivot": "{name} (Tage)"
+    },
+    "absenceHoursByType": {
+      "label": "Abwesenheit pro Art (Stunden)",
+      "pivot": "{name} (Stunden)"
+    },
+    "quantityByWageType": {
+      "label": "Menge pro Lohnart",
+      "help": "Stunden/Tage pro Lohnart über die Lohnzuordnung (Einstellungen → Lohn)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Mitarbeiter:in",
+    "department": "Abteilung",
+    "project": "Projekt",
+    "activityType": "Aktivität",
+    "absenceType": "Abwesenheitsart",
+    "day": "Tag",
+    "week": "Woche",
+    "month": "Monat",
+    "vacationYear": "Urlaubsjahr"
+  },
+  "groups": {
+    "dimensions": "Dimensionen",
+    "employee": "Mitarbeiter:in",
+    "time": "Zeit",
+    "compliance": "Compliance",
+    "absence": "Abwesenheit",
+    "overtime": "Überstunden",
+    "payroll": "Lohn",
+    "vacation": "Urlaubskonto"
+  },
+  "presets": {
+    "this_month": "Dieser Monat",
+    "last_month": "Letzter Monat",
+    "this_quarter": "Dieses Quartal",
+    "this_year": "Dieses Jahr",
+    "last_year": "Letztes Jahr"
+  },
+  "types": {
+    "payroll": {
+      "label": "Lohnbericht",
+      "description": "Pro Mitarbeiter:in für die Lohnperiode: Stunden, Abwesenheit in Tagen und Stunden pro Art, Gleitzeit, Überstunden und Pausenabzüge. Für die Lohnbuchhaltung."
+    },
+    "sickness": {
+      "label": "Krankenstand",
+      "description": "Krankenstandsstatistik pro Abteilung und Monat: Krankheitstage, Zeiträume, Fehlquote und Langzeiterkrankungen (über 30 Tage)."
+    },
+    "absence": {
+      "label": "Abwesenheit",
+      "description": "Alle Abwesenheitsarten (Urlaub, Krankheit, Beurlaubung, Pflege…) pro Mitarbeiter:in oder Abteilung: Tage und Stunden."
+    },
+    "flex_overtime": {
+      "label": "Gleitzeit und Überstunden",
+      "description": "Saldoentwicklung pro Zeitraum: Sollzeit, erfasste Stunden, Gleitzeit-Delta und erworbene/genommene/ausgezahlte Überstunden."
+    },
+    "project_activity": {
+      "label": "Projekt und Aktivität",
+      "description": "Stunden nach Projekt, Aktivitätsart und Abteilung, zur Nachverfolgung von Unterricht, Vorbereitung, Besprechungen usw."
+    },
+    "vacation_account": {
+      "label": "Urlaubskonto",
+      "description": "Urlaubskonto pro Urlaubsjahr: zugeteilt, genommen und Rest für Urlaub und zusätzliche Urlaubstage, jeweils pro Mitarbeiter:in."
+    },
+    "compliance": {
+      "label": "Compliance (Arbeitszeitgesetz)",
+      "description": "Verstöße und Warnungen pro Mitarbeiter:in und Woche: Tage über 13 Std. (11 Std. Ruhe), Wochen über 48 Std., Wochen ohne freien Tag (24 Std. Wochenruhe) und durchschnittliche Wochenarbeitszeit."
+    },
+    "custom": {
+      "label": "Benutzerdefiniert",
+      "description": "Freie Wahl von Dimensionen und Spalten aus dem gesamten Katalog: Baue genau den Bericht, der dir fehlt."
+    }
+  },
+  "weekdays": {
+    "1": "Montag",
+    "2": "Dienstag",
+    "3": "Mittwoch",
+    "4": "Donnerstag",
+    "5": "Freitag",
+    "6": "Samstag",
+    "7": "Sonntag"
+  },
+  "page": {
+    "all": "(alle)",
+    "selected": "({count} ausgewählt)",
+    "clear": "Auswahl löschen",
+    "downloaded": "Bericht heruntergeladen",
+    "templateDeleted": "Vorlage gelöscht",
+    "maxDimensions": "Höchstens 4 Dimensionen",
+    "templateUnreadable": "Die Vorlage kann nicht gelesen werden",
+    "needColumn": "Wähle mindestens eine Spalte",
+    "inactive": "(inaktiv)",
+    "title": "Berichte",
+    "step1": "1. Berichtsart wählen",
+    "step2": "2. Zeitraum",
+    "holidayYearPlaceholder": "Urlaubsjahr…",
+    "holidayYear": "Urlaubsjahr {year}",
+    "from": "Von",
+    "to": "Bis",
+    "step3": "3. Filter",
+    "departments": "Abteilungen",
+    "employees": "Mitarbeitende",
+    "projects": "Projekte",
+    "activities": "Aktivitäten",
+    "absenceTypes": "Abwesenheitsarten",
+    "onlyApproved": "Nur genehmigte Stunden",
+    "includeRejected": "Abgelehnte Stunden einbeziehen",
+    "includePending": "Ausstehende Abwesenheit einbeziehen",
+    "includeInactive": "Ausgeschiedene einbeziehen",
+    "includeDetails": "Alle Einträge einbeziehen (Details)",
+    "step4": "4. Gruppieren nach",
+    "step4Hint": "(Reihenfolge = Klickreihenfolge)",
+    "step5": "5. Spalten",
+    "run": "Bericht ausführen",
+    "saveAsTemplate": "Als Vorlage speichern",
+    "chooseTemplateFirst": "Speichere oder wähle zuerst eine Vorlage",
+    "scheduleMail": "E-Mail planen",
+    "savedTemplates": "Gespeicherte Vorlagen",
+    "noTemplates": "Noch keine Vorlagen.",
+    "sharedOrg": "In der Organisation geteilt",
+    "onlyMe": "Nur ich",
+    "standard": " · Standard",
+    "deleteTemplate": "Vorlage löschen",
+    "confirmDeleteTemplate": "Die Vorlage „{name}“ löschen?",
+    "footnote": "CSV verwendet Semikolons und das dänische Dezimalkomma. Abgelehnte Stunden sind standardmäßig ausgeschlossen; offene Krankmeldungen zählen bis einschließlich heute. Führungskräfte sehen nur ihre eigenen Abteilungen und Mitarbeitenden.",
+    "cardEmployees": "Mitarbeitende",
+    "noData": "Keine Daten im Zeitraum {from} – {to}",
+    "noDataHint": "Versuche einen größeren Zeitraum, weniger Filter oder andere Spalten.",
+    "allEntries": "Alle Einträge ({count})",
+    "truncated": "Der Zeitraum enthält mehr Einträge, als die Detailliste fassen kann. Die Summen oben sind weiterhin über alle Daten berechnet. Wähle einen kürzeren Zeitraum, um alle Details zu sehen.",
+    "detEmployee": "Mitarbeiter:in",
+    "detDepartment": "Abteilung",
+    "detDate": "Datum",
+    "detHours": "Stunden",
+    "detProject": "Projekt",
+    "detActivity": "Aktivität",
+    "detPayCode": "Lohnart",
+    "detDescription": "Beschreibung",
+    "detSource": "Quelle",
+    "detStatus": "Status",
+    "saveTemplateTitle": "Als Vorlage speichern",
+    "templateSaved": "Vorlage gespeichert",
+    "name": "Name",
+    "description": "Beschreibung",
+    "shareWithOrg": "Mit der gesamten Organisation teilen (alle Führungskräfte und HR sehen sie)",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "scheduleTitle": "E-Mail planen",
+    "scheduled": "Der Bericht wird automatisch gesendet",
+    "frequency": "Häufigkeit",
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich",
+    "weekday": "Wochentag",
+    "dayOfMonth": "Tag im Monat",
+    "dayN": "{day}.",
+    "recipients": "Empfänger (mit Komma trennen)",
+    "recipientsPlaceholder": "lohn@example.de, leitung@example.de",
+    "format": "Format",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "Der Zeitraum in der Vorlage ist rollierend: „Letzter Monat“, am 1. gesendet, ergibt genau die Zahlen des Vormonats.",
+    "schedule": "Planen",
+    "scheduleRemoved": "Geplante E-Mail entfernt",
+    "scheduledMails": "Geplante E-Mails",
+    "freqWeeklyLower": "wöchentlich",
+    "freqMonthlyLower": "monatlich",
+    "scheduleLine": "· {frequency} (Tag {day}) · {format} · {recipients}",
+    "lastSent": " · zuletzt gesendet {date}",
+    "remove": "Entfernen",
+    "yes": "Ja",
+    "no": "Nein",
+    "card": {
+      "employees": "Mitarbeitende"
+    }
+  }
+}

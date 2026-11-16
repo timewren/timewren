@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Faktura (standard)",
+        "subject": "Faktura {number} från {company}",
+        "title": "Faktura {number}",
+        "text": "Hej {client},\n\nHär kommer fakturan för det utförda arbetet.\n\nBelopp: {amount}\nFörfallodatum: {dueDate}",
+        "button": "Visa faktura",
+        "footer": "Med vänliga hälsningar\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Inbjudan till portalen",
+        "subject": "Du har blivit inbjuden till kundportalen hos {company}",
+        "title": "Välkommen till kundportalen",
+        "text": "Hej {client},\n\nDu har blivit inbjuden till din personliga kundportal hos {company}.\n\nI portalen kan du:\n• Se dina fakturor\n• Följa projektens framsteg\n• Se dina tidposter\n• Kontrollera din timbank",
+        "button": "Acceptera inbjudan"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Du får inte längre nyhetsbrev och marknadsföringsmejl från TimeTrack. Viktiga mejl om ditt konto och din säkerhet kommer fortfarande.",
+    "invalidText": "Avanmälan kunde inte bekräftas. Försök igen eller ändra dina inställningar i TimeTrack.",
+    "confirmText": "Vill du avsluta prenumerationen på nyhetsbrev och marknadsföringsmejl från TimeTrack? Viktiga mejl om ditt konto och din säkerhet kommer fortfarande.",
+    "settingsButton": "Ändra e-postinställningar",
+    "confirmButton": "Bekräfta avanmälan",
+    "doneTitle": "Du är avanmäld",
+    "invalidTitle": "Länken är ogiltig",
+    "confirmTitle": "Avanmäl dig från nyhetsbrev"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "periodens slut"
+  }
+}

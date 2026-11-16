@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Pracownik"
+    },
+    "department": {
+      "label": "Dział"
+    },
+    "project": {
+      "label": "Projekt"
+    },
+    "activityType": {
+      "label": "Aktywność"
+    },
+    "absenceType": {
+      "label": "Rodzaj nieobecności"
+    },
+    "day": {
+      "label": "Data"
+    },
+    "week": {
+      "label": "Tydzień"
+    },
+    "month": {
+      "label": "Miesiąc"
+    },
+    "vacationYear": {
+      "label": "Rok urlopowy"
+    },
+    "email": {
+      "label": "E-mail"
+    },
+    "employmentType": {
+      "label": "Rodzaj zatrudnienia"
+    },
+    "weeklyHours": {
+      "label": "Godz./tydzień"
+    },
+    "dailyNorm": {
+      "label": "Norma dzienna"
+    },
+    "employeeNumber": {
+      "label": "Nr pracownika",
+      "help": "Numer pracownika w systemie płacowym (zgodnie z wymiarem pracownika)"
+    },
+    "payrollCode": {
+      "label": "Kod płacowy",
+      "help": "Kod płacowy z rodzaju aktywności (zgodnie z wymiarem aktywności)"
+    },
+    "hours": {
+      "label": "Zarejestrowane godziny"
+    },
+    "normHours": {
+      "label": "Godziny normatywne",
+      "help": "Norma dzienna × dni robocze w okresie (po odliczeniu dni ustawowo wolnych)"
+    },
+    "workDays": {
+      "label": "Dni robocze",
+      "help": "Planowane dni robocze w okresie (bez dni ustawowo wolnych i dni zamknięcia)"
+    },
+    "employeeCount": {
+      "label": "Liczba pracowników"
+    },
+    "flexDelta": {
+      "label": "Elastyczny czas (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Odliczona przerwa",
+      "help": "Tylko dla przerwy niepłatnej (rejestracja wejścia i wyjścia)"
+    },
+    "checkInHours": {
+      "label": "Obecność (rejestracja wejścia)"
+    },
+    "workedDays": {
+      "label": "Dni z wpisami"
+    },
+    "maxDayHours": {
+      "label": "Najdłuższy dzień",
+      "help": "Najwyższa dzienna suma godzin jednego pracownika w grupie"
+    },
+    "longDays": {
+      "label": "Dni powyżej 13 godz.",
+      "help": "Dzienna suma powyżej 13 godz. oznacza mniej niż 11 godz. odpoczynku (reguła 11 godzin)"
+    },
+    "avgWeeklyHours": {
+      "label": "Śr. godz./tydzień",
+      "help": "Zarejestrowane godziny na pracownika w tygodniu z wpisami lub nieobecnością (reguła 48 godzin)"
+    },
+    "weeksOver48h": {
+      "label": "Tygodnie powyżej 48 godz.",
+      "help": "Liczba tygodni pracownika z ponad 48 godz. zarejestrowanymi"
+    },
+    "fullWeeks": {
+      "label": "Tygodnie bez dnia wolnego",
+      "help": "Tygodnie z wpisami we wszystkie 7 dni i bez dnia nieobecności (24 godz. odpoczynku tygodniowego)"
+    },
+    "absenceDays": {
+      "label": "Nieobecność (dni)"
+    },
+    "absenceHours": {
+      "label": "Nieobecność (godziny)"
+    },
+    "absencePeriods": {
+      "label": "Okresy nieobecności"
+    },
+    "sickDays": {
+      "label": "Dni choroby"
+    },
+    "sickHours": {
+      "label": "Godziny choroby"
+    },
+    "sickPeriods": {
+      "label": "Okresy choroby"
+    },
+    "sickPct": {
+      "label": "Absencja chorobowa %",
+      "help": "Dni choroby / dni robocze"
+    },
+    "longTermSick": {
+      "label": "Długotrwała choroba",
+      "help": "Ciągły okres choroby powyżej 30 dni w danym okresie"
+    },
+    "longTermSickCount": {
+      "label": "Długotrwała choroba (liczba)",
+      "help": "Liczba pracowników z okresem choroby powyżej 30 dni"
+    },
+    "overtimeEarned": {
+      "label": "Zebrane nadgodziny"
+    },
+    "overtimeUsed": {
+      "label": "Wykorzystany czas wolny w zamian"
+    },
+    "overtimePaidOut": {
+      "label": "Wypłacone nadgodziny"
+    },
+    "overtimeNet": {
+      "label": "Nadgodziny netto",
+      "help": "Zebrane − odebrane jako czas wolny − wypłacone"
+    },
+    "vacationAllotted": {
+      "label": "Przyznany urlop"
+    },
+    "vacationUsed": {
+      "label": "Wykorzystany urlop"
+    },
+    "vacationRemaining": {
+      "label": "Pozostały urlop"
+    },
+    "extraVacationAllotted": {
+      "label": "Przyznane dodatkowe dni urlopu"
+    },
+    "extraVacationUsed": {
+      "label": "Wykorzystane dodatkowe dni urlopu"
+    },
+    "extraVacationRemaining": {
+      "label": "Pozostałe dodatkowe dni urlopu"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Urlop wykorzystany w okresie",
+      "help": "Dni urlopu (rodzaje pomniejszające saldo urlopu) w okresie raportu"
+    },
+    "hoursByActivity": {
+      "label": "Godziny według aktywności",
+      "pivot": "{name} (godziny)"
+    },
+    "absenceDaysByType": {
+      "label": "Nieobecność według rodzaju (dni)",
+      "pivot": "{name} (dni)"
+    },
+    "absenceHoursByType": {
+      "label": "Nieobecność według rodzaju (godziny)",
+      "pivot": "{name} (godziny)"
+    },
+    "quantityByWageType": {
+      "label": "Ilość według kodu płacowego",
+      "help": "Godziny/dni według kodu płacowego na podstawie mapowania płacowego (Ustawienia → Płace)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Pracownik",
+    "department": "Dział",
+    "project": "Projekt",
+    "activityType": "Aktywność",
+    "absenceType": "Rodzaj nieobecności",
+    "day": "Dzień",
+    "week": "Tydzień",
+    "month": "Miesiąc",
+    "vacationYear": "Rok urlopowy"
+  },
+  "groups": {
+    "dimensions": "Wymiary",
+    "employee": "Pracownik",
+    "time": "Czas",
+    "compliance": "Zgodność",
+    "absence": "Nieobecność",
+    "overtime": "Nadgodziny",
+    "payroll": "Płace",
+    "vacation": "Konta urlopowe"
+  },
+  "presets": {
+    "this_month": "Ten miesiąc",
+    "last_month": "Poprzedni miesiąc",
+    "this_quarter": "Ten kwartał",
+    "this_year": "Ten rok",
+    "last_year": "Poprzedni rok"
+  },
+  "types": {
+    "payroll": {
+      "label": "Raport płacowy",
+      "description": "Na pracownika za okres płacowy: godziny, nieobecności w dniach i godzinach według rodzaju, elastyczny czas, nadgodziny i odliczenia przerw. Dla działu płac."
+    },
+    "sickness": {
+      "label": "Absencja chorobowa",
+      "description": "Statystyki absencji chorobowej według działu i miesiąca: dni choroby, okresy, odsetek absencji i choroby długotrwałe (powyżej 30 dni)."
+    },
+    "absence": {
+      "label": "Nieobecności",
+      "description": "Wszystkie rodzaje nieobecności (urlop, choroba, zwolnienie, opieka…) na pracownika lub dział: dni i godziny."
+    },
+    "flex_overtime": {
+      "label": "Elastyczny czas i nadgodziny",
+      "description": "Zmiany salda w okresach: godziny normatywne, zarejestrowane godziny, różnica elastycznego czasu oraz nadgodziny zebrane, odebrane i wypłacone."
+    },
+    "project_activity": {
+      "label": "Projekt i aktywność",
+      "description": "Godziny według projektu, rodzaju aktywności i działu, do kontroli nauczania, przygotowań, spotkań i tym podobnych."
+    },
+    "vacation_account": {
+      "label": "Konta urlopowe",
+      "description": "Konta urlopowe według roku urlopowego: przyznane, wykorzystane i pozostałe dni urlopu oraz dodatkowego urlopu, na pracownika."
+    },
+    "compliance": {
+      "label": "Zgodność (ustawa o czasie pracy)",
+      "description": "Naruszenia i ostrzeżenia na pracownika i tydzień: dni powyżej 13 godz. (11 godz. odpoczynku), tygodnie powyżej 48 godz., tygodnie bez dnia wolnego (24 godz. odpoczynku tygodniowego) i średni tygodniowy czas pracy."
+    },
+    "custom": {
+      "label": "Własny",
+      "description": "Dowolny wybór wymiarów i kolumn z całego katalogu: zbuduj dokładnie ten raport, którego brakuje."
+    }
+  },
+  "weekdays": {
+    "1": "Poniedziałek",
+    "2": "Wtorek",
+    "3": "Środa",
+    "4": "Czwartek",
+    "5": "Piątek",
+    "6": "Sobota",
+    "7": "Niedziela"
+  },
+  "page": {
+    "all": "(wszystkie)",
+    "selected": "(wybrano: {count})",
+    "clear": "Wyczyść wybór",
+    "downloaded": "Raport pobrany",
+    "templateDeleted": "Szablon usunięty",
+    "maxDimensions": "Maksymalnie 4 wymiary",
+    "templateUnreadable": "Nie można odczytać szablonu",
+    "needColumn": "Wybierz co najmniej jedną kolumnę",
+    "inactive": "(nieaktywny)",
+    "title": "Raporty",
+    "step1": "1. Wybierz rodzaj raportu",
+    "step2": "2. Okres",
+    "holidayYearPlaceholder": "Rok urlopowy…",
+    "holidayYear": "Rok urlopowy {year}",
+    "from": "Od",
+    "to": "Do",
+    "step3": "3. Filtry",
+    "departments": "Działy",
+    "employees": "Pracownicy",
+    "projects": "Projekty",
+    "activities": "Aktywności",
+    "absenceTypes": "Rodzaje nieobecności",
+    "onlyApproved": "Tylko zatwierdzone godziny",
+    "includeRejected": "Uwzględnij odrzucone godziny",
+    "includePending": "Uwzględnij oczekujące nieobecności",
+    "includeInactive": "Uwzględnij byłych pracowników",
+    "includeDetails": "Uwzględnij wszystkie wpisy (szczegóły)",
+    "step4": "4. Grupuj według",
+    "step4Hint": "(kolejność = kolejność kliknięć)",
+    "step5": "5. Kolumny",
+    "run": "Uruchom raport",
+    "saveAsTemplate": "Zapisz jako szablon",
+    "chooseTemplateFirst": "Najpierw zapisz lub wybierz szablon",
+    "scheduleMail": "Zaplanuj e-mail",
+    "savedTemplates": "Zapisane szablony",
+    "noTemplates": "Brak szablonów.",
+    "sharedOrg": "Udostępniony w organizacji",
+    "onlyMe": "Tylko ja",
+    "standard": " · Domyślny",
+    "deleteTemplate": "Usuń szablon",
+    "confirmDeleteTemplate": "Usunąć szablon „{name}”?",
+    "footnote": "CSV używa średników i duńskiego przecinka dziesiętnego. Odrzucone godziny są domyślnie wykluczone, a otwarte zwolnienia chorobowe liczone są do dziś włącznie. Kierownicy widzą tylko własne działy i pracowników.",
+    "cardEmployees": "Pracownicy",
+    "noData": "Brak danych w okresie {from} - {to}",
+    "noDataHint": "Spróbuj dłuższego okresu, mniejszej liczby filtrów lub innych kolumn.",
+    "allEntries": "Wszystkie wpisy ({count})",
+    "truncated": "Okres zawiera więcej wpisów, niż mieści lista szczegółów. Sumy powyżej są nadal liczone ze wszystkich danych. Wybierz krótszy okres, aby zobaczyć wszystkie szczegóły.",
+    "detEmployee": "Pracownik",
+    "detDepartment": "Dział",
+    "detDate": "Data",
+    "detHours": "Godziny",
+    "detProject": "Projekt",
+    "detActivity": "Aktywność",
+    "detPayCode": "Kod płacowy",
+    "detDescription": "Opis",
+    "detSource": "Źródło",
+    "detStatus": "Status",
+    "saveTemplateTitle": "Zapisz jako szablon",
+    "templateSaved": "Szablon zapisany",
+    "name": "Nazwa",
+    "description": "Opis",
+    "shareWithOrg": "Udostępnij całej organizacji (widzą go wszyscy kierownicy i HR)",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "scheduleTitle": "Zaplanuj e-mail",
+    "scheduled": "Raport będzie wysyłany automatycznie",
+    "frequency": "Częstotliwość",
+    "weekly": "Co tydzień",
+    "monthly": "Co miesiąc",
+    "weekday": "Dzień tygodnia",
+    "dayOfMonth": "Dzień miesiąca",
+    "dayN": "{day}.",
+    "recipients": "Odbiorcy (oddziel przecinkami)",
+    "recipientsPlaceholder": "place@example.com, kierownik@example.com",
+    "format": "Format",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "Okres w szablonie jest kroczący: „Poprzedni miesiąc” wysłany pierwszego dnia miesiąca daje dokładnie dane z poprzedniego miesiąca.",
+    "schedule": "Zaplanuj",
+    "scheduleRemoved": "Zaplanowany e-mail usunięty",
+    "scheduledMails": "Zaplanowane e-maile",
+    "freqWeeklyLower": "co tydzień",
+    "freqMonthlyLower": "co miesiąc",
+    "scheduleLine": "· {frequency} (dzień {day}) · {format} · {recipients}",
+    "lastSent": " · ostatnio wysłano {date}",
+    "remove": "Usuń",
+    "yes": "Tak",
+    "no": "Nie",
+    "card": {
+      "employees": "Pracownicy"
+    }
+  }
+}

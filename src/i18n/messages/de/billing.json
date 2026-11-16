@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Der Gratis-Tarif bietet Platz für 3 aktive Kunden. Archiviere einen Kunden oder sieh dir die Tarife an.",
+    "seePlans": "Tarife ansehen"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Alles nicht Abgerechnete",
+      "periodThisMonth": "Dieser Monat",
+      "periodLastMonth": "Letzter Monat",
+      "draftCreated": "Rechnungsentwurf über {amount} erstellt",
+      "createFailed": "Der Rechnungsentwurf konnte nicht erstellt werden",
+      "clientFallback": "dem Kunden",
+      "title": "{name} abrechnen",
+      "description": "Erstellt einen Entwurf, den du prüfen kannst. Es wird nichts an den Kunden gesendet.",
+      "period": "Zeitraum",
+      "loadError": "Die nicht abgerechnete Zeit konnte nicht geladen werden. Versuche es gleich noch einmal.",
+      "noUnbilled": "Keine nicht abgerechnete Zeit bei {name} im Zeitraum.",
+      "entries": "Einträge",
+      "time": "Zeit",
+      "amountExVat": "Betrag zzgl. MwSt.",
+      "timePerProject": "Zeit pro Projekt",
+      "project": "Projekt",
+      "amount": "Betrag",
+      "entryCount": "{count, plural, one {# Eintrag} other {# Einträge}}",
+      "noRate": "Für {time} gibt es keinen Stundensatz; sie werden mit 0 kr übernommen. Du kannst den Betrag im Entwurf korrigieren.",
+      "footnote": "Die Einträge werden als abgerechnet markiert und im Entwurf aufgeschlüsselt. Du kannst den Entwurf wieder löschen, dann ist die Zeit wieder nicht abgerechnet.",
+      "pickEntries": "Einträge selbst auswählen",
+      "cancel": "Abbrechen",
+      "createDraft": "Rechnungsentwurf erstellen",
+      "createDraftAmount": "Rechnungsentwurf erstellen ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# Tag seit der letzten Rechnung} other {# Tage seit der letzten Rechnung}}",
+      "oldestEntry": "{count, plural, one {ältester Eintrag ist # Tag alt} other {ältester Eintrag ist # Tage alt}}",
+      "ready": "Bereit zur Abrechnung",
+      "notInvoiced": "wurde nicht abgerechnet",
+      "notInvoicedClient": "bei {client} wurde nicht abgerechnet",
+      "invoiceNow": "Jetzt abrechnen",
+      "hide": "30 Tage ausblenden"
+    },
+    "explainer": {
+      "point1": "Der Kunde zahlt die Stunden im Voraus, sodass du hinterher keine Rechnungen und Mahnungen schicken musst.",
+      "point2": "Wenn du Zeit für den Kunden erfasst, wird sie automatisch vom Paket abgezogen.",
+      "point3": "Der Kunde kann das Restguthaben selbst im Kundenportal verfolgen, und du wirst benachrichtigt, wenn das Paket zur Neige geht.",
+      "title": "Verkaufe Stunden im Voraus mit Stundenpaketen",
+      "intro": "Ein Stundenpaket ist ein Block Stunden, den der Kunde im Voraus kauft, z. B. 10 Stunden für feste Aufgaben und Support.",
+      "create": "Stundenpaket erstellen",
+      "calculator": "Preis mit dem Preisrechner berechnen"
+    },
+    "prepaid": {
+      "offer": "Verkaufe ein Stundenpaket mit {hours} Stunden. Es reicht für ca. {months} Monate, und der Kunde zahlt im Voraus.",
+      "offerPrice": "Verkaufe ein Stundenpaket mit {hours} Stunden ({price}). Es reicht für ca. {months} Monate, und der Kunde zahlt im Voraus.",
+      "sell": "Stundenpaket verkaufen",
+      "dismissLabel": "Für {client} nicht relevant. Nicht mehr anzeigen",
+      "dismissTitle": "Nicht relevant. Für diesen Kunden nicht mehr anzeigen",
+      "suggestionLabel": "Vorschläge für Stundenpakete",
+      "defaultName": "Stundenpaket {hours} Stunden",
+      "usageClient": "<name>{client}</name> hatte in den letzten 3 Monaten ca. <num>{time}</num> pro Monat.",
+      "usageGeneric": "Der Kunde hatte in den letzten 3 Monaten ca. <num>{time}</num> pro Monat."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "Pausiert",
+      "paymentMissing": "Zahlung fehlt",
+      "active": "Aktiv",
+      "paymentFailedRetry": "{store} konnte die Zahlung nicht einziehen. Aktualisiere die Zahlungsmethode in {store}. Bis die Zahlung durchgeht, hast du Zugriff wie im Gratis-Tarif.",
+      "paymentFailedGrace": "{store} konnte die Zahlung nicht einziehen. Aktualisiere die Zahlungsmethode in {store}, damit du den Zugriff behältst.",
+      "currentPlan": "Aktueller Tarif",
+      "yearly": "Jährlich",
+      "monthly": "Monatlich",
+      "boughtVia": "Gekauft über {store}",
+      "expires": "Läuft ab am {date}",
+      "renews": "Verlängert sich am {date}",
+      "paymentTitle": "Zahlung",
+      "paymentInfo": "Du hast das Abonnement in der {brand}-App gekauft, daher übernimmt {store} Zahlung und Belege. Tarif, Zahlungsmethode oder Kündigung findest du in {store}.",
+      "manage": "In {store} verwalten"
+    },
+    "wall": {
+      "checkoutFailed": "Die Zahlungssitzung konnte nicht erstellt werden. Versuche es erneut.",
+      "portalFailed": "Das Zahlungsportal konnte nicht geöffnet werden. Versuche es erneut.",
+      "headingNone": "Du hast kein aktives Abonnement",
+      "headingLocked": "Dein Zugriff ist pausiert",
+      "headingPastDue": "Deine Zahlung fehlt",
+      "headingCanceled": "Dein Abonnement ist beendet",
+      "headingTrial": "Deine Testphase ist abgelaufen",
+      "subNone": "Schließe ein Abonnement ab, um {brand} zu nutzen",
+      "subPastDue": "Aktualisiere deine Zahlungsmethode, um wieder Zugriff zu erhalten",
+      "subUpgrade": "Wechsle zu {plan}, um fortzufahren",
+      "pastDueBody": "Wir konnten deine letzte Zahlung nicht einziehen. Aktualisiere deine Zahlungsmethode, um {brand} weiter zu nutzen.",
+      "updatePayment": "Zahlungsmethode aktualisieren",
+      "monthly": "Monatlich",
+      "yearly": "Jährlich",
+      "save17": "17 % sparen",
+      "perYearExVat": "/Jahr zzgl. MwSt.",
+      "perMonthExVat": "/Monat zzgl. MwSt.",
+      "equivalent": "Entspricht {price}/Monat, du sparst also 2 Monate",
+      "featureWorkspace": "Gemeinsamer Team-Arbeitsbereich mit mehreren Nutzern",
+      "featureTeamReports": "Teamberichte",
+      "featureUnlimited": "Unbegrenzte Zeiterfassung",
+      "featureInvoicing": "Stundenpakete & Rechnungen",
+      "featureManagement": "Kunden- & Projektverwaltung",
+      "featureReports": "Berichte & Export",
+      "featureIntegrations": "Dänische Integrationen (CVR, Billy u. a.)",
+      "upgradeNow": "Jetzt upgraden",
+      "discountNote": "Im Checkout wird der Standardpreis angezeigt. Dein Rabatt von {percent} % wird automatisch angewendet.",
+      "manageAccount": "Konto verwalten",
+      "exportData": "Daten exportieren",
+      "signOut": "Abmelden"
+    }
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "welcome": {
+    "preview": "Welkom bij TimeTrack, {name}. In drie stappen ben je aan de slag.",
+    "subject": "Welkom bij TimeTrack, {name}",
+    "intro": "Ik ben Mads en ik bouw en beheer TimeTrack. Ik heb het gemaakt zodat freelancers uren, urenpakketten en facturen kunnen bijhouden zonder spreadsheet ernaast.",
+    "threeSteps": "In drie stappen ben je aan de slag:",
+    "step1": "1. Maak je eerste klant aan",
+    "step2": "2. Stel je uurtarief in en maak een project aan",
+    "step3": "3. Start de timer als je aan de taak begint",
+    "why": "Waarom wilde je TimeTrack proberen? Reageer gerust op deze e-mail. Ik lees elke reactie zelf, en het helpt me het juiste te bouwen.",
+    "questions": "Heb je vragen, dan kun je me altijd rechtstreeks mailen via [mail]{email}[/mail]."
+  },
+  "greeting": "Hoi {name},",
+  "openApp": "TimeTrack openen",
+  "gettingStarted": {
+    "preview": "Drie stappen naar je eerste tijdboeking",
+    "subject": "Drie stappen naar je eerste tijdboeking",
+    "hasClientIntro": "Je hebt al je eerste klant aangemaakt. Dit raad ik aan als volgende stap:",
+    "hasClient1": "**Stel je uurtarief in:** Ga naar Instellingen en vul je standaarduurtarief in. Per klant of project kun je een ander tarief instellen.",
+    "hasClient2": "**Maak een project aan:** Een project groepeert de uren per opdracht, zodat je ze correct kunt factureren.",
+    "hasClient3": "**Probeer de timer:** Druk op Start in de timerbalk bovenaan TimeTrack.",
+    "noClientIntro": "Je hebt een paar dagen geleden je account aangemaakt. Hier zijn drie stappen naar je eerste tijdboeking:",
+    "noClient1": "**Maak je eerste klant aan:** Dan kun je tijd op de klant registreren en er facturen van maken.",
+    "noClient2": "**Stel je uurtarief in:** Vul je standaarduurtarief in en TimeTrack berekent de waarde van je tijd.",
+    "noClient3": "**Start een timer:** Druk op Start in de timerbalk bovenaan TimeTrack.",
+    "buttonProject": "Maak je eerste project aan",
+    "buttonClient": "Maak je eerste klant aan",
+    "stuck": "Kom je er niet uit, reageer dan op deze e-mail, dan help ik je persoonlijk."
+  },
+  "noTimeEntry": {
+    "preview": "Schrijf wat je hebt gedaan en TimeTrack vult de rest in",
+    "subject": "Registreer je eerste tijd",
+    "intro": "Je hebt een paar dagen geleden een TimeTrack-account aangemaakt, maar je hebt nog geen tijd geregistreerd.",
+    "how": "Schrijf wat je hebt gedaan in het veld bovenaan de startpagina, bijv. “gisteren 2 uur aan website”. Of druk op Timer starten en stop hem als je klaar bent.",
+    "button": "Registreer je eerste tijd",
+    "help": "Als iets je problemen geeft, reageer dan gewoon op deze e-mail. Ik lees de reacties zelf."
+  },
+  "timeNoInvoice": {
+    "preview": "{hours} uur klaar om te factureren",
+    "subject": "Je tijd is klaar om te factureren",
+    "body": "Je hebt {hours} uur in TimeTrack die nog niet zijn gefactureerd. Wil je factureren, dan kun je de factuur rechtstreeks uit je tijdboekingen maken, zodat uren en bedragen automatisch worden overgenomen.",
+    "button": "Factuur maken van je tijd",
+    "elsewhere": "Als je elders factureert, kun je deze e-mail gewoon negeren."
+  },
+  "clientNoKlippekort": {
+    "preview": "Urenpakketten: de uren worden automatisch afgeboekt",
+    "subject": "Urenpakketten voor je klanten",
+    "body": "Je hebt klanten aangemaakt in TimeTrack. Kopen sommigen van hen uren vooraf, dan kun je ze een urenpakket geven. De tijd wordt afgeboekt terwijl je registreert, en jullie kunnen allebei zien hoeveel uren er over zijn.",
+    "button": "Urenpakket maken",
+    "usage": "Als je alleen op basis van verbruik factureert, hoef je niets te doen."
+  },
+  "klippekortTips": {
+    "preview": "Hoe een urenpakket werkt in TimeTrack",
+    "subject": "Hoe een urenpakket werkt in TimeTrack",
+    "intro": "Een urenpakket is een blok vooruitbetaalde uren. Je klant koopt bijvoorbeeld 20 uur, en TimeTrack boekt uren af telkens wanneer je tijd voor de klant registreert.",
+    "exampleName": "Voorbeeld: De bakker op de hoek",
+    "how": "De klant betaalt voordat je begint. TimeTrack houdt het saldo bij, zodat jij het niet hoeft uit te rekenen, en de klant ziet het in het klantenportaal.",
+    "button": "Urenpakket maken",
+    "sell": "Wil je weten hoe je urenpakketten aan je klanten verkoopt? Reageer op deze e-mail, dan deel ik graag mijn ervaring."
+  },
+  "extensionTips": {
+    "preview": "Met de browserextensie start en stop je de timer vanaf elke pagina",
+    "subject": "Start en stop de timer zonder van tabblad te wisselen",
+    "intro": "TimeTrack heeft een browserextensie, zodat je de timer kunt starten en stoppen zonder van tabblad te wisselen.",
+    "tip1": "Start en stop de timer in de popup en kies daar de klant en het project. Met de sneltoets Alt+Shift+S start en stop je de timer via het toetsenbord.",
+    "tip2": "Het pictogram in de werkbalk toont de lopende timer, of de tijd van vandaag als er geen timer loopt.",
+    "button": "Downloaden in de Chrome Web Store"
+  },
+  "aiFeatures": {
+    "preview": "Schrijf één zin en TimeTrack vult de tijdboeking in",
+    "subject": "Registreer tijd door een zin te schrijven",
+    "intro": "Je hoeft geen formulier in te vullen om tijd te registreren. Op Home staat een veld “Schrijf wat je hebt gedaan”. Schrijf een zin en druk op Enter:",
+    "example": "gisteren 2 uur aan website voor Jansen",
+    "suggest": "TimeTrack stelt klant, project, datum en tijd voor. Er wordt niets opgeslagen voordat je de suggestie hebt gezien en bevestigd. Op Home spring je met / naar het veld, en als je browser het ondersteunt, kun je de zin met de microfoon dicteren.",
+    "parser": "De zin wordt gelezen door een gewone tekstparser, niet door AI. Voeg je onder Instellingen je eigen AI-sleutel toe, dan kan een AI-provider invullen wat de parser niet zelf vond. Dit is optioneel.",
+    "button": "Home openen",
+    "feedback": "Als het veld een zin die je schrijft niet begrijpt, stuur hem dan naar mij, dan kan ik de parser verbeteren."
+  },
+  "firstWeek": {
+    "preview": "Je eerste weken met TimeTrack",
+    "subject": "Je eerste weken met TimeTrack",
+    "minimal1": "Je hebt een paar weken geleden je account aangemaakt en het lijkt erop dat je nog aan het beginnen bent. Dat is helemaal prima.",
+    "minimal2": "Als je het druk hebt, vergeet je makkelijk tijd te registreren. Maar tijd die je niet registreert, kun je niet factureren.",
+    "tip": "**Een tip:** Probeer deze week één dag te registreren. Start de timer als je aan een taak begint, of schrijf achteraf wat je hebt gedaan in het veld op Home.",
+    "active": "Je gebruikt TimeTrack nu een paar weken. Dit heb je tot nu toe geregistreerd:",
+    "trackedTime": "Geregistreerde tijd",
+    "hoursUnit": "{hours} u",
+    "clients": "Klanten",
+    "projects": "Projecten",
+    "closing": "Als je onderweg tijd registreert, is de factuurgrondslag klaar zodra het tijd is om te factureren.",
+    "feedback": "Hoe bevalt het tot nu toe? Vertel me wat werkt en wat niet."
+  },
+  "upgrade": {
+    "whenNow": "binnen een dag",
+    "whenDays": "over {days, plural, one {# dag} other {# dagen}}",
+    "preview": "Je proefperiode eindigt {when}",
+    "subject": "Je proefperiode loopt bijna af",
+    "body": "Je proefperiode van TimeTrack eindigt {when}. Kies je geen abonnement, dan gaat je account verder op Gratis en blijft alles wat je hebt aangemaakt bewaard.",
+    "free": "Gratis biedt ruimte voor {clients} actieve klanten en {seats} gebruikers.",
+    "button": "Abonnementen bekijken",
+    "questions": "Heb je vragen over de abonnementen of prijzen, reageer dan op deze e-mail. Ik help graag."
+  },
+  "needHelp": {
+    "preview": "Heb je hulp nodig, {name}?",
+    "subject": "Heb je hulp nodig, {name}?",
+    "introTracking": "Je hebt een paar dagen geleden je TimeTrack-account aangemaakt. Je registreert al tijd.",
+    "introNoTracking": "Je hebt een paar dagen geleden je TimeTrack-account aangemaakt. Ik wilde even checken of alles loopt zoals het hoort.",
+    "placesTracking": "Hier zijn drie plekken om heen te gaan als je de volgende stap wilt zetten:",
+    "placesNoTracking": "Beginnen met een nieuw systeem kan lastig zijn. Hier zijn drie plekken om te starten:",
+    "helpCentre": "Helpcentrum",
+    "helpCentreNote": ": antwoorden op veelgestelde vragen",
+    "createClient": "Klant aanmaken",
+    "createClientNote": ": als je er nog geen hebt aangemaakt",
+    "writeMe": "Schrijf mij",
+    "writeMeNote": ": ik antwoord zelf",
+    "missing": "Mis je iets in TimeTrack? Schrijf me en vertel wat. Het helpt me het beter te maken."
+  },
+  "winBack30": {
+    "preview": "Het is al even geleden, {name}",
+    "subject": "Het is al even geleden, {name}",
+    "intro": "Het is al even geleden dat je TimeTrack hebt bezocht. Ik hoop dat het goed met je gaat.",
+    "stillThere": "Dit staat nog in je account:",
+    "hoursOnly": "**{hours} u** zijn nog niet gefactureerd.",
+    "hoursValue": "**{hours} u** zijn nog niet gefactureerd, ter waarde van **{value}**",
+    "tasks": "**{count, plural, one {# open taak} other {# open taken}}** wachten op je.",
+    "how": "Als je weer begint, is de snelste manier om in het veld op Home te schrijven wat je hebt gedaan. TimeTrack stelt klant, project en tijd voor, en jij bevestigt voordat er iets wordt opgeslagen.",
+    "why": "Waarom ben je gestopt? Reageer op deze e-mail, dan lees ik het zelf. Het helpt me TimeTrack beter te maken."
+  },
+  "winBack60": {
+    "preview": "Je klanten, projecten, uren en facturen staan nog veilig",
+    "subject": "Je gegevens staan nog in TimeTrack",
+    "intro": "Het is meer dan 60 dagen geleden dat je TimeTrack voor het laatst hebt gebruikt. Ik wil je alleen laten weten dat je klanten, projecten, uren en facturen nog bewaard zijn, zodat je kunt verdergaan waar je was gebleven.",
+    "button": "Inloggen bij TimeTrack",
+    "export": "Als je voor een ander hulpmiddel hebt gekozen, begrijp ik dat. Wil je je gegevens meenemen, dan kun je ze [export]exporteren als CSV of JSON[/export].",
+    "feedback": "Als ik iets beter had kunnen doen, hoor ik dat graag van je. Reageer op deze e-mail, dan lees ik het zelf."
+  },
+  "firstClient": {
+    "preview": "Je eerste klant is aangemaakt: {client}",
+    "subject": "Je eerste klant is aangemaakt",
+    "intro": "Je hebt je eerste klant aangemaakt, **{client}**. Dit raad ik aan als volgende stap:",
+    "step1": "1. Maak een project aan voor {client}",
+    "step2": "2. Start de timer op het project",
+    "step3": "3. Maak een factuur van de tijd als het werk klaar is",
+    "button": "Project aanmaken",
+    "help": "Heb je hulp nodig bij het instellen, reageer dan op deze e-mail. Ik help graag."
+  },
+  "firstProject": {
+    "preview": "Je eerste project is klaar: {project}",
+    "subject": "Je eerste project is aangemaakt",
+    "intro": "Je eerste project, **{project}** voor **{client}**, is klaar. Nu kun je de timer starten.",
+    "tip1": "Druk op T om de timer te starten. Druk nogmaals op T om hem te pauzeren.",
+    "tip2": "Schrijf bij elke boeking een beschrijving, zodat je achteraf kunt zien waaraan de tijd is besteed.",
+    "tip3": "{brand} berekent de waarde op basis van je uurtarief.",
+    "button": "Tijd registreren",
+    "closing": "Als je onderweg tijd registreert, is de factuurgrondslag klaar zodra het tijd is om te factureren."
+  },
+  "firstTimeEntry": {
+    "preview": "Je eerste tijdboeking is vastgelegd",
+    "subject": "Je eerste tijdboeking is vastgelegd",
+    "body": "Je hebt je eerste tijd geregistreerd: **{hours} u**.",
+    "bodyProject": "Je hebt je eerste tijd geregistreerd: **{hours} u** op **{project}**.",
+    "invoice": "Als het tijd is om te factureren, kun je de factuur rechtstreeks uit je tijdboekingen maken.",
+    "button": "Je tijdboekingen bekijken"
+  },
+  "firstInvoice": {
+    "preview": "Factuur #{number} voor {client} is aangemaakt",
+    "subject": "Gefeliciteerd met je eerste factuur",
+    "congrats": "Gefeliciteerd met je eerste factuur.",
+    "number": "Factuurnummer",
+    "client": "Klant",
+    "amount": "Bedrag",
+    "send": "Stuur de factuur naar {client} en houd de betaling in de gaten in {brand}. Automatische herinneringen voor achterstallige facturen schakel je per klant in.",
+    "button": "Je facturen bekijken",
+    "accounting": "Je kunt de facturen ook doorsturen naar Billy, Dinero of e-conomic, zodat ze in je boekhouding terechtkomen. Koppel je boekhoudsoftware onder Integraties."
+  },
+  "inactivity": {
+    "preview": "Het is {days} dagen geleden sinds je laatste bezoek",
+    "subject": "Het is {days} dagen geleden sinds je laatste bezoek aan TimeTrack",
+    "kicker": "Herinnering",
+    "heading": "Er wacht iets op je",
+    "footerNote": "De herinnering wordt na 14 dagen inactiviteit verstuurd.",
+    "withStats": "Het is {days} dagen geleden dat je voor het laatst bent ingelogd, en er wacht iets op je:",
+    "noStats": "Het is {days} dagen geleden dat je voor het laatst bent ingelogd. Registreer je tijd zolang het nog vers in je geheugen zit.",
+    "unbilled": "Niet gefactureerd",
+    "hoursUnit": "{hours} u",
+    "readyToInvoice": "Klaar om te factureren",
+    "readyToInvoiceSub": "aan geregistreerde tijd",
+    "openTasks": "Open taken",
+    "openTasksSub": "wachten op je",
+    "button": "Tijd registreren",
+    "muted": "Je kunt herinneringen bij inactiviteit uitschakelen onder de e-mailinstellingen."
+  },
+  "toolGuide": {
+    "preview": "Je gids voor {tool}",
+    "subject": "{tool}: je gids van TimeTrack",
+    "kicker": "Gids",
+    "heading": "Bedankt voor het gebruik van {tool}",
+    "footerNote": "Je ontvangt deze e-mail omdat je de gids hebt aangevraagd op timetrack.dk. Er volgen geen e-mails meer, tenzij je erom vraagt.",
+    "intro": "Hier is de gids die je hebt aangevraagd, en een link terug naar het hulpmiddel als je verder wilt rekenen.",
+    "openTool": "Het hulpmiddel opnieuw openen",
+    "pitch": "TimeTrack houdt uren per klant bij, boekt ze af van het urenpakket van de klant en stuurt de factuurgrondslag naar Billy, Dinero of e-conomic. [trial]Probeer het 30 dagen gratis[/trial]."
+  },
+  "beta": {
+    "preview": "Je plek in de TimeTrack-bèta is klaar. Maak je account aan wanneer het jou uitkomt.",
+    "subject": "Je plek in de TimeTrack-bèta is klaar",
+    "subjectNamed": "{name}, je plek in de TimeTrack-bèta is klaar",
+    "greetingNamed": "Hoi {name},",
+    "greeting": "Hoi,",
+    "thanks": "Bedankt voor je aanmelding op de wachtlijst van TimeTrack. Je plek in de bèta is nu klaar.",
+    "about": "TimeTrack is gemaakt voor freelancers in Denemarken. Je registreert je uren en maakt er facturen van. Koopt een klant uren vooraf, dan worden ze afgeboekt van een urenpakket.",
+    "discountLabel": "Je kortingscode",
+    "discountNote": "Gebruik de code bij het aanmaken van je account voor korting op het abonnement.",
+    "button": "Account aanmaken",
+    "feedback": "Heb je vragen of feedback, reageer dan op deze e-mail. Ik lees elke reactie zelf.",
+    "writeMe": "Je kunt me ook mailen via [mail]{email}[/mail]."
+  },
+  "desktopLaunch": {
+    "footerNote": "Je ontvangt deze e-mail omdat je je hebt aangemeld voor de wachtlijst van TimeTrack Desktop.",
+    "button": "TimeTrack Desktop downloaden",
+    "defaultSubject": "TimeTrack Desktop is klaar",
+    "defaultMessage": "Bedankt voor je aanmelding op de wachtlijst. TimeTrack Desktop kan nu worden gedownload."
+  },
+  "desktopLicense": {
+    "preview": "Je licentiesleutel voor TimeTrack Desktop ({tier})",
+    "subject": "Je licentiesleutel voor TimeTrack Desktop ({tier})",
+    "kicker": "Desktop",
+    "heading": "Je licentie voor TimeTrack Desktop",
+    "footerNote": "Je ontvangt deze e-mail omdat je je TimeTrack Desktop-licentie hebt gekocht of aangevraagd.",
+    "introNamed": "Hoi {name}, hier is je licentiesleutel voor TimeTrack Desktop ({tier}).",
+    "intro": "Hoi, hier is je licentiesleutel voor TimeTrack Desktop ({tier}).",
+    "howTo": "Zo activeer je hem",
+    "step1": "1. Downloaden",
+    "step2": "2. Installeren",
+    "step2Value": "Open de app",
+    "step3": "3. Activeren",
+    "step3Value": "Voer de licentiesleutel in",
+    "keep": "Bewaar deze e-mail: je hebt de sleutel nodig als je opnieuw installeert. De licentie geldt voor maximaal {max, plural, one {# apparaat} other {# apparaten}}.",
+    "refund": "De factuur komt apart van Stripe. Bedenk je je, dan kun je binnen 30 dagen een volledige terugbetaling krijgen via [refund]{link}[/refund]."
+  }
+}

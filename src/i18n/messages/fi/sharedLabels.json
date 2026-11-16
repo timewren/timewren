@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Et ole minkään organisaation jäsen. Pyydä uusi kutsu tai ota yhteyttä tukeen.",
+  "freeMemberLocked": "Organisaatio on Free-paketissa, jossa on tilaa {seats} käyttäjälle. Tietosi on tallennettu. Pyydä omistajaa päivittämään paketti, niin pääset taas sisään.",
+  "report": {
+    "hoursSuffix": " h",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "Gratis-paketissa on tilaa {clients} aktiiviselle asiakkaalle. Arkistoi asiakas tai päivitä paketti.",
+  "freeSeatLimit": "Gratis-paketissa on tilaa {seats} käyttäjälle, odottavat kutsut mukaan lukien. Päivitä paketti kohdassa Asetukset → Tilaus, niin voit kutsua lisää.",
+  "ownerMustTransfer": "Omistat tiimin, jossa on muita jäseniä. Siirrä omistajuus toiselle jäsenelle kohdassa Organisaatio ennen tilisi poistamista.",
+  "holidays": {
+    "newYearsDay": "Uudenvuodenpäivä",
+    "maundyThursday": "Kiirastorstai",
+    "goodFriday": "Pitkäperjantai",
+    "easterSunday": "Pääsiäispäivä",
+    "easterMonday": "Toinen pääsiäispäivä",
+    "ascensionDay": "Helatorstai",
+    "whitSunday": "Helluntaipäivä",
+    "whitMonday": "Toinen helluntaipäivä",
+    "christmasDay": "Joulupäivä",
+    "boxingDay": "Tapaninpäivä",
+    "greatPrayerDay": "Suuri rukouspäivä",
+    "may1": "1. toukokuuta",
+    "constitutionDay": "Perustuslain päivä",
+    "dayAfterAscension": "Perjantai helatorstain jälkeen",
+    "christmasEve": "Jouluaatto",
+    "newYearsEve": "Uudenvuodenaatto",
+    "dayOff": "Vapaapäivä"
+  },
+  "speech": {
+    "language": "suomi",
+    "micBlocked": "Mikrofoni on estetty. Anna selaimelle lupa käyttää mikrofonia ja yritä uudelleen.",
+    "noMic": "Mikrofonia ei löytynyt.",
+    "langUnsupported": "Puheentunnistus ({language}) ei ole käytettävissä paikallisesti tässä selaimessa.",
+    "stopped": "Puheentunnistus pysähtyi odottamatta. Yritä uudelleen tai kirjoita.",
+    "downloadFailed": "Puheentunnistuksen ({language}) lataus epäonnistui tässä selaimessa.",
+    "ready": "Puheentunnistus ({language}) on valmis. Napauta mikrofonia.",
+    "cantStart": "Puheentunnistusta ei voitu käynnistää. Yritä uudelleen."
+  },
+  "offlineSync": {
+    "fullOverlap": "Toisella laitteella oli ajastin käynnissä, kun olit offline-tilassa. Offline-aikasi osui kokonaan päällekkäin, eikä sitä tallennettu.",
+    "partialOverlap": "Toinen laite käynnisti ajastimen, kun olit offline-tilassa. Offline-aikasi on tallennettu siihen hetkeen asti.",
+    "clippedSaved": "Toinen laite käynnisti ajastimen, kun olit offline-tilassa. Offline-aikasi {from}-{to} on tallennettu tuntikirjaukseksi, ja toinen ajastin jatkaa käynnissä.",
+    "resetOffline": "Toisella laitteella oli ajastin käynnissä, kun aloitit offline-tilassa kello {from}. Offline-ajastimesi on nollattu, ja toinen jatkaa käynnissä.",
+    "stoppedElsewhere": "Ajastin pysäytettiin toisella laitteella, kun olit offline-tilassa. Aika on tallennettu sinne, eikä sitä tallennettu uudelleen.",
+    "syncFailed": "Offline-muutoksen synkronointi epäonnistui: {error}",
+    "defaultDescription": "Tuntiseuranta"
+  },
+  "unknownError": "Tuntematon virhe",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Tallennus epäonnistui",
+      "retry": "Yritä uudelleen"
+    },
+    "push": {
+      "unsupported": "Tämä selain ei tue push-ilmoituksia",
+      "denied": "Lupa ilmoituksiin evättiin",
+      "enabled": "Push-ilmoitukset otettu käyttöön",
+      "enabledDesc": "Saat nyt ilmoituksia",
+      "enableFailed": "Ilmoitusten käyttöönotto epäonnistui",
+      "disabled": "Push-ilmoitukset poistettu käytöstä",
+      "disableFailed": "Ilmoitusten poisto käytöstä epäonnistui"
+    },
+    "periodic": {
+      "unsupported": "Jaksottaista synkronointia ei tueta",
+      "enabled": "Automaattiset raportit otettu käyttöön",
+      "enabledDesc": "Saat viikkoraportit",
+      "enableFailed": "Automaattisten raporttien käyttöönotto epäonnistui",
+      "disabled": "Automaattiset raportit poistettu käytöstä",
+      "disableFailed": "Automaattisten raporttien poisto käytöstä epäonnistui"
+    },
+    "taskUndo": {
+      "restored": "Tehtävä palautettu",
+      "restoreFailed": "Tehtävän palautus epäonnistui",
+      "deleted": "Tehtävä poistettu",
+      "undo": "Kumoa"
+    },
+    "timerSync": {
+      "otherProject": "toinen projekti",
+      "runningPaused": "Ajastin on jo käynnissä: {name}. Pysäytä se ensin. Taukoaikasi säilyy.",
+      "running": "Ajastin on jo käynnissä: {name}. Pysäytä se ensin.",
+      "alreadyStopped": "Ajastin oli jo pysäytetty ja tallennettu toisella laitteella. Sitä ei käynnistetty uudelleen."
+    },
+    "timerKeys": {
+      "started": "Ajastin käynnistetty",
+      "pressToPause": "Keskeytä painamalla T uudelleen",
+      "paused": "Ajastin tauolla",
+      "pressToResume": "{time} - jatka painamalla T",
+      "resumed": "Ajastin jatkuu",
+      "cancelled": "Ajastin peruttu"
+    },
+    "wakeLock": {
+      "unsupported": "Tämä selain ei tue Wake Lockia",
+      "active": "Näyttö pidetään hereillä",
+      "activeDesc": "Näyttö ei sammu tuntien kirjaamisen aikana",
+      "released": "Näyttö saa taas sammua",
+      "failed": "Näytön pitäminen hereillä epäonnistui"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Tilaustasi hallitaan tililläsi.",
+    "otherAccount": "Osto on liitetty toiseen TimeTrack-tiliin.",
+    "ownerOnly": "Vain organisaation omistaja voi ostaa tilauksen.",
+    "multiMember": "Privat ja Selvstændig on tarkoitettu yhdelle käyttäjälle. Organisaatiossasi on useita käyttäjiä, joten tilausta hallitaan tililläsi.",
+    "otherOrganization": "Tilauksesi kuuluu toiselle organisaatiolle. Vaihda siihen organisaatioon nähdäksesi sen.",
+    "alreadySubscribed": "Sinulla on jo tilaus kaupan {store} kautta.",
+    "appStoreUnreachable": "App Storeen ei saatu yhteyttä. Yritä hetken kuluttua uudelleen.",
+    "appStoreVerify": "Ostoa ei voitu vahvistaa App Storessa.",
+    "unknownProduct": "Tuntematon tuote. Päivitä sovellus ja yritä uudelleen.",
+    "googleNotFound": "Ostoa ei löytynyt Google Playsta.",
+    "productMismatch": "Osto ei vastaa valittua tuotetta.",
+    "googleAck": "Ostoa ei voitu vahvistaa Google Playssa. Yritä uudelleen."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Sinulla on aktiivinen tilaus kaupan {store} kautta. Se ei pääty tilin poistamiseen, vaan se on peruttava kaupassa {store}. Vahvista ymmärtäväsi tämän poistaaksesi tilin.",
+    "invalidUserId": "Virheellinen käyttäjätunnus"
+  },
+  "orgInvite": {
+    "invalidEmail": "Virheellinen sähköpostiosoite",
+    "domainNotAllowed": "Sähköpostin verkkotunnus {domain} ei ole sallittu tälle organisaatiolle",
+    "alreadyMember": "Tämä henkilö on jo organisaation jäsen",
+    "alreadyInvited": "Tälle sähköpostille on jo odottava kutsu",
+    "otherBrand": "Tätä sähköpostiosoitetta ei voi kutsua organisaatioon. Käytä toista osoitetta.",
+    "noSeats": "Ei vapaita paikkoja ({used}/{max} käytössä). Osta lisää paikkoja tai vaihda pakettia kohdassa Asetukset → Tilaus.",
+    "noSeatsAccept": "Organisaatiossa ei ole enää vapaita paikkoja. Ota yhteyttä ylläpitäjään.",
+    "lastOwnerRemove": "Viimeistä omistajaa ei voi poistaa. Siirrä omistajuus ensin toiselle jäsenelle.",
+    "lastOwnerDemote": "Viimeisen omistajan roolia ei voi alentaa. Siirrä omistajuus ensin toiselle jäsenelle.",
+    "acceptedPushTitle": "🎉 Kutsu hyväksytty",
+    "acceptedPushBody": "{name} on nyt organisaation {org} jäsen"
+  },
+  "bulkTasks": {
+    "duplicateIds": "Joukkolistassa on kaksoiskappale-UUID:itä",
+    "missing": "Yksi tai useampi tehtävä puuttuu tai on työtilasi ulkopuolella: {ids}",
+    "unexpectedRowCount": "odottamaton rivimäärä",
+    "unselected": "Tiedoissa on UUID:itä, joita ei valittu",
+    "statusMismatch": "Tehtävän {id} tila on {status}, odotettu tila oli {expected}",
+    "notEmail": "Tehtävä {id} ei ole sähköpostitehtävä",
+    "customLane": "Tehtävä {id} käyttää mukautettua sarakkeetta, eikä sitä voi turvallisesti merkitä valmiiksi joukkona"
+  }
+}

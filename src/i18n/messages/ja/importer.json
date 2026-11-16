@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "インポートが完了しました：時間記録{count, plural, other {#件}}をインポートしました",
+    "doneWithErrorsToast": "エラーありでインポートが完了しました：{imported}件成功、{failed}件失敗",
+    "failedToast": "インポートに失敗しました。詳細は設定でご確認ください",
+    "running": "インポート中：{pct}%（{imported}/{total}）",
+    "details": "詳細を表示",
+    "done": "インポートが完了しました：時間記録{count, plural, other {#件}}をインポートしました",
+    "doneWithFailed": "インポートが完了しました：時間記録{count, plural, other {#件}}をインポートしました（{failed}件失敗）",
+    "dismiss": "閉じる"
+  },
+  "page": {
+    "pickDateFormat": "続けるには日付形式を選択してください。",
+    "success": "インポートが完了しました。",
+    "failed": "インポートに失敗しました。もう一度お試しください。",
+    "backToOnboarding": "← オンボーディングに戻る",
+    "backToIntegrations": "← 連携に戻る",
+    "onboardingMode": "オンボーディングモードが有効です",
+    "onboardingNote": "インポートが成功すると、自動的にオンボーディングの続きに進みます。",
+    "uploadFile": "ファイルをアップロード",
+    "chooseFile": "ファイルを選択",
+    "noFile": "ファイルが選択されていません",
+    "dateFormat": "日付形式",
+    "chooseFormat": "形式を選択…",
+    "dateFormatHint": "CSVデータで使われている日付形式をご確認ください。",
+    "billingFilter": "請求フィルター",
+    "filter": {
+      "all": "すべてインポート",
+      "unbilled": "未請求のみ",
+      "billed": "請求済みのみ"
+    },
+    "billingFilterHint": "インポート元の請求状況に基づいて記録を絞り込みます。",
+    "markAllBilled": "インポートした記録をすべて請求済みにする",
+    "markAllBilledHint": "インポート元から請求済みの記録だけをエクスポートした場合にお使いください。",
+    "result": {
+      "clients": "クライアント{count, plural, other {#件}}を作成しました",
+      "projects": "プロジェクト{count, plural, other {#件}}を作成しました",
+      "timeEntries": "時間記録{count, plural, other {#件}}をインポートしました",
+      "billedSplit": "（請求済み{billed}件、未請求{unbilled}件）",
+      "skippedRows": "{count, plural, other {#行}}をスキップしました",
+      "filteredRows": "{count, plural, other {#行}}を除外しました（請求フィルター）",
+      "totalHours": "合計{hours}時間をインポートしました",
+      "tasks": "タスク{count, plural, other {#件}}をインポートしました",
+      "subtasks": "サブタスク{count, plural, other {#件}}をインポートしました",
+      "tasksSkipped": "タスク{count, plural, other {#件}}をスキップしました"
+    },
+    "importing": "インポート中…",
+    "start": "インポートを開始",
+    "mayTakeAWhile": "データ量によっては数分かかることがあります…",
+    "warnTitle": "ご注意：",
+    "warn1": "インポートは元に戻せません",
+    "warn2": "既存のデータは上書きされません",
+    "warn3": "重複はスキップされます"
+  }
+}

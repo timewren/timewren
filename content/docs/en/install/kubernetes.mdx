@@ -1,0 +1,151 @@
+---
+title: "Kubernetes"
+description: "Install TimeWren on Kubernetes with the Helm chart: optional bundled PostgreSQL and Valkey, a persistent volume, Ingress and one CronJob per scheduled endpoint."
+---
+
+Choose this method if you already run a Kubernetes cluster. The chart `charts/timewren` has no third-party chart dependencies. It deploys the app, optionally a single-node PostgreSQL and Valkey, a PVC for uploads and one CronJob per scheduled job.
+
+## Requirements
+
+- Helm 3 and Kubernetes 1.27 or newer (CronJob time zones).
+- A default StorageClass, or storage classes you configure explicitly.
+- An ingress controller if you want to publish the app. The chart does not configure DNS or issue certificates.
+
+## Install
+
+1. Clone the repository. The chart is installed from the checkout.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   ```
+
+2. Install the release. Replace `1.2.3` with the release you want and the host with your own.
+
+   ```bash
+   helm upgrade --install timewren ./timewren/charts/timewren \
+     --namespace timewren --create-namespace \
+     --set image.tag=1.2.3 \
+     --set appUrl=https://timewren.example.com \
+     --set ingress.enabled=true \
+     --set ingress.className=nginx \
+     --set ingress.host=timewren.example.com
+   ```
+
+3. Add TLS through `ingress.tls` and the annotations your TLS controller needs (see below).
+4. Open the URL and create your account. The first account becomes admin unless `extraEnv.ADMIN_EMAIL` is set.
+
+Without an Ingress, use a port forward and set `appUrl=http://localhost:3000`:
+
+```bash
+kubectl port-forward -n timewren service/timewren-timewren 3000:3000
+```
+
+The app waits for PostgreSQL in an init container and runs with `MIGRATE_ON_START=1`, so migrations run when it starts. The chart sets `REQUIRE_EMAIL_VERIFICATION` to `false` by default; mail is optional, and verification becomes required when a mail transport is configured.
+
+## Key values
+
+| Key | Default | Purpose |
+| --- | ------- | ------- |
+| `image.repository`, `image.tag`, `image.pullPolicy` | `ghcr.io/timewren/timewren`, `latest`, `IfNotPresent` | Image to run. Pin `image.tag`. |
+| `appUrl` | `http://localhost:3000` | Public origin used by authentication and links (`NEXT_PUBLIC_APP_URL`). Set it before installing. |
+| `existingSecret` | empty | Name of a Secret you manage (see below). |
+| `secrets.*` | empty | `DATABASE_URL`, `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY`, `CRON_SECRET`. Empty keys are generated. |
+| `extraEnv` | `{}` | Additional variables from `.env.example`, such as `SMTP_HOST` or `ADMIN_EMAIL`. |
+| `service.port` | `3000` | Service port. |
+| `resources` | `{}` | Resource requests and limits of the app. |
+| `persistence.enabled`, `.existingClaim`, `.size`, `.storageClass` | `true`, empty, `5Gi`, empty | Storage for uploads at `/app/data/storage`. |
+| `ingress.enabled`, `.className`, `.host`, `.annotations`, `.tls` | `false`, empty, `timewren.example.com`, `{}`, `[]` | Ingress. |
+| `postgresql.enabled`, `.image`, `.size`, `.storageClass`, `.resources` | `true`, `postgres:18-alpine`, `10Gi`, empty, `{}` | Bundled single-node PostgreSQL. |
+| `valkey.enabled`, `.image`, `.size`, `.storageClass`, `.resources` | `false`, `valkey/valkey:8-alpine`, `1Gi`, empty, `{}` | Optional Valkey. |
+| `cron.enabled`, `.image`, `.timeZone`, `.resources`, `.jobs` | `true`, `curlimages/curl:8.12.1`, `Europe/Copenhagen`, `{}`, see `values.yaml` | Scheduled jobs. |
+
+Variables for mail, S3 and integrations use the names in [Environment variables](/docs/configuration/environment). For example, a values file with SMTP:
+
+```yaml
+extraEnv:
+  SMTP_HOST: smtp.example.com
+  SMTP_PORT: "587"
+  SMTP_FROM: "TimeWren <mail@example.com>"
+  ADMIN_EMAIL: jane@example.com
+```
+
+Put credentials in `existingSecret`, not in `extraEnv` or values files.
+
+## Secrets
+
+By default the chart generates `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` (64 hex characters) and `CRON_SECRET` on first install and keeps them on upgrades by looking them up with Helm `lookup`. Values you set under `secrets` override the generated ones. Do not pass secrets on the command line or commit them. Helm stores rendered Secrets in the release history, so restrict access accordingly. Back up the Secret, especially `ENCRYPTION_KEY`.
+
+For GitOps or an external secret manager, create the Secret yourself and point the chart at it. Offline `helm template` cannot reuse generated secrets. The Secret needs these exact keys:
+
+| Key | Required |
+| --- | -------- |
+| `DATABASE_URL` | Always. With bundled PostgreSQL: host `<release>-timewren-postgresql`, port 5432, database `timewren`, user `timewren`. |
+| `BETTER_AUTH_SECRET` | Always. |
+| `ENCRYPTION_KEY` | Always, 64 hexadecimal characters. |
+| `CRON_SECRET` | Always. Used by the app and the CronJobs. |
+| `POSTGRES_PASSWORD` | With bundled PostgreSQL, matching the password in `DATABASE_URL`. |
+| `VALKEY_URL` | With bundled or external Valkey. |
+
+An installation with an external database and Valkey then looks like this:
+
+```yaml
+postgresql:
+  enabled: false
+valkey:
+  enabled: false
+existingSecret: timewren-secrets
+extraEnv:
+  RATE_LIMIT_BACKEND: valkey # only when using external Valkey
+```
+
+Alternatively set `secrets.DATABASE_URL` with `postgresql.enabled=false`. Restart the app after you change an external Secret: `kubectl rollout restart -n timewren deployment/timewren-timewren`.
+
+With `valkey.enabled=true` the chart sets `VALKEY_URL` and `RATE_LIMIT_BACKEND=valkey`. The bundled PostgreSQL and Valkey are single-node services for small installations, without automatic backups or failover. Use managed services when you need those.
+
+## Ingress and TLS
+
+Set `ingress.enabled=true`, `ingress.className`, `ingress.host` and, for TLS, `ingress.tls` plus the annotations of your controller, for example in a values file:
+
+```yaml
+appUrl: https://timewren.example.com
+ingress:
+  enabled: true
+  className: nginx
+  host: timewren.example.com
+  tls:
+    - secretName: timewren-tls
+      hosts:
+        - timewren.example.com
+```
+
+Keep `appUrl` equal to the public HTTPS URL.
+
+## Persistence
+
+The app runs as a single replica with the `Recreate` strategy and a ReadWriteOnce PVC at `/app/data/storage`; the pod uses UID and GID 1001. Reuse a prepared claim with `persistence.existingClaim`, or set `persistence.storageClass` and `persistence.size`. To use S3-compatible storage instead, set `persistence.enabled=false` and provide `STORAGE_DRIVER=s3`, `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` and `S3_BUCKET` through `extraEnv` and `existingSecret`. Disabling persistence without an external storage driver is not durable. See [Storage](/docs/configuration/storage).
+
+The app PVC is kept on `helm uninstall`. PVCs are not backups: schedule database dumps and storage snapshots separately.
+
+## Scheduled jobs
+
+With `cron.enabled=true` the chart creates one CronJob per entry in `cron.jobs`, keyed by endpoint name with a cron schedule as value, in the time zone `cron.timeZone` (default `Europe/Copenhagen`). Each job calls `/api/cron/<endpoint>` on the app Service with the `CRON_SECRET` as bearer token, using `concurrencyPolicy: Forbid`. Override schedules by changing `cron.jobs`. Set `cron.enabled=false` only if something else already calls the endpoints.
+
+## Upgrade
+
+Take a database and file backup first: rolling back the image does not roll back schema changes. Then run the same command with the new tag:
+
+```bash
+helm upgrade --install timewren ./timewren/charts/timewren \
+  --namespace timewren \
+  --reuse-values \
+  --set image.tag=1.2.4
+```
+
+Pull the matching chart version first (`git -C timewren pull` or check out the release tag). If you used a values file, pass it with `-f` instead of `--reuse-values`. Migrations run at app start; check the app logs after the upgrade. See [Upgrading](/docs/operations/upgrading).
+
+## Next steps
+
+- [Quickstart](/docs/quickstart)
+- [Email](/docs/configuration/email)
+- [Backup and restore](/docs/operations/backup-restore)
+- [Troubleshooting](/docs/operations/troubleshooting)

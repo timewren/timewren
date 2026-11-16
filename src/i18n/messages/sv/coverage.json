@@ -1,0 +1,67 @@
+{
+  "hourUnit": "h",
+  "headline": {
+    "untilToday": "{logged} av {expected} till och med i dag",
+    "noWorkTimeYet": "Ingen arbetstid ännu i perioden",
+    "of": "{logged} av {expected}",
+    "noWorkTime": "Ingen arbetstid i perioden"
+  },
+  "week": "Vecka {week} ({start} till {end})",
+  "period": {
+    "day": "Dag",
+    "week": "Vecka",
+    "month": "Månad"
+  },
+  "bar": {
+    "label": "Fakturerbart {billable}, icke fakturerbart {nonBillable} av {expected} arbetstid",
+    "billable": "Fakturerbart",
+    "nonBillable": "Icke fakturerbart",
+    "notLogged": "Inte registrerat"
+  },
+  "table": {
+    "client": "Kund",
+    "billable": "Fakturerbart",
+    "nonBillableShort": "Icke fakt.",
+    "share": "Andel",
+    "ratio": "Icke fakt. per fakt. timme",
+    "ratioTitle": "Icke fakturerbara timmar per fakturerad timme",
+    "onlyNonBillable": "Endast icke fakt."
+  },
+  "strip": {
+    "title": "Täckning",
+    "summary": "<n>{billable}</n> fakturerbart · <n>{nonBillable}</n> icke fakturerbart",
+    "summaryRatio": "<n>{billable}</n> fakturerbart · <n>{nonBillable}</n> icke fakturerbart · <n>{ratio}</n> per fakturerad timme",
+    "perClient": "Per kund"
+  },
+  "page": {
+    "back": "Rapporter",
+    "title": "Täckning",
+    "description": "Hur stor del av din arbetstid som har registrerats, och vart den går",
+    "periodAria": "Period",
+    "prev": "Föregående period",
+    "next": "Nästa period",
+    "today": "I dag",
+    "workTime": "Arbetstid: {hours}/vecka",
+    "workTimeHr": "Arbetstid: {hours}/vecka (från HR)",
+    "edit": "Redigera",
+    "loadError": "Kunde inte hämta täckningsgraden.",
+    "retry": "Försök igen",
+    "statCoverage": "Täckning",
+    "statBillable": "Fakturerbart",
+    "statNonBillable": "Icke fakturerbart",
+    "statRatio": "Icke fakt. per fakt. timme",
+    "ofWorkTime": "{pct} av arbetstiden",
+    "noTimeLogged": "Ingen tid registrerad",
+    "shareBilled": "{pct} av den registrerade tiden är fakturerad",
+    "perClient": "Per kund",
+    "noTimeInPeriod": "Ingen tid registrerad i perioden.",
+    "logTime": "Registrera tid",
+    "perDay": "Per dag",
+    "colDate": "Datum",
+    "colWorkTime": "Arbetstid",
+    "colLogged": "Registrerat",
+    "colBillable": "Varav fakt.",
+    "colCoverage": "Täckning",
+    "footnote": "Täckning = registrerad tid ÷ din normala arbetstid. Helgdagar och frånvaro dras inte av från arbetstiden. Tid utan kund visas som intern tid."
+  }
+}

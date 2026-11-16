@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Info.plist for TimeTrack 0.2.23 (tt-app). scripts/bundle-macos.sh udfylder
+  @VERSION@ fra crates/tt-app/Cargo.toml.
+
+  Bundle-id og navn er de samme som den gamle Tauri-app (dk.timetrack.desktop,
+  "TimeTrack"), så opdateringen erstatter den i /Applications, og macOS
+  genkender appen (tilladelser, login-emner, Dock). Exe-navnet
+  timetrack-desktop er også det gamle: Tauri-updateren i 0.2.22 genstarter
+  netop den sti efter opdateringen, og autostart (LaunchAgent) peger på den.
+
+  LSUIElement er ikke sat: 0.2.23 har et hovedvindue og et menulinje-ikon (specens
+  punkt 14), så appen hører til i Dock og app-skifteren som før.
+-->
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>da</string>
+  <key>CFBundleDisplayName</key>
+  <string>TimeTrack</string>
+  <key>CFBundleExecutable</key>
+  <string>timetrack-desktop</string>
+  <key>CFBundleIconFile</key>
+  <string>TimeTrack</string>
+  <key>CFBundleIdentifier</key>
+  <string>dk.timetrack.desktop</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleName</key>
+  <string>TimeTrack</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleShortVersionString</key>
+  <string>@VERSION@</string>
+  <key>CFBundleVersion</key>
+  <string>@VERSION@</string>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>dk.timetrack.desktop</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>timetrack</string>
+      </array>
+    </dict>
+  </array>
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.productivity</string>
+  <key>LSMinimumSystemVersion</key>
+  <string>10.15</string>
+  <key>NSHighResolutionCapable</key>
+  <true/>
+  <key>NSSupportsAutomaticGraphicsSwitching</key>
+  <true/>
+  <key>NSCalendarsFullAccessUsageDescription</key>
+  <string>TimeTrack læser dine kalenderaftaler og foreslår dem som registreringer. Appen skriver aldrig i din kalender, og aftalerne forlader ikke din computer.</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>TimeTrack læser dine kalenderaftaler og foreslår dem som registreringer. Appen skriver aldrig i din kalender, og aftalerne forlader ikke din computer.</string>
+  <key>NSAppleEventsUsageDescription</key>
+  <string>TimeTrack læser adressen på den aktive fane i din browser, så den kan foreslå den rigtige kunde. Adressen forlader aldrig din computer.</string>
+  <key>NSHumanReadableCopyright</key>
+  <string>© Mahope</string>
+</dict>
+</plist>

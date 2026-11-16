@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Subskrypcja",
+    "description": "Plan, płatności i rozliczenia",
+    "adminOnly": "Tylko właściciele i administratorzy mogą zmieniać subskrypcję, kupować miejsca i przeglądać płatności."
+  },
+  "states": {
+    "noBilling": "Ta instalacja nie ma operatora płatności, więc wszystkie funkcje są otwarte i nie ma planów ani limitów.",
+    "comingSoonTitle": "Płatności już wkrótce",
+    "comingSoon": "Korzystasz z planu bezpłatnego. Płatne plany pojawią się wkrótce, a do tego czasu nic nie płacisz.",
+    "loading": "Wczytywanie subskrypcji…",
+    "none": "Nie znaleziono subskrypcji. Zacznij od wyboru planu.",
+    "choosePlan": "Wybierz plan",
+    "previousWebPayments": "Wcześniejsze płatności w sieci",
+    "redirecting": "Przekierowywanie…"
+  },
+  "cycle": {
+    "monthly": "Miesięcznie",
+    "yearly": "Rocznie",
+    "twoMonthsFree": "2 miesiące gratis",
+    "perMonthExclVat": "/mies. bez VAT",
+    "perYearExclVat": "/rok bez VAT",
+    "krPerMonth": "{price} kr/mies.",
+    "krPerYear": "{price} kr/rok"
+  },
+  "status": {
+    "active": "Aktywna",
+    "free": "Darmowa",
+    "trialing": "Okres próbny",
+    "pastDue": "Płatność zaległa",
+    "canceled": "Anulowana"
+  },
+  "invoiceStatus": {
+    "paid": "Opłacona",
+    "open": "Otwarta",
+    "draft": "Wersja robocza",
+    "void": "Unieważniona",
+    "uncollectible": "Nieudana",
+    "unknown": "Nieznany"
+  },
+  "history": {
+    "title": "Historia płatności",
+    "columnDate": "Data",
+    "columnNumber": "Numer",
+    "columnAmount": "Kwota",
+    "columnStatus": "Status",
+    "columnPdf": "PDF",
+    "empty": "Brak płatności. Historia płatności pojawi się tutaj po pierwszej płatności."
+  },
+  "toast": {
+    "planChangedYearly": "Plan został zmieniony na roczny",
+    "planChangedMonthly": "Plan został zmieniony na miesięczny",
+    "canceled": "Subskrypcja została anulowana. Pozostaje aktywna do końca okresu.",
+    "reactivated": "Subskrypcja została ponownie aktywowana!",
+    "trialRequested": "Prośba została wysłana! Odezwiemy się jak najszybciej.",
+    "trialRequestFailed": "Nie udało się wysłać prośby. Spróbuj ponownie.",
+    "paymentMethodAdded": "Metoda płatności została dodana!",
+    "seatsUpdated": "Miejsca zostały zaktualizowane! Zmiana może pojawić się z chwilowym opóźnieniem.",
+    "paymentCanceled": "Płatność została anulowana"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Został # dzień okresu próbnego} few {Zostały # dni okresu próbnego} many {Zostało # dni okresu próbnego} other {Zostało # dnia okresu próbnego}}",
+    "startsAutomatically": "Twoja subskrypcja rozpocznie się automatycznie po okresie próbnym",
+    "addPaymentToContinue": "Dodaj metodę płatności, aby kontynuować po okresie próbnym",
+    "needMoreTime": "Potrzebujesz więcej czasu?",
+    "addPayment": "Dodaj płatność",
+    "checkoutNoteFounding": "Strona płatności pokazuje cenę standardową. Twój rabat założycielski {percent}% zostanie naliczony automatycznie po opłaceniu."
+  },
+  "pendingCancel": {
+    "expiresOn": "Twoja subskrypcja wygasa {date}",
+    "expiresUnknown": "Twoja subskrypcja wygasa w nieznanym terminie",
+    "reactivateHint": "Do tego czasu możesz ponownie aktywować subskrypcję",
+    "reactivating": "Ponowne aktywowanie…",
+    "reactivate": "Aktywuj ponownie"
+  },
+  "plan": {
+    "current": "Obecny plan",
+    "freeLimits": "Do {maxSeats} użytkowników · wykorzystano {used} z {maxClients} aktywnych klientów. Przejdź na wyższy plan, aby mieć więcej klientów i użytkowników oraz fakturowanie i pakiety godzin.",
+    "seatsIncluded": "{count, plural, one {# użytkownik w cenie} few {# użytkownicy w cenie} many {# użytkowników w cenie} other {# użytkownika w cenie}}",
+    "seatsWithExtra": "{count, plural, one {# użytkownik} few {# użytkownicy} many {# użytkowników} other {# użytkownika}} · {included} w cenie + {extra} dodatkowych",
+    "foundingDiscount": "Rabat założycielski {percent}%",
+    "foundingDiscountForever": "Rabat założycielski {percent}%, bezterminowo",
+    "foundingDiscountExpires": "Rabat założycielski {percent}%, wygasa {date}",
+    "trialEnds": "Koniec okresu próbnego: {date}",
+    "nextBilling": "Następne rozliczenie: {date}"
+  },
+  "roi": {
+    "titleReturn": "Twój zwrot z {brand}",
+    "titleActivity": "Twoja aktywność w {brand}",
+    "spent": "Wydano na {brand}",
+    "freeSoFar": "Jak dotąd za darmo!",
+    "trackedValue": "Wartość zarejestrowanego czasu",
+    "invoicedTotal": "Łącznie zafakturowano",
+    "return": "Zwrot"
+  },
+  "payment": {
+    "title": "Płatności",
+    "portalDescription": "Zarządzaj metodą płatności i fakturami w portalu płatności.",
+    "manage": "Zarządzaj płatnościami",
+    "noMethod": "Nie dodano jeszcze metody płatności",
+    "addMethod": "Dodaj metodę płatności",
+    "checkoutNoteFounding": "Strona płatności pokazuje cenę standardową. Twój rabat {percent}% zostanie naliczony automatycznie."
+  },
+  "seats": {
+    "title": "Miejsca",
+    "usage": "Wykorzystano {used} z {total} miejsc",
+    "pendingInvites": "{count, plural, one {# miejsce jest zajęte przez oczekujące zaproszenie} few {# miejsca są zajęte przez oczekujące zaproszenia} many {# miejsc jest zajętych przez oczekujące zaproszenia} other {# miejsca jest zajęte przez oczekujące zaproszenia}}",
+    "reseatsReminder": "Pamiętaj, aby ponownie wykupić swoje dodatkowe miejsca ({count}) w stawce planu {plan}. Dokończ zakup miejsc poniżej, aby rozliczenie odpowiadało twojej pojemności.",
+    "extraLabel": "Dodatkowe miejsca (ponad {included} w cenie)",
+    "fewer": "Mniej miejsc",
+    "more": "Więcej miejsc",
+    "price": "Cena",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr/rok bez VAT",
+    "priceSuffixMonthly": "kr/mies. bez VAT",
+    "adjust": "Zmień liczbę miejsc",
+    "buy": "Kup miejsca",
+    "note": "Obecny dodatek z miejscami zostanie zastąpiony nową liczbą. Dokonujesz nowego zakupu, a stary dodatek jest anulowany automatycznie. Twój plan pozwala łącznie na maksymalnie {max} miejsc."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "Dla osób prywatnych",
+      "feature1": "1 użytkownik"
+    },
+    "solo": {
+      "tagline": "Dla freelancerów",
+      "feature1": "1 użytkownik, nieograniczona liczba klientów",
+      "feature2": "Pakiety godzin, fakturowanie i integracje",
+      "feature3": "Web, aplikacja, rozszerzenie i desktop w cenie"
+    },
+    "team": {
+      "tagline": "Dla małych zespołów",
+      "feature1": "Wszystko z planu {plan}",
+      "feature2": "Użytkownicy w cenie: 2",
+      "feature3": "Wspólni klienci, projekty i pakiety godzin"
+    },
+    "business": {
+      "tagline": "Dla firm",
+      "feature1": "Wszystko z planu {plan}",
+      "feature2": "Użytkownicy w cenie: 5",
+      "feature3": "Elastyczny czas pracy, nieobecności i zgodność z przepisami"
+    },
+    "usersIncluded": "Użytkownicy w cenie: {count}"
+  },
+  "upgrade": {
+    "title": "Przejdź na wyższy plan",
+    "blocked": "Masz {count, plural, one {# dodatkowe miejsce} few {# dodatkowe miejsca} many {# dodatkowych miejsc} other {# dodatkowego miejsca}}, których nie można jeszcze automatycznie przenieść do planu {plan}. Napisz do nas na support@timetrack.dk, a przeniesiemy cię bez utraty miejsc.",
+    "to": "Przejdź na {plan}",
+    "note": "Przechodząc na wyższy plan, dokonujesz nowego zakupu. Obecna subskrypcja zostanie anulowana automatycznie, gdy nowa stanie się aktywna."
+  },
+  "choose": {
+    "title": "Wybierz swój plan",
+    "choosePlan": "Wybierz {plan}",
+    "chooseAndPay": "Wybierz i zapłać",
+    "note": "Dodatkowi użytkownicy ponad liczbę w cenie są dodawani po rejestracji. Rabat założycielski (jeśli aktywny) jest naliczany automatycznie do planu {plan} po opłaceniu."
+  },
+  "discounts": {
+    "title": "Aktywne rabaty",
+    "rangeBoth": "Od {from} do {to}",
+    "rangeOpenEnded": "Od {from}, bez daty wygaśnięcia",
+    "rangeUntil": "Do {to}",
+    "rangeNone": "Bez daty wygaśnięcia"
+  },
+  "metadata": {
+    "title": "Szczegóły subskrypcji",
+    "foundingTier": "Poziom założycielski",
+    "billingCycle": "Okres rozliczeniowy",
+    "signupSource": "Źródło rejestracji",
+    "couponCode": "Kod rabatowy"
+  },
+  "upcoming": {
+    "title": "Nadchodzące płatności",
+    "columnPeriod": "Okres",
+    "columnPlan": "Plan",
+    "columnAmount": "Kwota"
+  },
+  "switch": {
+    "title": "Zmień plan",
+    "equivalent": "Odpowiada {price} kr/mies.",
+    "toMonthly": "Przejdź na płatność miesięczną",
+    "toYearly": "Przejdź na płatność roczną"
+  },
+  "cancel": {
+    "title": "Anuluj subskrypcję",
+    "description": "Twoja subskrypcja pozostaje aktywna do końca bieżącego okresu rozliczeniowego.",
+    "areYouSure": "Na pewno?",
+    "activeUntil": "Twoja subskrypcja pozostaje aktywna do {date}. Potem stracisz dostęp do funkcji premium.",
+    "activeUntilEnd": "Twoja subskrypcja pozostaje aktywna do końca okresu. Potem stracisz dostęp do funkcji premium.",
+    "keep": "Zachowaj subskrypcję",
+    "confirm": "Tak, anuluj subskrypcję",
+    "canceling": "Anulowanie…"
+  }
+}

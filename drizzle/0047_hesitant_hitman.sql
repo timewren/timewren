@@ -1,0 +1,1 @@
+CREATE INDEX "sent_emails_recipient_email_idx" ON "sent_emails" USING btree ("recipient_email");

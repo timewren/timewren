@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "Artık bu organizasyonun üyesi değilsin.",
+    "noAccessToFeature": "Bu özelliğe erişimin yok",
+    "adminsOnly": "Bu özelliğe yalnızca yöneticiler erişebilir",
+    "subscriptionRequired": "Bu özelliği kullanmak için etkin bir aboneliğin olmalı",
+    "subscriptionExpired": "Aboneliğinin süresi doldu. Devam etmek için lütfen yenile.",
+    "roleNoAccess": "Rolünün bu işlem için yetkisi yok",
+    "moduleDisabled": "\"{module}\" modülü bu organizasyon için etkin değil."
+  },
+  "alunta": {
+    "clientAlreadyMapped": "Bu müşterinin zaten etkin bir Alunta eşleşmesi var",
+    "mappingNotFound": "Eşleşme bulunamadı"
+  },
+  "common": {
+    "clientNotFound": "Müşteri bulunamadı",
+    "webhookNotFound": "Webhook bulunamadı",
+    "projectNotFound": "Proje bulunamadı",
+    "unknownError": "Bilinmeyen hata",
+    "notOrgMember": "Bu organizasyonun üyesi değilsin",
+    "noAccessToClient": "Bu müşteriye erişimin yok",
+    "templateNotFound": "Şablon bulunamadı",
+    "unknownClient": "Bilinmeyen müşteri",
+    "rateLimited": "Çok fazla istek. {seconds} saniye sonra tekrar dene.",
+    "taskNotFound": "Görev bulunamadı",
+    "timeEntryNotFound": "Zaman kaydı bulunamadı",
+    "invoiceNotFound": "Fatura bulunamadı",
+    "unknownProjectName": "Bilinmeyen proje",
+    "userNotFound": "Kullanıcı bulunamadı",
+    "invalidDate": "Geçersiz tarih",
+    "prepaidNotFound": "Ön ödemeli paket bulunamadı",
+    "notFound": "Bulunamadı",
+    "notOrgMemberShort": "Bu organizasyonun üyesi değilsin",
+    "periodLocked": "{date} öncesindeki dönem organizasyon tarafından kilitlendi. Bir yöneticiyle iletişime geç."
+  },
+  "webhooks": {
+    "noValidEvents": "Geçerli bir olay türü seçilmedi"
+  },
+  "time": {
+    "defaultRateName": "Varsayılan ücretin",
+    "chooseOnePrepaidOrNone": "Ya bir ön ödemeli paket seç ya da hiçbirini seçme",
+    "taskNotFound": "Görev bulunamadı",
+    "entryExists": "Zaman kaydı zaten var",
+    "prepaidNotFound": "Ön ödemeli paket bulunamadı",
+    "prepaidOtherClient": "Ön ödemeli paket, zaman kaydının müşterisinden farklı bir müşteriye ait",
+    "onInvoiceUnmark": "{count, plural, one {Seçilen zaman kayıtlarından # tanesi bir faturada yer alıyor. İşareti kaldırmadan önce faturaya iade faturası kes veya kayıtları taslak faturadan çıkar.} other {Seçilen zaman kayıtlarından # tanesi bir faturada yer alıyor. İşareti kaldırmadan önce faturaya iade faturası kes veya kayıtları taslak faturadan çıkar.}}",
+    "invalidWeek": "Geçersiz hafta",
+    "importInvalidDate": "Geçersiz tarih: \"{date}\"",
+    "importNoProjectOrClient": "\"{project}\" projesi veya \"{client}\" müşterisi bulunamadı"
+  },
+  "resourcePlan": {
+    "needsOrg": "Kaynak planı için bir organizasyon gerekir",
+    "ownEmployeesOnlyView": "Planı yalnızca kendi çalışanların için görüntüleyebilirsin",
+    "managersOnly": "Yalnızca sahip, yöneticiler veya müdürler planlama yapabilir",
+    "weekMonday": "Hafta, Pazartesi günüyle belirtilmeli",
+    "ownEmployeesOnlyPlan": "Yalnızca kendi çalışanların için planlama yapabilirsin",
+    "notInOrg": "Çalışan, proje veya etkinlik organizasyonda mevcut değil"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "Masaüstü satın alma henüz kurulmadı. Daha sonra tekrar dene veya destekle iletişime geç.",
+    "includedInCloud": "Masaüstü uygulaması {brand} Cloud aboneliğine zaten dahil, bu yüzden ayrı bir lisansa gerek yok. Oturum aç ve uygulamayı gösterge panelinden indir.",
+    "checkoutFailed": "Ödeme bağlantısı oluşturulamadı.",
+    "licenseAlreadyInactive": "Lisans zaten devre dışı bırakılmış veya iade edilmiş.",
+    "notAutoRefundable": "Bu lisans otomatik olarak iade edilemez. Destekle iletişime geç.",
+    "refundWindowExpired": "Bu satın alma için {days} günlük iade süresi doldu.",
+    "tooManyAttempts": "Çok fazla deneme. Biraz bekleyip tekrar dene.",
+    "noLicenseFound": "Lisans bulunamadı.",
+    "noActiveLicenseToRefund": "İade edilecek etkin lisans yok.",
+    "licenseNotAutoRefundable": "Lisans otomatik olarak iade edilemez. Destekle iletişime geç.",
+    "refundWindowExpiredShort": "{days} günlük iade süresi doldu."
+  },
+  "taskStatuses": {
+    "laneNotFound": "Sütun bulunamadı",
+    "lanesNotFound": "Bir veya daha fazla sütun bulunamadı",
+    "crossContext": "Sütunlar farklı bağlamlar arasında yeniden sıralanamaz",
+    "destinationRequired": "Sütunda görevler olduğu için bir hedef sütun gerekli",
+    "destinationNotFound": "Hedef sütun bulunamadı",
+    "destinationContext": "Hedef sütun aynı bağlamda olmalı"
+  },
+  "scheduledRates": {
+    "notFound": "Planlanmış ücret değişikliği bulunamadı",
+    "rateFormat": "Saatlik ücret 0 veya daha yüksek, en fazla iki ondalıklı bir tutar olmalı",
+    "dateFormat": "Tarih YYYY-AA-GG biçiminde olmalı",
+    "laterApplied": "{date} tarihi itibarıyla bir ücret değişikliği zaten uygulandı. Yeni değişiklik aynı tarihten veya daha sonra geçerli olmalı.",
+    "alreadyApplied": "Ücret değişikliği zaten uygulandı ve iptal edilemez. Bunun yerine müşteri/proje üzerindeki saatlik ücreti düzenle.",
+    "appliedMeanwhile": "Ücret değişikliği bu arada uygulandı ve iptal edilemez."
+  },
+  "broadcasts": {
+    "notFound": "Duyuru bulunamadı",
+    "confirmNameMismatch": "Onay adı eşleşmiyor. Duyuru adını tam olarak yaz."
+  },
+  "notifications": {
+    "invalidDiscordUrl": "Geçersiz Discord webhook URL'si",
+    "invalidSlackUrl": "Geçersiz Slack webhook URL'si",
+    "noSlackWebhook": "Yapılandırılmış Slack webhook'u yok",
+    "noDiscordWebhook": "Yapılandırılmış Discord webhook'u yok",
+    "discordTestFailed": "Discord webhook testi başarısız oldu",
+    "noPushSubscription": "Yapılandırılmış anlık bildirim aboneliği yok",
+    "pushTestFailed": "Anlık bildirim testi başarısız oldu",
+    "channelNotFound": "Kanal bulunamadı"
+  },
+  "clients": {
+    "hasInvoices": "Seçilen müşterilerden bir veya daha fazlasının faturaları var. Faturalar muhasebe kaydı olduğu için silinemez, bunun yerine müşterileri arşivle.",
+    "hasBilledEntries": "Seçilen müşterilerden bir veya daha fazlasının faturalanmış zaman kayıtları var. Bunun yerine müşterileri arşivle."
+  },
+  "dashboard": {
+    "prefsTableMissing": "Gösterge paneli tercihleri tablosu henüz yok. Veritabanı geçişini çalıştır."
+  },
+  "clientPortal": {
+    "accessNotFound": "Erişim bulunamadı"
+  },
+  "search": {
+    "invoiceTitle": "Fatura {number}"
+  },
+  "ai": {
+    "noOwnKey": "Yapay zekâ önerilerini kullanmak için Ayarlar → Yapay zekâ bölümünde kendi API anahtarını ayarla.",
+    "fillableWithoutAi": "Metin yapay zekâ olmadan da doldurulabilirdi.",
+    "providerFailed": "Yapay zekâ sağlayıcın bir öneri üretemedi. Ayarlar → Yapay zekâ bölümünde anahtarı ve modeli kontrol et."
+  },
+  "apiKeys": {
+    "notFound": "API anahtarı bulunamadı",
+    "revokeFirst": "Anahtarı silmeden önce iptal etmelisin"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "Taslak fatura bulunamadı",
+    "noEntries": "Onaya gönderilecek zaman kaydı yok",
+    "requestNotFound": "İstek bulunamadı veya zaten işlenmiş"
+  },
+  "beta": {
+    "thanks": "Kaydolduğun için teşekkürler! Beta açıldığında sana e-posta göndereceğiz.",
+    "emailNotAllowed": "Bu e-posta adresi kayıt için kullanılamaz.",
+    "alreadyOnList": "Bu e-posta zaten beta bekleme listesinde",
+    "signupNotFound": "Beta kaydı bulunamadı"
+  },
+  "calendar": {
+    "googleNotConfigured": "Google Takvim entegrasyonu yapılandırılmadı",
+    "notConnected": "Google Takvim'e bağlı değil",
+    "scheduledLocally": "Görev yerel olarak planlandı (bağlı takvim yok)",
+    "timeEntryNotFound": "Zaman kaydı bulunamadı",
+    "eventNotFound": "Etkinlik bulunamadı",
+    "eventMissingTimes": "Etkinliğin saat bilgisi yok",
+    "noConnection": "Takvim bağlantısı yok",
+    "noProject": "Proje yok",
+    "noConnectionFound": "Takvim bağlantısı bulunamadı",
+    "aiFailed": "Yapay zekâ önerisi başarısız oldu"
+  },
+  "connectedApps": {
+    "notFound": "Bağlantı mevcut değil"
+  },
+  "contact": {
+    "thanks": "Mesajın için teşekkürler! En kısa sürede sana döneceğiz."
+  },
+  "dataExport": {
+    "pending": "Bekleyen bir dışa aktarma isteğin zaten var. Lütfen bekle.",
+    "limit3": "24 saatte en fazla 3 dışa aktarma isteği yapılabilir. Daha sonra tekrar dene.",
+    "fullNotEnabled": "Tam dışa aktarma henüz etkin değil.",
+    "orgInProgress": "Organizasyon için bir dışa aktarma zaten sürüyor. Hazır olduğunda e-posta alacaksın.",
+    "orgDailyLimit": "Organizasyon günde {limit} dışa aktarma isteyebilir. Yarın tekrar dene.",
+    "notOrgMemberDot": "Organizasyonun üyesi değilsin.",
+    "inProgress": "Bir dışa aktarma zaten sürüyor. Hazır olduğunda e-posta alacaksın.",
+    "dailyLimit": "Günde {limit} dışa aktarma isteyebilirsin. Yarın tekrar dene.",
+    "requestNotFound": "Dışa aktarma isteği bulunamadı",
+    "cancelPendingOnly": "Yalnızca bekleyen istekler iptal edilebilir",
+    "importClientNotFound": "{name}: \"{client}\" müşterisi bulunamadı",
+    "importClientRequired": "{name}: Müşteri gerekli",
+    "importInvoiceClientNotFound": "Fatura {number}: \"{client}\" müşterisi bulunamadı",
+    "importInvoiceError": "Fatura {number}: {message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "Departmanın izin günlerini belirledi ve bunlar senin için geçerli. Kendi izin günlerini seçemezsin.",
+    "blockedOrg": "Organizasyonun izin günlerini belirledi ve bunlar senin için geçerli. Kendi izin günlerini seçemezsin.",
+    "blockedEmployee": "Çalışan olarak organizasyonun izin günlerini izlersin. Bir yöneticiden organizasyon veya departmanın için izin günleri belirlemesini iste.",
+    "orgNeedsOrg": "Bir organizasyon için izin günleri, bir organizasyon gerektirir",
+    "departmentNeedsBusiness": "Departman başına izin günleri için Virksomhed planı gerekir",
+    "departmentNotFound": "Departman mevcut değil"
+  },
+  "dpa": {
+    "notFromEnv": "Veri işleme sözleşmesi bu ortamdan henüz kabul edilemez.",
+    "notInOrg": "Bir organizasyonda değilsin",
+    "ownersAdminsOnly": "Sözleşmeyi yalnızca sahipler ve yöneticiler kabul edebilir"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "Kural bulunamadı"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "Bir IMAP parolası gerekli",
+    "cannotDecrypt": "Kayıtlı parolanın şifresi çözülemedi. Lütfen IMAP parolanı yeniden gir.",
+    "connectionFailed": "IMAP bağlantısı başarısız oldu: {message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "Görev bulunamadı",
+    "blockBracket": "Konusunda \"[{tag}]\" geçen e-postaları engelle",
+    "blockKeyword": "Konusunda \"{keyword}\" geçen e-postaları engelle"
+  },
+  "ext": {
+    "notOrgMemberDot": "Bu organizasyonun üyesi değilsin.",
+    "invalidToken": "Geçersiz belirteç",
+    "tooManyAttempts": "Çok fazla deneme. {seconds} saniye sonra tekrar dene.",
+    "sessionExpired": "Oturumun süresi doldu veya iptal edildi. Yeniden oturum aç.",
+    "tokenExpired": "Belirtecin süresi doldu",
+    "tokenNotFound": "Belirteç bulunamadı",
+    "timerChangedElsewhere": "Zamanlayıcı başka bir cihazdan değiştirildi. Tekrar dene.",
+    "datesFormat": "Tarihler YYYY-AA-GG biçiminde olmalı",
+    "prepaidNotFound": "Ön ödemeli paket bulunamadı",
+    "prepaidOtherClient": "Ön ödemeli paket, kaydın müşterisinden farklı bir müşteriye ait",
+    "saveEntryFailed": "Zaman kaydı kaydedilemedi",
+    "createInProgress": "Bu anahtarla oluşturma sürüyor. Birazdan tekrar dene.",
+    "import": {
+      "alreadyRunning": "Bir içe aktarma zaten çalışıyor. Bitmesini bekle."
+    },
+    "projectOrClientNotFound": "Proje veya müşteri bulunamadı"
+  },
+  "feedback": {
+    "screenshotFailed": "Ekran görüntüsü S3'ten alınamadı"
+  },
+  "imports": {
+    "timeopsConnect": "TimeOps'a bağlanılamadı: {detail}",
+    "networkError": "ağ hatası",
+    "apiKeyInvalid": "API anahtarı geçersiz veya süresi dolmuş",
+    "alreadyRunning": "Bir içe aktarma zaten çalışıyor. Önce onu bitir.",
+    "notFound": "İçe aktarma bulunamadı",
+    "cannotStart": "İçe aktarma {status} durumundan başlatılamaz",
+    "cannotCancel": "İçe aktarma bu durumda iptal edilemez"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "Web uygulamasında \"{project}\" üzerinde zaten bir zamanlayıcı çalışıyor. Önce onu durdur.",
+    "timerRunningProjectOther": "Başka bir cihazda \"{project}\" üzerinde zaten bir zamanlayıcı çalışıyor. Önce onu durdur.",
+    "timerRunningAnyWeb": "Web uygulamasında zaten bir zamanlayıcı çalışıyor. Önce onu durdur.",
+    "timerRunningAnyOther": "Başka bir cihazda zaten bir zamanlayıcı çalışıyor. Önce onu durdur."
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "Dinero bağlantısının süresi doldu. Lütfen Ayarlar'dan yeniden bağlan.",
+      "notConnectedShort": "Dinero bağlı değil",
+      "notConnected": "Dinero bağlı değil",
+      "connectionActive": "Dinero bağlantısı etkin",
+      "connectionFailed": "Dinero'ya bağlanılamadı",
+      "clientExported": "Müşteri Dinero'ya aktarıldı",
+      "invoiceAlreadyExported": "Fatura zaten Dinero'ya aktarılmış",
+      "contactCreateFailed": "\"{name}\" müşterisi Dinero'da oluşturulamadı: API bir kişi kimliği döndürmedi. Önce müşteriyi elle aktarmayı dene.",
+      "noAccount": "Yapılandırılmış hesap numarası yok. Ayarlar → Dinero bölümünden varsayılan bir hesap seç.",
+      "invoiceExported": "Fatura Dinero'ya aktarıldı",
+      "invoiceNotExported": "Fatura Dinero'ya aktarılmadı",
+      "noPending": "Bekleyen Dinero bağlantısı bulunamadı. Yeniden bağlanmayı dene.",
+      "invalidOrg": "Geçersiz organizasyon seçildi",
+      "tokensDecryptFailed": "Belirteçlerin şifresi çözülemedi. Yeniden bağlanmayı dene."
+    },
+    "billy": {
+      "noApiKey": "Billy API anahtarı ayarlanmadı",
+      "decryptFailed": "Billy API anahtarının şifresi çözülemedi",
+      "connectionActive": "Billy bağlantısı etkin",
+      "connectionFailed": "Billy'ye bağlanılamadı",
+      "clientExported": "Müşteri Billy'ye aktarıldı",
+      "invoiceAlreadyExported": "Fatura zaten Billy'ye aktarılmış",
+      "clientCreateFailed": "Müşteri Billy'de oluşturulamadı veya bulunamadı",
+      "productWithoutId": "Billy kimliksiz bir ürün döndürdü: {json}",
+      "invoiceWithoutId": "Billy kimliksiz bir fatura döndürdü: {json}",
+      "invoiceExported": "Fatura Billy'ye aktarıldı",
+      "exportFailed": "Billy'ye aktarılamadı: {message}",
+      "invoiceNotExported": "Fatura Billy'ye aktarılmadı"
+    },
+    "unknownErrorOccurred": "Bilinmeyen bir hata oluştu",
+    "invoiceMissingClient": "Faturanın müşterisi yok",
+    "economic": {
+      "noTokens": "e-conomic belirteçleri ayarlanmadı",
+      "decryptFailed": "e-conomic belirteçlerinin şifresi çözülemedi",
+      "connectionActive": "e-conomic bağlantısı etkin",
+      "connectionFailed": "e-conomic'e bağlanılamadı",
+      "clientExported": "Müşteri e-conomic'e aktarıldı",
+      "paymentTermsMissing": "Ödeme koşulları eksik. Bunları Ayarlar → Entegrasyonlar bölümünden seç.",
+      "invoiceAlreadyExported": "Fatura zaten e-conomic'e aktarılmış",
+      "consultingLine": "Danışmanlık çalışması: {hours} saat",
+      "invoiceBooked": "Fatura e-conomic'te kaydedildi",
+      "invoiceDraftCreated": "Fatura e-conomic'te taslak olarak oluşturuldu",
+      "invoiceNotExported": "Fatura e-conomic'e aktarılmadı"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: Tarih biçimi otomatik olarak algılanamadı. Lütfen elle seç.",
+      "noValidRows": "CSV dosyasında geçerli satır bulunamadı.",
+      "unknownClient": "Bilinmeyen müşteri"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "Şirket bilgileri eksik. Faturada yer almaları gerektiğinden, ilk faturayı oluşturmadan önce bunları Ayarlar → Şirket profili bölümünde doldur (veya bir yöneticiden iste).",
+    "templateNotFound": "Fatura şablonu bulunamadı",
+    "issuedCannotChange": "Düzenlenmiş faturalar değiştirilemez. Tutarları veya koşulları düzeltmek için bir iade faturası oluştur.",
+    "deletedCannotEdit": "Silinmiş faturalar düzenlenemez.",
+    "paidNotesOnly": "Ödenmiş faturalar düzenlenemez. Yalnızca not ekleyebilirsin.",
+    "draftsOnlyDelete": "Yalnızca taslaklar silinebilir. Düzenlenmiş faturaları bunun yerine iptal et.",
+    "creditNoteNotCreditable": "Bir iade faturasına iade faturası kesilemez",
+    "draftNotCreditable": "Taslaklara iade faturası kesilmez. Bunun yerine taslağı sil (düzenlenmiş numarası yok).",
+    "deletedNotCreditable": "Silinmiş faturalara iade faturası kesilemez",
+    "alreadyCredited": "Fatura için zaten {number} numaralı iade faturası kesilmiş",
+    "creditNoteNotes": "{date} tarihli {number} numaralı fatura için iade faturası",
+    "draftOnlyAddLines": "Satırlar yalnızca taslak faturalara eklenebilir",
+    "timeEntryNotFound": "Zaman kaydı bulunamadı",
+    "lineNotFound": "Fatura satırı bulunamadı",
+    "draftOnlyEditLines": "Satırlar yalnızca taslak faturalarda düzenlenebilir",
+    "draftOnlyDeleteLines": "Satırlar yalnızca taslak faturalardan silinebilir",
+    "draftOnlyReorder": "Sıra yalnızca taslak faturalarda değiştirilebilir",
+    "clientHasNoEmail": "Müşterinin e-posta adresi yok"
+  },
+  "logbook": {
+    "ownOnly": "Yalnızca kendi sürüş günlüğünü görüntüleyebilirsin",
+    "notInYourOrg": "Kullanıcı organizasyonunun üyesi değil",
+    "noAccessWaste": "Organizasyonun boşa giden süresine erişimin yok"
+  },
+  "marketing": {
+    "tooManyAttempts": "Çok fazla deneme. Daha sonra tekrar dene."
+  },
+  "memberRates": {
+    "membersNotInOrg": "Bir veya daha fazla üye organizasyonda mevcut değil"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "Aboneliği organizasyonunun sahibi yönetiyor, bu yüzden bir plan seçmene gerek yok.",
+    "privatePlanUnavailable": "Özel plan henüz mevcut değil. Başka bir plan seç."
+  },
+  "organization": {
+    "requiresOrg": "Bir organizasyon gerekir",
+    "noActiveOrg": "Etkin organizasyon yok",
+    "moduleNotAssigned": "\"{module}\" modülü bu organizasyona atanmadı",
+    "moduleUnavailable": "\"{module}\" modülü sana açık değil. Destekle iletişime geç.",
+    "noSelfTransfer": "Sahipliği kendine devredemezsin",
+    "ownerOnlyTransfer": "Sahipliği yalnızca sahip devredebilir",
+    "memberNotFound": "Üye bulunamadı"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "Etkinlik günlüğünü yalnızca sahipler ve yöneticiler görüntüleyebilir"
+  },
+  "portalBranding": {
+    "noDomain": "Doğrulanacak alan adı yok",
+    "verifyFailed": "Alan adı doğrulanamadı. '_timetrack-verify.{domain}' DNS TXT kaydının şu belirteci içerdiğinden emin ol: {token}"
+  },
+  "prepaid": {
+    "invalidHours": "Ön ödemeli paket düşümü için geçersiz saat sayısı",
+    "otherClient": "Ön ödemeli paket, zaman kaydının müşterisinden farklı bir müşteriye ait",
+    "inactive": "Ön ödemeli paket etkin değil",
+    "expired": "Ön ödemeli paketin süresi doldu",
+    "insufficientHours": "Ön ödemeli pakette yeterli saat kalmadı. Kalan saat: {available}",
+    "insufficientHoursClip": "Ön ödemeli pakette yeterli saat kalmadı. Kalan saat: {available}, gereken {required} sa ({minutes} dakikalık bloklara yukarı yuvarlandı)",
+    "multipleClients": "Seçilen zaman kayıtları birden fazla müşteriye ait. Yalnızca tek bir müşterinin kayıtlarını seç.",
+    "entriesNotFound": "Bir veya daha fazla zaman kaydı bulunamadı",
+    "alreadyBilled": "{count, plural, one {Seçilen zaman kayıtlarından # tanesi zaten faturalanmış ve ön ödemeli paketten düşülemez} other {Seçilen zaman kayıtlarından # tanesi zaten faturalanmış ve ön ödemeli paketten düşülemez}}",
+    "foreignEntries": "{count, plural, one {# zaman kaydı, ön ödemeli paketten farklı bir müşteriye ait} other {# zaman kaydı, ön ödemeli paketten farklı bir müşteriye ait}}",
+    "requestNotFound": "İstek bulunamadı veya zaten işlenmiş",
+    "gone": "Ön ödemeli paket artık mevcut değil",
+    "renewalInvoiceNote": "\"{name}\" ön ödemeli paketinin yenilenmesi, müşteri tarafından portal üzerinden istendi",
+    "totalBelowUsed": "Toplam saat sayısı, kullanılmış saatlerden ({used} sa) düşük olamaz",
+    "hasUsage": "Kullanımı kayıtlı bir ön ödemeli paket silinemez. Bunun yerine devre dışı bırak.",
+    "entryNotFound": "Zaman kaydı bulunamadı"
+  },
+  "projects": {
+    "hasBilledEntries": "Projenin faturalanmış zaman kayıtları var ve kalıcı olarak silinemez. Bunun yerine arşivle.",
+    "nameMismatch": "Proje adı eşleşmiyor",
+    "noneFound": "Proje bulunamadı"
+  },
+  "portal": {
+    "invalidLink": "Geçersiz veya süresi dolmuş bağlantı",
+    "invalidLogin": "Geçersiz e-posta veya parola",
+    "noInvoiceAccess": "Faturalara erişim yok",
+    "noProjectAccess": "Projelere erişim yok",
+    "noTimeAccess": "Zaman kayıtlarına erişim yok",
+    "noPrepaidAccess": "Ön ödemeli paketlere erişim yok",
+    "tooManyRequests": "Çok fazla istek. Lütfen daha sonra tekrar deneyin.",
+    "prepaidInactive": "Ön ödemeli paket etkin değil. Lütfen hizmet sağlayıcınızla iletişime geçin.",
+    "noAccess": "Erişim yok",
+    "notAllowedApprove": "Zamanı onaylama izniniz yok",
+    "requestNotFound": "İstek bulunamadı",
+    "requestHandled": "İstek zaten işlenmiş",
+    "notAllowedReject": "Zamanı reddetme izniniz yok"
+  },
+  "quickSignup": {
+    "created": "Hesap oluşturuldu! Oturumun açılıyor…",
+    "emailNotAllowed": "Bu e-posta adresi kayıt için kullanılamaz.",
+    "emailTaken": "Bu e-posta zaten kayıtlı",
+    "createFailed": "Hesap oluşturulamadı",
+    "error": "Hesap oluşturulurken bir hata oluştu"
+  },
+  "recurringInvoices": {
+    "clientArchived": "Müşteri arşivlenmiş. Önce müşteriyi geri yükle.",
+    "prepaidFixedAmount": "Ön ödemeli paket sabit tutarla faturalanır, bu yüzden kaydedilen zamanı seçme",
+    "prepaidNoRenewal": "Ön ödemeli paket otomatik olarak yenilenmiyor. Önce dönemsel yenilemeyi aç.",
+    "needLine": "Tutarı 0'ın üzerinde en az bir satır ekle",
+    "firstDateInPast": "İlk fatura tarihi bugünden önce olamaz",
+    "notFound": "Tekrarlayan fatura bulunamadı",
+    "nextDateInPast": "Sonraki fatura tarihi bugünden önce olamaz"
+  },
+  "recurring": {
+    "startDateRequired": "Tekrarlayan şablonlar için bir başlangıç tarihi gerekli",
+    "cannotPause": "Tekrarlamayan bir şablon duraklatılamaz",
+    "cannotResume": "Tekrarlamayan bir şablonun duraklatması kaldırılamaz"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "Takım kârlılığı için bir organizasyon gerekir",
+    "utilisationNeedsOrg": "Kullanım oranı için bir organizasyon gerekir",
+    "weekdayRange": "Haftanın günü 1-7 arasında olmalı",
+    "linkNotFound": "Bağlantı bulunamadı",
+    "tooManyRows": "Rapor 10.000'den fazla kayıt içeriyor. Tarih aralığını daralt."
+  },
+  "reportTemplates": {
+    "clientNotYours": "Müşteri hesabına ait değil.",
+    "systemNoEdit": "Sistem şablonları düzenlenemez. Bunun yerine kopyala.",
+    "systemNoDelete": "Sistem şablonları silinemez."
+  },
+  "security": {
+    "accountNotFound": "Hesap bulunamadı",
+    "lastLoginMethodRemove": "Son oturum açma yöntemini kaldıramazsın. Önce bir parola veya geçiş anahtarı ekle.",
+    "passkeyNotFound": "Geçiş anahtarı bulunamadı",
+    "lastLoginMethodDelete": "Son oturum açma yöntemini silemezsin. Önce bir parola ekle veya bir OAuth hesabı bağla.",
+    "sessionNotFound": "Oturum bulunamadı",
+    "cannotEndCurrent": "Mevcut oturumunu sonlandıramazsın. Bunun yerine oturumu kapat.",
+    "currentSessionNotFound": "Mevcut oturum bulunamadı",
+    "phoneIsOnlyMethod": "Tek oturum açma yöntemin olduğu için telefon numaranı kaldıramazsın. Önce başka bir yöntem ekle.",
+    "deviceNotFound": "Cihaz bulunamadı",
+    "rec": {
+      "addLoginMethod": "Bir oturum açma yöntemi ekle",
+      "verifyEmail": "E-posta adresini onayla",
+      "enable2fa": "İki adımlı doğrulamayı aç",
+      "addPasskey": "Daha hızlı ve güvenli oturum açmak için bir geçiş anahtarı ekle",
+      "addMore": "Yedek olarak daha fazla oturum açma yöntemi ekle"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "Zaten etkin bir aboneliğin var. Plan veya ödeme yöntemini değiştirmek için 'Faturalamayı yönet' seçeneğini kullan.",
+    "seatsExceedIncluded": "Organizasyonun {seats} koltuk kullanıyor, bu {plan} planına dahil olan {included} koltuktan {extra} fazla. Koltuk kaybetmeden kendi kendine yükseltme henüz mümkün değil. Destekle iletişime geç, seni elle taşıyacağız.",
+    "noCheckoutUrl": "Alunta bir ödeme URL'si döndürmedi. Destekle iletişime geç.",
+    "extraSeatsNeedSubscription": "Ek koltuklar için etkin bir abonelik gerekir. Önce bir plan seç ve ödeme ekle.",
+    "noActiveAddPayment": "Etkin abonelik bulunamadı. Lütfen önce bir ödeme yöntemi ekle.",
+    "noActive": "Etkin abonelik bulunamadı",
+    "none": "Abonelik bulunamadı",
+    "requestFailed": "İstek gönderilemedi. Daha sonra tekrar dene.",
+    "priceSuffixYear": "kr/yıl",
+    "priceSuffixMonth": "kr/ay",
+    "checkoutComingSoon": "Ödeme burada henüz açık değil. Ücretsiz plandasınız."
+  },
+  "tags": {
+    "nameExists": "\"{name}\" adında bir etiket zaten var",
+    "timeEntryNotFound": "Zaman kaydı bulunamadı",
+    "notYours": "Bir veya daha fazla etiket sana ait değil",
+    "projectNotFound": "Proje bulunamadı",
+    "projectsNotFound": "Bir veya daha fazla proje bulunamadı veya erişimin yok",
+    "clientNotFound": "Müşteri bulunamadı"
+  },
+  "tasks": {
+    "parentNotFound": "Üst görev bulunamadı",
+    "subtaskNoSubtasks": "Bir alt görevin kendi alt görevleri olamaz",
+    "laneNotFound": "Sütun bulunamadı",
+    "laneOtherBoard": "Sütun, görevden farklı bir panoya ait",
+    "moveSameBoard": "Görev yalnızca aynı pano içinde taşınabilir",
+    "dryRunFailed": "Deneme çalıştırması doğrulanamadı",
+    "bulkFailed": "Toplu değişiklik doğrulanamadı",
+    "bulkRolledBack": "Seçilen görevlerin tümü güncellenmedi; işlem geri alındı",
+    "assignNeedsOrg": "Atama için bir organizasyon gerekir",
+    "assigneeNotMember": "Atanan kişi organizasyonun üyesi değil",
+    "mainTaskNotFound": "Ana görev bulunamadı",
+    "assignedPushTitle": "📋 Yeni görev atandı",
+    "assignedPushBody": "{name} sana \"{task}\" görevini atadı",
+    "aColleague": "Bir iş arkadaşın"
+  },
+  "user": {
+    "pageUnavailable": "Bu sayfa şu anda sana açık değil",
+    "emailMismatch": "E-posta hesabınla eşleşmiyor",
+    "deleteFailed": "Silme işlemi tamamlanamadı. Destekle iletişime geç, sana yardımcı olacağız.",
+    "aiConnectionOk": "Bağlantı tamam! Yanıt: \"{reply}\"",
+    "aiConnectionFailed": "Bağlantı başarısız oldu: {message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "Yalnızca kendi çalışanların için devamsızlık işlemi yapabilirsin",
+      "requestNotFound": "Devamsızlık isteği bulunamadı",
+      "approveOnlyPending": "İstek yalnızca beklemedeyken onaylanabilir",
+      "noSelfApprove": "Kendi devamsızlığını onaylayamazsın",
+      "rejectOnlyPending": "İstek yalnızca beklemedeyken reddedilebilir",
+      "typeHasPending": "Bekleyen istekleri olan bir devamsızlık türü silinemez. Önce onları reddet veya iptal et.",
+      "managersOnlyForOthers": "Başkaları için devamsızlığı yalnızca müdürler ve yöneticiler kaydedebilir",
+      "endBeforeStart": "Bitiş tarihi başlangıç tarihinden önce olamaz",
+      "endDateRequired": "{type} için bir bitiş tarihi gerekli. Yalnızca hastalık ve izin, bitiş tarihi olmadan kaydedilebilir.",
+      "overlapOther": "Çalışanın bu dönemde zaten devamsızlığı var",
+      "overlapOwn": "Bu dönemde zaten bir devamsızlık isteğin var",
+      "registrationNotFound": "Devamsızlık kaydı bulunamadı",
+      "selfReturnOnly": "Yalnızca kendini iyileşmiş olarak bildirebilirsin",
+      "periodAlreadyEnded": "Dönem zaten sona erdi",
+      "onlyActiveRecovered": "Yalnızca etkin kayıtlar iyileşmiş olarak bildirilebilir",
+      "lastDayBeforeStart": "Devamsızlığın son günü başlangıç tarihinden önce olamaz",
+      "endedElsewhere": "Dönem başka bir yerde zaten sonlandırıldı. Listeyi yenile.",
+      "recoveredPushTitle": "İyileştiği bildirildi",
+      "recoveredPushBody": "{type} durumun {date} tarihinde sona erdi",
+      "requestNotFoundShort": "İstek bulunamadı",
+      "ownOnlyEdit": "Yalnızca kendi isteklerini düzenleyebilirsin",
+      "pendingOnlyEdit": "Yalnızca bekleyen istekler düzenlenebilir",
+      "alreadyCancelled": "İstek zaten iptal edildi",
+      "fixedHolidayNoCancel": "Sabit tatil (kapanış dönemi) iptal edilemez. Yöneticinle iletişime geç.",
+      "changedElsewhere": "İstek başka bir yerde değiştirildi. Listeyi yenile.",
+      "employeeNotInOrg": "Çalışan organizasyonda mevcut değil"
+    },
+    "handledElsewhere": "İstek başka bir yerde zaten işlendi. Listeyi yenile.",
+    "yourManager": "Müdürün",
+    "absenceTypeNotFound": "Devamsızlık türü bulunamadı",
+    "activityTypeNotInOrg": "Etkinlik türü organizasyonunda mevcut değil",
+    "projectNotInOrg": "Proje organizasyonunda mevcut değil",
+    "activityTypesNotInOrg": "Bir veya daha fazla etkinlik türü organizasyonunda mevcut değil",
+    "projectsNotInOrg": "Bir veya daha fazla proje organizasyonunda mevcut değil",
+    "activityTypesUnknown": "Bir veya daha fazla etkinlik türü bilinmiyor veya arşivlenmiş",
+    "checkin": {
+      "already": "Zaten giriş yaptın",
+      "noneOpen": "Açık giriş kaydı bulunamadı"
+    },
+    "closure": {
+      "maxDays": "Bir kapanış dönemi en fazla {days} gün olabilir. Bunun yerine birkaç dönem oluştur.",
+      "needsVacationType": "Sabit tatil haftaları, tatili düşen bir devamsızlık türü kullanmalı",
+      "notFound": "Kapanış dönemi bulunamadı"
+    },
+    "employeeProfileNotFound": "Çalışan profili bulunamadı",
+    "compliance": {
+      "ownOnly": "Yalnızca kendi uyum durumunu görüntüleyebilirsin",
+      "rejected": "Kayıt çalışma süresi kuralları tarafından reddedildi: {reasons}"
+    },
+    "departmentNotFound": "Departman bulunamadı",
+    "deptManagers": {
+      "oncePerDept": "Aynı kullanıcı departman başına yalnızca bir kez yer alabilir",
+      "validFromBeforeTo": "Başlangıç tarihi bitiş tarihinden önce olmalı",
+      "usersNotMembers": "Bir veya daha fazla kullanıcı organizasyonun üyesi değil"
+    },
+    "employee": {
+      "employmentEnded": "İstihdam zaten sona erdi",
+      "endBeforePeriodStart": "Bitiş tarihi dönemin başlangıcından ({date}) önce olamaz",
+      "managerNotFound": "Müdür bulunamadı",
+      "ownManager": "Bir çalışan kendi müdürü olamaz",
+      "managerCycle": "Müdür hiyerarşisi bir döngü oluşturuyor",
+      "viewOwnTeamProfiles": "Yalnızca kendi çalışanlarının profillerini görüntüleyebilirsin",
+      "profileExists": "Çalışanın bu organizasyonda zaten bir profili var",
+      "hireDateManaged": "İşe giriş tarihi istihdam geçmişi tarafından yönetilir. Bunu İstihdam sekmesinden düzenle.",
+      "viewOwnTeamEmployments": "Yalnızca kendi çalışanlarının istihdam kayıtlarını görüntüleyebilirsin",
+      "startAfterLatest": "Başlangıç tarihi son dönemin başlangıcından ({date}) sonra olmalı",
+      "endedOn": "İstihdam {date} tarihinde sona erdi. Yeni dönem bu tarihten sonra başlamalı.",
+      "periodNotFound": "İstihdam dönemi bulunamadı",
+      "historyOwnTeamOnly": "Yalnızca kendi çalışanlarının geçmişini görüntüleyebilirsin"
+    },
+    "flex": {
+      "ownBalanceOnly": "Yalnızca kendi esnek mesai bakiyeni görüntüleyebilirsin",
+      "recalcScope": "Esnek mesaiyi yalnızca kendin veya çalışanların için yeniden hesaplayabilirsin",
+      "profileNotInOrg": "Çalışan profili bu organizasyonda bulunamadı"
+    },
+    "holidays": {
+      "notFound": "Resmi tatil bulunamadı",
+      "defaultNoDelete": "Varsayılan resmi tatiller silinemez. Bunun yerine izin günleri takvimi ön ayarını seç."
+    },
+    "mw": {
+      "noActiveOrg": "Etkin organizasyon bulunamadı",
+      "noEmployeeProfile": "Bu organizasyonda bir çalışan profilin yok. Bir yöneticiyle iletişime geç.",
+      "twoFactorRequired": "Organizasyon, müdürler ve yöneticiler için iki adımlı doğrulama gerektiriyor. Ayarlar → Güvenlik bölümünden 2FA'yı aç ve tekrar dene.",
+      "hrReadOnly": "İK rolü görüntüleyebilir ancak onaylayamaz veya düzenleyemez",
+      "managerRequired": "Bu işlem müdür veya yönetici yetkisi gerektirir",
+      "viewRequiresRole": "Bu görünüm müdür, İK veya yönetici yetkisi gerektirir",
+      "ownersAdminsOnly": "Bu özelliğe yalnızca sahipler ve yöneticiler erişebilir",
+      "twoFactorAdmins": "Organizasyon, yöneticiler için iki adımlı doğrulama gerektiriyor"
+    },
+    "notifications": {
+      "addTeamsFirst": "Teams'i açmadan önce bir Teams webhook'u ekle",
+      "noTeamsWebhook": "Kayıtlı Teams webhook'u yok",
+      "testBody": "{org} için Teams entegrasyonu çalışıyor. Müdür olayları (zaman çizelgeleri, devamsızlık, hastalık izni, çalışma süresi kuralları ve özet) buraya gönderilir.",
+      "theOrganisation": "organizasyon",
+      "teamsRejected": "Teams test mesajını reddetti: {message}"
+    },
+    "organizationNotFound": "Organizasyon bulunamadı",
+    "org": {
+      "deptHasEmployees": "Çalışan atanmış bir departman silinemez. Önce çalışanları taşı."
+    },
+    "overtime": {
+      "ownEmployeesOnly": "Yalnızca kendi çalışanların için kayıt girebilirsin",
+      "positiveHours": "Pozitif bir saat sayısı gir",
+      "notZero": "Kayıt 0 saat olamaz"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "Ücret türü organizasyonunda mevcut değil",
+      "wageTypeCodeExists": "Bu koda sahip bir ücret türü zaten var",
+      "ruleNotInOrg": "Kural organizasyonunda mevcut değil",
+      "employeeNumberTaken": "Çalışan numarası başka biri tarafından kullanılıyor",
+      "exportTitle": "Bordro dışa aktarımı: {org}"
+    },
+    "absenceTypeNotInOrg": "Devamsızlık türü organizasyonunda mevcut değil",
+    "exportRateLimited": "Çok fazla dışa aktarma. {seconds} saniye sonra tekrar dene.",
+    "closing": {
+      "notEnabled": "Dönem kapanışı organizasyonun ayarlarında açık değil",
+      "afterPeriodEnd": "Dönem özeti yalnızca dönem sona erdikten sonra oluşturulabilir",
+      "approvedNoRecalc": "Onaylanmış bir dönem özeti yeniden hesaplanamaz. Önce kilidini aç.",
+      "noSelfApprove": "Kendi dönem özetini onaylayamazsın",
+      "alreadyApproved": "Dönem özeti zaten onaylanmış",
+      "ownAckOnly": "Yalnızca kendi dönem özetini onaylayabilirsin",
+      "needsManagerApproval": "Onaylamadan önce dönem özetinin müdürün tarafından onaylanmış olması gerekir",
+      "notLocked": "Dönem kilitli değil",
+      "notFound": "Dönem özeti mevcut değil"
+    },
+    "assign": {
+      "usersNotActive": "Bir veya daha fazla kullanıcı organizasyonda etkin çalışan değil"
+    },
+    "reports": {
+      "payrollHrOnly": "Bordro raporu yalnızca İK ve yöneticilere ayrılmıştır",
+      "shareHrOnly": "Şablonları tüm organizasyonla yalnızca İK ve yöneticiler paylaşabilir",
+      "defaultNoOverwrite": "Varsayılan şablonun üzerine yazılamaz. Yeni bir adla kaydet.",
+      "ownEditOnly": "Yalnızca kendi şablonlarını düzenleyebilirsin",
+      "defaultNoDelete": "Varsayılan şablon silinemez",
+      "ownDeleteOnly": "Yalnızca kendi şablonlarını silebilirsin",
+      "weekdayRange": "Haftanın günü 1-7 arasında olmalı"
+    },
+    "reportTypeHrOnly": "Bu rapor türü İK ve yöneticilere ayrılmıştır",
+    "sso": {
+      "invalidTenant": "Geçersiz kiracı kimliği. xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx biçiminde bir GUID bekleniyor (Azure'daki Dizin (kiracı) kimliği).",
+      "microsoftNotConfigured": "Microsoft ile oturum açma bu kurulumda yapılandırılmadı, bu yüzden 'Yalnızca SSO' açılamaz.",
+      "verifyDomainFirst": "'Yalnızca SSO' açılmadan önce en az bir alan adını doğrula, aksi halde ilke kimseye uygulanmaz.",
+      "connectMicrosoftFirst": "Önce Microsoft'u kendi hesabına bağla (Ayarlar → Güvenlik → Microsoft'u bağla), aksi halde 'Yalnızca SSO' açıkken kendini dışarıda bırakırsın.",
+      "enable2faFirst": "Önce kendi hesabında iki adımlı doğrulamayı aç, aksi halde yönetim erişimini kaybedersin.",
+      "invalidDomain": "Geçersiz alan adı. Örneğin example.com yaz (@ veya https:// olmadan).",
+      "publicProviders": "Herkese açık e-posta sağlayıcıları (gmail.com, outlook.com vb.) otomatik katılım için kullanılamaz.",
+      "domainAlreadyAdded": "Alan adı zaten eklenmiş.",
+      "domainVerifiedElsewhere": "Alan adı başka bir organizasyon tarafından zaten doğrulanmış. Bir hata olduğunu düşünüyorsan destekle iletişime geç.",
+      "maxDomains": "Organizasyon başına en fazla {max} alan adı.",
+      "domainNotFound": "Alan adı bulunamadı",
+      "domainVerifiedElsewhereShort": "Alan adı başka bir organizasyon tarafından zaten doğrulanmış.",
+      "txtCorrectButTaken": "TXT kaydı doğru, ancak alan adı başka bir organizasyon tarafından zaten doğrulanmış. Destekle iletişime geç.",
+      "justVerifiedElsewhere": "Alan adı az önce başka bir organizasyon tarafından doğrulandı. Destekle iletişime geç."
+    },
+    "team": {
+      "timesheetsOwnEmployees": "Yalnızca kendi çalışanların için zaman çizelgelerini yönetebilirsin",
+      "employeeNotInOrg": "Çalışan organizasyonunda mevcut değil",
+      "weekNothingToApprove": "Haftada onaylanacak kayıt yok",
+      "weekAlreadyApproved": "Hafta zaten onaylanmış",
+      "noSelfApprove": "Kendi zaman çizelgeni onaylayamazsın",
+      "onlySubmittedRejectable": "Yalnızca gönderilmiş haftalar reddedilebilir",
+      "weekInClosedPeriod": "Hafta kapalı bir dönemde. Önce Dönem kapanışı bölümünden dönemin kilidini aç.",
+      "onlyApprovedReopen": "Yalnızca onaylanmış haftalar yeniden açılabilir",
+      "historyOwnEmployees": "Yalnızca kendi çalışanlarının geçmişini görüntüleyebilirsin"
+    },
+    "import": {
+      "noProject": "(proje yok)",
+      "beforeLock": "{count} satır, {date} dönem kilidinden önce",
+      "submittedWeeks": "{count} gönderilmiş/onaylanmış hafta yeni satırlar alıyor ve bunlar daha önce onaylanmış toplama dahil değil"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "Hafta zaten onaylanmış. Müdüründen yeniden açmasını iste.",
+      "weekAlreadySubmitted": "Hafta zaten gönderilmiş ve onay bekliyor",
+      "weekNothingToSubmit": "Haftada gönderilecek kayıt yok",
+      "activityNotAllowed": "Bu projede bu etkinliğe izin verilmiyor",
+      "dayHasDetailed": "Günde ayrıntılı kayıtlarda {hours} saat var. Bunları Zaman takibi bölümünden düzenle veya en az o kadar saat gir.",
+      "chooseOtherActivity": "Taşınacak başka bir etkinlik seç",
+      "noEmployeeProfile": "Bu organizasyonda bir çalışan profilin yok",
+      "fixedHoliday": "Gün sabit tatil (kapanış dönemi) ve senin tarafından değiştirilemez",
+      "coveredByLongAbsence": "Gün daha uzun bir devamsızlık dönemi kapsamında. Bunu Devamsızlık bölümünden düzenle.",
+      "notEmployed": "Bu tarihte çalışmıyordun",
+      "holidayNoAbsence": "Gün bir izin günü veya resmi tatil, bu yüzden devamsızlık kaydedilemez",
+      "lastWeekEmpty": "Geçen haftada kopyalanacak kayıt yok",
+      "weekNothingToSave": "Haftada şablon olarak kaydedilecek kayıt yok",
+      "templateMissing": "Şablon mevcut değil"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "Bir çalışanın çalışma saatlerini yalnızca müdürler düzenleyebilir",
+      "ownOnlyView": "Yalnızca kendi çalışma saatlerini görüntüleyebilirsin",
+      "employeeNotInOrg": "Çalışan organizasyonda mevcut değil",
+      "sharedPlan": "Plan, çalışanlarının dışında da kullanılıyor. Bir yöneticiden değiştirmesini iste.",
+      "planMissing": "Plan mevcut değil",
+      "planArchived": "Plan arşivlenmiş",
+      "laterVersion": "{date} tarihinden itibaren daha yeni bir sürüm var. Bunun yerine onu düzenle.",
+      "versionFromToday": "Bugünden itibaren geçerli bir sürüm zaten var. Daha ileri bir tarih seç.",
+      "adminsOnlyDept": "Bir departmana plan atamayı yalnızca yöneticiler yapabilir",
+      "departmentMissing": "Departman mevcut değil",
+      "deviationsRecorded": "Sapmalar gerçekleştiklerinde kaydedilir. Planlanmış devamsızlık İzin ve devamsızlık bölümünde kaydedilir.",
+      "noFixedPlanToday": "Bu gün için sabit bir çalışma planı yok. Zamanı zaman kaydı olarak gir."
+    },
+    "dpa": {
+      "outdated": "Sözleşme, sayfa yüklendikten sonra güncellendi. Sayfayı yenile ve yeni sürümü oku.",
+      "acceptFailed": "Kabul kaydedilemedi",
+      "signIn": "İndirmek için oturum aç",
+      "ownersAdminsDownload": "Tamamlanmış sözleşmeyi yalnızca sahipler ve yöneticiler indirebilir"
+    },
+    "edit": {
+      "weekApprovedLocked": "Hafta onaylanmış ve kilitli. Müdüründen yeniden açmasını iste.",
+      "weekSubmitted": "Hafta onaya gönderildi ve düzenlenemez",
+      "entryApproved": "Kayıt müdürün tarafından onaylandı. Haftanın yeniden açılmasını iste."
+    },
+    "periodMaxDaysAsync": "Dönem en fazla {days} gün olabilir",
+    "scope": {
+      "ownEmployees": "Yalnızca kendi çalışanlarını yönetebilirsin"
+    },
+    "dns": {
+      "unknown": "Bilinmeyen DNS hatası",
+      "lookupFailed": "DNS sorgusu başarısız oldu: {error}",
+      "noRecord": "{hosts} üzerinde \"{record}\" TXT kaydı bulunamadı. DNS değişiklikleri bir saate kadar sürebilir."
+    }
+  },
+  "emailTemplates": {
+    "notFound": "Şablon bulunamadı",
+    "systemNoEdit": "Sistem şablonları düzenlenemez",
+    "systemNoDelete": "Sistem şablonları silinemez",
+    "alreadyExist": "Şablonlar zaten mevcut"
+  },
+  "api": {
+    "tooManyRequestsLater": "Çok fazla istek. Daha sonra tekrar dene.",
+    "cvr": {
+      "queryMin2": "Arama terimi en az 2 karakter olmalı",
+      "noCompany": "Şirket bulunamadı",
+      "searchFailed": "Arama sırasında bir hata oluştu",
+      "numberOrQueryRequired": "Bir CVR numarası veya arama terimi gerekli",
+      "eightDigits": "CVR numarası 8 haneli olmalı",
+      "noCompanyForNumber": "Bu CVR numarasıyla şirket bulunamadı",
+      "lookupFailed": "CVR numarası sorgulanırken bir hata oluştu"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "Dışa aktarma bulunamadı veya süresi doldu",
+      "expired": "Dışa aktarmanın süresi doldu veya artık kullanılamıyor. Yeni bir dışa aktarma iste."
+    },
+    "notAuthorized": "Yetkin yok. Önce oturum aç.",
+    "desktop": {
+      "deviceCodeMissing": "Cihaz kodu (code) eksik",
+      "maxDevices": "Azami cihaz sayısına ulaşıldı ({max}). Önce bir cihazı devre dışı bırak.",
+      "invalidDeviceToken": "Geçersiz cihaz belirteci",
+      "userNotFound": "Kullanıcı mevcut değil",
+      "settingsReadFailed": "Ayarlar okunamadı",
+      "notInAnyOrg": "Bir organizasyonun üyesi değilsin",
+      "adminsOnlyIntegrations": "Entegrasyon ayarlarını yalnızca yöneticiler değiştirebilir",
+      "invalidIntegrationSettings": "Geçersiz entegrasyon ayarları",
+      "settingsSaveFailed": "Ayarlar kaydedilemedi",
+      "draftOnlyEditLines": "Satırlar yalnızca taslak faturalarda değiştirilebilir",
+      "invalidPrepaidHours": "Ön ödemeli zaman kaydında geçersiz saat sayısı",
+      "draftOnlyEditInvoices": "Yalnızca taslak faturalar düzenlenebilir",
+      "unbillOnlyWeb": "Faturalandı işareti yalnızca web uygulamasında kaldırılabilir. Önce orada kaldır.",
+      "entryNotFoundOrOther": "Varlık bulunamadı: {id}. Kayıt mevcut değil veya başka bir kullanıcıya ait"
+    },
+    "notMemberOfChosenOrg": "Seçilen organizasyonun üyesi değilsin",
+    "approvalFailed": "Onay başarısız oldu",
+    "invalidEmail": "Geçersiz e-posta adresi",
+    "genericError": "Bir hata oluştu",
+    "dpa": {
+      "pdfFailed": "PDF şu anda oluşturulamadı"
+    },
+    "invalidOrigin": "Geçersiz kaynak",
+    "invalidRequest": "Geçersiz istek",
+    "ext": {
+      "invalidLoginLink": "Geçersiz oturum açma bağlantısı. Oturum açmayı uygulamadan yeniden başlat.",
+      "invalidRedirect": "Geçersiz yönlendirme URI'si"
+    },
+    "feedback": {
+      "notSignedIn": "Oturum açılmadı",
+      "otherUser": "Rapor başka bir kullanıcı tarafından yazılmış",
+      "tooLarge": "Rapor çok büyük",
+      "invalid": "Geçersiz rapor",
+      "saveFailed": "Geri bildirim kaydedilemedi"
+    },
+    "invalidJson": "Geçersiz JSON",
+    "integrations": {
+      "dineroFailed": "Dinero bağlantısı oluşturulamadı. Tekrar dene.",
+      "economicFailed": "e-conomic bağlantısı oluşturulamadı. Tekrar dene.",
+      "googleFailed": "Google bağlantısı oluşturulamadı. Tekrar dene."
+    },
+    "invoiceSend": {
+      "invalidRecipient": "Geçersiz alıcı e-postası",
+      "emailNotConfigured": "E-posta hizmeti yapılandırılmadı. RESEND_API_KEY veya SMTP_HOST ayarı için yöneticinle iletişime geç.",
+      "sendFailed": "E-posta gönderilemedi. Daha sonra tekrar dene.",
+      "sent": "E-posta {email} adresine gönderildi",
+      "error": "E-posta gönderilirken bir hata oluştu"
+    },
+    "upload": {
+      "notAuthorized": "Yetkin yok",
+      "noFile": "Dosya yüklenmedi",
+      "imageTypes": "Yalnızca JPEG, PNG ve WebP'ye izin verilir",
+      "tooBig": "Dosya çok büyük (en fazla 8 MB)",
+      "notConfigured": "Dosya yükleme yapılandırılmadı (S3_ENDPOINT veya STORAGE_DRIVER=local eksik)",
+      "failed": "Dosya depolamaya yüklenemedi"
+    },
+    "webhookTest": {
+      "tooMany": "Bu webhook için çok fazla test denemesi. Birazdan tekrar dene."
+    },
+    "import": {
+      "tagNoName": "Etiketin adı yok"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "Ön ödemeli paket, zamanlayıcının müşterisinden farklı bir müşteriye ait"
+  }
+}

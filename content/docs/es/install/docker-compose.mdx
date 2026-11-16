@@ -1,0 +1,120 @@
+---
+title: "Docker Compose"
+description: "Ejecuta TimeWren con la imagen precompilada, PostgreSQL y un planificador usando Docker Compose, con Valkey y HTTPS automático opcionales."
+---
+
+Elige este método si quieres ver y controlar cada paso, o si ya gestionas servidores con Compose. Usa la imagen multiarquitectura precompilada `ghcr.io/timewren/timewren`, así que no se compila nada en tu máquina. Para una versión con script de los mismos pasos, consulta [Instalación en una línea](/es/docs/install/quick).
+
+## Requisitos
+
+- Docker Engine con Compose v2.24 o posterior.
+- `curl` y `openssl` (u otra forma de generar cadenas hexadecimales aleatorias).
+- Un dominio y un proxy inverso con TLS para cualquier uso que no sea localhost.
+
+## Instalar
+
+1. Crea un directorio y descarga el archivo Compose y la plantilla de entorno.
+
+   ```bash
+   mkdir timewren && cd timewren
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/docker-compose.yml
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/.env.example
+   ```
+
+2. Crea `.env` y rellena los cuatro secretos obligatorios con valores aleatorios.
+
+   ```bash
+   cp .env.example .env
+   for v in POSTGRES_PASSWORD BETTER_AUTH_SECRET ENCRYPTION_KEY CRON_SECRET; do
+     sed -i "s|^$v=.*|$v=$(openssl rand -hex 32)|" .env
+   done
+   ```
+
+   En macOS usa `sed -i ''` en lugar de `sed -i`. `ENCRYPTION_KEY` debe tener exactamente 64 caracteres hexadecimales, que es lo que produce `openssl rand -hex 32`.
+
+3. Define la URL pública en `.env`, sin barra final:
+
+   ```dotenv
+   NEXT_PUBLIC_APP_URL=https://timewren.example.com
+   ```
+
+4. Inicia el stack.
+
+   ```bash
+   docker compose up -d
+   ```
+
+5. Abre la URL y crea tu cuenta. La primera cuenta se convierte en la administradora de la instancia. Las migraciones se ejecutan en cada arranque, también con una base de datos vacía. El primer arranque puede tardar, y el contenedor de la aplicación tiene un periodo de inicio de 180 segundos antes de que cuenten las comprobaciones de salud.
+
+> **Advertencia:** `.env.example` define `REQUIRE_EMAIL_VERIFICATION=false` para que puedas registrarte sin un servidor de correo. Solo se aplica mientras no haya un transporte de correo configurado, y permite que cualquiera que pueda acceder a la instancia cree una cuenta. Configura el [correo electrónico](/es/docs/configuration/email) y quita esa línea antes de exponer la instancia.
+
+Haz una copia de `ENCRYPTION_KEY`: sin ella, los tokens de integración almacenados no se pueden descifrar.
+
+## Servicios
+
+| Servicio | Imagen | Función |
+| ------- | ----- | ---- |
+| `app` | `ghcr.io/timewren/timewren` | La aplicación web en el puerto 3000 del contenedor. Ejecuta las migraciones al iniciar (`MIGRATE_ON_START=1`). Archivos locales en el volumen `storage` en `/app/data/storage`. |
+| `cron` | la misma imagen | Ejecuta `node scripts/cron.mjs`, que llama a los endpoints `/api/cron/*` de la aplicación con `CRON_SECRET`. Solo se ejecuta cuando `app` está sana. |
+| `db` | `postgres:18-alpine` | PostgreSQL, datos en el volumen `db-data`. No se publica en el host. |
+| `valkey` | `valkey/valkey:8-alpine` | Opcional, perfil `valkey`. Datos en el volumen `valkey-data`. |
+
+El puerto de la aplicación se publica por defecto como `127.0.0.1:3000`. Define `APP_PORT` para cambiar el puerto del host y `APP_BIND=0.0.0.0` para exponerlo en todas las interfaces. Mantén exactamente un servicio `cron`. Compose construye `DATABASE_URL` a partir de `POSTGRES_PASSWORD`, así que no la defines tú. La contraseña solo se usa cuando la base de datos se crea por primera vez: cambiarla después no cambia la base de datos existente.
+
+Para ver todas las variables, consulta [Variables de entorno](/es/docs/configuration/environment).
+
+## Fijar una versión
+
+Por defecto la etiqueta de la imagen es `latest`. Para controlar las actualizaciones, fija una versión en `.env`:
+
+```dotenv
+TIMEWREN_VERSION=1.2.3
+```
+
+Después `docker compose pull && docker compose up -d` la aplica. Tanto `app` como `cron` usan la misma etiqueta.
+
+## Opcional: Valkey
+
+Valkey proporciona límites de frecuencia compartidos y sincronización del temporizador en tiempo real. Añade a `.env`:
+
+```dotenv
+COMPOSE_PROFILES=valkey
+VALKEY_URL=redis://valkey:6379
+RATE_LIMIT_BACKEND=valkey
+```
+
+Después ejecuta `docker compose up -d`. También puedes iniciarlo para una sola ejecución con `docker compose --profile valkey up -d`. Una sola réplica de la aplicación no necesita Valkey.
+
+## Opcional: HTTPS automático con Caddy
+
+El repositorio incluye una capa adicional que añade un proxy inverso Caddy en los puertos 80 y 443. Apunta un registro DNS al servidor, abre TCP 80 y 443 y descarga la capa:
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/docker-compose.caddy.yml
+```
+
+Añade a `.env`:
+
+```dotenv
+CADDY_DOMAIN=timewren.example.com
+COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml
+NEXT_PUBLIC_APP_URL=https://timewren.example.com
+```
+
+Después `docker compose up -d`. Sin `COMPOSE_FILE`, pasa ambos archivos explícitamente: `docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d`. Para otros proxies, consulta [Proxy inverso](/es/docs/operations/reverse-proxy).
+
+## Operar
+
+```bash
+docker compose ps
+docker compose logs -f app
+```
+
+Para actualizar, consulta [Actualización](/es/docs/operations/upgrading); para las copias de seguridad, [Copia de seguridad y restauración](/es/docs/operations/backup-restore).
+
+## Siguientes pasos
+
+- [Inicio rápido](/es/docs/quickstart)
+- [Proxy inverso](/es/docs/operations/reverse-proxy)
+- [Correo electrónico](/es/docs/configuration/email) y [Almacenamiento](/es/docs/configuration/storage)
+- [Solución de problemas](/es/docs/operations/troubleshooting)

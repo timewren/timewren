@@ -1,0 +1,47 @@
+---
+title: "TimeWren-dokumentation"
+description: "Installér, konfigurér, kør og integrér TimeWren, open source-tidsregistreringen med klippekort og fakturering."
+---
+
+TimeWren er open source-tidsregistrering for freelancere og små teams: kunder, projekter, opgaver, en timer, klippekort og fakturering i én app, som du selv hoster. Den kører som ét Docker-image med PostgreSQL og en lille cron-container. En selvhostet instans har alle funktioner åbne, uden abonnementer, brugergrænser eller licensnøgler, og den sender ingen telemetri.
+
+<Screenshot name="dashboard" alt="TimeWren-dashboardet med dagens tid, aktive projekter og saldi på klippekort" />
+
+## Kom i gang
+
+- [Kom godt i gang](/da/docs/quickstart): fra en tom server til din første registrerede time på cirka ti minutter.
+- [Installation med én kommando](/da/docs/install/quick): `curl -fsSL https://timewren.com/install.sh | bash` på en Linux-server med Docker.
+- [Brug dokumentationen med din LLM](/da/docs/llm): giv dokumentationen til Claude Code, Cursor, Codex eller ChatGPT, og lad den installere, opgradere eller fejlsøge TimeWren for dig.
+
+## Installation
+
+| Metode | Bedst til |
+| --- | --- |
+| [Installation med én kommando](/da/docs/install/quick) | Én Linux-server med Docker. Den hurtigste vej. |
+| [Docker Compose](/da/docs/install/docker-compose) | Fuld kontrol over Compose-filen og `.env`. |
+| [Coolify](/da/docs/install/coolify) | Du kører allerede Coolify. |
+| [Dokploy](/da/docs/install/dokploy) | Du kører allerede Dokploy. |
+| [Railway](/da/docs/install/railway) | En administreret platform uden server at vedligeholde. |
+| [Render](/da/docs/install/render) | En administreret platform med en Blueprint. |
+| [Kubernetes](/da/docs/install/kubernetes) | Et Helm-chart til et eksisterende cluster. |
+| [Fra kildekoden](/da/docs/install/from-source) | Du vil selv bygge imaget eller udvikle på TimeWren. |
+
+## Konfiguration og drift
+
+- [Miljøvariabler](/da/docs/configuration/environment): alle variabler, appen læser, med standardværdier.
+- [E-mail](/da/docs/configuration/email), [fillagring](/da/docs/configuration/storage) og [godkendelse](/da/docs/configuration/authentication).
+- [Opgradering](/da/docs/operations/upgrading), [backup og gendannelse](/da/docs/operations/backup-restore), [reverse proxy og TLS](/da/docs/operations/reverse-proxy) og [fejlfinding](/da/docs/operations/troubleshooting).
+
+## Brug og udvid
+
+- [Klippekort](/da/docs/concepts/prepaid-hours): sådan virker timepakker, saldi og advarsler.
+- Integrationer: [Billy](/da/docs/integrations/billy), [Dinero](/da/docs/integrations/dinero), [e-conomic](/da/docs/integrations/e-conomic), [kalendere](/da/docs/integrations/calendar), [CVR-opslag](/da/docs/integrations/cvr) og [Zapier, Make og n8n](/da/docs/integrations/automation).
+- Apps: [desktop](/da/docs/apps/desktop), [mobil](/da/docs/apps/mobile) og [browserudvidelse](/da/docs/apps/browser-extension).
+- Byg videre: [REST API](/da/docs/api/rest), [webhooks](/da/docs/api/webhooks) og [MCP-serveren](/da/docs/api/mcp) til AI-assistenter.
+- [Bidrag](/da/docs/contributing): sæt et udviklingsmiljø op, og send en pull request.
+
+## Til LLM'er og kodeagenter
+
+Alle sider findes som ren Markdown: tilføj `.md` til URL'en (for eksempel `https://timewren.com/docs/quickstart.md`), eller send `Accept: text/markdown`. [/llms.txt](https://timewren.com/llms.txt) viser alle sider, og [/llms-full.txt](https://timewren.com/llms-full.txt) indeholder hele den engelske dokumentation i én fil.
+
+Kildekoden ligger på [github.com/timewren/timewren](https://github.com/timewren/timewren).

@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Saving …",
+    "saved": "Saved",
+    "blocked": "Not saved: fix the highlighted field",
+    "failed": "Could not save",
+    "retry": "Try again"
+  },
+  "loading": {
+    "default": "Loading...",
+    "tip": {
+      "search": "Did you know? You can press Ctrl+K to search everywhere",
+      "rightClick": "Tip: Right-click a task for quick actions",
+      "templates": "Use templates for recurring tasks and save time",
+      "kanban": "You can drag tasks between columns in the Kanban view",
+      "timerFromTask": "Tip: Start a timer straight from a task",
+      "prepaid": "Prepaid packages help you keep track of prepaid hours",
+      "duplicate": "You can duplicate prepaid packages with one click",
+      "keys": "Use J/K to move through the task list with the keyboard"
+    }
+  },
+  "member": {
+    "all": "All employees",
+    "selected": "{count} employees selected"
+  },
+  "founding": "Founder",
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "completed": "Completed",
+    "archived": "Archived",
+    "draft": "Draft",
+    "sent": "Sent",
+    "paid": "Paid",
+    "overdue": "Overdue",
+    "on_hold": "On hold"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Normal",
+    "high": "High",
+    "urgent": "Critical"
+  },
+  "modal": {
+    "close": "Close",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "wait": "Please wait...",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Upload failed",
+    "uploaded": "Image uploaded",
+    "uploadError": "Could not upload the image",
+    "alt": "Image",
+    "change": "Change",
+    "upload": "Upload",
+    "remove": "Remove",
+    "hint": "JPEG, PNG or WebP. Max 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Network error",
+      "message": "Could not connect to the server. Check your internet connection and try again."
+    },
+    "server": {
+      "title": "Server error",
+      "message": "A server error occurred. Try again later."
+    },
+    "notFound": {
+      "title": "Not found",
+      "message": "The resource you are looking for does not exist or has been removed."
+    },
+    "permission": {
+      "title": "Access denied",
+      "message": "You do not have permission to view this content."
+    },
+    "unknown": {
+      "title": "Something went wrong",
+      "message": "An unexpected error occurred. Try reloading the page."
+    },
+    "offline": "You are offline",
+    "connected": "Connected",
+    "details": "Error details",
+    "retrying": "Trying again...",
+    "retry": "Try again",
+    "loading": "Loading..."
+  },
+  "empty": {
+    "clients": {
+      "title": "No clients yet",
+      "description": "Get started by creating your first client. You can add contact details, company registration number, hourly rate and more.",
+      "action": "Create your first client",
+      "guide": "Read the guide"
+    },
+    "projects": {
+      "needClientTitle": "Create a client first",
+      "needClientDescription": "You need at least one client before you can create projects. Projects always belong to a client.",
+      "createClient": "Create client",
+      "title": "No projects yet",
+      "description": "Create your first project to start tracking time and invoicing your clients. You can choose an hourly rate or a fixed price.",
+      "action": "Create project",
+      "seeClients": "View clients"
+    },
+    "time": {
+      "needProjectTitle": "Create a project first",
+      "needProjectDescription": "You need at least one active project to track time. Projects help you organise and invoice your work.",
+      "createProject": "Create project",
+      "today": "today",
+      "title": "No time tracked {date}",
+      "description": "Start the timer or add a time entry manually. You can also create recurring templates for regular tasks.",
+      "startTimer": "Start timer",
+      "seeTemplates": "View templates"
+    },
+    "invoices": {
+      "needTimeTitle": "Track time first",
+      "needTimeDescription": "You have no unbilled time to invoice. Start by tracking time on your projects.",
+      "trackTime": "Track time",
+      "title": "No invoices yet",
+      "description": "Create your first invoice based on tracked time or fixed amounts. You can customise invoice templates in settings.",
+      "action": "Create invoice",
+      "seeUnbilled": "View unbilled time"
+    },
+    "tasks": {
+      "needProjectTitle": "Create a project first",
+      "needProjectDescription": "Tasks belong to projects. Create a project first, then you can add tasks.",
+      "createProject": "Create project",
+      "title": "No tasks",
+      "description": "Keep track of your tasks and deadlines. You can prioritise tasks and set due dates.",
+      "action": "Create task",
+      "seeProjects": "View projects"
+    },
+    "prepaid": {
+      "needClientTitle": "Create a client first",
+      "needClientDescription": "Prepaid packages (prepaid hours) belong to clients. Create a client first.",
+      "createClient": "Create client",
+      "title": "No prepaid packages",
+      "description": "Prepaid packages are blocks of hours paid in advance. Perfect for ongoing support or maintenance for regular clients.",
+      "action": "Create prepaid package",
+      "seeClients": "View clients"
+    },
+    "reports": {
+      "title": "No data to show",
+      "description": "Track time and create invoices to see your reports and statistics here. The more data, the better the insight.",
+      "action": "Go to time tracking"
+    },
+    "search": {
+      "title": "No results",
+      "descriptionQuery": "We could not find anything matching \"{query}\". Try another search term or check the spelling.",
+      "description": "Try searching for something else.",
+      "clear": "Clear search"
+    },
+    "error": {
+      "title": "Something went wrong",
+      "description": "We could not load the data. Please try again.",
+      "retry": "Try again"
+    },
+    "moduleDisabled": {
+      "title": "Feature disabled",
+      "description": "This module is not enabled for your organisation. Contact your administrator if you want to use it.",
+      "action": "Module settings"
+    }
+  },
+  "client": {
+    "placeholder": "Select client",
+    "clear": "No client",
+    "selected": "{count} clients selected",
+    "searchLabel": "Search clients",
+    "searchPlaceholder": "Search clients...",
+    "listLabel": "Clients",
+    "none": "No clients found",
+    "frequent": "Frequently used",
+    "all": "All clients",
+    "entryCount": "{count} entries"
+  },
+  "project": {
+    "placeholder": "Select project",
+    "none": "No project",
+    "searchPlaceholder": "Search project or client...",
+    "listLabel": "Projects",
+    "recent": "Recently used",
+    "empty": "No projects found",
+    "noClient": "No client",
+    "unknownClient": "Unknown client"
+  },
+  "task": {
+    "placeholder": "Select task",
+    "searchPlaceholder": "Search task, project or client...",
+    "none": "No task",
+    "inProgress": "In progress",
+    "todo": "To do",
+    "backlog": "Backlog",
+    "other": "Other",
+    "noMatch": "No tasks found",
+    "noActive": "No active tasks",
+    "showMoreBacklog": "Show {count} more backlog tasks"
+  }
+}

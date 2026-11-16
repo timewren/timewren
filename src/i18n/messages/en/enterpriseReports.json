@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Employee"
+    },
+    "department": {
+      "label": "Department"
+    },
+    "project": {
+      "label": "Project"
+    },
+    "activityType": {
+      "label": "Activity"
+    },
+    "absenceType": {
+      "label": "Absence type"
+    },
+    "day": {
+      "label": "Date"
+    },
+    "week": {
+      "label": "Week"
+    },
+    "month": {
+      "label": "Month"
+    },
+    "vacationYear": {
+      "label": "Holiday year"
+    },
+    "email": {
+      "label": "Email"
+    },
+    "employmentType": {
+      "label": "Employment type"
+    },
+    "weeklyHours": {
+      "label": "Hours/week"
+    },
+    "dailyNorm": {
+      "label": "Daily norm"
+    },
+    "employeeNumber": {
+      "label": "Employee no.",
+      "help": "Employee number in the payroll system (follows the employee dimension)"
+    },
+    "payrollCode": {
+      "label": "Pay code",
+      "help": "Pay code from the activity type (follows the activity dimension)"
+    },
+    "hours": {
+      "label": "Logged hours"
+    },
+    "normHours": {
+      "label": "Standard hours",
+      "help": "Daily norm × working days in the period (public holidays deducted)"
+    },
+    "workDays": {
+      "label": "Working days",
+      "help": "Planned working days in the period (excluding public holidays/closure days)"
+    },
+    "employeeCount": {
+      "label": "Number of employees"
+    },
+    "flexDelta": {
+      "label": "Flex (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Break deducted",
+      "help": "Only for unpaid break (check-in/out)"
+    },
+    "checkInHours": {
+      "label": "Presence (check-in)"
+    },
+    "workedDays": {
+      "label": "Days with entries"
+    },
+    "maxDayHours": {
+      "label": "Longest day",
+      "help": "Highest daily total for one employee in the group"
+    },
+    "longDays": {
+      "label": "Days over 13 h",
+      "help": "A daily total over 13 h leaves under 11 h of rest (the 11-hour rule)"
+    },
+    "avgWeeklyHours": {
+      "label": "Avg. hours/week",
+      "help": "Logged hours per employee-week with entries or absence (the 48-hour rule)"
+    },
+    "weeksOver48h": {
+      "label": "Weeks over 48 h",
+      "help": "Number of employee-weeks with over 48 h logged"
+    },
+    "fullWeeks": {
+      "label": "Weeks without a day off",
+      "help": "Weeks with entries on all 7 days and no absence day (24 h weekly rest)"
+    },
+    "absenceDays": {
+      "label": "Absence (days)"
+    },
+    "absenceHours": {
+      "label": "Absence (hours)"
+    },
+    "absencePeriods": {
+      "label": "Absence periods"
+    },
+    "sickDays": {
+      "label": "Sick days"
+    },
+    "sickHours": {
+      "label": "Sick hours"
+    },
+    "sickPeriods": {
+      "label": "Sickness periods"
+    },
+    "sickPct": {
+      "label": "Sickness absence %",
+      "help": "Sick days / working days"
+    },
+    "longTermSick": {
+      "label": "Long-term sick",
+      "help": "Continuous sickness period over 30 days in the period"
+    },
+    "longTermSickCount": {
+      "label": "Long-term sick (count)",
+      "help": "Number of employees with a sickness period over 30 days"
+    },
+    "overtimeEarned": {
+      "label": "Overtime earned"
+    },
+    "overtimeUsed": {
+      "label": "Time off in lieu taken"
+    },
+    "overtimePaidOut": {
+      "label": "Overtime paid out"
+    },
+    "overtimeNet": {
+      "label": "Overtime net",
+      "help": "Earned − taken as time off − paid out"
+    },
+    "vacationAllotted": {
+      "label": "Holiday allotted"
+    },
+    "vacationUsed": {
+      "label": "Holiday used"
+    },
+    "vacationRemaining": {
+      "label": "Holiday remaining"
+    },
+    "extraVacationAllotted": {
+      "label": "Extra holiday days allotted"
+    },
+    "extraVacationUsed": {
+      "label": "Extra holiday days used"
+    },
+    "extraVacationRemaining": {
+      "label": "Extra holiday days remaining"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Holiday taken in the period",
+      "help": "Holiday days (types that deduct the holiday balance) within the report period"
+    },
+    "hoursByActivity": {
+      "label": "Hours per activity",
+      "pivot": "{name} (hours)"
+    },
+    "absenceDaysByType": {
+      "label": "Absence per type (days)",
+      "pivot": "{name} (days)"
+    },
+    "absenceHoursByType": {
+      "label": "Absence per type (hours)",
+      "pivot": "{name} (hours)"
+    },
+    "quantityByWageType": {
+      "label": "Quantity per pay code",
+      "help": "Hours/days per pay code via payroll mapping (Settings → Payroll)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Employee",
+    "department": "Department",
+    "project": "Project",
+    "activityType": "Activity",
+    "absenceType": "Absence type",
+    "day": "Day",
+    "week": "Week",
+    "month": "Month",
+    "vacationYear": "Holiday year"
+  },
+  "groups": {
+    "dimensions": "Dimensions",
+    "employee": "Employee",
+    "time": "Time",
+    "compliance": "Compliance",
+    "absence": "Absence",
+    "overtime": "Overtime",
+    "payroll": "Payroll",
+    "vacation": "Holiday accounts"
+  },
+  "presets": {
+    "this_month": "This month",
+    "last_month": "Last month",
+    "this_quarter": "This quarter",
+    "this_year": "This year",
+    "last_year": "Last year"
+  },
+  "types": {
+    "payroll": {
+      "label": "Payroll report",
+      "description": "Per employee for the payroll period: hours, absence in days and hours per type, flex, overtime and break deductions. For the payroll office."
+    },
+    "sickness": {
+      "label": "Sickness absence",
+      "description": "Sickness absence statistics per department and month: sick days, periods, absence percentage and long-term sickness (over 30 days)."
+    },
+    "absence": {
+      "label": "Absence",
+      "description": "All absence types (holiday, sickness, leave, care…) per employee or department — days and hours."
+    },
+    "flex_overtime": {
+      "label": "Flex and overtime",
+      "description": "Balance development per period: standard hours, logged hours, flex delta and overtime earned/taken/paid out."
+    },
+    "project_activity": {
+      "label": "Project and activity",
+      "description": "Hours split by project, activity type and department — for following up on teaching, preparation, meetings and so on."
+    },
+    "vacation_account": {
+      "label": "Holiday accounts",
+      "description": "Holiday accounts per holiday year: allotted, used and remaining for holiday and extra holiday days — per employee."
+    },
+    "compliance": {
+      "label": "Compliance (Working Time Act)",
+      "description": "Violations and warnings per employee and week: days over 13 h (11 h rest), weeks over 48 h, weeks without a day off (24 h weekly rest) and average weekly working time."
+    },
+    "custom": {
+      "label": "Custom",
+      "description": "Free choice of dimensions and columns from the whole catalogue — build exactly the report you are missing."
+    }
+  },
+  "weekdays": {
+    "1": "Monday",
+    "2": "Tuesday",
+    "3": "Wednesday",
+    "4": "Thursday",
+    "5": "Friday",
+    "6": "Saturday",
+    "7": "Sunday"
+  },
+  "page": {
+    "all": "(all)",
+    "selected": "({count} selected)",
+    "clear": "Clear selection",
+    "downloaded": "Report downloaded",
+    "templateDeleted": "Template deleted",
+    "maxDimensions": "At most 4 dimensions",
+    "templateUnreadable": "The template cannot be read",
+    "needColumn": "Choose at least one column",
+    "inactive": "(inactive)",
+    "title": "Reports",
+    "step1": "1. Choose report type",
+    "step2": "2. Period",
+    "holidayYearPlaceholder": "Holiday year…",
+    "holidayYear": "Holiday year {year}",
+    "from": "From",
+    "to": "To",
+    "step3": "3. Filters",
+    "departments": "Departments",
+    "employees": "Employees",
+    "projects": "Projects",
+    "activities": "Activities",
+    "absenceTypes": "Absence types",
+    "onlyApproved": "Approved hours only",
+    "includeRejected": "Include rejected hours",
+    "includePending": "Include pending absence",
+    "includeInactive": "Include former employees",
+    "includeDetails": "Include all entries (details)",
+    "step4": "4. Group by",
+    "step4Hint": "(order = click order)",
+    "step5": "5. Columns",
+    "run": "Run report",
+    "saveAsTemplate": "Save as template",
+    "chooseTemplateFirst": "Save or choose a template first",
+    "scheduleMail": "Schedule email",
+    "savedTemplates": "Saved templates",
+    "noTemplates": "No templates yet.",
+    "sharedOrg": "Shared in the organisation",
+    "onlyMe": "Only me",
+    "standard": " · Default",
+    "deleteTemplate": "Delete template",
+    "confirmDeleteTemplate": "Delete the template \"{name}\"?",
+    "footnote": "CSV uses semicolons and Danish decimal commas. Rejected hours are excluded by default; open sick reports count up to and including today. Managers only see their own departments and employees.",
+    "cardEmployees": "Employees",
+    "noData": "No data in the period {from} – {to}",
+    "noDataHint": "Try a wider period, fewer filters or other columns.",
+    "allEntries": "All entries ({count})",
+    "truncated": "The period contains more entries than the detail list can hold. The totals above are still calculated on all data. Choose a shorter period to see all details.",
+    "detEmployee": "Employee",
+    "detDepartment": "Department",
+    "detDate": "Date",
+    "detHours": "Hours",
+    "detProject": "Project",
+    "detActivity": "Activity",
+    "detPayCode": "Pay code",
+    "detDescription": "Description",
+    "detSource": "Source",
+    "detStatus": "Status",
+    "saveTemplateTitle": "Save as template",
+    "templateSaved": "Template saved",
+    "name": "Name",
+    "description": "Description",
+    "shareWithOrg": "Share with the whole organisation (all managers and HR can see it)",
+    "cancel": "Cancel",
+    "save": "Save",
+    "scheduleTitle": "Schedule email",
+    "scheduled": "The report is sent automatically",
+    "frequency": "Frequency",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "weekday": "Weekday",
+    "dayOfMonth": "Day of the month",
+    "dayN": "{day}.",
+    "recipients": "Recipients (separate with commas)",
+    "recipientsPlaceholder": "payroll@example.com, manager@example.com",
+    "format": "Format",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "The period in the template is rolling: \"Last month\" sent on the 1st gives exactly last month's figures.",
+    "schedule": "Schedule",
+    "scheduleRemoved": "Scheduled email removed",
+    "scheduledMails": "Scheduled emails",
+    "freqWeeklyLower": "weekly",
+    "freqMonthlyLower": "monthly",
+    "scheduleLine": "· {frequency} (day {day}) · {format} · {recipients}",
+    "lastSent": " · last sent {date}",
+    "remove": "Remove",
+    "yes": "Yes",
+    "no": "No",
+    "card": {
+      "employees": "Employees"
+    }
+  }
+}

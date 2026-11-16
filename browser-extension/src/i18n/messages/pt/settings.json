@@ -1,0 +1,109 @@
+{
+  "title": "Definições",
+  "close": "Fechar definições",
+  "searchPlaceholder": "Pesquisar definições…",
+  "searchLabel": "Pesquisar definições",
+  "noMatch": "Nenhuma definição corresponde a “{query}”",
+  "keywords": {
+    "view": "resumo|vista|sugestão|sugestões|site|sites|bolsa|bolsas|horas pré-pagas|popup",
+    "appearance": "aspeto|tema|escuro|claro|emblema|ícone|idioma",
+    "newTab": "novo separador|separador|página inicial|widgets",
+    "calendar": "calendário|dia|data",
+    "goal": "meta diária|meta|meta de horas|progresso",
+    "reminder": "lembrete|notificação|fim de semana|registo|registar",
+    "data": "dados|eliminar|repor|offline|associações|ligações|site|fila",
+    "advanced": "avançado|api|url|servidor",
+    "shortcuts": "atalhos|atalho|teclado|alt",
+    "about": "sobre a extensão|extensão|sobre|versão|avaliar|avaliação|ajuda"
+  },
+  "view": {
+    "title": "Resumo",
+    "suggestions": "Sugestões a partir do site",
+    "suggestionsHint": "Sugere um projeto com base no site em que estás",
+    "prepaidTab": "Separador Bolsas",
+    "prepaidTabHint": "Mostrar no popup o separador com as bolsas de horas ativas"
+  },
+  "appearance": {
+    "title": "Aspeto",
+    "theme": "Tema",
+    "themeHint": "Tema de cores da extensão",
+    "system": "Seguir o sistema",
+    "dark": "Escuro",
+    "light": "Claro",
+    "badge": "Número no ícone",
+    "badgeHint": "O que o número no ícone da extensão mostra",
+    "badgeTimer": "Cronómetro ativo",
+    "badgeToday": "Horas de hoje",
+    "badgeOff": "Oculto",
+    "language": "Idioma",
+    "languageHint": "Idioma da extensão",
+    "languageAuto": "Automático (seguir o navegador)"
+  },
+  "newTab": {
+    "title": "Novo separador",
+    "enable": "Abrir o TimeTrack em novos separadores",
+    "enableHint": "Desativa para manter os separadores normais e vazios",
+    "widgetsHint": "Escolhe os widgets nas definições do novo separador",
+    "activeWidgets": "Widgets ativos: {count}"
+  },
+  "calendar": {
+    "title": "Calendário",
+    "openOn": "Abrir o calendário em",
+    "openOnHint": "Que dia o calendário mostra ao abrir",
+    "today": "Hoje",
+    "lastViewed": "Último dia visto"
+  },
+  "goal": {
+    "title": "Meta diária",
+    "hours": "Meta diária de horas",
+    "hoursHint": "Usada na barra de progresso diário no popup e no novo separador"
+  },
+  "reminder": {
+    "title": "Lembrete diário",
+    "enable": "Lembrar-me de registar tempo",
+    "enableHint": "Notificação se tiveres poucas horas",
+    "time": "Hora",
+    "minHours": "Mínimo de horas",
+    "weekends": "Também ao fim de semana"
+  },
+  "data": {
+    "title": "Dados",
+    "clearMappingsConfirm": "Eliminar todas as associações guardadas entre sites e projetos?",
+    "clearMappingsDetail": "As sugestões ocultas voltarão também a aparecer.",
+    "delete": "Eliminar",
+    "clearMappings": "Eliminar associações de sites",
+    "mappingsCount": "{count, plural, one {# associação guardada} other {# associações guardadas}}",
+    "clearQueueConfirm": "Eliminar {count, plural, one {# ação pendente} other {# ações pendentes}}?",
+    "unsentEntries": "{count, plural, one {# registo ainda não foi enviado} other {# registos ainda não foram enviados}} para o TimeTrack. O tempo é eliminado de forma definitiva.",
+    "clearQueueConfirmButton": "Eliminar a fila",
+    "clearQueue": "Eliminar fila offline",
+    "pendingActions": "{count, plural, one {# ação pendente} other {# ações pendentes}}",
+    "unsentSuffix": "{count, plural, one {# registo por enviar} other {# registos por enviar}}",
+    "resetConfirm": "Repor todas as definições?",
+    "resetDetail": "As definições predefinidas da extensão são restauradas.",
+    "resetButton": "Repor",
+    "reset": "Repor definições",
+    "resetHint": "Restaurar as definições predefinidas"
+  },
+  "advanced": {
+    "title": "Avançado",
+    "apiUrl": "Endereço da API",
+    "notSaved": "{error}. O endereço não foi guardado."
+  },
+  "shortcuts": {
+    "title": "Atalhos de teclado",
+    "unreadable": "Não é possível ler os atalhos neste navegador.",
+    "openApp": "Abrir o TimeTrack",
+    "notSet": "Não definido",
+    "change": "Alterar atalhos",
+    "firefoxPage": "Abre a página de atalhos do Firefox",
+    "chromePage": "Abre chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "Extensão do navegador TimeTrack, versão {version}",
+    "rateFirefox": "Avaliar no Firefox Add-ons",
+    "rateChrome": "Avaliar na Chrome Web Store",
+    "rateHint": "A tua avaliação ajuda outros freelancers",
+    "learnMore": "Ler mais sobre a extensão"
+  }
+}

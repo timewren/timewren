@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "晚上好",
+    "morning": "早上好",
+    "forenoon": "上午好",
+    "afternoon": "下午好",
+    "evening": "晚上好"
+  },
+  "duration": {
+    "hourUnit": "小时",
+    "minUnit": "分钟"
+  },
+  "noName": "未命名",
+  "noDescription": "无描述",
+  "prompt": {
+    "label": "你在忙什么？",
+    "placeholder": "例如：昨天为 Jensen 的网站工作了 2 小时",
+    "interpret": "解析",
+    "listening": "正在聆听…",
+    "hintAvailable": "输入或语音听写，然后按回车。语音在浏览器本地处理，音频不会发送到任何地方。",
+    "hintDownloadable": "输入后按回车。",
+    "downloading": "正在下载语音识别…",
+    "install": "下载语音识别（约 60 MB，本地运行）",
+    "hintDefault": "输入后按回车，例如“9-10:30 与 Acme 开会 1.5 小时”。在手机上可以用键盘上的麦克风听写。按 <kbd>/</kbd> 跳到这里。",
+    "stopDictation": "停止听写",
+    "dictate": "用麦克风听写",
+    "dictateTitle": "听写（本地语音识别）",
+    "listeningSr": "正在聆听",
+    "missingHint": "请从下方选择一个建议，或在完整表单中修改。",
+    "descriptionLabel": "描述",
+    "descriptionPlaceholder": "这段时间用在了什么上？",
+    "usePrepaid": "从预付时长包 {name} 中扣除（剩余 {time}）",
+    "saveWithHours": "保存 {hours}",
+    "save": "保存",
+    "editInForm": "在表单中编辑",
+    "cancel": "取消",
+    "keysHint": "回车保存 · Esc 取消",
+    "needDescription": "保存前请先写一句简短的描述。",
+    "internal": "已保存为内部工时。",
+    "savedOffline": "已离线保存。网络恢复后会发送这条工时记录。",
+    "registered": "已记录 {hours}",
+    "saveFailed": "无法保存工时记录"
+  },
+  "welcome": {
+    "title": "欢迎使用 {brand}",
+    "titleDone": "开局不错，你的第一条工时记录已完成",
+    "hide": "隐藏欢迎卡片",
+    "intro": "一分钟内即可上手：现在启动计时器，或在下方输入框里写下你做了什么，例如“昨天为网站工作了 2 小时”。公司信息和套餐可以稍后再设置。",
+    "timerStarted": "计时器正在运行。完成后请在顶部的计时器栏中停止。",
+    "timerBusy": "计时器已在运行",
+    "startFirstTimer": "启动你的第一个计时器",
+    "writeLine": "在输入框中写一行",
+    "surveyQuestion": "你主要会用 {brand} 做什么？<muted>（可选）</muted>",
+    "primaryUse": {
+      "time": "记录我的工时",
+      "invoicing": "向客户开具发票",
+      "klippekort": "预付时长包和预付工时",
+      "team": "跟踪团队的工时"
+    },
+    "thanksToast": "感谢你的回答",
+    "saveFailed": "无法保存你的回答，请重试。",
+    "thanksNote": "谢谢。首页现在会显示适合你的下一步。",
+    "privacyNote": "回答仅用于定制首页，不会与任何人分享。"
+  },
+  "quickStart": {
+    "title": "启动计时器",
+    "running": "计时器已在运行。请先在顶部的计时器栏中停止，再启动新的计时器。",
+    "paused": "计时器已暂停。请先在顶部的计时器栏中继续或保存。",
+    "resumeToast": "计时器已启动，并接续最近一条记录",
+    "continueLast": "继续最近一条",
+    "mostUsed": "最常用",
+    "startedOn": "已在 {name} 上启动计时器",
+    "startOn": "在 {name} 上启动计时器",
+    "empty": "记录一些工时后，你最常用的项目会显示在这里。",
+    "createProject": "创建项目"
+  },
+  "signals": {
+    "label": "需要关注",
+    "nudge": {
+      "first-invoice": "根据你的工时开具第一张发票",
+      "first-client": "创建该预付时长包所属的客户",
+      "first-klippekort": "创建你的第一个预付时长包",
+      "invite-team": "邀请一位同事"
+    },
+    "lowBalance": "{count, plural, other {# 个预付时长包即将用完}}",
+    "unbilled": "有 <b>{duration}</b> 未计费工时可以开具发票"
+  },
+  "today": {
+    "title": "今天",
+    "ofExpected": "/ {duration}",
+    "loadFailed": "无法加载今天的记录。请尝试刷新页面。",
+    "empty": "今天还没有记录工时。在上方输入你做了什么，或启动计时器。",
+    "internal": "内部工时",
+    "resumeToast": "计时器已启动，并接续该记录",
+    "continueLabel": "继续 {name}",
+    "continueFallback": "记录",
+    "continueTitle": "用计时器继续",
+    "allEntries": "所有记录",
+    "fullForm": "完整表单"
+  },
+  "page": {
+    "title": "首页",
+    "overview": "概览"
+  }
+}

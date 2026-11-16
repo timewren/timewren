@@ -1,0 +1,48 @@
+---
+title: "Browser extension"
+description: "The TimeWren browser extension for Chrome and Firefox: timer, quick entries and prepaid balance in the toolbar. Connects to TimeWren Cloud or your own server."
+---
+
+The browser extension puts a timer in your toolbar. You can start, pause and stop a timer, add time entries with project and client pickers, and see the status of your prepaid hour packages. It also has a new tab page and keyboard shortcuts: Alt+Shift+T opens the popup, Alt+Shift+S pauses or resumes the timer, and Alt+Shift+N opens quick entry. The interface is available in Danish, English, German and Spanish.
+
+## Connect to your own server
+
+The extension connects to TimeTrack Cloud by default. To use your own instance, open the popup and choose **Use own server** on the sign-in screen, or go to Settings, Advanced. Enter the public HTTPS address, for example `https://time.example.com`, and select **Connect to server**.
+
+1. The browser asks for access to that one address. The extension never holds a blanket permission for all sites: the manifest lists `https://*/*` and `http://*/*` only as optional host permissions, and the request names the exact origin you typed.
+2. The extension reads `/.well-known/timetrack.json` from your server and checks that it is a TimeTrack server with a compatible API version. Without a reachable discovery document the address is not saved.
+3. Switching clears local account data and restarts the extension. Reopen it and sign in. Synchronise pending offline entries first, because they are not carried over. Select **Use TimeTrack Cloud** to switch back.
+
+Only HTTPS is accepted. In development builds, HTTP is also allowed for localhost and private network addresses, with a warning. The extension uses the browser's own certificate validation. A browser reports an invalid certificate as a generic network error, so the message asks you to check both the address and the certificate.
+
+Tokens belong to one server. They are never sent to another origin, and requests with a token do not follow redirects.
+
+On the server, `NEXT_PUBLIC_APP_URL` must be the public HTTPS origin, because the discovery document takes its URLs from it. Serve `/.well-known/timetrack.json` without a login. CORS for extension origins is on by default; `CORS_ALLOWED_ORIGINS` can restrict it to exact origins, see [Environment variables](/docs/configuration/environment).
+
+## Build and load it
+
+The extension lives in `browser-extension/` of the repository. It is MIT licensed, while the rest of the repository is AGPL-3.0.
+
+```bash
+cd browser-extension
+npm install
+npm run build
+```
+
+For Chrome, open `chrome://extensions/`, enable Developer mode, choose Load unpacked and select `browser-extension/dist`. For Firefox, run `npm run build:firefox`, open `about:debugging#/runtime/this-firefox`, choose Load Temporary Add-on and select `dist-firefox/manifest.json`.
+
+This page does not claim that the extension is published in a browser store under the TimeWren name.
+
+## Sign in
+
+The extension authenticates with a token, not with your password:
+
+1. Open the web app, then Settings, Integrations, and find the Browser extension section.
+2. Generate a token with a name such as "Chrome". It is shown once.
+3. Paste it into the extension popup.
+
+You can see when each token was last used and revoke it in the same place. A revoked token stops working at once.
+
+## Minimum versions
+
+As an operator you can require a minimum extension version with `MIN_CLIENT_VERSIONS`, see [Desktop app](/docs/apps/desktop#minimum-client-versions).

@@ -1,0 +1,47 @@
+---
+title: "Documentación de TimeWren"
+description: "Instala, configura, ejecuta e integra TimeWren, el control de horas de código abierto con bonos de horas y facturación."
+---
+
+TimeWren es un control de horas de código abierto para autónomos y equipos pequeños: clientes, proyectos, tareas, un temporizador, bonos de horas y facturación en una sola aplicación autoalojada. Funciona como una única imagen de Docker con PostgreSQL y un pequeño contenedor de cron. Una instancia autoalojada tiene todas las funciones abiertas, sin planes, límites de usuarios ni claves de licencia, y no envía telemetría.
+
+<Screenshot name="dashboard" alt="El panel de TimeWren con las horas de hoy, los proyectos activos y los saldos de los bonos de horas" />
+
+## Empieza aquí
+
+- [Inicio rápido](/es/docs/quickstart): de un servidor vacío a tu primera hora registrada en unos diez minutos.
+- [Instalación en una línea](/es/docs/install/quick): `curl -fsSL https://timewren.com/install.sh | bash` en un servidor Linux con Docker.
+- [Usa esta documentación con tu LLM](/es/docs/llm): dale la documentación a Claude Code, Cursor, Codex o ChatGPT y deja que instale, actualice o depure TimeWren por ti.
+
+## Instalar
+
+| Método | Ideal para |
+| --- | --- |
+| [Instalación en una línea](/es/docs/install/quick) | Un único servidor Linux con Docker. La forma más rápida. |
+| [Docker Compose](/es/docs/install/docker-compose) | Control total sobre el archivo Compose y el `.env`. |
+| [Coolify](/es/docs/install/coolify) | Ya usas Coolify. |
+| [Dokploy](/es/docs/install/dokploy) | Ya usas Dokploy. |
+| [Railway](/es/docs/install/railway) | Una plataforma gestionada, sin servidor que mantener. |
+| [Render](/es/docs/install/render) | Una plataforma gestionada con Blueprint. |
+| [Kubernetes](/es/docs/install/kubernetes) | Un chart de Helm para un clúster existente. |
+| [Desde el código fuente](/es/docs/install/from-source) | Compilar la imagen tú mismo o desarrollar TimeWren. |
+
+## Configurar y ejecutar
+
+- [Variables de entorno](/es/docs/configuration/environment): todas las variables que lee la aplicación, con sus valores por defecto.
+- [Correo electrónico](/es/docs/configuration/email), [almacenamiento de archivos](/es/docs/configuration/storage) y [autenticación](/es/docs/configuration/authentication).
+- [Actualización](/es/docs/operations/upgrading), [copia de seguridad y restauración](/es/docs/operations/backup-restore), [proxy inverso y TLS](/es/docs/operations/reverse-proxy) y [solución de problemas](/es/docs/operations/troubleshooting).
+
+## Usar y ampliar
+
+- [Bonos de horas](/es/docs/concepts/prepaid-hours): cómo funcionan los paquetes de horas, los saldos y los avisos.
+- Integraciones: [Billy](/es/docs/integrations/billy), [Dinero](/es/docs/integrations/dinero), [e-conomic](/es/docs/integrations/e-conomic), [calendarios](/es/docs/integrations/calendar), [consulta de CVR](/es/docs/integrations/cvr) y [Zapier, Make y n8n](/es/docs/integrations/automation).
+- Aplicaciones: [de escritorio](/es/docs/apps/desktop), [móvil](/es/docs/apps/mobile) y [extensión de navegador](/es/docs/apps/browser-extension).
+- Construye sobre ella: [API REST](/es/docs/api/rest), [webhooks](/es/docs/api/webhooks) y el [servidor MCP](/es/docs/api/mcp) para asistentes de IA.
+- [Contribuir](/es/docs/contributing): configura un entorno de desarrollo y envía un pull request.
+
+## Para LLM y agentes de programación
+
+Cada página está disponible en Markdown plano: añade `.md` a la URL (por ejemplo `https://timewren.com/docs/quickstart.md`) o envía `Accept: text/markdown`. [/llms.txt](https://timewren.com/llms.txt) enumera todas las páginas y [/llms-full.txt](https://timewren.com/llms-full.txt) contiene toda la documentación en inglés en un solo archivo.
+
+El código fuente está en [github.com/timewren/timewren](https://github.com/timewren/timewren).

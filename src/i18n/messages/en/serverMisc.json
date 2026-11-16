@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Invoice (standard)",
+        "subject": "Invoice {number} from {company}",
+        "title": "Invoice {number}",
+        "text": "Dear {client},\n\nPlease find attached the invoice for the work carried out.\n\nAmount: {amount}\nDue date: {dueDate}",
+        "button": "View invoice",
+        "footer": "Kind regards\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Portal invitation",
+        "subject": "You have been invited to the client portal at {company}",
+        "title": "Welcome to the client portal",
+        "text": "Dear {client},\n\nYou have been invited to access your personal client portal at {company}.\n\nIn the portal you can:\n• View your invoices\n• Follow project progress\n• View your time entries\n• Check your prepaid package",
+        "button": "Accept invitation"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "You will no longer receive newsletters and marketing emails from TimeTrack. Important emails about your account and security will still arrive.",
+    "invalidText": "The unsubscribe could not be confirmed. Try again, or adjust your settings inside TimeTrack.",
+    "confirmText": "Do you want to unsubscribe from newsletters and marketing emails from TimeTrack? Important emails about your account and security will still arrive.",
+    "settingsButton": "Adjust email settings",
+    "confirmButton": "Confirm unsubscribe",
+    "doneTitle": "You are unsubscribed",
+    "invalidTitle": "The link is invalid",
+    "confirmTitle": "Unsubscribe from newsletters"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "the end of the period"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Het gratis abonnement biedt ruimte voor 3 actieve klanten. Archiveer een klant of bekijk de abonnementen.",
+    "seePlans": "Abonnementen bekijken"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Alles nog niet gefactureerd",
+      "periodThisMonth": "Deze maand",
+      "periodLastMonth": "Vorige maand",
+      "draftCreated": "Conceptfactuur van {amount} gemaakt",
+      "createFailed": "Conceptfactuur maken mislukt",
+      "clientFallback": "de klant",
+      "title": "{name} factureren",
+      "description": "Maakt een concept dat je kunt controleren. Er wordt niets naar de klant gestuurd.",
+      "period": "Periode",
+      "loadError": "Het niet-gefactureerde werk kon niet worden geladen. Probeer het zo opnieuw.",
+      "noUnbilled": "Geen niet-gefactureerde uren voor {name} in deze periode.",
+      "entries": "Boekingen",
+      "time": "Tijd",
+      "amountExVat": "Bedrag excl. btw",
+      "timePerProject": "Tijd per project",
+      "project": "Project",
+      "amount": "Bedrag",
+      "entryCount": "{count, plural, one {# boeking} other {# boekingen}}",
+      "noRate": "{time} heeft geen uurtarief en wordt meegeteld als 0 DKK. Je kunt het bedrag op het concept aanpassen.",
+      "footnote": "De boekingen worden als gefactureerd gemarkeerd en gespecificeerd op het concept. Verwijder je het concept, dan worden de uren weer niet-gefactureerd.",
+      "pickEntries": "Zelf boekingen kiezen",
+      "cancel": "Annuleren",
+      "createDraft": "Conceptfactuur maken",
+      "createDraftAmount": "Conceptfactuur maken ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# dag sinds de laatste factuur} other {# dagen sinds de laatste factuur}}",
+      "oldestEntry": "{count, plural, one {de oudste boeking is # dag oud} other {de oudste boeking is # dagen oud}}",
+      "ready": "Klaar om te factureren",
+      "notInvoiced": "is niet gefactureerd",
+      "notInvoicedClient": "voor {client} is niet gefactureerd",
+      "invoiceNow": "Nu factureren",
+      "hide": "30 dagen verbergen"
+    },
+    "explainer": {
+      "point1": "De klant betaalt de uren vooraf, dus je hoeft achteraf geen facturen of herinneringen te sturen.",
+      "point2": "Als je tijd voor de klant boekt, wordt die automatisch van het pakket afgetrokken.",
+      "point3": "De klant kan het saldo volgen in het klantenportaal en jij krijgt een melding als het pakket bijna op is.",
+      "title": "Verkoop uren vooraf met urenpakketten",
+      "intro": "Een urenpakket is een blok uren dat de klant vooraf koopt, bijvoorbeeld 10 uur voor terugkerende taken en support.",
+      "create": "Urenpakket maken",
+      "calculator": "Bereken de prijs met de calculator"
+    },
+    "prepaid": {
+      "offer": "Verkoop een urenpakket van {hours} uur. Het gaat ongeveer {months} maanden mee en de klant betaalt vooraf.",
+      "offerPrice": "Verkoop een urenpakket van {hours} uur ({price}). Het gaat ongeveer {months} maanden mee en de klant betaalt vooraf.",
+      "sell": "Urenpakket verkopen",
+      "dismissLabel": "Niet relevant voor {client}. Niet meer tonen",
+      "dismissTitle": "Niet relevant. Niet meer tonen voor deze klant",
+      "suggestionLabel": "Suggesties voor urenpakketten",
+      "defaultName": "Urenpakket {hours} uur",
+      "usageClient": "<name>{client}</name> had de afgelopen 3 maanden gemiddeld ongeveer <num>{time}</num> per maand.",
+      "usageGeneric": "De klant had de afgelopen 3 maanden gemiddeld ongeveer <num>{time}</num> per maand."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "Gepauzeerd",
+      "paymentMissing": "Betaling ontbreekt",
+      "active": "Actief",
+      "paymentFailedRetry": "{store} kon de betaling niet incasseren. Werk de betaalmethode bij in {store}. Totdat de betaling lukt, heb je toegang zoals in het gratis abonnement.",
+      "paymentFailedGrace": "{store} kon de betaling niet incasseren. Werk de betaalmethode bij in {store} om toegang te houden.",
+      "currentPlan": "Huidig abonnement",
+      "yearly": "Jaarlijks",
+      "monthly": "Maandelijks",
+      "boughtVia": "Gekocht via {store}",
+      "expires": "Verloopt op {date}",
+      "renews": "Wordt verlengd op {date}",
+      "paymentTitle": "Betaling",
+      "paymentInfo": "Je hebt het abonnement in de {brand}-app gekocht, dus {store} regelt betaling en bonnetjes. Wijzig het abonnement of de betaalmethode, of zeg het op, in {store}.",
+      "manage": "Beheren in {store}"
+    },
+    "wall": {
+      "checkoutFailed": "Betaalsessie maken mislukt. Probeer het opnieuw.",
+      "portalFailed": "Factuurportaal openen mislukt. Probeer het opnieuw.",
+      "headingNone": "Je hebt geen actief abonnement",
+      "headingLocked": "Je toegang is gepauzeerd",
+      "headingPastDue": "Je betaling ontbreekt",
+      "headingCanceled": "Je abonnement is beëindigd",
+      "headingTrial": "Je proefperiode is verlopen",
+      "subNone": "Neem een abonnement om {brand} te gebruiken",
+      "subPastDue": "Werk je betaalmethode bij om weer toegang te krijgen",
+      "subUpgrade": "Upgrade naar {plan} om door te gaan",
+      "pastDueBody": "We konden je laatste betaling niet incasseren. Werk je betaalmethode bij om {brand} te blijven gebruiken.",
+      "updatePayment": "Betaalmethode bijwerken",
+      "monthly": "Maandelijks",
+      "yearly": "Jaarlijks",
+      "save17": "Bespaar 17%",
+      "perYearExVat": "/jaar excl. btw",
+      "perMonthExVat": "/maand excl. btw",
+      "equivalent": "Gelijk aan {price}/maand, dus je bespaart 2 maanden",
+      "featureWorkspace": "Gedeelde teamomgeving met meerdere gebruikers",
+      "featureTeamReports": "Teamrapporten",
+      "featureUnlimited": "Onbeperkte urenregistratie",
+      "featureInvoicing": "Urenpakketten en facturatie",
+      "featureManagement": "Klant- en projectbeheer",
+      "featureReports": "Rapporten en export",
+      "featureIntegrations": "Deense integraties (CVR, Billy en meer)",
+      "upgradeNow": "Nu upgraden",
+      "discountNote": "Bij het afrekenen zie je de standaardprijs. Je korting van {percent}% wordt automatisch toegepast.",
+      "manageAccount": "Account beheren",
+      "exportData": "Gegevens exporteren",
+      "signOut": "Uitloggen"
+    }
+  }
+}

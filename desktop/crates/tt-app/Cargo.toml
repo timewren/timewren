@@ -1,0 +1,94 @@
+[package]
+license = "AGPL-3.0-only"
+name = "tt-app"
+version = "0.2.29"
+edition = "2024"
+publish = false
+description = "TimeTrack Desktop (ny app): GPUI-appen (vindue, skærme, tray, genveje)."
+
+[lib]
+path = "src/lib.rs"
+
+# Windows: brand-ikonet og versionsoplysninger i timetrack.exe (build.rs).
+# Samme version, som GPUI allerede bruger (Cargo.lock).
+[target.'cfg(windows)'.build-dependencies]
+embed-resource = "=3.0.12"
+
+[[bin]]
+name = "timetrack"
+path = "src/main.rs"
+
+[dependencies]
+# GPUI via longbridges gpui-kit (Apache-2.0), pinnet eksakt som i spiken.
+# gpui-kit 0.8.1 pinner selv gpui-pre =0.3.10 (zed-industries/zed@08cbb88).
+gpui-kit = { version = "=0.8.1" }
+# Tray/menulinje (tauri-apps, samme crate som Tauri bruger).
+tray-icon = "=0.26.1"
+# Globale genveje (tauri-apps, samme vedligeholder som tray-icon, intet build-script).
+global-hotkey = "=0.9.0"
+chrono = { workspace = true, features = ["clock"] }
+# Kalenderkilder: TZID i ICS-filer (kalenderkilder/ics.rs).
+chrono-tz.workspace = true
+futures = "=0.3.34"
+
+# Integration: datalag, regler, sporing, matching og AI.
+tt-core.workspace = true
+tt-data.workspace = true
+tt-tracker.workspace = true
+tt-matcher.workspace = true
+tt-ai.workspace = true
+async-channel.workspace = true
+futures-lite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+rust_decimal.workspace = true
+ureq.workspace = true
+# Login-token i OS-nøgleringen (backend/repo/secrets.rs).
+keyring-core.workspace = true
+# Systemets sprog ved første start (src/i18n.rs); allerede i låsefilen via GPUI.
+sys-locale = "=0.3.2"
+# Pakning: læs den gamle 0.2.x-database ved første start (migrate.rs).
+rusqlite.workspace = true
+# Pakning: updateren (updater.rs) læser Tauri-updaterens latest.json og
+# minisign-signaturer, så 0.2.x og 0.3 bruger samme kanal og nøgle.
+minisign-verify = "=0.3.0"
+base64 = "=0.22.1"
+semver = "=1.0.28"
+
+# Kun til skærmbilleder: Window::render_to_image ligger bag GPUI's test-support.
+gpui = { package = "gpui-pre", version = "=0.3.10", optional = true }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Notifikationer med knapper (notify_mac.rs) og EventKit (kalenderkilder/eventkit.rs).
+# Samme versioner, som GPUI allerede har i låsefilen.
+objc2 = "=0.6.5"
+block2 = "=0.6.2"
+objc2-foundation = { version = "=0.3.2", default-features = false, features = ["std", "NSArray", "NSBundle", "NSDate", "NSError", "NSObject", "NSSet", "NSString", "NSURL"] }
+objc2-user-notifications = { version = "=0.3.2", default-features = false, features = ["std", "block2", "UNNotification", "UNNotificationAction", "UNNotificationCategory", "UNNotificationContent", "UNNotificationRequest", "UNNotificationResponse", "UNNotificationSound", "UNNotificationTrigger", "UNUserNotificationCenter"] }
+gpui-macos-shots = { package = "gpui-pre-macos", version = "=0.3.10", optional = true, features = ["test-support"] }
+
+[target.'cfg(target_os = "macos")'.dependencies.apple-native-keyring-store]
+workspace = true
+
+[target.'cfg(target_os = "windows")'.dependencies.windows-native-keyring-store]
+workspace = true
+
+# ret-win: skjul/vis hovedvinduet (HWND fra GPUI-vinduet), se vindue.rs.
+[target.'cfg(target_os = "windows")'.dependencies]
+raw-window-handle = "=0.6.2"
+
+[dev-dependencies]
+# Test-nøglepar til updaterens signaturtjek.
+minisign = "=0.10.0"
+tt-data = { workspace = true, features = ["mock"] }
+tiny_http.workspace = true
+tempfile.workspace = true
+
+[features]
+# Indbygget lokal model (llama.cpp, kræver cmake). Slået fra som standard.
+local-llm = ["tt-ai/local-llm"]
+# Headless probe-test (src/probe.rs): cargo test --features probe
+probe = ["gpui-kit/test-support"]
+# Skærmbilleder med render_to_image: scripts/shot.sh
+shots = ["dep:gpui", "gpui/test-support", "dep:gpui-macos-shots"]
+

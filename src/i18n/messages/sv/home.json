@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "God natt",
+    "morning": "God morgon",
+    "forenoon": "God morgon",
+    "afternoon": "God eftermiddag",
+    "evening": "God kväll"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Namnlös",
+  "noDescription": "Ingen beskrivning",
+  "prompt": {
+    "label": "Vad har du arbetat med?",
+    "placeholder": "t.ex. 2 timmar på webbplatsen åt Jensen igår",
+    "interpret": "Tolka",
+    "listening": "Lyssnar…",
+    "hintAvailable": "Skriv eller diktera och tryck sedan på Enter. Talet bearbetas lokalt i webbläsaren och ljudet skickas ingen annanstans.",
+    "hintDownloadable": "Skriv och tryck på Enter.",
+    "downloading": "Laddar ned taligenkänning…",
+    "install": "Ladda ned taligenkänning (cirka 60 MB, körs lokalt)",
+    "hintDefault": "Skriv och tryck på Enter, t.ex. “1,5 h möte med Acme kl. 9-10:30”. På mobilen kan du diktera med mikrofonen på tangentbordet. Tryck på <kbd>/</kbd> för att hoppa hit.",
+    "stopDictation": "Avsluta diktering",
+    "dictate": "Diktera med mikrofonen",
+    "dictateTitle": "Diktera (lokal taligenkänning)",
+    "listeningSr": "Lyssnar",
+    "missingHint": "välj ett förslag nedan eller rätta det i det fullständiga formuläret.",
+    "descriptionLabel": "Beskrivning",
+    "descriptionPlaceholder": "Vad lades tiden på?",
+    "usePrepaid": "Dra från timbanken {name} ({time} kvar)",
+    "saveWithHours": "Spara {hours}",
+    "save": "Spara",
+    "editInForm": "Redigera i formuläret",
+    "cancel": "Avbryt",
+    "keysHint": "Enter sparar · Esc avbryter",
+    "needDescription": "Skriv en kort beskrivning innan du sparar.",
+    "internal": "Sparad som intern tid.",
+    "savedOffline": "Sparad offline. Tidposten skickas när anslutningen är tillbaka.",
+    "registered": "{hours} registrerade",
+    "saveFailed": "Det gick inte att spara tidposten"
+  },
+  "welcome": {
+    "title": "Välkommen till {brand}",
+    "titleDone": "Bra start. Din första tidpost är registrerad",
+    "hide": "Dölj välkomsten",
+    "intro": "Kom igång på under en minut: starta en timer nu eller skriv i fältet nedan vad du har arbetat med, t.ex. “2 timmar på webbplatsen igår”. Företagsuppgifter och plan kan du ordna senare.",
+    "timerStarted": "Timern går. Stoppa den i timerfältet högst upp när du är klar.",
+    "timerBusy": "Timern går redan",
+    "startFirstTimer": "Starta din första timer",
+    "writeLine": "Skriv en rad i fältet",
+    "surveyQuestion": "Vad ska du främst använda {brand} till? <muted>(valfritt)</muted>",
+    "primaryUse": {
+      "time": "Hålla koll på min tid",
+      "invoicing": "Fakturera mina kunder",
+      "klippekort": "Timbanker och förbetalda timmar",
+      "team": "Följa mitt teams tid"
+    },
+    "thanksToast": "Tack för ditt svar",
+    "saveFailed": "Ditt svar kunde inte sparas. Försök igen.",
+    "thanksNote": "Tack. Start visar nu nästa steg som passar dig.",
+    "privacyNote": "Svaret används bara för att anpassa Start och delas inte med någon annan."
+  },
+  "quickStart": {
+    "title": "Starta timer",
+    "running": "Timern går redan. Stoppa den i timerfältet högst upp innan du startar en ny.",
+    "paused": "Timern är pausad. Återuppta eller spara den i timerfältet högst upp först.",
+    "resumeToast": "Timern har startat och fortsätter den senaste posten",
+    "continueLast": "Fortsätt den senaste",
+    "mostUsed": "Mest använda",
+    "startedOn": "Timern startade på {name}",
+    "startOn": "Starta timer på {name}",
+    "empty": "Dina mest använda projekt visas här när du har registrerat lite tid.",
+    "createProject": "Skapa ett projekt"
+  },
+  "signals": {
+    "label": "Behöver uppmärksamhet",
+    "nudge": {
+      "first-invoice": "Skapa din första faktura från din tid",
+      "first-client": "Skapa kunden som timbanken tillhör",
+      "first-klippekort": "Skapa din första timbank",
+      "invite-team": "Bjud in en kollega"
+    },
+    "lowBalance": "{count, plural, one {1 timbank håller på att ta slut} other {# timbanker håller på att ta slut}}",
+    "unbilled": "<b>{duration}</b> ofakturerad tid redo för en faktura"
+  },
+  "today": {
+    "title": "Idag",
+    "ofExpected": "av {duration}",
+    "loadFailed": "Det gick inte att läsa in dagens poster. Försök ladda om sidan.",
+    "empty": "Ingen tid registrerad idag ännu. Skriv ovan vad du gjort eller starta en timer.",
+    "internal": "Intern tid",
+    "resumeToast": "Timern har startat och fortsätter posten",
+    "continueLabel": "Fortsätt {name}",
+    "continueFallback": "post",
+    "continueTitle": "Fortsätt med timer",
+    "allEntries": "Alla poster",
+    "fullForm": "Fullständigt formulär"
+  },
+  "page": {
+    "title": "Start",
+    "overview": "Översikt"
+  }
+}

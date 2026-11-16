@@ -1,0 +1,91 @@
+{
+  "loading": "Ladataan",
+  "offline": "Offline",
+  "noInternet": "Ei internetyhteyttä",
+  "openApp": "Avaa TimeTrack",
+  "openAppNewTab": "Avaa TimeTrack uudessa välilehdessä",
+  "settings": "Asetukset",
+  "logout": "Kirjaudu ulos",
+  "logoutConfirm": "Kirjaudutaanko ulos TimeTrackista?",
+  "todayHours": "{duration} tänään",
+  "dailyProgress": "Päivän eteneminen: {done} / {goal} h tänään",
+  "tabs": {
+    "view": "Näkymä",
+    "timer": "Ajastin",
+    "calendar": "Kalenteri",
+    "history": "Historia",
+    "prepaid": "Paketit"
+  },
+  "login": {
+    "tagline": "Tuntiseuranta suoraan selaimestasi",
+    "connecting": "Yhdistetään…",
+    "connect": "Yhdistä TimeTrackiin",
+    "secureHint": "Kirjaudut turvallisesti uudessa ikkunassa. Sen jälkeen voit valita organisaation laajennuksessa.",
+    "newHere": "Uusi TimeTrackissa?",
+    "register": "Luo ilmainen tili",
+    "advanced": "Lisäasetukset: liitä tunnus käsin",
+    "tokenLabel": "Laajennuksen tunnus",
+    "tokenPlaceholder": "Liitä tunnuksesi tähän…",
+    "signingIn": "Kirjaudutaan…",
+    "signInToken": "Kirjaudu tunnuksella",
+    "openSettings": "Avaa asetukset TimeTrackissa"
+  },
+  "org": {
+    "label": "Organisaatio: {name}. Vaihda organisaatiota",
+    "none": "ei valittu",
+    "choose": "Valitse organisaatio",
+    "stopFirst": "Pysäytä tai tallenna aktiivinen ajastin ennen organisaation vaihtamista."
+  },
+  "stopPrompt": {
+    "title": "Asiakasta ei ole valittu",
+    "question": "Asiakasta ei ole valittu. Tallennetaanko sisäisenä aikana?",
+    "close": "Sulje pysäyttämättä",
+    "pickClient": "Valitse asiakas",
+    "saveInternal": "Tallenna sisäisenä aikana"
+  },
+  "sync": {
+    "syncing": "Synkronoidaan…",
+    "pending": "{count} odottaa synkronointia",
+    "hideDetails": "Piilota tiedot",
+    "showDetails": "Näytä tiedot",
+    "syncNow": "Synkronoi nyt",
+    "entry": "Tuntikirjaus: {description}",
+    "noDescription": "(ei kuvausta)",
+    "timerUpdate": "Ajastimen päivitys",
+    "timerStop": "Ajastimen pysäytys",
+    "tries": "{count, plural, one {yritetty # kerran} other {yritetty # kertaa}}"
+  },
+  "mini": {
+    "timerLabel": "Ajastin",
+    "goTo": "Siirry ajastimeen: {label}",
+    "stop": "Pysäytä ajastin"
+  },
+  "queryError": {
+    "retry": "Yritä uudelleen"
+  },
+  "timerError": {
+    "close": "Sulje virheilmoitus"
+  },
+  "update": {
+    "title": "Päivitä TimeTrack-laajennus",
+    "body": "Versio {version} on liian vanha tallentamaan aikaa. Päivitys ladataan automaattisesti. Jos näin ei tapahdu, käynnistä selain uudelleen tai avaa chrome://extensions ja napsauta \"Update\"."
+  },
+  "idle": {
+    "pausedMessage": "Ajastin keskeytettiin kello {clock}, kun toimintaa ei ollut {away}",
+    "pausedDetail": "Joutilasta aikaa ei ole laskettu mukaan.",
+    "resume": "Jatka ajastinta",
+    "close": "Sulje",
+    "awayMessage": "Olit poissa {away} (kello {clock} alkaen)",
+    "awayDetail": "Ajastin on edelleen käynnissä. Lasketaanko aika mukaan?",
+    "discard": "Poista {away}",
+    "keep": "Säilytä aika"
+  },
+  "confirm": {
+    "cancel": "Peruuta"
+  },
+  "logoutWarnings": {
+    "running": "Ajastin jatkaa käyntiään TimeTrackissa, vaikka olet kirjautunut ulos.",
+    "paused": "Keskeytetty ajastin säilyy TimeTrackissa.",
+    "queue": "{count, plural, one {# offline-jonon muutosta ei ole} other {# offline-jonon muutosta ei ole}} vielä lähetetty. Ne lähetetään, kun kirjaudut uudelleen sisään."
+  }
+}

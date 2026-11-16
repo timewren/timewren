@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Ücretsiz planda 3 aktif müşteri için yer var. Bir müşteriyi arşivle ya da planlara göz at.",
+    "seePlans": "Planları gör"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Faturalanmamış tümü",
+      "periodThisMonth": "Bu ay",
+      "periodLastMonth": "Geçen ay",
+      "draftCreated": "{amount} tutarında taslak fatura oluşturuldu",
+      "createFailed": "Taslak fatura oluşturulamadı",
+      "clientFallback": "müşteri",
+      "title": "{name} için fatura",
+      "description": "İnceleyebileceğin bir taslak oluşturur. Müşteriye hiçbir şey gönderilmez.",
+      "period": "Dönem",
+      "loadError": "Faturalanmamış süre yüklenemedi. Biraz sonra tekrar dene.",
+      "noUnbilled": "Bu dönemde {name} için faturalanmamış süre yok.",
+      "entries": "Kayıtlar",
+      "time": "Süre",
+      "amountExVat": "Tutar (KDV hariç)",
+      "timePerProject": "Proje başına süre",
+      "project": "Proje",
+      "amount": "Tutar",
+      "entryCount": "{count, plural, one {# kayıt} other {# kayıt}}",
+      "noRate": "{time} için saatlik ücret yok ve 0 DKK olarak dahil edildi. Tutarı taslakta düzeltebilirsin.",
+      "footnote": "Kayıtlar faturalandı olarak işaretlenir ve taslakta kalem kalem listelenir. Taslağı yeniden silebilirsin, süre de tekrar faturalanmamış olur.",
+      "pickEntries": "Kayıtları kendin seç",
+      "cancel": "İptal",
+      "createDraft": "Taslak fatura oluştur",
+      "createDraftAmount": "Taslak fatura oluştur ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {Son faturadan bu yana # gün geçti} other {Son faturadan bu yana # gün geçti}}",
+      "oldestEntry": "{count, plural, one {en eski kayıt # günlük} other {en eski kayıt # günlük}}",
+      "ready": "Faturalamaya hazır",
+      "notInvoiced": "faturalanmadı",
+      "notInvoicedClient": "{client} için faturalanmadı",
+      "invoiceNow": "Şimdi faturala",
+      "hide": "30 gün gizle"
+    },
+    "explainer": {
+      "point1": "Müşteri saatlerin ücretini önceden öder, böylece sonradan fatura ve hatırlatma göndermen gerekmez.",
+      "point2": "Müşteri için süre kaydettiğinde, süre pakettten otomatik olarak düşülür.",
+      "point3": "Müşteri bakiyeyi müşteri portalından takip edebilir, paket azaldığında da sana bildirim gelir.",
+      "title": "Ön ödemeli paketlerle saatleri önceden sat",
+      "intro": "Ön ödemeli paket, müşterinin önceden satın aldığı bir saat bloğudur. Örneğin düzenli işler ve destek için 10 saat.",
+      "create": "Ön ödemeli paket oluştur",
+      "calculator": "Fiyatı hesaplayıcıyla bul"
+    },
+    "prepaid": {
+      "offer": "{hours} saatlik bir ön ödemeli paket sat. Yaklaşık {months} ay yeter ve müşteri önceden öder.",
+      "offerPrice": "{hours} saatlik bir ön ödemeli paket sat ({price}). Yaklaşık {months} ay yeter ve müşteri önceden öder.",
+      "sell": "Ön ödemeli paket sat",
+      "dismissLabel": "{client} için uygun değil. Bir daha gösterme",
+      "dismissTitle": "Uygun değil. Bu müşteri için bir daha gösterme",
+      "suggestionLabel": "Ön ödemeli paket önerileri",
+      "defaultName": "Ön ödemeli paket {hours} saat",
+      "usageClient": "<name>{client}</name> son 3 ayda ayda ortalama <num>{time}</num> kullandı.",
+      "usageGeneric": "Müşteri son 3 ayda ayda ortalama <num>{time}</num> kullandı."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "Duraklatıldı",
+      "paymentMissing": "Ödeme eksik",
+      "active": "Aktif",
+      "paymentFailedRetry": "{store} ödemeyi tahsil edemedi. Ödeme yöntemini {store} içinde güncelle. Ödeme gerçekleşene kadar ücretsiz plandaki gibi erişimin olur.",
+      "paymentFailedGrace": "{store} ödemeyi tahsil edemedi. Erişimini korumak için ödeme yöntemini {store} içinde güncelle.",
+      "currentPlan": "Mevcut plan",
+      "yearly": "Yıllık",
+      "monthly": "Aylık",
+      "boughtVia": "{store} üzerinden satın alındı",
+      "expires": "{date} tarihinde sona erer",
+      "renews": "{date} tarihinde yenilenir",
+      "paymentTitle": "Ödeme",
+      "paymentInfo": "Aboneliği {brand} uygulamasında satın aldın, bu yüzden ödeme ve makbuzları {store} yönetir. Planı, ödeme yöntemini değiştirmek ya da aboneliği iptal etmek için {store} içine git.",
+      "manage": "{store} içinde yönet"
+    },
+    "wall": {
+      "checkoutFailed": "Ödeme oturumu oluşturulamadı. Tekrar dene.",
+      "portalFailed": "Faturalama portalı açılamadı. Tekrar dene.",
+      "headingNone": "Aktif bir aboneliğin yok",
+      "headingLocked": "Erişimin duraklatıldı",
+      "headingPastDue": "Ödemen eksik",
+      "headingCanceled": "Aboneliğin sona erdi",
+      "headingTrial": "Deneme süren doldu",
+      "subNone": "{brand} kullanmak için bir abonelik oluştur",
+      "subPastDue": "Erişimini geri kazanmak için ödeme yöntemini güncelle",
+      "subUpgrade": "Devam etmek için {plan} planına yükselt",
+      "pastDueBody": "Son ödemeni tahsil edemedik. {brand} kullanmaya devam etmek için ödeme yöntemini güncelle.",
+      "updatePayment": "Ödeme yöntemini güncelle",
+      "monthly": "Aylık",
+      "yearly": "Yıllık",
+      "save17": "%17 tasarruf et",
+      "perYearExVat": "/yıl KDV hariç",
+      "perMonthExVat": "/ay KDV hariç",
+      "equivalent": "Ayda {price} eder, yani 2 ay tasarruf edersin",
+      "featureWorkspace": "Birden fazla kullanıcılı ortak ekip çalışma alanı",
+      "featureTeamReports": "Ekip raporları",
+      "featureUnlimited": "Sınırsız zaman takibi",
+      "featureInvoicing": "Ön ödemeli paketler ve faturalama",
+      "featureManagement": "Müşteri ve proje yönetimi",
+      "featureReports": "Raporlar ve dışa aktarma",
+      "featureIntegrations": "Danimarka entegrasyonları (CVR, Billy ve daha fazlası)",
+      "upgradeNow": "Şimdi yükselt",
+      "discountNote": "Ödeme ekranında standart fiyat görünür. %{percent} indiriminiz otomatik olarak uygulanır.",
+      "manageAccount": "Hesabı yönet",
+      "exportData": "Verileri dışa aktar",
+      "signOut": "Oturumu kapat"
+    }
+  }
+}

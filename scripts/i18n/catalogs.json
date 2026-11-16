@@ -1,0 +1,92 @@
+{
+  "base": "da",
+  "fallback": "en",
+  "complete": ["da", "en"],
+  "locales": [
+    "da",
+    "en",
+    "de",
+    "es",
+    "sv",
+    "nb",
+    "fi",
+    "nl",
+    "fr",
+    "it",
+    "pt",
+    "pt-BR",
+    "pl",
+    "cs",
+    "ja",
+    "ko",
+    "zh-Hans",
+    "tr"
+  ],
+  "chrome": {
+    "da": "da",
+    "en": "en",
+    "de": "de",
+    "es": "es",
+    "sv": "sv",
+    "nb": "nb",
+    "fi": "fi",
+    "nl": "nl",
+    "fr": "fr",
+    "it": "it",
+    "pt": "pt_PT",
+    "pt-BR": "pt_BR",
+    "pl": "pl",
+    "cs": "cs",
+    "ja": "ja",
+    "ko": "ko",
+    "zh-Hans": "zh_CN",
+    "tr": "tr"
+  },
+  "intl": {
+    "da": "da-DK",
+    "en": "en-GB",
+    "de": "de-DE",
+    "es": "es-ES",
+    "sv": "sv-SE",
+    "nb": "nb-NO",
+    "fi": "fi-FI",
+    "nl": "nl-NL",
+    "fr": "fr-FR",
+    "it": "it-IT",
+    "pt": "pt-PT",
+    "pt-BR": "pt-BR",
+    "pl": "pl-PL",
+    "cs": "cs-CZ",
+    "ja": "ja-JP",
+    "ko": "ko-KR",
+    "zh-Hans": "zh-Hans-CN",
+    "tr": "tr-TR"
+  },
+  "catalogs": [
+    {
+      "name": "web",
+      "dir": "src/i18n/messages"
+    },
+    {
+      "name": "extension",
+      "dir": "browser-extension/src/i18n/messages"
+    }
+  ],
+  "chromeLocalesDir": "browser-extension/_locales",
+  "staticNamespaces": [
+    "serverSync",
+    "sharedExport",
+    "sharedFormat",
+    "sharedLabels",
+    "sharedReports",
+    "enterpriseReports",
+    "pdf",
+    "emails",
+    "emailsAuth",
+    "emailsBilling",
+    "emailsDrip",
+    "emailsReports",
+    "notifications",
+    "forms"
+  ]
+}

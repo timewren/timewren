@@ -1,0 +1,46 @@
+{
+  "title": "Dziennik aktywności",
+  "count": "{count, plural, one {# aktywność} few {# aktywności} many {# aktywności} other {# aktywności}}",
+  "empty": "Brak aktywności",
+  "yes": "Tak",
+  "no": "Nie",
+  "line": "<e>{entity}</e> <n>\"{name}\"</n> <a>{action}</a>",
+  "lineNoName": "<e>{entity}</e> <a>{action}</a>",
+  "entity": {
+    "client": "Klient",
+    "project": "Projekt",
+    "time_entry": "Wpis czasu",
+    "invoice": "Faktura",
+    "prepaid_package": "Pakiet godzin",
+    "settings": "Ustawienia"
+  },
+  "action": {
+    "m": {
+      "create": "utworzony",
+      "update": "zaktualizowany",
+      "delete": "usunięty",
+      "archive": "zarchiwizowany",
+      "restore": "przywrócony",
+      "complete": "zakończony",
+      "send": "wysłany"
+    },
+    "f": {
+      "create": "utworzona",
+      "update": "zaktualizowana",
+      "delete": "usunięta",
+      "archive": "zarchiwizowana",
+      "restore": "przywrócona",
+      "complete": "zakończona",
+      "send": "wysłana"
+    },
+    "p": {
+      "create": "utworzone",
+      "update": "zaktualizowane",
+      "delete": "usunięte",
+      "archive": "zarchiwizowane",
+      "restore": "przywrócone",
+      "complete": "zakończone",
+      "send": "wysłane"
+    }
+  }
+}

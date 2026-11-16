@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "Už nejsi členem této organizace.",
+    "noAccessToFeature": "K této funkci nemáš přístup",
+    "adminsOnly": "K této funkci mají přístup jen administrátoři",
+    "subscriptionRequired": "K použití této funkce potřebuješ aktivní předplatné",
+    "subscriptionExpired": "Platnost tvého předplatného vypršela. Pro pokračování ho prosím obnov.",
+    "roleNoAccess": "Tvoje role nemá k této akci přístup",
+    "moduleDisabled": "Modul „{module}“ není pro tuto organizaci zapnutý."
+  },
+  "alunta": {
+    "clientAlreadyMapped": "Tento klient už má aktivní mapování Alunta",
+    "mappingNotFound": "Mapování nebylo nalezeno"
+  },
+  "common": {
+    "clientNotFound": "Klient nebyl nalezen",
+    "webhookNotFound": "Webhook nebyl nalezen",
+    "projectNotFound": "Projekt nebyl nalezen",
+    "unknownError": "Neznámá chyba",
+    "notOrgMember": "Nejsi členem této organizace",
+    "noAccessToClient": "K tomuto klientovi nemáš přístup",
+    "templateNotFound": "Šablona nebyla nalezena",
+    "unknownClient": "Neznámý klient",
+    "rateLimited": "Příliš mnoho požadavků. Zkus to znovu za {seconds} s.",
+    "taskNotFound": "Úkol nebyl nalezen",
+    "timeEntryNotFound": "Záznam času nebyl nalezen",
+    "invoiceNotFound": "Faktura nebyla nalezena",
+    "unknownProjectName": "Neznámý projekt",
+    "userNotFound": "Uživatel nebyl nalezen",
+    "invalidDate": "Neplatné datum",
+    "prepaidNotFound": "Balíček hodin nebyl nalezen",
+    "notFound": "Nenalezeno",
+    "notOrgMemberShort": "Nejsi členem této organizace",
+    "periodLocked": "Období před {date} je v organizaci uzamčeno. Kontaktuj administrátora."
+  },
+  "webhooks": {
+    "noValidEvents": "Nebyl vybrán žádný platný typ události"
+  },
+  "time": {
+    "defaultRateName": "Tvoje výchozí sazba",
+    "chooseOnePrepaidOrNone": "Vyber buď balíček hodin, nebo žádný",
+    "taskNotFound": "Úkol nebyl nalezen",
+    "entryExists": "Záznam času už existuje",
+    "prepaidNotFound": "Balíček hodin nebyl nalezen",
+    "prepaidOtherClient": "Balíček hodin patří jinému klientovi než klient záznamu času",
+    "onInvoiceUnmark": "{count, plural, one {# z vybraných záznamů času je na faktuře. Před odebráním označení fakturu dobropisuj nebo odeber záznamy z konceptu faktury.} few {# z vybraných záznamů času jsou na faktuře. Před odebráním označení fakturu dobropisuj nebo odeber záznamy z konceptu faktury.} many {# z vybraných záznamů času je na faktuře. Před odebráním označení fakturu dobropisuj nebo odeber záznamy z konceptu faktury.} other {# z vybraných záznamů času je na faktuře. Před odebráním označení fakturu dobropisuj nebo odeber záznamy z konceptu faktury.}}",
+    "invalidWeek": "Neplatný týden",
+    "importInvalidDate": "Neplatné datum: „{date}“",
+    "importNoProjectOrClient": "Nepodařilo se najít projekt „{project}“ ani klienta „{client}“"
+  },
+  "resourcePlan": {
+    "needsOrg": "Plán zdrojů vyžaduje organizaci",
+    "ownEmployeesOnlyView": "Plán můžeš zobrazit jen pro své zaměstnance",
+    "managersOnly": "Plánovat může jen vlastník, administrátoři nebo manažeři",
+    "weekMonday": "Týden musí být zadán pomocí svého pondělí",
+    "ownEmployeesOnlyPlan": "Plánovat můžeš jen pro své zaměstnance",
+    "notInOrg": "Zaměstnanec, projekt nebo aktivita v organizaci neexistuje"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "Nákupy desktopové aplikace zatím nejsou nastaveny. Zkus to později nebo kontaktuj podporu.",
+    "includedInCloud": "Desktopová aplikace je už součástí tvého předplatného {brand} Cloud, takže samostatnou licenci nepotřebuješ. Přihlas se a stáhni si aplikaci z přehledu.",
+    "checkoutFailed": "Platební odkaz se nepodařilo vytvořit.",
+    "licenseAlreadyInactive": "Licence je už deaktivována nebo vrácena.",
+    "notAutoRefundable": "Tuto licenci nelze vrátit automaticky. Kontaktuj podporu.",
+    "refundWindowExpired": "Lhůta {days} dní pro vrácení peněz za tento nákup už vypršela.",
+    "tooManyAttempts": "Příliš mnoho pokusů. Chvíli počkej a zkus to znovu.",
+    "noLicenseFound": "Licence nebyla nalezena.",
+    "noActiveLicenseToRefund": "Žádná aktivní licence k vrácení peněz.",
+    "licenseNotAutoRefundable": "Licenci nelze vrátit automaticky. Kontaktuj podporu.",
+    "refundWindowExpiredShort": "Lhůta {days} dní pro vrácení peněz už vypršela."
+  },
+  "taskStatuses": {
+    "laneNotFound": "Sloupec nebyl nalezen",
+    "lanesNotFound": "Jeden nebo více sloupců nebylo nalezeno",
+    "crossContext": "Sloupce nelze přeřazovat mezi různými kontexty",
+    "destinationRequired": "Je potřeba cílový sloupec, protože sloupec obsahuje úkoly",
+    "destinationNotFound": "Cílový sloupec nebyl nalezen",
+    "destinationContext": "Cílový sloupec musí být ve stejném kontextu"
+  },
+  "scheduledRates": {
+    "notFound": "Naplánovaná změna sazby nebyla nalezena",
+    "rateFormat": "Hodinová sazba musí být částka 0 nebo vyšší s nejvýše dvěma desetinnými místy",
+    "dateFormat": "Datum musí mít formát RRRR-MM-DD",
+    "laterApplied": "Změna sazby už byla uplatněna k datu {date}. Nová změna musí platit od stejného data nebo později.",
+    "alreadyApplied": "Změna sazby už byla uplatněna a nelze ji zrušit. Uprav místo toho hodinovou sazbu u klienta nebo projektu.",
+    "appliedMeanwhile": "Změna sazby mezitím byla uplatněna a nelze ji zrušit."
+  },
+  "broadcasts": {
+    "notFound": "Hromadné oznámení nebylo nalezeno",
+    "confirmNameMismatch": "Potvrzovací název se neshoduje. Zadej název hromadného oznámení přesně."
+  },
+  "notifications": {
+    "invalidDiscordUrl": "Neplatná URL webhooku pro Discord",
+    "invalidSlackUrl": "Neplatná URL webhooku pro Slack",
+    "noSlackWebhook": "Není nastaven webhook pro Slack",
+    "noDiscordWebhook": "Není nastaven webhook pro Discord",
+    "discordTestFailed": "Test webhooku pro Discord se nezdařil",
+    "noPushSubscription": "Není nastaveno předplatné push oznámení",
+    "pushTestFailed": "Test push oznámení se nezdařil",
+    "channelNotFound": "Kanál nebyl nalezen"
+  },
+  "clients": {
+    "hasInvoices": "Jeden nebo více vybraných klientů má faktury. Archivuj je místo toho, protože faktury jsou účetní doklady a nelze je smazat.",
+    "hasBilledEntries": "Jeden nebo více vybraných klientů má vyfakturované záznamy času. Archivuj je místo toho."
+  },
+  "dashboard": {
+    "prefsTableMissing": "Tabulka předvoleb přehledu zatím neexistuje. Spusť migraci databáze."
+  },
+  "clientPortal": {
+    "accessNotFound": "Přístup nebyl nalezen"
+  },
+  "search": {
+    "invoiceTitle": "Faktura {number}"
+  },
+  "ai": {
+    "noOwnKey": "Pro použití návrhů AI nastav vlastní klíč API v Nastavení → AI.",
+    "fillableWithoutAi": "Text lze vyplnit i bez AI.",
+    "providerFailed": "Tvůj poskytovatel AI nedokázal vytvořit návrh. Zkontroluj klíč a model v Nastavení → AI."
+  },
+  "apiKeys": {
+    "notFound": "Klíč API nebyl nalezen",
+    "revokeFirst": "Před smazáním musíš klíč zneplatnit"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "Koncept faktury nebyl nalezen",
+    "noEntries": "Žádné záznamy času k odeslání ke schválení",
+    "requestNotFound": "Žádost nebyla nalezena nebo už byla vyřízena"
+  },
+  "beta": {
+    "thanks": "Děkujeme za registraci! Až se beta otevře, pošleme ti e-mail.",
+    "emailNotAllowed": "Tuto e-mailovou adresu nelze pro registraci použít.",
+    "alreadyOnList": "Tento e-mail už je na čekací listině bety",
+    "signupNotFound": "Registrace do bety nebyla nalezena"
+  },
+  "calendar": {
+    "googleNotConfigured": "Integrace s Google Calendar není nastavena",
+    "notConnected": "Není připojeno k Google Calendar",
+    "scheduledLocally": "Úkol byl naplánován lokálně (není připojen žádný kalendář)",
+    "timeEntryNotFound": "Záznam času nebyl nalezen",
+    "eventNotFound": "Událost nebyla nalezena",
+    "eventMissingTimes": "Událost nemá žádné časy",
+    "noConnection": "Žádné připojení ke kalendáři",
+    "noProject": "Žádný projekt",
+    "noConnectionFound": "Připojení ke kalendáři nebylo nalezeno",
+    "aiFailed": "Návrh AI se nezdařil"
+  },
+  "connectedApps": {
+    "notFound": "Připojení neexistuje"
+  },
+  "contact": {
+    "thanks": "Děkujeme za zprávu! Ozveme se co nejdříve."
+  },
+  "dataExport": {
+    "pending": "Už máš čekající žádost o export. Počkej prosím.",
+    "limit3": "Maximálně 3 žádosti o export za 24 hodin. Zkus to později.",
+    "fullNotEnabled": "Úplný export zatím není zapnutý.",
+    "orgInProgress": "Pro organizaci už export probíhá. Až bude hotový, dostaneš e-mail.",
+    "orgDailyLimit": "Organizace si může objednat {limit} exportů denně. Zkus to zítra.",
+    "notOrgMemberDot": "Nejsi členem organizace.",
+    "inProgress": "Export už probíhá. Až bude hotový, dostaneš e-mail.",
+    "dailyLimit": "Můžeš si objednat {limit} exportů denně. Zkus to zítra.",
+    "requestNotFound": "Žádost o export nebyla nalezena",
+    "cancelPendingOnly": "Zrušit lze jen čekající žádosti",
+    "importClientNotFound": "{name}: Klient „{client}“ nebyl nalezen",
+    "importClientRequired": "{name}: Klient je povinný",
+    "importInvoiceClientNotFound": "Faktura {number}: Klient „{client}“ nebyl nalezen",
+    "importInvoiceError": "Faktura {number}: {message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "Tvé oddělení má zvolené volné dny a platí pro tebe. Vlastní volné dny si zvolit nemůžeš.",
+    "blockedOrg": "Tvá organizace má zvolené volné dny a platí pro tebe. Vlastní volné dny si zvolit nemůžeš.",
+    "blockedEmployee": "Jako zaměstnanec se řídíš volnými dny organizace. Požádej administrátora, aby zvolil volné dny pro organizaci nebo tvé oddělení.",
+    "orgNeedsOrg": "Volné dny organizace vyžadují organizaci",
+    "departmentNeedsBusiness": "Volné dny podle oddělení vyžadují tarif Business",
+    "departmentNotFound": "Oddělení neexistuje"
+  },
+  "dpa": {
+    "notFromEnv": "Smlouvu o zpracování osobních údajů zatím nelze z tohoto prostředí přijmout.",
+    "notInOrg": "Nejsi v žádné organizaci",
+    "ownersAdminsOnly": "Smlouvu mohou přijmout jen vlastníci a administrátoři"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "Pravidlo nebylo nalezeno"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "Heslo IMAP je povinné",
+    "cannotDecrypt": "Uložené heslo se nepodařilo dešifrovat. Zadej heslo IMAP znovu.",
+    "connectionFailed": "Připojení IMAP se nezdařilo: {message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "Úkol nebyl nalezen",
+    "blockBracket": "Blokovat e-maily s „[{tag}]“ v předmětu",
+    "blockKeyword": "Blokovat e-maily s „{keyword}“ v předmětu"
+  },
+  "ext": {
+    "notOrgMemberDot": "Nejsi členem této organizace.",
+    "invalidToken": "Neplatný token",
+    "tooManyAttempts": "Příliš mnoho pokusů. Zkus to znovu za {seconds} s.",
+    "sessionExpired": "Platnost relace vypršela nebo byla zneplatněna. Přihlas se znovu.",
+    "tokenExpired": "Platnost tokenu vypršela",
+    "tokenNotFound": "Token nebyl nalezen",
+    "timerChangedElsewhere": "Stopky byly změněny z jiného zařízení. Zkus to znovu.",
+    "datesFormat": "Data musí mít tvar RRRR-MM-DD",
+    "prepaidNotFound": "Balíček hodin nebyl nalezen",
+    "prepaidOtherClient": "Balíček hodin patří jinému klientovi než klient záznamu",
+    "saveEntryFailed": "Záznam času se nepodařilo uložit",
+    "createInProgress": "Vytváření s tímto klíčem probíhá. Za chvíli to zkus znovu.",
+    "import": {
+      "alreadyRunning": "Import už běží. Počkej, až skončí."
+    },
+    "projectOrClientNotFound": "Projekt nebo klient nebyl nalezen"
+  },
+  "feedback": {
+    "screenshotFailed": "Snímek obrazovky se nepodařilo načíst z S3"
+  },
+  "imports": {
+    "timeopsConnect": "Nepodařilo se připojit k TimeOps: {detail}",
+    "networkError": "chyba sítě",
+    "apiKeyInvalid": "Klíč API je neplatný nebo vypršel",
+    "alreadyRunning": "Import už běží. Nejdřív ho dokonči.",
+    "notFound": "Import nebyl nalezen",
+    "cannotStart": "Import nelze spustit ze stavu {status}",
+    "cannotCancel": "Import nelze v tomto stavu zrušit"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "Na projektu „{project}“ už ve webové aplikaci běží stopky. Nejdřív je zastav.",
+    "timerRunningProjectOther": "Na projektu „{project}“ už na jiném zařízení běží stopky. Nejdřív je zastav.",
+    "timerRunningAnyWeb": "Ve webové aplikaci už běží stopky. Nejdřív je zastav.",
+    "timerRunningAnyOther": "Na jiném zařízení už běží stopky. Nejdřív je zastav."
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "Platnost připojení k Dinero vypršela. Připoj se prosím znovu v Nastavení.",
+      "notConnectedShort": "Dinero není připojeno",
+      "notConnected": "Dinero není připojeno",
+      "connectionActive": "Připojení k Dinero je aktivní",
+      "connectionFailed": "Nepodařilo se připojit k Dinero",
+      "clientExported": "Klient byl exportován do Dinero",
+      "invoiceAlreadyExported": "Faktura už byla exportována do Dinero",
+      "contactCreateFailed": "Klienta „{name}“ se v Dinero nepodařilo vytvořit: API nevrátilo ID kontaktu. Zkus nejdřív klienta exportovat ručně.",
+      "noAccount": "Není nastaveno číslo účtu. Vyber výchozí účet v Nastavení → Dinero.",
+      "invoiceExported": "Faktura byla exportována do Dinero",
+      "invoiceNotExported": "Faktura nebyla exportována do Dinero",
+      "noPending": "Nebylo nalezeno žádné čekající připojení k Dinero. Zkus se připojit znovu.",
+      "invalidOrg": "Byla vybrána neplatná organizace",
+      "tokensDecryptFailed": "Tokeny se nepodařilo dešifrovat. Zkus se připojit znovu."
+    },
+    "billy": {
+      "noApiKey": "Klíč API pro Billy není nastaven",
+      "decryptFailed": "Klíč API pro Billy se nepodařilo dešifrovat",
+      "connectionActive": "Připojení k Billy je aktivní",
+      "connectionFailed": "Nepodařilo se připojit k Billy",
+      "clientExported": "Klient byl exportován do Billy",
+      "invoiceAlreadyExported": "Faktura už byla exportována do Billy",
+      "clientCreateFailed": "Klienta se v Billy nepodařilo vytvořit ani najít",
+      "productWithoutId": "Billy vrátilo produkt bez ID: {json}",
+      "invoiceWithoutId": "Billy vrátilo fakturu bez ID: {json}",
+      "invoiceExported": "Faktura byla exportována do Billy",
+      "exportFailed": "Export do Billy se nezdařil: {message}",
+      "invoiceNotExported": "Faktura nebyla exportována do Billy"
+    },
+    "unknownErrorOccurred": "Došlo k neznámé chybě",
+    "invoiceMissingClient": "Faktura nemá klienta",
+    "economic": {
+      "noTokens": "Tokeny pro e-conomic nejsou nastaveny",
+      "decryptFailed": "Tokeny pro e-conomic se nepodařilo dešifrovat",
+      "connectionActive": "Připojení k e-conomic je aktivní",
+      "connectionFailed": "Nepodařilo se připojit k e-conomic",
+      "clientExported": "Klient byl exportován do e-conomic",
+      "paymentTermsMissing": "Chybí platební podmínky. Vyber je v Nastavení → Integrace.",
+      "invoiceAlreadyExported": "Faktura už byla exportována do e-conomic",
+      "consultingLine": "Konzultační práce: {hours} hodin",
+      "invoiceBooked": "Faktura byla zaúčtována v e-conomic",
+      "invoiceDraftCreated": "Faktura byla vytvořena jako koncept v e-conomic",
+      "invoiceNotExported": "Faktura nebyla exportována do e-conomic"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: Formát data se nepodařilo automaticky rozpoznat. Vyber ho prosím ručně.",
+      "noValidRows": "V souboru CSV nebyly nalezeny žádné platné řádky.",
+      "unknownClient": "Neznámý klient"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "Chybí údaje o firmě. Musí být uvedeny na faktuře, proto je před vytvořením první faktury vyplň v Nastavení → Profil firmy (nebo požádej administrátora).",
+    "templateNotFound": "Šablona faktury nebyla nalezena",
+    "issuedCannotChange": "Vystavené faktury nelze měnit. Pro opravu částek nebo podmínek vytvoř dobropis.",
+    "deletedCannotEdit": "Smazané faktury nelze upravovat.",
+    "paidNotesOnly": "Zaplacené faktury nelze upravovat. Lze přidat jen poznámky.",
+    "draftsOnlyDelete": "Smazat lze jen koncepty. Vystavené faktury místo toho stornuj.",
+    "creditNoteNotCreditable": "Dobropis nelze dobropisovat",
+    "draftNotCreditable": "Koncepty se nedobropisují. Smaž místo toho koncept (nemá vystavené číslo).",
+    "deletedNotCreditable": "Smazané faktury nelze dobropisovat",
+    "alreadyCredited": "Faktura už byla dobropisována dokladem {number}",
+    "creditNoteNotes": "Dobropis k faktuře {number} ze dne {date}",
+    "draftOnlyAddLines": "Řádky lze přidávat jen ke konceptům faktur",
+    "timeEntryNotFound": "Záznam času nebyl nalezen",
+    "lineNotFound": "Řádek faktury nebyl nalezen",
+    "draftOnlyEditLines": "Řádky lze upravovat jen u konceptů faktur",
+    "draftOnlyDeleteLines": "Řádky lze mazat jen z konceptů faktur",
+    "draftOnlyReorder": "Pořadí lze měnit jen u konceptů faktur",
+    "clientHasNoEmail": "Klient nemá e-mailovou adresu"
+  },
+  "logbook": {
+    "ownOnly": "Můžeš zobrazit jen svou knihu jízd",
+    "notInYourOrg": "Uživatel není členem tvé organizace",
+    "noAccessWaste": "K nevyužitému času organizace nemáš přístup"
+  },
+  "marketing": {
+    "tooManyAttempts": "Příliš mnoho pokusů. Zkus to později."
+  },
+  "memberRates": {
+    "membersNotInOrg": "Jeden nebo více členů v organizaci neexistuje"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "Předplatné spravuje vlastník tvé organizace, takže si tarif vybírat nemusíš.",
+    "privatePlanUnavailable": "Tarif Private zatím není dostupný. Vyber jiný tarif."
+  },
+  "organization": {
+    "requiresOrg": "Vyžaduje organizaci",
+    "noActiveOrg": "Žádná aktivní organizace",
+    "moduleNotAssigned": "Modul „{module}“ není této organizaci přiřazen",
+    "moduleUnavailable": "Modul „{module}“ pro tebe není dostupný. Kontaktuj podporu.",
+    "noSelfTransfer": "Vlastnictví nemůžeš převést sám(a) na sebe",
+    "ownerOnlyTransfer": "Vlastnictví může převést jen vlastník",
+    "memberNotFound": "Člen nebyl nalezen"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "Protokol aktivity mohou zobrazit jen vlastníci a administrátoři"
+  },
+  "portalBranding": {
+    "noDomain": "Žádná doména k ověření",
+    "verifyFailed": "Doménu se nepodařilo ověřit. Zkontroluj, že záznam DNS TXT '_timetrack-verify.{domain}' obsahuje token: {token}"
+  },
+  "prepaid": {
+    "invalidHours": "Neplatný počet hodin pro odečet z balíčku hodin",
+    "otherClient": "Balíček hodin patří jinému klientovi než klient záznamu času",
+    "inactive": "Balíček hodin není aktivní",
+    "expired": "Platnost balíčku hodin vypršela",
+    "insufficientHours": "V balíčku hodin nezbývá dost hodin. Dostupné hodiny: {available}",
+    "insufficientHoursClip": "V balíčku hodin nezbývá dost hodin. Dostupné hodiny: {available}, vyžaduje {required} h (zaokrouhleno nahoru na bloky po {minutes} minutách)",
+    "multipleClients": "Vybrané záznamy času patří více klientům. Vyber záznamy jen od jednoho klienta.",
+    "entriesNotFound": "Jeden nebo více záznamů času nebylo nalezeno",
+    "alreadyBilled": "{count, plural, one {# z vybraných záznamů času je už vyfakturován a nelze ho odečíst z balíčku hodin} few {# z vybraných záznamů času jsou už vyfakturovány a nelze je odečíst z balíčku hodin} many {# z vybraných záznamů času je už vyfakturováno a nelze je odečíst z balíčku hodin} other {# z vybraných záznamů času je už vyfakturováno a nelze je odečíst z balíčku hodin}}",
+    "foreignEntries": "{count, plural, one {# záznam času patří jinému klientovi než balíček hodin} few {# záznamy času patří jinému klientovi než balíček hodin} many {# záznamu času patří jinému klientovi než balíček hodin} other {# záznamů času patří jinému klientovi než balíček hodin}}",
+    "requestNotFound": "Žádost nebyla nalezena nebo už byla vyřízena",
+    "gone": "Balíček hodin už neexistuje",
+    "renewalInvoiceNote": "Obnovení balíčku hodin „{name}“, vyžádané klientem přes portál",
+    "totalBelowUsed": "Celkový počet hodin nemůže být nižší než už vyčerpané hodiny ({used} h)",
+    "hasUsage": "Balíček hodin s evidovaným čerpáním nelze smazat. Deaktivuj ho místo toho.",
+    "entryNotFound": "Záznam času nebyl nalezen"
+  },
+  "projects": {
+    "hasBilledEntries": "Projekt má vyfakturované záznamy času a nelze ho trvale smazat. Archivuj ho místo toho.",
+    "nameMismatch": "Název projektu se neshoduje",
+    "noneFound": "Nebyly nalezeny žádné projekty"
+  },
+  "portal": {
+    "invalidLink": "Neplatný odkaz nebo vypršela jeho platnost",
+    "invalidLogin": "Neplatný e-mail nebo heslo",
+    "noInvoiceAccess": "Přístup k fakturám není povolen",
+    "noProjectAccess": "Přístup k projektům není povolen",
+    "noTimeAccess": "Přístup k záznamům času není povolen",
+    "noPrepaidAccess": "Přístup k balíčkům hodin není povolen",
+    "tooManyRequests": "Příliš mnoho požadavků. Zkuste to prosím později.",
+    "prepaidInactive": "Balíček hodin není aktivní. Obraťte se na svého dodavatele.",
+    "noAccess": "Přístup není povolen",
+    "notAllowedApprove": "Schvalování času není povoleno",
+    "requestNotFound": "Žádost nebyla nalezena",
+    "requestHandled": "Žádost už byla vyřízena",
+    "notAllowedReject": "Zamítání času není povoleno"
+  },
+  "quickSignup": {
+    "created": "Účet byl vytvořen! Přihlašování…",
+    "emailNotAllowed": "Tuto e-mailovou adresu nelze pro registraci použít.",
+    "emailTaken": "Tento e-mail je už zaregistrován",
+    "createFailed": "Účet se nepodařilo vytvořit",
+    "error": "Při vytváření účtu došlo k chybě"
+  },
+  "recurringInvoices": {
+    "clientArchived": "Klient je archivován. Nejdřív klienta obnov.",
+    "prepaidFixedAmount": "Balíček hodin se fakturuje pevnou částkou, proto nevybírej evidovaný čas",
+    "prepaidNoRenewal": "Balíček hodin se neobnovuje automaticky. Nejdřív zapni pravidelné obnovování.",
+    "needLine": "Přidej alespoň jeden řádek s částkou vyšší než 0",
+    "firstDateInPast": "Datum první faktury nemůže být před dneškem",
+    "notFound": "Opakovaná faktura nebyla nalezena",
+    "nextDateInPast": "Datum další faktury nemůže být před dneškem"
+  },
+  "recurring": {
+    "startDateRequired": "Pro opakující se šablony je povinné datum zahájení",
+    "cannotPause": "Neopakující se šablonu nelze pozastavit",
+    "cannotResume": "Neopakující se šablonu nelze obnovit"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "Ziskovost týmu vyžaduje organizaci",
+    "utilisationNeedsOrg": "Vytížení vyžaduje organizaci",
+    "weekdayRange": "Den v týdnu musí být 1 až 7",
+    "linkNotFound": "Odkaz nebyl nalezen",
+    "tooManyRows": "Report obsahuje více než 10 000 záznamů. Zúži rozsah dat."
+  },
+  "reportTemplates": {
+    "clientNotYours": "Klient nepatří k tvému účtu.",
+    "systemNoEdit": "Systémové šablony nelze upravovat. Duplikuj je místo toho.",
+    "systemNoDelete": "Systémové šablony nelze smazat."
+  },
+  "security": {
+    "accountNotFound": "Účet nebyl nalezen",
+    "lastLoginMethodRemove": "Nemůžeš odebrat svůj poslední způsob přihlášení. Nejdřív přidej heslo nebo passkey.",
+    "passkeyNotFound": "Passkey nebyl nalezen",
+    "lastLoginMethodDelete": "Nemůžeš smazat svůj poslední způsob přihlášení. Nejdřív přidej heslo nebo připoj účet OAuth.",
+    "sessionNotFound": "Relace nebyla nalezena",
+    "cannotEndCurrent": "Nemůžeš ukončit svou aktuální relaci. Místo toho se odhlas.",
+    "currentSessionNotFound": "Aktuální relace nebyla nalezena",
+    "phoneIsOnlyMethod": "Nemůžeš odebrat své telefonní číslo, protože je to tvůj jediný způsob přihlášení. Nejdřív přidej jiný způsob.",
+    "deviceNotFound": "Zařízení nebylo nalezeno",
+    "rec": {
+      "addLoginMethod": "Přidej způsob přihlášení",
+      "verifyEmail": "Potvrď svou e-mailovou adresu",
+      "enable2fa": "Zapni dvoufázové ověření",
+      "addPasskey": "Přidej passkey pro rychlejší a bezpečnější přihlášení",
+      "addMore": "Přidej další způsoby přihlášení jako zálohu"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "Už máš aktivní předplatné. Pro změnu tarifu nebo platební metody použij „Spravovat fakturaci“.",
+    "seatsExceedIncluded": "Tvá organizace využívá {seats} míst, tedy o {extra} více než {included} v ceně tarifu {plan}. Samoobslužný upgrade zatím není možný bez ztráty míst. Kontaktuj podporu a přesuneme tě ručně.",
+    "noCheckoutUrl": "Alunta nevrátila žádnou URL objednávky. Kontaktuj podporu.",
+    "extraSeatsNeedSubscription": "Extra místa vyžadují aktivní předplatné. Nejdřív vyber tarif a přidej platbu.",
+    "noActiveAddPayment": "Nebylo nalezeno žádné aktivní předplatné. Nejdřív přidej platební metodu.",
+    "noActive": "Nebylo nalezeno žádné aktivní předplatné",
+    "none": "Nebylo nalezeno žádné předplatné",
+    "requestFailed": "Žádost se nepodařilo odeslat. Zkus to později.",
+    "priceSuffixYear": "kr/rok",
+    "priceSuffixMonth": "kr/měsíc",
+    "checkoutComingSoon": "Platby zde zatím nejsou k dispozici. Používáte bezplatný tarif."
+  },
+  "tags": {
+    "nameExists": "Štítek s názvem „{name}“ už existuje",
+    "timeEntryNotFound": "Záznam času nebyl nalezen",
+    "notYours": "Jeden nebo více štítků ti nepatří",
+    "projectNotFound": "Projekt nebyl nalezen",
+    "projectsNotFound": "Jeden nebo více projektů nebylo nalezeno, nebo k nim nemáš přístup",
+    "clientNotFound": "Klient nebyl nalezen"
+  },
+  "tasks": {
+    "parentNotFound": "Nadřazený úkol nebyl nalezen",
+    "subtaskNoSubtasks": "Podúkol nemůže mít vlastní podúkoly",
+    "laneNotFound": "Sloupec nebyl nalezen",
+    "laneOtherBoard": "Sloupec patří jiné nástěnce než úkol",
+    "moveSameBoard": "Úkol lze přesunout jen v rámci stejné nástěnky",
+    "dryRunFailed": "Zkušební běh se nepodařilo ověřit",
+    "bulkFailed": "Hromadnou změnu se nepodařilo ověřit",
+    "bulkRolledBack": "Ne všechny vybrané úkoly byly aktualizovány; transakce byla vrácena zpět",
+    "assignNeedsOrg": "Přiřazování vyžaduje organizaci",
+    "assigneeNotMember": "Přiřazená osoba není členem organizace",
+    "mainTaskNotFound": "Hlavní úkol nebyl nalezen",
+    "assignedPushTitle": "📋 Byl ti přiřazen nový úkol",
+    "assignedPushBody": "{name} ti přiřadil(a) úkol „{task}“",
+    "aColleague": "Kolega"
+  },
+  "user": {
+    "pageUnavailable": "Tato stránka ti teď není dostupná",
+    "emailMismatch": "E-mail se neshoduje s tvým účtem",
+    "deleteFailed": "Smazání se nepodařilo dokončit. Kontaktuj podporu a pomůžeme ti.",
+    "aiConnectionOk": "Připojení je v pořádku! Odpověď: „{reply}“",
+    "aiConnectionFailed": "Připojení se nezdařilo: {message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "Absence můžeš řešit jen u svých zaměstnanců",
+      "requestNotFound": "Žádost o absenci nebyla nalezena",
+      "approveOnlyPending": "Žádost lze schválit, jen dokud čeká na vyřízení",
+      "noSelfApprove": "Nemůžeš schválit vlastní absenci",
+      "rejectOnlyPending": "Žádost lze zamítnout, jen dokud čeká na vyřízení",
+      "typeHasPending": "Typ absence s čekajícími žádostmi nelze smazat. Nejdřív je zamítni nebo zruš.",
+      "managersOnlyForOthers": "Absenci za jiné mohou zaznamenat jen manažeři a administrátoři",
+      "endBeforeStart": "Datum ukončení nemůže být před datem zahájení",
+      "endDateRequired": "Pro {type} je povinné datum ukončení. Bez data ukončení lze zaznamenat jen nemoc a dovolenou.",
+      "overlapOther": "Zaměstnanec už má v tomto období absenci",
+      "overlapOwn": "V tomto období už máš žádost o absenci",
+      "registrationNotFound": "Záznam o absenci nebyl nalezen",
+      "selfReturnOnly": "Jako uzdraveného můžeš nahlásit jen sám(a) sebe",
+      "periodAlreadyEnded": "Období už skončilo",
+      "onlyActiveRecovered": "Jako uzdravené lze nahlásit jen aktivní záznamy",
+      "lastDayBeforeStart": "Poslední den absence nemůže být před datem zahájení",
+      "endedElsewhere": "Období už bylo ukončeno jinde. Načti seznam znovu.",
+      "recoveredPushTitle": "Nahlášeno uzdravení",
+      "recoveredPushBody": "Tvoje {type} skončila {date}",
+      "requestNotFoundShort": "Žádost nebyla nalezena",
+      "ownOnlyEdit": "Upravovat můžeš jen své vlastní žádosti",
+      "pendingOnlyEdit": "Upravit lze jen čekající žádosti",
+      "alreadyCancelled": "Žádost už byla zrušena",
+      "fixedHolidayNoCancel": "Pevnou dovolenou (období uzavření) nelze zrušit. Kontaktuj svého administrátora.",
+      "changedElsewhere": "Žádost byla změněna jinde. Načti seznam znovu.",
+      "employeeNotInOrg": "Zaměstnanec v organizaci neexistuje"
+    },
+    "handledElsewhere": "Žádost už byla vyřízena jinde. Načti seznam znovu.",
+    "yourManager": "Tvůj manažer",
+    "absenceTypeNotFound": "Typ absence nebyl nalezen",
+    "activityTypeNotInOrg": "Typ aktivity ve tvé organizaci neexistuje",
+    "projectNotInOrg": "Projekt ve tvé organizaci neexistuje",
+    "activityTypesNotInOrg": "Jeden nebo více typů aktivit ve tvé organizaci neexistuje",
+    "projectsNotInOrg": "Jeden nebo více projektů ve tvé organizaci neexistuje",
+    "activityTypesUnknown": "Jeden nebo více typů aktivit je neznámých nebo archivovaných",
+    "checkin": {
+      "already": "Už jsi přihlášen(a) k příchodu",
+      "noneOpen": "Nebyl nalezen žádný otevřený příchod"
+    },
+    "closure": {
+      "maxDays": "Období uzavření může mít nejvýše {days} dní. Vytvoř raději několik období.",
+      "needsVacationType": "Týdny pevné dovolené musí používat typ absence, který odečítá dovolenou",
+      "notFound": "Období uzavření nebylo nalezeno"
+    },
+    "employeeProfileNotFound": "Profil zaměstnance nebyl nalezen",
+    "compliance": {
+      "ownOnly": "Stav souladu můžeš zobrazit jen u sebe",
+      "rejected": "Záznam byl zamítnut pravidly pracovní doby: {reasons}"
+    },
+    "departmentNotFound": "Oddělení nebylo nalezeno",
+    "deptManagers": {
+      "oncePerDept": "Stejný uživatel se může v oddělení objevit jen jednou",
+      "validFromBeforeTo": "Platnost od musí být před platností do",
+      "usersNotMembers": "Jeden nebo více uživatelů není členy organizace"
+    },
+    "employee": {
+      "employmentEnded": "Pracovní poměr už skončil",
+      "endBeforePeriodStart": "Datum ukončení nemůže být před začátkem období ({date})",
+      "managerNotFound": "Manažer nebyl nalezen",
+      "ownManager": "Zaměstnanec nemůže být sám sobě manažerem",
+      "managerCycle": "Hierarchie manažerů tvoří cyklus",
+      "viewOwnTeamProfiles": "Profily můžeš zobrazit jen u svých zaměstnanců",
+      "profileExists": "Zaměstnanec už má v této organizaci profil",
+      "hireDateManaged": "Datum nástupu se spravuje v historii zaměstnání. Uprav ho na kartě Zaměstnání.",
+      "viewOwnTeamEmployments": "Pracovní poměry můžeš zobrazit jen u svých zaměstnanců",
+      "startAfterLatest": "Datum zahájení musí být po začátku posledního období ({date})",
+      "endedOn": "Pracovní poměr skončil {date}. Nové období musí začít po tomto datu.",
+      "periodNotFound": "Období zaměstnání nebylo nalezeno",
+      "historyOwnTeamOnly": "Historii můžeš zobrazit jen u svých zaměstnanců"
+    },
+    "flex": {
+      "ownBalanceOnly": "Zůstatek pružné pracovní doby můžeš zobrazit jen svůj",
+      "recalcScope": "Pružnou pracovní dobu můžeš přepočítat jen sobě nebo svým zaměstnancům",
+      "profileNotInOrg": "Profil zaměstnance nebyl v této organizaci nalezen"
+    },
+    "holidays": {
+      "notFound": "Státní svátek nebyl nalezen",
+      "defaultNoDelete": "Výchozí státní svátky nelze smazat. Vyber místo toho předvolbu kalendáře volných dnů."
+    },
+    "mw": {
+      "noActiveOrg": "Nebyla nalezena žádná aktivní organizace",
+      "noEmployeeProfile": "V této organizaci nemáš profil zaměstnance. Kontaktuj administrátora.",
+      "twoFactorRequired": "Organizace vyžaduje dvoufázové ověření pro manažery a administrátory. Zapni 2FA v Nastavení → Zabezpečení a zkus to znovu.",
+      "hrReadOnly": "Role HR může zobrazovat, ale ne schvalovat ani upravovat",
+      "managerRequired": "Tato akce vyžaduje oprávnění manažera nebo administrátora",
+      "viewRequiresRole": "Toto zobrazení vyžaduje oprávnění manažera, HR nebo administrátora",
+      "ownersAdminsOnly": "K této funkci mají přístup jen vlastníci a administrátoři",
+      "twoFactorAdmins": "Organizace vyžaduje dvoufázové ověření pro administrátory"
+    },
+    "notifications": {
+      "addTeamsFirst": "Před zapnutím Teams přidej webhook pro Teams",
+      "noTeamsWebhook": "Není uložen žádný webhook pro Teams",
+      "testBody": "Integrace Teams pro {org} funguje. Sem se posílají události pro manažery (výkazy hodin, absence, nemoc, pravidla pracovní doby a souhrn).",
+      "theOrganisation": "organizaci",
+      "teamsRejected": "Teams zamítl testovací zprávu: {message}"
+    },
+    "organizationNotFound": "Organizace nebyla nalezena",
+    "org": {
+      "deptHasEmployees": "Oddělení s přiřazenými zaměstnanci nelze smazat. Nejdřív zaměstnance přesuň."
+    },
+    "overtime": {
+      "ownEmployeesOnly": "Zaúčtovat můžeš jen za své zaměstnance",
+      "positiveHours": "Zadej kladný počet hodin",
+      "notZero": "Záznam nemůže mít 0 hodin"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "Mzdová složka ve tvé organizaci neexistuje",
+      "wageTypeCodeExists": "Mzdová složka s tímto kódem už existuje",
+      "ruleNotInOrg": "Pravidlo ve tvé organizaci neexistuje",
+      "employeeNumberTaken": "Číslo zaměstnance už používá někdo jiný",
+      "exportTitle": "Export mezd: {org}"
+    },
+    "absenceTypeNotInOrg": "Typ absence ve tvé organizaci neexistuje",
+    "exportRateLimited": "Příliš mnoho exportů. Zkus to znovu za {seconds} s.",
+    "closing": {
+      "notEnabled": "Uzávěrka období není v nastavení organizace zapnutá",
+      "afterPeriodEnd": "Výkaz lze vytvořit, až období skončí",
+      "approvedNoRecalc": "Schválený výkaz nelze přepočítat. Nejdřív ho odemkni.",
+      "noSelfApprove": "Nemůžeš schválit vlastní výkaz za období",
+      "alreadyApproved": "Výkaz už byl schválen",
+      "ownAckOnly": "Potvrdit můžeš jen svůj vlastní výkaz",
+      "needsManagerApproval": "Než výkaz potvrdíš, musí ho schválit tvůj manažer",
+      "notLocked": "Období není uzamčeno",
+      "notFound": "Výkaz neexistuje"
+    },
+    "assign": {
+      "usersNotActive": "Jeden nebo více uživatelů není aktivními zaměstnanci organizace"
+    },
+    "reports": {
+      "payrollHrOnly": "Mzdový report je vyhrazen pro HR a administrátory",
+      "shareHrOnly": "Šablony pro celou organizaci mohou sdílet jen HR a administrátoři",
+      "defaultNoOverwrite": "Výchozí šablonu nelze přepsat. Ulož ji pod novým názvem.",
+      "ownEditOnly": "Upravovat můžeš jen své vlastní šablony",
+      "defaultNoDelete": "Výchozí šablonu nelze smazat",
+      "ownDeleteOnly": "Mazat můžeš jen své vlastní šablony",
+      "weekdayRange": "Den v týdnu musí být 1 až 7"
+    },
+    "reportTypeHrOnly": "Tento typ reportu je vyhrazen pro HR a administrátory",
+    "sso": {
+      "invalidTenant": "Neplatné ID tenanta. Očekává se GUID ve tvaru xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (Directory (tenant) ID v Azure).",
+      "microsoftNotConfigured": "Přihlášení přes Microsoft není v této instalaci nastaveno, takže „Pouze SSO“ nelze zapnout.",
+      "verifyDomainFirst": "Než půjde „Pouze SSO“ zapnout, ověř alespoň jednu doménu, jinak by se pravidlo nevztahovalo na nikoho.",
+      "connectMicrosoftFirst": "Nejdřív připoj Microsoft ke svému vlastnímu účtu (Nastavení → Zabezpečení → Připojit Microsoft), jinak se při zapnutém „Pouze SSO“ sám(a) vyřadíš z přístupu.",
+      "enable2faFirst": "Nejdřív zapni dvoufázové ověření na svém vlastním účtu, jinak se sám(a) vyřadíš z administrace.",
+      "invalidDomain": "Neplatná doména. Napiš např. example.com (bez @ nebo https://).",
+      "publicProviders": "Veřejné e-mailové služby (gmail.com, outlook.com apod.) nelze použít pro automatické připojení.",
+      "domainAlreadyAdded": "Doména už byla přidána.",
+      "domainVerifiedElsewhere": "Doménu už ověřila jiná organizace. Pokud jde o omyl, kontaktuj podporu.",
+      "maxDomains": "Nejvýše {max} domén na organizaci.",
+      "domainNotFound": "Doména nebyla nalezena",
+      "domainVerifiedElsewhereShort": "Doménu už ověřila jiná organizace.",
+      "txtCorrectButTaken": "Záznam TXT je správný, ale doménu už ověřila jiná organizace. Kontaktuj podporu.",
+      "justVerifiedElsewhere": "Doménu právě ověřila jiná organizace. Kontaktuj podporu."
+    },
+    "team": {
+      "timesheetsOwnEmployees": "Výkazy hodin můžeš řešit jen u svých zaměstnanců",
+      "employeeNotInOrg": "Zaměstnanec ve tvé organizaci neexistuje",
+      "weekNothingToApprove": "Týden nemá žádné záznamy ke schválení",
+      "weekAlreadyApproved": "Týden už byl schválen",
+      "noSelfApprove": "Nemůžeš schválit vlastní výkaz hodin",
+      "onlySubmittedRejectable": "Zamítnout lze jen odeslané týdny",
+      "weekInClosedPeriod": "Týden je v uzavřeném období. Nejdřív odemkni období v části Uzávěrka období.",
+      "onlyApprovedReopen": "Znovu otevřít lze jen schválené týdny",
+      "historyOwnEmployees": "Historii můžeš zobrazit jen u svých zaměstnanců"
+    },
+    "import": {
+      "noProject": "(žádný projekt)",
+      "beforeLock": "{count} řádků je před uzamčením období {date}",
+      "submittedWeeks": "{count} odeslaných nebo schválených týdnů dostane nové řádky a ty se nezapočítají do součtu, který už byl schválen"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "Týden už byl schválen. Požádej manažera, aby ho znovu otevřel.",
+      "weekAlreadySubmitted": "Týden už byl odeslán a čeká na schválení",
+      "weekNothingToSubmit": "Týden nemá žádné záznamy k odeslání",
+      "activityNotAllowed": "Aktivita není na tomto projektu povolena",
+      "dayHasDetailed": "Den má {hours} hodin v podrobných záznamech. Uprav je v části Evidence času, nebo zadej alespoň tolik.",
+      "chooseOtherActivity": "Vyber jinou aktivitu, na kterou se má přesunout",
+      "noEmployeeProfile": "V této organizaci nemáš profil zaměstnance",
+      "fixedHoliday": "Den je pevná dovolená (období uzavření) a ty ho nemůžeš měnit",
+      "coveredByLongAbsence": "Den je pokryt delším obdobím absence. Uprav ho v části Absence.",
+      "notEmployed": "K tomuto datu jsi nebyl(a) zaměstnán(a)",
+      "holidayNoAbsence": "Den je volný den nebo státní svátek, takže nelze zaznamenat absenci",
+      "lastWeekEmpty": "Minulý týden nemá žádné záznamy ke zkopírování",
+      "weekNothingToSave": "Týden nemá žádné záznamy k uložení jako šablona",
+      "templateMissing": "Šablona neexistuje"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "Pracovní dobu zaměstnance mohou upravovat jen manažeři",
+      "ownOnlyView": "Pracovní dobu můžeš zobrazit jen svou vlastní",
+      "employeeNotInOrg": "Zaměstnanec v organizaci neexistuje",
+      "sharedPlan": "Plán se používá i mimo tvé zaměstnance. Požádej administrátora o změnu.",
+      "planMissing": "Plán neexistuje",
+      "planArchived": "Plán je archivován",
+      "laterVersion": "Existuje novější verze od {date}. Uprav raději tu.",
+      "versionFromToday": "Verze platná od dneška už existuje. Vyber pozdější datum.",
+      "adminsOnlyDept": "Plán oddělení mohou přiřadit jen administrátoři",
+      "departmentMissing": "Oddělení neexistuje",
+      "deviationsRecorded": "Odchylky se zaznamenávají, když nastanou. Plánovaná absence se zaznamenává v části Dovolená a absence.",
+      "noFixedPlanToday": "Tento den není stanoven pevný pracovní plán. Zaznamenej čas jako záznamy času."
+    },
+    "dpa": {
+      "outdated": "Smlouva byla od načtení stránky aktualizována. Načti stránku znovu a přečti si novou verzi.",
+      "acceptFailed": "Přijetí se nepodařilo zaregistrovat",
+      "signIn": "Pro stažení se přihlas",
+      "ownersAdminsDownload": "Dokončenou smlouvu mohou stáhnout jen vlastníci a administrátoři"
+    },
+    "edit": {
+      "weekApprovedLocked": "Týden je schválen a uzamčen. Požádej manažera, aby ho znovu otevřel.",
+      "weekSubmitted": "Týden byl odeslán ke schválení a nelze ho upravovat",
+      "entryApproved": "Záznam byl schválen tvým manažerem. Požádej o znovuotevření týdne."
+    },
+    "periodMaxDaysAsync": "Období může mít nejvýše {days} dní",
+    "scope": {
+      "ownEmployees": "Řešit můžeš jen své vlastní zaměstnance"
+    },
+    "dns": {
+      "unknown": "Neznámá chyba DNS",
+      "lookupFailed": "Vyhledání DNS se nezdařilo: {error}",
+      "noRecord": "Záznam TXT „{record}“ nebyl na {hosts} nalezen. Změny DNS mohou trvat až hodinu."
+    }
+  },
+  "emailTemplates": {
+    "notFound": "Šablona nebyla nalezena",
+    "systemNoEdit": "Systémové šablony nelze upravovat",
+    "systemNoDelete": "Systémové šablony nelze smazat",
+    "alreadyExist": "Šablony už existují"
+  },
+  "api": {
+    "tooManyRequestsLater": "Příliš mnoho požadavků. Zkus to později.",
+    "cvr": {
+      "queryMin2": "Hledaný výraz musí mít alespoň 2 znaky",
+      "noCompany": "Nebyla nalezena žádná firma",
+      "searchFailed": "Při hledání došlo k chybě",
+      "numberOrQueryRequired": "Je potřeba číslo CVR nebo hledaný výraz",
+      "eightDigits": "Číslo CVR musí mít 8 číslic",
+      "noCompanyForNumber": "S tímto číslem CVR nebyla nalezena žádná firma",
+      "lookupFailed": "Při vyhledávání čísla CVR došlo k chybě"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "Export nebyl nalezen nebo mu vypršela platnost",
+      "expired": "Export vypršel nebo už není dostupný. Objednej si nový export."
+    },
+    "notAuthorized": "Nemáš oprávnění. Nejdřív se přihlas.",
+    "desktop": {
+      "deviceCodeMissing": "Chybí kód zařízení (code)",
+      "maxDevices": "Byl dosažen maximální počet zařízení ({max}). Nejdřív některé zařízení deaktivuj.",
+      "invalidDeviceToken": "Neplatný token zařízení",
+      "userNotFound": "Uživatel neexistuje",
+      "settingsReadFailed": "Nastavení se nepodařilo načíst",
+      "notInAnyOrg": "Nejsi členem žádné organizace",
+      "adminsOnlyIntegrations": "Nastavení integrací mohou měnit jen administrátoři",
+      "invalidIntegrationSettings": "Neplatné nastavení integrací",
+      "settingsSaveFailed": "Nastavení se nepodařilo uložit",
+      "draftOnlyEditLines": "Řádky lze měnit jen u konceptů faktur",
+      "invalidPrepaidHours": "Neplatný počet hodin u záznamu času z balíčku hodin",
+      "draftOnlyEditInvoices": "Upravovat lze jen koncepty faktur",
+      "unbillOnlyWeb": "Označení vyfakturováno lze odebrat jen ve webové aplikaci. Nejdřív ho odeber tam.",
+      "entryNotFoundOrOther": "Entita nebyla nalezena: {id}. Záznam neexistuje nebo patří jinému uživateli"
+    },
+    "notMemberOfChosenOrg": "Nejsi členem vybrané organizace",
+    "approvalFailed": "Schválení se nezdařilo",
+    "invalidEmail": "Neplatná e-mailová adresa",
+    "genericError": "Došlo k chybě",
+    "dpa": {
+      "pdfFailed": "PDF se teď nepodařilo vytvořit"
+    },
+    "invalidOrigin": "Neplatný původ",
+    "invalidRequest": "Neplatný požadavek",
+    "ext": {
+      "invalidLoginLink": "Neplatný přihlašovací odkaz. Spusť přihlášení znovu z aplikace.",
+      "invalidRedirect": "Neplatné URI přesměrování"
+    },
+    "feedback": {
+      "notSignedIn": "Nejsi přihlášen(a)",
+      "otherUser": "Hlášení napsal jiný uživatel",
+      "tooLarge": "Hlášení je příliš velké",
+      "invalid": "Neplatné hlášení",
+      "saveFailed": "Zpětnou vazbu se nepodařilo uložit"
+    },
+    "invalidJson": "Neplatný JSON",
+    "integrations": {
+      "dineroFailed": "Připojení k Dinero se nepodařilo vytvořit. Zkus to znovu.",
+      "economicFailed": "Připojení k e-conomic se nepodařilo vytvořit. Zkus to znovu.",
+      "googleFailed": "Připojení ke Google se nepodařilo vytvořit. Zkus to znovu."
+    },
+    "invoiceSend": {
+      "invalidRecipient": "Neplatný e-mail příjemce",
+      "emailNotConfigured": "E-mailová služba není nastavena. Požádej administrátora o nastavení RESEND_API_KEY nebo SMTP_HOST.",
+      "sendFailed": "E-mail se nepodařilo odeslat. Zkus to později.",
+      "sent": "E-mail byl odeslán na {email}",
+      "error": "Při odesílání e-mailu došlo k chybě"
+    },
+    "upload": {
+      "notAuthorized": "Nemáš oprávnění",
+      "noFile": "Nebyl nahrán žádný soubor",
+      "imageTypes": "Povoleny jsou jen JPEG, PNG a WebP",
+      "tooBig": "Soubor je příliš velký (max. 8 MB)",
+      "notConfigured": "Nahrávání souborů není nastaveno (chybí S3_ENDPOINT nebo STORAGE_DRIVER=local)",
+      "failed": "Soubor se nepodařilo nahrát do úložiště"
+    },
+    "webhookTest": {
+      "tooMany": "Příliš mnoho testovacích pokusů pro tento webhook. Za chvíli to zkus znovu."
+    },
+    "import": {
+      "tagNoName": "Štítek nemá název"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "Balíček hodin patří jinému klientovi než stopky"
+  }
+}

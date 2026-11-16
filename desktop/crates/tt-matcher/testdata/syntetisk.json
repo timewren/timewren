@@ -1,0 +1,6072 @@
+{
+  "name": "Syntetisk labelset (5 dage, frø 0x74746d6174636865)",
+  "catalog": {
+    "clients": [
+      {
+        "id": "c-bageriet",
+        "name": "Bageriet på hjørnet",
+        "domains": [],
+        "archived": false
+      },
+      {
+        "id": "c-frisor",
+        "name": "Frisør Hansen",
+        "domains": [],
+        "archived": false
+      },
+      {
+        "id": "c-ark",
+        "name": "Ark",
+        "domains": [
+          "ark-tegnestue.dk"
+        ],
+        "archived": false
+      },
+      {
+        "id": "c-aeble",
+        "name": "Æblegården",
+        "domains": [],
+        "archived": false
+      },
+      {
+        "id": "c-sonder",
+        "name": "Sønderjysk Revision",
+        "domains": [],
+        "archived": false
+      },
+      {
+        "id": "c-acme",
+        "name": "Acme",
+        "domains": [],
+        "archived": false
+      }
+    ],
+    "projects": [
+      {
+        "id": "p-bag-web",
+        "name": "Website",
+        "clientId": "c-bageriet",
+        "urlPatterns": [
+          "https://bageriet-paa-hjoernet.myshopify.com/admin*"
+        ],
+        "archived": false
+      },
+      {
+        "id": "p-bag-jul",
+        "name": "Julekampagne",
+        "clientId": "c-bageriet",
+        "urlPatterns": [],
+        "archived": false
+      },
+      {
+        "id": "p-fri-web",
+        "name": "Website",
+        "clientId": "c-frisor",
+        "urlPatterns": [],
+        "archived": false
+      },
+      {
+        "id": "p-fri-book",
+        "name": "Booking",
+        "clientId": "c-frisor",
+        "urlPatterns": [],
+        "archived": false
+      },
+      {
+        "id": "p-ark-app",
+        "name": "Tegnestue-app",
+        "clientId": "c-ark",
+        "urlPatterns": [],
+        "archived": false
+      },
+      {
+        "id": "p-aeb-shop",
+        "name": "Gårdbutik",
+        "clientId": "c-aeble",
+        "urlPatterns": [],
+        "archived": false
+      },
+      {
+        "id": "p-son-aars",
+        "name": "Årsrapport",
+        "clientId": "c-sonder",
+        "urlPatterns": [],
+        "archived": false
+      },
+      {
+        "id": "p-acme-tt",
+        "name": "TimeTrack Desktop",
+        "clientId": "c-acme",
+        "urlPatterns": [],
+        "archived": false
+      },
+      {
+        "id": "p-acme-drift",
+        "name": "Drift",
+        "clientId": "c-acme",
+        "urlPatterns": [],
+        "archived": false
+      }
+    ],
+    "rules": [
+      {
+        "id": "r-facebook",
+        "field": "domain",
+        "op": "contains",
+        "value": "facebook.com",
+        "target": null,
+        "priority": 100,
+        "active": true
+      },
+      {
+        "id": "r-spotify",
+        "field": "app",
+        "op": "equals",
+        "value": "Spotify",
+        "target": null,
+        "priority": 100,
+        "active": true
+      },
+      {
+        "id": "r-aarsrapport",
+        "field": "title",
+        "op": "contains",
+        "value": "Årsrapport",
+        "target": {
+          "clientId": null,
+          "projectId": "p-son-aars"
+        },
+        "priority": 10,
+        "active": true
+      }
+    ],
+    "identities": [
+      {
+        "kind": "repoRemote",
+        "value": "git@github.com:acme/website.git",
+        "app": null,
+        "target": {
+          "clientId": null,
+          "projectId": "p-fri-web"
+        }
+      },
+      {
+        "kind": "repoRemote",
+        "value": "ssh://git@git.example.com:2222/acme/timetrack-desktop.git",
+        "app": null,
+        "target": {
+          "clientId": null,
+          "projectId": "p-acme-tt"
+        }
+      },
+      {
+        "kind": "path",
+        "value": "/Users/mads/dev/kunder/ark",
+        "app": null,
+        "target": {
+          "clientId": "c-ark",
+          "projectId": null
+        }
+      },
+      {
+        "kind": "appKeyword",
+        "value": "tegnestue",
+        "app": "Figma",
+        "target": {
+          "clientId": null,
+          "projectId": "p-ark-app"
+        }
+      }
+    ],
+    "siteMappings": [
+      {
+        "domain": "frisor-hansen-booking.dk",
+        "projectId": "p-fri-book",
+        "clientId": "c-frisor",
+        "usageCount": 4
+      }
+    ]
+  },
+  "patterns": {
+    "patterns": []
+  },
+  "segments": [
+    {
+      "id": "s1",
+      "app": "Google Chrome",
+      "title": "Ordre #6944 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/themes",
+      "start": 1793602800,
+      "end": 1793603047,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s2",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793603047,
+      "end": 1793603070,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s3",
+      "app": "Google Chrome",
+      "title": "Kunde 1159 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/analytics",
+      "start": 1793603070,
+      "end": 1793603303,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s4",
+      "app": "Google Chrome",
+      "title": "Ordre #5535 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/products",
+      "start": 1793603303,
+      "end": 1793603394,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s5",
+      "app": "Google Chrome",
+      "title": "Rabatter · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/customers/1092",
+      "start": 1793603394,
+      "end": 1793603858,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s6",
+      "app": "Google Chrome",
+      "title": "Kunde 3159 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/products",
+      "start": 1793603858,
+      "end": 1793604181,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s7",
+      "app": "Google Chrome",
+      "title": "css grid gap - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x246",
+      "start": 1793604181,
+      "end": 1793604295,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s8",
+      "app": "Google Chrome",
+      "title": "Ordre #8698 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/discounts",
+      "start": 1793604295,
+      "end": 1793604709,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s9",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793604709,
+      "end": 1793604855,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s10",
+      "app": "Google Chrome",
+      "title": "Produkter · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/analytics",
+      "start": 1793604855,
+      "end": 1793605140,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s11",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #194 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/194",
+      "start": 1793605140,
+      "end": 1793605600,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s12",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #29 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/29",
+      "start": 1793605600,
+      "end": 1793605773,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s13",
+      "app": "Google Chrome",
+      "title": "Fix booking widget by mads · Pull Request #93 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/93",
+      "start": 1793605773,
+      "end": 1793606190,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s14",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #24 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/24",
+      "start": 1793606190,
+      "end": 1793606443,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s15",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #71 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/71",
+      "start": 1793606443,
+      "end": 1793606622,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s16",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #86 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/86",
+      "start": 1793606622,
+      "end": 1793607157,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s17",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/222",
+      "start": 1793607157,
+      "end": 1793607261,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s18",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #119 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/119",
+      "start": 1793607261,
+      "end": 1793607499,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s19",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #119 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/119",
+      "start": 1793607499,
+      "end": 1793607850,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s20",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #170 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/170",
+      "start": 1793607850,
+      "end": 1793608427,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s21",
+      "app": "Google Chrome",
+      "title": "Fix booking widget by mads · Pull Request #123 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/123",
+      "start": 1793608427,
+      "end": 1793608620,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s22",
+      "app": "Safari",
+      "title": "Kalender uge 51 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=35",
+      "start": 1793608620,
+      "end": 1793609165,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s23",
+      "app": "Safari",
+      "title": "Kalender uge 22 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=17",
+      "start": 1793609165,
+      "end": 1793609307,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s24",
+      "app": "Safari",
+      "title": "Kalender uge 31 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=22",
+      "start": 1793609307,
+      "end": 1793609486,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s25",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793609486,
+      "end": 1793609536,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s26",
+      "app": "Safari",
+      "title": "Kalender uge 20 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=33",
+      "start": 1793609536,
+      "end": 1793609772,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s27",
+      "app": "Safari",
+      "title": "Kalender uge 15 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=40",
+      "start": 1793609772,
+      "end": 1793610174,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s28",
+      "app": "Google Chrome",
+      "title": "css grid gap - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x127",
+      "start": 1793610174,
+      "end": 1793610194,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s29",
+      "app": "Safari",
+      "title": "Kalender uge 21 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=20",
+      "start": 1793610194,
+      "end": 1793610381,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s30",
+      "app": "Safari",
+      "title": "Kalender uge 45 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=3",
+      "start": 1793610381,
+      "end": 1793610504,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s31",
+      "app": "Google Chrome",
+      "title": "rust serde flatten - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x576",
+      "start": 1793610504,
+      "end": 1793610618,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s32",
+      "app": "Safari",
+      "title": "Kalender uge 14 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=13",
+      "start": 1793610618,
+      "end": 1793611068,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s33",
+      "app": "Safari",
+      "title": "Kalender uge 50 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=15",
+      "start": 1793611068,
+      "end": 1793611595,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s34",
+      "app": "Google Chrome",
+      "title": "css grid gap - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x144",
+      "start": 1793611595,
+      "end": 1793611738,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s35",
+      "app": "Safari",
+      "title": "Kalender uge 44 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=1",
+      "start": 1793611738,
+      "end": 1793612100,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s36",
+      "app": "Code",
+      "title": "index.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793612783,
+      "end": 1793613064,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s37",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793613064,
+      "end": 1793613435,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s38",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793613435,
+      "end": 1793613974,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s39",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793613974,
+      "end": 1793614271,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s40",
+      "app": "Code",
+      "title": "globals.css - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793614271,
+      "end": 1793614758,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s41",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793614758,
+      "end": 1793615340,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s42",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x268",
+      "start": 1793615340,
+      "end": 1793615483,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s43",
+      "app": "Code",
+      "title": "package.json - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793615483,
+      "end": 1793615650,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s44",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793615650,
+      "end": 1793615782,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s45",
+      "app": "Code",
+      "title": "booking.ts - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793615782,
+      "end": 1793615963,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s46",
+      "app": "Cursor",
+      "title": "Header.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793615963,
+      "end": 1793616227,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s47",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793616227,
+      "end": 1793616626,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s48",
+      "app": "Cursor",
+      "title": "Header.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793616626,
+      "end": 1793616896,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s49",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793616896,
+      "end": 1793617027,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s50",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793617027,
+      "end": 1793617266,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s51",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793617266,
+      "end": 1793617289,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s52",
+      "app": "Cursor",
+      "title": "globals.css - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793617289,
+      "end": 1793617387,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s53",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793617387,
+      "end": 1793617478,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s54",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793617478,
+      "end": 1793617786,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s55",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793617786,
+      "end": 1793617844,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s56",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793617844,
+      "end": 1793618259,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s57",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793618259,
+      "end": 1793618402,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s58",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793618402,
+      "end": 1793618772,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s59",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793618772,
+      "end": 1793618990,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s60",
+      "app": "Cursor",
+      "title": "Header.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793618990,
+      "end": 1793619183,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s61",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793619183,
+      "end": 1793619609,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s62",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793619609,
+      "end": 1793619803,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s63",
+      "app": "Google Chrome",
+      "title": "Om os – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793622034,
+      "end": 1793622188,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s64",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793622188,
+      "end": 1793622266,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s65",
+      "app": "Google Chrome",
+      "title": "Priser – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793622266,
+      "end": 1793622464,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s66",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793622464,
+      "end": 1793623000,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s67",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793623000,
+      "end": 1793623055,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s68",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793623055,
+      "end": 1793623176,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s69",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793623176,
+      "end": 1793623654,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s70",
+      "app": "Cursor",
+      "title": "globals.css - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793623654,
+      "end": 1793624206,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s71",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793624206,
+      "end": 1793624307,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s72",
+      "app": "Cursor",
+      "title": "globals.css - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793624307,
+      "end": 1793624415,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s73",
+      "app": "Cursor",
+      "title": "Footer.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793624415,
+      "end": 1793624542,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s74",
+      "app": "Cursor",
+      "title": "Header.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793624542,
+      "end": 1793625084,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s75",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793625084,
+      "end": 1793625187,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s76",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793625187,
+      "end": 1793625652,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s77",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793625652,
+      "end": 1793625809,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s78",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793625809,
+      "end": 1793625853,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s79",
+      "app": "Cursor",
+      "title": "Footer.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793625853,
+      "end": 1793625981,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s80",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793625981,
+      "end": 1793626021,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s81",
+      "app": "Cursor",
+      "title": "Footer.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793626021,
+      "end": 1793626529,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s82",
+      "app": "Cursor",
+      "title": "Header.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793626529,
+      "end": 1793626704,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s83",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793626704,
+      "end": 1793626734,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s84",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793626734,
+      "end": 1793627001,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s85",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793627001,
+      "end": 1793627097,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s86",
+      "app": "Google Chrome",
+      "title": "css grid gap - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x511",
+      "start": 1793627097,
+      "end": 1793627160,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s87",
+      "app": "Code",
+      "title": "index.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793627160,
+      "end": 1793627626,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s88",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793627626,
+      "end": 1793628100,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s89",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793628100,
+      "end": 1793628564,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s90",
+      "app": "Code",
+      "title": "globals.css - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793628564,
+      "end": 1793628766,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s91",
+      "app": "Code",
+      "title": "package.json - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793628766,
+      "end": 1793628796,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s92",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793628796,
+      "end": 1793629238,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s93",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793629238,
+      "end": 1793629431,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s94",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/129",
+      "start": 1793629431,
+      "end": 1793629559,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s95",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793629559,
+      "end": 1793629847,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s96",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793629847,
+      "end": 1793630189,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s97",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793630189,
+      "end": 1793630293,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s98",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793630293,
+      "end": 1793630409,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s99",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/522",
+      "start": 1793630409,
+      "end": 1793630541,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s100",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793630541,
+      "end": 1793631109,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s101",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793631109,
+      "end": 1793631528,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s102",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793631528,
+      "end": 1793631616,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s103",
+      "app": "Google Chrome",
+      "title": "Spørgsmål til Årsrapport - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg2751",
+      "start": 1793689200,
+      "end": 1793689592,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s104",
+      "app": "Google Chrome",
+      "title": "Faktura 2026-117 fra Hetzner - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg7996",
+      "start": 1793689592,
+      "end": 1793689967,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s105",
+      "app": "Spotify",
+      "title": "Spotify Premium",
+      "start": 1793690219,
+      "end": 1793690813,
+      "expected": null,
+      "case": "ikke arbejde"
+    },
+    {
+      "id": "s106",
+      "app": "Google Chrome",
+      "title": "Facebook - Google Chrome",
+      "url": "https://www.facebook.com/",
+      "start": 1793690813,
+      "end": 1793691037,
+      "expected": null,
+      "case": "ikke arbejde"
+    },
+    {
+      "id": "s107",
+      "app": "Spotify",
+      "title": "Spotify Premium",
+      "start": 1793691037,
+      "end": 1793691067,
+      "expected": null,
+      "case": "ikke arbejde"
+    },
+    {
+      "id": "s108",
+      "app": "Google Chrome",
+      "title": "Tema: Dawn · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/discounts",
+      "start": 1793691067,
+      "end": 1793691362,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s109",
+      "app": "Google Chrome",
+      "title": "Produkter · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/customers/7745",
+      "start": 1793691362,
+      "end": 1793691951,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s110",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793691951,
+      "end": 1793692039,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s111",
+      "app": "Google Chrome",
+      "title": "Rabatter · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/analytics",
+      "start": 1793692039,
+      "end": 1793692295,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s112",
+      "app": "Google Chrome",
+      "title": "Tema: Dawn · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/products",
+      "start": 1793692295,
+      "end": 1793692677,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s113",
+      "app": "Google Chrome",
+      "title": "Produkter · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/products",
+      "start": 1793692677,
+      "end": 1793693182,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s114",
+      "app": "Google Chrome",
+      "title": "Produkter · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/orders/2622",
+      "start": 1793693182,
+      "end": 1793693407,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s115",
+      "app": "Arc",
+      "title": "Æblemost – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/kurv",
+      "start": 1793693407,
+      "end": 1793693918,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s116",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/produkter",
+      "start": 1793693918,
+      "end": 1793694466,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s117",
+      "app": "Arc",
+      "title": "Levering – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793694466,
+      "end": 1793694675,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s118",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793694675,
+      "end": 1793694837,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s119",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793694837,
+      "end": 1793694953,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s120",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793694953,
+      "end": 1793695347,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s121",
+      "app": "Arc",
+      "title": "Æblemost – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793695347,
+      "end": 1793695701,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s122",
+      "app": "Google Chrome",
+      "title": "rust serde flatten - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x917",
+      "start": 1793695701,
+      "end": 1793695808,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s123",
+      "app": "Arc",
+      "title": "Produkter – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793695808,
+      "end": 1793696107,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s124",
+      "app": "Spotify",
+      "title": "Spotify Premium",
+      "start": 1793696107,
+      "end": 1793696647,
+      "expected": null,
+      "case": "ikke arbejde"
+    },
+    {
+      "id": "s125",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF7203x/edit",
+      "start": 1793696647,
+      "end": 1793696889,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s126",
+      "app": "Google Chrome",
+      "title": "rust serde flatten - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x753",
+      "start": 1793696889,
+      "end": 1793696915,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s127",
+      "app": "Google Chrome",
+      "title": "Facebook-banner – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF1034x/edit",
+      "start": 1793696915,
+      "end": 1793697103,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s128",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793697103,
+      "end": 1793697245,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s129",
+      "app": "Google Chrome",
+      "title": "Facebook-banner – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF2370x/edit",
+      "start": 1793697245,
+      "end": 1793697375,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s130",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793697375,
+      "end": 1793697498,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s131",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF9033x/edit",
+      "start": 1793697498,
+      "end": 1793698058,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s132",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF5011x/edit",
+      "start": 1793698058,
+      "end": 1793698440,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s133",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x954",
+      "start": 1793698440,
+      "end": 1793698474,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s134",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF4549x/edit",
+      "start": 1793698474,
+      "end": 1793698732,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s135",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF3645x/edit",
+      "start": 1793698732,
+      "end": 1793698995,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s136",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x318",
+      "start": 1793698995,
+      "end": 1793699117,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s137",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF3890x/edit",
+      "start": 1793699117,
+      "end": 1793699445,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s138",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF3521x/edit",
+      "start": 1793699445,
+      "end": 1793699527,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s139",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793699527,
+      "end": 1793700051,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s140",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793700051,
+      "end": 1793700096,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s141",
+      "app": "Microsoft Excel",
+      "title": "aarsrapport_v6.xlsx - Excel",
+      "start": 1793700096,
+      "end": 1793700321,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s142",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793700321,
+      "end": 1793700358,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s143",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2025 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793700358,
+      "end": 1793700833,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s144",
+      "app": "Microsoft Excel",
+      "title": "aarsrapport_v5.xlsx - Excel",
+      "start": 1793700833,
+      "end": 1793701027,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s145",
+      "app": "Figma",
+      "title": "Tegnestue forside – Figma",
+      "document": "Tegnestue forside",
+      "start": 1793701027,
+      "end": 1793701342,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s146",
+      "app": "Google Chrome",
+      "title": "rust serde flatten - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x903",
+      "start": 1793701342,
+      "end": 1793701431,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s147",
+      "app": "Figma",
+      "title": "Tegnestue forside – Figma",
+      "document": "Tegnestue forside",
+      "start": 1793701431,
+      "end": 1793701834,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s148",
+      "app": "Figma",
+      "title": "Tegnestue kontakt – Figma",
+      "document": "Tegnestue kontakt",
+      "start": 1793701834,
+      "end": 1793702287,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s149",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF1525x/edit",
+      "start": 1793702556,
+      "end": 1793702687,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s150",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF8515x/edit",
+      "start": 1793702687,
+      "end": 1793703160,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s151",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF6422x/edit",
+      "start": 1793703160,
+      "end": 1793703599,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s152",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793703599,
+      "end": 1793703643,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s153",
+      "app": "Google Chrome",
+      "title": "Facebook-banner – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF8662x/edit",
+      "start": 1793703643,
+      "end": 1793703810,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s154",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF1968x/edit",
+      "start": 1793703810,
+      "end": 1793704077,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s155",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF7873x/edit",
+      "start": 1793704077,
+      "end": 1793704591,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s156",
+      "app": "Google Chrome",
+      "title": "Facebook-banner – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF1608x/edit",
+      "start": 1793704591,
+      "end": 1793704892,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s157",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/458",
+      "start": 1793704892,
+      "end": 1793704953,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s158",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF3246x/edit",
+      "start": 1793704953,
+      "end": 1793705051,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s159",
+      "app": "Google Chrome",
+      "title": "Facebook-banner – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF8540x/edit",
+      "start": 1793705051,
+      "end": 1793705193,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s160",
+      "app": "Google Chrome",
+      "title": "rust serde flatten - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x683",
+      "start": 1793705193,
+      "end": 1793705335,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s161",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF8389x/edit",
+      "start": 1793705335,
+      "end": 1793705609,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s162",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF7358x/edit",
+      "start": 1793705609,
+      "end": 1793705856,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s163",
+      "app": "Cursor",
+      "title": "Header.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793708543,
+      "end": 1793708665,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s164",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793708665,
+      "end": 1793708841,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s165",
+      "app": "Google Chrome",
+      "title": "css grid gap - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x833",
+      "start": 1793708841,
+      "end": 1793708984,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s166",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793708984,
+      "end": 1793709085,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s167",
+      "app": "Cursor",
+      "title": "globals.css - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793709085,
+      "end": 1793709681,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s168",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793709681,
+      "end": 1793710065,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s169",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793710065,
+      "end": 1793710619,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s170",
+      "app": "Cursor",
+      "title": "globals.css - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793710619,
+      "end": 1793711143,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s171",
+      "app": "Cursor",
+      "title": "globals.css - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793711143,
+      "end": 1793711416,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s172",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793711416,
+      "end": 1793711519,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s173",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793711519,
+      "end": 1793711903,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s174",
+      "app": "Ghostty",
+      "title": "cargo clippy — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793711903,
+      "end": 1793712357,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s175",
+      "app": "Ghostty",
+      "title": "cargo test — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793712357,
+      "end": 1793712737,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s176",
+      "app": "Ghostty",
+      "title": "zsh — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793712737,
+      "end": 1793712860,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s177",
+      "app": "Ghostty",
+      "title": "cargo clippy — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793712860,
+      "end": 1793712923,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s178",
+      "app": "Safari",
+      "title": "Kalender uge 22 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=45",
+      "start": 1793712923,
+      "end": 1793713198,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s179",
+      "app": "Safari",
+      "title": "Kalender uge 31 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=6",
+      "start": 1793713198,
+      "end": 1793713563,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s180",
+      "app": "Safari",
+      "title": "Kalender uge 45 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=52",
+      "start": 1793713563,
+      "end": 1793714138,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s181",
+      "app": "Safari",
+      "title": "Kalender uge 52 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=4",
+      "start": 1793714138,
+      "end": 1793714416,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s182",
+      "app": "Safari",
+      "title": "Kalender uge 20 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=47",
+      "start": 1793714416,
+      "end": 1793714604,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s183",
+      "app": "Safari",
+      "title": "Kalender uge 3 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=13",
+      "start": 1793714604,
+      "end": 1793715068,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s184",
+      "app": "Safari",
+      "title": "Kalender uge 5 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=1",
+      "start": 1793715068,
+      "end": 1793715545,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s185",
+      "app": "Safari",
+      "title": "Kalender uge 29 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=50",
+      "start": 1793715545,
+      "end": 1793715856,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s186",
+      "app": "Safari",
+      "title": "Kalender uge 2 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=1",
+      "start": 1793715856,
+      "end": 1793716087,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s187",
+      "app": "Safari",
+      "title": "Kalender uge 9 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=23",
+      "start": 1793716087,
+      "end": 1793716341,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s188",
+      "app": "Safari",
+      "title": "Kalender uge 17 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=36",
+      "start": 1793716341,
+      "end": 1793716463,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s189",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF4899x/edit",
+      "start": 1793716463,
+      "end": 1793716807,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s190",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF5430x/edit",
+      "start": 1793716807,
+      "end": 1793717228,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s191",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793717228,
+      "end": 1793717317,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s192",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF9681x/edit",
+      "start": 1793717317,
+      "end": 1793717835,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s193",
+      "app": "Google Chrome",
+      "title": "rust serde flatten - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x325",
+      "start": 1793717835,
+      "end": 1793717863,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s194",
+      "app": "Google Chrome",
+      "title": "Facebook-banner – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF4831x/edit",
+      "start": 1793717863,
+      "end": 1793718359,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s195",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF9949x/edit",
+      "start": 1793718359,
+      "end": 1793718581,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s196",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF9538x/edit",
+      "start": 1793718581,
+      "end": 1793718743,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s197",
+      "app": "Cursor",
+      "title": "Footer.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793775600,
+      "end": 1793776038,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s198",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793776038,
+      "end": 1793776335,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s199",
+      "app": "Cursor",
+      "title": "Footer.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793776335,
+      "end": 1793776707,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s200",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793776707,
+      "end": 1793777094,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s201",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793777094,
+      "end": 1793777176,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s202",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793777176,
+      "end": 1793777515,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s203",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793777515,
+      "end": 1793777815,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s204",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793777815,
+      "end": 1793778229,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s205",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793778229,
+      "end": 1793778320,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s206",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793778320,
+      "end": 1793778709,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s207",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793778709,
+      "end": 1793778839,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s208",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793778839,
+      "end": 1793779042,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s209",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793779042,
+      "end": 1793779079,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s210",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793779079,
+      "end": 1793779540,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s211",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793779540,
+      "end": 1793779680,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s212",
+      "app": "Safari",
+      "title": "Kalender uge 22 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=46",
+      "start": 1793779680,
+      "end": 1793779908,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s213",
+      "app": "Safari",
+      "title": "Kalender uge 46 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=37",
+      "start": 1793779908,
+      "end": 1793780188,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s214",
+      "app": "Safari",
+      "title": "Kalender uge 48 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=49",
+      "start": 1793780188,
+      "end": 1793780688,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s215",
+      "app": "Safari",
+      "title": "Kalender uge 46 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=27",
+      "start": 1793780688,
+      "end": 1793781250,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s216",
+      "app": "Google Chrome",
+      "title": "css grid gap - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x258",
+      "start": 1793781250,
+      "end": 1793781296,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s217",
+      "app": "Safari",
+      "title": "Kalender uge 7 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=38",
+      "start": 1793781296,
+      "end": 1793781502,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s218",
+      "app": "Safari",
+      "title": "Kalender uge 20 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=21",
+      "start": 1793781502,
+      "end": 1793781731,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s219",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x363",
+      "start": 1793781731,
+      "end": 1793781764,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s220",
+      "app": "Safari",
+      "title": "Kalender uge 33 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=1",
+      "start": 1793781764,
+      "end": 1793782291,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s221",
+      "app": "Safari",
+      "title": "Kalender uge 16 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=4",
+      "start": 1793782291,
+      "end": 1793782462,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s222",
+      "app": "Safari",
+      "title": "Kalender uge 37 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=38",
+      "start": 1793782462,
+      "end": 1793783037,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s223",
+      "app": "Safari",
+      "title": "Kalender uge 36 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=16",
+      "start": 1793783037,
+      "end": 1793783485,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s224",
+      "app": "Safari",
+      "title": "Kalender uge 1 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=13",
+      "start": 1793783485,
+      "end": 1793783700,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s225",
+      "app": "Google Chrome",
+      "title": "Ordre #9969 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/products",
+      "start": 1793783700,
+      "end": 1793783868,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s226",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793783868,
+      "end": 1793783954,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s227",
+      "app": "Google Chrome",
+      "title": "Analyse · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/customers/8636",
+      "start": 1793783954,
+      "end": 1793784527,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s228",
+      "app": "Google Chrome",
+      "title": "Analyse · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/orders/4430",
+      "start": 1793784527,
+      "end": 1793784600,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s229",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev fra Netto - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg2179",
+      "start": 1793784600,
+      "end": 1793785090,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s230",
+      "app": "Google Chrome",
+      "title": "Faktura 2026-117 fra Hetzner - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg9424",
+      "start": 1793785090,
+      "end": 1793785548,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s231",
+      "app": "Google Chrome",
+      "title": "Spørgsmål til Årsrapport - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg3019",
+      "start": 1793785548,
+      "end": 1793785993,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s232",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #176 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/176",
+      "start": 1793786848,
+      "end": 1793786940,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s233",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #25 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/25",
+      "start": 1793786940,
+      "end": 1793787324,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s234",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #70 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/70",
+      "start": 1793787324,
+      "end": 1793787704,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s235",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #149 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/149",
+      "start": 1793787704,
+      "end": 1793788020,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s236",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #185 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/185",
+      "start": 1793788020,
+      "end": 1793788506,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s237",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793788506,
+      "end": 1793788571,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s238",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #185 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/185",
+      "start": 1793788571,
+      "end": 1793788783,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s239",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #157 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/157",
+      "start": 1793788783,
+      "end": 1793789250,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s240",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x946",
+      "start": 1793789250,
+      "end": 1793789270,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s241",
+      "app": "Google Chrome",
+      "title": "Fix booking widget by mads · Pull Request #161 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/161",
+      "start": 1793789270,
+      "end": 1793789690,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s242",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #192 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/192",
+      "start": 1793789690,
+      "end": 1793789822,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s243",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #89 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/89",
+      "start": 1793789822,
+      "end": 1793789908,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s244",
+      "app": "Google Chrome",
+      "title": "Forside – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793789908,
+      "end": 1793790025,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s245",
+      "app": "Google Chrome",
+      "title": "Forside – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793790025,
+      "end": 1793790396,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s246",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793790396,
+      "end": 1793790677,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s247",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x776",
+      "start": 1793790677,
+      "end": 1793790806,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s248",
+      "app": "Google Chrome",
+      "title": "Forside – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793790806,
+      "end": 1793791387,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s249",
+      "app": "Google Chrome",
+      "title": "Om os – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793791387,
+      "end": 1793791417,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s250",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793794008,
+      "end": 1793794398,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s251",
+      "app": "Google Chrome",
+      "title": "Forside – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793794398,
+      "end": 1793794541,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s252",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793794541,
+      "end": 1793794689,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s253",
+      "app": "Google Chrome",
+      "title": "Forside – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793794689,
+      "end": 1793795042,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s254",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793795042,
+      "end": 1793795417,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s255",
+      "app": "Google Chrome",
+      "title": "Om os – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793795417,
+      "end": 1793795945,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s256",
+      "app": "Google Chrome",
+      "title": "Priser – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793795945,
+      "end": 1793796327,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s257",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793796327,
+      "end": 1793796359,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s258",
+      "app": "Google Chrome",
+      "title": "Om os – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793796359,
+      "end": 1793796757,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s259",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793796757,
+      "end": 1793796807,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s260",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793796807,
+      "end": 1793796962,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s261",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793796962,
+      "end": 1793797214,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s262",
+      "app": "Google Chrome",
+      "title": "Priser – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793797214,
+      "end": 1793797421,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s263",
+      "app": "Google Chrome",
+      "title": "Forside – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793797421,
+      "end": 1793797906,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s264",
+      "app": "Google Chrome",
+      "title": "Book tid – Frisør Hansen - Google Chrome",
+      "url": "http://localhost:3000/",
+      "start": 1793797906,
+      "end": 1793798148,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s265",
+      "app": "Google Chrome",
+      "title": "Fix booking widget by mads · Pull Request #44 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/44",
+      "start": 1793798148,
+      "end": 1793798295,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s266",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #10 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/10",
+      "start": 1793798295,
+      "end": 1793798457,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s267",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #162 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/162",
+      "start": 1793798457,
+      "end": 1793798789,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s268",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #194 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/194",
+      "start": 1793798789,
+      "end": 1793799311,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s269",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793799311,
+      "end": 1793799441,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s270",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #143 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/143",
+      "start": 1793799441,
+      "end": 1793799653,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s271",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #73 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/73",
+      "start": 1793799653,
+      "end": 1793799888,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s272",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793799888,
+      "end": 1793800080,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s273",
+      "app": "Cursor",
+      "title": "Footer.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793800080,
+      "end": 1793800542,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s274",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793800542,
+      "end": 1793800597,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s275",
+      "app": "Cursor",
+      "title": "index.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793800597,
+      "end": 1793801175,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s276",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793801175,
+      "end": 1793801667,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s277",
+      "app": "Cursor",
+      "title": "Header.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793801667,
+      "end": 1793802085,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s278",
+      "app": "Cursor",
+      "title": "Footer.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793802085,
+      "end": 1793802408,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s279",
+      "app": "Spotify",
+      "title": "Spotify Premium",
+      "start": 1793802865,
+      "end": 1793803220,
+      "expected": null,
+      "case": "ikke arbejde"
+    },
+    {
+      "id": "s280",
+      "app": "Google Chrome",
+      "title": "YouTube - Google Chrome",
+      "url": "https://www.youtube.com/watch?v=x9241",
+      "start": 1793803220,
+      "end": 1793803525,
+      "expected": null,
+      "case": "ikke arbejde"
+    },
+    {
+      "id": "s281",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793803525,
+      "end": 1793803669,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s282",
+      "app": "Code",
+      "title": "index.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793803669,
+      "end": 1793804178,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s283",
+      "app": "Code",
+      "title": "booking.ts - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793804178,
+      "end": 1793804510,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s284",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793804510,
+      "end": 1793804668,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s285",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793804668,
+      "end": 1793804725,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s286",
+      "app": "Ghostty",
+      "title": "git status — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793862000,
+      "end": 1793862337,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s287",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793862337,
+      "end": 1793862410,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s288",
+      "app": "Ghostty",
+      "title": "cargo test — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793862410,
+      "end": 1793862686,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s289",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793862686,
+      "end": 1793862798,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s290",
+      "app": "Ghostty",
+      "title": "zsh — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793862798,
+      "end": 1793863245,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s291",
+      "app": "Ghostty",
+      "title": "cargo clippy — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793863245,
+      "end": 1793863770,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s292",
+      "app": "Ghostty",
+      "title": "cargo clippy — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793863770,
+      "end": 1793863921,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s293",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793863921,
+      "end": 1793863984,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s294",
+      "app": "Ghostty",
+      "title": "cargo clippy — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793863984,
+      "end": 1793864457,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s295",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793864457,
+      "end": 1793864483,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s296",
+      "app": "Ghostty",
+      "title": "zsh — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793864483,
+      "end": 1793864750,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s297",
+      "app": "Ghostty",
+      "title": "cargo clippy — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793864750,
+      "end": 1793864942,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s298",
+      "app": "Ghostty",
+      "title": "git status — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793864942,
+      "end": 1793865240,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s299",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2025 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793865240,
+      "end": 1793865691,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s300",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793865691,
+      "end": 1793865925,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s301",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2025 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793865925,
+      "end": 1793866312,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s302",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793866312,
+      "end": 1793866380,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s303",
+      "app": "Google Chrome",
+      "title": "Spørgsmål til Årsrapport - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg3834",
+      "start": 1793867230,
+      "end": 1793867483,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s304",
+      "app": "Google Chrome",
+      "title": "Tilbud på ny booking – Frisør Hansen - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg1756",
+      "start": 1793867483,
+      "end": 1793867847,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s305",
+      "app": "Ghostty",
+      "title": "cargo clippy — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793867847,
+      "end": 1793867942,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s306",
+      "app": "Ghostty",
+      "title": "cargo clippy — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793867942,
+      "end": 1793868299,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s307",
+      "app": "Ghostty",
+      "title": "cargo test — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793868299,
+      "end": 1793868598,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s308",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793868598,
+      "end": 1793868646,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s309",
+      "app": "Ghostty",
+      "title": "cargo test — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793868646,
+      "end": 1793868907,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s310",
+      "app": "Ghostty",
+      "title": "git status — timetrack-desktop",
+      "path": "/Users/mads/dev/timetrack-desktop",
+      "start": 1793868907,
+      "end": 1793869227,
+      "expected": {
+        "clientId": "c-acme",
+        "projectId": "p-acme-tt"
+      },
+      "case": "identitet"
+    },
+    {
+      "id": "s311",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793869227,
+      "end": 1793869353,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s312",
+      "app": "Code",
+      "title": "booking.ts - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793869353,
+      "end": 1793869712,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s313",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793869712,
+      "end": 1793870289,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s314",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:acme/website.git",
+      "path": "/Users/mads/dev/kunder/frisor/website",
+      "start": 1793870289,
+      "end": 1793870319,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s315",
+      "app": "Safari",
+      "title": "Kalender uge 46 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=52",
+      "start": 1793870319,
+      "end": 1793870834,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s316",
+      "app": "Safari",
+      "title": "Kalender uge 1 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=37",
+      "start": 1793870834,
+      "end": 1793871165,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s317",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x774",
+      "start": 1793871165,
+      "end": 1793871260,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s318",
+      "app": "Safari",
+      "title": "Kalender uge 10 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=49",
+      "start": 1793871260,
+      "end": 1793871653,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s319",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/759",
+      "start": 1793871653,
+      "end": 1793871764,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s320",
+      "app": "Safari",
+      "title": "Kalender uge 13 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=3",
+      "start": 1793871764,
+      "end": 1793872053,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s321",
+      "app": "Safari",
+      "title": "Kalender uge 22 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=46",
+      "start": 1793872053,
+      "end": 1793872476,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s322",
+      "app": "Safari",
+      "title": "Kalender uge 45 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=19",
+      "start": 1793872476,
+      "end": 1793872630,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s323",
+      "app": "Safari",
+      "title": "Kalender uge 20 – Booking",
+      "url": "https://admin.frisor-hansen-booking.dk/kalender?uge=52",
+      "start": 1793872630,
+      "end": 1793872660,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "site-kobling"
+    },
+    {
+      "id": "s324",
+      "app": "Google Chrome",
+      "title": "Re: Julekampagne – tekster til opslag - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg2438",
+      "start": 1793872660,
+      "end": 1793873055,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s325",
+      "app": "Google Chrome",
+      "title": "Tilbud på ny booking – Frisør Hansen - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg1860",
+      "start": 1793873055,
+      "end": 1793873437,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-book"
+      },
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s326",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev fra Netto - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg2438",
+      "start": 1793873437,
+      "end": 1793873883,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s327",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev fra Netto - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg7809",
+      "start": 1793873883,
+      "end": 1793874408,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s328",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/produkter",
+      "start": 1793874863,
+      "end": 1793875152,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s329",
+      "app": "Arc",
+      "title": "Produkter – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793875152,
+      "end": 1793875617,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s330",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793875617,
+      "end": 1793875693,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s331",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793875693,
+      "end": 1793876138,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s332",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793876138,
+      "end": 1793876214,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s333",
+      "app": "Arc",
+      "title": "Produkter – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/produkter",
+      "start": 1793876214,
+      "end": 1793876423,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s334",
+      "app": "Arc",
+      "title": "Æblemost – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793876423,
+      "end": 1793876856,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s335",
+      "app": "Arc",
+      "title": "Levering – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/kurv",
+      "start": 1793876856,
+      "end": 1793877317,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s336",
+      "app": "Arc",
+      "title": "Produkter – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793877317,
+      "end": 1793877864,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s337",
+      "app": "Arc",
+      "title": "Æblemost – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793877864,
+      "end": 1793878284,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s338",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/kurv",
+      "start": 1793878284,
+      "end": 1793878872,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s339",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793878872,
+      "end": 1793879003,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s340",
+      "app": "Google Chrome",
+      "title": "Faktura 2026-117 fra Hetzner - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg7587",
+      "start": 1793880883,
+      "end": 1793881275,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s341",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev fra Netto - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg7062",
+      "start": 1793881275,
+      "end": 1793881657,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s342",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev fra Netto - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg2197",
+      "start": 1793881657,
+      "end": 1793882167,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s343",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev fra Netto - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg2567",
+      "start": 1793882167,
+      "end": 1793882506,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s344",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev fra Netto - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg4528",
+      "start": 1793882506,
+      "end": 1793882982,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s345",
+      "app": "Google Chrome",
+      "title": "Spørgsmål til Årsrapport - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg6859",
+      "start": 1793882982,
+      "end": 1793883516,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s346",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793883516,
+      "end": 1793884054,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s347",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793884054,
+      "end": 1793884277,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s348",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793884277,
+      "end": 1793884410,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s349",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793884410,
+      "end": 1793884872,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s350",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793884872,
+      "end": 1793885256,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s351",
+      "app": "Arc",
+      "title": "Æblemost – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793885591,
+      "end": 1793886127,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s352",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793886127,
+      "end": 1793886252,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s353",
+      "app": "Arc",
+      "title": "Produkter – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793886252,
+      "end": 1793886488,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s354",
+      "app": "Arc",
+      "title": "Æblemost – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/kurv",
+      "start": 1793886488,
+      "end": 1793886744,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s355",
+      "app": "Arc",
+      "title": "Produkter – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/kurv",
+      "start": 1793886744,
+      "end": 1793887279,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s356",
+      "app": "Arc",
+      "title": "Produkter – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/produkter",
+      "start": 1793887279,
+      "end": 1793887369,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s357",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x421",
+      "start": 1793887369,
+      "end": 1793887404,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s358",
+      "app": "Arc",
+      "title": "Æblemost – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/kurv",
+      "start": 1793887404,
+      "end": 1793887748,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s359",
+      "app": "Arc",
+      "title": "Produkter – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793887748,
+      "end": 1793888017,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s360",
+      "app": "Arc",
+      "title": "Levering – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/kurv",
+      "start": 1793888017,
+      "end": 1793888190,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s361",
+      "app": "Arc",
+      "title": "Levering – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793888190,
+      "end": 1793888375,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s362",
+      "app": "Arc",
+      "title": "Levering – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793888375,
+      "end": 1793888842,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s363",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/levering",
+      "start": 1793888842,
+      "end": 1793888995,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s364",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/aeblemost",
+      "start": 1793888995,
+      "end": 1793889471,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s365",
+      "app": "Arc",
+      "title": "Kurv – Gårdbutik – Æblegården",
+      "url": "https://www.xn--blegrden-d0af.dk/gaardbutik/kurv",
+      "start": 1793889471,
+      "end": 1793889731,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s366",
+      "app": "Google Chrome",
+      "title": "Markdown Guide – arkitektur for noter - Google Chrome",
+      "url": "https://www.markdownguide.org/arkitektur",
+      "start": 1793890371,
+      "end": 1793890576,
+      "expected": null,
+      "case": "korte ord"
+    },
+    {
+      "id": "s367",
+      "app": "Google Chrome",
+      "title": "Parkering i København – kk.dk - Google Chrome",
+      "url": "https://www.kk.dk/parkering",
+      "start": 1793890576,
+      "end": 1793890805,
+      "expected": null,
+      "case": "korte ord"
+    },
+    {
+      "id": "s368",
+      "app": "Google Chrome",
+      "title": "Markedsføring for små virksomheder - Google Chrome",
+      "url": "https://www.markedsfoering.dk/artikel",
+      "start": 1793890805,
+      "end": 1793890952,
+      "expected": null,
+      "case": "korte ord"
+    },
+    {
+      "id": "s369",
+      "app": "Google Chrome",
+      "title": "Markedsføring for små virksomheder - Google Chrome",
+      "url": "https://www.markedsfoering.dk/artikel",
+      "start": 1793890952,
+      "end": 1793891031,
+      "expected": null,
+      "case": "korte ord"
+    },
+    {
+      "id": "s370",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #155 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/155",
+      "start": 1793948400,
+      "end": 1793948533,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s371",
+      "app": "Google Chrome",
+      "title": "Fix booking widget by mads · Pull Request #59 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/59",
+      "start": 1793948533,
+      "end": 1793948961,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s372",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #53 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/53",
+      "start": 1793948961,
+      "end": 1793949264,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s373",
+      "app": "Google Chrome",
+      "title": "Fix booking widget by mads · Pull Request #92 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/92",
+      "start": 1793949264,
+      "end": 1793949782,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s374",
+      "app": "Google Chrome",
+      "title": "css grid gap - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x162",
+      "start": 1793949782,
+      "end": 1793949814,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s375",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #73 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/73",
+      "start": 1793949814,
+      "end": 1793950239,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s376",
+      "app": "Google Chrome",
+      "title": "Opdater åbningstider by mads · Pull Request #46 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/46",
+      "start": 1793950239,
+      "end": 1793950683,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s377",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/379",
+      "start": 1793950683,
+      "end": 1793950752,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s378",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #177 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/177",
+      "start": 1793950752,
+      "end": 1793951169,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s379",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793951169,
+      "end": 1793951261,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s380",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #157 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/157",
+      "start": 1793951261,
+      "end": 1793951453,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s381",
+      "app": "Google Chrome",
+      "title": "Ny forside by mads · Pull Request #184 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/184",
+      "start": 1793951453,
+      "end": 1793951570,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s382",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793951570,
+      "end": 1793951670,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s383",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #109 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/109",
+      "start": 1793951670,
+      "end": 1793951894,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s384",
+      "app": "Google Chrome",
+      "title": "Tilføj prisliste by mads · Pull Request #125 · acme/website - Google Chrome",
+      "url": "https://github.com/acme/website/pull/125",
+      "start": 1793951894,
+      "end": 1793952240,
+      "expected": {
+        "clientId": "c-frisor",
+        "projectId": "p-fri-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s385",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF8475x/edit",
+      "start": 1793952240,
+      "end": 1793952395,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s386",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF9930x/edit",
+      "start": 1793952395,
+      "end": 1793952775,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s387",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF6751x/edit",
+      "start": 1793952775,
+      "end": 1793953160,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s388",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF7508x/edit",
+      "start": 1793953160,
+      "end": 1793953578,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s389",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF2530x/edit",
+      "start": 1793953578,
+      "end": 1793953858,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s390",
+      "app": "Google Chrome",
+      "title": "Nyhedsbrev – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF5439x/edit",
+      "start": 1793953858,
+      "end": 1793954025,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s391",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF2670x/edit",
+      "start": 1793954025,
+      "end": 1793954432,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s392",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF2048x/edit",
+      "start": 1793954432,
+      "end": 1793954943,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s393",
+      "app": "Google Chrome",
+      "title": "Instagram-opslag – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF5123x/edit",
+      "start": 1793954943,
+      "end": 1793955363,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s394",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF5797x/edit",
+      "start": 1793955363,
+      "end": 1793955828,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s395",
+      "app": "Google Chrome",
+      "title": "Plakat A3 – Julekampagne 2026 – Canva - Google Chrome",
+      "url": "https://www.canva.com/design/DAF6552x/edit",
+      "start": 1793955828,
+      "end": 1793955900,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s396",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793955900,
+      "end": 1793956402,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s397",
+      "app": "Google Chrome",
+      "title": "shopify liquid for - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x614",
+      "start": 1793956402,
+      "end": 1793956551,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s398",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793956551,
+      "end": 1793956641,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s399",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793956641,
+      "end": 1793956771,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s400",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793956771,
+      "end": 1793956902,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s401",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793956902,
+      "end": 1793957308,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s402",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793957308,
+      "end": 1793957783,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s403",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/968",
+      "start": 1793957783,
+      "end": 1793957926,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s404",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793957926,
+      "end": 1793958498,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s405",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793958498,
+      "end": 1793958991,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s406",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793958991,
+      "end": 1793959264,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s407",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2025.docx - Word",
+      "document": "Prisliste Gårdbutik 2025",
+      "start": 1793959264,
+      "end": 1793959461,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s408",
+      "app": "Microsoft Word",
+      "title": "Prisliste Gårdbutik 2026.docx - Word",
+      "document": "Prisliste Gårdbutik 2026",
+      "start": 1793959461,
+      "end": 1793959740,
+      "expected": {
+        "clientId": "c-aeble",
+        "projectId": "p-aeb-shop"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s409",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793959740,
+      "end": 1793959893,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s410",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2025 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793959893,
+      "end": 1793960046,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s411",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793960046,
+      "end": 1793960197,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s412",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793960197,
+      "end": 1793960342,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s413",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793960342,
+      "end": 1793960726,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s414",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793960726,
+      "end": 1793961208,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s415",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793961208,
+      "end": 1793961323,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s416",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2025 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793961323,
+      "end": 1793961845,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s417",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793961845,
+      "end": 1793962389,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s418",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2025 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793962389,
+      "end": 1793962538,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s419",
+      "app": "Messages",
+      "title": "Beskeder",
+      "start": 1793962538,
+      "end": 1793962626,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s420",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793962626,
+      "end": 1793963021,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s421",
+      "app": "Microsoft Excel",
+      "title": "aarsrapport_v3.xlsx - Excel",
+      "start": 1793963021,
+      "end": 1793963220,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s422",
+      "app": "Google Chrome",
+      "title": "Faktura 2026-117 fra Hetzner - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg2606",
+      "start": 1793965142,
+      "end": 1793965649,
+      "expected": null,
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s423",
+      "app": "Google Chrome",
+      "title": "Re: Julekampagne – tekster til opslag - mads@example.com - Gmail - Google Chrome",
+      "url": "https://mail.google.com/mail/u/0/#inbox/FMfcg2534",
+      "start": 1793965649,
+      "end": 1793965907,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-jul"
+      },
+      "case": "mail med kundenavne"
+    },
+    {
+      "id": "s424",
+      "app": "Code",
+      "title": "index.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793965907,
+      "end": 1793966398,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s425",
+      "app": "Code",
+      "title": "booking.ts - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793966398,
+      "end": 1793966856,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s426",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793966856,
+      "end": 1793967058,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s427",
+      "app": "Code",
+      "title": "booking.ts - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793967058,
+      "end": 1793967645,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s428",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793967645,
+      "end": 1793967887,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s429",
+      "app": "Code",
+      "title": "booking.ts - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793967887,
+      "end": 1793968054,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s430",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793968054,
+      "end": 1793968385,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s431",
+      "app": "Code",
+      "title": "globals.css - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793968385,
+      "end": 1793968850,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s432",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/638",
+      "start": 1793968850,
+      "end": 1793968980,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s433",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793968980,
+      "end": 1793969404,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s434",
+      "app": "Code",
+      "title": "package.json - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793969404,
+      "end": 1793969805,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s435",
+      "app": "Code",
+      "title": "booking.ts - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793969805,
+      "end": 1793969835,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s436",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2026 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793969835,
+      "end": 1793970158,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s437",
+      "app": "Microsoft Excel",
+      "title": "aarsrapport_v5.xlsx - Excel",
+      "start": 1793970158,
+      "end": 1793970739,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s438",
+      "app": "Microsoft Excel",
+      "title": "Årsrapport 2025 – Sønderjysk Revision.xlsx - Excel",
+      "start": 1793970739,
+      "end": 1793970795,
+      "expected": {
+        "clientId": "c-sonder",
+        "projectId": "p-son-aars"
+      },
+      "case": "æøå"
+    },
+    {
+      "id": "s439",
+      "app": "Cursor",
+      "title": "booking.ts - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793970795,
+      "end": 1793971307,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s440",
+      "app": "Cursor",
+      "title": "Footer.tsx - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793971307,
+      "end": 1793971671,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s441",
+      "app": "Cursor",
+      "title": "package.json - tegnestue-app - Cursor",
+      "path": "/Users/mads/dev/kunder/ark/tegnestue-app",
+      "start": 1793971671,
+      "end": 1793971995,
+      "expected": {
+        "clientId": "c-ark",
+        "projectId": "p-ark-app"
+      },
+      "case": "korte ord"
+    },
+    {
+      "id": "s442",
+      "app": "Google Chrome",
+      "title": "Kunde 5417 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/discounts",
+      "start": 1793971995,
+      "end": 1793972387,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s443",
+      "app": "Google Chrome",
+      "title": "Kunde 3734 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/customers/3734",
+      "start": 1793972387,
+      "end": 1793972867,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s444",
+      "app": "Google Chrome",
+      "title": "Ordre #5151 · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/themes",
+      "start": 1793972867,
+      "end": 1793973147,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s445",
+      "app": "Google Chrome",
+      "title": "Produkter · Bageriet på hjørnet · Shopify - Google Chrome",
+      "url": "https://bageriet-paa-hjoernet.myshopify.com/admin/themes",
+      "start": 1793973147,
+      "end": 1793973375,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "skiftende browsertitler"
+    },
+    {
+      "id": "s446",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793973375,
+      "end": 1793973683,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s447",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793973683,
+      "end": 1793974159,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s448",
+      "app": "Google Chrome",
+      "title": "rust serde flatten - Google Søgning - Google Chrome",
+      "url": "https://www.google.com/search?q=x482",
+      "start": 1793974159,
+      "end": 1793974293,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s449",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793974293,
+      "end": 1793974819,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s450",
+      "app": "Code",
+      "title": "index.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793974819,
+      "end": 1793975095,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s451",
+      "app": "Google Chrome",
+      "title": "javascript - How to debounce? - Stack Overflow - Google Chrome",
+      "url": "https://stackoverflow.com/questions/633",
+      "start": 1793975095,
+      "end": 1793975240,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s452",
+      "app": "Code",
+      "title": "package.json - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793975240,
+      "end": 1793975447,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s453",
+      "app": "Slack",
+      "title": "#general - Acme - Slack",
+      "start": 1793975447,
+      "end": 1793975570,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "afbrydelse"
+    },
+    {
+      "id": "s454",
+      "app": "Code",
+      "title": "index.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793975570,
+      "end": 1793975933,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s455",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793975933,
+      "end": 1793976450,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s456",
+      "app": "Code",
+      "title": "Footer.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793976450,
+      "end": 1793976642,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s457",
+      "app": "Code",
+      "title": "globals.css - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793976642,
+      "end": 1793976842,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s458",
+      "app": "Code",
+      "title": "booking.ts - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793976842,
+      "end": 1793977010,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    },
+    {
+      "id": "s459",
+      "app": "Code",
+      "title": "Header.tsx - website - Visual Studio Code",
+      "repoRemote": "git@github.com:bageriet-paa-hjoernet/website.git",
+      "path": "/Users/mads/dev/kunder/bageriet/website",
+      "start": 1793977010,
+      "end": 1793977215,
+      "expected": {
+        "clientId": "c-bageriet",
+        "projectId": "p-bag-web"
+      },
+      "case": "to kunders website-repo"
+    }
+  ]
+}

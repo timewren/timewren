@@ -1,0 +1,109 @@
+{
+  "title": "Asetukset",
+  "close": "Sulje asetukset",
+  "searchPlaceholder": "Hae asetuksia…",
+  "searchLabel": "Hae asetuksia",
+  "noMatch": "Haulla “{query}” ei löydy asetuksia",
+  "keywords": {
+    "view": "näkymä|näyttö|ehdotus|sivusto|verkkosivut|paketti|tuntipaketti|ponnahdusikkuna",
+    "appearance": "ulkoasu|teema|tumma|vaalea|merkki|kuvake|kieli",
+    "newTab": "uusi välilehti|välilehti|aloitussivu|widgetit",
+    "calendar": "kalenteri|päivä|päivämäärä",
+    "goal": "päivätavoite|tavoite|tuntitavoite|eteneminen",
+    "reminder": "muistutus|ilmoitus|viikonloppu|kirjaus|kirjaa",
+    "data": "tiedot|poista|palauta|offline|yhdistykset|linkit|verkkosivu|jono",
+    "advanced": "lisäasetukset|api|url|palvelin",
+    "shortcuts": "pikanäppäimet|pikanäppäin|näppäimistö|alt",
+    "about": "tietoa laajennuksesta|laajennus|tietoa|versio|arvioi|arvostelu|ohje"
+  },
+  "view": {
+    "title": "Näkymä",
+    "suggestions": "Ehdotukset verkkosivulta",
+    "suggestionsHint": "Ehdota projektia sen verkkosivun perusteella, jolla olet",
+    "prepaidTab": "Paketit-välilehti",
+    "prepaidTabHint": "Näytä aktiivisten pakettien välilehti ponnahdusikkunassa"
+  },
+  "appearance": {
+    "title": "Ulkoasu",
+    "theme": "Teema",
+    "themeHint": "Laajennuksen väriteema",
+    "system": "Seuraa järjestelmää",
+    "dark": "Tumma",
+    "light": "Vaalea",
+    "badge": "Numero kuvakkeessa",
+    "badgeHint": "Mitä laajennuksen kuvakkeen numero näyttää",
+    "badgeTimer": "Aktiivinen ajastin",
+    "badgeToday": "Tämän päivän tunnit",
+    "badgeOff": "Piilotettu",
+    "language": "Kieli",
+    "languageHint": "Laajennuksen kieli",
+    "languageAuto": "Automaattinen (seuraa selainta)"
+  },
+  "newTab": {
+    "title": "Uusi välilehti",
+    "enable": "Avaa TimeTrack uusissa välilehdissä",
+    "enableHint": "Poista käytöstä, jos haluat säilyttää tavalliset tyhjät välilehdet",
+    "widgetsHint": "Valitse widgetit uuden välilehden asetuksista",
+    "activeWidgets": "Aktiiviset widgetit: {count}"
+  },
+  "calendar": {
+    "title": "Kalenteri",
+    "openOn": "Avaa kalenteri päivälle",
+    "openOnHint": "Mikä päivä kalenterissa näytetään avattaessa",
+    "today": "Tänään",
+    "lastViewed": "Viimeksi katsottu päivä"
+  },
+  "goal": {
+    "title": "Päivätavoite",
+    "hours": "Päivän tuntitavoite",
+    "hoursHint": "Käytetään päivän etenemispalkissa ponnahdusikkunassa ja uudella välilehdellä"
+  },
+  "reminder": {
+    "title": "Päivittäinen muistutus",
+    "enable": "Muistuta minua kirjaamaan aikaa",
+    "enableHint": "Ilmoitus, jos tunteja on liian vähän",
+    "time": "Kellonaika",
+    "minHours": "Vähimmäistunnit",
+    "weekends": "Myös viikonloppuisin"
+  },
+  "data": {
+    "title": "Tiedot",
+    "clearMappingsConfirm": "Poistetaanko kaikki tallennetut yhteydet verkkosivujen ja projektien välillä?",
+    "clearMappingsDetail": "Piilotetut ehdotukset näkyvät myös uudelleen.",
+    "delete": "Poista",
+    "clearMappings": "Poista verkkosivuyhteydet",
+    "mappingsCount": "{count, plural, one {# tallennettu yhteys} other {# tallennettua yhteyttä}}",
+    "clearQueueConfirm": "Poistetaanko {count, plural, one {# odottava toiminto} other {# odottavaa toimintoa}}?",
+    "unsentEntries": "{count, plural, one {# kirjausta ei ole} other {# kirjausta ei ole}} vielä lähetetty TimeTrackiin. Aika poistetaan lopullisesti.",
+    "clearQueueConfirmButton": "Poista jono",
+    "clearQueue": "Poista offline-jono",
+    "pendingActions": "{count, plural, one {# odottava toiminto} other {# odottavaa toimintoa}}",
+    "unsentSuffix": "{count, plural, one {# lähettämätön kirjaus} other {# lähettämätöntä kirjausta}}",
+    "resetConfirm": "Palautetaanko kaikki asetukset?",
+    "resetDetail": "Laajennuksen oletusasetukset palautetaan.",
+    "resetButton": "Palauta",
+    "reset": "Palauta asetukset",
+    "resetHint": "Palauta oletusasetukset"
+  },
+  "advanced": {
+    "title": "Lisäasetukset",
+    "apiUrl": "API-osoite",
+    "notSaved": "{error}. Osoitetta ei ole tallennettu."
+  },
+  "shortcuts": {
+    "title": "Pikanäppäimet",
+    "unreadable": "Pikanäppäimiä ei voi lukea tässä selaimessa.",
+    "openApp": "Avaa TimeTrack",
+    "notSet": "Ei asetettu",
+    "change": "Muuta pikanäppäimiä",
+    "firefoxPage": "Avaa Firefoxin pikanäppäinsivun",
+    "chromePage": "Avaa chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "TimeTrackin selainlaajennus, versio {version}",
+    "rateFirefox": "Arvioi Firefox Add-onsissa",
+    "rateChrome": "Arvioi Chrome Web Storessa",
+    "rateHint": "Arvostelusi auttaa muita freelancereita",
+    "learnMore": "Lue lisää laajennuksesta"
+  }
+}

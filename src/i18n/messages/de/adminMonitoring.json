@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Monitoring",
+    "healthy": "{score} % gesund",
+    "cronDashboard": "Cron-Dashboard",
+    "sections": {
+      "health": "Systemzustand",
+      "cron": "Cron-Jobs",
+      "email": "E-Mail-Zustellung"
+    },
+    "tiles": {
+      "activeSessions": "Aktive Sitzungen",
+      "sessions24h": "Sitzungen der letzten 24 Std.",
+      "activeTimers": "Aktive Timer",
+      "emailsSent7d": "Gesendete E-Mails (7 T.)"
+    },
+    "cronHealth": {
+      "title": "Cron-Job-Zustand (7 Tage)",
+      "runs": "Läufe",
+      "ok": "ok",
+      "errors": "Fehler",
+      "avgDuration": "Ø Dauer",
+      "lastRun": "Zuletzt gelaufen"
+    },
+    "errors": {
+      "title": "Fehler (letzte 7 Tage)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Alle Jobs",
+      "allStatuses": "Alle Status",
+      "filter": {
+        "success": "Erfolgreich",
+        "error": "Fehler",
+        "partial": "Teilweise"
+      },
+      "status": {
+        "success": "erfolgreich",
+        "error": "Fehler",
+        "partial": "teilweise"
+      },
+      "empty": "Keine Cron-Job-Protokolle gefunden",
+      "columns": {
+        "job": "Job",
+        "status": "Status",
+        "started": "Gestartet",
+        "duration": "Dauer",
+        "items": "Elemente",
+        "errors": "Fehler"
+      }
+    },
+    "showing": "{from}-{to} von {total}",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "email": {
+      "sent": "Gesendet",
+      "delivered": "Zugestellt",
+      "bounced": "Zurückgewiesen",
+      "failed": "Fehlgeschlagen",
+      "status": {
+        "sent": "gesendet",
+        "delivered": "zugestellt",
+        "bounced": "zurückgewiesen",
+        "failed": "fehlgeschlagen"
+      },
+      "last24h": "Letzte 24 Stunden",
+      "last7d": "Letzte 7 Tage",
+      "last30d": "Letzte 30 Tage",
+      "last90d": "Letzte 90 Tage",
+      "allTemplates": "Alle Vorlagen",
+      "empty": "Keine E-Mail-Protokolle gefunden",
+      "columns": {
+        "recipient": "Empfänger",
+        "subject": "Betreff",
+        "template": "Vorlage",
+        "status": "Status",
+        "sentAt": "Gesendet"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cron-Jobs",
+    "refresh": "Aktualisieren",
+    "never": "Nie",
+    "badge": {
+      "neverRun": "Nie gelaufen",
+      "silent": "Still",
+      "error": "Fehler",
+      "partial": "Teilweise",
+      "running": "Läuft",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "erfolgreich",
+      "error": "Fehler",
+      "partial": "teilweise"
+    },
+    "noRows": "Keine Protokolleinträge gefunden",
+    "runColumns": {
+      "status": "Status",
+      "started": "Gestartet",
+      "duration": "Dauer",
+      "items": "Elemente",
+      "errorMessage": "Fehlermeldung"
+    },
+    "tiles": {
+      "expected": "Erwartete Jobs",
+      "silent": "Stille Jobs",
+      "withErrors": "Jobs mit Fehlern (24 Std.)",
+      "totalRuns": "Läufe insgesamt (24 Std.)"
+    },
+    "columns": {
+      "status": "Status",
+      "job": "Job",
+      "cadence": "Takt",
+      "lastRun": "Zuletzt gelaufen",
+      "runs24h": "Läufe 24 Std.",
+      "errors24h": "Fehler 24 Std.",
+      "avgDuration": "Ø Dauer"
+    },
+    "lastError": "Letzter Fehler:",
+    "cadence": {
+      "everyMinutes": "alle {minutes} Min.",
+      "hourly": "stündlich",
+      "everyHours": "alle {hours} Stunden",
+      "daily": "täglich",
+      "weekly": "wöchentlich",
+      "monthly": "monatlich",
+      "everyDays": "alle {days} Tage"
+    }
+  }
+}

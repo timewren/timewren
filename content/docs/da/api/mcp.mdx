@@ -1,0 +1,119 @@
+---
+title: "MCP-server"
+description: "Forbind Claude, Cursor, Codex og andre MCP-klienter med TimeWren for at registrere tid, tjekke klippekort og forberede fakturaer."
+---
+
+TimeWren har en indbygget [Model Context Protocol](https://modelcontextprotocol.io)-server, så en AI-assistent kan arbejde med dine kunder, tidsregistreringer, klippekort og fakturaer. Den bruger den samme forretningslogik som [REST API'et](/da/docs/api/rest).
+
+## Endpoint
+
+```text
+https://timewren.example.com/api/v1/mcp
+```
+
+Transporten er Streamable HTTP. Discovery-dokumenter udleveres på `/.well-known/mcp/server-card.json` og `/.well-known/oauth-protected-resource/api/v1/mcp`. URL'erne i dem bygges ud fra `NEXT_PUBLIC_APP_URL`, så sørg for, at den svarer til din instans' offentlige adresse (se [Miljøvariabler](/da/docs/configuration/environment)).
+
+## Godkendelse
+
+Der er to måder at godkende på. Begge sender et Bearer-token i headeren `Authorization`.
+
+- **API-nøgle.** Opret en `tk_live_...`-nøgle under **Indstillinger** og derefter **API**, og brug den som Bearer-token. Se [REST API](/da/docs/api/rest). Det er den enkleste løsning til Claude Code, Cursor og scripts.
+- **OAuth.** Klienter, der understøtter MCP-autorisation (for eksempel Claudes custom connectors), finder autorisationsserveren ud fra `401`-svaret og lader dig logge ind i TimeWren i browseren. Serveren understøtter dynamisk klientregistrering, PKCE og refresh tokens. På samtykkeskærmen vælger du organisationen og gennemgår rettighederne. Access tokens starter med `tt_at_` og kan tilbagekaldes når som helst.
+
+Uden et gyldigt token svarer endpointet `401`.
+
+## Hvad en MCP-klient kan
+
+En API-nøgle beholder præcis de scopes, du gav den, da du oprettede den. En OAuth-forbindelse får de læse- og skrivescopes, der vises på samtykkeskærmen (`clients`, `projects`, `time`, `invoices`, `prepaid`, `tasks` og `reports`, aldrig `webhooks` og aldrig scopet `*` med fuld adgang), og er bundet til den ene organisation, du valgte. Hvert værktøj tjekker det scope, det kræver, før det kører, efter de samme regler som REST-ruterne, og returnerer en fejl, hvis forbindelsen mangler det. Forespørgsler er begrænset til 120 pr. minut pr. nøgle eller forbundet app og bruger.
+
+## Værktøjer
+
+| Værktøj | Scope | Hvad det gør |
+| --- | --- | --- |
+| `whoami` | intet | Returnerer bruger-id, organisation og scopes for den aktuelle forbindelse |
+| `list_clients` | `clients:read` | Viser kunder med standardtimepris og kontaktoplysninger, med søgning og sideinddeling |
+| `get_client` | `clients:read` | Henter én kunde ud fra id |
+| `create_client` | `clients:write` | Opretter en kunde |
+| `list_time_entries` | `time:read` | Viser tidsregistreringer, nyeste først, filtreret på kunde, projekt, datoer, fakturerbar og faktureret |
+| `create_time_entry` | `time:write` | Registrerer tid for en kunde eller et projekt og kan trække fra et klippekort med `prepaid: "auto"` eller `prepaidPackageId` |
+| `update_time_entry` | `time:write` | Ændrer felter i en tidsregistrering. Fakturerede registreringer er låst |
+| `list_prepaid_packages` | `prepaid:read` | Viser klippekort med samlede, brugte og resterende timer, udløb og status |
+| `unbilled_summary` | `reports:read` | Ikke-fakturerede fakturerbare timer og beløb pr. kunde |
+| `list_invoices` | `invoices:read` | Viser fakturaer, eventuelt for én kunde eller status |
+| `invoice_from_time_entries` | `invoices:write` | Viser en forhåndsvisning (`dryRun`) af eller opretter en fakturakladde ud fra en kundes tidsregistreringer. Oprettelse markerer registreringerne som faktureret |
+| `send_invoice` | `invoices:write` | Sender en faktura på mail til kunden, hvilket ikke kan fortrydes |
+
+Listeværktøjer returnerer en note, der fortæller assistenten, hvilken side den skal bede om næste gang, når resultatet kun er delvist. `invoice_from_time_entries` og `send_invoice` ændrer data eller kontakter din kunde, så bed din assistent om at få din bekræftelse, før den kalder dem.
+
+## Konfiguration af klienter
+
+Erstat URL'en og `YOUR_API_KEY` med dine egne værdier.
+
+### Claude Code
+
+```bash
+claude mcp add --transport http timewren https://timewren.example.com/api/v1/mcp --header "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Cursor
+
+Tilføj dette til `.cursor/mcp.json` i dit projekt, eller til `~/.cursor/mcp.json` for alle projekter:
+
+```json
+{
+  "mcpServers": {
+    "timewren": {
+      "url": "https://timewren.example.com/api/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Claude Desktop
+
+Den enkleste vej er en custom connector: Åbn **Settings** og derefter **Connectors**, tilføj en custom connector, og indtast endpointets URL. Du logger ind med OAuth og behøver ingen nøgle.
+
+Vil du hellere bruge en API-nøgle, går du via `mcp-remote` i `claude_desktop_config.json` (kræver Node.js):
+
+```json
+{
+  "mcpServers": {
+    "timewren": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://timewren.example.com/api/v1/mcp",
+        "--header",
+        "Authorization:${TIMEWREN_AUTH}"
+      ],
+      "env": {
+        "TIMEWREN_AUTH": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Codex
+
+Tilføj dette til `~/.codex/config.toml`, og eksportér nøglen som miljøvariabel:
+
+```toml
+[mcp_servers.timewren]
+url = "https://timewren.example.com/api/v1/mcp"
+bearer_token_env_var = "TIMEWREN_API_KEY"
+```
+
+```bash
+export TIMEWREN_API_KEY="YOUR_API_KEY"
+```
+
+## Fejlfinding
+
+- `401`: Tokenet mangler, er forkert, tilbagekaldt eller udløbet. Test det med `curl https://timewren.example.com/api/v1/me -H "Authorization: Bearer YOUR_API_KEY"`.
+- Et værktøj returnerer `Forbidden: missing required scope`: Opret en nøgle med det scope, der står i tabellen ovenfor.
+- `429`: Du har ramt rate limit. Vent det antal sekunder, der står i headeren `Retry-After`.

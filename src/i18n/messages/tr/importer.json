@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "İçe aktarma tamamlandı: {count, plural, one {# zaman kaydı içe aktarıldı} other {# zaman kaydı içe aktarıldı}}",
+    "doneWithErrorsToast": "İçe aktarma hatalarla tamamlandı: {imported} içe aktarıldı, {failed} başarısız",
+    "failedToast": "İçe aktarma başarısız oldu. Ayrıntılar için ayarlara bak",
+    "running": "İçe aktarma sürüyor: %{pct} ({imported}/{total})",
+    "details": "Ayrıntıları gör",
+    "done": "İçe aktarma tamamlandı: {count, plural, one {# zaman kaydı içe aktarıldı} other {# zaman kaydı içe aktarıldı}}",
+    "doneWithFailed": "İçe aktarma tamamlandı: {count, plural, one {# zaman kaydı içe aktarıldı} other {# zaman kaydı içe aktarıldı}}, {failed} başarısız",
+    "dismiss": "Kapat"
+  },
+  "page": {
+    "pickDateFormat": "Devam etmek için bir tarih biçimi seç.",
+    "success": "İçe aktarma başarıyla tamamlandı!",
+    "failed": "İçe aktarma başarısız oldu. Tekrar dene.",
+    "backToOnboarding": "← Karşılamaya dön",
+    "backToIntegrations": "← Entegrasyonlara dön",
+    "onboardingMode": "Karşılama modu etkin",
+    "onboardingNote": "Başarılı bir içe aktarmadan sonra karşılama sürecine otomatik olarak devam edeceksin.",
+    "uploadFile": "Dosya yükle",
+    "chooseFile": "Dosya seç",
+    "noFile": "Dosya seçilmedi",
+    "dateFormat": "Tarih biçimi",
+    "chooseFormat": "Biçim seç…",
+    "dateFormatHint": "Hangi tarih biçiminin kullanıldığını CSV verilerinden kontrol et.",
+    "billingFilter": "Faturalama filtresi",
+    "filter": {
+      "all": "Tümünü içe aktar",
+      "unbilled": "Yalnızca faturalanmamışlar",
+      "billed": "Yalnızca faturalananlar"
+    },
+    "billingFilterHint": "Kayıtları kaynaktaki faturalama durumuna göre filtrele.",
+    "markAllBilled": "İçe aktarılan tüm kayıtları faturalandı olarak işaretle",
+    "markAllBilledHint": "Kaynaktan yalnızca zaten faturalanmış kayıtları dışa aktarıyorsan bunu kullan.",
+    "result": {
+      "clients": "{count, plural, one {# müşteri oluşturuldu} other {# müşteri oluşturuldu}}",
+      "projects": "{count, plural, one {# proje oluşturuldu} other {# proje oluşturuldu}}",
+      "timeEntries": "{count, plural, one {# zaman kaydı içe aktarıldı} other {# zaman kaydı içe aktarıldı}}",
+      "billedSplit": "({billed} faturalandı, {unbilled} faturalanmadı)",
+      "skippedRows": "{count, plural, one {# satır atlandı} other {# satır atlandı}}",
+      "filteredRows": "{count, plural, one {# satır filtrelendi (faturalama filtresi)} other {# satır filtrelendi (faturalama filtresi)}}",
+      "totalHours": "Toplam {hours} saat içe aktarıldı",
+      "tasks": "{count, plural, one {# görev içe aktarıldı} other {# görev içe aktarıldı}}",
+      "subtasks": "{count, plural, one {# alt görev içe aktarıldı} other {# alt görev içe aktarıldı}}",
+      "tasksSkipped": "{count, plural, one {# görev atlandı} other {# görev atlandı}}"
+    },
+    "importing": "İçe aktarılıyor…",
+    "start": "İçe aktarmayı başlat",
+    "mayTakeAWhile": "Veri miktarına bağlı olarak bu birkaç dakika sürebilir…",
+    "warnTitle": "Bilmen gerekenler:",
+    "warn1": "İçe aktarma geri alınamaz",
+    "warn2": "Mevcut veriler üzerine yazılmaz",
+    "warn3": "Yinelenenleri atlarız"
+  }
+}

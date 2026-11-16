@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "サブスクリプション",
+    "description": "プラン、支払い、請求",
+    "adminOnly": "サブスクリプションの変更、席の購入、支払いの確認ができるのは、オーナーと管理者だけです。"
+  },
+  "states": {
+    "noBilling": "このインストールには決済プロバイダーがないため、すべての機能が利用可能で、プランや上限はありません。",
+    "comingSoonTitle": "お支払いは近日対応予定です",
+    "comingSoon": "現在は無料プランです。有料プランは近日提供予定で、それまでは料金はかかりません。",
+    "loading": "サブスクリプションを読み込んでいます…",
+    "none": "サブスクリプションが見つかりません。まずプランを選択してください。",
+    "choosePlan": "プランを選択",
+    "previousWebPayments": "Webでの過去の支払い",
+    "redirecting": "移動しています…"
+  },
+  "cycle": {
+    "monthly": "月払い",
+    "yearly": "年払い",
+    "twoMonthsFree": "2か月分無料",
+    "perMonthExclVat": "/月（税別）",
+    "perYearExclVat": "/年（税別）",
+    "krPerMonth": "{price} kr./月",
+    "krPerYear": "{price} kr./年"
+  },
+  "status": {
+    "active": "有効",
+    "free": "無料",
+    "trialing": "トライアル期間",
+    "pastDue": "支払い期限超過",
+    "canceled": "解約済み"
+  },
+  "invoiceStatus": {
+    "paid": "支払い済み",
+    "open": "未払い",
+    "draft": "下書き",
+    "void": "無効",
+    "uncollectible": "失敗",
+    "unknown": "不明"
+  },
+  "history": {
+    "title": "支払い履歴",
+    "columnDate": "日付",
+    "columnNumber": "番号",
+    "columnAmount": "金額",
+    "columnStatus": "ステータス",
+    "columnPdf": "PDF",
+    "empty": "支払いはまだありません。最初のお支払い後に、ここに支払い履歴が表示されます。"
+  },
+  "toast": {
+    "planChangedYearly": "年払いに変更しました",
+    "planChangedMonthly": "月払いに変更しました",
+    "canceled": "サブスクリプションを解約しました。期間の終了まで有効です。",
+    "reactivated": "サブスクリプションを再開しました！",
+    "trialRequested": "リクエストを送信しました。できるだけ早くご連絡します。",
+    "trialRequestFailed": "リクエストを送信できませんでした。もう一度お試しください。",
+    "paymentMethodAdded": "支払い方法を追加しました！",
+    "seatsUpdated": "席数を更新しました。反映まで少し時間がかかる場合があります。",
+    "paymentCanceled": "支払いをキャンセルしました"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, other {トライアル期間は残り#日です}}",
+    "startsAutomatically": "トライアル期間の終了後、サブスクリプションが自動的に始まります",
+    "addPaymentToContinue": "トライアル期間後も続けるには、支払い方法を追加してください",
+    "needMoreTime": "もう少し時間が必要ですか？",
+    "addPayment": "支払い方法を追加",
+    "checkoutNoteFounding": "決済ページには通常価格が表示されます。{percent}%の創設メンバー割引は、お支払い後に自動で適用されます。"
+  },
+  "pendingCancel": {
+    "expiresOn": "サブスクリプションは{date}に終了します",
+    "expiresUnknown": "サブスクリプションの終了日は不明です",
+    "reactivateHint": "それまでの間はサブスクリプションを再開できます",
+    "reactivating": "再開しています…",
+    "reactivate": "再開"
+  },
+  "plan": {
+    "current": "現在のプラン",
+    "freeLimits": "最大{maxSeats}ユーザー · 有効なクライアント{maxClients}件中{used}件を使用中。アップグレードすると、クライアント数とユーザー数が増え、請求書と前払いパッケージも使えます。",
+    "seatsIncluded": "{count, plural, other {#ユーザー含む}}",
+    "seatsWithExtra": "{count, plural, other {#ユーザー}} · 含まれる{included} + 追加{extra}",
+    "foundingDiscount": "{percent}%の創設メンバー割引",
+    "foundingDiscountForever": "{percent}%の創設メンバー割引（ずっと適用）",
+    "foundingDiscountExpires": "{percent}%の創設メンバー割引（{date}まで）",
+    "trialEnds": "トライアル終了: {date}",
+    "nextBilling": "次回の請求: {date}"
+  },
+  "roi": {
+    "titleReturn": "{brand}での成果",
+    "titleActivity": "{brand}でのアクティビティ",
+    "spent": "{brand}への支出",
+    "freeSoFar": "ここまで無料です！",
+    "trackedValue": "記録した時間の価値",
+    "invoicedTotal": "請求総額",
+    "return": "リターン"
+  },
+  "payment": {
+    "title": "支払い",
+    "portalDescription": "支払い方法と請求書は、支払いポータルで管理できます。",
+    "manage": "支払いを管理",
+    "noMethod": "支払い方法はまだ追加されていません",
+    "addMethod": "支払い方法を追加",
+    "checkoutNoteFounding": "決済ページには通常価格が表示されます。{percent}%の割引は自動で適用されます。"
+  },
+  "seats": {
+    "title": "席",
+    "usage": "{total}席中{used}席を使用中",
+    "pendingInvites": "{count, plural, other {保留中の招待で#席が使われています}}",
+    "reseatsReminder": "追加の{count}席を{plan}の料金で再契約することをお忘れなく。請求が利用人数に合うよう、以下で席の購入を完了してください。",
+    "extraLabel": "追加の席（含まれる{included}席を超える分）",
+    "fewer": "席を減らす",
+    "more": "席を増やす",
+    "price": "料金",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr./年（税別）",
+    "priceSuffixMonthly": "kr./月（税別）",
+    "adjust": "席数を調整",
+    "buy": "席を購入",
+    "note": "現在の席の追加分は、新しい数に置き換わります。新たに購入すると、以前の追加分は自動的に解約されます。ご利用のプランでは合計{max}席まで利用できます。"
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "個人向け",
+      "feature1": "1ユーザー"
+    },
+    "solo": {
+      "tagline": "フリーランス向け",
+      "feature1": "1ユーザー、クライアント無制限",
+      "feature2": "前払いパッケージ、請求書、連携",
+      "feature3": "Web、アプリ、拡張機能、デスクトップ版を含む"
+    },
+    "team": {
+      "tagline": "小規模チーム向け",
+      "feature1": "{plan}のすべての機能",
+      "feature2": "2ユーザー含む",
+      "feature3": "共有のクライアント、プロジェクト、前払いパッケージ"
+    },
+    "business": {
+      "tagline": "企業向け",
+      "feature1": "{plan}のすべての機能",
+      "feature2": "5ユーザー含む",
+      "feature3": "フレックスタイム、不在、コンプライアンス"
+    },
+    "usersIncluded": "{count}ユーザー含む"
+  },
+  "upgrade": {
+    "title": "プランをアップグレード",
+    "blocked": "{count, plural, other {追加の#席}}は、まだ{plan}に自動で移行できません。support@timetrack.dkまでご連絡ください。席を失うことなくアップグレードします。",
+    "to": "{plan}にアップグレード",
+    "note": "アップグレードすると、新たに購入する形になります。新しいサブスクリプションが有効になると、現在のサブスクリプションは自動的に解約されます。"
+  },
+  "choose": {
+    "title": "プランを選択",
+    "choosePlan": "{plan}を選択",
+    "chooseAndPay": "選択して支払う",
+    "note": "含まれる人数を超えるユーザーは、登録後に追加されます。創設メンバー割引（有効な場合）は、お支払い後に{plan}へ自動で適用されます。"
+  },
+  "discounts": {
+    "title": "有効な割引",
+    "rangeBoth": "{from}から{to}まで",
+    "rangeOpenEnded": "{from}から、終了日なし",
+    "rangeUntil": "{to}まで",
+    "rangeNone": "終了日なし"
+  },
+  "metadata": {
+    "title": "サブスクリプションの詳細",
+    "foundingTier": "創設メンバーのティア",
+    "billingCycle": "請求期間",
+    "signupSource": "登録経路",
+    "couponCode": "割引コード"
+  },
+  "upcoming": {
+    "title": "今後の支払い",
+    "columnPeriod": "期間",
+    "columnPlan": "プラン",
+    "columnAmount": "金額"
+  },
+  "switch": {
+    "title": "プランを変更",
+    "equivalent": "月あたり{price} kr.に相当",
+    "toMonthly": "月払いに切り替える",
+    "toYearly": "年払いに切り替える"
+  },
+  "cancel": {
+    "title": "サブスクリプションを解約",
+    "description": "サブスクリプションは、現在の請求期間の終了まで有効です。",
+    "areYouSure": "本当によろしいですか？",
+    "activeUntil": "サブスクリプションは{date}まで有効です。その後はプレミアム機能を利用できなくなります。",
+    "activeUntilEnd": "サブスクリプションは期間の終了まで有効です。その後はプレミアム機能を利用できなくなります。",
+    "keep": "サブスクリプションを続ける",
+    "confirm": "はい、解約します",
+    "canceling": "解約しています…"
+  }
+}

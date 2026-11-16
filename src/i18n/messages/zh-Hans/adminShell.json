@@ -1,0 +1,110 @@
+{
+  "verifying": "正在检查管理员权限…",
+  "nav": {
+    "dashboard": "仪表盘",
+    "users": "用户",
+    "prospects": "试用与演示",
+    "support": "支持",
+    "finance": "财务",
+    "growth": "增长",
+    "analytics": "分析",
+    "broadcasts": "群发消息",
+    "monitoring": "监控",
+    "stability": "稳定性",
+    "desktop": "桌面端",
+    "webhooks": "Webhook",
+    "emailForwarding": "邮件转发",
+    "compliance": "合规",
+    "userFeedback": "用户反馈",
+    "helpFeedback": "帮助反馈",
+    "roadmap": "路线图",
+    "activity": "活动日志",
+    "settings": "设置",
+    "onboardingFunnel": "新手引导漏斗",
+    "scenarios": "场景",
+    "security": "安全",
+    "gdpr": "GDPR"
+  },
+  "sections": {
+    "insights": "洞察",
+    "growth": "增长",
+    "operations": "运营",
+    "compliance": "合规",
+    "system": "系统"
+  },
+  "sidebar": {
+    "title": "{brand} 管理后台",
+    "expand": "展开侧边栏",
+    "collapse": "收起侧边栏",
+    "roleAdmin": "管理员",
+    "roleSupporter": "支持人员",
+    "backTo": "返回 {brand}"
+  },
+  "topbar": {
+    "admin": "管理员",
+    "searchTitle": "搜索（⌘K）",
+    "search": "搜索…",
+    "backToApp": "返回应用"
+  },
+  "palette": {
+    "label": "管理后台搜索",
+    "placeholder": "搜索用户、工单、路线图、更新日志…",
+    "hint": "输入关键词搜索，或跳转到页面",
+    "noResults": "没有结果",
+    "jumpTo": "跳转到",
+    "page": "页面",
+    "type": {
+      "user": "用户",
+      "ticket": "工单",
+      "roadmap": "路线图",
+      "changelog": "更新日志"
+    },
+    "group": {
+      "user": "用户",
+      "ticket": "支持工单",
+      "roadmap": "路线图",
+      "changelog": "更新日志"
+    },
+    "navigate": "导航",
+    "select": "选择",
+    "toggle": "打开 / 关闭"
+  },
+  "impersonation": {
+    "banner": "<strong>代登录已启用</strong>：你当前以 <strong>{name}</strong> 的身份登录。所有操作都会被记录。",
+    "stopFailed": "无法停止：{message}",
+    "unknownError": "未知错误",
+    "stopped": "已停止代登录",
+    "stopFailedShort": "无法停止",
+    "stopping": "正在停止…",
+    "stop": "停止并返回"
+  },
+  "table": {
+    "empty": "没有找到数据",
+    "pageOf": "第 {page} 页，共 {total} 页",
+    "previous": "上一页",
+    "next": "下一页"
+  },
+  "refresh": {
+    "justNow": "刚刚",
+    "secondsAgo": "{count} 秒前",
+    "minutesAgo": "{count} 分钟前",
+    "updated": "更新于 {ago}",
+    "auto": "（每 {seconds} 秒自动刷新）",
+    "refresh": "刷新"
+  },
+  "legacy": {
+    "adminPanel": "管理面板",
+    "supporterPanel": "支持人员面板",
+    "adminDesc": "你拥有完整的管理员权限。所有操作都会自动记录。",
+    "supporterDesc": "你拥有支持人员权限。你可以帮助用户，但对敏感数据的访问受到限制。",
+    "auditActive": "审计日志已启用",
+    "tabs": {
+      "overview": "概览",
+      "email": "邮件",
+      "analytics": "分析",
+      "finance": "财务",
+      "traffic": "流量",
+      "betaSignups": "内测报名"
+    }
+  }
+}

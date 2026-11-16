@@ -1,0 +1,240 @@
+{
+  "welcome": {
+    "preview": "Benvenuto in TimeTrack, {name}. Tre passaggi e sei operativo.",
+    "subject": "Benvenuto in TimeTrack, {name}",
+    "intro": "Mi chiamo Mads e sviluppo e gestisco TimeTrack. L'ho creato perché i freelance possano tenere traccia di ore, pacchetti ore e fatture senza un foglio di calcolo a parte.",
+    "threeSteps": "Tre passaggi e sei operativo:",
+    "step1": "1. Crea il tuo primo cliente",
+    "step2": "2. Imposta la tua tariffa oraria e crea un progetto",
+    "step3": "3. Avvia il timer quando inizi l'attività",
+    "why": "Cosa ti ha spinto a provare TimeTrack? Rispondi pure a questa e-mail. Leggo personalmente ogni risposta e mi aiuta a costruire la cosa giusta.",
+    "questions": "Se hai domande, puoi sempre scrivermi direttamente a [mail]{email}[/mail]."
+  },
+  "greeting": "Ciao {name},",
+  "openApp": "Apri TimeTrack",
+  "gettingStarted": {
+    "preview": "Tre passaggi verso la tua prima registrazione ore",
+    "subject": "Tre passaggi verso la tua prima registrazione ore",
+    "hasClientIntro": "Hai già creato il tuo primo cliente. Ecco cosa ti consiglio come passo successivo:",
+    "hasClient1": "**Imposta la tua tariffa oraria:** vai in Impostazioni e inserisci la tua tariffa oraria predefinita. Puoi impostare una tariffa diversa per cliente o progetto.",
+    "hasClient2": "**Crea un progetto:** un progetto raggruppa le ore per lavoro, così puoi fatturarle correttamente.",
+    "hasClient3": "**Prova il timer:** premi Avvia nella barra del timer in alto in TimeTrack.",
+    "noClientIntro": "Hai creato il tuo account qualche giorno fa. Ecco tre passaggi verso la tua prima registrazione ore:",
+    "noClient1": "**Crea il tuo primo cliente:** poi potrai registrare il tempo sul cliente e creare fatture da lì.",
+    "noClient2": "**Imposta la tua tariffa oraria:** inserisci la tariffa oraria predefinita e TimeTrack calcola il valore del tuo tempo.",
+    "noClient3": "**Avvia un timer:** premi Avvia nella barra del timer in alto in TimeTrack.",
+    "buttonProject": "Crea il tuo primo progetto",
+    "buttonClient": "Crea il tuo primo cliente",
+    "stuck": "Se ti blocchi, rispondi a questa e-mail e ti aiuterò personalmente."
+  },
+  "noTimeEntry": {
+    "preview": "Scrivi cosa hai fatto e TimeTrack compila il resto",
+    "subject": "Registra il tuo primo tempo",
+    "intro": "Hai creato un account TimeTrack qualche giorno fa, ma non hai ancora registrato tempo.",
+    "how": "Scrivi cosa hai fatto nel campo in alto nella pagina iniziale, ad es. «2 ore sul sito ieri». Oppure premi Avvia timer e fermalo quando hai finito.",
+    "button": "Registra il tuo primo tempo",
+    "help": "Se qualcosa ti dà problemi, rispondi semplicemente a questa e-mail. Leggo personalmente le risposte."
+  },
+  "timeNoInvoice": {
+    "preview": "{hours} ore pronte da fatturare",
+    "subject": "Il tuo tempo è pronto per essere fatturato",
+    "body": "Hai {hours} ore in TimeTrack che non sono ancora state fatturate. Quando vuoi fatturare, puoi creare la fattura direttamente dalle tue registrazioni ore, così ore e importi vengono inclusi automaticamente.",
+    "button": "Crea una fattura dal tuo tempo",
+    "elsewhere": "Se fatturi altrove, puoi semplicemente ignorare questa e-mail."
+  },
+  "clientNoKlippekort": {
+    "preview": "Pacchetti ore: le ore vengono scalate automaticamente",
+    "subject": "Pacchetti ore per i tuoi clienti",
+    "body": "Hai creato dei clienti in TimeTrack. Se qualcuno di loro acquista ore in anticipo, puoi assegnargli un pacchetto ore. Il tempo viene poi scalato mentre lo registri, e potete vedere entrambi quante ore restano.",
+    "button": "Crea un pacchetto ore",
+    "usage": "Se fatturi solo a consumo, non devi fare nulla."
+  },
+  "klippekortTips": {
+    "preview": "Come funziona un pacchetto ore in TimeTrack",
+    "subject": "Come funziona un pacchetto ore in TimeTrack",
+    "intro": "Un pacchetto ore è un blocco di ore prepagate. Il tuo cliente ne acquista, ad esempio, 20, e TimeTrack scala le ore ogni volta che registri tempo per il cliente.",
+    "exampleName": "Esempio: il panificio all'angolo",
+    "how": "Il cliente paga prima che tu inizi. TimeTrack tiene traccia del saldo così non devi calcolarlo tu, e il cliente può vederlo nel portale clienti.",
+    "button": "Crea un pacchetto ore",
+    "sell": "Vuoi sapere come vendere pacchetti ore ai tuoi clienti? Rispondi a questa e-mail e condividerò volentieri la mia esperienza."
+  },
+  "extensionTips": {
+    "preview": "L'estensione del browser ti permette di avviare e fermare il timer da qualsiasi pagina",
+    "subject": "Avvia e ferma il timer senza cambiare scheda",
+    "intro": "TimeTrack ha un'estensione del browser, così puoi avviare e fermare il timer senza cambiare scheda.",
+    "tip1": "Avvia e ferma il timer nel popup e scegli lì cliente e progetto. La scorciatoia Alt+Maiusc+S avvia e ferma il timer dalla tastiera.",
+    "tip2": "L'icona nella barra degli strumenti mostra il timer in esecuzione, oppure il tempo di oggi quando nessun timer è attivo.",
+    "button": "Scaricala dal Chrome Web Store"
+  },
+  "aiFeatures": {
+    "preview": "Scrivi una frase e TimeTrack compila la registrazione ore",
+    "subject": "Registra il tempo scrivendo una frase",
+    "intro": "Non devi compilare un modulo per registrare il tempo. Nella Home c'è un campo chiamato «Scrivi cosa hai fatto». Scrivi una frase e premi Invio:",
+    "example": "2 ore sul sito per Bianchi ieri",
+    "suggest": "TimeTrack suggerisce cliente, progetto, data e ora. Nulla viene salvato finché non hai visto il suggerimento e lo hai confermato. Nella Home raggiungi il campo con /, e se il tuo browser lo supporta puoi dettare la frase con il microfono.",
+    "parser": "La frase viene letta da un normale parser di testo, non dall'IA. Se aggiungi la tua chiave IA in Impostazioni, un provider di IA può compilare ciò che il parser non ha trovato da solo. È facoltativo.",
+    "button": "Apri la Home",
+    "feedback": "Se il campo non capisce una frase che scrivi, inviamela e potrò migliorare il parser."
+  },
+  "firstWeek": {
+    "preview": "Le tue prime settimane con TimeTrack",
+    "subject": "Le tue prime settimane con TimeTrack",
+    "minimal1": "Hai creato il tuo account un paio di settimane fa e sembra che tu stia ancora prendendo confidenza. Va benissimo.",
+    "minimal2": "È facile dimenticare di registrare il tempo quando si è occupati. Ma il tempo che non registri è tempo che non puoi fatturare.",
+    "tip": "**Un consiglio:** prova a registrare una giornata questa settimana. Avvia il timer quando inizi un'attività, oppure scrivi dopo cosa hai fatto nel campo della Home.",
+    "active": "Usi TimeTrack da un paio di settimane. Ecco cosa hai registrato finora:",
+    "trackedTime": "Tempo registrato",
+    "hoursUnit": "{hours} h",
+    "clients": "Clienti",
+    "projects": "Progetti",
+    "closing": "Se registri il tempo man mano, la base di fatturazione è pronta quando arriva il momento di fatturare.",
+    "feedback": "Com'è andata finora? Dimmi cosa funziona e cosa no."
+  },
+  "upgrade": {
+    "whenNow": "entro un giorno",
+    "whenDays": "tra {days, plural, one {# giorno} many {# giorni} other {# giorni}}",
+    "preview": "La tua prova termina {when}",
+    "subject": "La tua prova sta per scadere",
+    "body": "La tua prova di TimeTrack termina {when}. Se non scegli un abbonamento, il tuo account prosegue con Free e tutto ciò che hai creato resta salvato.",
+    "free": "Free offre spazio per {clients} clienti attivi e {seats} utenti.",
+    "button": "Vedi gli abbonamenti",
+    "questions": "Se hai domande sui piani o sui prezzi, rispondi a questa e-mail. Sarò felice di aiutarti."
+  },
+  "needHelp": {
+    "preview": "Hai bisogno di aiuto, {name}?",
+    "subject": "Hai bisogno di aiuto, {name}?",
+    "introTracking": "Hai creato il tuo account TimeTrack qualche giorno fa. Stai già registrando il tempo.",
+    "introNoTracking": "Hai creato il tuo account TimeTrack qualche giorno fa. Volevo verificare che tutto stia andando come dovrebbe.",
+    "placesTracking": "Ecco tre posti da cui partire se vuoi fare il passo successivo:",
+    "placesNoTracking": "Può essere difficile iniziare con un nuovo sistema. Ecco tre punti di partenza:",
+    "helpCentre": "Centro assistenza",
+    "helpCentreNote": ": risposte alle domande frequenti",
+    "createClient": "Crea un cliente",
+    "createClientNote": ": se non ne hai ancora creato uno",
+    "writeMe": "Scrivimi",
+    "writeMeNote": ": rispondo personalmente",
+    "missing": "Ti manca qualcosa in TimeTrack? Scrivimi cosa. Mi aiuta a migliorarlo."
+  },
+  "winBack30": {
+    "preview": "È passato un po' di tempo, {name}",
+    "subject": "È passato un po' di tempo, {name}",
+    "intro": "È passato un po' di tempo dall'ultima volta che hai visitato TimeTrack. Spero che vada tutto bene.",
+    "stillThere": "Nel tuo account c'è ancora questo:",
+    "hoursOnly": "**{hours} h** non sono ancora state fatturate.",
+    "hoursValue": "**{hours} h** non sono ancora state fatturate, per un valore di **{value}**",
+    "tasks": "**{count, plural, one {# attività aperta} many {# attività aperte} other {# attività aperte}}** in attesa.",
+    "how": "Se ricominci, il modo più rapido è scrivere cosa hai fatto nel campo della Home. TimeTrack suggerisce cliente, progetto e ora, e confermi tu prima che venga salvato qualcosa.",
+    "why": "Cosa ti ha fatto smettere? Rispondi a questa e-mail e la leggerò personalmente. Mi aiuta a migliorare TimeTrack."
+  },
+  "winBack60": {
+    "preview": "I tuoi clienti, progetti, ore e fatture sono ancora salvati",
+    "subject": "I tuoi dati sono ancora in TimeTrack",
+    "intro": "Sono passati più di 60 giorni dall'ultima volta che hai usato TimeTrack. Voglio solo assicurarmi che tu sappia che i tuoi clienti, progetti, ore e fatture sono ancora salvati, così puoi riprendere da dove avevi lasciato.",
+    "button": "Accedi a TimeTrack",
+    "export": "Se hai scelto un altro strumento, lo capisco. Se vuoi portare con te i tuoi dati, puoi [export]esportarli in CSV o JSON[/export].",
+    "feedback": "Se c'è qualcosa che avrei potuto fare meglio, mi piacerebbe saperlo. Rispondi a questa e-mail e la leggerò personalmente."
+  },
+  "firstClient": {
+    "preview": "Il tuo primo cliente è stato creato: {client}",
+    "subject": "Il tuo primo cliente è stato creato",
+    "intro": "Hai creato il tuo primo cliente, **{client}**. Ecco cosa ti consiglio come passo successivo:",
+    "step1": "1. Crea un progetto per {client}",
+    "step2": "2. Avvia il timer sul progetto",
+    "step3": "3. Crea una fattura dal tempo quando il lavoro è finito",
+    "button": "Crea un progetto",
+    "help": "Se ti serve aiuto per la configurazione, rispondi a questa e-mail. Sarò felice di aiutarti."
+  },
+  "firstProject": {
+    "preview": "Il tuo primo progetto è pronto: {project}",
+    "subject": "Il tuo primo progetto è stato creato",
+    "intro": "Il tuo primo progetto, **{project}** per **{client}**, è pronto. Ora puoi avviare il timer.",
+    "tip1": "Premi T per avviare il timer. Premi di nuovo T per metterlo in pausa.",
+    "tip2": "Scrivi una descrizione per ogni registrazione, così potrai vedere dopo a cosa è stato dedicato il tempo.",
+    "tip3": "{brand} calcola il valore dalla tua tariffa oraria.",
+    "button": "Registra tempo",
+    "closing": "Se registri il tempo man mano, la base di fatturazione è pronta quando arriva il momento di fatturare."
+  },
+  "firstTimeEntry": {
+    "preview": "La tua prima registrazione ore è salvata",
+    "subject": "La tua prima registrazione ore è salvata",
+    "body": "Hai registrato il tuo primo tempo: **{hours} h**.",
+    "bodyProject": "Hai registrato il tuo primo tempo: **{hours} h** su **{project}**.",
+    "invoice": "Quando arriva il momento di fatturare, puoi creare la fattura direttamente dalle tue registrazioni ore.",
+    "button": "Vedi le tue registrazioni ore"
+  },
+  "firstInvoice": {
+    "preview": "La fattura #{number} per {client} è stata creata",
+    "subject": "Congratulazioni per la tua prima fattura",
+    "congrats": "Congratulazioni per la tua prima fattura.",
+    "number": "Numero di fattura",
+    "client": "Cliente",
+    "amount": "Importo",
+    "send": "Invia la fattura a {client} e tieni d'occhio il pagamento in {brand}. I solleciti automatici per le fatture scadute si attivano per cliente.",
+    "button": "Vedi le tue fatture",
+    "accounting": "Puoi anche inoltrare le fatture a Billy, Dinero o e-conomic perché finiscano nella tua contabilità. Collega il tuo software di contabilità in Integrazioni."
+  },
+  "inactivity": {
+    "preview": "Sono passati {days} giorni dalla tua ultima visita",
+    "subject": "Sono passati {days} giorni dalla tua ultima visita a TimeTrack",
+    "kicker": "Promemoria",
+    "heading": "Qualcosa ti aspetta",
+    "footerNote": "Il promemoria viene inviato dopo 14 giorni di inattività.",
+    "withStats": "Sono passati {days} giorni dall'ultimo accesso e c'è qualcosa che ti aspetta:",
+    "noStats": "Sono passati {days} giorni dall'ultimo accesso. Registra il tuo tempo finché è fresco nella memoria.",
+    "unbilled": "Non fatturato",
+    "hoursUnit": "{hours} h",
+    "readyToInvoice": "Pronto da fatturare",
+    "readyToInvoiceSub": "di tempo registrato",
+    "openTasks": "Attività aperte",
+    "openTasksSub": "in attesa",
+    "button": "Registra tempo",
+    "muted": "Puoi disattivare i promemoria di inattività nelle impostazioni e-mail."
+  },
+  "toolGuide": {
+    "preview": "La tua guida a {tool}",
+    "subject": "{tool}: la tua guida da TimeTrack",
+    "kicker": "Guida",
+    "heading": "Grazie per aver usato {tool}",
+    "footerNote": "Ricevi questa e-mail perché hai richiesto la guida su timetrack.dk. Non seguiranno altre e-mail a meno che tu non le richieda.",
+    "intro": "Ecco la guida che hai richiesto, e un link per tornare allo strumento se vuoi continuare a calcolare.",
+    "openTool": "Riapri lo strumento",
+    "pitch": "TimeTrack tiene traccia delle ore per cliente, le scala dal pacchetto ore del cliente e invia la base di fatturazione a Billy, Dinero o e-conomic. [trial]Prova gratis per 30 giorni[/trial]."
+  },
+  "beta": {
+    "preview": "Il tuo posto nella beta di TimeTrack è pronto. Crea il tuo account quando vuoi.",
+    "subject": "Il tuo posto nella beta di TimeTrack è pronto",
+    "subjectNamed": "{name}, il tuo posto nella beta di TimeTrack è pronto",
+    "greetingNamed": "Ciao {name},",
+    "greeting": "Ciao,",
+    "thanks": "Grazie per esserti iscritto alla lista d'attesa di TimeTrack. Il tuo posto nella beta è ora pronto.",
+    "about": "TimeTrack è pensato per i freelance in Danimarca. Registri le tue ore e crei fatture da esse. Se un cliente acquista ore in anticipo, vengono scalate da un pacchetto ore.",
+    "discountLabel": "Il tuo codice sconto",
+    "discountNote": "Usa il codice quando crei il tuo account per ottenere uno sconto sull'abbonamento.",
+    "button": "Crea il tuo account",
+    "feedback": "Se hai domande o feedback, rispondi a questa e-mail. Leggo personalmente ogni risposta.",
+    "writeMe": "Puoi anche scrivermi a [mail]{email}[/mail]."
+  },
+  "desktopLaunch": {
+    "footerNote": "Ricevi questa e-mail perché ti sei iscritto alla lista d'attesa di TimeTrack Desktop.",
+    "button": "Scarica TimeTrack Desktop",
+    "defaultSubject": "TimeTrack Desktop è pronto",
+    "defaultMessage": "Grazie per esserti iscritto alla lista d'attesa. TimeTrack Desktop è ora disponibile per il download."
+  },
+  "desktopLicense": {
+    "preview": "La tua chiave di licenza per TimeTrack Desktop ({tier})",
+    "subject": "La tua chiave di licenza per TimeTrack Desktop ({tier})",
+    "kicker": "Desktop",
+    "heading": "La tua licenza per TimeTrack Desktop",
+    "footerNote": "Ricevi questa e-mail perché hai acquistato o richiesto la tua licenza di TimeTrack Desktop.",
+    "introNamed": "Ciao {name}, ecco la tua chiave di licenza per TimeTrack Desktop ({tier}).",
+    "intro": "Ciao, ecco la tua chiave di licenza per TimeTrack Desktop ({tier}).",
+    "howTo": "Come attivarla",
+    "step1": "1. Scarica",
+    "step2": "2. Installa",
+    "step2Value": "Apri l'app",
+    "step3": "3. Attiva",
+    "step3Value": "Inserisci la chiave di licenza",
+    "keep": "Conserva questa e-mail: ti servirà la chiave se reinstalli. La licenza copre fino a {max, plural, one {# dispositivo} many {# dispositivi} other {# dispositivi}}.",
+    "refund": "La fattura arriva separatamente da Stripe. Se cambi idea, puoi ottenere un rimborso completo entro 30 giorni tramite [refund]{link}[/refund]."
+  }
+}

@@ -1,0 +1,72 @@
+---
+title: "Kom godt i gang"
+description: "Fra en tom Linux-server til din første registrerede time: installér TimeWren, opret admin-kontoen, og registrér tid på et klippekort."
+---
+
+Denne guide får en TimeWren-instans op at køre på én Linux-server og tager dig gennem den første kunde, det første projekt, det første klippekort og den første tidsregistrering. Det tager cirka ti minutter.
+
+## Før du går i gang
+
+Du skal bruge:
+
+- En Linux-server (amd64 eller arm64) med 2 vCPU, 2 GB RAM og 10 GB fri diskplads. 4 GB RAM giver bedre luft.
+- Docker Engine med Docker Compose v2.24 eller nyere. Tjek med `docker compose version`.
+- Til alt ud over en lokal test: et domænenavn, der peger på serveren, så du kan levere TimeWren over HTTPS.
+
+TimeWren installerer ikke Docker for dig. Mangler det, så følg først [Dockers installationsguide](https://docs.docker.com/engine/install/).
+
+## 1. Installér
+
+Kør installationsscriptet som en almindelig bruger, der har adgang til Docker:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash
+```
+
+Scriptet tjekker Docker og Compose, opretter `.env` med nye tilfældige hemmeligheder, henter det færdigbyggede image, starter stakken og venter, til appen er sund. Det udskriver aldrig hemmelighederne og kalder aldrig `sudo`. Kører du det igen, beholder det din `.env` og genstarter kun stakken.
+
+Har du et domæne, hvis DNS allerede peger på denne server? Så lad installationsscriptet sætte automatisk HTTPS op med Caddy:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --with-caddy --domain timewren.example.com
+```
+
+Vil du hellere læse scriptet først eller installere på en anden måde? Se [Installation med én kommando](/da/docs/install/quick) for alle muligheder, eller vælg [Docker Compose](/da/docs/install/docker-compose), [Kubernetes](/da/docs/install/kubernetes) eller en platform som [Coolify](/da/docs/install/coolify).
+
+## 2. Opret admin-kontoen
+
+Åbn den URL, installationsscriptet udskrev (ved en lokal test `http://localhost:3000`), og opret en konto. **Den første konto bliver instansens administrator.** Opret den med det samme, før andre kan nå instansen.
+
+Uden en mailserver lader instansen folk oprette sig uden e-mailbekræftelse. Det er fint til en første test, men det betyder, at alle, der kan nå instansen, kan oprette en konto. Sæt [e-mail](/da/docs/configuration/email) op, før du gør TimeWren tilgængelig på internettet.
+
+## 3. Registrér dine første timer
+
+<Screenshot name="timer" alt="Timeren kører på et projekt" />
+
+1. Åbn **Kunder**, og tilføj en kunde, for eksempel det opdigtede "Acme ApS".
+2. Åbn **Projekter**, og opret et projekt til kunden. Tid på et projekt kan faktureres og kan trækkes fra et klippekort.
+3. Åbn **Klippekort**, og opret et klippekort til kunden, for eksempel på 20 timer. Læs [Klippekort](/da/docs/concepts/prepaid-hours) for at se, hvordan saldi og advarsler virker.
+4. Start timeren på projektet, stop den igen, og se saldoen på klippekortet falde.
+5. Når du er klar til at fakturere, opretter du en faktura ud fra den registrerede tid under **Fakturaer**, eller du forbinder [Billy](/da/docs/integrations/billy), [Dinero](/da/docs/integrations/dinero) eller [e-conomic](/da/docs/integrations/e-conomic).
+
+## 4. Gør den klar til produktion
+
+Gå denne liste igennem, før du stoler på instansen:
+
+- **HTTPS og den offentlige URL.** Sæt `NEXT_PUBLIC_APP_URL` til den URL, folk åbner, og sæt en reverse proxy med TLS foran. Se [Reverse proxy og TLS](/da/docs/operations/reverse-proxy).
+- **E-mail.** Konfigurér SMTP eller Resend, så bekræftelser, invitationer og påmindelser bliver sendt. Se [E-mail](/da/docs/configuration/email).
+- **Backup.** Tag backup af databasen, lagervolumet og `.env`, og pas godt på `ENCRYPTION_KEY`. Se [Backup og gendannelse](/da/docs/operations/backup-restore).
+- **Opgraderinger.** Lås en version fast, og lær opgraderingsproceduren. Se [Opgradering](/da/docs/operations/upgrading).
+
+Alle indstillinger står i [Miljøvariabler](/da/docs/configuration/environment).
+
+## Tjek, at den kører
+
+Fra serveren:
+
+```bash
+docker compose ps
+curl -i http://127.0.0.1:3000/api/health
+```
+
+Kør dem i installationsmappen (hvor `docker-compose.yml` og `.env` ligger). Er der noget galt, så se [Fejlfinding](/da/docs/operations/troubleshooting), eller giv problemet til din kodeagent med prompterne i [Brug dokumentationen med din LLM](/da/docs/llm).

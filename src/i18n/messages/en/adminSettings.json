@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Settings",
+    "subtitle": "Manage admin notifications, feature flags and the changelog"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Configure email and Discord notifications for admin events",
+    "emailLabel": "Admin email(s)",
+    "emailHint": "Comma-separated for multiple recipients",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "Discord webhook URL",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Test",
+    "eventTypes": "Event types",
+    "saving": "Saving...",
+    "save": "Save settings",
+    "saved": "Notification settings saved",
+    "testSent": "Test message sent to Discord",
+    "webhookRequired": "Enter a Discord webhook URL first"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "New user sign-up",
+      "description": "Notify on new user sign-ups"
+    },
+    "notify_subscription_started": {
+      "label": "New paid subscription",
+      "description": "Notify on new paying customers"
+    },
+    "notify_payment_failed": {
+      "label": "Payment failed",
+      "description": "Notify on failed payments"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Subscription cancelled",
+      "description": "Notify on cancellations"
+    },
+    "notify_trial_ending": {
+      "label": "Trial ending soon",
+      "description": "Discord only -- notify when a trial is about to end"
+    },
+    "notify_user_flagged": {
+      "label": "User flagged",
+      "description": "Discord only -- notify when a user is flagged"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "description": "Manage support inboxes and signature",
+    "inboxes": "Inboxes",
+    "add": "Add",
+    "namePlaceholder": "Name",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "Signature HTML (optional)",
+    "save": "Save",
+    "cancel": "Cancel",
+    "create": "Create",
+    "default": "Default",
+    "confirmDelete": "Delete this inbox?",
+    "noInboxes": "No inboxes created yet",
+    "inboxCreated": "Inbox created",
+    "inboxUpdated": "Inbox updated",
+    "inboxDeleted": "Inbox deleted",
+    "signatureSaved": "Signature saved",
+    "globalSignature": "Global signature",
+    "globalSignatureHint": "HTML signature used when an inbox has no signature of its own",
+    "globalSignaturePlaceholder": "<p>Kind regards<br>TimeTrack Support</p>",
+    "preview": "Preview",
+    "noSignature": "No signature",
+    "savingSignature": "Saving...",
+    "saveSignature": "Save signature"
+  },
+  "debug": {
+    "title": "Troubleshooting",
+    "description": "Tools that are only shown to you, in this browser",
+    "electricLabel": "Show Electric badge",
+    "electricDescription": "Shows the live sync status of the timer at the bottom left of the dashboard"
+  },
+  "flags": {
+    "title": "Feature flags",
+    "description": "Enable and disable features for all users",
+    "empty": "No feature flags configured",
+    "lastChangedBy": "Last changed by {name}",
+    "lastChangedByDate": "Last changed by {name} - {date}"
+  },
+  "changelog": {
+    "title": "Changelog",
+    "description": "Create changelog entries that are shown to users",
+    "new": "Create new changelog entry",
+    "version": "Version",
+    "titleLabel": "Title",
+    "titlePlaceholder": "New feature: ...",
+    "content": "Content (Markdown)",
+    "contentPlaceholder": "Describe the changes...",
+    "cancel": "Cancel",
+    "create": "Create",
+    "recent": "Recent changelog entries",
+    "confirmDelete": "Delete changelog v{version}?",
+    "delete": "Delete",
+    "created": "Changelog created",
+    "deleted": "Changelog deleted"
+  }
+}

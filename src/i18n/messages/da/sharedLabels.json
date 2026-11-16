@@ -1,0 +1,141 @@
+{
+  "orglessForbidden": "Du er ikke medlem af en organisation. Bed om en ny invitation, eller kontakt support.",
+  "freeMemberLocked": "Organisationen er på Gratis, som har plads til {seats} brugere. Dine data er gemt — bed ejeren om at opgradere for at få adgang igen.",
+  "report": {
+    "hoursSuffix": " t",
+    "currencySuffix": " kr"
+  },
+  "freeClientLimit": "Gratis har plads til {clients} aktive kunder. Arkivér en kunde eller opgradér.",
+  "freeSeatLimit": "Gratis har plads til {seats} brugere, inklusive afventende invitationer. Opgradér under Indstillinger → Abonnement for at invitere flere.",
+  "ownerMustTransfer": "Du er ejer af et team med andre medlemmer. Overdrag ejerskabet til et andet medlem under Organisation, før du sletter din konto.",
+  "holidays": {
+    "newYearsDay": "Nytårsdag",
+    "maundyThursday": "Skærtorsdag",
+    "goodFriday": "Langfredag",
+    "easterSunday": "Påskedag",
+    "easterMonday": "2. påskedag",
+    "ascensionDay": "Kristi himmelfartsdag",
+    "whitSunday": "Pinsedag",
+    "whitMonday": "2. pinsedag",
+    "christmasDay": "Juledag",
+    "boxingDay": "2. juledag",
+    "greatPrayerDay": "Store bededag",
+    "may1": "1. maj",
+    "constitutionDay": "Grundlovsdag",
+    "dayAfterAscension": "Fredag efter Kristi himmelfart",
+    "christmasEve": "Juleaftensdag",
+    "newYearsEve": "Nytårsaftensdag",
+    "dayOff": "Fridag"
+  },
+  "speech": {
+    "language": "Dansk",
+    "micBlocked": "Mikrofonen er blokeret. Giv browseren adgang til mikrofonen og prøv igen.",
+    "noMic": "Der blev ikke fundet nogen mikrofon.",
+    "langUnsupported": "{language} talegenkendelse er ikke tilgængelig lokalt i denne browser.",
+    "stopped": "Talegenkendelsen stoppede uventet. Prøv igen, eller skriv i stedet.",
+    "downloadFailed": "{language} talegenkendelse kunne ikke hentes i denne browser.",
+    "ready": "{language} talegenkendelse er klar — tryk på mikrofonen.",
+    "cantStart": "Talegenkendelsen kunne ikke starte. Prøv igen."
+  },
+  "offlineSync": {
+    "fullOverlap": "En anden enhed havde allerede en timer kørende, mens du var offline. Din offline-tid overlappede helt og blev ikke gemt.",
+    "partialOverlap": "En anden enhed startede en timer, mens du var offline. Din offline-tid er gemt frem til det tidspunkt.",
+    "clippedSaved": "En anden enhed startede en timer, mens du var offline. Din offline-tid {from}–{to} gemmes som tidspost, og den anden timer kører videre.",
+    "resetOffline": "En anden enhed havde allerede en timer kørende, da du startede offline kl. {from}. Din offline-timer er nulstillet — den anden kører videre.",
+    "stoppedElsewhere": "Timeren blev stoppet på en anden enhed, mens du var offline — tiden er gemt dér og blev ikke gemt igen.",
+    "syncFailed": "En offline-ændring kunne ikke synkroniseres: {error}",
+    "defaultDescription": "Tidsregistrering"
+  },
+  "unknownError": "Ukendt fejl",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Kunne ikke gemme",
+      "retry": "Prøv igen"
+    },
+    "push": {
+      "unsupported": "Push notifikationer understøttes ikke i denne browser",
+      "denied": "Tilladelse til notifikationer nægtet",
+      "enabled": "Push notifikationer aktiveret",
+      "enabledDesc": "Du vil nu modtage notifikationer",
+      "enableFailed": "Kunne ikke aktivere notifikationer",
+      "disabled": "Push notifikationer deaktiveret",
+      "disableFailed": "Kunne ikke deaktivere notifikationer"
+    },
+    "periodic": {
+      "unsupported": "Periodisk synkronisering ikke understøttet",
+      "enabled": "Automatiske rapporter aktiveret",
+      "enabledDesc": "Du vil modtage ugentlige rapporter",
+      "enableFailed": "Kunne ikke aktivere automatiske rapporter",
+      "disabled": "Automatiske rapporter deaktiveret",
+      "disableFailed": "Kunne ikke deaktivere automatiske rapporter"
+    },
+    "taskUndo": {
+      "restored": "Opgave gendannet",
+      "restoreFailed": "Kunne ikke gendanne opgaven",
+      "deleted": "Opgave slettet",
+      "undo": "Fortryd"
+    },
+    "timerSync": {
+      "otherProject": "et andet projekt",
+      "runningPaused": "Der kører allerede en timer på {name}. Stop den først — din pausede tid er bevaret.",
+      "running": "Der kører allerede en timer på {name}. Stop den først.",
+      "alreadyStopped": "Timeren var allerede stoppet og gemt på en anden enhed — den er ikke startet igen."
+    },
+    "timerKeys": {
+      "started": "Timer startet",
+      "pressToPause": "Tryk T igen for at pause",
+      "paused": "Timer sat på pause",
+      "pressToResume": "{time} - Tryk T for at genoptage",
+      "resumed": "Timer genoptaget",
+      "cancelled": "Timer annulleret"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock ikke understøttet i denne browser",
+      "active": "Skærm holdes aktiv",
+      "activeDesc": "Din skærm vil ikke slukke under tidstracking",
+      "released": "Skærm kan nu slukke igen",
+      "failed": "Kunne ikke holde skærm aktiv"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Dit abonnement administreres på din konto.",
+    "otherAccount": "Købet er knyttet til en anden TimeTrack-konto.",
+    "ownerOnly": "Kun organisationens ejer kan købe et abonnement.",
+    "multiMember": "Privat og Selvstændig gælder én bruger. Din organisation har flere brugere, så abonnementet administreres på din konto.",
+    "otherOrganization": "Dit abonnement hører til en anden organisation. Skift til den organisation for at se det.",
+    "alreadySubscribed": "Du har allerede et abonnement via {store}.",
+    "appStoreUnreachable": "App Store kunne ikke kontaktes. Prøv igen om lidt.",
+    "appStoreVerify": "Købet kunne ikke verificeres hos App Store.",
+    "unknownProduct": "Ukendt produkt. Opdatér appen og prøv igen.",
+    "googleNotFound": "Købet blev ikke fundet hos Google Play.",
+    "productMismatch": "Købet passer ikke til det valgte produkt.",
+    "googleAck": "Købet kunne ikke bekræftes hos Google Play. Prøv igen."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Du har et aktivt abonnement via {store}. Det stopper ikke, når du sletter din konto, og skal opsiges i {store}. Bekræft, at du har forstået det, for at slette kontoen.",
+    "invalidUserId": "Ugyldigt bruger-id"
+  },
+  "orgInvite": {
+    "invalidEmail": "Ugyldig email-adresse",
+    "domainNotAllowed": "Email-domænet {domain} er ikke tilladt for denne organisation",
+    "alreadyMember": "Denne person er allerede medlem af organisationen",
+    "alreadyInvited": "Der findes allerede en afventende invitation til denne email",
+    "otherBrand": "Denne email-adresse kan ikke inviteres til organisationen. Brug en anden adresse.",
+    "noSeats": "Ingen ledige pladser ({used} af {max} i brug). Køb flere pladser eller skift plan under Indstillinger → Abonnement.",
+    "noSeatsAccept": "Organisationen har ikke flere ledige pladser. Kontakt din administrator.",
+    "lastOwnerRemove": "Kan ikke fjerne den sidste ejer. Overfør ejerskab til et andet medlem først.",
+    "lastOwnerDemote": "Kan ikke nedgradere den sidste ejer. Overfør ejerskab til et andet medlem først.",
+    "acceptedPushTitle": "🎉 Invitation accepteret",
+    "acceptedPushBody": "{name} er nu medlem af {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "Bulk-listen indeholder dublerede UUID'er",
+    "missing": "En eller flere opgaver mangler eller er uden for dit arbejdsområde: {ids}",
+    "unexpectedRowCount": "uventet rækkeantal",
+    "unselected": "Datagrundlaget indeholder UUID'er, der ikke blev valgt",
+    "statusMismatch": "Opgave {id} har status {status}; forventet status var {expected}",
+    "notEmail": "Opgave {id} er ikke en mailopgave",
+    "customLane": "Opgave {id} bruger en brugerdefineret bane og kan ikke bulkafsluttes sikkert"
+  },
+  "privatClientLimit": "Privat har plads til {clients} aktive kunder. Arkivér en kunde eller skift til Selvstændig."
+}

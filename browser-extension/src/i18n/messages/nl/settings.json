@@ -1,0 +1,109 @@
+{
+  "title": "Instellingen",
+  "close": "Instellingen sluiten",
+  "searchPlaceholder": "Instellingen zoeken…",
+  "searchLabel": "Instellingen zoeken",
+  "noMatch": "Geen instellingen gevonden voor “{query}”",
+  "keywords": {
+    "view": "weergave|tonen|suggestie|site|websites|pakket|urenpakket|popup",
+    "appearance": "uiterlijk|thema|donker|licht|badge|pictogram|taal",
+    "newTab": "nieuw tabblad|tabblad|startpagina|widgets",
+    "calendar": "agenda|dag|datum",
+    "goal": "dagdoel|doel|urendoel|voortgang",
+    "reminder": "herinnering|melding|weekend|boeking|boeken",
+    "data": "gegevens|verwijderen|resetten|offline|koppelingen|website|wachtrij",
+    "advanced": "geavanceerd|api|url|server",
+    "shortcuts": "sneltoetsen|sneltoets|toetsenbord|alt",
+    "about": "over de extensie|extensie|over|versie|beoordelen|beoordeling|hulp"
+  },
+  "view": {
+    "title": "Weergave",
+    "suggestions": "Suggesties van de website",
+    "suggestionsHint": "Stel een project voor op basis van de website waarop je zit",
+    "prepaidTab": "Tabblad Pakketten",
+    "prepaidTabHint": "Toon het tabblad met actieve pakketten in de popup"
+  },
+  "appearance": {
+    "title": "Uiterlijk",
+    "theme": "Thema",
+    "themeHint": "Kleurthema voor de extensie",
+    "system": "Systeem volgen",
+    "dark": "Donker",
+    "light": "Licht",
+    "badge": "Getal op het pictogram",
+    "badgeHint": "Wat het getal op het extensiepictogram toont",
+    "badgeTimer": "Actieve timer",
+    "badgeToday": "Uren van vandaag",
+    "badgeOff": "Verborgen",
+    "language": "Taal",
+    "languageHint": "Taal van de extensie",
+    "languageAuto": "Automatisch (browser volgen)"
+  },
+  "newTab": {
+    "title": "Nieuw tabblad",
+    "enable": "TimeTrack openen in nieuwe tabbladen",
+    "enableHint": "Zet uit voor gewone, lege tabbladen",
+    "widgetsHint": "Kies widgets in de instellingen op het nieuwe tabblad",
+    "activeWidgets": "Actieve widgets: {count}"
+  },
+  "calendar": {
+    "title": "Agenda",
+    "openOn": "Agenda openen op",
+    "openOnHint": "Welke dag de agenda toont bij het openen",
+    "today": "Vandaag",
+    "lastViewed": "Laatst bekeken dag"
+  },
+  "goal": {
+    "title": "Dagdoel",
+    "hours": "Urendoel per dag",
+    "hoursHint": "Gebruikt in de dagvoortgangsbalk in de popup en op het nieuwe tabblad"
+  },
+  "reminder": {
+    "title": "Dagelijkse herinnering",
+    "enable": "Herinner me aan het boeken van tijd",
+    "enableHint": "Melding als je te weinig uren hebt",
+    "time": "Tijdstip",
+    "minHours": "Minimum aantal uren",
+    "weekends": "Ook in het weekend"
+  },
+  "data": {
+    "title": "Gegevens",
+    "clearMappingsConfirm": "Alle opgeslagen koppelingen tussen websites en projecten verwijderen?",
+    "clearMappingsDetail": "Verborgen suggesties verschijnen dan ook weer.",
+    "delete": "Verwijderen",
+    "clearMappings": "Websitekoppelingen verwijderen",
+    "mappingsCount": "{count, plural, one {# opgeslagen koppeling} other {# opgeslagen koppelingen}}",
+    "clearQueueConfirm": "{count, plural, one {# wachtende actie} other {# wachtende acties}} verwijderen?",
+    "unsentEntries": "{count, plural, one {# boeking is} other {# boekingen zijn}} nog niet naar TimeTrack verstuurd. De tijd wordt definitief verwijderd.",
+    "clearQueueConfirmButton": "Wachtrij verwijderen",
+    "clearQueue": "Offlinewachtrij verwijderen",
+    "pendingActions": "{count, plural, one {# wachtende actie} other {# wachtende acties}}",
+    "unsentSuffix": "{count, plural, one {# niet-verstuurde boeking} other {# niet-verstuurde boekingen}}",
+    "resetConfirm": "Alle instellingen resetten?",
+    "resetDetail": "De standaardinstellingen van de extensie worden hersteld.",
+    "resetButton": "Resetten",
+    "reset": "Instellingen resetten",
+    "resetHint": "Standaardinstellingen herstellen"
+  },
+  "advanced": {
+    "title": "Geavanceerd",
+    "apiUrl": "API-adres",
+    "notSaved": "{error}. Het adres is niet opgeslagen."
+  },
+  "shortcuts": {
+    "title": "Sneltoetsen",
+    "unreadable": "De sneltoetsen kunnen in deze browser niet worden gelezen.",
+    "openApp": "TimeTrack openen",
+    "notSet": "Niet ingesteld",
+    "change": "Sneltoetsen wijzigen",
+    "firefoxPage": "Opent de sneltoetsenpagina van Firefox",
+    "chromePage": "Opent chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "TimeTrack-browserextensie, versie {version}",
+    "rateFirefox": "Beoordelen op Firefox Add-ons",
+    "rateChrome": "Beoordelen in de Chrome Web Store",
+    "rateHint": "Jouw beoordeling helpt andere freelancers",
+    "learnMore": "Meer lezen over de extensie"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "hourUnit": "h",
+  "headline": {
+    "untilToday": "{logged} of {expected} until today",
+    "noWorkTimeYet": "No working time yet in the period",
+    "of": "{logged} of {expected}",
+    "noWorkTime": "No working time in the period"
+  },
+  "week": "Week {week} ({start}–{end})",
+  "period": {
+    "day": "Day",
+    "week": "Week",
+    "month": "Month"
+  },
+  "bar": {
+    "label": "Billable {billable}, non-billable {nonBillable} of {expected} working time",
+    "billable": "Billable",
+    "nonBillable": "Non-billable",
+    "notLogged": "Not logged"
+  },
+  "table": {
+    "client": "Client",
+    "billable": "Billable",
+    "nonBillableShort": "Non-bill.",
+    "share": "Share",
+    "ratio": "Non-bill. per bill. hour",
+    "ratioTitle": "Non-billable hours per billed hour",
+    "onlyNonBillable": "Non-bill. only"
+  },
+  "strip": {
+    "title": "Coverage",
+    "summary": "<n>{billable}</n> billable · <n>{nonBillable}</n> non-billable",
+    "summaryRatio": "<n>{billable}</n> billable · <n>{nonBillable}</n> non-billable · <n>{ratio}</n> per billed hour",
+    "perClient": "Per client"
+  },
+  "page": {
+    "back": "Reports",
+    "title": "Coverage",
+    "description": "How much of your working time has been logged, and where it goes",
+    "periodAria": "Period",
+    "prev": "Previous period",
+    "next": "Next period",
+    "today": "Today",
+    "workTime": "Working time: {hours}/week",
+    "workTimeHr": "Working time: {hours}/week (from HR)",
+    "edit": "Edit",
+    "loadError": "Could not fetch the coverage rate.",
+    "retry": "Try again",
+    "statCoverage": "Coverage",
+    "statBillable": "Billable",
+    "statNonBillable": "Non-billable",
+    "statRatio": "Non-bill. per bill. hour",
+    "ofWorkTime": "{pct} of working time",
+    "noTimeLogged": "No time logged",
+    "shareBilled": "{pct} of the logged time is billed",
+    "perClient": "Per client",
+    "noTimeInPeriod": "No time logged in the period.",
+    "logTime": "Log time",
+    "perDay": "Per day",
+    "colDate": "Date",
+    "colWorkTime": "Working time",
+    "colLogged": "Logged",
+    "colBillable": "Of which bill.",
+    "colCoverage": "Coverage",
+    "footnote": "Coverage = logged time ÷ your normal working time. Public holidays and absence are not deducted from working time. Time without a client is shown as internal time."
+  }
+}

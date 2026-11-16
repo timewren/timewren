@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Supervision",
+    "healthy": "{score} % en bonne santé",
+    "cronDashboard": "Tableau de bord cron",
+    "sections": {
+      "health": "Santé du système",
+      "cron": "Tâches cron",
+      "email": "Envoi des e-mails"
+    },
+    "tiles": {
+      "activeSessions": "Sessions actives",
+      "sessions24h": "Sessions des dernières 24 h",
+      "activeTimers": "Chronomètres actifs",
+      "emailsSent7d": "E-mails envoyés (7 j)"
+    },
+    "cronHealth": {
+      "title": "Santé des tâches cron (7 jours)",
+      "runs": "Exécutions",
+      "ok": "ok",
+      "errors": "erreurs",
+      "avgDuration": "Durée moy.",
+      "lastRun": "Dernière exécution"
+    },
+    "errors": {
+      "title": "Erreurs (7 derniers jours)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Toutes les tâches",
+      "allStatuses": "Tous les statuts",
+      "filter": {
+        "success": "Réussite",
+        "error": "Erreur",
+        "partial": "Partiel"
+      },
+      "status": {
+        "success": "réussite",
+        "error": "erreur",
+        "partial": "partiel"
+      },
+      "empty": "Aucun journal de tâche cron trouvé",
+      "columns": {
+        "job": "Tâche",
+        "status": "Statut",
+        "started": "Démarrée",
+        "duration": "Durée",
+        "items": "Éléments",
+        "errors": "Erreurs"
+      }
+    },
+    "showing": "Affichage de {from}-{to} sur {total}",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "email": {
+      "sent": "Envoyés",
+      "delivered": "Remis",
+      "bounced": "Rejetés",
+      "failed": "Échoués",
+      "status": {
+        "sent": "envoyé",
+        "delivered": "remis",
+        "bounced": "rejeté",
+        "failed": "échoué"
+      },
+      "last24h": "Dernières 24 heures",
+      "last7d": "7 derniers jours",
+      "last30d": "30 derniers jours",
+      "last90d": "90 derniers jours",
+      "allTemplates": "Tous les modèles",
+      "empty": "Aucun journal d'e-mail trouvé",
+      "columns": {
+        "recipient": "Destinataire",
+        "subject": "Objet",
+        "template": "Modèle",
+        "status": "Statut",
+        "sentAt": "Envoyé"
+      }
+    }
+  },
+  "cron": {
+    "title": "Tâches cron",
+    "refresh": "Actualiser",
+    "never": "Jamais",
+    "badge": {
+      "neverRun": "Jamais exécutée",
+      "silent": "Silencieuse",
+      "error": "Erreur",
+      "partial": "Partielle",
+      "running": "En cours",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "réussite",
+      "error": "erreur",
+      "partial": "partiel"
+    },
+    "noRows": "Aucune ligne de journal trouvée",
+    "runColumns": {
+      "status": "Statut",
+      "started": "Démarrée",
+      "duration": "Durée",
+      "items": "Éléments",
+      "errorMessage": "Message d'erreur"
+    },
+    "tiles": {
+      "expected": "Tâches attendues",
+      "silent": "Tâches silencieuses",
+      "withErrors": "Tâches en erreur (24 h)",
+      "totalRuns": "Exécutions totales (24 h)"
+    },
+    "columns": {
+      "status": "Statut",
+      "job": "Tâche",
+      "cadence": "Fréquence",
+      "lastRun": "Dernière exécution",
+      "runs24h": "Exéc. 24 h",
+      "errors24h": "Erreurs 24 h",
+      "avgDuration": "Durée moy."
+    },
+    "lastError": "Dernière erreur :",
+    "cadence": {
+      "everyMinutes": "toutes les {minutes} min",
+      "hourly": "toutes les heures",
+      "everyHours": "toutes les {hours} heures",
+      "daily": "tous les jours",
+      "weekly": "toutes les semaines",
+      "monthly": "tous les mois",
+      "everyDays": "tous les {days} jours"
+    }
+  }
+}

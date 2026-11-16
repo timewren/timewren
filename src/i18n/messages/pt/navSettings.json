@@ -1,0 +1,166 @@
+{
+  "group": {
+    "account": "Conta",
+    "organisation": "Organização",
+    "billing": "Faturação",
+    "integrations": "Integrações",
+    "advanced": "Avançado"
+  },
+  "item": {
+    "settings": {
+      "label": "Perfil e aspeto",
+      "description": "Nome, taxa horária, horário de trabalho, tema e idioma"
+    },
+    "settings_security": {
+      "label": "Segurança e início de sessão",
+      "description": "Palavra-passe, autenticação de dois fatores, chaves de acesso e sessões"
+    },
+    "settings_notifications": {
+      "label": "Notificações",
+      "description": "E-mail, Discord, notificações push e horas de silêncio"
+    },
+    "settings_gdpr": {
+      "label": "RGPD e proteção de dados",
+      "description": "Descarrega os teus dados e o acordo de subcontratação de dados"
+    },
+    "settings_company": {
+      "label": "Perfil da empresa",
+      "description": "CVR, morada, banco, IVA e feriados da empresa"
+    },
+    "organization": {
+      "label": "Organização e equipa",
+      "description": "Membros, convites e funções"
+    },
+    "organization_permissions": {
+      "label": "Controlo de acesso",
+      "description": "O que cada função pode ver e alterar"
+    },
+    "organization_audit": {
+      "label": "Registo de atividade",
+      "description": "Quem alterou o quê na organização"
+    },
+    "settings_modules": {
+      "label": "Módulos",
+      "description": "Ativa e desativa módulos para a organização"
+    },
+    "settings_tags": {
+      "label": "Etiquetas",
+      "description": "Organiza registos de tempo, projetos e clientes"
+    },
+    "enterprise_settings": {
+      "label": "Definições empresariais",
+      "description": "Horário de trabalho, ausências, férias, salários e início de sessão"
+    },
+    "settings_subscription": {
+      "label": "Subscrição",
+      "description": "Plano, pagamento e lugares"
+    },
+    "settings_email": {
+      "label": "E-mail e modelos",
+      "description": "Modelos de e-mail para faturas e lembretes"
+    },
+    "settings_portal": {
+      "label": "Portal do cliente",
+      "description": "Logótipo, cores e domínio do portal do cliente"
+    },
+    "settings_integrations": {
+      "label": "Integrações",
+      "description": "Contabilidade, calendário e extensão do navegador"
+    },
+    "settings_ai": {
+      "label": "IA e automatização",
+      "description": "E-mail para tarefa e interpretação por IA"
+    },
+    "settings_desktop": {
+      "label": "Aplicação para computador",
+      "description": "Transferência, dispositivos ligados e licença"
+    },
+    "settings_api": {
+      "label": "API",
+      "description": "Chaves de API e documentação"
+    },
+    "settings_data": {
+      "label": "Importação e exportação",
+      "description": "Importa de CSV e exporta os teus dados"
+    }
+  },
+  "entry": {
+    "settings": {
+      "profilbillede": "Fotografia de perfil",
+      "name": "Nome",
+      "hourlyRate": "Taxa horária predefinida",
+      "weeklyHourGoal": "Objetivo de horas semanais",
+      "startPage": "Página inicial após iniciar sessão",
+      "arbejdstid": "Horário de trabalho e taxa de utilização",
+      "fridage": "Feriados e dias de folga",
+      "afrunding": "Arredondamento do tempo",
+      "klippekort": "Ocultar valores nas bolsas de horas",
+      "godkendelse": "Aprovação do cliente",
+      "udseende": "Tema (claro ou escuro)",
+      "sprog": "Idioma",
+      "opsaetningsguide": "Guia de configuração",
+      "slet-konto": "Eliminar conta"
+    },
+    "settings_security": {
+      "to-faktor": "Autenticação de dois fatores",
+      "adgangskode": "Palavra-passe",
+      "forbundne-konti": "Contas associadas",
+      "passkeys": "Chaves de acesso",
+      "telefon": "Número de telemóvel",
+      "betroede-enheder": "Dispositivos de confiança",
+      "sessioner": "Sessões ativas"
+    },
+    "settings_notifications": {
+      "email-notifikationer": "Notificações por e-mail",
+      "stille-timer": "Horas de silêncio",
+      "discord": "Discord",
+      "push": "Notificações push do navegador",
+      "pwa": "Aplicação e inatividade (PWA)",
+      "ugerapporter": "Relatórios semanais automáticos"
+    },
+    "settings_gdpr": {
+      "databehandleraftale": "Acordo de subcontratação de dados",
+      "sletning": "Eliminação de dados"
+    },
+    "settings_company": {
+      "logo": "Logótipo da empresa",
+      "adresse": "Morada",
+      "bank": "Dados bancários",
+      "moms": "IVA",
+      "fridage": "Feriados e dias de folga da empresa"
+    },
+    "settings_subscription": {
+      "plan": "Plano atual",
+      "betaling": "Pagamento e recibos",
+      "pladser": "Lugares",
+      "skift-plan": "Mudar de plano",
+      "annuller": "Cancelar subscrição"
+    },
+    "settings_portal": {
+      "branding": "Logótipo e nome do portal",
+      "farver": "Cores do portal",
+      "skrifttyper": "Tipos de letra do portal",
+      "domaene": "Domínio próprio para o portal"
+    },
+    "settings_integrations": {
+      "regnskab": "Sistema de contabilidade predefinido",
+      "dinero": "Dinero",
+      "economic": "e-conomic",
+      "google-kalender": "Google Calendar",
+      "browserudvidelse": "Extensão do navegador",
+      "alunta": "Bolsas de horas Alunta"
+    },
+    "settings_ai": {
+      "ai-udbyder": "Fornecedor de IA",
+      "email-til-opgave": "E-mail para tarefa"
+    },
+    "settings_desktop": {
+      "enheder": "Dispositivos ligados",
+      "licens": "Licença da aplicação para computador"
+    },
+    "settings_data": {
+      "eksport": "Exportar dados",
+      "import": "Importar dados"
+    }
+  }
+}

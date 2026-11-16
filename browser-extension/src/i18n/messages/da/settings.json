@@ -1,0 +1,123 @@
+{
+  "title": "Indstillinger",
+  "close": "Luk indstillinger",
+  "searchPlaceholder": "Søg i indstillinger…",
+  "searchLabel": "Søg i indstillinger",
+  "noMatch": "Ingen indstillinger matcher “{query}”",
+  "keywords": {
+    "view": "visning|forslag|site|websites|klippekort|prepaid|popup",
+    "appearance": "udseende|tema|theme|mørk|lys|badge|ikon|sprog",
+    "newTab": "ny fane|fane|new tab|startside|widgets",
+    "calendar": "kalender|calendar|dag|dato",
+    "goal": "dagligt mål|mål|timemål|goal|progress",
+    "reminder": "påmindelse|reminder|notifikation|weekend|registrering",
+    "data": "data|slet|nulstil|reset|offline|mappings|koblinger|website|kø",
+    "advanced": "avanceret|api|url|server|advanced",
+    "shortcuts": "genveje|genvej|tastatur|shortcut|alt",
+    "about": "om udvidelsen|extension|about|version|bedøm|anmeldelse|hjælp"
+  },
+  "view": {
+    "title": "Visning",
+    "suggestions": "Forslag ud fra website",
+    "suggestionsHint": "Foreslå projekt ud fra det website, du er på",
+    "prepaidTab": "Klippekort-fanen",
+    "prepaidTabHint": "Vis fanen med aktive klippekort i popup'en"
+  },
+  "appearance": {
+    "title": "Udseende",
+    "theme": "Tema",
+    "themeHint": "Farvetema for udvidelsen",
+    "system": "Følg system",
+    "dark": "Mørk",
+    "light": "Lys",
+    "badge": "Tal på ikonet",
+    "badgeHint": "Hvad tallet på udvidelsens ikon viser",
+    "badgeTimer": "Aktiv timer",
+    "badgeToday": "Dagens timer",
+    "badgeOff": "Skjult",
+    "language": "Sprog",
+    "languageHint": "Sprog i udvidelsen",
+    "languageAuto": "Automatisk (følg browseren)"
+  },
+  "newTab": {
+    "title": "Ny fane",
+    "enable": "Åbn TimeTrack på nye faner",
+    "enableHint": "Slå fra for at beholde normale, tomme faner",
+    "widgetsHint": "Vælg widgets under indstillingerne på ny fane",
+    "activeWidgets": "Aktive widgets: {count}"
+  },
+  "calendar": {
+    "title": "Kalender",
+    "openOn": "Åbn kalender på",
+    "openOnHint": "Hvilken dag kalenderen viser ved åbning",
+    "today": "I dag",
+    "lastViewed": "Sidst viste dag"
+  },
+  "goal": {
+    "title": "Dagligt mål",
+    "hours": "Dagligt timemål",
+    "hoursHint": "Bruges i dagens fremgangslinje i popup'en og på ny fane"
+  },
+  "reminder": {
+    "title": "Daglig påmindelse",
+    "enable": "Påmind om registrering",
+    "enableHint": "Notifikation hvis du har for få timer",
+    "time": "Tidspunkt",
+    "minHours": "Mindst antal timer",
+    "weekends": "Også i weekender"
+  },
+  "data": {
+    "title": "Data",
+    "clearMappingsConfirm": "Slet alle gemte koblinger mellem websites og projekter?",
+    "clearMappingsDetail": "Skjulte forslag vises også igen.",
+    "delete": "Slet",
+    "clearMappings": "Slet websitekoblinger",
+    "mappingsCount": "{count, plural, one {# gemt kobling} other {# gemte koblinger}}",
+    "clearQueueConfirm": "Slet {count, plural, one {# ventende handling} other {# ventende handlinger}}?",
+    "unsentEntries": "{count, plural, one {# registrering er} other {# registreringer er}} ikke sendt til TimeTrack endnu. Tiden slettes for altid.",
+    "clearQueueConfirmButton": "Slet køen",
+    "clearQueue": "Slet offline kø",
+    "pendingActions": "{count, plural, one {# ventende handling} other {# ventende handlinger}}",
+    "unsentSuffix": "{count, plural, one {# ikke sendt registrering} other {# ikke sendte registreringer}}",
+    "resetConfirm": "Nulstil alle indstillinger?",
+    "resetDetail": "Udvidelsens standardindstillinger gendannes.",
+    "resetButton": "Nulstil",
+    "reset": "Nulstil indstillinger",
+    "resetHint": "Gendan standardindstillinger"
+  },
+  "advanced": {
+    "title": "Avanceret",
+    "apiUrl": "API-adresse",
+    "notSaved": "{error}. Adressen er ikke gemt."
+  },
+  "shortcuts": {
+    "title": "Tastaturgenveje",
+    "unreadable": "Genvejene kan ikke læses i denne browser.",
+    "openApp": "Åbn TimeTrack",
+    "notSet": "Ikke sat",
+    "change": "Skift genveje",
+    "firefoxPage": "Åbner Firefox' side for genveje",
+    "chromePage": "Åbner chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "TimeTrack browserudvidelse, version {version}",
+    "rateFirefox": "Bedøm på Firefox Add-ons",
+    "rateChrome": "Bedøm i Chrome Web Store",
+    "rateHint": "Din anmeldelse hjælper andre freelancere",
+    "learnMore": "Læs mere om udvidelsen"
+  },
+  "server": {
+    "ariaLabel": "Konto og server",
+    "cloud": "TimeTrack Cloud",
+    "connectedTo": "Forbundet til {host}",
+    "useOwn": "Brug egen server",
+    "switch": "Skift server",
+    "address": "Server-adresse",
+    "placeholder": "https://tid.mitfirma.dk",
+    "hint": "Skift af server logger dig ud og rydder gamle kontodata. Synkroniser ventende registreringer først.",
+    "httpWarning": "HTTP er ukrypteret. Brug kun en lokal udviklingsserver på et netværk, du stoler på. Login og data sendes uden kryptering.",
+    "connect": "Forbind til server",
+    "connecting": "Forbinder…",
+    "useCloud": "Brug TimeTrack Cloud"
+  }
+}

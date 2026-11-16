@@ -1,0 +1,91 @@
+{
+  "loading": "Wczytywanie",
+  "offline": "Offline",
+  "noInternet": "Brak połączenia z internetem",
+  "openApp": "Otwórz TimeTrack",
+  "openAppNewTab": "Otwórz TimeTrack w nowej karcie",
+  "settings": "Ustawienia",
+  "logout": "Wyloguj się",
+  "logoutConfirm": "Wylogować się z TimeTrack?",
+  "todayHours": "Dziś: {duration}",
+  "dailyProgress": "Postęp dnia: dziś {done} z {goal} h",
+  "tabs": {
+    "view": "Widok",
+    "timer": "Stoper",
+    "calendar": "Kalendarz",
+    "history": "Historia",
+    "prepaid": "Pakiety"
+  },
+  "login": {
+    "tagline": "Rejestracja czasu prosto z przeglądarki",
+    "connecting": "Łączenie…",
+    "connect": "Połącz z TimeTrack",
+    "secureHint": "Logujesz się bezpiecznie w nowym oknie. Potem w rozszerzeniu możesz wybrać organizację.",
+    "newHere": "Pierwszy raz w TimeTrack?",
+    "register": "Załóż bezpłatne konto",
+    "advanced": "Zaawansowane: wklej token ręcznie",
+    "tokenLabel": "Token rozszerzenia",
+    "tokenPlaceholder": "Wklej tutaj swój token…",
+    "signingIn": "Logowanie…",
+    "signInToken": "Zaloguj się tokenem",
+    "openSettings": "Otwórz ustawienia w TimeTrack"
+  },
+  "org": {
+    "label": "Organizacja: {name}. Zmień organizację",
+    "none": "nie wybrano",
+    "choose": "Wybierz organizację",
+    "stopFirst": "Zatrzymaj lub zapisz aktywny stoper, zanim zmienisz organizację."
+  },
+  "stopPrompt": {
+    "title": "Nie wybrano klienta",
+    "question": "Nie wybrano klienta. Zapisać jako czas wewnętrzny?",
+    "close": "Zamknij bez zatrzymywania",
+    "pickClient": "Wybierz klienta",
+    "saveInternal": "Zapisz jako czas wewnętrzny"
+  },
+  "sync": {
+    "syncing": "Synchronizowanie…",
+    "pending": "Oczekuje na synchronizację: {count}",
+    "hideDetails": "Ukryj szczegóły",
+    "showDetails": "Pokaż szczegóły",
+    "syncNow": "Synchronizuj teraz",
+    "entry": "Wpis czasu: {description}",
+    "noDescription": "(bez opisu)",
+    "timerUpdate": "Aktualizacja stopera",
+    "timerStop": "Zatrzymanie stopera",
+    "tries": "{count, plural, one {# próba} few {# próby} many {# prób} other {# próby}}"
+  },
+  "mini": {
+    "timerLabel": "Stoper",
+    "goTo": "Przejdź do stopera: {label}",
+    "stop": "Zatrzymaj stoper"
+  },
+  "queryError": {
+    "retry": "Spróbuj ponownie"
+  },
+  "timerError": {
+    "close": "Zamknij komunikat o błędzie"
+  },
+  "update": {
+    "title": "Zaktualizuj rozszerzenie TimeTrack",
+    "body": "Wersja {version} jest zbyt stara, aby zapisywać czas. Aktualizacja pobiera się automatycznie. Jeśli tak się nie stanie, uruchom ponownie przeglądarkę albo otwórz chrome://extensions i kliknij \"Aktualizuj\"."
+  },
+  "idle": {
+    "pausedMessage": "Stoper został wstrzymany o {clock} po {away} bez aktywności",
+    "pausedDetail": "Ten czas bezczynności nie został naliczony.",
+    "resume": "Wznów stoper",
+    "close": "Zamknij",
+    "awayMessage": "Nieobecność trwała {away} (od {clock})",
+    "awayDetail": "Stoper nadal działa. Czy zaliczyć ten czas?",
+    "discard": "Usuń {away}",
+    "keep": "Zachowaj czas"
+  },
+  "confirm": {
+    "cancel": "Anuluj"
+  },
+  "logoutWarnings": {
+    "running": "Stoper działa w TimeTrack nadal, gdy jesteś wylogowany.",
+    "paused": "Wstrzymany stoper pozostaje w TimeTrack.",
+    "queue": "{count, plural, one {# zmiana w kolejce offline nie została} few {# zmiany w kolejce offline nie zostały} many {# zmian w kolejce offline nie zostało} other {# zmiany w kolejce offline nie zostało}} jeszcze wysłane. Zostaną wysłane po ponownym zalogowaniu."
+  }
+}

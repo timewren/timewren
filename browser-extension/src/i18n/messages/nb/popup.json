@@ -1,0 +1,91 @@
+{
+  "loading": "Laster",
+  "offline": "Offline",
+  "noInternet": "Ingen internettforbindelse",
+  "openApp": "Åpne TimeTrack",
+  "openAppNewTab": "Åpne TimeTrack i en ny fane",
+  "settings": "Innstillinger",
+  "logout": "Logg ut",
+  "logoutConfirm": "Logge ut av TimeTrack?",
+  "todayHours": "{duration} i dag",
+  "dailyProgress": "Daglig fremdrift: {done} av {goal} t i dag",
+  "tabs": {
+    "view": "Visning",
+    "timer": "Tidtaker",
+    "calendar": "Kalender",
+    "history": "Historikk",
+    "prepaid": "Klippekort"
+  },
+  "login": {
+    "tagline": "Tidsregistrering rett fra nettleseren",
+    "connecting": "Kobler til…",
+    "connect": "Koble til TimeTrack",
+    "secureHint": "Du logger inn sikkert i et nytt vindu. Etterpå kan du velge organisasjon i utvidelsen.",
+    "newHere": "Ny i TimeTrack?",
+    "register": "Opprett en gratis konto",
+    "advanced": "Avansert: lim inn token manuelt",
+    "tokenLabel": "Utvidelsestoken",
+    "tokenPlaceholder": "Lim inn tokenet ditt her…",
+    "signingIn": "Logger inn…",
+    "signInToken": "Logg inn med token",
+    "openSettings": "Åpne innstillinger i TimeTrack"
+  },
+  "org": {
+    "label": "Organisasjon: {name}. Bytt organisasjon",
+    "none": "ingen valgt",
+    "choose": "Velg organisasjon",
+    "stopFirst": "Stopp eller lagre den aktive tidtakeren før du bytter organisasjon."
+  },
+  "stopPrompt": {
+    "title": "Ingen kunde valgt",
+    "question": "Ingen kunde valgt. Lagre som intern tid?",
+    "close": "Lukk uten å stoppe",
+    "pickClient": "Velg kunde",
+    "saveInternal": "Lagre som intern tid"
+  },
+  "sync": {
+    "syncing": "Synkroniserer…",
+    "pending": "{count} venter på synkronisering",
+    "hideDetails": "Skjul detaljer",
+    "showDetails": "Vis detaljer",
+    "syncNow": "Synkroniser nå",
+    "entry": "Tidsoppføring: {description}",
+    "noDescription": "(ingen beskrivelse)",
+    "timerUpdate": "Tidtakeroppdatering",
+    "timerStop": "Tidtakerstopp",
+    "tries": "{count, plural, one {forsøkt # gang} other {forsøkt # ganger}}"
+  },
+  "mini": {
+    "timerLabel": "Tidtaker",
+    "goTo": "Gå til tidtakeren: {label}",
+    "stop": "Stopp tidtakeren"
+  },
+  "queryError": {
+    "retry": "Prøv igjen"
+  },
+  "timerError": {
+    "close": "Lukk feilmelding"
+  },
+  "update": {
+    "title": "Oppdater TimeTrack-utvidelsen",
+    "body": "Versjon {version} er for gammel til å lagre tid. Oppdateringen lastes ned automatisk. Hvis det ikke skjer, starter du nettleseren på nytt eller åpner chrome://extensions og klikker «Oppdater»."
+  },
+  "idle": {
+    "pausedMessage": "Tidtakeren ble satt på pause kl. {clock} etter {away} uten aktivitet",
+    "pausedDetail": "Den inaktive tiden er ikke regnet med.",
+    "resume": "Fortsett tidtakeren",
+    "close": "Lukk",
+    "awayMessage": "Du var borte i {away} (siden kl. {clock})",
+    "awayDetail": "Tidtakeren kjører fortsatt. Skal tiden telles med?",
+    "discard": "Fjern {away}",
+    "keep": "Behold tiden"
+  },
+  "confirm": {
+    "cancel": "Avbryt"
+  },
+  "logoutWarnings": {
+    "running": "Tidtakeren fortsetter å kjøre i TimeTrack mens du er logget ut.",
+    "paused": "Den pausede tidtakeren blir værende i TimeTrack.",
+    "queue": "{count, plural, one {# endring} other {# endringer}} i offlinekøen er ikke sendt ennå. De sendes når du logger inn igjen."
+  }
+}

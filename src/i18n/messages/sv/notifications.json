@@ -1,0 +1,322 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "Tidrapporter",
+      "description": "Inskickade, godkända, avvisade och återöppnade, samt periodavslut (sammanställning, godkännande, kvittens)"
+    },
+    "absence": {
+      "label": "Ledighet och frånvaro",
+      "description": "Ansökningar, beslut, registreringar och sjukanmälningar"
+    },
+    "reminder": {
+      "label": "Påminnelser",
+      "description": "Fredagspåminnelse när tidrapporten saknas och (valfritt) när gårdagens debiteringsgrad var låg"
+    },
+    "compliance": {
+      "label": "Arbetstidsregler",
+      "description": "Varningar om arbetstidsregler vid inskickning (för chefer)"
+    },
+    "digest": {
+      "label": "Chefsöversikt",
+      "description": "Daglig/veckovis översikt för chefer"
+    }
+  },
+  "channels": {
+    "in_app": "I appen",
+    "email": "E-post",
+    "push": "Push",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "vecka {week}",
+  "periodFrom": "från {date}",
+  "periodRange": "{start} till {end}",
+  "unknown": "Okänd",
+  "duration": {
+    "hm": "{h} h {m} min",
+    "h": "{h} h",
+    "m": "{m} min"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "Tidrapport väntar på godkännande",
+      "body": "{employee} har skickat in en tidrapport för {week} ({hours} timmar)."
+    },
+    "factEmployee": "Anställd",
+    "factWeek": "Vecka",
+    "factHours": "Timmar",
+    "timesheetApproved": {
+      "title": "Tidrapport godkänd",
+      "body": "{manager} har godkänt din tidrapport för {week}."
+    },
+    "timesheetRejected": {
+      "title": "Tidrapport avvisad",
+      "body": "{manager} har avvisat din tidrapport för {week}.",
+      "bodyReason": "{manager} har avvisat din tidrapport för {week}. Orsak: {reason}"
+    },
+    "timesheetReopened": {
+      "title": "Tidrapport återöppnad",
+      "body": "{manager} har återöppnat din tidrapport för {week} för redigering.",
+      "bodyReason": "{manager} har återöppnat din tidrapport för {week} för redigering. Orsak: {reason}"
+    },
+    "closingReady": {
+      "title": "Periodsammanställningar redo för godkännande",
+      "body": "{count, plural, one {Sammanställningen för {period} har skapats för # anställd och väntar på ditt godkännande.} other {Sammanställningarna för {period} har skapats för # anställda och väntar på ditt godkännande.}}"
+    },
+    "factPeriod": "Period",
+    "factStatements": "Sammanställningar",
+    "closingApproved": {
+      "title": "Bekräfta din periodsammanställning",
+      "body": "{manager} har godkänt din sammanställning för {period}. Perioden är nu låst: granska sammanställningen och bekräfta den."
+    },
+    "closingUnlocked": {
+      "title": "Perioden upplåst",
+      "body": "{actor} har låst upp {period}. Orsak: {reason}"
+    },
+    "absenceRequested": {
+      "title": "Frånvaro väntar på godkännande",
+      "body": "{employee} ansöker om {type} {period}."
+    },
+    "factType": "Typ",
+    "absenceApproved": {
+      "title": "Frånvaro godkänd",
+      "body": "{manager} har godkänt din {type} {period}."
+    },
+    "absenceRejected": {
+      "title": "Frånvaro avvisad",
+      "body": "{manager} har avvisat din {type} {period}.",
+      "bodyReason": "{manager} har avvisat din {type} {period}. Orsak: {reason}"
+    },
+    "absenceRegistered": {
+      "title": "Frånvaro registrerad",
+      "body": "{registrar} har registrerat {type} {period}."
+    },
+    "sickRegistered": {
+      "title": "Sjukanmälan",
+      "body": "{employee} har sjukanmält sig {period}."
+    },
+    "timesheetMissing": {
+      "title": "Din tidrapport saknas",
+      "bodyHours": "Du har rapporterat {hours} timmar i {week}, men veckan har inte skickats in ännu.",
+      "bodyNone": "Du har inte rapporterat några timmar i {week} ännu."
+    },
+    "coverageLow": {
+      "title": "Bara {pct} av arbetstiden är loggad",
+      "body": "Du loggade {logged} av {expected} timmar {day} (under din gräns på {threshold} %). Saknas något?"
+    },
+    "factLogged": "Loggat",
+    "factWorkTime": "Arbetstid",
+    "factCoverage": "Täckningsgrad",
+    "hoursShort": "{hours} h",
+    "compliance": {
+      "title": "Varning om arbetstidsregler",
+      "body": "{employee}s tidrapport för {week} utlöser: {findings}"
+    },
+    "factFinding": "Fynd",
+    "digestDaily": "Daglig chefsöversikt",
+    "digestWeekly": "Veckovis chefsöversikt",
+    "digestDailyEsc": "Daglig chefsöversikt (eskalerad)",
+    "digestWeeklyEsc": "Veckovis chefsöversikt (eskalerad)",
+    "digestEmpty": "Inga utestående tidrapporter eller ansökningar.",
+    "digestMissing": "Saknade tidrapporter",
+    "digestPendingTs": "Tidrapporter som väntar på godkännande",
+    "digestPendingAbs": "Frånvaroansökningar som väntar på godkännande",
+    "digestFactAbs": "Frånvaroansökningar",
+    "digestSection": "{label} ({count}):",
+    "digestAge": "({days, plural, one {# dag} other {# dagar}})",
+    "digestMore": "… och {count} till"
+  },
+  "digestItem": {
+    "missing": "tidrapport för {week} ej inskickad",
+    "pendingTs": "{week} väntar på godkännande",
+    "pendingAbs": "{type} {period} väntar på beslut"
+  },
+  "emailOpenIn": "Öppna i {brand}",
+  "emailNoAddress": "Ingen e-postadress",
+  "push": {
+    "open": "Öppna",
+    "dismiss": "Avfärda",
+    "deadlineTitle": "⏰ Påminnelse om deadline",
+    "deadlineBody": "{title}: deadline {when}",
+    "whenDays": "om {days} dagar",
+    "whenTomorrow": "i morgon",
+    "whenHours": "om {hours} timmar",
+    "whenOneHour": "om 1 timme",
+    "whenSoon": "snart",
+    "overdueTitle": "🚨 Uppgift försenad",
+    "overdueBody": "{title} har passerat sin deadline",
+    "digestTitle": "☀️ God morgon!",
+    "digestOverdue": "{overdue} försenade, {tasks} planerade i dag",
+    "digestTasks": "{count, plural, one {# uppgift} other {# uppgifter}} planerade i dag",
+    "digestNone": "Inga uppgifter planerade: njut av dagen!",
+    "testTitle": "🔔 Testavisering",
+    "testBody": "Pushaviseringar är nu aktiverade för {brand}!"
+  },
+  "discord": {
+    "digestTitle": "☀️ God morgon, {name}!",
+    "digestNone": "Du har inga uppgifter planerade i dag. Njut av dagen! 🎉",
+    "digestOverview": "Här är din översikt för i dag:",
+    "todayTasks": "📌 Dagens uppgifter ({count})",
+    "overdueTasks": "🚨 Försenade ({count})",
+    "andMore": "…och {count} till",
+    "status": "📊 Status",
+    "yesterdayTime": "Rapporterad tid i går: {h}h {m}m",
+    "yesterdayDone": "Slutförda uppgifter i går: {count}",
+    "digestFooter": "TimeTrack • Daglig översikt",
+    "testTitle": "Testavisering",
+    "testMessage": "Din Discord-webhook är nu ansluten till TimeTrack! 🎉"
+  },
+  "taskDigestSubject": "Dina uppgifter {date}",
+  "endOfDay": {
+    "titleTracked": "Dagssammanfattning: {hours} rapporterade",
+    "titleNone": "Ingen tid rapporterad i dag",
+    "bodyTracked": "Du har rapporterat {hours} i dag.",
+    "bodyUnbilled": "{hours} har inte fakturerats.",
+    "bodyRevenue": "Beräknad intäkt: {amount} kr.",
+    "bodyNone": "Kom ihåg att rapportera din tid innan dagen är slut.",
+    "footer": "TimeTrack Dagssammanfattning"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "Inaktivitet upptäckt",
+      "message": "Timern går fortfarande efter {minutes} minuters arbete. Du får frågan om tomgångstiden när du är tillbaka."
+    },
+    "invoiceOverdueOne": {
+      "title": "Faktura förfallen",
+      "message": "Faktura {numbers} har passerat sitt förfallodatum."
+    },
+    "invoiceOverdueMany": {
+      "title": "{count} fakturor förfallna",
+      "message": "Fakturorna {numbers} har passerat sitt förfallodatum."
+    },
+    "recurringOne": {
+      "title": "Fakturautkast redo: {name}",
+      "message": "Den återkommande fakturan \"{name}\" ({amount} exkl. moms) har skapats som utkast. Granska och utfärda den när den är klar."
+    },
+    "recurringMany": {
+      "title": "{count} återkommande fakturor redo som utkast",
+      "message": "{list} har skapats som utkast. Granska och utfärda dem när de är klara."
+    },
+    "renewalDraft": {
+      "title": "Fakturautkast redo: timbank \"{name}\"",
+      "message": "Timbanken \"{name}\" har förnyats, och fakturan för den nya perioden har skapats som utkast. Granska och utfärda den när den är klar."
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "Ny användare har registrerat sig",
+      "subscription_started": "Ny betalande prenumerant",
+      "payment_failed": "Betalning misslyckades",
+      "subscription_cancelled": "Prenumeration avslutad",
+      "trial_ending": "Provperioden slutar snart",
+      "user_flagged": "Användare flaggad",
+      "support_ticket": "Nytt supportärende",
+      "webhook_rejected": "Webhook avvisad",
+      "seat_drift": "Platsavvikelse upptäckt",
+      "churn_risk": "Churn-rutin utlöst",
+      "subscription_duplicate": "Möjlig dubblettprenumeration",
+      "feedback_received": "Ny feedback från en användare",
+      "beta_tester_signup": "Ny betatestare för mobilappen"
+    },
+    "sub": {
+      "signup": "Ny användare: {name}",
+      "subscription_started": "Ny prenumerant: {name}",
+      "payment_failed": "Betalning misslyckades: {name}",
+      "subscription_cancelled": "Prenumeration avslutad: {name}",
+      "trial_ending": "Provperioden slutar: {name}",
+      "user_flagged": "Användare flaggad: {name}",
+      "support_ticket": "Supportärende: {name}",
+      "webhook_rejected": "Webhook avvisad",
+      "seat_drift": "Platsavvikelse",
+      "churn_risk": "Risk för churn",
+      "subscription_duplicate": "Möjlig dubblettprenumeration",
+      "feedback_received": "Ny feedback: {name}",
+      "beta_tester_signup": "Ny betatestare: {name}"
+    },
+    "unknownName": "okänd",
+    "fieldName": "Namn",
+    "fieldEmail": "E-post",
+    "fieldPlan": "Plan",
+    "fieldType": "Typ",
+    "fieldDaysLeft": "Dagar kvar",
+    "fieldReason": "Orsak",
+    "fieldTime": "Tid",
+    "seeUser": "Visa användaren i admin",
+    "footer": "TimeTrack Admin",
+    "testTitle": "Test: adminaviseringar",
+    "testBody": "Din Discord-webhook är nu ansluten till TimeTracks adminaviseringar!",
+    "supportReply": "Svar i ärendet: {subject}",
+    "supportNew": "Nytt supportärende: {subject}",
+    "supportNoSubject": "Inget ämne"
+  },
+  "fallbackUser": "användare",
+  "absenceTypeFallback": "Frånvaro",
+  "teams": {
+    "urlTooLong": "Webhook-adressen är för lång",
+    "urlInvalid": "Ogiltig adress",
+    "urlHttps": "Webhook-adressen måste använda https",
+    "urlNotTeams": "Adressen ser inte ut som en Teams-webhook (förväntade *.webhook.office.com, *.logic.azure.com eller *.powerplatform.com)"
+  },
+  "fallbackTaskTitle": "Uppgift från e-post",
+  "deadlines": {
+    "noProject": "Inget projekt",
+    "overdueLine": "• **{title}** ({project}): {days, plural, one {# dag} other {# dagar}} försenad",
+    "overdueTitle": "{count, plural, one {# försenad uppgift} other {# försenade uppgifter}}",
+    "overdueFooter": "TimeTrack Deadlinevarning",
+    "whenToday": "i dag",
+    "whenTomorrow": "i morgon",
+    "whenDays": "om {days} dagar",
+    "upcomingLine": "• **{title}** ({project}): deadline {when}",
+    "upcomingTitle": "{count, plural, one {# uppgift} other {# uppgifter}} med kommande deadline",
+    "upcomingFooter": "TimeTrack Deadlinepåminnelse",
+    "projOverdueTitle": "{count, plural, one {# projekt} other {# projekt}} efter slutdatum",
+    "projOverdueLine": "• **{name}**: slutdatumet passerade för {days, plural, one {# dag} other {# dagar}} sedan",
+    "projSoonTitle": "{count, plural, one {# projekt} other {# projekt}} med kommande slutdatum",
+    "projSoonLine": "• **{name}**: slutar {when}",
+    "projFooter": "TimeTrack Projektslutdatum"
+  },
+  "slack": {
+    "noProject": "Inget projekt",
+    "noClient": "Ingen kund",
+    "project": "Projekt",
+    "client": "Kund",
+    "description": "Beskrivning",
+    "timerStarted": "Timern startad",
+    "startedAtSlack": "Startade kl.",
+    "startedAtDiscord": "Startad",
+    "timerStopped": "Timern stoppad",
+    "duration": "Varaktighet",
+    "durationHM": "{h}h {m}m",
+    "durationM": "{m} minuter",
+    "idleTitle": "Inaktivitet upptäckt",
+    "idleBodySlack": "Du har varit inaktiv i *{minutes} minuter* medan timern går på *{project}*. Kom ihåg att stoppa timern om du tar en paus.",
+    "idleBodyDiscord": "Du har varit inaktiv i **{minutes} minuter** medan timern går på **{project}**. Kom ihåg att stoppa timern om du tar en paus.",
+    "dailyTitle": "Dagssammanfattning: {date}",
+    "totalTime": "Total tid",
+    "totalRevenue": "Totala intäkter",
+    "tasksDone": "Slutförda uppgifter",
+    "projects": "Projekt",
+    "noEntriesToday": "Inga tidposter i dag",
+    "weeklyTitle": "Veckorapport: vecka {week}",
+    "unbilled": "Ofakturerat",
+    "topClients": "Största kunder",
+    "noEntriesWeek": "Inga tidposter den här veckan",
+    "hoursShort": "{hours}h",
+    "minutesShort": "{m}m",
+    "testTitle": "TimeTrack-testmeddelande",
+    "testBodySlack": "Din Slack-integration är korrekt konfigurerad! Du får nu aviseringar från TimeTrack här.",
+    "testBodyDiscord": "Din Discord-integration är korrekt konfigurerad! Du får nu aviseringar från TimeTrack här.",
+    "unbilledReminderTitle": "💰 Ofakturerad tid: {hours} ({value} kr)",
+    "unbilledReminderDiscord": "Du har ofakturerad tid värd **{value} kr**.\n\n{list}",
+    "unbilledReminderSlack": "Du har ofakturerad tid värd *{value} kr*.\n\n{list}",
+    "unbilledReminderLine": "• {name}: {hours}, {value} kr",
+    "unbilledReminderFooter": "TimeTrack Påminnelse om ofakturerat",
+    "aiFocusName": "🎯 Dagens fokus ({count} uppgifter)",
+    "aiWarnings": "⚠️ Varningar",
+    "aiDeferred": "📋 Uppskjutna",
+    "aiDeferredValue": "{count, plural, one {# uppgift rekommenderas} other {# uppgifter rekommenderas}} skjutas upp",
+    "aiGreeting": "God morgon, {name}!",
+    "aiFooter": "TimeTrack AI-förslag",
+    "aiFocusBlock": "🎯 Dagens fokus",
+    "aiWarningsBlock": "⚠️ Varningar"
+  }
+}

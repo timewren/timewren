@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "저장하는 중…",
+    "saved": "저장됨",
+    "blocked": "저장되지 않음: 강조 표시된 항목을 수정하세요",
+    "failed": "저장하지 못했어요",
+    "retry": "다시 시도"
+  },
+  "loading": {
+    "default": "불러오는 중…",
+    "tip": {
+      "search": "알고 계셨나요? Ctrl+K를 누르면 어디서나 검색할 수 있어요",
+      "rightClick": "팁: 작업을 마우스 오른쪽 버튼으로 클릭하면 빠른 동작을 쓸 수 있어요",
+      "templates": "반복 작업에는 템플릿을 사용해 시간을 아끼세요",
+      "kanban": "칸반 보기에서 작업을 열 사이로 끌어 옮길 수 있어요",
+      "timerFromTask": "팁: 작업에서 바로 타이머를 시작할 수 있어요",
+      "prepaid": "선불 패키지로 선불 시간을 한눈에 관리하세요",
+      "duplicate": "선불 패키지는 클릭 한 번으로 복제할 수 있어요",
+      "keys": "J/K 키로 작업 목록을 키보드로 이동하세요"
+    }
+  },
+  "member": {
+    "all": "모든 직원",
+    "selected": "직원 {count}명 선택됨"
+  },
+  "founding": "창립 회원",
+  "status": {
+    "active": "활성",
+    "inactive": "비활성",
+    "pending": "대기 중",
+    "completed": "완료",
+    "archived": "보관됨",
+    "draft": "초안",
+    "sent": "발송됨",
+    "paid": "결제 완료",
+    "overdue": "기한 초과",
+    "on_hold": "보류"
+  },
+  "priority": {
+    "low": "낮음",
+    "medium": "보통",
+    "high": "높음",
+    "urgent": "긴급"
+  },
+  "modal": {
+    "close": "닫기",
+    "confirm": "확인",
+    "cancel": "취소",
+    "wait": "잠시만 기다려 주세요…",
+    "ok": "확인"
+  },
+  "image": {
+    "uploadFailed": "업로드하지 못했어요",
+    "uploaded": "이미지를 업로드했어요",
+    "uploadError": "이미지를 업로드하지 못했어요",
+    "alt": "이미지",
+    "change": "변경",
+    "upload": "업로드",
+    "remove": "제거",
+    "hint": "JPEG, PNG 또는 WebP. 최대 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "네트워크 오류",
+      "message": "서버에 연결하지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요."
+    },
+    "server": {
+      "title": "서버 오류",
+      "message": "서버 오류가 발생했어요. 나중에 다시 시도해 주세요."
+    },
+    "notFound": {
+      "title": "찾을 수 없음",
+      "message": "찾고 있는 항목이 없거나 삭제됐어요."
+    },
+    "permission": {
+      "title": "접근 거부됨",
+      "message": "이 콘텐츠를 볼 권한이 없어요."
+    },
+    "unknown": {
+      "title": "문제가 발생했어요",
+      "message": "예기치 않은 오류가 발생했어요. 페이지를 새로고침해 보세요."
+    },
+    "offline": "오프라인이에요",
+    "connected": "연결됨",
+    "details": "오류 상세 정보",
+    "retrying": "다시 시도하는 중…",
+    "retry": "다시 시도",
+    "loading": "불러오는 중…"
+  },
+  "empty": {
+    "clients": {
+      "title": "아직 클라이언트가 없어요",
+      "description": "첫 클라이언트를 만들어 시작하세요. 연락처, 사업자 등록 번호, 시간당 요금 등을 추가할 수 있어요.",
+      "action": "첫 클라이언트 만들기",
+      "guide": "가이드 읽기"
+    },
+    "projects": {
+      "needClientTitle": "먼저 클라이언트를 만드세요",
+      "needClientDescription": "프로젝트를 만들려면 클라이언트가 한 명 이상 있어야 해요. 프로젝트는 항상 클라이언트에 속해요.",
+      "createClient": "클라이언트 만들기",
+      "title": "아직 프로젝트가 없어요",
+      "description": "첫 프로젝트를 만들어 시간 추적과 클라이언트 청구를 시작하세요. 시간당 요금이나 고정 가격을 선택할 수 있어요.",
+      "action": "프로젝트 만들기",
+      "seeClients": "클라이언트 보기"
+    },
+    "time": {
+      "needProjectTitle": "먼저 프로젝트를 만드세요",
+      "needProjectDescription": "시간을 추적하려면 활성 프로젝트가 하나 이상 있어야 해요. 프로젝트로 작업을 정리하고 청구할 수 있어요.",
+      "createProject": "프로젝트 만들기",
+      "today": "오늘",
+      "title": "{date} 추적한 시간이 없어요",
+      "description": "타이머를 시작하거나 시간 기록을 직접 추가하세요. 정기 작업용 반복 템플릿도 만들 수 있어요.",
+      "startTimer": "타이머 시작",
+      "seeTemplates": "템플릿 보기"
+    },
+    "invoices": {
+      "needTimeTitle": "먼저 시간을 추적하세요",
+      "needTimeDescription": "청구할 미청구 시간이 없어요. 먼저 프로젝트에서 시간을 추적해 보세요.",
+      "trackTime": "시간 추적",
+      "title": "아직 청구서가 없어요",
+      "description": "추적한 시간이나 고정 금액으로 첫 청구서를 만드세요. 청구서 템플릿은 설정에서 사용자 지정할 수 있어요.",
+      "action": "청구서 만들기",
+      "seeUnbilled": "미청구 시간 보기"
+    },
+    "tasks": {
+      "needProjectTitle": "먼저 프로젝트를 만드세요",
+      "needProjectDescription": "작업은 프로젝트에 속해요. 프로젝트를 먼저 만든 다음 작업을 추가하세요.",
+      "createProject": "프로젝트 만들기",
+      "title": "작업이 없어요",
+      "description": "작업과 마감일을 관리하세요. 작업에 우선순위와 기한을 설정할 수 있어요.",
+      "action": "작업 만들기",
+      "seeProjects": "프로젝트 보기"
+    },
+    "prepaid": {
+      "needClientTitle": "먼저 클라이언트를 만드세요",
+      "needClientDescription": "선불 패키지(선불 시간)는 클라이언트에 속해요. 클라이언트를 먼저 만드세요.",
+      "createClient": "클라이언트 만들기",
+      "title": "선불 패키지가 없어요",
+      "description": "선불 패키지는 미리 결제하는 시간 묶음이에요. 정기 클라이언트의 지속적인 지원이나 유지 보수에 잘 맞아요.",
+      "action": "선불 패키지 만들기",
+      "seeClients": "클라이언트 보기"
+    },
+    "reports": {
+      "title": "표시할 데이터가 없어요",
+      "description": "시간을 추적하고 청구서를 만들면 여기에서 보고서와 통계를 볼 수 있어요. 데이터가 많을수록 더 정확한 인사이트를 얻어요.",
+      "action": "시간 추적으로 이동"
+    },
+    "search": {
+      "title": "결과가 없어요",
+      "descriptionQuery": "\"{query}\"와 일치하는 항목을 찾지 못했어요. 다른 검색어를 입력하거나 철자를 확인해 보세요.",
+      "description": "다른 검색어로 찾아 보세요.",
+      "clear": "검색 지우기"
+    },
+    "error": {
+      "title": "문제가 발생했어요",
+      "description": "데이터를 불러오지 못했어요. 다시 시도해 주세요.",
+      "retry": "다시 시도"
+    },
+    "moduleDisabled": {
+      "title": "기능이 꺼져 있어요",
+      "description": "이 모듈은 조직에서 사용하도록 설정되어 있지 않아요. 사용하려면 관리자에게 문의하세요.",
+      "action": "모듈 설정"
+    }
+  },
+  "client": {
+    "placeholder": "클라이언트 선택",
+    "clear": "클라이언트 없음",
+    "selected": "클라이언트 {count}명 선택됨",
+    "searchLabel": "클라이언트 검색",
+    "searchPlaceholder": "클라이언트 검색…",
+    "listLabel": "클라이언트",
+    "none": "클라이언트를 찾을 수 없어요",
+    "frequent": "자주 사용",
+    "all": "모든 클라이언트",
+    "entryCount": "기록 {count}개"
+  },
+  "project": {
+    "placeholder": "프로젝트 선택",
+    "none": "프로젝트 없음",
+    "searchPlaceholder": "프로젝트 또는 클라이언트 검색…",
+    "listLabel": "프로젝트",
+    "recent": "최근 사용",
+    "empty": "프로젝트를 찾을 수 없어요",
+    "noClient": "클라이언트 없음",
+    "unknownClient": "알 수 없는 클라이언트"
+  },
+  "task": {
+    "placeholder": "작업 선택",
+    "searchPlaceholder": "작업, 프로젝트 또는 클라이언트 검색…",
+    "none": "작업 없음",
+    "inProgress": "진행 중",
+    "todo": "할 일",
+    "backlog": "백로그",
+    "other": "기타",
+    "noMatch": "작업을 찾을 수 없어요",
+    "noActive": "활성 작업이 없어요",
+    "showMoreBacklog": "백로그 작업 {count}개 더 보기"
+  }
+}

@@ -1,0 +1,24 @@
+minimumReleaseAgeExcludePrune: true
+
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - semver
+  - ua-parser-js
+
+shellEmulator: true
+
+# Sikkerheds-overrides for transitive pakker (pnpm læser overrides herfra, ikke fra package.json).
+overrides:
+  '@xmldom/xmldom@0.8': ^0.8.15
+  '@xmldom/xmldom@0.9': ^0.9.12
+  brace-expansion@1: ^1.1.18
+  brace-expansion@2: ^2.1.4
+  brace-expansion@5: ^5.0.9
+  browserslist: ^4.28.8
+  fast-uri@3: ^3.1.7
+  js-yaml@3: ^3.15.2
+  js-yaml@4: ^4.3.2
+  nanoid@3: ^3.3.18
+  postcss@8: ^8.5.26
+  tar@7: ^7.5.22
+  undici@6: ^6.28.0

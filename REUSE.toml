@@ -1,0 +1,14 @@
+version = 1
+
+# Bulk SPDX metadata for first-party code. Third-party notices take precedence.
+[[annotations]]
+path = ["src/**", "tests/**", "scripts/**", "cron/**", "drizzle/**", "integrations/**", "*.ts", "*.mjs", "Dockerfile", "docker-compose*.yml"]
+precedence = "closest"
+SPDX-FileCopyrightText = "2025-present Mahope"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["browser-extension/src/**", "browser-extension/scripts/**", "browser-extension/*.ts", "browser-extension/*.js", "browser-extension/*.mjs", "browser-extension/*.json"]
+precedence = "closest"
+SPDX-FileCopyrightText = "2025-present Mahope"
+SPDX-License-Identifier = "MIT"

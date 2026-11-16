@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS "invoices_related_credit_note_unique" ON "invoices" USING btree ("related_invoice_id") WHERE kind = 'credit_note';

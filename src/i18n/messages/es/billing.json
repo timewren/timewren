@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "El plan gratuito admite 3 clientes activos. Archiva un cliente o consulta los planes.",
+    "seePlans": "Ver planes"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Todo sin facturar",
+      "periodThisMonth": "Este mes",
+      "periodLastMonth": "Mes pasado",
+      "draftCreated": "Borrador de factura creado por {amount}",
+      "createFailed": "No se pudo crear el borrador de factura",
+      "clientFallback": "el cliente",
+      "title": "Facturar a {name}",
+      "description": "Crea un borrador que puedes revisar. No se envía nada al cliente.",
+      "period": "Periodo",
+      "loadError": "No se pudo cargar el tiempo sin facturar. Inténtalo de nuevo en un momento.",
+      "noUnbilled": "Sin tiempo sin facturar de {name} en el periodo.",
+      "entries": "Registros",
+      "time": "Tiempo",
+      "amountExVat": "Importe sin IVA",
+      "timePerProject": "Tiempo por proyecto",
+      "project": "Proyecto",
+      "amount": "Importe",
+      "entryCount": "{count, plural, one {# registro} other {# registros}}",
+      "noRate": "{time} no tiene tarifa por hora y se incluye con 0 kr. Puedes corregir el importe en el borrador.",
+      "footnote": "Los registros se marcan como facturados y se detallan en el borrador. Puedes eliminar el borrador y el tiempo vuelve a quedar sin facturar.",
+      "pickEntries": "Elegir los registros tú mismo",
+      "cancel": "Cancelar",
+      "createDraft": "Crear borrador de factura",
+      "createDraftAmount": "Crear borrador de factura ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# día desde la última factura} other {# días desde la última factura}}",
+      "oldestEntry": "{count, plural, one {el registro más antiguo tiene # día} other {el registro más antiguo tiene # días}}",
+      "ready": "Listo para facturar",
+      "notInvoiced": "no se ha facturado",
+      "notInvoicedClient": "de {client} no se ha facturado",
+      "invoiceNow": "Facturar ahora",
+      "hide": "Ocultar durante 30 días"
+    },
+    "explainer": {
+      "point1": "El cliente paga las horas por adelantado, así que te ahorras enviar facturas y recordatorios después.",
+      "point2": "Cuando registras tiempo para el cliente, se descuenta automáticamente del bono.",
+      "point3": "El cliente puede consultar el saldo en el portal de clientes y tú recibes un aviso cuando el bono se está agotando.",
+      "title": "Vende horas por adelantado con bonos de horas",
+      "intro": "Un bono de horas es un paquete de horas que el cliente compra por adelantado, p. ej. 10 horas para tareas fijas y soporte.",
+      "create": "Crear bono de horas",
+      "calculator": "Calcula el precio con la calculadora"
+    },
+    "prepaid": {
+      "offer": "Vende un bono de {hours} horas. Dura unos {months} meses y el cliente paga por adelantado.",
+      "offerPrice": "Vende un bono de {hours} horas ({price}). Dura unos {months} meses y el cliente paga por adelantado.",
+      "sell": "Vender un bono de horas",
+      "dismissLabel": "No es relevante para {client}. No volver a mostrar",
+      "dismissTitle": "No es relevante. No volver a mostrar para este cliente",
+      "suggestionLabel": "Sugerencias de bonos de horas",
+      "defaultName": "Bono de horas {hours} horas",
+      "usageClient": "<name>{client}</name> ha tenido unas <num>{time}</num> al mes durante los últimos 3 meses.",
+      "usageGeneric": "El cliente ha tenido unas <num>{time}</num> al mes durante los últimos 3 meses."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "En pausa",
+      "paymentMissing": "Falta el pago",
+      "active": "Activa",
+      "paymentFailedRetry": "{store} no pudo cobrar el pago. Actualiza el método de pago en {store}. Hasta que el pago se complete, tienes acceso como en el plan gratuito.",
+      "paymentFailedGrace": "{store} no pudo cobrar el pago. Actualiza el método de pago en {store} para conservar el acceso.",
+      "currentPlan": "Plan actual",
+      "yearly": "Anual",
+      "monthly": "Mensual",
+      "boughtVia": "Comprado a través de {store}",
+      "expires": "Caduca el {date}",
+      "renews": "Se renueva el {date}",
+      "paymentTitle": "Pago",
+      "paymentInfo": "Compraste la suscripción en la app de {brand}, así que {store} gestiona el pago y los recibos. Cambia de plan, de método de pago o cancela la suscripción en {store}.",
+      "manage": "Gestionar en {store}"
+    },
+    "wall": {
+      "checkoutFailed": "No se pudo crear la sesión de pago. Inténtalo de nuevo.",
+      "portalFailed": "No se pudo abrir el portal de pagos. Inténtalo de nuevo.",
+      "headingNone": "No tienes una suscripción activa",
+      "headingLocked": "Tu acceso está en pausa",
+      "headingPastDue": "Falta tu pago",
+      "headingCanceled": "Tu suscripción ha terminado",
+      "headingTrial": "Tu periodo de prueba ha terminado",
+      "subNone": "Crea una suscripción para usar {brand}",
+      "subPastDue": "Actualiza tu método de pago para recuperar el acceso",
+      "subUpgrade": "Mejora a {plan} para continuar",
+      "pastDueBody": "No pudimos cobrar tu último pago. Actualiza tu método de pago para seguir usando {brand}.",
+      "updatePayment": "Actualizar método de pago",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "save17": "Ahorra un 17 %",
+      "perYearExVat": "/año sin IVA",
+      "perMonthExVat": "/mes sin IVA",
+      "equivalent": "Equivale a {price}/mes, así que ahorras 2 meses",
+      "featureWorkspace": "Espacio de trabajo de equipo compartido con varios usuarios",
+      "featureTeamReports": "Informes de equipo",
+      "featureUnlimited": "Registro de horas ilimitado",
+      "featureInvoicing": "Bonos de horas y facturación",
+      "featureManagement": "Gestión de clientes y proyectos",
+      "featureReports": "Informes y exportación",
+      "featureIntegrations": "Integraciones danesas (CVR, Billy y otras)",
+      "upgradeNow": "Mejorar ahora",
+      "discountNote": "El pago muestra el precio estándar. Tu descuento del {percent} % se aplica automáticamente.",
+      "manageAccount": "Administrar cuenta",
+      "exportData": "Exportar datos",
+      "signOut": "Cerrar sesión"
+    }
+  }
+}

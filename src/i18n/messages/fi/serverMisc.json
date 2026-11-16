@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Lasku (oletus)",
+        "subject": "Lasku {number}, {company}",
+        "title": "Lasku {number}",
+        "text": "Hyvä {client},\n\nLiitteenä on lasku tehdystä työstä.\n\nSumma: {amount}\nEräpäivä: {dueDate}",
+        "button": "Näytä lasku",
+        "footer": "Ystävällisin terveisin\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Portaalikutsu",
+        "subject": "Sinut on kutsuttu yrityksen {company} asiakasportaaliin",
+        "title": "Tervetuloa asiakasportaaliin",
+        "text": "Hyvä {client},\n\nSinut on kutsuttu käyttämään omaa asiakasportaaliasi yrityksessä {company}.\n\nPortaalissa voi:\n• nähdä laskut\n• seurata projektin etenemistä\n• nähdä tuntikirjaukset\n• tarkistaa tuntipaketin tilanteen",
+        "button": "Hyväksy kutsu"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Et enää saa TimeTrackin uutiskirjeitä ja markkinointisähköposteja. Tärkeät tiliä ja tietoturvaa koskevat viestit saavuttavat sinut edelleen.",
+    "invalidText": "Tilauksen perumista ei voitu vahvistaa. Yritä uudelleen tai muuta asetuksia TimeTrackin sisällä.",
+    "confirmText": "Haluatko perua TimeTrackin uutiskirjeiden ja markkinointisähköpostien tilauksen? Tärkeät tiliä ja tietoturvaa koskevat viestit saavuttavat sinut edelleen.",
+    "settingsButton": "Muuta sähköpostiasetuksia",
+    "confirmButton": "Vahvista peruutus",
+    "doneTitle": "Tilaus on peruttu",
+    "invalidTitle": "Linkki ei kelpaa",
+    "confirmTitle": "Peru uutiskirjeiden tilaus"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "jakson loppu"
+  }
+}

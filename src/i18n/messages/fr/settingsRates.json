@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Historique des taux",
+    "empty": "Aucun changement de taux pour l'instant. Les modifications du taux horaire sont consignées ici",
+    "effectiveFrom": "En vigueur à partir du {date}",
+    "planned": "Planifié",
+    "noRate": "Aucun taux",
+    "typeGlobal": "Global",
+    "typeClient": "Client",
+    "typeProject": "Projet"
+  },
+  "schedule": {
+    "toastScheduled": "Nouveau taux horaire planifié à partir du {date}",
+    "restamped": "{count, plural, =0 {Aucune saisie existante ne nécessitait le nouveau taux horaire} one {# saisie non facturée a reçu le nouveau taux horaire} many {# de saisies non facturées ont reçu le nouveau taux horaire} other {# saisies non facturées ont reçu le nouveau taux horaire}}",
+    "scheduleFailed": "Impossible de planifier le taux horaire",
+    "cancelled": "Taux horaire planifié annulé",
+    "cancelledRestamped": "{count, plural, one {# saisie a retrouvé l'ancien taux horaire} many {# de saisies ont retrouvé l'ancien taux horaire} other {# saisies ont retrouvé l'ancien taux horaire}}",
+    "cancelFailed": "Impossible d'annuler",
+    "invalidRate": "Saisissez un taux horaire valide",
+    "missingDate": "Choisissez la date d'application du taux",
+    "title": "Planifier un nouveau taux horaire",
+    "current": "Actuel : {rate} kr/heure",
+    "rateLabel": "Nouveau taux horaire (kr)",
+    "dateLabel": "En vigueur à partir du",
+    "submit": "Planifier",
+    "help": "Le temps daté à partir de cette date reçoit le nouveau taux, même s'il est saisi plus tard. Le temps antérieur garde l'ancien taux. Les saisies non facturées à partir de cette date sont mises à jour immédiatement.",
+    "ratePerHour": "{rate} kr/heure",
+    "fromDate": "à partir du {date}",
+    "takesEffectTonight": "prend effet ce soir",
+    "cancel": "Annuler"
+  }
+}

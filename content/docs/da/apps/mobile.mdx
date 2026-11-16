@@ -1,0 +1,34 @@
+---
+title: "Mobilapp"
+description: "TimeWrens mobilapp, og hvad din selvhostede server leverer til den: enhedslogin, push-notifikationer og mindste versioner."
+---
+
+Mobilappen er en native app, der bruger Expo. Den bygges og udgives fra sit eget repository, adskilt fra serveren, og den logger ind på den samme konto som webappen.
+
+Siden her handler om, hvad din server leverer til den. Hvordan appens serveradresse indtastes, og hvor appen distribueres, bestemmes ikke af serveren og er beskrevet i appens egen dokumentation.
+
+## Login
+
+Appen bruger det samme enhedslogin som desktop-appen: Den åbner din instans i browseren, du logger ind og godkender enheden, og browseren vender tilbage til appen via deep linket `timetrack://auth/callback`. Access tokenet holder i 30 dage og fornyes med et refresh token (180 dage), så du sjældent skal logge ind igen. Appen kan også bruge de OAuth-udbydere og den Log ind med Apple, du konfigurerer, se [Godkendelse](/da/docs/configuration/authentication).
+
+Serveren stoler automatisk på app-skemaerne `timetrack://` og `timetrack.preview://`. Du behøver ikke føje dem til `TRUSTED_ORIGINS`.
+
+Til native Log ind med Apple sætter du `APPLE_APP_BUNDLE_IDENTIFIER` til bundle-id'et for det app-build, du bruger (standard `dk.timetrack.app`), sammen med de øvrige Apple-variabler.
+
+## Push-notifikationer
+
+Serveren sender push-beskeder til appen via Expo. For at notifikationer virker, skal serveren have et Expo-adgangstoken:
+
+```dotenv
+EXPO_ACCESS_TOKEN=your-expo-access-token
+```
+
+Web Push til browsere og PWA'en er noget separat og bruger VAPID-nøglerne. Begge dele er valgfrie.
+
+## Mindste versioner
+
+Driftsansvarlige kan kræve et mindste build med `MIN_CLIENT_VERSIONS`, for eksempel `mobile=1.0.0+5`. Appen skal sende et numerisk build efter plustegnet, for at det kan afgøres. Se [Desktop-app](/da/docs/apps/desktop) for formatet.
+
+## Administrér enheder
+
+Enheder, der er logget ind, vises som tokens under Indstillinger, Integrationer med enhedsnavn og seneste brug. Tilbagekald et token for at logge den enhed ud.

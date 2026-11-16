@@ -1,0 +1,91 @@
+{
+  "loading": "Načítání",
+  "offline": "Offline",
+  "noInternet": "Bez připojení k internetu",
+  "openApp": "Otevřít TimeTrack",
+  "openAppNewTab": "Otevřít TimeTrack na nové kartě",
+  "settings": "Nastavení",
+  "logout": "Odhlásit se",
+  "logoutConfirm": "Odhlásit se z TimeTrack?",
+  "todayHours": "Dnes {duration}",
+  "dailyProgress": "Denní postup: dnes {done} z {goal} h",
+  "tabs": {
+    "view": "Zobrazení",
+    "timer": "Stopky",
+    "calendar": "Kalendář",
+    "history": "Historie",
+    "prepaid": "Balíčky"
+  },
+  "login": {
+    "tagline": "Evidence času přímo z prohlížeče",
+    "connecting": "Připojování…",
+    "connect": "Připojit k TimeTrack",
+    "secureHint": "Přihlásíš se bezpečně v novém okně. Poté můžeš v rozšíření vybrat organizaci.",
+    "newHere": "Jsi v TimeTrack nově?",
+    "register": "Vytvořit účet zdarma",
+    "advanced": "Pokročilé: vložit token ručně",
+    "tokenLabel": "Token rozšíření",
+    "tokenPlaceholder": "Sem vlož svůj token…",
+    "signingIn": "Přihlašování…",
+    "signInToken": "Přihlásit se tokenem",
+    "openSettings": "Otevřít nastavení v TimeTrack"
+  },
+  "org": {
+    "label": "Organizace: {name}. Změnit organizaci",
+    "none": "nevybrána",
+    "choose": "Vybrat organizaci",
+    "stopFirst": "Před změnou organizace zastav nebo ulož aktivní stopky."
+  },
+  "stopPrompt": {
+    "title": "Není vybrán klient",
+    "question": "Není vybrán klient. Uložit jako interní čas?",
+    "close": "Zavřít bez zastavení",
+    "pickClient": "Vybrat klienta",
+    "saveInternal": "Uložit jako interní čas"
+  },
+  "sync": {
+    "syncing": "Synchronizace…",
+    "pending": "Čeká na synchronizaci: {count}",
+    "hideDetails": "Skrýt detaily",
+    "showDetails": "Zobrazit detaily",
+    "syncNow": "Synchronizovat teď",
+    "entry": "Záznam času: {description}",
+    "noDescription": "(bez popisu)",
+    "timerUpdate": "Aktualizace stopek",
+    "timerStop": "Zastavení stopek",
+    "tries": "{count, plural, one {# pokus} few {# pokusy} many {# pokusu} other {# pokusů}}"
+  },
+  "mini": {
+    "timerLabel": "Stopky",
+    "goTo": "Přejít na stopky: {label}",
+    "stop": "Zastavit stopky"
+  },
+  "queryError": {
+    "retry": "Zkusit znovu"
+  },
+  "timerError": {
+    "close": "Zavřít chybovou zprávu"
+  },
+  "update": {
+    "title": "Aktualizuj rozšíření TimeTrack",
+    "body": "Verze {version} je příliš stará na ukládání času. Aktualizace se stáhne automaticky. Pokud se tak nestane, restartuj prohlížeč nebo otevři chrome://extensions a klikni na „Aktualizovat“."
+  },
+  "idle": {
+    "pausedMessage": "Stopky byly pozastaveny v {clock} po {away} bez aktivity",
+    "pausedDetail": "Tato nečinnost se nepočítá.",
+    "resume": "Obnovit stopky",
+    "close": "Zavřít",
+    "awayMessage": "Nebyla zjištěna aktivita {away} (od {clock})",
+    "awayDetail": "Stopky stále běží. Má se čas započítat?",
+    "discard": "Odebrat {away}",
+    "keep": "Ponechat čas"
+  },
+  "confirm": {
+    "cancel": "Zrušit"
+  },
+  "logoutWarnings": {
+    "running": "Stopky v TimeTrack běží dál i po odhlášení.",
+    "paused": "Pozastavené stopky zůstávají v TimeTrack.",
+    "queue": "{count, plural, one {# změna} few {# změny} many {# změny} other {# změn}} ve frontě offline ještě nebyla odeslána. Odešlou se po dalším přihlášení."
+  }
+}

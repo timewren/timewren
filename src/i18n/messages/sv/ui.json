@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Sparar …",
+    "saved": "Sparat",
+    "blocked": "Inte sparat: rätta det markerade fältet",
+    "failed": "Kunde inte spara",
+    "retry": "Försök igen"
+  },
+  "loading": {
+    "default": "Laddar...",
+    "tip": {
+      "search": "Visste du att? Du kan trycka på Ctrl+K för att söka överallt",
+      "rightClick": "Tips: Högerklicka på en uppgift för snabbåtgärder",
+      "templates": "Använd mallar för återkommande uppgifter och spara tid",
+      "kanban": "Du kan dra uppgifter mellan kolumner i kanbanvyn",
+      "timerFromTask": "Tips: Starta en timer direkt från en uppgift",
+      "prepaid": "Timbanker hjälper dig att hålla koll på förbetalda timmar",
+      "duplicate": "Du kan duplicera timbanker med ett klick",
+      "keys": "Använd J/K för att flytta dig i uppgiftslistan med tangentbordet"
+    }
+  },
+  "member": {
+    "all": "Alla anställda",
+    "selected": "{count} anställda valda"
+  },
+  "founding": "Grundare",
+  "status": {
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "pending": "Väntande",
+    "completed": "Slutförd",
+    "archived": "Arkiverad",
+    "draft": "Utkast",
+    "sent": "Skickad",
+    "paid": "Betald",
+    "overdue": "Förfallen",
+    "on_hold": "Pausad"
+  },
+  "priority": {
+    "low": "Låg",
+    "medium": "Normal",
+    "high": "Hög",
+    "urgent": "Kritisk"
+  },
+  "modal": {
+    "close": "Stäng",
+    "confirm": "Bekräfta",
+    "cancel": "Avbryt",
+    "wait": "Vänta...",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Uppladdningen misslyckades",
+    "uploaded": "Bilden laddades upp",
+    "uploadError": "Kunde inte ladda upp bilden",
+    "alt": "Bild",
+    "change": "Byt",
+    "upload": "Ladda upp",
+    "remove": "Ta bort",
+    "hint": "JPEG, PNG eller WebP. Max 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Nätverksfel",
+      "message": "Kunde inte ansluta till servern. Kontrollera din internetanslutning och försök igen."
+    },
+    "server": {
+      "title": "Serverfel",
+      "message": "Ett serverfel inträffade. Försök igen senare."
+    },
+    "notFound": {
+      "title": "Hittades inte",
+      "message": "Resursen du söker finns inte eller har tagits bort."
+    },
+    "permission": {
+      "title": "Åtkomst nekad",
+      "message": "Du har inte behörighet att se det här innehållet."
+    },
+    "unknown": {
+      "title": "Något gick fel",
+      "message": "Ett oväntat fel inträffade. Försök ladda om sidan."
+    },
+    "offline": "Du är offline",
+    "connected": "Ansluten",
+    "details": "Felinformation",
+    "retrying": "Försöker igen...",
+    "retry": "Försök igen",
+    "loading": "Laddar..."
+  },
+  "empty": {
+    "clients": {
+      "title": "Inga kunder ännu",
+      "description": "Börja med att skapa din första kund. Du kan lägga till kontaktuppgifter, organisationsnummer, timpris och mer.",
+      "action": "Skapa din första kund",
+      "guide": "Läs guiden"
+    },
+    "projects": {
+      "needClientTitle": "Skapa en kund först",
+      "needClientDescription": "Du behöver minst en kund innan du kan skapa projekt. Projekt hör alltid till en kund.",
+      "createClient": "Skapa kund",
+      "title": "Inga projekt ännu",
+      "description": "Skapa ditt första projekt för att börja registrera tid och fakturera dina kunder. Du kan välja ett timpris eller ett fast pris.",
+      "action": "Skapa projekt",
+      "seeClients": "Visa kunder"
+    },
+    "time": {
+      "needProjectTitle": "Skapa ett projekt först",
+      "needProjectDescription": "Du behöver minst ett aktivt projekt för att registrera tid. Projekt hjälper dig att organisera och fakturera ditt arbete.",
+      "createProject": "Skapa projekt",
+      "today": "i dag",
+      "title": "Ingen tid registrerad {date}",
+      "description": "Starta timern eller lägg till en tidpost manuellt. Du kan också skapa återkommande mallar för regelbundna uppgifter.",
+      "startTimer": "Starta timer",
+      "seeTemplates": "Visa mallar"
+    },
+    "invoices": {
+      "needTimeTitle": "Registrera tid först",
+      "needTimeDescription": "Du har ingen ofakturerad tid att fakturera. Börja med att registrera tid på dina projekt.",
+      "trackTime": "Registrera tid",
+      "title": "Inga fakturor ännu",
+      "description": "Skapa din första faktura utifrån registrerad tid eller fasta belopp. Du kan anpassa fakturamallar i inställningarna.",
+      "action": "Skapa faktura",
+      "seeUnbilled": "Visa ofakturerad tid"
+    },
+    "tasks": {
+      "needProjectTitle": "Skapa ett projekt först",
+      "needProjectDescription": "Uppgifter hör till projekt. Skapa först ett projekt, sedan kan du lägga till uppgifter.",
+      "createProject": "Skapa projekt",
+      "title": "Inga uppgifter",
+      "description": "Håll koll på dina uppgifter och deadlines. Du kan prioritera uppgifter och ange förfallodatum.",
+      "action": "Skapa uppgift",
+      "seeProjects": "Visa projekt"
+    },
+    "prepaid": {
+      "needClientTitle": "Skapa en kund först",
+      "needClientDescription": "Timbanker (förbetalda timmar) hör till kunder. Skapa först en kund.",
+      "createClient": "Skapa kund",
+      "title": "Inga timbanker",
+      "description": "Timbanker är block av timmar som betalas i förväg. Perfekt för löpande support eller underhåll åt stamkunder.",
+      "action": "Skapa timbank",
+      "seeClients": "Visa kunder"
+    },
+    "reports": {
+      "title": "Inga data att visa",
+      "description": "Registrera tid och skapa fakturor för att se dina rapporter och din statistik här. Ju mer data, desto bättre insikt.",
+      "action": "Gå till tidrapportering"
+    },
+    "search": {
+      "title": "Inga resultat",
+      "descriptionQuery": "Vi hittade inget som matchar \"{query}\". Prova en annan sökterm eller kontrollera stavningen.",
+      "description": "Prova att söka efter något annat.",
+      "clear": "Rensa sökningen"
+    },
+    "error": {
+      "title": "Något gick fel",
+      "description": "Vi kunde inte ladda data. Försök igen.",
+      "retry": "Försök igen"
+    },
+    "moduleDisabled": {
+      "title": "Funktionen är avstängd",
+      "description": "Den här modulen är inte aktiverad för din organisation. Kontakta din administratör om du vill använda den.",
+      "action": "Modulinställningar"
+    }
+  },
+  "client": {
+    "placeholder": "Välj kund",
+    "clear": "Ingen kund",
+    "selected": "{count} kunder valda",
+    "searchLabel": "Sök bland kunder",
+    "searchPlaceholder": "Sök kunder...",
+    "listLabel": "Kunder",
+    "none": "Inga kunder hittades",
+    "frequent": "Ofta använda",
+    "all": "Alla kunder",
+    "entryCount": "{count} tidposter"
+  },
+  "project": {
+    "placeholder": "Välj projekt",
+    "none": "Inget projekt",
+    "searchPlaceholder": "Sök projekt eller kund...",
+    "listLabel": "Projekt",
+    "recent": "Senast använda",
+    "empty": "Inga projekt hittades",
+    "noClient": "Ingen kund",
+    "unknownClient": "Okänd kund"
+  },
+  "task": {
+    "placeholder": "Välj uppgift",
+    "searchPlaceholder": "Sök uppgift, projekt eller kund...",
+    "none": "Ingen uppgift",
+    "inProgress": "Pågår",
+    "todo": "Att göra",
+    "backlog": "Backlogg",
+    "other": "Övrigt",
+    "noMatch": "Inga uppgifter hittades",
+    "noActive": "Inga aktiva uppgifter",
+    "showMoreBacklog": "Visa {count} fler uppgifter i backloggen"
+  }
+}

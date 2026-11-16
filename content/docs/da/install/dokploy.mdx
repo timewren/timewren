@@ -1,0 +1,56 @@
+---
+title: "Dokploy"
+description: "Deploy TimeWren på Dokploy fra en brugerdefineret skabelon med et genereret domæne, fire genererede hemmeligheder og navngivne volumes."
+---
+
+Vælg denne metode, hvis du allerede kører Dokploy. Skabelonen henter det udgivne image og genererer alle hemmeligheder.
+
+## Krav
+
+- En kørende Dokploy-instans med en server og et domæne.
+- Filerne fra `deploy/dokploy/` i repositoryet: `docker-compose.yml` og `template.toml`.
+
+> **Bemærk:** Skabelonen er ikke indsendt til Dokploys skabelonbibliotek, så den står ikke i kataloget. Du importerer den selv som en brugerdefineret skabelon.
+
+## Deploy
+
+1. Hent de to filer:
+
+   ```bash
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/deploy/dokploy/docker-compose.yml
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/deploy/dokploy/template.toml
+   ```
+
+2. Importér dem i Dokploy som en brugerdefineret skabelon (Compose og TOML).
+3. Gennemgå det genererede domæne, eller erstat det med dit eget, og deploy derefter.
+
+## Hvad skabelonen sætter
+
+`template.toml` genererer et domæne og fire uafhængige hexadecimale hemmeligheder på 64 tegn og sender domænet videre til `app`-servicen på port 3000:
+
+| Variabel | Værdi |
+| -------- | ----- |
+| `NEXT_PUBLIC_APP_URL` | `https://` plus det genererede domæne |
+| `POSTGRES_PASSWORD` | genereret |
+| `BETTER_AUTH_SECRET` | genereret |
+| `ENCRYPTION_KEY` | genereret, 64 hex-tegn |
+| `CRON_SECRET` | genereret |
+
+PostgreSQL-data og uploads ligger i navngivne volumes; skabelonen definerer ingen mounts på værten (`mounts = []`). `app` og scheduleren henter det samme image, og migreringer kører, når appen starter. Sæt `TIMEWREN_VERSION` for at låse begge services fast til en udgivelse.
+
+Valgfrie variabler til mail, S3 og integrationer er eksponeret i Compose-filen og bruger navnene fra `.env.example`. Se [Miljøvariabler](/da/docs/configuration/environment).
+
+## Opret din konto først
+
+Den første konto bliver administrator. Registrér dig med det samme, eller sæt `ADMIN_EMAIL` og en mailtransport, før du gør URL'en tilgængelig.
+
+## Backup
+
+Tag backup af begge volumes og `ENCRYPTION_KEY`.
+
+## Næste skridt
+
+- [Kom godt i gang](/da/docs/quickstart)
+- [E-mail](/da/docs/configuration/email)
+- [Opgradering](/da/docs/operations/upgrading) og [Backup og gendannelse](/da/docs/operations/backup-restore)
+- [Fejlfinding](/da/docs/operations/troubleshooting)

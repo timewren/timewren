@@ -1,0 +1,67 @@
+{
+  "hourUnit": "時間",
+  "headline": {
+    "untilToday": "今日まで {expected} 中 {logged}",
+    "noWorkTimeYet": "この期間の勤務時間はまだありません",
+    "of": "{expected} 中 {logged}",
+    "noWorkTime": "この期間に勤務時間はありません"
+  },
+  "week": "第{week}週（{start}〜{end}）",
+  "period": {
+    "day": "日",
+    "week": "週",
+    "month": "月"
+  },
+  "bar": {
+    "label": "勤務時間 {expected} のうち、請求対象 {billable}、請求対象外 {nonBillable}",
+    "billable": "請求対象",
+    "nonBillable": "請求対象外",
+    "notLogged": "未記録"
+  },
+  "table": {
+    "client": "クライアント",
+    "billable": "請求対象",
+    "nonBillableShort": "対象外",
+    "share": "割合",
+    "ratio": "請求1時間あたりの対象外",
+    "ratioTitle": "請求した1時間あたりの請求対象外の時間",
+    "onlyNonBillable": "対象外のみ"
+  },
+  "strip": {
+    "title": "カバー率",
+    "summary": "請求対象 <n>{billable}</n> · 請求対象外 <n>{nonBillable}</n>",
+    "summaryRatio": "請求対象 <n>{billable}</n> · 請求対象外 <n>{nonBillable}</n> · 請求1時間あたり <n>{ratio}</n>",
+    "perClient": "クライアント別"
+  },
+  "page": {
+    "back": "レポート",
+    "title": "カバー率",
+    "description": "勤務時間のうちどれだけ記録され、どこに使われているか",
+    "periodAria": "期間",
+    "prev": "前の期間",
+    "next": "次の期間",
+    "today": "今日",
+    "workTime": "勤務時間: 週{hours}",
+    "workTimeHr": "勤務時間: 週{hours}（人事情報より）",
+    "edit": "編集",
+    "loadError": "カバー率を取得できませんでした。",
+    "retry": "再試行",
+    "statCoverage": "カバー率",
+    "statBillable": "請求対象",
+    "statNonBillable": "請求対象外",
+    "statRatio": "請求1時間あたりの対象外",
+    "ofWorkTime": "勤務時間の {pct}",
+    "noTimeLogged": "記録された時間はありません",
+    "shareBilled": "記録時間の {pct} を請求済み",
+    "perClient": "クライアント別",
+    "noTimeInPeriod": "この期間に記録された時間はありません。",
+    "logTime": "時間を記録",
+    "perDay": "日別",
+    "colDate": "日付",
+    "colWorkTime": "勤務時間",
+    "colLogged": "記録済み",
+    "colBillable": "うち請求対象",
+    "colCoverage": "カバー率",
+    "footnote": "カバー率 = 記録時間 ÷ 通常の勤務時間。祝日と不在は勤務時間から差し引かれません。クライアントのない時間は社内時間として表示されます。"
+  }
+}

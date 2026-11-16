@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "{brand}-kirjautumislinkkisi on voimassa 15 minuuttia",
+    "kicker": "Kirjaudu",
+    "heading": "Kirjaudu sisään: {brand}",
+    "footerNote": "Saat tämän viestin, koska joku pyysi kirjautumislinkkiä osoitteeseesi.",
+    "body": "Kirjaudu sisään painamalla painiketta. Linkki on voimassa 15 minuuttia, ja sen voi käyttää vain kerran.",
+    "button": "Kirjaudu sisään: {brand}",
+    "ignore": "Jos et pyytänyt kirjautumista, voit ohittaa tämän viestin. Mitään ei tapahdu ilman klikkaustasi.",
+    "subject": "Kirjaudu sisään: TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "Palauta {brand}-salasanasi",
+    "kicker": "Tietoturva",
+    "heading": "Palauta salasanasi",
+    "footerNote": "Saat tämän viestin, koska tilillesi pyydettiin uutta salasanaa.",
+    "greeting": "Hei {name},",
+    "body": "Valitse uusi salasana painamalla painiketta. Linkki vanhenee tunnin kuluttua.",
+    "button": "Valitse uusi salasana",
+    "ignore": "Jos et pyytänyt tätä, voit ohittaa tämän viestin. Salasanaasi ei ole muutettu, ja tilisi on edelleen turvassa.",
+    "subject": "Palauta TimeTrack-salasanasi"
+  },
+  "verification": {
+    "preview": "Vahvista sähköpostiosoitteesi ottaaksesi tilin käyttöön",
+    "kicker": "Tili",
+    "heading": "Vahvista sähköpostiosoitteesi",
+    "footerNote": "Saat tämän viestin, koska joku loi palveluun {brand} tilin sähköpostiosoitteellasi.",
+    "greeting": "Hei {name},",
+    "greetingFallback": "Hei,",
+    "body": "Kiitos rekisteröitymisestä. Vahvista sähköpostiosoitteesi ja ota tilisi käyttöön painamalla painiketta. Linkki on voimassa 24 tuntia.",
+    "button": "Vahvista sähköpostiosoite",
+    "ignore": "Jos et luonut tiliä, voit ohittaa tämän viestin. Mitään muuta ei tapahdu.",
+    "subject": "Vahvista sähköpostiosoitteesi: TimeTrack"
+  },
+  "security": {
+    "kicker": "Tietoturva",
+    "footerNote": "Tämä on automaattinen tietoturvailmoitus.",
+    "greeting": "Hei {name},",
+    "time": "Aika",
+    "ip": "IP-osoite",
+    "device": "Laite",
+    "place": "Sijainti",
+    "notYou": "Etkö se ollut sinä?",
+    "openSettings": "Avaa tilin asetukset",
+    "unknownDevice": "Tuntematon laite",
+    "browser": "Selain",
+    "deviceOn": "{browser}, {os}"
+  },
+  "passwordChanged": {
+    "preview": "{brand}-salasanasi on vaihdettu",
+    "heading": "Salasanasi on vaihdettu",
+    "body": "{brand}-tilisi salasana on juuri vaihdettu. Jos se olit sinä, sinun ei tarvitse tehdä mitään.",
+    "calloutBody": "Palauta salasanasi kirjautumissivun kohdasta \"Unohtuiko salasana\" ja kirjoita heti osoitteeseen [mail]{email}[/mail].",
+    "subject": "TimeTrack-salasanasi on vaihdettu"
+  },
+  "newLogin": {
+    "preview": "Uusi kirjautuminen palveluun {brand} laitteelta {device}",
+    "heading": "Uusi kirjautuminen tilillesi",
+    "body": "Joku kirjautui {brand}-tilillesi laitteelta, jota ei ole aiemmin käytetty. Jos se olit sinä, sinun ei tarvitse tehdä mitään.",
+    "calloutBody": "Vaihda salasanasi heti ja kirjoita osoitteeseen [mail]{email}[/mail], niin tuki auttaa suojaamaan tilin.",
+    "subject": "Uusi kirjautuminen TimeTrack-tilillesi"
+  },
+  "twoFactor": {
+    "preview": "{brand}-vahvistuskoodisi: {code}",
+    "heading": "Vahvistuskoodisi",
+    "footerNote": "Saat tämän viestin, koska joku kirjautui tilillesi kaksivaiheisella tunnistautumisella.",
+    "enterCode": "Jatka antamalla koodi:",
+    "expires": "Koodi vanhenee 3 minuutissa. Jos et pyytänyt sitä, voit ohittaa tämän viestin. Älä koskaan anna koodia muualla kuin palvelussa {brand}.",
+    "subject": "{code} on TimeTrack-vahvistuskoodisi"
+  },
+  "signupPassword": {
+    "preview": "Väliaikainen salasanasi palveluun {brand}",
+    "kicker": "Tervetuloa",
+    "heading": "Tervetuloa palveluun {brand}, {name}",
+    "intro": "Tilisi on luotu. Tässä väliaikainen salasanasi:",
+    "changeIt": "Vaihda se ensimmäisen kirjautumisen jälkeen asetusten kohdassa Tietoturva.",
+    "button": "Kirjaudu tilillesi",
+    "alsoLogin": "Voit kirjautua myös osoitteessa [login]{url}[/login] sähköpostillasi ja yllä olevalla salasanalla.",
+    "getStarted": "Näin pääset alkuun",
+    "step1": "Luo ensimmäinen asiakkaasi",
+    "step2": "Luo asiakkaalle projekti",
+    "step3": "Käynnistä ajastin ja laskuta tunnit, kun työ on tehty",
+    "subject": "Salasanasi: TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} on kutsunut sinut organisaatioon {org}",
+    "kicker": "Kutsu",
+    "heading": "Sinut on kutsuttu organisaatioon {org}",
+    "footerNote": "Saat tämän viestin, koska joku kutsui sinut tiimiinsä palvelussa {brand}.",
+    "role": {
+      "owner": "omistajaksi",
+      "admin": "ylläpitäjäksi",
+      "member": "jäseneksi"
+    },
+    "body": "**{inviter}** on kutsunut sinut organisaation **{org}** {role} palvelussa {brand}.",
+    "body2": "Täällä kirjaat aikaa tiimin asiakkaille ja projekteihin, ja esihenkilö näkee tunnit yhdestä paikasta.",
+    "button": "Hyväksy kutsu",
+    "expires": "Kutsu vanhenee 48 tunnin kuluttua. Jos et tunne lähettäjää, voit ohittaa tämän viestin.",
+    "subject": "{inviter} on kutsunut sinut organisaatioon {org} palvelussa TimeTrack"
+  },
+  "portalInvite": {
+    "preview": "Sinut on kutsuttu lähettäjän {sender} asiakasportaaliin",
+    "kicker": "Asiakasportaali",
+    "heading": "Tervetuloa asiakasportaaliin",
+    "footerNote": "Lähettäjä {sender} palvelun {brand} kautta.",
+    "greeting": "Hyvä {name},",
+    "body": "{sender} on antanut sinulle pääsyn omaan asiakasportaaliisi. Siellä näet laskut ja projektit ja voit seurata tuntipakettisi saldoa.",
+    "button": "Avaa asiakasportaali",
+    "account": "Kirjaudu sähköpostilla **{email}** ja salasanalla, jonka sait lähettäjältä {sender}.",
+    "token": "Linkki on henkilökohtainen. Älä jaa sitä muille.",
+    "questions": "Jos sinulla on kysyttävää, voit kirjoittaa lähettäjälle {sender} osoitteeseen [mail]{email}[/mail].",
+    "subject": "Sinut on kutsuttu lähettäjän {sender} asiakasportaaliin"
+  },
+  "welcome": {
+    "preview": "Tervetuloa palveluun {brand}",
+    "kicker": "Tervetuloa",
+    "heading": "Tervetuloa, {name}",
+    "intro": "Kiitos tilin luomisesta palveluun {brand}. Näin pääset alkuun:",
+    "button": "Avaa {brand}",
+    "questions": "Kysyttävää? Katso [help]ohjekeskus[/help] tai kirjoita osoitteeseen [mail]{email}[/mail].",
+    "subject": "Tervetuloa palveluun TimeTrack"
+  }
+}

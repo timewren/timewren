@@ -1,0 +1,80 @@
+---
+title: "Automatisering (Zapier, Make, n8n)"
+description: "Forbind TimeWren med Zapier, Make, n8n eller ethvert HTTP-værktøj med en API-nøgle og udgående webhooks."
+---
+
+TimeWren har ingen særlig integrationsserver til automatiseringsværktøjer. Zapier, Make og n8n virker alle på samme måde: De kalder [REST API'et](/da/docs/api/rest) med en API-nøgle og modtager hændelser via [webhooks](/da/docs/api/webhooks). Det betyder også, at ethvert andet værktøj, der kan sende HTTP-forespørgsler eller modtage webhooks, virker.
+
+## Opret en API-nøgle
+
+1. Åbn Indstillinger, API i din instans.
+2. Opret en nøgle, giv den et navn som "Zapier", og vælg scopes. Scopes gælder pr. ressource (kunder, projekter, tid, fakturaer, klippekort, opgaver, rapporter, webhooks) med læse-, skrive- eller fuld ret, eller fuld adgang til det hele.
+3. Kopiér nøglen. Den starter med `tk_live_` og vises kun én gang.
+
+Send den som bearer-token med hver forespørgsel:
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_KEY" https://timewren.example.com/api/v1/me
+```
+
+`GET /api/v1/me` virker med enhver gyldig nøgle, så det er den rette test af forbindelsen. Brug din egen instans' adresse som basis-URL, aldrig en hostet.
+
+Grænsen er 300 forespørgsler pr. minut pr. bruger. Headerne `X-RateLimit-Limit`, `X-RateLimit-Remaining` og `X-RateLimit-Reset` viser status.
+
+## Modtag hændelser
+
+Opret en webhook med `POST /api/v1/webhooks` (nøglen skal have scopet `webhooks:write`). Giv den URL'en til din Zap, dit scenarie eller din n8n Webhook-node og de hændelser, du vil have:
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/webhooks \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "n8n", "url": "https://n8n.example.com/webhook/timewren", "events": ["invoice.paid", "client.created"]}'
+```
+
+Tilgængelige hændelser:
+
+| Område | Hændelser |
+| --- | --- |
+| Kunder | `client.created`, `client.updated`, `client.archived` |
+| Projekter | `project.created`, `project.updated`, `project.status_changed`, `project.budget_threshold` |
+| Tidsregistreringer | `time_entry.created`, `time_entry.updated`, `time_entry.deleted` |
+| Fakturaer | `invoice.created`, `invoice.sent`, `invoice.paid`, `invoice.overdue` |
+| Klippekort | `prepaid.created`, `prepaid.updated`, `prepaid.low_balance`, `prepaid.expired` |
+| Opgaver | `task.created`, `task.updated`, `task.completed` |
+
+Hver levering er signeret med `X-Webhook-Signature` (HMAC-SHA256 med webhookens hemmelighed) og har `X-Webhook-Event`, `X-Webhook-Timestamp` og `X-Webhook-Delivery-Attempt` med. Payloadformatet og signaturtjekket står på siden [Webhooks](/da/docs/api/webhooks). `GET /api/v1/webhooks/event-types` returnerer den aktuelle liste.
+
+Den modtagende URL skal bruge HTTPS og må ikke pege på en privat eller intern adresse (localhost, private IP-intervaller eller et navn, der slås op til en af dem). Administration af webhooks kræver en administrator eller ejer i organisationen, hvilket en solokonto altid er. Sæt et værktøj, der kører på dit eget netværk, bag et offentligt HTTPS-hostnavn.
+
+## Gør ting
+
+Kald, som de fleste automatiseringer bruger:
+
+| Handling | Forespørgsel |
+| --- | --- |
+| Opret en tidsregistrering | `POST /api/v1/time-entries` med `hours`, `date` (YYYY-MM-DD) og eventuelt `projectId`, `clientId`, `description`, `isBillable` |
+| Opret en kunde | `POST /api/v1/clients` |
+| Opret en opgave | `POST /api/v1/tasks` med `title` og eventuelt `projectId`, `status`, `priority` |
+| Start eller stop timeren | `POST /api/v1/timer` og `DELETE /api/v1/timer` |
+| Find en kunde | `GET /api/v1/clients?q=search` |
+| Find projekter | `GET /api/v1/projects?clientId=...` |
+| Tidsrapport | `GET /api/v1/reports/time-summary?from=2026-01-01&to=2026-01-31` |
+| Omsætningsrapport | `GET /api/v1/reports/revenue` |
+| Markér en faktura som betalt | `POST /api/v1/invoices/{id}/mark-paid` |
+
+Den fulde liste med parametre står i referencen til [REST API'et](/da/docs/api/rest), og hver instans udleverer sit eget OpenAPI-dokument på `/api/v1/openapi.json` og en reference, du kan klikke rundt i, på `/api/v1/docs`.
+
+## Zapier
+
+Brug Webhooks by Zapier eller en privat app, der er bygget ud fra definitionen i mappen `integrations/zapier` i repositoriet. Den definerer godkendelse med API-nøgle og et felt til Base URL (sæt det til din instans), webhook-triggere for nye tidsregistreringer, opdaterede tidsregistreringer, nye kunder, nye fakturaer, betalte fakturaer, lav saldo på klippekort og fuldførte opgaver samt handlinger og søgninger for kaldene ovenfor.
+
+> **Advarsel:** Handlingen "Create Time Entry" i den definition sender `durationMinutes`, men API'et læser `hours`. Indtil det er rettet, opretter du tidsregistreringer fra Zapier med en custom request i Webhooks by Zapier og en body som `{"hours": 1.5, "date": "2026-01-15", "projectId": "..."}`.
+
+## Make
+
+Opret en custom app ud fra `integrations/make/modules.json`, eller brug HTTP-modulet. Sæt basis-URL'en til din instans og forbindelsesheaderen til `Authorization: Bearer YOUR_API_KEY`. Den samme advarsel om `durationMinutes` gælder modulet Create Time Entry. Til triggere bruger du et Custom webhook-modul og registrerer dets URL med `POST /api/v1/webhooks`.
+
+## n8n
+
+Brug en HTTP Request-node med en Header Auth-credential (navn `Authorization`, værdi `Bearer YOUR_API_KEY`) til kald og en Webhook-node til hændelser. `integrations/n8n/example-workflow.json` i repositoriet er et workflow med en daglig tidsrapport, som du kan importere. Det peger på `https://timetrack.dk`, så ret URL'en til din instans.

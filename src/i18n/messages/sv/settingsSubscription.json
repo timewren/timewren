@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Prenumeration",
+    "description": "Plan, betalning och fakturering",
+    "adminOnly": "Bara ägare och administratörer kan ändra prenumerationen, köpa platser och se betalningar."
+  },
+  "states": {
+    "noBilling": "Den här installationen har ingen betalningsleverantör, så alla funktioner är öppna och det finns inga planer eller begränsningar.",
+    "comingSoonTitle": "Betalning kommer snart",
+    "comingSoon": "Du har gratisplanen. Betalda planer kommer snart, och fram till dess kostar det ingenting.",
+    "loading": "Laddar prenumeration…",
+    "none": "Ingen prenumeration hittades. Börja med att välja en plan.",
+    "choosePlan": "Välj en plan",
+    "previousWebPayments": "Tidigare betalningar på webben",
+    "redirecting": "Skickar vidare…"
+  },
+  "cycle": {
+    "monthly": "Månadsvis",
+    "yearly": "Årligen",
+    "twoMonthsFree": "2 månader gratis",
+    "perMonthExclVat": "/mån exkl. moms",
+    "perYearExclVat": "/år exkl. moms",
+    "krPerMonth": "{price} kr/mån",
+    "krPerYear": "{price} kr/år"
+  },
+  "status": {
+    "active": "Aktiv",
+    "free": "Gratis",
+    "trialing": "Provperiod",
+    "pastDue": "Betalning förfallen",
+    "canceled": "Avslutad"
+  },
+  "invoiceStatus": {
+    "paid": "Betald",
+    "open": "Öppen",
+    "draft": "Utkast",
+    "void": "Annullerad",
+    "uncollectible": "Misslyckad",
+    "unknown": "Okänd"
+  },
+  "history": {
+    "title": "Betalningshistorik",
+    "columnDate": "Datum",
+    "columnNumber": "Nummer",
+    "columnAmount": "Belopp",
+    "columnStatus": "Status",
+    "columnPdf": "PDF",
+    "empty": "Inga betalningar ännu. Din betalningshistorik visas här när du har gjort din första betalning."
+  },
+  "toast": {
+    "planChangedYearly": "Planen har ändrats till årlig",
+    "planChangedMonthly": "Planen har ändrats till månadsvis",
+    "canceled": "Prenumerationen har avslutats. Den är aktiv till periodens slut.",
+    "reactivated": "Prenumerationen har återaktiverats!",
+    "trialRequested": "Förfrågan skickad! Vi återkommer så snart vi kan.",
+    "trialRequestFailed": "Det gick inte att skicka förfrågan. Försök igen.",
+    "paymentMethodAdded": "Betalningsmetod tillagd!",
+    "seatsUpdated": "Platserna har uppdaterats! Det kan dröja en stund innan ändringen syns.",
+    "paymentCanceled": "Betalningen har avbrutits"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Du har # dag kvar av din provperiod} other {Du har # dagar kvar av din provperiod}}",
+    "startsAutomatically": "Din prenumeration startar automatiskt efter provperioden",
+    "addPaymentToContinue": "Lägg till en betalningsmetod för att fortsätta efter provperioden",
+    "needMoreTime": "Behöver du mer tid?",
+    "addPayment": "Lägg till betalning",
+    "checkoutNoteFounding": "Kassan visar standardpriset. Din grundarrabatt på {percent} % dras av automatiskt efter betalning."
+  },
+  "pendingCancel": {
+    "expiresOn": "Din prenumeration upphör den {date}",
+    "expiresUnknown": "Din prenumeration upphör ett okänt datum",
+    "reactivateHint": "Du kan återaktivera prenumerationen före dess",
+    "reactivating": "Återaktiverar…",
+    "reactivate": "Återaktivera"
+  },
+  "plan": {
+    "current": "Nuvarande plan",
+    "freeLimits": "Upp till {maxSeats} användare · {used} av {maxClients} aktiva kunder används. Uppgradera för fler kunder, fler användare, fakturering och timbanker.",
+    "seatsIncluded": "{count, plural, one {# användare ingår} other {# användare ingår}}",
+    "seatsWithExtra": "{count, plural, one {# användare} other {# användare}} · {included} ingår + {extra} extra",
+    "foundingDiscount": "{percent} % grundarrabatt",
+    "foundingDiscountForever": "{percent} % grundarrabatt, för alltid",
+    "foundingDiscountExpires": "{percent} % grundarrabatt, upphör {date}",
+    "trialEnds": "Provperioden slutar: {date}",
+    "nextBilling": "Nästa fakturering: {date}"
+  },
+  "roi": {
+    "titleReturn": "Din avkastning med {brand}",
+    "titleActivity": "Din aktivitet i {brand}",
+    "spent": "Spenderat på {brand}",
+    "freeSoFar": "Gratis hittills!",
+    "trackedValue": "Värde av rapporterad tid",
+    "invoicedTotal": "Totalt fakturerat",
+    "return": "Avkastning"
+  },
+  "payment": {
+    "title": "Betalning",
+    "portalDescription": "Hantera din betalningsmetod och dina fakturor via betalningsportalen.",
+    "manage": "Hantera betalning",
+    "noMethod": "Ingen betalningsmetod har lagts till ännu",
+    "addMethod": "Lägg till betalningsmetod",
+    "checkoutNoteFounding": "Kassan visar standardpriset. Din rabatt på {percent} % dras av automatiskt."
+  },
+  "seats": {
+    "title": "Platser",
+    "usage": "{used} av {total} platser används",
+    "pendingInvites": "{count, plural, one {# plats är upptagen av väntande inbjudningar} other {# platser är upptagna av väntande inbjudningar}}",
+    "reseatsReminder": "Kom ihåg att teckna dina {count} extra platser på nytt till priset för {plan}. Slutför platsköpet nedan så att faktureringen stämmer med din kapacitet.",
+    "extraLabel": "Extra platser (utöver de {included} som ingår)",
+    "fewer": "Färre platser",
+    "more": "Fler platser",
+    "price": "Pris",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr/år exkl. moms",
+    "priceSuffixMonthly": "kr/mån exkl. moms",
+    "adjust": "Justera platser",
+    "buy": "Köp platser",
+    "note": "Ditt nuvarande tillägg för platser ersätts av det nya antalet. Du gör ett nytt köp och det gamla tillägget avslutas automatiskt. Din plan tillåter upp till {max} platser totalt."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "För privatpersoner",
+      "feature1": "1 användare"
+    },
+    "solo": {
+      "tagline": "För frilansare",
+      "feature1": "1 användare, obegränsat med kunder",
+      "feature2": "Timbanker, fakturering och integrationer",
+      "feature3": "Webb, app, tillägg och skrivbordsapp ingår"
+    },
+    "team": {
+      "tagline": "För små team",
+      "feature1": "Allt i {plan}",
+      "feature2": "2 användare ingår",
+      "feature3": "Delade kunder, projekt och timbanker"
+    },
+    "business": {
+      "tagline": "För företag",
+      "feature1": "Allt i {plan}",
+      "feature2": "5 användare ingår",
+      "feature3": "Flextid, frånvaro och regelefterlevnad"
+    },
+    "usersIncluded": "{count} användare ingår"
+  },
+  "upgrade": {
+    "title": "Uppgradera din plan",
+    "blocked": "Du har {count, plural, one {# extra plats} other {# extra platser}} som ännu inte kan flyttas automatiskt till {plan}. Kontakta oss på support@timetrack.dk så uppgraderar vi dig utan att du förlorar några platser.",
+    "to": "Uppgradera till {plan}",
+    "note": "När du uppgraderar gör du ett nytt köp. Din nuvarande prenumeration avslutas automatiskt när den nya är aktiv."
+  },
+  "choose": {
+    "title": "Välj din plan",
+    "choosePlan": "Välj {plan}",
+    "chooseAndPay": "Välj och betala",
+    "note": "Extra användare utöver de som ingår läggs till efter registreringen. Grundarrabatt (om aktiv) dras automatiskt av på {plan} efter betalning."
+  },
+  "discounts": {
+    "title": "Aktiva rabatter",
+    "rangeBoth": "Från {from} till {to}",
+    "rangeOpenEnded": "Från {from}, inget utgångsdatum",
+    "rangeUntil": "Till och med {to}",
+    "rangeNone": "Inget utgångsdatum"
+  },
+  "metadata": {
+    "title": "Prenumerationsdetaljer",
+    "foundingTier": "Grundarnivå",
+    "billingCycle": "Faktureringsperiod",
+    "signupSource": "Registreringskälla",
+    "couponCode": "Rabattkod"
+  },
+  "upcoming": {
+    "title": "Kommande betalningar",
+    "columnPeriod": "Period",
+    "columnPlan": "Plan",
+    "columnAmount": "Belopp"
+  },
+  "switch": {
+    "title": "Byt plan",
+    "equivalent": "Motsvarar {price} kr/mån",
+    "toMonthly": "Byt till månadsvis",
+    "toYearly": "Byt till årligen"
+  },
+  "cancel": {
+    "title": "Avsluta prenumerationen",
+    "description": "Din prenumeration är aktiv till slutet av den nuvarande faktureringsperioden.",
+    "areYouSure": "Är du säker?",
+    "activeUntil": "Din prenumeration är aktiv till {date}. Efter det förlorar du åtkomsten till premiumfunktioner.",
+    "activeUntilEnd": "Din prenumeration är aktiv till periodens slut. Efter det förlorar du åtkomsten till premiumfunktioner.",
+    "keep": "Behåll prenumerationen",
+    "confirm": "Ja, avsluta prenumerationen",
+    "canceling": "Avslutar…"
+  }
+}

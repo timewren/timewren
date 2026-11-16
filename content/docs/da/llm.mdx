@@ -1,0 +1,113 @@
+---
+title: "Brug dokumentationen med din LLM"
+description: "Giv TimeWren-dokumentationen til Claude Code, Cursor, Codex eller ChatGPT, med færdige prompter til installation, opgradering, fejlsøgning og integration."
+---
+
+TimeWren-dokumentationen er skrevet til at blive læst af både mennesker og sprogmodeller. Alle sider findes som ren Markdown, og hele dokumentationen kan være i én fil. Peg din kodeagent eller chatassistent på den, så kan den installere, opgradere eller fejlsøge din instans eller skrive en integration mod API'et.
+
+## Hvad du skal give modellen
+
+| URL | Hvad det er | Brug den, når |
+| --- | --- | --- |
+| `https://timewren.com/llms-full.txt` | Hele den engelske dokumentation i én Markdown-fil. | Modellen skal vide alt. Bedst til agenter med en stor kontekst. |
+| `https://timewren.com/llms.txt` | Et indeks over alle sider med et resumé på én linje og et link til sidens Markdown. | Modellen kan selv hente sider og skal vælge det, den har brug for. |
+| `https://timewren.com/docs/<page>.md` | Én side som Markdown, for eksempel `https://timewren.com/docs/operations/upgrading.md`. | Du ved, hvilket emne der er vigtigt. |
+
+Forespørgsler på en dokumentationsside med `Accept: text/markdown` får også Markdown-versionen, så værktøjer, der forhandler indholdstype, virker uden `.md`-endelsen. Links i Markdown-versionen peger på andre `.md`-sider, så en agent kan følge dem.
+
+Øverst på hver side er der knapper: **Kopiér som Markdown** lægger siden i din udklipsholder, **Åbn i ChatGPT** og **Åbn i Claude** starter en chat med en prompt, der allerede peger på sidens Markdown, og **Vis som Markdown** åbner den rå side.
+
+Dokumentationen findes også på [dansk](https://timewren.com/da/docs), [tysk](https://timewren.com/de/docs) og [spansk](https://timewren.com/es/docs). `llms-full.txt` findes kun på engelsk; modellerne forstår den fint og kan svare på dit sprog.
+
+## Claude Code
+
+Start Claude Code på serveren (eller på den maskine, du deployer fra) i den mappe, hvor TimeWren er eller skal installeres, og indsæt en af de færdige prompter nedenfor. Claude Code henter selv URL'erne i prompten.
+
+Vil du have dokumentationen med i alle sessioner, så tilføj en linje til `CLAUDE.md` i den mappe:
+
+```text
+TimeWren docs: https://timewren.com/llms.txt (full text: https://timewren.com/llms-full.txt). Read the relevant page before changing the TimeWren installation.
+```
+
+Claude Code kan også arbejde med dine TimeWren-data (kunder, projekter, tidsregistreringer) gennem [MCP-serveren](/da/docs/api/mcp). Det er adskilt fra dokumentationen: dokumentationen fortæller agenten, hvordan TimeWren virker, og MCP-serveren lader den handle i din konto.
+
+## Cursor
+
+Skriv `@Docs` i en chat, vælg **Add new doc**, og indtast `https://timewren.com/llms-full.txt`. Henvis derefter til den med `@TimeWren` (eller det navn, du gav den) i dine prompter. Du kan også indsætte en side-URL, der ender på `.md`, direkte i chatten.
+
+## Codex og andre agenter, der læser AGENTS.md
+
+Læg henvisningen til dokumentationen i `AGENTS.md` i det repository eller den mappe, du arbejder i:
+
+```text
+## TimeWren
+Docs for the TimeWren installation: https://timewren.com/llms.txt
+Full text in one file: https://timewren.com/llms-full.txt
+Read the relevant page before changing the TimeWren installation. Never print the contents of .env.
+```
+
+TimeWrens eget kilderepository har sin egen `AGENTS.md`, der peger agenter, som arbejder på koden, til den samme dokumentation.
+
+## ChatGPT, Claude og andre chatassistenter
+
+Brug knappen **Åbn i ChatGPT** eller **Åbn i Claude** på den side, du har brug for, eller indsæt en prompt nedenfor. Kan assistenten ikke åbne links, så brug **Kopiér som Markdown**, og indsæt siden i chatten.
+
+Chatassistenter kan ikke køre kommandoer på din server. De giver dig kommandoer, du selv skal køre; læs hver enkelt, før du kører den.
+
+## Færdige prompter
+
+Udskift eksempelværdierne (domæne, version), før du sender en prompt. Hver prompt beder agenten om ikke at udskrive hemmeligheder. Indsæt aldrig selv din `.env`, dine API-nøgler eller databasedumps i en chat.
+
+### Installér TimeWren på min server
+
+```text
+Installér TimeWren på denne Linux-server. Læs https://timewren.com/llms-full.txt først, og følg dokumentationen nøje, især "Quickstart" og "One-line install".
+
+- Offentlig URL: https://timewren.example.com (DNS peger allerede på denne server).
+- Brug det officielle installationsscript med automatisk HTTPS, hvis dokumentationen tilbyder det; ellers sæt en reverse proxy op som beskrevet i "Reverse proxy and TLS".
+- Tjek, at Docker og Docker Compose v2.24+ er installeret, før du går i gang. Installér ikke selv Docker; sig til, hvis det mangler.
+- Udskriv aldrig indholdet af .env eller nogen hemmelighed.
+- Når det kører, så verificér det som beskrevet i dokumentationen (containerstatus og endpointet /api/health), og fortæl mig, hvilke trin fra "Make it production ready" der stadig mangler (e-mail, backup, fastlåsning af version).
+```
+
+### Opgradér min installation
+
+```text
+Opgradér min TimeWren-installation til den nyeste stabile udgivelse. Læs https://timewren.com/docs/operations/upgrading.md og https://timewren.com/docs/operations/backup-restore.md først, og følg dem nøje.
+
+- Installationen ligger i den aktuelle mappe (docker-compose.yml og .env ligger her).
+- Tag først en fuld backup, som dokumentationen beskriver, og vis mig, hvor den ligger, før du fortsætter.
+- Fortæl mig den nuværende og den nye version, og læs udgivelsesnoterne på https://github.com/timewren/timewren/releases for alt, der kræver handling.
+- Efter opgraderingen skal du tjekke app-loggene for migreringsresultatet ("new migration(s) applied" eller "Database is up to date") og health-endpointet. Hvis en migrering fejlede, så stop, og forklar mulighederne for at rette op fra dokumentationen, før du ændrer noget.
+- Kør aldrig "docker compose down -v", og udskriv aldrig .env.
+```
+
+### Fejlsøg min installation
+
+```text
+Min TimeWren-installation har et problem: <beskriv, hvad du ser, f.eks. "login fejler med 403 invalid origin">.
+
+Læs https://timewren.com/docs/operations/troubleshooting.md og https://timewren.com/docs/configuration/environment.md først. Diagnosticér derefter, til at begynde med kun læsende:
+- docker compose ps, docker compose logs --tail=200 app (og cron, hvis det er relevant), endpointet /api/health.
+- Sammenlign konfigurationen med dokumentationen. Du må liste, hvilke variabler der er sat i .env, men udskriv aldrig deres værdier.
+Forklar den egentlige årsag med belæg fra loggene, foreslå den mindste rettelse, og vent på mit go, før du ændrer filer eller genstarter containere. Slet aldrig volumes.
+```
+
+### Byg en integration mod API'et
+
+```text
+Byg en integration mod min TimeWren-instans på https://timewren.example.com. Læs https://timewren.com/docs/api/rest.md og https://timewren.com/docs/api/webhooks.md først; OpenAPI-dokumentet, der er beskrevet dér, er sandheden om felterne.
+
+Mål: <beskriv det, f.eks. "eksportér hver fredag sidste uges tidsregistreringer pr. kunde til en CSV-fil">.
+
+- Læs API-nøglen fra miljøvariablen TIMEWREN_API_KEY; hardcod den aldrig, og udskriv den aldrig.
+- Håndtér paginering, rate limits (HTTP 429) og fejl, som dokumentationen beskriver.
+- Har du brug for hændelser i stedet for polling, så brug webhooks, og verificér signaturen som vist i dokumentationen.
+- Start med et lille, kun læsende kald for at bevise, at nøglen virker, og byg derefter resten, med tests.
+```
+
+## Tips
+
+- Fortæl agenten, hvilken version du kører (`TIMEWREN_VERSION` i `.env` eller image-tagget). Dokumentationen beskriver den aktuelle udgivelse.
+- Bed agenten om at citere det afsnit i dokumentationen, den bygger på. Så er det let at tjekke.
+- Ved ændringer i produktion: lad agenten foreslå kommandoer, og kør dem selv, eller godkend hver enkelt.

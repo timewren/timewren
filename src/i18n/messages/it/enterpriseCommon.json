@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Proprietario",
+    "admin": "Amministratore",
+    "hr": "HR",
+    "manager": "Responsabile",
+    "member": "Collaboratore"
+  },
+  "employment": {
+    "fullTime": "Tempo pieno",
+    "partTime": "Part-time",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Bozza",
+    "submitted": "Inviata",
+    "approved": "Approvata",
+    "rejected": "Rifiutata",
+    "reopened": "Riaperta"
+  },
+  "save": "Salva",
+  "cancel": "Annulla",
+  "add": "Aggiungi",
+  "edit": "Modifica",
+  "active": "Attivo",
+  "inactive": "Inattivo",
+  "periodClosing": {
+    "status": {
+      "open": "In attesa del responsabile",
+      "approved": "In attesa di presa visione",
+      "acknowledged": "Chiuso",
+      "reopened": "Sbloccato"
+    },
+    "interval": {
+      "month": "Ogni mese",
+      "quarter": "Ogni trimestre"
+    }
+  },
+  "weekdayLong": {
+    "1": "lunedì",
+    "2": "martedì",
+    "3": "mercoledì",
+    "4": "giovedì",
+    "5": "venerdì",
+    "6": "sabato",
+    "7": "domenica"
+  },
+  "absenceCategory": {
+    "vacation": "Ferie",
+    "sickness": "Malattia",
+    "leave": "Permesso",
+    "other": "Altro"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Generico (CSV semplice)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (sistema paghe statale danese)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Mese",
+      "biweekly": "14 giorni"
+    },
+    "unit": {
+      "hours": "Ore",
+      "days": "Giorni"
+    },
+    "kind": {
+      "time": "Ore (codice paga base)",
+      "absence": "Assenza",
+      "supplement": "Maggiorazione (aggiunta alla base)"
+    },
+    "source": {
+      "activity": "Ore registrate (attività)",
+      "absence": "Assenza (tipo di assenza)",
+      "overtime_earned": "Straordinari maturati",
+      "overtime_used": "Recupero ore",
+      "overtime_paid_out": "Straordinari liquidati",
+      "flex_positive": "Flessibilità (ore in più)",
+      "flex_negative": "Flessibilità (ore in meno)",
+      "break_deduction": "Detrazione pausa (pausa non retribuita)"
+    },
+    "dayCondition": {
+      "any": "Tutti i giorni",
+      "weekend": "Fine settimana (sab/dom)",
+      "holiday": "Festivo",
+      "weekend_or_holiday": "Fine settimana o festivo"
+    }
+  },
+  "normPeriod": {
+    "week": "Settimana",
+    "month": "Mese",
+    "quarter": "Trimestre",
+    "year": "Anno"
+  },
+  "normYear": {
+    "calendar": "Anno solare (1° gennaio)",
+    "school": "Anno scolastico (1° agosto)"
+  }
+}

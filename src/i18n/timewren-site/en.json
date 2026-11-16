@@ -1,0 +1,739 @@
+{
+  "languageName": "English",
+  "nav": {
+    "skip": "Skip to content",
+    "home": "TimeWren home",
+    "primary": "Main",
+    "pricing": "Pricing",
+    "selfHosting": "Self-hosting",
+    "github": "GitHub",
+    "language": "Language",
+    "beta": "beta",
+    "betaNote": "Translation not yet reviewed.",
+    "docs": "Docs"
+  },
+  "footer": {
+    "tagline": "Open-source time tracking with prepaid hours and invoicing.",
+    "product": "Product",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "trademark": "Trademark policy",
+    "madeBy": "TimeWren is made by Mahope in Denmark. Danish customers know it as TimeTrack.",
+    "resources": "Resources",
+    "docs": "Documentation",
+    "llms": "llms.txt for LLMs",
+    "license": "Licence (AGPL-3.0)",
+    "contact": "Contact"
+  },
+  "meta": {
+    "home": {
+      "title": "TimeWren: open-source time tracking with prepaid hours",
+      "description": "Open-source time tracking and CRM for freelancers and small teams, built around prepaid hours. Self-host it for free with one command, or use TimeWren Cloud."
+    },
+    "pricing": {
+      "title": "Pricing | TimeWren",
+      "description": "Self-hosting TimeWren is free, forever. TimeWren Cloud adds hosting, updates, backups and support. Both have every feature."
+    },
+    "selfHosting": {
+      "title": "Self-hosting | TimeWren",
+      "description": "Run TimeWren on your own server with Docker Compose and one install script. Requirements, quick start and links to the full guide."
+    },
+    "privacy": {
+      "title": "Privacy policy | TimeWren",
+      "description": "How Mahope handles personal data on timewren.com and in TimeWren Cloud: what we collect, sub-processors, cookies and your rights."
+    },
+    "terms": {
+      "title": "Terms of service | TimeWren",
+      "description": "Terms of service for TimeWren Cloud, including the data processing agreement, prices and payment, your data and liability."
+    }
+  },
+  "home": {
+    "title": "Time tracking and CRM for freelancers, built around prepaid hours",
+    "lead": "TimeWren is open source. Track your time, sell it to clients as prepaid hours and invoice it from the same entries. It works for one freelancer or a small team, on your own server or in our cloud.",
+    "ctaInstall": "Install in 5 minutes",
+    "ctaGithub": "See it on GitHub",
+    "ctaCloud": "TimeWren Cloud",
+    "heroNote": "AGPL-3.0. Every feature in every install, with no licence key.",
+    "oneLinerLabel": "Install on a Linux server with Docker:",
+    "oneLinerNote": "The script checks Docker, writes fresh secrets to .env, pulls the image and starts the stack. It never uses sudo and never prints the secrets.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "heroAlt": "The TimeWren dashboard with a running timer, today's entries and quick-start buttons per project",
+    "heroMobileAlt": "The TimeWren dashboard on a phone",
+    "prepaid": {
+      "title": "Prepaid hours, built in",
+      "body": "In Denmark this is called a klippekort: a punch card for hours. A client buys a block of hours up front, and every time entry punches out the time it used. You always know what is left, and so does the client.",
+      "cardLabel": "Example: a 20-hour package",
+      "cardUsed": "{used} hours used",
+      "cardLeft": "{left} of {total} hours left",
+      "stepsTitle": "How it works",
+      "steps": [
+        [
+          "Sell a package",
+          "Create a package for a client with the number of hours, the hourly rate and an expiry date if you want one. You can round every entry up to a fixed clip, for example 15 minutes."
+        ],
+        [
+          "Track time as usual",
+          "Start the timer or log time on the client's work. TimeWren suggests the active package, and the entry is drawn from it when you save."
+        ],
+        [
+          "Keep the client informed",
+          "You get a warning when the balance runs low. The client sees hours used, hours left and every entry in their own portal, and can ask for a new package from there."
+        ],
+        [
+          "Decide what happens at zero",
+          "Per package, choose to stop at zero, to let it go into overdraft, or to bill the extra time at a separate rate. Approving a renewal creates the new package and a draft invoice in one step."
+        ]
+      ],
+      "shotAlt": "Prepaid hour packages with used and remaining hours per client",
+      "docs": "Read the full guide to prepaid hours"
+    },
+    "features": {
+      "title": "What is inside",
+      "lead": "Everything below is in every install, self-hosted or in the cloud.",
+      "items": [
+        {
+          "title": "Timer and time entries",
+          "body": "Start a timer from the top bar or the browser extension, and it keeps running across devices. Or type what you did in one short line, and TimeWren fills in the entry.",
+          "points": [
+            "Live timer, manual entries and a week timesheet",
+            "Quick-start buttons for the projects you use most",
+            "Calendar view of your week, with events from Google or Apple Calendar",
+            "Import earlier time entries from a CSV file"
+          ],
+          "alt": "The timer page with a running timer and today's time entries"
+        },
+        {
+          "title": "Clients and projects",
+          "body": "Every client has its own page with projects, packages, invoices and contact details. Look up a Danish company by CVR number and the address fills in by itself.",
+          "points": [
+            "Hourly rates per project, per client or as your default, with a history of every change",
+            "Fixed-price and hourly projects with budgets",
+            "A client portal with your logo, where clients see hours, packages and invoices",
+            "Archive instead of delete, so nothing is lost"
+          ],
+          "alt": "The client list with active projects and prepaid hour balances"
+        },
+        {
+          "title": "Invoicing",
+          "body": "Select unbilled time, and TimeWren builds the invoice from the entries. Send it as a PDF by email, or sync it to your accounting system.",
+          "points": [
+            "PDF invoices with your own template and logo",
+            "Recurring invoices",
+            "Sync to Billy, Dinero and e-conomic",
+            "Entries are locked once they are billed"
+          ],
+          "alt": "The invoice list with draft, sent and paid invoices"
+        },
+        {
+          "title": "Integrations",
+          "body": "Connect the tools you already use. Integrations are off until you set them up, and on a self-hosted instance they use your own credentials.",
+          "points": [
+            "Billy, Dinero and e-conomic for accounting",
+            "Google Calendar and Apple Calendar",
+            "CVR lookup of Danish companies",
+            "Webhooks for your own automations"
+          ],
+          "alt": "The calendar week view with time entries next to calendar events"
+        },
+        {
+          "title": "Tasks",
+          "body": "Plan the work on a kanban board per project, and log time directly on a task. Forward an email to your inbox address, and it becomes a task.",
+          "points": [
+            "Kanban board with your own columns",
+            "Comments, due dates and assignees",
+            "Email to task over IMAP"
+          ],
+          "alt": "A kanban board with tasks in several columns"
+        },
+        {
+          "title": "Reports",
+          "body": "See where the hours went and what they earned. Filter by client, project, person and period, and export to CSV or PDF.",
+          "points": [
+            "Hours, revenue and unbilled time per client and project",
+            "Saved report templates",
+            "Export to CSV and PDF"
+          ],
+          "alt": "A report with hours and revenue per client over a month"
+        },
+        {
+          "title": "Teams and organisations",
+          "body": "Invite colleagues into a shared organisation. Everyone tracks their own time, and you decide who can see rates, invoices and other people's hours.",
+          "points": [
+            "Roles and permissions",
+            "Weekly timesheets with approval",
+            "Resource planning across people and projects",
+            "Audit log of changes in the organisation"
+          ],
+          "alt": ""
+        }
+      ]
+    },
+    "apps": {
+      "title": "Where you track",
+      "lead": "Your timer follows you between the web app, the extension and the apps.",
+      "available": "Available",
+      "coming": "Coming",
+      "items": [
+        [
+          "Web app",
+          "In any browser, and installable as an app on desktop and phone.",
+          "available"
+        ],
+        [
+          "Browser extension",
+          "Start and stop the timer from any tab. Chrome and Firefox, MIT licence.",
+          "available"
+        ],
+        ["Desktop app", "macOS and Windows.", "coming"],
+        ["Mobile app", "iOS and Android.", "coming"]
+      ],
+      "mobileAlt": "The TimeWren dashboard on a phone"
+    },
+    "install": {
+      "title": "Install it your way",
+      "lead": "TimeWren is one Docker image with PostgreSQL next to it. Pick the way that fits your setup; every guide ends with the same running instance.",
+      "guide": "Guide",
+      "deploy": "Deploy to Render",
+      "methods": {
+        "quick": {
+          "name": "One line",
+          "desc": "On any Linux server with Docker. No git clone needed."
+        },
+        "dockerCompose": {
+          "name": "Docker Compose",
+          "desc": "The compose file and .env yourself, for full control."
+        },
+        "coolify": {
+          "name": "Coolify",
+          "desc": "Add a Docker Compose resource with the template from deploy/coolify."
+        },
+        "dokploy": {
+          "name": "Dokploy",
+          "desc": "Import the template from deploy/dokploy as a compose service."
+        },
+        "railway": {
+          "name": "Railway",
+          "desc": "App and database as a Railway project, configured by railway.json."
+        },
+        "render": {
+          "name": "Render",
+          "desc": "A blueprint from render.yaml with a web service and PostgreSQL."
+        },
+        "kubernetes": {
+          "name": "Kubernetes",
+          "desc": "The Helm chart in charts/timewren."
+        },
+        "fromSource": {
+          "name": "From source",
+          "desc": "Build the image yourself, or run npm run dev to work on the code."
+        }
+      }
+    },
+    "compare": {
+      "title": "Self-host it, or let us run it",
+      "lead": "Both run the same code with the same features. The difference is who looks after the server.",
+      "caption": "Self-hosted and TimeWren Cloud compared",
+      "selfHosted": "Self-hosted",
+      "cloud": "TimeWren Cloud",
+      "cloudStatus": "Coming soon",
+      "rows": [
+        ["Price", "Free, forever", "Monthly subscription"],
+        ["Features", "All of them", "All of them"],
+        ["Who runs it", "You, on your own server", "We do, in the EU"],
+        [
+          "Your data",
+          "In your own database",
+          "In our database, under a data processing agreement"
+        ],
+        ["Updates", "You pull the new image", "Applied for you"],
+        ["Backups", "Scripts included, you schedule them", "Included"],
+        ["Support", "Community, on GitHub", "Email support"],
+        ["Telemetry", "Off by default", "Error reports and analytics"]
+      ],
+      "guide": "Self-hosting guide",
+      "pricing": "Cloud pricing"
+    },
+    "unlocked": {
+      "title": "No locked features",
+      "body": "There is one edition of TimeWren, and all of it is open source. A self-hosted instance has no plans, seat limits, trials or licence keys. TimeWren Cloud runs the same code. You pay Cloud to run it for you, not to unlock anything."
+    },
+    "license": {
+      "title": "Open source under AGPL-3.0",
+      "body": "You can read, run, change and share TimeWren. If you offer a changed version to others over a network, you share your changes under the same licence. The browser extension is MIT. Issues, discussions and pull requests happen in the open, and contributions are signed off under the Developer Certificate of Origin.",
+      "cta": "Read the licence",
+      "contributing": "How to contribute"
+    },
+    "data": {
+      "title": "Your data stays yours",
+      "points": [
+        [
+          "Where it lives",
+          "Self-hosted, everything is in your own PostgreSQL database and file storage. Nothing is sent to us."
+        ],
+        [
+          "Export it",
+          "Export time entries, clients and invoices as CSV, or order a full export of your organisation as a ZIP with JSON and CSV."
+        ],
+        [
+          "No phone home",
+          "There is no usage reporting and no install counter. Analytics, error reporting, ad tags and release checks stay off until you configure them. The telemetry list names every outbound connection the app can make."
+        ]
+      ],
+      "telemetry": "See every outbound connection"
+    },
+    "dev": {
+      "title": "For developers and LLMs",
+      "lead": "TimeWren has a REST API and an MCP server, and its documentation is written to be read by people and coding agents alike.",
+      "items": [
+        [
+          "REST API",
+          "Clients, projects, time entries, timer, prepaid hours, invoices, tasks, reports and webhooks, with an OpenAPI description at /api/v1/openapi.json on your instance."
+        ],
+        [
+          "MCP server",
+          "Connect Claude, ChatGPT or another MCP client to /api/v1/mcp with an API key, and ask it to log time, check a client's balance or draft an invoice from unbilled time."
+        ],
+        [
+          "Docs for your agent",
+          "Every docs page is also plain Markdown: add .md to the address. /llms.txt lists the pages, and /llms-full.txt has all of them in one file to paste into a prompt or a project."
+        ]
+      ],
+      "docs": "Documentation",
+      "llmGuide": "Use the docs with your LLM",
+      "promptLabel": "For example, tell your coding agent:",
+      "prompt": "Read https://timewren.com/llms.txt and help me install TimeWren on my server."
+    },
+    "faq": {
+      "title": "Questions",
+      "items": [
+        [
+          "Is self-hosting really free?",
+          "Yes. The self-hosted version has every feature, with no time limit, seat limit or licence key. You pay for your own server."
+        ],
+        [
+          "What does TimeWren Cloud cost?",
+          "Prices are not final yet. The pricing page shows them in EUR, USD and DKK, and Cloud opens to new accounts later."
+        ],
+        [
+          "What do I need to self-host?",
+          "A Linux server with Docker and Compose v2.24 or newer and 2 GB of RAM. For anything beyond trying it on localhost you also need a domain and TLS."
+        ],
+        [
+          "Can I move from another time tracker?",
+          "You can import earlier time entries from a CSV file with date, hours, description, project and client. There is no direct importer for other tools yet, so export to CSV from the tool you use today."
+        ],
+        [
+          "How do I back it up?",
+          "The repository has scripts for backing up and restoring the database and uploads. You schedule them yourself, for example with cron, and keep the copies somewhere else."
+        ],
+        [
+          "How do I update?",
+          "Pull the new image and restart. Database migrations run by themselves on start, and the guide explains how to go back if one fails."
+        ],
+        [
+          "Which languages does it speak?",
+          "The app is in English and Danish, plus 16 more languages in beta, including German, Spanish, French and Swedish. Beta translations have not been reviewed yet, and missing text falls back to English. This site is in English, Danish, German and Spanish."
+        ],
+        [
+          "Is there a mobile app?",
+          "The web app works on a phone and can be installed on the home screen. Native apps for iOS and Android are on the way."
+        ],
+        [
+          "Does a self-hosted instance send data anywhere?",
+          "Analytics, error reporting, ad tags and release checks are off until you configure them. The one request that leaves by default is when you open the API reference, which loads its viewer from jsDelivr. The telemetry list in the docs names every connection and the setting behind it."
+        ],
+        [
+          "Which accounting systems does it work with?",
+          "Billy, Dinero and e-conomic, which are Danish. Every invoice is also available as a PDF."
+        ],
+        [
+          "How is TimeWren related to TimeTrack?",
+          "TimeTrack is the Danish product at timetrack.dk that TimeWren grew out of. It is the same code under a new name."
+        ]
+      ]
+    }
+  },
+  "pricing": {
+    "title": "Pricing",
+    "lead": "Both options have every feature. Self-hosting is free, forever. TimeWren Cloud costs a monthly fee for hosting, updates, backups and support.",
+    "selfTitle": "Self-hosted",
+    "selfPrice": "Free",
+    "selfPer": "forever, with every feature",
+    "selfPoints": [
+      "Every feature, no seat limit",
+      "Your server, your data",
+      "One install script with Docker Compose",
+      "Community support on GitHub"
+    ],
+    "selfCta": "Read the self-hosting guide",
+    "cloudTitle": "TimeWren Cloud",
+    "cloudPoints": [
+      "Every feature, the same code",
+      "Hosting and updates handled for you",
+      "Backups included",
+      "Email support"
+    ],
+    "perMonth": "per month",
+    "perUserMonth": "per user per month",
+    "sameFeatures": "You pay Cloud for running TimeWren, not for unlocking it. Moving between the two does not change what you can do.",
+    "currency": "Currency",
+    "users": {
+      "one": "1 user",
+      "upTo": "Up to {n} users",
+      "range": "{min} to {max} users"
+    },
+    "clients": {
+      "upTo": "Up to {n} active clients",
+      "unlimited": "Unlimited active clients"
+    },
+    "vat": "All prices exclude VAT.",
+    "billedInDkk": "Prices in EUR and USD are billed in DKK until local billing launches.",
+    "cloudCta": "Create a Cloud account",
+    "plans": {
+      "free": "Gratis",
+      "privat": "Privat",
+      "solo": "Selvstændig",
+      "team": "Team",
+      "business": "Virksomhed"
+    }
+  },
+  "selfHosting": {
+    "title": "Self-hosting",
+    "lead": "TimeWren runs as a small Docker Compose stack: the web app, PostgreSQL and a cron container for scheduled jobs. A self-hosted instance has every feature, and analytics and error reporting stay off until you configure them.",
+    "reqTitle": "Requirements",
+    "req": [
+      "Docker Engine with Compose v2.24 or newer",
+      "2 vCPU and 2 GB of RAM, or 4 GB if you build the image yourself",
+      "10 GB of free disk",
+      "A domain and a reverse proxy with TLS, unless you only try it on localhost"
+    ],
+    "quickTitle": "Quick start",
+    "quickNote": "Open the app and create an account. The first account becomes the instance admin. Migrations run by themselves on every start.",
+    "docsTitle": "The full guide",
+    "docsLead": "The guides cover setup, updates, backups and everything you can configure.",
+    "docs": [
+      ["Quick start", "quickstart"],
+      ["Environment variables", "configuration/environment"],
+      ["Email", "configuration/email"],
+      ["File storage", "configuration/storage"],
+      ["Sign-in, OAuth and passkeys", "configuration/authentication"],
+      ["Reverse proxy and TLS", "operations/reverse-proxy"],
+      ["Upgrading", "operations/upgrading"],
+      ["Backup and restore", "operations/backup-restore"],
+      ["Troubleshooting", "operations/troubleshooting"]
+    ],
+    "telemetry": "Telemetry and outbound connections"
+  },
+  "legal": {
+    "englishPrevails": "In case of discrepancies, the English version prevails.",
+    "englishVersion": "English version",
+    "lastUpdated": "Last updated: {date}",
+    "privacy": {
+      "title": "Privacy policy",
+      "intro": "This policy explains which personal data Mahope collects when you use timewren.com and TimeWren Cloud, how we use it, who we share it with and what rights you have.",
+      "sections": [
+        {
+          "title": "1. Who we are",
+          "paragraphs": [
+            "TimeWren Cloud is run by Mahope (CVR 39413892), Denmark. We are the data controller for the personal data in your account. If you use TimeWren Cloud for data about other people, such as employees or your clients, we are your data processor instead, under the data processing agreement in [the terms](terms)."
+          ]
+        },
+        {
+          "title": "2. What we collect",
+          "items": [
+            "**Account details:** name, email, company name and phone number (optional).",
+            "**Usage data:** time entries, client details, projects, invoices and tasks.",
+            "**Payment data:** subscriptions are paid through Alunta, which handles card details. We never receive your full card number.",
+            "**Calendar data:** calendar events, only if you connect a calendar.",
+            "**Technical data:** IP address, browser type, device type and error reports."
+          ]
+        },
+        {
+          "title": "3. How we use your data",
+          "items": [
+            "To provide and maintain TimeWren Cloud.",
+            "To process payments and manage subscriptions.",
+            "To send transactional emails (confirmations, invoices, password resets).",
+            "To answer support requests.",
+            "To provide AI features, only if you turn them on (section 6).",
+            "To monitor and fix technical problems.",
+            "To meet legal obligations."
+          ]
+        },
+        {
+          "title": "4. Sub-processors we always use",
+          "paragraphs": [
+            "We only share data with third parties when it is needed to run the service. These sub-processors are used for every TimeWren Cloud account:"
+          ],
+          "items": [
+            "**Hetzner Online GmbH (Germany):** server, database, files, backups and our own mail server. The database is in Nuremberg, Germany, and files and backups are in Helsinki, Finland. Both are in the EU.",
+            "**Resend, Inc. (USA):** sends emails from TimeWren Cloud (login links, notifications, reminders) and receives emails you forward to it. Resend's EU region in Ireland. Basis: EU standard contractual clauses and the EU-U.S. Data Privacy Framework.",
+            "**Functional Software, Inc. / Sentry (USA):** error reporting. A report can contain a user ID, the URL and technical details; default personal data collection is turned off. Basis: EU-U.S. Data Privacy Framework, with EU standard contractual clauses as a fallback.",
+            "**Discord Inc. (USA):** internal operations messages to us, including name and email when a user is created. Basis: EU-U.S. Data Privacy Framework and EU standard contractual clauses."
+          ]
+        },
+        {
+          "title": "5. Services you choose to connect",
+          "paragraphs": [
+            "These are only used when you or your users turn them on. They process data under your own agreement with the provider:"
+          ],
+          "items": [
+            "**Login with Microsoft (Entra ID), Google, Apple, GitHub or Discord:** we receive your name and email from the provider.",
+            "**Google Calendar and iCloud calendar:** calendar sync when you connect a calendar.",
+            "**SMS login (MessageBird):** only if you choose phone login. We send your phone number and a one-time code by SMS.",
+            "**Push notifications (650 Industries, Inc. / Expo, USA):** to the mobile app, forwarded through Apple Push Notification Service or Firebase Cloud Messaging. Basis: EU-U.S. Data Privacy Framework.",
+            "**AI provider you choose (for example OpenAI or Anthropic):** only when a user enters their own API key (section 6).",
+            "**Billy, Dinero, e-conomic and TimeOps:** bookkeeping, invoicing and import, when you connect your accounting system.",
+            "**Slack, Microsoft Teams and Discord webhooks:** notifications to your own channels, when you create a webhook. Webhook URLs are stored encrypted (AES-256-GCM)."
+          ],
+          "after": [
+            "We never sell your data. We do not use Google Analytics, Facebook Pixel or other third-party tracking tools."
+          ]
+        },
+        {
+          "title": "6. AI features",
+          "items": [
+            "AI features (task suggestions, time estimates, prioritisation and categorisation) are off by default.",
+            "They only work when a user enters their own API key for an AI provider under Settings. TimeWren Cloud has no shared AI key.",
+            "Only the data needed is sent (task texts and time entries), never passwords, payment details or personal messages.",
+            "You can turn AI features off at any time under Settings."
+          ]
+        },
+        {
+          "title": "7. Google user data",
+          "paragraphs": [
+            "When you connect Google Calendar, TimeWren Cloud gets access to data from your Google account through Google's APIs:"
+          ],
+          "items": [
+            "**What we access:** by default only read access to your calendar (calendar.readonly) and the email address of your Google account (userinfo.email). We read your list of calendars and the events in the calendars you choose: title, time, duration, description, location and your response status. We only use the email address to show which Google account is connected.",
+            "**Write access is optional:** only if you turn on a feature that writes, we ask for access to create and change events (calendar.events). It is only used to create, update and delete the events you ask TimeWren to make: time blocks for tasks and exported time entries. We never change or delete other events in your calendar.",
+            "**How we use it:** to show your meetings in TimeWren so you can turn them into time entries, suggest free time for tasks and give you an overview of your day. We do not use Google data for advertising, do not sell it and do not use it to train AI models.",
+            "**Sharing:** Google data is not shared with anyone other than the processors needed to run the service (hosting at Hetzner in the EU). If you have turned on AI features yourself, titles and times of events that are not yet registered are sent to your AI provider to suggest projects and time entries.",
+            "**Storage and deletion:** events and access tokens are stored on our servers in the EU and transferred encrypted. Google access tokens are also stored encrypted in the database (AES-256-GCM). If you disconnect under Settings, Integrations, we delete your tokens and the events we fetched from Google. You can also remove TimeWren's access in your [Google account](https://myaccount.google.com/connections)."
+          ],
+          "after": [
+            "TimeWren's use and transfer to any other app of information received from Google APIs will adhere to the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements."
+          ]
+        },
+        {
+          "title": "8. How long we keep your data",
+          "paragraphs": [
+            "We keep your data as long as you have an active account. If you delete your account, we delete or anonymise your personal data within 30 days, unless the law requires us to keep it longer (for example 5 years for bookkeeping records under the Danish Bookkeeping Act)."
+          ],
+          "items": [
+            "**Login sessions:** 7 days",
+            "**Payment events:** 90 days",
+            "**Error reports (Sentry):** 90 days",
+            "**Bookkeeping records:** up to 5 years"
+          ]
+        },
+        {
+          "title": "9. Your rights",
+          "paragraphs": [
+            "Under the GDPR you have the right to access, correct and delete your data, to export it (data portability) and to object to processing. To use your rights, email {email}. You can also complain to the Danish Data Protection Agency ([Datatilsynet](https://www.datatilsynet.dk))."
+          ]
+        },
+        {
+          "title": "10. Security",
+          "items": [
+            "TLS encryption for all data in transit.",
+            "Access tokens, API keys and passwords for integrations are stored encrypted in the database (AES-256-GCM).",
+            "Encrypted database backups.",
+            "Regular security updates.",
+            "Access control and authentication."
+          ]
+        },
+        {
+          "title": "11. Cookies",
+          "paragraphs": [
+            "timewren.com sets no cookies. TimeWren Cloud only uses strictly necessary cookies for login and sessions. We use no marketing or third-party tracking cookies. If we turn on statistics, they use our own self-hosted Plausible at Hetzner in the EU, which is cookieless and stores no personal data."
+          ]
+        },
+        {
+          "title": "12. Self-hosted installations",
+          "paragraphs": [
+            "This policy does not cover TimeWren installations that someone else runs on their own server. A self-hosted installation sends no time entries, clients or invoices to Mahope. Whoever runs it is the data controller (or processor) for the data in it and is responsible for its security, backups, sub-processors and privacy policy. The self-hosting guide lists what the default build loads from third parties."
+          ]
+        },
+        {
+          "title": "13. Changes to this policy",
+          "paragraphs": [
+            "We may update this policy. We will tell you about significant changes by email or in TimeWren Cloud."
+          ]
+        },
+        {
+          "title": "14. Contact",
+          "paragraphs": [
+            "Questions about this policy: {email}. Mahope, CVR 39413892, Denmark."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of service",
+      "intro": "These terms apply when you use TimeWren Cloud. Please read them carefully.",
+      "sections": [
+        {
+          "title": "1. Acceptance",
+          "paragraphs": [
+            "By creating an account and using TimeWren Cloud you agree to these terms. If you do not agree, you may not use the service."
+          ]
+        },
+        {
+          "title": "2. The service",
+          "paragraphs": [
+            "TimeWren Cloud is the hosted version of TimeWren, run by Mahope (CVR 39413892), Denmark. It offers:"
+          ],
+          "items": [
+            "Time tracking and prepaid hours",
+            "Project and client management",
+            "Invoicing and reports",
+            "Integrations, including Danish accounting tools (Billy, Dinero, e-conomic) and the Danish company register (CVR)"
+          ]
+        },
+        {
+          "title": "3. Open-source software and self-hosting",
+          "paragraphs": [
+            "The TimeWren software is open source. It is covered by its own licence (AGPL-3.0, the browser extension MIT), not by these terms. These terms only cover TimeWren Cloud. They do not cover installations that someone else runs on their own server: whoever runs a self-hosted installation is responsible for it, for the data in it and for the terms that apply to its users. Mahope has no access to self-hosted installations and makes no availability, backup or support commitments for them."
+          ]
+        },
+        {
+          "title": "4. Accounts",
+          "paragraphs": ["You are responsible for:"],
+          "items": [
+            "Keeping your login details secure",
+            "All activity under your account",
+            "Giving correct and up-to-date information",
+            "Telling us at once if your account is used without permission"
+          ]
+        },
+        {
+          "title": "5. Prices and payment",
+          "items": [
+            "**Plans and prices:** the current plans and prices are on the [pricing page](pricing).",
+            "**Yearly payment:** costs the same as 10 months (2 months free).",
+            "**Trial:** 30 days free, no card required and no commitment.",
+            "**Currency and VAT:** prices exclude VAT. Subscriptions are billed in Danish kroner (DKK). Prices shown in EUR or USD are billed in DKK.",
+            "**Payment:** monthly or yearly in advance by card.",
+            "**Cancellation:** you can cancel at any time without commitment.",
+            "**Refunds:** we offer a 14-day money-back guarantee. Email {email} to ask for a refund."
+          ]
+        },
+        {
+          "title": "6. AI features",
+          "paragraphs": [
+            "TimeWren Cloud has optional AI features (task suggestions, time estimates, categorisation). They only work when you enter a key for an AI provider under Settings. When you use them:"
+          ],
+          "items": [
+            "AI features are off by default and need your active choice",
+            "Relevant task texts and time data are sent to the AI provider you chose, never passwords, payment details or personal messages",
+            "AI suggestions are guidance and can be wrong. You are responsible for checking and approving them before use",
+            "We are not responsible for the accuracy of AI-generated content",
+            "You can turn AI features off at any time"
+          ]
+        },
+        {
+          "title": "7. Acceptable use",
+          "paragraphs": ["You may not use TimeWren Cloud to:"],
+          "items": [
+            "Share illegal content or infringe the rights of others",
+            "Send spam or phishing emails",
+            "Try to hack or compromise the system",
+            "Use the service for illegal purposes",
+            "Create several free accounts to get around limits"
+          ]
+        },
+        {
+          "title": "8. Your data",
+          "paragraphs": [
+            "You keep all rights to your data. We do not own the data you put into the service. At any time you can:"
+          ],
+          "items": [
+            "Download all your data as one file under Settings, Import and export, also without a paid subscription. In a team, owners and administrators can download the whole team's data, and each member can download their own",
+            "Delete your account and all its data",
+            "Move your data to another platform"
+          ]
+        },
+        {
+          "title": "9. Data processing agreement",
+          "paragraphs": [
+            "If you use TimeWren Cloud for personal data about others, such as employees, clients or contact persons, you are the data controller and Mahope is your data processor. This section is the data processing agreement under Article 28 of the GDPR and is part of these terms. It applies to all plans."
+          ],
+          "items": [
+            "**Purpose and nature:** we process the data to provide, run, maintain, secure and support TimeWren Cloud for you: time, absence and timesheet records, your clients, contact persons, projects, tasks, prepaid hours and invoice data, approvals, notifications and reports, the client portal when you turn it on, exports to your payroll and accounting systems, login (including Microsoft Entra ID single sign-on), backups, troubleshooting, security monitoring and support.",
+            "**Data subjects:** your employees, managers and administrators, external consultants you add, your clients and their contact persons, client portal users and senders of emails you forward or connect.",
+            "**Personal data:** names, email addresses, phone numbers, employee details and working hours, time and absence records, timesheet status and approval history; for your clients and contact persons: name, email, phone, address, company number, notes, rates, invoices and prepaid hours; content of tasks and emails you create, forward or connect; IP addresses and logs from logins and actions.",
+            "**Special categories:** absence types such as sickness, child's sickness and parental leave can reveal health data. We only process them as an absence category and period. Do not enter health details in free text, and instruct your users not to.",
+            "**National identification numbers** (such as Danish CPR numbers) are not processed in TimeWren Cloud. You may not enter them.",
+            "**Instructions:** we only process data on your documented instructions. This agreement, your configuration and your use of the features are the instructions. We tell you at once if we believe an instruction breaks data protection law.",
+            "**Confidentiality and security:** everyone with access to the data is bound by confidentiality. We apply the security measures in section 10 of the [privacy policy](privacy), matched to the risk (GDPR Article 32).",
+            "**Assistance:** we help you meet your obligations towards data subjects (Articles 12 to 23) and under Articles 32 to 36. Every user can download their own data under Settings, Import and export. Other requests are handled by support within 10 working days.",
+            "**Personal data breaches:** we notify you without undue delay and no later than 48 hours after becoming aware of a breach affecting your data. The notice goes to your registered administrators and includes the information in Article 33(3) as far as possible. We help you notify the supervisory authority and, where relevant, the data subjects.",
+            "**Sub-processors:** you give general authorisation to the sub-processors listed in sections 4 and 5 of the [privacy policy](privacy). We give at least 30 days' notice by email to your administrators before adding or replacing one. You can object with reasons before the deadline. If we cannot find a solution, you can cancel your subscription at the end of the notice period at no extra cost. We impose the same data protection obligations on our sub-processors and remain fully responsible for them. Services you choose to connect process data under your own agreement with the provider.",
+            "**Transfers outside the EU:** your database, files and backups are stored in the EU (Germany and Finland). Where a sub-processor processes data outside the EU/EEA, we make sure there is a valid transfer basis (GDPR Chapter V), such as the EU-U.S. Data Privacy Framework or EU standard contractual clauses.",
+            "**Your obligations:** you make sure the processing has a legal basis, that data subjects are informed and that your instructions are lawful. You manage your users' access and roles, including removing people who leave, and the integrations and single sign-on settings you set up.",
+            "**Audits:** once a year, with at least 30 days' written notice, you can audit our compliance with this agreement yourself or through an independent third party. Instead, we can provide our own security documentation, audit reports from sub-processors and answers to your written questionnaire. You pay your own audit costs; our time beyond 8 hours a year is billed at our hourly rate.",
+            "**Duration and deletion:** the agreement applies as long as we process personal data for you. Owners and administrators can download all your data as one file at any time. After your subscription ends you can still download it for 30 days. Then we delete all your personal data unless the law requires otherwise. Data in backups is deleted when the backup expires, no later than 30 days after deletion. You can ask us to delete your organisation and all its data earlier.",
+            "**Audit log:** the organisation's audit log of time entries and corrections can help you document compliance with working-time recording rules. Any duty to keep it (for example 5 years under Danish law) is yours. Download it with your export before your subscription ends.",
+            "**Liability and law:** liability follows GDPR Article 82 and the limits in these terms, except for loss caused by intent or gross negligence. Danish law applies and disputes are settled at our place of business, unless mandatory law says otherwise."
+          ]
+        },
+        {
+          "title": "10. Service level",
+          "paragraphs": ["We aim to provide:"],
+          "items": [
+            "99.9% uptime per year",
+            "Daily automatic backups of your data",
+            "Support replies within 24 hours"
+          ],
+          "after": [
+            "We announce planned maintenance at least 48 hours in advance."
+          ]
+        },
+        {
+          "title": "11. Ending the agreement",
+          "items": [
+            "**Your cancellation:** you can cancel at any time from your account. You keep access until the end of the period you have paid for.",
+            "**Our cancellation:** we may suspend or close your account with 30 days' notice if you break these terms.",
+            "**If TimeWren Cloud closes:** you get an email at least 6 months before. Until then you can download all your data as one file, including attachments, audit log and approval history. If you have paid in advance for a period after the closure, we refund the unused part. Your data is then deleted under section 9, also in backups."
+          ]
+        },
+        {
+          "title": "12. Disclaimer and liability",
+          "paragraphs": [
+            "TimeWren Cloud is provided as is, without warranties of any kind. We are not liable for:"
+          ],
+          "items": [
+            "Loss of data or income",
+            "Indirect or consequential loss",
+            "Third-party integrations that fail",
+            "The accuracy of AI-generated suggestions, estimates or categorisations"
+          ],
+          "after": [
+            "Our total liability is limited to the amount you have paid in the last 12 months."
+          ]
+        },
+        {
+          "title": "13. Changes to these terms",
+          "paragraphs": [
+            "We may update these terms. For significant changes, including changes to the data processing agreement, we email you at least 30 days in advance."
+          ]
+        },
+        {
+          "title": "14. Law",
+          "paragraphs": [
+            "These terms are governed by Danish law. Disputes are settled by the Danish courts. Consumers keep any mandatory rights under the law of their own country."
+          ]
+        },
+        {
+          "title": "15. Contact",
+          "paragraphs": [
+            "Questions about these terms: {email}. Mahope, CVR 39413892, Denmark."
+          ]
+        }
+      ]
+    }
+  }
+}

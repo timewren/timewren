@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Abonnement",
+    "description": "Plan, betaling og fakturering",
+    "adminOnly": "Bare eiere og administratorer kan endre abonnementet, kjøpe seter og se betalinger."
+  },
+  "states": {
+    "noBilling": "Denne installasjonen har ingen betalingsleverandør, så alle funksjoner er åpne og det finnes ingen planer eller begrensninger.",
+    "comingSoonTitle": "Betaling kommer snart",
+    "comingSoon": "Du er på gratisplanen. Betalte planer kommer snart, og inntil da koster det ingenting.",
+    "loading": "Laster abonnement…",
+    "none": "Fant ikke noe abonnement. Start med å velge en plan.",
+    "choosePlan": "Velg en plan",
+    "previousWebPayments": "Tidligere betalinger på nettet",
+    "redirecting": "Sender deg videre…"
+  },
+  "cycle": {
+    "monthly": "Månedlig",
+    "yearly": "Årlig",
+    "twoMonthsFree": "2 måneder gratis",
+    "perMonthExclVat": "/md. ekskl. mva.",
+    "perYearExclVat": "/år ekskl. mva.",
+    "krPerMonth": "{price} kr/md.",
+    "krPerYear": "{price} kr/år"
+  },
+  "status": {
+    "active": "Aktivt",
+    "free": "Gratis",
+    "trialing": "Prøveperiode",
+    "pastDue": "Betaling forfalt",
+    "canceled": "Sagt opp"
+  },
+  "invoiceStatus": {
+    "paid": "Betalt",
+    "open": "Åpen",
+    "draft": "Utkast",
+    "void": "Annullert",
+    "uncollectible": "Mislyktes",
+    "unknown": "Ukjent"
+  },
+  "history": {
+    "title": "Betalingshistorikk",
+    "columnDate": "Dato",
+    "columnNumber": "Nummer",
+    "columnAmount": "Beløp",
+    "columnStatus": "Status",
+    "columnPdf": "PDF",
+    "empty": "Ingen betalinger ennå. Betalingshistorikken vises her når du har gjort den første betalingen."
+  },
+  "toast": {
+    "planChangedYearly": "Planen er endret til årlig",
+    "planChangedMonthly": "Planen er endret til månedlig",
+    "canceled": "Abonnementet er sagt opp. Det er aktivt til slutten av perioden.",
+    "reactivated": "Abonnementet er aktivert igjen!",
+    "trialRequested": "Forespørselen er sendt! Vi tar kontakt så snart vi kan.",
+    "trialRequestFailed": "Kunne ikke sende forespørselen. Prøv igjen.",
+    "paymentMethodAdded": "Betalingsmåten er lagt til!",
+    "seatsUpdated": "Setene er oppdatert! Det kan ta et øyeblikk før endringen vises.",
+    "paymentCanceled": "Betalingen er avbrutt"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Du har # dag igjen av prøveperioden} other {Du har # dager igjen av prøveperioden}}",
+    "startsAutomatically": "Abonnementet ditt starter automatisk etter prøveperioden",
+    "addPaymentToContinue": "Legg til en betalingsmåte for å fortsette etter prøveperioden",
+    "needMoreTime": "Trenger du mer tid?",
+    "addPayment": "Legg til betaling",
+    "checkoutNoteFounding": "Betalingssiden viser standardprisen. Rabatten din som grunnleggermedlem på {percent} % trekkes fra automatisk etter betaling."
+  },
+  "pendingCancel": {
+    "expiresOn": "Abonnementet ditt utløper {date}",
+    "expiresUnknown": "Abonnementet ditt utløper på en ukjent dato",
+    "reactivateHint": "Du kan aktivere abonnementet igjen før den tid",
+    "reactivating": "Aktiverer igjen…",
+    "reactivate": "Aktiver igjen"
+  },
+  "plan": {
+    "current": "Nåværende plan",
+    "freeLimits": "Opptil {maxSeats} brukere · {used} av {maxClients} aktive kunder i bruk. Oppgrader for flere kunder, flere brukere, fakturering og klippekort.",
+    "seatsIncluded": "{count, plural, one {# bruker inkludert} other {# brukere inkludert}}",
+    "seatsWithExtra": "{count, plural, one {# bruker} other {# brukere}} · {included} inkl. + {extra} ekstra",
+    "foundingDiscount": "{percent} % rabatt som grunnleggermedlem",
+    "foundingDiscountForever": "{percent} % rabatt som grunnleggermedlem, for alltid",
+    "foundingDiscountExpires": "{percent} % rabatt som grunnleggermedlem, utløper {date}",
+    "trialEnds": "Prøveperioden slutter: {date}",
+    "nextBilling": "Neste fakturering: {date}"
+  },
+  "roi": {
+    "titleReturn": "Avkastningen din med {brand}",
+    "titleActivity": "Aktiviteten din i {brand}",
+    "spent": "Brukt på {brand}",
+    "freeSoFar": "Gratis så langt!",
+    "trackedValue": "Verdi av registrert tid",
+    "invoicedTotal": "Fakturert totalt",
+    "return": "Avkastning"
+  },
+  "payment": {
+    "title": "Betaling",
+    "portalDescription": "Administrer betalingsmåte og fakturaer via betalingsportalen.",
+    "manage": "Administrer betaling",
+    "noMethod": "Ingen betalingsmåte er lagt til ennå",
+    "addMethod": "Legg til betalingsmåte",
+    "checkoutNoteFounding": "Betalingssiden viser standardprisen. Rabatten din på {percent} % trekkes fra automatisk."
+  },
+  "seats": {
+    "title": "Seter",
+    "usage": "{used} av {total} seter i bruk",
+    "pendingInvites": "{count, plural, one {# sete er opptatt av ventende invitasjoner} other {# seter er opptatt av ventende invitasjoner}}",
+    "reseatsReminder": "Husk å tegne de {count} ekstra setene dine på nytt til prisen for {plan}. Fullfør setekjøpet nedenfor, så faktureringen stemmer med kapasiteten din.",
+    "extraLabel": "Ekstra seter (utover de {included} inkluderte)",
+    "fewer": "Færre seter",
+    "more": "Flere seter",
+    "price": "Pris",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr/år ekskl. mva.",
+    "priceSuffixMonthly": "kr/md. ekskl. mva.",
+    "adjust": "Juster seter",
+    "buy": "Kjøp seter",
+    "note": "Det nåværende tilleggskjøpet av seter erstattes av det nye antallet. Du gjør et nytt kjøp, og det gamle tillegget sies automatisk opp. Planen din tillater opptil {max} seter totalt."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "For privatpersoner",
+      "feature1": "1 bruker"
+    },
+    "solo": {
+      "tagline": "For frilansere",
+      "feature1": "1 bruker, ubegrenset antall kunder",
+      "feature2": "Klippekort, fakturering og integrasjoner",
+      "feature3": "Web, app, utvidelse og skrivebordsapp inkludert"
+    },
+    "team": {
+      "tagline": "For små team",
+      "feature1": "Alt i {plan}",
+      "feature2": "2 brukere inkludert",
+      "feature3": "Felles kunder, prosjekter og klippekort"
+    },
+    "business": {
+      "tagline": "For bedrifter",
+      "feature1": "Alt i {plan}",
+      "feature2": "5 brukere inkludert",
+      "feature3": "Fleksitid, fravær og etterlevelse"
+    },
+    "usersIncluded": "{count} brukere inkl."
+  },
+  "upgrade": {
+    "title": "Oppgrader planen din",
+    "blocked": "Du har {count, plural, one {# ekstra sete} other {# ekstra seter}} som ennå ikke kan flyttes automatisk til {plan}. Kontakt oss på support@timetrack.dk, så oppgraderer vi deg uten at du mister noen seter.",
+    "to": "Oppgrader til {plan}",
+    "note": "Når du oppgraderer, gjør du et nytt kjøp. Det nåværende abonnementet sies automatisk opp når det nye er aktivt."
+  },
+  "choose": {
+    "title": "Velg plan",
+    "choosePlan": "Velg {plan}",
+    "chooseAndPay": "Velg og betal",
+    "note": "Ekstra brukere utover de inkluderte legges til etter registreringen. Rabatten som grunnleggermedlem (hvis den er aktiv) trekkes automatisk fra {plan} etter betaling."
+  },
+  "discounts": {
+    "title": "Aktive rabatter",
+    "rangeBoth": "Fra {from} til {to}",
+    "rangeOpenEnded": "Fra {from}, uten utløpsdato",
+    "rangeUntil": "Til {to}",
+    "rangeNone": "Ingen utløpsdato"
+  },
+  "metadata": {
+    "title": "Abonnementsdetaljer",
+    "foundingTier": "Grunnleggernivå",
+    "billingCycle": "Faktureringsperiode",
+    "signupSource": "Registreringskilde",
+    "couponCode": "Rabattkode"
+  },
+  "upcoming": {
+    "title": "Kommende betalinger",
+    "columnPeriod": "Periode",
+    "columnPlan": "Plan",
+    "columnAmount": "Beløp"
+  },
+  "switch": {
+    "title": "Bytt plan",
+    "equivalent": "Tilsvarer {price} kr/md.",
+    "toMonthly": "Bytt til månedlig",
+    "toYearly": "Bytt til årlig"
+  },
+  "cancel": {
+    "title": "Si opp abonnementet",
+    "description": "Abonnementet er aktivt til slutten av den inneværende faktureringsperioden.",
+    "areYouSure": "Er du sikker?",
+    "activeUntil": "Abonnementet ditt er aktivt til {date}. Etter det mister du tilgangen til premiumfunksjonene.",
+    "activeUntilEnd": "Abonnementet ditt er aktivt til slutten av perioden. Etter det mister du tilgangen til premiumfunksjonene.",
+    "keep": "Behold abonnementet",
+    "confirm": "Ja, si opp abonnementet",
+    "canceling": "Sier opp…"
+  }
+}

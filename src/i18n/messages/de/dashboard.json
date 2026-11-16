@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# überfällige Aufgabe} other {# überfällige Aufgaben}}",
+    "needsAttention": "Erfordert Aufmerksamkeit",
+    "lowBalance": "{count, plural, one {# Stundenpaket mit niedrigem Restguthaben} other {# Stundenpakete mit niedrigem Restguthaben}}",
+    "lowBalanceSub": "Niedriges Restguthaben",
+    "expiring": "{count, plural, one {# Stundenpaket läuft bald ab} other {# Stundenpakete laufen bald ab}}",
+    "expiringSub": "Innerhalb von 14 Tagen",
+    "unbilled": "{amount} nicht abgerechnet",
+    "unbilledSub": "Bereit zur Abrechnung",
+    "title": "Handlungsbedarf"
+  },
+  "appDrawer": {
+    "apps": "Apps",
+    "heading": "{brand}-Apps",
+    "downloadFor": "Herunterladen für {os}{version} · Beta",
+    "seeDownloads": "Downloads in den Einstellungen ansehen",
+    "downloadComing": "Der Download kommt bald. Siehe Einstellungen",
+    "chromeExtension": "Chrome-Erweiterung",
+    "chromeExtensionHint": "Zeit im Browser erfassen",
+    "installApp": "Als App installieren",
+    "installAppHint": "Lege {brand} auf deinen Desktop",
+    "alreadyInstalled": "Bereits installiert",
+    "addToHome": "Zum Startbildschirm oder Desktop hinzufügen"
+  },
+  "demo": {
+    "clearedKept": "Beispieldaten gelöscht. {kept, plural, one {# Demo-Kunde wurde bereits verwendet (z. B. abgerechnet) und bleibt als normaler Kunde erhalten.} other {# Demo-Kunden wurden bereits verwendet (z. B. abgerechnet) und bleiben als normale Kunden erhalten.}}",
+    "cleared": "Die Beispieldaten sind gelöscht. Das Konto gehört dir.",
+    "nothingToClear": "Es gab keine Beispieldaten zu löschen.",
+    "clearFailed": "Beispieldaten konnten nicht gelöscht werden",
+    "banner": "<strong>Du siehst Beispieldaten.</strong> Die Kunden, Stunden und das Stundenpaket sind erfunden, damit du sehen kannst, wie {brand} im Einsatz aussieht. Lösche sie, wenn du mit deinen eigenen Daten starten möchtest.",
+    "confirm": "Beispieldaten löschen? Die Demo-Kunden und ihre Beispielprojekte, -stunden und -stundenpakete werden gelöscht. Alles, was du selbst angelegt hast (z. B. Rechnungen oder eigene Stunden), bleibt erhalten.",
+    "clearButton": "Demodaten löschen"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "Die Desktop-App für Mac und Windows{version}. Sie ist in der Beta-Phase und kann Fehler enthalten.",
+    "version": ", Version {version}",
+    "withoutDownloads": "Die Desktop-App ist in der Beta-Phase. Der Download-Link erscheint hier, sobald {brand} die neueste Version abrufen kann.",
+    "hide": "Ausblenden",
+    "reportHint": "Fehler entdeckt? Nutze „Fehler oder Mangel melden“ in der App."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Lege deinen ersten Kunden an",
+      "hasTimeEntry": "Erfasse deine erste Stunde",
+      "hasKlippekort": "Lege ein Stundenpaket an",
+      "hasInvoice": "Erstelle deine erste Rechnung"
+    },
+    "daysLeft": "{count, plural, one {# Tag} other {# Tage}} deiner kostenlosen Testphase verbleibend",
+    "addPayment": "Zahlung hinzufügen",
+    "gettingStarted": "Erste Schritte ({done}/{total})",
+    "hide": "Ausblenden",
+    "progressLabel": "Fortschritt bei den ersten Schritten",
+    "createAccount": "Konto anlegen"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Kundenrisiko",
+      "daysAgo": "vor {days} Tagen",
+      "allActive": "Alle deine Kunden hatten in den letzten 60 Tagen Aktivität ✓",
+      "seeAll": "Alle ansehen",
+      "count": "{count, plural, one {# Kunde ohne Aktivität seit über 60 Tagen} other {# Kunden ohne Aktivität seit über 60 Tagen}}",
+      "lastActive": "Zuletzt aktiv: {date}",
+      "revenue6m": "{amount} (6 Monate)",
+      "hoursLeft": "{hours} Std. übrig",
+      "openClient": "Kunde öffnen",
+      "sendCheckIn": "Check-in-E-Mail senden",
+      "checkInSubject": "Check-in",
+      "more": "+ {count} weitere gefährdete Kunden"
+    },
+    "calendarSync": {
+      "title": "Kalender vs. erfasst",
+      "seeCalendar": "Kalender ansehen",
+      "captureRate": "Erfassungsquote",
+      "eventsTracked": "{tracked}/{total} Termine erfasst",
+      "calendar": "Kalender",
+      "tracked": "Erfasst",
+      "gap": "{hours} Std. im Kalender sind nicht erfasst",
+      "perProject": "Pro Projekt",
+      "moreProjects": "+{count} weitere"
+    },
+    "cashflow": {
+      "title": "Cashflow-Prognose",
+      "seeUnpaid": "Offene ansehen",
+      "empty": "Keine offenen Rechnungen oder aktiven Stundenpakete",
+      "emptyHint": "Sende eine Rechnung, um die Cashflow-Prognose zu sehen",
+      "seeAllUnpaid": "Alle offenen ansehen",
+      "overdueInvoices": "{count, plural, one {# Rechnung überfällig} other {# Rechnungen überfällig}}: ",
+      "overdue": "Überfällig: ",
+      "week": "KW {number}",
+      "estimated": "(gesch.)",
+      "prepaidTag": "(Stundenpaket)",
+      "expected30": "Erwartet in den nächsten 30 Tagen"
+    },
+    "coverage": {
+      "title": "Auslastungsgrad",
+      "details": "Details ansehen",
+      "period": "Zeitraum",
+      "loadFailed": "Auslastungsgrad konnte nicht geladen werden",
+      "noTime": "In diesem Zeitraum wurde noch keine Zeit erfasst.",
+      "trackTime": "Zeit erfassen",
+      "billable": "Abrechenbar",
+      "nonBillable": "Nicht abrechenbar",
+      "ratio": "<b>{ratio}</b> nicht abrechenbar pro abgerechneter Stunde",
+      "clientCol": "Kunde",
+      "splitCol": "Abr. / nicht abr."
+    },
+    "dailyHours": {
+      "title": "Stunden pro Tag",
+      "details": "Details ansehen",
+      "avg": "Ø/Tag: ",
+      "total": "Gesamt: ",
+      "hoursShort": "{value} Std.",
+      "day": {
+        "0": "So",
+        "1": "Mo",
+        "2": "Di",
+        "3": "Mi",
+        "4": "Do",
+        "5": "Fr",
+        "6": "Sa"
+      }
+    },
+    "emailSync": {
+      "title": "E-Mail-Sync",
+      "started": "Sync gestartet",
+      "startFailed": "Sync konnte nicht gestartet werden",
+      "never": "Nie",
+      "now": "Gerade eben",
+      "minutes": "{value} Min.",
+      "hours": "{value} Std.",
+      "days": "{value} T.",
+      "startNow": "Sync jetzt starten",
+      "statusOk": "OK",
+      "statusUnstable": "Instabil",
+      "statusError": "Fehler",
+      "emails": "E-Mails",
+      "tasks": "Aufgaben",
+      "clients": "Kunden",
+      "analytics": "Analysen ansehen →"
+    },
+    "emailTasks": {
+      "title": "Aufgaben aus E-Mails",
+      "review": "Prüfen",
+      "noClient": "Kein Kunde",
+      "empty": "Noch keine E-Mail-Aufgaben."
+    },
+    "expiringPackages": {
+      "title": "Ablaufende Stundenpakete",
+      "seeAll": "Alle ansehen",
+      "none": "Keine Stundenpakete laufen bald ab",
+      "noneHint": "Stundenpakete, die innerhalb von 30 Tagen ablaufen, erscheinen hier",
+      "expiredAgo": "Vor {count, plural, one {# Tag} other {# Tagen}} abgelaufen",
+      "expired": "Abgelaufen",
+      "today": "Heute",
+      "days": "{count, plural, one {# Tag} other {# Tage}}",
+      "hoursLeft": "Verbleibende Stunden",
+      "value": "Wert",
+      "expires": "Läuft ab am {date}",
+      "more": "+ {count} weitere Stundenpakete",
+      "urgent": "Einige Stundenpakete laufen innerhalb von 7 Tagen ab. Kontaktiere den Kunden zur Verlängerung."
+    },
+    "flexBalance": {
+      "title": "Gleitzeitsaldo",
+      "hours": "{value} Std.",
+      "entries": "{count} Einträge"
+    },
+    "flexNorm": {
+      "title": "Gleitzeitsaldo",
+      "loadFailed": "Das Saldo konnte nicht geladen werden.",
+      "noProfile": "Du hast kein Mitarbeiterprofil in der Organisation.",
+      "unit": "Std.",
+      "carryIn": "Davon übertragen: {value} Std.",
+      "week": "Woche",
+      "month": "Monat",
+      "period": "Periode",
+      "summary": "{registered} von {net} Std. Soll bis heute · Soll der Periode {periodNet} Std.",
+      "seeAccount": "Gleitzeitkonto ansehen"
+    },
+    "hoursComparison": {
+      "title": "Wochenvergleich",
+      "details": "Details ansehen",
+      "none": "Keine Stunden erfasst",
+      "thisWeek": "Diese Woche",
+      "lastWeek": "Letzte Woche",
+      "format": "hh:mm",
+      "increase": "Anstieg",
+      "decrease": "Rückgang",
+      "vsLastWeek": "im Vergleich zur Vorwoche"
+    },
+    "invoiceOverview": {
+      "title": "Rechnungsübersicht",
+      "seeInvoices": "Rechnungen ansehen",
+      "totalInvoiced": "Insgesamt abgerechnet",
+      "draft": "Entwurf",
+      "sent": "Gesendet",
+      "paid": "Bezahlt",
+      "overdue": "Überfällig"
+    },
+    "lowBalance": {
+      "title": "Stundenpakete mit niedrigem Restguthaben",
+      "loadFailed": "Stundenpakete konnten nicht geladen werden",
+      "none": "Keine Stundenpakete mit niedrigem Restguthaben",
+      "seeAll": "Alle ansehen",
+      "intro": "Niedriges Restguthaben",
+      "noClient": "Kein Kunde",
+      "left": "{time} übrig",
+      "more": "+ {count} weitere"
+    },
+    "monthComparison": {
+      "title": "Monatsvergleich",
+      "seeReports": "Berichte ansehen",
+      "vs": "vs",
+      "vsValue": "vs {value}",
+      "hours": "Stunden",
+      "hoursValue": "{value} Std.",
+      "revenue": "Umsatz",
+      "entries": "Zeiteinträge"
+    },
+    "overdueTasks": {
+      "title": "Überschrittene Frist",
+      "none": "Keine Aufgaben mit überschrittener Frist ✓",
+      "seeAll": "Alle ansehen",
+      "count": "{count, plural, one {# Aufgabe} other {# Aufgaben}}",
+      "noProject": "Kein Projekt",
+      "deadline": "Frist: {date}",
+      "more": "+ {count} weitere"
+    },
+    "pendingApprovals": {
+      "title": "Ausstehende Freigaben",
+      "requestOne": "Antrag",
+      "requestOther": "Anträge"
+    },
+    "prepaidStatus": {
+      "title": "Status der Stundenpakete",
+      "allGood": "Alles in Ordnung",
+      "seeAll": "Alle ansehen",
+      "lowBalance": "Niedriges Restguthaben",
+      "noClient": "Kein Kunde",
+      "left": "{time} übrig",
+      "more": "+ {count} weitere",
+      "expiringSoon": "Läuft bald ab (innerhalb von 30 Tagen)",
+      "expired": "Abgelaufen",
+      "today": "Heute",
+      "days": "{count, plural, one {# Tag} other {# Tage}}"
+    },
+    "productivity": {
+      "title": "Produktivität über die Woche",
+      "details": "Details ansehen",
+      "noData": "Noch keine Produktivitätsdaten",
+      "streak": "Aktuelle Serie",
+      "streakDays": "Tage in Folge",
+      "weeklyAvg": "Wochendurchschnitt",
+      "perWeek": "pro Woche",
+      "last8": "Letzte 8 Wochen",
+      "less": "Weniger",
+      "more": "Mehr",
+      "msgHigh": "Fantastisch! Du hast 7+ Tage in Folge gearbeitet. Weiter so!",
+      "msgMid": "Gut gemacht! Bleib dran.",
+      "msgLow": "Du bist dabei! Baue dir eine feste Arbeitsroutine auf.",
+      "streakDay": "Tag in Folge"
+    },
+    "profitability": {
+      "title": "Tatsächlicher Stundensatz",
+      "rate": "{rate} kr/Std.",
+      "hours": "{hours} Std.",
+      "loadFailed": "Daten konnten nicht geladen werden",
+      "noBilled": "Keine abgerechnete Zeit in diesem Monat",
+      "createInvoice": "Rechnung erstellen",
+      "details": "Details",
+      "agreedRate": "Vereinbarter Stundensatz",
+      "realRate": "Tatsächlicher Stundensatz",
+      "vsAgreed": "{percent} % im Vergleich zum Vereinbarten",
+      "billableAvg": "Abrechenbar Ø",
+      "footer": "{total} gesamt · {billable} abrechenbar",
+      "footerInvoiced": "{total} gesamt · {billable} abrechenbar · {invoiced} abgerechnet"
+    },
+    "projectHealth": {
+      "title": "Projektstatus",
+      "seeAll": "Alle ansehen",
+      "alertsHeading": "Budgetwarnungen",
+      "severity": {
+        "exceeded": "Überschritten",
+        "critical": "Kritisch",
+        "warning": "Warnung"
+      },
+      "hoursUsed": "{used} / {budget} Std. verbraucht",
+      "budgetAmount": "{amount} kr Budget",
+      "moreAlerts": "+ {count} weitere Warnungen",
+      "noBudgets": "Keine Projekte mit Budgets",
+      "createProject": "Projekt anlegen",
+      "onTrack": "{count, plural, one {# Projekt im Plan} other {# Projekte im Plan}}",
+      "moreProjects": "+ {count} weitere Projekte"
+    },
+    "quickActions": {
+      "title": "Schnellaktionen",
+      "created": "Zeiteintrag erstellt",
+      "createFailed": "Zeiteintrag konnte nicht erstellt werden",
+      "fillAll": "Fülle alle Felder korrekt aus",
+      "addClient": "Kunde hinzufügen",
+      "newProject": "Neues Projekt",
+      "startTimer": "Timer starten",
+      "createInvoice": "Rechnung erstellen",
+      "quickEntry": "Schnelle Zeiterfassung",
+      "draftSaved": "Entwurf gespeichert",
+      "restoreDraft": "Gespeicherten Entwurf wiederherstellen",
+      "restore": "Wiederherstellen",
+      "projectPlaceholder": "Projekt auswählen",
+      "descriptionPlaceholder": "Woran hast du gearbeitet?",
+      "hoursPlaceholder": "Stunden",
+      "saving": "Wird gespeichert…",
+      "save": "Speichern"
+    },
+    "recentActivity": {
+      "title": "Letzte Aktivität",
+      "none": "Noch keine Aktivität",
+      "seeAll": "Alle ansehen",
+      "now": "Gerade eben",
+      "minutesAgo": "vor {count} Min.",
+      "hoursAgo": "vor {count, plural, one {# Stunde} other {# Stunden}}",
+      "daysAgo": "vor {count, plural, one {# Tag} other {# Tagen}}"
+    },
+    "revenueByClient": {
+      "title": "Umsatz pro Kunde",
+      "seeReports": "Berichte ansehen",
+      "loadFailed": "Umsatz konnte nicht geladen werden",
+      "none": "Kein Umsatz in diesem Monat"
+    },
+    "revenueForecast": {
+      "title": "Umsatzprognose",
+      "seeReports": "Berichte ansehen",
+      "none": "Noch keine Umsatzdaten",
+      "expected": "Erwartet für diesen Monat",
+      "amountKr": "{amount} kr",
+      "basedOn": "Basierend auf {day} / {total} Tagen",
+      "sixMonthAvg": "6-Monats-Durchschnitt"
+    },
+    "rounding": {
+      "title": "Rundungsbonus",
+      "inactive": "Die Rundung ist nicht aktiviert. Verdiene mehr, indem du deine Stunden aufrundest.",
+      "enable": "Rundung aktivieren",
+      "settings": "Einstellungen",
+      "thisMonth": "Diesen Monat",
+      "extra": "zusätzlich durch Rundung verdient",
+      "thisYear": "Insgesamt in diesem Jahr"
+    },
+    "stats": {
+      "activeClients": "Aktive Kunden",
+      "activeProjects": "Aktive Projekte",
+      "hoursThisMonth": "Stunden diesen Monat",
+      "revenueThisMonth": "Umsatz diesen Monat"
+    },
+    "topClients": {
+      "title": "Größte Kunden",
+      "loadFailed": "Daten konnten nicht geladen werden",
+      "none": "Noch keine Kundendaten",
+      "seeAll": "Alle ansehen",
+      "rankedBy": "Nach Stunden gereiht"
+    },
+    "unbilled": {
+      "title": "Nicht abgerechnete Stunden",
+      "loadFailed": "Daten konnten nicht geladen werden",
+      "none": "Keine nicht abgerechneten Stunden",
+      "seeAll": "Alle ansehen",
+      "entries": "{count, plural, one {# Zeiteintrag} other {# Zeiteinträge}}",
+      "totalHours": "Gesamtstunden",
+      "estimatedValue": "Geschätzter Wert"
+    },
+    "absences": {
+      "title": "Anstehende Abwesenheiten",
+      "loading": "Wird geladen…",
+      "none": "Keine genehmigte Abwesenheit geplant",
+      "employee": "Mitarbeiter:in",
+      "absence": "Abwesenheit",
+      "from": "ab {date}"
+    },
+    "deadlines": {
+      "title": "Wichtige Termine",
+      "overdue": "Überfällig",
+      "today": "Heute",
+      "days": "{count, plural, one {# Tag} other {# Tage}}",
+      "needsSetup": "Lege deinen Unternehmenstyp fest, um wichtige Termine zu sehen",
+      "setUpNow": "Jetzt einrichten",
+      "none": "Keine anstehenden Fristen in den nächsten 180 Tagen",
+      "editSettings": "Firmeneinstellungen bearbeiten"
+    },
+    "upcomingTasks": {
+      "title": "Anstehende Aufgaben",
+      "none": "Keine anstehenden Aufgaben",
+      "seeAll": "Alle ansehen",
+      "within7": "Innerhalb von 7 Tagen",
+      "noProject": "Kein Projekt",
+      "deadline": "Frist: {date}",
+      "more": "+ {count} weitere"
+    },
+    "vacation": {
+      "title": "Urlaubssaldo",
+      "daysLeftIn": "Tage übrig in {label}",
+      "daysLeft": "Tage übrig"
+    },
+    "vat": {
+      "titleMonthly": "Mehrwertsteuer diesen Monat",
+      "titleQuarterly": "Mehrwertsteuer dieser Periode",
+      "titleSemiAnnual": "Mehrwertsteuer dieses Halbjahr",
+      "title": "Mehrwertsteuer",
+      "exempt": "Du bist als nicht mehrwertsteuerpflichtig registriert",
+      "changeInSettings": "In den Einstellungen ändern",
+      "createFirst": "Erstelle deine erste Rechnung, um eine Mehrwertsteuer-Schätzung zu sehen",
+      "createInvoice": "Rechnung erstellen",
+      "invoices": "Rechnungen",
+      "toSettle": "Abzuführende Mehrwertsteuer",
+      "percentOf": "25 % von {amount} abgerechnet",
+      "nextDeadline": "Nächste Frist",
+      "inDays": "(in {count, plural, one {# Tag} other {# Tagen}})",
+      "overdue": "(überfällig)",
+      "ytd": "Insgesamt in diesem Jahr",
+      "setAside": "Lege <b>{amount}</b> auf einem separaten Konto zurück"
+    },
+    "weeklyGoal": {
+      "title": "Wochenziel",
+      "loadFailed": "Wochenziel konnte nicht geladen werden",
+      "trackTime": "Zeit erfassen",
+      "reached": "Ziel erreicht!",
+      "onTrack": "Im Plan",
+      "behind": "Im Rückstand",
+      "remaining": "<b>{time}</b> übrig",
+      "perDay": "{time}/Tag für {count, plural, one {# Tag} other {# Tage}}"
+    }
+  }
+}

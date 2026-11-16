@@ -1,0 +1,49 @@
+---
+title: "Coolify"
+description: "Deploy TimeWren on Coolify as a Docker Compose resource with generated secrets, PostgreSQL and a scheduler."
+---
+
+Choose this method if you already run Coolify. The Compose file pulls the published image, so nothing is built locally, and Coolify generates every secret for you.
+
+## Requirements
+
+- A running Coolify instance with a server, and a domain you can point at it.
+- Access to the repository `https://github.com/timewren/timewren` (public).
+
+## Deploy
+
+1. In Coolify, create a new resource: **Docker Compose**, from a Git repository, using `https://github.com/timewren/timewren`.
+2. Set the Compose file path to `/deploy/coolify/docker-compose.yml`. (The root file `docker-compose.coolify.yml` is a compatibility symlink to the same file.)
+3. Give the `app` service a domain, for example `https://timewren.example.com`. The template routes it to container port 3000.
+4. Deploy.
+
+Coolify generates the public app URL (`NEXT_PUBLIC_APP_URL`), the database password, the session secret (`BETTER_AUTH_SECRET`), the cron secret (`CRON_SECRET`) and a 64-character hexadecimal `ENCRYPTION_KEY`. You do not have to set anything.
+
+## What gets deployed
+
+| Service | Image | Role |
+| ------- | ----- | ---- |
+| `app` | `ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}` | The web app. Runs migrations at start. Files on the `storage` volume. |
+| `cron` | same image | Runs `node scripts/cron.mjs` against `http://app:3000`. |
+| `db` | `postgres:18-alpine` | PostgreSQL, data on the `db-data` volume. |
+
+To pin a release, set `TIMEWREN_VERSION` in the resource's environment variables.
+
+## Create your account first
+
+The domain is public as soon as it deploys, and the first account becomes admin. The template sets `REQUIRE_EMAIL_VERIFICATION` to `false` by default so the instance works without a mail server. Open the URL and create your account immediately, or set `ADMIN_EMAIL` and a mail transport (`SMTP_HOST` or `RESEND_API_KEY`) before the first deploy. Setting `REQUIRE_EMAIL_VERIFICATION=true` restores verification.
+
+## Optional settings
+
+The Compose file exposes optional variables for mail (`SMTP_*`, `RESEND_*`), S3 storage (`S3_*`, together with `STORAGE_DRIVER=s3`), Google and Microsoft sign-in, Dinero, e-conomic and `OPENAI_API_KEY`, plus `TZ`, `ADMIN_EMAIL`, `DESKTOP_UPDATER_REPO` and `CHANGELOG_REPO`. Set them as environment variables on the resource. See [Environment variables](/docs/configuration/environment).
+
+## Back up
+
+Back up the generated secrets and both named volumes (`db-data` and `storage`). Keep `ENCRYPTION_KEY`: replacing it makes saved integration tokens unreadable. Changing the database password later does not change the password stored in Postgres.
+
+## Next steps
+
+- [Quickstart](/docs/quickstart)
+- [Email](/docs/configuration/email)
+- [Upgrading](/docs/operations/upgrading) and [Backup and restore](/docs/operations/backup-restore)
+- [Troubleshooting](/docs/operations/troubleshooting)

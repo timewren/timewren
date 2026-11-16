@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Dobranoc",
+    "morning": "Dzień dobry",
+    "forenoon": "Dzień dobry",
+    "afternoon": "Dzień dobry",
+    "evening": "Dobry wieczór"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Bez nazwy",
+  "noDescription": "Brak opisu",
+  "prompt": {
+    "label": "Nad czym pracowano?",
+    "placeholder": "np. 2 godziny nad stroną dla Jensena wczoraj",
+    "interpret": "Zinterpretuj",
+    "listening": "Słucham…",
+    "hintAvailable": "Wpisz lub podyktuj, a potem naciśnij Enter. Mowa jest przetwarzana lokalnie w przeglądarce, a dźwięk nie jest nigdzie wysyłany.",
+    "hintDownloadable": "Wpisz i naciśnij Enter.",
+    "downloading": "Pobieranie rozpoznawania mowy…",
+    "install": "Pobierz rozpoznawanie mowy (ok. 60 MB, działa lokalnie)",
+    "hintDefault": "Wpisz i naciśnij Enter, np. „1,5 h spotkania z Acme o 9-10:30”. Na telefonie możesz dyktować mikrofonem na klawiaturze. Naciśnij <kbd>/</kbd>, aby tu przejść.",
+    "stopDictation": "Zatrzymaj dyktowanie",
+    "dictate": "Dyktuj mikrofonem",
+    "dictateTitle": "Dyktuj (lokalne rozpoznawanie mowy)",
+    "listeningSr": "Słucham",
+    "missingHint": "wybierz jedną z podpowiedzi poniżej albo popraw to w pełnym formularzu.",
+    "descriptionLabel": "Opis",
+    "descriptionPlaceholder": "Na co poszedł ten czas?",
+    "usePrepaid": "Odlicz od pakietu godzin {name} (zostało {time})",
+    "saveWithHours": "Zapisz {hours}",
+    "save": "Zapisz",
+    "editInForm": "Edytuj w formularzu",
+    "cancel": "Anuluj",
+    "keysHint": "Enter zapisuje · Esc anuluje",
+    "needDescription": "Przed zapisaniem wpisz krótki opis.",
+    "internal": "Zapisano jako czas wewnętrzny.",
+    "savedOffline": "Zapisano offline. Wpis czasu zostanie wysłany po przywróceniu połączenia.",
+    "registered": "Zarejestrowano {hours}",
+    "saveFailed": "Nie udało się zapisać wpisu czasu"
+  },
+  "welcome": {
+    "title": "Witamy w {brand}",
+    "titleDone": "Dobry początek. Twój pierwszy wpis czasu jest zarejestrowany",
+    "hide": "Ukryj powitanie",
+    "intro": "Zacznij w mniej niż minutę: uruchom stoper teraz albo wpisz w polu poniżej, nad czym pracujesz, np. „2 godziny nad stroną wczoraj”. Dane firmy i plan możesz ustawić później.",
+    "timerStarted": "Stoper działa. Zatrzymaj go na pasku stopera u góry, gdy skończysz.",
+    "timerBusy": "Stoper już działa",
+    "startFirstTimer": "Uruchom pierwszy stoper",
+    "writeLine": "Wpisz linijkę w polu",
+    "surveyQuestion": "Do czego głównie będziesz używać {brand}? <muted>(opcjonalnie)</muted>",
+    "primaryUse": {
+      "time": "Śledzić swój czas",
+      "invoicing": "Wystawiać faktury klientom",
+      "klippekort": "Pakiety godzin i opłacone godziny",
+      "team": "Śledzić czas zespołu"
+    },
+    "thanksToast": "Dziękujemy za odpowiedź",
+    "saveFailed": "Nie udało się zapisać odpowiedzi. Spróbuj ponownie.",
+    "thanksNote": "Dziękujemy. Start pokazuje teraz kolejne kroki dopasowane do ciebie.",
+    "privacyNote": "Odpowiedź służy tylko do dopasowania ekranu Start i nie jest nikomu udostępniana."
+  },
+  "quickStart": {
+    "title": "Uruchom stoper",
+    "running": "Stoper już działa. Zatrzymaj go na pasku stopera u góry, zanim uruchomisz nowy.",
+    "paused": "Stoper jest wstrzymany. Najpierw wznów go lub zapisz na pasku stopera u góry.",
+    "resumeToast": "Stoper został uruchomiony i kontynuuje ostatni wpis",
+    "continueLast": "Kontynuuj ostatni",
+    "mostUsed": "Najczęściej używane",
+    "startedOn": "Stoper uruchomiony dla: {name}",
+    "startOn": "Uruchom stoper dla: {name}",
+    "empty": "Twoje najczęściej używane projekty pojawią się tutaj, gdy zarejestrujesz trochę czasu.",
+    "createProject": "Utwórz projekt"
+  },
+  "signals": {
+    "label": "Wymaga uwagi",
+    "nudge": {
+      "first-invoice": "Utwórz pierwszą fakturę z twojego czasu",
+      "first-client": "Utwórz klienta, do którego należy pakiet godzin",
+      "first-klippekort": "Utwórz pierwszy pakiet godzin",
+      "invite-team": "Zaproś współpracownika"
+    },
+    "lowBalance": "{count, plural, one {1 pakiet godzin zaraz się skończy} few {# pakiety godzin zaraz się skończą} many {# pakietów godzin zaraz się skończy} other {# pakietu godzin zaraz się skończy}}",
+    "unbilled": "<b>{duration}</b> nierozliczonego czasu gotowego do faktury"
+  },
+  "today": {
+    "title": "Dziś",
+    "ofExpected": "z {duration}",
+    "loadFailed": "Nie udało się wczytać dzisiejszych wpisów. Spróbuj odświeżyć stronę.",
+    "empty": "Dziś nie zarejestrowano jeszcze czasu. Wpisz powyżej, co zostało zrobione, albo uruchom stoper.",
+    "internal": "Czas wewnętrzny",
+    "resumeToast": "Stoper został uruchomiony i kontynuuje wpis",
+    "continueLabel": "Kontynuuj {name}",
+    "continueFallback": "wpis",
+    "continueTitle": "Kontynuuj ze stoperem",
+    "allEntries": "Wszystkie wpisy",
+    "fullForm": "Pełny formularz"
+  },
+  "page": {
+    "title": "Start",
+    "overview": "Przegląd"
+  }
+}

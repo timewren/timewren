@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "免费方案最多可有 3 位活跃客户。请归档一位客户，或查看各方案。",
+    "seePlans": "查看方案"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "全部未开票",
+      "periodThisMonth": "本月",
+      "periodLastMonth": "上月",
+      "draftCreated": "已创建金额为 {amount} 的发票草稿",
+      "createFailed": "无法创建发票草稿",
+      "clientFallback": "该客户",
+      "title": "为 {name} 开票",
+      "description": "将创建一份可供你检查的草稿，不会向客户发送任何内容。",
+      "period": "期间",
+      "loadError": "无法加载未开票工时，请稍后重试。",
+      "noUnbilled": "{name} 在该期间没有未开票工时。",
+      "entries": "记录数",
+      "time": "工时",
+      "amountExVat": "金额（不含增值税）",
+      "timePerProject": "各项目工时",
+      "project": "项目",
+      "amount": "金额",
+      "entryCount": "{count, plural, other {# 条记录}}",
+      "noRate": "{time} 未设置小时费率，将按 0 DKK 计入。你可以在草稿上修改金额。",
+      "footnote": "这些记录将标记为已开票，并逐条列在草稿上。你可以随时删除草稿，相应工时会恢复为未开票。",
+      "pickEntries": "自行选择记录",
+      "cancel": "取消",
+      "createDraft": "创建发票草稿",
+      "createDraftAmount": "创建发票草稿（{amount}）"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, other {距上次开票已 # 天}}",
+      "oldestEntry": "{count, plural, other {最早的记录已有 # 天}}",
+      "ready": "可以开票了",
+      "notInvoiced": "尚未开票",
+      "notInvoicedClient": "{client} 的工时尚未开票",
+      "invoiceNow": "立即开票",
+      "hide": "隐藏 30 天"
+    },
+    "explainer": {
+      "point1": "客户预先支付工时费用，你就不必事后再发发票和催款。",
+      "point2": "为该客户记录工时时，会自动从时长包中扣除。",
+      "point3": "客户可在客户门户中查看余额，时长包快用完时你也会收到通知。",
+      "title": "用预付时长包提前出售工时",
+      "intro": "预付时长包是客户提前购买的一批工时，例如 10 小时，用于日常任务和支持。",
+      "create": "创建预付时长包",
+      "calculator": "用计算器算出价格"
+    },
+    "prepaid": {
+      "offer": "出售 {hours} 小时的预付时长包。大约可用 {months} 个月，客户需提前付款。",
+      "offerPrice": "出售 {hours} 小时的预付时长包（{price}）。大约可用 {months} 个月，客户需提前付款。",
+      "sell": "出售预付时长包",
+      "dismissLabel": "与 {client} 无关，不再显示",
+      "dismissTitle": "不相关，不再为该客户显示",
+      "suggestionLabel": "预付时长包建议",
+      "defaultName": "预付时长包 {hours} 小时",
+      "usageClient": "<name>{client}</name> 近 3 个月每月约用 <num>{time}</num>。",
+      "usageGeneric": "该客户近 3 个月每月约用 <num>{time}</num>。"
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "已暂停",
+      "paymentMissing": "缺少付款",
+      "active": "有效",
+      "paymentFailedRetry": "{store} 无法扣款。请在 {store} 中更新付款方式。付款成功前，你只能使用免费方案的功能。",
+      "paymentFailedGrace": "{store} 无法扣款。请在 {store} 中更新付款方式，以保留访问权限。",
+      "currentPlan": "当前方案",
+      "yearly": "按年",
+      "monthly": "按月",
+      "boughtVia": "通过 {store} 购买",
+      "expires": "{date} 到期",
+      "renews": "{date} 续订",
+      "paymentTitle": "付款",
+      "paymentInfo": "你是在 {brand} 应用中购买的订阅，因此付款和收据由 {store} 处理。更改方案、付款方式或取消订阅，请前往 {store}。",
+      "manage": "在 {store} 中管理"
+    },
+    "wall": {
+      "checkoutFailed": "无法创建付款会话，请重试。",
+      "portalFailed": "无法打开账单门户，请重试。",
+      "headingNone": "你没有有效的订阅",
+      "headingLocked": "你的访问已暂停",
+      "headingPastDue": "缺少你的付款",
+      "headingCanceled": "你的订阅已结束",
+      "headingTrial": "你的试用已到期",
+      "subNone": "创建订阅以使用 {brand}",
+      "subPastDue": "更新付款方式以恢复访问",
+      "subUpgrade": "升级到 {plan} 以继续使用",
+      "pastDueBody": "我们无法收取你最近一笔款项。请更新付款方式，以继续使用 {brand}。",
+      "updatePayment": "更新付款方式",
+      "monthly": "按月",
+      "yearly": "按年",
+      "save17": "省 17%",
+      "perYearExVat": "/年（不含增值税）",
+      "perMonthExVat": "/月（不含增值税）",
+      "equivalent": "相当于每月 {price}，可省 2 个月费用",
+      "featureWorkspace": "多用户共享的团队工作区",
+      "featureTeamReports": "团队报告",
+      "featureUnlimited": "不限量工时追踪",
+      "featureInvoicing": "预付时长包与开票",
+      "featureManagement": "客户与项目管理",
+      "featureReports": "报告与导出",
+      "featureIntegrations": "丹麦本地集成（CVR、Billy 等）",
+      "upgradeNow": "立即升级",
+      "discountNote": "结账页显示标准价格，你的 {percent}% 折扣会自动应用。",
+      "manageAccount": "管理账户",
+      "exportData": "导出数据",
+      "signOut": "退出登录"
+    }
+  }
+}

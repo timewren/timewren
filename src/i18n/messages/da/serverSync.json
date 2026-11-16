@@ -1,0 +1,478 @@
+{
+  "errors": {
+    "insufficientRights": "Du har ikke tilstrækkelige rettigheder til denne handling",
+    "accessDenied": "Du har ikke adgang til denne ressource",
+    "unexpected": "Der opstod en uventet fejl",
+    "clientNotFound": "Kunde ikke fundet",
+    "clientArchived": "Kunde er arkiveret",
+    "projectNotFound": "Projekt ikke fundet",
+    "projectArchived": "Projekt er arkiveret",
+    "timeEntryNotFound": "Tidsregistrering ikke fundet",
+    "timeEntriesNotFound": "En eller flere tidsregistreringer blev ikke fundet",
+    "prepaidNotFound": "Klippekort ikke fundet",
+    "prepaidInactive": "Klippekort er ikke aktivt",
+    "prepaidInsufficientHours": "Ikke nok timer tilbage på klippekortet. Tilgængelige timer: {available}",
+    "prepaidHasUsage": "Klippekort med registreret forbrug kan ikke slettes. Deaktiver det i stedet.",
+    "invoiceNotFound": "Faktura ikke fundet",
+    "invoiceAlreadySent": "Faktura er allerede sendt",
+    "invoiceAlreadyPaid": "Faktura er allerede betalt",
+    "userNotFound": "Bruger ikke fundet",
+    "invalidValue": "Ugyldig værdi for {field}",
+    "operationFailed": "{operation} fejlede"
+  },
+  "friendly": {
+    "network": "Ingen forbindelse til TimeTrack. Tjek dit netværk, og prøv igen.",
+    "server": "Der skete en fejl hos TimeTrack. Prøv igen om lidt.",
+    "validation": "Nogle felter er ikke udfyldt korrekt. Tjek dem, og prøv igen.",
+    "unauthorized": "Du er ikke logget ind længere. Log ind igen.",
+    "forbidden": "Du har ikke adgang til at gøre dette.",
+    "notFound": "Det, du leder efter, findes ikke længere.",
+    "tooManyRequests": "For mange forsøg på kort tid. Vent lidt, og prøv igen.",
+    "retry": "Prøv igen",
+    "login": "Log ind"
+  },
+  "zod": {
+    "invalidExpoToken": "Ugyldigt Expo push-token",
+    "invalidUrl": "Ugyldig URL",
+    "webhookEventRequired": "Vælg mindst én event type",
+    "descriptionRequired": "Beskrivelse er påkrævet",
+    "hoursMin": "Timer skal være mindst 0.01",
+    "endAfterStart": "Sluttid skal være efter starttid",
+    "cursorOrOffset": "Brug enten cursor eller offset, ikke begge",
+    "dateFormat": "Datoen skal være på formen yyyy-MM-dd",
+    "clientOrProject": "Angiv enten en kunde eller et projekt",
+    "nameMin2": "Navn skal være mindst 2 tegn",
+    "invalidEmailShort": "Indtast en gyldig email",
+    "scopeRequired": "Mindst ét scope er påkrævet",
+    "approvalScope": "period kræver periodStart+periodEnd; invoice_draft kræver invoiceId",
+    "invalidEmail": "Indtast en gyldig email adresse",
+    "messageMax500": "Besked må max være 500 tegn",
+    "selectProjectClientOrDescription": "Vælg et projekt, en kunde, eller udfyld beskrivelse",
+    "subjectMin5": "Emne skal være mindst 5 tegn",
+    "messageMin10": "Besked skal være mindst 10 tegn",
+    "invalidDate": "Ugyldig dato",
+    "atLeastOneWorkday": "Mindst én ugedag skal have arbejdstid",
+    "duplicateDate": "Samme dato er tilføjet to gange",
+    "nameRequired": "Navn er påkrævet",
+    "invalidEmailDash": "Ugyldig email-adresse",
+    "selectProjectClientOrDescriptionShort": "Vælg projekt/kunde eller udfyld beskrivelse",
+    "amountRequired": "Beløb er påkrævet",
+    "amountPositive": "Beløb skal være større end 0",
+    "amountTooLarge": "Beløb er for stort",
+    "amountDecimals": "Beløb må maks have 2 decimaler",
+    "selectClient": "Vælg en kunde",
+    "issueDateRequired": "Udstedelsesdato er påkrævet",
+    "unknownTool": "Ukendt værktøj",
+    "invalidCostRate": "Ugyldig kostpris",
+    "companyNameMin2": "Virksomhedsnavn skal være mindst 2 tegn",
+    "invalidEmailAddress": "Ugyldig email adresse",
+    "hourlyRateMin0": "Timepris skal være mindst 0",
+    "confirmProjectName": "Indtast projektnavnet for at bekræfte",
+    "enterName": "Indtast dit navn",
+    "invalidNumber": "Ugyldigt tal",
+    "descriptionMissing": "Beskrivelse mangler",
+    "invalidDateFormat": "Ugyldig dato (forventet åååå-mm-dd)",
+    "nameMissing": "Navn mangler",
+    "hoursRequired": "Timer er påkrævet",
+    "atLeastOneRecipient": "Mindst én modtager",
+    "invalidHexColor": "Invalid hex color",
+    "titleRequired": "Titel er påkrævet",
+    "textRequired": "Tekst er påkrævet",
+    "invalidImageUrl": "Ugyldig URL til billede",
+    "enterDays": "Angiv et antal dage",
+    "invalidColor": "Ugyldig farve",
+    "dateYmd": "Dato som YYYY-MM-DD",
+    "noteRequired": "Angiv en note",
+    "unlockReason": "Skriv en årsag til oplåsningen",
+    "reasonRequired": "Angiv en begrundelse",
+    "reopenReason": "Skriv en årsag til genåbningen",
+    "templateNameRequired": "Giv skabelonen et navn",
+    "employeeOrDepartment": "Vælg enten en medarbejder eller en afdeling",
+    "formatMmDd": "Skal have formatet MM-DD"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "Kunde oprettet",
+      "clientUpdated": "Kunde opdateret",
+      "clientArchived": "Kunde arkiveret",
+      "projectCreated": "Projekt oprettet",
+      "projectUpdated": "Projekt opdateret",
+      "projectStatusChanged": "Projektstatus ændret",
+      "projectBudgetThreshold": "Månedsbudget-tærskel nået",
+      "timeEntryCreated": "Tidsregistrering oprettet",
+      "timeEntryUpdated": "Tidsregistrering opdateret",
+      "timeEntryDeleted": "Tidsregistrering slettet",
+      "invoiceCreated": "Faktura oprettet",
+      "invoiceSent": "Faktura sendt",
+      "invoicePaid": "Faktura betalt",
+      "invoiceOverdue": "Faktura forfalden",
+      "prepaidCreated": "Klippekort oprettet",
+      "prepaidUpdated": "Klippekort opdateret",
+      "prepaidLowBalance": "Klippekort lav saldo",
+      "prepaidExpired": "Klippekort udløbet",
+      "taskCreated": "Opgave oprettet",
+      "taskUpdated": "Opgave opdateret",
+      "taskCompleted": "Opgave færdiggjort"
+    }
+  },
+  "clients": {
+    "invalidDomain": "Ugyldigt domæne: {domain}",
+    "roundingRequired": "roundingMinutes og roundingMethod skal angives når roundingEnabled er true"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "Webhook-URL'en kan ikke vises. Generér en ny URL."
+  },
+  "desktop": {
+    "licenseMismatch": "Vi kunne ikke matche licensnøgle og email. Tjek dem, eller kontakt support."
+  },
+  "common": {
+    "unknownProject": "Ukendt projekt",
+    "unknownError": "Ukendt fejl",
+    "noProject": "Uden projekt",
+    "unknownClient": "Ukendt kunde",
+    "unknown": "Ukendt"
+  },
+  "search": {
+    "invoiceTitle": "Faktura {number}",
+    "timeEntryTitle": "Tidspostering",
+    "timeSubtitle": "{project} • {hours}t",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • {hours}t tilbage",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "Login-koden er ugyldig eller udløbet. Log ind igen.",
+    "import": {
+      "noWorkRuleNoTarget": "En ikke-arbejde-regel peger ikke på et projekt eller en kunde",
+      "ruleNeedsTarget": "En regel skal pege på et projekt eller en kunde",
+      "linesSumMismatch": "Linjernes sum ({sum}) er ikke fakturaens beløb ({amount})",
+      "entryNotImported": "Post {id} blev ikke importeret",
+      "companyProfileMissing": "Virksomhedsoplysningerne mangler. Udfyld dem under Indstillinger → Virksomhedsprofil før import af fakturaer.",
+      "fullCreditOnly": "Kun fuld kreditering kan importeres: kreditnotaens beløb ({amount}) skal være fakturaens ({original}) med modsat fortegn",
+      "invoiceNotFound": "Faktura {id} findes ikke",
+      "creditNoteAmount": "En kreditnota skal have et beløb på 0 eller derunder",
+      "invoiceIsDraft": "Faktura {id} er en kladde og kan ikke krediteres",
+      "refMissing": {
+        "client": "Kunde {id} blev ikke importeret",
+        "project": "Projekt {id} blev ikke importeret",
+        "prepaid": "Klippekort {id} blev ikke importeret",
+        "task": "Opgave {id} blev ikke importeret",
+        "invoice": "Faktura {id} blev ikke importeret"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "Betalte fakturaer kan ikke ændres. Opret eventuelt en kreditnota.",
+      "deleted": "Slettede fakturaer kan ikke gendannes.",
+      "generic": "Kan ikke ændre status fra \"{from}\" til \"{to}\"."
+    },
+    "directTime": "Direkte tid",
+    "status": {
+      "draft": "kladde",
+      "sent": "sendt",
+      "paid": "betalt",
+      "overdue": "forfalden",
+      "deleted": "slettet"
+    },
+    "specHeading": "--- Specifikation ---",
+    "specLine": "{date} - {project}: {description} ({hours} t × {rate} kr = {amount} kr)"
+  },
+  "logbook": {
+    "endAfterStart": "Slutdato skal være efter startdato",
+    "periodMaxDays": "Perioden må højst være {days} dage"
+  },
+  "portal": {
+    "manualDeduction": "Manuelt træk"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "Klippekortet har allerede en gentagen faktura"
+  },
+  "storeBilling": {
+    "notAvailable": "Køb i appen er ikke tilgængeligt endnu."
+  },
+  "subscription": {
+    "storeManaged": "Dit abonnement betales via {provider}. Du ændrer eller opsiger det i {provider}.",
+    "teamPlanNotConfigured": "Team-planen er ikke konfigureret endnu (ALUNTA_PLAN_TEAM_*). Kontakt support.",
+    "businessPlanNotConfigured": "Virksomhed-planen er ikke konfigureret endnu (ALUNTA_PLAN_BUSINESS_*). Kontakt support.",
+    "privatePlanNotAvailable": "Privat-planen er ikke tilgængelig endnu (ALUNTA_PLAN_PRIVAT_*). Vælg en anden plan eller kontakt support.",
+    "freeNotPurchasable": "Gratis-planen kan ikke købes.",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL er ikke sat"
+  },
+  "time": {
+    "invalidEntryDate": "Ugyldig dato — forventet YYYY-MM-DD"
+  },
+  "billedLock": {
+    "onInvoice": "Tidsposten er faktureret og kan ikke ændres. Kreditér fakturaen, eller fjern posten fra fakturakladden, først.",
+    "marked": "Tidsposten er markeret som faktureret og kan ikke ændres. Fjern markeringen først.",
+    "bulk": {
+      "delete": "{count, plural, one {# af de valgte tidsposter er faktureret og kan ikke slettes. Kreditér fakturaen eller fjern markeringen først.} other {# af de valgte tidsposter er faktureret og kan ikke slettes. Kreditér fakturaen eller fjern markeringen først.}}",
+      "edit": "{count, plural, one {# af de valgte tidsposter er faktureret og kan ikke ændres. Kreditér fakturaen eller fjern markeringen først.} other {# af de valgte tidsposter er faktureret og kan ikke ændres. Kreditér fakturaen eller fjern markeringen først.}}",
+      "move": "{count, plural, one {# af de valgte tidsposter er faktureret og kan ikke flyttes. Kreditér fakturaen eller fjern markeringen først.} other {# af de valgte tidsposter er faktureret og kan ikke flyttes. Kreditér fakturaen eller fjern markeringen først.}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "Der findes allerede en aktivitetstype med det navn",
+    "endAfterStart": "Slutdato skal være efter startdato",
+    "fromBeforeTo": "Fra-dato skal ligge før til-dato",
+    "periodMaxDays": "Perioden må højst være {days} dage",
+    "employee": {
+      "importManagerMissing": "Leder {email} findes hverken i filen eller i organisationen — medarbejderen er importeret uden leder"
+    },
+    "payroll": {
+      "hrOnly": "Lønmapping er forbeholdt HR og administratorer"
+    },
+    "closing": {
+      "changedMeanwhile": "Opgørelsen blev ændret imens — genindlæs siden",
+      "locked": "Perioden er afsluttet og låst — en administrator skal låse den op (med årsag), før registreringer kan ændres"
+    },
+    "team": {
+      "absenceLabel": "Fravær"
+    },
+    "timesheet": {
+      "coveredByRequest": "Dagen er dækket af en fraværsanmodning oprettet under Fravær — ret den dér",
+      "otherTypeAbsence": "Du har allerede fravær af en anden type denne dag",
+      "absenceRecordedElsewhere": "Fraværet blev registreret samtidig fra et andet sted — genindlæs ugen",
+      "overMax": "{label}: {total} t overstiger maks. {max} t pr. dag",
+      "emptyWorkday": "{label} er en arbejdsdag uden registreringer eller fravær",
+      "overNorm": "{label}: {total} t er over din norm på {norm} t",
+      "weekOverNorm": "Ugen: {total} t er over din ugenorm på {norm} t",
+      "autoLocked": "Ugen er låst — forrige uge låses {day}. Kontakt din leder for at få rettet",
+      "automatically": "automatisk",
+      "rollingLocked": "Registreringer ældre end {weeks} er låst af organisationen — kontakt din leder for at få rettet",
+      "weeks": "{count, plural, one {# uge} other {# uger}}"
+    },
+    "workPlans": {
+      "notBackwards": "En plan kan ikke ændres bagud — vælg i dag eller en senere dato"
+    },
+    "absenceCap": {
+      "used": "{type} er brugt op for {year} (loft {cap} dage pr. år)",
+      "left": "Kun {remaining} af {cap} {type}-dage er tilbage i {year}"
+    },
+    "rule": {
+      "avgViolation": "48 timers-reglen: gennemsnittet over referenceperioden er {avg} t/uge (grænse {limit} t)",
+      "avgWarning": "48 timers-reglen: gennemsnittet over referenceperioden er {avg} t/uge og nærmer sig grænsen på {limit} t",
+      "weekInfo": "48 timers-reglen: ugen er nu på {week} t — gennemsnittet over referenceperioden er stadig under {limit} t",
+      "restBefore": "11 timers hvile: kun {rest} t hvile før arbejdet {day} (krav {limit} t)",
+      "daySum": "11 timers hvile: {total} t registreret {day} levner under {limit} t hvile (maks. {max} t pr. dag)",
+      "weeklyRest": "24 timers ugehvile: længste sammenhængende hvile i ugen fra {day} er {rest} t (krav {limit} t)",
+      "noFreeDay": "24 timers ugehvile: der er registreret arbejde alle 7 dage i ugen fra {day} — ingen hel fridag"
+    },
+    "employment": {
+      "endBeforeStart": "Slutdatoen kan ikke ligge før startdatoen",
+      "onlyFirstUnknown": "Kun den første periode kan have ukendt startdato",
+      "startAfterPrevStart": "Startdatoen skal ligge efter forrige periodes start ({date})",
+      "startAfterPrevEnd": "Startdatoen skal ligge efter den forrige ansættelses ophør ({date})",
+      "endBeforeNext": "Slutdatoen skal ligge før næste periodes start ({date})",
+      "endDayBeforeNext": "Slutdatoen skal være dagen før næste periodes start ({date}) — flyt i stedet næste periodes startdato"
+    },
+    "import": {
+      "fileEmpty": "Filen er tom",
+      "headerEmployees": "Header-rækken skal mindst indeholde kolonnerne \"navn\" og \"email\"",
+      "nameMissing": "Navn mangler",
+      "invalidEmail": "Ugyldig email: \"{value}\"",
+      "duplicate": "Dublet i filen: {email}",
+      "unknownRole": "Ukendt rolle: \"{value}\" (brug medarbejder/leder/admin)",
+      "invalidWeeklyHours": "Ugyldigt timetal: \"{value}\" (1-60)",
+      "invalidStartDate": "Ugyldig startdato: \"{value}\" (brug ÅÅÅÅ-MM-DD)",
+      "invalidManagerEmail": "Ugyldig leder-email: \"{value}\"",
+      "headerEntries": "Header-rækken skal indeholde kolonnerne \"email\" (eller \"medarbejder\"), \"dato\" og \"timer\"",
+      "invalidDate": "Ugyldig dato: \"{value}\" (brug ÅÅÅÅ-MM-DD)",
+      "invalidHours": "Ugyldigt timetal: \"{value}\" (0-24)"
+    },
+    "period": {
+      "pickBoth": "Vælg både fra- og til-dato",
+      "fromBeforeToOrSame": "Fra-dato skal ligge før eller på til-dato",
+      "maxDaysShorter": "Perioden må højst være {days} dage — vælg et kortere interval"
+    },
+    "vacation": {
+      "notEnough": "Ikke nok feriedage i puljen {pool}. Du har {remaining} dage tilbage, men registreringen kræver {deducted} dage{tolerance}.",
+      "overdraftAllowed": " (tilladt overtræk: {days} dage)",
+      "overdraftNotAllowed": " (overtræk er ikke tilladt)"
+    },
+    "workPlan": {
+      "rotation": "Rotation skal være 1 eller 2 uger",
+      "weekCount": "Antallet af uger passer ikke til rotationen",
+      "invalidWeekday": "Ugyldig ugedag{label}",
+      "duplicateWeekday": "En ugedag står to gange{label}",
+      "timeFormat": "Tider skal skrives som TT:MM{label}",
+      "endAfterStart": "Sluttid skal ligge efter starttid{label}",
+      "breakRange": "Pausen skal være 0-240 minutter{label}",
+      "breakShorter": "Pausen skal være kortere end arbejdsdagen{label}",
+      "inWeek": " i uge {week}",
+      "enterBothTimes": "Angiv både start- og sluttid som TT:MM",
+      "endAfterStartPlain": "Sluttid skal ligge efter starttid",
+      "breakShorterPlain": "Pausen skal være kortere end arbejdsdagen",
+      "rangeOrHours": "Angiv et tidsrum eller 0-24 timer"
+    },
+    "closure": {
+      "overlap": "har allerede fravær i perioden",
+      "noWorkingDays": "har ingen arbejdsdage i perioden",
+      "balance": "har ikke feriedage nok",
+      "error": "kunne ikke oprettes (teknisk fejl)"
+    },
+    "workPlanExport": {
+      "planned": "Efter plan",
+      "deviation": "Afvigelse",
+      "dayOff": "Fridag",
+      "absence": "Fravær",
+      "free": "Fri ifølge plan",
+      "hDate": "Dato",
+      "hStatus": "Status",
+      "hPlan": "Plan",
+      "hPlanHours": "Plan (timer)",
+      "hRegisteredRange": "Registreret tidsrum",
+      "hBreak": "Pause (min)",
+      "hRegisteredHours": "Registreret (timer)",
+      "hDayOff": "Fridag",
+      "hNote": "Note",
+      "hEditedBy": "Rettet af",
+      "hEditedUtc": "Rettet (UTC)"
+    },
+    "payrollXlsx": {
+      "sheet": "Løn",
+      "period": "Periode: {period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "Dit firmanavn",
+      "yourName": "Dit navn",
+      "yourEmail": "Din email",
+      "yourPhone": "Dit telefonnummer",
+      "clientFullName": "Kundens fulde navn",
+      "clientCompany": "Kundens firmanavn",
+      "clientEmail": "Kundens email",
+      "portalLink": "Link til kundeportalen",
+      "invoiceNumber": "Fakturanummer",
+      "totalInclVat": "Total beløb med moms",
+      "amountExclVat": "Beløb uden moms",
+      "issueDate": "Udstedelsesdato",
+      "paymentDeadline": "Betalingsfrist",
+      "invoiceStatus": "Betalt/Ubetalt/Forfalden",
+      "invoiceLink": "Direkte link til faktura",
+      "daysLate": "Antal dage forsinket",
+      "projectName": "Projektets navn",
+      "projectStatus": "Aktiv/Afsluttet/Pause",
+      "hoursUsed": "Brugte timer",
+      "projectLink": "Link til projekt i portalen",
+      "prepaidName": "Klippekortets navn",
+      "hoursRemaining": "Resterende timer",
+      "hoursTotal": "Totale timer",
+      "percentUsed": "Forbrugt procent",
+      "expiryDate": "Udløbsdato",
+      "daysToExpiry": "Dage til udløb",
+      "hoursForApproval": "Totale timer til godkendelse",
+      "entryCount": "Antal tidsregistreringer",
+      "period": "Tidsperiode",
+      "approvalLink": "Link til godkendelsessiden",
+      "loginLink": "Link til portal login",
+      "invitationLink": "Invitationslink",
+      "invitationExpiry": "Invitationens udløbsdato"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "Moms Q{n}",
+    "vatHalfTitle": "Moms H{n}",
+    "vatQuarterDesc": "Indberetning og betaling af moms for kvartalet til Skattestyrelsen.",
+    "vatHalfDesc": "Indberetning og betaling af moms for halvåret til Skattestyrelsen.",
+    "vatMonthTitle": "Moms {month}",
+    "vatMonthDesc": "Indberetning og betaling af moms for {month} {year} til Skattestyrelsen.",
+    "bSkatSpring": "B-skat a conto (forår)",
+    "bSkatAutumn": "B-skat a conto (efterår)",
+    "bSkatDesc": "Betaling af B-skat a conto til Skattestyrelsen. Gælder selvstændige og freelancere.",
+    "formTitle": "Oplysningsskema {year}",
+    "formDesc": "Indgivelse af oplysningsskema (selvangivelse) for indkomståret {year} til Skattestyrelsen.",
+    "amTitle": "AM-bidrag Q{n}",
+    "amDesc": "Betaling af arbejdsmarkedsbidrag (AM-bidrag) for selvstændige for kvartalet.",
+    "arTitle": "Årsrapport FY{year}",
+    "arDesc": "Årsrapporten skal indsendes til Erhvervsstyrelsen senest 5 måneder efter regnskabsårets afslutning.",
+    "agmTitle": "Generalforsamling FY{year}",
+    "agmDesc": "Ordinær generalforsamling til godkendelse af årsrapporten.",
+    "corpFormTitle": "Selvangivelse selskab FY{year}",
+    "corpFormDesc": "Selskabets selvangivelse (oplysningsskema) for regnskabsåret skal indsendes til Skattestyrelsen.",
+    "corpTaxSpring": "Selskabsskat a conto (forår)",
+    "corpTaxAutumn": "Selskabsskat a conto (efterår)",
+    "corpTaxDesc": "A conto betaling af selskabsskat til Skattestyrelsen.",
+    "corpFinalTitle": "Selskabsskat slutopgørelse {year}",
+    "corpFinalDesc": "Betaling af resterende selskabsskat (slutskat) for indkomståret {year}.",
+    "payrollTitle": "A-skat/AM-bidrag {month}",
+    "payrollDesc": "Indberetning og betaling af A-skat og AM-bidrag for lønperioden {month} {year}.",
+    "holidayPayTitle": "Feriepenge Q{n}",
+    "holidayPayDesc": "Indberetning og indbetaling af feriepenge til Feriekonto for kvartalet."
+  },
+  "integrations": {
+    "authExpired": "{name}-forbindelsen er udløbet eller ugyldig. Forbind venligst igen under Indstillinger → Integrationer.",
+    "billy": {
+      "keyRequired": "Billy API key er påkrævet",
+      "productDescription": "Timer importeret fra TimeTrack"
+    },
+    "dinero": {
+      "keyRequired": "Dinero API key er påkrævet",
+      "orgIdRequired": "Dinero Organization ID er påkrævet",
+      "tokenFailed": "Kunne ikke hente Dinero token",
+      "refreshMissing": "Dinero refresh token mangler",
+      "expiredReconnect": "Dinero forbindelse udløbet. Forbind venligst igen.",
+      "orgsFailed": "Kunne ikke hente Dinero organisationer"
+    },
+    "economic": {
+      "secretRequired": "e-conomic App Secret Token er påkrævet",
+      "grantRequired": "e-conomic Agreement Grant Token er påkrævet",
+      "consultingHours": "Konsulentarbejde: {hours} timer"
+    },
+    "timeops": {
+      "invalidKey": "API-nøglen er ugyldig eller udløbet",
+      "premium": "Du skal have TimeOps Premium for at bruge deres API",
+      "network": "Kunne ikke forbinde til TimeOps. Prøv igen senere.",
+      "unexpected": "Der opstod en uventet fejl under forbindelse til TimeOps ({detail})"
+    },
+    "icloud": {
+      "syncFailed": "iCloud-synkronisering fejlede",
+      "storageMissing": "iCloud kan ikke forbindes lige nu, fordi sikker opbevaring af adgangskoder ikke er sat op på serveren. Kontakt support.",
+      "rejected": "Apple-ID eller app-specifikt password blev afvist. Tjek at du har kopieret hele det app-specifikke password (ikke dit normale Apple-password).",
+      "notConnected": "iCloud er ikke forbundet",
+      "notConnectedShort": "Ikke forbundet til iCloud",
+      "calendarGone": "Kalenderen \"{name}\" findes ikke længere i iCloud. Vælg kalendere igen.",
+      "unknownCalendar": "ukendt"
+    },
+    "caldav": {
+      "unknown": "iCloud-synkronisering fejlede: {message}",
+      "auth": "Apple afviste login. Opret et nyt app-specifikt password på appleid.apple.com og forbind iCloud igen.",
+      "network": "Kunne ikke få forbindelse til iCloud lige nu. Vi prøver igen automatisk."
+    },
+    "cvr": {
+      "invalid": "CVR-nummeret skal være 8 cifre",
+      "notFound": "Ingen virksomhed fundet med dette CVR-nummer",
+      "rateLimited": "CVR-opslag er midlertidigt begrænset. Prøv igen om lidt, eller udfyld felterne selv.",
+      "timeout": "CVR-registret svarer ikke lige nu. Prøv igen om lidt, eller udfyld felterne selv.",
+      "unavailable": "CVR-opslaget virker ikke lige nu. Prøv igen om lidt, eller udfyld felterne selv."
+    },
+    "google": {
+      "readOnly": "Din Google-kalender er forbundet med kun læseadgang, så TimeTrack må ikke oprette eller ændre begivenheder i den. Giv skriveadgang under Indstillinger → Integrationer → Google Calendar, hvis du vil bruge funktionen.",
+      "freeSlot": "Ledig tid i kalenderen",
+      "deadlineIn": "Deadline om {count, plural, one {# dag} other {# dage}}",
+      "urgent": "Urgent prioritet",
+      "high": "Høj prioritet",
+      "clientLine": "Klient: {name}",
+      "projectLine": "Projekt: {name}",
+      "hoursLine": "Timer: {hours}",
+      "exportedFrom": "Eksporteret fra TimeTrack"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "Tidspostering",
+    "timeOnProject": "{hours} timer på {name}",
+    "timeForClient": "{hours} timer for {name}",
+    "timeOnly": "{hours} timer",
+    "invoiceTitle": "Faktura {number}",
+    "invoiceDescription": "{amount} kr til {client}",
+    "newClient": "Ny kunde: {name}",
+    "noContact": "Ingen kontakt oplysninger",
+    "newProject": "Nyt projekt: {name}",
+    "projectFor": "For {client}",
+    "internal": "Intern"
+  },
+  "tasks": {
+    "laneDuplicateName": "Der findes allerede en kolonne med det navn"
+  }
+}

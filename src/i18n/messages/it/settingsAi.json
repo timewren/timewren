@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini e altri modelli OpenAI",
+      "note": "Crea una chiave API su platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus e Haiku tramite l'SDK OpenAI",
+      "note": "Crea una chiave API su console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "IA danese, ospitata in Danimarca, con piena conformità al GDPR",
+      "badge": "Consigliato",
+      "note": "IA ospitata in Danimarca di Ordbogen A/S. Crea una chiave su odincore.ai. I dati non lasciano mai la Danimarca."
+    },
+    "custom": {
+      "label": "Altro endpoint",
+      "description": "Qualsiasi API compatibile con OpenAI"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manuale",
+      "description": "L'IA è disattivata. Tutte le attività vengono gestite senza analisi con IA."
+    },
+    "suggest": {
+      "label": "Suggerisci",
+      "description": "L'IA suggerisce categorie e priorità, ma sei tu ad approvare."
+    },
+    "auto_lowrisk": {
+      "label": "Auto (rischio basso)",
+      "description": "L'IA gestisce automaticamente le attività semplici. Quelle complesse vanno in approvazione."
+    },
+    "auto_all": {
+      "label": "Completamente automatico",
+      "description": "L'IA gestisce automaticamente tutte le attività senza approvazione."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Danimarca (Europe/Copenhagen)",
+    "Europe/Stockholm": "Svezia (Europe/Stockholm)",
+    "Europe/Oslo": "Norvegia (Europe/Oslo)",
+    "Europe/London": "Regno Unito (Europe/London)",
+    "Europe/Berlin": "Germania (Europe/Berlin)",
+    "America/New_York": "Costa orientale USA (America/New_York)",
+    "America/Los_Angeles": "Costa occidentale USA (America/Los_Angeles)"
+  },
+  "connectionOk": "Connessione riuscita!",
+  "connectionFailed": "Connessione non riuscita",
+  "testFailed": "Test non riuscito",
+  "emailEnabled": "E-mail in attività attivata!",
+  "emailEnableFailed": "Impossibile attivare l'e-mail in attività",
+  "emailDisabled": "E-mail in attività disattivata",
+  "emailDisableFailed": "Impossibile disattivare l'e-mail in attività",
+  "addressRegenerated": "Nuovo indirizzo e-mail generato!",
+  "addressRegenerateFailed": "Impossibile generare un nuovo indirizzo",
+  "settingsUpdated": "Impostazioni IA aggiornate",
+  "settingsUpdateFailed": "Impossibile aggiornare le impostazioni IA",
+  "addressCopied": "Indirizzo e-mail copiato!",
+  "keyRequired": "È necessaria una chiave API",
+  "urlRequired": "Per un endpoint personalizzato è necessario un URL API",
+  "enterKeyFirst": "Inserisci prima una chiave API",
+  "title": "IA e automazione",
+  "description": "Configura le funzioni IA e le impostazioni dell'e-mail in attività",
+  "statusTitle": "Stato dell'IA",
+  "statusEnabled": "L'IA è attiva",
+  "statusDisabled": "L'IA non è configurata",
+  "statCalls": "Chiamate IA totali",
+  "statSuccess": "Tasso di successo",
+  "statConfidence": "Affidabilità media",
+  "statTime": "Tempo medio di elaborazione",
+  "enableHint": "Per attivare le funzioni IA, scegli un provider IA qui sotto e inserisci la tua chiave API.",
+  "providerTitle": "Provider IA",
+  "providerSub": "Scegli come funzionano le funzioni IA: usa l'IA del sistema o la tua",
+  "providerIntro": "Scegli un provider IA e inserisci la tua chiave API per attivare le funzioni IA. {brand} usa il formato dell'SDK OpenAI, compatibile con molti provider.",
+  "apiKey": "Chiave API",
+  "configured": "(configurata)",
+  "keyPlaceholder": "Chiave API",
+  "keyHelpOpenai": "La tua chiave API OpenAI da platform.openai.com",
+  "keyHelpAnthropic": "La tua chiave API Anthropic da console.anthropic.com",
+  "keyHelpOrdbogen": "La tua chiave API da OdinCore.ai",
+  "keyHelpOther": "Chiave API del tuo provider",
+  "apiUrl": "URL API",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (predefinito, lascia vuoto)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Precompilato dalla preimpostazione",
+  "urlHelp": "URL di base dell'API. Lascia vuoto per l'endpoint predefinito di OpenAI.",
+  "model": "Modello",
+  "modelPlaceholderOpenai": "gpt-4o-mini (predefinito)",
+  "modelPlaceholderOther": "Nome del modello",
+  "modelHelp": "Indica un modello o lascia vuoto per usare quello predefinito",
+  "testConnection": "Testa la connessione",
+  "saveSettings": "Salva impostazioni",
+  "help": {
+    "title": "Come ottenere una chiave API",
+    "sub": "Scegli uno dei provider consigliati e segui la guida",
+    "odinDesc": "IA danese ospitata in Danimarca con piena conformità al GDPR. I dati non lasciano mai la Danimarca.",
+    "odin1": "Vai su odincore.ai e crea un account",
+    "odin2": "Vai alla sezione API del tuo account",
+    "odin3": "Crea una nuova chiave API",
+    "odin4": "Incolla la chiave qui sopra in «OdinCore (Ordbogen)»",
+    "openaiDesc": "GPT-4o-mini è veloce ed economico e va bene per l'analisi delle attività.",
+    "openai1": "Vai su platform.openai.com e accedi",
+    "openai2": "Vai a «API keys» nelle tue impostazioni",
+    "openai3": "Clicca su «Create new secret key»",
+    "copyPaste": "Copia la chiave e incollala qui sopra",
+    "anthropicDesc": "I modelli Claude sono molto bravi a capire e classificare le attività.",
+    "anthropic1": "Vai su console.anthropic.com e crea un account",
+    "anthropic2": "Vai a «Settings» → «API keys»",
+    "anthropic3": "Clicca su «Create key»"
+  },
+  "email": {
+    "title": "E-mail in attività",
+    "sub": "Invia e-mail al tuo indirizzo personale per creare attività automaticamente",
+    "address": "Il tuo indirizzo e-mail personale per le attività",
+    "copyTitle": "Copia indirizzo e-mail",
+    "addressHelp": "Invia o inoltra e-mail a questo indirizzo per creare attività automaticamente. L'IA analizza il contenuto ed estrae titolo, scadenza e priorità.",
+    "regenerate": "Genera un nuovo indirizzo",
+    "disable": "Disattiva l'e-mail in attività",
+    "notEnabled": "L'e-mail in attività non è attiva",
+    "notEnabledText": "Attivala per avere un indirizzo e-mail personale a cui inviare attività. Le e-mail diventano automaticamente attività nella tua dashboard.",
+    "enable": "Attiva l'e-mail in attività"
+  },
+  "autonomyTitle": "Livello di autonomia dell'IA",
+  "autonomySub": "Scegli quanto l'IA deve gestire automaticamente",
+  "hoursTitle": "Orario di lavoro e fuso orario",
+  "hoursSub": "Usato per la definizione delle priorità con IA e per le funzioni del calendario",
+  "timezone": "Fuso orario",
+  "workingHours": "Orario di lavoro",
+  "to": "alle",
+  "hoursHelp": "L'IA usa questi orari per suggerire i momenti migliori per le attività",
+  "privacyTitle": "Privacy e sicurezza",
+  "privacyText": "Le e-mail vengono elaborate ed eliminate subito dopo la creazione dell'attività. Conserviamo solo l'attività finita, non l'e-mail originale. L'elaborazione IA avviene tramite OpenAI con una gestione rigorosa dei dati."
+}

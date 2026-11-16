@@ -1,0 +1,99 @@
+{
+  "openApp": "TimeTrackを開く",
+  "openAppNewTab": "TimeTrackを新しいタブで開く",
+  "settings": "設定",
+  "loading": "読み込み中",
+  "view": "表示",
+  "tabs": {
+    "calendar": "カレンダー",
+    "dashboard": "ダッシュボード",
+    "prepaid": "パッケージ",
+    "history": "履歴"
+  },
+  "logout": "ログアウト",
+  "logoutConfirm": "TimeTrackからログアウトしますか?",
+  "stopTimer": "タイマーを停止",
+  "stopTimerFor": "{label}のタイマーを停止",
+  "timerLabel": "タイマー",
+  "widgets": {
+    "clock": {
+      "name": "時計と日付",
+      "description": "時刻と日付を表示します"
+    },
+    "timer": {
+      "name": "タイマー",
+      "description": "タイマーの開始と停止"
+    },
+    "quickEntry": {
+      "name": "クイック記録",
+      "description": "時間をすばやく追加"
+    },
+    "todayStats": {
+      "name": "今日の統計",
+      "description": "今日の時間数と記録数"
+    },
+    "recentEntries": {
+      "name": "最近の記録",
+      "description": "最新の時間記録"
+    },
+    "prepaidStatus": {
+      "name": "パッケージ",
+      "description": "有効なパッケージの状況"
+    },
+    "weeklyChart": {
+      "name": "週の概要",
+      "description": "今週の時間のグラフ"
+    }
+  },
+  "settingsDialog": {
+    "title": "新しいタブの設定",
+    "close": "設定を閉じる",
+    "enable": "新しいタブでTimeTrackを使う",
+    "enableHint": "ブラウザのスタートページをTimeTrackに置き換えます",
+    "appearance": "外観",
+    "theme": "テーマ",
+    "themeHint": "拡張機能のカラーテーマ",
+    "system": "システムに合わせる",
+    "dark": "ダーク",
+    "light": "ライト",
+    "chooseWidgets": "ウィジェットを選択して並べ替え",
+    "moveUp": "上へ移動",
+    "moveUpNamed": "{name}を上へ移動",
+    "moveDown": "下へ移動",
+    "moveDownNamed": "{name}を下へ移動",
+    "tip": "<b>ヒント:</b> 新しいタブのページでウィジェットを直接ドラッグして移動できます。ここの矢印でも移動できます。ウィジェットを選択していない場合は、時計、タイマー、クイック記録が表示されます。",
+    "saveClose": "保存して閉じる"
+  },
+  "recent": {
+    "title": "最近の記録",
+    "empty": "まだ記録がありません",
+    "noDescription": "説明なし",
+    "internal": "社内時間",
+    "startTimer": "タイマーを開始",
+    "copy": "新しい記録にコピー"
+  },
+  "stats": {
+    "today": "今日",
+    "ofGoal": "目標{goal} hのうち",
+    "thisWeek": "今週",
+    "activePackages": "有効なパッケージ",
+    "lowBalance": "残高不足 {count}件",
+    "allGood": "すべて良好です"
+  },
+  "todayStats": {
+    "title": "今日",
+    "loadFailed": "今日の時間を読み込めませんでした",
+    "hours": "記録した時間",
+    "entries": "記録数",
+    "topProject": "最も活発なプロジェクト"
+  },
+  "weekly": {
+    "title": "今週",
+    "loadFailed": "今週の時間を読み込めませんでした",
+    "total": "合計",
+    "average": "1日あたりの平均",
+    "chartLabel": "週の時間の概要",
+    "workHours": "{day}の勤務時間",
+    "dayHours": "{day}: {hours}"
+  }
+}

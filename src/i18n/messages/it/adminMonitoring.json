@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Monitoraggio",
+    "healthy": "{score}% operativo",
+    "cronDashboard": "Dashboard cron",
+    "sections": {
+      "health": "Stato del sistema",
+      "cron": "Job cron",
+      "email": "Consegna e-mail"
+    },
+    "tiles": {
+      "activeSessions": "Sessioni attive",
+      "sessions24h": "Sessioni nelle ultime 24 h",
+      "activeTimers": "Timer attivi",
+      "emailsSent7d": "E-mail inviate (7 gg)"
+    },
+    "cronHealth": {
+      "title": "Stato dei job cron (7 giorni)",
+      "runs": "Esecuzioni",
+      "ok": "ok",
+      "errors": "errori",
+      "avgDuration": "Durata media",
+      "lastRun": "Ultima esecuzione"
+    },
+    "errors": {
+      "title": "Errori (ultimi 7 giorni)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Tutti i job",
+      "allStatuses": "Tutti gli stati",
+      "filter": {
+        "success": "Riuscito",
+        "error": "Errore",
+        "partial": "Parziale"
+      },
+      "status": {
+        "success": "riuscito",
+        "error": "errore",
+        "partial": "parziale"
+      },
+      "empty": "Nessun log dei job cron trovato",
+      "columns": {
+        "job": "Job",
+        "status": "Stato",
+        "started": "Avviato",
+        "duration": "Durata",
+        "items": "Elementi",
+        "errors": "Errori"
+      }
+    },
+    "showing": "Mostrati {from}-{to} di {total}",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "email": {
+      "sent": "Inviate",
+      "delivered": "Consegnate",
+      "bounced": "Respinte",
+      "failed": "Non riuscite",
+      "status": {
+        "sent": "inviata",
+        "delivered": "consegnata",
+        "bounced": "respinta",
+        "failed": "non riuscita"
+      },
+      "last24h": "Ultime 24 ore",
+      "last7d": "Ultimi 7 giorni",
+      "last30d": "Ultimi 30 giorni",
+      "last90d": "Ultimi 90 giorni",
+      "allTemplates": "Tutti i modelli",
+      "empty": "Nessun log e-mail trovato",
+      "columns": {
+        "recipient": "Destinatario",
+        "subject": "Oggetto",
+        "template": "Modello",
+        "status": "Stato",
+        "sentAt": "Inviata"
+      }
+    }
+  },
+  "cron": {
+    "title": "Job cron",
+    "refresh": "Aggiorna",
+    "never": "Mai",
+    "badge": {
+      "neverRun": "Mai eseguito",
+      "silent": "Silenzioso",
+      "error": "Errore",
+      "partial": "Parziale",
+      "running": "In corso",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "riuscito",
+      "error": "errore",
+      "partial": "parziale"
+    },
+    "noRows": "Nessuna riga di log trovata",
+    "runColumns": {
+      "status": "Stato",
+      "started": "Avviato",
+      "duration": "Durata",
+      "items": "Elementi",
+      "errorMessage": "Messaggio di errore"
+    },
+    "tiles": {
+      "expected": "Job previsti",
+      "silent": "Job silenziosi",
+      "withErrors": "Job con errori (24 h)",
+      "totalRuns": "Esecuzioni totali (24 h)"
+    },
+    "columns": {
+      "status": "Stato",
+      "job": "Job",
+      "cadence": "Frequenza",
+      "lastRun": "Ultima esecuzione",
+      "runs24h": "Esecuzioni 24 h",
+      "errors24h": "Errori 24 h",
+      "avgDuration": "Durata media"
+    },
+    "lastError": "Ultimo errore:",
+    "cadence": {
+      "everyMinutes": "ogni {minutes} min",
+      "hourly": "ogni ora",
+      "everyHours": "ogni {hours} ore",
+      "daily": "ogni giorno",
+      "weekly": "ogni settimana",
+      "monthly": "ogni mese",
+      "everyDays": "ogni {days} giorni"
+    }
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini och andra OpenAI-modeller",
+      "note": "Skapa en API-nyckel på platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus och Haiku via OpenAI SDK",
+      "note": "Skapa en API-nyckel på console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Dansk AI, hostad i Danmark, med full GDPR-efterlevnad",
+      "badge": "Rekommenderas",
+      "note": "Danskhostad AI från Ordbogen A/S. Skapa en nyckel på odincore.ai. Data lämnar aldrig Danmark."
+    },
+    "custom": {
+      "label": "Annan slutpunkt",
+      "description": "Valfritt OpenAI-kompatibelt API"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manuell",
+      "description": "AI är avstängd. Alla uppgifter hanteras utan AI-tolkning."
+    },
+    "suggest": {
+      "label": "Föreslå",
+      "description": "AI föreslår kategorisering och prioritering, men du godkänner."
+    },
+    "auto_lowrisk": {
+      "label": "Automatisk (låg risk)",
+      "description": "AI hanterar enkla uppgifter automatiskt. Komplexa går till godkännande."
+    },
+    "auto_all": {
+      "label": "Helautomatisk",
+      "description": "AI hanterar alla uppgifter automatiskt utan godkännande."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Danmark (Europe/Copenhagen)",
+    "Europe/Stockholm": "Sverige (Europe/Stockholm)",
+    "Europe/Oslo": "Norge (Europe/Oslo)",
+    "Europe/London": "Storbritannien (Europe/London)",
+    "Europe/Berlin": "Tyskland (Europe/Berlin)",
+    "America/New_York": "USA:s östkust (America/New_York)",
+    "America/Los_Angeles": "USA:s västkust (America/Los_Angeles)"
+  },
+  "connectionOk": "Anslutningen fungerar!",
+  "connectionFailed": "Anslutningen misslyckades",
+  "testFailed": "Testet misslyckades",
+  "emailEnabled": "E-post till uppgift är aktiverat!",
+  "emailEnableFailed": "Det gick inte att aktivera e-post till uppgift",
+  "emailDisabled": "E-post till uppgift är avaktiverat",
+  "emailDisableFailed": "Det gick inte att avaktivera e-post till uppgift",
+  "addressRegenerated": "Ny e-postadress skapad!",
+  "addressRegenerateFailed": "Det gick inte att skapa en ny adress",
+  "settingsUpdated": "AI-inställningarna har uppdaterats",
+  "settingsUpdateFailed": "Det gick inte att uppdatera AI-inställningarna",
+  "addressCopied": "E-postadressen har kopierats!",
+  "keyRequired": "En API-nyckel krävs",
+  "urlRequired": "En API-adress krävs för en egen slutpunkt",
+  "enterKeyFirst": "Ange en API-nyckel först",
+  "title": "AI och automation",
+  "description": "Konfigurera AI-funktioner och inställningar för e-post till uppgift",
+  "statusTitle": "AI-status",
+  "statusEnabled": "AI är aktiverat",
+  "statusDisabled": "AI är inte konfigurerat",
+  "statCalls": "AI-anrop totalt",
+  "statSuccess": "Andel lyckade",
+  "statConfidence": "Genomsnittlig säkerhet",
+  "statTime": "Genomsnittlig bearbetningstid",
+  "enableHint": "För att aktivera AI-funktioner, välj en AI-leverantör nedan och ange din egen API-nyckel.",
+  "providerTitle": "AI-leverantör",
+  "providerSub": "Välj hur AI-funktionerna drivs: använd systemets AI eller din egen",
+  "providerIntro": "Välj en AI-leverantör och ange din egen API-nyckel för att aktivera AI-funktioner. {brand} använder OpenAI SDK-formatet, som är kompatibelt med många leverantörer.",
+  "apiKey": "API-nyckel",
+  "configured": "(konfigurerad)",
+  "keyPlaceholder": "API-nyckel",
+  "keyHelpOpenai": "Din OpenAI API-nyckel från platform.openai.com",
+  "keyHelpAnthropic": "Din Anthropic API-nyckel från console.anthropic.com",
+  "keyHelpOrdbogen": "Din API-nyckel från OdinCore.ai",
+  "keyHelpOther": "API-nyckel för din leverantör",
+  "apiUrl": "API-adress",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (standard, lämna tomt)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Förifyllt från förinställningen",
+  "urlHelp": "Bas-URL för API:et. Lämna tomt för OpenAI:s standardslutpunkt.",
+  "model": "Modell",
+  "modelPlaceholderOpenai": "gpt-4o-mini (standard)",
+  "modelPlaceholderOther": "Modellnamn",
+  "modelHelp": "Ange en modell, eller lämna tomt för att använda standard",
+  "testConnection": "Testa anslutningen",
+  "saveSettings": "Spara inställningar",
+  "help": {
+    "title": "Så får du en API-nyckel",
+    "sub": "Välj en av de rekommenderade leverantörerna och följ guiden",
+    "odinDesc": "Dansk AI hostad i Danmark med full GDPR-efterlevnad. Data lämnar aldrig Danmark.",
+    "odin1": "Gå till odincore.ai och skapa ett konto",
+    "odin2": "Gå till API-avsnittet i ditt konto",
+    "odin3": "Skapa en ny API-nyckel",
+    "odin4": "Klistra in nyckeln ovan under ”OdinCore (Ordbogen)”",
+    "openaiDesc": "GPT-4o-mini är snabb och billig och passar bra för tolkning av uppgifter.",
+    "openai1": "Gå till platform.openai.com och logga in",
+    "openai2": "Gå till ”API keys” under dina inställningar",
+    "openai3": "Klicka på ”Create new secret key”",
+    "copyPaste": "Kopiera nyckeln och klistra in den ovan",
+    "anthropicDesc": "Claude-modellerna är starka på att förstå och kategorisera uppgifter.",
+    "anthropic1": "Gå till console.anthropic.com och skapa ett konto",
+    "anthropic2": "Gå till ”Settings” → ”API keys”",
+    "anthropic3": "Klicka på ”Create key”"
+  },
+  "email": {
+    "title": "E-post till uppgift",
+    "sub": "Skicka e-post till din personliga adress för att skapa uppgifter automatiskt",
+    "address": "Din personliga uppgiftsadress",
+    "copyTitle": "Kopiera e-postadressen",
+    "addressHelp": "Skicka eller vidarebefordra e-post till den här adressen för att skapa uppgifter automatiskt. AI tolkar innehållet och plockar ut titel, deadline och prioritet.",
+    "regenerate": "Skapa en ny adress",
+    "disable": "Avaktivera e-post till uppgift",
+    "notEnabled": "E-post till uppgift är inte aktiverat",
+    "notEnabledText": "Aktivera för att få en personlig e-postadress som du kan skicka uppgifter till. E-postmeddelanden blir automatiskt uppgifter på din översikt.",
+    "enable": "Aktivera e-post till uppgift"
+  },
+  "autonomyTitle": "AI:s självständighetsnivå",
+  "autonomySub": "Välj hur mycket AI ska hantera automatiskt",
+  "hoursTitle": "Arbetstid och tidszon",
+  "hoursSub": "Används för AI-prioritering och kalenderfunktioner",
+  "timezone": "Tidszon",
+  "workingHours": "Arbetstid",
+  "to": "till",
+  "hoursHelp": "AI använder de här tiderna för att föreslå de bästa tidpunkterna för uppgifter",
+  "privacyTitle": "Integritet och säkerhet",
+  "privacyText": "E-post bearbetas och raderas direkt efter att uppgiften har skapats. Vi sparar bara den färdiga uppgiften, inte det ursprungliga e-postmeddelandet. AI-bearbetningen sker via OpenAI med strikt datahantering."
+}

@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Ägare",
+    "admin": "Administratör",
+    "hr": "HR",
+    "manager": "Chef",
+    "member": "Medarbetare"
+  },
+  "employment": {
+    "fullTime": "Heltid",
+    "partTime": "Deltid",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Utkast",
+    "submitted": "Inskickad",
+    "approved": "Godkänd",
+    "rejected": "Avvisad",
+    "reopened": "Återöppnad"
+  },
+  "save": "Spara",
+  "cancel": "Avbryt",
+  "add": "Lägg till",
+  "edit": "Redigera",
+  "active": "Aktiv",
+  "inactive": "Inaktiv",
+  "periodClosing": {
+    "status": {
+      "open": "Väntar på chef",
+      "approved": "Väntar på bekräftelse",
+      "acknowledged": "Stängd",
+      "reopened": "Upplåst"
+    },
+    "interval": {
+      "month": "Varje månad",
+      "quarter": "Varje kvartal"
+    }
+  },
+  "weekdayLong": {
+    "1": "måndag",
+    "2": "tisdag",
+    "3": "onsdag",
+    "4": "torsdag",
+    "5": "fredag",
+    "6": "lördag",
+    "7": "söndag"
+  },
+  "absenceCategory": {
+    "vacation": "Semester",
+    "sickness": "Sjukdom",
+    "leave": "Ledighet",
+    "other": "Övrigt"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Generisk (platt CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (danskt statligt lönesystem)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Månad",
+      "biweekly": "14 dagar"
+    },
+    "unit": {
+      "hours": "Timmar",
+      "days": "Dagar"
+    },
+    "kind": {
+      "time": "Tid (grundlönekod)",
+      "absence": "Frånvaro",
+      "supplement": "Tillägg (läggs ovanpå)"
+    },
+    "source": {
+      "activity": "Rapporterade timmar (aktivitet)",
+      "absence": "Frånvaro (frånvarotyp)",
+      "overtime_earned": "Intjänad övertid",
+      "overtime_used": "Kompledighet",
+      "overtime_paid_out": "Utbetald övertid",
+      "flex_positive": "Flex (plustimmar)",
+      "flex_negative": "Flex (minustimmar)",
+      "break_deduction": "Pausavdrag (obetald paus)"
+    },
+    "dayCondition": {
+      "any": "Alla dagar",
+      "weekend": "Helg (lör/sön)",
+      "holiday": "Allmän helgdag",
+      "weekend_or_holiday": "Helg eller allmän helgdag"
+    }
+  },
+  "normPeriod": {
+    "week": "Vecka",
+    "month": "Månad",
+    "quarter": "Kvartal",
+    "year": "År"
+  },
+  "normYear": {
+    "calendar": "Kalenderår (1 januari)",
+    "school": "Läsår (1 augusti)"
+  }
+}

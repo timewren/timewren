@@ -1,0 +1,140 @@
+{
+  "orglessForbidden": "Nejsi členem žádné organizace. Požádej o nové pozvání nebo kontaktuj podporu.",
+  "freeMemberLocked": "Organizace používá tarif Free, který má místo pro {seats} uživatelů. Tvoje data jsou uložena. Požádej vlastníka o upgrade, abys znovu získal přístup.",
+  "report": {
+    "hoursSuffix": " h",
+    "currencySuffix": " DKK"
+  },
+  "freeClientLimit": "Tarif „Gratis“ má místo pro {clients} aktivních klientů. Archivuj klienta nebo přejdi na vyšší tarif.",
+  "freeSeatLimit": "Tarif „Gratis“ má místo pro {seats} uživatelů včetně čekajících pozvánek. Pro pozvání dalších přejdi na vyšší tarif v Nastavení → Předplatné.",
+  "ownerMustTransfer": "Vlastníš tým s dalšími členy. Než smažeš svůj účet, převeď vlastnictví na jiného člena v části Organizace.",
+  "holidays": {
+    "newYearsDay": "Nový rok",
+    "maundyThursday": "Zelený čtvrtek",
+    "goodFriday": "Velký pátek",
+    "easterSunday": "Boží hod velikonoční",
+    "easterMonday": "Velikonoční pondělí",
+    "ascensionDay": "Nanebevstoupení Páně",
+    "whitSunday": "Boží hod svatodušní",
+    "whitMonday": "Svatodušní pondělí",
+    "christmasDay": "1. svátek vánoční",
+    "boxingDay": "2. svátek vánoční",
+    "greatPrayerDay": "Velký modlitební den (Store Bededag)",
+    "may1": "1. květen",
+    "constitutionDay": "Den ústavy (Grundlovsdag)",
+    "dayAfterAscension": "Pátek po Nanebevstoupení Páně",
+    "christmasEve": "Štědrý den",
+    "newYearsEve": "Silvestr",
+    "dayOff": "Den volna"
+  },
+  "speech": {
+    "language": "čeština",
+    "micBlocked": "Mikrofon je zablokovaný. Povol prohlížeči přístup k mikrofonu a zkus to znovu.",
+    "noMic": "Nebyl nalezen žádný mikrofon.",
+    "langUnsupported": "Rozpoznávání řeči ({language}) není v tomto prohlížeči lokálně dostupné.",
+    "stopped": "Rozpoznávání řeči se neočekávaně zastavilo. Zkus to znovu, nebo místo toho piš.",
+    "downloadFailed": "Rozpoznávání řeči ({language}) se v tomto prohlížeči nepodařilo stáhnout.",
+    "ready": "Rozpoznávání řeči ({language}) je připraveno. Klepni na mikrofon.",
+    "cantStart": "Rozpoznávání řeči se nepodařilo spustit. Zkus to znovu."
+  },
+  "offlineSync": {
+    "fullOverlap": "Na jiném zařízení už běžely stopky, zatímco jsi byl offline. Tvůj offline čas se s nimi zcela překrýval a nebyl uložen.",
+    "partialOverlap": "Na jiném zařízení se spustily stopky, zatímco jsi byl offline. Tvůj offline čas je uložen až do tohoto okamžiku.",
+    "clippedSaved": "Na jiném zařízení se spustily stopky, zatímco jsi byl offline. Tvůj offline čas {from} až {to} je uložen jako záznam času a druhé stopky běží dál.",
+    "resetOffline": "Na jiném zařízení už běžely stopky, když jsi v {from} spustil stopky offline. Tvoje offline stopky byly vynulovány a ty druhé běží dál.",
+    "stoppedElsewhere": "Stopky byly zastaveny na jiném zařízení, zatímco jsi byl offline. Čas je uložen tam a podruhé uložen nebyl.",
+    "syncFailed": "Změnu provedenou offline se nepodařilo synchronizovat: {error}",
+    "defaultDescription": "Evidence času"
+  },
+  "unknownError": "Neznámá chyba",
+  "hooks": {
+    "autoSave": {
+      "errorTitle": "Uložení se nezdařilo",
+      "retry": "Zkusit znovu"
+    },
+    "push": {
+      "unsupported": "Push oznámení tento prohlížeč nepodporuje",
+      "denied": "Oprávnění k oznámením bylo zamítnuto",
+      "enabled": "Push oznámení jsou zapnutá",
+      "enabledDesc": "Nyní budeš dostávat oznámení",
+      "enableFailed": "Oznámení se nepodařilo zapnout",
+      "disabled": "Push oznámení jsou vypnutá",
+      "disableFailed": "Oznámení se nepodařilo vypnout"
+    },
+    "periodic": {
+      "unsupported": "Pravidelná synchronizace není podporována",
+      "enabled": "Automatické reporty jsou zapnuté",
+      "enabledDesc": "Budeš dostávat týdenní reporty",
+      "enableFailed": "Automatické reporty se nepodařilo zapnout",
+      "disabled": "Automatické reporty jsou vypnuté",
+      "disableFailed": "Automatické reporty se nepodařilo vypnout"
+    },
+    "taskUndo": {
+      "restored": "Úkol byl obnoven",
+      "restoreFailed": "Úkol se nepodařilo obnovit",
+      "deleted": "Úkol byl smazán",
+      "undo": "Zpět"
+    },
+    "timerSync": {
+      "otherProject": "jiném projektu",
+      "runningPaused": "Na {name} už běží stopky. Nejdřív je zastav. Tvůj pozastavený čas zůstane zachován.",
+      "running": "Na {name} už běží stopky. Nejdřív je zastav.",
+      "alreadyStopped": "Stopky už byly zastaveny a uloženy na jiném zařízení. Znovu spuštěny nebyly."
+    },
+    "timerKeys": {
+      "started": "Stopky spuštěny",
+      "pressToPause": "Dalším stisknutím T pozastavíš",
+      "paused": "Stopky pozastaveny",
+      "pressToResume": "{time}: stiskni T pro pokračování",
+      "resumed": "Stopky pokračují",
+      "cancelled": "Stopky zrušeny"
+    },
+    "wakeLock": {
+      "unsupported": "Wake Lock tento prohlížeč nepodporuje",
+      "active": "Obrazovka zůstane zapnutá",
+      "activeDesc": "Obrazovka se při evidenci času nevypne",
+      "released": "Obrazovka se může opět vypnout",
+      "failed": "Obrazovku se nepodařilo udržet zapnutou"
+    }
+  },
+  "store": {
+    "managedOnAccount": "Tvoje předplatné se spravuje na tvém účtu.",
+    "otherAccount": "Nákup je propojen s jiným účtem TimeTrack.",
+    "ownerOnly": "Předplatné může koupit jen vlastník organizace.",
+    "multiMember": "Tarify „Privat“ a „Selvstændig“ jsou pro jednoho uživatele. Tvoje organizace má více uživatelů, proto se předplatné spravuje na tvém účtu.",
+    "otherOrganization": "Tvoje předplatné patří jiné organizaci. Přepni se na ni, abys ho viděl.",
+    "alreadySubscribed": "Předplatné přes {store} už máš.",
+    "appStoreUnreachable": "App Store se nepodařilo zastihnout. Za chvíli to zkus znovu.",
+    "appStoreVerify": "Nákup se nepodařilo ověřit v App Store.",
+    "unknownProduct": "Neznámý produkt. Aktualizuj aplikaci a zkus to znovu.",
+    "googleNotFound": "Nákup nebyl v Google Play nalezen.",
+    "productMismatch": "Nákup neodpovídá vybranému produktu.",
+    "googleAck": "Nákup se nepodařilo potvrdit v Google Play. Zkus to znovu."
+  },
+  "accountDeletion": {
+    "storeSubscription": "Máš aktivní předplatné přes {store}. Smazáním účtu se neukončí a musí se zrušit v {store}. Pro smazání účtu potvrď, že tomu rozumíš.",
+    "invalidUserId": "Neplatné ID uživatele"
+  },
+  "orgInvite": {
+    "invalidEmail": "Neplatná e-mailová adresa",
+    "domainNotAllowed": "E-mailová doména {domain} není pro tuto organizaci povolena",
+    "alreadyMember": "Tato osoba už je členem organizace",
+    "alreadyInvited": "Pro tento e-mail už čeká pozvánka",
+    "otherBrand": "Tuto e-mailovou adresu nelze pozvat do organizace. Použijte jinou adresu.",
+    "noSeats": "Žádná volná místa (využito {used} z {max}). Dokup další místa nebo změň tarif v Nastavení → Předplatné.",
+    "noSeatsAccept": "Organizace nemá další volná místa. Kontaktuj svého správce.",
+    "lastOwnerRemove": "Posledního vlastníka nelze odebrat. Nejdřív převeď vlastnictví na jiného člena.",
+    "lastOwnerDemote": "Poslednímu vlastníkovi nelze snížit roli. Nejdřív převeď vlastnictví na jiného člena.",
+    "acceptedPushTitle": "🎉 Pozvánka přijata",
+    "acceptedPushBody": "{name} je nyní členem organizace {org}"
+  },
+  "bulkTasks": {
+    "duplicateIds": "Hromadný seznam obsahuje duplicitní UUID",
+    "missing": "Jeden nebo více úkolů chybí nebo leží mimo tvůj pracovní prostor: {ids}",
+    "unexpectedRowCount": "neočekávaný počet řádků",
+    "unselected": "Data obsahují UUID, která nebyla vybrána",
+    "statusMismatch": "Úkol {id} má stav {status}, očekávaný stav byl {expected}",
+    "notEmail": "Úkol {id} není e-mailový úkol",
+    "customLane": "Úkol {id} používá vlastní sloupec a nelze ho bezpečně hromadně dokončit"
+  }
+}

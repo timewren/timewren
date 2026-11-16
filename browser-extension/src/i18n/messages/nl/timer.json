@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} opgeslagen op <b>{target}</b>",
+    "stoppedOn": "{duration} gestopt op <b>{target}</b>",
+    "savedInternal": "{duration} opgeslagen als <b>interne tijd</b>",
+    "stoppedInternal": "{duration} gestopt als <b>interne tijd</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Het pakket <b>{name}</b> had niet genoeg uren, dus alle tijd is opgeslagen als factureerbaar",
+    "deducted": "{hours} afgetrokken van <b>{name}</b>, {remaining} over",
+    "deductedOverflow": "{hours} afgetrokken van <b>{name}</b>, {remaining} over. Het pakket is op, dus de rest is factureerbare tijd",
+    "pendingSave": "De server reageerde niet op tijd. De tijd wordt automatisch verstuurd zodra er verbinding is en wordt maar één keer opgeslagen.",
+    "close": "Bericht sluiten"
+  },
+  "discard": {
+    "label": "Tijd weggooien",
+    "question": "{duration} weggooien zonder op te slaan?",
+    "keep": "Tijd behouden",
+    "confirm": "Tijd weggooien"
+  },
+  "switch": {
+    "label": "Van klant wisselen",
+    "question": "{duration} opslaan op {from} en een nieuwe timer starten op {to}?",
+    "internal": "interne tijd",
+    "cancel": "Annuleren",
+    "confirm": "Opslaan en nieuwe starten"
+  },
+  "noClient": "Geen klant gekozen",
+  "noClientShort": "Geen klant",
+  "start": "Timer starten",
+  "cancelNoSave": "Timer annuleren zonder op te slaan",
+  "pause": "Timer pauzeren",
+  "stopSave": "Stoppen en opslaan",
+  "resume": "Timer hervatten",
+  "addMinutes": "{minutes} minuten aan de timer toevoegen",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Klant en project kiezen",
+  "descriptionPlaceholder": "Waar werk je aan?",
+  "descriptionLabel": "Omschrijving van het werk"
+}

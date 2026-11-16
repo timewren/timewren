@@ -1,0 +1,104 @@
+{
+  "page": {
+    "title": "Ajustes",
+    "subtitle": "Gestiona las notificaciones de administración, los feature flags y las novedades"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "description": "Configura las notificaciones por correo y Discord para eventos de administración",
+    "emailLabel": "Correo(s) de administración",
+    "emailHint": "Separados por comas para varios destinatarios",
+    "emailPlaceholder": "admin@example.com",
+    "webhookLabel": "URL del webhook de Discord",
+    "webhookPlaceholder": "https://discord.com/api/webhooks/...",
+    "test": "Probar",
+    "eventTypes": "Tipos de evento",
+    "saving": "Guardando…",
+    "save": "Guardar ajustes",
+    "saved": "Ajustes de notificaciones guardados",
+    "testSent": "Mensaje de prueba enviado a Discord",
+    "webhookRequired": "Introduce primero una URL de webhook de Discord"
+  },
+  "events": {
+    "notify_signup": {
+      "label": "Nuevo registro de usuario",
+      "description": "Avisar de los nuevos registros de usuarios"
+    },
+    "notify_subscription_started": {
+      "label": "Nueva suscripción de pago",
+      "description": "Avisar de los nuevos clientes de pago"
+    },
+    "notify_payment_failed": {
+      "label": "Pago fallido",
+      "description": "Avisar de los pagos fallidos"
+    },
+    "notify_subscription_cancelled": {
+      "label": "Suscripción cancelada",
+      "description": "Avisar de las cancelaciones"
+    },
+    "notify_trial_ending": {
+      "label": "La prueba termina pronto",
+      "description": "Solo Discord -- avisar cuando una prueba esté a punto de terminar"
+    },
+    "notify_user_flagged": {
+      "label": "Usuario marcado",
+      "description": "Solo Discord -- avisar cuando se marque a un usuario"
+    }
+  },
+  "support": {
+    "title": "Soporte",
+    "description": "Gestiona las bandejas de soporte y la firma",
+    "inboxes": "Bandejas de entrada",
+    "add": "Añadir",
+    "namePlaceholder": "Nombre",
+    "emailPlaceholder": "email@domain.dk",
+    "signaturePlaceholder": "HTML de la firma (opcional)",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "default": "Predeterminada",
+    "confirmDelete": "¿Eliminar esta bandeja de entrada?",
+    "noInboxes": "Todavía no se ha creado ninguna bandeja de entrada",
+    "inboxCreated": "Bandeja de entrada creada",
+    "inboxUpdated": "Bandeja de entrada actualizada",
+    "inboxDeleted": "Bandeja de entrada eliminada",
+    "signatureSaved": "Firma guardada",
+    "globalSignature": "Firma global",
+    "globalSignatureHint": "Firma HTML que se usa cuando una bandeja de entrada no tiene la suya",
+    "globalSignaturePlaceholder": "<p>Un saludo<br>TimeTrack Support</p>",
+    "preview": "Vista previa",
+    "noSignature": "Sin firma",
+    "savingSignature": "Guardando…",
+    "saveSignature": "Guardar firma"
+  },
+  "debug": {
+    "title": "Depuración",
+    "description": "Herramientas que solo se muestran para ti, en este navegador",
+    "electricLabel": "Mostrar la insignia de Electric",
+    "electricDescription": "Muestra el estado de sincronización en directo del cronómetro abajo a la izquierda del panel"
+  },
+  "flags": {
+    "title": "Feature flags",
+    "description": "Activa y desactiva funciones para todos los usuarios",
+    "empty": "No hay feature flags configurados",
+    "lastChangedBy": "Último cambio de {name}",
+    "lastChangedByDate": "Último cambio de {name} - {date}"
+  },
+  "changelog": {
+    "title": "Novedades",
+    "description": "Crea entradas de novedades que se muestran a los usuarios",
+    "new": "Crear nueva entrada de novedades",
+    "version": "Versión",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Nueva función: …",
+    "content": "Contenido (Markdown)",
+    "contentPlaceholder": "Describe los cambios…",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "recent": "Entradas de novedades recientes",
+    "confirmDelete": "¿Eliminar las novedades de la v{version}?",
+    "delete": "Eliminar",
+    "created": "Novedades creadas",
+    "deleted": "Novedades eliminadas"
+  }
+}

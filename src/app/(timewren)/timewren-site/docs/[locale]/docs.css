@@ -1,0 +1,76 @@
+/*
+ * TimeWren-docs: Fumadocs med brandkittets fem farver (public/brand/timewren/
+ * README.md og ../../[locale]/site.css): Ink #1C2119, Wren #8A5A2B,
+ * Thicket #3F5A3A, Lichen #E8EDE3, Dawn #E8B04B, plus hvid. Dæmpede toner er
+ * Ink/Lichen med gennemsigtighed. Overskrifter i Bricolage Grotesque som på
+ * forsiden.
+ *
+ * Kun docs-ruten og dens komponenter scannes for klasser; Fumadocs' egne
+ * klasser kommer fra de genererede filer i preset.css.
+ */
+@import "tailwindcss" source(none);
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+@source "./";
+@source "../../../../../components/timewren-docs";
+
+:root {
+  --color-fd-background: #ffffff;
+  --color-fd-foreground: #1c2119;
+  --color-fd-muted: #e8ede3;
+  --color-fd-muted-foreground: rgb(28 33 25 / 0.76);
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #1c2119;
+  --color-fd-card: rgb(232 237 227 / 0.45);
+  --color-fd-card-foreground: #1c2119;
+  --color-fd-border: rgb(28 33 25 / 0.14);
+  --color-fd-primary: #3f5a3a;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: rgb(232 237 227 / 0.6);
+  --color-fd-secondary-foreground: #1c2119;
+  --color-fd-accent: rgb(63 90 58 / 0.12);
+  --color-fd-accent-foreground: #1c2119;
+  --color-fd-ring: #8a5a2b;
+}
+
+.dark {
+  --color-fd-background: #1c2119;
+  --color-fd-foreground: #e8ede3;
+  --color-fd-muted: rgb(232 237 227 / 0.08);
+  --color-fd-muted-foreground: rgb(232 237 227 / 0.8);
+  --color-fd-popover: #1c2119;
+  --color-fd-popover-foreground: #e8ede3;
+  --color-fd-card: rgb(232 237 227 / 0.05);
+  --color-fd-card-foreground: #e8ede3;
+  --color-fd-border: rgb(232 237 227 / 0.18);
+  --color-fd-primary: #e8b04b;
+  --color-fd-primary-foreground: #1c2119;
+  --color-fd-secondary: rgb(232 237 227 / 0.08);
+  --color-fd-secondary-foreground: #e8ede3;
+  --color-fd-accent: rgb(232 237 227 / 0.12);
+  --color-fd-accent-foreground: #e8ede3;
+  --color-fd-ring: #e8ede3;
+}
+
+.dark #nd-sidebar {
+  --color-fd-muted: rgb(232 237 227 / 0.08);
+  --color-fd-secondary: rgb(232 237 227 / 0.1);
+  --color-fd-muted-foreground: rgb(232 237 227 / 0.8);
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+h1,
+h2,
+h3,
+.prose :where(h1, h2, h3) {
+  font-family: var(--tw-font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 680;
+  letter-spacing: -0.015em;
+}
+
+.prose a {
+  text-underline-offset: 0.2em;
+}

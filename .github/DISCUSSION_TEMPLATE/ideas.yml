@@ -1,0 +1,16 @@
+labels: ["type: feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What is hard or missing today? Describe how you work.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: Rough is fine. A maintainer turns agreed ideas into issues.
+    validations:
+      required: true

@@ -1,0 +1,49 @@
+---
+title: "Desktop-App"
+description: "Die TimeWren-Desktop-App erfasst Aktivität automatisch und synchronisiert mit deinem Server. Was der Server bereitstellt, wie sich Geräte anmelden und wie du eigene Builds anbietest."
+---
+
+Die Desktop-App (Windows und macOS, in Beta) zeichnet auf, woran du arbeitest, klassifiziert es und hält ihre Daten lokal in einer Datenbank auf deinem Computer. Sie synchronisiert Zeiteinträge, Kunden und Projekte mit dem Server und unterstützt die Offline-Nutzung. Automatische Erfassung und Klassifizierung laufen auf dem Computer.
+
+Die Desktop-App wird aus einem eigenen Repository gebaut und veröffentlicht, getrennt vom Server. Diese Seite behandelt, was dein Server für sie bereitstellt. Wie die Serveradresse der App eingegeben wird, ist eine Einstellung der App selbst, folge dazu also der eigenen Dokumentation der App.
+
+## So meldet sich ein Gerät an
+
+Die App sieht nie dein Passwort. Sie öffnet deine Instanz im Browser, du meldest dich dort an und bestätigst das Gerät, und der Browser reicht einen einmaligen Code über einen Deep Link an die App zurück.
+
+- Die neuere Geräteanmeldung verwendet PKCE und einen `state`-Wert. Der einmalige Code ist 5 Minuten gültig und wird gegen ein Access-Token (30 Tage) und ein Refresh-Token (180 Tage) eingetauscht. Die App erneuert sie ohne neue Anmeldung.
+- Der ältere Ablauf (`/auth/desktop`) stellt ein Geräte-Token aus, das 90 Tage gültig ist.
+
+Stelle sicher, dass `NEXT_PUBLIC_APP_URL` deine echte HTTPS-Adresse ist, denn die Bestätigungsseite und die Weiterleitungen werden daraus gebaut. Die älteren Geräte-Tokens werden mit `BETTER_AUTH_SECRET` signiert, eine Änderung dieses Werts meldet Desktop-Geräte also ab, siehe [Authentifizierung](/de/docs/configuration/authentication).
+
+## Geräte verwalten
+
+Öffne in der Web-App Einstellungen, Desktop, um verbundene Geräte zu sehen (Name, Betriebssystem, letzte Synchronisierung) und eines zu entfernen. Ein entferntes Gerät muss sich neu anmelden. Tokens der neueren Anmeldung erscheinen außerdem unter Einstellungen, Integrationen und können dort widerrufen werden.
+
+## Downloads und Updates
+
+Eine frische TimeWren-Instanz zeigt auf keine fremden Releases. Wenn du eigene Desktop-Releases auf GitHub baust oder hostest, teile dem Server mit, wo sie liegen:
+
+```dotenv
+# Build time (rebuild the image after changing)
+NEXT_PUBLIC_DESKTOP_RELEASES_REPO=your-org/your-desktop-releases
+# Server setting, used by the legacy updater endpoint
+DESKTOP_UPDATER_REPO=your-org/your-desktop-app
+```
+
+- `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` (Format `owner/repository`) wird von der Seite `/download` verwendet, die den Windows-Installer (eine Datei mit der Endung `-setup.exe`) und das macOS-Disk-Image (`.dmg`) aus dem neuesten Release eines öffentlichen Repositorys verlinkt. Sie veröffentlicht nichts.
+- `DESKTOP_UPDATER_REPO` wird vom Update-Endpunkt `/api/desktop/update/{target}/{arch}/{current_version}` verwendet, der das neueste GitHub-Release in die Antwort umsetzt, die der Tauri-Updater erwartet (Windows-Assets `.nsis.zip` und macOS-Assets `.app.tar.gz` mit `.sig`-Signaturen). Updates müssen mit dem Schlüssel signiert sein, mit dem dein App-Build erstellt wurde. Halte Signaturschlüssel und öffentlichen Schlüssel in deinen Builds konsistent.
+
+Lass beide leer, wenn du die App anders verteilst.
+
+## Mindestversionen von Clients
+
+Du kannst verhindern, dass alte Clients Zeitdaten auf deinen Server schreiben. Lege pro Client-Typ ein Minimum fest:
+
+```dotenv
+MIN_CLIENT_VERSIONS=extension=2.5.2,mobile=1.0.0+5,desktop=0.2.21
+# Only report outdated clients on the admin stability page, do not reject them
+MIN_CLIENT_VERSIONS_MODE=observe
+```
+
+Die Client-Typen sind `web`, `pwa`, `extension`, `mobile`, `desktop`, `api` und `mcp`. Clients identifizieren sich mit einem Header `x-timetrack-client: <type>/<version>`. Ein Client unterhalb seines Minimums wird bei Schreibzugriffen auf Zeiteinträge, Timer und Erweiterung mit dem Fehler `CLIENT_TOO_OLD` abgewiesen, während Lesen und Anmelden erlaubt bleiben. Anfragen ohne den Header (API-Schlüssel, Skripte, MCP) werden nie abgewiesen. Leer bedeutet keine Durchsetzung. Die obigen Werte sind Beispiele; wähle Versionen, die es für die von dir ausgelieferten Clients gibt.

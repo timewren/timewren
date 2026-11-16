@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Çalışan"
+    },
+    "department": {
+      "label": "Departman"
+    },
+    "project": {
+      "label": "Proje"
+    },
+    "activityType": {
+      "label": "Etkinlik"
+    },
+    "absenceType": {
+      "label": "Devamsızlık türü"
+    },
+    "day": {
+      "label": "Tarih"
+    },
+    "week": {
+      "label": "Hafta"
+    },
+    "month": {
+      "label": "Ay"
+    },
+    "vacationYear": {
+      "label": "Tatil yılı"
+    },
+    "email": {
+      "label": "E-posta"
+    },
+    "employmentType": {
+      "label": "İstihdam türü"
+    },
+    "weeklyHours": {
+      "label": "Saat/hafta"
+    },
+    "dailyNorm": {
+      "label": "Günlük norm"
+    },
+    "employeeNumber": {
+      "label": "Çalışan no.",
+      "help": "Bordro sistemindeki çalışan numarası (çalışan boyutunu izler)"
+    },
+    "payrollCode": {
+      "label": "Ücret kodu",
+      "help": "Etkinlik türündeki ücret kodu (etkinlik boyutunu izler)"
+    },
+    "hours": {
+      "label": "Kaydedilen saat"
+    },
+    "normHours": {
+      "label": "Standart saat",
+      "help": "Günlük norm × dönemdeki çalışma günleri (resmi tatiller düşülür)"
+    },
+    "workDays": {
+      "label": "Çalışma günleri",
+      "help": "Dönemdeki planlanan çalışma günleri (resmi tatiller ve kapanış günleri hariç)"
+    },
+    "employeeCount": {
+      "label": "Çalışan sayısı"
+    },
+    "flexDelta": {
+      "label": "Esnek mesai (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Düşülen mola",
+      "help": "Yalnızca ücretsiz mola için (giriş/çıkış)"
+    },
+    "checkInHours": {
+      "label": "Mevcudiyet (giriş)"
+    },
+    "workedDays": {
+      "label": "Kaydı olan günler"
+    },
+    "maxDayHours": {
+      "label": "En uzun gün",
+      "help": "Gruptaki bir çalışanın en yüksek günlük toplamı"
+    },
+    "longDays": {
+      "label": "13 saati aşan günler",
+      "help": "13 saati aşan günlük toplam, 11 saatten az dinlenme bırakır (11 saat kuralı)"
+    },
+    "avgWeeklyHours": {
+      "label": "Ort. saat/hafta",
+      "help": "Kaydı veya devamsızlığı olan çalışan haftası başına kaydedilen saat (48 saat kuralı)"
+    },
+    "weeksOver48h": {
+      "label": "48 saati aşan haftalar",
+      "help": "48 saatten fazla kaydedilen çalışan haftalarının sayısı"
+    },
+    "fullWeeks": {
+      "label": "İzinsiz haftalar",
+      "help": "7 günün hepsinde kaydı olan ve devamsızlık günü olmayan haftalar (24 saat haftalık dinlenme)"
+    },
+    "absenceDays": {
+      "label": "Devamsızlık (gün)"
+    },
+    "absenceHours": {
+      "label": "Devamsızlık (saat)"
+    },
+    "absencePeriods": {
+      "label": "Devamsızlık dönemleri"
+    },
+    "sickDays": {
+      "label": "Hastalık günleri"
+    },
+    "sickHours": {
+      "label": "Hastalık saatleri"
+    },
+    "sickPeriods": {
+      "label": "Hastalık dönemleri"
+    },
+    "sickPct": {
+      "label": "Hastalık devamsızlığı %",
+      "help": "Hastalık günleri / çalışma günleri"
+    },
+    "longTermSick": {
+      "label": "Uzun süreli hasta",
+      "help": "Dönem içinde 30 günü aşan kesintisiz hastalık dönemi"
+    },
+    "longTermSickCount": {
+      "label": "Uzun süreli hasta (sayı)",
+      "help": "30 günü aşan hastalık dönemi olan çalışanların sayısı"
+    },
+    "overtimeEarned": {
+      "label": "Kazanılan fazla mesai"
+    },
+    "overtimeUsed": {
+      "label": "Kullanılan telafi izni"
+    },
+    "overtimePaidOut": {
+      "label": "Ödenen fazla mesai"
+    },
+    "overtimeNet": {
+      "label": "Net fazla mesai",
+      "help": "Kazanılan − izin olarak kullanılan − ödenen"
+    },
+    "vacationAllotted": {
+      "label": "Tanımlanan tatil"
+    },
+    "vacationUsed": {
+      "label": "Kullanılan tatil"
+    },
+    "vacationRemaining": {
+      "label": "Kalan tatil"
+    },
+    "extraVacationAllotted": {
+      "label": "Tanımlanan ek tatil günleri"
+    },
+    "extraVacationUsed": {
+      "label": "Kullanılan ek tatil günleri"
+    },
+    "extraVacationRemaining": {
+      "label": "Kalan ek tatil günleri"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Dönemde kullanılan tatil",
+      "help": "Rapor dönemi içindeki tatil günleri (tatil bakiyesinden düşen türler)"
+    },
+    "hoursByActivity": {
+      "label": "Etkinlik başına saat",
+      "pivot": "{name} (saat)"
+    },
+    "absenceDaysByType": {
+      "label": "Tür başına devamsızlık (gün)",
+      "pivot": "{name} (gün)"
+    },
+    "absenceHoursByType": {
+      "label": "Tür başına devamsızlık (saat)",
+      "pivot": "{name} (saat)"
+    },
+    "quantityByWageType": {
+      "label": "Ücret kodu başına miktar",
+      "help": "Bordro eşlemesi üzerinden ücret kodu başına saat/gün (Ayarlar → Bordro)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Çalışan",
+    "department": "Departman",
+    "project": "Proje",
+    "activityType": "Etkinlik",
+    "absenceType": "Devamsızlık türü",
+    "day": "Gün",
+    "week": "Hafta",
+    "month": "Ay",
+    "vacationYear": "Tatil yılı"
+  },
+  "groups": {
+    "dimensions": "Boyutlar",
+    "employee": "Çalışan",
+    "time": "Süre",
+    "compliance": "Uyumluluk",
+    "absence": "Devamsızlık",
+    "overtime": "Fazla mesai",
+    "payroll": "Bordro",
+    "vacation": "Tatil hesapları"
+  },
+  "presets": {
+    "this_month": "Bu ay",
+    "last_month": "Geçen ay",
+    "this_quarter": "Bu çeyrek",
+    "this_year": "Bu yıl",
+    "last_year": "Geçen yıl"
+  },
+  "types": {
+    "payroll": {
+      "label": "Bordro raporu",
+      "description": "Bordro dönemi için çalışan başına: saat, tür başına gün ve saat olarak devamsızlık, esnek mesai, fazla mesai ve mola kesintileri. Bordro bürosu için."
+    },
+    "sickness": {
+      "label": "Hastalık devamsızlığı",
+      "description": "Departman ve ay başına hastalık devamsızlığı istatistikleri: hastalık günleri, dönemler, devamsızlık yüzdesi ve uzun süreli hastalık (30 günden fazla)."
+    },
+    "absence": {
+      "label": "Devamsızlık",
+      "description": "Tüm devamsızlık türleri (tatil, hastalık, izin, bakım…) çalışan veya departman başına: gün ve saat."
+    },
+    "flex_overtime": {
+      "label": "Esnek mesai ve fazla mesai",
+      "description": "Dönem başına bakiye gelişimi: standart saat, kaydedilen saat, esnek mesai farkı ve kazanılan/kullanılan/ödenen fazla mesai."
+    },
+    "project_activity": {
+      "label": "Proje ve etkinlik",
+      "description": "Proje, etkinlik türü ve departmana göre bölünmüş saatler: ders verme, hazırlık, toplantılar vb. takibi için."
+    },
+    "vacation_account": {
+      "label": "Tatil hesapları",
+      "description": "Tatil yılı başına tatil hesapları: tatil ve ek tatil günleri için tanımlanan, kullanılan ve kalan, çalışan başına."
+    },
+    "compliance": {
+      "label": "Uyumluluk (Çalışma Süresi Yasası)",
+      "description": "Çalışan ve hafta başına ihlaller ve uyarılar: 13 saati aşan günler (11 saat dinlenme), 48 saati aşan haftalar, izinsiz haftalar (24 saat haftalık dinlenme) ve ortalama haftalık çalışma süresi."
+    },
+    "custom": {
+      "label": "Özel",
+      "description": "Tüm katalogdan boyutları ve sütunları serbestçe seç: tam olarak eksik olan raporu oluştur."
+    }
+  },
+  "weekdays": {
+    "1": "Pazartesi",
+    "2": "Salı",
+    "3": "Çarşamba",
+    "4": "Perşembe",
+    "5": "Cuma",
+    "6": "Cumartesi",
+    "7": "Pazar"
+  },
+  "page": {
+    "all": "(tümü)",
+    "selected": "({count} seçili)",
+    "clear": "Seçimi temizle",
+    "downloaded": "Rapor indirildi",
+    "templateDeleted": "Şablon silindi",
+    "maxDimensions": "En fazla 4 boyut",
+    "templateUnreadable": "Şablon okunamıyor",
+    "needColumn": "En az bir sütun seç",
+    "inactive": "(pasif)",
+    "title": "Raporlar",
+    "step1": "1. Rapor türünü seç",
+    "step2": "2. Dönem",
+    "holidayYearPlaceholder": "Tatil yılı…",
+    "holidayYear": "Tatil yılı {year}",
+    "from": "Başlangıç",
+    "to": "Bitiş",
+    "step3": "3. Filtreler",
+    "departments": "Departmanlar",
+    "employees": "Çalışanlar",
+    "projects": "Projeler",
+    "activities": "Etkinlikler",
+    "absenceTypes": "Devamsızlık türleri",
+    "onlyApproved": "Yalnızca onaylı saatler",
+    "includeRejected": "Reddedilen saatleri dahil et",
+    "includePending": "Bekleyen devamsızlığı dahil et",
+    "includeInactive": "Eski çalışanları dahil et",
+    "includeDetails": "Tüm kayıtları dahil et (ayrıntılar)",
+    "step4": "4. Grupla",
+    "step4Hint": "(sıra = tıklama sırası)",
+    "step5": "5. Sütunlar",
+    "run": "Raporu çalıştır",
+    "saveAsTemplate": "Şablon olarak kaydet",
+    "chooseTemplateFirst": "Önce bir şablon kaydet ya da seç",
+    "scheduleMail": "E-postayı zamanla",
+    "savedTemplates": "Kayıtlı şablonlar",
+    "noTemplates": "Henüz şablon yok.",
+    "sharedOrg": "Organizasyonda paylaşıldı",
+    "onlyMe": "Yalnızca ben",
+    "standard": " · Varsayılan",
+    "deleteTemplate": "Şablonu sil",
+    "confirmDeleteTemplate": "\"{name}\" şablonu silinsin mi?",
+    "footnote": "CSV noktalı virgül ve Danimarka usulü ondalık virgül kullanır. Reddedilen saatler varsayılan olarak hariç tutulur; açık hastalık bildirimleri bugün dahil sayılır. Yöneticiler yalnızca kendi departmanlarını ve çalışanlarını görür.",
+    "cardEmployees": "Çalışanlar",
+    "noData": "{from} - {to} döneminde veri yok",
+    "noDataHint": "Daha geniş bir dönem, daha az filtre ya da başka sütunlar dene.",
+    "allEntries": "Tüm kayıtlar ({count})",
+    "truncated": "Dönem, ayrıntı listesinin alabileceğinden fazla kayıt içeriyor. Yukarıdaki toplamlar yine de tüm veriler üzerinden hesaplanır. Tüm ayrıntıları görmek için daha kısa bir dönem seç.",
+    "detEmployee": "Çalışan",
+    "detDepartment": "Departman",
+    "detDate": "Tarih",
+    "detHours": "Saat",
+    "detProject": "Proje",
+    "detActivity": "Etkinlik",
+    "detPayCode": "Ücret kodu",
+    "detDescription": "Açıklama",
+    "detSource": "Kaynak",
+    "detStatus": "Durum",
+    "saveTemplateTitle": "Şablon olarak kaydet",
+    "templateSaved": "Şablon kaydedildi",
+    "name": "Ad",
+    "description": "Açıklama",
+    "shareWithOrg": "Tüm organizasyonla paylaş (tüm yöneticiler ve İK görebilir)",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "scheduleTitle": "E-postayı zamanla",
+    "scheduled": "Rapor otomatik olarak gönderilir",
+    "frequency": "Sıklık",
+    "weekly": "Haftalık",
+    "monthly": "Aylık",
+    "weekday": "Haftanın günü",
+    "dayOfMonth": "Ayın günü",
+    "dayN": "{day}.",
+    "recipients": "Alıcılar (virgülle ayır)",
+    "recipientsPlaceholder": "payroll@example.com, manager@example.com",
+    "format": "Biçim",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "Şablondaki dönem kayan bir dönemdir: ayın 1'inde gönderilen \"Geçen ay\", tam olarak geçen ayın rakamlarını verir.",
+    "schedule": "Zamanla",
+    "scheduleRemoved": "Zamanlanmış e-posta kaldırıldı",
+    "scheduledMails": "Zamanlanmış e-postalar",
+    "freqWeeklyLower": "haftalık",
+    "freqMonthlyLower": "aylık",
+    "scheduleLine": "· {frequency} (gün {day}) · {format} · {recipients}",
+    "lastSent": " · son gönderim {date}",
+    "remove": "Kaldır",
+    "yes": "Evet",
+    "no": "Hayır",
+    "card": {
+      "employees": "Çalışanlar"
+    }
+  }
+}

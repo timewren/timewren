@@ -1,0 +1,119 @@
+---
+title: "MCP server"
+description: "Connect Claude, Cursor, Codex and other MCP clients to TimeWren to log time, check prepaid hours and prepare invoices."
+---
+
+TimeWren includes a [Model Context Protocol](https://modelcontextprotocol.io) server, so an AI assistant can work with your clients, time entries, prepaid packages and invoices. It uses the same business logic as the [REST API](/docs/api/rest).
+
+## Endpoint
+
+```text
+https://timewren.example.com/api/v1/mcp
+```
+
+The transport is Streamable HTTP. Discovery documents are served at `/.well-known/mcp/server-card.json` and `/.well-known/oauth-protected-resource/api/v1/mcp`. The URLs inside them are built from `NEXT_PUBLIC_APP_URL`, so make sure it matches the public address of your instance (see [Environment](/docs/configuration/environment)).
+
+## Authentication
+
+There are two ways to authenticate. Both send a Bearer token in the `Authorization` header.
+
+- **API key.** Create a `tk_live_...` key in **Settings**, then **API** and use it as the Bearer token. See [REST API](/docs/api/rest#create-an-api-key). This is the simplest option for Claude Code, Cursor and scripts.
+- **OAuth.** Clients that support MCP authorization (for example Claude's custom connectors) discover the authorization server from the `401` response and let you sign in to TimeWren in the browser. The server supports dynamic client registration, PKCE and refresh tokens. On the consent screen you pick the organization and review the permissions. Access tokens start with `tt_at_` and can be revoked at any time.
+
+Without a valid token the endpoint answers `401`.
+
+## What an MCP client can do
+
+An API key keeps exactly the scopes you gave it when you created it. An OAuth connection gets the read and write scopes shown on the consent screen (`clients`, `projects`, `time`, `invoices`, `prepaid`, `tasks` and `reports`; never `webhooks`, and never the all-access `*` scope), and is bound to the one organization you chose. Every tool checks the scope it needs before it runs, using the same rules as the REST routes, and returns an error if the connection lacks it. Requests are limited to 120 per minute per key or connected app and user.
+
+## Tools
+
+| Tool | Scope | What it does |
+| --- | --- | --- |
+| `whoami` | none | Return the user id, organization and scopes of the current connection |
+| `list_clients` | `clients:read` | List clients with default hourly rate and contact info, with search and paging |
+| `get_client` | `clients:read` | Get one client by id |
+| `create_client` | `clients:write` | Create a client |
+| `list_time_entries` | `time:read` | List time entries, newest first, filtered by client, project, dates, billable and billed |
+| `create_time_entry` | `time:write` | Log time for a client or project, optionally drawing from a prepaid package with `prepaid: "auto"` or `prepaidPackageId` |
+| `update_time_entry` | `time:write` | Change fields of a time entry; billed entries are locked |
+| `list_prepaid_packages` | `prepaid:read` | List prepaid packages with total, used and remaining hours, expiry and status |
+| `unbilled_summary` | `reports:read` | Unbilled billable hours and amount per client |
+| `list_invoices` | `invoices:read` | List invoices, optionally for one client or status |
+| `invoice_from_time_entries` | `invoices:write` | Preview (`dryRun`) or create a draft invoice from a client's time entries; creating marks the entries as billed |
+| `send_invoice` | `invoices:write` | Email an invoice to the client, which cannot be undone |
+
+List tools return a note telling the assistant which page to request next when the result is only partial. `invoice_from_time_entries` and `send_invoice` change data or contact your client, so ask your assistant to confirm with you before it calls them.
+
+## Client configuration
+
+Replace the URL and `YOUR_API_KEY` with your own values.
+
+### Claude Code
+
+```bash
+claude mcp add --transport http timewren https://timewren.example.com/api/v1/mcp --header "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Cursor
+
+Add this to `.cursor/mcp.json` in your project, or to `~/.cursor/mcp.json` for all projects:
+
+```json
+{
+  "mcpServers": {
+    "timewren": {
+      "url": "https://timewren.example.com/api/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Claude Desktop
+
+The simplest route is a custom connector: open **Settings**, then **Connectors**, add a custom connector and enter the endpoint URL. You sign in with OAuth, no key needed.
+
+To use an API key instead, bridge through `mcp-remote` in `claude_desktop_config.json` (requires Node.js):
+
+```json
+{
+  "mcpServers": {
+    "timewren": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://timewren.example.com/api/v1/mcp",
+        "--header",
+        "Authorization:${TIMEWREN_AUTH}"
+      ],
+      "env": {
+        "TIMEWREN_AUTH": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Codex
+
+Add this to `~/.codex/config.toml` and export the key as an environment variable:
+
+```toml
+[mcp_servers.timewren]
+url = "https://timewren.example.com/api/v1/mcp"
+bearer_token_env_var = "TIMEWREN_API_KEY"
+```
+
+```bash
+export TIMEWREN_API_KEY="YOUR_API_KEY"
+```
+
+## Troubleshooting
+
+- `401`: the token is missing, wrong, revoked or expired. Test it with `curl https://timewren.example.com/api/v1/me -H "Authorization: Bearer YOUR_API_KEY"`.
+- A tool returns `Forbidden: missing required scope`: create a key with the scope listed in the table above.
+- `429`: you hit the rate limit. Wait for the number of seconds in the `Retry-After` header.

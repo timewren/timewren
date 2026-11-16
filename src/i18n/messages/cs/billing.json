@@ -1,0 +1,113 @@
+{
+  "planNote": {
+    "clientLimit": "Bezplatný tarif má místo pro 3 aktivní klienty. Archivuj klienta nebo si prohlédni tarify.",
+    "seePlans": "Zobrazit tarify"
+  },
+  "adoption": {
+    "invoiceNow": {
+      "periodAll": "Vše nevyfakturované",
+      "periodThisMonth": "Tento měsíc",
+      "periodLastMonth": "Minulý měsíc",
+      "draftCreated": "Koncept faktury byl vytvořen na částku {amount}",
+      "createFailed": "Koncept faktury se nepodařilo vytvořit",
+      "clientFallback": "klient",
+      "title": "Fakturovat: {name}",
+      "description": "Vytvoří koncept, který si můžeš zkontrolovat. Klientovi se nic neodešle.",
+      "period": "Období",
+      "loadError": "Nevyfakturovaný čas se nepodařilo načíst. Zkus to za chvíli znovu.",
+      "noUnbilled": "Pro {name} není v období žádný nevyfakturovaný čas.",
+      "entries": "Záznamy",
+      "time": "Čas",
+      "amountExVat": "Částka bez DPH",
+      "timePerProject": "Čas podle projektů",
+      "project": "Projekt",
+      "amount": "Částka",
+      "entryCount": "{count, plural, one {# záznam} few {# záznamy} many {# záznamu} other {# záznamů}}",
+      "noRate": "Pro {time} není nastavena hodinová sazba, a proto se započítává jako 0 DKK. Částku můžeš na konceptu opravit.",
+      "footnote": "Záznamy se označí jako vyfakturované a rozepíšou se na konceptu. Koncept můžeš znovu smazat a čas se opět stane nevyfakturovaným.",
+      "pickEntries": "Vybrat záznamy ručně",
+      "cancel": "Zrušit",
+      "createDraft": "Vytvořit koncept faktury",
+      "createDraftAmount": "Vytvořit koncept faktury ({amount})"
+    },
+    "invoiceNudge": {
+      "sinceLastInvoice": "{count, plural, one {# den od poslední faktury} few {# dny od poslední faktury} many {# dne od poslední faktury} other {# dní od poslední faktury}}",
+      "oldestEntry": "{count, plural, one {nejstarší záznam je starý # den} few {nejstarší záznam je starý # dny} many {nejstarší záznam je starý # dne} other {nejstarší záznam je starý # dní}}",
+      "ready": "Připraveno k fakturaci",
+      "notInvoiced": "nebylo vyfakturováno",
+      "notInvoicedClient": "pro klienta {client} nebylo vyfakturováno",
+      "invoiceNow": "Fakturovat",
+      "hide": "Skrýt na 30 dní"
+    },
+    "explainer": {
+      "point1": "Klient hodiny zaplatí předem, takže nemusíš následně posílat faktury a upomínky.",
+      "point2": "Když pro klienta zaznamenáš čas, automaticky se odečte z balíčku.",
+      "point3": "Klient může sledovat zůstatek v klientském portálu a ty dostaneš upozornění, když se balíček blíží k vyčerpání.",
+      "title": "Prodávej hodiny předem pomocí balíčků hodin",
+      "intro": "Balíček hodin je blok hodin, který klient koupí předem, např. 10 hodin na opakující se úkoly a podporu.",
+      "create": "Vytvořit balíček hodin",
+      "calculator": "Spočítej cenu v kalkulačce"
+    },
+    "prepaid": {
+      "offer": "Nabídni balíček {hours} hodin. Vystačí zhruba na {months} měsíců a klient platí předem.",
+      "offerPrice": "Nabídni balíček {hours} hodin ({price}). Vystačí zhruba na {months} měsíců a klient platí předem.",
+      "sell": "Prodat balíček hodin",
+      "dismissLabel": "Pro klienta {client} to není relevantní. Už nezobrazovat",
+      "dismissTitle": "Není relevantní. U tohoto klienta už nezobrazovat",
+      "suggestionLabel": "Návrhy balíčků hodin",
+      "defaultName": "Balíček hodin: {hours} h",
+      "usageClient": "U klienta <name>{client}</name> to za poslední 3 měsíce bylo zhruba <num>{time}</num> měsíčně.",
+      "usageGeneric": "U klienta to za poslední 3 měsíce bylo zhruba <num>{time}</num> měsíčně."
+    }
+  },
+  "subscription": {
+    "store": {
+      "paused": "Pozastaveno",
+      "paymentMissing": "Chybí platba",
+      "active": "Aktivní",
+      "paymentFailedRetry": "{store} nemohl strhnout platbu. Aktualizuj platební metodu v {store}. Než platba projde, máš přístup jako v bezplatném tarifu.",
+      "paymentFailedGrace": "{store} nemohl strhnout platbu. Aktualizuj platební metodu v {store}, aby ti přístup zůstal.",
+      "currentPlan": "Aktuální tarif",
+      "yearly": "Ročně",
+      "monthly": "Měsíčně",
+      "boughtVia": "Zakoupeno přes {store}",
+      "expires": "Vyprší {date}",
+      "renews": "Obnoví se {date}",
+      "paymentTitle": "Platba",
+      "paymentInfo": "Předplatné bylo zakoupeno v aplikaci {brand}, takže platby a doklady řeší {store}. Tarif, platební metodu nebo zrušení předplatného změníš v {store}.",
+      "manage": "Spravovat v {store}"
+    },
+    "wall": {
+      "checkoutFailed": "Platební relaci se nepodařilo vytvořit. Zkus to znovu.",
+      "portalFailed": "Fakturační portál se nepodařilo otevřít. Zkus to znovu.",
+      "headingNone": "Nemáš aktivní předplatné",
+      "headingLocked": "Tvůj přístup je pozastaven",
+      "headingPastDue": "Chybí tvá platba",
+      "headingCanceled": "Tvé předplatné skončilo",
+      "headingTrial": "Tvé zkušební období vypršelo",
+      "subNone": "Pro používání {brand} si vytvoř předplatné",
+      "subPastDue": "Aktualizuj platební metodu a získej přístup zpět",
+      "subUpgrade": "Pro pokračování přejdi na tarif {plan}",
+      "pastDueBody": "Poslední platbu se nepodařilo strhnout. Aktualizuj platební metodu, aby fungovalo i nadále {brand}.",
+      "updatePayment": "Aktualizovat platební metodu",
+      "monthly": "Měsíčně",
+      "yearly": "Ročně",
+      "save17": "Ušetři 17 %",
+      "perYearExVat": "/rok bez DPH",
+      "perMonthExVat": "/měsíc bez DPH",
+      "equivalent": "Odpovídá {price}/měsíc, takže ušetříš 2 měsíce",
+      "featureWorkspace": "Sdílený týmový prostor pro více uživatelů",
+      "featureTeamReports": "Týmové reporty",
+      "featureUnlimited": "Neomezená evidence času",
+      "featureInvoicing": "Balíčky hodin a fakturace",
+      "featureManagement": "Správa klientů a projektů",
+      "featureReports": "Reporty a export",
+      "featureIntegrations": "Dánské integrace (CVR, Billy a další)",
+      "upgradeNow": "Upgradovat",
+      "discountNote": "Pokladna zobrazuje standardní cenu. Tvá sleva {percent} % se uplatní automaticky.",
+      "manageAccount": "Spravovat účet",
+      "exportData": "Exportovat data",
+      "signOut": "Odhlásit se"
+    }
+  }
+}

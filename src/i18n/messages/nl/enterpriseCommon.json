@@ -1,0 +1,103 @@
+{
+  "roles": {
+    "owner": "Eigenaar",
+    "admin": "Beheerder",
+    "hr": "HR",
+    "manager": "Manager",
+    "member": "Medewerker"
+  },
+  "employment": {
+    "fullTime": "Voltijd",
+    "partTime": "Deeltijd",
+    "flexjob": "Flexjob"
+  },
+  "weekStatus": {
+    "draft": "Concept",
+    "submitted": "Ingediend",
+    "approved": "Goedgekeurd",
+    "rejected": "Afgewezen",
+    "reopened": "Heropend"
+  },
+  "save": "Opslaan",
+  "cancel": "Annuleren",
+  "add": "Toevoegen",
+  "edit": "Bewerken",
+  "active": "Actief",
+  "inactive": "Inactief",
+  "periodClosing": {
+    "status": {
+      "open": "Wacht op manager",
+      "approved": "Wacht op bevestiging",
+      "acknowledged": "Afgesloten",
+      "reopened": "Ontgrendeld"
+    },
+    "interval": {
+      "month": "Elke maand",
+      "quarter": "Elk kwartaal"
+    }
+  },
+  "weekdayLong": {
+    "1": "maandag",
+    "2": "dinsdag",
+    "3": "woensdag",
+    "4": "donderdag",
+    "5": "vrijdag",
+    "6": "zaterdag",
+    "7": "zondag"
+  },
+  "absenceCategory": {
+    "vacation": "Vakantie",
+    "sickness": "Ziekte",
+    "leave": "Verlof",
+    "other": "Overig"
+  },
+  "payroll": {
+    "system": {
+      "generic": "Algemeen (platte CSV)",
+      "sd": "SD Løn",
+      "kmd": "KMD Opus",
+      "sls": "SLS (Deens loonsysteem van de overheid)",
+      "danloen": "Danløn",
+      "dataloen": "DataLøn"
+    },
+    "periodType": {
+      "month": "Maand",
+      "biweekly": "14 dagen"
+    },
+    "unit": {
+      "hours": "Uren",
+      "days": "Dagen"
+    },
+    "kind": {
+      "time": "Tijd (basisloncode)",
+      "absence": "Afwezigheid",
+      "supplement": "Toeslag (erbovenop)"
+    },
+    "source": {
+      "activity": "Geregistreerde uren (activiteit)",
+      "absence": "Afwezigheid (afwezigheidstype)",
+      "overtime_earned": "Opgebouwde overuren",
+      "overtime_used": "Compensatieverlof",
+      "overtime_paid_out": "Uitbetaalde overuren",
+      "flex_positive": "Flex (plusuren)",
+      "flex_negative": "Flex (minuren)",
+      "break_deduction": "Pauzeaftrek (onbetaalde pauze)"
+    },
+    "dayCondition": {
+      "any": "Alle dagen",
+      "weekend": "Weekend (za/zo)",
+      "holiday": "Feestdag",
+      "weekend_or_holiday": "Weekend of feestdag"
+    }
+  },
+  "normPeriod": {
+    "week": "Week",
+    "month": "Maand",
+    "quarter": "Kwartaal",
+    "year": "Jaar"
+  },
+  "normYear": {
+    "calendar": "Kalenderjaar (1 januari)",
+    "school": "Schooljaar (1 augustus)"
+  }
+}

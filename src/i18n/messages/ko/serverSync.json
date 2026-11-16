@@ -1,0 +1,475 @@
+{
+  "errors": {
+    "insufficientRights": "이 작업을 수행할 권한이 부족해요",
+    "accessDenied": "이 리소스에 접근할 권한이 없어요",
+    "unexpected": "예기치 않은 오류가 발생했어요",
+    "clientNotFound": "클라이언트를 찾을 수 없어요",
+    "clientArchived": "클라이언트가 보관되었어요",
+    "projectNotFound": "프로젝트를 찾을 수 없어요",
+    "projectArchived": "프로젝트가 보관되었어요",
+    "timeEntryNotFound": "시간 기록을 찾을 수 없어요",
+    "timeEntriesNotFound": "시간 기록을 하나 이상 찾을 수 없어요",
+    "prepaidNotFound": "선불 패키지를 찾을 수 없어요",
+    "prepaidInactive": "선불 패키지가 활성 상태가 아니에요",
+    "prepaidInsufficientHours": "선불 패키지의 남은 시간이 부족해요. 사용 가능한 시간: {available}",
+    "prepaidHasUsage": "사용 내역이 있는 선불 패키지는 삭제할 수 없어요. 대신 비활성화하세요.",
+    "invoiceNotFound": "청구서를 찾을 수 없어요",
+    "invoiceAlreadySent": "청구서가 이미 발송되었어요",
+    "invoiceAlreadyPaid": "청구서가 이미 결제되었어요",
+    "userNotFound": "사용자를 찾을 수 없어요",
+    "invalidValue": "{field}의 값이 올바르지 않아요",
+    "operationFailed": "{operation}에 실패했어요"
+  },
+  "friendly": {
+    "network": "TimeTrack에 연결할 수 없어요. 네트워크를 확인하고 다시 시도해 주세요.",
+    "server": "TimeTrack에서 문제가 생겼어요. 잠시 후 다시 시도해 주세요.",
+    "validation": "일부 항목이 올바르게 입력되지 않았어요. 확인한 뒤 다시 시도해 주세요.",
+    "unauthorized": "더 이상 로그인되어 있지 않아요. 다시 로그인해 주세요.",
+    "forbidden": "이 작업을 수행할 권한이 없어요.",
+    "notFound": "찾으시는 항목이 더 이상 없어요.",
+    "tooManyRequests": "짧은 시간에 너무 많이 시도했어요. 잠시 기다린 후 다시 시도해 주세요.",
+    "retry": "다시 시도",
+    "login": "로그인"
+  },
+  "zod": {
+    "invalidExpoToken": "올바르지 않은 Expo 푸시 토큰이에요",
+    "invalidUrl": "올바르지 않은 URL이에요",
+    "webhookEventRequired": "이벤트 유형을 하나 이상 선택하세요",
+    "descriptionRequired": "설명을 입력하세요",
+    "hoursMin": "시간은 0.01 이상이어야 해요",
+    "endAfterStart": "종료 시각은 시작 시각보다 늦어야 해요",
+    "cursorOrOffset": "cursor와 offset 중 하나만 사용하세요",
+    "dateFormat": "날짜는 yyyy-MM-dd 형식이어야 해요",
+    "clientOrProject": "클라이언트나 프로젝트 중 하나를 지정하세요",
+    "nameMin2": "이름은 2자 이상이어야 해요",
+    "invalidEmailShort": "올바른 이메일을 입력하세요",
+    "scopeRequired": "범위가 하나 이상 필요해요",
+    "approvalScope": "period에는 periodStart+periodEnd가 필요하고, invoice_draft에는 invoiceId가 필요해요",
+    "invalidEmail": "올바른 이메일 주소를 입력하세요",
+    "messageMax500": "메시지는 500자 이하여야 해요",
+    "selectProjectClientOrDescription": "프로젝트나 클라이언트를 선택하거나 설명을 입력하세요",
+    "subjectMin5": "제목은 5자 이상이어야 해요",
+    "messageMin10": "메시지는 10자 이상이어야 해요",
+    "invalidDate": "올바르지 않은 날짜예요",
+    "atLeastOneWorkday": "근무 시간이 있는 요일이 하나 이상 필요해요",
+    "duplicateDate": "같은 날짜가 두 번 추가되었어요",
+    "nameRequired": "이름을 입력하세요",
+    "invalidEmailDash": "올바르지 않은 이메일 주소예요",
+    "selectProjectClientOrDescriptionShort": "프로젝트/클라이언트를 선택하거나 설명을 입력하세요",
+    "amountRequired": "금액을 입력하세요",
+    "amountPositive": "금액은 0보다 커야 해요",
+    "amountTooLarge": "금액이 너무 커요",
+    "amountDecimals": "금액은 소수점 이하 2자리까지 입력할 수 있어요",
+    "selectClient": "클라이언트를 선택하세요",
+    "issueDateRequired": "발행일을 입력하세요",
+    "unknownTool": "알 수 없는 도구예요",
+    "invalidCostRate": "올바르지 않은 원가예요",
+    "companyNameMin2": "회사 이름은 2자 이상이어야 해요",
+    "invalidEmailAddress": "올바르지 않은 이메일 주소예요",
+    "hourlyRateMin0": "시간당 요금은 0 이상이어야 해요",
+    "confirmProjectName": "확인을 위해 프로젝트 이름을 입력하세요",
+    "enterName": "이름을 입력하세요",
+    "invalidNumber": "올바르지 않은 숫자예요",
+    "descriptionMissing": "설명이 없어요",
+    "invalidDateFormat": "올바르지 않은 날짜예요(yyyy-mm-dd 형식이어야 해요)",
+    "nameMissing": "이름이 없어요",
+    "hoursRequired": "시간을 입력하세요",
+    "atLeastOneRecipient": "수신자가 한 명 이상 필요해요",
+    "invalidHexColor": "올바르지 않은 16진수 색상이에요",
+    "titleRequired": "제목을 입력하세요",
+    "textRequired": "텍스트를 입력하세요",
+    "invalidImageUrl": "올바르지 않은 이미지 URL이에요",
+    "enterDays": "일수를 입력하세요",
+    "invalidColor": "올바르지 않은 색상이에요",
+    "dateYmd": "YYYY-MM-DD 형식의 날짜",
+    "noteRequired": "메모를 입력하세요",
+    "unlockReason": "잠금 해제 사유를 입력하세요",
+    "reasonRequired": "사유를 입력하세요",
+    "reopenReason": "다시 여는 사유를 입력하세요",
+    "templateNameRequired": "템플릿 이름을 입력하세요",
+    "employeeOrDepartment": "직원이나 부서 중 하나를 선택하세요",
+    "formatMmDd": "MM-DD 형식이어야 해요"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "클라이언트 생성됨",
+      "clientUpdated": "클라이언트 업데이트됨",
+      "clientArchived": "클라이언트 보관됨",
+      "projectCreated": "프로젝트 생성됨",
+      "projectUpdated": "프로젝트 업데이트됨",
+      "projectStatusChanged": "프로젝트 상태 변경됨",
+      "projectBudgetThreshold": "월간 예산 기준 도달",
+      "timeEntryCreated": "시간 기록 생성됨",
+      "timeEntryUpdated": "시간 기록 업데이트됨",
+      "timeEntryDeleted": "시간 기록 삭제됨",
+      "invoiceCreated": "청구서 생성됨",
+      "invoiceSent": "청구서 발송됨",
+      "invoicePaid": "청구서 결제됨",
+      "invoiceOverdue": "청구서 연체됨",
+      "prepaidCreated": "선불 패키지 생성됨",
+      "prepaidUpdated": "선불 패키지 업데이트됨",
+      "prepaidLowBalance": "선불 패키지 잔액 부족",
+      "prepaidExpired": "선불 패키지 만료됨",
+      "taskCreated": "작업 생성됨",
+      "taskUpdated": "작업 업데이트됨",
+      "taskCompleted": "작업 완료됨"
+    }
+  },
+  "clients": {
+    "invalidDomain": "올바르지 않은 도메인: {domain}",
+    "roundingRequired": "roundingEnabled가 true이면 roundingMinutes와 roundingMethod를 설정해야 해요"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "웹훅 URL을 표시할 수 없어요. 새 URL을 생성하세요."
+  },
+  "desktop": {
+    "licenseMismatch": "라이선스 키와 이메일이 일치하지 않아요. 확인하거나 지원팀에 문의하세요."
+  },
+  "common": {
+    "unknownProject": "알 수 없는 프로젝트",
+    "unknownError": "알 수 없는 오류",
+    "noProject": "프로젝트 없음",
+    "unknownClient": "알 수 없는 클라이언트",
+    "unknown": "알 수 없음"
+  },
+  "search": {
+    "invoiceTitle": "청구서 {number}",
+    "timeEntryTitle": "시간 기록",
+    "timeSubtitle": "{project} • {hours}시간",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • {hours}시간 남음",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "로그인 코드가 올바르지 않거나 만료되었어요. 다시 로그인해 주세요.",
+    "import": {
+      "noWorkRuleNoTarget": "비업무 규칙이 프로젝트나 클라이언트를 가리키지 않아요",
+      "ruleNeedsTarget": "규칙은 프로젝트나 클라이언트를 가리켜야 해요",
+      "linesSumMismatch": "항목의 합계({sum})가 청구서 금액({amount})과 달라요",
+      "entryNotImported": "기록 {id}을(를) 가져오지 못했어요",
+      "companyProfileMissing": "회사 정보가 없어요. 청구서를 가져오기 전에 설정 → 회사 프로필에서 입력하세요.",
+      "fullCreditOnly": "전액 크레딧만 가져올 수 있어요. 크레딧 노트 금액({amount})은 청구서 금액({original})과 부호만 반대여야 해요",
+      "invoiceNotFound": "청구서 {id}이(가) 없어요",
+      "creditNoteAmount": "크레딧 노트의 금액은 0 이하여야 해요",
+      "invoiceIsDraft": "청구서 {id}은(는) 초안이라 크레딧 처리할 수 없어요",
+      "refMissing": {
+        "client": "클라이언트 {id}을(를) 가져오지 못했어요",
+        "project": "프로젝트 {id}을(를) 가져오지 못했어요",
+        "prepaid": "선불 패키지 {id}을(를) 가져오지 못했어요",
+        "task": "작업 {id}을(를) 가져오지 못했어요",
+        "invoice": "청구서 {id}을(를) 가져오지 못했어요"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "결제된 청구서는 변경할 수 없어요. 필요하면 크레딧 노트를 만드세요.",
+      "deleted": "삭제된 청구서는 복원할 수 없어요.",
+      "generic": "상태를 「{from}」에서 「{to}」(으)로 변경할 수 없어요."
+    },
+    "directTime": "직접 시간",
+    "status": {
+      "draft": "초안",
+      "sent": "발송됨",
+      "paid": "결제됨",
+      "overdue": "연체",
+      "deleted": "삭제됨"
+    },
+    "specHeading": "--- 명세 ---",
+    "specLine": "{date} - {project}: {description} ({hours}시간 × {rate} kr = {amount} kr)"
+  },
+  "logbook": {
+    "endAfterStart": "종료일은 시작일보다 늦어야 해요",
+    "periodMaxDays": "기간은 최대 {days}일까지 가능해요"
+  },
+  "portal": {
+    "manualDeduction": "수동 차감"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "이 선불 패키지에는 이미 반복 청구서가 있어요"
+  },
+  "storeBilling": {
+    "notAvailable": "인앱 결제는 아직 사용할 수 없어요."
+  },
+  "subscription": {
+    "storeManaged": "구독은 {provider}를 통해 결제돼요. 변경이나 취소는 {provider}에서 하세요.",
+    "teamPlanNotConfigured": "「Team」 요금제가 아직 구성되지 않았어요(ALUNTA_PLAN_TEAM_*). 지원팀에 문의하세요.",
+    "businessPlanNotConfigured": "「Business」 요금제가 아직 구성되지 않았어요(ALUNTA_PLAN_BUSINESS_*). 지원팀에 문의하세요.",
+    "privatePlanNotAvailable": "「Private」 요금제는 아직 사용할 수 없어요(ALUNTA_PLAN_PRIVAT_*). 다른 요금제를 선택하거나 지원팀에 문의하세요.",
+    "freeNotPurchasable": "「Free」 요금제는 구매할 수 없어요.",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL이 설정되지 않았어요"
+  },
+  "time": {
+    "invalidEntryDate": "올바르지 않은 날짜예요. YYYY-MM-DD 형식이어야 해요"
+  },
+  "billedLock": {
+    "onInvoice": "이 시간 기록은 청구되어 변경할 수 없어요. 먼저 청구서를 크레딧 처리하거나 청구서 초안에서 기록을 제거하세요.",
+    "marked": "이 시간 기록은 청구됨으로 표시되어 변경할 수 없어요. 먼저 표시를 해제하세요.",
+    "bulk": {
+      "delete": "{count, plural, other {선택한 시간 기록 #건이 청구되어 삭제할 수 없어요. 먼저 청구서를 크레딧 처리하거나 표시를 해제하세요.}}",
+      "edit": "{count, plural, other {선택한 시간 기록 #건이 청구되어 변경할 수 없어요. 먼저 청구서를 크레딧 처리하거나 표시를 해제하세요.}}",
+      "move": "{count, plural, other {선택한 시간 기록 #건이 청구되어 이동할 수 없어요. 먼저 청구서를 크레딧 처리하거나 표시를 해제하세요.}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "같은 이름의 활동 유형이 이미 있어요",
+    "endAfterStart": "종료일은 시작일보다 늦어야 해요",
+    "fromBeforeTo": "시작일은 종료일보다 앞서야 해요",
+    "periodMaxDays": "기간은 최대 {days}일까지 가능해요",
+    "employee": {
+      "importManagerMissing": "관리자 {email}이(가) 파일에도 조직에도 없어요. 직원을 관리자 없이 가져왔어요."
+    },
+    "payroll": {
+      "hrOnly": "급여 매핑은 HR과 관리자만 사용할 수 있어요"
+    },
+    "closing": {
+      "changedMeanwhile": "그 사이 명세서가 변경되었어요. 페이지를 새로고침하세요.",
+      "locked": "기간이 마감되어 잠겨 있어요. 기록을 변경하려면 관리자가 사유를 입력해 잠금을 해제해야 해요."
+    },
+    "team": {
+      "absenceLabel": "부재"
+    },
+    "timesheet": {
+      "coveredByRequest": "이 날은 부재에서 만든 부재 신청에 포함돼요. 그곳에서 수정하세요.",
+      "otherTypeAbsence": "이 날에 이미 다른 유형의 부재가 있어요",
+      "absenceRecordedElsewhere": "다른 곳에서 동시에 부재가 기록되었어요. 해당 주를 새로고침하세요.",
+      "overMax": "{label}: {total}시간은 하루 최대 {max}시간을 초과해요",
+      "emptyWorkday": "{label}은(는) 근무일인데 기록이나 부재가 없어요",
+      "overNorm": "{label}: {total}시간은 기준 {norm}시간을 초과해요",
+      "weekOverNorm": "이번 주: {total}시간은 주당 기준 {norm}시간을 초과해요",
+      "autoLocked": "해당 주는 잠겨 있어요. 지난주는 {day}에 잠겨요. 수정이 필요하면 관리자에게 문의하세요.",
+      "automatically": "자동으로",
+      "rollingLocked": "{weeks}보다 오래된 기록은 조직에서 잠갔어요. 수정이 필요하면 관리자에게 문의하세요.",
+      "weeks": "{count, plural, other {#주}}"
+    },
+    "workPlans": {
+      "notBackwards": "계획은 소급해서 변경할 수 없어요. 오늘이나 이후 날짜를 선택하세요."
+    },
+    "absenceCap": {
+      "used": "{year}년 {type}을(를) 모두 사용했어요(연간 한도 {cap}일)",
+      "left": "{year}년 {type}은(는) {cap}일 중 {remaining}일만 남았어요"
+    },
+    "rule": {
+      "avgViolation": "48시간 규칙: 기준 기간의 평균이 {avg}시간/주예요(한도 {limit}시간)",
+      "avgWarning": "48시간 규칙: 기준 기간의 평균이 {avg}시간/주로 한도 {limit}시간에 가까워지고 있어요",
+      "weekInfo": "48시간 규칙: 이번 주는 현재 {week}시간이에요. 기준 기간의 평균은 아직 {limit}시간 미만이에요",
+      "restBefore": "11시간 휴식: {day} 근무 전 휴식이 {rest}시간뿐이에요(필요 {limit}시간)",
+      "daySum": "11시간 휴식: {day}에 {total}시간이 기록되어 휴식이 {limit}시간 미만이에요(하루 최대 {max}시간)",
+      "weeklyRest": "주 24시간 휴식: {day}부터 시작하는 주의 가장 긴 연속 휴식은 {rest}시간이에요(필요 {limit}시간)",
+      "noFreeDay": "주 24시간 휴식: {day}부터 시작하는 주의 7일 모두 근무가 기록되어 온전한 휴일이 없어요"
+    },
+    "employment": {
+      "endBeforeStart": "종료일은 시작일보다 앞설 수 없어요",
+      "onlyFirstUnknown": "첫 번째 기간만 시작일을 알 수 없는 상태로 둘 수 있어요",
+      "startAfterPrevStart": "시작일은 이전 기간의 시작일({date})보다 늦어야 해요",
+      "startAfterPrevEnd": "시작일은 이전 고용의 종료일({date})보다 늦어야 해요",
+      "endBeforeNext": "종료일은 다음 기간의 시작일({date})보다 앞서야 해요",
+      "endDayBeforeNext": "종료일은 다음 기간의 시작일({date}) 전날이어야 해요. 대신 다음 기간의 시작일을 옮기세요."
+    },
+    "import": {
+      "fileEmpty": "파일이 비어 있어요",
+      "headerEmployees": "헤더 행에는 최소한 「navn」과 「email」 열이 있어야 해요",
+      "nameMissing": "이름이 없어요",
+      "invalidEmail": "올바르지 않은 이메일: 「{value}」",
+      "duplicate": "파일에 중복이 있어요: {email}",
+      "unknownRole": "알 수 없는 역할: 「{value}」(medarbejder/leder/admin 사용)",
+      "invalidWeeklyHours": "올바르지 않은 시간: 「{value}」(1-60)",
+      "invalidStartDate": "올바르지 않은 시작일: 「{value}」(YYYY-MM-DD 사용)",
+      "invalidManagerEmail": "올바르지 않은 관리자 이메일: 「{value}」",
+      "headerEntries": "헤더 행에는 「email」(또는 「medarbejder」), 「dato」, 「timer」 열이 있어야 해요",
+      "invalidDate": "올바르지 않은 날짜: 「{value}」(YYYY-MM-DD 사용)",
+      "invalidHours": "올바르지 않은 시간: 「{value}」(0-24)"
+    },
+    "period": {
+      "pickBoth": "시작일과 종료일을 모두 선택하세요",
+      "fromBeforeToOrSame": "시작일은 종료일과 같거나 앞서야 해요",
+      "maxDaysShorter": "기간은 최대 {days}일까지 가능해요. 더 짧은 구간을 선택하세요."
+    },
+    "vacation": {
+      "notEnough": "{pool} 풀의 휴가일이 부족해요. 남은 일수는 {remaining}일인데, 이 기록에는 {deducted}일이 필요해요{tolerance}.",
+      "overdraftAllowed": "(초과 사용 허용: {days}일)",
+      "overdraftNotAllowed": "(초과 사용 불가)"
+    },
+    "workPlan": {
+      "rotation": "순환 주기는 1주 또는 2주여야 해요",
+      "weekCount": "주 수가 순환 주기와 맞지 않아요",
+      "invalidWeekday": "올바르지 않은 요일{label}",
+      "duplicateWeekday": "요일이 두 번 나타나요{label}",
+      "timeFormat": "시각은 HH:MM 형식으로 입력해야 해요{label}",
+      "endAfterStart": "종료 시각은 시작 시각보다 늦어야 해요{label}",
+      "breakRange": "휴식은 0-240분이어야 해요{label}",
+      "breakShorter": "휴식은 근무 시간보다 짧아야 해요{label}",
+      "inWeek": " {week}주차",
+      "enterBothTimes": "시작 시각과 종료 시각을 HH:MM 형식으로 모두 입력하세요",
+      "endAfterStartPlain": "종료 시각은 시작 시각보다 늦어야 해요",
+      "breakShorterPlain": "휴식은 근무 시간보다 짧아야 해요",
+      "rangeOrHours": "시간 범위나 0-24시간을 입력하세요"
+    },
+    "closure": {
+      "overlap": "해당 기간에 이미 부재가 있어요",
+      "noWorkingDays": "해당 기간에 근무일이 없어요",
+      "balance": "휴가일이 충분하지 않아요",
+      "error": "만들 수 없어요(기술적 오류)"
+    },
+    "workPlanExport": {
+      "planned": "계획대로",
+      "deviation": "예외",
+      "dayOff": "휴무일",
+      "absence": "부재",
+      "free": "계획상 휴무",
+      "hDate": "날짜",
+      "hStatus": "상태",
+      "hPlan": "계획",
+      "hPlanHours": "계획(시간)",
+      "hRegisteredRange": "기록된 시간대",
+      "hBreak": "휴식(분)",
+      "hRegisteredHours": "기록됨(시간)",
+      "hDayOff": "휴무일",
+      "hNote": "메모",
+      "hEditedBy": "수정자",
+      "hEditedUtc": "수정 시각(UTC)"
+    },
+    "payrollXlsx": {
+      "sheet": "급여",
+      "period": "기간: {period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "내 회사 이름",
+      "yourName": "내 이름",
+      "yourEmail": "내 이메일",
+      "yourPhone": "내 전화번호",
+      "clientFullName": "클라이언트의 전체 이름",
+      "clientCompany": "클라이언트의 회사 이름",
+      "clientEmail": "클라이언트의 이메일",
+      "portalLink": "클라이언트 포털 링크",
+      "invoiceNumber": "청구서 번호",
+      "totalInclVat": "부가세 포함 총액",
+      "amountExclVat": "부가세 별도 금액",
+      "issueDate": "발행일",
+      "paymentDeadline": "납부 기한",
+      "invoiceStatus": "결제됨/미결제/연체",
+      "invoiceLink": "청구서 바로가기 링크",
+      "daysLate": "연체 일수",
+      "projectName": "프로젝트 이름",
+      "projectStatus": "진행 중/완료/보류",
+      "hoursUsed": "사용한 시간",
+      "projectLink": "포털의 프로젝트 링크",
+      "prepaidName": "선불 패키지 이름",
+      "hoursRemaining": "남은 시간",
+      "hoursTotal": "총 시간",
+      "percentUsed": "사용 비율",
+      "expiryDate": "만료일",
+      "daysToExpiry": "만료까지 남은 일수",
+      "hoursForApproval": "승인 대기 총 시간",
+      "entryCount": "시간 기록 수",
+      "period": "기간",
+      "approvalLink": "승인 페이지 링크",
+      "loginLink": "포털 로그인 링크",
+      "invitationLink": "초대 링크",
+      "invitationExpiry": "초대 만료일"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "부가세 Q{n}",
+    "vatHalfTitle": "부가세 H{n}",
+    "vatQuarterDesc": "분기 부가세(moms)를 덴마크 세무청(Skattestyrelsen)에 신고하고 납부해요.",
+    "vatHalfDesc": "반기 부가세(moms)를 덴마크 세무청(Skattestyrelsen)에 신고하고 납부해요.",
+    "vatMonthTitle": "{month} 부가세",
+    "vatMonthDesc": "{year}년 {month} 부가세(moms)를 덴마크 세무청(Skattestyrelsen)에 신고하고 납부해요.",
+    "bSkatSpring": "예정 납부세 B-skat(봄)",
+    "bSkatAutumn": "예정 납부세 B-skat(가을)",
+    "bSkatDesc": "덴마크 세무청(Skattestyrelsen)에 예정 납부세 B-skat를 납부해요. 개인사업자와 프리랜서에게 적용돼요.",
+    "formTitle": "{year}년 소득세 신고",
+    "formDesc": "{year} 소득 연도의 소득세 신고서(oplysningsskema)를 덴마크 세무청(Skattestyrelsen)에 제출해요.",
+    "amTitle": "노동시장 기여금(AM) Q{n}",
+    "amDesc": "분기별 개인사업자 노동시장 기여금(AM-bidrag)을 납부해요.",
+    "arTitle": "{year} 회계연도 연차 보고서",
+    "arDesc": "연차 보고서는 회계연도 종료 후 5개월 이내에 덴마크 기업청(Erhvervsstyrelsen)에 제출해야 해요.",
+    "agmTitle": "{year} 회계연도 정기 총회",
+    "agmDesc": "연차 보고서를 승인하기 위한 정기 총회예요.",
+    "corpFormTitle": "{year} 회계연도 법인세 신고",
+    "corpFormDesc": "회계연도의 회사 세무 신고서(oplysningsskema)를 덴마크 세무청(Skattestyrelsen)에 제출해야 해요.",
+    "corpTaxSpring": "법인세 예납(봄)",
+    "corpTaxAutumn": "법인세 예납(가을)",
+    "corpTaxDesc": "덴마크 세무청(Skattestyrelsen)에 법인세를 예납해요.",
+    "corpFinalTitle": "{year}년 법인세 확정 정산",
+    "corpFinalDesc": "{year} 소득 연도의 나머지 법인세(확정세액)를 납부해요.",
+    "payrollTitle": "{month} A-skat/AM 기여금",
+    "payrollDesc": "{year}년 {month} 급여 기간의 A-skat와 AM 기여금을 신고하고 납부해요.",
+    "holidayPayTitle": "휴가 수당 Q{n}",
+    "holidayPayDesc": "분기별 휴가 수당을 Feriekonto(덴마크 휴가 수당 기금)에 신고하고 납부해요."
+  },
+  "integrations": {
+    "authExpired": "{name} 연결이 만료되었거나 올바르지 않아요. 설정 → 연동에서 다시 연결해 주세요.",
+    "billy": {
+      "keyRequired": "Billy API 키가 필요해요",
+      "productDescription": "TimeTrack에서 가져온 시간"
+    },
+    "dinero": {
+      "keyRequired": "Dinero API 키가 필요해요",
+      "orgIdRequired": "Dinero 조직 ID가 필요해요",
+      "tokenFailed": "Dinero 토큰을 가져올 수 없어요",
+      "refreshMissing": "Dinero 갱신 토큰이 없어요",
+      "expiredReconnect": "Dinero 연결이 만료되었어요. 다시 연결해 주세요.",
+      "orgsFailed": "Dinero 조직을 가져올 수 없어요"
+    },
+    "economic": {
+      "secretRequired": "e-conomic App Secret Token이 필요해요",
+      "grantRequired": "e-conomic Agreement Grant Token이 필요해요",
+      "consultingHours": "컨설팅 업무: {hours}시간"
+    },
+    "timeops": {
+      "invalidKey": "API 키가 올바르지 않거나 만료되었어요",
+      "premium": "TimeOps API를 사용하려면 TimeOps Premium이 필요해요",
+      "network": "TimeOps에 연결할 수 없어요. 나중에 다시 시도해 주세요.",
+      "unexpected": "TimeOps에 연결하는 중 예기치 않은 오류가 발생했어요({detail})"
+    },
+    "icloud": {
+      "syncFailed": "iCloud 동기화에 실패했어요",
+      "storageMissing": "서버에 보안 비밀번호 저장소가 설정되지 않아 지금은 iCloud를 연결할 수 없어요. 지원팀에 문의하세요.",
+      "rejected": "Apple ID 또는 앱 암호가 거부되었어요. 일반 Apple 비밀번호가 아니라 앱 암호 전체를 복사했는지 확인하세요.",
+      "notConnected": "iCloud가 연결되어 있지 않아요",
+      "notConnectedShort": "iCloud에 연결되지 않음",
+      "calendarGone": "캘린더 「{name}」이(가) iCloud에 더 이상 없어요. 캘린더를 다시 선택하세요.",
+      "unknownCalendar": "알 수 없음"
+    },
+    "caldav": {
+      "unknown": "iCloud 동기화에 실패했어요: {message}",
+      "auth": "Apple이 로그인을 거부했어요. appleid.apple.com에서 새 앱 암호를 만들고 iCloud를 다시 연결하세요.",
+      "network": "지금은 iCloud에 연결할 수 없어요. 자동으로 다시 시도할게요."
+    },
+    "cvr": {
+      "invalid": "CVR 번호는 8자리여야 해요",
+      "notFound": "이 CVR 번호의 회사를 찾을 수 없어요",
+      "rateLimited": "CVR 조회가 일시적으로 제한되었어요. 잠시 후 다시 시도하거나 직접 입력하세요.",
+      "timeout": "CVR 등록부가 지금 응답하지 않아요. 잠시 후 다시 시도하거나 직접 입력하세요.",
+      "unavailable": "CVR 조회가 지금 작동하지 않아요. 잠시 후 다시 시도하거나 직접 입력하세요."
+    },
+    "google": {
+      "readOnly": "Google 캘린더가 읽기 전용 권한으로 연결되어 있어 TimeTrack이 일정을 만들거나 변경할 수 없어요. 이 기능을 사용하려면 설정 → 연동 → Google 캘린더에서 쓰기 권한을 허용하세요.",
+      "freeSlot": "캘린더의 빈 시간",
+      "deadlineIn": "마감까지 {count, plural, other {#일}}",
+      "urgent": "긴급 우선순위",
+      "high": "높은 우선순위",
+      "clientLine": "클라이언트: {name}",
+      "projectLine": "프로젝트: {name}",
+      "hoursLine": "시간: {hours}",
+      "exportedFrom": "TimeTrack에서 내보냄"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "시간 기록",
+    "timeOnProject": "{name}에 {hours}시간",
+    "timeForClient": "{name}을(를) 위해 {hours}시간",
+    "timeOnly": "{hours}시간",
+    "invoiceTitle": "청구서 {number}",
+    "invoiceDescription": "{client}에게 {amount} kr",
+    "newClient": "새 클라이언트: {name}",
+    "noContact": "연락처 정보 없음",
+    "newProject": "새 프로젝트: {name}",
+    "projectFor": "{client}용",
+    "internal": "내부"
+  }
+}

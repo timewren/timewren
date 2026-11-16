@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Guardando…",
+    "saved": "Guardado",
+    "blocked": "No guardado: corrige el campo marcado",
+    "failed": "No se pudo guardar",
+    "retry": "Reintentar"
+  },
+  "loading": {
+    "default": "Cargando…",
+    "tip": {
+      "search": "¿Sabías que? Puedes usar Ctrl+K para buscar en todas partes",
+      "rightClick": "Consejo: haz clic derecho en una tarea para ver acciones rápidas",
+      "templates": "Usa plantillas para tareas recurrentes y ahorra tiempo",
+      "kanban": "Puedes arrastrar tareas entre columnas en la vista Kanban",
+      "timerFromTask": "Consejo: inicia un cronómetro directamente desde una tarea",
+      "prepaid": "Los bonos de horas te ayudan a controlar las horas prepagadas",
+      "duplicate": "Puedes duplicar los bonos de horas con un clic",
+      "keys": "Usa J/K para moverte por la lista de tareas con el teclado"
+    }
+  },
+  "member": {
+    "all": "Todos los empleados",
+    "selected": "{count} empleados seleccionados"
+  },
+  "founding": "Fundador",
+  "status": {
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "pending": "Pendiente",
+    "completed": "Completado",
+    "archived": "Archivado",
+    "draft": "Borrador",
+    "sent": "Enviado",
+    "paid": "Pagado",
+    "overdue": "Vencido",
+    "on_hold": "En pausa"
+  },
+  "priority": {
+    "low": "Baja",
+    "medium": "Normal",
+    "high": "Alta",
+    "urgent": "Crítica"
+  },
+  "modal": {
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "wait": "Espera…",
+    "ok": "Aceptar"
+  },
+  "image": {
+    "uploadFailed": "La subida ha fallado",
+    "uploaded": "Imagen subida",
+    "uploadError": "No se pudo subir la imagen",
+    "alt": "Imagen",
+    "change": "Cambiar",
+    "upload": "Subir",
+    "remove": "Quitar",
+    "hint": "JPEG, PNG o WebP. Máx. 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Error de red",
+      "message": "No se pudo conectar con el servidor. Comprueba tu conexión a internet e inténtalo de nuevo."
+    },
+    "server": {
+      "title": "Error del servidor",
+      "message": "Se ha producido un error en el servidor. Inténtalo de nuevo más tarde."
+    },
+    "notFound": {
+      "title": "No encontrado",
+      "message": "El recurso que buscas no existe o se ha eliminado."
+    },
+    "permission": {
+      "title": "Acceso denegado",
+      "message": "No tienes permiso para ver este contenido."
+    },
+    "unknown": {
+      "title": "Algo ha salido mal",
+      "message": "Se ha producido un error inesperado. Prueba a recargar la página."
+    },
+    "offline": "Estás sin conexión",
+    "connected": "Conectado",
+    "details": "Detalles del error",
+    "retrying": "Reintentando…",
+    "retry": "Reintentar",
+    "loading": "Cargando…"
+  },
+  "empty": {
+    "clients": {
+      "title": "Todavía no hay clientes",
+      "description": "Empieza creando tu primer cliente. Puedes añadir datos de contacto, número de empresa (CVR), tarifa por hora y mucho más.",
+      "action": "Crear tu primer cliente",
+      "guide": "Leer la guía"
+    },
+    "projects": {
+      "needClientTitle": "Crea primero un cliente",
+      "needClientDescription": "Necesitas al menos un cliente antes de crear proyectos. Los proyectos siempre pertenecen a un cliente.",
+      "createClient": "Crear cliente",
+      "title": "Todavía no hay proyectos",
+      "description": "Crea tu primer proyecto para empezar a registrar horas y facturar a tus clientes. Puedes elegir tarifa por hora o precio fijo.",
+      "action": "Crear proyecto",
+      "seeClients": "Ver clientes"
+    },
+    "time": {
+      "needProjectTitle": "Crea primero un proyecto",
+      "needProjectDescription": "Necesitas al menos un proyecto activo para registrar horas. Los proyectos te ayudan a organizar y facturar tu trabajo.",
+      "createProject": "Crear proyecto",
+      "today": "hoy",
+      "title": "No hay tiempo registrado {date}",
+      "description": "Inicia el cronómetro o añade un registro de tiempo manual. También puedes crear plantillas recurrentes para tareas fijas.",
+      "startTimer": "Iniciar cronómetro",
+      "seeTemplates": "Ver plantillas"
+    },
+    "invoices": {
+      "needTimeTitle": "Registra horas primero",
+      "needTimeDescription": "No tienes tiempo sin facturar. Empieza registrando horas en tus proyectos.",
+      "trackTime": "Registrar horas",
+      "title": "Todavía no hay facturas",
+      "description": "Crea tu primera factura a partir del tiempo registrado o de importes fijos. Puedes personalizar las plantillas de factura en los ajustes.",
+      "action": "Crear factura",
+      "seeUnbilled": "Ver tiempo sin facturar"
+    },
+    "tasks": {
+      "needProjectTitle": "Crea primero un proyecto",
+      "needProjectDescription": "Las tareas pertenecen a proyectos. Crea primero un proyecto y después podrás añadir tareas.",
+      "createProject": "Crear proyecto",
+      "title": "No hay tareas",
+      "description": "Controla tus tareas y plazos. Puedes priorizar tareas y fijar fechas de vencimiento.",
+      "action": "Crear tarea",
+      "seeProjects": "Ver proyectos"
+    },
+    "prepaid": {
+      "needClientTitle": "Crea primero un cliente",
+      "needClientDescription": "Los bonos de horas (horas prepagadas) pertenecen a clientes. Crea primero un cliente.",
+      "createClient": "Crear cliente",
+      "title": "No hay bonos de horas",
+      "description": "Los bonos de horas son paquetes de horas prepagadas. Perfectos para soporte o mantenimiento continuo con clientes habituales.",
+      "action": "Crear bono de horas",
+      "seeClients": "Ver clientes"
+    },
+    "reports": {
+      "title": "No hay datos que mostrar",
+      "description": "Registra horas y crea facturas para ver aquí tus informes y estadísticas. Cuantos más datos, mejor visión.",
+      "action": "Ir al registro de horas"
+    },
+    "search": {
+      "title": "Sin resultados",
+      "descriptionQuery": "No hemos encontrado nada que coincida con «{query}». Prueba con otra búsqueda o revisa la ortografía.",
+      "description": "Prueba a buscar otra cosa.",
+      "clear": "Borrar la búsqueda"
+    },
+    "error": {
+      "title": "Algo ha salido mal",
+      "description": "No pudimos cargar los datos. Inténtalo de nuevo.",
+      "retry": "Reintentar"
+    },
+    "moduleDisabled": {
+      "title": "Función desactivada",
+      "description": "Este módulo no está activado para tu organización. Contacta con tu administrador si quieres usarlo.",
+      "action": "Ajustes de módulos"
+    }
+  },
+  "client": {
+    "placeholder": "Seleccionar cliente",
+    "clear": "Sin cliente",
+    "selected": "{count} clientes seleccionados",
+    "searchLabel": "Buscar cliente",
+    "searchPlaceholder": "Buscar cliente…",
+    "listLabel": "Clientes",
+    "none": "No se encontraron clientes",
+    "frequent": "Más usados",
+    "all": "Todos los clientes",
+    "entryCount": "{count} reg."
+  },
+  "project": {
+    "placeholder": "Seleccionar proyecto",
+    "none": "Sin proyecto",
+    "searchPlaceholder": "Buscar proyecto o cliente…",
+    "listLabel": "Proyectos",
+    "recent": "Usados recientemente",
+    "empty": "No se encontraron proyectos",
+    "noClient": "Sin cliente",
+    "unknownClient": "Cliente desconocido"
+  },
+  "task": {
+    "placeholder": "Seleccionar tarea",
+    "searchPlaceholder": "Buscar tarea, proyecto o cliente…",
+    "none": "Sin tarea",
+    "inProgress": "En curso",
+    "todo": "Por hacer",
+    "backlog": "Pendientes",
+    "other": "Otras",
+    "noMatch": "No se encontraron tareas",
+    "noActive": "No hay tareas activas",
+    "showMoreBacklog": "Mostrar {count} tareas más pendientes"
+  }
+}

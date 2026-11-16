@@ -1,0 +1,67 @@
+{
+  "hourUnit": "h",
+  "headline": {
+    "untilToday": "{logged} / {expected} tähän päivään mennessä",
+    "noWorkTimeYet": "Jaksolla ei ole vielä työaikaa",
+    "of": "{logged} / {expected}",
+    "noWorkTime": "Jaksolla ei ole työaikaa"
+  },
+  "week": "Viikko {week} ({start}-{end})",
+  "period": {
+    "day": "Päivä",
+    "week": "Viikko",
+    "month": "Kuukausi"
+  },
+  "bar": {
+    "label": "Laskutettavaa {billable}, ei-laskutettavaa {nonBillable} / {expected} työaikaa",
+    "billable": "Laskutettava",
+    "nonBillable": "Ei-laskutettava",
+    "notLogged": "Kirjaamatta"
+  },
+  "table": {
+    "client": "Asiakas",
+    "billable": "Laskutettava",
+    "nonBillableShort": "Ei-lask.",
+    "share": "Osuus",
+    "ratio": "Ei-lask. / lask. tunti",
+    "ratioTitle": "Ei-laskutettavia tunteja laskutettua tuntia kohti",
+    "onlyNonBillable": "Vain ei-lask."
+  },
+  "strip": {
+    "title": "Kattavuus",
+    "summary": "<n>{billable}</n> laskutettavaa · <n>{nonBillable}</n> ei-laskutettavaa",
+    "summaryRatio": "<n>{billable}</n> laskutettavaa · <n>{nonBillable}</n> ei-laskutettavaa · <n>{ratio}</n> laskutettua tuntia kohti",
+    "perClient": "Asiakkaittain"
+  },
+  "page": {
+    "back": "Raportit",
+    "title": "Kattavuus",
+    "description": "Kuinka suuri osa työajastasi on kirjattu ja mihin se menee",
+    "periodAria": "Jakso",
+    "prev": "Edellinen jakso",
+    "next": "Seuraava jakso",
+    "today": "Tänään",
+    "workTime": "Työaika: {hours}/viikko",
+    "workTimeHr": "Työaika: {hours}/viikko (HR:stä)",
+    "edit": "Muokkaa",
+    "loadError": "Kattavuutta ei voitu hakea.",
+    "retry": "Yritä uudelleen",
+    "statCoverage": "Kattavuus",
+    "statBillable": "Laskutettava",
+    "statNonBillable": "Ei-laskutettava",
+    "statRatio": "Ei-lask. / lask. tunti",
+    "ofWorkTime": "{pct} työajasta",
+    "noTimeLogged": "Ei kirjattua aikaa",
+    "shareBilled": "{pct} kirjatusta ajasta on laskutettu",
+    "perClient": "Asiakkaittain",
+    "noTimeInPeriod": "Jaksolle ei ole kirjattu aikaa.",
+    "logTime": "Kirjaa aikaa",
+    "perDay": "Päivittäin",
+    "colDate": "Päivämäärä",
+    "colWorkTime": "Työaika",
+    "colLogged": "Kirjattu",
+    "colBillable": "Josta lask.",
+    "colCoverage": "Kattavuus",
+    "footnote": "Kattavuus = kirjattu aika ÷ tavallinen työaikasi. Arkipyhiä ja poissaoloja ei vähennetä työajasta. Aika ilman asiakasta näytetään sisäisenä aikana."
+  }
+}

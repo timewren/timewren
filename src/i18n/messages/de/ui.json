@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Wird gespeichert…",
+    "saved": "Gespeichert",
+    "blocked": "Nicht gespeichert: Korrigiere das markierte Feld",
+    "failed": "Speichern fehlgeschlagen",
+    "retry": "Erneut versuchen"
+  },
+  "loading": {
+    "default": "Wird geladen…",
+    "tip": {
+      "search": "Schon gewusst? Mit Strg+K kannst du überall suchen",
+      "rightClick": "Tipp: Klicke mit der rechten Maustaste auf eine Aufgabe für Schnellaktionen",
+      "templates": "Nutze Vorlagen für wiederkehrende Aufgaben und spare Zeit",
+      "kanban": "In der Kanban-Ansicht kannst du Aufgaben zwischen Spalten ziehen",
+      "timerFromTask": "Tipp: Starte einen Timer direkt aus einer Aufgabe",
+      "prepaid": "Stundenpakete helfen dir, vorausbezahlte Stunden im Blick zu behalten",
+      "duplicate": "Du kannst Stundenpakete mit einem Klick duplizieren",
+      "keys": "Mit J/K navigierst du per Tastatur durch die Aufgabenliste"
+    }
+  },
+  "member": {
+    "all": "Alle Mitarbeitenden",
+    "selected": "{count} Mitarbeitende ausgewählt"
+  },
+  "founding": "Gründungsmitglied",
+  "status": {
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "pending": "Ausstehend",
+    "completed": "Abgeschlossen",
+    "archived": "Archiviert",
+    "draft": "Entwurf",
+    "sent": "Gesendet",
+    "paid": "Bezahlt",
+    "overdue": "Überfällig",
+    "on_hold": "Pausiert"
+  },
+  "priority": {
+    "low": "Niedrig",
+    "medium": "Normal",
+    "high": "Hoch",
+    "urgent": "Kritisch"
+  },
+  "modal": {
+    "close": "Schließen",
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "wait": "Bitte warten…",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Upload fehlgeschlagen",
+    "uploaded": "Bild hochgeladen",
+    "uploadError": "Bild konnte nicht hochgeladen werden",
+    "alt": "Bild",
+    "change": "Ändern",
+    "upload": "Hochladen",
+    "remove": "Entfernen",
+    "hint": "JPEG, PNG oder WebP. Max. 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Netzwerkfehler",
+      "message": "Verbindung zum Server fehlgeschlagen. Prüfe deine Internetverbindung und versuche es erneut."
+    },
+    "server": {
+      "title": "Serverfehler",
+      "message": "Auf dem Server ist ein Fehler aufgetreten. Versuche es später erneut."
+    },
+    "notFound": {
+      "title": "Nicht gefunden",
+      "message": "Die gesuchte Ressource existiert nicht oder wurde entfernt."
+    },
+    "permission": {
+      "title": "Zugriff verweigert",
+      "message": "Du hast keine Berechtigung, diesen Inhalt anzusehen."
+    },
+    "unknown": {
+      "title": "Etwas ist schiefgelaufen",
+      "message": "Es ist ein unerwarteter Fehler aufgetreten. Lade die Seite neu."
+    },
+    "offline": "Du bist offline",
+    "connected": "Verbunden",
+    "details": "Fehlerdetails",
+    "retrying": "Versuche es erneut…",
+    "retry": "Erneut versuchen",
+    "loading": "Wird geladen…"
+  },
+  "empty": {
+    "clients": {
+      "title": "Noch keine Kunden",
+      "description": "Lege los, indem du deinen ersten Kunden anlegst. Du kannst Kontaktdaten, CVR-Nummer, Stundensatz und mehr hinzufügen.",
+      "action": "Ersten Kunden anlegen",
+      "guide": "Anleitung lesen"
+    },
+    "projects": {
+      "needClientTitle": "Lege zuerst einen Kunden an",
+      "needClientDescription": "Du brauchst mindestens einen Kunden, bevor du Projekte anlegen kannst. Projekte gehören immer zu einem Kunden.",
+      "createClient": "Kunden anlegen",
+      "title": "Noch keine Projekte",
+      "description": "Lege dein erstes Projekt an, um Zeiten zu erfassen und deine Kunden abzurechnen. Du kannst Stundensatz oder Festpreis wählen.",
+      "action": "Projekt anlegen",
+      "seeClients": "Kunden ansehen"
+    },
+    "time": {
+      "needProjectTitle": "Lege zuerst ein Projekt an",
+      "needProjectDescription": "Du brauchst mindestens ein aktives Projekt, um Zeiten zu erfassen. Projekte helfen dir, deine Arbeit zu organisieren und abzurechnen.",
+      "createProject": "Projekt anlegen",
+      "today": "heute",
+      "title": "Keine Zeit erfasst {date}",
+      "description": "Starte den Timer oder füge manuell einen Zeiteintrag hinzu. Für feste Aufgaben kannst du außerdem wiederkehrende Vorlagen anlegen.",
+      "startTimer": "Timer starten",
+      "seeTemplates": "Vorlagen ansehen"
+    },
+    "invoices": {
+      "needTimeTitle": "Erfasse zuerst Zeit",
+      "needTimeDescription": "Du hast keine noch nicht abgerechnete Zeit. Beginne damit, Zeit auf deinen Projekten zu erfassen.",
+      "trackTime": "Zeit erfassen",
+      "title": "Noch keine Rechnungen",
+      "description": "Erstelle deine erste Rechnung auf Basis erfasster Zeit oder fester Beträge. Rechnungsvorlagen kannst du in den Einstellungen anpassen.",
+      "action": "Rechnung erstellen",
+      "seeUnbilled": "Nicht abgerechnete Zeit ansehen"
+    },
+    "tasks": {
+      "needProjectTitle": "Lege zuerst ein Projekt an",
+      "needProjectDescription": "Aufgaben gehören zu Projekten. Lege zuerst ein Projekt an, dann kannst du Aufgaben hinzufügen.",
+      "createProject": "Projekt anlegen",
+      "title": "Keine Aufgaben",
+      "description": "Behalte deine Aufgaben und Fristen im Blick. Du kannst Aufgaben priorisieren und Fälligkeitsdaten setzen.",
+      "action": "Aufgabe anlegen",
+      "seeProjects": "Projekte ansehen"
+    },
+    "prepaid": {
+      "needClientTitle": "Lege zuerst einen Kunden an",
+      "needClientDescription": "Stundenpakete (vorausbezahlte Stunden) gehören zu Kunden. Lege zuerst einen Kunden an.",
+      "createClient": "Kunden anlegen",
+      "title": "Keine Stundenpakete",
+      "description": "Stundenpakete sind vorausbezahlte Stundenkontingente. Ideal für laufenden Support oder Wartung bei Stammkunden.",
+      "action": "Stundenpaket anlegen",
+      "seeClients": "Kunden ansehen"
+    },
+    "reports": {
+      "title": "Keine Daten vorhanden",
+      "description": "Erfasse Zeit und erstelle Rechnungen, um hier deine Berichte und Statistiken zu sehen. Je mehr Daten, desto besser der Überblick.",
+      "action": "Zur Zeiterfassung"
+    },
+    "search": {
+      "title": "Keine Ergebnisse",
+      "descriptionQuery": "Wir haben nichts gefunden, das zu „{query}“ passt. Versuche einen anderen Suchbegriff oder prüfe die Schreibweise.",
+      "description": "Versuche, nach etwas anderem zu suchen.",
+      "clear": "Suche zurücksetzen"
+    },
+    "error": {
+      "title": "Etwas ist schiefgelaufen",
+      "description": "Wir konnten die Daten nicht laden. Bitte versuche es erneut.",
+      "retry": "Erneut versuchen"
+    },
+    "moduleDisabled": {
+      "title": "Funktion deaktiviert",
+      "description": "Dieses Modul ist für deine Organisation nicht aktiviert. Wende dich an eure Administration, wenn ihr es nutzen möchtet.",
+      "action": "Moduleinstellungen"
+    }
+  },
+  "client": {
+    "placeholder": "Kunde auswählen",
+    "clear": "Kein Kunde",
+    "selected": "{count} Kunden ausgewählt",
+    "searchLabel": "Kunde suchen",
+    "searchPlaceholder": "Kunde suchen…",
+    "listLabel": "Kunden",
+    "none": "Keine Kunden gefunden",
+    "frequent": "Häufig verwendet",
+    "all": "Alle Kunden",
+    "entryCount": "{count} Einträge"
+  },
+  "project": {
+    "placeholder": "Projekt auswählen",
+    "none": "Kein Projekt",
+    "searchPlaceholder": "Projekt oder Kunde suchen…",
+    "listLabel": "Projekte",
+    "recent": "Zuletzt verwendet",
+    "empty": "Keine Projekte gefunden",
+    "noClient": "Ohne Kunde",
+    "unknownClient": "Unbekannter Kunde"
+  },
+  "task": {
+    "placeholder": "Aufgabe auswählen",
+    "searchPlaceholder": "Aufgabe, Projekt oder Kunde suchen…",
+    "none": "Keine Aufgabe",
+    "inProgress": "In Arbeit",
+    "todo": "Offen",
+    "backlog": "Backlog",
+    "other": "Sonstige",
+    "noMatch": "Keine Aufgaben gefunden",
+    "noActive": "Keine aktiven Aufgaben",
+    "showMoreBacklog": "{count} weitere Backlog-Aufgaben anzeigen"
+  }
+}

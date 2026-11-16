@@ -1,0 +1,133 @@
+---
+title: "Webhooks"
+description: "Abonnér på hændelser i TimeWren med signerede udgående webhooks, administrér dem via REST API'et, og verificér HMAC-signaturen."
+---
+
+Udgående webhooks lader TimeWren kalde din server, når noget ændrer sig, for eksempel når en tidsregistrering oprettes, eller en faktura bliver betalt. Webhooks administreres via [REST API'et](/da/docs/api/rest) under `/api/v1/webhooks`. Der er ingen indstillingsside til dem i appen.
+
+Oprettelse, ændring og sletning af webhooks kræver, at nøglens bruger er administrator eller ejer i organisationen. Din API-nøgle skal have scopet `webhooks:write` for at ændre og `webhooks:read` for at læse.
+
+## Opret en webhook
+
+URL'en skal bruge HTTPS og må ikke pege på en privat eller intern adresse. Det tjekkes, når du gemmer den, og igen før hver levering.
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/webhooks \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Accounting sync",
+    "url": "https://hooks.example.com/timewren",
+    "events": ["time_entry.created", "invoice.paid"]
+  }'
+```
+
+| Felt | Påkrævet | Bemærkninger |
+| --- | --- | --- |
+| `name` | ja | 1 til 100 tegn |
+| `url` | ja | HTTPS-URL |
+| `events` | ja | Mindst én gyldig hændelsestype, se nedenfor. Ukendte typer udelades. |
+| `clientId` | nej | Send kun hændelser for denne kunde |
+| `projectId` | nej | Send kun hændelser for dette projekt |
+| `retryCount` | nej | 0 til 10, standard 3. Det samlede antal leveringsforsøg, inklusive det første. |
+| `timeoutMs` | nej | 1000 til 60000, standard 30000 |
+
+Svaret indeholder signeringshemmeligheden (`whsec_...`) i `secret`. Den vises kun denne ene gang. Senere læsninger returnerer den maskeret. Gem den, hvor din modtager kan læse den. REST API'et har intet endpoint til at rotere en hemmelighed, så mister du den, opretter du en ny webhook og sletter den gamle.
+
+Andre endpoints:
+
+| Metode og sti | Formål |
+| --- | --- |
+| `GET /webhooks` | Vis webhooks |
+| `GET /webhooks/{id}` | Læs én webhook |
+| `PATCH /webhooks/{id}` | Opdatér `name`, `url`, `events`, `clientId`, `projectId`, `isActive`, `retryCount`, `timeoutMs` |
+| `DELETE /webhooks/{id}` | Slet webhooken og dens leveringshistorik |
+| `POST /webhooks/{id}/test` | Send en testlevering, højst 5 pr. minut pr. webhook |
+| `GET /webhooks/{id}/deliveries` | Leveringslog, `limit` op til 100 (standard 50) |
+| `GET /webhooks/event-types` | Vis de tilgængelige hændelsestyper |
+
+## Hændelser
+
+| Kategori | Hændelsestyper |
+| --- | --- |
+| Kunder | `client.created`, `client.updated`, `client.archived` |
+| Projekter | `project.created`, `project.updated`, `project.status_changed`, `project.budget_threshold` |
+| Tidsregistreringer | `time_entry.created`, `time_entry.updated`, `time_entry.deleted` |
+| Fakturaer | `invoice.created`, `invoice.sent`, `invoice.paid`, `invoice.overdue` |
+| Klippekort | `prepaid.created`, `prepaid.updated`, `prepaid.low_balance`, `prepaid.expired` |
+| Opgaver | `task.created`, `task.updated`, `task.completed` |
+
+Nogle hændelser kommer fra planlagte job i stedet for fra brugerhandlinger: `invoice.overdue`, `prepaid.expired`, `project.budget_threshold` og automatisk fornyelse af klippekort (`prepaid.created`). De udløses kun, når cronjobbene kører, og det sørger den medfølgende cron-container for.
+
+## Levering
+
+Hver levering er en HTTP-`POST` med en JSON-body:
+
+```json
+{
+  "event": "time_entry.created",
+  "timestamp": "2026-11-09T09:30:00.000Z",
+  "data": {
+    "timeEntry": { "id": "..." }
+  }
+}
+```
+
+`data` indeholder den ændrede post under en nøgle, der er opkaldt efter ressourcen (`client`, `project`, `timeEntry`, `invoice`, `prepaidPackage`, `task`). Nogle hændelser tilføjer felter, for eksempel `previousStatus` og `newStatus` på `project.status_changed` eller `changes` på `client.updated`.
+
+Headere, der sendes med hver levering:
+
+| Header | Værdi |
+| --- | --- |
+| `Content-Type` | `application/json` |
+| `X-Webhook-Signature` | HMAC-SHA256 i hex af den rå forespørgsels-body |
+| `X-Webhook-Event` | Hændelsestypen |
+| `X-Webhook-Timestamp` | Samme værdi som `timestamp` i body'en |
+| `X-Webhook-Delivery-Attempt` | 1 ved første forsøg, derefter 2, 3, ... |
+| `User-Agent` | `TimeTrack-Webhooks/1.0` |
+
+Svar med en hvilken som helst `2xx`-status inden for `timeoutMs` for at kvittere. Alt andet, en timeout eller en forbindelsesfejl, tæller som en fejl.
+
+## Verificér signaturen
+
+Signaturen er HMAC-SHA256 i hex med små bogstaver af præcis den rå forespørgsels-body med din `whsec_...`-hemmelighed som nøgle. Der er intet præfiks. Beregn den over de rå bytes, før der parses JSON:
+
+```ts
+import crypto from "node:crypto";
+import express from "express";
+
+const secret = process.env.TIMEWREN_WEBHOOK_SECRET!;
+const app = express();
+
+app.post("/timewren", express.raw({ type: "application/json" }), (req, res) => {
+  const expected = crypto
+    .createHmac("sha256", secret)
+    .update(req.body)
+    .digest("hex");
+  const received = String(req.header("X-Webhook-Signature") ?? "");
+
+  const a = Buffer.from(expected);
+  const b = Buffer.from(received);
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
+    return res.status(401).send("invalid signature");
+  }
+
+  const payload = JSON.parse(req.body.toString("utf8"));
+  console.log(payload.event, payload.data);
+  res.sendStatus(200);
+});
+
+app.listen(3001);
+```
+
+Signaturen beskytter ikke mod gentagne afspilninger. Er det vigtigt, så afvis også payloads, hvis `timestamp` er for gammel, og fjern dubletter ud fra postens id.
+
+## Genforsøg og deaktivering
+
+Det første forsøg sker lige efter hændelsen. Fejler det, markeres leveringen `pending_retry`, og et cronjob (`/api/cron/webhook-retry`, hvert 5. minut i den medfølgende cron-container) prøver igen, indtil der er gjort `retryCount` forsøg, og markerer den derefter `failed`. Der er ingen eksponentiel backoff, så et genforsøg venter på næste kørsel af cronjobbet.
+
+Efter 10 fejlede første forsøg i træk deaktiveres en webhook automatisk (`isActive` bliver `false` med en begrundelse). Aktivér den igen med `PATCH /webhooks/{id}` og `{"isActive": true}`. Det nulstiller også fejltælleren. Et dagligt job fjerner gamle leveringslogs: vellykkede efter 30 dage, fejlede efter 90.
+
+## Indgående webhooks fra udbydere
+
+TimeWren modtager også webhooks fra andre tjenester, for eksempel fra Billy og fra mailudbyderen Resend, under `/api/webhooks/*`. De verificeres med hver udbyders egen metode og er ikke beregnet til, at du kalder dem. Se [Billy](/da/docs/integrations/billy) og [Mail](/da/docs/configuration/email) for opsætning.

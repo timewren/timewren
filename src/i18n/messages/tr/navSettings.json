@@ -1,0 +1,166 @@
+{
+  "group": {
+    "account": "Hesap",
+    "organisation": "Organizasyon",
+    "billing": "Faturalandırma",
+    "integrations": "Entegrasyonlar",
+    "advanced": "Gelişmiş"
+  },
+  "item": {
+    "settings": {
+      "label": "Profil ve görünüm",
+      "description": "Ad, saatlik ücret, çalışma saatleri, tema ve dil"
+    },
+    "settings_security": {
+      "label": "Güvenlik ve oturum açma",
+      "description": "Parola, iki adımlı doğrulama, geçiş anahtarları ve oturumlar"
+    },
+    "settings_notifications": {
+      "label": "Bildirimler",
+      "description": "E-posta, Discord, push ve sessiz saatler"
+    },
+    "settings_gdpr": {
+      "label": "GDPR ve veri koruma",
+      "description": "Verilerini indir ve veri işleme sözleşmesi"
+    },
+    "settings_company": {
+      "label": "Şirket profili",
+      "description": "CVR, adres, banka, KDV ve şirket tatilleri"
+    },
+    "organization": {
+      "label": "Organizasyon ve ekip",
+      "description": "Üyeler, davetler ve roller"
+    },
+    "organization_permissions": {
+      "label": "Erişim denetimi",
+      "description": "Her rolün neleri görebileceği ve değiştirebileceği"
+    },
+    "organization_audit": {
+      "label": "Etkinlik günlüğü",
+      "description": "Organizasyonda kim neyi değiştirdi"
+    },
+    "settings_modules": {
+      "label": "Modüller",
+      "description": "Organizasyon için modülleri aç ve kapat"
+    },
+    "settings_tags": {
+      "label": "Etiketler",
+      "description": "Zaman kayıtlarını, projeleri ve müşterileri düzenle"
+    },
+    "enterprise_settings": {
+      "label": "Kurumsal ayarlar",
+      "description": "Çalışma saatleri, devamsızlık, izin, bordro ve oturum açma"
+    },
+    "settings_subscription": {
+      "label": "Abonelik",
+      "description": "Plan, ödeme ve kullanıcı koltukları"
+    },
+    "settings_email": {
+      "label": "E-posta ve şablonlar",
+      "description": "Faturalar ve hatırlatmalar için e-posta şablonları"
+    },
+    "settings_portal": {
+      "label": "Müşteri portalı",
+      "description": "Müşteri portalı için logo, renkler ve alan adı"
+    },
+    "settings_integrations": {
+      "label": "Entegrasyonlar",
+      "description": "Muhasebe, takvim ve tarayıcı uzantısı"
+    },
+    "settings_ai": {
+      "label": "Yapay zeka ve otomasyon",
+      "description": "E-postadan göreve ve yapay zeka yorumlaması"
+    },
+    "settings_desktop": {
+      "label": "Masaüstü uygulaması",
+      "description": "İndirme, bağlı cihazlar ve lisans"
+    },
+    "settings_api": {
+      "label": "API",
+      "description": "API anahtarları ve dokümantasyon"
+    },
+    "settings_data": {
+      "label": "İçe ve dışa aktarma",
+      "description": "CSV'den içe aktar ve verilerini dışa aktar"
+    }
+  },
+  "entry": {
+    "settings": {
+      "profilbillede": "Profil fotoğrafı",
+      "name": "Ad",
+      "hourlyRate": "Varsayılan saatlik ücret",
+      "weeklyHourGoal": "Haftalık saat hedefi",
+      "startPage": "Oturum açtıktan sonra başlangıç sayfası",
+      "arbejdstid": "Çalışma saatleri ve kullanım oranı",
+      "fridage": "Resmi tatiller ve izin günleri",
+      "afrunding": "Zaman yuvarlama",
+      "klippekort": "Ön ödemeli paketlerde tutarları gizle",
+      "godkendelse": "Müşteri onayı",
+      "udseende": "Tema (açık veya koyu)",
+      "sprog": "Dil",
+      "opsaetningsguide": "Kurulum rehberi",
+      "slet-konto": "Hesabı sil"
+    },
+    "settings_security": {
+      "to-faktor": "İki adımlı doğrulama",
+      "adgangskode": "Parola",
+      "forbundne-konti": "Bağlı hesaplar",
+      "passkeys": "Geçiş anahtarları",
+      "telefon": "Telefon numarası",
+      "betroede-enheder": "Güvenilen cihazlar",
+      "sessioner": "Etkin oturumlar"
+    },
+    "settings_notifications": {
+      "email-notifikationer": "E-posta bildirimleri",
+      "stille-timer": "Sessiz saatler",
+      "discord": "Discord",
+      "push": "Tarayıcı push bildirimi",
+      "pwa": "Uygulama ve hareketsizlik (PWA)",
+      "ugerapporter": "Otomatik haftalık raporlar"
+    },
+    "settings_gdpr": {
+      "databehandleraftale": "Veri işleme sözleşmesi",
+      "sletning": "Veri silme"
+    },
+    "settings_company": {
+      "logo": "Şirket logosu",
+      "adresse": "Adres",
+      "bank": "Banka bilgileri",
+      "moms": "KDV",
+      "fridage": "Resmi tatiller ve şirket izin günleri"
+    },
+    "settings_subscription": {
+      "plan": "Mevcut plan",
+      "betaling": "Ödeme ve makbuzlar",
+      "pladser": "Koltuklar",
+      "skift-plan": "Planı değiştir",
+      "annuller": "Aboneliği iptal et"
+    },
+    "settings_portal": {
+      "branding": "Portal logosu ve adı",
+      "farver": "Portal renkleri",
+      "skrifttyper": "Portal yazı tipleri",
+      "domaene": "Portal için kendi alan adın"
+    },
+    "settings_integrations": {
+      "regnskab": "Varsayılan muhasebe sistemi",
+      "dinero": "Dinero",
+      "economic": "e-conomic",
+      "google-kalender": "Google Takvim",
+      "browserudvidelse": "Tarayıcı uzantısı",
+      "alunta": "Alunta ön ödemeli paketleri"
+    },
+    "settings_ai": {
+      "ai-udbyder": "Yapay zeka sağlayıcısı",
+      "email-til-opgave": "E-postadan göreve"
+    },
+    "settings_desktop": {
+      "enheder": "Bağlı cihazlar",
+      "licens": "Masaüstü lisansı"
+    },
+    "settings_data": {
+      "eksport": "Verileri dışa aktar",
+      "import": "Verileri içe aktar"
+    }
+  }
+}

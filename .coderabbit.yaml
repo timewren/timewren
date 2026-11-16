@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# Automatic first review on pull requests. A maintainer always reviews and
+# merges; CodeRabbit never approves or merges (docs/oss/maintaining.md).
+language: en-US
+early_access: false
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  sequence_diagrams: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+  path_filters:
+    - "!package-lock.json"
+    - "!**/package-lock.json"
+    - "!**/pnpm-lock.yaml"
+    - "!src/i18n/messages/load.ts"
+    - "!src/i18n/messages/static.ts"
+    - "!drizzle/meta/*_snapshot.json"
+    - "!**/*.webp"
+    - "!**/*.png"
+  path_instructions:
+    - path: "**/*"
+      instructions: |
+        Every feature is open source. Flag any check that enables or hides a
+        feature based on plan, license key, brand or billing configuration.
+        Billing may only control invoicing, trials and capacity.
+        Flag secrets, real names, emails or other personal data in code, tests and fixtures.
+    - path: "src/lib/trpc/routers/**"
+      instructions: |
+        Data is multi-tenant. Queries and mutations must filter by the
+        organisation (ctx.orgId) or, as a fallback, the user (ctx.session.user.id).
+        User data is archived (isArchived), never hard-deleted.
+    - path: "src/**/*.tsx"
+      instructions: |
+        User-facing text must come from the message catalogs in
+        src/i18n/messages/, never be hardcoded. New keys need `en` and `da`.
+        Check loading, empty and error states and keyboard access.
+    - path: "drizzle/**"
+      instructions: |
+        Migrations are forward-only and run at startup. Flag destructive
+        changes (dropping or renaming columns or tables, rewriting data)
+        unless the pull request lists them under Breaking with migration notes.
+    - path: ".github/workflows/**"
+      instructions: |
+        Workflows must be safe for forks: no pull_request_target, read-only
+        permissions for pull requests, no secrets in jobs that run pull request
+        code, and actions pinned to a full commit SHA.
+    - path: "CHANGELOG.md"
+      instructions: |
+        Keep a Changelog format. New entries go under [Unreleased]. Breaking
+        changes need a Migration group in the same section.
+chat:
+  auto_reply: true

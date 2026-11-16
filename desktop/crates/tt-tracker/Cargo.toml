@@ -1,0 +1,44 @@
+[package]
+name = "tt-tracker"
+version = "0.1.0"
+edition = "2024"
+description = "Aktivitetssporing for TimeTrack Desktop 1.0: capture, segmenter, identitet og lokal aktivitets-DB"
+license = "AGPL-3.0-only"
+publish = false
+
+[dependencies]
+chrono = { workspace = true, features = ["clock"] }
+regex = "=1.13.1"
+# `bundled` (SQLite kompileret ind) er standard. `--no-default-features` bruges
+# kun til `cargo check --target x86_64-pc-windows-msvc` fra macOS, hvor
+# SQLite-C-koden ikke kan krydskompileres uden MSVC-headers.
+rusqlite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+# Procestræ (forælder, cmdline, cwd) til terminalens arbejdsmappe.
+sysinfo = { version = "=0.33.1", default-features = false, features = ["system"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Samme versioner som GPUI allerede trækker ind (se spike-gpui/Cargo.lock).
+objc2-core-foundation = { version = "=0.3.2", default-features = false, features = ["std", "CFArray", "CFDictionary", "CFNumber", "CFString", "CFURL"] }
+objc2-core-graphics = { version = "=0.3.2", default-features = false, features = ["std", "CGWindow", "CGEventSource", "CGEventTypes"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "=0.58.0", features = [
+  "Win32_Foundation",
+  "Win32_System_Com",
+  "Win32_System_SystemInformation",
+  "Win32_System_Threading",
+  "Win32_System_Variant",
+  "Win32_UI_Accessibility",
+  "Win32_UI_Input_KeyboardAndMouse",
+  "Win32_UI_WindowsAndMessaging",
+] }
+
+[features]
+default = ["bundled"]
+bundled = ["rusqlite/bundled"]
+
+[dev-dependencies]
+chrono-tz.workspace = true
+tempfile.workspace = true

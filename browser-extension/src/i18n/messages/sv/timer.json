@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration} sparad på <b>{target}</b>",
+    "stoppedOn": "{duration} stoppad på <b>{target}</b>",
+    "savedInternal": "{duration} sparad som <b>intern tid</b>",
+    "stoppedInternal": "{duration} stoppad som <b>intern tid</b>",
+    "targetWithClient": "{client}, {project}",
+    "notEnough": "Timbanken <b>{name}</b> hade inte tillräckligt med timmar, så all tid sparades som fakturerbar",
+    "deducted": "{hours} drogs av från <b>{name}</b>, {remaining} kvar",
+    "deductedOverflow": "{hours} drogs av från <b>{name}</b>, {remaining} kvar. Timbanken tog slut, så resten är fakturerbar tid",
+    "pendingSave": "Servern svarade inte i tid. Tiden skickas automatiskt så fort du har anslutning och sparas bara en gång.",
+    "close": "Stäng meddelandet"
+  },
+  "discard": {
+    "label": "Kasta tiden",
+    "question": "Kasta {duration} utan att spara?",
+    "keep": "Behåll tiden",
+    "confirm": "Kasta tiden"
+  },
+  "switch": {
+    "label": "Byt kund",
+    "question": "Spara {duration} på {from} och starta en ny timer på {to}?",
+    "internal": "intern tid",
+    "cancel": "Avbryt",
+    "confirm": "Spara och starta ny"
+  },
+  "noClient": "Ingen kund vald",
+  "noClientShort": "Ingen kund",
+  "start": "Starta timer",
+  "cancelNoSave": "Avbryt timern utan att spara",
+  "pause": "Pausa timern",
+  "stopSave": "Stoppa och spara",
+  "resume": "Återuppta timern",
+  "addMinutes": "Lägg till {minutes} minuter på timern",
+  "addedMinutes": "+{minutes} min",
+  "pickClientProject": "Välj kund och projekt",
+  "descriptionPlaceholder": "Vad arbetar du med?",
+  "descriptionLabel": "Beskrivning av arbetet"
+}

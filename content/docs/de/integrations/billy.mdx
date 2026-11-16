@@ -1,0 +1,46 @@
+---
+title: "Billy"
+description: "Verbinde Billy, das dänische Buchhaltungssystem, mit TimeWren: Kontakte importieren, Kunden und Rechnungen exportieren und den Zahlungsstatus synchronisieren."
+---
+
+Billy ist ein dänisches Buchhaltungssystem. Die Integration braucht auf dem Server keine Einrichtung: Jeder Benutzer fügt seinen eigenen Billy-API-Schlüssel ein. Ohne Schlüssel passiert nichts mit Billy.
+
+## Was sie tut
+
+- Importiert Billy-Kontakte als Kunden. Bereits importierte Kontakte oder solche, deren CVR-Nummer zu einem bestehenden Kunden passt, werden übersprungen.
+- Exportiert einen Kunden nach Billy.
+- Exportiert eine Rechnung nach Billy als Entwurf, freigegeben oder freigegeben und per Mail versendet. Du wählst Produkt, Zahlungsbedingungen und ob jeder Zeiteintrag eine eigene Zeile ist oder alle Einträge in einer Zeile zusammengefasst werden. Der Zeilentext ist eine Vorlage.
+- Synchronisiert den Zahlungsstatus zurück: In Billy bezahlte Rechnungen werden in TimeWren als bezahlt markiert.
+
+Billy verlangt für jede Rechnungszeile ein Produkt. Wähle in den Einstellungen ein Standardprodukt oder lass TimeWren beim ersten Export eines anlegen. Für Stunden aus Stundenpaketen kannst du ein eigenes Produkt wählen.
+
+## Server-Einrichtung
+
+Voraussetzungen auf dem Server:
+
+- `ENCRYPTION_KEY` muss gesetzt sein. Der API-Schlüssel wird verschlüsselt gespeichert, und das Speichern schlägt ohne den Schlüssel fehl. Siehe [Umgebungsvariablen](/de/docs/configuration/environment).
+- Der Container `cron` muss laufen. Er ruft alle 15 Minuten `/api/cron/invoice-sync` auf, was den Zahlungsstatus für Benutzer aktualisiert, die die automatische Statussynchronisierung eingeschaltet haben.
+
+Es gibt keine Billy-spezifischen Client-Zugangsdaten zu registrieren.
+
+## Als Benutzer verbinden
+
+1. Erstelle in Billy unter Einstellungen, Integrationen, API einen API-Schlüssel.
+2. Öffne in TimeWren Einstellungen, Integrationen und füge den Schlüssel im Abschnitt Billy ein.
+3. Speichere und nutze dann Verbindung testen.
+4. Wähle das Standardprodukt und die Zeileneinstellungen.
+5. Wähle unter Standard-Buchhaltungssystem Billy, falls du es nutzt, und schalte Automatische Statussynchronisierung ein, wenn Zahlungen automatisch übernommen werden sollen. Von derselben Seite aus kannst du auch manuell synchronisieren.
+
+Kontakte werden auf der Seite Synchronisierung unter Integrationen importiert. Rechnungen werden von der Rechnung selbst aus exportiert.
+
+Der Schlüssel gehört dem Benutzer, der ihn gespeichert hat. In einem Team verwendet jede Person, die exportiert, ihren eigenen Schlüssel.
+
+## Webhooks (optional)
+
+Der Endpunkt `/api/webhooks/billy` akzeptiert Billy-Webhooks und markiert bei `invoice.paid` eine Rechnung als bezahlt. Setze auf dem Server ein Secret und konfiguriere dasselbe Secret in Billy; Anfragen werden mit einer HMAC-SHA256-Signatur im Header `x-billy-signature` überprüft:
+
+```dotenv
+BILLY_WEBHOOK_SECRET=a-long-random-string
+```
+
+Der Endpunkt findet den Benutzer über seine gespeicherte Billy-Organisations-ID. Die Web-Einstellungen speichern sie nicht, verlasse dich in den meisten Setups also auf die oben beschriebene 15-Minuten-Synchronisierung statt auf Webhooks.

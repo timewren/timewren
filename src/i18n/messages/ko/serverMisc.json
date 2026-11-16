@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "청구서 (기본)",
+        "subject": "{company}의 청구서 {number}",
+        "title": "청구서 {number}",
+        "text": "{client}님께,\n\n수행한 작업에 대한 청구서를 첨부합니다.\n\n금액: {amount}\n결제 기한: {dueDate}",
+        "button": "청구서 보기",
+        "footer": "감사합니다.\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "포털 초대",
+        "subject": "{company}의 클라이언트 포털에 초대되었습니다",
+        "title": "클라이언트 포털에 오신 것을 환영합니다",
+        "text": "{client}님께,\n\n{company}의 개인 클라이언트 포털에 초대되었습니다.\n\n포털에서 다음을 확인할 수 있습니다.\n• 청구서 보기\n• 프로젝트 진행 상황 확인\n• 시간 기록 보기\n• 선불 패키지 확인",
+        "button": "초대 수락"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "이제 TimeTrack의 뉴스레터와 마케팅 이메일을 받지 않습니다. 계정과 보안에 관한 중요한 이메일은 계속 발송됩니다.",
+    "invalidText": "수신 거부를 확인하지 못했습니다. 다시 시도하거나 TimeTrack 안에서 설정을 변경해 주세요.",
+    "confirmText": "TimeTrack의 뉴스레터와 마케팅 이메일 수신을 거부하시겠습니까? 계정과 보안에 관한 중요한 이메일은 계속 발송됩니다.",
+    "settingsButton": "이메일 설정 변경",
+    "confirmButton": "수신 거부 확인",
+    "doneTitle": "수신 거부되었습니다",
+    "invalidTitle": "유효하지 않은 링크입니다",
+    "confirmTitle": "뉴스레터 수신 거부"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "기간 종료일"
+  }
+}

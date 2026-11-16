@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "timewren.name" . }}
+  labels:
+    {{- include "timewren.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "timewren.labels" . | nindent 6 }}
+      app.kubernetes.io/component: app
+  template:
+    metadata:
+      labels:
+        {{- include "timewren.labels" . | nindent 8 }}
+        app.kubernetes.io/component: app
+      annotations:
+        checksum/config: {{ toJson (dict "url" .Values.appUrl "env" .Values.extraEnv "secrets" .Values.secrets "existingSecret" .Values.existingSecret) | sha256sum }}
+    spec:
+      securityContext:
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: wait-for-database
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          command:
+            - node
+            - -e
+            - "const sql = require('postgres')(process.env.DATABASE_URL, {connect_timeout: 5, max: 1}); sql.unsafe('SELECT 1').then(() => sql.end()).catch(() => process.exit(1));"
+          envFrom:
+            - secretRef:
+                name: {{ include "timewren.secretName" . }}
+      containers:
+        - name: app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          ports:
+            - name: http
+              containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: {{ include "timewren.secretName" . }}
+          env:
+            {{- $env := dict "NEXT_PUBLIC_APP_URL" .Values.appUrl "NEXT_PUBLIC_BRAND" "timewren" "MIGRATE_ON_START" "1" "REQUIRE_EMAIL_VERIFICATION" "false" }}
+            {{- if .Values.persistence.enabled }}
+            {{- $_ := set $env "STORAGE_DRIVER" "local" }}
+            {{- $_ := set $env "STORAGE_LOCAL_PATH" "/app/data/storage" }}
+            {{- end }}
+            {{- if .Values.valkey.enabled }}
+            {{- $_ := set $env "RATE_LIMIT_BACKEND" "valkey" }}
+            {{- end }}
+            {{- range $key, $value := mergeOverwrite $env .Values.extraEnv }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 120
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 30
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.persistence.enabled }}
+          volumeMounts:
+            - name: storage
+              mountPath: /app/data/storage
+          {{- end }}
+      {{- if .Values.persistence.enabled }}
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: {{ default (include "timewren.name" .) .Values.persistence.existingClaim }}
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "timewren.name" . }}
+  labels:
+    {{- include "timewren.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "timewren.labels" . | nindent 4 }}
+    app.kubernetes.io/component: app
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: http

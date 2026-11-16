@@ -1,0 +1,99 @@
+---
+title: "Backup and restore"
+description: "Back up the database, the storage volume and your encryption key, restore them into a fresh stack and verify the result."
+---
+
+Three things hold state: the PostgreSQL database, the `storage` volume (uploads, attachments, data exports) and your `.env`, especially `ENCRYPTION_KEY`. The scripts in `scripts/` back up and restore all three.
+
+## Scripts
+
+The [one-line install](/docs/install/quick) and [Docker Compose](/docs/install/docker-compose) only create the stack files, not `scripts/`. In that case, fetch the backup tools into the stack directory (the one with `docker-compose.yml` and `.env`) first:
+
+```bash
+mkdir -p scripts/lib
+for f in backup.sh restore.sh lib/backup-common.sh; do
+  curl -fsSL "https://raw.githubusercontent.com/timewren/timewren/main/scripts/$f" -o "scripts/$f"
+done
+chmod +x scripts/backup.sh scripts/restore.sh
+```
+
+The scripts use the directory above `scripts/` as the stack, so no further setup is needed. If you keep them elsewhere, set `TIMETRACK_DIR` to the stack directory. In a source checkout they are already there.
+
+Run them from the stack directory:
+
+```bash
+scripts/backup.sh
+scripts/restore.sh backups/timetrack-20260101-030000
+scripts/test-restore.sh
+```
+
+### backup.sh
+
+`backup.sh` needs the `db` service running. It writes a timestamped directory `backups/timetrack-YYYYMMDD-HHMMSS/` containing:
+
+- `db.dump`: `pg_dump -Fc` of the database.
+- `storage.tgz`: an archive of the storage volume.
+- `rowcounts.tsv`: the row count of every table, counted in a scratch restore of the dump.
+- `env`: a copy of `.env`, mode 600.
+- `SHA256SUMS`: checksums of the files above.
+
+Options: `--out DIR` chooses the parent directory (default `backups` in the stack directory, or `BACKUP_DIR`), and `--no-env` leaves `.env` out. The environment variables `TIMETRACK_DIR`, `ENV_FILE` and `COMPOSE_PROJECT_NAME` change which stack it works on.
+
+> **Warning:** Keep `ENCRYPTION_KEY` with every backup. Without the exact key, encrypted fields (integration tokens, API keys, 2FA secrets) are unreadable after a restore. The `env` copy holds the key, so protect and encrypt the backup before it leaves the machine. If you use `--no-env`, store the key yourself.
+
+### restore.sh
+
+`restore.sh` is meant for a fresh stack with the same `.env`. It:
+
+1. Verifies the checksums.
+2. Refuses to continue if `ENCRYPTION_KEY` in `.env` differs from the one in the backup's `env` copy.
+3. Stops `app` and `cron`, starts `db`, and runs `pg_restore --clean --if-exists --no-owner`.
+4. Extracts the storage archive into the volume and fixes ownership to uid 1001.
+5. Compares the row count of every table with the backup and exits non-zero on any difference.
+6. Starts the full stack.
+
+Options: `--yes` skips the confirmation, `--skip-start` leaves `app` and `cron` stopped, and `--force` allows extracting onto a storage volume that already has files (without it, the script stops; existing files are kept, files not in the backup stay behind). The backup directory is the only argument.
+
+### test-restore.sh
+
+`scripts/test-restore.sh` proves that backups can be restored. It seeds test data in a temporary stack, backs it up, restores into an empty second stack and checks that every table has identical row counts and the storage file is identical. It also checks that a damaged or altered backup is rejected. It needs Docker and the repository's `node_modules` (`npm ci`), uses no fixed ports and removes what it creates. Run it from a source checkout.
+
+## Manual commands
+
+The same steps by hand. The compose project is called `timetrack`, and the database name and user are both `timetrack`:
+
+```bash
+docker compose exec -T db pg_dump -U timetrack -Fc timetrack > timewren-$(date +%F).dump
+docker run --rm -v timetrack_storage:/data -v "$PWD":/backup alpine \
+  tar czf /backup/storage-$(date +%F).tgz -C /data .
+cp .env env-backup-$(date +%F)
+```
+
+## Restore
+
+Restore into a fresh stack with the same `.env`:
+
+```bash
+docker compose up -d db
+docker compose exec -T db pg_restore -U timetrack -d timetrack --clean --if-exists --no-owner < timewren-2026-01-01.dump
+docker run --rm -v timetrack_storage:/data -v "$PWD":/backup alpine \
+  tar xzf /backup/storage-2026-01-01.tgz -C /data
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+docker compose up -d
+```
+
+If you set `COMPOSE_PROJECT_NAME` in `.env`, the volume is called `<project>_storage` instead of `timetrack_storage`.
+
+## Nightly backups
+
+`backup.sh` can run unattended. This host crontab line takes a backup at 03:00 and keeps the output in a log:
+
+```text
+0 3 * * * cd /opt/timewren && ./scripts/backup.sh --out /var/backups/timewren >> /var/log/timewren-backup.log 2>&1
+```
+
+Adjust the paths to your install. The script does not delete old backups, so prune them yourself, for example with `find /var/backups/timewren -maxdepth 1 -name 'timetrack-*' -mtime +14 -exec rm -rf {} +`.
+
+## Off-site copies and testing
+
+A backup on the same machine is lost with the machine. Copy the backup directories to another host or to object storage, and encrypt them first, because they include the `env` file with your secrets. Test a restore before you need one, either with `scripts/test-restore.sh` or by restoring into a spare machine.

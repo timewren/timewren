@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Bonsoir",
+    "morning": "Bonjour",
+    "forenoon": "Bonjour",
+    "afternoon": "Bon après-midi",
+    "evening": "Bonsoir"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Sans nom",
+  "noDescription": "Sans description",
+  "prompt": {
+    "label": "Sur quoi avez-vous travaillé ?",
+    "placeholder": "p. ex. 2 heures sur le site de Jensen hier",
+    "interpret": "Interpréter",
+    "listening": "Écoute en cours…",
+    "hintAvailable": "Saisissez ou dictez, puis appuyez sur Entrée. La voix est traitée localement dans votre navigateur et l'audio n'est envoyé nulle part.",
+    "hintDownloadable": "Saisissez puis appuyez sur Entrée.",
+    "downloading": "Téléchargement de la reconnaissance vocale…",
+    "install": "Télécharger la reconnaissance vocale (environ 60 Mo, fonctionne en local)",
+    "hintDefault": "Saisissez puis appuyez sur Entrée, p. ex. « 1,5 h réunion avec Acme de 9 à 10:30 ». Sur mobile, vous pouvez dicter avec le micro du clavier. Appuyez sur <kbd>/</kbd> pour y accéder.",
+    "stopDictation": "Arrêter la dictée",
+    "dictate": "Dicter avec le micro",
+    "dictateTitle": "Dicter (reconnaissance vocale locale)",
+    "listeningSr": "Écoute en cours",
+    "missingHint": "choisissez une suggestion ci-dessous ou corrigez dans le formulaire complet.",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "À quoi ce temps a-t-il été consacré ?",
+    "usePrepaid": "Déduire du forfait d'heures {name} ({time} restant)",
+    "saveWithHours": "Enregistrer {hours}",
+    "save": "Enregistrer",
+    "editInForm": "Modifier dans le formulaire",
+    "cancel": "Annuler",
+    "keysHint": "Entrée enregistre · Échap annule",
+    "needDescription": "Saisissez une courte description avant d'enregistrer.",
+    "internal": "Enregistré comme temps interne.",
+    "savedOffline": "Enregistré hors ligne. La saisie de temps sera envoyée au retour de la connexion.",
+    "registered": "{hours} saisies",
+    "saveFailed": "Impossible d'enregistrer la saisie de temps"
+  },
+  "welcome": {
+    "title": "Bienvenue dans {brand}",
+    "titleDone": "Bon début. Votre première saisie de temps est enregistrée",
+    "hide": "Masquer l'accueil",
+    "intro": "Démarrez en moins d'une minute : lancez un chronomètre maintenant, ou saisissez ce que vous avez fait dans le champ ci-dessous, p. ex. « 2 heures sur le site hier ». Vous réglerez les informations de l'entreprise et l'abonnement plus tard.",
+    "timerStarted": "Le chronomètre tourne. Arrêtez-le dans la barre du chronomètre en haut quand vous avez terminé.",
+    "timerBusy": "Le chronomètre tourne déjà",
+    "startFirstTimer": "Lancer votre premier chronomètre",
+    "writeLine": "Saisir une ligne dans le champ",
+    "surveyQuestion": "Pour quoi utiliserez-vous surtout {brand} ? <muted>(facultatif)</muted>",
+    "primaryUse": {
+      "time": "Suivre mon temps",
+      "invoicing": "Facturer mes clients",
+      "klippekort": "Forfaits d'heures prépayés",
+      "team": "Suivre le temps de mon équipe"
+    },
+    "thanksToast": "Merci pour votre réponse",
+    "saveFailed": "Votre réponse n'a pas pu être enregistrée. Réessayez.",
+    "thanksNote": "Merci. L'accueil affiche désormais les prochaines étapes adaptées à vous.",
+    "privacyNote": "La réponse sert uniquement à personnaliser l'accueil et n'est partagée avec personne."
+  },
+  "quickStart": {
+    "title": "Lancer le chronomètre",
+    "running": "Le chronomètre tourne déjà. Arrêtez-le dans la barre du chronomètre en haut avant d'en lancer un nouveau.",
+    "paused": "Le chronomètre est en pause. Reprenez-le ou enregistrez-le d'abord dans la barre du chronomètre en haut.",
+    "resumeToast": "Le chronomètre a démarré et poursuit la dernière saisie",
+    "continueLast": "Reprendre la dernière",
+    "mostUsed": "Les plus utilisés",
+    "startedOn": "Chronomètre lancé sur {name}",
+    "startOn": "Lancer le chronomètre sur {name}",
+    "empty": "Vos projets les plus utilisés apparaîtront ici une fois que vous aurez saisi du temps.",
+    "createProject": "Créer un projet"
+  },
+  "signals": {
+    "label": "À traiter",
+    "nudge": {
+      "first-invoice": "Créez votre première facture à partir de votre temps",
+      "first-client": "Créez le client auquel appartient le forfait d'heures",
+      "first-klippekort": "Créez votre premier forfait d'heures",
+      "invite-team": "Invitez un collègue"
+    },
+    "lowBalance": "{count, plural, one {1 forfait d'heures est bientôt épuisé} many {# de forfaits d'heures sont bientôt épuisés} other {# forfaits d'heures sont bientôt épuisés}}",
+    "unbilled": "<b>{duration}</b> de temps non facturé prêt pour une facture"
+  },
+  "today": {
+    "title": "Aujourd'hui",
+    "ofExpected": "sur {duration}",
+    "loadFailed": "Impossible de charger les saisies du jour. Rechargez la page.",
+    "empty": "Aucun temps saisi aujourd'hui. Écrivez ce que vous avez fait ci-dessus, ou lancez un chronomètre.",
+    "internal": "Temps interne",
+    "resumeToast": "Le chronomètre a démarré et poursuit la saisie",
+    "continueLabel": "Reprendre {name}",
+    "continueFallback": "saisie",
+    "continueTitle": "Reprendre avec le chronomètre",
+    "allEntries": "Toutes les saisies",
+    "fullForm": "Formulaire complet"
+  },
+  "page": {
+    "title": "Accueil",
+    "overview": "Aperçu"
+  }
+}

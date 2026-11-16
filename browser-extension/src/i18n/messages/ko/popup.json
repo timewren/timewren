@@ -1,0 +1,91 @@
+{
+  "loading": "불러오는 중",
+  "offline": "오프라인",
+  "noInternet": "인터넷에 연결되지 않았어요",
+  "openApp": "TimeTrack 열기",
+  "openAppNewTab": "새 탭에서 TimeTrack 열기",
+  "settings": "설정",
+  "logout": "로그아웃",
+  "logoutConfirm": "TimeTrack에서 로그아웃할까요?",
+  "todayHours": "오늘 {duration}",
+  "dailyProgress": "일일 진행률: 오늘 {goal}시간 중 {done}",
+  "tabs": {
+    "view": "보기",
+    "timer": "타이머",
+    "calendar": "캘린더",
+    "history": "기록",
+    "prepaid": "패키지"
+  },
+  "login": {
+    "tagline": "브라우저에서 바로 시간 추적",
+    "connecting": "연결하는 중…",
+    "connect": "TimeTrack에 연결",
+    "secureHint": "새 창에서 안전하게 로그인해요. 이후 확장 프로그램에서 조직을 선택할 수 있어요.",
+    "newHere": "TimeTrack이 처음이세요?",
+    "register": "무료 계정 만들기",
+    "advanced": "고급: 토큰 직접 붙여넣기",
+    "tokenLabel": "확장 프로그램 토큰",
+    "tokenPlaceholder": "여기에 토큰을 붙여넣으세요…",
+    "signingIn": "로그인하는 중…",
+    "signInToken": "토큰으로 로그인",
+    "openSettings": "TimeTrack에서 설정 열기"
+  },
+  "org": {
+    "label": "조직: {name}. 조직 전환",
+    "none": "선택 안 함",
+    "choose": "조직 선택",
+    "stopFirst": "조직을 전환하기 전에 실행 중인 타이머를 중지하거나 저장하세요."
+  },
+  "stopPrompt": {
+    "title": "클라이언트를 선택하지 않았어요",
+    "question": "클라이언트를 선택하지 않았어요. 내부 시간으로 저장할까요?",
+    "close": "중지하지 않고 닫기",
+    "pickClient": "클라이언트 선택",
+    "saveInternal": "내부 시간으로 저장"
+  },
+  "sync": {
+    "syncing": "동기화하는 중…",
+    "pending": "동기화 대기 중 {count}건",
+    "hideDetails": "상세 숨기기",
+    "showDetails": "상세 보기",
+    "syncNow": "지금 동기화",
+    "entry": "시간 기록: {description}",
+    "noDescription": "(설명 없음)",
+    "timerUpdate": "타이머 업데이트",
+    "timerStop": "타이머 중지",
+    "tries": "{count, plural, other {#번 시도함}}"
+  },
+  "mini": {
+    "timerLabel": "타이머",
+    "goTo": "타이머로 이동: {label}",
+    "stop": "타이머 중지"
+  },
+  "queryError": {
+    "retry": "다시 시도"
+  },
+  "timerError": {
+    "close": "오류 메시지 닫기"
+  },
+  "update": {
+    "title": "TimeTrack 확장 프로그램을 업데이트하세요",
+    "body": "버전 {version}은(는) 너무 오래되어 시간을 저장할 수 없어요. 업데이트는 자동으로 내려받아요. 그렇지 않으면 브라우저를 다시 시작하거나 chrome://extensions를 열고 \"업데이트\"를 누르세요."
+  },
+  "idle": {
+    "pausedMessage": "{away} 동안 활동이 없어서 {clock}에 타이머가 일시정지되었어요",
+    "pausedDetail": "그 유휴 시간은 계산되지 않았어요.",
+    "resume": "타이머 다시 시작",
+    "close": "닫기",
+    "awayMessage": "{away} 동안 자리를 비우셨어요 ({clock}부터)",
+    "awayDetail": "타이머는 계속 실행 중이에요. 그 시간을 포함할까요?",
+    "discard": "{away} 제거",
+    "keep": "시간 유지"
+  },
+  "confirm": {
+    "cancel": "취소"
+  },
+  "logoutWarnings": {
+    "running": "로그아웃해도 TimeTrack에서 타이머는 계속 실행돼요.",
+    "paused": "일시정지된 타이머는 TimeTrack에 그대로 남아요.",
+    "queue": "{count, plural, other {오프라인 대기열의 변경 사항 #건을}} 아직 보내지 못했어요. 다시 로그인하면 전송돼요."
+  }
+}

@@ -1,0 +1,16 @@
+[package]
+license = "AGPL-3.0-only"
+name = "tt-matcher"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "Gør aktivitet til forslag: regler, identitet, lærte mønstre og navnematching. Ren Rust, ingen IO."
+
+[dependencies]
+# Kun serde: typerne skal kunne krydse IPC/DB og labelset-filer som JSON.
+serde.workspace = true
+serde_json.workspace = true
+
+[[bin]]
+name = "tt-matcher-eval"
+path = "src/bin/tt-matcher-eval.rs"

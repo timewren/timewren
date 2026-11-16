@@ -1,0 +1,961 @@
+{
+ "web_commit": "b65a119",
+ "kilder": ["src/lib/prepaid/auto-select.ts:37-110", "src/lib/prepaid/auto-select.test.ts", "browser-extension/src/lib/prepaid.ts:35-61", "browser-extension/src/lib/prepaid-parity.test.ts"],
+ "pick": [
+  {
+   "name": "tom liste",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [],
+   "expected": null,
+   "extension": null
+  },
+  {
+   "name": "udløber først vinder, ikke nyeste",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "nyt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "gammelt"
+    }
+   ],
+   "expected": "gammelt",
+   "extension": "gammelt"
+  },
+  {
+   "name": "uden udløb sidst",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-udløb"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-01T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "med-udløb"
+    }
+   ],
+   "expected": "med-udløb",
+   "extension": "med-udløb"
+  },
+  {
+   "name": "springer manuelle, tomme, inaktive og udløbne over",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": false,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "manuelt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 0,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "tomt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": false,
+     "purchaseDate": null,
+     "id": "inaktivt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-01T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "udløbet"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "ok"
+    }
+   ],
+   "expected": "ok",
+   "extension": "udløbet"
+  },
+  {
+   "name": "udløbsdagen 23:30 dansk",
+   "now": "2026-09-05T21:30:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-05T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "udløber-i-dag"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-udløb"
+    }
+   ],
+   "expected": "udløber-i-dag",
+   "extension": "udløber-i-dag"
+  },
+  {
+   "name": "dagen efter 00:01 dansk",
+   "now": "2026-09-05T22:01:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-05T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "udløber-i-dag"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-udløb"
+    }
+   ],
+   "expected": "uden-udløb",
+   "extension": "udløber-i-dag"
+  },
+  {
+   "name": "ISO-udløb og saldo som tal",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 3,
+     "expiryDate": "2026-12-01T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "sen"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 3,
+     "expiryDate": "2026-10-01T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "tidlig"
+    }
+   ],
+   "expected": "tidlig",
+   "extension": "tidlig"
+  },
+  {
+   "name": "FIFO uden udløb",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "købt-8-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-01T00:00:00.000Z",
+     "id": "købt-1-7"
+    }
+   ],
+   "expected": "købt-1-7",
+   "extension": "købt-1-7"
+  },
+  {
+   "name": "samme udløb: ældste købte først",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-01T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-08-01T00:00:00.000Z",
+     "id": "nyt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-01T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-06-01T00:00:00.000Z",
+     "id": "gammelt"
+    }
+   ],
+   "expected": "gammelt",
+   "extension": "gammelt"
+  },
+  {
+   "name": "udløb vinder over købsdato",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-10-15T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-09-01T00:00:00.000Z",
+     "id": "nyt-udløber-først"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-01-01T00:00:00.000Z",
+     "id": "gammelt-uden-udløb"
+    }
+   ],
+   "expected": "nyt-udløber-først",
+   "extension": "nyt-udløber-først"
+  },
+  {
+   "name": "manglende købsdato sidst (uden-dato,8-7,1-7)",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-dato"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "8-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-01T00:00:00.000Z",
+     "id": "1-7"
+    }
+   ],
+   "expected": "1-7",
+   "extension": "1-7"
+  },
+  {
+   "name": "manglende købsdato sidst (uden-dato,1-7,8-7)",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-dato"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-01T00:00:00.000Z",
+     "id": "1-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "8-7"
+    }
+   ],
+   "expected": "1-7",
+   "extension": "1-7"
+  },
+  {
+   "name": "manglende købsdato sidst (8-7,uden-dato,1-7)",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "8-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-dato"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-01T00:00:00.000Z",
+     "id": "1-7"
+    }
+   ],
+   "expected": "1-7",
+   "extension": "1-7"
+  },
+  {
+   "name": "manglende købsdato sidst (8-7,1-7,uden-dato)",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "8-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-01T00:00:00.000Z",
+     "id": "1-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-dato"
+    }
+   ],
+   "expected": "1-7",
+   "extension": "1-7"
+  },
+  {
+   "name": "manglende købsdato sidst (1-7,uden-dato,8-7)",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-01T00:00:00.000Z",
+     "id": "1-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-dato"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "8-7"
+    }
+   ],
+   "expected": "1-7",
+   "extension": "1-7"
+  },
+  {
+   "name": "manglende købsdato sidst (1-7,8-7,uden-dato)",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-01T00:00:00.000Z",
+     "id": "1-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "8-7"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-dato"
+    }
+   ],
+   "expected": "1-7",
+   "extension": "1-7"
+  },
+  {
+   "name": "manglende købsdato sidst (to kort)",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "uden-dato"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "8-7"
+    }
+   ],
+   "expected": "8-7",
+   "extension": "8-7"
+  },
+  {
+   "name": "stabil uden købsdato og samme udløb",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-01T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "først-i-listen"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-01T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "sidst-i-listen"
+    }
+   ],
+   "expected": "først-i-listen",
+   "extension": "først-i-listen"
+  },
+  {
+   "name": "paritet: fuldt sæt",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 20,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "nyt-uden-udløb"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 5,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-07-05T00:00:00.000Z",
+     "id": "nyt-sen"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": false,
+     "remainingHours": 5,
+     "expiryDate": "2026-09-10T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-06-20T00:00:00.000Z",
+     "id": "manuelt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 0,
+     "expiryDate": "2026-09-11T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-06-10T00:00:00.000Z",
+     "id": "tomt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 2.5,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-05-01T00:00:00.000Z",
+     "id": "gammelt-tidlig"
+    }
+   ],
+   "expected": "gammelt-tidlig",
+   "extension": "gammelt-tidlig"
+  },
+  {
+   "name": "paritet: kun uden udløb",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 20,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "nyt-uden-udløb"
+    }
+   ],
+   "expected": "nyt-uden-udløb",
+   "extension": "nyt-uden-udløb"
+  },
+  {
+   "name": "paritet: to med udløb",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 5,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-07-05T00:00:00.000Z",
+     "id": "nyt-sen"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 2.5,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-05-01T00:00:00.000Z",
+     "id": "gammelt-tidlig"
+    }
+   ],
+   "expected": "gammelt-tidlig",
+   "extension": "gammelt-tidlig"
+  },
+  {
+   "name": "paritet: ingen auto",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": false,
+     "remainingHours": 5,
+     "expiryDate": "2026-09-10T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-06-20T00:00:00.000Z",
+     "id": "manuelt"
+    }
+   ],
+   "expected": null,
+   "extension": null
+  },
+  {
+   "name": "paritet: omvendt rækkefølge",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 2.5,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-05-01T00:00:00.000Z",
+     "id": "gammelt-tidlig"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 0,
+     "expiryDate": "2026-09-11T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-06-10T00:00:00.000Z",
+     "id": "tomt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": false,
+     "remainingHours": 5,
+     "expiryDate": "2026-09-10T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-06-20T00:00:00.000Z",
+     "id": "manuelt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 5,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": "2026-07-05T00:00:00.000Z",
+     "id": "nyt-sen"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 20,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "nyt-uden-udløb"
+    }
+   ],
+   "expected": "gammelt-tidlig",
+   "extension": "gammelt-tidlig"
+  },
+  {
+   "name": "paritet: to uden udløb (FIFO)",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 20,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-08T00:00:00.000Z",
+     "id": "nyt-uden-udløb"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 25.75,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": "2026-07-01T00:00:00.000Z",
+     "id": "gammelt-uden-udløb"
+    }
+   ],
+   "expected": "gammelt-uden-udløb",
+   "extension": "gammelt-uden-udløb"
+  },
+  {
+   "name": "ekstra: udløbet kort med saldo",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-08-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "udløbet"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "gyldigt"
+    }
+   ],
+   "expected": "gyldigt",
+   "extension": "udløbet"
+  },
+  {
+   "name": "ekstra: inaktivt kort",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-10T00:00:00.000Z",
+     "isActive": false,
+     "purchaseDate": null,
+     "id": "inaktivt"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": null,
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "aktivt"
+    }
+   ],
+   "expected": "aktivt",
+   "extension": "inaktivt"
+  }
+ ],
+ "resolve": [
+  {
+   "name": "intet valg",
+   "choice": null,
+   "clientId": "c1",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "senere"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "først"
+    }
+   ],
+   "expected": "først"
+  },
+  {
+   "name": "valgt kort",
+   "choice": {
+    "mode": "package",
+    "packageId": "senere",
+    "clientId": "c1"
+   },
+   "clientId": "c1",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "senere"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "først"
+    }
+   ],
+   "expected": "senere"
+  },
+  {
+   "name": "intet klippekort",
+   "choice": {
+    "mode": "none",
+    "clientId": "c1"
+   },
+   "clientId": "c1",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "senere"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "først"
+    }
+   ],
+   "expected": null
+  },
+  {
+   "name": "valgt kort findes ikke",
+   "choice": {
+    "mode": "package",
+    "packageId": "væk",
+    "clientId": "c1"
+   },
+   "clientId": "c1",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "senere"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "først"
+    }
+   ],
+   "expected": null
+  },
+  {
+   "name": "valg for en anden kunde",
+   "choice": {
+    "mode": "none",
+    "clientId": "anden"
+   },
+   "clientId": "c1",
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "senere"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "først"
+    }
+   ],
+   "expected": "først"
+  },
+  {
+   "name": "ingen kunde",
+   "choice": {
+    "mode": "none",
+    "clientId": "c1"
+   },
+   "clientId": null,
+   "now": "2026-09-05T10:00:00.000Z",
+   "packages": [
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-12-31T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "senere"
+    },
+    {
+     "clientId": "c1",
+     "autoDeduct": true,
+     "remainingHours": 10,
+     "expiryDate": "2026-09-30T00:00:00.000Z",
+     "isActive": true,
+     "purchaseDate": null,
+     "id": "først"
+    }
+   ],
+   "expected": "først"
+  }
+ ]
+}

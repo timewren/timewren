@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "직원"
+    },
+    "department": {
+      "label": "부서"
+    },
+    "project": {
+      "label": "프로젝트"
+    },
+    "activityType": {
+      "label": "활동"
+    },
+    "absenceType": {
+      "label": "부재 유형"
+    },
+    "day": {
+      "label": "날짜"
+    },
+    "week": {
+      "label": "주"
+    },
+    "month": {
+      "label": "월"
+    },
+    "vacationYear": {
+      "label": "휴가 연도"
+    },
+    "email": {
+      "label": "이메일"
+    },
+    "employmentType": {
+      "label": "고용 형태"
+    },
+    "weeklyHours": {
+      "label": "시간/주"
+    },
+    "dailyNorm": {
+      "label": "일일 기준"
+    },
+    "employeeNumber": {
+      "label": "직원 번호",
+      "help": "급여 시스템의 직원 번호(직원 차원에 따름)"
+    },
+    "payrollCode": {
+      "label": "급여 코드",
+      "help": "활동 유형의 급여 코드(활동 차원에 따름)"
+    },
+    "hours": {
+      "label": "기록된 시간"
+    },
+    "normHours": {
+      "label": "기준 시간",
+      "help": "일일 기준 × 기간 내 근무일 수(공휴일 제외)"
+    },
+    "workDays": {
+      "label": "근무일",
+      "help": "기간 내 예정된 근무일(공휴일/휴무일 제외)"
+    },
+    "employeeCount": {
+      "label": "직원 수"
+    },
+    "flexDelta": {
+      "label": "유연 근무(+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "공제된 휴식",
+      "help": "무급 휴식(출퇴근 체크)에만 해당"
+    },
+    "checkInHours": {
+      "label": "근무 시간(체크인)"
+    },
+    "workedDays": {
+      "label": "기록이 있는 날"
+    },
+    "maxDayHours": {
+      "label": "가장 긴 하루",
+      "help": "그룹 내 한 직원의 하루 최대 합계"
+    },
+    "longDays": {
+      "label": "13시간 초과 일수",
+      "help": "하루 합계가 13시간을 넘으면 휴식이 11시간 미만이 돼요(11시간 규칙)"
+    },
+    "avgWeeklyHours": {
+      "label": "평균 시간/주",
+      "help": "기록 또는 부재가 있는 직원-주당 기록된 시간(48시간 규칙)"
+    },
+    "weeksOver48h": {
+      "label": "48시간 초과 주",
+      "help": "48시간을 초과해 기록한 직원-주의 수"
+    },
+    "fullWeeks": {
+      "label": "휴일 없는 주",
+      "help": "7일 모두 기록이 있고 부재일이 없는 주(주 24시간 휴식)"
+    },
+    "absenceDays": {
+      "label": "부재(일)"
+    },
+    "absenceHours": {
+      "label": "부재(시간)"
+    },
+    "absencePeriods": {
+      "label": "부재 기간"
+    },
+    "sickDays": {
+      "label": "병가 일수"
+    },
+    "sickHours": {
+      "label": "병가 시간"
+    },
+    "sickPeriods": {
+      "label": "병가 기간"
+    },
+    "sickPct": {
+      "label": "병가율 %",
+      "help": "병가 일수 / 근무일"
+    },
+    "longTermSick": {
+      "label": "장기 병가",
+      "help": "기간 내 30일을 넘는 연속 병가 기간"
+    },
+    "longTermSickCount": {
+      "label": "장기 병가(인원)",
+      "help": "30일을 넘는 병가 기간이 있는 직원 수"
+    },
+    "overtimeEarned": {
+      "label": "발생한 초과 근무"
+    },
+    "overtimeUsed": {
+      "label": "사용한 대체 휴무"
+    },
+    "overtimePaidOut": {
+      "label": "지급된 초과 근무"
+    },
+    "overtimeNet": {
+      "label": "초과 근무 순계",
+      "help": "발생 − 휴무로 사용 − 지급"
+    },
+    "vacationAllotted": {
+      "label": "부여된 휴가"
+    },
+    "vacationUsed": {
+      "label": "사용한 휴가"
+    },
+    "vacationRemaining": {
+      "label": "남은 휴가"
+    },
+    "extraVacationAllotted": {
+      "label": "부여된 추가 휴가일"
+    },
+    "extraVacationUsed": {
+      "label": "사용한 추가 휴가일"
+    },
+    "extraVacationRemaining": {
+      "label": "남은 추가 휴가일"
+    },
+    "vacationDaysInPeriod": {
+      "label": "기간 내 사용한 휴가",
+      "help": "보고서 기간 내 휴가일(휴가 잔액을 차감하는 유형)"
+    },
+    "hoursByActivity": {
+      "label": "활동별 시간",
+      "pivot": "{name}(시간)"
+    },
+    "absenceDaysByType": {
+      "label": "유형별 부재(일)",
+      "pivot": "{name}(일)"
+    },
+    "absenceHoursByType": {
+      "label": "유형별 부재(시간)",
+      "pivot": "{name}(시간)"
+    },
+    "quantityByWageType": {
+      "label": "급여 코드별 수량",
+      "help": "급여 매핑에 따른 급여 코드별 시간/일수(설정 → 급여)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "직원",
+    "department": "부서",
+    "project": "프로젝트",
+    "activityType": "활동",
+    "absenceType": "부재 유형",
+    "day": "일",
+    "week": "주",
+    "month": "월",
+    "vacationYear": "휴가 연도"
+  },
+  "groups": {
+    "dimensions": "차원",
+    "employee": "직원",
+    "time": "시간",
+    "compliance": "법규 준수",
+    "absence": "부재",
+    "overtime": "초과 근무",
+    "payroll": "급여",
+    "vacation": "휴가 계정"
+  },
+  "presets": {
+    "this_month": "이번 달",
+    "last_month": "지난달",
+    "this_quarter": "이번 분기",
+    "this_year": "올해",
+    "last_year": "작년"
+  },
+  "types": {
+    "payroll": {
+      "label": "급여 보고서",
+      "description": "급여 기간의 직원별 시간, 유형별 부재 일수와 시간, 유연 근무, 초과 근무, 휴식 공제. 급여 담당 부서용이에요."
+    },
+    "sickness": {
+      "label": "병가",
+      "description": "부서 및 월별 병가 통계: 병가 일수, 기간, 병가율, 장기 병가(30일 초과)."
+    },
+    "absence": {
+      "label": "부재",
+      "description": "직원 또는 부서별 모든 부재 유형(휴가, 병가, 휴직, 돌봄 등)의 일수와 시간."
+    },
+    "flex_overtime": {
+      "label": "유연 근무 및 초과 근무",
+      "description": "기간별 잔액 추이: 기준 시간, 기록된 시간, 유연 근무 차이, 발생/사용/지급된 초과 근무."
+    },
+    "project_activity": {
+      "label": "프로젝트 및 활동",
+      "description": "프로젝트, 활동 유형, 부서별로 나눈 시간. 수업, 준비, 회의 등을 점검할 때 써요."
+    },
+    "vacation_account": {
+      "label": "휴가 계정",
+      "description": "휴가 연도별 휴가 계정: 직원별로 휴가와 추가 휴가일의 부여, 사용, 잔여."
+    },
+    "compliance": {
+      "label": "법규 준수(덴마크 근로시간법)",
+      "description": "직원 및 주별 위반과 경고: 13시간 초과 일수(11시간 휴식), 48시간 초과 주, 휴일 없는 주(주 24시간 휴식), 평균 주당 근로 시간."
+    },
+    "custom": {
+      "label": "사용자 지정",
+      "description": "전체 목록에서 차원과 열을 자유롭게 선택해 필요한 보고서를 그대로 만들어 보세요."
+    }
+  },
+  "weekdays": {
+    "1": "월요일",
+    "2": "화요일",
+    "3": "수요일",
+    "4": "목요일",
+    "5": "금요일",
+    "6": "토요일",
+    "7": "일요일"
+  },
+  "page": {
+    "all": "(전체)",
+    "selected": "({count}개 선택됨)",
+    "clear": "선택 해제",
+    "downloaded": "보고서를 다운로드했어요",
+    "templateDeleted": "템플릿을 삭제했어요",
+    "maxDimensions": "차원은 최대 4개예요",
+    "templateUnreadable": "템플릿을 읽을 수 없어요",
+    "needColumn": "열을 하나 이상 선택하세요",
+    "inactive": "(비활성)",
+    "title": "보고서",
+    "step1": "1. 보고서 유형 선택",
+    "step2": "2. 기간",
+    "holidayYearPlaceholder": "휴가 연도…",
+    "holidayYear": "{year} 휴가 연도",
+    "from": "시작",
+    "to": "종료",
+    "step3": "3. 필터",
+    "departments": "부서",
+    "employees": "직원",
+    "projects": "프로젝트",
+    "activities": "활동",
+    "absenceTypes": "부재 유형",
+    "onlyApproved": "승인된 시간만",
+    "includeRejected": "반려된 시간 포함",
+    "includePending": "대기 중인 부재 포함",
+    "includeInactive": "퇴사한 직원 포함",
+    "includeDetails": "모든 기록 포함(상세)",
+    "step4": "4. 그룹 기준",
+    "step4Hint": "(순서 = 클릭한 순서)",
+    "step5": "5. 열",
+    "run": "보고서 실행",
+    "saveAsTemplate": "템플릿으로 저장",
+    "chooseTemplateFirst": "먼저 템플릿을 저장하거나 선택하세요",
+    "scheduleMail": "이메일 예약",
+    "savedTemplates": "저장된 템플릿",
+    "noTemplates": "아직 템플릿이 없어요.",
+    "sharedOrg": "조직에 공유됨",
+    "onlyMe": "나만",
+    "standard": " · 기본값",
+    "deleteTemplate": "템플릿 삭제",
+    "confirmDeleteTemplate": "템플릿 「{name}」을(를) 삭제할까요?",
+    "footnote": "CSV는 세미콜론과 덴마크식 소수점 쉼표를 사용해요. 반려된 시간은 기본적으로 제외되고, 진행 중인 병가 신고는 오늘까지 포함돼요. 관리자는 자신의 부서와 직원만 볼 수 있어요.",
+    "cardEmployees": "직원",
+    "noData": "{from} – {to} 기간에 데이터가 없어요",
+    "noDataHint": "기간을 넓히거나 필터를 줄이거나 다른 열을 선택해 보세요.",
+    "allEntries": "모든 기록({count})",
+    "truncated": "기간 내 기록이 상세 목록에 담을 수 있는 수보다 많아요. 위의 합계는 여전히 모든 데이터로 계산돼요. 모든 상세 내용을 보려면 더 짧은 기간을 선택하세요.",
+    "detEmployee": "직원",
+    "detDepartment": "부서",
+    "detDate": "날짜",
+    "detHours": "시간",
+    "detProject": "프로젝트",
+    "detActivity": "활동",
+    "detPayCode": "급여 코드",
+    "detDescription": "설명",
+    "detSource": "출처",
+    "detStatus": "상태",
+    "saveTemplateTitle": "템플릿으로 저장",
+    "templateSaved": "템플릿을 저장했어요",
+    "name": "이름",
+    "description": "설명",
+    "shareWithOrg": "조직 전체와 공유(모든 관리자와 HR이 볼 수 있어요)",
+    "cancel": "취소",
+    "save": "저장",
+    "scheduleTitle": "이메일 예약",
+    "scheduled": "보고서가 자동으로 발송돼요",
+    "frequency": "주기",
+    "weekly": "매주",
+    "monthly": "매월",
+    "weekday": "요일",
+    "dayOfMonth": "매월 며칠",
+    "dayN": "{day}일",
+    "recipients": "수신자(쉼표로 구분)",
+    "recipientsPlaceholder": "payroll@example.com, manager@example.com",
+    "format": "형식",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "템플릿의 기간은 롤링 방식이에요. 1일에 발송되는 「지난달」은 정확히 지난달 수치를 담아요.",
+    "schedule": "예약",
+    "scheduleRemoved": "예약된 이메일을 삭제했어요",
+    "scheduledMails": "예약된 이메일",
+    "freqWeeklyLower": "매주",
+    "freqMonthlyLower": "매월",
+    "scheduleLine": "· {frequency}({day}일) · {format} · {recipients}",
+    "lastSent": " · 마지막 발송 {date}",
+    "remove": "삭제",
+    "yes": "예",
+    "no": "아니요",
+    "card": {
+      "employees": "직원"
+    }
+  }
+}

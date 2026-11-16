@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Rate history",
+    "empty": "No rate changes yet. Changes to the hourly rate are logged here",
+    "effectiveFrom": "Effective from {date}",
+    "planned": "Scheduled",
+    "noRate": "No rate",
+    "typeGlobal": "Global",
+    "typeClient": "Client",
+    "typeProject": "Project"
+  },
+  "schedule": {
+    "toastScheduled": "New hourly rate scheduled from {date}",
+    "restamped": "{count, plural, =0 {No existing entries needed a new hourly rate} one {# uninvoiced entry got the new hourly rate} other {# uninvoiced entries got the new hourly rate}}",
+    "scheduleFailed": "Could not schedule the hourly rate",
+    "cancelled": "Scheduled hourly rate cancelled",
+    "cancelledRestamped": "{count, plural, one {# entry got the previous hourly rate back} other {# entries got the previous hourly rate back}}",
+    "cancelFailed": "Could not cancel",
+    "invalidRate": "Enter a valid hourly rate",
+    "missingDate": "Choose the date the rate applies from",
+    "title": "Schedule a new hourly rate",
+    "current": "Now: {rate} kr/hour",
+    "rateLabel": "New hourly rate (kr)",
+    "dateLabel": "Effective from",
+    "submit": "Schedule",
+    "help": "Time dated on or after the date gets the new rate, even when it is logged later. Time before the date keeps the old rate. Uninvoiced entries from the date are updated straight away.",
+    "ratePerHour": "{rate} kr/hour",
+    "fromDate": "from {date}",
+    "takesEffectTonight": "takes effect tonight",
+    "cancel": "Cancel"
+  }
+}

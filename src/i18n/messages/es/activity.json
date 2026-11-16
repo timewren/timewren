@@ -1,0 +1,46 @@
+{
+  "title": "Registro de actividad",
+  "count": "{count, plural, one {# actividad} other {# actividades}}",
+  "empty": "Todavía no hay actividad",
+  "yes": "Sí",
+  "no": "No",
+  "line": "<e>{entity}</e> <n>«{name}»</n> <a>{action}</a>",
+  "lineNoName": "<e>{entity}</e> <a>{action}</a>",
+  "entity": {
+    "client": "Cliente",
+    "project": "Proyecto",
+    "time_entry": "Registro de tiempo",
+    "invoice": "Factura",
+    "prepaid_package": "Bono de horas",
+    "settings": "Ajustes"
+  },
+  "action": {
+    "m": {
+      "create": "creado",
+      "update": "actualizado",
+      "delete": "eliminado",
+      "archive": "archivado",
+      "restore": "restaurado",
+      "complete": "completado",
+      "send": "enviado"
+    },
+    "f": {
+      "create": "creada",
+      "update": "actualizada",
+      "delete": "eliminada",
+      "archive": "archivada",
+      "restore": "restaurada",
+      "complete": "completada",
+      "send": "enviada"
+    },
+    "p": {
+      "create": "creados",
+      "update": "actualizados",
+      "delete": "eliminados",
+      "archive": "archivados",
+      "restore": "restaurados",
+      "complete": "completados",
+      "send": "enviados"
+    }
+  }
+}

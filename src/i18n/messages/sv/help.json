@@ -1,0 +1,339 @@
+{
+  "topics": {
+    "getting-started": {
+      "title": "Kom igång",
+      "items": {
+        "0": {
+          "question": "Hur lägger jag till min första kund?",
+          "answer": "Gå till 'Kunder' i sidomenyn och klicka på 'Lägg till kund'. Fyll i kunduppgifterna, till exempel namn, e-post och, om du vill, ett särskilt timpris. Om du inte anger något timpris används ditt standardtimpris från inställningarna."
+        },
+        "1": {
+          "question": "Vad är skillnaden mellan projekt och kunder?",
+          "answer": "Kunder är de personer eller företag du arbetar för. Projekt är specifika uppdrag eller avtal under en kund. Du kan ha flera projekt per kund, till exempel 'Webbutveckling' och 'Löpande support' under samma kund."
+        },
+        "2": {
+          "question": "Hur registrerar jag tid?",
+          "answer": "Gå till 'Tidrapportering' och använd antingen timern (start/stopp) eller lägg till tid manuellt. Välj ett projekt eller en kund, lägg till en beskrivning och spara. Du kan välja om tiden ska dras av från en timbank eller faktureras som vanligt."
+        },
+        "3": {
+          "question": "Hur gör jag rundturen igen?",
+          "answer": "Klicka på din profilbild eller dina initialer uppe till höger och välj 'Starta rundturen'. Rundturen guidar dig genom alla huvudfunktioner i {brand} i 24 interaktiva steg."
+        },
+        "4": {
+          "question": "Finns det kortkommandon?",
+          "answer": "Ja, {brand} har många kortkommandon för snabb navigering och tidsstyrning. Tryck på '?' för att se en översikt över alla tillgängliga kortkommandon, eller läs ämnet 'Kortkommandon och tips' nedan."
+        }
+      }
+    },
+    "clients": {
+      "title": "Kunder",
+      "items": {
+        "0": {
+          "question": "Hur anger jag ett särskilt timpris för en kund?",
+          "answer": "När du skapar eller redigerar en kund kan du ange ett 'Timpris (kr)'. Det priset gäller före ditt standardtimpris för alla projekt under kunden, om inte projektet har ett eget timpris."
+        },
+        "1": {
+          "question": "Kan jag ta bort en kund?",
+          "answer": "För att bevara dataintegriteten kan kunder inte tas bort, men de kan arkiveras. Arkiverade kunder visas inte i listorna, men deras historiska data finns kvar. Du kan återaktivera en arkiverad kund när som helst."
+        },
+        "2": {
+          "question": "Vad är prishierarkin?",
+          "answer": "{brand} använder ett prissystem på tre nivåer: 1) Globalt timpris (i inställningarna), 2) Kundspecifikt timpris, 3) Projektspecifikt timpris. Den mest specifika nivån används. Om ett projekt till exempel har ett pris används det, annars används kundens pris, och i sista hand det globala priset."
+        }
+      }
+    },
+    "projects": {
+      "title": "Projekt",
+      "items": {
+        "0": {
+          "question": "Vad är skillnaden mellan timpris och fast pris?",
+          "answer": "Projekt med timpris faktureras utifrån antalet timmar multiplicerat med timpriset. Projekt med fast pris har ett förutbestämt pris oavsett antal timmar. Du väljer typ när du skapar projektet."
+        },
+        "1": {
+          "question": "Hur håller jag koll på projektens deadlines?",
+          "answer": "När du skapar ett projekt kan du ange en deadline. Projekt med deadline visar en varning när deadlinen närmar sig. Du kan också sätta statusen till 'Aktiv', 'Pausad' eller 'Slutförd'."
+        },
+        "2": {
+          "question": "Kan jag flytta ett projekt till en annan kund?",
+          "answer": "Ja, redigera projektet och välj en ny kund i rullgardinsmenyn. Alla tidposter och timbanker förblir kopplade till projektet."
+        }
+      }
+    },
+    "time-tracking": {
+      "title": "Tidrapportering",
+      "items": {
+        "0": {
+          "question": "Hur fungerar timern?",
+          "answer": "Välj ett projekt, lägg till en beskrivning och tryck på 'Starta'. Timern går tills du trycker på 'Pausa' eller 'Stoppa'. När du stoppar sparas tiden automatiskt som en tidpost. Du kan pausa och återuppta timern efter behov."
+        },
+        "1": {
+          "question": "Kan jag redigera tidigare tidposter?",
+          "answer": "Ja, klicka på en tidpost i listan och välj 'Redigera'. Du kan ändra projekt, beskrivning, antal timmar och datum. Det är praktiskt om du glömmer att registrera tid eller gör ett misstag."
+        },
+        "2": {
+          "question": "Hur hanterar jag flera tidposter på en gång?",
+          "answer": "Markera tidposterna genom att klicka i kryssrutan till vänster. Sedan kan du ta bort flera tidposter på en gång med knappen 'Ta bort markerade'."
+        },
+        "3": {
+          "question": "Vad är veckoöversikten (tidrapporten)?",
+          "answer": "Veckoöversikten visar dina tidposter i ett veckoschema, så att du snabbt ser timmar per dag och projekt. Växla mellan lista och veckovy med omkopplaren högst upp på sidan Tidrapportering."
+        },
+        "4": {
+          "question": "Kan jag importera tid från CSV?",
+          "answer": "Ja, klicka på knappen 'Importera CSV' på sidan Tidrapportering. Ladda upp en CSV-fil med kolumner för datum, timmar, projekt och beskrivning. Systemet matchar projekt automatiskt och skapar tidposter."
+        }
+      }
+    },
+    "tasks": {
+      "title": "Uppgifter",
+      "items": {
+        "0": {
+          "question": "Vad är skillnaden mellan kanbantavlan och listvyn?",
+          "answer": "Kanbantavlan visar uppgifter som kort i kolumner (till exempel 'Att göra', 'Pågår', 'Klar'), så att du enkelt kan dra uppgifter mellan stegen. Listvyn visar uppgifter i en tabell med sortering och filtrering. Växla mellan vyerna med knapparna högst upp."
+        },
+        "1": {
+          "question": "Hur skapar jag en uppgift?",
+          "answer": "Klicka på 'Ny uppgift' på uppgiftssidan. Fyll i titeln, välj ett projekt och en kund, ange en prioritet (låg/normal/hög/kritisk) och en deadline om du vill. Du kan också lägga till en beskrivning med detaljer."
+        },
+        "2": {
+          "question": "Hur flyttar jag uppgifter mellan kolumner?",
+          "answer": "I kanbanvyn kan du dra och släppa uppgiftskort mellan kolumnerna. Du kan också klicka på en uppgift och ändra dess status i redigeringsdialogen."
+        },
+        "3": {
+          "question": "Kan jag starta en timer direkt från en uppgift?",
+          "answer": "Ja, varje uppgift har en timerknapp. Klicka på den för att starta timern med uppgiftens projekt och titel som beskrivning. Tiden registreras automatiskt på det kopplade projektet."
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Översikt",
+      "items": {
+        "0": {
+          "question": "Vad visar översikten?",
+          "answer": "Översikten ger dig en överblick över din verksamhet som frilansare med widgetar för veckans tidssammanfattning, intäkter, aktiva projekt, status för timbanker, de senaste tidposterna och kommande deadlines."
+        },
+        "1": {
+          "question": "Kan jag anpassa översikten?",
+          "answer": "Ja, klicka på knappen 'Anpassa' uppe till höger i översikten. Du kan lägga till, ta bort och flytta widgetar med dra och släpp. Dina ändringar sparas automatiskt."
+        },
+        "2": {
+          "question": "Vilka widgetar finns?",
+          "answer": "Tillgängliga widgetar är bland annat: Veckoöversikt (timmar per dag), Intäkter (omsättning och tillväxt), Aktiva projekt, Översikt över timbanker, Senaste tidposter, Timmar i dag, Kommande deadlines och Snabbstart av timer."
+        }
+      }
+    },
+    "klippekort": {
+      "title": "Timbanker",
+      "items": {
+        "0": {
+          "question": "Vad är en timbank?",
+          "answer": "En timbank är ett block av timmar som en kund köper i förväg. När du registrerar tid kan du välja att dra av timmar från timbanken i stället för att fakturera dem som vanligt. Det är populärt för supportavtal."
+        },
+        "1": {
+          "question": "Hur skapar jag en timbank?",
+          "answer": "Gå till 'Timbanker' och klicka på 'Ny timbank'. Välj en kund, ange antal timmar och timpris och beräkna totalpriset. Ange ett inköpsdatum och eventuellt ett utgångsdatum. När timbanken är aktiv kan du använda den när du registrerar tid."
+        },
+        "2": {
+          "question": "Vad händer när en timbank är slut?",
+          "answer": "Du får en varning när en timbank har mindre än 10 % av sina timmar kvar. När den är tom (0 timmar kvar) kan du inte längre dra av tid från den. Då måste du skapa en ny timbank eller fakturera tiden som vanligt."
+        },
+        "3": {
+          "question": "Kan jag se historiken för en timbank?",
+          "answer": "Ja, öppna timbanken och titta under 'Användningshistorik'. Där visas alla tidposter som dragits av från timbanken, med datum, beskrivning och antal timmar."
+        }
+      }
+    },
+    "templates": {
+      "title": "Återkommande mallar",
+      "items": {
+        "0": {
+          "question": "Vad är återkommande mallar?",
+          "answer": "Återkommande mallar är förinställda tidposter som skapas automatiskt med jämna mellanrum. Du kan till exempel göra en mall för 'Veckovist statusmöte, 1 timme' som skapas varje vecka."
+        },
+        "1": {
+          "question": "Hur skapar jag en mall?",
+          "answer": "Gå till 'Mallar' och klicka på 'Ny mall'. Välj ett projekt, en beskrivning, antal timmar och frekvens (dagligen/varje vecka/varje månad). Ange ett startdatum och eventuellt ett slutdatum. Mallen skapar tidposter automatiskt enligt din plan."
+        },
+        "2": {
+          "question": "Kan jag redigera eller ta bort genererade tidposter?",
+          "answer": "Ja, de genererade tidposterna fungerar som vanliga tidposter. Du kan redigera dem under 'Tidrapportering' eller ta bort dem om de inte är relevanta för en viss dag eller vecka."
+        }
+      }
+    },
+    "invoices": {
+      "title": "Fakturor",
+      "items": {
+        "0": {
+          "question": "Hur skapar jag en faktura?",
+          "answer": "Gå till 'Fakturor' och klicka på 'Ny faktura'. Välj en kund och ett datumintervall för tidposter, så samlar systemet automatiskt in alla ofakturerade timmar. Granska raderna, lägg till eventuella anteckningar och spara."
+        },
+        "1": {
+          "question": "Vad är skillnaden mellan 'Utkast', 'Skickad' och 'Betald'?",
+          "answer": "Utkast = du arbetar fortfarande med fakturan. Skickad = fakturan har skickats till kunden men är ännu inte betald. Betald = kunden har betalat fakturan. Du kan uppdatera statusen manuellt allt eftersom."
+        },
+        "2": {
+          "question": "Kan jag exportera fakturor till PDF?",
+          "answer": "Ja, när du visar en faktura finns knappen 'Exportera PDF'. Den skapar en professionell PDF-faktura som du kan skicka till kunden eller spara för bokföringen."
+        },
+        "3": {
+          "question": "Kan jag skapa en faktura utifrån tidposter?",
+          "answer": "Ja, klicka på knappen 'Från tidposter' när du skapar en ny faktura. Välj en kund och ett datumintervall, så samlar systemet alla ofakturerade tidposter som fakturarader."
+        },
+        "4": {
+          "question": "Vad visar fakturaöversikten?",
+          "answer": "Högst upp på fakturasidan finns fyra statistikkort: Totalt fakturerat, Betalt belopp, Utestående belopp och Förfallna fakturor. De ger dig en snabb överblick över din ekonomi."
+        }
+      }
+    },
+    "reports": {
+      "title": "Rapporter",
+      "items": {
+        "0": {
+          "question": "Vilka rapporter kan jag skapa?",
+          "answer": "Du kan se vecko- och månadsrapporter med timmar per kund, timmar per projekt, intäkter och trender. Rapporterna kan filtreras efter datumintervall och exporteras till CSV för analys i Excel."
+        },
+        "1": {
+          "question": "Hur exporterar jag data till Excel?",
+          "answer": "Gå till 'Rapporter', välj det datumintervall du vill ha och klicka på 'Exportera CSV'. Då laddas en CSV-fil ner som du kan öppna i Excel, Google Sheets eller andra kalkylprogram."
+        }
+      }
+    },
+    "keyboard-shortcuts": {
+      "title": "Kortkommandon och tips",
+      "items": {
+        "0": {
+          "question": "Vilka kortkommandon finns för navigering?",
+          "answer": "Använd G följt av en tangent för snabb navigering: {shortcuts}."
+        },
+        "1": {
+          "question": "Vilka kortkommandon finns för timern?",
+          "answer": "T = starta/stoppa timern, Shift+T = pausa/återuppta timern. Kortkommandona fungerar från alla sidor, så du kan styra timern snabbt utan att byta sida."
+        },
+        "2": {
+          "question": "Vad är kommandopaletten?",
+          "answer": "Tryck på Ctrl+K (eller Cmd+K på Mac) för att öppna kommandopaletten. Där kan du snabbt söka efter och navigera till sidor, kunder, projekt och åtgärder utan att använda musen."
+        },
+        "3": {
+          "question": "Hur ser jag alla kortkommandon?",
+          "answer": "Tryck på '?' från vilken sida som helst för att öppna översikten över kortkommandon. Den visar alla tillgängliga kortkommandon grupperade efter kategori."
+        },
+        "4": {
+          "question": "Kan jag starta om rundturen?",
+          "answer": "Ja, klicka på din profilbild eller dina initialer uppe till höger och välj 'Starta rundturen' i användarmenyn. Rundturen guidar dig genom alla 24 huvudfunktioner."
+        }
+      }
+    },
+    "browser-extension": {
+      "title": "Webbläsartillägg",
+      "items": {
+        "0": {
+          "question": "Vad är webbläsartillägget för {brand}?",
+          "answer": "Med webbläsartillägget kan du registrera tid direkt från webbläsaren utan att öppna {brand}-appen. Du kan starta och stoppa timern, välja projekt och kund och se dina senaste tidposter."
+        },
+        "1": {
+          "question": "Hur ställer jag in URL-mönster?",
+          "answer": "Under Inställningar → Webbläsartillägg kan du definiera URL-mönster som automatiskt kopplar ett projekt när du besöker vissa webbplatser. Du kan till exempel ange 'github.com/kund-repo/*' för att automatiskt välja det matchande projektet."
+        },
+        "2": {
+          "question": "Hur installerar jag webbläsartillägget?",
+          "answer": "Installera {brand}-tillägget från Chrome Web Store (sök efter ''{brand} Tidsregistrering' eller gå till timetrack.dk/browser-extension). Skapa en API-token under Inställningar → Webbläsartillägg och klistra in den i tilläggets popup. Tillägget ansluter automatiskt till ditt {brand}-konto."
+        }
+      }
+    },
+    "integrations": {
+      "title": "Integrationer",
+      "items": {
+        "0": {
+          "question": "Hur använder jag CVR-sökningen?",
+          "answer": "När du skapar en ny kund kan du ange ett CVR-nummer och klicka på 'Sök'. {brand} hämtar då automatiskt företagsnamn, adress och kontaktuppgifter från det danska CVR-registret, så att du slipper skriva in dem manuellt."
+        },
+        "1": {
+          "question": "Hur exporterar jag till Billy, Dinero eller e-conomic?",
+          "answer": "Gå till Inställningar → Integrationer och anslut ditt konto. Billy och Dinero kan ta emot fakturor. Från e-conomic kan du importera dina kunder, och du kan alltid exportera fakturaunderlaget som CSV eller en rapport från fakturasidan."
+        },
+        "2": {
+          "question": "Kan jag synkronisera med Google Kalender?",
+          "answer": "Ja, under Inställningar → Integrationer kan du ansluta din Google Kalender. Kalenderhändelser kan föreslås automatiskt som tidposter, så att du enkelt kan registrera tid utifrån dina möten."
+        }
+      }
+    },
+    "security": {
+      "title": "Säkerhet",
+      "items": {
+        "0": {
+          "question": "Vad är passkeys?",
+          "answer": "Passkeys är en modern inloggningsmetod utan lösenord. I stället för ett lösenord använder du fingeravtryck, ansiktsigenkänning eller enhetens PIN-kod. Ställ in passkeys under Inställningar → Säkerhet → Passkeys."
+        },
+        "1": {
+          "question": "Hur aktiverar jag tvåfaktorsautentisering (2FA)?",
+          "answer": "Gå till Inställningar → Säkerhet → Tvåfaktorsautentisering. Skanna QR-koden med en autentiseringsapp (till exempel Google Authenticator eller Authy) och ange bekräftelsekoden. Därefter krävs en sexsiffrig kod när du loggar in."
+        },
+        "2": {
+          "question": "Hur hanterar jag aktiva sessioner?",
+          "answer": "Under Inställningar → Säkerhet → Aktiva sessioner ser du alla enheter som är inloggade på ditt konto. Du kan avsluta enskilda sessioner eller logga ut från alla enheter på en gång."
+        }
+      }
+    },
+    "import-export": {
+      "title": "Import och export",
+      "items": {
+        "0": {
+          "question": "Hur importerar jag tidposter från CSV?",
+          "answer": "Gå till Tidrapportering och klicka på 'Importera CSV'. Ladda upp en CSV-fil med kolumner för datum, timmar, projekt och beskrivning. Systemet visar en förhandsvisning så att du kan kontrollera data innan du importerar."
+        },
+        "1": {
+          "question": "Hur exporterar jag mina data?",
+          "answer": "Du kan exportera data från flera ställen: Rapporter → Exportera CSV för tidposter, Fakturor → Exportera PDF för enskilda fakturor och Inställningar → Data → Exportera alla data för en komplett säkerhetskopia i CSV- eller JSON-format."
+        },
+        "2": {
+          "question": "Kan jag ladda ner alla mina data (GDPR)?",
+          "answer": "Ja, under Inställningar → Data hittar du knappen 'Ladda ner mina data'. Den skapar en komplett export av alla dina data i JSON-format, i enlighet med GDPR. Exporten omfattar kunder, projekt, tidposter, fakturor och timbanker."
+        }
+      }
+    },
+    "settings": {
+      "title": "Inställningar",
+      "items": {
+        "0": {
+          "question": "Hur ändrar jag mitt standardtimpris?",
+          "answer": "Gå till 'Inställningar', hitta fältet 'Standardtimpris (kr)' och ange ditt nya pris. Priset används som standard för nya kunder och projekt. Befintliga priser för kunder och projekt påverkas inte."
+        },
+        "1": {
+          "question": "Loggas alla mina ändringar?",
+          "answer": "Ja, {brand} loggar alla ändringar av timpriser (globalt, kund, projekt) i en prishistorik. Du kan alltid se när och hur priser har ändrats. Det bidrar till transparens och bokföring."
+        },
+        "2": {
+          "question": "Hur tar jag bort mitt konto?",
+          "answer": "Under 'Inställningar' finns ett avsnitt 'Farozon' med knappen 'Ta bort konto'. Du måste bekräfta med din e-postadress och godkänna borttagningen. OBS: Det tar BORT alla dina data PERMANENT, inklusive kunder, projekt, tidposter och fakturor. Om du är medlem i ett team ligger det du har registrerat i teamet kvar hos teamet, utan ditt namn och din e-postadress."
+        },
+        "3": {
+          "question": "Hur byter jag till det mörka temat?",
+          "answer": "Gå till Inställningar → Profil och utseende → Tema. Välj mellan 'Ljust', 'Mörkt' eller 'System' (följer enhetens inställning). Ändringen gäller direkt."
+        },
+        "4": {
+          "question": "Vad är företagsprofilen?",
+          "answer": "Under Inställningar → Företagsprofil kan du ange företagsnamn, CVR-nummer, adress, logotyp och bankuppgifter. Uppgifterna används automatiskt på dina fakturor."
+        }
+      }
+    }
+  },
+  "title": "Hjälp och vägledning",
+  "description": "Hitta svar på dina frågor om {brand}",
+  "searchPlaceholder": "Sök i hjälpen... (t.ex. 'timbank', 'faktura', 'kortkommando')",
+  "resultCount": "{count, plural, one {# resultat} other {# resultat}}",
+  "popular": "Populära frågor",
+  "searchResultsFor": "Sökresultat för \"{query}\"",
+  "foundIn": "{results, plural, one {# resultat} other {# resultat}} hittades i {topics, plural, one {# ämne} other {# ämnen}}",
+  "noResults": "Inga resultat hittades för \"{query}\"",
+  "questionCount": "{count, plural, one {# fråga} other {# frågor}}",
+  "chooseTopic": "Välj ett ämne i listan",
+  "cantFindTitle": "Hittar du inte det du söker?",
+  "cantFindBody": "Kontakta oss om du har frågor som inte besvaras i dokumentationen.",
+  "contactSupport": "Kontakta supporten",
+  "screenshotAlt": "Skärmbild: {title}",
+  "videoDemo": "Videodemo",
+  "wasHelpful": "Var det här till hjälp?",
+  "yes": "Ja",
+  "no": "Nej",
+  "topicsHeading": "Ämnen"
+}

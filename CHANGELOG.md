@@ -1,0 +1,89 @@
+# Changelog
+
+All notable changes to the TimeWren web app, API and Docker image are listed here.
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow
+[Semantic Versioning](https://semver.org/) as described in [docs/oss/versioning.md](docs/oss/versioning.md).
+The browser extension, desktop app and mobile app have their own changelogs and version numbers.
+
+Groups: `Breaking` (needs a `Migration` group in the same release), `Added`, `Changed`, `Deprecated`,
+`Removed`, `Fixed`, `Security`.
+
+## [Unreleased]
+
+## [0.32.0] - 2026-11-13
+
+### Added
+
+- The browser extension can connect to your own server: a server field at sign-in and in settings, tokens bound to the server, and a `/.well-known/timetrack.json` discovery endpoint (#916, #1186).
+
+### Changed
+
+- The resource plan is open on every plan; no feature is locked behind a plan tier (#1010, #1175).
+- One wording for the trial everywhere: 30 days free without a payment card, after which the account continues on the free plan (#1163, #1168).
+- Licence and trademark texts: TRADEMARK.md hosting rule and Cloud names, an AGPL §7 app store permission for the mobile app (draft), and the desktop licence model on /desktop (#1176).
+- The dashboard and admin no longer send server-only translation catalogues to the browser, about 170 KB less per page (#1182).
+- Faster cash flow forecast (one query per type instead of one per client) and indexes for the invoice list and recent time entries (migration 0159) (#1181).
+
+### Fixed
+
+- Accounting integrations (Billy, Dinero, e-conomic) only retry idempotent requests, so a timeout can no longer create a duplicate invoice or contact (#1184).
+- Timeouts on outbound calls (Alunta, push, Dokploy, Discord, Slack, Plausible, OpenAI) and a guard that skips a cron run while the previous run of the same job is still going (#1184).
+
+### Security
+
+- Next.js 16.4.6 (#1171).
+- glob 14 and minimatch 11 for react-email and the Sentry bundler (#1178).
+- Closed cross-tenant holes in CSV import, e-mail tasks, the extension, subtasks, absence requests and employee profiles; a portal domain can only be removed by the organisation that verified it; open redirects after portal login and sign-up are closed; magic link and SMS are rate-limited like password reset (#1187).
+
+## [0.31.0] - 2026-11-11
+
+The first versioned release. Production now follows `vX.Y.Z` tags instead of every merge to `main` (#1102, docs/RELEASING.md).
+
+### Added
+
+- Time tracking with a live timer, manual entries, a week view and a calendar.
+- Clients, projects and prepaid hour packages ("klippekort") with balance alerts and a client portal.
+- Invoices as PDF and through Billy, Dinero and e-conomic, with payment status synced back.
+- Organisations with roles, team overview, approvals and an audit log.
+- An MCP server with OAuth scopes for AI assistants.
+- Self-hosting with Docker Compose: app, PostgreSQL and cron, no telemetry, all features open.
+- Danish and English, plus beta translations that fall back to English.
+- Prepaid integrity findings (time entries without a usage row) in the admin digest (#985).
+- A stricter Content-Security-Policy sent as `Content-Security-Policy-Report-Only` next to the enforced policy, with a rate-limited `/api/csp-report` endpoint (#1158).
+- A launch e-mail component for existing customers (#1146).
+
+### Changed
+
+- Faster client page, cron scans and client portal: N+1 queries removed and one new index (#1140).
+- Invoice e-mails sent through `POST /api/invoices/[id]/send` are throttled per organisation (60 per hour) and fall back to the client's registered address when no recipient is given (#1154).
+- Expected errors in the integrations and client portal APIs return proper tRPC codes instead of HTTP 500 (#1153).
+- A user's primary organisation is picked by one shared rule (owner first, then oldest) in cron, inbound mail, webhooks and extension sign-in (#1151).
+- `next build` no longer initialises better-auth or the database (#1130).
+- Same-repository pull requests run `next build` on boat-large before merge (#1149, #1145).
+- CI runs on warm Boat runners instead of a new VM per job (#1160).
+- The Content-Security-Policy and the browser extension allow the self-hosted error reporting endpoint (#1161).
+- Developer setup on Windows, agent docs and a `typecheck` script (#1129, #1152).
+
+### Fixed
+
+- Invoice status transitions are locked, so a concurrent issue and delete cannot both succeed, and `invoice.paid` from accounting sync marks invoices as paid (#1137, #1157).
+- Time entries: lock checks on every change, copies keep approval status and cost rate; marking approved time as billed is still allowed (#1125).
+- Recurring time entries and reminder e-mails are deduplicated and written atomically (#1124, #1141).
+- Timesheet cell edits, the Effihub import and prepaid deletion are atomic (#1138).
+- Module permissions are enforced on all reads and on e-mail templates, while time tracking can still pick tasks and prepaid packages (#1135).
+- The Stripe webhook retries after failures (#1126).
+- The TimeWren app's URL scheme is a trusted origin for TimeWren sign-in (#1109).
+
+### Security
+
+- Outgoing webhooks: the SSRF guard follows redirects, and retries back off (#1136).
+- The Stripe webhook no longer logs licence keys or e-mail addresses (#1126).
+- Invoice REST routes check module access, subscription and role like the tRPC API (#1127).
+- Uploads have size, rate and pixel limits; the desktop and extension rate limiter uses the rightmost `X-Forwarded-For` hop; Discord account linking requires a verified e-mail (#1150).
+- Self-hosting: the obsolete `docker-compose.prod.yml` with default secrets is removed, the Alunta webhook fails closed without a secret, and desktop licence endpoints are rate limited (#1128).
+- CSV exports guard against spreadsheet formulas in one shared helper; numbers and phone numbers are unchanged, and XLSX text cells get no prefix (#1155).
+- The owner's personal e-mail address is removed from the public code, `security.txt` reads the brand's contact (#1131).
+
+### Migration
+
+- One new index (expand-only), applied automatically at start-up (#1140).

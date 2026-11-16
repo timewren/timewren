@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# verlopen taak} other {# verlopen taken}}",
+    "needsAttention": "Vraagt aandacht",
+    "lowBalance": "{count, plural, one {# urenpakket met laag saldo} other {# urenpakketten met laag saldo}}",
+    "lowBalanceSub": "Laag saldo",
+    "expiring": "{count, plural, one {# urenpakket verloopt binnenkort} other {# urenpakketten verlopen binnenkort}}",
+    "expiringSub": "Binnen 14 dagen",
+    "unbilled": "{amount} niet gefactureerd",
+    "unbilledSub": "Klaar om te factureren",
+    "title": "Actie nodig"
+  },
+  "appDrawer": {
+    "apps": "Apps",
+    "heading": "{brand}-apps",
+    "downloadFor": "Downloaden voor {os}{version} · Beta",
+    "seeDownloads": "Downloads bekijken in instellingen",
+    "downloadComing": "De download komt eraan. Zie instellingen",
+    "chromeExtension": "Chrome-extensie",
+    "chromeExtensionHint": "Registreer tijd vanuit de browser",
+    "installApp": "Installeren als app",
+    "installAppHint": "Zet {brand} op je bureaublad",
+    "alreadyInstalled": "Al geïnstalleerd",
+    "addToHome": "Toevoegen aan beginscherm of bureaublad"
+  },
+  "demo": {
+    "clearedKept": "Voorbeeldgegevens gewist. {kept, plural, one {# democlient was al in gebruik (bijvoorbeeld gefactureerd) en is als gewone klant bewaard.} other {# democlienten waren al in gebruik (bijvoorbeeld gefactureerd) en zijn als gewone klanten bewaard.}}",
+    "cleared": "De voorbeeldgegevens zijn gewist. Het account is van jou.",
+    "nothingToClear": "Er waren geen voorbeeldgegevens om te wissen.",
+    "clearFailed": "Voorbeeldgegevens wissen mislukt",
+    "banner": "<strong>Je ziet voorbeeldgegevens.</strong> De klanten, uren en het urenpakket zijn verzonnen, zodat je kunt zien hoe {brand} er in gebruik uitziet. Wis ze wanneer je met je eigen gegevens wilt beginnen.",
+    "confirm": "Voorbeeldgegevens wissen? De democlienten en hun voorbeeldprojecten, uren en urenpakketten worden verwijderd. Alles wat je zelf hebt gemaakt (bijvoorbeeld facturen of je eigen uren) blijft bewaard.",
+    "clearButton": "Demogegevens wissen"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "De desktop-app voor Mac en Windows{version}. Ze is in beta en kan fouten bevatten.",
+    "version": ", versie {version}",
+    "withoutDownloads": "De desktop-app is in beta. De downloadlink verschijnt hier zodra {brand} de nieuwste versie kan ophalen.",
+    "hide": "Verbergen",
+    "reportHint": "Een bug tegengekomen? Gebruik \"Report a bug or missing feature\" in de app."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Maak je eerste klant",
+      "hasTimeEntry": "Registreer je eerste uur",
+      "hasKlippekort": "Maak een urenpakket",
+      "hasInvoice": "Maak je eerste factuur"
+    },
+    "daysLeft": "{count, plural, one {# dag} other {# dagen}} over van je gratis proefperiode",
+    "addPayment": "Betaling toevoegen",
+    "gettingStarted": "Aan de slag ({done}/{total})",
+    "hide": "Verbergen",
+    "progressLabel": "Voortgang van de start",
+    "createAccount": "Maak je account"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Klantrisico",
+      "daysAgo": "{days} dagen geleden",
+      "allActive": "Al je klanten waren de afgelopen 60 dagen actief ✓",
+      "seeAll": "Alles bekijken",
+      "count": "{count, plural, one {# klant zonder activiteit in 60+ dagen} other {# klanten zonder activiteit in 60+ dagen}}",
+      "lastActive": "Laatst actief: {date}",
+      "revenue6m": "{amount} (6 maanden)",
+      "hoursLeft": "{hours} u over",
+      "openClient": "Klant openen",
+      "sendCheckIn": "Een check-in-mail sturen",
+      "checkInSubject": "Check-in",
+      "more": "+ {count} andere klanten met risico"
+    },
+    "calendarSync": {
+      "title": "Agenda vs. geregistreerd",
+      "seeCalendar": "Agenda bekijken",
+      "captureRate": "dekkingsgraad",
+      "eventsTracked": "{tracked}/{total} afspraken geregistreerd",
+      "calendar": "Agenda",
+      "tracked": "Geregistreerd",
+      "gap": "{hours} u in de agenda zijn niet geregistreerd",
+      "perProject": "Per project",
+      "moreProjects": "+{count} meer"
+    },
+    "cashflow": {
+      "title": "Cashflowprognose",
+      "seeUnpaid": "Openstaand bekijken",
+      "empty": "Geen openstaande facturen of actieve urenpakketten",
+      "emptyHint": "Verstuur een factuur om de cashflowprognose te zien",
+      "seeAllUnpaid": "Alles openstaand bekijken",
+      "overdueInvoices": "{count, plural, one {# factuur achterstallig} other {# facturen achterstallig}}: ",
+      "overdue": "Achterstallig: ",
+      "week": "Week {number}",
+      "estimated": "(geschat)",
+      "prepaidTag": "(urenpakket)",
+      "expected30": "Verwacht komende 30 dagen"
+    },
+    "coverage": {
+      "title": "Bezettingsgraad",
+      "details": "Details bekijken",
+      "period": "Periode",
+      "loadFailed": "Bezettingsgraad laden mislukt",
+      "noTime": "In deze periode is nog geen tijd geregistreerd.",
+      "trackTime": "Tijd registreren",
+      "billable": "Factureerbaar",
+      "nonBillable": "Niet-factureerbaar",
+      "ratio": "<b>{ratio}</b> niet-factureerbaar per gefactureerd uur",
+      "clientCol": "Klant",
+      "splitCol": "Fact. / niet-fact."
+    },
+    "dailyHours": {
+      "title": "Uren per dag",
+      "details": "Details bekijken",
+      "avg": "Gem./dag: ",
+      "total": "Totaal: ",
+      "hoursShort": "{value} u",
+      "day": {
+        "0": "Zo",
+        "1": "Ma",
+        "2": "Di",
+        "3": "Wo",
+        "4": "Do",
+        "5": "Vr",
+        "6": "Za"
+      }
+    },
+    "emailSync": {
+      "title": "E-mailsynchronisatie",
+      "started": "Synchronisatie gestart",
+      "startFailed": "Synchronisatie starten mislukt",
+      "never": "Nooit",
+      "now": "Zojuist",
+      "minutes": "{value} min",
+      "hours": "{value} u",
+      "days": "{value} d",
+      "startNow": "Nu synchroniseren",
+      "statusOk": "OK",
+      "statusUnstable": "Instabiel",
+      "statusError": "Fout",
+      "emails": "E-mails",
+      "tasks": "Taken",
+      "clients": "Klanten",
+      "analytics": "Analyses bekijken →"
+    },
+    "emailTasks": {
+      "title": "Taken uit e-mail",
+      "review": "Controleren",
+      "noClient": "Geen klant",
+      "empty": "Nog geen e-mailtaken."
+    },
+    "expiringPackages": {
+      "title": "Aflopende urenpakketten",
+      "seeAll": "Alles bekijken",
+      "none": "Geen urenpakketten die binnenkort verlopen",
+      "noneHint": "Urenpakketten die binnen 30 dagen verlopen verschijnen hier",
+      "expiredAgo": "{count, plural, one {# dag} other {# dagen}} geleden verlopen",
+      "expired": "Verlopen",
+      "today": "Vandaag",
+      "days": "{count, plural, one {# dag} other {# dagen}}",
+      "hoursLeft": "Resterende uren",
+      "value": "Waarde",
+      "expires": "Verloopt op {date}",
+      "more": "+ {count} andere urenpakketten",
+      "urgent": "Sommige urenpakketten verlopen binnen 7 dagen. Neem contact op met de klant om te verlengen."
+    },
+    "flexBalance": {
+      "title": "Flexsaldo",
+      "hours": "{value} u",
+      "entries": "{count} boekingen"
+    },
+    "flexNorm": {
+      "title": "Flexsaldo",
+      "loadFailed": "Het saldo kon niet worden geladen.",
+      "noProfile": "Je hebt geen medewerkersprofiel in de organisatie.",
+      "unit": "u",
+      "carryIn": "Waarvan overgedragen: {value} u",
+      "week": "Week",
+      "month": "Maand",
+      "period": "Periode",
+      "summary": "{registered} van {net} u norm tot nu toe · norm van de periode {periodNet} u",
+      "seeAccount": "Flexrekening bekijken"
+    },
+    "hoursComparison": {
+      "title": "Weekvergelijking",
+      "details": "Details bekijken",
+      "none": "Geen uren geregistreerd",
+      "thisWeek": "Deze week",
+      "lastWeek": "Vorige week",
+      "format": "hh:mm",
+      "increase": "Toename",
+      "decrease": "Afname",
+      "vsLastWeek": "ten opzichte van vorige week"
+    },
+    "invoiceOverview": {
+      "title": "Factuuroverzicht",
+      "seeInvoices": "Facturen bekijken",
+      "totalInvoiced": "Totaal gefactureerd",
+      "draft": "Concept",
+      "sent": "Verzonden",
+      "paid": "Betaald",
+      "overdue": "Achterstallig"
+    },
+    "lowBalance": {
+      "title": "Urenpakketten met laag saldo",
+      "loadFailed": "Urenpakketten laden mislukt",
+      "none": "Geen urenpakketten met laag saldo",
+      "seeAll": "Alles bekijken",
+      "intro": "Laag saldo",
+      "noClient": "Geen klant",
+      "left": "{time} over",
+      "more": "+ {count} meer"
+    },
+    "monthComparison": {
+      "title": "Maandvergelijking",
+      "seeReports": "Rapporten bekijken",
+      "vs": "t.o.v.",
+      "vsValue": "t.o.v. {value}",
+      "hours": "Uren",
+      "hoursValue": "{value} u",
+      "revenue": "Omzet",
+      "entries": "Tijdboekingen"
+    },
+    "overdueTasks": {
+      "title": "Verlopen taken",
+      "none": "Geen taken voorbij de deadline ✓",
+      "seeAll": "Alles bekijken",
+      "count": "{count, plural, one {# taak} other {# taken}}",
+      "noProject": "Geen project",
+      "deadline": "Deadline: {date}",
+      "more": "+ {count} meer"
+    },
+    "pendingApprovals": {
+      "title": "Openstaande goedkeuringen",
+      "requestOne": "aanvraag",
+      "requestOther": "aanvragen"
+    },
+    "prepaidStatus": {
+      "title": "Status urenpakketten",
+      "allGood": "Alles is in orde",
+      "seeAll": "Alles bekijken",
+      "lowBalance": "Laag saldo",
+      "noClient": "Geen klant",
+      "left": "{time} over",
+      "more": "+ {count} meer",
+      "expiringSoon": "Verloopt binnenkort (binnen 30 dagen)",
+      "expired": "Verlopen",
+      "today": "Vandaag",
+      "days": "{count, plural, one {# dag} other {# dagen}}"
+    },
+    "productivity": {
+      "title": "Productiviteit over de week",
+      "details": "Details bekijken",
+      "noData": "Nog geen productiviteitsgegevens",
+      "streak": "Huidige reeks",
+      "streakDays": "dagen op rij",
+      "weeklyAvg": "Weekgemiddelde",
+      "perWeek": "per week",
+      "last8": "Laatste 8 weken",
+      "less": "Minder",
+      "more": "Meer",
+      "msgHigh": "Fantastisch! Je hebt 7+ dagen op rij gewerkt. Ga zo door!",
+      "msgMid": "Goed gedaan! Houd het tempo vast.",
+      "msgLow": "Je bent goed op weg! Bouw een stevige werkroutine op.",
+      "streakDay": "dag op rij"
+    },
+    "profitability": {
+      "title": "Werkelijk uurtarief",
+      "rate": "{rate} kr/u",
+      "hours": "{hours} u",
+      "loadFailed": "Gegevens laden mislukt",
+      "noBilled": "Deze maand geen gefactureerde tijd",
+      "createInvoice": "Factuur maken",
+      "details": "Details",
+      "agreedRate": "Afgesproken uurtarief",
+      "realRate": "Werkelijk uurtarief",
+      "vsAgreed": "{percent}% ten opzichte van afgesproken",
+      "billableAvg": "Gem. factureerbaar",
+      "footer": "{total} totaal · {billable} factureerbaar",
+      "footerInvoiced": "{total} totaal · {billable} factureerbaar · {invoiced} gefactureerd"
+    },
+    "projectHealth": {
+      "title": "Projectstatus",
+      "seeAll": "Alles bekijken",
+      "alertsHeading": "Budgetwaarschuwingen",
+      "severity": {
+        "exceeded": "Overschreden",
+        "critical": "Kritiek",
+        "warning": "Waarschuwing"
+      },
+      "hoursUsed": "{used} / {budget} u gebruikt",
+      "budgetAmount": "{amount} kr budget",
+      "moreAlerts": "+ {count} meer waarschuwingen",
+      "noBudgets": "Geen projecten met budget",
+      "createProject": "Project maken",
+      "onTrack": "{count, plural, one {# project op schema} other {# projecten op schema}}",
+      "moreProjects": "+ {count} meer projecten"
+    },
+    "quickActions": {
+      "title": "Snelle acties",
+      "created": "Tijdboeking gemaakt",
+      "createFailed": "Tijdboeking maken mislukt",
+      "fillAll": "Vul alle velden correct in",
+      "addClient": "Klant toevoegen",
+      "newProject": "Nieuw project",
+      "startTimer": "Timer starten",
+      "createInvoice": "Factuur maken",
+      "quickEntry": "Snelle tijdboeking",
+      "draftSaved": "Concept opgeslagen",
+      "restoreDraft": "Opgeslagen concept herstellen",
+      "restore": "Herstellen",
+      "projectPlaceholder": "Kies een project",
+      "descriptionPlaceholder": "Waar werkte je aan?",
+      "hoursPlaceholder": "Uren",
+      "saving": "Opslaan…",
+      "save": "Opslaan"
+    },
+    "recentActivity": {
+      "title": "Recente activiteit",
+      "none": "Nog geen activiteit",
+      "seeAll": "Alles bekijken",
+      "now": "Zojuist",
+      "minutesAgo": "{count} min geleden",
+      "hoursAgo": "{count, plural, one {# uur} other {# uur}} geleden",
+      "daysAgo": "{count, plural, one {# dag} other {# dagen}} geleden"
+    },
+    "revenueByClient": {
+      "title": "Omzet per klant",
+      "seeReports": "Rapporten bekijken",
+      "loadFailed": "Omzet laden mislukt",
+      "none": "Deze maand geen omzet"
+    },
+    "revenueForecast": {
+      "title": "Omzetprognose",
+      "seeReports": "Rapporten bekijken",
+      "none": "Nog geen omzetgegevens",
+      "expected": "Verwacht deze maand",
+      "amountKr": "{amount} kr",
+      "basedOn": "Gebaseerd op {day} / {total} dagen",
+      "sixMonthAvg": "Gemiddelde over 6 maanden"
+    },
+    "rounding": {
+      "title": "Afrondingsbonus",
+      "inactive": "Afronding is niet ingeschakeld. Verdien extra door je uren naar boven af te ronden.",
+      "enable": "Afronding inschakelen",
+      "settings": "Instellingen",
+      "thisMonth": "Deze maand",
+      "extra": "extra verdiend door afronding",
+      "thisYear": "Totaal dit jaar"
+    },
+    "stats": {
+      "activeClients": "Actieve klanten",
+      "activeProjects": "Actieve projecten",
+      "hoursThisMonth": "Uren deze maand",
+      "revenueThisMonth": "Omzet deze maand"
+    },
+    "topClients": {
+      "title": "Topklanten",
+      "loadFailed": "Gegevens laden mislukt",
+      "none": "Nog geen klantgegevens",
+      "seeAll": "Alles bekijken",
+      "rankedBy": "Gerangschikt op uren"
+    },
+    "unbilled": {
+      "title": "Niet-gefactureerde uren",
+      "loadFailed": "Gegevens laden mislukt",
+      "none": "Geen niet-gefactureerde uren",
+      "seeAll": "Alles bekijken",
+      "entries": "{count, plural, one {# tijdboeking} other {# tijdboekingen}}",
+      "totalHours": "Totaal uren",
+      "estimatedValue": "Geschatte waarde"
+    },
+    "absences": {
+      "title": "Komende afwezigheid",
+      "loading": "Laden…",
+      "none": "Geen goedgekeurde afwezigheid gepland",
+      "employee": "Medewerker",
+      "absence": "Afwezigheid",
+      "from": "vanaf {date}"
+    },
+    "deadlines": {
+      "title": "Belangrijke data",
+      "overdue": "Verlopen",
+      "today": "Vandaag",
+      "days": "{count, plural, one {# dag} other {# dagen}}",
+      "needsSetup": "Stel je bedrijfstype in om belangrijke data te zien",
+      "setUpNow": "Nu instellen",
+      "none": "Geen aankomende deadlines binnen 180 dagen",
+      "editSettings": "Bedrijfsinstellingen bewerken"
+    },
+    "upcomingTasks": {
+      "title": "Komende taken",
+      "none": "Geen komende taken",
+      "seeAll": "Alles bekijken",
+      "within7": "Binnen 7 dagen",
+      "noProject": "Geen project",
+      "deadline": "Deadline: {date}",
+      "more": "+ {count} meer"
+    },
+    "vacation": {
+      "title": "Verlofsaldo",
+      "daysLeftIn": "dagen over in {label}",
+      "daysLeft": "dagen over"
+    },
+    "vat": {
+      "titleMonthly": "Btw deze maand",
+      "titleQuarterly": "Btw deze periode",
+      "titleSemiAnnual": "Btw dit halfjaar",
+      "title": "Btw",
+      "exempt": "Je bent geregistreerd als niet btw-plichtig",
+      "changeInSettings": "Wijzigen in instellingen",
+      "createFirst": "Maak je eerste factuur om een btw-schatting te zien",
+      "createInvoice": "Factuur maken",
+      "invoices": "Facturen",
+      "toSettle": "Af te dragen btw",
+      "percentOf": "25% van {amount} gefactureerd",
+      "nextDeadline": "Volgende deadline",
+      "inDays": "(over {count, plural, one {# dag} other {# dagen}})",
+      "overdue": "(verlopen)",
+      "ytd": "Totaal dit jaar",
+      "setAside": "Zet <b>{amount}</b> opzij op een aparte rekening"
+    },
+    "weeklyGoal": {
+      "title": "Weekdoel",
+      "loadFailed": "Weekdoel laden mislukt",
+      "trackTime": "Tijd registreren",
+      "reached": "Doel bereikt!",
+      "onTrack": "Op schema",
+      "behind": "Achter",
+      "remaining": "<b>{time}</b> over",
+      "perDay": "{time}/dag voor {count, plural, one {# dag} other {# dagen}}"
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "Your {brand} login link works for 15 minutes",
+    "kicker": "Log in",
+    "heading": "Log in to {brand}",
+    "footerNote": "You are receiving this email because someone asked for a login link for your address.",
+    "body": "Click the button to log in. The link works for 15 minutes and can only be used once.",
+    "button": "Log in to {brand}",
+    "ignore": "If you did not ask to log in, you can ignore this email. Nothing happens without your click.",
+    "subject": "Log in to TimeTrack"
+  },
+  "passwordReset": {
+    "preview": "Reset your {brand} password",
+    "kicker": "Security",
+    "heading": "Reset your password",
+    "footerNote": "You are receiving this email because a new password was requested for your account.",
+    "greeting": "Hi {name},",
+    "body": "Click the button to choose a new password. The link expires in one hour.",
+    "button": "Choose new password",
+    "ignore": "If you did not ask for this, you can ignore this email. Your password has not been changed and your account is still safe.",
+    "subject": "Reset your TimeTrack password"
+  },
+  "verification": {
+    "preview": "Confirm your email address to activate your account",
+    "kicker": "Account",
+    "heading": "Confirm your email address",
+    "footerNote": "You are receiving this email because someone created an account on {brand} with your email address.",
+    "greeting": "Hi {name},",
+    "greetingFallback": "Hi there,",
+    "body": "Thanks for signing up. Click the button to confirm your email address and activate your account. The link works for 24 hours.",
+    "button": "Confirm email address",
+    "ignore": "If you did not create an account, you can disregard this email. Nothing more will happen.",
+    "subject": "Confirm your email address for TimeTrack"
+  },
+  "security": {
+    "kicker": "Security",
+    "footerNote": "This is an automatic security notice.",
+    "greeting": "Hi {name},",
+    "time": "Time",
+    "ip": "IP address",
+    "device": "Device",
+    "place": "Location",
+    "notYou": "Wasn't you?",
+    "openSettings": "Open account settings",
+    "unknownDevice": "Unknown device",
+    "browser": "Browser",
+    "deviceOn": "{browser} on {os}"
+  },
+  "passwordChanged": {
+    "preview": "Your {brand} password has been changed",
+    "heading": "Your password has been changed",
+    "body": "The password for your {brand} account has just been changed. If it was you, you do not need to do anything.",
+    "calloutBody": "Reset your password using \"Forgot password\" on the login page, and write to [mail]{email}[/mail] right away.",
+    "subject": "Your TimeTrack password has been changed"
+  },
+  "newLogin": {
+    "preview": "New login to {brand} from {device}",
+    "heading": "New login to your account",
+    "body": "Someone logged in to your {brand} account from a device that has not been used before. If it was you, you do not need to do anything.",
+    "calloutBody": "Change your password right away and write to [mail]{email}[/mail], and support will help you secure the account.",
+    "subject": "New login to your TimeTrack account"
+  },
+  "twoFactor": {
+    "preview": "Your {brand} verification code: {code}",
+    "heading": "Your verification code",
+    "footerNote": "You are receiving this email because someone logged in to your account with two-step verification.",
+    "enterCode": "Enter the code to continue:",
+    "expires": "The code expires in 3 minutes. If you did not ask for it, you can ignore this email. Never enter the code anywhere other than on {brand}.",
+    "subject": "{code} is your verification code for TimeTrack"
+  },
+  "signupPassword": {
+    "preview": "Your temporary password for {brand}",
+    "kicker": "Welcome",
+    "heading": "Welcome to {brand}, {name}",
+    "intro": "Your account has been created. Here is your temporary password:",
+    "changeIt": "Change it after your first login under Security in settings.",
+    "button": "Log in to your account",
+    "alsoLogin": "You can also log in at [login]{url}[/login] with your email and the password above.",
+    "getStarted": "How to get started",
+    "step1": "Create your first client",
+    "step2": "Create a project for the client",
+    "step3": "Start the timer and invoice the hours when the work is done",
+    "subject": "Your password for TimeTrack"
+  },
+  "orgInvite": {
+    "preview": "{inviter} has invited you to {org}",
+    "kicker": "Invitation",
+    "heading": "You have been invited to {org}",
+    "footerNote": "You are receiving this email because someone invited you to their team on {brand}.",
+    "role": {
+      "owner": "owner",
+      "admin": "administrator",
+      "member": "member"
+    },
+    "body": "**{inviter}** has invited you to become {role} of **{org}** on {brand}.",
+    "body2": "Here you track time on the team's clients and projects, and the manager can see the hours in one place.",
+    "button": "Accept the invitation",
+    "expires": "The invitation expires in 48 hours. If you do not know the sender, you can ignore this email.",
+    "subject": "{inviter} has invited you to {org} on TimeTrack"
+  },
+  "portalInvite": {
+    "preview": "You have been invited to {sender}'s client portal",
+    "kicker": "Client portal",
+    "heading": "Welcome to the client portal",
+    "footerNote": "Sent by {sender} via {brand}.",
+    "greeting": "Dear {name},",
+    "body": "{sender} has given you access to your own client portal. Here you can see invoices and projects and follow the balance of your prepaid package.",
+    "button": "Open the client portal",
+    "account": "Log in with the email **{email}** and the password you received from {sender}.",
+    "token": "The link is personal. Do not share it with others.",
+    "questions": "If you have questions, you can write to {sender} at [mail]{email}[/mail].",
+    "subject": "You have been invited to {sender}'s client portal"
+  },
+  "welcome": {
+    "preview": "Welcome to {brand}",
+    "kicker": "Welcome",
+    "heading": "Welcome, {name}",
+    "intro": "Thanks for creating an account on {brand}. Here is how to get started:",
+    "button": "Open {brand}",
+    "questions": "Questions? Check the [help]help centre[/help] or write to [mail]{email}[/mail].",
+    "subject": "Welcome to TimeTrack"
+  }
+}

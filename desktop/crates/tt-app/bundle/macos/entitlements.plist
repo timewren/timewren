@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Entitlements for TimeTrack 0.2.23 under Hardened Runtime (kræves til
+  notarisering). Ingen App Sandbox: appen distribueres uden for App Store.
+
+  - network.client: web (timetrack.dk), AI-udbydere og modeldownload.
+  - automation.apple-events: trackeren spørger browsere om den aktive fanes
+    adresse med Apple Events (osascript). Uden den afviser Hardened Runtime
+    kaldet. Brugeren godkender stadig hver browser (TCC).
+  - Ingen JIT-undtagelser: der er ingen webview i 0.2.23 (Tauri-appen havde
+    allow-jit og allow-unsigned-executable-memory for WKWebView).
+  - personal-information.calendars: Indstillinger → Kalender kan læse
+    systemets kalender (EventKit). Hardened Runtime afviser ellers adgangen;
+    brugeren godkender stadig selv (TCC).
+  Skærmoptagelse og tilgængelighed er TCC-tilladelser, ikke entitlements.
+-->
+<plist version="1.0">
+<dict>
+  <key>com.apple.security.personal-information.calendars</key>
+  <true/>
+  <key>com.apple.security.network.client</key>
+  <true/>
+  <key>com.apple.security.automation.apple-events</key>
+  <true/>
+</dict>
+</plist>

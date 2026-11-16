@@ -1,0 +1,39 @@
+{
+  "stopResult": {
+    "savedOn": "{duration}を<b>{target}</b>に保存しました",
+    "stoppedOn": "{duration}を<b>{target}</b>で停止しました",
+    "savedInternal": "{duration}を<b>社内時間</b>として保存しました",
+    "stoppedInternal": "{duration}を<b>社内時間</b>として停止しました",
+    "targetWithClient": "{client}、{project}",
+    "notEnough": "パッケージ<b>{name}</b>の時間が足りなかったため、すべての時間を請求対象として保存しました",
+    "deducted": "<b>{name}</b>から{hours}を差し引きました。残り{remaining}",
+    "deductedOverflow": "<b>{name}</b>から{hours}を差し引きました。残り{remaining}。パッケージを使い切ったため、残りは請求対象の時間です",
+    "pendingSave": "サーバーが時間内に応答しませんでした。時間は接続が戻り次第自動的に送信され、保存されるのは1回だけです。",
+    "close": "メッセージを閉じる"
+  },
+  "discard": {
+    "label": "時間を破棄",
+    "question": "{duration}を保存せずに破棄しますか?",
+    "keep": "時間を残す",
+    "confirm": "時間を破棄"
+  },
+  "switch": {
+    "label": "クライアントを切り替え",
+    "question": "{duration}を{from}に保存し、{to}で新しいタイマーを開始しますか?",
+    "internal": "社内時間",
+    "cancel": "キャンセル",
+    "confirm": "保存して新規開始"
+  },
+  "noClient": "クライアントが未選択です",
+  "noClientShort": "クライアントなし",
+  "start": "タイマーを開始",
+  "cancelNoSave": "保存せずにタイマーをキャンセル",
+  "pause": "タイマーを一時停止",
+  "stopSave": "停止して保存",
+  "resume": "タイマーを再開",
+  "addMinutes": "タイマーに{minutes}分を追加",
+  "addedMinutes": "+{minutes} 分",
+  "pickClientProject": "クライアントとプロジェクトを選択",
+  "descriptionPlaceholder": "何に取り組んでいますか?",
+  "descriptionLabel": "作業の説明"
+}

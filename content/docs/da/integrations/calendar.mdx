@@ -1,0 +1,71 @@
+---
+title: "Kalender"
+description: "Forbind Google Kalender eller iCloud med TimeWren for at se møder, planlægge tidsblokke og gøre aftaler til tidsregistreringer. Outlook understøttes ikke."
+---
+
+TimeWren kan læse din kalender for at vise møder ved siden af dine tidsregistreringer, foreslå ledige tidsrum til opgaver og gøre aftaler til tidsregistreringer. Der findes to udbydere: Google Kalender og iCloud. Der er ingen synkronisering med Outlook- eller Microsoft 365-kalendere. Databaseskemaet giver plads til en udbyder ved navn `outlook`, men intet implementerer den. Microsoft Entra ID i TimeWren er [kun til login](/da/docs/configuration/authentication).
+
+<Screenshot name="calendar" alt="Kalendervisningen" />
+
+## Google Kalender
+
+### Opsætning på serveren
+
+1. Opret en OAuth-klient af typen "Web application" i Google Cloud-konsollen, og slå Google Calendar API til for projektet.
+2. Tilføj denne godkendte redirect-URI:
+
+   ```text
+   https://timewren.example.com/api/integrations/google/callback
+   ```
+
+3. Sæt oplysningerne i `.env`:
+
+   ```dotenv
+   GOOGLE_CLIENT_ID=your-client-id
+   GOOGLE_CLIENT_SECRET=your-client-secret
+   # Kun hvis callbacken afviger fra NEXT_PUBLIC_APP_URL + /api/integrations/google/callback
+   # GOOGLE_REDIRECT_URI=https://timewren.example.com/api/integrations/google/callback
+   ```
+
+4. Genstart appen.
+
+Den samme klient slår også "Log ind med Google" til, som bruger sin egen redirect-URI (`/api/auth/callback/google`), se [Godkendelse](/da/docs/configuration/authentication). Tilføj begge URI'er til klienten, hvis du vil have begge dele.
+
+Uden disse variabler viser indstillingssiden, at Google Kalender ikke er konfigureret.
+
+Gemte tokens er krypterede, så `ENCRYPTION_KEY` skal være sat. Synkroniseringen køres fra containeren `cron` hvert 15. minut (`/api/cron/calendar-sync`), og et dagligt job (`/api/cron/calendar-webhook-renew`) fornyer Googles kanaler til push-notifikationer. Push-notifikationer kommer ind på `/api/webhooks/google-calendar`, så den sti skal kunne nås fra internettet over HTTPS. Uden den virker synkroniseringen hvert 15. minut stadig.
+
+### Scopes
+
+En ny forbindelse beder kun om læseadgang:
+
+| Scope | Hvorfor |
+| --- | --- |
+| `https://www.googleapis.com/auth/calendar.readonly` | Læse aftaler |
+| `https://www.googleapis.com/auth/userinfo.email` | Vise, hvilken Google-konto der er forbundet |
+
+Skriveadgang bliver først bedt om senere, og kun når en bruger slår en funktion til, der kræver det (tidsblokke til opgaver, eksport af tidsregistreringer til kalenderen):
+
+| Scope | Hvorfor |
+| --- | --- |
+| `https://www.googleapis.com/auth/calendar.events` | Oprette og ændre aftaler |
+
+Er din OAuth-samtykkeskærm i testtilstand, så tilføj dine brugere som testbrugere, eller udgiv appen.
+
+### Forbind som bruger
+
+Åbn Indstillinger, Integrationer, vælg Forbind Google Calendar, og godkend adgangen. Vælg derefter, hvilke kalendere der skal synkroniseres. Du kan sætte synkroniseringsfiltre, en privatlivstilstand og matchregler, der kobler aftalers titler til projekter. Afbryd fjerner forbindelsen fra samme side.
+
+## iCloud
+
+iCloud virker via CalDAV mod `caldav.icloud.com`. Det kræver ingen serveroplysninger, kun `ENCRYPTION_KEY`, fordi hver brugers app-specifikke adgangskode gemmes krypteret.
+
+Forbindelsen er skrivebeskyttet: TimeWren skriver aldrig til iCloud. Andre CalDAV-servere end iCloud understøttes ikke.
+
+Sådan forbinder du:
+
+1. Gå til [https://appleid.apple.com](https://appleid.apple.com), åbn Login og sikkerhed, App-specifikke adgangskoder, og opret en adgangskode til TimeWren. Det kræver totrinsgodkendelse på Apple-id'et.
+2. Åbn Indstillinger, Integrationer i TimeWren, find afsnittet om iCloud-kalender, indtast Apple-id'et og den app-specifikke adgangskode, og forbind.
+3. Vælg, hvilke kalendere der skal læses. Der læses intet fra kalendere, du ikke sætter flueben ved.
+
+Aftaler fra 30 dage tilbage til 90 dage frem synkroniseres. Det samme cronjob opdaterer dem hvert 15. minut, og Synkroniser nu kører det, når du vil. Synkroniseringsfiltre, privatlivstilstand og matchregler deles med Google.

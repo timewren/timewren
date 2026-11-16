@@ -1,0 +1,94 @@
+---
+title: "Bidrag"
+description: "Sæt et udviklingsmiljø op, kør tjekkene, sign off dine commits, og find rundt i koden og dokumentationen."
+---
+
+Fejlrettelser, oversættelser, integrationer og dokumentation er alle velkomne. TimeWren ligger på [github.com/timewren/timewren](https://github.com/timewren/timewren).
+
+## Før du går i gang
+
+- **Fejl:** Søg først i de eksisterende issues, og opret derefter et med trin til at genskabe fejlen.
+- **Funktioner og større ændringer:** Opret et issue eller en tråd i Discussions (Ideas), før du skriver kode, så tilgangen kan aftales først.
+- **Sikkerhedsproblemer:** aldrig offentligt. Se [Sikkerhed](#sikkerhed).
+- Issues med etiketten `good first issue` er et godt sted at begynde. `help wanted` betyder, at en pull request er velkommen.
+
+## Opsætning af udviklingsmiljø
+
+Du skal bruge Node.js 22 eller nyere (`engines` i `package.json`), Docker til PostgreSQL og npm. Fork repositoriet, klon din fork, og kør:
+
+```bash
+npm run setup
+```
+
+Det opretter `.env.local` med lokale hemmeligheder (en eksisterende fil lades i fred), installerer afhængigheder, starter PostgreSQL i Docker, kører migreringerne, indlæser demodata og starter udviklingsserveren i baggrunden på `http://localhost:3000`. Loggen ligger i `.next/dev.log`, og `npm run dev:stop` stopper den. Bagefter kører `npm run dev` serveren i forgrunden.
+
+Vil du tage trinene i hånden, for eksempel på en maskine, hvor du allerede har `.env.local`:
+
+```bash
+npm ci
+npm run docker:up
+npm run db:migrate
+npm run db:seed
+npm run dev
+```
+
+Valgfrie tjenester (S3-lager, mail, Valkey, betaling, regnskabsintegrationer) konfigureres i `.env.local`. `.env.example` viser alle muligheder, og du kan lade dem være tomme, når du ikke har brug for dem.
+
+## Sådan laver du en ændring
+
+1. Lav en branch ud fra `main` i din fork.
+2. Hold ændringen fokuseret: én rettelse eller funktion pr. pull request.
+3. Kør tjekkene, før du pusher:
+
+   ```bash
+   npm run lint
+   npx tsc --noEmit
+   npm test
+   npm run i18n:check
+   ```
+
+   `npm test` kører Vitest-enhedstestene og kræver ingen database. `npm run test:e2e` kører Playwright-testene mod en lokal database, se `tests/e2e/README.md`.
+4. Tilføj eller opdatér tests, når du ændrer opførsel. Ved en fejl skriver du først en test, der fejler.
+5. Databaseændringer går gennem Drizzle: Ret `src/lib/db/schema.ts`, og kør derefter `npm run db:generate`. Migreringer går kun fremad: Tilføj kolonner og tabeller, og slet eller omdøb dem ikke i samme release. Ret aldrig en migrering, der er udgivet.
+6. Tilføj en linje under `## [Unreleased]` i `CHANGELOG.md` for alt, hvad en bruger eller en, der selvhoster, vil lægge mærke til.
+7. Opret pull requesten mod `main`. Ved ændringer i brugerfladen tilføjer du skærmbilleder fra før og efter, lavet med demodata.
+
+## Konventioner
+
+- **Formatering og linting:** kun Biome. Tilføj ikke ESLint eller Prettier. Formatér kun de filer, du har ændret.
+- **Kodestil:** Aliaset `@/*` peger på `src/*`, og der bruges indrykning med 2 mellemrum.
+- **Data:** Arkivér i stedet for at slette brugerdata (`isArchived`), og filtrér hver forespørgsel på `organizationId`.
+- **Tekst til brugerne** ligger i `src/i18n/messages/<language>/` og hardcodes aldrig. Ny tekst kræver `en` og `da`. Andre sprog falder tilbage til engelsk.
+- **Ingen låste funktioner:** Ingen funktion må afhænge af en plan, licensnøgle, et brand eller en betalingsindstilling.
+- **Commit-beskeder** er korte, i bydemåde og med et Conventional Commits-præfiks: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`. Markér ændringer, der bryder bagudkompatibilitet, med `!`, som i `feat!: ...`.
+
+## Sign off dine commits (DCO)
+
+TimeWren bruger [Developer Certificate of Origin](https://developercertificate.org/) i stedet for en CLA. Når du signerer et commit med sign-off, bekræfter du, at du har skrevet ændringen eller har ret til at indsende den under projektets licens. Du beholder ophavsretten til dit arbejde.
+
+```bash
+git commit -s -m "fix: round klippekort balance correctly"
+```
+
+Det tilføjer en `Signed-off-by: Jane Doe <jane@example.com>`-linje med navnet og mailadressen fra din git-konfiguration. Har du glemt det? Ret det seneste commit med `git commit --amend -s --no-edit` eller en hel branch med `git rebase --signoff main`, og force-push derefter din branch. Pull requests med commits uden sign-off kan ikke merges. Rebase på `main` i stedet for at merge den ind i din branch.
+
+## Dokumentation
+
+Dokumentationen ligger i repositoriet under `content/docs/<locale>/` med én `.mdx`-fil pr. side. Engelsk (`en`) er kilden. Dansk (`da`), tysk (`de`) og spansk (`es`) indeholder oversættelserne med de samme filnavne. Hver fil starter med en front matter-blok med `title` og `description`. Skriv almindelig Markdown, og hold påstandene tro mod koden.
+
+Hver side udleveres også som Markdown, når du tilføjer `.md` til dens URL, og `/llms.txt` og `/llms-full.txt` viser og samler den engelske dokumentation til LLM'er. Se [Brug dokumentationen med din LLM](/da/docs/llm).
+
+## Sikkerhed
+
+Opret ikke et offentligt issue, en diskussion eller en pull request om et sikkerhedsproblem. Rapportér det privat via GitHub: [Report a vulnerability](https://github.com/timewren/timewren/security/advisories/new). Kan du ikke bruge GitHub, så skriv til `security@timetrack.dk`. Medtag en beskrivelse og dens konsekvenser, trin til at genskabe problemet og den version eller det commit, du testede. Sikkerhedspolitikken i `SECURITY.md` viser svartiderne, og hvilke komponenter der understøttes.
+
+## Styring, licens og varemærke
+
+- **Styring:** Projektet ledes af Mahope, som bestemmer roadmap og releases og udpeger maintainers. Beslutninger træffes åbent i issues, pull requests og Discussions. Der er ingen lukket enterprise-udgave og ingen CLA. Se `GOVERNANCE.md`.
+- **Licens:** Koden er licenseret under AGPL-3.0-only. Mappen `browser-extension/` er MIT. Dit bidrag licenseres under licensen for de filer, du ændrer. Se `LICENSE`.
+- **Navn og logo:** Navnet og logoet TimeWren er ikke omfattet af kodens licens. Forks skal bruge deres eget navn. Se `TRADEMARK.md`.
+- **Code of Conduct:** Alle, der deltager, følger Contributor Covenant i `CODE_OF_CONDUCT.md`.
+
+## Arbejde med AI-kodeagenter
+
+Repositoriet leveres med `AGENTS.md` og `CLAUDE.md` med projektvejledning til kodeagenter. De følger de samme regler som ovenfor, inklusive DCO-sign-off. Tilføj ikke AI-attribution-trailere til commits.

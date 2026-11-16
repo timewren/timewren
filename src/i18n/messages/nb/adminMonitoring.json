@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Overvåking",
+    "healthy": "{score} % friske",
+    "cronDashboard": "Cron-oversikt",
+    "sections": {
+      "health": "Systemstatus",
+      "cron": "Cron-jobber",
+      "email": "E-postlevering"
+    },
+    "tiles": {
+      "activeSessions": "Aktive økter",
+      "sessions24h": "Økter siste 24 timer",
+      "activeTimers": "Aktive tidtakere",
+      "emailsSent7d": "Sendte e-poster (7 d)"
+    },
+    "cronHealth": {
+      "title": "Status for cron-jobber (7 dager)",
+      "runs": "Kjøringer",
+      "ok": "ok",
+      "errors": "feil",
+      "avgDuration": "Gj.snitt. varighet",
+      "lastRun": "Siste kjøring"
+    },
+    "errors": {
+      "title": "Feil (siste 7 dager)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Alle jobber",
+      "allStatuses": "Alle statuser",
+      "filter": {
+        "success": "Vellykket",
+        "error": "Feil",
+        "partial": "Delvis"
+      },
+      "status": {
+        "success": "vellykket",
+        "error": "feil",
+        "partial": "delvis"
+      },
+      "empty": "Fant ingen logger for cron-jobber",
+      "columns": {
+        "job": "Jobb",
+        "status": "Status",
+        "started": "Startet",
+        "duration": "Varighet",
+        "items": "Elementer",
+        "errors": "Feil"
+      }
+    },
+    "showing": "Viser {from}-{to} av {total}",
+    "previous": "Forrige",
+    "next": "Neste",
+    "email": {
+      "sent": "Sendt",
+      "delivered": "Levert",
+      "bounced": "Returnert",
+      "failed": "Mislyktes",
+      "status": {
+        "sent": "sendt",
+        "delivered": "levert",
+        "bounced": "returnert",
+        "failed": "mislyktes"
+      },
+      "last24h": "Siste 24 timer",
+      "last7d": "Siste 7 dager",
+      "last30d": "Siste 30 dager",
+      "last90d": "Siste 90 dager",
+      "allTemplates": "Alle maler",
+      "empty": "Fant ingen e-postlogger",
+      "columns": {
+        "recipient": "Mottaker",
+        "subject": "Emne",
+        "template": "Mal",
+        "status": "Status",
+        "sentAt": "Sendt"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cron-jobber",
+    "refresh": "Oppdater",
+    "never": "Aldri",
+    "badge": {
+      "neverRun": "Aldri kjørt",
+      "silent": "Stille",
+      "error": "Feil",
+      "partial": "Delvis",
+      "running": "Kjører",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "vellykket",
+      "error": "feil",
+      "partial": "delvis"
+    },
+    "noRows": "Fant ingen loggrader",
+    "runColumns": {
+      "status": "Status",
+      "started": "Startet",
+      "duration": "Varighet",
+      "items": "Elementer",
+      "errorMessage": "Feilmelding"
+    },
+    "tiles": {
+      "expected": "Forventede jobber",
+      "silent": "Stille jobber",
+      "withErrors": "Jobber med feil (24 t)",
+      "totalRuns": "Kjøringer totalt (24 t)"
+    },
+    "columns": {
+      "status": "Status",
+      "job": "Jobb",
+      "cadence": "Frekvens",
+      "lastRun": "Siste kjøring",
+      "runs24h": "Kjøringer 24 t",
+      "errors24h": "Feil 24 t",
+      "avgDuration": "Gj.snitt. varighet"
+    },
+    "lastError": "Siste feil:",
+    "cadence": {
+      "everyMinutes": "hvert {minutes}. minutt",
+      "hourly": "hver time",
+      "everyHours": "hver {hours}. time",
+      "daily": "daglig",
+      "weekly": "ukentlig",
+      "monthly": "månedlig",
+      "everyDays": "hver {days}. dag"
+    }
+  }
+}

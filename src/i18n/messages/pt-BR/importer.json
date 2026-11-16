@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Importação concluída: {count, plural, one {# registro de tempo importado} other {# registros de tempo importados}}",
+    "doneWithErrorsToast": "Importação concluída com erros: {imported} importados, {failed} com falha",
+    "failedToast": "A importação falhou. Veja os detalhes nas configurações",
+    "running": "Importação em andamento: {pct}% ({imported}/{total})",
+    "details": "Ver detalhes",
+    "done": "Importação concluída: {count, plural, one {# registro de tempo importado} other {# registros de tempo importados}}",
+    "doneWithFailed": "Importação concluída: {count, plural, one {# registro de tempo importado} other {# registros de tempo importados}}, {failed} com falha",
+    "dismiss": "Fechar"
+  },
+  "page": {
+    "pickDateFormat": "Escolha um formato de data para continuar.",
+    "success": "Importação concluída com sucesso!",
+    "failed": "A importação falhou. Tente novamente.",
+    "backToOnboarding": "← Voltar à introdução",
+    "backToIntegrations": "← Voltar às integrações",
+    "onboardingMode": "Modo de introdução ativado",
+    "onboardingNote": "Depois de uma importação bem-sucedida, você continua automaticamente no processo de introdução.",
+    "uploadFile": "Enviar arquivo",
+    "chooseFile": "Escolher arquivo",
+    "noFile": "Nenhum arquivo escolhido",
+    "dateFormat": "Formato de data",
+    "chooseFormat": "Escolher formato…",
+    "dateFormatHint": "Verifique nos dados do CSV qual formato de data é usado.",
+    "billingFilter": "Filtro de faturamento",
+    "filter": {
+      "all": "Importar tudo",
+      "unbilled": "Só não faturados",
+      "billed": "Só faturados"
+    },
+    "billingFilterHint": "Filtra os registros com base no status de faturamento da origem.",
+    "markAllBilled": "Marcar todos os registros importados como faturados",
+    "markAllBilledHint": "Use esta opção se você só exporta da origem registros que já foram faturados.",
+    "result": {
+      "clients": "{count, plural, one {# cliente criado} other {# clientes criados}}",
+      "projects": "{count, plural, one {# projeto criado} other {# projetos criados}}",
+      "timeEntries": "{count, plural, one {# registro de tempo importado} other {# registros de tempo importados}}",
+      "billedSplit": "({billed} faturados, {unbilled} não faturados)",
+      "skippedRows": "{count, plural, one {# linha ignorada} other {# linhas ignoradas}}",
+      "filteredRows": "{count, plural, one {# linha excluída pelo filtro de faturamento} other {# linhas excluídas pelo filtro de faturamento}}",
+      "totalHours": "{hours} horas importadas no total",
+      "tasks": "{count, plural, one {# tarefa importada} other {# tarefas importadas}}",
+      "subtasks": "{count, plural, one {# subtarefa importada} other {# subtarefas importadas}}",
+      "tasksSkipped": "{count, plural, one {# tarefa ignorada} other {# tarefas ignoradas}}"
+    },
+    "importing": "Importando…",
+    "start": "Iniciar importação",
+    "mayTakeAWhile": "Pode levar alguns minutos, dependendo da quantidade de dados…",
+    "warnTitle": "Bom saber:",
+    "warn1": "A importação não pode ser desfeita",
+    "warn2": "Os dados existentes não são sobrescritos",
+    "warn3": "Ignoramos duplicatas"
+  }
+}

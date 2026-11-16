@@ -1,0 +1,49 @@
+---
+title: "Coolify"
+description: "Despliega TimeWren en Coolify como recurso de Docker Compose con secretos generados, PostgreSQL y un planificador."
+---
+
+Elige este método si ya usas Coolify. El archivo Compose descarga la imagen publicada, así que no se compila nada en local, y Coolify genera todos los secretos por ti.
+
+## Requisitos
+
+- Una instancia de Coolify en marcha con un servidor, y un dominio que puedas apuntar a él.
+- Acceso al repositorio `https://github.com/timewren/timewren` (público).
+
+## Desplegar
+
+1. En Coolify, crea un recurso nuevo: **Docker Compose**, desde un repositorio Git, usando `https://github.com/timewren/timewren`.
+2. Define la ruta del archivo Compose como `/deploy/coolify/docker-compose.yml`. (El archivo raíz `docker-compose.coolify.yml` es un enlace simbólico de compatibilidad al mismo archivo.)
+3. Dale al servicio `app` un dominio, por ejemplo `https://timewren.example.com`. La plantilla lo dirige al puerto 3000 del contenedor.
+4. Despliega.
+
+Coolify genera la URL pública de la aplicación (`NEXT_PUBLIC_APP_URL`), la contraseña de la base de datos, el secreto de sesión (`BETTER_AUTH_SECRET`), el secreto de cron (`CRON_SECRET`) y un `ENCRYPTION_KEY` hexadecimal de 64 caracteres. No tienes que definir nada.
+
+## Qué se despliega
+
+| Servicio | Imagen | Función |
+| ------- | ----- | ---- |
+| `app` | `ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}` | La aplicación web. Ejecuta las migraciones al iniciar. Archivos en el volumen `storage`. |
+| `cron` | la misma imagen | Ejecuta `node scripts/cron.mjs` contra `http://app:3000`. |
+| `db` | `postgres:18-alpine` | PostgreSQL, datos en el volumen `db-data`. |
+
+Para fijar una versión, define `TIMEWREN_VERSION` en las variables de entorno del recurso.
+
+## Crea primero tu cuenta
+
+El dominio es público en cuanto se despliega, y la primera cuenta se convierte en administradora. La plantilla define `REQUIRE_EMAIL_VERIFICATION` como `false` por defecto para que la instancia funcione sin un servidor de correo. Abre la URL y crea tu cuenta de inmediato, o define `ADMIN_EMAIL` y un transporte de correo (`SMTP_HOST` o `RESEND_API_KEY`) antes del primer despliegue. Con `REQUIRE_EMAIL_VERIFICATION=true` se restablece la verificación.
+
+## Ajustes opcionales
+
+El archivo Compose expone variables opcionales para el correo (`SMTP_*`, `RESEND_*`), el almacenamiento S3 (`S3_*`, junto con `STORAGE_DRIVER=s3`), el inicio de sesión con Google y Microsoft, Dinero, e-conomic y `OPENAI_API_KEY`, además de `TZ`, `ADMIN_EMAIL`, `DESKTOP_UPDATER_REPO` y `CHANGELOG_REPO`. Defínelas como variables de entorno del recurso. Consulta [Variables de entorno](/es/docs/configuration/environment).
+
+## Copia de seguridad
+
+Haz copia de los secretos generados y de los dos volúmenes con nombre (`db-data` y `storage`). Conserva `ENCRYPTION_KEY`: si la sustituyes, los tokens de integración guardados dejan de ser legibles. Cambiar la contraseña de la base de datos más tarde no cambia la contraseña almacenada en Postgres.
+
+## Siguientes pasos
+
+- [Inicio rápido](/es/docs/quickstart)
+- [Correo electrónico](/es/docs/configuration/email)
+- [Actualización](/es/docs/operations/upgrading) y [Copia de seguridad y restauración](/es/docs/operations/backup-restore)
+- [Solución de problemas](/es/docs/operations/troubleshooting)

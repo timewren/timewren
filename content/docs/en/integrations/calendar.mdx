@@ -1,0 +1,71 @@
+---
+title: "Calendar"
+description: "Connect Google Calendar or iCloud to TimeWren to see meetings, plan time blocks and turn events into time entries. Outlook is not supported."
+---
+
+TimeWren can read your calendar to show meetings next to your time entries, suggest free slots for tasks, and turn events into time entries. Two providers exist: Google Calendar and iCloud. There is no Outlook or Microsoft 365 calendar sync. The database schema leaves room for a provider named `outlook`, but nothing implements it. Microsoft Entra ID in TimeWren is for [sign-in only](/docs/configuration/authentication#oauth-providers).
+
+<Screenshot name="calendar" alt="The calendar view" />
+
+## Google Calendar
+
+### Server setup
+
+1. In the Google Cloud console, create an OAuth client of type "Web application" and enable the Google Calendar API for the project.
+2. Add this authorized redirect URI:
+
+   ```text
+   https://timewren.example.com/api/integrations/google/callback
+   ```
+
+3. Set the credentials in `.env`:
+
+   ```dotenv
+   GOOGLE_CLIENT_ID=your-client-id
+   GOOGLE_CLIENT_SECRET=your-client-secret
+   # Only if the callback differs from NEXT_PUBLIC_APP_URL + /api/integrations/google/callback
+   # GOOGLE_REDIRECT_URI=https://timewren.example.com/api/integrations/google/callback
+   ```
+
+4. Restart the app.
+
+The same client also enables "Sign in with Google", which uses its own redirect URI (`/api/auth/callback/google`), see [Authentication](/docs/configuration/authentication). Add both URIs to the client if you want both.
+
+Without these variables the settings page shows that Google Calendar is not configured.
+
+Stored tokens are encrypted, so `ENCRYPTION_KEY` must be set. Syncing runs from the `cron` container every 15 minutes (`/api/cron/calendar-sync`), and a daily job (`/api/cron/calendar-webhook-renew`) renews Google push notification channels. Push notifications arrive at `/api/webhooks/google-calendar`, so that path must be reachable from the internet over HTTPS. Without it, the 15 minute sync still works.
+
+### Scopes
+
+A new connection asks for read access only:
+
+| Scope | Why |
+| --- | --- |
+| `https://www.googleapis.com/auth/calendar.readonly` | Read events |
+| `https://www.googleapis.com/auth/userinfo.email` | Show which Google account is connected |
+
+Write access is requested later, only when a user turns on a feature that needs it (time blocks for tasks, exporting time entries to the calendar):
+
+| Scope | Why |
+| --- | --- |
+| `https://www.googleapis.com/auth/calendar.events` | Create and change events |
+
+If your OAuth consent screen is in testing mode, add your users as test users, or publish the app.
+
+### Connect as a user
+
+Open Settings, Integrations, choose Connect Google Calendar and approve access. Then pick which calendars to sync. You can set sync filters, a privacy mode, and matching rules that map event titles to projects. Disconnect removes the connection from the same page.
+
+## iCloud
+
+iCloud works through CalDAV against `caldav.icloud.com`. It needs no server credentials, only `ENCRYPTION_KEY`, because each user's app-specific password is stored encrypted.
+
+Connection is read only: TimeWren never writes to iCloud. Generic CalDAV servers other than iCloud are not supported.
+
+To connect:
+
+1. Go to [https://appleid.apple.com](https://appleid.apple.com), open Sign-In and Security, App-Specific Passwords, and create a password for TimeWren. This needs two-factor authentication on the Apple ID.
+2. In TimeWren, open Settings, Integrations, find the iCloud calendar section, enter the Apple ID and the app-specific password, and connect.
+3. Choose which calendars to read. Nothing is read from calendars you leave unticked.
+
+Events from 30 days back to 90 days ahead are synced. The same cron job refreshes them every 15 minutes, and Sync now runs it on demand. The sync filters, privacy mode and matching rules are shared with Google.

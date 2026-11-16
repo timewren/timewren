@@ -1,0 +1,50 @@
+---
+title: "e-conomic"
+description: "Verbinde e-conomic mit TimeWren über eine selbst registrierte App: Kunden importieren, Kunden und Rechnungen exportieren und den Zahlungsstatus synchronisieren."
+---
+
+e-conomic ist ein dänisches Buchhaltungssystem. Du registrierst deine eigene App im e-conomic-Entwicklerportal und gibst ihre beiden Tokens an den Server weiter. Danach gewährt jeder Benutzer der App mit einem Klick Zugriff auf seine eigene e-conomic-Vereinbarung.
+
+## Was sie tut
+
+- Importiert e-conomic-Kunden als Kunden.
+- Exportiert einen Kunden nach e-conomic.
+- Exportiert eine Rechnung. Du wählst Layout, Zahlungsbedingungen, Produkt und eine Zeile pro Eintrag oder eine zusammengefasste Zeile. Optional wird die Rechnung beim Export gebucht.
+- Synchronisiert den Zahlungsstatus zurück nach TimeWren.
+
+## Server-Einrichtung
+
+1. Erstelle eine App unter [https://www.e-conomic.com/developer](https://www.e-conomic.com/developer). Du bekommst ein öffentliches App-Token und ein geheimes App-Token.
+2. Füge sie zu `.env` hinzu:
+
+   ```dotenv
+   ECONOMIC_APP_PUBLIC_TOKEN=your-public-token
+   ECONOMIC_APP_SECRET_TOKEN=your-secret-token
+   # Only if the callback differs from NEXT_PUBLIC_APP_URL + /api/integrations/economic/callback
+   # ECONOMIC_REDIRECT_URI=https://timewren.example.com/api/integrations/economic/callback
+   ```
+
+3. Starte die App neu.
+
+Nachdem ein Benutzer den Zugriff bestätigt hat, leitet e-conomic zurück auf:
+
+```text
+https://timewren.example.com/api/integrations/economic/callback
+```
+
+Das geheime Token bleibt auf dem Server und wird Benutzern nie angezeigt. `ENCRYPTION_KEY` muss gesetzt sein, weil das Grant-Token der Vereinbarung jedes Benutzers verschlüsselt gespeichert wird. Siehe [Umgebungsvariablen](/de/docs/configuration/environment).
+
+Ohne beide Tokens leitet der Button Verbinden mit dem Fehler `economic_not_configured` zurück.
+
+## Als Benutzer verbinden
+
+1. Öffne Einstellungen, Integrationen und wähle Mit e-conomic verbinden.
+2. Melde dich bei e-conomic an und bestätige den Zugriff für deine Vereinbarung.
+3. Wähle zurück in TimeWren das Standard-Rechnungslayout, die Zahlungsbedingungen, Produkte und Zeileneinstellungen.
+4. Schalte unter Standard-Buchhaltungssystem optional Automatische Statussynchronisierung ein.
+
+Kunden werden auf der Seite Synchronisierung unter Integrationen importiert. Rechnungen werden von der Rechnung selbst aus exportiert.
+
+## Zahlungsstatus
+
+Der Container `cron` ruft alle 15 Minuten `/api/cron/invoice-sync` auf, um den Zahlungsstatus für Benutzer mit eingeschalteter automatischer Synchronisierung zu aktualisieren. In den Integrationseinstellungen kannst du außerdem manuell synchronisieren. Einen e-conomic-Webhook-Endpunkt gibt es nicht.

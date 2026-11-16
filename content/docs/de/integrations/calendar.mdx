@@ -1,0 +1,71 @@
+---
+title: "Kalender"
+description: "Verbinde Google Kalender oder iCloud mit TimeWren, um Termine zu sehen, Zeitblöcke zu planen und Ereignisse in Zeiteinträge zu verwandeln. Outlook wird nicht unterstützt."
+---
+
+TimeWren kann deinen Kalender lesen, um Termine neben deinen Zeiteinträgen anzuzeigen, freie Zeitfenster für Aufgaben vorzuschlagen und Ereignisse in Zeiteinträge zu verwandeln. Es gibt zwei Anbieter: Google Kalender und iCloud. Eine Kalender-Synchronisierung mit Outlook oder Microsoft 365 gibt es nicht. Das Datenbankschema lässt Platz für einen Anbieter namens `outlook`, aber nichts implementiert ihn. Microsoft Entra ID dient in TimeWren [nur der Anmeldung](/de/docs/configuration/authentication).
+
+<Screenshot name="calendar" alt="Die Kalenderansicht" />
+
+## Google Kalender
+
+### Server-Einrichtung
+
+1. Erstelle in der Google Cloud Console einen OAuth-Client vom Typ "Webanwendung" und aktiviere die Google Calendar API für das Projekt.
+2. Füge diese autorisierte Redirect-URI hinzu:
+
+   ```text
+   https://timewren.example.com/api/integrations/google/callback
+   ```
+
+3. Setze die Zugangsdaten in `.env`:
+
+   ```dotenv
+   GOOGLE_CLIENT_ID=your-client-id
+   GOOGLE_CLIENT_SECRET=your-client-secret
+   # Only if the callback differs from NEXT_PUBLIC_APP_URL + /api/integrations/google/callback
+   # GOOGLE_REDIRECT_URI=https://timewren.example.com/api/integrations/google/callback
+   ```
+
+4. Starte die App neu.
+
+Derselbe Client aktiviert auch "Mit Google anmelden", das eine eigene Redirect-URI verwendet (`/api/auth/callback/google`), siehe [Authentifizierung](/de/docs/configuration/authentication). Füge beide URIs zum Client hinzu, wenn du beides willst.
+
+Ohne diese Variablen zeigt die Einstellungsseite an, dass Google Kalender nicht konfiguriert ist.
+
+Gespeicherte Tokens sind verschlüsselt, daher muss `ENCRYPTION_KEY` gesetzt sein. Die Synchronisierung läuft alle 15 Minuten aus dem Container `cron` (`/api/cron/calendar-sync`), und ein täglicher Job (`/api/cron/calendar-webhook-renew`) erneuert die Push-Benachrichtigungskanäle von Google. Push-Benachrichtigungen treffen bei `/api/webhooks/google-calendar` ein, dieser Pfad muss also über HTTPS aus dem Internet erreichbar sein. Ohne ihn funktioniert die 15-Minuten-Synchronisierung weiterhin.
+
+### Scopes
+
+Eine neue Verbindung fragt nur Lesezugriff an:
+
+| Scope | Wozu |
+| --- | --- |
+| `https://www.googleapis.com/auth/calendar.readonly` | Ereignisse lesen |
+| `https://www.googleapis.com/auth/userinfo.email` | Anzeigen, welches Google-Konto verbunden ist |
+
+Schreibzugriff wird erst später angefragt, und nur, wenn ein Benutzer eine Funktion einschaltet, die ihn braucht (Zeitblöcke für Aufgaben, Export von Zeiteinträgen in den Kalender):
+
+| Scope | Wozu |
+| --- | --- |
+| `https://www.googleapis.com/auth/calendar.events` | Ereignisse erstellen und ändern |
+
+Befindet sich dein OAuth-Zustimmungsbildschirm im Testmodus, füge deine Benutzer als Testbenutzer hinzu oder veröffentliche die App.
+
+### Als Benutzer verbinden
+
+Öffne Einstellungen, Integrationen, wähle Google Kalender verbinden und bestätige den Zugriff. Wähle dann, welche Kalender synchronisiert werden. Du kannst Synchronisierungsfilter, einen Datenschutzmodus und Zuordnungsregeln festlegen, die Ereignistitel Projekten zuordnen. Trennen entfernt die Verbindung auf derselben Seite.
+
+## iCloud
+
+iCloud funktioniert über CalDAV gegen `caldav.icloud.com`. Es braucht keine Zugangsdaten auf dem Server, nur `ENCRYPTION_KEY`, weil das app-spezifische Passwort jedes Benutzers verschlüsselt gespeichert wird.
+
+Die Verbindung ist schreibgeschützt: TimeWren schreibt nie in iCloud. Andere CalDAV-Server als iCloud werden nicht unterstützt.
+
+So verbindest du:
+
+1. Gehe zu [https://appleid.apple.com](https://appleid.apple.com), öffne Anmeldung und Sicherheit, App-spezifische Passwörter, und erstelle ein Passwort für TimeWren. Dafür ist die Zwei-Faktor-Authentifizierung für die Apple-ID nötig.
+2. Öffne in TimeWren Einstellungen, Integrationen, suche den Abschnitt iCloud-Kalender, gib die Apple-ID und das app-spezifische Passwort ein und verbinde.
+3. Wähle, welche Kalender gelesen werden. Aus Kalendern, die du nicht ankreuzt, wird nichts gelesen.
+
+Ereignisse von 30 Tagen zurück bis 90 Tage voraus werden synchronisiert. Derselbe Cron-Job aktualisiert sie alle 15 Minuten, und Jetzt synchronisieren führt ihn auf Abruf aus. Synchronisierungsfilter, Datenschutzmodus und Zuordnungsregeln werden mit Google geteilt.

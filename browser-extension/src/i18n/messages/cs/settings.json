@@ -1,0 +1,109 @@
+{
+  "title": "Nastavení",
+  "close": "Zavřít nastavení",
+  "searchPlaceholder": "Hledat v nastavení…",
+  "searchLabel": "Hledat v nastavení",
+  "noMatch": "Nastavení neodpovídá „{query}“",
+  "keywords": {
+    "view": "zobrazení|vzhled|návrh|web|stránky|balíček|předplacené|vyskakovací okno",
+    "appearance": "vzhled|motiv|tmavý|světlý|odznak|ikona|jazyk",
+    "newTab": "nová karta|karta|úvodní stránka|widgety",
+    "calendar": "kalendář|den|datum",
+    "goal": "denní cíl|cíl|cíl v hodinách|postup",
+    "reminder": "připomenutí|oznámení|víkend|záznam|zápis",
+    "data": "data|smazat|resetovat|offline|přiřazení|odkazy|web|fronta",
+    "advanced": "pokročilé|api|url|server",
+    "shortcuts": "zkratky|zkratka|klávesnice|alt",
+    "about": "o rozšíření|rozšíření|o aplikaci|verze|hodnocení|recenze|nápověda"
+  },
+  "view": {
+    "title": "Zobrazení",
+    "suggestions": "Návrhy podle webu",
+    "suggestionsHint": "Navrhne projekt podle webu, na kterém jsi",
+    "prepaidTab": "Karta Balíčky",
+    "prepaidTabHint": "Zobrazí ve vyskakovacím okně kartu s aktivními balíčky"
+  },
+  "appearance": {
+    "title": "Vzhled",
+    "theme": "Motiv",
+    "themeHint": "Barevný motiv rozšíření",
+    "system": "Podle systému",
+    "dark": "Tmavý",
+    "light": "Světlý",
+    "badge": "Číslo na ikoně",
+    "badgeHint": "Co zobrazuje číslo na ikoně rozšíření",
+    "badgeTimer": "Aktivní stopky",
+    "badgeToday": "Dnešní hodiny",
+    "badgeOff": "Skryto",
+    "language": "Jazyk",
+    "languageHint": "Jazyk rozšíření",
+    "languageAuto": "Automaticky (podle prohlížeče)"
+  },
+  "newTab": {
+    "title": "Nová karta",
+    "enable": "Otevírat TimeTrack na nových kartách",
+    "enableHint": "Vypni, pokud chceš ponechat běžné prázdné karty",
+    "widgetsHint": "Widgety vybereš v nastavení na nové kartě",
+    "activeWidgets": "Aktivní widgety: {count}"
+  },
+  "calendar": {
+    "title": "Kalendář",
+    "openOn": "Otevřít kalendář na",
+    "openOnHint": "Který den kalendář zobrazí po otevření",
+    "today": "Dnes",
+    "lastViewed": "Naposledy zobrazený den"
+  },
+  "goal": {
+    "title": "Denní cíl",
+    "hours": "Denní cíl v hodinách",
+    "hoursHint": "Používá se v ukazateli denního postupu ve vyskakovacím okně a na nové kartě"
+  },
+  "reminder": {
+    "title": "Denní připomenutí",
+    "enable": "Připomínat zápis času",
+    "enableHint": "Oznámení, pokud máš zapsáno málo hodin",
+    "time": "Čas",
+    "minHours": "Minimum hodin",
+    "weekends": "Také o víkendech"
+  },
+  "data": {
+    "title": "Data",
+    "clearMappingsConfirm": "Smazat všechna uložená propojení mezi weby a projekty?",
+    "clearMappingsDetail": "Skryté návrhy se také znovu zobrazí.",
+    "delete": "Smazat",
+    "clearMappings": "Smazat propojení s weby",
+    "mappingsCount": "{count, plural, one {# uložené propojení} few {# uložená propojení} many {# uloženého propojení} other {# uložených propojení}}",
+    "clearQueueConfirm": "Smazat {count, plural, one {# čekající akci} few {# čekající akce} many {# čekající akce} other {# čekajících akcí}}?",
+    "unsentEntries": "{count, plural, one {# záznam nebyl odeslán} few {# záznamy nebyly odeslány} many {# záznamu nebylo odesláno} other {# záznamů nebylo odesláno}} do TimeTrack. Čas bude nenávratně smazán.",
+    "clearQueueConfirmButton": "Smazat frontu",
+    "clearQueue": "Smazat frontu offline",
+    "pendingActions": "{count, plural, one {# čekající akce} few {# čekající akce} many {# čekající akce} other {# čekajících akcí}}",
+    "unsentSuffix": "{count, plural, one {# neodeslaný záznam} few {# neodeslané záznamy} many {# neodeslaného záznamu} other {# neodeslaných záznamů}}",
+    "resetConfirm": "Resetovat všechna nastavení?",
+    "resetDetail": "Obnoví se výchozí nastavení rozšíření.",
+    "resetButton": "Resetovat",
+    "reset": "Resetovat nastavení",
+    "resetHint": "Obnovit výchozí nastavení"
+  },
+  "advanced": {
+    "title": "Pokročilé",
+    "apiUrl": "Adresa API",
+    "notSaved": "{error}. Adresa nebyla uložena."
+  },
+  "shortcuts": {
+    "title": "Klávesové zkratky",
+    "unreadable": "Zkratky nelze v tomto prohlížeči přečíst.",
+    "openApp": "Otevřít TimeTrack",
+    "notSet": "Nenastaveno",
+    "change": "Změnit zkratky",
+    "firefoxPage": "Otevře stránku zkratek ve Firefoxu",
+    "chromePage": "Otevře chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "Rozšíření TimeTrack pro prohlížeč, verze {version}",
+    "rateFirefox": "Ohodnotit na Firefox Add-ons",
+    "rateChrome": "Ohodnotit v Internetovém obchodě Chrome",
+    "rateHint": "Tvá recenze pomáhá dalším freelancerům",
+    "learnMore": "Přečíst si více o rozšíření"
+  }
+}

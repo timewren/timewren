@@ -1,0 +1,67 @@
+---
+title: "Dateispeicher"
+description: "Wo TimeWren Uploads, Anhänge und Exporte ablegt: auf einem lokalen Docker-Volume oder in einem S3-kompatiblen Bucket."
+---
+
+TimeWren speichert Dateien standardmäßig auf der lokalen Festplatte. Stattdessen kannst du auf jeden S3-kompatiblen Dienst umstellen.
+
+## Was gespeichert wird
+
+- Uploads: Avatare, Logos und Aufgabenbilder.
+- E-Mail-Anhänge, nur wenn `EMAIL_SYNC_STORE_ATTACHMENTS=true` ist (siehe unten).
+- Datenexporte.
+
+Ist kein Speicher konfiguriert, sind Uploads abgeschaltet.
+
+## Lokales Volume
+
+`docker-compose.yml` setzt `STORAGE_DRIVER=local` und `STORAGE_LOCAL_PATH=/app/data/storage` und bindet dort das benannte Volume `storage` ein. Unter dem Standard-Projektnamen heißt das Volume `timetrack_storage`. Dateien liegen unter diesem Pfad in `objects/` und ihre Metadaten in `meta/`.
+
+Die App läuft als uid 1001 (Benutzer `nextjs`). Das Volume muss für diesen Benutzer beschreibbar sein. Schlagen Uploads mit einem Berechtigungsfehler fehl, korrigiere den Besitzer:
+
+```bash
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+```
+
+Nimm das Volume in deine [Backups](/de/docs/operations/backup-restore) auf; `scripts/backup.sh` archiviert es für dich.
+
+## S3-kompatibler Speicher
+
+Funktioniert mit AWS S3, Hetzner Object Storage, Cloudflare R2, MinIO und Ähnlichem. In der `.env`:
+
+```dotenv
+S3_ENDPOINT=https://s3.example.com
+S3_REGION=eu-central-1
+S3_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
+S3_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+S3_BUCKET=timewren
+S3_PREFIX=prod
+```
+
+Der Treiber wird so gewählt:
+
+- `STORAGE_DRIVER=local`: lokale Festplatte, auch wenn `S3_ENDPOINT` gesetzt ist.
+- Sonst S3, wenn `S3_ENDPOINT` gesetzt ist.
+- Sonst kein Speicher.
+
+`docker-compose.yml` setzt `STORAGE_DRIVER` standardmäßig auf `local`, für S3 musst du das also ändern. Setze `STORAGE_DRIVER` auf einen beliebigen Wert außer `local` (zum Beispiel `s3`) und setze `S3_ENDPOINT`; der Wert `s3` selbst wird nicht gelesen, nur `local` hat eine Bedeutung. Führe dann `docker compose up -d` aus.
+
+| Variable | Hinweise |
+| -------- | -------- |
+| `S3_ENDPOINT` | Vollständige URL des Dienstes. Erforderlich. Es wird immer Path-Style-Adressierung verwendet. |
+| `S3_REGION` | Standard ist `fsn1`. Setze die Region deines Anbieters. |
+| `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | Zugangsdaten mit Lese-, Schreib- und Löschrechten für den Bucket. |
+| `S3_BUCKET` | Standard ist `timetrack`. |
+| `S3_PREFIX` | Optional. Stellt jedem Schlüssel ein Präfix voran, sodass sich mehrere Instanzen einen Bucket teilen können. |
+
+Die App listet und löscht Objektversionen, wenn sie personenbezogene Daten entfernt. Gib den Zugangsdaten daher die dafür nötigen Rechte, falls dein Bucket versioniert ist.
+
+## Treiber wechseln
+
+Dateien werden in keiner Richtung automatisch migriert. Nach dem Wechsel von lokal zu S3 (oder zurück) bleiben vorhandene Dateien, wo sie waren, und die App findet sie nicht. Kopiere sie vor dem Wechsel selbst und behalte dabei die Struktur bei, die die App erwartet, oder nimm in Kauf, dass alte Uploads aus der Oberfläche verschwinden.
+
+## E-Mail-Anhänge
+
+Standardmäßig behält die IMAP-E-Mail-Synchronisierung nur Metadaten der Anhänge (Name, Größe, Typ). Setze `EMAIL_SYNC_STORE_ATTACHMENTS=true`, um die Dateien in deinen Speicher (lokal oder S3) hochzuladen. Anhänge über 10 MB werden nie gespeichert, und ohne konfigurierten Speicher fällt die Synchronisierung auf reine Metadaten zurück.
+
+`EMAIL_ATTACHMENT_DIR` (Standard `storage/email-attachments`, relativ zum Arbeitsverzeichnis der App) ist der alte lokale Pfad, aus dem ältere Anhänge gelesen werden. Normalerweise lässt du ihn unverändert.

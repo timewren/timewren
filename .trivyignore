@@ -1,0 +1,7 @@
+# Bevidst accepterede Trivy-fund (id + begrundelse).
+
+# KSV-0014 readOnlyRootFilesystem i Helm-chartet (charts/timewren): app-
+# containeren skriver ISR-sider og billedcache i .next/server og .next/cache
+# (se Dockerfile), og postgres-billedets entrypoint skriver i /var/run og
+# data-mappen. cron og wait-for-database har read-only rodfilsystem.
+KSV-0014

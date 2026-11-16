@@ -1,0 +1,199 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Subscription",
+    "description": "Plan, payment and billing",
+    "adminOnly": "Only owners and administrators can change the subscription, buy seats and view payments."
+  },
+  "states": {
+    "noBilling": "This installation has no payment provider, so all features are open and there are no plans or limits.",
+    "comingSoonTitle": "Payments are coming soon",
+    "comingSoon": "You're on the Free plan. Paid plans are coming soon, and until then it costs nothing.",
+    "loading": "Loading subscription...",
+    "none": "No subscription found. Start by choosing a plan.",
+    "choosePlan": "Choose a plan",
+    "previousWebPayments": "Previous payments on the web",
+    "redirecting": "Redirecting..."
+  },
+  "cycle": {
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "twoMonthsFree": "2 months free",
+    "perMonthExclVat": "/mo excl. VAT",
+    "perYearExclVat": "/yr excl. VAT",
+    "krPerMonth": "{price} kr./mo",
+    "krPerYear": "{price} kr./yr"
+  },
+  "status": {
+    "active": "Active",
+    "free": "Free",
+    "trialing": "Trial period",
+    "pastDue": "Payment overdue",
+    "canceled": "Cancelled"
+  },
+  "invoiceStatus": {
+    "paid": "Paid",
+    "open": "Open",
+    "draft": "Draft",
+    "void": "Void",
+    "uncollectible": "Failed",
+    "unknown": "Unknown"
+  },
+  "history": {
+    "title": "Payment history",
+    "columnDate": "Date",
+    "columnNumber": "Number",
+    "columnAmount": "Amount",
+    "columnStatus": "Status",
+    "columnPdf": "PDF",
+    "empty": "No payments yet. Your payment history will appear here once you have made your first payment."
+  },
+  "toast": {
+    "planChangedYearly": "Plan changed to yearly",
+    "planChangedMonthly": "Plan changed to monthly",
+    "canceled": "Subscription cancelled. It stays active until the end of the period.",
+    "reactivated": "Subscription reactivated!",
+    "trialRequested": "Request sent! We will get back to you as soon as possible.",
+    "trialRequestFailed": "Could not send the request. Please try again.",
+    "paymentMethodAdded": "Payment method added!",
+    "seatsUpdated": "Seats updated! It may take a moment before the change shows.",
+    "paymentCanceled": "Payment cancelled"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {You have # day left of your trial period} other {You have # days left of your trial period}}",
+    "startsAutomatically": "Your subscription starts automatically after the trial period",
+    "addPaymentToContinue": "Choose a plan before the trial ends. Otherwise your account continues on Free",
+    "needMoreTime": "Need more time?",
+    "addPayment": "Add payment",
+    "checkoutNoteFounding": "The checkout page shows the standard price. Your {percent}% founding member discount is applied automatically after payment."
+  },
+  "pendingCancel": {
+    "expiresOn": "Your subscription expires on {date}",
+    "expiresUnknown": "Your subscription expires on an unknown date",
+    "reactivateHint": "You can reactivate your subscription before then",
+    "reactivating": "Reactivating...",
+    "reactivate": "Reactivate"
+  },
+  "plan": {
+    "current": "Current plan",
+    "freeLimits": "Up to {maxSeats} users · {used} of {maxClients} active clients in use. Upgrade for more clients, more users, invoicing and prepaid packages.",
+    "seatsIncluded": "{count, plural, one {# user included} other {# users included}}",
+    "seatsWithExtra": "{count, plural, one {# user} other {# users}} · {included} incl. + {extra} extra",
+    "foundingDiscount": "{percent}% founding member discount",
+    "foundingDiscountForever": "{percent}% founding member discount, forever",
+    "foundingDiscountExpires": "{percent}% founding member discount, expires {date}",
+    "trialEnds": "Trial ends: {date}",
+    "nextBilling": "Next billing: {date}"
+  },
+  "roi": {
+    "titleReturn": "Your return with {brand}",
+    "titleActivity": "Your activity in {brand}",
+    "spent": "Spent on {brand}",
+    "freeSoFar": "Free so far!",
+    "trackedValue": "Value of tracked time",
+    "invoicedTotal": "Total invoiced",
+    "return": "Return"
+  },
+  "payment": {
+    "title": "Payment",
+    "portalDescription": "Manage your payment method and invoices through the payment portal.",
+    "manage": "Manage payment",
+    "noMethod": "No payment method added yet",
+    "addMethod": "Add payment method",
+    "checkoutNoteFounding": "The checkout page shows the standard price. Your {percent}% discount is applied automatically."
+  },
+  "seats": {
+    "title": "Seats",
+    "usage": "{used} of {total} seats in use",
+    "pendingInvites": "{count, plural, one {# seat is taken by pending invitations} other {# seats are taken by pending invitations}}",
+    "reseatsReminder": "Remember to re-subscribe your {count} extra seats at the {plan} rate. Complete the seat purchase below so that billing matches your capacity.",
+    "extraLabel": "Extra seats (beyond the {included} included)",
+    "fewer": "Fewer seats",
+    "more": "More seats",
+    "price": "Price",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr./yr excl. VAT",
+    "priceSuffixMonthly": "kr./mo excl. VAT",
+    "adjust": "Adjust seats",
+    "buy": "Buy seats",
+    "note": "Your current seat add-on is replaced by the new number. You make a new purchase and the old add-on is cancelled automatically. Your plan allows up to {max} seats in total."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "For individuals",
+      "feature1": "1 user",
+      "feature2": "Up to {clients} active clients",
+      "feature3": "Invoicing and prepaid packages included"
+    },
+    "solo": {
+      "tagline": "For freelancers",
+      "feature1": "1 user and unlimited clients",
+      "feature2": "Prepaid packages, invoicing & integrations",
+      "feature3": "Web, app, extension & desktop included"
+    },
+    "team": {
+      "tagline": "For small teams",
+      "feature1": "Everything in {plan}",
+      "feature2": "2 users included",
+      "feature3": "Shared clients, projects & prepaid packages"
+    },
+    "business": {
+      "tagline": "For businesses",
+      "feature1": "Everything in {plan}",
+      "feature2": "5 users included",
+      "feature3": "Flex time, absence & compliance"
+    },
+    "usersIncluded": "{count} users incl."
+  },
+  "upgrade": {
+    "title": "Upgrade your plan",
+    "blocked": "You have {count, plural, one {# extra seat} other {# extra seats}} that cannot yet be moved automatically to {plan}. Contact us at support@timetrack.dk and we will upgrade you without losing any seats.",
+    "to": "Upgrade to {plan}",
+    "note": "When you upgrade you make a new purchase. Your current subscription is cancelled automatically once the new one is active."
+  },
+  "choose": {
+    "title": "Choose your plan",
+    "choosePlan": "Choose {plan}",
+    "chooseAndPay": "Choose and pay",
+    "note": "Extra users beyond those included are added after sign-up. Founding member discount (if active) is applied automatically to {plan} after payment."
+  },
+  "discounts": {
+    "title": "Active discounts",
+    "rangeBoth": "From {from} to {to}",
+    "rangeOpenEnded": "From {from}, no expiry date",
+    "rangeUntil": "Until {to}",
+    "rangeNone": "No expiry date"
+  },
+  "metadata": {
+    "title": "Subscription details",
+    "foundingTier": "Founding tier",
+    "billingCycle": "Billing period",
+    "signupSource": "Sign-up source",
+    "couponCode": "Discount code"
+  },
+  "upcoming": {
+    "title": "Upcoming payments",
+    "columnPeriod": "Period",
+    "columnPlan": "Plan",
+    "columnAmount": "Amount"
+  },
+  "switch": {
+    "title": "Change plan",
+    "equivalent": "Equivalent to {price} kr./mo",
+    "toMonthly": "Switch to monthly",
+    "toYearly": "Switch to yearly"
+  },
+  "cancel": {
+    "title": "Cancel subscription",
+    "description": "Your subscription stays active until the end of the current billing period.",
+    "areYouSure": "Are you sure?",
+    "activeUntil": "Your subscription stays active until {date}. After that you lose access to premium features.",
+    "activeUntilEnd": "Your subscription stays active until the end of the period. After that you lose access to premium features.",
+    "keep": "Keep subscription",
+    "confirm": "Yes, cancel subscription",
+    "canceling": "Cancelling..."
+  }
+}

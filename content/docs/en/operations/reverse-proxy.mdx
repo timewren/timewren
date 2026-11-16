@@ -1,0 +1,127 @@
+---
+title: "Reverse proxy and TLS"
+description: "Put TimeWren behind Caddy, Traefik or nginx with HTTPS, and set the public URL and trusted origins correctly."
+---
+
+The app container listens on port 3000 and is published on `127.0.0.1:3000` only. For anything other than localhost, put a reverse proxy with TLS in front of it.
+
+## Public URL
+
+Point a DNS record at your server, then set the URL people will open in `.env`:
+
+```dotenv
+NEXT_PUBLIC_APP_URL=https://timewren.example.com
+```
+
+Apply it with `docker compose up -d`. No rebuild is needed: the value is read at runtime. Links in mails, OAuth callbacks and the origin checks all use it. If the browser URL does not match, sign-in fails (see [Troubleshooting](/docs/operations/troubleshooting)).
+
+The proxy must pass the `Host` header and the `X-Forwarded-*` headers on unchanged. The examples below do.
+
+## Port and bind address
+
+| Variable | Default | Effect |
+| -------- | ------- | ------ |
+| `APP_PORT` | `3000` | Host port that maps to the container's port 3000. |
+| `APP_BIND` | `127.0.0.1` | Host address the port is bound to. Set `0.0.0.0` to expose the port on all interfaces. |
+
+Keep the default bind address when a proxy runs on the same host. Change them in `.env` and run `docker compose up -d`.
+
+## Caddy
+
+Caddy gets and renews certificates by itself. In `/etc/caddy/Caddyfile`:
+
+```text
+timewren.example.com {
+	reverse_proxy 127.0.0.1:3000
+}
+```
+
+Caddy forwards the `Host` and `X-Forwarded-*` headers and handles streaming responses without extra settings.
+
+## Traefik
+
+If Traefik already runs on the host with a Docker provider, add labels to the `app` service in a `docker-compose.override.yml`:
+
+```yaml
+services:
+  app:
+    ports: !reset []
+    networks: [default, traefik]
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.timewren.rule=Host(`timewren.example.com`)
+      - traefik.http.routers.timewren.entrypoints=websecure
+      - traefik.http.routers.timewren.tls.certresolver=letsencrypt
+      - traefik.http.services.timewren.loadbalancer.server.port=3000
+
+networks:
+  traefik:
+    external: true
+```
+
+Adjust the network, entrypoint and certificate resolver names to your Traefik setup. The `!reset` tag needs Docker Compose v2.24 or newer.
+
+## nginx
+
+Create `/etc/nginx/conf.d/timewren.conf`, with certificates from Let's Encrypt (for example through `certbot`):
+
+```nginx
+server {
+    listen 80;
+    server_name timewren.example.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name timewren.example.com;
+
+    ssl_certificate     /etc/letsencrypt/live/timewren.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/timewren.example.com/privkey.pem;
+
+    client_max_body_size 25m;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_read_timeout 300s;
+    }
+
+    # Live updates (server-sent events), only used when REALTIME_ENABLED=true
+    location ~ ^/api/(realtime|ext/stream)$ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header Connection "";
+        proxy_buffering off;
+        proxy_cache off;
+        proxy_read_timeout 1h;
+    }
+}
+```
+
+Test and reload with `sudo nginx -t && sudo systemctl reload nginx`. The `http2 on;` directive needs nginx 1.25.1 or newer; on older versions use `listen 443 ssl http2;` instead. The upload endpoint accepts files up to 8 MB, so keep `client_max_body_size` above that (nginx defaults to 1 MB). The app does not use WebSockets: live updates use server-sent events (`/api/realtime` and `/api/ext/stream`), which is why the second block turns buffering off. They are only served when `REALTIME_ENABLED=true`.
+
+## Extra hostnames
+
+If people reach the same instance under a second hostname, list the extra origins in `TRUSTED_ORIGINS`, comma-separated, and run `docker compose up -d`:
+
+```dotenv
+TRUSTED_ORIGINS=https://time.example.com,https://www.timewren.example.com
+```
+
+Entries must be full `http(s)` origins; anything else is ignored.
+
+## Custom domains and certificates
+
+Customer-facing custom portal domains use the hostname from `NEXT_PUBLIC_MARKETING_URL`, or from `NEXT_PUBLIC_APP_URL` when that is unset. A CNAME alone does not configure your proxy: set up the proxy and the TLS certificates for those domains yourself.

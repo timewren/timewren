@@ -1,0 +1,98 @@
+---
+title: "Aus dem Quellcode"
+description: "Das TimeWren-Image selbst aus einem Klon mit Docker Compose bauen oder den Entwicklungsserver mit Node.js und PostgreSQL starten."
+---
+
+Wähle diese Methode, wenn du geänderten Code ausführen oder mitwirken willst. Willst du TimeWren nur betreiben, ist das vorgebaute Image unter [Docker Compose](/de/docs/install/docker-compose) einfacher und braucht deutlich weniger Arbeitsspeicher.
+
+## Das Image selbst bauen
+
+### Voraussetzungen
+
+- Docker Engine mit Compose v2.24 oder neuer.
+- Etwa 4 GB RAM oder mehr für den Build; er dauert ungefähr 7 bis 11 Minuten und braucht in der Spitze rund 5 GB.
+- Etwa 10 GB freien Speicherplatz.
+
+### Schritte
+
+1. Klone das Repository und erstelle die `.env`.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   cd timewren
+   cp .env.example .env
+   for v in POSTGRES_PASSWORD BETTER_AUTH_SECRET ENCRYPTION_KEY CRON_SECRET; do
+     sed -i "s|^$v=.*|$v=$(openssl rand -hex 32)|" .env
+   done
+   ```
+
+2. Setze `NEXT_PUBLIC_APP_URL` in der `.env` auf die URL, unter der Nutzer die App öffnen.
+
+3. Kommentiere in der `docker-compose.yml` die Zeile `image:` des Dienstes `app` aus und aktiviere den darunterliegenden `build:`-Block.
+
+4. Bauen und starten.
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+   Der Dienst `cron` nutzt standardmäßig das vorgebaute Image. Änderst du `scripts/cron.mjs` oder soll er deinen Build verwenden, lass den Dienst `cron` ebenfalls auf dein Image zeigen oder baue ihn auf dieselbe Weise.
+
+Die Build-Argumente `NEXT_PUBLIC_DESKTOP_RELEASES_REPO`, `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_SENTRY_DSN` und `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` werden in das Browser-Bundle einkompiliert. Ändern sie sich in der `.env`, ist erneut `docker compose up -d --build` nötig. Die App-URL, die Marketing-URL und die Marke werden zur Laufzeit gelesen und brauchen keinen neuen Build.
+
+Du kannst auch das Installationsskript des Checkouts ausführen, `./scripts/install.sh`. In einem Checkout baut es bei jedem Lauf das Image und startet den Stack mit `docker compose up -d --build`. Siehe [Installation mit einer Zeile](/de/docs/install/quick).
+
+## Den Entwicklungsserver starten
+
+### Voraussetzungen
+
+- Node.js 22 oder neuer und npm.
+- Docker, für den PostgreSQL-Container der Entwicklung.
+
+### Schritte
+
+1. Klone das Repository und installiere die Abhängigkeiten.
+
+   ```bash
+   git clone https://github.com/timewren/timewren.git
+   cd timewren
+   npm ci
+   ```
+
+2. Erstelle `.env.local` mit mindestens einer Datenbank-URL und einem Auth-Geheimnis. Der Entwicklungscontainer aus `docker-compose.dev.yml` lauscht auf Port 5432 mit der Datenbank `freelance_crm` und Benutzer und Passwort `postgres`.
+
+   ```dotenv
+   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/freelance_crm
+   BETTER_AUTH_SECRET=replace-with-a-long-random-string
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   CRON_SECRET=replace-with-another-random-string
+   ```
+
+3. Starte PostgreSQL, wende die Migrationen an und starte den Server.
+
+   ```bash
+   npm run docker:up
+   npm run db:migrate
+   npm run dev
+   ```
+
+4. Öffne `http://localhost:3000`.
+
+`npm run dev:setup` startet PostgreSQL, migriert, befüllt Demodaten und startet den Dev-Server im Hintergrund. Weitere nützliche Befehle:
+
+| Befehl | Was er macht |
+| ------ | ------------ |
+| `npm run docker:down` | Stoppt den PostgreSQL-Container der Entwicklung. |
+| `npm run db:seed` | Befüllt die Datenbank mit Testdaten. |
+| `npm run db:studio` | Öffnet Drizzle Studio. |
+| `npm run build` | Produktions-Build. |
+| `npm test` | Unit-Tests (Vitest, keine Datenbank nötig). |
+| `npm run lint` | Biome-Linter. |
+
+Ohne `NEXT_PUBLIC_MARKETING_URL` sind die Marketingseiten der Marke `timewren` abgeschaltet, und `/` leitet zum Dashboard weiter.
+
+## Nächste Schritte
+
+- [Mitwirken](/de/docs/contributing)
+- [Umgebungsvariablen](/de/docs/configuration/environment)
+- [Docker Compose](/de/docs/install/docker-compose)

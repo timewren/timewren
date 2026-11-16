@@ -1,0 +1,48 @@
+---
+title: "Browser-Erweiterung"
+description: "Die TimeWren-Browser-Erweiterung für Chrome und Firefox: Timer, Schnelleinträge und Stundenpaket-Guthaben in der Symbolleiste. Verbindet sich mit TimeWren Cloud oder deinem eigenen Server."
+---
+
+Die Browser-Erweiterung legt einen Timer in deine Symbolleiste. Du kannst einen Timer starten, pausieren und stoppen, Zeiteinträge mit Projekt- und Kundenauswahl hinzufügen und den Status deiner Stundenpakete sehen. Außerdem hat sie eine Seite für neue Tabs und Tastenkürzel: Alt+Shift+T öffnet das Popup, Alt+Shift+S pausiert oder setzt den Timer fort, und Alt+Shift+N öffnet den Schnelleintrag. Die Oberfläche gibt es auf Dänisch, Englisch, Deutsch und Spanisch.
+
+## Mit deinem eigenen Server verbinden
+
+Die Erweiterung verbindet sich standardmäßig mit TimeTrack Cloud. Für deine eigene Instanz öffnest du das Popup und wählst auf dem Anmeldebildschirm **Use own server** (Eigenen Server verwenden) oder gehst zu Einstellungen, Erweitert. Gib die öffentliche HTTPS-Adresse ein, zum Beispiel `https://time.example.com`, und wähle **Connect to server**.
+
+1. Der Browser fragt nach Zugriff auf genau diese Adresse. Die Erweiterung hat nie eine pauschale Berechtigung für alle Seiten: Das Manifest führt `https://*/*` und `http://*/*` nur als optionale Host-Berechtigungen auf, und die Anfrage nennt die genaue Origin, die du eingegeben hast.
+2. Die Erweiterung liest `/.well-known/timetrack.json` von deinem Server und prüft, ob es ein TimeTrack-Server mit kompatibler API-Version ist. Ohne erreichbares Discovery-Dokument wird die Adresse nicht gespeichert.
+3. Der Serverwechsel löscht lokale Kontodaten und startet die Erweiterung neu. Öffne sie erneut und melde dich an. Synchronisiere ausstehende Offline-Einträge vorher, denn sie werden nicht übernommen. Mit **Use TimeTrack Cloud** wechselst du zurück.
+
+Es wird nur HTTPS akzeptiert. In Entwicklungs-Builds ist HTTP außerdem für localhost und private Netzwerkadressen erlaubt, mit einer Warnung. Die Erweiterung nutzt die Zertifikatsprüfung des Browsers. Ein Browser meldet ein ungültiges Zertifikat als allgemeinen Netzwerkfehler, deshalb fordert die Meldung dazu auf, Adresse und Zertifikat zu prüfen.
+
+Tokens gehören zu genau einem Server. Sie werden nie an eine andere Origin gesendet, und Anfragen mit Token folgen keinen Weiterleitungen.
+
+Auf dem Server muss `NEXT_PUBLIC_APP_URL` die öffentliche HTTPS-Origin sein, weil das Discovery-Dokument seine URLs daraus bildet. Liefere `/.well-known/timetrack.json` ohne Anmeldung aus. CORS für Origins der Erweiterung ist standardmäßig aktiv; `CORS_ALLOWED_ORIGINS` kann es auf genaue Origins beschränken, siehe [Umgebungsvariablen](/de/docs/configuration/environment).
+
+## Bauen und laden
+
+Die Erweiterung liegt in `browser-extension/` im Repository. Sie steht unter der MIT-Lizenz, während der Rest des Repositorys unter AGPL-3.0 steht.
+
+```bash
+cd browser-extension
+npm install
+npm run build
+```
+
+Öffne für Chrome `chrome://extensions/`, aktiviere den Entwicklermodus, wähle Entpackte Erweiterung laden und wähle `browser-extension/dist`. Führe für Firefox `npm run build:firefox` aus, öffne `about:debugging#/runtime/this-firefox`, wähle Temporäres Add-on laden und wähle `dist-firefox/manifest.json`.
+
+Diese Seite behauptet nicht, dass die Erweiterung unter dem Namen TimeWren in einem Browser-Store veröffentlicht ist.
+
+## Anmelden
+
+Die Erweiterung authentifiziert sich mit einem Token, nicht mit deinem Passwort:
+
+1. Öffne die Web-App, dann Einstellungen, Integrationen, und suche den Abschnitt Browser-Erweiterung.
+2. Erzeuge ein Token mit einem Namen wie "Chrome". Es wird nur einmal angezeigt.
+3. Füge es im Popup der Erweiterung ein.
+
+Du siehst dort, wann jedes Token zuletzt verwendet wurde, und kannst es am selben Ort widerrufen. Ein widerrufenes Token funktioniert sofort nicht mehr.
+
+## Mindestversionen
+
+Als Betreiber kannst du mit `MIN_CLIENT_VERSIONS` eine Mindestversion der Erweiterung verlangen, siehe [Desktop-App](/de/docs/apps/desktop).

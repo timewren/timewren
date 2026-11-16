@@ -1,0 +1,56 @@
+---
+title: "Dokploy"
+description: "TimeWren auf Dokploy aus einer eigenen Vorlage bereitstellen, mit generierter Domain, vier generierten Geheimnissen und benannten Volumes."
+---
+
+Wähle diese Methode, wenn du bereits Dokploy betreibst. Die Vorlage lädt das veröffentlichte Image und generiert alle Geheimnisse.
+
+## Voraussetzungen
+
+- Eine laufende Dokploy-Instanz mit einem Server und einer Domain.
+- Die Dateien aus `deploy/dokploy/` im Repository: `docker-compose.yml` und `template.toml`.
+
+> **Hinweis:** Die Vorlage wurde nicht in die Dokploy-Vorlagenbibliothek eingereicht und erscheint daher nicht im Katalog. Du importierst sie selbst als eigene Vorlage.
+
+## Bereitstellen
+
+1. Lade die beiden Dateien herunter:
+
+   ```bash
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/deploy/dokploy/docker-compose.yml
+   curl -fsSLO https://raw.githubusercontent.com/timewren/timewren/main/deploy/dokploy/template.toml
+   ```
+
+2. Importiere sie in Dokploy als eigene Vorlage (Compose und TOML).
+3. Prüfe die generierte Domain oder ersetze sie durch deine eigene, und stelle dann bereit.
+
+## Was die Vorlage setzt
+
+`template.toml` generiert eine Domain und vier voneinander unabhängige hexadezimale Geheimnisse mit je 64 Zeichen und leitet die Domain an den Dienst `app` auf Port 3000 weiter:
+
+| Variable | Wert |
+| -------- | ---- |
+| `NEXT_PUBLIC_APP_URL` | `https://` plus die generierte Domain |
+| `POSTGRES_PASSWORD` | generiert |
+| `BETTER_AUTH_SECRET` | generiert |
+| `ENCRYPTION_KEY` | generiert, 64 Hex-Zeichen |
+| `CRON_SECRET` | generiert |
+
+PostgreSQL-Daten und Uploads liegen in benannten Volumes; die Vorlage definiert keine Host-Mounts (`mounts = []`). Die `app` und der Scheduler laden dasselbe Image, und Migrationen laufen beim Start der App. Setze `TIMEWREN_VERSION`, um beide Dienste auf ein Release festzulegen.
+
+Optionale Variablen für E-Mail, S3 und Integrationen stehen in der Compose-Datei und verwenden die Namen aus `.env.example`. Siehe [Umgebungsvariablen](/de/docs/configuration/environment).
+
+## Zuerst dein Konto anlegen
+
+Das erste Konto wird Admin. Registriere dich sofort, oder setze `ADMIN_EMAIL` und einen Mail-Transport, bevor du die URL öffentlich machst.
+
+## Sichern
+
+Sichere beide Volumes und `ENCRYPTION_KEY`.
+
+## Nächste Schritte
+
+- [Schnellstart](/de/docs/quickstart)
+- [E-Mail](/de/docs/configuration/email)
+- [Aktualisieren](/de/docs/operations/upgrading) und [Backup und Wiederherstellung](/de/docs/operations/backup-restore)
+- [Fehlerbehebung](/de/docs/operations/troubleshooting)

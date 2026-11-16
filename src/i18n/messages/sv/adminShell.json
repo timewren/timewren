@@ -1,0 +1,110 @@
+{
+  "verifying": "Kontrollerar adminåtkomst…",
+  "nav": {
+    "dashboard": "Översikt",
+    "users": "Användare",
+    "prospects": "Prova på och demo",
+    "support": "Support",
+    "finance": "Ekonomi",
+    "growth": "Tillväxt",
+    "analytics": "Analys",
+    "broadcasts": "Massutskick",
+    "monitoring": "Övervakning",
+    "stability": "Stabilitet",
+    "desktop": "Skrivbord",
+    "webhooks": "Webhooks",
+    "emailForwarding": "Vidarebefordran av e-post",
+    "compliance": "Regelefterlevnad",
+    "userFeedback": "Användarfeedback",
+    "helpFeedback": "Feedback på hjälp",
+    "roadmap": "Färdplan",
+    "activity": "Aktivitetslogg",
+    "settings": "Inställningar",
+    "onboardingFunnel": "Onboardingtratt",
+    "scenarios": "Scenarier",
+    "security": "Säkerhet",
+    "gdpr": "GDPR"
+  },
+  "sections": {
+    "insights": "Insikter",
+    "growth": "Tillväxt",
+    "operations": "Drift",
+    "compliance": "Regelefterlevnad",
+    "system": "System"
+  },
+  "sidebar": {
+    "title": "{brand} Admin",
+    "expand": "Fäll ut sidofältet",
+    "collapse": "Fäll in sidofältet",
+    "roleAdmin": "Admin",
+    "roleSupporter": "Supportmedarbetare",
+    "backTo": "Tillbaka till {brand}"
+  },
+  "topbar": {
+    "admin": "Admin",
+    "searchTitle": "Sök (⌘K)",
+    "search": "Sök…",
+    "backToApp": "Tillbaka till appen"
+  },
+  "palette": {
+    "label": "Adminsökning",
+    "placeholder": "Sök användare, ärenden, färdplan, ändringslogg…",
+    "hint": "Skriv för att söka eller hoppa till en sida",
+    "noResults": "Inga resultat",
+    "jumpTo": "Hoppa till",
+    "page": "Sida",
+    "type": {
+      "user": "Användare",
+      "ticket": "Ärende",
+      "roadmap": "Färdplan",
+      "changelog": "Ändringslogg"
+    },
+    "group": {
+      "user": "Användare",
+      "ticket": "Supportärenden",
+      "roadmap": "Färdplan",
+      "changelog": "Ändringslogg"
+    },
+    "navigate": "Navigera",
+    "select": "Välj",
+    "toggle": "Öppna / stäng"
+  },
+  "impersonation": {
+    "banner": "<strong>Personifiering aktiv:</strong> du är inloggad som <strong>{name}</strong>. Alla åtgärder loggas.",
+    "stopFailed": "Det gick inte att avsluta: {message}",
+    "unknownError": "okänt fel",
+    "stopped": "Personifieringen är avslutad",
+    "stopFailedShort": "Det gick inte att avsluta",
+    "stopping": "Avslutar…",
+    "stop": "Avsluta och gå tillbaka"
+  },
+  "table": {
+    "empty": "Inga data hittades",
+    "pageOf": "Sida {page} av {total}",
+    "previous": "Föregående",
+    "next": "Nästa"
+  },
+  "refresh": {
+    "justNow": "Nyss",
+    "secondsAgo": "{count} s sedan",
+    "minutesAgo": "{count} min sedan",
+    "updated": "Uppdaterad {ago}",
+    "auto": "(uppdateras automatiskt var {seconds}:e s)",
+    "refresh": "Uppdatera"
+  },
+  "legacy": {
+    "adminPanel": "Adminpanel",
+    "supporterPanel": "Supportpanel",
+    "adminDesc": "Du har full administratörsåtkomst. Alla åtgärder loggas automatiskt.",
+    "supporterDesc": "Du har supportåtkomst. Du kan hjälpa användare, men din åtkomst till känsliga data är begränsad.",
+    "auditActive": "Granskningslogg aktiv",
+    "tabs": {
+      "overview": "Översikt",
+      "email": "E-post",
+      "analytics": "Analys",
+      "finance": "Ekonomi",
+      "traffic": "Trafik",
+      "betaSignups": "Betaregistreringar"
+    }
+  }
+}

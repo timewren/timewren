@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini og andre OpenAI modeller",
+      "note": "Opret en API-nøgle på platform.openai.com/api-keys"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "Claude Sonnet, Opus og Haiku via OpenAI SDK",
+      "note": "Opret en API-nøgle på console.anthropic.com/settings/keys"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Dansk AI, hostet i Danmark, med fuld GDPR-compliance",
+      "badge": "Anbefalet",
+      "note": "Dansk-hostet AI fra Ordbogen A/S. Opret nøgle på odincore.ai. Data forlader aldrig Danmark."
+    },
+    "custom": {
+      "label": "Andet endpoint",
+      "description": "Ethvert OpenAI-kompatibelt API"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manual",
+      "description": "AI er deaktiveret. Alle opgaver behandles uden AI-parsing."
+    },
+    "suggest": {
+      "label": "Foreslå",
+      "description": "AI foreslår kategorisering og prioritering, men du godkender."
+    },
+    "auto_lowrisk": {
+      "label": "Auto (lavrisiko)",
+      "description": "AI håndterer automatisk simple opgaver. Komplekse til godkendelse."
+    },
+    "auto_all": {
+      "label": "Fuld automatisk",
+      "description": "AI håndterer alle opgaver automatisk uden godkendelse."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Danmark (Europe/Copenhagen)",
+    "Europe/Stockholm": "Sverige (Europe/Stockholm)",
+    "Europe/Oslo": "Norge (Europe/Oslo)",
+    "Europe/London": "UK (Europe/London)",
+    "Europe/Berlin": "Tyskland (Europe/Berlin)",
+    "America/New_York": "USA Østkyst (America/New_York)",
+    "America/Los_Angeles": "USA Vestkyst (America/Los_Angeles)"
+  },
+  "connectionOk": "Forbindelse OK!",
+  "connectionFailed": "Forbindelse fejlede",
+  "testFailed": "Test fejlede",
+  "emailEnabled": "Email-to-task aktiveret!",
+  "emailEnableFailed": "Kunne ikke aktivere email-to-task",
+  "emailDisabled": "Email-to-task deaktiveret",
+  "emailDisableFailed": "Kunne ikke deaktivere email-to-task",
+  "addressRegenerated": "Ny email-adresse genereret!",
+  "addressRegenerateFailed": "Kunne ikke generere ny adresse",
+  "settingsUpdated": "AI-indstillinger opdateret",
+  "settingsUpdateFailed": "Kunne ikke opdatere AI-indstillinger",
+  "addressCopied": "Email-adresse kopieret!",
+  "keyRequired": "API-nøgle er påkrævet",
+  "urlRequired": "API URL er påkrævet for custom endpoint",
+  "enterKeyFirst": "Indtast en API-nøgle først",
+  "title": "AI & automatisering",
+  "description": "Konfigurer AI-funktioner og email-to-task indstillinger",
+  "statusTitle": "AI Status",
+  "statusEnabled": "AI er aktiveret",
+  "statusDisabled": "AI er ikke konfigureret",
+  "statCalls": "AI-kald total",
+  "statSuccess": "Succesrate",
+  "statConfidence": "Gns. confidence",
+  "statTime": "Gns. behandlingstid",
+  "enableHint": "For at aktivere AI-funktioner skal du vælge en AI-udbyder nedenfor og angive din egen API-nøgle.",
+  "providerTitle": "AI Provider",
+  "providerSub": "Vælg hvordan AI-funktioner skal drives - brug systemets AI eller din egen",
+  "providerIntro": "Vælg en AI-udbyder og angiv din egen API-nøgle for at aktivere AI-funktioner. {brand} bruger OpenAI SDK-formatet, som er kompatibelt med mange udbydere.",
+  "apiKey": "API-nøgle",
+  "configured": "(konfigureret)",
+  "keyPlaceholder": "API-nøgle",
+  "keyHelpOpenai": "Din OpenAI API-nøgle fra platform.openai.com",
+  "keyHelpAnthropic": "Din Anthropic API-nøgle fra console.anthropic.com",
+  "keyHelpOrdbogen": "Din API-nøgle fra OdinCore.ai",
+  "keyHelpOther": "API-nøgle til din provider",
+  "apiUrl": "API URL",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (standard, lad tom)",
+  "urlPlaceholderCustom": "https://dit-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Pre-udfyldt fra preset",
+  "urlHelp": "Base URL til API'et. Lad tom for OpenAI's standard-endpoint.",
+  "model": "Model",
+  "modelPlaceholderOpenai": "gpt-4o-mini (standard)",
+  "modelPlaceholderOther": "Model-navn",
+  "modelHelp": "Angiv en specifik model, eller lad den være tom for at bruge standard",
+  "testConnection": "Test forbindelse",
+  "saveSettings": "Gem indstillinger",
+  "help": {
+    "title": "Sådan får du en API-nøgle",
+    "sub": "Vælg en af de anbefalede udbydere og følg guiden",
+    "odinDesc": "Dansk AI hostet i Danmark med fuld GDPR-compliance. Data forlader aldrig Danmark.",
+    "odin1": "Gå til odincore.ai og opret en konto",
+    "odin2": "Navigér til API-sektionen i din konto",
+    "odin3": "Opret en ny API-nøgle",
+    "odin4": "Indsæt nøglen ovenfor under “OdinCore (Ordbogen)”",
+    "openaiDesc": "GPT-4o-mini er hurtig og billig og passer godt til opgaveparsing.",
+    "openai1": "Gå til platform.openai.com og log ind",
+    "openai2": "Gå til “API keys” under dine indstillinger",
+    "openai3": "Klik “Create new secret key”",
+    "copyPaste": "Kopiér nøglen og indsæt den ovenfor",
+    "anthropicDesc": "Claude-modellerne er stærke til opgaveforståelse og kategorisering.",
+    "anthropic1": "Gå til console.anthropic.com og opret en konto",
+    "anthropic2": "Navigér til “Settings” → “API keys”",
+    "anthropic3": "Klik “Create key”"
+  },
+  "email": {
+    "title": "Email-to-Task",
+    "sub": "Send emails til din personlige adresse for at oprette opgaver automatisk",
+    "address": "Din personlige opgave-email",
+    "copyTitle": "Kopier email-adresse",
+    "addressHelp": "Send eller videresend emails til denne adresse for at oprette opgaver automatisk. AI vil parse indholdet og udtrække titel, deadline og prioritet.",
+    "regenerate": "Generer ny adresse",
+    "disable": "Deaktiver email-to-task",
+    "notEnabled": "Email-to-task er ikke aktiveret",
+    "notEnabledText": "Aktiver for at få en personlig email-adresse, som du kan sende opgaver til. Emails vil automatisk blive til opgaver i dit dashboard.",
+    "enable": "Aktiver email-to-task"
+  },
+  "autonomyTitle": "AI Autonomi-niveau",
+  "autonomySub": "Vælg hvor meget AI skal håndtere automatisk",
+  "hoursTitle": "Arbejdstider & Tidszone",
+  "hoursSub": "Bruges til AI-prioritering og kalenderfunktioner",
+  "timezone": "Tidszone",
+  "workingHours": "Arbejdstider",
+  "to": "til",
+  "hoursHelp": "AI bruger disse tider til at foreslå optimale tidspunkter for opgaver",
+  "privacyTitle": "Privatliv & Sikkerhed",
+  "privacyText": "Emails behandles og slettes umiddelbart efter opgaven er oprettet. Vi gemmer kun den færdige opgave, ikke den originale email. AI-behandling sker via OpenAI med streng datahåndtering."
+}

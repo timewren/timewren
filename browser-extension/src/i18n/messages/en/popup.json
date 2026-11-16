@@ -1,0 +1,91 @@
+{
+  "loading": "Loading",
+  "offline": "Offline",
+  "noInternet": "No internet connection",
+  "openApp": "Open TimeTrack",
+  "openAppNewTab": "Open TimeTrack in a new tab",
+  "settings": "Settings",
+  "logout": "Sign out",
+  "logoutConfirm": "Sign out of TimeTrack?",
+  "todayHours": "{duration} today",
+  "dailyProgress": "Daily progress: {done} of {goal} h today",
+  "tabs": {
+    "view": "View",
+    "timer": "Timer",
+    "calendar": "Calendar",
+    "history": "History",
+    "prepaid": "Packages"
+  },
+  "login": {
+    "tagline": "Time tracking right from your browser",
+    "connecting": "Connecting…",
+    "connect": "Connect to TimeTrack",
+    "secureHint": "You sign in securely in a new window. Afterwards you can choose an organisation in the extension.",
+    "newHere": "New to TimeTrack?",
+    "register": "Create a free account",
+    "advanced": "Advanced: paste token manually",
+    "tokenLabel": "Extension token",
+    "tokenPlaceholder": "Paste your token here…",
+    "signingIn": "Signing in…",
+    "signInToken": "Sign in with token",
+    "openSettings": "Open settings in TimeTrack"
+  },
+  "org": {
+    "label": "Organisation: {name}. Switch organisation",
+    "none": "none selected",
+    "choose": "Choose organisation",
+    "stopFirst": "Stop or save the active timer before you switch organisation."
+  },
+  "stopPrompt": {
+    "title": "No client selected",
+    "question": "No client selected. Save as internal time?",
+    "close": "Close without stopping",
+    "pickClient": "Choose client",
+    "saveInternal": "Save as internal time"
+  },
+  "sync": {
+    "syncing": "Syncing…",
+    "pending": "{count} waiting to sync",
+    "hideDetails": "Hide details",
+    "showDetails": "Show details",
+    "syncNow": "Sync now",
+    "entry": "Time entry: {description}",
+    "noDescription": "(no description)",
+    "timerUpdate": "Timer update",
+    "timerStop": "Timer stop",
+    "tries": "{count, plural, one {tried # time} other {tried # times}}"
+  },
+  "mini": {
+    "timerLabel": "Timer",
+    "goTo": "Go to timer: {label}",
+    "stop": "Stop timer"
+  },
+  "queryError": {
+    "retry": "Try again"
+  },
+  "timerError": {
+    "close": "Close error message"
+  },
+  "update": {
+    "title": "Update the TimeTrack extension",
+    "body": "Version {version} is too old to save time. The update is downloaded automatically. If that does not happen, restart the browser or open chrome://extensions and click \"Update\"."
+  },
+  "idle": {
+    "pausedMessage": "The timer was paused at {clock} after {away} without activity",
+    "pausedDetail": "That idle time has not been counted.",
+    "resume": "Resume timer",
+    "close": "Close",
+    "awayMessage": "You were away for {away} (since {clock})",
+    "awayDetail": "The timer is still running. Should the time count?",
+    "discard": "Remove {away}",
+    "keep": "Keep the time"
+  },
+  "confirm": {
+    "cancel": "Cancel"
+  },
+  "logoutWarnings": {
+    "running": "The timer keeps running in TimeTrack while you are signed out.",
+    "paused": "The paused timer stays in TimeTrack.",
+    "queue": "{count, plural, one {# change in the offline queue has} other {# changes in the offline queue have}} not been sent yet. They will be sent when you sign in again."
+  }
+}

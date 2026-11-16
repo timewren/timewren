@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "Et ole enää tämän organisaation jäsen.",
+    "noAccessToFeature": "Sinulla ei ole pääsyä tähän ominaisuuteen",
+    "adminsOnly": "Vain ylläpitäjillä on pääsy tähän ominaisuuteen",
+    "subscriptionRequired": "Tämän ominaisuuden käyttö vaatii aktiivisen tilauksen",
+    "subscriptionExpired": "Tilauksesi on päättynyt. Uusi se jatkaaksesi.",
+    "roleNoAccess": "Roolillasi ei ole oikeutta tähän toimintoon",
+    "moduleDisabled": "Moduuli \"{module}\" ei ole käytössä tässä organisaatiossa."
+  },
+  "alunta": {
+    "clientAlreadyMapped": "Tällä asiakkaalla on jo aktiivinen Alunta-yhdistys",
+    "mappingNotFound": "Yhdistystä ei löytynyt"
+  },
+  "common": {
+    "clientNotFound": "Asiakasta ei löytynyt",
+    "webhookNotFound": "Webhookia ei löytynyt",
+    "projectNotFound": "Projektia ei löytynyt",
+    "unknownError": "Tuntematon virhe",
+    "notOrgMember": "Et ole tämän organisaation jäsen",
+    "noAccessToClient": "Sinulla ei ole pääsyä tähän asiakkaaseen",
+    "templateNotFound": "Pohjaa ei löytynyt",
+    "unknownClient": "Tuntematon asiakas",
+    "rateLimited": "Liian monta pyyntöä. Yritä uudelleen {seconds} sekunnin kuluttua.",
+    "taskNotFound": "Tehtävää ei löytynyt",
+    "timeEntryNotFound": "Tuntikirjausta ei löytynyt",
+    "invoiceNotFound": "Laskua ei löytynyt",
+    "unknownProjectName": "Tuntematon projekti",
+    "userNotFound": "Käyttäjää ei löytynyt",
+    "invalidDate": "Virheellinen päivämäärä",
+    "prepaidNotFound": "Tuntipakettia ei löytynyt",
+    "notFound": "Ei löytynyt",
+    "notOrgMemberShort": "Et ole tämän organisaation jäsen",
+    "periodLocked": "Organisaatio on lukinnut jakson ennen päivää {date}. Ota yhteyttä ylläpitäjään."
+  },
+  "webhooks": {
+    "noValidEvents": "Kelvollisia tapahtumatyyppejä ei ole valittu"
+  },
+  "time": {
+    "defaultRateName": "Oletushintasi",
+    "chooseOnePrepaidOrNone": "Valitse joko tuntipaketti tai ei mitään",
+    "taskNotFound": "Tehtävää ei löytynyt",
+    "entryExists": "Tuntikirjaus on jo olemassa",
+    "prepaidNotFound": "Tuntipakettia ei löytynyt",
+    "prepaidOtherClient": "Tuntipaketti kuuluu eri asiakkaalle kuin tuntikirjauksen asiakas",
+    "onInvoiceUnmark": "{count, plural, one {# valituista tuntikirjauksista on laskulla. Hyvitä lasku tai poista kirjaukset laskuluonnoksesta ennen merkinnän poistamista.} other {# valituista tuntikirjauksista on laskulla. Hyvitä lasku tai poista kirjaukset laskuluonnoksesta ennen merkinnän poistamista.}}",
+    "invalidWeek": "Virheellinen viikko",
+    "importInvalidDate": "Virheellinen päivämäärä: \"{date}\"",
+    "importNoProjectOrClient": "Projektia \"{project}\" tai asiakasta \"{client}\" ei löytynyt"
+  },
+  "resourcePlan": {
+    "needsOrg": "Resurssisuunnitelma vaatii organisaation",
+    "ownEmployeesOnlyView": "Voit katsoa suunnitelmaa vain omille työntekijöillesi",
+    "managersOnly": "Vain omistaja, ylläpitäjät tai esihenkilöt voivat suunnitella",
+    "weekMonday": "Viikko on annettava maanantaina",
+    "ownEmployeesOnlyPlan": "Voit suunnitella vain omille työntekijöillesi",
+    "notInOrg": "Työntekijää, projektia tai toimintoa ei ole organisaatiossa"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "Työpöytäsovelluksen ostoja ei ole vielä otettu käyttöön. Yritä myöhemmin uudelleen tai ota yhteyttä tukeen.",
+    "includedInCloud": "Työpöytäsovellus sisältyy jo {brand} Cloud -tilaukseesi, joten erillistä lisenssiä ei tarvita. Kirjaudu sisään ja lataa sovellus koontinäytöltä.",
+    "checkoutFailed": "Maksulinkin luonti epäonnistui.",
+    "licenseAlreadyInactive": "Lisenssi on jo poistettu käytöstä tai hyvitetty.",
+    "notAutoRefundable": "Tätä lisenssiä ei voi hyvittää automaattisesti. Ota yhteyttä tukeen.",
+    "refundWindowExpired": "Tämän oston {days} päivän hyvitysaika on päättynyt.",
+    "tooManyAttempts": "Liian monta yritystä. Odota hetki ja yritä uudelleen.",
+    "noLicenseFound": "Lisenssiä ei löytynyt.",
+    "noActiveLicenseToRefund": "Ei aktiivista lisenssiä hyvitettäväksi.",
+    "licenseNotAutoRefundable": "Lisenssiä ei voi hyvittää automaattisesti. Ota yhteyttä tukeen.",
+    "refundWindowExpiredShort": "{days} päivän hyvitysaika on päättynyt."
+  },
+  "taskStatuses": {
+    "laneNotFound": "Saraketta ei löytynyt",
+    "lanesNotFound": "Yhtä tai useampaa saraketta ei löytynyt",
+    "crossContext": "Sarakkeiden järjestystä ei voi muuttaa eri yhteyksien välillä",
+    "destinationRequired": "Kohdesarake vaaditaan, koska sarakkeessa on tehtäviä",
+    "destinationNotFound": "Kohdesaraketta ei löytynyt",
+    "destinationContext": "Kohdesarakkeen on oltava samassa yhteydessä"
+  },
+  "scheduledRates": {
+    "notFound": "Ajastettua hintamuutosta ei löytynyt",
+    "rateFormat": "Tuntihinnan on oltava vähintään 0 oleva summa, jossa on enintään kaksi desimaalia",
+    "dateFormat": "Päivämäärän muodon on oltava VVVV-KK-PP",
+    "laterApplied": "Hintamuutos on jo otettu käyttöön päivästä {date} alkaen. Uuden muutoksen on tultava voimaan samasta päivästä tai myöhemmin.",
+    "alreadyApplied": "Hintamuutos on jo otettu käyttöön, eikä sitä voi peruuttaa. Muokkaa sen sijaan asiakkaan tai projektin tuntihintaa.",
+    "appliedMeanwhile": "Hintamuutos otettiin käyttöön välillä, eikä sitä voi peruuttaa."
+  },
+  "broadcasts": {
+    "notFound": "Tiedotetta ei löytynyt",
+    "confirmNameMismatch": "Vahvistusnimi ei täsmää. Kirjoita tiedotteen nimi täsmälleen."
+  },
+  "notifications": {
+    "invalidDiscordUrl": "Virheellinen Discord-webhookin osoite",
+    "invalidSlackUrl": "Virheellinen Slack-webhookin osoite",
+    "noSlackWebhook": "Slack-webhookia ei ole määritetty",
+    "noDiscordWebhook": "Discord-webhookia ei ole määritetty",
+    "discordTestFailed": "Discord-webhookin testi epäonnistui",
+    "noPushSubscription": "Push-tilausta ei ole määritetty",
+    "pushTestFailed": "Push-ilmoituksen testi epäonnistui",
+    "channelNotFound": "Kanavaa ei löytynyt"
+  },
+  "clients": {
+    "hasInvoices": "Yhdellä tai useammalla valitulla asiakkaalla on laskuja. Arkistoi heidät sen sijaan, koska laskut ovat kirjanpitoaineistoa eikä niitä voi poistaa.",
+    "hasBilledEntries": "Yhdellä tai useammalla valitulla asiakkaalla on laskutettuja tuntikirjauksia. Arkistoi heidät sen sijaan."
+  },
+  "dashboard": {
+    "prefsTableMissing": "Koontinäytön asetustaulua ei ole vielä olemassa. Suorita tietokantasiirto."
+  },
+  "clientPortal": {
+    "accessNotFound": "Pääsyä ei löytynyt"
+  },
+  "search": {
+    "invoiceTitle": "Lasku {number}"
+  },
+  "ai": {
+    "noOwnKey": "Määritä oma API-avaimesi kohdassa Asetukset → Tekoäly käyttääksesi tekoälyehdotuksia.",
+    "fillableWithoutAi": "Tekstin voisi täyttää ilman tekoälyä.",
+    "providerFailed": "Tekoälyn tarjoajasi ei saanut tuotettua ehdotusta. Tarkista avain ja malli kohdassa Asetukset → Tekoäly."
+  },
+  "apiKeys": {
+    "notFound": "API-avainta ei löytynyt",
+    "revokeFirst": "Avain on peruutettava ennen sen poistamista"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "Laskuluonnosta ei löytynyt",
+    "noEntries": "Ei tuntikirjauksia lähetettäväksi hyväksyttäväksi",
+    "requestNotFound": "Pyyntöä ei löytynyt tai se on jo käsitelty"
+  },
+  "beta": {
+    "thanks": "Kiitos ilmoittautumisesta! Lähetämme sinulle sähköpostia, kun beta avautuu.",
+    "emailNotAllowed": "Tätä sähköpostiosoitetta ei voi käyttää ilmoittautumiseen.",
+    "alreadyOnList": "Tämä sähköposti on jo betan odotuslistalla",
+    "signupNotFound": "Betailmoittautumista ei löytynyt"
+  },
+  "calendar": {
+    "googleNotConfigured": "Google-kalenteri-integraatiota ei ole määritetty",
+    "notConnected": "Ei yhteyttä Google-kalenteriin",
+    "scheduledLocally": "Tehtävä ajastettu paikallisesti (kalenteria ei ole yhdistetty)",
+    "timeEntryNotFound": "Tuntikirjausta ei löytynyt",
+    "eventNotFound": "Tapahtumaa ei löytynyt",
+    "eventMissingTimes": "Tapahtumalla ei ole aikoja",
+    "noConnection": "Ei kalenteriyhteyttä",
+    "noProject": "Ei projektia",
+    "noConnectionFound": "Kalenteriyhteyttä ei löytynyt",
+    "aiFailed": "Tekoälyn ehdotus epäonnistui"
+  },
+  "connectedApps": {
+    "notFound": "Yhteyttä ei ole olemassa"
+  },
+  "contact": {
+    "thanks": "Kiitos viestistäsi! Vastaamme mahdollisimman pian."
+  },
+  "dataExport": {
+    "pending": "Sinulla on jo odottava vientipyyntö. Odota hetki.",
+    "limit3": "Enintään 3 vientipyyntöä 24 tunnissa. Yritä myöhemmin uudelleen.",
+    "fullNotEnabled": "Täyttä vientiä ei ole vielä otettu käyttöön.",
+    "orgInProgress": "Organisaation vienti on jo käynnissä. Saat sähköpostin, kun se on valmis.",
+    "orgDailyLimit": "Organisaatio voi tilata {limit} vientiä päivässä. Yritä huomenna uudelleen.",
+    "notOrgMemberDot": "Et ole organisaation jäsen.",
+    "inProgress": "Vienti on jo käynnissä. Saat sähköpostin, kun se on valmis.",
+    "dailyLimit": "Voit tilata {limit} vientiä päivässä. Yritä huomenna uudelleen.",
+    "requestNotFound": "Vientipyyntöä ei löytynyt",
+    "cancelPendingOnly": "Vain odottavat pyynnöt voi peruuttaa",
+    "importClientNotFound": "{name}: Asiakasta \"{client}\" ei löytynyt",
+    "importClientRequired": "{name}: Asiakas vaaditaan",
+    "importInvoiceClientNotFound": "Lasku {number}: Asiakasta \"{client}\" ei löytynyt",
+    "importInvoiceError": "Lasku {number}: {message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "Osastosi on valinnut vapaapäivät, ja ne koskevat sinua. Et voi valita omia vapaapäiviäsi.",
+    "blockedOrg": "Organisaatiosi on valinnut vapaapäivät, ja ne koskevat sinua. Et voi valita omia vapaapäiviäsi.",
+    "blockedEmployee": "Työntekijänä noudatat organisaation vapaapäiviä. Pyydä ylläpitäjää valitsemaan vapaapäivät organisaatiolle tai osastollesi.",
+    "orgNeedsOrg": "Organisaation vapaapäivät vaativat organisaation",
+    "departmentNeedsBusiness": "Osastokohtaiset vapaapäivät vaativat Business-paketin",
+    "departmentNotFound": "Osastoa ei ole olemassa"
+  },
+  "dpa": {
+    "notFromEnv": "Henkilötietojen käsittelysopimusta ei voi vielä hyväksyä tästä ympäristöstä.",
+    "notInOrg": "Et ole organisaatiossa",
+    "ownersAdminsOnly": "Vain omistajat ja ylläpitäjät voivat hyväksyä sopimuksen"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "Sääntöä ei löytynyt"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "IMAP-salasana vaaditaan",
+    "cannotDecrypt": "Tallennetun salasanan salausta ei voitu purkaa. Anna IMAP-salasanasi uudelleen.",
+    "connectionFailed": "IMAP-yhteys epäonnistui: {message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "Tehtävää ei löytynyt",
+    "blockBracket": "Estä sähköpostit, joiden aiheessa on \"[{tag}]\"",
+    "blockKeyword": "Estä sähköpostit, joiden aiheessa on \"{keyword}\""
+  },
+  "ext": {
+    "notOrgMemberDot": "Et ole tämän organisaation jäsen.",
+    "invalidToken": "Virheellinen tunniste",
+    "tooManyAttempts": "Liian monta yritystä. Yritä uudelleen {seconds} sekunnin kuluttua.",
+    "sessionExpired": "Istunto on vanhentunut tai peruutettu. Kirjaudu sisään uudelleen.",
+    "tokenExpired": "Tunniste on vanhentunut",
+    "tokenNotFound": "Tunnistetta ei löytynyt",
+    "timerChangedElsewhere": "Ajastinta muutettiin toiselta laitteelta. Yritä uudelleen.",
+    "datesFormat": "Päivämäärien muodon on oltava VVVV-KK-PP",
+    "prepaidNotFound": "Tuntipakettia ei löytynyt",
+    "prepaidOtherClient": "Tuntipaketti kuuluu eri asiakkaalle kuin kirjaus",
+    "saveEntryFailed": "Tuntikirjauksen tallennus epäonnistui",
+    "createInProgress": "Luonti tällä avaimella on käynnissä. Yritä hetken kuluttua uudelleen.",
+    "import": {
+      "alreadyRunning": "Tuonti on jo käynnissä. Odota, kunnes se on valmis."
+    },
+    "projectOrClientNotFound": "Projektia tai asiakasta ei löytynyt"
+  },
+  "feedback": {
+    "screenshotFailed": "Näyttökuvaa ei voitu hakea S3:sta"
+  },
+  "imports": {
+    "timeopsConnect": "TimeOpsiin ei saatu yhteyttä: {detail}",
+    "networkError": "verkkovirhe",
+    "apiKeyInvalid": "API-avain on virheellinen tai vanhentunut",
+    "alreadyRunning": "Tuonti on jo käynnissä. Päätä se ensin.",
+    "notFound": "Tuontia ei löytynyt",
+    "cannotStart": "Tuontia ei voi aloittaa tilasta {status}",
+    "cannotCancel": "Tuontia ei voi peruuttaa tässä tilassa"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "Ajastin on jo käynnissä projektissa \"{project}\" verkkosovelluksessa. Pysäytä se ensin.",
+    "timerRunningProjectOther": "Ajastin on jo käynnissä projektissa \"{project}\" toisella laitteella. Pysäytä se ensin.",
+    "timerRunningAnyWeb": "Ajastin on jo käynnissä verkkosovelluksessa. Pysäytä se ensin.",
+    "timerRunningAnyOther": "Ajastin on jo käynnissä toisella laitteella. Pysäytä se ensin."
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "Dinero-yhteys on vanhentunut. Yhdistä uudelleen asetuksissa.",
+      "notConnectedShort": "Dineroa ei ole yhdistetty",
+      "notConnected": "Dineroa ei ole yhdistetty",
+      "connectionActive": "Yhteys Dineroon on aktiivinen",
+      "connectionFailed": "Dineroon ei saatu yhteyttä",
+      "clientExported": "Asiakas viety Dineroon",
+      "invoiceAlreadyExported": "Lasku on jo viety Dineroon",
+      "contactCreateFailed": "Asiakkaan \"{name}\" luonti Dineroon epäonnistui: API ei palauttanut yhteystiedon tunnusta. Kokeile viedä asiakas ensin manuaalisesti.",
+      "noAccount": "Tilinumeroa ei ole määritetty. Valitse oletustili kohdassa Asetukset → Dinero.",
+      "invoiceExported": "Lasku viety Dineroon",
+      "invoiceNotExported": "Laskua ei ole viety Dineroon",
+      "noPending": "Odottavaa Dinero-yhteyttä ei löytynyt. Yritä yhdistää uudelleen.",
+      "invalidOrg": "Valittu organisaatio on virheellinen",
+      "tokensDecryptFailed": "Tunnisteiden salausta ei voitu purkaa. Yritä yhdistää uudelleen."
+    },
+    "billy": {
+      "noApiKey": "Billyn API-avainta ei ole asetettu",
+      "decryptFailed": "Billyn API-avaimen salausta ei voitu purkaa",
+      "connectionActive": "Yhteys Billyyn on aktiivinen",
+      "connectionFailed": "Billyyn ei saatu yhteyttä",
+      "clientExported": "Asiakas viety Billyyn",
+      "invoiceAlreadyExported": "Lasku on jo viety Billyyn",
+      "clientCreateFailed": "Asiakkaan luonti tai haku Billyssä epäonnistui",
+      "productWithoutId": "Billy palautti tuotteen ilman tunnusta: {json}",
+      "invoiceWithoutId": "Billy palautti laskun ilman tunnusta: {json}",
+      "invoiceExported": "Lasku viety Billyyn",
+      "exportFailed": "Vienti Billyyn epäonnistui: {message}",
+      "invoiceNotExported": "Laskua ei ole viety Billyyn"
+    },
+    "unknownErrorOccurred": "Tapahtui tuntematon virhe",
+    "invoiceMissingClient": "Laskulla ei ole asiakasta",
+    "economic": {
+      "noTokens": "e-conomicin tunnisteita ei ole asetettu",
+      "decryptFailed": "e-conomicin tunnisteiden salausta ei voitu purkaa",
+      "connectionActive": "Yhteys e-conomiciin on aktiivinen",
+      "connectionFailed": "e-conomiciin ei saatu yhteyttä",
+      "clientExported": "Asiakas viety e-conomiciin",
+      "paymentTermsMissing": "Maksuehdot puuttuvat. Valitse ne kohdassa Asetukset → Integraatiot.",
+      "invoiceAlreadyExported": "Lasku on jo viety e-conomiciin",
+      "consultingLine": "Konsultointityö: {hours} tuntia",
+      "invoiceBooked": "Lasku kirjattu e-conomicissa",
+      "invoiceDraftCreated": "Lasku luotu e-conomiciin luonnoksena",
+      "invoiceNotExported": "Laskua ei ole viety e-conomiciin"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: Päivämäärämuotoa ei voitu tunnistaa automaattisesti. Valitse se manuaalisesti.",
+      "noValidRows": "CSV-tiedostosta ei löytynyt kelvollisia rivejä.",
+      "unknownClient": "Tuntematon asiakas"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "Yrityksen tiedot puuttuvat. Niiden on näyttävä laskussa, joten täytä ne kohdassa Asetukset → Yritysprofiili (tai pyydä ylläpitäjää) ennen ensimmäisen laskun luontia.",
+    "templateNotFound": "Laskupohjaa ei löytynyt",
+    "issuedCannotChange": "Annettuja laskuja ei voi muuttaa. Luo hyvityslasku korjataksesi summia tai ehtoja.",
+    "deletedCannotEdit": "Poistettuja laskuja ei voi muokata.",
+    "paidNotesOnly": "Maksettuja laskuja ei voi muokata. Voit vain lisätä muistiinpanoja.",
+    "draftsOnlyDelete": "Vain luonnoksia voi poistaa. Peruuta annetut laskut hyvityslaskulla.",
+    "creditNoteNotCreditable": "Hyvityslaskua ei voi hyvittää",
+    "draftNotCreditable": "Luonnoksia ei hyvitetä. Poista luonnos sen sijaan (sillä ei ole annettua numeroa).",
+    "deletedNotCreditable": "Poistettuja laskuja ei voi hyvittää",
+    "alreadyCredited": "Lasku on jo hyvitetty laskulla {number}",
+    "creditNoteNotes": "Hyvityslasku laskulle {number}, päivätty {date}",
+    "draftOnlyAddLines": "Rivejä voi lisätä vain laskuluonnoksiin",
+    "timeEntryNotFound": "Tuntikirjausta ei löytynyt",
+    "lineNotFound": "Laskuriviä ei löytynyt",
+    "draftOnlyEditLines": "Rivejä voi muokata vain laskuluonnoksissa",
+    "draftOnlyDeleteLines": "Rivejä voi poistaa vain laskuluonnoksista",
+    "draftOnlyReorder": "Järjestystä voi muuttaa vain laskuluonnoksissa",
+    "clientHasNoEmail": "Asiakkaalla ei ole sähköpostiosoitetta"
+  },
+  "logbook": {
+    "ownOnly": "Voit katsoa vain omaa ajopäiväkirjaasi",
+    "notInYourOrg": "Käyttäjä ei ole organisaatiosi jäsen",
+    "noAccessWaste": "Sinulla ei ole pääsyä organisaation hukattuun aikaan"
+  },
+  "marketing": {
+    "tooManyAttempts": "Liian monta yritystä. Yritä myöhemmin uudelleen."
+  },
+  "memberRates": {
+    "membersNotInOrg": "Yhtä tai useampaa jäsentä ei ole organisaatiossa"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "Organisaatiosi omistaja hallinnoi tilausta, joten sinun ei tarvitse valita pakettia.",
+    "privatePlanUnavailable": "Private-pakettia ei ole vielä saatavilla. Valitse toinen paketti."
+  },
+  "organization": {
+    "requiresOrg": "Vaatii organisaation",
+    "noActiveOrg": "Ei aktiivista organisaatiota",
+    "moduleNotAssigned": "Moduulia \"{module}\" ei ole määritetty tälle organisaatiolle",
+    "moduleUnavailable": "Moduuli \"{module}\" ei ole käytettävissäsi. Ota yhteyttä tukeen.",
+    "noSelfTransfer": "Et voi siirtää omistajuutta itsellesi",
+    "ownerOnlyTransfer": "Vain omistaja voi siirtää omistajuuden",
+    "memberNotFound": "Jäsentä ei löytynyt"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "Vain omistajat ja ylläpitäjät voivat katsoa toimintalokia"
+  },
+  "portalBranding": {
+    "noDomain": "Ei vahvistettavaa domainia",
+    "verifyFailed": "Domainia ei voitu vahvistaa. Tarkista, että DNS:n TXT-tietue '_timetrack-verify.{domain}' sisältää tunnisteen: {token}"
+  },
+  "prepaid": {
+    "invalidHours": "Virheellinen tuntimäärä tuntipaketin vähennykselle",
+    "otherClient": "Tuntipaketti kuuluu eri asiakkaalle kuin tuntikirjauksen asiakas",
+    "inactive": "Tuntipaketti ei ole aktiivinen",
+    "expired": "Tuntipaketti on vanhentunut",
+    "insufficientHours": "Tuntipaketissa ei ole tarpeeksi tunteja jäljellä. Käytettävissä olevat tunnit: {available}",
+    "insufficientHoursClip": "Tuntipaketissa ei ole tarpeeksi tunteja jäljellä. Käytettävissä olevat tunnit: {available}, tarvitaan {required} h (pyöristetty ylöspäin {minutes} minuutin lohkoihin)",
+    "multipleClients": "Valitut tuntikirjaukset kuuluvat useille asiakkaille. Valitse kirjauksia vain yhdeltä asiakkaalta.",
+    "entriesNotFound": "Yhtä tai useampaa tuntikirjausta ei löytynyt",
+    "alreadyBilled": "{count, plural, one {# valituista tuntikirjauksista on jo laskutettu, eikä sitä voi vähentää tuntipaketista} other {# valituista tuntikirjauksista on jo laskutettu, eikä niitä voi vähentää tuntipaketista}}",
+    "foreignEntries": "{count, plural, one {# tuntikirjaus kuuluu eri asiakkaalle kuin tuntipaketti} other {# tuntikirjausta kuuluu eri asiakkaalle kuin tuntipaketti}}",
+    "requestNotFound": "Pyyntöä ei löytynyt tai se on jo käsitelty",
+    "gone": "Tuntipakettia ei enää ole",
+    "renewalInvoiceNote": "Tuntipaketin \"{name}\" uusiminen, asiakkaan pyytämä portaalin kautta",
+    "totalBelowUsed": "Tuntien kokonaismäärä ei voi olla pienempi kuin jo käytetyt tunnit ({used} h)",
+    "hasUsage": "Tuntipakettia, jossa on kirjattua käyttöä, ei voi poistaa. Poista se käytöstä sen sijaan.",
+    "entryNotFound": "Tuntikirjausta ei löytynyt"
+  },
+  "projects": {
+    "hasBilledEntries": "Projektissa on laskutettuja tuntikirjauksia, eikä sitä voi poistaa pysyvästi. Arkistoi se sen sijaan.",
+    "nameMismatch": "Projektin nimi ei täsmää",
+    "noneFound": "Projekteja ei löytynyt"
+  },
+  "portal": {
+    "invalidLink": "Virheellinen tai vanhentunut linkki",
+    "invalidLogin": "Virheellinen sähköposti tai salasana",
+    "noInvoiceAccess": "Ei pääsyä laskuihin",
+    "noProjectAccess": "Ei pääsyä projekteihin",
+    "noTimeAccess": "Ei pääsyä tuntikirjauksiin",
+    "noPrepaidAccess": "Ei pääsyä tuntipaketteihin",
+    "tooManyRequests": "Liian monta pyyntöä. Yritä myöhemmin uudelleen.",
+    "prepaidInactive": "Tuntipaketti ei ole aktiivinen. Ota yhteyttä toimittajaasi.",
+    "noAccess": "Ei pääsyä",
+    "notAllowedApprove": "Ei oikeutta hyväksyä aikaa",
+    "requestNotFound": "Pyyntöä ei löytynyt",
+    "requestHandled": "Pyyntö on jo käsitelty",
+    "notAllowedReject": "Ei oikeutta hylätä aikaa"
+  },
+  "quickSignup": {
+    "created": "Tili luotu! Kirjaudutaan sisään…",
+    "emailNotAllowed": "Tätä sähköpostiosoitetta ei voi käyttää rekisteröitymiseen.",
+    "emailTaken": "Tämä sähköposti on jo rekisteröity",
+    "createFailed": "Tilin luonti epäonnistui",
+    "error": "Tilin luonnissa tapahtui virhe"
+  },
+  "recurringInvoices": {
+    "clientArchived": "Asiakas on arkistoitu. Palauta asiakas ensin.",
+    "prepaidFixedAmount": "Tuntipaketti laskutetaan kiinteällä summalla, joten älä valitse kirjattua aikaa",
+    "prepaidNoRenewal": "Tuntipaketti ei uusiudu automaattisesti. Ota ensin käyttöön jaksoittainen uusiminen.",
+    "needLine": "Lisää vähintään yksi rivi, jonka summa on yli 0",
+    "firstDateInPast": "Ensimmäinen laskupäivä ei voi olla ennen tätä päivää",
+    "notFound": "Toistuvaa laskua ei löytynyt",
+    "nextDateInPast": "Seuraava laskupäivä ei voi olla ennen tätä päivää"
+  },
+  "recurring": {
+    "startDateRequired": "Toistuville pohjille vaaditaan alkamispäivä",
+    "cannotPause": "Ei-toistuvaa pohjaa ei voi keskeyttää",
+    "cannotResume": "Ei-toistuvaa pohjaa ei voi jatkaa"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "Tiimin kannattavuus vaatii organisaation",
+    "utilisationNeedsOrg": "Käyttöaste vaatii organisaation",
+    "weekdayRange": "Viikonpäivän on oltava 1-7",
+    "linkNotFound": "Linkkiä ei löytynyt",
+    "tooManyRows": "Raportissa on yli 10 000 kirjausta. Rajaa päivämääräväliä."
+  },
+  "reportTemplates": {
+    "clientNotYours": "Asiakas ei kuulu tilillesi.",
+    "systemNoEdit": "Järjestelmäpohjia ei voi muokata. Monista ne sen sijaan.",
+    "systemNoDelete": "Järjestelmäpohjia ei voi poistaa."
+  },
+  "security": {
+    "accountNotFound": "Tiliä ei löytynyt",
+    "lastLoginMethodRemove": "Et voi poistaa viimeistä kirjautumistapaasi. Lisää ensin salasana tai pääsyavain.",
+    "passkeyNotFound": "Pääsyavainta ei löytynyt",
+    "lastLoginMethodDelete": "Et voi poistaa viimeistä kirjautumistapaasi. Lisää ensin salasana tai yhdistä OAuth-tili.",
+    "sessionNotFound": "Istuntoa ei löytynyt",
+    "cannotEndCurrent": "Et voi päättää nykyistä istuntoasi. Kirjaudu sen sijaan ulos.",
+    "currentSessionNotFound": "Nykyistä istuntoa ei löytynyt",
+    "phoneIsOnlyMethod": "Et voi poistaa puhelinnumeroasi, koska se on ainoa kirjautumistapasi. Lisää ensin toinen tapa.",
+    "deviceNotFound": "Laitetta ei löytynyt",
+    "rec": {
+      "addLoginMethod": "Lisää kirjautumistapa",
+      "verifyEmail": "Vahvista sähköpostiosoitteesi",
+      "enable2fa": "Ota kaksivaiheinen tunnistautuminen käyttöön",
+      "addPasskey": "Lisää pääsyavain nopeampaa ja turvallisempaa kirjautumista varten",
+      "addMore": "Lisää muita kirjautumistapoja varmuuskopioksi"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "Sinulla on jo aktiivinen tilaus. Käytä kohtaa \"Hallitse laskutusta\" vaihtaaksesi pakettia tai maksutapaa.",
+    "seatsExceedIncluded": "Organisaatiosi käyttää {seats} paikkaa, eli {extra} enemmän kuin pakettiin {plan} sisältyvät {included}. Itsepalvelupäivitys ei ole vielä mahdollinen menettämättä paikkoja. Ota yhteyttä tukeen, niin siirrämme sinut käsin.",
+    "noCheckoutUrl": "Alunta ei palauttanut kassan osoitetta. Ota yhteyttä tukeen.",
+    "extraSeatsNeedSubscription": "Lisäpaikat vaativat aktiivisen tilauksen. Valitse ensin paketti ja lisää maksutapa.",
+    "noActiveAddPayment": "Aktiivista tilausta ei löytynyt. Lisää ensin maksutapa.",
+    "noActive": "Aktiivista tilausta ei löytynyt",
+    "none": "Tilausta ei löytynyt",
+    "requestFailed": "Pyynnön lähetys epäonnistui. Yritä myöhemmin uudelleen.",
+    "priceSuffixYear": "kr/vuosi",
+    "priceSuffixMonth": "kr/kk",
+    "checkoutComingSoon": "Maksaminen ei ole vielä avoinna täällä. Käytössäsi on ilmainen paketti."
+  },
+  "tags": {
+    "nameExists": "Tunniste nimeltä \"{name}\" on jo olemassa",
+    "timeEntryNotFound": "Tuntikirjausta ei löytynyt",
+    "notYours": "Yksi tai useampi tunniste ei kuulu sinulle",
+    "projectNotFound": "Projektia ei löytynyt",
+    "projectsNotFound": "Yhtä tai useampaa projektia ei löytynyt tai sinulla ei ole niihin pääsyä",
+    "clientNotFound": "Asiakasta ei löytynyt"
+  },
+  "tasks": {
+    "parentNotFound": "Ylätehtävää ei löytynyt",
+    "subtaskNoSubtasks": "Alitehtävällä ei voi olla omia alitehtäviä",
+    "laneNotFound": "Saraketta ei löytynyt",
+    "laneOtherBoard": "Sarake kuuluu eri tauluun kuin tehtävä",
+    "moveSameBoard": "Tehtävän voi siirtää vain saman taulun sisällä",
+    "dryRunFailed": "Kuivaajoa ei voitu validoida",
+    "bulkFailed": "Massamuutosta ei voitu validoida",
+    "bulkRolledBack": "Kaikkia valittuja tehtäviä ei päivitetty, ja tapahtuma peruttiin",
+    "assignNeedsOrg": "Määrittäminen vaatii organisaation",
+    "assigneeNotMember": "Vastuuhenkilö ei ole organisaation jäsen",
+    "mainTaskNotFound": "Päätehtävää ei löytynyt",
+    "assignedPushTitle": "📋 Uusi tehtävä määritetty",
+    "assignedPushBody": "{name} määritti sinulle tehtävän \"{task}\"",
+    "aColleague": "Kollega"
+  },
+  "user": {
+    "pageUnavailable": "Tämä sivu ei ole tällä hetkellä käytettävissäsi",
+    "emailMismatch": "Sähköposti ei vastaa tiliäsi",
+    "deleteFailed": "Poistoa ei voitu suorittaa loppuun. Ota yhteyttä tukeen, niin autamme sinua.",
+    "aiConnectionOk": "Yhteys toimii! Vastaus: \"{reply}\"",
+    "aiConnectionFailed": "Yhteys epäonnistui: {message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "Voit käsitellä poissaoloja vain omille työntekijöillesi",
+      "requestNotFound": "Poissaolopyyntöä ei löytynyt",
+      "approveOnlyPending": "Pyynnön voi hyväksyä vain, kun se on odottavana",
+      "noSelfApprove": "Et voi hyväksyä omaa poissaoloasi",
+      "rejectOnlyPending": "Pyynnön voi hylätä vain, kun se on odottavana",
+      "typeHasPending": "Poissaolotyyppiä, jolla on odottavia pyyntöjä, ei voi poistaa. Hylkää tai peruuta ne ensin.",
+      "managersOnlyForOthers": "Vain esihenkilöt ja ylläpitäjät voivat kirjata poissaoloja muille",
+      "endBeforeStart": "Loppupäivä ei voi olla ennen alkupäivää",
+      "endDateRequired": "Tyypille {type} vaaditaan loppupäivä. Vain sairauden ja vapaan voi kirjata ilman loppupäivää.",
+      "overlapOther": "Työntekijällä on jo poissaolo tällä jaksolla",
+      "overlapOwn": "Sinulla on jo poissaolopyyntö tällä jaksolla",
+      "registrationNotFound": "Poissaolokirjausta ei löytynyt",
+      "selfReturnOnly": "Voit ilmoittaa terveeksi vain itsesi",
+      "periodAlreadyEnded": "Jakso on jo päättynyt",
+      "onlyActiveRecovered": "Vain aktiiviset kirjaukset voi ilmoittaa terveeksi",
+      "lastDayBeforeStart": "Poissaolon viimeinen päivä ei voi olla ennen alkupäivää",
+      "endedElsewhere": "Jakso on jo päätetty muualla. Lataa luettelo uudelleen.",
+      "recoveredPushTitle": "Ilmoitettu terveeksi",
+      "recoveredPushBody": "{type} päättyi {date}",
+      "requestNotFoundShort": "Pyyntöä ei löytynyt",
+      "ownOnlyEdit": "Voit muokata vain omia pyyntöjäsi",
+      "pendingOnlyEdit": "Vain odottavia pyyntöjä voi muokata",
+      "alreadyCancelled": "Pyyntö on jo peruttu",
+      "fixedHolidayNoCancel": "Kiinteää lomaa (sulkujaksoa) ei voi peruuttaa. Ota yhteyttä ylläpitäjään.",
+      "changedElsewhere": "Pyyntöä muutettiin muualla. Lataa luettelo uudelleen.",
+      "employeeNotInOrg": "Työntekijää ei ole organisaatiossa"
+    },
+    "handledElsewhere": "Pyyntö on jo käsitelty muualla. Lataa luettelo uudelleen.",
+    "yourManager": "Esihenkilösi",
+    "absenceTypeNotFound": "Poissaolotyyppiä ei löytynyt",
+    "activityTypeNotInOrg": "Toimintatyyppiä ei ole organisaatiossasi",
+    "projectNotInOrg": "Projektia ei ole organisaatiossasi",
+    "activityTypesNotInOrg": "Yhtä tai useampaa toimintatyyppiä ei ole organisaatiossasi",
+    "projectsNotInOrg": "Yhtä tai useampaa projektia ei ole organisaatiossasi",
+    "activityTypesUnknown": "Yksi tai useampi toimintatyyppi on tuntematon tai arkistoitu",
+    "checkin": {
+      "already": "Olet jo kirjautunut sisään",
+      "noneOpen": "Avointa sisäänkirjausta ei löytynyt"
+    },
+    "closure": {
+      "maxDays": "Sulkujakso voi olla enintään {days} päivää. Luo sen sijaan useita jaksoja.",
+      "needsVacationType": "Kiinteiden lomaviikkojen on käytettävä poissaolotyyppiä, joka vähentää lomaa",
+      "notFound": "Sulkujaksoa ei löytynyt"
+    },
+    "employeeProfileNotFound": "Työntekijäprofiilia ei löytynyt",
+    "compliance": {
+      "ownOnly": "Voit katsoa vain omaa vaatimustenmukaisuustilaasi",
+      "rejected": "Työaikasäännöt hylkäsivät kirjauksen: {reasons}"
+    },
+    "departmentNotFound": "Osastoa ei löytynyt",
+    "deptManagers": {
+      "oncePerDept": "Sama käyttäjä voi esiintyä vain kerran osastoa kohden",
+      "validFromBeforeTo": "Alkupäivän on oltava ennen loppupäivää",
+      "usersNotMembers": "Yksi tai useampi käyttäjä ei ole organisaation jäsen"
+    },
+    "employee": {
+      "employmentEnded": "Työsuhde on jo päättynyt",
+      "endBeforePeriodStart": "Loppupäivä ei voi olla ennen jakson alkua ({date})",
+      "managerNotFound": "Esihenkilöä ei löytynyt",
+      "ownManager": "Työntekijä ei voi olla oma esihenkilönsä",
+      "managerCycle": "Esihenkilöhierarkia muodostaa kehän",
+      "viewOwnTeamProfiles": "Voit katsoa vain omien työntekijöidesi profiileja",
+      "profileExists": "Työntekijällä on jo profiili tässä organisaatiossa",
+      "hireDateManaged": "Palkkauspäivää hallitaan työsuhdehistoriassa. Muokkaa sitä Työsuhde-välilehdellä.",
+      "viewOwnTeamEmployments": "Voit katsoa vain omien työntekijöidesi työsuhteita",
+      "startAfterLatest": "Alkamispäivän on oltava viimeisimmän jakson alun ({date}) jälkeen",
+      "endedOn": "Työsuhde päättyi {date}. Uuden jakson on alettava sen päivän jälkeen.",
+      "periodNotFound": "Työsuhdejaksoa ei löytynyt",
+      "historyOwnTeamOnly": "Voit katsoa vain omien työntekijöidesi historiaa"
+    },
+    "flex": {
+      "ownBalanceOnly": "Voit katsoa vain omaa liukumasaldoasi",
+      "recalcScope": "Voit laskea liukuman uudelleen vain itsellesi tai työntekijöillesi",
+      "profileNotInOrg": "Työntekijäprofiilia ei löytynyt tästä organisaatiosta"
+    },
+    "holidays": {
+      "notFound": "Arkipyhää ei löytynyt",
+      "defaultNoDelete": "Oletusarkipyhiä ei voi poistaa. Valitse sen sijaan vapaapäiväkalenterin esiasetus."
+    },
+    "mw": {
+      "noActiveOrg": "Aktiivista organisaatiota ei löytynyt",
+      "noEmployeeProfile": "Sinulla ei ole työntekijäprofiilia tässä organisaatiossa. Ota yhteyttä ylläpitäjään.",
+      "twoFactorRequired": "Organisaatio vaatii esihenkilöiltä ja ylläpitäjiltä kaksivaiheisen tunnistautumisen. Ota 2FA käyttöön kohdassa Asetukset → Tietoturva ja yritä uudelleen.",
+      "hrReadOnly": "HR-rooli voi katsoa mutta ei hyväksyä tai muokata",
+      "managerRequired": "Tämä toiminto vaatii esihenkilön tai ylläpitäjän oikeudet",
+      "viewRequiresRole": "Tämä näkymä vaatii esihenkilön, HR:n tai ylläpitäjän oikeudet",
+      "ownersAdminsOnly": "Vain omistajilla ja ylläpitäjillä on pääsy tähän ominaisuuteen",
+      "twoFactorAdmins": "Organisaatio vaatii ylläpitäjiltä kaksivaiheisen tunnistautumisen"
+    },
+    "notifications": {
+      "addTeamsFirst": "Lisää Teams-webhook ennen Teamsin käyttöönottoa",
+      "noTeamsWebhook": "Teams-webhookia ei ole tallennettu",
+      "testBody": "Organisaation {org} Teams-integraatio toimii. Esihenkilötapahtumat (tuntilistat, poissaolot, sairauspoissaolot, työaikasäännöt ja yhteenveto) lähetetään tänne.",
+      "theOrganisation": "organisaation",
+      "teamsRejected": "Teams hylkäsi testiviestin: {message}"
+    },
+    "organizationNotFound": "Organisaatiota ei löytynyt",
+    "org": {
+      "deptHasEmployees": "Osastoa, johon on määritetty työntekijöitä, ei voi poistaa. Siirrä työntekijät ensin."
+    },
+    "overtime": {
+      "ownEmployeesOnly": "Voit kirjata vain omille työntekijöillesi",
+      "positiveHours": "Anna positiivinen tuntimäärä",
+      "notZero": "Kirjaus ei voi olla 0 tuntia"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "Palkkalajia ei ole organisaatiossasi",
+      "wageTypeCodeExists": "Palkkalaji tällä koodilla on jo olemassa",
+      "ruleNotInOrg": "Sääntöä ei ole organisaatiossasi",
+      "employeeNumberTaken": "Työntekijänumero on jo jonkun toisen käytössä",
+      "exportTitle": "Palkkavienti: {org}"
+    },
+    "absenceTypeNotInOrg": "Poissaolotyyppiä ei ole organisaatiossasi",
+    "exportRateLimited": "Liian monta vientiä. Yritä uudelleen {seconds} sekunnin kuluttua.",
+    "closing": {
+      "notEnabled": "Jakson päättäminen ei ole käytössä organisaation asetuksissa",
+      "afterPeriodEnd": "Tilityksen voi luoda vasta, kun jakso on päättynyt",
+      "approvedNoRecalc": "Hyväksyttyä tilitystä ei voi laskea uudelleen. Avaa sen lukitus ensin.",
+      "noSelfApprove": "Et voi hyväksyä omaa jaksotilitystäsi",
+      "alreadyApproved": "Tilitys on jo hyväksytty",
+      "ownAckOnly": "Voit kuitata vain oman tilityksesi",
+      "needsManagerApproval": "Esihenkilösi on hyväksyttävä tilitys ennen kuin kuittaat sen",
+      "notLocked": "Jaksoa ei ole lukittu",
+      "notFound": "Tilitystä ei ole olemassa"
+    },
+    "assign": {
+      "usersNotActive": "Yksi tai useampi käyttäjä ei ole organisaation aktiivinen työntekijä"
+    },
+    "reports": {
+      "payrollHrOnly": "Palkkaraportti on varattu HR:lle ja ylläpitäjille",
+      "shareHrOnly": "Vain HR ja ylläpitäjät voivat jakaa pohjia koko organisaatiolle",
+      "defaultNoOverwrite": "Oletuspohjaa ei voi korvata. Tallenna se uudella nimellä.",
+      "ownEditOnly": "Voit muokata vain omia pohjiasi",
+      "defaultNoDelete": "Oletuspohjaa ei voi poistaa",
+      "ownDeleteOnly": "Voit poistaa vain omia pohjiasi",
+      "weekdayRange": "Viikonpäivän on oltava 1-7"
+    },
+    "reportTypeHrOnly": "Tämä raporttityyppi on varattu HR:lle ja ylläpitäjille",
+    "sso": {
+      "invalidTenant": "Virheellinen vuokraajan tunnus. Odotettiin GUID-muotoa xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (Directory (tenant) ID Azuressa).",
+      "microsoftNotConfigured": "Microsoft-kirjautumista ei ole määritetty tässä asennuksessa, joten \"vain SSO\" -tilaa ei voi ottaa käyttöön.",
+      "verifyDomainFirst": "Vahvista vähintään yksi domain ennen kuin \"vain SSO\" voidaan ottaa käyttöön, muuten käytäntö ei koskisi ketään.",
+      "connectMicrosoftFirst": "Yhdistä ensin Microsoft omaan tiliisi (Asetukset → Tietoturva → Yhdistä Microsoft), muuten lukitset itsesi ulos, kun \"vain SSO\" on käytössä.",
+      "enable2faFirst": "Ota ensin kaksivaiheinen tunnistautuminen käyttöön omalla tililläsi, muuten lukitset itsesi ulos hallinnasta.",
+      "invalidDomain": "Virheellinen domain. Kirjoita esim. example.com (ilman @-merkkiä tai https://).",
+      "publicProviders": "Julkisia sähköpostipalveluja (gmail.com, outlook.com jne.) ei voi käyttää automaattiseen liittymiseen.",
+      "domainAlreadyAdded": "Domain on jo lisätty.",
+      "domainVerifiedElsewhere": "Toinen organisaatio on jo vahvistanut domainin. Ota yhteyttä tukeen, jos tämä on virhe.",
+      "maxDomains": "Enintään {max} domainia organisaatiota kohden.",
+      "domainNotFound": "Domainia ei löytynyt",
+      "domainVerifiedElsewhereShort": "Toinen organisaatio on jo vahvistanut domainin.",
+      "txtCorrectButTaken": "TXT-tietue on oikea, mutta toinen organisaatio on jo vahvistanut domainin. Ota yhteyttä tukeen.",
+      "justVerifiedElsewhere": "Toinen organisaatio vahvisti domainin juuri äsken. Ota yhteyttä tukeen."
+    },
+    "team": {
+      "timesheetsOwnEmployees": "Voit käsitellä tuntilistoja vain omille työntekijöillesi",
+      "employeeNotInOrg": "Työntekijää ei ole organisaatiossasi",
+      "weekNothingToApprove": "Viikolla ei ole hyväksyttäviä kirjauksia",
+      "weekAlreadyApproved": "Viikko on jo hyväksytty",
+      "noSelfApprove": "Et voi hyväksyä omaa tuntilistaasi",
+      "onlySubmittedRejectable": "Vain lähetetyt viikot voi hylätä",
+      "weekInClosedPeriod": "Viikko on suljetulla jaksolla. Avaa jakson lukitus ensin kohdassa Jakson päättäminen.",
+      "onlyApprovedReopen": "Vain hyväksytyt viikot voi avata uudelleen",
+      "historyOwnEmployees": "Voit katsoa vain omien työntekijöidesi historiaa"
+    },
+    "import": {
+      "noProject": "(ei projektia)",
+      "beforeLock": "{count} riviä on jaksolukituksen {date} edellä",
+      "submittedWeeks": "{count} lähetettyä/hyväksyttyä viikkoa saa uusia rivejä, eivätkä ne lasketa jo hyväksyttyyn kokonaismäärään"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "Viikko on jo hyväksytty. Pyydä esihenkilöäsi avaamaan se uudelleen.",
+      "weekAlreadySubmitted": "Viikko on jo lähetetty ja odottaa hyväksyntää",
+      "weekNothingToSubmit": "Viikolla ei ole lähetettäviä kirjauksia",
+      "activityNotAllowed": "Toiminto ei ole sallittu tässä projektissa",
+      "dayHasDetailed": "Päivällä on {hours} tuntia yksityiskohtaisissa kirjauksissa. Muokkaa niitä kohdassa Tuntiseuranta tai anna vähintään yhtä monta.",
+      "chooseOtherActivity": "Valitse toinen toiminto, johon siirretään",
+      "noEmployeeProfile": "Sinulla ei ole työntekijäprofiilia tässä organisaatiossa",
+      "fixedHoliday": "Päivä on kiinteää lomaa (sulkujakso), etkä voi muuttaa sitä",
+      "coveredByLongAbsence": "Päivä kuuluu pidempään poissaolojaksoon. Muokkaa sitä kohdassa Poissaolo.",
+      "notEmployed": "Et ollut työsuhteessa tänä päivänä",
+      "holidayNoAbsence": "Päivä on vapaapäivä tai arkipyhä, joten poissaoloa ei voi kirjata",
+      "lastWeekEmpty": "Viime viikolla ei ole kopioitavia kirjauksia",
+      "weekNothingToSave": "Viikolla ei ole kirjauksia tallennettavaksi pohjaksi",
+      "templateMissing": "Pohjaa ei ole olemassa"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "Vain esihenkilöt voivat muokata työntekijän työaikaa",
+      "ownOnlyView": "Voit katsoa vain omaa työaikaasi",
+      "employeeNotInOrg": "Työntekijää ei ole organisaatiossa",
+      "sharedPlan": "Suunnitelmaa käytetään myös työntekijöidesi ulkopuolella. Pyydä ylläpitäjää muuttamaan sitä.",
+      "planMissing": "Suunnitelmaa ei ole olemassa",
+      "planArchived": "Suunnitelma on arkistoitu",
+      "laterVersion": "Myöhempi versio päivästä {date} on olemassa. Muokkaa sitä sen sijaan.",
+      "versionFromToday": "Tästä päivästä voimassa oleva versio on jo olemassa. Valitse myöhempi päivä.",
+      "adminsOnlyDept": "Vain ylläpitäjät voivat määrittää suunnitelman osastolle",
+      "departmentMissing": "Osastoa ei ole olemassa",
+      "deviationsRecorded": "Poikkeamat kirjataan, kun ne tapahtuvat. Suunniteltu poissaolo kirjataan kohdassa Loma ja poissaolo.",
+      "noFixedPlanToday": "Tälle päivälle ei ole kiinteää työsuunnitelmaa. Kirjaa aika tuntikirjauksina."
+    },
+    "dpa": {
+      "outdated": "Sopimus päivitettiin sivun lataamisen jälkeen. Lataa sivu uudelleen ja lue uusi versio.",
+      "acceptFailed": "Hyväksynnän rekisteröinti epäonnistui",
+      "signIn": "Kirjaudu sisään ladataksesi sen",
+      "ownersAdminsDownload": "Vain omistajat ja ylläpitäjät voivat ladata valmiin sopimuksen"
+    },
+    "edit": {
+      "weekApprovedLocked": "Viikko on hyväksytty ja lukittu. Pyydä esihenkilöäsi avaamaan se uudelleen.",
+      "weekSubmitted": "Viikko on lähetetty hyväksyttäväksi, eikä sitä voi muokata",
+      "entryApproved": "Esihenkilösi on hyväksynyt kirjauksen. Pyydä viikon avaamista uudelleen."
+    },
+    "periodMaxDaysAsync": "Jakso voi olla enintään {days} päivää",
+    "scope": {
+      "ownEmployees": "Voit käsitellä vain omia työntekijöitäsi"
+    },
+    "dns": {
+      "unknown": "Tuntematon DNS-virhe",
+      "lookupFailed": "DNS-haku epäonnistui: {error}",
+      "noRecord": "TXT-tietuetta \"{record}\" ei löytynyt palvelimilta {hosts}. DNS-muutokset voivat kestää jopa tunnin."
+    }
+  },
+  "emailTemplates": {
+    "notFound": "Pohjaa ei löytynyt",
+    "systemNoEdit": "Järjestelmäpohjia ei voi muokata",
+    "systemNoDelete": "Järjestelmäpohjia ei voi poistaa",
+    "alreadyExist": "Pohjia on jo olemassa"
+  },
+  "api": {
+    "tooManyRequestsLater": "Liian monta pyyntöä. Yritä myöhemmin uudelleen.",
+    "cvr": {
+      "queryMin2": "Hakusanan on oltava vähintään 2 merkkiä",
+      "noCompany": "Yritystä ei löytynyt",
+      "searchFailed": "Haussa tapahtui virhe",
+      "numberOrQueryRequired": "CVR-numero tai hakusana vaaditaan",
+      "eightDigits": "CVR-numerossa on oltava 8 numeroa",
+      "noCompanyForNumber": "Tällä CVR-numerolla ei löytynyt yritystä",
+      "lookupFailed": "CVR-numeron haussa tapahtui virhe"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "Vientiä ei löytynyt tai se on vanhentunut",
+      "expired": "Vienti on vanhentunut tai ei ole enää saatavilla. Tilaa uusi vienti."
+    },
+    "notAuthorized": "Ei valtuutettu. Kirjaudu ensin sisään.",
+    "desktop": {
+      "deviceCodeMissing": "Laitekoodi puuttuu (code)",
+      "maxDevices": "Laitteiden enimmäismäärä saavutettu ({max}). Poista ensin yksi laite käytöstä.",
+      "invalidDeviceToken": "Virheellinen laitetunniste",
+      "userNotFound": "Käyttäjää ei ole olemassa",
+      "settingsReadFailed": "Asetusten lukeminen epäonnistui",
+      "notInAnyOrg": "Et ole minkään organisaation jäsen",
+      "adminsOnlyIntegrations": "Vain ylläpitäjät voivat muuttaa integraatioasetuksia",
+      "invalidIntegrationSettings": "Virheelliset integraatioasetukset",
+      "settingsSaveFailed": "Asetusten tallennus epäonnistui",
+      "draftOnlyEditLines": "Rivejä voi muuttaa vain laskuluonnoksissa",
+      "invalidPrepaidHours": "Virheellinen tuntimäärä tuntipaketin tuntikirjauksessa",
+      "draftOnlyEditInvoices": "Vain laskuluonnoksia voi muokata",
+      "unbillOnlyWeb": "Laskutusmerkinnän voi poistaa vain verkkosovelluksessa. Poista se sieltä ensin.",
+      "entryNotFoundOrOther": "Kohdetta ei löytynyt: {id}. Kirjausta ei ole olemassa tai se kuuluu toiselle käyttäjälle"
+    },
+    "notMemberOfChosenOrg": "Et ole valitun organisaation jäsen",
+    "approvalFailed": "Hyväksyntä epäonnistui",
+    "invalidEmail": "Virheellinen sähköpostiosoite",
+    "genericError": "Tapahtui virhe",
+    "dpa": {
+      "pdfFailed": "PDF:ää ei voitu luoda juuri nyt"
+    },
+    "invalidOrigin": "Virheellinen alkuperä",
+    "invalidRequest": "Virheellinen pyyntö",
+    "ext": {
+      "invalidLoginLink": "Virheellinen kirjautumislinkki. Aloita kirjautuminen uudelleen sovelluksesta.",
+      "invalidRedirect": "Virheellinen uudelleenohjauksen URI"
+    },
+    "feedback": {
+      "notSignedIn": "Ei kirjautuneena",
+      "otherUser": "Raportin on kirjoittanut toinen käyttäjä",
+      "tooLarge": "Raportti on liian suuri",
+      "invalid": "Virheellinen raportti",
+      "saveFailed": "Palautetta ei voitu tallentaa"
+    },
+    "invalidJson": "Virheellinen JSON",
+    "integrations": {
+      "dineroFailed": "Dinero-yhteyttä ei voitu luoda. Yritä uudelleen.",
+      "economicFailed": "e-conomic-yhteyttä ei voitu luoda. Yritä uudelleen.",
+      "googleFailed": "Google-yhteyttä ei voitu luoda. Yritä uudelleen."
+    },
+    "invoiceSend": {
+      "invalidRecipient": "Virheellinen vastaanottajan sähköposti",
+      "emailNotConfigured": "Sähköpostipalvelua ei ole määritetty. Ota yhteyttä ylläpitäjään RESEND_API_KEY:n tai SMTP_HOST:n määrittämiseksi.",
+      "sendFailed": "Sähköpostin lähetys epäonnistui. Yritä myöhemmin uudelleen.",
+      "sent": "Sähköposti lähetetty osoitteeseen {email}",
+      "error": "Sähköpostin lähetyksessä tapahtui virhe"
+    },
+    "upload": {
+      "notAuthorized": "Ei valtuutettu",
+      "noFile": "Tiedostoa ei ladattu",
+      "imageTypes": "Vain JPEG, PNG ja WebP ovat sallittuja",
+      "tooBig": "Tiedosto on liian suuri (enintään 8 Mt)",
+      "notConfigured": "Tiedostojen lataus ei ole määritetty (S3_ENDPOINT tai STORAGE_DRIVER=local puuttuu)",
+      "failed": "Tiedoston lataus tallennustilaan epäonnistui"
+    },
+    "webhookTest": {
+      "tooMany": "Liian monta testiyritystä tälle webhookille. Yritä hetken kuluttua uudelleen."
+    },
+    "import": {
+      "tagNoName": "Tunnisteella ei ole nimeä"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "Tuntipaketti kuuluu eri asiakkaalle kuin ajastin"
+  }
+}

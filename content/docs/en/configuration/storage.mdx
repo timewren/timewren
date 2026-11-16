@@ -1,0 +1,67 @@
+---
+title: "File storage"
+description: "Where TimeWren keeps uploads, attachments and exports: a local Docker volume or an S3-compatible bucket."
+---
+
+TimeWren stores files on local disk by default. You can switch to any S3-compatible service instead.
+
+## What is stored
+
+- Uploads: avatars, logos and task images.
+- Email attachments, only when `EMAIL_SYNC_STORE_ATTACHMENTS=true` (see below).
+- Data exports.
+
+Without any storage configured, uploads are switched off.
+
+## Local volume
+
+`docker-compose.yml` sets `STORAGE_DRIVER=local` and `STORAGE_LOCAL_PATH=/app/data/storage`, and mounts the named volume `storage` there. Under the default project name the volume is called `timetrack_storage`. Files live in `objects/` and their metadata in `meta/` below that path.
+
+The app runs as uid 1001 (user `nextjs`). The volume must be writable by that user. If uploads fail with a permission error, fix the ownership:
+
+```bash
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+```
+
+Include the volume in your [backups](/docs/operations/backup-restore); `scripts/backup.sh` archives it for you.
+
+## S3-compatible storage
+
+Works with AWS S3, Hetzner Object Storage, Cloudflare R2, MinIO and similar. In `.env`:
+
+```dotenv
+S3_ENDPOINT=https://s3.example.com
+S3_REGION=eu-central-1
+S3_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
+S3_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+S3_BUCKET=timewren
+S3_PREFIX=prod
+```
+
+The driver is chosen like this:
+
+- `STORAGE_DRIVER=local`: local disk, even if `S3_ENDPOINT` is set.
+- Otherwise, S3 when `S3_ENDPOINT` is set.
+- Otherwise, no storage.
+
+`docker-compose.yml` defaults `STORAGE_DRIVER` to `local`, so to use S3 you must change it. Set `STORAGE_DRIVER` to any value other than `local` (for example `s3`) and set `S3_ENDPOINT`; the value `s3` itself is not read, only `local` has a meaning. Then run `docker compose up -d`.
+
+| Variable | Notes |
+| -------- | ----- |
+| `S3_ENDPOINT` | Full URL of the service. Required. Path-style addressing is always used. |
+| `S3_REGION` | Defaults to `fsn1`. Set it to your provider's region. |
+| `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | Credentials with read, write and delete access to the bucket. |
+| `S3_BUCKET` | Defaults to `timetrack`. |
+| `S3_PREFIX` | Optional. Prefixes every key, so several instances can share one bucket. |
+
+The app lists and deletes object versions when it removes personal data, so give the credentials the rights for that if your bucket is versioned.
+
+## Switching drivers
+
+Files are not migrated automatically in either direction. After switching from local to S3 (or back), existing files stay where they were and the app will not find them. Copy them yourself, keeping the layout the app expects, before you switch, or accept that old uploads disappear from the interface.
+
+## Email attachments
+
+By default the IMAP email sync keeps only attachment metadata (name, size, type). Set `EMAIL_SYNC_STORE_ATTACHMENTS=true` to upload the files to your storage (local or S3). Attachments larger than 10 MB are never stored, and with no storage configured the sync falls back to metadata only.
+
+`EMAIL_ATTACHMENT_DIR` (default `storage/email-attachments`, relative to the app's working directory) is the legacy local path that older attachments are read from. You normally leave it alone.

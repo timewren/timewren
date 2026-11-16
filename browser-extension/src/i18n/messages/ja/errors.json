@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "セッションの有効期限が切れました。もう一度ログインしてください。",
+  "noConnection": "接続できません。もう一度お試しください。",
+  "timeout": "接続に時間がかかりすぎています",
+  "invalidResponse": "サーバーから予期しない応答がありました",
+  "notLoggedIn": "ログインしていません",
+  "notLoggedInOpenPopup": "ログインしていません。TimeTrackのポップアップを開いてログインしてください。",
+  "unknown": "不明なエラー",
+  "api": {
+    "fallback": "APIエラー",
+    "UNAUTHORIZED": "セッションの有効期限が切れました。もう一度ログインしてください。",
+    "FORBIDDEN": "アクセスが拒否されました",
+    "NOT_FOUND": "リソースが見つかりませんでした",
+    "TIMEOUT": "サーバーが応答しませんでした",
+    "TOO_MANY_REQUESTS": "リクエストが多すぎます。しばらく待ってからもう一度お試しください",
+    "INTERNAL_SERVER_ERROR": "サーバーエラーです。しばらくしてからもう一度お試しください",
+    "BAD_REQUEST": "無効なリクエストです",
+    "PARSE_ERROR": "無効なリクエストです"
+  },
+  "auth": {
+    "invalidToken": "無効なトークンです",
+    "validateFailed": "トークンを検証できませんでした",
+    "loginFailed": "ログインに失敗しました",
+    "loginCancelled": "ログインがキャンセルされました。もう一度お試しください",
+    "loginCancelledShort": "ログインがキャンセルされました",
+    "noToken": "トークンを受信できませんでした",
+    "tokenValidationStatus": "トークンの検証に失敗しました: サーバーの応答は{status}でした",
+    "orgsFailed": "組織を読み込めませんでした({status})"
+  },
+  "url": {
+    "notAllowed": "timetrack.dk、app.timetrack.dk、beta.timetrack.dk、またはlocalhostを使用してください"
+  },
+  "entry": {
+    "hoursPositive": "0より大きい時間数を入力してください",
+    "timesCannotBeRemoved": "時刻は削除できません。代わりに開始と終了を編集してください",
+    "fillStartEnd": "開始と終了の両方を入力してください",
+    "endAfterStart": "終了時刻は開始時刻より後にしてください"
+  },
+  "timer": {
+    "loadFailed": "タイマーを読み込めませんでした",
+    "startFailed": "タイマーを開始できませんでした",
+    "stopFailed": "タイマーを停止できませんでした。もう一度お試しください",
+    "stopNetwork": "タイマーを停止できませんでした: ネットワークエラー",
+    "cancelFailed": "タイマーをキャンセルできませんでした。もう一度お試しください",
+    "cancelNetwork": "タイマーをキャンセルできませんでした: ネットワークエラー",
+    "cancelStoppingElsewhere": "タイマーはすでに{source}から停止処理中です",
+    "sourceWeb": "Webアプリ",
+    "sourceOther": "別のデバイス",
+    "pauseFailed": "タイマーを一時停止できませんでした",
+    "resumeFailed": "タイマーを再開できませんでした",
+    "addTimeFailed": "タイマーに時間を追加できませんでした",
+    "descriptionFailed": "説明を更新できませんでした",
+    "projectFailed": "プロジェクトを更新できませんでした",
+    "clientFailed": "クライアントを更新できませんでした",
+    "nothingToSave": "保存する時間がありません",
+    "offlineStop": "オフラインです。接続が戻ったら、もう一度タイマーを停止してください",
+    "stopInProgress": "停止処理中です{elsewhere}。しばらくしてからもう一度お試しください。処理が止まったままの場合、時間は数分後に一時停止として退避されるため失われません。",
+    "alreadyRunning": "すでにタイマーが動作中です{elsewhere}。新しく開始するには、先に停止またはキャンセルしてください。",
+    "alreadyPaused": "時間が記録された一時停止中のタイマーがすでにあります{elsewhere}。新しく開始するには、先に停止またはキャンセルしてください。",
+    "elsewhere": "(別のブラウザまたはデバイス)",
+    "stopAlreadyInProgress": "{source}からすでに停止処理中です。しばらくしてから時間の概要を確認してください",
+    "prepaidPinnedUnavailable": "選択した前払いパッケージを使用できなかったため、パッケージから差し引かずに時間を保存しました",
+    "prepaidLookupFailed": "前払いパッケージを検索できなかったため、パッケージから差し引かずに時間を保存しました",
+    "prepaidDeductionFailed": "パッケージからの差し引きに失敗したため、差し引きなしで時間を保存しました",
+    "saveFailed": "時間を保存できませんでした",
+    "saveFailedWith": "時間を保存できませんでした: {reason}",
+    "unknownReason": "不明なエラー",
+    "sessionMismatch": "タイマーが別のブラウザまたはデバイスで変更されました。現在のタイマーを表示しています。",
+    "beingStopped": "タイマーは別のブラウザまたはデバイスから停止処理中です。",
+    "startRejectedPaused": "時間が記録された一時停止中のタイマーがすでにあります。新しく開始するには、先に停止またはキャンセルしてください。",
+    "startRejectedStale": "タイマーがたった今、別の場所で停止されました。もう一度開始してください。",
+    "startRejectedRunning": "別のブラウザまたはデバイスですでにタイマーが動作中です。新しく開始するには、先に停止してください。",
+    "stopSourceWeb": "Webアプリ",
+    "stopSourceOther": "別のデバイス"
+  },
+  "task": {
+    "createFailed": "タスクを作成できませんでした"
+  },
+  "serverStatus": "サーバーの応答は{status}でした",
+  "clientTooOld": "TimeTrack拡張機能を更新してください。このバージョンでは時間を保存できません"
+}

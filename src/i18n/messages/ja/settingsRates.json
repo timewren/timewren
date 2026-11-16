@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "単価の履歴",
+    "empty": "単価の変更はまだありません。時間単価を変更すると、ここに記録されます",
+    "effectiveFrom": "{date}から適用",
+    "planned": "予約済み",
+    "noRate": "単価なし",
+    "typeGlobal": "全体",
+    "typeClient": "クライアント",
+    "typeProject": "プロジェクト"
+  },
+  "schedule": {
+    "toastScheduled": "{date}から新しい時間単価を適用するよう予約しました",
+    "restamped": "{count, plural, =0 {新しい時間単価が必要な既存の記録はありませんでした} other {未請求の記録#件に新しい時間単価を適用しました}}",
+    "scheduleFailed": "時間単価を予約できませんでした",
+    "cancelled": "予約した時間単価をキャンセルしました",
+    "cancelledRestamped": "{count, plural, other {#件の記録を以前の時間単価に戻しました}}",
+    "cancelFailed": "キャンセルできませんでした",
+    "invalidRate": "有効な時間単価を入力してください",
+    "missingDate": "単価を適用する日付を選んでください",
+    "title": "新しい時間単価を予約",
+    "current": "現在：{rate} kr/時間",
+    "rateLabel": "新しい時間単価（kr）",
+    "dateLabel": "適用開始日",
+    "submit": "予約",
+    "help": "この日付以降の時間には、後から記録しても新しい単価が適用されます。この日付より前の時間は以前の単価のままです。この日付以降の未請求の記録はすぐに更新されます。",
+    "ratePerHour": "{rate} kr/時間",
+    "fromDate": "{date}から",
+    "takesEffectTonight": "今夜適用されます",
+    "cancel": "キャンセル"
+  }
+}

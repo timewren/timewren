@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "その組織のメンバーではなくなりました。",
+    "noAccessToFeature": "この機能にアクセスする権限がありません",
+    "adminsOnly": "この機能にアクセスできるのは管理者のみです",
+    "subscriptionRequired": "この機能を使うには、有効なサブスクリプションが必要です",
+    "subscriptionExpired": "サブスクリプションの期限が切れました。続けるには更新してください。",
+    "roleNoAccess": "あなたの役割では、この操作を行えません",
+    "moduleDisabled": "この組織では「{module}」モジュールが有効になっていません。"
+  },
+  "alunta": {
+    "clientAlreadyMapped": "このクライアントには、すでに有効なAluntaのマッピングがあります",
+    "mappingNotFound": "マッピングが見つかりません"
+  },
+  "common": {
+    "clientNotFound": "クライアントが見つかりません",
+    "webhookNotFound": "Webhookが見つかりません",
+    "projectNotFound": "プロジェクトが見つかりません",
+    "unknownError": "不明なエラー",
+    "notOrgMember": "この組織のメンバーではありません",
+    "noAccessToClient": "このクライアントにアクセスする権限がありません",
+    "templateNotFound": "テンプレートが見つかりません",
+    "unknownClient": "不明なクライアント",
+    "rateLimited": "リクエストが多すぎます。{seconds}秒後にもう一度お試しください。",
+    "taskNotFound": "タスクが見つかりません",
+    "timeEntryNotFound": "時間記録が見つかりません",
+    "invoiceNotFound": "請求書が見つかりません",
+    "unknownProjectName": "不明なプロジェクト",
+    "userNotFound": "ユーザーが見つかりません",
+    "invalidDate": "無効な日付です",
+    "prepaidNotFound": "前払いパッケージが見つかりません",
+    "notFound": "見つかりません",
+    "notOrgMemberShort": "その組織のメンバーではありません",
+    "periodLocked": "{date}より前の期間は組織によってロックされています。管理者にお問い合わせください。"
+  },
+  "webhooks": {
+    "noValidEvents": "有効なイベントタイプが選択されていません"
+  },
+  "time": {
+    "defaultRateName": "デフォルトの単価",
+    "chooseOnePrepaidOrNone": "前払いパッケージを1つ選ぶか、選択しないでください",
+    "taskNotFound": "タスクが見つかりません",
+    "entryExists": "その時間記録はすでに存在します",
+    "prepaidNotFound": "前払いパッケージが見つかりません",
+    "prepaidOtherClient": "この前払いパッケージは、時間記録のクライアントとは別のクライアントのものです",
+    "onInvoiceUnmark": "{count, plural, other {選択した時間記録のうち#件が請求書に含まれています。マークを外す前に、請求書のクレジットノートを発行するか、下書きの請求書から記録を外してください。}}",
+    "invalidWeek": "無効な週です",
+    "importInvalidDate": "無効な日付：「{date}」",
+    "importNoProjectOrClient": "プロジェクト「{project}」またはクライアント「{client}」が見つかりませんでした"
+  },
+  "resourcePlan": {
+    "needsOrg": "リソースプランには組織が必要です",
+    "ownEmployeesOnlyView": "プランを表示できるのは、自分の従業員のみです",
+    "managersOnly": "計画できるのは、オーナー、管理者、マネージャーのみです",
+    "weekMonday": "週は月曜日の日付で指定してください",
+    "ownEmployeesOnlyPlan": "計画できるのは、自分の従業員のみです",
+    "notInOrg": "その従業員、プロジェクト、またはアクティビティは組織に存在しません"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "デスクトップ版の購入はまだ設定されていません。後でもう一度お試しいただくか、サポートにお問い合わせください。",
+    "includedInCloud": "デスクトップアプリは{brand} Cloudのサブスクリプションにすでに含まれているため、別途ライセンスは不要です。ログインして、ダッシュボードからアプリをダウンロードしてください。",
+    "checkoutFailed": "支払いリンクを作成できませんでした。",
+    "licenseAlreadyInactive": "このライセンスはすでに無効化または返金されています。",
+    "notAutoRefundable": "このライセンスは自動で返金できません。サポートにお問い合わせください。",
+    "refundWindowExpired": "この購入の{days}日間の返金期間は終了しました。",
+    "tooManyAttempts": "試行回数が多すぎます。しばらく待ってから、もう一度お試しください。",
+    "noLicenseFound": "ライセンスが見つかりません。",
+    "noActiveLicenseToRefund": "返金できる有効なライセンスがありません。",
+    "licenseNotAutoRefundable": "このライセンスは自動で返金できません。サポートにお問い合わせください。",
+    "refundWindowExpiredShort": "{days}日間の返金期間は終了しました。"
+  },
+  "taskStatuses": {
+    "laneNotFound": "レーンが見つかりません",
+    "lanesNotFound": "1つ以上のレーンが見つかりません",
+    "crossContext": "異なるコンテキスト間でレーンを並べ替えることはできません",
+    "destinationRequired": "このレーンにはタスクがあるため、移動先のレーンが必要です",
+    "destinationNotFound": "移動先のレーンが見つかりません",
+    "destinationContext": "移動先のレーンは同じコンテキストにある必要があります"
+  },
+  "scheduledRates": {
+    "notFound": "予約された単価の変更が見つかりません",
+    "rateFormat": "時間単価は、0以上で小数点以下2桁までの金額で指定してください",
+    "dateFormat": "日付はYYYY-MM-DD形式で指定してください",
+    "laterApplied": "{date}付けの単価変更がすでに適用されています。新しい変更は、同じ日付かそれ以降から有効にする必要があります。",
+    "alreadyApplied": "この単価変更はすでに適用されているため、キャンセルできません。代わりに、クライアントまたはプロジェクトの時間単価を編集してください。",
+    "appliedMeanwhile": "この単価変更はその間に適用されたため、キャンセルできません。"
+  },
+  "broadcasts": {
+    "notFound": "お知らせが見つかりません",
+    "confirmNameMismatch": "確認用の名前が一致しません。お知らせの名前を正確に入力してください。"
+  },
+  "notifications": {
+    "invalidDiscordUrl": "無効なDiscord WebhookのURLです",
+    "invalidSlackUrl": "無効なSlack WebhookのURLです",
+    "noSlackWebhook": "Slack Webhookが設定されていません",
+    "noDiscordWebhook": "Discord Webhookが設定されていません",
+    "discordTestFailed": "Discord Webhookのテストに失敗しました",
+    "noPushSubscription": "プッシュ通知の登録が設定されていません",
+    "pushTestFailed": "プッシュ通知のテストに失敗しました",
+    "channelNotFound": "チャンネルが見つかりません"
+  },
+  "clients": {
+    "hasInvoices": "選択したクライアントのうち1件以上に請求書があります。請求書は会計記録のため削除できません。代わりにアーカイブしてください。",
+    "hasBilledEntries": "選択したクライアントのうち1件以上に請求済みの時間記録があります。代わりにアーカイブしてください。"
+  },
+  "dashboard": {
+    "prefsTableMissing": "ダッシュボード設定のテーブルがまだ存在しません。データベースのマイグレーションを実行してください。"
+  },
+  "clientPortal": {
+    "accessNotFound": "アクセス権が見つかりません"
+  },
+  "search": {
+    "invoiceTitle": "請求書{number}"
+  },
+  "ai": {
+    "noOwnKey": "AIの提案を使うには、設定 → AIで自分のAPIキーを設定してください。",
+    "fillableWithoutAi": "このテキストはAIなしで入力できます。",
+    "providerFailed": "AIプロバイダーが提案を生成できませんでした。設定 → AIでキーとモデルを確認してください。"
+  },
+  "apiKeys": {
+    "notFound": "APIキーが見つかりません",
+    "revokeFirst": "削除する前に、キーを無効化してください"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "請求書の下書きが見つかりません",
+    "noEntries": "承認に送信する時間記録がありません",
+    "requestNotFound": "リクエストが見つからないか、すでに処理されています"
+  },
+  "beta": {
+    "thanks": "ご登録ありがとうございます！ベータ版が始まりましたら、メールでお知らせします。",
+    "emailNotAllowed": "このメールアドレスでは登録できません。",
+    "alreadyOnList": "このメールアドレスは、すでにベータ版の待機リストに登録されています",
+    "signupNotFound": "ベータ版の登録が見つかりません"
+  },
+  "calendar": {
+    "googleNotConfigured": "Google カレンダー連携が設定されていません",
+    "notConnected": "Google カレンダーに接続されていません",
+    "scheduledLocally": "タスクをローカルで予定に入れました（カレンダー未接続）",
+    "timeEntryNotFound": "時間記録が見つかりません",
+    "eventNotFound": "イベントが見つかりません",
+    "eventMissingTimes": "このイベントには時刻がありません",
+    "noConnection": "カレンダーの接続がありません",
+    "noProject": "プロジェクトなし",
+    "noConnectionFound": "カレンダーの接続が見つかりません",
+    "aiFailed": "AIの提案に失敗しました"
+  },
+  "connectedApps": {
+    "notFound": "その接続は存在しません"
+  },
+  "contact": {
+    "thanks": "メッセージをありがとうございます！できるだけ早くご連絡します。"
+  },
+  "dataExport": {
+    "pending": "保留中のエクスポートリクエストがすでにあります。しばらくお待ちください。",
+    "limit3": "エクスポートのリクエストは24時間に最大3回までです。後でもう一度お試しください。",
+    "fullNotEnabled": "フルエクスポートはまだ有効になっていません。",
+    "orgInProgress": "この組織のエクスポートはすでに実行中です。準備ができたらメールでお知らせします。",
+    "orgDailyLimit": "組織がリクエストできるエクスポートは1日{limit}回までです。明日もう一度お試しください。",
+    "notOrgMemberDot": "この組織のメンバーではありません。",
+    "inProgress": "エクスポートはすでに実行中です。準備ができたらメールでお知らせします。",
+    "dailyLimit": "リクエストできるエクスポートは1日{limit}回までです。明日もう一度お試しください。",
+    "requestNotFound": "エクスポートリクエストが見つかりません",
+    "cancelPendingOnly": "キャンセルできるのは、保留中のリクエストのみです",
+    "importClientNotFound": "{name}：クライアント「{client}」が見つかりません",
+    "importClientRequired": "{name}：クライアントは必須です",
+    "importInvoiceClientNotFound": "請求書{number}：クライアント「{client}」が見つかりません",
+    "importInvoiceError": "請求書{number}：{message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "所属部署が休日を選んでおり、あなたにも適用されます。ご自身で休日を選ぶことはできません。",
+    "blockedOrg": "所属組織が休日を選んでおり、あなたにも適用されます。ご自身で休日を選ぶことはできません。",
+    "blockedEmployee": "従業員は組織の休日に従います。組織または部署の休日を選ぶよう、管理者に依頼してください。",
+    "orgNeedsOrg": "組織の休日を設定するには、組織が必要です",
+    "departmentNeedsBusiness": "部署ごとの休日には、Businessプランが必要です",
+    "departmentNotFound": "その部署は存在しません"
+  },
+  "dpa": {
+    "notFromEnv": "この環境からは、データ処理契約をまだ承諾できません。",
+    "notInOrg": "組織に所属していません",
+    "ownersAdminsOnly": "契約を承諾できるのは、オーナーと管理者のみです"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "ルールが見つかりません"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "IMAPのパスワードが必要です",
+    "cannotDecrypt": "保存されているパスワードを復号できませんでした。IMAPのパスワードを再入力してください。",
+    "connectionFailed": "IMAP接続に失敗しました：{message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "タスクが見つかりません",
+    "blockBracket": "件名に「[{tag}]」を含むメールをブロック",
+    "blockKeyword": "件名に「{keyword}」を含むメールをブロック"
+  },
+  "ext": {
+    "notOrgMemberDot": "その組織のメンバーではありません。",
+    "invalidToken": "無効なトークンです",
+    "tooManyAttempts": "試行回数が多すぎます。{seconds}秒後にもう一度お試しください。",
+    "sessionExpired": "セッションの期限が切れたか、無効化されました。もう一度ログインしてください。",
+    "tokenExpired": "トークンの期限が切れました",
+    "tokenNotFound": "トークンが見つかりません",
+    "timerChangedElsewhere": "タイマーが別のデバイスで変更されました。もう一度お試しください。",
+    "datesFormat": "日付はYYYY-MM-DD形式で指定してください",
+    "prepaidNotFound": "前払いパッケージが見つかりません",
+    "prepaidOtherClient": "この前払いパッケージは、記録のクライアントとは別のクライアントのものです",
+    "saveEntryFailed": "時間記録を保存できませんでした",
+    "createInProgress": "このキーでの作成は処理中です。しばらくしてからもう一度お試しください。",
+    "import": {
+      "alreadyRunning": "インポートはすでに実行中です。完了するまでお待ちください。"
+    },
+    "projectOrClientNotFound": "プロジェクトまたはクライアントが見つかりません"
+  },
+  "feedback": {
+    "screenshotFailed": "S3からスクリーンショットを取得できませんでした"
+  },
+  "imports": {
+    "timeopsConnect": "TimeOpsに接続できませんでした：{detail}",
+    "networkError": "ネットワークエラー",
+    "apiKeyInvalid": "APIキーが無効か、期限が切れています",
+    "alreadyRunning": "インポートはすでに実行中です。先にそちらを完了してください。",
+    "notFound": "インポートが見つかりません",
+    "cannotStart": "ステータス{status}のインポートは開始できません",
+    "cannotCancel": "この状態のインポートはキャンセルできません"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "Webアプリで「{project}」のタイマーがすでに動いています。先にそちらを停止してください。",
+    "timerRunningProjectOther": "別のデバイスで「{project}」のタイマーがすでに動いています。先にそちらを停止してください。",
+    "timerRunningAnyWeb": "Webアプリでタイマーがすでに動いています。先にそちらを停止してください。",
+    "timerRunningAnyOther": "別のデバイスでタイマーがすでに動いています。先にそちらを停止してください。"
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "Dineroの接続の期限が切れました。設定で再接続してください。",
+      "notConnectedShort": "Dineroに接続されていません",
+      "notConnected": "Dineroに接続されていません",
+      "connectionActive": "Dineroへの接続は有効です",
+      "connectionFailed": "Dineroに接続できませんでした",
+      "clientExported": "クライアントをDineroにエクスポートしました",
+      "invoiceAlreadyExported": "この請求書はすでにDineroにエクスポートされています",
+      "contactCreateFailed": "Dineroでクライアント「{name}」を作成できませんでした：APIから連絡先IDが返されませんでした。先に、クライアントを手動でエクスポートしてみてください。",
+      "noAccount": "口座番号が設定されていません。設定 → Dineroで、デフォルトの口座を選んでください。",
+      "invoiceExported": "請求書をDineroにエクスポートしました",
+      "invoiceNotExported": "この請求書はDineroにエクスポートされていません",
+      "noPending": "保留中のDinero接続が見つかりません。もう一度接続してください。",
+      "invalidOrg": "無効な組織が選択されています",
+      "tokensDecryptFailed": "トークンを復号できませんでした。もう一度接続してください。"
+    },
+    "billy": {
+      "noApiKey": "BillyのAPIキーが設定されていません",
+      "decryptFailed": "BillyのAPIキーを復号できませんでした",
+      "connectionActive": "Billyへの接続は有効です",
+      "connectionFailed": "Billyに接続できませんでした",
+      "clientExported": "クライアントをBillyにエクスポートしました",
+      "invoiceAlreadyExported": "この請求書はすでにBillyにエクスポートされています",
+      "clientCreateFailed": "Billyでクライアントを作成または検索できませんでした",
+      "productWithoutId": "BillyがIDのない商品を返しました：{json}",
+      "invoiceWithoutId": "BillyがIDのない請求書を返しました：{json}",
+      "invoiceExported": "請求書をBillyにエクスポートしました",
+      "exportFailed": "Billyにエクスポートできませんでした：{message}",
+      "invoiceNotExported": "この請求書はBillyにエクスポートされていません"
+    },
+    "unknownErrorOccurred": "不明なエラーが発生しました",
+    "invoiceMissingClient": "この請求書にはクライアントが設定されていません",
+    "economic": {
+      "noTokens": "e-conomicのトークンが設定されていません",
+      "decryptFailed": "e-conomicのトークンを復号できませんでした",
+      "connectionActive": "e-conomicへの接続は有効です",
+      "connectionFailed": "e-conomicに接続できませんでした",
+      "clientExported": "クライアントをe-conomicにエクスポートしました",
+      "paymentTermsMissing": "支払条件が設定されていません。設定 → 連携で選んでください。",
+      "invoiceAlreadyExported": "この請求書はすでにe-conomicにエクスポートされています",
+      "consultingLine": "コンサルティング業務：{hours}時間",
+      "invoiceBooked": "請求書をe-conomicで記帳しました",
+      "invoiceDraftCreated": "請求書をe-conomicで下書きとして作成しました",
+      "invoiceNotExported": "この請求書はe-conomicにエクスポートされていません"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: 日付形式を自動で判別できませんでした。手動で選んでください。",
+      "noValidRows": "CSVファイルに有効な行が見つかりませんでした。",
+      "unknownClient": "不明なクライアント"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "会社情報が入力されていません。請求書に記載する必要があるため、最初の請求書を作成する前に、設定 → 会社プロフィールで入力してください（または管理者に依頼してください）。",
+    "templateNotFound": "請求書テンプレートが見つかりません",
+    "issuedCannotChange": "発行済みの請求書は変更できません。金額や条件を訂正するには、クレジットノートを作成してください。",
+    "deletedCannotEdit": "削除された請求書は編集できません。",
+    "paidNotesOnly": "支払い済みの請求書は編集できません。メモの追加のみ可能です。",
+    "draftsOnlyDelete": "削除できるのは下書きのみです。発行済みの請求書は、代わりに取り消してください。",
+    "creditNoteNotCreditable": "クレジットノートに対してクレジットノートは発行できません",
+    "draftNotCreditable": "下書きにはクレジットノートを発行しません。代わりに下書きを削除してください（発行番号がありません）。",
+    "deletedNotCreditable": "削除された請求書にはクレジットノートを発行できません",
+    "alreadyCredited": "この請求書は、すでに{number}でクレジットノートが発行されています",
+    "creditNoteNotes": "{date}付け請求書{number}のクレジットノート",
+    "draftOnlyAddLines": "明細を追加できるのは、下書きの請求書のみです",
+    "timeEntryNotFound": "時間記録が見つかりません",
+    "lineNotFound": "請求書の明細が見つかりません",
+    "draftOnlyEditLines": "明細を編集できるのは、下書きの請求書のみです",
+    "draftOnlyDeleteLines": "明細を削除できるのは、下書きの請求書のみです",
+    "draftOnlyReorder": "並び順を変更できるのは、下書きの請求書のみです",
+    "clientHasNoEmail": "このクライアントにはメールアドレスがありません"
+  },
+  "logbook": {
+    "ownOnly": "表示できるのは、自分の走行記録のみです",
+    "notInYourOrg": "このユーザーはあなたの組織のメンバーではありません",
+    "noAccessWaste": "組織の無駄な時間にアクセスする権限がありません"
+  },
+  "marketing": {
+    "tooManyAttempts": "試行回数が多すぎます。後でもう一度お試しください。"
+  },
+  "memberRates": {
+    "membersNotInOrg": "1人以上のメンバーが組織に存在しません"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "サブスクリプションは組織のオーナーが管理しているため、プランを選ぶ必要はありません。",
+    "privatePlanUnavailable": "「Privat」プランはまだ利用できません。別のプランを選んでください。"
+  },
+  "organization": {
+    "requiresOrg": "組織が必要です",
+    "noActiveOrg": "有効な組織がありません",
+    "moduleNotAssigned": "この組織には「{module}」モジュールが割り当てられていません",
+    "moduleUnavailable": "「{module}」モジュールはご利用いただけません。サポートにお問い合わせください。",
+    "noSelfTransfer": "自分自身にオーナー権限を移すことはできません",
+    "ownerOnlyTransfer": "オーナー権限を移せるのは、オーナーのみです",
+    "memberNotFound": "メンバーが見つかりません"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "アクティビティログを表示できるのは、オーナーと管理者のみです"
+  },
+  "portalBranding": {
+    "noDomain": "確認するドメインがありません",
+    "verifyFailed": "ドメインを確認できませんでした。DNSのTXTレコード '_timetrack-verify.{domain}' にトークンが含まれているか確認してください：{token}"
+  },
+  "prepaid": {
+    "invalidHours": "前払いパッケージから差し引く時間数が無効です",
+    "otherClient": "この前払いパッケージは、時間記録のクライアントとは別のクライアントのものです",
+    "inactive": "この前払いパッケージは有効ではありません",
+    "expired": "この前払いパッケージの期限が切れました",
+    "insufficientHours": "前払いパッケージの残り時間が足りません。利用可能な時間：{available}",
+    "insufficientHoursClip": "前払いパッケージの残り時間が足りません。利用可能な時間：{available}、必要な時間：{required}時間（{minutes}分単位に切り上げ）",
+    "multipleClients": "選択した時間記録が複数のクライアントにまたがっています。1つのクライアントの記録のみを選んでください。",
+    "entriesNotFound": "1件以上の時間記録が見つかりませんでした",
+    "alreadyBilled": "{count, plural, other {選択した時間記録のうち#件はすでに請求済みのため、前払いパッケージから差し引けません}}",
+    "foreignEntries": "{count, plural, other {#件の時間記録が、前払いパッケージとは別のクライアントのものです}}",
+    "requestNotFound": "リクエストが見つからないか、すでに処理されています",
+    "gone": "この前払いパッケージはもう存在しません",
+    "renewalInvoiceNote": "前払いパッケージ「{name}」の更新です。クライアントがポータルからリクエストしました",
+    "totalBelowUsed": "合計時間を、すでに使用した時間（{used}時間）より少なくすることはできません",
+    "hasUsage": "利用実績のある前払いパッケージは削除できません。代わりに無効化してください。",
+    "entryNotFound": "時間記録が見つかりませんでした"
+  },
+  "projects": {
+    "hasBilledEntries": "このプロジェクトには請求済みの時間記録があるため、完全に削除できません。代わりにアーカイブしてください。",
+    "nameMismatch": "プロジェクト名が一致しません",
+    "noneFound": "プロジェクトが見つかりません"
+  },
+  "portal": {
+    "invalidLink": "リンクが無効か、期限が切れています",
+    "invalidLogin": "メールアドレスまたはパスワードが正しくありません",
+    "noInvoiceAccess": "請求書にアクセスする権限がありません",
+    "noProjectAccess": "プロジェクトにアクセスする権限がありません",
+    "noTimeAccess": "時間記録にアクセスする権限がありません",
+    "noPrepaidAccess": "前払いパッケージにアクセスする権限がありません",
+    "tooManyRequests": "リクエストが多すぎます。しばらくしてからもう一度お試しください。",
+    "prepaidInactive": "この前払いパッケージは有効ではありません。お取引先にお問い合わせください。",
+    "noAccess": "アクセス権がありません",
+    "notAllowedApprove": "時間を承認する権限がありません",
+    "requestNotFound": "リクエストが見つかりません",
+    "requestHandled": "このリクエストはすでに処理されています",
+    "notAllowedReject": "時間を却下する権限がありません"
+  },
+  "quickSignup": {
+    "created": "アカウントを作成しました。ログインしています…",
+    "emailNotAllowed": "このメールアドレスでは登録できません。",
+    "emailTaken": "このメールアドレスはすでに登録されています",
+    "createFailed": "アカウントを作成できませんでした",
+    "error": "アカウントの作成中にエラーが発生しました"
+  },
+  "recurringInvoices": {
+    "clientArchived": "このクライアントはアーカイブされています。先にクライアントを復元してください。",
+    "prepaidFixedAmount": "前払いパッケージは固定金額で請求されるため、記録した時間は選択しないでください",
+    "prepaidNoRenewal": "この前払いパッケージは自動更新されません。先に定期更新をオンにしてください。",
+    "needLine": "金額が0を超える明細を、少なくとも1行追加してください",
+    "firstDateInPast": "最初の請求日を今日より前にすることはできません",
+    "notFound": "定期請求書が見つかりません",
+    "nextDateInPast": "次回の請求日を今日より前にすることはできません"
+  },
+  "recurring": {
+    "startDateRequired": "定期テンプレートには開始日が必要です",
+    "cannotPause": "定期ではないテンプレートは一時停止できません",
+    "cannotResume": "定期ではないテンプレートは再開できません"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "チームの収益性には組織が必要です",
+    "utilisationNeedsOrg": "稼働率には組織が必要です",
+    "weekdayRange": "曜日は1〜7で指定してください",
+    "linkNotFound": "リンクが見つかりません",
+    "tooManyRows": "このレポートには10,000件を超える記録が含まれています。日付の範囲を絞り込んでください。"
+  },
+  "reportTemplates": {
+    "clientNotYours": "このクライアントはあなたのアカウントのものではありません。",
+    "systemNoEdit": "システムテンプレートは編集できません。代わりに複製してください。",
+    "systemNoDelete": "システムテンプレートは削除できません。"
+  },
+  "security": {
+    "accountNotFound": "アカウントが見つかりません",
+    "lastLoginMethodRemove": "最後のログイン方法は削除できません。先にパスワードまたはパスキーを追加してください。",
+    "passkeyNotFound": "パスキーが見つかりません",
+    "lastLoginMethodDelete": "最後のログイン方法は削除できません。先にパスワードを追加するか、OAuthアカウントを接続してください。",
+    "sessionNotFound": "セッションが見つかりません",
+    "cannotEndCurrent": "現在のセッションは終了できません。代わりにログアウトしてください。",
+    "currentSessionNotFound": "現在のセッションが見つかりません",
+    "phoneIsOnlyMethod": "電話番号が唯一のログイン方法のため、削除できません。先に別の方法を追加してください。",
+    "deviceNotFound": "デバイスが見つかりません",
+    "rec": {
+      "addLoginMethod": "ログイン方法を追加する",
+      "verifyEmail": "メールアドレスを確認する",
+      "enable2fa": "2段階認証をオンにする",
+      "addPasskey": "より速く安全にログインできるよう、パスキーを追加する",
+      "addMore": "バックアップとして、ログイン方法をさらに追加する"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "すでに有効なサブスクリプションがあります。プランや支払い方法を変更するには、「請求を管理」を使ってください。",
+    "seatsExceedIncluded": "組織で{seats}席を使用しており、{plan}に含まれる{included}席を{extra}席超えています。席を失わずにセルフサービスでアップグレードすることは、まだできません。サポートにお問い合わせください。こちらで手動で移行します。",
+    "noCheckoutUrl": "Aluntaから決済URLが返されませんでした。サポートにお問い合わせください。",
+    "extraSeatsNeedSubscription": "追加の席には、有効なサブスクリプションが必要です。先にプランを選んで、支払いを追加してください。",
+    "noActiveAddPayment": "有効なサブスクリプションが見つかりません。先に支払い方法を追加してください。",
+    "noActive": "有効なサブスクリプションが見つかりません",
+    "none": "サブスクリプションが見つかりません",
+    "requestFailed": "リクエストを送信できませんでした。後でもう一度お試しください。",
+    "priceSuffixYear": "kr/年",
+    "priceSuffixMonth": "kr/月",
+    "checkoutComingSoon": "ここではまだお支払いできません。現在は無料プランです。"
+  },
+  "tags": {
+    "nameExists": "「{name}」という名前のタグはすでに存在します",
+    "timeEntryNotFound": "時間記録が見つかりません",
+    "notYours": "1つ以上のタグがあなたのものではありません",
+    "projectNotFound": "プロジェクトが見つかりません",
+    "projectsNotFound": "1つ以上のプロジェクトが見つからないか、アクセス権がありません",
+    "clientNotFound": "クライアントが見つかりません"
+  },
+  "tasks": {
+    "parentNotFound": "親タスクが見つかりません",
+    "subtaskNoSubtasks": "サブタスクに、さらにサブタスクを作成することはできません",
+    "laneNotFound": "レーンが見つかりません",
+    "laneOtherBoard": "このレーンは、タスクとは別のボードのものです",
+    "moveSameBoard": "タスクは同じボード内でのみ移動できます",
+    "dryRunFailed": "ドライランを検証できませんでした",
+    "bulkFailed": "一括変更を検証できませんでした",
+    "bulkRolledBack": "選択したすべてのタスクが更新されたわけではないため、トランザクションをロールバックしました",
+    "assignNeedsOrg": "担当者の割り当てには組織が必要です",
+    "assigneeNotMember": "担当者は組織のメンバーではありません",
+    "mainTaskNotFound": "メインタスクが見つかりません",
+    "assignedPushTitle": "📋 新しいタスクが割り当てられました",
+    "assignedPushBody": "{name}さんが「{task}」をあなたに割り当てました",
+    "aColleague": "同僚"
+  },
+  "user": {
+    "pageUnavailable": "このページは現在ご利用いただけません",
+    "emailMismatch": "メールアドレスがアカウントと一致しません",
+    "deleteFailed": "削除を完了できませんでした。サポートにお問い合わせください。対応いたします。",
+    "aiConnectionOk": "接続OK！返信：「{reply}」",
+    "aiConnectionFailed": "接続に失敗しました：{message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "不在を扱えるのは、自分の従業員のみです",
+      "requestNotFound": "不在のリクエストが見つかりません",
+      "approveOnlyPending": "リクエストを承認できるのは、保留中の間のみです",
+      "noSelfApprove": "自分の不在を承認することはできません",
+      "rejectOnlyPending": "リクエストを却下できるのは、保留中の間のみです",
+      "typeHasPending": "保留中のリクエストがある不在の種類は削除できません。先に却下またはキャンセルしてください。",
+      "managersOnlyForOthers": "他の人の不在を記録できるのは、マネージャーと管理者のみです",
+      "endBeforeStart": "終了日を開始日より前にすることはできません",
+      "endDateRequired": "{type}には終了日が必要です。終了日なしで記録できるのは、病欠と休職のみです。",
+      "overlapOther": "この従業員には、この期間にすでに不在があります",
+      "overlapOwn": "この期間には、すでに不在のリクエストがあります",
+      "registrationNotFound": "不在の記録が見つかりません",
+      "selfReturnOnly": "回復を報告できるのは、本人のみです",
+      "periodAlreadyEnded": "この期間はすでに終了しています",
+      "onlyActiveRecovered": "回復を報告できるのは、有効な記録のみです",
+      "lastDayBeforeStart": "不在の最終日を開始日より前にすることはできません",
+      "endedElsewhere": "この期間はすでに別の場所で終了しています。一覧を再読み込みしてください。",
+      "recoveredPushTitle": "回復が報告されました",
+      "recoveredPushBody": "{type}が{date}に終了しました",
+      "requestNotFoundShort": "リクエストが見つかりません",
+      "ownOnlyEdit": "編集できるのは、自分のリクエストのみです",
+      "pendingOnlyEdit": "編集できるのは、保留中のリクエストのみです",
+      "alreadyCancelled": "このリクエストはすでにキャンセルされています",
+      "fixedHolidayNoCancel": "固定休暇（休業期間）はキャンセルできません。管理者にお問い合わせください。",
+      "changedElsewhere": "このリクエストは別の場所で変更されました。一覧を再読み込みしてください。",
+      "employeeNotInOrg": "その従業員は組織に存在しません"
+    },
+    "handledElsewhere": "このリクエストはすでに別の場所で処理されています。一覧を再読み込みしてください。",
+    "yourManager": "あなたのマネージャー",
+    "absenceTypeNotFound": "不在の種類が見つかりません",
+    "activityTypeNotInOrg": "そのアクティビティタイプは、あなたの組織に存在しません",
+    "projectNotInOrg": "そのプロジェクトは、あなたの組織に存在しません",
+    "activityTypesNotInOrg": "1つ以上のアクティビティタイプが、あなたの組織に存在しません",
+    "projectsNotInOrg": "1つ以上のプロジェクトが、あなたの組織に存在しません",
+    "activityTypesUnknown": "1つ以上のアクティビティタイプが不明か、アーカイブされています",
+    "checkin": {
+      "already": "すでにチェックインしています",
+      "noneOpen": "開いているチェックインが見つかりません"
+    },
+    "closure": {
+      "maxDays": "休業期間は最大{days}日までです。代わりに、複数の期間を作成してください。",
+      "needsVacationType": "固定休暇の週には、休暇日数を差し引く不在の種類を使う必要があります",
+      "notFound": "休業期間が見つかりません"
+    },
+    "employeeProfileNotFound": "従業員プロフィールが見つかりません",
+    "compliance": {
+      "ownOnly": "表示できるのは、自分のコンプライアンス状況のみです",
+      "rejected": "この記録は、労働時間のルールにより却下されました：{reasons}"
+    },
+    "departmentNotFound": "部署が見つかりません",
+    "deptManagers": {
+      "oncePerDept": "同じユーザーは、部署ごとに1回のみ指定できます",
+      "validFromBeforeTo": "有効開始日は、有効終了日より前にしてください",
+      "usersNotMembers": "1人以上のユーザーが組織のメンバーではありません"
+    },
+    "employee": {
+      "employmentEnded": "雇用はすでに終了しています",
+      "endBeforePeriodStart": "終了日を、期間の開始日（{date}）より前にすることはできません",
+      "managerNotFound": "マネージャーが見つかりません",
+      "ownManager": "従業員が自分自身のマネージャーになることはできません",
+      "managerCycle": "マネージャーの階層が循環しています",
+      "viewOwnTeamProfiles": "プロフィールを表示できるのは、自分の従業員のみです",
+      "profileExists": "この従業員は、この組織にすでにプロフィールがあります",
+      "hireDateManaged": "入社日は雇用履歴で管理されています。「雇用」タブで編集してください。",
+      "viewOwnTeamEmployments": "雇用情報を表示できるのは、自分の従業員のみです",
+      "startAfterLatest": "開始日は、最新の期間の開始日（{date}）より後にしてください",
+      "endedOn": "雇用は{date}に終了しました。新しい期間は、その日より後に開始してください。",
+      "periodNotFound": "雇用期間が見つかりません",
+      "historyOwnTeamOnly": "履歴を表示できるのは、自分の従業員のみです"
+    },
+    "flex": {
+      "ownBalanceOnly": "表示できるのは、自分のフレックス残高のみです",
+      "recalcScope": "フレックスを再計算できるのは、自分または自分の従業員のみです",
+      "profileNotInOrg": "この組織に、従業員プロフィールが見つかりません"
+    },
+    "holidays": {
+      "notFound": "祝日が見つかりません",
+      "defaultNoDelete": "デフォルトの祝日は削除できません。代わりに、休日カレンダーのプリセットを選んでください。"
+    },
+    "mw": {
+      "noActiveOrg": "有効な組織が見つかりません",
+      "noEmployeeProfile": "この組織に、あなたの従業員プロフィールがありません。管理者にお問い合わせください。",
+      "twoFactorRequired": "組織は、マネージャーと管理者に2段階認証を必須としています。設定 → セキュリティで2段階認証をオンにして、もう一度お試しください。",
+      "hrReadOnly": "人事の役割では、表示のみ可能で、承認や編集はできません",
+      "managerRequired": "この操作には、マネージャーまたは管理者の権限が必要です",
+      "viewRequiresRole": "この表示には、マネージャー、人事、または管理者の権限が必要です",
+      "ownersAdminsOnly": "この機能にアクセスできるのは、オーナーと管理者のみです",
+      "twoFactorAdmins": "組織は、管理者に2段階認証を必須としています"
+    },
+    "notifications": {
+      "addTeamsFirst": "Teamsをオンにする前に、Teams Webhookを追加してください",
+      "noTeamsWebhook": "Teams Webhookが保存されていません",
+      "testBody": "{org}のTeams連携は正常に動作しています。マネージャー向けのイベント（タイムシート、不在、病欠、労働時間ルール、ダイジェスト）がここに送信されます。",
+      "theOrganisation": "組織",
+      "teamsRejected": "Teamsがテストメッセージを拒否しました：{message}"
+    },
+    "organizationNotFound": "組織が見つかりません",
+    "org": {
+      "deptHasEmployees": "従業員が割り当てられている部署は削除できません。先に従業員を移動してください。"
+    },
+    "overtime": {
+      "ownEmployeesOnly": "計上できるのは、自分の従業員のみです",
+      "positiveHours": "正の時間数を入力してください",
+      "notZero": "記録を0時間にすることはできません"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "その給与コードは、あなたの組織に存在しません",
+      "wageTypeCodeExists": "そのコードの給与コードはすでに存在します",
+      "ruleNotInOrg": "そのルールは、あなたの組織に存在しません",
+      "employeeNumberTaken": "その従業員番号は、すでに他の人が使っています",
+      "exportTitle": "給与エクスポート：{org}"
+    },
+    "absenceTypeNotInOrg": "その不在の種類は、あなたの組織に存在しません",
+    "exportRateLimited": "エクスポートが多すぎます。{seconds}秒後にもう一度お試しください。",
+    "closing": {
+      "notEnabled": "組織の設定で、期間締めがオンになっていません",
+      "afterPeriodEnd": "明細を作成できるのは、期間が終了してからです",
+      "approvedNoRecalc": "承認済みの明細は再計算できません。先にロックを解除してください。",
+      "noSelfApprove": "自分の期間明細を承認することはできません",
+      "alreadyApproved": "この明細はすでに承認されています",
+      "ownAckOnly": "確認応答できるのは、自分の明細のみです",
+      "needsManagerApproval": "確認応答する前に、マネージャーによる明細の承認が必要です",
+      "notLocked": "この期間はロックされていません",
+      "notFound": "その明細は存在しません"
+    },
+    "assign": {
+      "usersNotActive": "1人以上のユーザーが、組織の有効な従業員ではありません"
+    },
+    "reports": {
+      "payrollHrOnly": "給与レポートは、人事と管理者のみが利用できます",
+      "shareHrOnly": "テンプレートを組織全体で共有できるのは、人事と管理者のみです",
+      "defaultNoOverwrite": "デフォルトのテンプレートは上書きできません。別の名前で保存してください。",
+      "ownEditOnly": "編集できるのは、自分のテンプレートのみです",
+      "defaultNoDelete": "デフォルトのテンプレートは削除できません",
+      "ownDeleteOnly": "削除できるのは、自分のテンプレートのみです",
+      "weekdayRange": "曜日は1〜7で指定してください"
+    },
+    "reportTypeHrOnly": "この種類のレポートは、人事と管理者のみが利用できます",
+    "sso": {
+      "invalidTenant": "無効なテナントIDです。xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxの形式のGUIDが必要です（AzureのディレクトリテナントID）。",
+      "microsoftNotConfigured": "このインストールではMicrosoftログインが設定されていないため、「SSOのみ」をオンにできません。",
+      "verifyDomainFirst": "「SSOのみ」をオンにする前に、少なくとも1つのドメインを確認してください。そうしないと、このポリシーは誰にも適用されません。",
+      "connectMicrosoftFirst": "先に、自分のアカウントにMicrosoftを接続してください（設定 → セキュリティ → Microsoftを接続）。そうしないと、「SSOのみ」がオンのときにログインできなくなります。",
+      "enable2faFirst": "先に、自分のアカウントで2段階認証をオンにしてください。そうしないと、管理画面にログインできなくなります。",
+      "invalidDomain": "無効なドメインです。example.comのように入力してください（@やhttps://は付けません）。",
+      "publicProviders": "公開メールプロバイダー（gmail.com、outlook.comなど）は、自動参加には使えません。",
+      "domainAlreadyAdded": "このドメインはすでに追加されています。",
+      "domainVerifiedElsewhere": "このドメインは、すでに別の組織によって確認されています。間違いの場合は、サポートにお問い合わせください。",
+      "maxDomains": "1つの組織につき、ドメインは最大{max}件までです。",
+      "domainNotFound": "ドメインが見つかりません",
+      "domainVerifiedElsewhereShort": "このドメインは、すでに別の組織によって確認されています。",
+      "txtCorrectButTaken": "TXTレコードは正しいですが、このドメインはすでに別の組織によって確認されています。サポートにお問い合わせください。",
+      "justVerifiedElsewhere": "このドメインは、たった今別の組織によって確認されました。サポートにお問い合わせください。"
+    },
+    "team": {
+      "timesheetsOwnEmployees": "タイムシートを扱えるのは、自分の従業員のものだけです",
+      "employeeNotInOrg": "その従業員は、あなたの組織に存在しません",
+      "weekNothingToApprove": "この週には、承認する記録がありません",
+      "weekAlreadyApproved": "この週はすでに承認されています",
+      "noSelfApprove": "自分のタイムシートを承認することはできません",
+      "onlySubmittedRejectable": "却下できるのは、提出済みの週のみです",
+      "weekInClosedPeriod": "この週は締め済みの期間にあります。先に、期間締めでその期間のロックを解除してください。",
+      "onlyApprovedReopen": "再開できるのは、承認済みの週のみです",
+      "historyOwnEmployees": "履歴を表示できるのは、自分の従業員のものだけです"
+    },
+    "import": {
+      "noProject": "（プロジェクトなし）",
+      "beforeLock": "{count}行が、期間ロック{date}より前のものです",
+      "submittedWeeks": "提出済みまたは承認済みの{count}週に新しい行が追加され、すでに承認された合計には含まれません"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "この週はすでに承認されています。マネージャーに再開を依頼してください。",
+      "weekAlreadySubmitted": "この週はすでに提出済みで、承認待ちです",
+      "weekNothingToSubmit": "この週には、提出する記録がありません",
+      "activityNotAllowed": "このプロジェクトでは、そのアクティビティは使えません",
+      "dayHasDetailed": "この日には、詳細な記録が{hours}時間あります。時間記録で編集するか、それ以上の時間を入力してください。",
+      "chooseOtherActivity": "移動先の別のアクティビティを選んでください",
+      "noEmployeeProfile": "この組織に、あなたの従業員プロフィールがありません",
+      "fixedHoliday": "この日は固定休暇（休業期間）のため、ご自身では変更できません",
+      "coveredByLongAbsence": "この日は、より長い不在期間に含まれています。「不在」で編集してください。",
+      "notEmployed": "この日付には、雇用されていませんでした",
+      "holidayNoAbsence": "この日は休日または祝日のため、不在を記録できません",
+      "lastWeekEmpty": "先週には、コピーする記録がありません",
+      "weekNothingToSave": "この週には、テンプレートとして保存する記録がありません",
+      "templateMissing": "そのテンプレートは存在しません"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "従業員の勤務時間を編集できるのは、マネージャーのみです",
+      "ownOnlyView": "表示できるのは、自分の勤務時間のみです",
+      "employeeNotInOrg": "その従業員は組織に存在しません",
+      "sharedPlan": "このプランは、あなたの従業員以外でも使われています。管理者に変更を依頼してください。",
+      "planMissing": "そのプランは存在しません",
+      "planArchived": "そのプランはアーカイブされています",
+      "laterVersion": "{date}からの新しいバージョンがあります。代わりに、そちらを編集してください。",
+      "versionFromToday": "今日から適用されるバージョンがすでにあります。もっと後の日付を選んでください。",
+      "adminsOnlyDept": "部署にプランを割り当てられるのは、管理者のみです",
+      "departmentMissing": "その部署は存在しません",
+      "deviationsRecorded": "例外は、発生したときに記録されます。予定された不在は、「休暇と不在」で記録してください。",
+      "noFixedPlanToday": "この日には、固定の勤務プランがありません。時間は時間記録として入力してください。"
+    },
+    "dpa": {
+      "outdated": "ページを読み込んだ後に、契約が更新されました。再読み込みして、新しいバージョンをお読みください。",
+      "acceptFailed": "承諾を登録できませんでした",
+      "signIn": "ダウンロードするにはログインしてください",
+      "ownersAdminsDownload": "完了した契約をダウンロードできるのは、オーナーと管理者のみです"
+    },
+    "edit": {
+      "weekApprovedLocked": "この週は承認済みでロックされています。マネージャーに再開を依頼してください。",
+      "weekSubmitted": "この週は承認のために提出済みで、編集できません",
+      "entryApproved": "この記録はマネージャーに承認されています。週の再開を依頼してください。"
+    },
+    "periodMaxDaysAsync": "期間は最大{days}日までです",
+    "scope": {
+      "ownEmployees": "扱えるのは、自分の従業員のみです"
+    },
+    "dns": {
+      "unknown": "不明なDNSエラー",
+      "lookupFailed": "DNSの検索に失敗しました：{error}",
+      "noRecord": "{hosts}に、TXTレコード「{record}」が見つかりませんでした。DNSの変更が反映されるまで、最大1時間かかることがあります。"
+    }
+  },
+  "emailTemplates": {
+    "notFound": "テンプレートが見つかりません",
+    "systemNoEdit": "システムテンプレートは編集できません",
+    "systemNoDelete": "システムテンプレートは削除できません",
+    "alreadyExist": "テンプレートはすでに存在します"
+  },
+  "api": {
+    "tooManyRequestsLater": "リクエストが多すぎます。後でもう一度お試しください。",
+    "cvr": {
+      "queryMin2": "検索語は2文字以上で入力してください",
+      "noCompany": "会社が見つかりません",
+      "searchFailed": "検索中にエラーが発生しました",
+      "numberOrQueryRequired": "CVR番号または検索語が必要です",
+      "eightDigits": "CVR番号は8桁で入力してください",
+      "noCompanyForNumber": "このCVR番号の会社が見つかりません",
+      "lookupFailed": "CVR番号の検索中にエラーが発生しました"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "エクスポートが見つからないか、期限が切れています",
+      "expired": "このエクスポートは期限が切れたか、利用できなくなりました。新しいエクスポートをリクエストしてください。"
+    },
+    "notAuthorized": "権限がありません。先にログインしてください。",
+    "desktop": {
+      "deviceCodeMissing": "デバイスコード（code）がありません",
+      "maxDevices": "デバイスの最大数（{max}）に達しました。先にデバイスを1つ無効化してください。",
+      "invalidDeviceToken": "無効なデバイストークンです",
+      "userNotFound": "そのユーザーは存在しません",
+      "settingsReadFailed": "設定を読み込めませんでした",
+      "notInAnyOrg": "組織のメンバーではありません",
+      "adminsOnlyIntegrations": "連携の設定を変更できるのは、管理者のみです",
+      "invalidIntegrationSettings": "無効な連携設定です",
+      "settingsSaveFailed": "設定を保存できませんでした",
+      "draftOnlyEditLines": "明細を変更できるのは、下書きの請求書のみです",
+      "invalidPrepaidHours": "前払いの時間記録の時間数が無効です",
+      "draftOnlyEditInvoices": "編集できるのは、下書きの請求書のみです",
+      "unbillOnlyWeb": "請求済みマークを外せるのは、Webアプリのみです。先にWebアプリで外してください。",
+      "entryNotFoundOrOther": "エンティティが見つかりません：{id}。その記録は存在しないか、別のユーザーのものです"
+    },
+    "notMemberOfChosenOrg": "選択した組織のメンバーではありません",
+    "approvalFailed": "承認に失敗しました",
+    "invalidEmail": "無効なメールアドレスです",
+    "genericError": "エラーが発生しました",
+    "dpa": {
+      "pdfFailed": "現在、PDFを作成できません"
+    },
+    "invalidOrigin": "無効なオリジンです",
+    "invalidRequest": "無効なリクエストです",
+    "ext": {
+      "invalidLoginLink": "無効なログインリンクです。アプリからもう一度ログインを開始してください。",
+      "invalidRedirect": "無効なリダイレクトURIです"
+    },
+    "feedback": {
+      "notSignedIn": "ログインしていません",
+      "otherUser": "このレポートは別のユーザーが作成したものです",
+      "tooLarge": "レポートが大きすぎます",
+      "invalid": "無効なレポートです",
+      "saveFailed": "フィードバックを保存できませんでした"
+    },
+    "invalidJson": "無効なJSONです",
+    "integrations": {
+      "dineroFailed": "Dineroの接続を作成できませんでした。もう一度お試しください。",
+      "economicFailed": "e-conomicの接続を作成できませんでした。もう一度お試しください。",
+      "googleFailed": "Googleの接続を作成できませんでした。もう一度お試しください。"
+    },
+    "invoiceSend": {
+      "invalidRecipient": "無効な宛先のメールアドレスです",
+      "emailNotConfigured": "メールサービスが設定されていません。RESEND_API_KEYまたはSMTP_HOSTを設定するよう、管理者にお問い合わせください。",
+      "sendFailed": "メールを送信できませんでした。後でもう一度お試しください。",
+      "sent": "{email}にメールを送信しました",
+      "error": "メールの送信中にエラーが発生しました"
+    },
+    "upload": {
+      "notAuthorized": "権限がありません",
+      "noFile": "ファイルがアップロードされていません",
+      "imageTypes": "使用できるのは、JPEG、PNG、WebPのみです",
+      "tooBig": "ファイルが大きすぎます（最大8 MB）",
+      "notConfigured": "ファイルのアップロードが設定されていません（S3_ENDPOINTまたはSTORAGE_DRIVER=localがありません）",
+      "failed": "ファイルをストレージにアップロードできませんでした"
+    },
+    "webhookTest": {
+      "tooMany": "このWebhookのテスト試行が多すぎます。しばらくしてからもう一度お試しください。"
+    },
+    "import": {
+      "tagNoName": "タグに名前がありません"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "この前払いパッケージは、タイマーのクライアントとは別のクライアントのものです"
+  }
+}

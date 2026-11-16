@@ -1,0 +1,67 @@
+{
+  "hourUnit": "t",
+  "headline": {
+    "untilToday": "{logged} af {expected} indtil i dag",
+    "noWorkTimeYet": "Ingen arbejdstid endnu i perioden",
+    "of": "{logged} af {expected}",
+    "noWorkTime": "Ingen arbejdstid i perioden"
+  },
+  "week": "Uge {week} ({start}–{end})",
+  "period": {
+    "day": "Dag",
+    "week": "Uge",
+    "month": "Måned"
+  },
+  "bar": {
+    "label": "Fakturerbar {billable}, ikke-fakturerbar {nonBillable} af {expected} arbejdstid",
+    "billable": "Fakturerbar",
+    "nonBillable": "Ikke-fakturerbar",
+    "notLogged": "Ikke logget"
+  },
+  "table": {
+    "client": "Kunde",
+    "billable": "Fakturerbar",
+    "nonBillableShort": "Ikke-fakt.",
+    "share": "Andel",
+    "ratio": "Ikke-fakt. pr. fakt. time",
+    "ratioTitle": "Ikke-fakturerbare timer pr. faktureret time",
+    "onlyNonBillable": "Kun ikke-fakt."
+  },
+  "strip": {
+    "title": "Dækningsgrad",
+    "summary": "<n>{billable}</n> fakturerbar · <n>{nonBillable}</n> ikke-fakturerbar",
+    "summaryRatio": "<n>{billable}</n> fakturerbar · <n>{nonBillable}</n> ikke-fakturerbar · <n>{ratio}</n> pr. faktureret time",
+    "perClient": "Pr. kunde"
+  },
+  "page": {
+    "back": "Rapporter",
+    "title": "Dækningsgrad",
+    "description": "Hvor stor en del af din arbejdstid der er logget, og hvor den går hen",
+    "periodAria": "Periode",
+    "prev": "Forrige periode",
+    "next": "Næste periode",
+    "today": "I dag",
+    "workTime": "Arbejdstid: {hours}/uge",
+    "workTimeHr": "Arbejdstid: {hours}/uge (fra HR)",
+    "edit": "Ret",
+    "loadError": "Kunne ikke hente dækningsgraden.",
+    "retry": "Prøv igen",
+    "statCoverage": "Dækningsgrad",
+    "statBillable": "Fakturerbar",
+    "statNonBillable": "Ikke-fakturerbar",
+    "statRatio": "Ikke-fakt. pr. fakt. time",
+    "ofWorkTime": "{pct} af arbejdstiden",
+    "noTimeLogged": "Ingen tid logget",
+    "shareBilled": "{pct} af den loggede tid faktureres",
+    "perClient": "Pr. kunde",
+    "noTimeInPeriod": "Ingen tid logget i perioden.",
+    "logTime": "Registrer tid",
+    "perDay": "Pr. dag",
+    "colDate": "Dato",
+    "colWorkTime": "Arbejdstid",
+    "colLogged": "Logget",
+    "colBillable": "Heraf fakt.",
+    "colCoverage": "Dækningsgrad",
+    "footnote": "Dækningsgrad = logget tid ÷ din normale arbejdstid. Helligdage og fravær trækkes ikke fra arbejdstiden. Tid uden kunde vises som intern tid."
+  }
+}

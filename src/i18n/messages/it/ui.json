@@ -1,0 +1,199 @@
+{
+  "autosave": {
+    "saving": "Salvataggio …",
+    "saved": "Salvato",
+    "blocked": "Non salvato: correggi il campo evidenziato",
+    "failed": "Impossibile salvare",
+    "retry": "Riprova"
+  },
+  "loading": {
+    "default": "Caricamento...",
+    "tip": {
+      "search": "Lo sapevi? Premi Ctrl+K per cercare ovunque",
+      "rightClick": "Suggerimento: clic destro su un'attività per le azioni rapide",
+      "templates": "Usa i modelli per le attività ricorrenti e risparmia tempo",
+      "kanban": "Puoi trascinare le attività tra le colonne nella vista Kanban",
+      "timerFromTask": "Suggerimento: avvia un timer direttamente da un'attività",
+      "prepaid": "I pacchetti ore ti aiutano a tenere traccia delle ore prepagate",
+      "duplicate": "Puoi duplicare i pacchetti ore con un clic",
+      "keys": "Usa J/K per scorrere l'elenco delle attività con la tastiera"
+    }
+  },
+  "member": {
+    "all": "Tutti i collaboratori",
+    "selected": "{count} collaboratori selezionati"
+  },
+  "founding": "Fondatore",
+  "status": {
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "pending": "In attesa",
+    "completed": "Completato",
+    "archived": "Archiviato",
+    "draft": "Bozza",
+    "sent": "Inviata",
+    "paid": "Pagata",
+    "overdue": "Scaduta",
+    "on_hold": "In sospeso"
+  },
+  "priority": {
+    "low": "Bassa",
+    "medium": "Normale",
+    "high": "Alta",
+    "urgent": "Critica"
+  },
+  "modal": {
+    "close": "Chiudi",
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "wait": "Attendi...",
+    "ok": "OK"
+  },
+  "image": {
+    "uploadFailed": "Caricamento non riuscito",
+    "uploaded": "Immagine caricata",
+    "uploadError": "Impossibile caricare l'immagine",
+    "alt": "Immagine",
+    "change": "Cambia",
+    "upload": "Carica",
+    "remove": "Rimuovi",
+    "hint": "JPEG, PNG o WebP. Max 8 MB."
+  },
+  "error": {
+    "network": {
+      "title": "Errore di rete",
+      "message": "Impossibile connettersi al server. Controlla la connessione a internet e riprova."
+    },
+    "server": {
+      "title": "Errore del server",
+      "message": "Si è verificato un errore del server. Riprova più tardi."
+    },
+    "notFound": {
+      "title": "Non trovato",
+      "message": "La risorsa che cerchi non esiste o è stata rimossa."
+    },
+    "permission": {
+      "title": "Accesso negato",
+      "message": "Non hai l'autorizzazione per vedere questo contenuto."
+    },
+    "unknown": {
+      "title": "Qualcosa è andato storto",
+      "message": "Si è verificato un errore imprevisto. Prova a ricaricare la pagina."
+    },
+    "offline": "Sei offline",
+    "connected": "Connesso",
+    "details": "Dettagli dell'errore",
+    "retrying": "Nuovo tentativo...",
+    "retry": "Riprova",
+    "loading": "Caricamento..."
+  },
+  "empty": {
+    "clients": {
+      "title": "Ancora nessun cliente",
+      "description": "Inizia creando il tuo primo cliente. Puoi aggiungere dati di contatto, numero di registrazione aziendale (CVR), tariffa oraria e altro.",
+      "action": "Crea il tuo primo cliente",
+      "guide": "Leggi la guida"
+    },
+    "projects": {
+      "needClientTitle": "Crea prima un cliente",
+      "needClientDescription": "Serve almeno un cliente prima di poter creare progetti. I progetti appartengono sempre a un cliente.",
+      "createClient": "Crea cliente",
+      "title": "Ancora nessun progetto",
+      "description": "Crea il tuo primo progetto per iniziare a registrare il tempo e fatturare ai tuoi clienti. Puoi scegliere una tariffa oraria o un prezzo fisso.",
+      "action": "Crea progetto",
+      "seeClients": "Vedi clienti"
+    },
+    "time": {
+      "needProjectTitle": "Crea prima un progetto",
+      "needProjectDescription": "Serve almeno un progetto attivo per registrare il tempo. I progetti ti aiutano a organizzare e fatturare il lavoro.",
+      "createProject": "Crea progetto",
+      "today": "oggi",
+      "title": "Nessun tempo registrato {date}",
+      "description": "Avvia il timer o aggiungi una registrazione manualmente. Puoi anche creare modelli ricorrenti per le attività abituali.",
+      "startTimer": "Avvia timer",
+      "seeTemplates": "Vedi modelli"
+    },
+    "invoices": {
+      "needTimeTitle": "Registra prima del tempo",
+      "needTimeDescription": "Non hai tempo non fatturato da mettere in fattura. Inizia registrando il tempo sui tuoi progetti.",
+      "trackTime": "Registra tempo",
+      "title": "Ancora nessuna fattura",
+      "description": "Crea la tua prima fattura a partire dal tempo registrato o da importi fissi. Puoi personalizzare i modelli di fattura nelle impostazioni.",
+      "action": "Crea fattura",
+      "seeUnbilled": "Vedi tempo non fatturato"
+    },
+    "tasks": {
+      "needProjectTitle": "Crea prima un progetto",
+      "needProjectDescription": "Le attività appartengono ai progetti. Crea prima un progetto, poi potrai aggiungere attività.",
+      "createProject": "Crea progetto",
+      "title": "Nessuna attività",
+      "description": "Tieni traccia di attività e scadenze. Puoi assegnare priorità e impostare le date di scadenza.",
+      "action": "Crea attività",
+      "seeProjects": "Vedi progetti"
+    },
+    "prepaid": {
+      "needClientTitle": "Crea prima un cliente",
+      "needClientDescription": "I pacchetti ore (ore prepagate) appartengono ai clienti. Crea prima un cliente.",
+      "createClient": "Crea cliente",
+      "title": "Nessun pacchetto ore",
+      "description": "I pacchetti ore sono blocchi di ore pagate in anticipo. Ideali per assistenza o manutenzione continuativa per i clienti abituali.",
+      "action": "Crea pacchetto ore",
+      "seeClients": "Vedi clienti"
+    },
+    "reports": {
+      "title": "Nessun dato da mostrare",
+      "description": "Registra il tempo e crea fatture per vedere qui report e statistiche. Più dati hai, migliore è la visione d'insieme.",
+      "action": "Vai al tracciamento del tempo"
+    },
+    "search": {
+      "title": "Nessun risultato",
+      "descriptionQuery": "Non abbiamo trovato nulla per \"{query}\". Prova un altro termine o controlla l'ortografia.",
+      "description": "Prova a cercare qualcos'altro.",
+      "clear": "Cancella ricerca"
+    },
+    "error": {
+      "title": "Qualcosa è andato storto",
+      "description": "Impossibile caricare i dati. Riprova.",
+      "retry": "Riprova"
+    },
+    "moduleDisabled": {
+      "title": "Funzione disattivata",
+      "description": "Questo modulo non è attivo per la tua organizzazione. Contatta il tuo amministratore se vuoi usarlo.",
+      "action": "Impostazioni dei moduli"
+    }
+  },
+  "client": {
+    "placeholder": "Seleziona cliente",
+    "clear": "Nessun cliente",
+    "selected": "{count} clienti selezionati",
+    "searchLabel": "Cerca clienti",
+    "searchPlaceholder": "Cerca clienti...",
+    "listLabel": "Clienti",
+    "none": "Nessun cliente trovato",
+    "frequent": "Usati di frequente",
+    "all": "Tutti i clienti",
+    "entryCount": "{count} registrazioni"
+  },
+  "project": {
+    "placeholder": "Seleziona progetto",
+    "none": "Nessun progetto",
+    "searchPlaceholder": "Cerca progetto o cliente...",
+    "listLabel": "Progetti",
+    "recent": "Usati di recente",
+    "empty": "Nessun progetto trovato",
+    "noClient": "Nessun cliente",
+    "unknownClient": "Cliente sconosciuto"
+  },
+  "task": {
+    "placeholder": "Seleziona attività",
+    "searchPlaceholder": "Cerca attività, progetto o cliente...",
+    "none": "Nessuna attività",
+    "inProgress": "In corso",
+    "todo": "Da fare",
+    "backlog": "Backlog",
+    "other": "Altro",
+    "noMatch": "Nessuna attività trovata",
+    "noActive": "Nessuna attività attiva",
+    "showMoreBacklog": "Mostra altre {count} attività del backlog"
+  }
+}

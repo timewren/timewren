@@ -1,0 +1,49 @@
+---
+title: "Coolify"
+description: "TimeWren auf Coolify als Docker-Compose-Ressource bereitstellen, mit generierten Geheimnissen, PostgreSQL und einem Scheduler."
+---
+
+Wähle diese Methode, wenn du bereits Coolify betreibst. Die Compose-Datei lädt das veröffentlichte Image, sodass nichts lokal gebaut wird, und Coolify generiert alle Geheimnisse für dich.
+
+## Voraussetzungen
+
+- Eine laufende Coolify-Instanz mit einem Server und eine Domain, die du darauf zeigen lassen kannst.
+- Zugriff auf das Repository `https://github.com/timewren/timewren` (öffentlich).
+
+## Bereitstellen
+
+1. Erstelle in Coolify eine neue Ressource: **Docker Compose**, aus einem Git-Repository, mit `https://github.com/timewren/timewren`.
+2. Setze den Pfad der Compose-Datei auf `/deploy/coolify/docker-compose.yml`. (Die Datei `docker-compose.coolify.yml` im Wurzelverzeichnis ist ein Kompatibilitäts-Symlink auf dieselbe Datei.)
+3. Gib dem Dienst `app` eine Domain, zum Beispiel `https://timewren.example.com`. Die Vorlage leitet sie an Container-Port 3000 weiter.
+4. Stelle bereit.
+
+Coolify generiert die öffentliche App-URL (`NEXT_PUBLIC_APP_URL`), das Datenbankpasswort, das Sitzungsgeheimnis (`BETTER_AUTH_SECRET`), das Cron-Geheimnis (`CRON_SECRET`) und einen hexadezimalen `ENCRYPTION_KEY` mit 64 Zeichen. Du musst nichts setzen.
+
+## Was bereitgestellt wird
+
+| Dienst | Image | Rolle |
+| ------ | ----- | ----- |
+| `app` | `ghcr.io/timewren/timewren:${TIMEWREN_VERSION:-latest}` | Die Web-App. Führt Migrationen beim Start aus. Dateien auf dem Volume `storage`. |
+| `cron` | gleiches Image | Führt `node scripts/cron.mjs` gegen `http://app:3000` aus. |
+| `db` | `postgres:18-alpine` | PostgreSQL, Daten auf dem Volume `db-data`. |
+
+Um ein Release festzulegen, setze `TIMEWREN_VERSION` in den Umgebungsvariablen der Ressource.
+
+## Zuerst dein Konto anlegen
+
+Die Domain ist öffentlich, sobald sie bereitgestellt ist, und das erste Konto wird Admin. Die Vorlage setzt `REQUIRE_EMAIL_VERIFICATION` standardmäßig auf `false`, damit die Instanz ohne Mailserver funktioniert. Öffne die URL und lege sofort dein Konto an, oder setze vor der ersten Bereitstellung `ADMIN_EMAIL` und einen Mail-Transport (`SMTP_HOST` oder `RESEND_API_KEY`). Mit `REQUIRE_EMAIL_VERIFICATION=true` wird die Bestätigung wieder erzwungen.
+
+## Optionale Einstellungen
+
+Die Compose-Datei stellt optionale Variablen bereit für E-Mail (`SMTP_*`, `RESEND_*`), S3-Speicher (`S3_*`, zusammen mit `STORAGE_DRIVER=s3`), Google- und Microsoft-Anmeldung, Dinero, e-conomic und `OPENAI_API_KEY`, dazu `TZ`, `ADMIN_EMAIL`, `DESKTOP_UPDATER_REPO` und `CHANGELOG_REPO`. Setze sie als Umgebungsvariablen an der Ressource. Siehe [Umgebungsvariablen](/de/docs/configuration/environment).
+
+## Sichern
+
+Sichere die generierten Geheimnisse und beide benannten Volumes (`db-data` und `storage`). Bewahre `ENCRYPTION_KEY` auf: Wird er ersetzt, sind gespeicherte Integrations-Tokens nicht mehr lesbar. Eine spätere Änderung des Datenbankpassworts ändert nicht das in Postgres gespeicherte Passwort.
+
+## Nächste Schritte
+
+- [Schnellstart](/de/docs/quickstart)
+- [E-Mail](/de/docs/configuration/email)
+- [Aktualisieren](/de/docs/operations/upgrading) und [Backup und Wiederherstellung](/de/docs/operations/backup-restore)
+- [Fehlerbehebung](/de/docs/operations/troubleshooting)

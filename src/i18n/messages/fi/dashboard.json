@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# myöhässä oleva tehtävä} other {# myöhässä olevaa tehtävää}}",
+    "needsAttention": "Vaatii huomiota",
+    "lowBalance": "{count, plural, one {# tuntipaketti, jonka saldo on alhainen} other {# tuntipakettia, joiden saldo on alhainen}}",
+    "lowBalanceSub": "Alhainen saldo",
+    "expiring": "{count, plural, one {# tuntipaketti vanhenee pian} other {# tuntipakettia vanhenee pian}}",
+    "expiringSub": "14 päivän sisällä",
+    "unbilled": "{amount} laskuttamatta",
+    "unbilledSub": "Valmis laskutettavaksi",
+    "title": "Vaatii toimia"
+  },
+  "appDrawer": {
+    "apps": "Sovellukset",
+    "heading": "{brand}-sovellukset",
+    "downloadFor": "Lataa: {os}{version} · Beta",
+    "seeDownloads": "Katso lataukset asetuksista",
+    "downloadComing": "Lataus on tulossa. Katso asetukset",
+    "chromeExtension": "Chrome-laajennus",
+    "chromeExtensionHint": "Kirjaa aikaa selaimesta",
+    "installApp": "Asenna sovelluksena",
+    "installAppHint": "Lisää {brand} työpöydällesi",
+    "alreadyInstalled": "Jo asennettu",
+    "addToHome": "Lisää aloitusnäyttöön tai työpöydälle"
+  },
+  "demo": {
+    "clearedKept": "Esimerkkitiedot tyhjennetty. {kept, plural, one {# demoasiakas oli otettu käyttöön (esimerkiksi laskutettu), ja se on säilytetty tavallisena asiakkaana.} other {# demoasiakasta oli otettu käyttöön (esimerkiksi laskutettu), ja ne on säilytetty tavallisina asiakkaina.}}",
+    "cleared": "Esimerkkitiedot on tyhjennetty. Tili on sinun.",
+    "nothingToClear": "Tyhjennettäviä esimerkkitietoja ei ollut.",
+    "clearFailed": "Esimerkkitietojen tyhjennys epäonnistui",
+    "banner": "<strong>Katselet esimerkkitietoja.</strong> Asiakkaat, tunnit ja tuntipaketti ovat keksittyjä, jotta näet, miltä {brand} näyttää käytössä. Tyhjennä ne, kun haluat aloittaa omilla tiedoillasi.",
+    "confirm": "Tyhjennetäänkö esimerkkitiedot? Demoasiakkaat ja niiden esimerkkiprojektit, -tunnit ja -tuntipaketit poistetaan. Kaikki itse luomasi (esimerkiksi laskut tai omat tunnit) säilyy.",
+    "clearButton": "Tyhjennä demotiedot"
+  },
+  "desktopCard": {
+    "beta": "Beta",
+    "withDownloads": "Työpöytäsovellus Macille ja Windowsille{version}. Se on beta-vaiheessa, ja siinä voi olla virheitä.",
+    "version": ", versio {version}",
+    "withoutDownloads": "Työpöytäsovellus on beta-vaiheessa. Latauslinkki ilmestyy tähän heti, kun {brand} voi hakea uusimman version.",
+    "hide": "Piilota",
+    "reportHint": "Löysitkö virheen? Käytä sovelluksen kohtaa \"Ilmoita virheestä tai puuttuvasta ominaisuudesta\"."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Luo ensimmäinen asiakkaasi",
+      "hasTimeEntry": "Kirjaa ensimmäinen tunti",
+      "hasKlippekort": "Luo tuntipaketti",
+      "hasInvoice": "Luo ensimmäinen laskusi"
+    },
+    "daysLeft": "{count, plural, one {# päivä} other {# päivää}} jäljellä ilmaisesta kokeilujaksosta",
+    "addPayment": "Lisää maksutapa",
+    "gettingStarted": "Alkuun pääsy ({done}/{total})",
+    "hide": "Piilota",
+    "progressLabel": "Alkuun pääsyn eteneminen",
+    "createAccount": "Luo tilisi"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Asiakasriski",
+      "daysAgo": "{days} päivää sitten",
+      "allActive": "Kaikilla asiakkaillasi on ollut toimintaa viimeisten 60 päivän aikana ✓",
+      "seeAll": "Näytä kaikki",
+      "count": "{count, plural, one {# asiakas, jolla ei ole ollut toimintaa yli 60 päivään} other {# asiakasta, joilla ei ole ollut toimintaa yli 60 päivään}}",
+      "lastActive": "Viimeksi aktiivinen: {date}",
+      "revenue6m": "{amount} (6 kk)",
+      "hoursLeft": "{hours} h jäljellä",
+      "openClient": "Avaa asiakas",
+      "sendCheckIn": "Lähetä kuulumisviesti",
+      "checkInSubject": "Kuulumiset",
+      "more": "+ {count} muuta riskiasiakasta"
+    },
+    "calendarSync": {
+      "title": "Kalenteri vs. kirjattu",
+      "seeCalendar": "Näytä kalenteri",
+      "captureRate": "kirjausaste",
+      "eventsTracked": "{tracked}/{total} tapahtumaa kirjattu",
+      "calendar": "Kalenteri",
+      "tracked": "Kirjattu",
+      "gap": "{hours} h kalenterissa on kirjaamatta",
+      "perProject": "Projekteittain",
+      "moreProjects": "+{count} muuta"
+    },
+    "cashflow": {
+      "title": "Kassavirran ennuste",
+      "seeUnpaid": "Näytä avoimet",
+      "empty": "Ei avoimia laskuja eikä aktiivisia tuntipaketteja",
+      "emptyHint": "Lähetä lasku nähdäksesi kassavirran ennusteen",
+      "seeAllUnpaid": "Näytä kaikki avoimet",
+      "overdueInvoices": "{count, plural, one {# lasku myöhässä} other {# laskua myöhässä}}: ",
+      "overdue": "Myöhässä: ",
+      "week": "Viikko {number}",
+      "estimated": "(arvio)",
+      "prepaidTag": "(tuntipaketti)",
+      "expected30": "Odotettu seuraavan 30 päivän aikana"
+    },
+    "coverage": {
+      "title": "Käyttöaste",
+      "details": "Näytä tiedot",
+      "period": "Jakso",
+      "loadFailed": "Käyttöasteen lataus epäonnistui",
+      "noTime": "Tälle jaksolle ei ole vielä kirjattu aikaa.",
+      "trackTime": "Kirjaa aikaa",
+      "billable": "Laskutettava",
+      "nonBillable": "Ei-laskutettava",
+      "ratio": "<b>{ratio}</b> ei-laskutettavaa tuntia jokaista laskutettua tuntia kohden",
+      "clientCol": "Asiakas",
+      "splitCol": "Lask. / ei-lask."
+    },
+    "dailyHours": {
+      "title": "Tunnit päivittäin",
+      "details": "Näytä tiedot",
+      "avg": "Keskiarvo/päivä: ",
+      "total": "Yhteensä: ",
+      "hoursShort": "{value} h",
+      "day": {
+        "0": "Su",
+        "1": "Ma",
+        "2": "Ti",
+        "3": "Ke",
+        "4": "To",
+        "5": "Pe",
+        "6": "La"
+      }
+    },
+    "emailSync": {
+      "title": "Sähköpostin synkronointi",
+      "started": "Synkronointi käynnistetty",
+      "startFailed": "Synkronoinnin käynnistys epäonnistui",
+      "never": "Ei koskaan",
+      "now": "Juuri nyt",
+      "minutes": "{value} min",
+      "hours": "{value} h",
+      "days": "{value} pv",
+      "startNow": "Käynnistä synkronointi nyt",
+      "statusOk": "OK",
+      "statusUnstable": "Epävakaa",
+      "statusError": "Virhe",
+      "emails": "Sähköpostit",
+      "tasks": "Tehtävät",
+      "clients": "Asiakkaat",
+      "analytics": "Näytä analytiikka →"
+    },
+    "emailTasks": {
+      "title": "Sähköpostista luodut tehtävät",
+      "review": "Tarkista",
+      "noClient": "Ei asiakasta",
+      "empty": "Ei vielä sähköpostitehtäviä."
+    },
+    "expiringPackages": {
+      "title": "Vanhenevat tuntipaketit",
+      "seeAll": "Näytä kaikki",
+      "none": "Mikään tuntipaketti ei vanhene pian",
+      "noneHint": "30 päivän sisällä vanhenevat tuntipaketit näkyvät tässä",
+      "expiredAgo": "Vanhentui {count, plural, one {# päivä} other {# päivää}} sitten",
+      "expired": "Vanhentunut",
+      "today": "Tänään",
+      "days": "{count, plural, one {# päivä} other {# päivää}}",
+      "hoursLeft": "Tunteja jäljellä",
+      "value": "Arvo",
+      "expires": "Vanhenee {date}",
+      "more": "+ {count} muuta tuntipakettia",
+      "urgent": "Jotkin tuntipaketit vanhenevat 7 päivän sisällä. Ota yhteyttä asiakkaaseen uusimisesta."
+    },
+    "flexBalance": {
+      "title": "Liukumasaldo",
+      "hours": "{value} h",
+      "entries": "{count} kirjausta"
+    },
+    "flexNorm": {
+      "title": "Liukumasaldo",
+      "loadFailed": "Saldon lataus epäonnistui.",
+      "noProfile": "Sinulla ei ole työntekijäprofiilia organisaatiossa.",
+      "unit": "h",
+      "carryIn": "Josta siirtynyt: {value} h",
+      "week": "Viikko",
+      "month": "Kuukausi",
+      "period": "Jakso",
+      "summary": "{registered} h / {net} h normista tähän mennessä · jakson norm {periodNet} h",
+      "seeAccount": "Näytä liukumatili"
+    },
+    "hoursComparison": {
+      "title": "Viikkovertailu",
+      "details": "Näytä tiedot",
+      "none": "Ei kirjattuja tunteja",
+      "thisWeek": "Tämä viikko",
+      "lastWeek": "Viime viikko",
+      "format": "hh:mm",
+      "increase": "Kasvu",
+      "decrease": "Lasku",
+      "vsLastWeek": "viime viikkoon verrattuna"
+    },
+    "invoiceOverview": {
+      "title": "Laskujen yleiskatsaus",
+      "seeInvoices": "Näytä laskut",
+      "totalInvoiced": "Laskutettu yhteensä",
+      "draft": "Luonnos",
+      "sent": "Lähetetty",
+      "paid": "Maksettu",
+      "overdue": "Myöhässä"
+    },
+    "lowBalance": {
+      "title": "Tuntipaketit, joiden saldo on alhainen",
+      "loadFailed": "Tuntipakettien lataus epäonnistui",
+      "none": "Ei tuntipaketteja, joiden saldo on alhainen",
+      "seeAll": "Näytä kaikki",
+      "intro": "Alhainen saldo",
+      "noClient": "Ei asiakasta",
+      "left": "{time} jäljellä",
+      "more": "+ {count} muuta"
+    },
+    "monthComparison": {
+      "title": "Kuukausivertailu",
+      "seeReports": "Näytä raportit",
+      "vs": "vs",
+      "vsValue": "vs {value}",
+      "hours": "Tunnit",
+      "hoursValue": "{value} h",
+      "revenue": "Liikevaihto",
+      "entries": "Tuntikirjaukset"
+    },
+    "overdueTasks": {
+      "title": "Myöhässä olevat tehtävät",
+      "none": "Ei määräajan ylittäneitä tehtäviä ✓",
+      "seeAll": "Näytä kaikki",
+      "count": "{count, plural, one {# tehtävä} other {# tehtävää}}",
+      "noProject": "Ei projektia",
+      "deadline": "Määräaika: {date}",
+      "more": "+ {count} muuta"
+    },
+    "pendingApprovals": {
+      "title": "Odottavat hyväksynnät",
+      "requestOne": "pyyntö",
+      "requestOther": "pyyntöä"
+    },
+    "prepaidStatus": {
+      "title": "Tuntipakettien tilanne",
+      "allGood": "Kaikki on kunnossa",
+      "seeAll": "Näytä kaikki",
+      "lowBalance": "Alhainen saldo",
+      "noClient": "Ei asiakasta",
+      "left": "{time} jäljellä",
+      "more": "+ {count} muuta",
+      "expiringSoon": "Vanhenee pian (30 päivän sisällä)",
+      "expired": "Vanhentunut",
+      "today": "Tänään",
+      "days": "{count, plural, one {# päivä} other {# päivää}}"
+    },
+    "productivity": {
+      "title": "Tuottavuus viikon aikana",
+      "details": "Näytä tiedot",
+      "noData": "Ei vielä tuottavuustietoja",
+      "streak": "Nykyinen putki",
+      "streakDays": "päivää peräkkäin",
+      "weeklyAvg": "Viikkokeskiarvo",
+      "perWeek": "viikossa",
+      "last8": "Viimeiset 8 viikkoa",
+      "less": "Vähemmän",
+      "more": "Enemmän",
+      "msgHigh": "Mahtavaa! Olet tehnyt töitä yli 7 päivää peräkkäin. Jatka samaan malliin!",
+      "msgMid": "Hyvin tehty! Pidä vauhti yllä.",
+      "msgLow": "Olet matkalla! Rakenna vahva työrytmi.",
+      "streakDay": "päivä peräkkäin"
+    },
+    "profitability": {
+      "title": "Todellinen tuntihinta",
+      "rate": "{rate} kr/h",
+      "hours": "{hours} h",
+      "loadFailed": "Tietojen lataus epäonnistui",
+      "noBilled": "Tässä kuussa ei ole laskutettua aikaa",
+      "createInvoice": "Luo lasku",
+      "details": "Tiedot",
+      "agreedRate": "Sovittu tuntihinta",
+      "realRate": "Todellinen tuntihinta",
+      "vsAgreed": "{percent} % sovittuun verrattuna",
+      "billableAvg": "Laskutettava keskim.",
+      "footer": "{total} yhteensä · {billable} laskutettavaa",
+      "footerInvoiced": "{total} yhteensä · {billable} laskutettavaa · {invoiced} laskutettu"
+    },
+    "projectHealth": {
+      "title": "Projektien tila",
+      "seeAll": "Näytä kaikki",
+      "alertsHeading": "Budjettivaroitukset",
+      "severity": {
+        "exceeded": "Ylitetty",
+        "critical": "Kriittinen",
+        "warning": "Varoitus"
+      },
+      "hoursUsed": "{used} / {budget} h käytetty",
+      "budgetAmount": "Budjetti {amount} kr",
+      "moreAlerts": "+ {count} muuta varoitusta",
+      "noBudgets": "Ei projekteja, joilla on budjetti",
+      "createProject": "Luo projekti",
+      "onTrack": "{count, plural, one {# projekti aikataulussa} other {# projektia aikataulussa}}",
+      "moreProjects": "+ {count} muuta projektia"
+    },
+    "quickActions": {
+      "title": "Pikatoiminnot",
+      "created": "Tuntikirjaus luotu",
+      "createFailed": "Tuntikirjauksen luonti epäonnistui",
+      "fillAll": "Täytä kaikki kentät oikein",
+      "addClient": "Lisää asiakas",
+      "newProject": "Uusi projekti",
+      "startTimer": "Käynnistä ajastin",
+      "createInvoice": "Luo lasku",
+      "quickEntry": "Pikakirjaus",
+      "draftSaved": "Luonnos tallennettu",
+      "restoreDraft": "Palauta tallennettu luonnos",
+      "restore": "Palauta",
+      "projectPlaceholder": "Valitse projekti",
+      "descriptionPlaceholder": "Mitä teit?",
+      "hoursPlaceholder": "Tunnit",
+      "saving": "Tallennetaan…",
+      "save": "Tallenna"
+    },
+    "recentActivity": {
+      "title": "Viimeisin toiminta",
+      "none": "Ei vielä toimintaa",
+      "seeAll": "Näytä kaikki",
+      "now": "Juuri nyt",
+      "minutesAgo": "{count} min sitten",
+      "hoursAgo": "{count, plural, one {# tunti} other {# tuntia}} sitten",
+      "daysAgo": "{count, plural, one {# päivä} other {# päivää}} sitten"
+    },
+    "revenueByClient": {
+      "title": "Liikevaihto asiakkaittain",
+      "seeReports": "Näytä raportit",
+      "loadFailed": "Liikevaihdon lataus epäonnistui",
+      "none": "Ei liikevaihtoa tässä kuussa"
+    },
+    "revenueForecast": {
+      "title": "Liikevaihtoennuste",
+      "seeReports": "Näytä raportit",
+      "none": "Ei vielä liikevaihtotietoja",
+      "expected": "Odotettu tässä kuussa",
+      "amountKr": "{amount} kr",
+      "basedOn": "Perustuu {day} / {total} päivään",
+      "sixMonthAvg": "6 kuukauden keskiarvo"
+    },
+    "rounding": {
+      "title": "Pyöristysbonus",
+      "inactive": "Pyöristys ei ole käytössä. Ansaitse lisää pyöristämällä tuntisi ylöspäin.",
+      "enable": "Ota pyöristys käyttöön",
+      "settings": "Asetukset",
+      "thisMonth": "Tässä kuussa",
+      "extra": "lisäansio pyöristyksestä",
+      "thisYear": "Yhteensä tänä vuonna"
+    },
+    "stats": {
+      "activeClients": "Aktiiviset asiakkaat",
+      "activeProjects": "Aktiiviset projektit",
+      "hoursThisMonth": "Tunnit tässä kuussa",
+      "revenueThisMonth": "Liikevaihto tässä kuussa"
+    },
+    "topClients": {
+      "title": "Parhaat asiakkaat",
+      "loadFailed": "Tietojen lataus epäonnistui",
+      "none": "Ei vielä asiakastietoja",
+      "seeAll": "Näytä kaikki",
+      "rankedBy": "Järjestetty tuntien mukaan"
+    },
+    "unbilled": {
+      "title": "Laskuttamattomat tunnit",
+      "loadFailed": "Tietojen lataus epäonnistui",
+      "none": "Ei laskuttamattomia tunteja",
+      "seeAll": "Näytä kaikki",
+      "entries": "{count, plural, one {# tuntikirjaus} other {# tuntikirjausta}}",
+      "totalHours": "Tunnit yhteensä",
+      "estimatedValue": "Arvioitu arvo"
+    },
+    "absences": {
+      "title": "Tulevat poissaolot",
+      "loading": "Ladataan…",
+      "none": "Ei suunniteltuja hyväksyttyjä poissaoloja",
+      "employee": "Työntekijä",
+      "absence": "Poissaolo",
+      "from": "alkaen {date}"
+    },
+    "deadlines": {
+      "title": "Tärkeät päivämäärät",
+      "overdue": "Myöhässä",
+      "today": "Tänään",
+      "days": "{count, plural, one {# päivä} other {# päivää}}",
+      "needsSetup": "Määritä yritystyyppisi nähdäksesi tärkeät päivämäärät",
+      "setUpNow": "Määritä nyt",
+      "none": "Ei tulevia määräaikoja 180 päivän sisällä",
+      "editSettings": "Muokkaa yrityksen asetuksia"
+    },
+    "upcomingTasks": {
+      "title": "Tulevat tehtävät",
+      "none": "Ei tulevia tehtäviä",
+      "seeAll": "Näytä kaikki",
+      "within7": "7 päivän sisällä",
+      "noProject": "Ei projektia",
+      "deadline": "Määräaika: {date}",
+      "more": "+ {count} muuta"
+    },
+    "vacation": {
+      "title": "Lomasaldo",
+      "daysLeftIn": "päivää jäljellä ({label})",
+      "daysLeft": "päivää jäljellä"
+    },
+    "vat": {
+      "titleMonthly": "ALV tässä kuussa",
+      "titleQuarterly": "ALV tällä jaksolla",
+      "titleSemiAnnual": "ALV tällä vuosipuoliskolla",
+      "title": "ALV",
+      "exempt": "Olet rekisteröity ALV-vapaaksi",
+      "changeInSettings": "Muuta asetuksissa",
+      "createFirst": "Luo ensimmäinen laskusi nähdäksesi ALV-arvion",
+      "createInvoice": "Luo lasku",
+      "invoices": "Laskut",
+      "toSettle": "Tilitettävä ALV",
+      "percentOf": "25 % laskutetusta summasta {amount}",
+      "nextDeadline": "Seuraava määräaika",
+      "inDays": "({count, plural, one {# päivän} other {# päivän}} päästä)",
+      "overdue": "(myöhässä)",
+      "ytd": "Yhteensä tänä vuonna",
+      "setAside": "Varaa <b>{amount}</b> erilliselle tilille"
+    },
+    "weeklyGoal": {
+      "title": "Viikkotavoite",
+      "loadFailed": "Viikkotavoitteen lataus epäonnistui",
+      "trackTime": "Kirjaa aikaa",
+      "reached": "Tavoite saavutettu!",
+      "onTrack": "Aikataulussa",
+      "behind": "Jäljessä",
+      "remaining": "<b>{time}</b> jäljellä",
+      "perDay": "{time}/päivä {count, plural, one {# päivän} other {# päivän}} ajan"
+    }
+  }
+}

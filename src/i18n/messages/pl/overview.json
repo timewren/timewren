@@ -1,0 +1,188 @@
+{
+  "catalog": {
+    "title": "Dodaj widżet",
+    "close": "Zamknij katalog widżetów",
+    "search": "Szukaj widżetów…",
+    "allAdded": "Wszystkie widżety zostały już dodane",
+    "noMatch": "Żaden widżet nie pasuje do wyszukiwania",
+    "category": {
+      "stats": "Czas i aktywność",
+      "finance": "Finanse",
+      "tasks": "Zadania",
+      "activity": "Aktywność",
+      "actions": "Szybkie akcje",
+      "calendar": "Integracja"
+    }
+  },
+  "page": {
+    "layoutSaved": "Układ pulpitu zapisany",
+    "layoutSaveFailed": "Nie udało się zapisać układu",
+    "resetDone": "Pulpit przywrócony do ustawień domyślnych",
+    "resetFailed": "Nie udało się zresetować pulpitu",
+    "alreadyAdded": "Ten widżet został już dodany",
+    "widgetAdded": "Dodano: {title}",
+    "widgetRemoved": "Widżet usunięty",
+    "title": "Przegląd",
+    "subtitle": "Liczby, zadania i finanse w jednym miejscu. <link>Rejestruj czas na ekranie Start</link>",
+    "unsaved": "Niezapisane zmiany",
+    "addWidget": "Dodaj widżet",
+    "reset": "Resetuj",
+    "save": "Zapisz",
+    "finish": "Gotowe",
+    "editDashboard": "Edytuj pulpit",
+    "removeWidget": "Usuń widżet",
+    "resetTitle": "Resetuj pulpit",
+    "resetDescription": "Czy na pewno chcesz przywrócić domyślny układ pulpitu?",
+    "discardTitle": "Odrzuć zmiany",
+    "discardDescription": "Masz niezapisane zmiany. Czy chcesz kontynuować bez zapisywania?",
+    "discardConfirm": "Odrzuć",
+    "continue": "Kontynuuj",
+    "unknownWidget": "Nieznany widżet: {id}"
+  },
+  "widget": {
+    "stats-clients": {
+      "title": "Aktywni klienci",
+      "description": "Liczba aktywnych klientów"
+    },
+    "stats-projects": {
+      "title": "Aktywne projekty",
+      "description": "Liczba aktywnych projektów"
+    },
+    "stats-hours": {
+      "title": "Godziny w tym miesiącu",
+      "description": "Suma godzin w tym miesiącu"
+    },
+    "stats-revenue": {
+      "title": "Przychód w tym miesiącu",
+      "description": "Szacowany przychód z godzin"
+    },
+    "tasks-upcoming": {
+      "title": "Nadchodzące zadania",
+      "description": "Zadania z terminem w ciągu 7 dni"
+    },
+    "email-tasks": {
+      "title": "Zadania z e-maili",
+      "description": "Ostatnie zadania utworzone z e-maili"
+    },
+    "tasks-overdue": {
+      "title": "Zaległe zadania",
+      "description": "Zadania po terminie"
+    },
+    "prepaid-low-balance": {
+      "title": "Pakiety godzin z niskim saldem",
+      "description": "Pakiety godzin, w których zostało mniej niż 5 godzin"
+    },
+    "unbilled-time": {
+      "title": "Nierozliczone godziny",
+      "description": "Godziny, które nie zostały jeszcze zafakturowane"
+    },
+    "recent-activity": {
+      "title": "Ostatnia aktywność",
+      "description": "Twoje ostatnie działania"
+    },
+    "top-clients": {
+      "title": "Najlepsi klienci",
+      "description": "Klienci według godzin lub przychodu"
+    },
+    "hours-comparison": {
+      "title": "Porównanie tygodniowe",
+      "description": "Godziny w tym tygodniu w porównaniu z poprzednim"
+    },
+    "quick-actions": {
+      "title": "Szybkie akcje",
+      "description": "Skróty do częstych działań"
+    },
+    "weekly-goal-tracker": {
+      "title": "Cel tygodniowy",
+      "description": "Postęp w realizacji tygodniowego celu godzin"
+    },
+    "revenue-forecast": {
+      "title": "Prognoza przychodu",
+      "description": "Prognoza miesięcznych zarobków"
+    },
+    "project-health": {
+      "title": "Kondycja projektów",
+      "description": "Stan budżetu aktywnych projektów"
+    },
+    "expiring-packages": {
+      "title": "Wygasające pakiety godzin",
+      "description": "Pakiety godzin, które wkrótce wygasną"
+    },
+    "productivity-heatmap": {
+      "title": "Produktywność w ciągu tygodnia",
+      "description": "Kiedy w tygodniu rejestrujesz najwięcej godzin"
+    },
+    "daily-hours-chart": {
+      "title": "Godziny dziennie",
+      "description": "Wykres słupkowy godzin z ostatnich 14 dni"
+    },
+    "revenue-by-client": {
+      "title": "Przychód na klienta",
+      "description": "5 klientów z najwyższym przychodem w tym miesiącu"
+    },
+    "invoice-overview": {
+      "title": "Przegląd faktur",
+      "description": "Potok faktur z przeglądem statusów"
+    },
+    "month-comparison": {
+      "title": "Porównanie miesięcy",
+      "description": "Porównaj godziny i przychód z poprzednim miesiącem"
+    },
+    "calendar-sync": {
+      "title": "Kalendarz a zarejestrowane",
+      "description": "Porównaj czas z kalendarza z zarejestrowanym czasem w tym tygodniu"
+    },
+    "prepaid-status": {
+      "title": "Status pakietów godzin",
+      "description": "Pakiety godzin z niskim saldem lub wkrótce wygasające"
+    },
+    "flex-balance": {
+      "title": "Saldo elastycznego czasu",
+      "description": "Twoje zgromadzone saldo elastycznego czasu pracy w godzinach"
+    },
+    "flex-norm": {
+      "title": "Saldo elastycznego czasu na okres normy",
+      "description": "Saldo wraz z przeniesieniem i elastycznym czasem za tydzień, miesiąc i okres normy"
+    },
+    "vacation-balance": {
+      "title": "Saldo urlopu",
+      "description": "Liczba dni urlopu pozostałych w tym roku"
+    },
+    "upcoming-absences": {
+      "title": "Nadchodzące nieobecności",
+      "description": "Przegląd zatwierdzonych nadchodzących nieobecności"
+    },
+    "pending-approvals": {
+      "title": "Oczekujące zatwierdzenia",
+      "description": "Liczba wniosków o nieobecność czekających na zatwierdzenie"
+    },
+    "rounding-bonus": {
+      "title": "Bonus z zaokrągleń",
+      "description": "Dodatkowe zarobki z zaokrąglania czasu w tym miesiącu i roku"
+    },
+    "profitability": {
+      "title": "Rzeczywista stawka godzinowa",
+      "description": "Umówiona a rzeczywista stawka godzinowa: zobacz, ile naprawdę zarabiasz na godzinę, wliczając czas wewnętrzny"
+    },
+    "vat-overview": {
+      "title": "Przegląd VAT",
+      "description": "Zobowiązanie VAT w tym okresie i kolejny termin, abyś mógł odłożyć pieniądze dla duńskiego urzędu skarbowego (SKAT)"
+    },
+    "at-risk-clients": {
+      "title": "Ryzyko utraty klientów",
+      "description": "Klienci bez aktywności od 60 dni: wychwyć cichą utratę klienta wcześnie"
+    },
+    "cashflow": {
+      "title": "Cashflow na 30 dni",
+      "description": "Oczekiwane wpływy w ciągu najbliższych 4 tygodni z nieopłaconych faktur i odnowień pakietów godzin"
+    },
+    "upcoming-deadlines": {
+      "title": "Ważne daty",
+      "description": "Terminy VAT, podatków i sprawozdania rocznego zależnie od typu działalności"
+    },
+    "coverage": {
+      "title": "Wskaźnik wykorzystania",
+      "description": "Jaka część czasu pracy jest zarejestrowana: rozliczalna, nierozliczalna i według klientów"
+    }
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "welcome": {
+    "preview": "Tervetuloa TimeTrackiin, {name}. Kolme askelta, ja olet valmis.",
+    "subject": "Tervetuloa TimeTrackiin, {name}",
+    "intro": "Nimeni on Mads, ja rakennan ja ylläpidän TimeTrackia. Tein sen, jotta freelancerit voivat seurata tunteja, tuntipaketteja ja laskuja ilman erillistä taulukkoa.",
+    "threeSteps": "Kolme askelta, ja olet valmis:",
+    "step1": "1. Luo ensimmäinen asiakkaasi",
+    "step2": "2. Määritä tuntihintasi ja luo projekti",
+    "step3": "3. Käynnistä ajastin, kun aloitat työn",
+    "why": "Miksi päätit kokeilla TimeTrackia? Vastaa vapaasti tähän sähköpostiin. Luen jokaisen vastauksen itse, ja se auttaa minua rakentamaan oikeita asioita.",
+    "questions": "Jos sinulla on kysyttävää, voit aina kirjoittaa minulle suoraan osoitteeseen [mail]{email}[/mail]."
+  },
+  "greeting": "Hei {name},",
+  "openApp": "Avaa TimeTrack",
+  "gettingStarted": {
+    "preview": "Kolme askelta ensimmäiseen tuntikirjaukseen",
+    "subject": "Kolme askelta ensimmäiseen tuntikirjaukseen",
+    "hasClientIntro": "Olet jo luonut ensimmäisen asiakkaasi. Suosittelen seuraavaksi tätä:",
+    "hasClient1": "**Määritä tuntihintasi:** Siirry asetuksiin ja anna oletustuntihintasi. Voit asettaa eri hinnan asiakasta tai projektia kohden.",
+    "hasClient2": "**Luo projekti:** Projekti ryhmittelee tunnit työtä kohden, jotta voit laskuttaa ne oikein.",
+    "hasClient3": "**Kokeile ajastinta:** Paina Käynnistä TimeTrackin yläreunan ajastinpalkissa.",
+    "noClientIntro": "Loit tilisi muutama päivä sitten. Tässä kolme askelta ensimmäiseen tuntikirjaukseen:",
+    "noClient1": "**Luo ensimmäinen asiakkaasi:** Sitten voit kirjata aikaa asiakkaalle ja luoda siitä laskuja.",
+    "noClient2": "**Määritä tuntihintasi:** Anna oletustuntihintasi, niin TimeTrack laskee aikasi arvon.",
+    "noClient3": "**Käynnistä ajastin:** Paina Käynnistä TimeTrackin yläreunan ajastinpalkissa.",
+    "buttonProject": "Luo ensimmäinen projektisi",
+    "buttonClient": "Luo ensimmäinen asiakkaasi",
+    "stuck": "Jos jäät jumiin, vastaa tähän sähköpostiin, niin autan sinua henkilökohtaisesti."
+  },
+  "noTimeEntry": {
+    "preview": "Kirjoita, mitä teit, ja TimeTrack täyttää loput",
+    "subject": "Kirjaa ensimmäinen aikasi",
+    "intro": "Loit TimeTrack-tilin muutama päivä sitten, mutta et ole vielä kirjannut aikaa.",
+    "how": "Kirjoita, mitä teit, etusivun yläreunan kenttään, esim. “2 tuntia verkkosivuilla eilen”. Tai paina Käynnistä ajastin ja pysäytä se, kun olet valmis.",
+    "button": "Kirjaa ensimmäinen aikasi",
+    "help": "Jos jokin tuottaa vaikeuksia, vastaa vain tähän sähköpostiin. Luen vastaukset itse."
+  },
+  "timeNoInvoice": {
+    "preview": "{hours} tuntia valmiina laskutettavaksi",
+    "subject": "Aikasi on valmis laskutettavaksi",
+    "body": "TimeTrackissa on {hours} tuntia, joita ei ole vielä laskutettu. Kun haluat laskuttaa, voit luoda laskun suoraan tuntikirjauksistasi, jolloin tunnit ja summat tulevat mukaan automaattisesti.",
+    "button": "Luo lasku ajastasi",
+    "elsewhere": "Jos laskutat jossain muualla, voit jättää tämän sähköpostin huomiotta."
+  },
+  "clientNoKlippekort": {
+    "preview": "Tuntipaketit: tunnit vähennetään automaattisesti",
+    "subject": "Tuntipaketit asiakkaillesi",
+    "body": "Olet luonut asiakkaita TimeTrackiin. Jos joku heistä ostaa tunteja etukäteen, voit antaa hänelle tuntipaketin. Aika vähennetään sitä mukaa kuin kirjaat sitä, ja te molemmat näette, kuinka monta tuntia on jäljellä.",
+    "button": "Luo tuntipaketti",
+    "usage": "Jos laskutat vain käytön mukaan, sinun ei tarvitse tehdä mitään."
+  },
+  "klippekortTips": {
+    "preview": "Näin tuntipaketti toimii TimeTrackissa",
+    "subject": "Näin tuntipaketti toimii TimeTrackissa",
+    "intro": "Tuntipaketti on ennakkoon maksettu tuntilohko. Asiakkaasi ostaa vaikkapa 20 tuntia, ja TimeTrack vähentää tunnit aina, kun kirjaat aikaa asiakkaalle.",
+    "exampleName": "Esimerkki: Kulman leipomo",
+    "how": "Asiakas maksaa ennen kuin aloitat. TimeTrack pitää saldon, joten sinun ei tarvitse laskea sitä, ja asiakas näkee sen asiakasportaalissa.",
+    "button": "Luo tuntipaketti",
+    "sell": "Haluatko tietää, miten tuntipaketteja myydään asiakkaille? Vastaa tähän sähköpostiin, niin jaan mielelläni kokemukseni."
+  },
+  "extensionTips": {
+    "preview": "Selainlaajennuksella voit käynnistää ja pysäyttää ajastimen miltä sivulta tahansa",
+    "subject": "Käynnistä ja pysäytä ajastin vaihtamatta välilehteä",
+    "intro": "TimeTrackilla on selainlaajennus, jolla voit käynnistää ja pysäyttää ajastimen vaihtamatta välilehteä.",
+    "tip1": "Käynnistä ja pysäytä ajastin ponnahdusikkunassa ja valitse asiakas ja projekti siellä. Pikanäppäin Alt+Shift+S käynnistää ja pysäyttää ajastimen näppäimistöltä.",
+    "tip2": "Työkalupalkin kuvake näyttää käynnissä olevan ajastimen tai tämän päivän ajan, kun ajastin ei ole käynnissä.",
+    "button": "Hae Chrome Web Storesta"
+  },
+  "aiFeatures": {
+    "preview": "Kirjoita yksi lause, ja TimeTrack täyttää tuntikirjauksen",
+    "subject": "Kirjaa aikaa kirjoittamalla lause",
+    "intro": "Aikaa ei tarvitse kirjata lomakkeella. Etusivulla on kenttä “Kirjoita, mitä teit”. Kirjoita lause ja paina Enter:",
+    "example": "2 tuntia verkkosivuilla Jensenille eilen",
+    "suggest": "TimeTrack ehdottaa asiakasta, projektia, päivämäärää ja aikaa. Mitään ei tallenneta, ennen kuin olet nähnyt ehdotuksen ja vahvistanut sen. Etusivulla pääset kenttään näppäimellä /, ja jos selaimesi tukee sitä, voit sanella lauseen mikrofonilla.",
+    "parser": "Lauseen lukee tavallinen tekstijäsennin, ei tekoäly. Jos lisäät oman tekoälyavaimesi kohdassa Asetukset, tekoälypalvelu voi täyttää sen, mitä jäsennin ei itse löytänyt. Tämä on valinnaista.",
+    "button": "Avaa etusivu",
+    "feedback": "Jos kenttä ei ymmärrä kirjoittamaasi lausetta, lähetä se minulle, niin voin parantaa jäsennintä."
+  },
+  "firstWeek": {
+    "preview": "Ensimmäiset viikkosi TimeTrackin kanssa",
+    "subject": "Ensimmäiset viikkosi TimeTrackin kanssa",
+    "minimal1": "Loit tilisi pari viikkoa sitten, ja näyttää siltä, että olet vielä alkuvaiheessa. Se on aivan hyvä.",
+    "minimal2": "Ajan kirjaaminen unohtuu helposti kiireessä. Mutta aikaa, jota et kirjaa, et voi laskuttaa.",
+    "tip": "**Vinkki:** Yritä kirjata yksi päivä tällä viikolla. Käynnistä ajastin, kun aloitat työn, tai kirjoita jälkikäteen, mitä teit, etusivun kenttään.",
+    "active": "Olet käyttänyt TimeTrackia pari viikkoa. Tässä on se, mitä olet toistaiseksi kirjannut:",
+    "trackedTime": "Kirjattu aika",
+    "hoursUnit": "{hours} h",
+    "clients": "Asiakkaat",
+    "projects": "Projektit",
+    "closing": "Kun kirjaat aikaa sitä mukaa, laskutuksen pohja on valmis, kun laskutuksen aika koittaa.",
+    "feedback": "Miten on mennyt tähän asti? Kerro minulle, mikä toimii ja mikä ei."
+  },
+  "upgrade": {
+    "whenNow": "vuorokauden sisällä",
+    "whenDays": "{days, plural, one {# päivän} other {# päivän}} kuluttua",
+    "preview": "Kokeilujaksosi päättyy {when}",
+    "subject": "Kokeilujaksosi on päättymässä",
+    "body": "TimeTrack-kokeilujaksosi päättyy {when}. Jos et valitse tilausta, tilisi jatkaa Free-paketilla, ja kaikki luomasi säilyy tallessa.",
+    "free": "Free-paketissa on tilaa {clients} aktiiviselle asiakkaalle ja {seats} käyttäjälle.",
+    "button": "Katso tilaukset",
+    "questions": "Jos sinulla on kysyttävää paketeista tai hinnoista, vastaa tähän sähköpostiin. Autan mielelläni."
+  },
+  "needHelp": {
+    "preview": "Tarvitsetko apua, {name}?",
+    "subject": "Tarvitsetko apua, {name}?",
+    "introTracking": "Loit TimeTrack-tilisi muutama päivä sitten. Kirjaat jo aikaa.",
+    "introNoTracking": "Loit TimeTrack-tilisi muutama päivä sitten. Halusin varmistaa, että kaikki sujuu niin kuin pitää.",
+    "placesTracking": "Tässä kolme paikkaa, joihin voit siirtyä seuraavaa askelta varten:",
+    "placesNoTracking": "Uuden järjestelmän käyttöönotto voi olla vaikeaa. Tässä kolme paikkaa, joista aloittaa:",
+    "helpCentre": "Ohjekeskus",
+    "helpCentreNote": ": vastauksia usein kysyttyihin kysymyksiin",
+    "createClient": "Luo asiakas",
+    "createClientNote": ": jos et ole vielä luonut yhtään",
+    "writeMe": "Kirjoita minulle",
+    "writeMeNote": ": vastaan itse",
+    "missing": "Puuttuuko TimeTrackista jotain? Kirjoita minulle ja kerro, mikä. Se auttaa minua tekemään siitä paremman."
+  },
+  "winBack30": {
+    "preview": "Siitä on aikaa, {name}",
+    "subject": "Siitä on aikaa, {name}",
+    "intro": "Siitä on jo aikaa, kun viimeksi vierailit TimeTrackissa. Toivottavasti kaikki on hyvin.",
+    "stillThere": "Tämä on yhä tililläsi:",
+    "hoursOnly": "**{hours} h** on vielä laskuttamatta.",
+    "hoursValue": "**{hours} h** on vielä laskuttamatta, arvoltaan **{value}**",
+    "tasks": "**{count, plural, one {# avoin tehtävä} other {# avointa tehtävää}}** odottaa sinua.",
+    "how": "Jos aloitat uudelleen, nopein tapa on kirjoittaa, mitä teit, etusivun kenttään. TimeTrack ehdottaa asiakasta, projektia ja aikaa, ja sinä vahvistat ennen kuin mitään tallennetaan.",
+    "why": "Miksi lopetit? Vastaa tähän sähköpostiin, niin luen sen itse. Se auttaa minua tekemään TimeTrackista paremman."
+  },
+  "winBack60": {
+    "preview": "Asiakkaasi, projektisi, tuntisi ja laskusi ovat yhä tallessa",
+    "subject": "Tietosi ovat yhä TimeTrackissa",
+    "intro": "Siitä on yli 60 päivää, kun viimeksi käytit TimeTrackia. Haluan vain varmistaa, että tiedät asiakkaidesi, projektiesi, tuntiesi ja laskujesi olevan yhä tallessa, joten voit jatkaa siitä, mihin jäit.",
+    "button": "Kirjaudu TimeTrackiin",
+    "export": "Jos olet valinnut toisen työkalun, ymmärrän. Jos haluat viedä tietosi mukanasi, voit [export]viedä ne CSV- tai JSON-muodossa[/export].",
+    "feedback": "Jos olisin voinut tehdä jotain paremmin, haluaisin kuulla siitä. Vastaa tähän sähköpostiin, niin luen sen itse."
+  },
+  "firstClient": {
+    "preview": "Ensimmäinen asiakkaasi on luotu: {client}",
+    "subject": "Ensimmäinen asiakkaasi on luotu",
+    "intro": "Olet luonut ensimmäisen asiakkaasi, **{client}**. Suosittelen seuraavaksi tätä:",
+    "step1": "1. Luo projekti asiakkaalle {client}",
+    "step2": "2. Käynnistä ajastin projektilla",
+    "step3": "3. Luo lasku ajasta, kun työ on tehty",
+    "button": "Luo projekti",
+    "help": "Jos tarvitset apua käyttöönotossa, vastaa tähän sähköpostiin. Autan mielelläni."
+  },
+  "firstProject": {
+    "preview": "Ensimmäinen projektisi on valmis: {project}",
+    "subject": "Ensimmäinen projektisi on luotu",
+    "intro": "Ensimmäinen projektisi, **{project}** asiakkaalle **{client}**, on valmis. Nyt voit käynnistää ajastimen.",
+    "tip1": "Käynnistä ajastin painamalla T. Tauota se painamalla T uudelleen.",
+    "tip2": "Kirjoita jokaiselle kirjaukselle kuvaus, jotta näet jälkikäteen, mihin aika kului.",
+    "tip3": "{brand} laskee arvon tuntihintasi perusteella.",
+    "button": "Kirjaa aikaa",
+    "closing": "Kun kirjaat aikaa sitä mukaa, laskutuksen pohja on valmis, kun laskutuksen aika koittaa."
+  },
+  "firstTimeEntry": {
+    "preview": "Ensimmäinen tuntikirjauksesi on tallennettu",
+    "subject": "Ensimmäinen tuntikirjauksesi on tallennettu",
+    "body": "Olet kirjannut ensimmäisen aikasi: **{hours} h**.",
+    "bodyProject": "Olet kirjannut ensimmäisen aikasi: **{hours} h** projektille **{project}**.",
+    "invoice": "Kun laskutuksen aika koittaa, voit luoda laskun suoraan tuntikirjauksistasi.",
+    "button": "Katso tuntikirjauksesi"
+  },
+  "firstInvoice": {
+    "preview": "Lasku #{number} asiakkaalle {client} on luotu",
+    "subject": "Onnittelut ensimmäisestä laskustasi",
+    "congrats": "Onnittelut ensimmäisestä laskustasi.",
+    "number": "Laskunumero",
+    "client": "Asiakas",
+    "amount": "Summa",
+    "send": "Lähetä lasku asiakkaalle {client} ja seuraa maksua palvelussa {brand}. Automaattiset muistutukset erääntyneistä laskuista otat käyttöön asiakaskohtaisesti.",
+    "button": "Katso laskusi",
+    "accounting": "Voit myös välittää laskut Billyyn, Dineroon tai e-conomiciin, jotta ne päätyvät kirjanpitoosi. Yhdistä kirjanpito-ohjelmistosi kohdassa Integraatiot."
+  },
+  "inactivity": {
+    "preview": "Viimeisestä käynnistäsi on {days} päivää",
+    "subject": "Viimeisestä käynnistäsi TimeTrackissa on {days} päivää",
+    "kicker": "Muistutus",
+    "heading": "Jotain odottaa sinua",
+    "footerNote": "Muistutus lähetetään 14 päivän passiivisuuden jälkeen.",
+    "withStats": "Viimeisestä kirjautumisestasi on {days} päivää, ja jotain odottaa sinua:",
+    "noStats": "Viimeisestä kirjautumisestasi on {days} päivää. Kirjaa aikasi, kun se on vielä tuoreessa muistissa.",
+    "unbilled": "Laskuttamatta",
+    "hoursUnit": "{hours} h",
+    "readyToInvoice": "Valmiina laskutettavaksi",
+    "readyToInvoiceSub": "kirjattua aikaa",
+    "openTasks": "Avoimet tehtävät",
+    "openTasksSub": "odottavat sinua",
+    "button": "Kirjaa aikaa",
+    "muted": "Voit poistaa passiivisuusmuistutukset käytöstä sähköpostiasetuksissa."
+  },
+  "toolGuide": {
+    "preview": "Opas työkaluun {tool}",
+    "subject": "{tool}: oppaasi TimeTrackilta",
+    "kicker": "Opas",
+    "heading": "Kiitos, että käytit työkalua {tool}",
+    "footerNote": "Saat tämän sähköpostin, koska pyysit opasta osoitteessa timetrack.dk. Muita sähköposteja ei tule, ellet pyydä niitä.",
+    "intro": "Tässä pyytämäsi opas sekä linkki takaisin työkaluun, jos haluat jatkaa laskemista.",
+    "openTool": "Avaa työkalu uudelleen",
+    "pitch": "TimeTrack seuraa tunteja asiakkaittain, vähentää ne asiakkaan tuntipaketista ja lähettää laskutuksen pohjan Billyyn, Dineroon tai e-conomiciin. [trial]Kokeile ilmaiseksi 30 päivää[/trial]."
+  },
+  "beta": {
+    "preview": "Paikkasi TimeTrackin betassa on valmis. Luo tilisi, kun sinulle sopii.",
+    "subject": "Paikkasi TimeTrackin betassa on valmis",
+    "subjectNamed": "{name}, paikkasi TimeTrackin betassa on valmis",
+    "greetingNamed": "Hei {name},",
+    "greeting": "Hei,",
+    "thanks": "Kiitos, että liityit TimeTrackin jonotuslistalle. Paikkasi betassa on nyt valmis.",
+    "about": "TimeTrack on tehty Tanskan freelancereille. Kirjaat tuntisi ja luot niistä laskuja. Jos asiakas ostaa tunteja etukäteen, ne vähennetään tuntipaketista.",
+    "discountLabel": "Alennuskoodisi",
+    "discountNote": "Käytä koodia tiliä luodessasi saadaksesi alennuksen tilauksesta.",
+    "button": "Luo tilisi",
+    "feedback": "Jos sinulla on kysyttävää tai palautetta, vastaa tähän sähköpostiin. Luen jokaisen vastauksen itse.",
+    "writeMe": "Voit myös kirjoittaa minulle osoitteeseen [mail]{email}[/mail]."
+  },
+  "desktopLaunch": {
+    "footerNote": "Saat tämän sähköpostin, koska liityit TimeTrack Desktopin jonotuslistalle.",
+    "button": "Lataa TimeTrack Desktop",
+    "defaultSubject": "TimeTrack Desktop on valmis",
+    "defaultMessage": "Kiitos, että liityit jonotuslistalle. TimeTrack Desktop on nyt ladattavissa."
+  },
+  "desktopLicense": {
+    "preview": "Lisenssiavaimesi TimeTrack Desktopiin ({tier})",
+    "subject": "Lisenssiavaimesi TimeTrack Desktopiin ({tier})",
+    "kicker": "Desktop",
+    "heading": "Lisenssisi TimeTrack Desktopiin",
+    "footerNote": "Saat tämän sähköpostin, koska ostit TimeTrack Desktop -lisenssin tai pyysit sitä.",
+    "introNamed": "Hei {name}, tässä lisenssiavaimesi TimeTrack Desktopiin ({tier}).",
+    "intro": "Hei, tässä lisenssiavaimesi TimeTrack Desktopiin ({tier}).",
+    "howTo": "Näin aktivoit sen",
+    "step1": "1. Lataa",
+    "step2": "2. Asenna",
+    "step2Value": "Avaa sovellus",
+    "step3": "3. Aktivoi",
+    "step3Value": "Anna lisenssiavain",
+    "keep": "Säilytä tämä sähköposti: tarvitset avainta, jos asennat uudelleen. Lisenssi kattaa enintään {max, plural, one {# laitteen} other {# laitetta}}.",
+    "refund": "Lasku tulee erikseen Stripeltä. Jos muutat mielesi, saat täyden hyvityksen 30 päivän sisällä osoitteessa [refund]{link}[/refund]."
+  }
+}

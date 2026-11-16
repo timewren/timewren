@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "こんばんは",
+    "morning": "おはようございます",
+    "forenoon": "おはようございます",
+    "afternoon": "こんにちは",
+    "evening": "こんばんは"
+  },
+  "duration": {
+    "hourUnit": "時間",
+    "minUnit": "分"
+  },
+  "noName": "名称未設定",
+  "noDescription": "説明なし",
+  "prompt": {
+    "label": "何に取り組みましたか？",
+    "placeholder": "例：昨日、Jensen社のウェブサイトに2時間",
+    "interpret": "解釈",
+    "listening": "聞き取り中…",
+    "hintAvailable": "入力するか音声で話してから Enter を押してください。音声はブラウザー内で処理され、どこにも送信されません。",
+    "hintDownloadable": "入力して Enter を押してください。",
+    "downloading": "音声認識をダウンロード中…",
+    "install": "音声認識をダウンロード (約60 MB、ローカルで動作)",
+    "hintDefault": "入力して Enter を押してください。例：「Acmeと打ち合わせ 9時から10時半まで 1.5時間」。スマートフォンではキーボードのマイクで音声入力できます。<kbd>/</kbd> を押すとここに移動します。",
+    "stopDictation": "音声入力を停止",
+    "dictate": "マイクで音声入力",
+    "dictateTitle": "音声入力 (ローカル音声認識)",
+    "listeningSr": "聞き取り中",
+    "missingHint": "下の候補から選ぶか、詳細フォームで修正してください。",
+    "descriptionLabel": "説明",
+    "descriptionPlaceholder": "何に費やした時間ですか？",
+    "usePrepaid": "前払いパッケージ {name} から差し引く (残り {time})",
+    "saveWithHours": "{hours} を保存",
+    "save": "保存",
+    "editInForm": "フォームで編集",
+    "cancel": "キャンセル",
+    "keysHint": "Enter で保存 · Esc でキャンセル",
+    "needDescription": "保存する前に簡単な説明を入力してください。",
+    "internal": "社内時間として保存しました。",
+    "savedOffline": "オフラインで保存しました。接続が戻ると時間記録が送信されます。",
+    "registered": "{hours} を記録しました",
+    "saveFailed": "時間記録を保存できませんでした"
+  },
+  "welcome": {
+    "title": "{brand} へようこそ",
+    "titleDone": "順調なスタートです。最初の時間記録を追加しました",
+    "hide": "ウェルカムを非表示",
+    "intro": "1分以内に始められます。今すぐタイマーを開始するか、下の欄に取り組んだ内容を入力してください（例：「昨日、ウェブサイトに2時間」）。会社情報やプランは後で設定できます。",
+    "timerStarted": "タイマーが動いています。終わったら上部のタイマーバーで停止してください。",
+    "timerBusy": "タイマーはすでに動いています",
+    "startFirstTimer": "最初のタイマーを開始",
+    "writeLine": "欄に1行入力",
+    "surveyQuestion": "{brand} を主に何に使いますか？ <muted>(任意)</muted>",
+    "primaryUse": {
+      "time": "自分の時間を管理する",
+      "invoicing": "クライアントに請求する",
+      "klippekort": "前払いパッケージと前払い時間",
+      "team": "チームの時間を把握する"
+    },
+    "thanksToast": "ご回答ありがとうございます",
+    "saveFailed": "回答を保存できませんでした。もう一度お試しください。",
+    "thanksNote": "ありがとうございます。ホームにあなたに合った次のステップを表示します。",
+    "privacyNote": "回答はホームの表示を調整するためだけに使われ、ほかの人と共有されることはありません。"
+  },
+  "quickStart": {
+    "title": "タイマーを開始",
+    "running": "タイマーはすでに動いています。新しく始める前に、上部のタイマーバーで停止してください。",
+    "paused": "タイマーは一時停止中です。先に上部のタイマーバーで再開するか保存してください。",
+    "resumeToast": "タイマーを開始し、直前の記録を続けています",
+    "continueLast": "直前の記録を続ける",
+    "mostUsed": "よく使う",
+    "startedOn": "{name} のタイマーを開始しました",
+    "startOn": "{name} でタイマーを開始",
+    "empty": "時間を記録すると、よく使うプロジェクトがここに表示されます。",
+    "createProject": "プロジェクトを作成"
+  },
+  "signals": {
+    "label": "要対応",
+    "nudge": {
+      "first-invoice": "記録した時間から最初の請求書を作成しましょう",
+      "first-client": "前払いパッケージの対象となるクライアントを作成しましょう",
+      "first-klippekort": "最初の前払いパッケージを作成しましょう",
+      "invite-team": "同僚を招待しましょう"
+    },
+    "lowBalance": "{count, plural, other {# 件の前払いパッケージが残りわずかです}}",
+    "unbilled": "請求書にできる未請求の時間が <b>{duration}</b> あります"
+  },
+  "today": {
+    "title": "今日",
+    "ofExpected": "/ {duration}",
+    "loadFailed": "今日の記録を読み込めませんでした。ページを再読み込みしてください。",
+    "empty": "今日はまだ時間が記録されていません。上の欄に内容を入力するか、タイマーを開始してください。",
+    "internal": "社内時間",
+    "resumeToast": "タイマーを開始し、この記録を続けています",
+    "continueLabel": "{name} を続ける",
+    "continueFallback": "記録",
+    "continueTitle": "タイマーで続ける",
+    "allEntries": "すべての記録",
+    "fullForm": "詳細フォーム"
+  },
+  "page": {
+    "title": "ホーム",
+    "overview": "概要"
+  }
+}

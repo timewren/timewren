@@ -1,0 +1,211 @@
+---
+title: "API REST"
+description: "Autentícate con una clave de API y gestiona clientes, proyectos, registros de horas, el cronómetro, facturas y bonos de horas mediante JSON."
+---
+
+TimeWren expone una API REST en JSON bajo `/api/v1`. Usa la misma lógica de negocio que la aplicación web, así que reglas como la resolución de tarifas, los descuentos de bonos de horas y el bloqueo de los registros facturados también se aplican a las llamadas a la API. Para los asistentes de IA existe además un [servidor MCP](/es/docs/api/mcp), y puedes recibir eventos con [webhooks salientes](/es/docs/api/webhooks).
+
+## URL base
+
+Sustituye el host por el de tu propia instancia (el valor de `NEXT_PUBLIC_APP_URL`):
+
+```text
+https://timewren.example.com/api/v1
+```
+
+## Crear una clave de API
+
+1. Inicia sesión como administrador o propietario de la organización.
+2. Abre **Ajustes**, luego **API** (`/dashboard/settings/api`).
+3. Crea una clave: ponle un nombre, elige sus scopes y, opcionalmente, una fecha de caducidad.
+4. Copia la clave de inmediato. Empieza por `tk_live_` y solo se muestra una vez. Solo se guarda un hash SHA-256.
+
+Una clave actúa como el usuario que la creó, dentro de la organización que estaba activa en el momento de la creación. Puedes revocar una clave en cualquier momento; una clave revocada o caducada devuelve `401`. La página de claves de API requiere que el módulo `public_api` esté activado para la organización.
+
+## Autenticación
+
+Envía la clave como token Bearer en cada petición:
+
+```bash
+curl https://timewren.example.com/api/v1/me \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+`GET /me` no necesita ningún scope. Devuelve tu perfil y los `scopes` de la clave, lo que lo convierte en una buena primera comprobación. La API REST solo acepta claves de API; los tokens OAuth funcionan en el [endpoint MCP](/es/docs/api/mcp), pero no aquí.
+
+## Scopes
+
+Cada clave lleva uno o más scopes. Un scope es `<resource>:<permission>`:
+
+| Recurso | Cubre |
+| --- | --- |
+| `clients` | Clientes |
+| `projects` | Proyectos (también necesario para programar un cambio de tarifa de proyecto) |
+| `time` | Registros de horas y el cronómetro |
+| `invoices` | Facturas y líneas de factura |
+| `prepaid` | Bonos de horas (klippekort) |
+| `tasks` | Tareas |
+| `reports` | Informes, historial de tarifas y listado de cambios de tarifa |
+| `webhooks` | Configuración de webhooks salientes |
+
+Los permisos son `read`, `write` y `all`. `write` y `all` incluyen ambos `read`. El scope `*` concede todo. Los scopes que faltan devuelven `403` con `Missing required scope: <resource>:<permission>`.
+
+## Límites de frecuencia
+
+Las peticiones autenticadas están limitadas a 300 por minuto y usuario. Cada respuesta lleva `X-RateLimit-Limit`, `X-RateLimit-Remaining` y `X-RateLimit-Reset` (una marca de tiempo Unix en segundos). Cuando se alcanza el límite, recibes `429` con una cabecera `Retry-After` en segundos. Los intentos de autenticación fallidos están además limitados por dirección IP.
+
+## Peticiones y respuestas
+
+Los cuerpos de las peticiones son JSON (`Content-Type: application/json`). Las respuestas correctas envuelven el resultado en `data`:
+
+```json
+{ "data": { "id": "..." } }
+```
+
+Crear un recurso devuelve `201`. En las respuestas, los importes y las tarifas son cadenas decimales como `"850.00"`. Las fechas son `YYYY-MM-DD`. CORS está abierto (`Access-Control-Allow-Origin: *`) para los métodos documentados.
+
+### Paginación y ordenación
+
+Los endpoints de listado aceptan `page` (por defecto 1) y `limit` (por defecto 25, máximo 100). Un `limit` superior a 100 se rechaza con `400`, no se recorta. También aceptan `sort` y `order` (`asc` o `desc`); los campos de ordenación desconocidos recurren a `createdAt`.
+
+```json
+{
+  "data": [],
+  "pagination": {
+    "page": 1,
+    "limit": 25,
+    "total": 0,
+    "totalPages": 0,
+    "hasMore": false,
+    "nextPage": null
+  }
+}
+```
+
+Sigue pidiendo páginas mientras `hasMore` sea `true`.
+
+### Errores
+
+Los errores comparten una misma forma:
+
+```json
+{
+  "error": {
+    "code": "UNPROCESSABLE_CONTENT",
+    "message": "Validation failed",
+    "details": [{ "field": "hours", "message": "..." }]
+  }
+}
+```
+
+`details` lista los campos que fallan. Siempre aparece en los errores de validación (`422`), y algunas respuestas `400` también lo incluyen, por ejemplo una combinación no válida de campos de horas prepagadas en `POST /time-entries` o `PATCH /time-entries/{id}`. Trátalo como opcional en cualquier error. Otros códigos que verás: `BAD_REQUEST` (400), `UNAUTHORIZED` (401), `FORBIDDEN` (403), `NOT_FOUND` (404), `CONFLICT` (409), `TOO_MANY_REQUESTS` (429) e `INTERNAL_SERVER_ERROR` (500). Los errores inesperados nunca incluyen stack traces.
+
+## OpenAPI y la documentación integrada
+
+| URL | Devuelve |
+| --- | --- |
+| `/api/v1/openapi.json` | El documento OpenAPI 3.1, público, sin autenticación |
+| `/api/v1/docs` | Una referencia interactiva de la API generada a partir del documento OpenAPI |
+| `/api/v1/llms.txt` | Una guía breve en texto plano para agentes de IA, pública |
+
+La referencia interactiva carga el script del visor Scalar desde `cdn.jsdelivr.net`, así que el navegador necesita acceso a internet para mostrarla. El documento OpenAPI es la fuente más completa de los campos de petición y respuesta.
+
+## Recursos
+
+Todas las rutas son relativas a `/api/v1`. `{id}` es un UUID.
+
+| Recurso | Métodos y rutas | Scope |
+| --- | --- | --- |
+| Me | `GET /me` | ninguno |
+| Clientes | `GET, POST /clients`; `GET, PATCH, DELETE /clients/{id}` | `clients` |
+| Proyectos | `GET, POST /projects`; `GET, PATCH, DELETE /projects/{id}` | `projects` |
+| Registros de horas | `GET, POST /time-entries`; `GET, PATCH, DELETE /time-entries/{id}`; `POST /time-entries/batch` | `time` |
+| Cronómetro | `GET, POST, DELETE /timer` | `time` |
+| Tareas | `GET, POST /tasks`; `GET, PATCH, DELETE /tasks/{id}` | `tasks` |
+| Facturas | `GET, POST /invoices`; `GET, PATCH, DELETE /invoices/{id}`; `POST /invoices/from-time-entries`; `POST /invoices/{id}/send`; `POST /invoices/{id}/mark-paid`; `GET, POST /invoices/{id}/lines`; `PATCH, DELETE /invoices/{id}/lines/{lineId}` | `invoices` |
+| Bonos de horas | `GET, POST /prepaid-packages`; `GET, PATCH, DELETE /prepaid-packages/{id}` | `prepaid` |
+| Informes | `GET /reports/unbilled`; `GET /reports/revenue`; `GET /reports/time-summary` | `reports` |
+| Cambios de tarifa | `GET, POST /rate-changes`; `DELETE /rate-changes/{id}` | `reports` para listar; escritura en `clients` o `projects` para crear o cancelar |
+| Historial de tarifas | `GET /rate-history` | `reports` |
+| Webhooks | `GET, POST /webhooks`; `GET, PATCH, DELETE /webhooks/{id}`; `POST /webhooks/{id}/test`; `GET /webhooks/{id}/deliveries`; `GET /webhooks/event-types` | `webhooks`, consulta [Webhooks](/es/docs/api/webhooks) |
+
+Notas sobre algunos endpoints:
+
+- `GET /reports/revenue` y `GET /reports/time-summary` requieren tanto `from` como `to` en formato `YYYY-MM-DD`.
+- `GET /rate-changes` y `POST /rate-changes` necesitan exactamente uno de `clientId` o `projectId`. El cuerpo de un `POST` es `{ "clientId" | "projectId", "newRate", "effectiveDate": "YYYY-MM-DD" }`.
+- `POST /invoices/from-time-entries` crea una factura en borrador a partir de registros de horas. Enviar una factura por correo con `POST /invoices/{id}/send` no se puede deshacer.
+- `DELETE /timer` borra el cronómetro en marcha sin guardar un registro de horas. Para registrar el tiempo, crea un registro de horas con `POST /time-entries`.
+
+### Filtros de registros de horas
+
+`GET /time-entries` acepta `clientId`, `projectId`, `from`, `to` (`YYYY-MM-DD`), `isBillable` e `isBilled` (`true` o `false`), además de la paginación. La ordenación admite `createdAt`, `date` y `hours`.
+
+## Ejemplos
+
+### Listar clientes
+
+```bash
+curl "https://timewren.example.com/api/v1/clients?limit=10&q=acme" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+`q` busca en la lista de clientes; añade `includeArchived=true` para incluir los clientes archivados.
+
+### Iniciar y detener el cronómetro
+
+Iniciar (necesita `time:write`). Sin cuerpo, el cronómetro arranca ahora; aquí se asocia a un proyecto y se describe. `projectId` y `clientId` deben ser UUID o `null`:
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"projectId": "11111111-1111-4111-8111-111111111111", "description": "Design review"}'
+```
+
+Consultar el estado del cronómetro:
+
+```bash
+curl https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Detenerlo y descartarlo:
+
+```bash
+curl -X DELETE https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Crear un registro de horas
+
+`hours` (un número positivo), `date` (`YYYY-MM-DD`) y `description` son obligatorios. Los campos opcionales son `projectId`, `clientId`, `notes`, `startTime` y `endTime` (ISO 8601 con desfase, `endTime` posterior a `startTime`), `isBillable`, `isBilled`, `taskId` y `billableRate`. Sin `billableRate`, la tarifa se resuelve a partir de las tarifas del proyecto, del cliente y del usuario para la fecha del propio registro.
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/time-entries \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "clientId": "22222222-2222-4222-8222-222222222222",
+    "projectId": "11111111-1111-4111-8111-111111111111",
+    "description": "Wireframes for Acme ApS",
+    "hours": 1.5,
+    "date": "2026-11-09",
+    "startTime": "2026-11-09T09:00:00+01:00",
+    "endTime": "2026-11-09T10:30:00+01:00",
+    "isBillable": true,
+    "prepaid": "auto"
+  }'
+```
+
+Para descontar de un bono de horas, envía `"prepaid": "auto"` (el bono activo con descuento automático del cliente que caduque antes; si no hay bono, no se descuenta) o un `prepaidPackageId` explícito, nunca ambos. La respuesta incluye `prepaidDeduction` y `complianceWarnings`. Los registros que ya están facturados quedan bloqueados frente a ediciones y borrados.
+
+### Listar bonos de horas
+
+```bash
+curl "https://timewren.example.com/api/v1/prepaid-packages?clientId=22222222-2222-4222-8222-222222222222&activeOnly=true" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Los filtros son `clientId`, `activeOnly=true` e `includeArchived=true`. La ordenación admite `createdAt`, `name` y `totalHours`. Consulta [Bonos de horas](/es/docs/concepts/prepaid-hours) para saber cómo funcionan.
+
+Crear un bono con `POST /prepaid-packages` requiere `name`, `clientId`, `totalHours` (número), `hourlyRate` (número) y `purchaseDate`, y opcionalmente `expiryDate`, `description`, `clipSizeMinutes`, `overdraftPolicy` (`block`, `allow` o `invoice`), `overdraftRate` y `autoDeduct`.

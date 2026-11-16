@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "你已不再是该组织的成员。",
+    "noAccessToFeature": "你没有使用此功能的权限",
+    "adminsOnly": "只有管理员可以使用此功能",
+    "subscriptionRequired": "使用此功能需要有效的订阅",
+    "subscriptionExpired": "你的订阅已过期，请续订后继续使用。",
+    "roleNoAccess": "你的角色无权执行此操作",
+    "moduleDisabled": "此组织尚未启用“{module}”模块。"
+  },
+  "alunta": {
+    "clientAlreadyMapped": "此客户已有一个有效的 Alunta 映射",
+    "mappingNotFound": "未找到映射"
+  },
+  "common": {
+    "clientNotFound": "未找到客户",
+    "webhookNotFound": "未找到 Webhook",
+    "projectNotFound": "未找到项目",
+    "unknownError": "未知错误",
+    "notOrgMember": "你不是此组织的成员",
+    "noAccessToClient": "你无权访问此客户",
+    "templateNotFound": "未找到模板",
+    "unknownClient": "未知客户",
+    "rateLimited": "请求过多，请在 {seconds} 秒后重试。",
+    "taskNotFound": "未找到任务",
+    "timeEntryNotFound": "未找到工时记录",
+    "invoiceNotFound": "未找到发票",
+    "unknownProjectName": "未知项目",
+    "userNotFound": "未找到用户",
+    "invalidDate": "日期无效",
+    "prepaidNotFound": "未找到预付时长包",
+    "notFound": "未找到",
+    "notOrgMemberShort": "你不是该组织的成员",
+    "periodLocked": "{date} 之前的期间已被组织锁定。请联系管理员。"
+  },
+  "webhooks": {
+    "noValidEvents": "未选择有效的事件类型"
+  },
+  "time": {
+    "defaultRateName": "你的默认费率",
+    "chooseOnePrepaidOrNone": "请选择一个预付时长包，或不选择",
+    "taskNotFound": "未找到任务",
+    "entryExists": "该工时记录已存在",
+    "prepaidNotFound": "未找到预付时长包",
+    "prepaidOtherClient": "该预付时长包所属的客户与工时记录的客户不同",
+    "onInvoiceUnmark": "{count, plural, other {所选工时记录中有 # 条已在发票上。请先开具贷项通知单，或将这些记录从发票草稿中移除，然后再取消标记。}}",
+    "invalidWeek": "周无效",
+    "importInvalidDate": "日期无效：“{date}”",
+    "importNoProjectOrClient": "找不到项目“{project}”或客户“{client}”"
+  },
+  "resourcePlan": {
+    "needsOrg": "资源计划需要一个组织",
+    "ownEmployeesOnlyView": "你只能查看自己员工的计划",
+    "managersOnly": "只有所有者、管理员或经理可以做计划",
+    "weekMonday": "周必须以其星期一表示",
+    "ownEmployeesOnlyPlan": "你只能为自己的员工做计划",
+    "notInOrg": "该员工、项目或活动在组织中不存在"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "桌面应用的购买功能尚未设置。请稍后再试或联系支持。",
+    "includedInCloud": "桌面应用已包含在你的 {brand} Cloud 订阅中，无需另行购买许可。请登录并从概览下载应用。",
+    "checkoutFailed": "无法创建付款链接。",
+    "licenseAlreadyInactive": "该许可已停用或已退款。",
+    "notAutoRefundable": "此许可无法自动退款。请联系支持。",
+    "refundWindowExpired": "此次购买的 {days} 天退款期已过。",
+    "tooManyAttempts": "尝试次数过多，请稍等片刻后重试。",
+    "noLicenseFound": "未找到许可。",
+    "noActiveLicenseToRefund": "没有可退款的有效许可。",
+    "licenseNotAutoRefundable": "该许可无法自动退款。请联系支持。",
+    "refundWindowExpiredShort": "{days} 天退款期已过。"
+  },
+  "taskStatuses": {
+    "laneNotFound": "未找到列",
+    "lanesNotFound": "未找到一个或多个列",
+    "crossContext": "无法跨不同上下文重新排列列",
+    "destinationRequired": "该列中有任务，因此必须指定目标列",
+    "destinationNotFound": "未找到目标列",
+    "destinationContext": "目标列必须在同一上下文中"
+  },
+  "scheduledRates": {
+    "notFound": "未找到已计划的费率变更",
+    "rateFormat": "小时费率必须是不小于 0 且最多两位小数的金额",
+    "dateFormat": "日期格式必须为 YYYY-MM-DD",
+    "laterApplied": "自 {date} 起已应用了一次费率变更。新的变更必须从同一日期或更晚的日期生效。",
+    "alreadyApplied": "该费率变更已应用，无法取消。请改为编辑客户/项目上的小时费率。",
+    "appliedMeanwhile": "该费率变更已在此期间应用，无法取消。"
+  },
+  "broadcasts": {
+    "notFound": "未找到广播",
+    "confirmNameMismatch": "确认名称不匹配。请准确输入广播名称。"
+  },
+  "notifications": {
+    "invalidDiscordUrl": "Discord Webhook 网址无效",
+    "invalidSlackUrl": "Slack Webhook 网址无效",
+    "noSlackWebhook": "未配置 Slack Webhook",
+    "noDiscordWebhook": "未配置 Discord Webhook",
+    "discordTestFailed": "Discord Webhook 测试失败",
+    "noPushSubscription": "未配置推送订阅",
+    "pushTestFailed": "推送通知测试失败",
+    "channelNotFound": "未找到渠道"
+  },
+  "clients": {
+    "hasInvoices": "所选客户中有一位或多位已有发票。请改为归档，因为发票属于会计记录，无法删除。",
+    "hasBilledEntries": "所选客户中有一位或多位已有已开票的工时记录。请改为归档。"
+  },
+  "dashboard": {
+    "prefsTableMissing": "概览偏好设置表尚不存在。请运行数据库迁移。"
+  },
+  "clientPortal": {
+    "accessNotFound": "未找到访问权限"
+  },
+  "search": {
+    "invoiceTitle": "发票 {number}"
+  },
+  "ai": {
+    "noOwnKey": "请先在设置 → AI 中配置你自己的 API 密钥，才能使用 AI 建议。",
+    "fillableWithoutAi": "无需 AI 即可填写这段文字。",
+    "providerFailed": "你的 AI 服务商未能生成建议。请在设置 → AI 中检查密钥和模型。"
+  },
+  "apiKeys": {
+    "notFound": "未找到 API 密钥",
+    "revokeFirst": "删除密钥前必须先撤销它"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "未找到发票草稿",
+    "noEntries": "没有可提交审批的工时记录",
+    "requestNotFound": "未找到请求，或已处理"
+  },
+  "beta": {
+    "thanks": "感谢报名！测试版开放时，我们会给你发邮件。",
+    "emailNotAllowed": "此邮箱地址无法用于报名。",
+    "alreadyOnList": "此邮箱已在测试版候补名单中",
+    "signupNotFound": "未找到测试版报名"
+  },
+  "calendar": {
+    "googleNotConfigured": "未配置 Google 日历集成",
+    "notConnected": "未连接到 Google 日历",
+    "scheduledLocally": "任务已在本地安排（未连接日历）",
+    "timeEntryNotFound": "未找到工时记录",
+    "eventNotFound": "未找到事件",
+    "eventMissingTimes": "该事件没有时间",
+    "noConnection": "没有日历连接",
+    "noProject": "无项目",
+    "noConnectionFound": "未找到日历连接",
+    "aiFailed": "AI 建议失败"
+  },
+  "connectedApps": {
+    "notFound": "该连接不存在"
+  },
+  "contact": {
+    "thanks": "感谢你的留言！我们会尽快回复你。"
+  },
+  "dataExport": {
+    "pending": "你已有一个待处理的导出请求，请稍候。",
+    "limit3": "每 24 小时最多 3 次导出请求。请稍后再试。",
+    "fullNotEnabled": "完整导出尚未启用。",
+    "orgInProgress": "该组织已有一项导出正在进行。完成后你会收到邮件。",
+    "orgDailyLimit": "组织每天最多可申请 {limit} 次导出。请明天再试。",
+    "notOrgMemberDot": "你不是该组织的成员。",
+    "inProgress": "已有一项导出正在进行。完成后你会收到邮件。",
+    "dailyLimit": "你每天最多可申请 {limit} 次导出。请明天再试。",
+    "requestNotFound": "未找到导出请求",
+    "cancelPendingOnly": "只能取消待处理的请求",
+    "importClientNotFound": "{name}：未找到客户“{client}”",
+    "importClientRequired": "{name}：必须指定客户",
+    "importInvoiceClientNotFound": "发票 {number}：未找到客户“{client}”",
+    "importInvoiceError": "发票 {number}：{message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "你所在的部门已设定休息日，并适用于你。你不能自行选择休息日。",
+    "blockedOrg": "你的组织已设定休息日，并适用于你。你不能自行选择休息日。",
+    "blockedEmployee": "作为员工，你遵循组织的休息日。请让管理员为组织或你的部门设定休息日。",
+    "orgNeedsOrg": "为组织设定休息日需要一个组织",
+    "departmentNeedsBusiness": "按部门设定休息日需要 Business 套餐",
+    "departmentNotFound": "该部门不存在"
+  },
+  "dpa": {
+    "notFromEnv": "目前无法在此环境中接受数据处理协议。",
+    "notInOrg": "你不在任何组织中",
+    "ownersAdminsOnly": "只有所有者和管理员可以接受该协议"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "未找到规则"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "必须提供 IMAP 密码",
+    "cannotDecrypt": "无法解密已存储的密码。请重新输入你的 IMAP 密码。",
+    "connectionFailed": "IMAP 连接失败：{message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "未找到任务",
+    "blockBracket": "屏蔽主题中含有“[{tag}]”的邮件",
+    "blockKeyword": "屏蔽主题中含有“{keyword}”的邮件"
+  },
+  "ext": {
+    "notOrgMemberDot": "你不是该组织的成员。",
+    "invalidToken": "令牌无效",
+    "tooManyAttempts": "尝试次数过多，请在 {seconds} 秒后重试。",
+    "sessionExpired": "会话已过期或已被撤销。请重新登录。",
+    "tokenExpired": "令牌已过期",
+    "tokenNotFound": "未找到令牌",
+    "timerChangedElsewhere": "计时器已在另一台设备上被更改。请重试。",
+    "datesFormat": "日期格式必须为 YYYY-MM-DD",
+    "prepaidNotFound": "未找到预付时长包",
+    "prepaidOtherClient": "该预付时长包所属的客户与该记录的客户不同",
+    "saveEntryFailed": "无法保存工时记录",
+    "createInProgress": "使用此密钥的创建操作正在进行。请稍后重试。",
+    "import": {
+      "alreadyRunning": "已有一项导入正在运行。请等待其完成。"
+    },
+    "projectOrClientNotFound": "未找到项目或客户"
+  },
+  "feedback": {
+    "screenshotFailed": "无法从 S3 获取截图"
+  },
+  "imports": {
+    "timeopsConnect": "无法连接到 TimeOps：{detail}",
+    "networkError": "网络错误",
+    "apiKeyInvalid": "API 密钥无效或已过期",
+    "alreadyRunning": "已有一项导入正在运行。请先完成它。",
+    "notFound": "未找到导入",
+    "cannotStart": "无法在状态“{status}”下启动导入",
+    "cannotCancel": "在此状态下无法取消导入"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "网页应用中已有计时器在“{project}”上运行。请先停止它。",
+    "timerRunningProjectOther": "另一台设备上已有计时器在“{project}”上运行。请先停止它。",
+    "timerRunningAnyWeb": "网页应用中已有计时器在运行。请先停止它。",
+    "timerRunningAnyOther": "另一台设备上已有计时器在运行。请先停止它。"
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "与 Dinero 的连接已过期。请在设置中重新连接。",
+      "notConnectedShort": "未连接 Dinero",
+      "notConnected": "未连接 Dinero",
+      "connectionActive": "与 Dinero 的连接有效",
+      "connectionFailed": "无法连接到 Dinero",
+      "clientExported": "客户已导出到 Dinero",
+      "invoiceAlreadyExported": "该发票已导出到 Dinero",
+      "contactCreateFailed": "无法在 Dinero 中创建客户“{name}”：API 未返回联系人 ID。请先尝试手动导出该客户。",
+      "noAccount": "未配置账号。请在设置 → Dinero 中选择默认账户。",
+      "invoiceExported": "发票已导出到 Dinero",
+      "invoiceNotExported": "该发票尚未导出到 Dinero",
+      "noPending": "未找到待处理的 Dinero 连接。请重新尝试连接。",
+      "invalidOrg": "所选组织无效",
+      "tokensDecryptFailed": "无法解密令牌。请重新尝试连接。"
+    },
+    "billy": {
+      "noApiKey": "未设置 Billy API 密钥",
+      "decryptFailed": "无法解密 Billy API 密钥",
+      "connectionActive": "与 Billy 的连接有效",
+      "connectionFailed": "无法连接到 Billy",
+      "clientExported": "客户已导出到 Billy",
+      "invoiceAlreadyExported": "该发票已导出到 Billy",
+      "clientCreateFailed": "无法在 Billy 中创建或找到该客户",
+      "productWithoutId": "Billy 返回了没有 ID 的产品：{json}",
+      "invoiceWithoutId": "Billy 返回了没有 ID 的发票：{json}",
+      "invoiceExported": "发票已导出到 Billy",
+      "exportFailed": "无法导出到 Billy：{message}",
+      "invoiceNotExported": "该发票尚未导出到 Billy"
+    },
+    "unknownErrorOccurred": "发生未知错误",
+    "invoiceMissingClient": "该发票没有客户",
+    "economic": {
+      "noTokens": "未设置 e-conomic 令牌",
+      "decryptFailed": "无法解密 e-conomic 令牌",
+      "connectionActive": "与 e-conomic 的连接有效",
+      "connectionFailed": "无法连接到 e-conomic",
+      "clientExported": "客户已导出到 e-conomic",
+      "paymentTermsMissing": "缺少付款条款。请在设置 → 集成中选择。",
+      "invoiceAlreadyExported": "该发票已导出到 e-conomic",
+      "consultingLine": "咨询工作：{hours} 小时",
+      "invoiceBooked": "发票已在 e-conomic 中入账",
+      "invoiceDraftCreated": "发票已在 e-conomic 中创建为草稿",
+      "invoiceNotExported": "该发票尚未导出到 e-conomic"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: 无法自动识别日期格式。请手动选择。",
+      "noValidRows": "在 CSV 文件中未找到有效的行。",
+      "unknownClient": "未知客户"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "缺少公司信息。这些信息必须显示在发票上，因此在创建第一张发票前，请在设置 → 公司资料中填写（或请管理员填写）。",
+    "templateNotFound": "未找到发票模板",
+    "issuedCannotChange": "已开具的发票无法更改。请开具贷项通知单来更正金额或条款。",
+    "deletedCannotEdit": "已删除的发票无法编辑。",
+    "paidNotesOnly": "已支付的发票无法编辑，只能添加备注。",
+    "draftsOnlyDelete": "只能删除草稿。已开具的发票请改为作废。",
+    "creditNoteNotCreditable": "贷项通知单无法再被冲销",
+    "draftNotCreditable": "草稿无需冲销。请改为删除草稿（它没有正式编号）。",
+    "deletedNotCreditable": "已删除的发票无法冲销",
+    "alreadyCredited": "该发票已被 {number} 冲销",
+    "creditNoteNotes": "针对 {date} 的发票 {number} 的贷项通知单",
+    "draftOnlyAddLines": "只能向发票草稿添加行",
+    "timeEntryNotFound": "未找到工时记录",
+    "lineNotFound": "未找到发票行",
+    "draftOnlyEditLines": "只能在发票草稿上编辑行",
+    "draftOnlyDeleteLines": "只能从发票草稿中删除行",
+    "draftOnlyReorder": "只能在发票草稿上更改顺序",
+    "clientHasNoEmail": "该客户没有邮箱地址"
+  },
+  "logbook": {
+    "ownOnly": "你只能查看自己的行车日志",
+    "notInYourOrg": "该用户不是你所在组织的成员",
+    "noAccessWaste": "你无权查看组织的浪费工时"
+  },
+  "marketing": {
+    "tooManyAttempts": "尝试次数过多，请稍后再试。"
+  },
+  "memberRates": {
+    "membersNotInOrg": "一位或多位成员在组织中不存在"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "你所在组织的所有者负责管理订阅，因此你无需选择套餐。",
+    "privatePlanUnavailable": "Private 套餐暂不可用。请选择其他套餐。"
+  },
+  "organization": {
+    "requiresOrg": "需要一个组织",
+    "noActiveOrg": "没有当前组织",
+    "moduleNotAssigned": "此组织未分配“{module}”模块",
+    "moduleUnavailable": "“{module}”模块对你不可用。请联系支持。",
+    "noSelfTransfer": "你不能把所有权转移给自己",
+    "ownerOnlyTransfer": "只有所有者可以转移所有权",
+    "memberNotFound": "未找到成员"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "只有所有者和管理员可以查看活动日志"
+  },
+  "portalBranding": {
+    "noDomain": "没有可验证的域名",
+    "verifyFailed": "无法验证该域名。请检查 DNS TXT 记录“_timetrack-verify.{domain}”是否包含令牌：{token}"
+  },
+  "prepaid": {
+    "invalidHours": "预付扣减的小时数无效",
+    "otherClient": "该预付时长包所属的客户与工时记录的客户不同",
+    "inactive": "该预付时长包未启用",
+    "expired": "该预付时长包已过期",
+    "insufficientHours": "预付时长包的剩余工时不足。可用工时：{available}",
+    "insufficientHoursClip": "预付时长包的剩余工时不足。可用工时：{available}，需要 {required} 小时（按 {minutes} 分钟一档向上取整）",
+    "multipleClients": "所选工时记录属于多位客户。请只选择同一位客户的记录。",
+    "entriesNotFound": "未找到一条或多条工时记录",
+    "alreadyBilled": "{count, plural, other {所选工时记录中有 # 条已开票，无法从预付时长包中扣减}}",
+    "foreignEntries": "{count, plural, other {有 # 条工时记录所属的客户与预付时长包的客户不同}}",
+    "requestNotFound": "未找到请求，或已处理",
+    "gone": "该预付时长包已不存在",
+    "renewalInvoiceNote": "预付时长包“{name}”的续订，由客户通过门户申请",
+    "totalBelowUsed": "总工时不能低于已使用的工时（{used} 小时）",
+    "hasUsage": "已有使用记录的预付时长包无法删除。请改为停用。",
+    "entryNotFound": "未找到该工时记录"
+  },
+  "projects": {
+    "hasBilledEntries": "该项目已有已开票的工时记录，无法永久删除。请改为归档。",
+    "nameMismatch": "项目名称不匹配",
+    "noneFound": "未找到项目"
+  },
+  "portal": {
+    "invalidLink": "链接无效或已过期",
+    "invalidLogin": "邮件或密码无效",
+    "noInvoiceAccess": "无权查看发票",
+    "noProjectAccess": "无权查看项目",
+    "noTimeAccess": "无权查看工时记录",
+    "noPrepaidAccess": "无权查看预付时长包",
+    "tooManyRequests": "请求过多，请稍后再试。",
+    "prepaidInactive": "该预付时长包未启用。请联系您的服务提供方。",
+    "noAccess": "无访问权限",
+    "notAllowedApprove": "无权批准工时",
+    "requestNotFound": "未找到请求",
+    "requestHandled": "该请求已被处理",
+    "notAllowedReject": "无权拒绝工时"
+  },
+  "quickSignup": {
+    "created": "账户已创建！正在为你登录…",
+    "emailNotAllowed": "此邮箱地址无法用于注册。",
+    "emailTaken": "此邮箱已被注册",
+    "createFailed": "无法创建账户",
+    "error": "创建账户时出错"
+  },
+  "recurringInvoices": {
+    "clientArchived": "该客户已归档。请先恢复该客户。",
+    "prepaidFixedAmount": "预付时长包按固定金额开票，因此请不要选择已记录的工时",
+    "prepaidNoRenewal": "该预付时长包不会自动续订。请先开启定期续订。",
+    "needLine": "请至少添加一行金额大于 0 的行",
+    "firstDateInPast": "首张发票的日期不能早于今天",
+    "notFound": "未找到定期发票",
+    "nextDateInPast": "下一张发票的日期不能早于今天"
+  },
+  "recurring": {
+    "startDateRequired": "重复模板必须设置开始日期",
+    "cannotPause": "非重复模板无法暂停",
+    "cannotResume": "非重复模板无法恢复"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "团队盈利能力需要一个组织",
+    "utilisationNeedsOrg": "利用率需要一个组织",
+    "weekdayRange": "星期必须为 1-7",
+    "linkNotFound": "未找到链接",
+    "tooManyRows": "报告包含超过 10,000 条记录。请缩小日期范围。"
+  },
+  "reportTemplates": {
+    "clientNotYours": "该客户不属于你的账户。",
+    "systemNoEdit": "系统模板无法编辑。请改为复制它。",
+    "systemNoDelete": "系统模板无法删除。"
+  },
+  "security": {
+    "accountNotFound": "未找到账户",
+    "lastLoginMethodRemove": "你不能移除最后一种登录方式。请先添加密码或通行密钥。",
+    "passkeyNotFound": "未找到通行密钥",
+    "lastLoginMethodDelete": "你不能删除最后一种登录方式。请先添加密码或连接 OAuth 账户。",
+    "sessionNotFound": "未找到会话",
+    "cannotEndCurrent": "你不能结束当前会话。请改为退出登录。",
+    "currentSessionNotFound": "未找到当前会话",
+    "phoneIsOnlyMethod": "你不能移除手机号码，因为它是你唯一的登录方式。请先添加其他方式。",
+    "deviceNotFound": "未找到设备",
+    "rec": {
+      "addLoginMethod": "添加登录方式",
+      "verifyEmail": "确认你的邮箱地址",
+      "enable2fa": "开启两步验证",
+      "addPasskey": "添加通行密钥，登录更快更安全",
+      "addMore": "再添加几种登录方式作为备用"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "你已有有效的订阅。请使用“管理账单”更改套餐或付款方式。",
+    "seatsExceedIncluded": "你的组织使用了 {seats} 个席位，比 {plan} 包含的 {included} 个多 {extra} 个。目前无法自助升级而不损失席位。请联系支持，我们会为你手动迁移。",
+    "noCheckoutUrl": "Alunta 未返回结账网址。请联系支持。",
+    "extraSeatsNeedSubscription": "额外席位需要有效的订阅。请先选择套餐并添加付款方式。",
+    "noActiveAddPayment": "未找到有效的订阅。请先添加付款方式。",
+    "noActive": "未找到有效的订阅",
+    "none": "未找到订阅",
+    "requestFailed": "无法发送请求。请稍后再试。",
+    "priceSuffixYear": "kr/年",
+    "priceSuffixMonth": "kr/月",
+    "checkoutComingSoon": "此处暂不支持付款。你正在使用免费方案。"
+  },
+  "tags": {
+    "nameExists": "名为“{name}”的标签已存在",
+    "timeEntryNotFound": "未找到工时记录",
+    "notYours": "一个或多个标签不属于你",
+    "projectNotFound": "未找到项目",
+    "projectsNotFound": "未找到一个或多个项目，或你无权访问它们",
+    "clientNotFound": "未找到客户"
+  },
+  "tasks": {
+    "parentNotFound": "未找到父任务",
+    "subtaskNoSubtasks": "子任务不能再有子任务",
+    "laneNotFound": "未找到列",
+    "laneOtherBoard": "该列所属的看板与任务不同",
+    "moveSameBoard": "任务只能在同一看板内移动",
+    "dryRunFailed": "无法验证试运行",
+    "bulkFailed": "无法验证批量更改",
+    "bulkRolledBack": "并非所有所选任务都已更新，事务已回滚",
+    "assignNeedsOrg": "分配任务需要一个组织",
+    "assigneeNotMember": "被分配人不是该组织的成员",
+    "mainTaskNotFound": "未找到主任务",
+    "assignedPushTitle": "📋 你有新任务",
+    "assignedPushBody": "{name} 把“{task}”分配给了你",
+    "aColleague": "一位同事"
+  },
+  "user": {
+    "pageUnavailable": "你目前无法访问此页面",
+    "emailMismatch": "邮箱与你的账户不匹配",
+    "deleteFailed": "无法完成删除。请联系支持，我们会帮助你。",
+    "aiConnectionOk": "连接正常！回复：“{reply}”",
+    "aiConnectionFailed": "连接失败：{message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "你只能处理自己员工的缺勤",
+      "requestNotFound": "未找到缺勤申请",
+      "approveOnlyPending": "只有待处理的申请才能被批准",
+      "noSelfApprove": "你不能批准自己的缺勤",
+      "rejectOnlyPending": "只有待处理的申请才能被拒绝",
+      "typeHasPending": "有待处理申请的缺勤类型无法删除。请先拒绝或取消这些申请。",
+      "managersOnlyForOthers": "只有经理和管理员可以为他人记录缺勤",
+      "endBeforeStart": "结束日期不能早于开始日期",
+      "endDateRequired": "{type}必须填写结束日期。只有病假和休假可以不填结束日期。",
+      "overlapOther": "该员工在此期间已有缺勤",
+      "overlapOwn": "你在此期间已有缺勤申请",
+      "registrationNotFound": "未找到缺勤记录",
+      "selfReturnOnly": "你只能报告自己已康复",
+      "periodAlreadyEnded": "该期间已结束",
+      "onlyActiveRecovered": "只有进行中的记录才能报告为已康复",
+      "lastDayBeforeStart": "缺勤的最后一天不能早于开始日期",
+      "endedElsewhere": "该期间已在其他地方结束。请重新加载列表。",
+      "recoveredPushTitle": "已报告康复",
+      "recoveredPushBody": "你的{type}已于 {date} 结束",
+      "requestNotFoundShort": "未找到申请",
+      "ownOnlyEdit": "你只能编辑自己的申请",
+      "pendingOnlyEdit": "只有待处理的申请才能编辑",
+      "alreadyCancelled": "该申请已被取消",
+      "fixedHolidayNoCancel": "固定假期（停工期）无法取消。请联系你的管理员。",
+      "changedElsewhere": "该申请已在其他地方被更改。请重新加载列表。",
+      "employeeNotInOrg": "该员工在组织中不存在"
+    },
+    "handledElsewhere": "该申请已在其他地方被处理。请重新加载列表。",
+    "yourManager": "你的经理",
+    "absenceTypeNotFound": "未找到缺勤类型",
+    "activityTypeNotInOrg": "该活动类型在你的组织中不存在",
+    "projectNotInOrg": "该项目在你的组织中不存在",
+    "activityTypesNotInOrg": "一个或多个活动类型在你的组织中不存在",
+    "projectsNotInOrg": "一个或多个项目在你的组织中不存在",
+    "activityTypesUnknown": "一个或多个活动类型未知或已归档",
+    "checkin": {
+      "already": "你已经签到",
+      "noneOpen": "未找到未结束的签到"
+    },
+    "closure": {
+      "maxDays": "一个停工期最多 {days} 天。请改为创建多个期间。",
+      "needsVacationType": "固定假期周必须使用会扣减假期的缺勤类型",
+      "notFound": "未找到停工期"
+    },
+    "employeeProfileNotFound": "未找到员工档案",
+    "compliance": {
+      "ownOnly": "你只能查看自己的合规状态",
+      "rejected": "该记录被工作时间规则拒绝：{reasons}"
+    },
+    "departmentNotFound": "未找到部门",
+    "deptManagers": {
+      "oncePerDept": "同一用户在每个部门中只能出现一次",
+      "validFromBeforeTo": "生效日期必须早于失效日期",
+      "usersNotMembers": "一位或多位用户不是该组织的成员"
+    },
+    "employee": {
+      "employmentEnded": "该雇佣关系已结束",
+      "endBeforePeriodStart": "结束日期不能早于该期间的开始日期（{date}）",
+      "managerNotFound": "未找到经理",
+      "ownManager": "员工不能担任自己的经理",
+      "managerCycle": "经理层级形成了循环",
+      "viewOwnTeamProfiles": "你只能查看自己员工的档案",
+      "profileExists": "该员工在此组织中已有档案",
+      "hireDateManaged": "入职日期由雇佣历史管理。请在“雇佣”选项卡中编辑。",
+      "viewOwnTeamEmployments": "你只能查看自己员工的雇佣信息",
+      "startAfterLatest": "开始日期必须晚于最近一个期间的开始日期（{date}）",
+      "endedOn": "该雇佣关系已于 {date} 结束。新的期间必须在该日期之后开始。",
+      "periodNotFound": "未找到雇佣期间",
+      "historyOwnTeamOnly": "你只能查看自己员工的历史记录"
+    },
+    "flex": {
+      "ownBalanceOnly": "你只能查看自己的弹性工时余额",
+      "recalcScope": "你只能为自己或自己的员工重新计算弹性工时",
+      "profileNotInOrg": "在此组织中未找到员工档案"
+    },
+    "holidays": {
+      "notFound": "未找到公共假日",
+      "defaultNoDelete": "默认的公共假日无法删除。请改为选择休息日日历预设。"
+    },
+    "mw": {
+      "noActiveOrg": "未找到当前组织",
+      "noEmployeeProfile": "你在此组织中没有员工档案。请联系管理员。",
+      "twoFactorRequired": "该组织要求经理和管理员使用两步验证。请在设置 → 安全中开启两步验证后重试。",
+      "hrReadOnly": "HR 角色只能查看，不能审批或编辑",
+      "managerRequired": "此操作需要经理或管理员权限",
+      "viewRequiresRole": "此视图需要经理、HR 或管理员权限",
+      "ownersAdminsOnly": "只有所有者和管理员可以使用此功能",
+      "twoFactorAdmins": "该组织要求管理员使用两步验证"
+    },
+    "notifications": {
+      "addTeamsFirst": "开启 Teams 之前，请先添加 Teams Webhook",
+      "noTeamsWebhook": "未保存 Teams Webhook",
+      "testBody": "{org} 的 Teams 集成运行正常。经理事件（工时表、缺勤、病假、工作时间规则和摘要）会发送到这里。",
+      "theOrganisation": "该组织",
+      "teamsRejected": "Teams 拒绝了测试消息：{message}"
+    },
+    "organizationNotFound": "未找到组织",
+    "org": {
+      "deptHasEmployees": "已分配员工的部门无法删除。请先调走这些员工。"
+    },
+    "overtime": {
+      "ownEmployeesOnly": "你只能为自己的员工登记",
+      "positiveHours": "请输入正数的小时数",
+      "notZero": "记录不能是 0 小时"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "该工资项目在你的组织中不存在",
+      "wageTypeCodeExists": "已存在使用该代码的工资项目",
+      "ruleNotInOrg": "该规则在你的组织中不存在",
+      "employeeNumberTaken": "该员工编号已被其他人使用",
+      "exportTitle": "工资导出：{org}"
+    },
+    "absenceTypeNotInOrg": "该缺勤类型在你的组织中不存在",
+    "exportRateLimited": "导出次数过多。请在 {seconds} 秒后重试。",
+    "closing": {
+      "notEnabled": "组织设置中未开启期间结账",
+      "afterPeriodEnd": "只有在期间结束后才能创建结算单",
+      "approvedNoRecalc": "已批准的结算单无法重新计算。请先将其解锁。",
+      "noSelfApprove": "你不能批准自己的期间结算单",
+      "alreadyApproved": "该结算单已被批准",
+      "ownAckOnly": "你只能确认自己的结算单",
+      "needsManagerApproval": "结算单必须先经你的经理批准，你才能确认",
+      "notLocked": "该期间未锁定",
+      "notFound": "该结算单不存在"
+    },
+    "assign": {
+      "usersNotActive": "一位或多位用户不是该组织的在职员工"
+    },
+    "reports": {
+      "payrollHrOnly": "工资报告仅限 HR 和管理员使用",
+      "shareHrOnly": "只有 HR 和管理员可以与整个组织共享模板",
+      "defaultNoOverwrite": "默认模板无法覆盖。请另存为新名称。",
+      "ownEditOnly": "你只能编辑自己的模板",
+      "defaultNoDelete": "默认模板无法删除",
+      "ownDeleteOnly": "你只能删除自己的模板",
+      "weekdayRange": "星期必须为 1-7"
+    },
+    "reportTypeHrOnly": "此报告类型仅限 HR 和管理员使用",
+    "sso": {
+      "invalidTenant": "租户 ID 无效。应为 xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx 格式的 GUID（Azure 中的“目录（租户）ID”）。",
+      "microsoftNotConfigured": "此安装尚未配置 Microsoft 登录，因此无法开启“仅限 SSO”。",
+      "verifyDomainFirst": "开启“仅限 SSO”之前，请至少验证一个域名，否则该策略不会对任何人生效。",
+      "connectMicrosoftFirst": "请先在你自己的账户中连接 Microsoft（设置 → 安全 → 连接 Microsoft），否则开启“仅限 SSO”后你会把自己锁在外面。",
+      "enable2faFirst": "请先为你自己的账户开启两步验证，否则你会无法进入管理界面。",
+      "invalidDomain": "域名无效。请写成例如 example.com（不带 @ 或 https://）。",
+      "publicProviders": "公共邮箱服务商（gmail.com、outlook.com 等）不能用于自动加入。",
+      "domainAlreadyAdded": "该域名已添加。",
+      "domainVerifiedElsewhere": "该域名已被另一个组织验证。如果这是误操作，请联系支持。",
+      "maxDomains": "每个组织最多 {max} 个域名。",
+      "domainNotFound": "未找到域名",
+      "domainVerifiedElsewhereShort": "该域名已被另一个组织验证。",
+      "txtCorrectButTaken": "TXT 记录正确，但该域名已被另一个组织验证。请联系支持。",
+      "justVerifiedElsewhere": "该域名刚刚被另一个组织验证。请联系支持。"
+    },
+    "team": {
+      "timesheetsOwnEmployees": "你只能处理自己员工的工时表",
+      "employeeNotInOrg": "该员工在你的组织中不存在",
+      "weekNothingToApprove": "该周没有可审批的记录",
+      "weekAlreadyApproved": "该周已被审批",
+      "noSelfApprove": "你不能审批自己的工时表",
+      "onlySubmittedRejectable": "只有已提交的周才能被拒绝",
+      "weekInClosedPeriod": "该周处于已结账的期间。请先在“期间结账”中解锁该期间。",
+      "onlyApprovedReopen": "只有已审批的周才能重新打开",
+      "historyOwnEmployees": "你只能查看自己员工的历史记录"
+    },
+    "import": {
+      "noProject": "（无项目）",
+      "beforeLock": "有 {count} 行早于期间锁定日期 {date}",
+      "submittedWeeks": "有 {count} 个已提交/已审批的周会新增行，这些行不计入已审批的总计"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "该周已被审批。请让你的经理重新打开它。",
+      "weekAlreadySubmitted": "该周已提交，正在等待审批",
+      "weekNothingToSubmit": "该周没有可提交的记录",
+      "activityNotAllowed": "此项目不允许该活动",
+      "dayHasDetailed": "这一天的详细记录中已有 {hours} 小时。请在“工时追踪”中编辑，或至少填写同样多的小时数。",
+      "chooseOtherActivity": "请选择要移入的其他活动",
+      "noEmployeeProfile": "你在此组织中没有员工档案",
+      "fixedHoliday": "这一天是固定假期（停工期），你无法更改",
+      "coveredByLongAbsence": "这一天已被一段较长的缺勤期间覆盖。请在“缺勤”中编辑。",
+      "notEmployed": "你在这一天尚未入职",
+      "holidayNoAbsence": "这一天是休息日或公共假日，因此无法记录缺勤",
+      "lastWeekEmpty": "上周没有可复制的记录",
+      "weekNothingToSave": "该周没有可另存为模板的记录",
+      "templateMissing": "该模板不存在"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "只有经理可以编辑员工的工作时间",
+      "ownOnlyView": "你只能查看自己的工作时间",
+      "employeeNotInOrg": "该员工在组织中不存在",
+      "sharedPlan": "该计划也被你的员工之外的人使用。请让管理员来更改。",
+      "planMissing": "该计划不存在",
+      "planArchived": "该计划已归档",
+      "laterVersion": "已存在自 {date} 起的更新版本。请改为编辑那个版本。",
+      "versionFromToday": "已存在从今天起生效的版本。请选择更晚的日期。",
+      "adminsOnlyDept": "只有管理员可以将计划分配给部门",
+      "departmentMissing": "该部门不存在",
+      "deviationsRecorded": "偏差会在发生时记录。计划内的缺勤请在“休假与缺勤”中记录。",
+      "noFixedPlanToday": "这一天没有固定的工作计划。请将时间记为工时记录。"
+    },
+    "dpa": {
+      "outdated": "页面加载后协议已更新。请重新加载并阅读新版本。",
+      "acceptFailed": "无法登记接受",
+      "signIn": "请登录后下载",
+      "ownersAdminsDownload": "只有所有者和管理员可以下载填写完整的协议"
+    },
+    "edit": {
+      "weekApprovedLocked": "该周已审批并锁定。请让你的经理重新打开它。",
+      "weekSubmitted": "该周已提交审批，无法编辑",
+      "entryApproved": "该记录已获你的经理批准。请申请重新打开该周。"
+    },
+    "periodMaxDaysAsync": "期间最多 {days} 天",
+    "scope": {
+      "ownEmployees": "你只能处理自己的员工"
+    },
+    "dns": {
+      "unknown": "未知的 DNS 错误",
+      "lookupFailed": "DNS 查询失败：{error}",
+      "noRecord": "在 {hosts} 上未找到 TXT 记录“{record}”。DNS 更改最多可能需要一小时。"
+    }
+  },
+  "emailTemplates": {
+    "notFound": "未找到模板",
+    "systemNoEdit": "系统模板无法编辑",
+    "systemNoDelete": "系统模板无法删除",
+    "alreadyExist": "模板已存在"
+  },
+  "api": {
+    "tooManyRequestsLater": "请求过多，请稍后再试。",
+    "cvr": {
+      "queryMin2": "搜索词至少需要 2 个字符",
+      "noCompany": "未找到公司",
+      "searchFailed": "搜索时出错",
+      "numberOrQueryRequired": "需要提供 CVR 号码或搜索词",
+      "eightDigits": "CVR 号码必须是 8 位数字",
+      "noCompanyForNumber": "未找到使用此 CVR 号码的公司",
+      "lookupFailed": "查询 CVR 号码时出错"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "未找到导出，或已过期",
+      "expired": "该导出已过期或不再可用。请重新申请导出。"
+    },
+    "notAuthorized": "未授权。请先登录。",
+    "desktop": {
+      "deviceCodeMissing": "缺少设备代码（code）",
+      "maxDevices": "已达到设备数量上限（{max}）。请先停用一台设备。",
+      "invalidDeviceToken": "设备令牌无效",
+      "userNotFound": "该用户不存在",
+      "settingsReadFailed": "无法读取设置",
+      "notInAnyOrg": "你不是任何组织的成员",
+      "adminsOnlyIntegrations": "只有管理员可以更改集成设置",
+      "invalidIntegrationSettings": "集成设置无效",
+      "settingsSaveFailed": "无法保存设置",
+      "draftOnlyEditLines": "只能更改发票草稿上的行",
+      "invalidPrepaidHours": "预付工时记录上的小时数无效",
+      "draftOnlyEditInvoices": "只能编辑发票草稿",
+      "unbillOnlyWeb": "只能在网页应用中移除已开票标记。请先在那里移除。",
+      "entryNotFoundOrOther": "未找到实体：{id}。该记录不存在，或属于其他用户"
+    },
+    "notMemberOfChosenOrg": "你不是所选组织的成员",
+    "approvalFailed": "审批失败",
+    "invalidEmail": "邮箱地址无效",
+    "genericError": "发生错误",
+    "dpa": {
+      "pdfFailed": "目前无法生成 PDF"
+    },
+    "invalidOrigin": "来源无效",
+    "invalidRequest": "请求无效",
+    "ext": {
+      "invalidLoginLink": "登录链接无效。请从应用中重新开始登录。",
+      "invalidRedirect": "重定向 URI 无效"
+    },
+    "feedback": {
+      "notSignedIn": "未登录",
+      "otherUser": "该报告由其他用户撰写",
+      "tooLarge": "报告过大",
+      "invalid": "报告无效",
+      "saveFailed": "无法保存反馈"
+    },
+    "invalidJson": "JSON 无效",
+    "integrations": {
+      "dineroFailed": "无法建立 Dinero 连接。请重试。",
+      "economicFailed": "无法建立 e-conomic 连接。请重试。",
+      "googleFailed": "无法建立 Google 连接。请重试。"
+    },
+    "invoiceSend": {
+      "invalidRecipient": "收件人邮箱无效",
+      "emailNotConfigured": "未配置邮件服务。请联系管理员设置 RESEND_API_KEY 或 SMTP_HOST。",
+      "sendFailed": "无法发送邮件。请稍后再试。",
+      "sent": "邮件已发送至 {email}",
+      "error": "发送邮件时出错"
+    },
+    "upload": {
+      "notAuthorized": "未授权",
+      "noFile": "未上传文件",
+      "imageTypes": "仅允许 JPEG、PNG 和 WebP",
+      "tooBig": "文件过大（最大 8 MB）",
+      "notConfigured": "未配置文件上传（缺少 S3_ENDPOINT 或 STORAGE_DRIVER=local）",
+      "failed": "无法将文件上传到存储"
+    },
+    "webhookTest": {
+      "tooMany": "此 Webhook 的测试尝试次数过多。请稍后重试。"
+    },
+    "import": {
+      "tagNoName": "标签没有名称"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "该预付时长包所属的客户与计时器的客户不同"
+  }
+}

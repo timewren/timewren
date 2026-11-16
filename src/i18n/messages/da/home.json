@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "God nat",
+    "morning": "God morgen",
+    "forenoon": "God formiddag",
+    "afternoon": "God eftermiddag",
+    "evening": "God aften"
+  },
+  "duration": {
+    "hourUnit": "t",
+    "minUnit": "min"
+  },
+  "noName": "Uden navn",
+  "noDescription": "Uden beskrivelse",
+  "prompt": {
+    "label": "Hvad har du lavet?",
+    "placeholder": "fx 2 timer på hjemmeside til Jensen i går",
+    "interpret": "Fortolk",
+    "listening": "Lytter…",
+    "hintAvailable": "Skriv eller indtal, og tryk Enter. Talen behandles lokalt i din browser, og lyden sendes ikke videre.",
+    "hintDownloadable": "Skriv og tryk Enter.",
+    "downloading": "Henter dansk talegenkendelse…",
+    "install": "Hent dansk talegenkendelse (ca. 60 MB, kører lokalt)",
+    "hintDefault": "Skriv og tryk Enter, fx “1,5 t møde med Acme kl. 9-10:30”. På telefonen kan du indtale med mikrofonen på tastaturet. Tryk <kbd>/</kbd> for at komme hertil.",
+    "stopDictation": "Stop diktering",
+    "dictate": "Indtal med mikrofonen",
+    "dictateTitle": "Indtal (lokal talegenkendelse)",
+    "listeningSr": "Lytter",
+    "missingHint": "vælg et forslag nedenfor, eller ret det i den fulde formular.",
+    "descriptionLabel": "Beskrivelse",
+    "descriptionPlaceholder": "Hvad gik tiden med?",
+    "usePrepaid": "Træk fra klippekort {name} ({time} tilbage)",
+    "saveWithHours": "Gem {hours}",
+    "save": "Gem",
+    "editInForm": "Ret i formularen",
+    "cancel": "Annullér",
+    "keysHint": "Enter gemmer · Esc annullerer",
+    "needDescription": "Skriv en kort beskrivelse, før du gemmer.",
+    "internal": "Gemmes som intern tid.",
+    "savedOffline": "Gemt offline. Tidsposteringen bliver sendt, når forbindelsen er tilbage.",
+    "registered": "{hours} registreret",
+    "saveFailed": "Kunne ikke gemme tidsposteringen"
+  },
+  "welcome": {
+    "title": "Velkommen til {brand}",
+    "titleDone": "Godt i gang. Din første tid er registreret",
+    "hide": "Skjul velkomsten",
+    "intro": "Kom i gang på under et minut: start en timer nu, eller skriv hvad du har lavet i feltet nedenfor, fx “2 timer på hjemmeside i går”. Virksomhedsoplysninger og plan kan du ordne senere.",
+    "timerStarted": "Timeren kører. Stop den i timerlinjen øverst, når du er færdig.",
+    "timerBusy": "Timeren kører allerede",
+    "startFirstTimer": "Start din første timer",
+    "writeLine": "Skriv en linje i feltet",
+    "surveyQuestion": "Hvad vil du primært bruge {brand} til? <muted>(valgfrit)</muted>",
+    "primaryUse": {
+      "time": "Holde styr på min tid",
+      "invoicing": "Fakturere mine kunder",
+      "klippekort": "Klippekort og forudbetalte timer",
+      "team": "Følge mit teams tid"
+    },
+    "thanksToast": "Tak for svaret",
+    "saveFailed": "Svaret kunne ikke gemmes. Prøv igen.",
+    "thanksNote": "Tak. Hjem viser nu de næste skridt, der passer til dig.",
+    "privacyNote": "Svaret bruges kun til at tilpasse Hjem og deles ikke med andre."
+  },
+  "quickStart": {
+    "title": "Start timer",
+    "running": "Timeren kører allerede. Stop den i timerlinjen øverst, før du starter en ny.",
+    "paused": "Timeren er sat på pause. Genoptag eller gem den i timerlinjen øverst først.",
+    "resumeToast": "Timeren er startet og fortsætter seneste registrering",
+    "continueLast": "Fortsæt seneste",
+    "mostUsed": "Mest brugte",
+    "startedOn": "Timer startet på {name}",
+    "startOn": "Start timer på {name}",
+    "empty": "Dine mest brugte projekter dukker op her, når du har registreret lidt tid.",
+    "createProject": "Opret et projekt"
+  },
+  "signals": {
+    "label": "Kræver opmærksomhed",
+    "nudge": {
+      "first-invoice": "Lav din første faktura ud fra din tid",
+      "first-client": "Opret den kunde, klippekortet skal høre til",
+      "first-klippekort": "Opret dit første klippekort",
+      "invite-team": "Invitér en kollega"
+    },
+    "lowBalance": "{count, plural, one {1 klippekort er tæt på at løbe tør} other {# klippekort er tæt på at løbe tør}}",
+    "unbilled": "<b>{duration}</b> ufaktureret tid klar til faktura"
+  },
+  "today": {
+    "title": "I dag",
+    "ofExpected": "af {duration}",
+    "loadFailed": "Kunne ikke hente dagens registreringer. Prøv at genindlæse siden.",
+    "empty": "Ingen tid registreret i dag endnu. Skriv hvad du lavede ovenfor, eller start en timer.",
+    "internal": "Intern tid",
+    "resumeToast": "Timeren er startet og fortsætter registreringen",
+    "continueLabel": "Fortsæt {name}",
+    "continueFallback": "registrering",
+    "continueTitle": "Fortsæt med timer",
+    "allEntries": "Alle registreringer",
+    "fullForm": "Fuld formular"
+  },
+  "page": {
+    "title": "Hjem",
+    "overview": "Overblik"
+  }
+}

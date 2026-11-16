@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "God natt",
+    "morning": "God morgen",
+    "forenoon": "God formiddag",
+    "afternoon": "God ettermiddag",
+    "evening": "God kveld"
+  },
+  "duration": {
+    "hourUnit": "t",
+    "minUnit": "min"
+  },
+  "noName": "Uten navn",
+  "noDescription": "Ingen beskrivelse",
+  "prompt": {
+    "label": "Hva har du jobbet med?",
+    "placeholder": "f.eks. 2 timer på nettstedet til Jensen i går",
+    "interpret": "Tolk",
+    "listening": "Lytter…",
+    "hintAvailable": "Skriv eller dikter, og trykk Enter. Tale behandles lokalt i nettleseren din, og lyden sendes ikke noe sted.",
+    "hintDownloadable": "Skriv og trykk Enter.",
+    "downloading": "Laster ned talegjenkjenning…",
+    "install": "Last ned talegjenkjenning (ca. 60 MB, kjører lokalt)",
+    "hintDefault": "Skriv og trykk Enter, f.eks. «1,5 t møte med Acme kl. 9-10:30». På mobil kan du dikter med mikrofonen på tastaturet. Trykk <kbd>/</kbd> for å hoppe hit.",
+    "stopDictation": "Stopp diktering",
+    "dictate": "Dikter med mikrofonen",
+    "dictateTitle": "Dikter (lokal talegjenkjenning)",
+    "listeningSr": "Lytter",
+    "missingHint": "velg et forslag nedenfor, eller rett det i hele skjemaet.",
+    "descriptionLabel": "Beskrivelse",
+    "descriptionPlaceholder": "Hva gikk tiden til?",
+    "usePrepaid": "Trekk fra klippekortet {name} ({time} igjen)",
+    "saveWithHours": "Lagre {hours}",
+    "save": "Lagre",
+    "editInForm": "Rediger i skjemaet",
+    "cancel": "Avbryt",
+    "keysHint": "Enter lagrer · Esc avbryter",
+    "needDescription": "Skriv en kort beskrivelse før du lagrer.",
+    "internal": "Lagret som intern tid.",
+    "savedOffline": "Lagret offline. Tidsoppføringen sendes når tilkoblingen er tilbake.",
+    "registered": "{hours} registrert",
+    "saveFailed": "Kunne ikke lagre tidsoppføringen"
+  },
+  "welcome": {
+    "title": "Velkommen til {brand}",
+    "titleDone": "God start. Den første tidsoppføringen din er registrert",
+    "hide": "Skjul velkomsten",
+    "intro": "Kom i gang på under ett minutt: start en tidtaker nå, eller skriv hva du har jobbet med i feltet nedenfor, f.eks. «2 timer på nettstedet i går». Firmaopplysninger og plan kan du ordne senere.",
+    "timerStarted": "Tidtakeren går. Stopp den i tidtakerlinjen øverst når du er ferdig.",
+    "timerBusy": "Tidtakeren går allerede",
+    "startFirstTimer": "Start den første tidtakeren din",
+    "writeLine": "Skriv en linje i feltet",
+    "surveyQuestion": "Hva skal du hovedsakelig bruke {brand} til? <muted>(valgfritt)</muted>",
+    "primaryUse": {
+      "time": "Holde oversikt over tiden min",
+      "invoicing": "Fakturere kundene mine",
+      "klippekort": "Klippekort og forhåndsbetalte timer",
+      "team": "Følge teamets tid"
+    },
+    "thanksToast": "Takk for svaret",
+    "saveFailed": "Svaret kunne ikke lagres. Prøv igjen.",
+    "thanksNote": "Takk. Hjem viser nå de neste stegene som passer deg.",
+    "privacyNote": "Svaret brukes bare til å tilpasse Hjem og deles ikke med andre."
+  },
+  "quickStart": {
+    "title": "Start tidtaker",
+    "running": "Tidtakeren går allerede. Stopp den i tidtakerlinjen øverst før du starter en ny.",
+    "paused": "Tidtakeren er satt på pause. Gjenoppta eller lagre den i tidtakerlinjen øverst først.",
+    "resumeToast": "Tidtakeren er startet og fortsetter den siste oppføringen",
+    "continueLast": "Fortsett den siste",
+    "mostUsed": "Mest brukt",
+    "startedOn": "Tidtaker startet på {name}",
+    "startOn": "Start tidtaker på {name}",
+    "empty": "De mest brukte prosjektene dine vises her når du har registrert litt tid.",
+    "createProject": "Opprett et prosjekt"
+  },
+  "signals": {
+    "label": "Trenger oppmerksomhet",
+    "nudge": {
+      "first-invoice": "Opprett den første fakturaen din fra tiden din",
+      "first-client": "Opprett kunden klippekortet tilhører",
+      "first-klippekort": "Opprett det første klippekortet ditt",
+      "invite-team": "Inviter en kollega"
+    },
+    "lowBalance": "{count, plural, one {1 klippekort er i ferd med å gå tomt} other {# klippekort er i ferd med å gå tomme}}",
+    "unbilled": "<b>{duration}</b> ufakturert tid klar for en faktura"
+  },
+  "today": {
+    "title": "I dag",
+    "ofExpected": "av {duration}",
+    "loadFailed": "Kunne ikke laste oppføringene for i dag. Prøv å laste siden på nytt.",
+    "empty": "Ingen tid registrert i dag ennå. Skriv hva du har gjort ovenfor, eller start en tidtaker.",
+    "internal": "Intern tid",
+    "resumeToast": "Tidtakeren er startet og fortsetter oppføringen",
+    "continueLabel": "Fortsett {name}",
+    "continueFallback": "oppføring",
+    "continueTitle": "Fortsett med tidtaker",
+    "allEntries": "Alle oppføringer",
+    "fullForm": "Hele skjemaet"
+  },
+  "page": {
+    "title": "Hjem",
+    "overview": "Oversikt"
+  }
+}

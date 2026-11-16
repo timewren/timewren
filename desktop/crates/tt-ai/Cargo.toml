@@ -1,0 +1,52 @@
+[package]
+license = "AGPL-3.0-only"
+name = "tt-ai"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "AI-klassifikation af uklare aktivitetsblokke til kunde og projekt (lokal model, lokale servere, cloud som opt-in)"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+# Blokerende HTTP, samme klient som spiken. Kaldes fra GPUI's background executor,
+# så crate'en behøver ingen async-runtime.
+ureq.workspace = true
+sha2.workspace = true
+hex = "=0.4.3"
+# OS-nøglering (keyring v4-familien: kernen + én butik pr. platform).
+keyring-core = "=1.0.1"
+
+# Indbygget lokal model (llama.cpp). Kræver cmake + C/C++-toolchain, derfor bag feature.
+# "common" giver grammatik-sampleren. llama.cpp linkes statisk, så pakken får
+# ingen ekstra dylibs eller DLL'er at signere.
+# Ingen OpenMP på Windows: MSVC's runtime (vcomp140.dll) findes ikke på alle
+# maskiner, og ggml's egen trådpulje er næsten lige så hurtig.
+llama-cpp-2 = { version = "=0.1.160", default-features = false, features = ["common"], optional = true }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+apple-native-keyring-store = { version = "=1.0.2", features = ["keychain"] }
+
+# Metal på Apple silicon. Featuren er reelt en no-op (llama.cpp bygger altid
+# Metal på macOS); Intel-Macs får GGML_METAL=OFF i scripts/bundle-macos.sh og
+# kører modellen på CPU'en.
+[target.'cfg(all(target_os = "macos", target_arch = "aarch64"))'.dependencies]
+llama-cpp-2 = { version = "=0.1.160", default-features = false, features = ["common", "metal"], optional = true }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+windows-native-keyring-store = "=1.1.0"
+
+[dev-dependencies]
+tiny_http.workspace = true
+tempfile.workspace = true
+
+[features]
+default = []
+# Indbygget lokal LLM via llama.cpp. Metal på Apple silicon slås til via target-tabellen ovenfor.
+local-llm = ["dep:llama-cpp-2"]
+# GPU-backends til Windows/Linux (vælges ved release-build).
+local-llm-cuda = ["local-llm", "llama-cpp-2/cuda"]
+local-llm-vulkan = ["local-llm", "llama-cpp-2/vulkan"]
+# Kør den rigtige model i en test (kræver hentet model, se RAPPORT.md).
+model-smoke = ["local-llm"]

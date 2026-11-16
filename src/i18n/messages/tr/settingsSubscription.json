@@ -1,0 +1,197 @@
+{
+  "format": {
+    "shortDate": "d MMM yyyy",
+    "longDate": "d MMMM yyyy"
+  },
+  "header": {
+    "title": "Abonelik",
+    "description": "Plan, ödeme ve faturalandırma",
+    "adminOnly": "Aboneliği yalnızca sahipler ve yöneticiler değiştirebilir, koltuk satın alabilir ve ödemeleri görüntüleyebilir."
+  },
+  "states": {
+    "noBilling": "Bu kurulumda ödeme sağlayıcısı yok, bu yüzden tüm özellikler açık ve plan ya da sınır yok.",
+    "comingSoonTitle": "Ödeme yakında",
+    "comingSoon": "Ücretsiz plandasınız. Ücretli planlar yakında geliyor, o zamana kadar hiçbir ücret ödemezsiniz.",
+    "loading": "Abonelik yükleniyor…",
+    "none": "Abonelik bulunamadı. Bir plan seçerek başla.",
+    "choosePlan": "Plan seç",
+    "previousWebPayments": "Web üzerindeki önceki ödemeler",
+    "redirecting": "Yönlendiriliyor…"
+  },
+  "cycle": {
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "twoMonthsFree": "2 ay ücretsiz",
+    "perMonthExclVat": "/ay KDV hariç",
+    "perYearExclVat": "/yıl KDV hariç",
+    "krPerMonth": "{price} kr/ay",
+    "krPerYear": "{price} kr/yıl"
+  },
+  "status": {
+    "active": "Etkin",
+    "free": "Ücretsiz",
+    "trialing": "Deneme süresi",
+    "pastDue": "Ödeme gecikti",
+    "canceled": "İptal edildi"
+  },
+  "invoiceStatus": {
+    "paid": "Ödendi",
+    "open": "Açık",
+    "draft": "Taslak",
+    "void": "Geçersiz",
+    "uncollectible": "Başarısız",
+    "unknown": "Bilinmiyor"
+  },
+  "history": {
+    "title": "Ödeme geçmişi",
+    "columnDate": "Tarih",
+    "columnNumber": "Numara",
+    "columnAmount": "Tutar",
+    "columnStatus": "Durum",
+    "columnPdf": "PDF",
+    "empty": "Henüz ödeme yok. İlk ödemeni yaptığında ödeme geçmişin burada görünecek."
+  },
+  "toast": {
+    "planChangedYearly": "Plan yıllık olarak değiştirildi",
+    "planChangedMonthly": "Plan aylık olarak değiştirildi",
+    "canceled": "Abonelik iptal edildi. Dönem sonuna kadar etkin kalır.",
+    "reactivated": "Abonelik yeniden etkinleştirildi!",
+    "trialRequested": "İstek gönderildi! En kısa sürede sana döneceğiz.",
+    "trialRequestFailed": "İstek gönderilemedi. Lütfen tekrar dene.",
+    "paymentMethodAdded": "Ödeme yöntemi eklendi!",
+    "seatsUpdated": "Koltuklar güncellendi! Değişikliğin görünmesi biraz zaman alabilir.",
+    "paymentCanceled": "Ödeme iptal edildi"
+  },
+  "trial": {
+    "daysLeft": "{count, plural, one {Deneme süreni bitirmene # gün kaldı} other {Deneme süreni bitirmene # gün kaldı}}",
+    "startsAutomatically": "Aboneliğin deneme süresinden sonra otomatik olarak başlar",
+    "addPaymentToContinue": "Deneme süresinden sonra devam etmek için bir ödeme yöntemi ekle",
+    "needMoreTime": "Daha fazla zamana mı ihtiyacın var?",
+    "addPayment": "Ödeme ekle",
+    "checkoutNoteFounding": "Ödeme sayfası standart fiyatı gösterir. %{percent} kurucu üye indirimin ödemeden sonra otomatik uygulanır."
+  },
+  "pendingCancel": {
+    "expiresOn": "Aboneliğin {date} tarihinde sona erer",
+    "expiresUnknown": "Aboneliğin bilinmeyen bir tarihte sona erer",
+    "reactivateHint": "Bundan önce aboneliğini yeniden etkinleştirebilirsin",
+    "reactivating": "Yeniden etkinleştiriliyor…",
+    "reactivate": "Yeniden etkinleştir"
+  },
+  "plan": {
+    "current": "Mevcut plan",
+    "freeLimits": "En fazla {maxSeats} kullanıcı · {maxClients} etkin müşteriden {used} tanesi kullanımda. Daha fazla müşteri, kullanıcı, faturalandırma ve ön ödemeli paket için planını yükselt.",
+    "seatsIncluded": "{count, plural, one {# kullanıcı dahil} other {# kullanıcı dahil}}",
+    "seatsWithExtra": "{count, plural, one {# kullanıcı} other {# kullanıcı}} · {included} dahil + {extra} ek",
+    "foundingDiscount": "%{percent} kurucu üye indirimi",
+    "foundingDiscountForever": "%{percent} kurucu üye indirimi, süresiz",
+    "foundingDiscountExpires": "%{percent} kurucu üye indirimi, {date} tarihinde sona erer",
+    "trialEnds": "Deneme bitişi: {date}",
+    "nextBilling": "Sonraki faturalandırma: {date}"
+  },
+  "roi": {
+    "titleReturn": "{brand} ile getirin",
+    "titleActivity": "{brand} içindeki etkinliğin",
+    "spent": "{brand} için harcanan",
+    "freeSoFar": "Şimdiye kadar ücretsiz!",
+    "trackedValue": "Takip edilen zamanın değeri",
+    "invoicedTotal": "Toplam faturalanan",
+    "return": "Getiri"
+  },
+  "payment": {
+    "title": "Ödeme",
+    "portalDescription": "Ödeme yöntemini ve faturalarını ödeme portalından yönet.",
+    "manage": "Ödemeyi yönet",
+    "noMethod": "Henüz ödeme yöntemi eklenmedi",
+    "addMethod": "Ödeme yöntemi ekle",
+    "checkoutNoteFounding": "Ödeme sayfası standart fiyatı gösterir. %{percent} indirimin otomatik uygulanır."
+  },
+  "seats": {
+    "title": "Koltuklar",
+    "usage": "{total} koltuktan {used} tanesi kullanımda",
+    "pendingInvites": "{count, plural, one {# koltuk bekleyen davetlerle dolu} other {# koltuk bekleyen davetlerle dolu}}",
+    "reseatsReminder": "{count} ek koltuğunu {plan} fiyatıyla yeniden abone etmeyi unutma. Faturalandırmanın kapasiteninle eşleşmesi için aşağıdaki koltuk satın alımını tamamla.",
+    "extraLabel": "Ek koltuklar (dahil olan {included} koltuğun ötesinde)",
+    "fewer": "Daha az koltuk",
+    "more": "Daha fazla koltuk",
+    "price": "Fiyat",
+    "priceLine": "{count} × {unit} = {total} {suffix}",
+    "priceSuffixYearly": "kr/yıl KDV hariç",
+    "priceSuffixMonthly": "kr/ay KDV hariç",
+    "adjust": "Koltukları ayarla",
+    "buy": "Koltuk satın al",
+    "note": "Mevcut ek koltuk paketin yeni sayıyla değiştirilir. Yeni bir satın alma yaparsın ve eski paket otomatik iptal edilir. Planın toplamda en fazla {max} koltuğa izin verir."
+  },
+  "tiers": {
+    "privat": {
+      "tagline": "Bireyler için",
+      "feature1": "1 kullanıcı"
+    },
+    "solo": {
+      "tagline": "Serbest çalışanlar için",
+      "feature1": "1 kullanıcı, sınırsız müşteri",
+      "feature2": "Ön ödemeli paketler, faturalandırma ve entegrasyonlar",
+      "feature3": "Web, uygulama, uzantı ve masaüstü dahil"
+    },
+    "team": {
+      "tagline": "Küçük ekipler için",
+      "feature1": "{plan} içindeki her şey",
+      "feature2": "2 kullanıcı dahil",
+      "feature3": "Ortak müşteriler, projeler ve ön ödemeli paketler"
+    },
+    "business": {
+      "tagline": "İşletmeler için",
+      "feature1": "{plan} içindeki her şey",
+      "feature2": "5 kullanıcı dahil",
+      "feature3": "Esnek mesai, devamsızlık ve uyumluluk"
+    },
+    "usersIncluded": "{count} kullanıcı dahil"
+  },
+  "upgrade": {
+    "title": "Planını yükselt",
+    "blocked": "{plan} planına henüz otomatik taşınamayan {count, plural, one {# ek koltuğun} other {# ek koltuğun}} var. support@timetrack.dk adresinden bize ulaş, hiçbir koltuğunu kaybetmeden planını yükseltelim.",
+    "to": "{plan} planına yükselt",
+    "note": "Planı yükselttiğinde yeni bir satın alma yaparsın. Yenisi etkinleşince mevcut aboneliğin otomatik iptal edilir."
+  },
+  "choose": {
+    "title": "Planını seç",
+    "choosePlan": "{plan} seç",
+    "chooseAndPay": "Seç ve öde",
+    "note": "Dahil olanların ötesindeki ek kullanıcılar kayıttan sonra eklenir. Kurucu üye indirimi (etkinse) ödemeden sonra {plan} için otomatik uygulanır."
+  },
+  "discounts": {
+    "title": "Etkin indirimler",
+    "rangeBoth": "{from} - {to} arası",
+    "rangeOpenEnded": "{from} tarihinden itibaren, bitiş tarihi yok",
+    "rangeUntil": "{to} tarihine kadar",
+    "rangeNone": "Bitiş tarihi yok"
+  },
+  "metadata": {
+    "title": "Abonelik ayrıntıları",
+    "foundingTier": "Kurucu kademesi",
+    "billingCycle": "Faturalandırma dönemi",
+    "signupSource": "Kayıt kaynağı",
+    "couponCode": "İndirim kodu"
+  },
+  "upcoming": {
+    "title": "Yaklaşan ödemeler",
+    "columnPeriod": "Dönem",
+    "columnPlan": "Plan",
+    "columnAmount": "Tutar"
+  },
+  "switch": {
+    "title": "Planı değiştir",
+    "equivalent": "Aylık {price} kr'ye eşdeğer",
+    "toMonthly": "Aylığa geç",
+    "toYearly": "Yıllığa geç"
+  },
+  "cancel": {
+    "title": "Aboneliği iptal et",
+    "description": "Aboneliğin geçerli faturalandırma döneminin sonuna kadar etkin kalır.",
+    "areYouSure": "Emin misin?",
+    "activeUntil": "Aboneliğin {date} tarihine kadar etkin kalır. Sonrasında premium özelliklere erişimini kaybedersin.",
+    "activeUntilEnd": "Aboneliğin dönem sonuna kadar etkin kalır. Sonrasında premium özelliklere erişimini kaybedersin.",
+    "keep": "Aboneliği koru",
+    "confirm": "Evet, aboneliği iptal et",
+    "canceling": "İptal ediliyor…"
+  }
+}

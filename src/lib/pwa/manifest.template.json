@@ -1,0 +1,189 @@
+{
+  "name": "TimeTrack - Tid til det der tæller",
+  "short_name": "TimeTrack",
+  "description": "Tidsregistrering til selvstændige og små bureauer, med klippekort og fakturagrundlag til Billy, Dinero og e-conomic.",
+  "lang": "da",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1E5B47",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "business", "finance"],
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-dashboard.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "TimeTrack Dashboard - Overblik over klienter, projekter og tid"
+    },
+    {
+      "src": "/screenshots/desktop-time.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Tidsregistrering med klippekort og projektstyring"
+    },
+    {
+      "src": "/screenshots/mobile-dashboard.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "TimeTrack Dashboard på mobil"
+    },
+    {
+      "src": "/screenshots/mobile-time.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Tidsregistrering på mobil"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ny tidspostering",
+      "short_name": "Ny tid",
+      "description": "Start en ny tidspostering",
+      "url": "/dashboard/time/new",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Start timer",
+      "short_name": "Timer",
+      "description": "Start timeren",
+      "url": "/dashboard?action=start-timer",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Klienter",
+      "short_name": "Klienter",
+      "description": "Se dine klienter",
+      "url": "/dashboard/clients",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Projekter",
+      "short_name": "Projekter",
+      "description": "Se dine projekter",
+      "url": "/dashboard/projects",
+      "icons": [
+        {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/dashboard/time/new",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "description",
+      "text": "notes",
+      "url": "url",
+      "files": [
+        {
+          "name": "attachments",
+          "accept": [
+            "image/*",
+            "application/pdf",
+            ".doc",
+            ".docx",
+            ".xls",
+            ".xlsx",
+            ".txt"
+          ]
+        }
+      ]
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+timetrack",
+      "url": "/dashboard?action=%s"
+    }
+  ]
+}

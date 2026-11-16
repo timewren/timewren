@@ -1,0 +1,364 @@
+/*
+ * TimeTracks brand-tokens i extensionen (docs/BRAND.md, værdier fra
+ * docs/brand/tokens.json). --tt-* skifter med lys/mørk: klassen .dark/.light
+ * (indstillingen "Tema") og ellers systemets prefers-color-scheme.
+ *
+ * Utilities peger på variablerne (`@theme inline` + var()), så både
+ * bg-primary-600 og bg-[var(--color-surface-base)] følger temaet. Rå hex i
+ * komponenter skal undgås; brug tokens herfra.
+ */
+
+/* dark:-varianten følger samme regel som tokens: .dark, eller system-mørk
+   når brugeren ikke har valgt lys. */
+@custom-variant dark {
+  &:where(.dark, .dark *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not(.light), :root:not(.light) *) {
+      @slot;
+    }
+  }
+}
+
+:root {
+  color-scheme: light;
+  --tt-papir: #ffffff;
+  --tt-flade: #f2f3f0;
+  --tt-flade-hoej: #ffffff;
+  --tt-streg: #dfe2de;
+  --tt-kant: #8a918d;
+  --tt-blaek: #1a1d1c;
+  --tt-graa: #5f6663;
+  --tt-gran: #1e5b47;
+  --tt-gran-lys: #e2ede8;
+  --tt-gran-moerk: #164536;
+  --tt-paa-gran: #ffffff;
+  --tt-fokus: #1e5b47;
+  --tt-overlay: rgba(26, 29, 28, 0.5);
+
+  /* Brand-skalaen (tokens.json → brandScale) */
+  --tt-p-50: #effaf5;
+  --tt-p-100: #e2ede8;
+  --tt-p-200: #c2dfd3;
+  --tt-p-300: #9ac6b4;
+  --tt-p-400: #5fb38f;
+  --tt-p-500: #437e68;
+  --tt-p-600: #1e5b47;
+  --tt-p-700: #164536;
+  --tt-p-800: #053728;
+  --tt-p-900: #01251a;
+
+  /* Statusfarver (BRAND.md: beholdes i appen). Lys = Tailwinds standard. */
+  --tt-green-50: #f0fdf4;
+  --tt-green-100: #dcfce7;
+  --tt-green-200: #bbf7d0;
+  --tt-green-400: #4ade80;
+  --tt-green-500: #22c55e;
+  --tt-green-600: #16a34a;
+  --tt-green-700: #15803d;
+  --tt-amber-50: #fffbeb;
+  --tt-amber-100: #fef3c7;
+  --tt-amber-200: #fde68a;
+  --tt-amber-300: #fcd34d;
+  --tt-amber-400: #fbbf24;
+  --tt-amber-500: #f59e0b;
+  --tt-amber-600: #d97706;
+  --tt-amber-700: #b45309;
+  --tt-amber-800: #92400e;
+  --tt-red-50: #fef2f2;
+  --tt-red-100: #fee2e2;
+  --tt-red-200: #fecaca;
+  --tt-red-500: #ef4444;
+  --tt-red-600: #dc2626;
+  --tt-red-700: #b91c1c;
+  --tt-red-800: #991b1b;
+
+  /* Kalenderens kundefarver (utils/calendar-colors.ts): hver mindst 4,5:1
+     mod hvid. Bruges som venstrekant og svag tone, teksten er tokens. */
+  --tt-kal-1: #1d4ed8;
+  --tt-kal-2: #7e22ce;
+  --tt-kal-3: #be123c;
+  --tt-kal-4: #a16207;
+  --tt-kal-5: #c2410c;
+  --tt-kal-6: #be185d;
+  --tt-kal-7: #475569;
+  --tt-kal-8: #0369a1;
+  --tt-kal-tone: 14%;
+}
+
+/* Mørk: tokens.json → color.dark. Brand-skalaen vendes, så "lys flade"
+   (50-200) bliver mørk og tekst/knap (500-700) bliver lys granskov. */
+:root.dark {
+  color-scheme: dark;
+  --tt-papir: #0a0a0a;
+  --tt-flade: #151816;
+  --tt-flade-hoej: #1c201e;
+  --tt-streg: #2a2f2d;
+  --tt-kant: #6b736f;
+  --tt-blaek: #ecefed;
+  --tt-graa: #a3aba7;
+  --tt-gran: #5fb38f;
+  --tt-gran-lys: #18291f;
+  --tt-gran-moerk: #7fc4a6;
+  --tt-paa-gran: #0a0a0a;
+  --tt-fokus: #5fb38f;
+  --tt-overlay: rgba(0, 0, 0, 0.7);
+
+  --tt-p-50: #18291f;
+  --tt-p-100: #1d3328;
+  --tt-p-200: #2a4a3b;
+  --tt-p-300: #3d6b56;
+  --tt-p-400: #5fb38f;
+  --tt-p-500: #5fb38f;
+  --tt-p-600: #5fb38f;
+  --tt-p-700: #7fc4a6;
+  --tt-p-800: #9ac6b4;
+  --tt-p-900: #c2dfd3;
+
+  --tt-green-50: #0f2318;
+  --tt-green-100: #14301f;
+  --tt-green-200: #1d4a30;
+  --tt-green-400: #4ade80;
+  --tt-green-500: #22c55e;
+  --tt-green-600: #4ade80;
+  --tt-green-700: #86efac;
+  --tt-amber-50: #261c08;
+  --tt-amber-100: #33250a;
+  --tt-amber-200: #5c4210;
+  --tt-amber-300: #7a5714;
+  --tt-amber-400: #fbbf24;
+  --tt-amber-500: #f59e0b;
+  --tt-amber-600: #d97706;
+  --tt-amber-700: #fbbf24;
+  --tt-amber-800: #fcd34d;
+  --tt-red-50: #2a1111;
+  --tt-red-100: #3b1515;
+  --tt-red-200: #5c1d1d;
+  --tt-red-500: #ef4444;
+  --tt-red-600: #ef4444;
+  --tt-red-700: #f87171;
+  --tt-red-800: #fca5a5;
+
+  --tt-kal-1: #60a5fa;
+  --tt-kal-2: #c084fc;
+  --tt-kal-3: #fb7185;
+  --tt-kal-4: #facc15;
+  --tt-kal-5: #fb923c;
+  --tt-kal-6: #f472b6;
+  --tt-kal-7: #94a3b8;
+  --tt-kal-8: #38bdf8;
+  --tt-kal-tone: 18%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --tt-papir: #0a0a0a;
+    --tt-flade: #151816;
+    --tt-flade-hoej: #1c201e;
+    --tt-streg: #2a2f2d;
+    --tt-kant: #6b736f;
+    --tt-blaek: #ecefed;
+    --tt-graa: #a3aba7;
+    --tt-gran: #5fb38f;
+    --tt-gran-lys: #18291f;
+    --tt-gran-moerk: #7fc4a6;
+    --tt-paa-gran: #0a0a0a;
+    --tt-fokus: #5fb38f;
+    --tt-overlay: rgba(0, 0, 0, 0.7);
+
+    --tt-p-50: #18291f;
+    --tt-p-100: #1d3328;
+    --tt-p-200: #2a4a3b;
+    --tt-p-300: #3d6b56;
+    --tt-p-400: #5fb38f;
+    --tt-p-500: #5fb38f;
+    --tt-p-600: #5fb38f;
+    --tt-p-700: #7fc4a6;
+    --tt-p-800: #9ac6b4;
+    --tt-p-900: #c2dfd3;
+
+    --tt-green-50: #0f2318;
+    --tt-green-100: #14301f;
+    --tt-green-200: #1d4a30;
+    --tt-green-400: #4ade80;
+    --tt-green-500: #22c55e;
+    --tt-green-600: #4ade80;
+    --tt-green-700: #86efac;
+    --tt-amber-50: #261c08;
+    --tt-amber-100: #33250a;
+    --tt-amber-200: #5c4210;
+    --tt-amber-300: #7a5714;
+    --tt-amber-400: #fbbf24;
+    --tt-amber-500: #f59e0b;
+    --tt-amber-600: #d97706;
+    --tt-amber-700: #fbbf24;
+    --tt-amber-800: #fcd34d;
+    --tt-red-50: #2a1111;
+    --tt-red-100: #3b1515;
+    --tt-red-200: #5c1d1d;
+    --tt-red-500: #ef4444;
+    --tt-red-600: #ef4444;
+    --tt-red-700: #f87171;
+    --tt-red-800: #fca5a5;
+
+    --tt-kal-1: #60a5fa;
+    --tt-kal-2: #c084fc;
+    --tt-kal-3: #fb7185;
+    --tt-kal-4: #facc15;
+    --tt-kal-5: #fb923c;
+    --tt-kal-6: #f472b6;
+    --tt-kal-7: #94a3b8;
+    --tt-kal-8: #38bdf8;
+    --tt-kal-tone: 18%;
+  }
+}
+
+@theme inline {
+  --font-sans:
+    "Schibsted Grotesk Variable", "Schibsted Grotesk", Arial, sans-serif;
+
+  --color-primary-50: var(--tt-p-50);
+  --color-primary-100: var(--tt-p-100);
+  --color-primary-200: var(--tt-p-200);
+  --color-primary-300: var(--tt-p-300);
+  --color-primary-400: var(--tt-p-400);
+  --color-primary-500: var(--tt-p-500);
+  --color-primary-600: var(--tt-p-600);
+  --color-primary-700: var(--tt-p-700);
+  --color-primary-800: var(--tt-p-800);
+  --color-primary-900: var(--tt-p-900);
+
+  /* Semantiske navne, brugt overalt som bg-[var(--color-…)] */
+  --color-surface-base: var(--tt-papir);
+  --color-surface-elevated: var(--tt-flade-hoej);
+  --color-surface-sunken: var(--tt-flade);
+  --color-surface-overlay: var(--tt-overlay);
+
+  --color-border-default: var(--tt-streg);
+  --color-border-subtle: var(--tt-streg);
+  /* Inputs og sekundærknapper: mindst 3:1 (WCAG 1.4.11) */
+  --color-border-strong: var(--tt-kant);
+
+  --color-text-primary: var(--tt-blaek);
+  --color-text-secondary: var(--tt-graa);
+  --color-text-tertiary: var(--tt-graa);
+  /* Tidligere #9ca3af (2,5:1). Nu graa, så også dæmpet tekst holder AA. */
+  --color-text-muted: var(--tt-graa);
+
+  --color-on-primary: var(--tt-paa-gran);
+  --color-fokus: var(--tt-fokus);
+
+  --color-success: var(--tt-gran);
+  /* Flader og ikoner. Som tekst består amber-600 ikke AA (3,2:1), så tekst
+     bruger --color-warning-text (amber-700, i mørk amber-400). */
+  --color-warning: var(--tt-amber-600);
+  --color-warning-text: var(--tt-amber-700);
+  --color-danger: var(--tt-red-600);
+
+  --color-green-50: var(--tt-green-50);
+  --color-green-100: var(--tt-green-100);
+  --color-green-200: var(--tt-green-200);
+  --color-green-400: var(--tt-green-400);
+  --color-green-500: var(--tt-green-500);
+  --color-green-600: var(--tt-green-600);
+  --color-green-700: var(--tt-green-700);
+  --color-amber-50: var(--tt-amber-50);
+  --color-amber-100: var(--tt-amber-100);
+  --color-amber-200: var(--tt-amber-200);
+  --color-amber-300: var(--tt-amber-300);
+  --color-amber-400: var(--tt-amber-400);
+  --color-amber-500: var(--tt-amber-500);
+  --color-amber-600: var(--tt-amber-600);
+  --color-amber-700: var(--tt-amber-700);
+  --color-amber-800: var(--tt-amber-800);
+  --color-red-50: var(--tt-red-50);
+  --color-red-100: var(--tt-red-100);
+  --color-red-200: var(--tt-red-200);
+  --color-red-500: var(--tt-red-500);
+  --color-red-600: var(--tt-red-600);
+  --color-red-700: var(--tt-red-700);
+  --color-red-800: var(--tt-red-800);
+}
+
+/* Logo: lys udgave som standard, mørk udgave når temaet er mørkt
+   (BRAND.md: tt-ikon-moerk.svg på mørk baggrund). */
+.tt-logo-moerk {
+  display: none;
+}
+:root.dark .tt-logo-lys {
+  display: none;
+}
+:root.dark .tt-logo-moerk {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .tt-logo-lys {
+    display: none;
+  }
+  :root:not(.light) .tt-logo-moerk {
+    display: block;
+  }
+}
+
+/* I base-laget, så utilities som cursor-not-allowed stadig vinder */
+@layer base {
+  /* Checkboxe og radioknapper i brandfarven (følger temaet via --tt-gran) */
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="range"] {
+    accent-color: var(--tt-gran);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  select:not(:disabled),
+  label:has(> input:not(:disabled)) {
+    cursor: pointer;
+  }
+}
+
+/* Fælles stil for alle <select> (BRAND.md: inputs 8 px radius og kant med
+   mindst 3:1). I components-laget, så fx w-full og text-xs kan lægges på. */
+@layer components {
+  .tt-select {
+    min-height: 2rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-base);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    transition: border-color 150ms;
+  }
+  .tt-select:hover:not(:disabled) {
+    border-color: var(--color-text-secondary);
+  }
+  .tt-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* Kalenderblok: neutral flade med kundens farve som kant og svag tone.
+   --kal sættes inline (clientColorVar). */
+.tt-kal-blok {
+  background-color: color-mix(
+    in srgb,
+    var(--kal) var(--tt-kal-tone),
+    var(--color-surface-base)
+  );
+  border-left: 3px solid var(--kal);
+  color: var(--color-text-primary);
+}
+.tt-kal-greb {
+  background-color: color-mix(in srgb, var(--kal) 40%, transparent);
+}
+
+/* Fokus: 2 px granskov med 2 px luft, altid synlig ved tastatur */
+:focus-visible {
+  outline: 2px solid var(--tt-fokus);
+  outline-offset: 2px;
+}

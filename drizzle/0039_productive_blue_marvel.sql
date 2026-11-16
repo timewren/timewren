@@ -1,0 +1,1 @@
+ALTER TABLE "notification_channels" ADD COLUMN "active_days" integer[] DEFAULT '{0,1,2,3,4,5,6}' NOT NULL;

@@ -1,0 +1,32 @@
+{
+  "history": {
+    "title": "Histórico de taxas",
+    "empty": "Ainda não há alterações de taxa. As alterações à taxa horária ficam registadas aqui",
+    "effectiveFrom": "Em vigor desde {date}",
+    "planned": "Agendada",
+    "noRate": "Sem taxa",
+    "typeGlobal": "Global",
+    "typeClient": "Cliente",
+    "typeProject": "Projeto"
+  },
+  "schedule": {
+    "toastScheduled": "Nova taxa horária agendada a partir de {date}",
+    "restamped": "{count, plural, =0 {Nenhum registo existente precisou da nova taxa horária} one {# registo por faturar recebeu a nova taxa horária} other {# registos por faturar receberam a nova taxa horária}}",
+    "scheduleFailed": "Não foi possível agendar a taxa horária",
+    "cancelled": "Taxa horária agendada cancelada",
+    "cancelledRestamped": "{count, plural, one {# registo voltou à taxa horária anterior} other {# registos voltaram à taxa horária anterior}}",
+    "cancelFailed": "Não foi possível cancelar",
+    "invalidRate": "Introduz uma taxa horária válida",
+    "missingDate": "Escolhe a data a partir da qual a taxa se aplica",
+    "title": "Agendar uma nova taxa horária",
+    "current": "Agora: {rate} kr/hora",
+    "rateLabel": "Nova taxa horária (kr)",
+    "dateLabel": "Em vigor desde",
+    "submit": "Agendar",
+    "help": "O tempo com data igual ou posterior à data indicada fica com a nova taxa, mesmo que seja registado mais tarde. O tempo anterior à data mantém a taxa antiga. Os registos por faturar a partir dessa data são atualizados de imediato.",
+    "ratePerHour": "{rate} kr/hora",
+    "fromDate": "desde {date}",
+    "takesEffectTonight": "entra em vigor esta noite",
+    "cancel": "Cancelar"
+  }
+}

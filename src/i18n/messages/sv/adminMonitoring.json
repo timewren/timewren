@@ -1,0 +1,132 @@
+{
+  "page": {
+    "title": "Övervakning",
+    "healthy": "{score} % friska",
+    "cronDashboard": "Cron-översikt",
+    "sections": {
+      "health": "Systemhälsa",
+      "cron": "Cron-jobb",
+      "email": "E-postleverans"
+    },
+    "tiles": {
+      "activeSessions": "Aktiva sessioner",
+      "sessions24h": "Sessioner senaste 24 timmarna",
+      "activeTimers": "Aktiva timers",
+      "emailsSent7d": "Skickade e-postmeddelanden (7 d)"
+    },
+    "cronHealth": {
+      "title": "Cron-jobbens hälsa (7 dagar)",
+      "runs": "Körningar",
+      "ok": "ok",
+      "errors": "fel",
+      "avgDuration": "Genomsnittlig varaktighet",
+      "lastRun": "Senaste körning"
+    },
+    "errors": {
+      "title": "Fel (senaste 7 dagarna)",
+      "count": "{count}x"
+    },
+    "cron": {
+      "allJobs": "Alla jobb",
+      "allStatuses": "Alla statusar",
+      "filter": {
+        "success": "Lyckades",
+        "error": "Fel",
+        "partial": "Delvis"
+      },
+      "status": {
+        "success": "lyckades",
+        "error": "fel",
+        "partial": "delvis"
+      },
+      "empty": "Inga loggar för cron-jobb hittades",
+      "columns": {
+        "job": "Jobb",
+        "status": "Status",
+        "started": "Startade",
+        "duration": "Varaktighet",
+        "items": "Poster",
+        "errors": "Fel"
+      }
+    },
+    "showing": "Visar {from}-{to} av {total}",
+    "previous": "Föregående",
+    "next": "Nästa",
+    "email": {
+      "sent": "Skickade",
+      "delivered": "Levererade",
+      "bounced": "Studsade",
+      "failed": "Misslyckade",
+      "status": {
+        "sent": "skickad",
+        "delivered": "levererad",
+        "bounced": "studsade",
+        "failed": "misslyckades"
+      },
+      "last24h": "Senaste 24 timmarna",
+      "last7d": "Senaste 7 dagarna",
+      "last30d": "Senaste 30 dagarna",
+      "last90d": "Senaste 90 dagarna",
+      "allTemplates": "Alla mallar",
+      "empty": "Inga e-postloggar hittades",
+      "columns": {
+        "recipient": "Mottagare",
+        "subject": "Ämne",
+        "template": "Mall",
+        "status": "Status",
+        "sentAt": "Skickad"
+      }
+    }
+  },
+  "cron": {
+    "title": "Cron-jobb",
+    "refresh": "Uppdatera",
+    "never": "Aldrig",
+    "badge": {
+      "neverRun": "Aldrig körd",
+      "silent": "Tyst",
+      "error": "Fel",
+      "partial": "Delvis",
+      "running": "Pågår",
+      "ok": "OK"
+    },
+    "runStatus": {
+      "success": "lyckades",
+      "error": "fel",
+      "partial": "delvis"
+    },
+    "noRows": "Inga loggrader hittades",
+    "runColumns": {
+      "status": "Status",
+      "started": "Startade",
+      "duration": "Varaktighet",
+      "items": "Poster",
+      "errorMessage": "Felmeddelande"
+    },
+    "tiles": {
+      "expected": "Förväntade jobb",
+      "silent": "Tysta jobb",
+      "withErrors": "Jobb med fel (24 h)",
+      "totalRuns": "Körningar totalt (24 h)"
+    },
+    "columns": {
+      "status": "Status",
+      "job": "Jobb",
+      "cadence": "Intervall",
+      "lastRun": "Senaste körning",
+      "runs24h": "Körningar 24 h",
+      "errors24h": "Fel 24 h",
+      "avgDuration": "Genomsnittlig varaktighet"
+    },
+    "lastError": "Senaste fel:",
+    "cadence": {
+      "everyMinutes": "var {minutes} min",
+      "hourly": "varje timme",
+      "everyHours": "var {hours} h",
+      "daily": "dagligen",
+      "weekly": "varje vecka",
+      "monthly": "varje månad",
+      "everyDays": "var {days} d"
+    }
+  }
+}

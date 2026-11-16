@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "期限超過のタスク{count, plural, other {#件}}",
+    "needsAttention": "要確認",
+    "lowBalance": "残高が少ない前払いパッケージ{count, plural, other {#件}}",
+    "lowBalanceSub": "残高わずか",
+    "expiring": "まもなく期限切れの前払いパッケージ{count, plural, other {#件}}",
+    "expiringSub": "14日以内",
+    "unbilled": "未請求 {amount}",
+    "unbilledSub": "請求可能",
+    "title": "対応が必要です"
+  },
+  "appDrawer": {
+    "apps": "アプリ",
+    "heading": "{brand}アプリ",
+    "downloadFor": "{os}{version}版をダウンロード · ベータ",
+    "seeDownloads": "設定でダウンロードを確認",
+    "downloadComing": "ダウンロードは準備中です。設定をご確認ください",
+    "chromeExtension": "Chrome拡張機能",
+    "chromeExtensionHint": "ブラウザから時間を記録",
+    "installApp": "アプリとしてインストール",
+    "installAppHint": "{brand}をデスクトップに追加",
+    "alreadyInstalled": "インストール済み",
+    "addToHome": "ホーム画面またはデスクトップに追加"
+  },
+  "demo": {
+    "clearedKept": "サンプルデータを削除しました。{kept, plural, other {デモのクライアント#件}}はすでに使用されていた（たとえば請求済みの）ため、通常のクライアントとして残しています。",
+    "cleared": "サンプルデータを削除しました。アカウントはあなたのものです。",
+    "nothingToClear": "削除するサンプルデータはありませんでした。",
+    "clearFailed": "サンプルデータを削除できませんでした",
+    "banner": "<strong>現在はサンプルデータを表示しています。</strong>クライアント、時間、前払いパッケージは、{brand}を実際に使うイメージをつかむための架空のものです。ご自身のデータで始める準備ができたら削除してください。",
+    "confirm": "サンプルデータを削除しますか？デモのクライアントと、そのサンプルのプロジェクト、時間、前払いパッケージが削除されます。ご自身で作成したもの（請求書や自分の時間など）は残ります。",
+    "clearButton": "デモデータを削除"
+  },
+  "desktopCard": {
+    "beta": "ベータ",
+    "withDownloads": "MacとWindows向けのデスクトップアプリ{version}です。ベータ版のため、不具合がある場合があります。",
+    "version": "、バージョン{version}",
+    "withoutDownloads": "デスクトップアプリはベータ版です。{brand}が最新バージョンを取得できるようになると、ここにダウンロードリンクが表示されます。",
+    "hide": "非表示",
+    "reportHint": "不具合に遭遇しましたか？アプリ内の「不具合や機能の要望を報告」をご利用ください。"
+  },
+  "trial": {
+    "step": {
+      "hasClient": "最初のクライアントを作成",
+      "hasTimeEntry": "最初の1時間を記録",
+      "hasKlippekort": "前払いパッケージを作成",
+      "hasInvoice": "最初の請求書を作成"
+    },
+    "daysLeft": "無料トライアルの残り{count, plural, other {#日}}",
+    "addPayment": "支払い方法を追加",
+    "gettingStarted": "はじめに（{done}/{total}）",
+    "hide": "非表示",
+    "progressLabel": "はじめにの進捗",
+    "createAccount": "アカウントを作成"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "クライアントのリスク",
+      "daysAgo": "{days}日前",
+      "allActive": "すべてのクライアントに過去60日以内の動きがあります ✓",
+      "seeAll": "すべて表示",
+      "count": "60日以上動きのないクライアント{count, plural, other {#件}}",
+      "lastActive": "最終アクティビティ：{date}",
+      "revenue6m": "{amount}（6か月）",
+      "hoursLeft": "残り{hours}時間",
+      "openClient": "クライアントを開く",
+      "sendCheckIn": "確認のメールを送る",
+      "checkInSubject": "ご状況の確認",
+      "more": "ほか{count}件のリスクのあるクライアント"
+    },
+    "calendarSync": {
+      "title": "カレンダーと記録の比較",
+      "seeCalendar": "カレンダーを表示",
+      "captureRate": "記録率",
+      "eventsTracked": "{total}件中{tracked}件の予定を記録済み",
+      "calendar": "カレンダー",
+      "tracked": "記録済み",
+      "gap": "カレンダー上の{hours}時間が未記録です",
+      "perProject": "プロジェクト別",
+      "moreProjects": "ほか{count}件"
+    },
+    "cashflow": {
+      "title": "キャッシュフロー予測",
+      "seeUnpaid": "未払いを表示",
+      "empty": "未払いの請求書も有効な前払いパッケージもありません",
+      "emptyHint": "請求書を送信すると、キャッシュフロー予測が表示されます",
+      "seeAllUnpaid": "未払いをすべて表示",
+      "overdueInvoices": "期限超過の請求書{count, plural, other {#件}}：",
+      "overdue": "期限超過：",
+      "week": "第{number}週",
+      "estimated": "（見込み）",
+      "prepaidTag": "（前払いパッケージ）",
+      "expected30": "今後30日間の見込み"
+    },
+    "coverage": {
+      "title": "稼働率",
+      "details": "詳細を表示",
+      "period": "期間",
+      "loadFailed": "稼働率を読み込めませんでした",
+      "noTime": "この期間に記録された時間はまだありません。",
+      "trackTime": "時間を記録",
+      "billable": "請求対象",
+      "nonBillable": "請求対象外",
+      "ratio": "請求した1時間あたり、請求対象外は<b>{ratio}</b>",
+      "clientCol": "クライアント",
+      "splitCol": "請求対象 / 対象外"
+    },
+    "dailyHours": {
+      "title": "日別の時間",
+      "details": "詳細を表示",
+      "avg": "1日平均：",
+      "total": "合計：",
+      "hoursShort": "{value}時間",
+      "day": {
+        "0": "日",
+        "1": "月",
+        "2": "火",
+        "3": "水",
+        "4": "木",
+        "5": "金",
+        "6": "土"
+      }
+    },
+    "emailSync": {
+      "title": "メール同期",
+      "started": "同期を開始しました",
+      "startFailed": "同期を開始できませんでした",
+      "never": "なし",
+      "now": "たった今",
+      "minutes": "{value}分",
+      "hours": "{value}時間",
+      "days": "{value}日",
+      "startNow": "今すぐ同期",
+      "statusOk": "正常",
+      "statusUnstable": "不安定",
+      "statusError": "エラー",
+      "emails": "メール",
+      "tasks": "タスク",
+      "clients": "クライアント",
+      "analytics": "分析を表示 →"
+    },
+    "emailTasks": {
+      "title": "メールからのタスク",
+      "review": "確認",
+      "noClient": "クライアントなし",
+      "empty": "メールからのタスクはまだありません。"
+    },
+    "expiringPackages": {
+      "title": "期限が近い前払いパッケージ",
+      "seeAll": "すべて表示",
+      "none": "まもなく期限切れになる前払いパッケージはありません",
+      "noneHint": "30日以内に期限切れになる前払いパッケージがここに表示されます",
+      "expiredAgo": "{count, plural, other {#日}}前に期限切れ",
+      "expired": "期限切れ",
+      "today": "今日",
+      "days": "{count, plural, other {#日}}",
+      "hoursLeft": "残り時間",
+      "value": "金額",
+      "expires": "{date}に期限切れ",
+      "more": "ほか{count}件の前払いパッケージ",
+      "urgent": "7日以内に期限切れになる前払いパッケージがあります。更新についてクライアントにご連絡ください。"
+    },
+    "flexBalance": {
+      "title": "フレックス残高",
+      "hours": "{value}時間",
+      "entries": "{count}件の記録"
+    },
+    "flexNorm": {
+      "title": "フレックス残高",
+      "loadFailed": "残高を読み込めませんでした。",
+      "noProfile": "この組織に従業員プロフィールがありません。",
+      "unit": "時間",
+      "carryIn": "うち繰越：{value}時間",
+      "week": "週",
+      "month": "月",
+      "period": "期間",
+      "summary": "現時点の所定{net}時間のうち{registered}時間を記録 · 期間の所定時間 {periodNet}時間",
+      "seeAccount": "フレックス口座を表示"
+    },
+    "hoursComparison": {
+      "title": "週の比較",
+      "details": "詳細を表示",
+      "none": "記録された時間はありません",
+      "thisWeek": "今週",
+      "lastWeek": "先週",
+      "format": "hh:mm",
+      "increase": "増加",
+      "decrease": "減少",
+      "vsLastWeek": "先週との比較"
+    },
+    "invoiceOverview": {
+      "title": "請求書の概要",
+      "seeInvoices": "請求書を表示",
+      "totalInvoiced": "請求合計",
+      "draft": "下書き",
+      "sent": "送信済み",
+      "paid": "支払い済み",
+      "overdue": "期限超過"
+    },
+    "lowBalance": {
+      "title": "残高が少ない前払いパッケージ",
+      "loadFailed": "前払いパッケージを読み込めませんでした",
+      "none": "残高が少ない前払いパッケージはありません",
+      "seeAll": "すべて表示",
+      "intro": "残高わずか",
+      "noClient": "クライアントなし",
+      "left": "残り{time}",
+      "more": "ほか{count}件"
+    },
+    "monthComparison": {
+      "title": "月の比較",
+      "seeReports": "レポートを表示",
+      "vs": "対",
+      "vsValue": "対 {value}",
+      "hours": "時間",
+      "hoursValue": "{value}時間",
+      "revenue": "売上",
+      "entries": "時間記録"
+    },
+    "overdueTasks": {
+      "title": "期限超過のタスク",
+      "none": "期限を過ぎたタスクはありません ✓",
+      "seeAll": "すべて表示",
+      "count": "{count, plural, other {#件}}のタスク",
+      "noProject": "プロジェクトなし",
+      "deadline": "期限：{date}",
+      "more": "ほか{count}件"
+    },
+    "pendingApprovals": {
+      "title": "承認待ち",
+      "requestOne": "件のリクエスト",
+      "requestOther": "件のリクエスト"
+    },
+    "prepaidStatus": {
+      "title": "前払いパッケージの状況",
+      "allGood": "すべて問題ありません",
+      "seeAll": "すべて表示",
+      "lowBalance": "残高わずか",
+      "noClient": "クライアントなし",
+      "left": "残り{time}",
+      "more": "ほか{count}件",
+      "expiringSoon": "まもなく期限切れ（30日以内）",
+      "expired": "期限切れ",
+      "today": "今日",
+      "days": "{count, plural, other {#日}}"
+    },
+    "productivity": {
+      "title": "週を通した生産性",
+      "details": "詳細を表示",
+      "noData": "生産性のデータはまだありません",
+      "streak": "現在の連続記録",
+      "streakDays": "日連続",
+      "weeklyAvg": "週平均",
+      "perWeek": "週あたり",
+      "last8": "直近8週間",
+      "less": "少ない",
+      "more": "多い",
+      "msgHigh": "すばらしい！7日以上連続で作業しています。この調子で続けましょう。",
+      "msgMid": "いい調子です！この勢いを保ちましょう。",
+      "msgLow": "順調なスタートです！しっかりした作業リズムをつくりましょう。",
+      "streakDay": "日連続"
+    },
+    "profitability": {
+      "title": "実質時間単価",
+      "rate": "{rate} kr/時間",
+      "hours": "{hours}時間",
+      "loadFailed": "データを読み込めませんでした",
+      "noBilled": "今月請求した時間はありません",
+      "createInvoice": "請求書を作成",
+      "details": "詳細",
+      "agreedRate": "合意した時間単価",
+      "realRate": "実質時間単価",
+      "vsAgreed": "合意額比 {percent}%",
+      "billableAvg": "請求対象の平均",
+      "footer": "合計{total} · 請求対象{billable}",
+      "footerInvoiced": "合計{total} · 請求対象{billable} · 請求済み{invoiced}"
+    },
+    "projectHealth": {
+      "title": "プロジェクトの健全性",
+      "seeAll": "すべて表示",
+      "alertsHeading": "予算の警告",
+      "severity": {
+        "exceeded": "超過",
+        "critical": "危険",
+        "warning": "警告"
+      },
+      "hoursUsed": "{budget}時間中{used}時間を使用",
+      "budgetAmount": "予算 {amount} kr",
+      "moreAlerts": "ほか{count}件の警告",
+      "noBudgets": "予算のあるプロジェクトはありません",
+      "createProject": "プロジェクトを作成",
+      "onTrack": "順調なプロジェクト{count, plural, other {#件}}",
+      "moreProjects": "ほか{count}件のプロジェクト"
+    },
+    "quickActions": {
+      "title": "クイック操作",
+      "created": "時間記録を作成しました",
+      "createFailed": "時間記録を作成できませんでした",
+      "fillAll": "すべての項目を正しく入力してください",
+      "addClient": "クライアントを追加",
+      "newProject": "新しいプロジェクト",
+      "startTimer": "タイマーを開始",
+      "createInvoice": "請求書を作成",
+      "quickEntry": "かんたん時間記録",
+      "draftSaved": "下書きを保存しました",
+      "restoreDraft": "保存した下書きを復元",
+      "restore": "復元",
+      "projectPlaceholder": "プロジェクトを選択",
+      "descriptionPlaceholder": "何に取り組みましたか？",
+      "hoursPlaceholder": "時間",
+      "saving": "保存中…",
+      "save": "保存"
+    },
+    "recentActivity": {
+      "title": "最近のアクティビティ",
+      "none": "アクティビティはまだありません",
+      "seeAll": "すべて表示",
+      "now": "たった今",
+      "minutesAgo": "{count}分前",
+      "hoursAgo": "{count, plural, other {#時間}}前",
+      "daysAgo": "{count, plural, other {#日}}前"
+    },
+    "revenueByClient": {
+      "title": "クライアント別の売上",
+      "seeReports": "レポートを表示",
+      "loadFailed": "売上を読み込めませんでした",
+      "none": "今月の売上はありません"
+    },
+    "revenueForecast": {
+      "title": "売上予測",
+      "seeReports": "レポートを表示",
+      "none": "売上データはまだありません",
+      "expected": "今月の見込み",
+      "amountKr": "{amount} kr",
+      "basedOn": "{total}日中{day}日目までの実績に基づく",
+      "sixMonthAvg": "6か月平均"
+    },
+    "rounding": {
+      "title": "端数処理ボーナス",
+      "inactive": "端数処理は有効になっていません。時間を切り上げて収入を増やしましょう。",
+      "enable": "端数処理を有効にする",
+      "settings": "設定",
+      "thisMonth": "今月",
+      "extra": "端数処理による追加収入",
+      "thisYear": "今年の合計"
+    },
+    "stats": {
+      "activeClients": "アクティブなクライアント",
+      "activeProjects": "アクティブなプロジェクト",
+      "hoursThisMonth": "今月の時間",
+      "revenueThisMonth": "今月の売上"
+    },
+    "topClients": {
+      "title": "上位クライアント",
+      "loadFailed": "データを読み込めませんでした",
+      "none": "クライアントのデータはまだありません",
+      "seeAll": "すべて表示",
+      "rankedBy": "時間数順"
+    },
+    "unbilled": {
+      "title": "未請求の時間",
+      "loadFailed": "データを読み込めませんでした",
+      "none": "未請求の時間はありません",
+      "seeAll": "すべて表示",
+      "entries": "時間記録{count, plural, other {#件}}",
+      "totalHours": "合計時間",
+      "estimatedValue": "見込み金額"
+    },
+    "absences": {
+      "title": "今後の不在",
+      "loading": "読み込み中…",
+      "none": "承認済みの不在予定はありません",
+      "employee": "従業員",
+      "absence": "不在",
+      "from": "{date}から"
+    },
+    "deadlines": {
+      "title": "重要な日付",
+      "overdue": "期限超過",
+      "today": "今日",
+      "days": "{count, plural, other {#日}}",
+      "needsSetup": "重要な日付を表示するには、会社の形態を設定してください",
+      "setUpNow": "今すぐ設定",
+      "none": "180日以内に期限はありません",
+      "editSettings": "会社情報の設定を編集"
+    },
+    "upcomingTasks": {
+      "title": "今後のタスク",
+      "none": "今後のタスクはありません",
+      "seeAll": "すべて表示",
+      "within7": "7日以内",
+      "noProject": "プロジェクトなし",
+      "deadline": "期限：{date}",
+      "more": "ほか{count}件"
+    },
+    "vacation": {
+      "title": "休暇の残高",
+      "daysLeftIn": "{label}の残り日数",
+      "daysLeft": "日残り"
+    },
+    "vat": {
+      "titleMonthly": "今月のVAT",
+      "titleQuarterly": "今期のVAT",
+      "titleSemiAnnual": "今半期のVAT",
+      "title": "VAT",
+      "exempt": "VAT課税対象外として登録されています",
+      "changeInSettings": "設定で変更",
+      "createFirst": "最初の請求書を作成すると、VATの見込みが表示されます",
+      "createInvoice": "請求書を作成",
+      "invoices": "請求書",
+      "toSettle": "納付するVAT",
+      "percentOf": "請求額{amount}の25%",
+      "nextDeadline": "次の期限",
+      "inDays": "（{count, plural, other {#日}}後）",
+      "overdue": "（期限超過）",
+      "ytd": "今年の合計",
+      "setAside": "<b>{amount}</b>を別の口座に取り分けておきましょう"
+    },
+    "weeklyGoal": {
+      "title": "週の目標",
+      "loadFailed": "週の目標を読み込めませんでした",
+      "trackTime": "時間を記録",
+      "reached": "目標達成！",
+      "onTrack": "順調",
+      "behind": "遅れ",
+      "remaining": "残り<b>{time}</b>",
+      "perDay": "{count, plural, other {#日}}間、1日{time}"
+    }
+  }
+}

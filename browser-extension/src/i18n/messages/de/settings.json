@@ -1,0 +1,109 @@
+{
+  "title": "Einstellungen",
+  "close": "Einstellungen schließen",
+  "searchPlaceholder": "Einstellungen durchsuchen…",
+  "searchLabel": "Einstellungen durchsuchen",
+  "noMatch": "Keine Einstellungen passen zu „{query}“",
+  "keywords": {
+    "view": "ansicht|anzeige|vorschlag|site|websites|stundenpaket|paket|prepaid|popup",
+    "appearance": "aussehen|design|theme|dunkel|hell|badge|symbol|sprache",
+    "newTab": "neuer tab|tab|startseite|widgets",
+    "calendar": "kalender|tag|datum",
+    "goal": "tagesziel|ziel|stundenziel|fortschritt",
+    "reminder": "erinnerung|benachrichtigung|wochenende|eintrag|erfassung",
+    "data": "daten|löschen|zurücksetzen|reset|offline|zuordnungen|verknüpfungen|website|warteschlange",
+    "advanced": "erweitert|api|url|server|advanced",
+    "shortcuts": "tastenkürzel|kürzel|tastatur|shortcut|alt",
+    "about": "über die erweiterung|erweiterung|about|version|bewerten|bewertung|hilfe"
+  },
+  "view": {
+    "title": "Ansicht",
+    "suggestions": "Vorschläge anhand der Website",
+    "suggestionsHint": "Ein Projekt anhand der aktuellen Website vorschlagen",
+    "prepaidTab": "Stundenpakete-Tab",
+    "prepaidTabHint": "Den Tab mit aktiven Stundenpaketen im Popup anzeigen"
+  },
+  "appearance": {
+    "title": "Aussehen",
+    "theme": "Design",
+    "themeHint": "Farbdesign der Erweiterung",
+    "system": "System folgen",
+    "dark": "Dunkel",
+    "light": "Hell",
+    "badge": "Zahl auf dem Symbol",
+    "badgeHint": "Was die Zahl auf dem Symbol der Erweiterung anzeigt",
+    "badgeTimer": "Aktiver Timer",
+    "badgeToday": "Heutige Stunden",
+    "badgeOff": "Ausgeblendet",
+    "language": "Sprache",
+    "languageHint": "Sprache der Erweiterung",
+    "languageAuto": "Automatisch (Browser folgen)"
+  },
+  "newTab": {
+    "title": "Neuer Tab",
+    "enable": "TimeTrack in neuen Tabs öffnen",
+    "enableHint": "Ausschalten, um normale, leere Tabs zu behalten",
+    "widgetsHint": "Widgets in den Einstellungen im neuen Tab auswählen",
+    "activeWidgets": "Aktive Widgets: {count}"
+  },
+  "calendar": {
+    "title": "Kalender",
+    "openOn": "Kalender öffnen mit",
+    "openOnHint": "Welchen Tag der Kalender beim Öffnen anzeigt",
+    "today": "Heute",
+    "lastViewed": "Zuletzt angezeigter Tag"
+  },
+  "goal": {
+    "title": "Tagesziel",
+    "hours": "Tägliches Stundenziel",
+    "hoursHint": "Wird in der Tagesfortschrittsleiste im Popup und im neuen Tab verwendet"
+  },
+  "reminder": {
+    "title": "Tägliche Erinnerung",
+    "enable": "Zur Zeiterfassung erinnern",
+    "enableHint": "Benachrichtigung, wenn du zu wenige Stunden erfasst hast",
+    "time": "Uhrzeit",
+    "minHours": "Mindestanzahl Stunden",
+    "weekends": "Auch am Wochenende"
+  },
+  "data": {
+    "title": "Daten",
+    "clearMappingsConfirm": "Alle gespeicherten Verknüpfungen zwischen Websites und Projekten löschen?",
+    "clearMappingsDetail": "Ausgeblendete Vorschläge werden ebenfalls wieder angezeigt.",
+    "delete": "Löschen",
+    "clearMappings": "Website-Verknüpfungen löschen",
+    "mappingsCount": "{count, plural, one {# gespeicherte Verknüpfung} other {# gespeicherte Verknüpfungen}}",
+    "clearQueueConfirm": "{count, plural, one {# ausstehende Aktion} other {# ausstehende Aktionen}} löschen?",
+    "unsentEntries": "{count, plural, one {# Eintrag wurde} other {# Einträge wurden}} noch nicht an TimeTrack gesendet. Die Zeit wird endgültig gelöscht.",
+    "clearQueueConfirmButton": "Warteschlange löschen",
+    "clearQueue": "Offline-Warteschlange löschen",
+    "pendingActions": "{count, plural, one {# ausstehende Aktion} other {# ausstehende Aktionen}}",
+    "unsentSuffix": "{count, plural, one {# nicht gesendeter Eintrag} other {# nicht gesendete Einträge}}",
+    "resetConfirm": "Alle Einstellungen zurücksetzen?",
+    "resetDetail": "Die Standardeinstellungen der Erweiterung werden wiederhergestellt.",
+    "resetButton": "Zurücksetzen",
+    "reset": "Einstellungen zurücksetzen",
+    "resetHint": "Standardeinstellungen wiederherstellen"
+  },
+  "advanced": {
+    "title": "Erweitert",
+    "apiUrl": "API-Adresse",
+    "notSaved": "{error}. Die Adresse wurde nicht gespeichert."
+  },
+  "shortcuts": {
+    "title": "Tastenkürzel",
+    "unreadable": "Die Tastenkürzel können in diesem Browser nicht gelesen werden.",
+    "openApp": "TimeTrack öffnen",
+    "notSet": "Nicht festgelegt",
+    "change": "Tastenkürzel ändern",
+    "firefoxPage": "Öffnet die Firefox-Seite für Tastenkürzel",
+    "chromePage": "Öffnet chrome://extensions/shortcuts"
+  },
+  "about": {
+    "version": "TimeTrack Browser-Erweiterung, Version {version}",
+    "rateFirefox": "Auf Firefox Add-ons bewerten",
+    "rateChrome": "Im Chrome Web Store bewerten",
+    "rateHint": "Deine Bewertung hilft anderen Freelancern",
+    "learnMore": "Mehr über die Erweiterung lesen"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Je sessie is verlopen. Log opnieuw in.",
+  "noConnection": "Geen verbinding. Probeer het opnieuw.",
+  "timeout": "De verbinding duurde te lang",
+  "invalidResponse": "Onverwacht antwoord van de server",
+  "notLoggedIn": "Niet ingelogd",
+  "notLoggedInOpenPopup": "Niet ingelogd. Open de TimeTrack-popup en log in.",
+  "unknown": "Onbekende fout",
+  "api": {
+    "fallback": "API-fout",
+    "UNAUTHORIZED": "Je sessie is verlopen. Log opnieuw in.",
+    "FORBIDDEN": "Toegang geweigerd",
+    "NOT_FOUND": "De bron is niet gevonden",
+    "TIMEOUT": "De server reageerde niet",
+    "TOO_MANY_REQUESTS": "Te veel verzoeken. Wacht even en probeer het opnieuw",
+    "INTERNAL_SERVER_ERROR": "Serverfout. Probeer het zo meteen opnieuw",
+    "BAD_REQUEST": "Ongeldig verzoek",
+    "PARSE_ERROR": "Ongeldig verzoek"
+  },
+  "auth": {
+    "invalidToken": "Ongeldig token",
+    "validateFailed": "Het token kon niet worden gevalideerd",
+    "loginFailed": "Inloggen mislukt",
+    "loginCancelled": "Inloggen is geannuleerd. Probeer het opnieuw",
+    "loginCancelledShort": "Inloggen is geannuleerd",
+    "noToken": "Geen token ontvangen",
+    "tokenValidationStatus": "Tokenvalidatie mislukt: de server antwoordde {status}",
+    "orgsFailed": "Organisaties laden mislukt ({status})"
+  },
+  "url": {
+    "notAllowed": "Gebruik timetrack.dk, app.timetrack.dk, beta.timetrack.dk of localhost"
+  },
+  "entry": {
+    "hoursPositive": "Vul een aantal uren groter dan 0 in",
+    "timesCannotBeRemoved": "De tijden kunnen niet worden verwijderd. Pas in plaats daarvan start en einde aan",
+    "fillStartEnd": "Vul zowel start als einde in",
+    "endAfterStart": "De eindtijd moet na de starttijd liggen"
+  },
+  "timer": {
+    "loadFailed": "De timer kon niet worden geladen",
+    "startFailed": "De timer kon niet worden gestart",
+    "stopFailed": "De timer kon niet worden gestopt. Probeer het opnieuw",
+    "stopNetwork": "De timer kon niet worden gestopt: netwerkfout",
+    "cancelFailed": "De timer kon niet worden geannuleerd. Probeer het opnieuw",
+    "cancelNetwork": "De timer kon niet worden geannuleerd: netwerkfout",
+    "cancelStoppingElsewhere": "De timer wordt al gestopt vanuit {source}",
+    "sourceWeb": "de webapp",
+    "sourceOther": "een ander apparaat",
+    "pauseFailed": "De timer kon niet worden gepauzeerd",
+    "resumeFailed": "De timer kon niet worden hervat",
+    "addTimeFailed": "Er kon geen tijd aan de timer worden toegevoegd",
+    "descriptionFailed": "De omschrijving kon niet worden bijgewerkt",
+    "projectFailed": "Het project kon niet worden bijgewerkt",
+    "clientFailed": "De klant kon niet worden bijgewerkt",
+    "nothingToSave": "Geen tijd om op te slaan",
+    "offlineStop": "Je bent offline. Stop de timer opnieuw zodra je weer verbinding hebt",
+    "stopInProgress": "Er wordt al gestopt{elsewhere}. Probeer het zo meteen opnieuw. Als het blijft hangen, wordt de tijd na een paar minuten gepauzeerd bewaard, zodat die niet verloren gaat.",
+    "alreadyRunning": "Er loopt al een timer{elsewhere}. Stop of annuleer die eerst als je een nieuwe wilt starten.",
+    "alreadyPaused": "Er is al een gepauzeerde timer met tijd erop{elsewhere}. Stop of annuleer die eerst als je een nieuwe wilt starten.",
+    "elsewhere": " in een andere browser of op een ander apparaat",
+    "stopAlreadyInProgress": "Er wordt al gestopt vanuit {source}. Bekijk zo meteen je tijdoverzicht",
+    "prepaidPinnedUnavailable": "Het gekozen urenpakket kon niet worden gebruikt, dus de tijd is opgeslagen zonder aftrek van het pakket",
+    "prepaidLookupFailed": "Het urenpakket kon niet worden opgezocht, dus de tijd is opgeslagen zonder aftrek van het pakket",
+    "prepaidDeductionFailed": "De aftrek van het pakket is mislukt, dus de tijd is opgeslagen zonder aftrek van het pakket",
+    "saveFailed": "De tijd kon niet worden opgeslagen",
+    "saveFailedWith": "De tijd kon niet worden opgeslagen: {reason}",
+    "unknownReason": "onbekende fout",
+    "sessionMismatch": "De timer is gewijzigd in een andere browser of op een ander apparaat. Dit is de huidige timer.",
+    "beingStopped": "De timer wordt gestopt in een andere browser of op een ander apparaat.",
+    "startRejectedPaused": "Er is al een gepauzeerde timer met tijd erop. Stop of annuleer die eerst als je een nieuwe wilt starten.",
+    "startRejectedStale": "De timer is zojuist ergens anders gestopt. Probeer opnieuw te starten.",
+    "startRejectedRunning": "Er loopt al een timer in een andere browser of op een ander apparaat. Stop die eerst als je een nieuwe wilt starten.",
+    "stopSourceWeb": "de webapp",
+    "stopSourceOther": "een ander apparaat"
+  },
+  "task": {
+    "createFailed": "De taak kon niet worden aangemaakt"
+  },
+  "serverStatus": "De server antwoordde {status}",
+  "clientTooOld": "Werk de TimeTrack-extensie bij. Deze versie kan geen tijd opslaan"
+}

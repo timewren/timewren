@@ -1,0 +1,330 @@
+---
+title: "Variables de entorno"
+description: "Referencia completa de todas las variables de entorno de TimeWren: valores por defecto, cuáles son obligatorias, cuáles se fijan al compilar y qué hace cada una."
+---
+
+TimeWren se configura por completo mediante variables de entorno. Esta página lista todas las variables que lee el código, agrupadas por finalidad. La mayoría de las instancias autoalojadas solo necesitan la configuración mínima y, más adelante, el correo y el almacenamiento.
+
+## Cómo se definen las variables
+
+Con la instalación de Docker Compose, pon las variables en un archivo `.env` junto a `docker-compose.yml`. El servicio `app` carga ese archivo (`env_file: .env`) y `docker-compose.yml` pasa explícitamente algunos valores más. Tras editar `.env`, ejecuta `docker compose up -d` para aplicar las variables de ejecución. Compose recrea los contenedores cuya configuración ha cambiado.
+
+Un valor vacío cuenta como "no definido". `NEXT_PUBLIC_APP_URL=` vuelve a su valor por defecto, y una variable con valor vacío se comporta como una que no existe. Las líneas que empiezan por `#` son comentarios, por eso `.env.example` incluye todo lo opcional comentado.
+
+### Compilación y ejecución
+
+Las variables `NEXT_PUBLIC_*` se incrustan en el bundle del navegador cuando se construye la imagen. Cambiarlas después en `.env` no tiene efecto sobre la imagen ya construida. Hay tres excepciones que se leen en tiempo de ejecución, y el valor de compilación solo sirve como respaldo: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` y `NEXT_PUBLIC_BRAND`. El servidor las lee de su entorno y el navegador las recibe de `/runtime-config.js`, que el servidor genera en cada petición.
+
+Por eso, en la imagen precompilada `ghcr.io/timewren/timewren` las demás variables de compilación vienen fijadas (por ejemplo `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` y los ajustes de Sentry para el navegador). Para cambiarlas, construye tu propia imagen con los argumentos de compilación correspondientes, consulta [Instalar desde el código fuente](/es/docs/install/from-source). La columna `Build time` de las tablas siguientes indica a qué variables afecta esto.
+
+Las cabeceras Content-Security-Policy se generan en `next.config.ts` a partir de `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` y `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, así que usan los valores presentes en el momento de la compilación.
+
+> **Nota:** Las variables de facturación (`ALUNTA_API_KEY`, `STRIPE_SECRET_KEY`, `STORE_BILLING_ENABLED` y todo lo que va con ellas) no hacen nada en el autoalojamiento. La facturación solo se activa cuando se define al menos una de esas tres. Sin ellas, todas las funciones están abiertas: no hay límites de usuarios ni de clientes, ninguna prueba que caduque, ningún botón de mejora de plan y ningún correo de pago.
+
+## Configuración mínima
+
+Estas cinco líneas bastan para arrancar una instancia. Genera cada secreto con `openssl rand -hex 32`.
+
+```dotenv
+POSTGRES_PASSWORD=replace-with-a-random-secret
+BETTER_AUTH_SECRET=replace-with-a-random-secret
+ENCRYPTION_KEY=replace-with-64-hex-characters
+CRON_SECRET=replace-with-a-random-secret
+NEXT_PUBLIC_APP_URL=https://timewren.example.com
+```
+
+Sin un transporte de correo, el registro necesita `REQUIRE_EMAIL_VERIFICATION=false` (consulta la sección Obligatorias). Configura el [correo electrónico](/es/docs/configuration/email) en cuanto puedas.
+
+## Obligatorias
+
+Compose se niega a arrancar si falta `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCRYPTION_KEY` o `CRON_SECRET`.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | ninguno | sí | no | Contraseña del PostgreSQL incluido. Compose construye `DATABASE_URL` a partir de ella. Solo se usa cuando se crea la base de datos por primera vez: cambiarla después no modifica la base de datos existente. |
+| `BETTER_AUTH_SECRET` | ninguno | sí | no | Secreto que firma las sesiones. Al cambiarlo se cierra la sesión de todos. El contenedor se niega a arrancar sin él. |
+| `ENCRYPTION_KEY` | ninguno | sí | no | Clave AES-256-GCM para los tokens y credenciales almacenados (calendario, contabilidad, webhooks). Exactamente 64 caracteres hexadecimales. Si la pierdes, habrá que volver a conectar esas integraciones, así que haz una copia de seguridad. |
+| `CRON_SECRET` | ninguno | sí | no | Secreto compartido entre el servicio `cron` y la aplicación. También es necesario para `/api/health?detail=1`. |
+| `DATABASE_URL` | lo define Compose | condicional | no | Cadena de conexión de PostgreSQL. Compose la apunta al servicio `db` incluido, así que no tienes que definirla tú. Solo hace falta con otra base de datos o al ejecutar sin Compose, por ejemplo `postgresql://user:password@host:5432/timetrack`. |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | sí | no | La URL que abren los usuarios, sin barra final. Debe coincidir con lo que ve el navegador: usa tu dominio `https://` detrás de un reverse proxy. Consulta la sección URLs, hosts y marca. |
+| `REQUIRE_EMAIL_VERIFICATION` | `true` | no | no | Ponla en `false` (o `0`) para permitir registrarse e iniciar sesión sin servidor de correo. Solo se respeta mientras no haya un transporte de correo configurado: con `RESEND_API_KEY` o `SMTP_HOST` definidos, el indicador se ignora con un aviso. Cualquiera que pueda acceder a la instancia puede entonces crear una cuenta, así que quítala cuando el correo funcione. |
+| `ADMIN_EMAIL` | ninguno | no | no | Direcciones de administrador de la instancia, separadas por comas. La cuenta con una dirección coincidente y verificada pasa a ser administradora. Si está vacía: la cuenta más antigua pasa a ser administradora, pero solo mientras la instancia no tenga ninguno. |
+
+## URLs, hosts y marca
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | sí | no | URL pública de la aplicación. Se lee en tiempo de ejecución; el valor de compilación es el respaldo. Se usa en los enlaces de los correos, en los callbacks de OAuth y en las URI de redirección por defecto de las integraciones. |
+| `NEXT_PUBLIC_MARKETING_URL` | la URL de la aplicación | no | no | Host público o de marketing separado. Vacía replica `NEXT_PUBLIC_APP_URL` (un solo host). Con la marca `timewren` y sin URL de marketing, las páginas de marketing están desactivadas: `/` redirige al panel y el resto de rutas de marketing devuelven 404. Se lee en tiempo de ejecución. |
+| `NEXT_PUBLIC_BRAND` | `timewren` | no | no | `timewren` (autoalojamiento) o `timetrack` (el servicio alojado danés, TimeTrack Cloud). Cualquier otro valor, o ninguno, da TimeWren. Se lee en tiempo de ejecución. |
+| `SUPPORT_EMAIL` | `support@<EMAIL_DOMAIN>` | no | no | Dirección de soporte que se muestra en los correos y en la interfaz. |
+| `NEXT_PUBLIC_SUPPORT_EMAIL` | ninguno | no | sí | Alias antiguo de `SUPPORT_EMAIL`. Si ambas están definidas, gana `SUPPORT_EMAIL`. |
+| `CONTACT_EMAIL` | `support@<EMAIL_DOMAIN>` | no | no | Dirección de contacto personal en las páginas de marketing y en los correos personales. Por defecto: la dirección de soporte (`SUPPORT_EMAIL`). |
+| `EMAIL_DOMAIN` | host de la URL de marketing; si no, de la URL de la aplicación | no | no | Dominio de las direcciones de correo generadas, como `noreply@` y las direcciones `task+id@`. |
+| `TRUSTED_ORIGINS` | ninguno | no | no | Orígenes adicionales aceptados por las comprobaciones de autenticación y CSRF, separados por comas. Las entradas no válidas se omiten. |
+| `CORS_ALLOWED_ORIGINS` | orígenes de extensiones de navegador | no | no | Sustituye la lista de CORS de la API tRPC. Orígenes exactos, separados por comas, sin barra final ni comodines. Sin valor se aceptan los orígenes de extensiones de navegador. Vacío desactiva el acceso entre orígenes. No sustituye la autenticación por token. |
+| `APP_SCHEMES` | `timetrack://,timetrack.preview://` | no | no | Esquemas de app nativa que acepta la autenticación, separados por comas. Ponlo al esquema de una compilación propia de la app, por ejemplo `timewren://`. Vacío desactiva los orígenes nativos. |
+| `DEVICE_CALLBACK_URL` | `timetrack://auth/callback` | no | no | Callback del inicio de sesión de dispositivo. Debe ser un esquema nativo con exactamente `auth/callback`; se rechazan URL web, credenciales, query y fragmento. Ajústalo a `APP_SCHEMES`. |
+| `CALLBACK_BASE_URL` | la URL de la aplicación | no | no | Base de los enlaces de callback almacenados y registrados, por ejemplo los callbacks de webhooks. |
+| `AUTH_COOKIE_DOMAIN` | ninguno | no | no | Comparte la cookie de sesión entre hosts, por ejemplo `.example.com`. Solo hace falta con hosts de aplicación y de marketing separados. |
+| `AUTH_RP_ID` | host de marketing si los hosts están separados; si no, el host de la aplicación | no | no | ID de la relying party de las passkeys, por ejemplo `example.com`. Solo hace falta con hosts de aplicación y de marketing separados. |
+| `AUTH_COOKIE_PREFIX` | `better-auth` | no | no | Prefijo de los nombres de las cookies de autenticación. |
+| `SUBDOMAIN_REDIRECT_STATUS` | `308` | no | no | Estado HTTP de las redirecciones entre los hosts de la aplicación y de marketing. Usa `307` mientras pruebas una separación de hosts, porque los navegadores guardan en caché `308`. |
+| `APP_PORT` | `3000` | no | no | Solo Compose: puerto del host de la aplicación. |
+| `APP_BIND` | `127.0.0.1` | no | no | Solo Compose: dirección a la que se enlaza el puerto de la aplicación. `0.0.0.0` lo expone en todas las interfaces. Mantén el valor por defecto detrás de un reverse proxy, consulta [Reverse proxy](/es/docs/operations/reverse-proxy). |
+| `CADDY_DOMAIN` | ninguno | no | no | Solo Compose: dominio para la capa opcional con HTTPS automático (`docker-compose.caddy.yml`). El DNS debe apuntar al servidor y los puertos TCP 80/443 deben estar abiertos. |
+| `COMPOSE_FILE` | `docker-compose.yml` | no | no | Solo Compose: ponlo en `docker-compose.yml:docker-compose.caddy.yml` para activar HTTPS automático junto con `CADDY_DOMAIN`. |
+| `NEXT_PUBLIC_GOOGLE_ADS_ID` | ninguno | no | sí | ID de la etiqueta de Google Ads para las páginas de marketing. Sin él, en las instancias autoalojadas no se carga nada. |
+
+## Correo
+
+Elige un transporte: SMTP o Resend. Sin ninguno, los correos se escriben en el log del servidor en lugar de enviarse. Encontrarás detalles y ejemplos en [Correo electrónico](/es/docs/configuration/email).
+
+El transporte se elige en este orden: `MAIL_TRANSPORT` si tiene un valor válido; si no, Resend cuando `RESEND_API_KEY` está definida; si no, SMTP cuando `SMTP_HOST` está definida; si no, solo log.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `MAIL_TRANSPORT` | automático | no | no | `resend`, `smtp` o `log`. Fuerza el transporte. `smtp` requiere `SMTP_HOST`. |
+| `SMTP_HOST` | ninguno | condicional | no | Servidor SMTP. Al definirla se elige SMTP, salvo que `RESEND_API_KEY` esté definida o `MAIL_TRANSPORT` indique otra cosa. |
+| `SMTP_PORT` | `587` | no | no | Puerto SMTP. El puerto `465` usa TLS implícito. |
+| `SMTP_SECURE` | `true` en el puerto 465; si no, `false` | no | no | `true` para TLS implícito, `false` para STARTTLS. Vacía aplica la regla del puerto. |
+| `SMTP_USER` | ninguno | no | no | Nombre de usuario SMTP. La autenticación solo se usa si está definida. |
+| `SMTP_PASSWORD` | ninguno | no | no | Contraseña SMTP. |
+| `SMTP_FROM` | el remitente elegido por la aplicación | no | no | Dirección del remitente de todos los correos SMTP, por ejemplo `TimeWren <mail@timewren.example.com>`. Recomendada con SMTP. |
+| `RESEND_API_KEY` | ninguno | condicional | no | Clave de API de Resend. Al definirla se elige Resend. |
+| `RESEND_FROM_EMAIL` | `TimeWren <noreply@<EMAIL_DOMAIN>>` | no | no | Remitente por defecto al enviar con Resend. Usa una dirección de un dominio verificado en Resend. |
+| `FROM_EMAIL` | `TimeWren <noreply@<EMAIL_DOMAIN>>` | no | no | Remitente de los correos de tareas y de notificaciones. |
+| `PERSONAL_FROM_EMAIL` | el remitente por defecto | no | no | Remitente de los correos personales del ciclo de vida. |
+| `PERSONAL_REPLY_TO_EMAIL` | ninguno | no | no | Reply-To de los correos personales del ciclo de vida. Vacía significa que no hay cabecera Reply-To. |
+| `RESEND_WEBHOOK_SECRET` | ninguno | no | no | Secreto de firma de Svix para los webhooks de entrega de Resend (`/api/webhooks/resend`). |
+| `RESEND_AUDIENCE_ID` | ninguno | no | no | Audiencia de Resend usada para las altas en el boletín. |
+| `ADMIN_NOTIFICATION_EMAIL` | ninguno | no | no | Recibe las alertas y resúmenes de administración, separadas por comas. Una dirección guardada en los ajustes de administración tiene prioridad. |
+| `ADMIN_DISCORD_WEBHOOK_URL` | ninguno | no | no | Webhook de Discord para las alertas de administración y los comentarios dentro de la aplicación. Una URL guardada en los ajustes de administración tiene prioridad. |
+| `FEEDBACK_TO_EMAIL` | ninguno | no | no | Recibe por correo los comentarios enviados desde la aplicación. Vacía: los comentarios solo van al webhook de Discord. |
+
+## Almacenamiento de archivos
+
+Las subidas, los adjuntos de correo y las exportaciones de datos necesitan almacenamiento. Compose establece el driver local y monta el volumen `storage`. Para almacenamiento compatible con S3 (AWS, Hetzner, MinIO, R2) consulta [Almacenamiento](/es/docs/configuration/storage).
+
+El driver se elige así: gana `STORAGE_DRIVER=local`; si no, se usa S3 cuando `S3_ENDPOINT` está definida; si no, no hay almacenamiento y las subidas quedan desactivadas. El código nunca lee el valor `s3` de `STORAGE_DRIVER`, así que lo que selecciona S3 es definir `S3_ENDPOINT`.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `STORAGE_DRIVER` | `local` en Compose; si no, ninguno | no | no | `local` guarda los archivos en disco. Cualquier otro valor pasa a la regla de `S3_ENDPOINT`. |
+| `STORAGE_LOCAL_PATH` | `./data/storage` (Compose: `/app/data/storage`) | no | no | Directorio del driver local. Compose lo apunta al volumen `storage`; cámbialo solo fuera de Compose. |
+| `S3_ENDPOINT` | ninguno | condicional | no | Endpoint del servicio compatible con S3. Al definirlo se selecciona S3 (siempre se usa direccionamiento de tipo path). |
+| `S3_REGION` | `fsn1` | no | no | Región que se envía al cliente S3. La mayoría de los servicios compatibles con S3 aceptan cualquier valor, pero indica la real para AWS. |
+| `S3_ACCESS_KEY_ID` | vacío | condicional | no | Clave de acceso de S3. |
+| `S3_SECRET_ACCESS_KEY` | vacío | condicional | no | Clave secreta de S3. |
+| `S3_BUCKET` | `timetrack` | no | no | Nombre del bucket. |
+| `S3_PREFIX` | vacío | no | no | Espacio de nombres opcional para todas las claves dentro del bucket. |
+| `EMAIL_ATTACHMENT_DIR` | `storage/email-attachments` | no | no | Directorio del que se leen en disco los adjuntos de correo más antiguos. |
+| `EMAIL_SYNC_STORE_ATTACHMENTS` | `false` | no | no | `true` sube al almacenamiento configurado los adjuntos de la sincronización de correo a tarea. |
+
+## Autenticación y proveedores de inicio de sesión
+
+El correo con contraseña, los enlaces mágicos y las passkeys funcionan sin ninguna de estas variables. Cada proveedor social necesita tu propia aplicación OAuth, con la URL de callback `{NEXT_PUBLIC_APP_URL}/api/auth/callback/<provider>`. Un proveedor se activa cuando están definidos su ID y su secreto. Consulta [Autenticación](/es/docs/configuration/authentication).
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `GOOGLE_CLIENT_ID` | ninguno | no | no | Inicio de sesión con Google. También lo usa la integración con Google Calendar. |
+| `GOOGLE_CLIENT_SECRET` | ninguno | no | no | Secreto de la aplicación OAuth de Google. |
+| `GITHUB_CLIENT_ID` | ninguno | no | no | Inicio de sesión con GitHub. |
+| `GITHUB_CLIENT_SECRET` | ninguno | no | no | Secreto de la aplicación OAuth de GitHub. |
+| `DISCORD_CLIENT_ID` | ninguno | no | no | Inicio de sesión con Discord. |
+| `DISCORD_CLIENT_SECRET` | ninguno | no | no | Secreto de la aplicación OAuth de Discord. |
+| `MICROSOFT_CLIENT_ID` | ninguno | no | no | Inicio de sesión con Microsoft Entra ID (Azure AD), por ejemplo SSO de empresa. Callback: `{NEXT_PUBLIC_APP_URL}/api/auth/callback/microsoft-entra-id`. |
+| `MICROSOFT_CLIENT_SECRET` | ninguno | no | no | Secreto de la aplicación de Entra ID. |
+| `MICROSOFT_TENANT_ID` | `common` | no | no | `common`, `organizations` o un GUID de tenant. |
+| `APPLE_CLIENT_ID` | ninguno | no | no | Sign in with Apple: el Services ID, usado para el inicio de sesión web. |
+| `APPLE_TEAM_ID` | ninguno | no | no | ID del equipo de desarrollador de Apple. |
+| `APPLE_KEY_ID` | ninguno | no | no | ID de la clave de Sign in with Apple. |
+| `APPLE_PRIVATE_KEY` | ninguno | no | no | Contenido de la clave `.p8`. El secreto del cliente se genera a partir de ella al arrancar. |
+| `APPLE_APP_BUNDLE_IDENTIFIER` | `dk.timetrack.app` | no | no | Bundle ID de iOS, usado para el inicio de sesión nativo y para revocar el token cuando se elimina una cuenta. Pon el tuyo si compilas tú mismo la aplicación móvil. |
+| `SESSION_EXPIRY_DAYS` | `7` | no | no | Duración de la sesión en días. |
+| `BETTER_AUTH_SECRETS` | ninguno | no | no | Secretos con versión para rotar `BETTER_AUTH_SECRET` sin perder los tokens cifrados. |
+
+## Integraciones
+
+Billy no necesita nada aquí: cada usuario pega su propia clave de API de Billy en la aplicación. Consulta [Billy](/es/docs/integrations/billy), [Dinero](/es/docs/integrations/dinero), [e-conomic](/es/docs/integrations/e-conomic), [Calendario](/es/docs/integrations/calendar) y [CVR](/es/docs/integrations/cvr).
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `GOOGLE_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/google/callback` | no | no | URI de redirección OAuth de la integración con Google Calendar. Usa `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET`. |
+| `DINERO_CLIENT_ID` | ninguno | condicional | no | Aplicación OAuth de Visma Connect para Dinero. Hacen falta el ID y el secreto para activar la integración. |
+| `DINERO_CLIENT_SECRET` | ninguno | condicional | no | Secreto de la aplicación de Visma Connect. |
+| `DINERO_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/dinero/callback` | no | no | URI de redirección OAuth de Dinero. |
+| `DINERO_WEBHOOK_SECRET` | ninguno | no | no | Secreto para verificar los webhooks de Dinero. |
+| `BILLY_WEBHOOK_SECRET` | ninguno | no | no | Secreto para verificar los webhooks de Billy. |
+| `ECONOMIC_APP_PUBLIC_TOKEN` | ninguno | condicional | no | Token público de tu aplicación registrada en el portal de desarrolladores de e-conomic. Hacen falta ambos tokens para activar la integración. |
+| `ECONOMIC_APP_SECRET_TOKEN` | ninguno | condicional | no | Token secreto de la aplicación de e-conomic. |
+| `ECONOMIC_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/economic/callback` | no | no | URI de redirección de e-conomic. |
+| `CVR_SERVICE_API_KEY` | ninguno | no | no | Clave del servicio de consulta de CVR. Vacía: las consultas recurren al servicio gratuito cvrapi.dk. |
+| `CVR_SERVICE_URL` | el servicio CVR del mantenedor | no | no | URL base del servicio de consulta de CVR que se usa junto con `CVR_SERVICE_API_KEY`. |
+| `CVR_API_TIMEOUT_MS` | `10000` | no | no | Tiempo límite de las consultas de CVR en milisegundos. |
+| `GITHUB_TOKEN` | ninguno | no | no | Token de GitHub para consultar las actualizaciones de escritorio, con un límite de peticiones más alto. |
+| `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` | ninguno | no | sí | `owner/repo` de GitHub al que apuntan las descargas de escritorio. Desactivado salvo que se defina. |
+| `DESKTOP_UPDATER_REPO` | ninguno | no | no | `owner/repo` de GitHub para las actualizaciones de escritorio heredadas. Desactivado salvo que se defina. |
+| `CHANGELOG_REPO` | ninguno | no | no | `owner/repo` de GitHub del que se lee el registro de cambios. Desactivado salvo que se defina. |
+
+## IA, SMS, push y correo a tarea
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `OPENAI_API_KEY` | ninguno | no | no | Activa las sugerencias y la categorización con IA. |
+| `AI_CACHE_TTL_MS` | `60000` | no | no | Vida útil de los resultados de IA en caché, en milisegundos. |
+| `AI_HIGH_CONFIDENCE_THRESHOLD` | `0.8` | no | no | Confianza a partir de la cual una sugerencia de IA cuenta como de alta confianza. |
+| `MESSAGEBIRD_API_KEY` | ninguno | no | no | Activa el inicio de sesión por SMS mediante MessageBird. |
+| `MESSAGEBIRD_ORIGINATOR` | el nombre corto de la marca (`TimeWren`) | no | no | Nombre del remitente de los SMS. |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | ninguno | no | no | Clave VAPID pública para Web Push. El servidor se la entrega al navegador, por lo que se lee en tiempo de ejecución. Genera un par de claves con `npx web-push generate-vapid-keys`. |
+| `VAPID_PRIVATE_KEY` | ninguno | no | no | Clave VAPID privada. Web Push se activa cuando ambas claves están definidas. |
+| `VAPID_EMAIL` | `mailto:support@<EMAIL_DOMAIN>` | no | no | Contacto que se envía con los mensajes push, como URL `mailto:`. |
+| `EXPO_ACCESS_TOKEN` | ninguno | no | no | Token de acceso de Expo opcional para las notificaciones push a la aplicación móvil. |
+| `INBOUND_EMAIL_DOMAIN` | el dominio de correo | no | no | Dominio de las direcciones de correo a tarea. |
+
+## Valkey y tiempo real
+
+Valkey es opcional. Aporta límites de frecuencia compartidos entre procesos y sincronización del temporizador en tiempo real. Arráncalo con `docker compose --profile valkey up -d`, o define `COMPOSE_PROFILES=valkey` en `.env`.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `VALKEY_URL` | ninguno | no | no | URL de conexión, por ejemplo `redis://valkey:6379`. Sin ella, todo recurre al comportamiento en memoria. |
+| `RATE_LIMIT_BACKEND` | en memoria | no | no | `valkey` guarda los límites de frecuencia en Valkey. Cualquier otro valor los mantiene en memoria. |
+| `REALTIME_ENABLED` | `true` en la imagen de Docker | no | no | Indicador del servidor para los eventos del temporizador en tiempo real. El tiempo real también necesita `VALKEY_URL`. Ponlo en `false` para desactivarlo sin recompilar. |
+| `NEXT_PUBLIC_REALTIME_ENABLED` | ninguno | no | sí | Indicador del cliente, debe ser `true` en el momento de la compilación. Tanto este como `REALTIME_ENABLED` deben ser `true`. La imagen precompilada no lo define. |
+| `ELECTRIC_URL` | ninguno | no | no | Proxy experimental de ElectricSQL para la forma del temporizador. No hace nada salvo que se definan ambas variables; entonces los endpoints responden 503 y los clientes recurren al respaldo. |
+| `ELECTRIC_SECRET` | ninguno | no | no | Secreto del proxy de ElectricSQL. |
+
+## Telemetría y monitorización
+
+No se envía nada a los mantenedores salvo que definas estas variables. Consulta también [Solución de problemas](/es/docs/operations/troubleshooting).
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | ninguno | no | sí | URL de un script de analítica de Plausible. Vacía: no se carga ningún script de analítica. También se añade a la CSP. |
+| `PLAUSIBLE_BASE_URL` | `https://plausible.io` | no | no | Host de Plausible que usa la página de analítica de administración. |
+| `PLAUSIBLE_SITE_ID` | ninguno | no | no | ID del sitio de Plausible para la página de analítica de administración. |
+| `PLAUSIBLE_API_KEY` | ninguno | no | no | Clave de API de Plausible. La página de analítica de administración la necesita junto con `PLAUSIBLE_SITE_ID`. |
+| `NEXT_PUBLIC_SENTRY_DSN` | ninguno | no | sí | DSN de Sentry para los errores. Vacío: Sentry no informa de nada. |
+| `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` | activado | no | sí | `false` desactiva Sentry en el navegador. |
+| `NEXT_PUBLIC_SENTRY_ENVIRONMENT` | derivado del host | no | sí | Nombre del entorno que se envía con los errores del navegador. |
+| `SENTRY_AUTH_TOKEN` | ninguno | no | no | Subida de source maps en la compilación y acceso a la API para la consulta de incidencias de Sentry. |
+| `SENTRY_ACCESS_TOKEN` | ninguno | no | no | Token para la consulta de incidencias de Sentry; tiene prioridad sobre `SENTRY_AUTH_TOKEN`. |
+| `SENTRY_API_URL` | `https://sentry.io` | no | no | URL base de la API de Sentry, para Sentry autoalojado. |
+| `SENTRY_WEBHOOK_SECRET` | ninguno | no | no | Secreto que verifica los webhooks de Sentry. |
+| `SENTRY_DISABLED` | ninguno | no | sí | `1` desactiva el plugin de compilación de Sentry. El Dockerfile lo define durante la construcción de la imagen. |
+
+## Ajustes finos
+
+Todas son opcionales. Los valores por defecto son los que usa TimeWren salvo que los cambies.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `DEFAULT_WEEKLY_HOUR_GOAL` | `37` | no | no | Objetivo semanal de horas por defecto para los usuarios nuevos. |
+| `PRODUCTIVITY_HEATMAP_DAYS` | `90` | no | no | Número de días del mapa de calor de productividad. |
+| `PREPAID_LOW_BALANCE_THRESHOLD` | `0.2` | no | no | Fracción restante de un [bono de horas](/es/docs/concepts/prepaid-hours) que se considera saldo bajo. |
+| `PREPAID_CRITICAL_BALANCE_HOURS` | `1` | no | no | Horas restantes que se consideran críticas, además de la regla de la fracción. |
+| `PREPAID_EXPIRY_WARNING_DAYS` | `30` | no | no | Cuántos días antes de la caducidad un bono genera un aviso. |
+| `MAX_MONETARY_AMOUNT` | `100000000` | no | no | Límite superior de un importe monetario individual. |
+| `PDF_ENGINE` | `react-pdf` | no | no | Motor de renderizado del PDF de las facturas. `takumi` es una alternativa experimental. |
+| `CHURN_PLAYBOOKS_DISABLED` | ninguno | no | no | `1` desactiva la tarea cron de los playbooks de churn. |
+| `MIGRATE_ON_START` | `1` en Compose | no | no | `1` ejecuta las migraciones de la base de datos en cada arranque. Sin ella se omiten las migraciones (fuera de Compose el valor por defecto es desactivado). Consulta [Actualizar](/es/docs/operations/upgrading). |
+| `MIGRATION_LOCK_TIMEOUT_MS` | `300000` | no | no | Cuánto espera un contenedor que arranca a que otro termine de migrar. Los valores no válidos usan el valor por defecto. |
+| `SEED_DEMO_ORGS` | `false` | no | no | `true` siembra una organización de demostración al arrancar. |
+| `MIN_CLIENT_VERSIONS` | ninguno | no | no | Versiones mínimas de cliente por tipo de cliente, por ejemplo `extension=2.5.2,mobile=1.0.0+5,desktop=0.2.21`. Los clientes más antiguos aún pueden leer, pero se rechazan las escrituras de temporizador y de horas. Vacía: sin aplicación de mínimos. |
+| `MIN_CLIENT_VERSIONS_MODE` | enforce | no | no | `observe` evalúa los mínimos y muestra los clientes obsoletos en el área de administración sin rechazar nada. |
+| `SYNTHETIC_USER_EMAILS` | ninguno | no | no | Direcciones de correo de las cuentas de monitorización o de prueba que se excluyen de las estadísticas y los correos, separadas por comas. |
+| `SYNTHETIC_USER_IDS` | ninguno | no | no | IDs de usuario de esas cuentas, separados por comas. |
+
+## Docker Compose y arranque
+
+Compose define algunas de estas variables por sí mismo; se listan para que sepas de dónde vienen.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `TIMEWREN_VERSION` | `latest` | no | no | Solo Compose: etiqueta de la imagen que se ejecuta. Fíjala, por ejemplo `1.2.3`, para controlar las actualizaciones. |
+| `COMPOSE_PROFILES` | ninguno | no | no | Lo lee Docker Compose, no la aplicación. Usa `valkey` para arrancar el servicio opcional de Valkey. |
+| `TZ` | `Europe/Copenhagen` | no | no | Zona horaria de los contenedores de la aplicación y de la base de datos. El contenedor `cron` siempre se ejecuta en `Europe/Copenhagen`. |
+| `APP_URL` | `http://app:3000` | sí (cron) | no | Solo la lee el contenedor `cron`: la URL interna en la que llama a los endpoints `/api/cron/*`. La define Compose; no la confundas con `NEXT_PUBLIC_APP_URL`. |
+| `NODE_ENV` | `production` en la imagen | no | no | La define la imagen y `npm run dev`. No la toques al autoalojar. |
+| `NEXT_PHASE` | la define Next.js | no | no | La define Next.js (`phase-production-build` durante `next build`). Durante el build, el recurso OAuth de MCP no se escribe en la base de datos. No la definas nunca tú. |
+| `NEXT_RUNTIME` | la define Next.js | no | no | La define Next.js (`nodejs` o `edge`). No la definas nunca tú. |
+| `CI` | ninguno | no | no | Cuando está definida, silencia los logs de compilación del plugin de Sentry. La definen los sistemas de CI. |
+| `CI_SKIP_TYPECHECK` | `false` | no | sí | Argumento de compilación del Dockerfile: `true` omite la comprobación de tipos durante `next build`. Solo para compilaciones de CI que comprueban los tipos por separado. |
+| `NEXT_PUBLIC_APP_VERSION` | ninguno | no | sí | Cadena de versión incrustada en el cliente, usada para detectar un nuevo despliegue. El Dockerfile la define a partir del argumento de compilación `APP_VERSION`; vacía usa el ID de compilación de Next.js. |
+
+## Solo servicio alojado
+
+> **Advertencia:** No es para autoalojamiento. Estas variables pertenecen a los despliegues alojados de TimeTrack Cloud y TimeWren Cloud. Déjalas sin definir en tu propia instancia. Las variables `ALUNTA_*`, `STRIPE_*`, `STORE_BILLING_ENABLED` y `GOOGLE_PLAY_*` son las variables de facturación descritas al principio de la página.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `ALUNTA_API_KEY` | ninguno | no | no | Activa la facturación y habilita el proveedor de pagos Alunta. |
+| `ALUNTA_WEBHOOK_SECRET` | ninguno | con `ALUNTA_API_KEY` | no | Verifica los webhooks de Alunta. Sin él, el webhook responde 503 y no procesa nada. |
+| `ALUNTA_WEBHOOK_ALLOW_UNSIGNED` | ninguno | no | no | `1` o `true` acepta webhooks de Alunta sin firma cuando el secreto está configurado. Solo para desarrollo; se ignora con `NODE_ENV=production`. |
+| `ALUNTA_PLAN_MONTHLY` | vacío | no | no | ID del plan mensual en Alunta. |
+| `ALUNTA_PLAN_YEARLY` | vacío | no | no | ID del plan anual en Alunta. |
+| `ALUNTA_PLAN_TEAM_MONTHLY` | vacío | no | no | ID del plan en Alunta, Team, mensual. |
+| `ALUNTA_PLAN_TEAM_YEARLY` | vacío | no | no | ID del plan en Alunta, Team, anual. |
+| `ALUNTA_PLAN_BUSINESS_MONTHLY` | vacío | no | no | ID del plan en Alunta, Business, mensual. |
+| `ALUNTA_PLAN_BUSINESS_YEARLY` | vacío | no | no | ID del plan en Alunta, Business, anual. |
+| `ALUNTA_PLAN_TEAM_SEATS` | vacío | no | no | ID del plan en Alunta para puestos adicionales de Team. |
+| `ALUNTA_PLAN_BUSINESS_SEATS` | vacío | no | no | ID del plan en Alunta para puestos adicionales de Business. |
+| `ALUNTA_PLAN_PRIVAT_MONTHLY` | vacío | no | no | ID del plan en Alunta, Privat, mensual. |
+| `ALUNTA_PLAN_PRIVAT_YEARLY` | vacío | no | no | ID del plan en Alunta, Privat, anual. |
+| `ALUNTA_PLAN_FOUNDING_MONTHLY` | vacío | no | no | ID del plan en Alunta, plan fundador, mensual. |
+| `ALUNTA_PLAN_FOUNDING_YEARLY` | vacío | no | no | ID del plan en Alunta, plan fundador, anual. |
+| `ALUNTA_PLAN_LEGACY_SOLO` | vacío | no | no | IDs de plan en Alunta del plan Solo heredado. |
+| `ALUNTA_PLAN_LEGACY_TEAM` | vacío | no | no | IDs de plan en Alunta del plan Team heredado. |
+| `ALUNTA_PLAN_LEGACY_BUSINESS` | vacío | no | no | IDs de plan en Alunta del plan Business heredado. |
+| `ALUNTA_PLAN_LEGACY_TEAM_SEATS` | vacío | no | no | ID del plan en Alunta para puestos adicionales del plan Team heredado. |
+| `ALUNTA_PLAN_LEGACY_BUSINESS_SEATS` | vacío | no | no | ID del plan en Alunta para puestos adicionales del plan Business heredado. |
+| `STRIPE_SECRET_KEY` | ninguno | no | no | Activa la facturación y habilita Stripe. |
+| `STRIPE_WEBHOOK_SECRET` | ninguno | no | no | Verifica los webhooks de Stripe. |
+| `STRIPE_TAX_ENABLED` | `false` | no | no | `true` activa Stripe Tax. |
+| `STRIPE_DESKTOP_LIFETIME_PRICE_ID` | vacío | no | no | ID de precio de Stripe de la licencia de escritorio de por vida. |
+| `STORE_BILLING_ENABLED` | ninguno | no | no | `1` activa la facturación para las compras dentro de la aplicación (App Store y Google Play). |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | ninguno | no | no | Cuenta de servicio para verificar las compras de Google Play. |
+| `GOOGLE_PLAY_PACKAGE_NAME` | ninguno | no | no | Nombre del paquete de Android en Google Play. |
+| `GOOGLE_PLAY_WEBHOOK_TOKEN` | ninguno | no | no | Token en la URL de notificaciones de Google Play. |
+| `FREE_TRIAL_DAYS` | `30` | no | no | Duración de la prueba gratuita. Solo tiene efecto cuando la facturación está activada. |
+| `DOKPLOY_API_URL` | ninguno | no | no | API de hosting usada para registrar los dominios de los clientes. |
+| `DOKPLOY_API_TOKEN` | ninguno | no | no | Token de esa API de hosting. |
+| `DOKPLOY_APP_ID` | ninguno | no | no | ID de la aplicación en esa API de hosting. Hacen falta las tres variables `DOKPLOY_*`. |
+| `CLAUDE_AGENT_API_KEY` | ninguno | no | no | Clave que usa el webhook de Sentry para lanzar un agente de corrección automática. |
+| `CLAUDE_AGENT_TRIGGER_URL` | ninguno | no | no | URL de activación de ese agente. |
+| `UNBLOCK_PLAN_EMAIL` | ninguno | no | no | Concesión puntual de plan que se aplica durante el paso de migración en la publicación. |
+| `UNBLOCK_PLAN_TIER` | `team` | no | no | Nivel de plan de esa concesión. |
+| `UNBLOCK_PLAN_SEATS` | ninguno | no | no | Número de puestos de esa concesión. |
+| `SHARED_PROD_DB` | ninguno | no | no | `1` cuando la base de datos se comparte con una versión anterior; desactiva las funciones que esa versión anterior no puede manejar. |
+| `MULTIBRAND_ENABLED` | ninguno | no | no | `1` activa el registro de hosts multimarca del servicio alojado. |
+| `BRANDS_CONFIG` | marcadores de posición integrados | no | no | JSON con los hosts reales de las marcas de la configuración multimarca alojada. |
+| `TIMEWREN_APP_ENABLED` | ninguno | no | no | `1` abre la aplicación (inicio de sesión, registro, panel) en los hosts alojados de TimeWren. |
+| `TIMEWREN_INDEXABLE` | ninguno | no | no | `1` permite que los motores de búsqueda indexen el sitio alojado de TimeWren. |
+| `TIMEWREN_GOOGLE_CLIENT_ID` | ninguno | no | no | Client ID de la aplicación de Google de TimeWren Cloud. Junto con su secreto, se ofrece el inicio de sesión con Google en los hosts de TimeWren; sin él, el botón se oculta y el proveedor no se registra allí. Las claves de TimeTrack nunca se usan en los hosts de TimeWren. |
+| `TIMEWREN_GOOGLE_CLIENT_SECRET` | ninguno | no | no | Client secret de la aplicación de Google de TimeWren Cloud. |
+| `TIMEWREN_GITHUB_CLIENT_ID` | ninguno | no | no | Client ID de la aplicación de GitHub de TimeWren Cloud. Junto con su secreto, se ofrece el inicio de sesión con GitHub en los hosts de TimeWren; sin él, el botón se oculta y el proveedor no se registra allí. Las claves de TimeTrack nunca se usan en los hosts de TimeWren. |
+| `TIMEWREN_GITHUB_CLIENT_SECRET` | ninguno | no | no | Client secret de la aplicación de GitHub de TimeWren Cloud. |
+| `TIMEWREN_DISCORD_CLIENT_ID` | ninguno | no | no | Client ID de la aplicación de Discord de TimeWren Cloud. Junto con su secreto, se ofrece el inicio de sesión con Discord en los hosts de TimeWren; sin él, el botón se oculta y el proveedor no se registra allí. Las claves de TimeTrack nunca se usan en los hosts de TimeWren. |
+| `TIMEWREN_DISCORD_CLIENT_SECRET` | ninguno | no | no | Client secret de la aplicación de Discord de TimeWren Cloud. |
+| `TIMEWREN_MICROSOFT_CLIENT_ID` | ninguno | no | no | Client ID de la aplicación de Microsoft Entra ID de TimeWren Cloud. Junto con su secreto, se ofrece el inicio de sesión con Microsoft Entra ID en los hosts de TimeWren; sin él, el botón se oculta y el proveedor no se registra allí. Las claves de TimeTrack nunca se usan en los hosts de TimeWren. |
+| `TIMEWREN_MICROSOFT_CLIENT_SECRET` | ninguno | no | no | Client secret de la aplicación de Microsoft Entra ID de TimeWren Cloud. |
+| `TIMEWREN_MICROSOFT_TENANT_ID` | `common` | no | no | Tenant de Microsoft para el inicio de sesión en TimeWren Cloud, como `MICROSOFT_TENANT_ID`. |
+| `TIMEWREN_APPLE_CLIENT_ID` | ninguno | no | no | Services ID de la aplicación Sign in with Apple de TimeWren Cloud. Se firma con la clave del equipo (`APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`). |
+
+## Solo desarrollo y pruebas
+
+> **Advertencia:** Estas variables son para desarrollar TimeWren en sí. No las definas en producción.
+
+Para una configuración local sin Docker (`npm run dev`), pon `DATABASE_URL` en `.env.local`, por ejemplo `postgresql://postgres:postgres@localhost:5432/freelance_crm`. `npm run docker:up` arranca un PostgreSQL compatible desde `docker-compose.dev.yml`.
+
+| Variable | Default | Required | Build time | Description |
+| --- | --- | --- | --- | --- |
+| `TT_DB_TESTS` | ninguno | no | no | `1` ejecuta las pruebas del modelo del temporizador que usan la base de datos. Necesitan `DATABASE_URL` apuntando a una base de datos desechable. |
+| `DATABASE_CONNECT_TIMEOUT` | `10` | no | no | Segundos que la app espera una nueva conexión a la base de datos. La CI pone `60` para las pruebas de modelo en runners compartidos. |
+| `TT_MODEL_RUNS` | `150` | no | no | Número de secuencias de comandos generadas en la prueba del modelo del temporizador. |
+| `TT_MODEL_SEED` | semilla fija | no | no | Semilla de la prueba del modelo del temporizador. `random` explora secuencias nuevas. |
+| `TT_MODEL_MAX_COMMANDS` | `30` | no | no | Máximo de comandos por secuencia generada. |
+| `TT_MODEL_PATH` | ninguno | no | no | Reproduce un contraejemplo, por ejemplo `4:2:1`, junto con `TT_MODEL_SEED`. |
+| `TT_MODEL_DEBUG` | ninguno | no | no | Cuando está definida, la prueba del modelo del temporizador imprime salida de depuración adicional. |
+| `TT_QUERY_COUNT` | ninguno | no | no | `1` cuenta las consultas a la base de datos por petición tRPC. Se ignora cuando `NODE_ENV` es `production`. |

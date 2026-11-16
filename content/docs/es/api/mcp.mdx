@@ -1,0 +1,119 @@
+---
+title: "Servidor MCP"
+description: "Conecta Claude, Cursor, Codex y otros clientes MCP con TimeWren para registrar horas, consultar bonos de horas y preparar facturas."
+---
+
+TimeWren incluye un servidor del [Model Context Protocol](https://modelcontextprotocol.io), para que un asistente de IA pueda trabajar con tus clientes, registros de horas, bonos de horas y facturas. Usa la misma lógica de negocio que la [API REST](/es/docs/api/rest).
+
+## Endpoint
+
+```text
+https://timewren.example.com/api/v1/mcp
+```
+
+El transporte es Streamable HTTP. Los documentos de descubrimiento se sirven en `/.well-known/mcp/server-card.json` y `/.well-known/oauth-protected-resource/api/v1/mcp`. Las URL que contienen se construyen a partir de `NEXT_PUBLIC_APP_URL`, así que asegúrate de que coincida con la dirección pública de tu instancia (consulta [Variables de entorno](/es/docs/configuration/environment)).
+
+## Autenticación
+
+Hay dos formas de autenticarse. Ambas envían un token Bearer en la cabecera `Authorization`.
+
+- **Clave de API.** Crea una clave `tk_live_...` en **Ajustes**, luego **API**, y úsala como token Bearer. Consulta [API REST](/es/docs/api/rest). Es la opción más sencilla para Claude Code, Cursor y scripts.
+- **OAuth.** Los clientes que admiten la autorización MCP (por ejemplo los conectores personalizados de Claude) descubren el servidor de autorización a partir de la respuesta `401` y te dejan iniciar sesión en TimeWren desde el navegador. El servidor admite el registro dinámico de clientes, PKCE y tokens de refresco. En la pantalla de consentimiento eliges la organización y revisas los permisos. Los tokens de acceso empiezan por `tt_at_` y se pueden revocar en cualquier momento.
+
+Sin un token válido, el endpoint responde `401`.
+
+## Qué puede hacer un cliente MCP
+
+Una clave de API conserva exactamente los scopes que le diste al crearla. Una conexión OAuth recibe los scopes de lectura y escritura que se muestran en la pantalla de consentimiento (`clients`, `projects`, `time`, `invoices`, `prepaid`, `tasks` y `reports`; nunca `webhooks` y nunca el scope de acceso total `*`), y queda vinculada a la única organización que elegiste. Cada herramienta comprueba el scope que necesita antes de ejecutarse, con las mismas reglas que las rutas REST, y devuelve un error si la conexión no lo tiene. Las peticiones están limitadas a 120 por minuto por clave o por aplicación conectada y usuario.
+
+## Herramientas
+
+| Herramienta | Scope | Qué hace |
+| --- | --- | --- |
+| `whoami` | ninguno | Devuelve el ID de usuario, la organización y los scopes de la conexión actual |
+| `list_clients` | `clients:read` | Lista clientes con tarifa por hora por defecto y datos de contacto, con búsqueda y paginación |
+| `get_client` | `clients:read` | Obtiene un cliente por ID |
+| `create_client` | `clients:write` | Crea un cliente |
+| `list_time_entries` | `time:read` | Lista registros de horas, los más recientes primero, filtrados por cliente, proyecto, fechas, facturable y facturado |
+| `create_time_entry` | `time:write` | Registra horas para un cliente o proyecto, descontándolas opcionalmente de un bono de horas con `prepaid: "auto"` o `prepaidPackageId` |
+| `update_time_entry` | `time:write` | Cambia campos de un registro de horas; los registros facturados están bloqueados |
+| `list_prepaid_packages` | `prepaid:read` | Lista bonos de horas con horas totales, usadas y restantes, caducidad y estado |
+| `unbilled_summary` | `reports:read` | Horas facturables sin facturar e importe por cliente |
+| `list_invoices` | `invoices:read` | Lista facturas, opcionalmente de un cliente o con un estado |
+| `invoice_from_time_entries` | `invoices:write` | Previsualiza (`dryRun`) o crea una factura en borrador a partir de los registros de horas de un cliente; al crearla, los registros se marcan como facturados |
+| `send_invoice` | `invoices:write` | Envía una factura por correo al cliente, algo que no se puede deshacer |
+
+Las herramientas de listado devuelven una nota que indica al asistente qué página pedir a continuación cuando el resultado es solo parcial. `invoice_from_time_entries` y `send_invoice` modifican datos o contactan con tu cliente, así que pide a tu asistente que lo confirme contigo antes de llamarlas.
+
+## Configuración del cliente
+
+Sustituye la URL y `YOUR_API_KEY` por tus propios valores.
+
+### Claude Code
+
+```bash
+claude mcp add --transport http timewren https://timewren.example.com/api/v1/mcp --header "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Cursor
+
+Añade esto a `.cursor/mcp.json` en tu proyecto, o a `~/.cursor/mcp.json` para todos los proyectos:
+
+```json
+{
+  "mcpServers": {
+    "timewren": {
+      "url": "https://timewren.example.com/api/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Claude Desktop
+
+La vía más sencilla es un conector personalizado: abre **Ajustes**, luego **Conectores**, añade un conector personalizado e introduce la URL del endpoint. Inicias sesión con OAuth, sin necesidad de clave.
+
+Para usar una clave de API en su lugar, conecta mediante `mcp-remote` en `claude_desktop_config.json` (requiere Node.js):
+
+```json
+{
+  "mcpServers": {
+    "timewren": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://timewren.example.com/api/v1/mcp",
+        "--header",
+        "Authorization:${TIMEWREN_AUTH}"
+      ],
+      "env": {
+        "TIMEWREN_AUTH": "Bearer YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+### Codex
+
+Añade esto a `~/.codex/config.toml` y exporta la clave como variable de entorno:
+
+```toml
+[mcp_servers.timewren]
+url = "https://timewren.example.com/api/v1/mcp"
+bearer_token_env_var = "TIMEWREN_API_KEY"
+```
+
+```bash
+export TIMEWREN_API_KEY="YOUR_API_KEY"
+```
+
+## Solución de problemas
+
+- `401`: el token falta, es incorrecto, ha sido revocado o ha caducado. Pruébalo con `curl https://timewren.example.com/api/v1/me -H "Authorization: Bearer YOUR_API_KEY"`.
+- Una herramienta devuelve `Forbidden: missing required scope`: crea una clave con el scope que figura en la tabla anterior.
+- `429`: has alcanzado el límite de peticiones. Espera el número de segundos indicado en la cabecera `Retry-After`.

@@ -1,0 +1,343 @@
+{
+  "columns": {
+    "employee": {
+      "label": "Empleado/a"
+    },
+    "department": {
+      "label": "Departamento"
+    },
+    "project": {
+      "label": "Proyecto"
+    },
+    "activityType": {
+      "label": "Actividad"
+    },
+    "absenceType": {
+      "label": "Tipo de ausencia"
+    },
+    "day": {
+      "label": "Fecha"
+    },
+    "week": {
+      "label": "Semana"
+    },
+    "month": {
+      "label": "Mes"
+    },
+    "vacationYear": {
+      "label": "Año de vacaciones"
+    },
+    "email": {
+      "label": "Correo electrónico"
+    },
+    "employmentType": {
+      "label": "Tipo de contrato"
+    },
+    "weeklyHours": {
+      "label": "Horas/semana"
+    },
+    "dailyNorm": {
+      "label": "Norma diaria"
+    },
+    "employeeNumber": {
+      "label": "N.º de empleado",
+      "help": "Número de empleado en el sistema de nómina (sigue la dimensión de empleado)"
+    },
+    "payrollCode": {
+      "label": "Código de nómina",
+      "help": "Código de nómina del tipo de actividad (sigue la dimensión de actividad)"
+    },
+    "hours": {
+      "label": "Horas registradas"
+    },
+    "normHours": {
+      "label": "Horas normales",
+      "help": "Norma diaria × días laborables del periodo (festivos descontados)"
+    },
+    "workDays": {
+      "label": "Días laborables",
+      "help": "Días laborables previstos en el periodo (sin festivos/días de cierre)"
+    },
+    "employeeCount": {
+      "label": "Número de empleados"
+    },
+    "flexDelta": {
+      "label": "Flex (+/-)"
+    },
+    "breakDeductedHours": {
+      "label": "Pausa descontada",
+      "help": "Solo con pausa no pagada (check-in/out)"
+    },
+    "checkInHours": {
+      "label": "Presencia (check-in)"
+    },
+    "workedDays": {
+      "label": "Días con registros"
+    },
+    "maxDayHours": {
+      "label": "Día más largo",
+      "help": "Total diario más alto de un empleado del grupo"
+    },
+    "longDays": {
+      "label": "Días de más de 13 h",
+      "help": "Un total diario de más de 13 h deja menos de 11 h de descanso (regla de las 11 horas)"
+    },
+    "avgWeeklyHours": {
+      "label": "Media horas/semana",
+      "help": "Horas registradas por semana-empleado con registros o ausencia (regla de las 48 horas)"
+    },
+    "weeksOver48h": {
+      "label": "Semanas de más de 48 h",
+      "help": "Número de semanas-empleado con más de 48 h registradas"
+    },
+    "fullWeeks": {
+      "label": "Semanas sin día libre",
+      "help": "Semanas con registros los 7 días y sin día de ausencia (24 h de descanso semanal)"
+    },
+    "absenceDays": {
+      "label": "Ausencias (días)"
+    },
+    "absenceHours": {
+      "label": "Ausencias (horas)"
+    },
+    "absencePeriods": {
+      "label": "Periodos de ausencia"
+    },
+    "sickDays": {
+      "label": "Días de baja"
+    },
+    "sickHours": {
+      "label": "Horas de baja"
+    },
+    "sickPeriods": {
+      "label": "Periodos de baja"
+    },
+    "sickPct": {
+      "label": "Absentismo por enfermedad %",
+      "help": "Días de baja / días laborables"
+    },
+    "longTermSick": {
+      "label": "Baja de larga duración",
+      "help": "Periodo de baja continuo de más de 30 días en el periodo"
+    },
+    "longTermSickCount": {
+      "label": "Bajas de larga duración",
+      "help": "Número de empleados con un periodo de baja de más de 30 días"
+    },
+    "overtimeEarned": {
+      "label": "Horas extra acumuladas"
+    },
+    "overtimeUsed": {
+      "label": "Compensación disfrutada"
+    },
+    "overtimePaidOut": {
+      "label": "Horas extra pagadas"
+    },
+    "overtimeNet": {
+      "label": "Horas extra netas",
+      "help": "Acumuladas − disfrutadas − pagadas"
+    },
+    "vacationAllotted": {
+      "label": "Vacaciones asignadas"
+    },
+    "vacationUsed": {
+      "label": "Vacaciones usadas"
+    },
+    "vacationRemaining": {
+      "label": "Vacaciones restantes"
+    },
+    "extraVacationAllotted": {
+      "label": "Días extra asignados"
+    },
+    "extraVacationUsed": {
+      "label": "Días extra usados"
+    },
+    "extraVacationRemaining": {
+      "label": "Días extra restantes"
+    },
+    "vacationDaysInPeriod": {
+      "label": "Vacaciones disfrutadas en el periodo",
+      "help": "Días de vacaciones (tipos que descuentan el saldo) dentro del periodo del informe"
+    },
+    "hoursByActivity": {
+      "label": "Horas por actividad",
+      "pivot": "{name} (horas)"
+    },
+    "absenceDaysByType": {
+      "label": "Ausencias por tipo (días)",
+      "pivot": "{name} (días)"
+    },
+    "absenceHoursByType": {
+      "label": "Ausencias por tipo (horas)",
+      "pivot": "{name} (horas)"
+    },
+    "quantityByWageType": {
+      "label": "Cantidad por concepto salarial",
+      "help": "Horas/días por concepto salarial mediante la asignación de nómina (Ajustes → Nómina)",
+      "pivot": "{name}"
+    }
+  },
+  "dimensions": {
+    "employee": "Empleado/a",
+    "department": "Departamento",
+    "project": "Proyecto",
+    "activityType": "Actividad",
+    "absenceType": "Tipo de ausencia",
+    "day": "Día",
+    "week": "Semana",
+    "month": "Mes",
+    "vacationYear": "Año de vacaciones"
+  },
+  "groups": {
+    "dimensions": "Dimensiones",
+    "employee": "Empleado/a",
+    "time": "Tiempo",
+    "compliance": "Cumplimiento",
+    "absence": "Ausencias",
+    "overtime": "Horas extra",
+    "payroll": "Nómina",
+    "vacation": "Cuentas de vacaciones"
+  },
+  "presets": {
+    "this_month": "Este mes",
+    "last_month": "Mes pasado",
+    "this_quarter": "Este trimestre",
+    "this_year": "Este año",
+    "last_year": "Año pasado"
+  },
+  "types": {
+    "payroll": {
+      "label": "Informe de nómina",
+      "description": "Por empleado para el periodo de nómina: horas, ausencias en días y horas por tipo, horario flexible, horas extra y descuentos de pausa. Para la oficina de nómina."
+    },
+    "sickness": {
+      "label": "Absentismo por enfermedad",
+      "description": "Estadísticas de absentismo por enfermedad por departamento y mes: días de baja, periodos, porcentaje de ausencia y bajas de larga duración (más de 30 días)."
+    },
+    "absence": {
+      "label": "Ausencias",
+      "description": "Todos los tipos de ausencia (vacaciones, enfermedad, permiso, cuidados…) por empleado o departamento: días y horas."
+    },
+    "flex_overtime": {
+      "label": "Horario flexible y horas extra",
+      "description": "Evolución del saldo por periodo: horas normales, horas registradas, diferencia de horario flexible y horas extra acumuladas/disfrutadas/pagadas."
+    },
+    "project_activity": {
+      "label": "Proyecto y actividad",
+      "description": "Horas repartidas por proyecto, tipo de actividad y departamento, para el seguimiento de docencia, preparación, reuniones, etc."
+    },
+    "vacation_account": {
+      "label": "Cuentas de vacaciones",
+      "description": "Cuentas de vacaciones por año de vacaciones: asignadas, usadas y restantes para vacaciones y días extra, por empleado."
+    },
+    "compliance": {
+      "label": "Cumplimiento (ley de tiempo de trabajo)",
+      "description": "Incumplimientos y advertencias por empleado y semana: días de más de 13 h (11 h de descanso), semanas de más de 48 h, semanas sin día libre (24 h de descanso semanal) y tiempo de trabajo semanal medio."
+    },
+    "custom": {
+      "label": "Personalizado",
+      "description": "Elección libre de dimensiones y columnas de todo el catálogo: crea exactamente el informe que te falta."
+    }
+  },
+  "weekdays": {
+    "1": "Lunes",
+    "2": "Martes",
+    "3": "Miércoles",
+    "4": "Jueves",
+    "5": "Viernes",
+    "6": "Sábado",
+    "7": "Domingo"
+  },
+  "page": {
+    "all": "(todos)",
+    "selected": "({count} seleccionados)",
+    "clear": "Borrar selección",
+    "downloaded": "Informe descargado",
+    "templateDeleted": "Plantilla eliminada",
+    "maxDimensions": "Como máximo 4 dimensiones",
+    "templateUnreadable": "No se puede leer la plantilla",
+    "needColumn": "Elige al menos una columna",
+    "inactive": "(inactivo)",
+    "title": "Informes",
+    "step1": "1. Elegir tipo de informe",
+    "step2": "2. Periodo",
+    "holidayYearPlaceholder": "Año de vacaciones…",
+    "holidayYear": "Año de vacaciones {year}",
+    "from": "Desde",
+    "to": "Hasta",
+    "step3": "3. Filtros",
+    "departments": "Departamentos",
+    "employees": "Empleados",
+    "projects": "Proyectos",
+    "activities": "Actividades",
+    "absenceTypes": "Tipos de ausencia",
+    "onlyApproved": "Solo horas aprobadas",
+    "includeRejected": "Incluir horas rechazadas",
+    "includePending": "Incluir ausencias pendientes",
+    "includeInactive": "Incluir exempleados",
+    "includeDetails": "Incluir todos los registros (detalles)",
+    "step4": "4. Agrupar por",
+    "step4Hint": "(orden = orden de clic)",
+    "step5": "5. Columnas",
+    "run": "Ejecutar informe",
+    "saveAsTemplate": "Guardar como plantilla",
+    "chooseTemplateFirst": "Guarda o elige primero una plantilla",
+    "scheduleMail": "Programar correo",
+    "savedTemplates": "Plantillas guardadas",
+    "noTemplates": "Todavía no hay plantillas.",
+    "sharedOrg": "Compartida en la organización",
+    "onlyMe": "Solo yo",
+    "standard": " · Predeterminada",
+    "deleteTemplate": "Eliminar plantilla",
+    "confirmDeleteTemplate": "¿Eliminar la plantilla «{name}»?",
+    "footnote": "El CSV usa punto y coma y coma decimal danesa. Las horas rechazadas se excluyen de forma predeterminada; las bajas médicas abiertas cuentan hasta hoy inclusive. Los responsables solo ven sus propios departamentos y empleados.",
+    "cardEmployees": "Empleados",
+    "noData": "Sin datos en el periodo {from} – {to}",
+    "noDataHint": "Prueba con un periodo más amplio, menos filtros u otras columnas.",
+    "allEntries": "Todos los registros ({count})",
+    "truncated": "El periodo contiene más registros de los que cabe en la lista de detalles. Los totales de arriba siguen calculados sobre todos los datos. Elige un periodo más corto para ver todos los detalles.",
+    "detEmployee": "Empleado/a",
+    "detDepartment": "Departamento",
+    "detDate": "Fecha",
+    "detHours": "Horas",
+    "detProject": "Proyecto",
+    "detActivity": "Actividad",
+    "detPayCode": "Código de nómina",
+    "detDescription": "Descripción",
+    "detSource": "Origen",
+    "detStatus": "Estado",
+    "saveTemplateTitle": "Guardar como plantilla",
+    "templateSaved": "Plantilla guardada",
+    "name": "Nombre",
+    "description": "Descripción",
+    "shareWithOrg": "Compartir con toda la organización (todos los responsables y RR. HH. la ven)",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "scheduleTitle": "Programar correo",
+    "scheduled": "El informe se envía automáticamente",
+    "frequency": "Frecuencia",
+    "weekly": "Semanal",
+    "monthly": "Mensual",
+    "weekday": "Día de la semana",
+    "dayOfMonth": "Día del mes",
+    "dayN": "{day}.",
+    "recipients": "Destinatarios (separados por comas)",
+    "recipientsPlaceholder": "nomina@example.com, responsable@example.com",
+    "format": "Formato",
+    "formatXlsx": "Excel (XLSX)",
+    "rollingNote": "El periodo de la plantilla es móvil: «Mes pasado» enviado el día 1 da justo las cifras del mes anterior.",
+    "schedule": "Programar",
+    "scheduleRemoved": "Correo programado eliminado",
+    "scheduledMails": "Correos programados",
+    "freqWeeklyLower": "semanal",
+    "freqMonthlyLower": "mensual",
+    "scheduleLine": "· {frequency} (día {day}) · {format} · {recipients}",
+    "lastSent": " · enviado por última vez {date}",
+    "remove": "Eliminar",
+    "yes": "Sí",
+    "no": "No",
+    "card": {
+      "employees": "Empleados"
+    }
+  }
+}

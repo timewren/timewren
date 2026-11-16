@@ -1,0 +1,22 @@
+name: Documentation
+description: Something in the docs is missing, wrong or unclear
+labels: ["type: docs", "needs-triage"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page or file
+      description: A link or a path such as docs/self-hosting.md.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing?
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested text
+      description: Optional. A pull request is even better.

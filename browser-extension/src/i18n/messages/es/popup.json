@@ -1,0 +1,91 @@
+{
+  "loading": "Cargando",
+  "offline": "Sin conexión",
+  "noInternet": "Sin conexión a internet",
+  "openApp": "Abrir TimeTrack",
+  "openAppNewTab": "Abrir TimeTrack en una pestaña nueva",
+  "settings": "Ajustes",
+  "logout": "Cerrar sesión",
+  "logoutConfirm": "¿Cerrar sesión en TimeTrack?",
+  "todayHours": "{duration} hoy",
+  "dailyProgress": "Progreso diario: {done} de {goal} h hoy",
+  "tabs": {
+    "view": "Vista",
+    "timer": "Cronómetro",
+    "calendar": "Calendario",
+    "history": "Historial",
+    "prepaid": "Bonos"
+  },
+  "login": {
+    "tagline": "Registro de horas directamente desde el navegador",
+    "connecting": "Conectando…",
+    "connect": "Conectar con TimeTrack",
+    "secureHint": "Inicias sesión de forma segura en una ventana nueva. Después podrás elegir una organización en la extensión.",
+    "newHere": "¿Nuevo en TimeTrack?",
+    "register": "Crear una cuenta gratuita",
+    "advanced": "Avanzado: pegar el token manualmente",
+    "tokenLabel": "Token de la extensión",
+    "tokenPlaceholder": "Pega tu token aquí…",
+    "signingIn": "Iniciando sesión…",
+    "signInToken": "Iniciar sesión con token",
+    "openSettings": "Abrir los ajustes en TimeTrack"
+  },
+  "org": {
+    "label": "Organización: {name}. Cambiar de organización",
+    "none": "ninguna seleccionada",
+    "choose": "Elegir organización",
+    "stopFirst": "Detén o guarda el cronómetro activo antes de cambiar de organización."
+  },
+  "stopPrompt": {
+    "title": "Ningún cliente seleccionado",
+    "question": "Ningún cliente seleccionado. ¿Guardar como tiempo interno?",
+    "close": "Cerrar sin detener",
+    "pickClient": "Elegir cliente",
+    "saveInternal": "Guardar como tiempo interno"
+  },
+  "sync": {
+    "syncing": "Sincronizando…",
+    "pending": "{count} pendientes de sincronizar",
+    "hideDetails": "Ocultar detalles",
+    "showDetails": "Mostrar detalles",
+    "syncNow": "Sincronizar ahora",
+    "entry": "Registro de tiempo: {description}",
+    "noDescription": "(sin descripción)",
+    "timerUpdate": "Actualización del cronómetro",
+    "timerStop": "Detención del cronómetro",
+    "tries": "{count, plural, one {intentado # vez} other {intentado # veces}}"
+  },
+  "mini": {
+    "timerLabel": "Cronómetro",
+    "goTo": "Ir al cronómetro: {label}",
+    "stop": "Detener cronómetro"
+  },
+  "queryError": {
+    "retry": "Reintentar"
+  },
+  "timerError": {
+    "close": "Cerrar mensaje de error"
+  },
+  "update": {
+    "title": "Actualiza la extensión de TimeTrack",
+    "body": "La versión {version} es demasiado antigua para guardar tiempo. La actualización se descarga automáticamente. Si no ocurre, reinicia el navegador o abre chrome://extensions y haz clic en \"Actualizar\"."
+  },
+  "idle": {
+    "pausedMessage": "El cronómetro se pausó a las {clock} tras {away} sin actividad",
+    "pausedDetail": "Ese tiempo de inactividad no se ha contado.",
+    "resume": "Reanudar cronómetro",
+    "close": "Cerrar",
+    "awayMessage": "Has estado ausente {away} (desde las {clock})",
+    "awayDetail": "El cronómetro sigue en marcha. ¿Debe contar ese tiempo?",
+    "discard": "Quitar {away}",
+    "keep": "Conservar el tiempo"
+  },
+  "confirm": {
+    "cancel": "Cancelar"
+  },
+  "logoutWarnings": {
+    "running": "El cronómetro sigue en marcha en TimeTrack mientras estás desconectado.",
+    "paused": "El cronómetro en pausa se queda en TimeTrack.",
+    "queue": "{count, plural, one {# cambio de la cola sin conexión no se ha enviado} other {# cambios de la cola sin conexión no se han enviado}} todavía. Se enviarán cuando vuelvas a iniciar sesión."
+  }
+}

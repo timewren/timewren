@@ -1,0 +1,211 @@
+---
+title: "REST API"
+description: "Authenticate with an API key and manage clients, projects, time entries, the timer, invoices and prepaid packages over JSON."
+---
+
+TimeWren exposes a JSON REST API under `/api/v1`. It uses the same business logic as the web app, so rules such as rate resolution, prepaid deductions and locks on billed entries apply to API calls too. For AI assistants there is also an [MCP server](/docs/api/mcp), and you can receive events with [outgoing webhooks](/docs/api/webhooks).
+
+## Base URL
+
+Replace the host with your own instance (the value of `NEXT_PUBLIC_APP_URL`):
+
+```text
+https://timewren.example.com/api/v1
+```
+
+## Create an API key
+
+1. Sign in as an organization admin or owner.
+2. Open **Settings**, then **API** (`/dashboard/settings/api`).
+3. Create a key: give it a name, choose its scopes and optionally an expiry date.
+4. Copy the key right away. It starts with `tk_live_` and is only shown once. Only a SHA-256 hash is stored.
+
+A key acts as the user who created it, inside the organization that was active at creation time. You can revoke a key at any time; a revoked or expired key returns `401`. The API-keys page requires the `public_api` module to be enabled for the organization.
+
+## Authentication
+
+Send the key as a Bearer token on every request:
+
+```bash
+curl https://timewren.example.com/api/v1/me \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+`GET /me` needs no scope. It returns your profile and the `scopes` of the key, which makes it a good first check. The REST API accepts API keys only; OAuth tokens work on the [MCP endpoint](/docs/api/mcp) but not here.
+
+## Scopes
+
+Each key carries one or more scopes. A scope is `<resource>:<permission>`:
+
+| Resource | Covers |
+| --- | --- |
+| `clients` | Clients |
+| `projects` | Projects (also needed to schedule a project rate change) |
+| `time` | Time entries and the timer |
+| `invoices` | Invoices and invoice lines |
+| `prepaid` | Prepaid packages (klippekort) |
+| `tasks` | Tasks |
+| `reports` | Reports, rate history and listing rate changes |
+| `webhooks` | Outgoing webhook configuration |
+
+Permissions are `read`, `write` and `all`. `write` and `all` both include `read`. The scope `*` grants everything. Missing scopes return `403` with `Missing required scope: <resource>:<permission>`.
+
+## Rate limits
+
+Authenticated requests are limited to 300 per minute per user. Every response carries `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset` (a Unix timestamp in seconds). When the limit is hit you get `429` with a `Retry-After` header in seconds. Failed authentication attempts are additionally limited per IP address.
+
+## Requests and responses
+
+Request bodies are JSON (`Content-Type: application/json`). Successful responses wrap the result in `data`:
+
+```json
+{ "data": { "id": "..." } }
+```
+
+Creating a resource returns `201`. Money and rates are decimal strings such as `"850.00"` in responses. Dates are `YYYY-MM-DD`. CORS is open (`Access-Control-Allow-Origin: *`) for the documented methods.
+
+### Pagination and sorting
+
+List endpoints take `page` (default 1) and `limit` (default 25, maximum 100). A `limit` above 100 is rejected with `400`, not cut off. They also accept `sort` and `order` (`asc` or `desc`); unknown sort fields fall back to `createdAt`.
+
+```json
+{
+  "data": [],
+  "pagination": {
+    "page": 1,
+    "limit": 25,
+    "total": 0,
+    "totalPages": 0,
+    "hasMore": false,
+    "nextPage": null
+  }
+}
+```
+
+Keep fetching while `hasMore` is `true`.
+
+### Errors
+
+Errors share one shape:
+
+```json
+{
+  "error": {
+    "code": "UNPROCESSABLE_CONTENT",
+    "message": "Validation failed",
+    "details": [{ "field": "hours", "message": "..." }]
+  }
+}
+```
+
+`details` lists the failing fields. It is always present for validation errors (`422`), and some `400` responses carry it too, for example an invalid combination of prepaid fields on `POST /time-entries` or `PATCH /time-entries/{id}`. Treat it as optional on every error. Other codes you will see: `BAD_REQUEST` (400), `UNAUTHORIZED` (401), `FORBIDDEN` (403), `NOT_FOUND` (404), `CONFLICT` (409), `TOO_MANY_REQUESTS` (429) and `INTERNAL_SERVER_ERROR` (500). Unexpected errors never include stack traces.
+
+## OpenAPI and the built-in docs
+
+| URL | Returns |
+| --- | --- |
+| `/api/v1/openapi.json` | The OpenAPI 3.1 document, public, no authentication |
+| `/api/v1/docs` | An interactive API reference rendered from the OpenAPI document |
+| `/api/v1/llms.txt` | A short plain-text guide for AI agents, public |
+
+The interactive reference loads the Scalar viewer script from `cdn.jsdelivr.net`, so the browser needs internet access to render it. The OpenAPI document is the most complete source for request and response fields.
+
+## Resources
+
+All paths are relative to `/api/v1`. `{id}` is a UUID.
+
+| Resource | Methods and paths | Scope |
+| --- | --- | --- |
+| Me | `GET /me` | none |
+| Clients | `GET, POST /clients`; `GET, PATCH, DELETE /clients/{id}` | `clients` |
+| Projects | `GET, POST /projects`; `GET, PATCH, DELETE /projects/{id}` | `projects` |
+| Time entries | `GET, POST /time-entries`; `GET, PATCH, DELETE /time-entries/{id}`; `POST /time-entries/batch` | `time` |
+| Timer | `GET, POST, DELETE /timer` | `time` |
+| Tasks | `GET, POST /tasks`; `GET, PATCH, DELETE /tasks/{id}` | `tasks` |
+| Invoices | `GET, POST /invoices`; `GET, PATCH, DELETE /invoices/{id}`; `POST /invoices/from-time-entries`; `POST /invoices/{id}/send`; `POST /invoices/{id}/mark-paid`; `GET, POST /invoices/{id}/lines`; `PATCH, DELETE /invoices/{id}/lines/{lineId}` | `invoices` |
+| Prepaid packages | `GET, POST /prepaid-packages`; `GET, PATCH, DELETE /prepaid-packages/{id}` | `prepaid` |
+| Reports | `GET /reports/unbilled`; `GET /reports/revenue`; `GET /reports/time-summary` | `reports` |
+| Rate changes | `GET, POST /rate-changes`; `DELETE /rate-changes/{id}` | `reports` to list; `clients` or `projects` write to create or cancel |
+| Rate history | `GET /rate-history` | `reports` |
+| Webhooks | `GET, POST /webhooks`; `GET, PATCH, DELETE /webhooks/{id}`; `POST /webhooks/{id}/test`; `GET /webhooks/{id}/deliveries`; `GET /webhooks/event-types` | `webhooks`, see [Webhooks](/docs/api/webhooks) |
+
+Notes on a few endpoints:
+
+- `GET /reports/revenue` and `GET /reports/time-summary` require both `from` and `to` as `YYYY-MM-DD`.
+- `GET /rate-changes` and `POST /rate-changes` need exactly one of `clientId` or `projectId`. The body of a `POST` is `{ "clientId" | "projectId", "newRate", "effectiveDate": "YYYY-MM-DD" }`.
+- `POST /invoices/from-time-entries` builds a draft invoice from time entries. Sending an invoice by email with `POST /invoices/{id}/send` cannot be undone.
+- `DELETE /timer` clears the running timer without saving a time entry. To record the time, create a time entry with `POST /time-entries`.
+
+### Time entry filters
+
+`GET /time-entries` accepts `clientId`, `projectId`, `from`, `to` (`YYYY-MM-DD`), `isBillable` and `isBilled` (`true` or `false`), plus pagination. Sorting allows `createdAt`, `date` and `hours`.
+
+## Examples
+
+### List clients
+
+```bash
+curl "https://timewren.example.com/api/v1/clients?limit=10&q=acme" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+`q` searches the client list; add `includeArchived=true` to include archived clients.
+
+### Start and stop the timer
+
+Start (needs `time:write`). Without a body the timer starts now; here it is bound to a project and described. `projectId` and `clientId` must be UUIDs or `null`:
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"projectId": "11111111-1111-4111-8111-111111111111", "description": "Design review"}'
+```
+
+Check the timer state:
+
+```bash
+curl https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Stop and discard it:
+
+```bash
+curl -X DELETE https://timewren.example.com/api/v1/timer \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Create a time entry
+
+`hours` (a positive number), `date` (`YYYY-MM-DD`) and `description` are required. Optional fields are `projectId`, `clientId`, `notes`, `startTime` and `endTime` (ISO 8601 with offset, `endTime` after `startTime`), `isBillable`, `isBilled`, `taskId` and `billableRate`. Without `billableRate` the rate is resolved from the project, client and user rates for the entry's own date.
+
+```bash
+curl -X POST https://timewren.example.com/api/v1/time-entries \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "clientId": "22222222-2222-4222-8222-222222222222",
+    "projectId": "11111111-1111-4111-8111-111111111111",
+    "description": "Wireframes for Acme ApS",
+    "hours": 1.5,
+    "date": "2026-11-09",
+    "startTime": "2026-11-09T09:00:00+01:00",
+    "endTime": "2026-11-09T10:30:00+01:00",
+    "isBillable": true,
+    "prepaid": "auto"
+  }'
+```
+
+To deduct from a prepaid package, send either `"prepaid": "auto"` (the client's active auto-deduct package that expires first; no package means no deduction) or an explicit `prepaidPackageId`, never both. The response includes `prepaidDeduction` and `complianceWarnings`. Entries that are already billed are locked against edits and deletes.
+
+### List prepaid packages
+
+```bash
+curl "https://timewren.example.com/api/v1/prepaid-packages?clientId=22222222-2222-4222-8222-222222222222&activeOnly=true" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Filters are `clientId`, `activeOnly=true` and `includeArchived=true`. Sorting allows `createdAt`, `name` and `totalHours`. See [Prepaid hours](/docs/concepts/prepaid-hours) for how packages work.
+
+Creating a package with `POST /prepaid-packages` takes `name`, `clientId`, `totalHours` (number), `hourlyRate` (number) and `purchaseDate`, and optionally `expiryDate`, `description`, `clipSizeMinutes`, `overdraftPolicy` (`block`, `allow` or `invoice`), `overdraftRate` and `autoDeduct`.

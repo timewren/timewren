@@ -1,0 +1,105 @@
+{
+  "greeting": {
+    "night": "Good night",
+    "morning": "Good morning",
+    "forenoon": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening"
+  },
+  "duration": {
+    "hourUnit": "h",
+    "minUnit": "min"
+  },
+  "noName": "Unnamed",
+  "noDescription": "No description",
+  "prompt": {
+    "label": "What have you been working on?",
+    "placeholder": "e.g. 2 hours on the website for Jensen yesterday",
+    "interpret": "Interpret",
+    "listening": "Listening…",
+    "hintAvailable": "Type or dictate, then press Enter. Speech is processed locally in your browser and the audio is not sent anywhere.",
+    "hintDownloadable": "Type and press Enter.",
+    "downloading": "Downloading speech recognition…",
+    "install": "Download speech recognition (about 60 MB, runs locally)",
+    "hintDefault": "Type and press Enter, e.g. “1.5 h meeting with Acme at 9-10:30”. On a phone you can dictate with the microphone on the keyboard. Press <kbd>/</kbd> to jump here.",
+    "stopDictation": "Stop dictation",
+    "dictate": "Dictate with the microphone",
+    "dictateTitle": "Dictate (local speech recognition)",
+    "listeningSr": "Listening",
+    "missingHint": "pick a suggestion below, or fix it in the full form.",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "What was the time spent on?",
+    "usePrepaid": "Deduct from prepaid package {name} ({time} left)",
+    "saveWithHours": "Save {hours}",
+    "save": "Save",
+    "editInForm": "Edit in the form",
+    "cancel": "Cancel",
+    "keysHint": "Enter saves · Esc cancels",
+    "needDescription": "Write a short description before you save.",
+    "internal": "Saved as internal time.",
+    "savedOffline": "Saved offline. The time entry will be sent when the connection is back.",
+    "registered": "{hours} tracked",
+    "saveFailed": "Could not save the time entry"
+  },
+  "welcome": {
+    "title": "Welcome to {brand}",
+    "titleDone": "Off to a good start. Your first time entry is tracked",
+    "hide": "Hide the welcome",
+    "intro": "Get started in under a minute: start a timer now, or type what you have been working on in the field below, e.g. “2 hours on the website yesterday”. You can sort out company details and plan later.",
+    "timerStarted": "The timer is running. Stop it in the timer bar at the top when you are done.",
+    "timerBusy": "The timer is already running",
+    "startFirstTimer": "Start your first timer",
+    "writeLine": "Type a line in the field",
+    "surveyQuestion": "What will you mainly use {brand} for? <muted>(optional)</muted>",
+    "primaryUse": {
+      "time": "Keep track of my time",
+      "invoicing": "Invoice my clients",
+      "klippekort": "Prepaid packages and prepaid hours",
+      "team": "Follow my team's time"
+    },
+    "thanksToast": "Thanks for your answer",
+    "saveFailed": "Your answer could not be saved. Try again.",
+    "thanksNote": "Thanks. Home now shows the next steps that fit you.",
+    "privacyNote": "The answer is only used to tailor Home and is not shared with anyone else."
+  },
+  "quickStart": {
+    "title": "Start timer",
+    "running": "The timer is already running. Stop it in the timer bar at the top before you start a new one.",
+    "paused": "The timer is paused. Resume or save it in the timer bar at the top first.",
+    "resumeToast": "The timer has started and continues the latest entry",
+    "continueLast": "Continue the latest",
+    "mostUsed": "Most used",
+    "startedOn": "Timer started on {name}",
+    "startOn": "Start timer on {name}",
+    "empty": "Your most used projects will show up here once you have tracked some time.",
+    "createProject": "Create a project"
+  },
+  "signals": {
+    "label": "Needs attention",
+    "nudge": {
+      "first-invoice": "Create your first invoice from your time",
+      "first-client": "Create the client the prepaid package belongs to",
+      "first-klippekort": "Create your first prepaid package",
+      "invite-team": "Invite a colleague"
+    },
+    "lowBalance": "{count, plural, one {1 prepaid package is close to running out} other {# prepaid packages are close to running out}}",
+    "unbilled": "<b>{duration}</b> of unbilled time ready for an invoice"
+  },
+  "today": {
+    "title": "Today",
+    "ofExpected": "of {duration}",
+    "loadFailed": "Could not load today's entries. Try reloading the page.",
+    "empty": "No time tracked today yet. Type what you did above, or start a timer.",
+    "internal": "Internal time",
+    "resumeToast": "The timer has started and continues the entry",
+    "continueLabel": "Continue {name}",
+    "continueFallback": "entry",
+    "continueTitle": "Continue with timer",
+    "allEntries": "All entries",
+    "fullForm": "Full form"
+  },
+  "page": {
+    "title": "Home",
+    "overview": "Overview"
+  }
+}

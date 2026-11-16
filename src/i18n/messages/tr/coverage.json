@@ -1,0 +1,67 @@
+{
+  "hourUnit": "sa",
+  "headline": {
+    "untilToday": "bugüne kadar {expected} içinde {logged}",
+    "noWorkTimeYet": "Dönemde henüz çalışma süresi yok",
+    "of": "{expected} içinde {logged}",
+    "noWorkTime": "Dönemde çalışma süresi yok"
+  },
+  "week": "{week}. hafta ({start}–{end})",
+  "period": {
+    "day": "Gün",
+    "week": "Hafta",
+    "month": "Ay"
+  },
+  "bar": {
+    "label": "{expected} çalışma süresinin {billable} kadarı faturalanabilir, {nonBillable} kadarı faturalanamaz",
+    "billable": "Faturalanabilir",
+    "nonBillable": "Faturalanamaz",
+    "notLogged": "Kaydedilmemiş"
+  },
+  "table": {
+    "client": "Müşteri",
+    "billable": "Faturalanabilir",
+    "nonBillableShort": "Faturalanamaz",
+    "share": "Pay",
+    "ratio": "Faturalanabilir saat başına faturalanamaz",
+    "ratioTitle": "Faturalanan saat başına faturalanamaz saat",
+    "onlyNonBillable": "Yalnızca faturalanamaz"
+  },
+  "strip": {
+    "title": "Kapsama",
+    "summary": "<n>{billable}</n> faturalanabilir · <n>{nonBillable}</n> faturalanamaz",
+    "summaryRatio": "<n>{billable}</n> faturalanabilir · <n>{nonBillable}</n> faturalanamaz · faturalanan saat başına <n>{ratio}</n>",
+    "perClient": "Müşteri başına"
+  },
+  "page": {
+    "back": "Raporlar",
+    "title": "Kapsama",
+    "description": "Çalışma sürenizin ne kadarının kaydedildiği ve nereye gittiği",
+    "periodAria": "Dönem",
+    "prev": "Önceki dönem",
+    "next": "Sonraki dönem",
+    "today": "Bugün",
+    "workTime": "Çalışma süresi: haftada {hours}",
+    "workTimeHr": "Çalışma süresi: haftada {hours} (İK'dan)",
+    "edit": "Düzenle",
+    "loadError": "Kapsama oranı alınamadı.",
+    "retry": "Tekrar dene",
+    "statCoverage": "Kapsama",
+    "statBillable": "Faturalanabilir",
+    "statNonBillable": "Faturalanamaz",
+    "statRatio": "Faturalanabilir saat başına faturalanamaz",
+    "ofWorkTime": "çalışma süresinin {pct}",
+    "noTimeLogged": "Kayıtlı süre yok",
+    "shareBilled": "Kaydedilen sürenin {pct} kadarı faturalandı",
+    "perClient": "Müşteri başına",
+    "noTimeInPeriod": "Dönemde kayıtlı süre yok.",
+    "logTime": "Süre kaydet",
+    "perDay": "Gün başına",
+    "colDate": "Tarih",
+    "colWorkTime": "Çalışma süresi",
+    "colLogged": "Kaydedilen",
+    "colBillable": "Bunun faturalanabilir kısmı",
+    "colCoverage": "Kapsama",
+    "footnote": "Kapsama = kaydedilen süre ÷ normal çalışma süreniz. Resmi tatiller ve devamsızlık çalışma süresinden düşülmez. Müşterisiz süre dahili süre olarak gösterilir."
+  }
+}

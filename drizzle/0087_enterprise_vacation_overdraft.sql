@@ -1,0 +1,1 @@
+ALTER TABLE "organizations" ADD COLUMN IF NOT EXISTS "vacation_overdraft_days" numeric(4, 1) DEFAULT '0' NOT NULL;

@@ -1,0 +1,22 @@
+[variables]
+main_domain = "${domain}"
+postgres_password = "${hash:64}"
+auth_secret = "${hash:64}"
+encryption_key = "${hash:64}"
+cron_secret = "${hash:64}"
+
+[config]
+env = [
+  "NEXT_PUBLIC_APP_URL=https://${main_domain}",
+  "POSTGRES_PASSWORD=${postgres_password}",
+  "BETTER_AUTH_SECRET=${auth_secret}",
+  "ENCRYPTION_KEY=${encryption_key}",
+  "CRON_SECRET=${cron_secret}",
+]
+# Persistent storage uses named volumes in docker-compose.yml, not host files.
+mounts = []
+
+[[config.domains]]
+serviceName = "app"
+port = 3000
+host = "${main_domain}"

@@ -1,0 +1,322 @@
+{
+  "groups": {
+    "timesheet": {
+      "label": "Výkazy hodin",
+      "description": "Odeslané, schválené, zamítnuté a znovu otevřené, plus uzávěrka období (výkaz, schválení, potvrzení)"
+    },
+    "absence": {
+      "label": "Dovolená a absence",
+      "description": "Žádosti, rozhodnutí, evidence a hlášení nemoci"
+    },
+    "reminder": {
+      "label": "Připomenutí",
+      "description": "Páteční připomenutí, když chybí výkaz hodin, a (volitelně) když bylo včerejší vytížení nízké"
+    },
+    "compliance": {
+      "label": "Pravidla pracovní doby",
+      "description": "Upozornění na pravidla pracovní doby při odeslání (pro vedoucí)"
+    },
+    "digest": {
+      "label": "Souhrn pro vedoucí",
+      "description": "Denní/týdenní přehled pro vedoucí"
+    }
+  },
+  "channels": {
+    "in_app": "V aplikaci",
+    "email": "E-mail",
+    "push": "Push",
+    "teams": "Microsoft Teams"
+  },
+  "weekLabel": "týden {week}",
+  "periodFrom": "od {date}",
+  "periodRange": "{start} až {end}",
+  "unknown": "Neznámé",
+  "duration": {
+    "hm": "{h} h {m} min",
+    "h": "{h} h",
+    "m": "{m} min"
+  },
+  "ev": {
+    "timesheetSubmitted": {
+      "title": "Výkaz hodin čeká na schválení",
+      "body": "{employee} odeslal(a) výkaz hodin za {week} (hodin: {hours})."
+    },
+    "factEmployee": "Zaměstnanec",
+    "factWeek": "Týden",
+    "factHours": "Hodiny",
+    "timesheetApproved": {
+      "title": "Výkaz hodin schválen",
+      "body": "{manager} schválil(a) tvůj výkaz hodin za {week}."
+    },
+    "timesheetRejected": {
+      "title": "Výkaz hodin zamítnut",
+      "body": "{manager} zamítl(a) tvůj výkaz hodin za {week}.",
+      "bodyReason": "{manager} zamítl(a) tvůj výkaz hodin za {week}. Důvod: {reason}"
+    },
+    "timesheetReopened": {
+      "title": "Výkaz hodin znovu otevřen",
+      "body": "{manager} znovu otevřel(a) tvůj výkaz hodin za {week} k úpravám.",
+      "bodyReason": "{manager} znovu otevřel(a) tvůj výkaz hodin za {week} k úpravám. Důvod: {reason}"
+    },
+    "closingReady": {
+      "title": "Výkazy za období jsou připraveny ke schválení",
+      "body": "{count, plural, one {Výkaz za {period} byl vytvořen pro # zaměstnance a čeká na tvé schválení.} few {Výkazy za {period} byly vytvořeny pro # zaměstnance a čekají na tvé schválení.} many {Výkazy za {period} byly vytvořeny pro # zaměstnance a čekají na tvé schválení.} other {Výkazy za {period} byly vytvořeny pro # zaměstnanců a čekají na tvé schválení.}}"
+    },
+    "factPeriod": "Období",
+    "factStatements": "Výkazy",
+    "closingApproved": {
+      "title": "Potvrď svůj výkaz za období",
+      "body": "{manager} schválil(a) tvůj výkaz za {period}. Období je nyní uzamčeno: zkontroluj výkaz a potvrď ho."
+    },
+    "closingUnlocked": {
+      "title": "Období odemčeno",
+      "body": "{actor} odemkl(a) období {period}. Důvod: {reason}"
+    },
+    "absenceRequested": {
+      "title": "Absence čeká na schválení",
+      "body": "{employee} žádá o {type} {period}."
+    },
+    "factType": "Typ",
+    "absenceApproved": {
+      "title": "Absence schválena",
+      "body": "{manager} schválil(a) tvou absenci ({type}) {period}."
+    },
+    "absenceRejected": {
+      "title": "Absence zamítnuta",
+      "body": "{manager} zamítl(a) tvou absenci ({type}) {period}.",
+      "bodyReason": "{manager} zamítl(a) tvou absenci ({type}) {period}. Důvod: {reason}"
+    },
+    "absenceRegistered": {
+      "title": "Absence zaevidována",
+      "body": "{registrar} zaevidoval(a) absenci ({type}) {period}."
+    },
+    "sickRegistered": {
+      "title": "Hlášení nemoci",
+      "body": "{employee} se hlásí nemocný(á) {period}."
+    },
+    "timesheetMissing": {
+      "title": "Chybí tvůj výkaz hodin",
+      "bodyHours": "V týdnu {week} máš zaznamenáno hodin: {hours}, ale týden ještě nebyl odeslán.",
+      "bodyNone": "V týdnu {week} zatím nemáš zaznamenané žádné hodiny."
+    },
+    "coverageLow": {
+      "title": "Zaznamenáno je jen {pct} pracovní doby",
+      "body": "{day} máš zaznamenáno {logged} z {expected} hodin (pod tvým limitem {threshold} %). Něco chybí?"
+    },
+    "factLogged": "Zaznamenáno",
+    "factWorkTime": "Pracovní doba",
+    "factCoverage": "Vytížení",
+    "hoursShort": "{hours} h",
+    "compliance": {
+      "title": "Upozornění na pravidla pracovní doby",
+      "body": "Výkaz hodin zaměstnance {employee} za {week} spouští: {findings}"
+    },
+    "factFinding": "Zjištění",
+    "digestDaily": "Denní přehled pro vedoucí",
+    "digestWeekly": "Týdenní přehled pro vedoucí",
+    "digestDailyEsc": "Denní přehled pro vedoucí (eskalováno)",
+    "digestWeeklyEsc": "Týdenní přehled pro vedoucí (eskalováno)",
+    "digestEmpty": "Žádné nevyřízené výkazy hodin ani žádosti.",
+    "digestMissing": "Chybějící výkazy hodin",
+    "digestPendingTs": "Výkazy hodin čekající na schválení",
+    "digestPendingAbs": "Žádosti o absenci čekající na schválení",
+    "digestFactAbs": "Žádosti o absenci",
+    "digestSection": "{label} ({count}):",
+    "digestAge": "({days, plural, one {# den} few {# dny} many {# dne} other {# dnů}})",
+    "digestMore": "… a dalších: {count}"
+  },
+  "digestItem": {
+    "missing": "výkaz hodin za {week} nebyl odeslán",
+    "pendingTs": "{week} čeká na schválení",
+    "pendingAbs": "{type} {period} čeká na rozhodnutí"
+  },
+  "emailOpenIn": "Otevřít v {brand}",
+  "emailNoAddress": "Žádná e-mailová adresa",
+  "push": {
+    "open": "Otevřít",
+    "dismiss": "Zavřít",
+    "deadlineTitle": "⏰ Připomenutí termínu",
+    "deadlineBody": "{title} - termín {when}",
+    "whenDays": "za {days} d",
+    "whenTomorrow": "zítra",
+    "whenHours": "za {hours} h",
+    "whenOneHour": "za 1 hodinu",
+    "whenSoon": "brzy",
+    "overdueTitle": "🚨 Úkol po termínu",
+    "overdueBody": "{title} má termín za sebou",
+    "digestTitle": "☀️ Dobré ráno!",
+    "digestOverdue": "Po termínu: {overdue}, naplánováno na dnes: {tasks}",
+    "digestTasks": "Na dnes {count, plural, one {je naplánován # úkol} few {jsou naplánovány # úkoly} many {je naplánováno # úkolu} other {je naplánováno # úkolů}}",
+    "digestNone": "Žádné naplánované úkoly, užij si den!",
+    "testTitle": "🔔 Testovací oznámení",
+    "testBody": "Push oznámení jsou pro {brand} zapnutá!"
+  },
+  "discord": {
+    "digestTitle": "☀️ Dobré ráno, {name}!",
+    "digestNone": "Na dnes nemáš naplánované žádné úkoly. Užij si den! 🎉",
+    "digestOverview": "Tady je tvůj přehled na dnes:",
+    "todayTasks": "📌 Dnešní úkoly ({count})",
+    "overdueTasks": "🚨 Po termínu ({count})",
+    "andMore": "…a dalších: {count}",
+    "status": "📊 Stav",
+    "yesterdayTime": "Včera zaznamenaný čas: {h} h {m} min",
+    "yesterdayDone": "Včera dokončené úkoly: {count}",
+    "digestFooter": "TimeTrack • Denní přehled",
+    "testTitle": "Testovací oznámení",
+    "testMessage": "Tvůj webhook Discordu je nyní propojen s TimeTrack! 🎉"
+  },
+  "taskDigestSubject": "Tvoje úkoly {date}",
+  "endOfDay": {
+    "titleTracked": "Denní souhrn: zaznamenáno {hours}",
+    "titleNone": "Dnes není zaznamenán žádný čas",
+    "bodyTracked": "Dnes je zaznamenáno {hours}.",
+    "bodyUnbilled": "Nevyfakturováno: {hours}.",
+    "bodyRevenue": "Odhadovaný příjem: {amount} kr.",
+    "bodyNone": "Nezapomeň si zaznamenat čas, než den skončí.",
+    "footer": "TimeTrack Denní souhrn"
+  },
+  "msg": {
+    "idleDetected": {
+      "title": "Zjištěna nečinnost",
+      "message": "Stopky stále běží po {minutes} minutách práce. Po návratu se tě zeptáme na dobu nečinnosti."
+    },
+    "invoiceOverdueOne": {
+      "title": "Faktura po splatnosti",
+      "message": "Faktura {numbers} je po splatnosti."
+    },
+    "invoiceOverdueMany": {
+      "title": "Faktur po splatnosti: {count}",
+      "message": "Faktury {numbers} jsou po splatnosti."
+    },
+    "recurringOne": {
+      "title": "Koncept faktury je připraven: {name}",
+      "message": "Opakovaná faktura „{name}“ ({amount} bez DPH) byla vytvořena jako koncept. Zkontroluj ji a vystav, až bude hotová."
+    },
+    "recurringMany": {
+      "title": "Opakované faktury připravené jako koncepty: {count}",
+      "message": "{list} byly vytvořeny jako koncepty. Zkontroluj je a vystav, až budou hotové."
+    },
+    "renewalDraft": {
+      "title": "Koncept faktury je připraven: balíček hodin „{name}“",
+      "message": "Balíček hodin „{name}“ byl obnoven a faktura za nové období byla vytvořena jako koncept. Zkontroluj ji a vystav, až bude hotová."
+    }
+  },
+  "admin": {
+    "ev": {
+      "signup": "Registrace nového uživatele",
+      "subscription_started": "Nový platící předplatitel",
+      "payment_failed": "Platba selhala",
+      "subscription_cancelled": "Předplatné zrušeno",
+      "trial_ending": "Zkušební období brzy končí",
+      "user_flagged": "Uživatel označen",
+      "support_ticket": "Nový tiket podpory",
+      "webhook_rejected": "Webhook odmítnut",
+      "seat_drift": "Zjištěn rozdíl v počtu licencí",
+      "churn_risk": "Spuštěn playbook proti odchodu",
+      "subscription_duplicate": "Možné duplicitní předplatné",
+      "feedback_received": "Nová zpětná vazba od uživatele",
+      "beta_tester_signup": "Nový beta tester mobilní aplikace"
+    },
+    "sub": {
+      "signup": "Nový uživatel: {name}",
+      "subscription_started": "Nový předplatitel: {name}",
+      "payment_failed": "Platba selhala: {name}",
+      "subscription_cancelled": "Předplatné zrušeno: {name}",
+      "trial_ending": "Zkušební období končí: {name}",
+      "user_flagged": "Uživatel označen: {name}",
+      "support_ticket": "Tiket podpory: {name}",
+      "webhook_rejected": "Webhook odmítnut",
+      "seat_drift": "Rozdíl v počtu licencí",
+      "churn_risk": "Riziko odchodu",
+      "subscription_duplicate": "Možné duplicitní předplatné",
+      "feedback_received": "Nová zpětná vazba: {name}",
+      "beta_tester_signup": "Nový beta tester: {name}"
+    },
+    "unknownName": "neznámý",
+    "fieldName": "Jméno",
+    "fieldEmail": "E-mail",
+    "fieldPlan": "Tarif",
+    "fieldType": "Typ",
+    "fieldDaysLeft": "Zbývá dní",
+    "fieldReason": "Důvod",
+    "fieldTime": "Čas",
+    "seeUser": "Zobrazit uživatele v administraci",
+    "footer": "TimeTrack Admin",
+    "testTitle": "Test: oznámení pro administrátory",
+    "testBody": "Tvůj webhook Discordu je nyní propojen s administrátorskými oznámeními TimeTrack!",
+    "supportReply": "Odpověď na tiket: {subject}",
+    "supportNew": "Nový tiket podpory: {subject}",
+    "supportNoSubject": "Bez předmětu"
+  },
+  "fallbackUser": "uživatel",
+  "absenceTypeFallback": "Absence",
+  "teams": {
+    "urlTooLong": "URL webhooku je příliš dlouhá",
+    "urlInvalid": "Neplatná URL",
+    "urlHttps": "URL webhooku musí používat https",
+    "urlNotTeams": "URL nevypadá jako webhook Teams (očekává se *.webhook.office.com, *.logic.azure.com nebo *.powerplatform.com)"
+  },
+  "fallbackTaskTitle": "Úkol z e-mailu",
+  "deadlines": {
+    "noProject": "Bez projektu",
+    "overdueLine": "• **{title}** ({project}) - po termínu: {days, plural, one {# den} few {# dny} many {# dne} other {# dnů}}",
+    "overdueTitle": "{count, plural, one {# úkol po termínu} few {# úkoly po termínu} many {# úkolu po termínu} other {# úkolů po termínu}}",
+    "overdueFooter": "TimeTrack Upozornění na termíny",
+    "whenToday": "dnes",
+    "whenTomorrow": "zítra",
+    "whenDays": "za {days} d",
+    "upcomingLine": "• **{title}** ({project}) - termín {when}",
+    "upcomingTitle": "{count, plural, one {# úkol s blížícím se termínem} few {# úkoly s blížícím se termínem} many {# úkolu s blížícím se termínem} other {# úkolů s blížícím se termínem}}",
+    "upcomingFooter": "TimeTrack Připomenutí termínů",
+    "projOverdueTitle": "{count, plural, one {# projekt po datu ukončení} few {# projekty po datu ukončení} many {# projektu po datu ukončení} other {# projektů po datu ukončení}}",
+    "projOverdueLine": "• **{name}** - datum ukončení překročeno o {days, plural, one {# den} few {# dny} many {# dne} other {# dnů}}",
+    "projSoonTitle": "{count, plural, one {# projekt s blížícím se datem ukončení} few {# projekty s blížícím se datem ukončení} many {# projektu s blížícím se datem ukončení} other {# projektů s blížícím se datem ukončení}}",
+    "projSoonLine": "• **{name}** - končí {when}",
+    "projFooter": "TimeTrack Datum ukončení projektu"
+  },
+  "slack": {
+    "noProject": "Bez projektu",
+    "noClient": "Bez klienta",
+    "project": "Projekt",
+    "client": "Klient",
+    "description": "Popis",
+    "timerStarted": "Stopky spuštěny",
+    "startedAtSlack": "Spuštěno v",
+    "startedAtDiscord": "Spuštěno",
+    "timerStopped": "Stopky zastaveny",
+    "duration": "Doba trvání",
+    "durationHM": "{h} h {m} min",
+    "durationM": "{m} min",
+    "idleTitle": "Zjištěna nečinnost",
+    "idleBodySlack": "Jsi neaktivní už *{minutes} min*, zatímco stopky běží na *{project}*. Pokud děláš přestávku, nezapomeň stopky zastavit.",
+    "idleBodyDiscord": "Jsi neaktivní už **{minutes} min**, zatímco stopky běží na **{project}**. Pokud děláš přestávku, nezapomeň stopky zastavit.",
+    "dailyTitle": "Denní souhrn - {date}",
+    "totalTime": "Celkový čas",
+    "totalRevenue": "Celkový příjem",
+    "tasksDone": "Dokončené úkoly",
+    "projects": "Projekty",
+    "noEntriesToday": "Dnes žádné záznamy času",
+    "weeklyTitle": "Týdenní report - týden {week}",
+    "unbilled": "Nevyfakturováno",
+    "topClients": "Top klienti",
+    "noEntriesWeek": "Tento týden žádné záznamy času",
+    "hoursShort": "{hours} h",
+    "minutesShort": "{m} min",
+    "testTitle": "Testovací zpráva TimeTrack",
+    "testBodySlack": "Tvoje integrace Slacku je nastavena správně! Oznámení z TimeTrack budeš odteď dostávat sem.",
+    "testBodyDiscord": "Tvoje integrace Discordu je nastavena správně! Oznámení z TimeTrack budeš odteď dostávat sem.",
+    "unbilledReminderTitle": "💰 Nevyfakturovaný čas: {hours} ({value} kr)",
+    "unbilledReminderDiscord": "Máš nevyfakturovaný čas v hodnotě **{value} kr**.\n\n{list}",
+    "unbilledReminderSlack": "Máš nevyfakturovaný čas v hodnotě *{value} kr*.\n\n{list}",
+    "unbilledReminderLine": "• {name}: {hours} - {value} kr",
+    "unbilledReminderFooter": "TimeTrack Připomenutí nevyfakturovaného",
+    "aiFocusName": "🎯 Dnešní priorita ({count} úkolů)",
+    "aiWarnings": "⚠️ Upozornění",
+    "aiDeferred": "📋 Odloženo",
+    "aiDeferredValue": "{count, plural, one {# úkol doporučujeme odložit} few {# úkoly doporučujeme odložit} many {# úkolu doporučujeme odložit} other {# úkolů doporučujeme odložit}}",
+    "aiGreeting": "Dobré ráno, {name}!",
+    "aiFooter": "TimeTrack Návrhy AI",
+    "aiFocusBlock": "🎯 Dnešní priorita",
+    "aiWarningsBlock": "⚠️ Upozornění"
+  }
+}

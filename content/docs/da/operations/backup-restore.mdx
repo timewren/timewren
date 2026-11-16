@@ -1,0 +1,99 @@
+---
+title: "Backup og gendannelse"
+description: "Tag backup af databasen, volumen storage og din krypteringsnøgle, gendan dem i en ny stack, og kontrollér resultatet."
+---
+
+Tre ting rummer tilstand: PostgreSQL-databasen, volumen `storage` (uploads, vedhæftede filer, dataeksporter) og din `.env`, især `ENCRYPTION_KEY`. Scriptene i `scripts/` tager backup af og gendanner alle tre.
+
+## Scripts
+
+[Installationen med én linje](/da/docs/install/quick) og [Docker Compose](/da/docs/install/docker-compose) opretter kun stackfilerne, ikke `scripts/`. Hent i så fald først backupværktøjerne ind i stackmappen (den med `docker-compose.yml` og `.env`):
+
+```bash
+mkdir -p scripts/lib
+for f in backup.sh restore.sh lib/backup-common.sh; do
+  curl -fsSL "https://raw.githubusercontent.com/timewren/timewren/main/scripts/$f" -o "scripts/$f"
+done
+chmod +x scripts/backup.sh scripts/restore.sh
+```
+
+Scripts bruger mappen over `scripts/` som stack, så der skal ikke sættes mere op. Lægger du dem et andet sted, så sæt `TIMETRACK_DIR` til stackmappen. I en kildekode-checkout ligger de der allerede.
+
+Kør dem fra stackmappen:
+
+```bash
+scripts/backup.sh
+scripts/restore.sh backups/timetrack-20260101-030000
+scripts/test-restore.sh
+```
+
+### backup.sh
+
+`backup.sh` kræver, at tjenesten `db` kører. Den skriver en mappe med tidsstempel, `backups/timetrack-YYYYMMDD-HHMMSS/`, som indeholder:
+
+- `db.dump`: `pg_dump -Fc` af databasen.
+- `storage.tgz`: et arkiv af lagervolumen.
+- `rowcounts.tsv`: antal rækker i hver tabel, talt i en midlertidig gendannelse af dumpet.
+- `env`: en kopi af `.env` med rettighederne 600.
+- `SHA256SUMS`: checksummer for filerne ovenfor.
+
+Valgmuligheder: `--out DIR` vælger den overordnede mappe (standard er `backups` i stackens mappe eller `BACKUP_DIR`), og `--no-env` udelader `.env`. Miljøvariablerne `TIMETRACK_DIR`, `ENV_FILE` og `COMPOSE_PROJECT_NAME` bestemmer, hvilken stack den arbejder på.
+
+> **Advarsel:** Gem `ENCRYPTION_KEY` sammen med hver backup. Uden præcis den nøgle kan krypterede felter (integrationstokens, API-nøgler, 2FA-hemmeligheder) ikke læses efter en gendannelse. Kopien `env` indeholder nøglen, så beskyt og kryptér backuppen, før den forlader maskinen. Bruger du `--no-env`, skal du selv gemme nøglen.
+
+### restore.sh
+
+`restore.sh` er beregnet til en ny stack med den samme `.env`. Den:
+
+1. Kontrollerer checksummerne.
+2. Nægter at fortsætte, hvis `ENCRYPTION_KEY` i `.env` afviger fra den i backuppens kopi `env`.
+3. Stopper `app` og `cron`, starter `db` og kører `pg_restore --clean --if-exists --no-owner`.
+4. Pakker lagerarkivet ud i volumen og sætter ejerskabet til uid 1001.
+5. Sammenligner antal rækker i hver tabel med backuppen og afslutter med en exitkode forskellig fra nul ved enhver forskel.
+6. Starter hele stacken.
+
+Valgmuligheder: `--yes` springer bekræftelsen over, `--skip-start` lader `app` og `cron` forblive stoppet, og `--force` tillader udpakning til en lagervolumen, der allerede har filer (uden den stopper scriptet. Eksisterende filer bevares, og filer, der ikke er i backuppen, bliver liggende). Backupmappen er det eneste argument.
+
+### test-restore.sh
+
+`scripts/test-restore.sh` beviser, at backups kan gendannes. Den opretter testdata i en midlertidig stack, tager backup af den, gendanner i en tom stack nummer to og tjekker, at hver tabel har samme antal rækker, og at lagerfilen er identisk. Den tjekker også, at en beskadiget eller ændret backup afvises. Den kræver Docker og repositoriets `node_modules` (`npm ci`), bruger ingen faste porte og fjerner det, den opretter. Kør den fra et checkout af kildekoden.
+
+## Manuelle kommandoer
+
+De samme trin i hånden. Compose-projektet hedder `timetrack`, og både databasenavn og bruger er `timetrack`:
+
+```bash
+docker compose exec -T db pg_dump -U timetrack -Fc timetrack > timewren-$(date +%F).dump
+docker run --rm -v timetrack_storage:/data -v "$PWD":/backup alpine \
+  tar czf /backup/storage-$(date +%F).tgz -C /data .
+cp .env env-backup-$(date +%F)
+```
+
+## Gendannelse
+
+Gendan i en ny stack med den samme `.env`:
+
+```bash
+docker compose up -d db
+docker compose exec -T db pg_restore -U timetrack -d timetrack --clean --if-exists --no-owner < timewren-2026-01-01.dump
+docker run --rm -v timetrack_storage:/data -v "$PWD":/backup alpine \
+  tar xzf /backup/storage-2026-01-01.tgz -C /data
+docker run --rm -v timetrack_storage:/data alpine chown -R 1001:1001 /data
+docker compose up -d
+```
+
+Har du sat `COMPOSE_PROJECT_NAME` i `.env`, hedder volumen `<project>_storage` i stedet for `timetrack_storage`.
+
+## Natlige backups
+
+`backup.sh` kan køre uden opsyn. Denne linje i værtens crontab tager en backup kl. 03.00 og gemmer outputtet i en log:
+
+```text
+0 3 * * * cd /opt/timewren && ./scripts/backup.sh --out /var/backups/timewren >> /var/log/timewren-backup.log 2>&1
+```
+
+Tilpas stierne til din installation. Scriptet sletter ikke gamle backups, så ryd selv op i dem, for eksempel med `find /var/backups/timewren -maxdepth 1 -name 'timetrack-*' -mtime +14 -exec rm -rf {} +`.
+
+## Kopier uden for huset og test
+
+En backup på den samme maskine går tabt sammen med maskinen. Kopiér backupmapperne til en anden vært eller til object storage, og kryptér dem først, fordi de indeholder filen `env` med dine hemmeligheder. Test en gendannelse, før du får brug for den, enten med `scripts/test-restore.sh` eller ved at gendanne på en reservemaskine.

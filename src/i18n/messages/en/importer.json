@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Import finished: {count, plural, one {# time entry imported} other {# time entries imported}}",
+    "doneWithErrorsToast": "Import finished with errors: {imported} imported, {failed} failed",
+    "failedToast": "Import failed. See the details under settings",
+    "running": "Import running: {pct}% ({imported}/{total})",
+    "details": "View details",
+    "done": "Import finished: {count, plural, one {# time entry imported} other {# time entries imported}}",
+    "doneWithFailed": "Import finished: {count, plural, one {# time entry imported} other {# time entries imported}}, {failed} failed",
+    "dismiss": "Close"
+  },
+  "page": {
+    "pickDateFormat": "Please choose a date format to continue.",
+    "success": "Import completed successfully!",
+    "failed": "Import failed. Try again.",
+    "backToOnboarding": "← Back to onboarding",
+    "backToIntegrations": "← Back to integrations",
+    "onboardingMode": "Onboarding mode enabled",
+    "onboardingNote": "After a successful import you will automatically continue in the onboarding process.",
+    "uploadFile": "Upload file",
+    "chooseFile": "Choose file",
+    "noFile": "No file chosen",
+    "dateFormat": "Date format",
+    "chooseFormat": "Choose format...",
+    "dateFormatHint": "Check your CSV data to see which date format is used.",
+    "billingFilter": "Invoicing filter",
+    "filter": {
+      "all": "Import all",
+      "unbilled": "Unbilled only",
+      "billed": "Billed only"
+    },
+    "billingFilterHint": "Filter entries based on the invoicing status from the source.",
+    "markAllBilled": "Mark all imported entries as invoiced",
+    "markAllBilledHint": "Use this if you only export entries that have already been invoiced from the source.",
+    "result": {
+      "clients": "{count, plural, one {# client created} other {# clients created}}",
+      "projects": "{count, plural, one {# project created} other {# projects created}}",
+      "timeEntries": "{count, plural, one {# time entry imported} other {# time entries imported}}",
+      "billedSplit": "({billed} invoiced, {unbilled} not invoiced)",
+      "skippedRows": "{count, plural, one {# row skipped} other {# rows skipped}}",
+      "filteredRows": "{count, plural, one {# row filtered out (invoicing filter)} other {# rows filtered out (invoicing filter)}}",
+      "totalHours": "{hours} hours imported in total",
+      "tasks": "{count, plural, one {# task imported} other {# tasks imported}}",
+      "subtasks": "{count, plural, one {# subtask imported} other {# subtasks imported}}",
+      "tasksSkipped": "{count, plural, one {# task skipped} other {# tasks skipped}}"
+    },
+    "importing": "Importing...",
+    "start": "Start import",
+    "mayTakeAWhile": "This can take a few minutes depending on the amount of data...",
+    "warnTitle": "Good to know:",
+    "warn1": "The import cannot be undone",
+    "warn2": "Existing data is not overwritten",
+    "warn3": "We skip duplicates"
+  }
+}

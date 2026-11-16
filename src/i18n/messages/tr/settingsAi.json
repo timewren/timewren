@@ -1,0 +1,137 @@
+{
+  "presets": {
+    "openai": {
+      "label": "OpenAI",
+      "description": "GPT-4o, GPT-4o-mini ve diğer OpenAI modelleri",
+      "note": "platform.openai.com/api-keys adresinden bir API anahtarı oluştur"
+    },
+    "anthropic": {
+      "label": "Anthropic",
+      "description": "OpenAI SDK üzerinden Claude Sonnet, Opus ve Haiku",
+      "note": "console.anthropic.com/settings/keys adresinden bir API anahtarı oluştur"
+    },
+    "ordbogen": {
+      "label": "OdinCore (Ordbogen)",
+      "description": "Danimarka'da barındırılan, tam GDPR uyumlu Danimarkalı yapay zeka",
+      "badge": "Önerilen",
+      "note": "Ordbogen A/S'in Danimarka'da barındırılan yapay zekası. odincore.ai adresinden bir anahtar oluştur. Veriler Danimarka'dan asla çıkmaz."
+    },
+    "custom": {
+      "label": "Başka uç nokta",
+      "description": "OpenAI uyumlu herhangi bir API"
+    }
+  },
+  "autonomy": {
+    "manual": {
+      "label": "Manuel",
+      "description": "Yapay zeka kapalı. Tüm görevler yapay zeka ayrıştırması olmadan işlenir."
+    },
+    "suggest": {
+      "label": "Öner",
+      "description": "Yapay zeka kategori ve öncelik önerir, onayı sen verirsin."
+    },
+    "auto_lowrisk": {
+      "label": "Otomatik (düşük risk)",
+      "description": "Yapay zeka basit görevleri otomatik halleder. Karmaşık olanlar onaya gider."
+    },
+    "auto_all": {
+      "label": "Tam otomatik",
+      "description": "Yapay zeka tüm görevleri onay olmadan otomatik halleder."
+    }
+  },
+  "timezones": {
+    "Europe/Copenhagen": "Danimarka (Europe/Copenhagen)",
+    "Europe/Stockholm": "İsveç (Europe/Stockholm)",
+    "Europe/Oslo": "Norveç (Europe/Oslo)",
+    "Europe/London": "Birleşik Krallık (Europe/London)",
+    "Europe/Berlin": "Almanya (Europe/Berlin)",
+    "America/New_York": "ABD Doğu Kıyısı (America/New_York)",
+    "America/Los_Angeles": "ABD Batı Kıyısı (America/Los_Angeles)"
+  },
+  "connectionOk": "Bağlantı tamam!",
+  "connectionFailed": "Bağlantı başarısız",
+  "testFailed": "Test başarısız",
+  "emailEnabled": "E-postadan göreve etkinleştirildi!",
+  "emailEnableFailed": "E-postadan görev etkinleştirilemedi",
+  "emailDisabled": "E-postadan görev devre dışı bırakıldı",
+  "emailDisableFailed": "E-postadan görev devre dışı bırakılamadı",
+  "addressRegenerated": "Yeni e-posta adresi oluşturuldu!",
+  "addressRegenerateFailed": "Yeni adres oluşturulamadı",
+  "settingsUpdated": "Yapay zeka ayarları güncellendi",
+  "settingsUpdateFailed": "Yapay zeka ayarları güncellenemedi",
+  "addressCopied": "E-posta adresi kopyalandı!",
+  "keyRequired": "API anahtarı gerekli",
+  "urlRequired": "Özel uç nokta için API URL'si gerekli",
+  "enterKeyFirst": "Önce bir API anahtarı gir",
+  "title": "Yapay zeka ve otomasyon",
+  "description": "Yapay zeka özelliklerini ve e-postadan göreve ayarlarını yapılandır",
+  "statusTitle": "Yapay zeka durumu",
+  "statusEnabled": "Yapay zeka etkin",
+  "statusDisabled": "Yapay zeka yapılandırılmadı",
+  "statCalls": "Toplam yapay zeka çağrısı",
+  "statSuccess": "Başarı oranı",
+  "statConfidence": "Ort. güven",
+  "statTime": "Ort. işlem süresi",
+  "enableHint": "Yapay zeka özelliklerini etkinleştirmek için aşağıdan bir yapay zeka sağlayıcısı seç ve kendi API anahtarını gir.",
+  "providerTitle": "Yapay zeka sağlayıcısı",
+  "providerSub": "Yapay zeka özelliklerinin nasıl çalışacağını seç: sistemin yapay zekasını ya da kendi anahtarını kullan",
+  "providerIntro": "Yapay zeka özelliklerini etkinleştirmek için bir sağlayıcı seç ve kendi API anahtarını gir. {brand}, birçok sağlayıcıyla uyumlu olan OpenAI SDK biçimini kullanır.",
+  "apiKey": "API anahtarı",
+  "configured": "(yapılandırıldı)",
+  "keyPlaceholder": "API anahtarı",
+  "keyHelpOpenai": "platform.openai.com üzerindeki OpenAI API anahtarın",
+  "keyHelpAnthropic": "console.anthropic.com üzerindeki Anthropic API anahtarın",
+  "keyHelpOrdbogen": "OdinCore.ai üzerindeki API anahtarın",
+  "keyHelpOther": "Sağlayıcının API anahtarı",
+  "apiUrl": "API URL'si",
+  "urlPlaceholderOpenai": "https://api.openai.com/v1 (varsayılan, boş bırak)",
+  "urlPlaceholderCustom": "https://your-endpoint.example.com/v1",
+  "urlPlaceholderPreset": "Hazır ayardan otomatik dolduruldu",
+  "urlHelp": "API'nin temel URL'si. OpenAI'nin varsayılan uç noktası için boş bırak.",
+  "model": "Model",
+  "modelPlaceholderOpenai": "gpt-4o-mini (varsayılan)",
+  "modelPlaceholderOther": "Model adı",
+  "modelHelp": "Bir model belirt ya da varsayılanı kullanmak için boş bırak",
+  "testConnection": "Bağlantıyı test et",
+  "saveSettings": "Ayarları kaydet",
+  "help": {
+    "title": "API anahtarı nasıl alınır",
+    "sub": "Önerilen sağlayıcılardan birini seç ve kılavuzu izle",
+    "odinDesc": "Danimarka'da barındırılan, tam GDPR uyumlu Danimarkalı yapay zeka. Veriler Danimarka'dan asla çıkmaz.",
+    "odin1": "odincore.ai adresine git ve bir hesap oluştur",
+    "odin2": "Hesabındaki API bölümüne git",
+    "odin3": "Yeni bir API anahtarı oluştur",
+    "odin4": "Anahtarı yukarıda “OdinCore (Ordbogen)” altına yapıştır",
+    "openaiDesc": "GPT-4o-mini hızlı ve ucuzdur, görev ayrıştırmaya çok uygundur.",
+    "openai1": "platform.openai.com adresine git ve oturum aç",
+    "openai2": "Ayarlarının altındaki “API keys” bölümüne git",
+    "openai3": "“Create new secret key” düğmesine tıkla",
+    "copyPaste": "Anahtarı kopyala ve yukarıya yapıştır",
+    "anthropicDesc": "Claude modelleri görevleri anlamada ve kategorilere ayırmada güçlüdür.",
+    "anthropic1": "console.anthropic.com adresine git ve bir hesap oluştur",
+    "anthropic2": "“Settings” → “API keys” bölümüne git",
+    "anthropic3": "“Create key” düğmesine tıkla"
+  },
+  "email": {
+    "title": "E-postadan görev",
+    "sub": "Görevleri otomatik oluşturmak için kişisel adresine e-posta gönder",
+    "address": "Kişisel görev e-posta adresin",
+    "copyTitle": "E-posta adresini kopyala",
+    "addressHelp": "Görevleri otomatik oluşturmak için bu adrese e-posta gönder veya ilet. Yapay zeka içeriği ayrıştırır, başlığı, son tarihi ve önceliği çıkarır.",
+    "regenerate": "Yeni adres oluştur",
+    "disable": "E-postadan görevi devre dışı bırak",
+    "notEnabled": "E-postadan görev etkin değil",
+    "notEnabledText": "Görev gönderebileceğin kişisel bir e-posta adresi almak için etkinleştir. E-postalar panonda otomatik olarak göreve dönüşür.",
+    "enable": "E-postadan görevi etkinleştir"
+  },
+  "autonomyTitle": "Yapay zeka özerklik düzeyi",
+  "autonomySub": "Yapay zekanın ne kadarını otomatik halletmesi gerektiğini seç",
+  "hoursTitle": "Çalışma saatleri ve saat dilimi",
+  "hoursSub": "Yapay zeka önceliklendirmesi ve takvim özellikleri için kullanılır",
+  "timezone": "Saat dilimi",
+  "workingHours": "Çalışma saatleri",
+  "to": "-",
+  "hoursHelp": "Yapay zeka bu saatleri, görevler için en uygun zamanları önermek amacıyla kullanır",
+  "privacyTitle": "Gizlilik ve güvenlik",
+  "privacyText": "E-postalar işlenir ve görev oluşturulur oluşturulmaz silinir. Yalnızca hazır görevi saklarız, orijinal e-postayı değil. Yapay zeka işleme, sıkı veri yönetimiyle OpenAI üzerinden yapılır."
+}

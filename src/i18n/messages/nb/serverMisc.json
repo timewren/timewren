@@ -1,0 +1,34 @@
+{
+  "emailTemplates": {
+    "defaults": {
+      "invoice": {
+        "name": "Faktura (standard)",
+        "subject": "Faktura {number} fra {company}",
+        "title": "Faktura {number}",
+        "text": "Hei {client},\n\nVedlagt finner du fakturaen for det utførte arbeidet.\n\nBeløp: {amount}\nForfallsdato: {dueDate}",
+        "button": "Se faktura",
+        "footer": "Med vennlig hilsen\n{yourName}\n{company}"
+      },
+      "portal": {
+        "name": "Invitasjon til portalen",
+        "subject": "Du er invitert til kundeportalen hos {company}",
+        "title": "Velkommen til kundeportalen",
+        "text": "Hei {client},\n\nDu er invitert til din personlige kundeportal hos {company}.\n\nI portalen kan du:\n• Se fakturaene dine\n• Følge fremdriften i prosjektene\n• Se tidsoppføringene dine\n• Sjekke klippekortet ditt",
+        "button": "Godta invitasjonen"
+      }
+    }
+  },
+  "unsubscribe": {
+    "successText": "Du får ikke lenger nyhetsbrev og markedsføringse-poster fra TimeTrack. Viktige e-poster om kontoen og sikkerheten din kommer fortsatt.",
+    "invalidText": "Avmeldingen kunne ikke bekreftes. Prøv igjen, eller juster innstillingene dine i TimeTrack.",
+    "confirmText": "Vil du melde deg av nyhetsbrev og markedsføringse-poster fra TimeTrack? Viktige e-poster om kontoen og sikkerheten din kommer fortsatt.",
+    "settingsButton": "Juster e-postinnstillinger",
+    "confirmButton": "Bekreft avmelding",
+    "doneTitle": "Du er avmeldt",
+    "invalidTitle": "Lenken er ugyldig",
+    "confirmTitle": "Meld deg av nyhetsbrev"
+  },
+  "mailFallbacks": {
+    "endOfPeriod": "slutten av perioden"
+  }
+}

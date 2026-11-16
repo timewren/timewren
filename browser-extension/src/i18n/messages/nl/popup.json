@@ -1,0 +1,91 @@
+{
+  "loading": "Laden",
+  "offline": "Offline",
+  "noInternet": "Geen internetverbinding",
+  "openApp": "TimeTrack openen",
+  "openAppNewTab": "TimeTrack openen in een nieuw tabblad",
+  "settings": "Instellingen",
+  "logout": "Uitloggen",
+  "logoutConfirm": "Uitloggen bij TimeTrack?",
+  "todayHours": "{duration} vandaag",
+  "dailyProgress": "Voortgang van vandaag: {done} van {goal} u",
+  "tabs": {
+    "view": "Weergave",
+    "timer": "Timer",
+    "calendar": "Agenda",
+    "history": "Geschiedenis",
+    "prepaid": "Pakketten"
+  },
+  "login": {
+    "tagline": "Urenregistratie direct vanuit je browser",
+    "connecting": "Verbinden…",
+    "connect": "Verbinden met TimeTrack",
+    "secureHint": "Je logt veilig in via een nieuw venster. Daarna kun je in de extensie een organisatie kiezen.",
+    "newHere": "Nieuw bij TimeTrack?",
+    "register": "Maak een gratis account",
+    "advanced": "Geavanceerd: token handmatig plakken",
+    "tokenLabel": "Extensietoken",
+    "tokenPlaceholder": "Plak hier je token…",
+    "signingIn": "Inloggen…",
+    "signInToken": "Inloggen met token",
+    "openSettings": "Instellingen openen in TimeTrack"
+  },
+  "org": {
+    "label": "Organisatie: {name}. Van organisatie wisselen",
+    "none": "geen gekozen",
+    "choose": "Organisatie kiezen",
+    "stopFirst": "Stop of bewaar de actieve timer voordat je van organisatie wisselt."
+  },
+  "stopPrompt": {
+    "title": "Geen klant gekozen",
+    "question": "Geen klant gekozen. Opslaan als interne tijd?",
+    "close": "Sluiten zonder te stoppen",
+    "pickClient": "Klant kiezen",
+    "saveInternal": "Opslaan als interne tijd"
+  },
+  "sync": {
+    "syncing": "Synchroniseren…",
+    "pending": "{count} wachten op synchronisatie",
+    "hideDetails": "Details verbergen",
+    "showDetails": "Details tonen",
+    "syncNow": "Nu synchroniseren",
+    "entry": "Tijdboeking: {description}",
+    "noDescription": "(geen omschrijving)",
+    "timerUpdate": "Timer-update",
+    "timerStop": "Timer stoppen",
+    "tries": "{count, plural, one {# keer geprobeerd} other {# keer geprobeerd}}"
+  },
+  "mini": {
+    "timerLabel": "Timer",
+    "goTo": "Naar timer: {label}",
+    "stop": "Timer stoppen"
+  },
+  "queryError": {
+    "retry": "Opnieuw proberen"
+  },
+  "timerError": {
+    "close": "Foutmelding sluiten"
+  },
+  "update": {
+    "title": "Werk de TimeTrack-extensie bij",
+    "body": "Versie {version} is te oud om tijd op te slaan. De update wordt automatisch gedownload. Gebeurt dat niet, start dan de browser opnieuw of open chrome://extensions en klik op \"Update\"."
+  },
+  "idle": {
+    "pausedMessage": "De timer is om {clock} gepauzeerd na {away} zonder activiteit",
+    "pausedDetail": "Die inactieve tijd is niet meegeteld.",
+    "resume": "Timer hervatten",
+    "close": "Sluiten",
+    "awayMessage": "Je was {away} weg (sinds {clock})",
+    "awayDetail": "De timer loopt nog. Moet de tijd meetellen?",
+    "discard": "{away} verwijderen",
+    "keep": "Tijd behouden"
+  },
+  "confirm": {
+    "cancel": "Annuleren"
+  },
+  "logoutWarnings": {
+    "running": "De timer blijft doorlopen in TimeTrack terwijl je bent uitgelogd.",
+    "paused": "De gepauzeerde timer blijft bewaard in TimeTrack.",
+    "queue": "{count, plural, one {# wijziging in de offlinewachtrij is} other {# wijzigingen in de offlinewachtrij zijn}} nog niet verstuurd. Ze worden verstuurd zodra je weer inlogt."
+  }
+}

@@ -1,0 +1,72 @@
+---
+title: "Quickstart"
+description: "From an empty Linux server to your first tracked hour: install TimeWren, create the admin account and log time against a prepaid package."
+---
+
+This guide gets a TimeWren instance running on one Linux server and walks you through the first client, project, prepaid package and time entry. It takes about ten minutes.
+
+## Before you start
+
+You need:
+
+- A Linux server (amd64 or arm64) with 2 vCPU, 2 GB RAM and 10 GB free disk. 4 GB RAM is more comfortable.
+- Docker Engine with Docker Compose v2.24 or newer. Check with `docker compose version`.
+- For anything beyond a local test: a domain name pointing at the server, so you can serve TimeWren over HTTPS.
+
+TimeWren does not install Docker for you. If it is missing, follow [Docker's install guide](https://docs.docker.com/engine/install/) first.
+
+## 1. Install
+
+Run the installer as a normal user that can use Docker:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash
+```
+
+The script checks Docker and Compose, creates `.env` with fresh random secrets, pulls the prebuilt image, starts the stack and waits until the app is healthy. It never prints the secrets and never calls `sudo`. Running it again keeps your `.env` and only restarts the stack.
+
+Do you have a domain whose DNS already points at this server? Then let the installer add automatic HTTPS with Caddy:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --with-caddy --domain timewren.example.com
+```
+
+Prefer to read the script first, or install another way? See [One-line install](/docs/install/quick) for every option, or pick [Docker Compose](/docs/install/docker-compose), [Kubernetes](/docs/install/kubernetes) or a platform such as [Coolify](/docs/install/coolify).
+
+## 2. Create the admin account
+
+Open the URL the installer printed (for a local test, `http://localhost:3000`) and sign up. **The first account becomes the instance admin.** Create it right away, before anyone else can reach the instance.
+
+Without a mail server, the instance lets people sign up without email verification. That is fine for a first test, but it means anyone who can reach the instance can create an account. Set up [email](/docs/configuration/email) before you expose TimeWren to the internet.
+
+## 3. Track your first hours
+
+<Screenshot name="timer" alt="The timer running on a project" />
+
+1. Open **Clients** and add a client, for example the fictional "Acme ApS".
+2. Open **Projects** and create a project for that client. Time on a project can be invoiced and can draw from a prepaid package.
+3. Open **Prepaid Packages** and create a package for the client, for example 20 hours. Read [Prepaid hours](/docs/concepts/prepaid-hours) for how balances and warnings work.
+4. Start the timer on the project, stop it, and watch the package balance go down.
+5. When you are ready to bill, create an invoice from the tracked time under **Invoices**, or connect [Billy](/docs/integrations/billy), [Dinero](/docs/integrations/dinero) or [e-conomic](/docs/integrations/e-conomic).
+
+## 4. Make it production ready
+
+Work through this list before you rely on the instance:
+
+- **HTTPS and the public URL.** Set `NEXT_PUBLIC_APP_URL` to the URL people open, and put a reverse proxy with TLS in front. See [Reverse proxy and TLS](/docs/operations/reverse-proxy).
+- **Email.** Configure SMTP or Resend so verification, invitations and reminders are sent. See [Email](/docs/configuration/email).
+- **Backups.** Back up the database, the storage volume and `.env`, and keep `ENCRYPTION_KEY` safe. See [Backup and restore](/docs/operations/backup-restore).
+- **Upgrades.** Pin a version and learn the upgrade procedure. See [Upgrading](/docs/operations/upgrading).
+
+Every setting is listed in [Environment variables](/docs/configuration/environment).
+
+## Check that it runs
+
+From the server:
+
+```bash
+docker compose ps
+curl -i http://127.0.0.1:3000/api/health
+```
+
+Run these in the installation directory (where `docker-compose.yml` and `.env` are). If something is wrong, see [Troubleshooting](/docs/operations/troubleshooting), or hand the problem to your coding agent with the prompts in [Use these docs with your LLM](/docs/llm).

@@ -1,0 +1,91 @@
+{
+  "loading": "読み込み中",
+  "offline": "オフライン",
+  "noInternet": "インターネットに接続されていません",
+  "openApp": "TimeTrackを開く",
+  "openAppNewTab": "TimeTrackを新しいタブで開く",
+  "settings": "設定",
+  "logout": "ログアウト",
+  "logoutConfirm": "TimeTrackからログアウトしますか?",
+  "todayHours": "今日 {duration}",
+  "dailyProgress": "今日の進捗: 目標{goal} hのうち{done}",
+  "tabs": {
+    "view": "表示",
+    "timer": "タイマー",
+    "calendar": "カレンダー",
+    "history": "履歴",
+    "prepaid": "パッケージ"
+  },
+  "login": {
+    "tagline": "ブラウザから直接、時間を記録",
+    "connecting": "接続中…",
+    "connect": "TimeTrackに接続",
+    "secureHint": "新しいウィンドウで安全にログインします。その後、拡張機能で組織を選択できます。",
+    "newHere": "TimeTrackは初めてですか?",
+    "register": "無料アカウントを作成",
+    "advanced": "詳細: トークンを手動で貼り付け",
+    "tokenLabel": "拡張機能トークン",
+    "tokenPlaceholder": "トークンをここに貼り付け…",
+    "signingIn": "ログイン中…",
+    "signInToken": "トークンでログイン",
+    "openSettings": "TimeTrackの設定を開く"
+  },
+  "org": {
+    "label": "組織: {name}。組織を切り替える",
+    "none": "未選択",
+    "choose": "組織を選択",
+    "stopFirst": "組織を切り替える前に、動作中のタイマーを停止または保存してください。"
+  },
+  "stopPrompt": {
+    "title": "クライアントが未選択です",
+    "question": "クライアントが選択されていません。社内時間として保存しますか?",
+    "close": "停止せずに閉じる",
+    "pickClient": "クライアントを選択",
+    "saveInternal": "社内時間として保存"
+  },
+  "sync": {
+    "syncing": "同期中…",
+    "pending": "同期待ち {count}件",
+    "hideDetails": "詳細を隠す",
+    "showDetails": "詳細を表示",
+    "syncNow": "今すぐ同期",
+    "entry": "時間記録: {description}",
+    "noDescription": "(説明なし)",
+    "timerUpdate": "タイマーの更新",
+    "timerStop": "タイマーの停止",
+    "tries": "{count, plural, other {#回試行}}"
+  },
+  "mini": {
+    "timerLabel": "タイマー",
+    "goTo": "タイマーへ移動: {label}",
+    "stop": "タイマーを停止"
+  },
+  "queryError": {
+    "retry": "もう一度試す"
+  },
+  "timerError": {
+    "close": "エラーメッセージを閉じる"
+  },
+  "update": {
+    "title": "TimeTrack拡張機能を更新してください",
+    "body": "バージョン{version}は古いため、時間を保存できません。更新は自動でダウンロードされます。されない場合は、ブラウザを再起動するか、chrome://extensions を開いて「更新」をクリックしてください。"
+  },
+  "idle": {
+    "pausedMessage": "操作がないまま{away}が経過したため、{clock}にタイマーを一時停止しました",
+    "pausedDetail": "その放置時間はカウントされていません。",
+    "resume": "タイマーを再開",
+    "close": "閉じる",
+    "awayMessage": "{away}離席していました({clock}から)",
+    "awayDetail": "タイマーはまだ動作中です。この時間をカウントしますか?",
+    "discard": "{away}を削除",
+    "keep": "時間を残す"
+  },
+  "confirm": {
+    "cancel": "キャンセル"
+  },
+  "logoutWarnings": {
+    "running": "ログアウト中も、タイマーはTimeTrackで動作し続けます。",
+    "paused": "一時停止中のタイマーはTimeTrackに残ります。",
+    "queue": "{count, plural, other {オフラインキューの#件の変更}}はまだ送信されていません。次回ログイン時に送信されます。"
+  }
+}

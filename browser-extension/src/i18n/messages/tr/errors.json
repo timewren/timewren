@@ -1,0 +1,81 @@
+{
+  "sessionExpired": "Oturumun sona erdi. Tekrar giriş yap.",
+  "noConnection": "Bağlantı yok. Tekrar dene.",
+  "timeout": "Bağlantı çok uzun sürdü",
+  "invalidResponse": "Sunucudan beklenmeyen yanıt geldi",
+  "notLoggedIn": "Giriş yapılmadı",
+  "notLoggedInOpenPopup": "Giriş yapılmadı. TimeTrack açılır penceresini açıp giriş yap.",
+  "unknown": "Bilinmeyen hata",
+  "api": {
+    "fallback": "API hatası",
+    "UNAUTHORIZED": "Oturumun sona erdi. Tekrar giriş yap.",
+    "FORBIDDEN": "Erişim reddedildi",
+    "NOT_FOUND": "Kaynak bulunamadı",
+    "TIMEOUT": "Sunucu yanıt vermedi",
+    "TOO_MANY_REQUESTS": "Çok fazla istek. Biraz bekleyip tekrar dene",
+    "INTERNAL_SERVER_ERROR": "Sunucu hatası. Birazdan tekrar dene",
+    "BAD_REQUEST": "Geçersiz istek",
+    "PARSE_ERROR": "Geçersiz istek"
+  },
+  "auth": {
+    "invalidToken": "Geçersiz token",
+    "validateFailed": "Token doğrulanamadı",
+    "loginFailed": "Giriş başarısız",
+    "loginCancelled": "Giriş iptal edildi. Tekrar dene",
+    "loginCancelledShort": "Giriş iptal edildi",
+    "noToken": "Token alınamadı",
+    "tokenValidationStatus": "Token doğrulaması başarısız: sunucu {status} yanıtı verdi",
+    "orgsFailed": "Organizasyonlar yüklenemedi ({status})"
+  },
+  "url": {
+    "notAllowed": "timetrack.dk, app.timetrack.dk, beta.timetrack.dk veya localhost kullan"
+  },
+  "entry": {
+    "hoursPositive": "0'dan büyük bir saat sayısı gir",
+    "timesCannotBeRemoved": "Saatler kaldırılamaz. Bunun yerine başlangıcı ve bitişi düzenle",
+    "fillStartEnd": "Hem başlangıcı hem bitişi doldur",
+    "endAfterStart": "Bitiş saati başlangıç saatinden sonra olmalı"
+  },
+  "timer": {
+    "loadFailed": "Zamanlayıcı yüklenemedi",
+    "startFailed": "Zamanlayıcı başlatılamadı",
+    "stopFailed": "Zamanlayıcı durdurulamadı. Tekrar dene",
+    "stopNetwork": "Zamanlayıcı durdurulamadı: ağ hatası",
+    "cancelFailed": "Zamanlayıcı iptal edilemedi. Tekrar dene",
+    "cancelNetwork": "Zamanlayıcı iptal edilemedi: ağ hatası",
+    "cancelStoppingElsewhere": "Zamanlayıcı zaten {source} üzerinden durduruluyor",
+    "sourceWeb": "web uygulaması",
+    "sourceOther": "başka bir cihaz",
+    "pauseFailed": "Zamanlayıcı duraklatılamadı",
+    "resumeFailed": "Zamanlayıcı devam ettirilemedi",
+    "addTimeFailed": "Zamanlayıcıya süre eklenemedi",
+    "descriptionFailed": "Açıklama güncellenemedi",
+    "projectFailed": "Proje güncellenemedi",
+    "clientFailed": "Müşteri güncellenemedi",
+    "nothingToSave": "Kaydedilecek süre yok",
+    "offlineStop": "Çevrimdışısın. Bağlantı geri geldiğinde zamanlayıcıyı tekrar durdur",
+    "stopInProgress": "Bir durdurma işlemi sürüyor{elsewhere}. Biraz sonra tekrar dene. Takılırsa süre, birkaç dakika sonra kaybolmaması için duraklatılmış olarak saklanır.",
+    "alreadyRunning": "Zaten çalışan bir zamanlayıcı var{elsewhere}. Yenisini başlatmak istiyorsan önce onu durdur veya iptal et.",
+    "alreadyPaused": "Süresi olan duraklatılmış bir zamanlayıcı zaten var{elsewhere}. Yenisini başlatmak istiyorsan önce onu durdur veya iptal et.",
+    "elsewhere": " (başka bir tarayıcıdan veya cihazdan)",
+    "stopAlreadyInProgress": "{source} üzerinden bir durdurma işlemi zaten sürüyor. Biraz sonra zaman özetine bak",
+    "prepaidPinnedUnavailable": "Seçilen ön ödemeli paket kullanılamadı, bu yüzden süre paketten düşülmeden kaydedildi",
+    "prepaidLookupFailed": "Ön ödemeli paket sorgulanamadı, bu yüzden süre paketten düşülmeden kaydedildi",
+    "prepaidDeductionFailed": "Paketten düşme başarısız oldu, bu yüzden süre paketten düşülmeden kaydedildi",
+    "saveFailed": "Süre kaydedilemedi",
+    "saveFailedWith": "Süre kaydedilemedi: {reason}",
+    "unknownReason": "bilinmeyen hata",
+    "sessionMismatch": "Zamanlayıcı başka bir tarayıcıdan veya cihazdan değiştirildi. Güncel olan burada.",
+    "beingStopped": "Zamanlayıcı başka bir tarayıcıdan veya cihazdan durduruluyor.",
+    "startRejectedPaused": "Süresi olan duraklatılmış bir zamanlayıcı zaten var. Yenisini başlatmak istiyorsan önce onu durdur veya iptal et.",
+    "startRejectedStale": "Zamanlayıcı az önce başka bir yerden durduruldu. Tekrar başlatmayı dene.",
+    "startRejectedRunning": "Başka bir tarayıcıdan veya cihazdan zaten çalışan bir zamanlayıcı var. Yenisini başlatmak istiyorsan önce onu durdur.",
+    "stopSourceWeb": "web uygulaması",
+    "stopSourceOther": "başka bir cihaz"
+  },
+  "task": {
+    "createFailed": "Görev oluşturulamadı"
+  },
+  "serverStatus": "Sunucu {status} yanıtı verdi",
+  "clientTooOld": "TimeTrack eklentisini güncelle. Bu sürüm süre kaydedemez"
+}

@@ -1,0 +1,72 @@
+---
+title: "Schnellstart"
+description: "Vom leeren Linux-Server zur ersten erfassten Stunde: TimeWren installieren, das Admin-Konto anlegen und Zeit auf ein Stundenpaket buchen."
+---
+
+Diese Anleitung bringt eine TimeWren-Instanz auf einem Linux-Server zum Laufen und führt dich durch den ersten Kunden, das erste Projekt, Stundenpaket und den ersten Zeiteintrag. Sie dauert etwa zehn Minuten.
+
+## Bevor du anfängst
+
+Du brauchst:
+
+- Einen Linux-Server (amd64 oder arm64) mit 2 vCPU, 2 GB RAM und 10 GB freiem Speicherplatz. 4 GB RAM sind komfortabler.
+- Docker Engine mit Docker Compose v2.24 oder neuer. Prüfe das mit `docker compose version`.
+- Für alles jenseits eines lokalen Tests: einen Domainnamen, der auf den Server zeigt, damit du TimeWren über HTTPS ausliefern kannst.
+
+TimeWren installiert Docker nicht für dich. Fehlt es, folge zuerst der [Installationsanleitung von Docker](https://docs.docker.com/engine/install/).
+
+## 1. Installieren
+
+Führe das Installationsskript als normaler Benutzer aus, der Docker verwenden darf:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash
+```
+
+Das Skript prüft Docker und Compose, erstellt die `.env` mit frischen Zufallsgeheimnissen, lädt das vorgebaute Image, startet den Stack und wartet, bis die App gesund ist. Es gibt die Geheimnisse nie aus und ruft nie `sudo` auf. Führst du es erneut aus, bleibt deine `.env` erhalten und nur der Stack wird neu gestartet.
+
+Hast du eine Domain, deren DNS bereits auf diesen Server zeigt? Dann lass das Installationsskript automatisches HTTPS mit Caddy einrichten:
+
+```bash
+curl -fsSL https://timewren.com/install.sh | bash -s -- --with-caddy --domain timewren.example.com
+```
+
+Möchtest du das Skript zuerst lesen oder auf anderem Weg installieren? Alle Optionen findest du unter [Installation mit einer Zeile](/de/docs/install/quick), oder wähle [Docker Compose](/de/docs/install/docker-compose), [Kubernetes](/de/docs/install/kubernetes) oder eine Plattform wie [Coolify](/de/docs/install/coolify).
+
+## 2. Das Admin-Konto anlegen
+
+Öffne die URL, die das Installationsskript ausgegeben hat (bei einem lokalen Test `http://localhost:3000`), und registriere dich. **Das erste Konto wird zum Instanz-Admin.** Lege es sofort an, bevor jemand anderes die Instanz erreichen kann.
+
+Ohne Mailserver erlaubt die Instanz die Registrierung ohne E-Mail-Bestätigung. Für einen ersten Test ist das in Ordnung, bedeutet aber, dass jeder, der die Instanz erreicht, ein Konto anlegen kann. Richte [E-Mail](/de/docs/configuration/email) ein, bevor du TimeWren im Internet erreichbar machst.
+
+## 3. Die ersten Stunden erfassen
+
+<Screenshot name="timer" alt="Der Timer läuft auf einem Projekt" />
+
+1. Öffne **Kunden** und lege einen Kunden an, zum Beispiel das fiktive "Acme ApS".
+2. Öffne **Projekte** und erstelle ein Projekt für diesen Kunden. Zeit auf einem Projekt kann abgerechnet werden und von einem Stundenpaket abgezogen werden.
+3. Öffne **Stundenpakete** und erstelle ein Paket für den Kunden, zum Beispiel 20 Stunden. Wie Salden und Warnungen funktionieren, steht unter [Stundenpakete](/de/docs/concepts/prepaid-hours).
+4. Starte den Timer auf dem Projekt, stoppe ihn und sieh zu, wie der Saldo des Pakets sinkt.
+5. Wenn du abrechnen willst, erstelle unter **Rechnungen** eine Rechnung aus der erfassten Zeit oder verbinde [Billy](/de/docs/integrations/billy), [Dinero](/de/docs/integrations/dinero) oder [e-conomic](/de/docs/integrations/e-conomic).
+
+## 4. Produktionsreif machen
+
+Arbeite diese Liste ab, bevor du dich auf die Instanz verlässt:
+
+- **HTTPS und öffentliche URL.** Setze `NEXT_PUBLIC_APP_URL` auf die URL, die Nutzer öffnen, und stelle einen Reverse Proxy mit TLS davor. Siehe [Reverse Proxy und TLS](/de/docs/operations/reverse-proxy).
+- **E-Mail.** Konfiguriere SMTP oder Resend, damit Bestätigungen, Einladungen und Erinnerungen versendet werden. Siehe [E-Mail](/de/docs/configuration/email).
+- **Backups.** Sichere die Datenbank, das Storage-Volume und die `.env`, und bewahre `ENCRYPTION_KEY` sicher auf. Siehe [Backup und Wiederherstellung](/de/docs/operations/backup-restore).
+- **Updates.** Lege eine Version fest und lerne den Update-Ablauf kennen. Siehe [Aktualisieren](/de/docs/operations/upgrading).
+
+Alle Einstellungen sind unter [Umgebungsvariablen](/de/docs/configuration/environment) aufgelistet.
+
+## Prüfen, ob es läuft
+
+Auf dem Server:
+
+```bash
+docker compose ps
+curl -i http://127.0.0.1:3000/api/health
+```
+
+Führe diese Befehle im Installationsverzeichnis aus (dort, wo `docker-compose.yml` und `.env` liegen). Stimmt etwas nicht, siehe [Fehlerbehebung](/de/docs/operations/troubleshooting), oder übergib das Problem deinem Coding-Agenten mit den Prompts aus [Diese Dokumentation mit deinem LLM nutzen](/de/docs/llm).

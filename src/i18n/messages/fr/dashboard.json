@@ -1,0 +1,431 @@
+{
+  "actionBar": {
+    "overdueTasks": "{count, plural, one {# tâche en retard} many {# de tâches en retard} other {# tâches en retard}}",
+    "needsAttention": "À traiter",
+    "lowBalance": "{count, plural, one {# forfait d'heures au solde bas} many {# de forfaits d'heures au solde bas} other {# forfaits d'heures au solde bas}}",
+    "lowBalanceSub": "Solde bas",
+    "expiring": "{count, plural, one {# forfait d'heures expire bientôt} many {# de forfaits d'heures expirent bientôt} other {# forfaits d'heures expirent bientôt}}",
+    "expiringSub": "Sous 14 jours",
+    "unbilled": "{amount} non facturés",
+    "unbilledSub": "Prêt à facturer",
+    "title": "Action requise"
+  },
+  "appDrawer": {
+    "apps": "Applications",
+    "heading": "Applications {brand}",
+    "downloadFor": "Télécharger pour {os}{version} · Bêta",
+    "seeDownloads": "Voir les téléchargements dans les paramètres",
+    "downloadComing": "Le téléchargement arrive. Voir les paramètres",
+    "chromeExtension": "Extension Chrome",
+    "chromeExtensionHint": "Suivez votre temps depuis le navigateur",
+    "installApp": "Installer comme application",
+    "installAppHint": "Placez {brand} sur votre bureau",
+    "alreadyInstalled": "Déjà installée",
+    "addToHome": "Ajouter à l'écran d'accueil ou au bureau"
+  },
+  "demo": {
+    "clearedKept": "Données d'exemple supprimées. {kept, plural, one {# client de démonstration avait été utilisé (par exemple facturé) et a été conservé comme client normal.} many {# de clients de démonstration avaient été utilisés (par exemple facturés) et ont été conservés comme clients normaux.} other {# clients de démonstration avaient été utilisés (par exemple facturés) et ont été conservés comme clients normaux.}}",
+    "cleared": "Les données d'exemple ont été supprimées. Le compte est à vous.",
+    "nothingToClear": "Il n'y avait aucune donnée d'exemple à supprimer.",
+    "clearFailed": "Impossible de supprimer les données d'exemple",
+    "banner": "<strong>Vous voyez des données d'exemple.</strong> Les clients, heures et forfaits d'heures sont fictifs, pour vous montrer {brand} en situation. Supprimez-les quand vous voulez commencer avec vos propres données.",
+    "confirm": "Supprimer les données d'exemple ? Les clients de démonstration et leurs projets, heures et forfaits d'heures d'exemple seront supprimés. Tout ce que vous avez créé vous-même (par exemple des factures ou vos propres heures) est conservé.",
+    "clearButton": "Supprimer les données de démo"
+  },
+  "desktopCard": {
+    "beta": "Bêta",
+    "withDownloads": "L'application de bureau pour Mac et Windows{version}. Elle est en bêta et peut contenir des bugs.",
+    "version": ", version {version}",
+    "withoutDownloads": "L'application de bureau est en bêta. Le lien de téléchargement apparaîtra ici dès que {brand} pourra récupérer la dernière version.",
+    "hide": "Masquer",
+    "reportHint": "Un bug ? Utilisez « Signaler un bug ou une fonction manquante » dans l'application."
+  },
+  "trial": {
+    "step": {
+      "hasClient": "Créez votre premier client",
+      "hasTimeEntry": "Suivez votre première heure",
+      "hasKlippekort": "Créez un forfait d'heures",
+      "hasInvoice": "Créez votre première facture"
+    },
+    "daysLeft": "{count, plural, one {# jour restant} many {# de jours restants} other {# jours restants}} d'essai gratuit",
+    "addPayment": "Ajouter un paiement",
+    "gettingStarted": "Pour bien démarrer ({done}/{total})",
+    "hide": "Masquer",
+    "progressLabel": "Progression de la prise en main",
+    "createAccount": "Créez votre compte"
+  },
+  "widgets": {
+    "atRisk": {
+      "title": "Clients à risque",
+      "daysAgo": "il y a {days} jours",
+      "allActive": "Tous vos clients ont eu de l'activité ces 60 derniers jours ✓",
+      "seeAll": "Tout voir",
+      "count": "{count, plural, one {# client sans activité depuis plus de 60 jours} many {# de clients sans activité depuis plus de 60 jours} other {# clients sans activité depuis plus de 60 jours}}",
+      "lastActive": "Dernière activité : {date}",
+      "revenue6m": "{amount} (6 mois)",
+      "hoursLeft": "{hours} h restantes",
+      "openClient": "Ouvrir le client",
+      "sendCheckIn": "Envoyer un e-mail de prise de nouvelles",
+      "checkInSubject": "Prise de nouvelles",
+      "more": "+ {count} autres clients à risque"
+    },
+    "calendarSync": {
+      "title": "Agenda et temps suivi",
+      "seeCalendar": "Voir l'agenda",
+      "captureRate": "taux de suivi",
+      "eventsTracked": "{tracked}/{total} événements suivis",
+      "calendar": "Agenda",
+      "tracked": "Suivi",
+      "gap": "{hours} h de l'agenda ne sont pas suivies",
+      "perProject": "Par projet",
+      "moreProjects": "+{count} autres"
+    },
+    "cashflow": {
+      "title": "Prévision de trésorerie",
+      "seeUnpaid": "Voir les impayés",
+      "empty": "Aucune facture en attente ni forfait d'heures actif",
+      "emptyHint": "Envoyez une facture pour voir la prévision de trésorerie",
+      "seeAllUnpaid": "Voir tous les impayés",
+      "overdueInvoices": "{count, plural, one {# facture en retard} many {# de factures en retard} other {# factures en retard}} : ",
+      "overdue": "En retard : ",
+      "week": "Semaine {number}",
+      "estimated": "(est.)",
+      "prepaidTag": "(forfait d'heures)",
+      "expected30": "Attendu sur les 30 prochains jours"
+    },
+    "coverage": {
+      "title": "Taux d'utilisation",
+      "details": "Voir le détail",
+      "period": "Période",
+      "loadFailed": "Impossible de charger le taux d'utilisation",
+      "noTime": "Aucun temps saisi sur cette période.",
+      "trackTime": "Suivre le temps",
+      "billable": "Facturable",
+      "nonBillable": "Non facturable",
+      "ratio": "<b>{ratio}</b> non facturable par heure facturée",
+      "clientCol": "Client",
+      "splitCol": "Fact. / non fact."
+    },
+    "dailyHours": {
+      "title": "Heures par jour",
+      "details": "Voir le détail",
+      "avg": "Moy./jour : ",
+      "total": "Total : ",
+      "hoursShort": "{value} h",
+      "day": {
+        "0": "Di",
+        "1": "Lu",
+        "2": "Ma",
+        "3": "Me",
+        "4": "Je",
+        "5": "Ve",
+        "6": "Sa"
+      }
+    },
+    "emailSync": {
+      "title": "Synchronisation e-mail",
+      "started": "Synchronisation lancée",
+      "startFailed": "Impossible de lancer la synchronisation",
+      "never": "Jamais",
+      "now": "À l'instant",
+      "minutes": "{value} min",
+      "hours": "{value} h",
+      "days": "{value} j",
+      "startNow": "Lancer la synchronisation",
+      "statusOk": "OK",
+      "statusUnstable": "Instable",
+      "statusError": "Erreur",
+      "emails": "E-mails",
+      "tasks": "Tâches",
+      "clients": "Clients",
+      "analytics": "Voir les analyses →"
+    },
+    "emailTasks": {
+      "title": "Tâches issues des e-mails",
+      "review": "Vérifier",
+      "noClient": "Sans client",
+      "empty": "Aucune tâche issue d'e-mails pour l'instant."
+    },
+    "expiringPackages": {
+      "title": "Forfaits d'heures qui expirent",
+      "seeAll": "Tout voir",
+      "none": "Aucun forfait d'heures n'expire bientôt",
+      "noneHint": "Les forfaits d'heures qui expirent sous 30 jours apparaissent ici",
+      "expiredAgo": "Expiré il y a {count, plural, one {# jour} many {# de jours} other {# jours}}",
+      "expired": "Expiré",
+      "today": "Aujourd'hui",
+      "days": "{count, plural, one {# jour} many {# de jours} other {# jours}}",
+      "hoursLeft": "Heures restantes",
+      "value": "Valeur",
+      "expires": "Expire le {date}",
+      "more": "+ {count} autres forfaits d'heures",
+      "urgent": "Certains forfaits d'heures expirent sous 7 jours. Contactez le client pour les renouveler."
+    },
+    "flexBalance": {
+      "title": "Solde flexible",
+      "hours": "{value} h",
+      "entries": "{count} saisies"
+    },
+    "flexNorm": {
+      "title": "Solde flexible",
+      "loadFailed": "Impossible de charger le solde.",
+      "noProfile": "Vous n'avez pas de profil de collaborateur dans l'organisation.",
+      "unit": "h",
+      "carryIn": "Dont reporté : {value} h",
+      "week": "Semaine",
+      "month": "Mois",
+      "period": "Période",
+      "summary": "{registered} h saisies sur {net} h de norme à ce jour · norme de la période {periodNet} h",
+      "seeAccount": "Voir le compte d'heures flexibles"
+    },
+    "hoursComparison": {
+      "title": "Comparaison des semaines",
+      "details": "Voir le détail",
+      "none": "Aucune heure suivie",
+      "thisWeek": "Cette semaine",
+      "lastWeek": "La semaine dernière",
+      "format": "hh:mm",
+      "increase": "Hausse",
+      "decrease": "Baisse",
+      "vsLastWeek": "par rapport à la semaine dernière"
+    },
+    "invoiceOverview": {
+      "title": "Aperçu des factures",
+      "seeInvoices": "Voir les factures",
+      "totalInvoiced": "Total facturé",
+      "draft": "Brouillon",
+      "sent": "Envoyées",
+      "paid": "Payées",
+      "overdue": "En retard"
+    },
+    "lowBalance": {
+      "title": "Forfaits d'heures au solde bas",
+      "loadFailed": "Impossible de charger les forfaits d'heures",
+      "none": "Aucun forfait d'heures au solde bas",
+      "seeAll": "Tout voir",
+      "intro": "Solde bas",
+      "noClient": "Sans client",
+      "left": "{time} restantes",
+      "more": "+ {count} autres"
+    },
+    "monthComparison": {
+      "title": "Comparaison des mois",
+      "seeReports": "Voir les rapports",
+      "vs": "vs",
+      "vsValue": "vs {value}",
+      "hours": "Heures",
+      "hoursValue": "{value} h",
+      "revenue": "Chiffre d'affaires",
+      "entries": "Saisies de temps"
+    },
+    "overdueTasks": {
+      "title": "Tâches en retard",
+      "none": "Aucune tâche hors délai ✓",
+      "seeAll": "Tout voir",
+      "count": "{count, plural, one {# tâche} many {# de tâches} other {# tâches}}",
+      "noProject": "Sans projet",
+      "deadline": "Échéance : {date}",
+      "more": "+ {count} autres"
+    },
+    "pendingApprovals": {
+      "title": "Validations en attente",
+      "requestOne": "demande",
+      "requestOther": "demandes"
+    },
+    "prepaidStatus": {
+      "title": "État des forfaits d'heures",
+      "allGood": "Tout est en ordre",
+      "seeAll": "Tout voir",
+      "lowBalance": "Solde bas",
+      "noClient": "Sans client",
+      "left": "{time} restantes",
+      "more": "+ {count} autres",
+      "expiringSoon": "Expire bientôt (sous 30 jours)",
+      "expired": "Expiré",
+      "today": "Aujourd'hui",
+      "days": "{count, plural, one {# jour} many {# de jours} other {# jours}}"
+    },
+    "productivity": {
+      "title": "Productivité sur la semaine",
+      "details": "Voir le détail",
+      "noData": "Pas encore de données de productivité",
+      "streak": "Série en cours",
+      "streakDays": "jours de suite",
+      "weeklyAvg": "Moyenne hebdomadaire",
+      "perWeek": "par semaine",
+      "last8": "8 dernières semaines",
+      "less": "Moins",
+      "more": "Plus",
+      "msgHigh": "Fantastique ! Vous avez travaillé 7 jours de suite ou plus. Continuez comme ça !",
+      "msgMid": "Bravo ! Gardez l'élan.",
+      "msgLow": "Vous êtes sur la bonne voie ! Construisez une routine de travail solide.",
+      "streakDay": "jour de suite"
+    },
+    "profitability": {
+      "title": "Taux horaire réel",
+      "rate": "{rate} kr/h",
+      "hours": "{hours} h",
+      "loadFailed": "Impossible de charger les données",
+      "noBilled": "Aucun temps facturé ce mois-ci",
+      "createInvoice": "Créer une facture",
+      "details": "Détails",
+      "agreedRate": "Taux horaire convenu",
+      "realRate": "Taux horaire réel",
+      "vsAgreed": "{percent} % par rapport au convenu",
+      "billableAvg": "Moy. facturable",
+      "footer": "{total} au total · {billable} facturables",
+      "footerInvoiced": "{total} au total · {billable} facturables · {invoiced} facturées"
+    },
+    "projectHealth": {
+      "title": "Santé des projets",
+      "seeAll": "Tout voir",
+      "alertsHeading": "Alertes de budget",
+      "severity": {
+        "exceeded": "Dépassé",
+        "critical": "Critique",
+        "warning": "Attention"
+      },
+      "hoursUsed": "{used} / {budget} h utilisées",
+      "budgetAmount": "Budget de {amount} kr",
+      "moreAlerts": "+ {count} autres alertes",
+      "noBudgets": "Aucun projet avec budget",
+      "createProject": "Créer un projet",
+      "onTrack": "{count, plural, one {# projet dans les temps} many {# de projets dans les temps} other {# projets dans les temps}}",
+      "moreProjects": "+ {count} autres projets"
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "created": "Saisie de temps créée",
+      "createFailed": "Impossible de créer la saisie de temps",
+      "fillAll": "Remplissez correctement tous les champs",
+      "addClient": "Ajouter un client",
+      "newProject": "Nouveau projet",
+      "startTimer": "Démarrer le chronomètre",
+      "createInvoice": "Créer une facture",
+      "quickEntry": "Saisie de temps rapide",
+      "draftSaved": "Brouillon enregistré",
+      "restoreDraft": "Restaurer le brouillon enregistré",
+      "restore": "Restaurer",
+      "projectPlaceholder": "Sélectionner un projet",
+      "descriptionPlaceholder": "Sur quoi avez-vous travaillé ?",
+      "hoursPlaceholder": "Heures",
+      "saving": "Enregistrement…",
+      "save": "Enregistrer"
+    },
+    "recentActivity": {
+      "title": "Activité récente",
+      "none": "Aucune activité",
+      "seeAll": "Tout voir",
+      "now": "À l'instant",
+      "minutesAgo": "il y a {count} min",
+      "hoursAgo": "il y a {count, plural, one {# heure} many {# d'heures} other {# heures}}",
+      "daysAgo": "il y a {count, plural, one {# jour} many {# de jours} other {# jours}}"
+    },
+    "revenueByClient": {
+      "title": "Chiffre d'affaires par client",
+      "seeReports": "Voir les rapports",
+      "loadFailed": "Impossible de charger le chiffre d'affaires",
+      "none": "Aucun chiffre d'affaires ce mois-ci"
+    },
+    "revenueForecast": {
+      "title": "Prévision du chiffre d'affaires",
+      "seeReports": "Voir les rapports",
+      "none": "Pas encore de données de chiffre d'affaires",
+      "expected": "Attendu ce mois-ci",
+      "amountKr": "{amount} kr",
+      "basedOn": "Sur la base de {day} / {total} jours",
+      "sixMonthAvg": "Moyenne sur 6 mois"
+    },
+    "rounding": {
+      "title": "Bonus d'arrondi",
+      "inactive": "L'arrondi n'est pas activé. Gagnez plus en arrondissant vos heures à la hausse.",
+      "enable": "Activer l'arrondi",
+      "settings": "Paramètres",
+      "thisMonth": "Ce mois-ci",
+      "extra": "gagnés en plus grâce à l'arrondi",
+      "thisYear": "Total cette année"
+    },
+    "stats": {
+      "activeClients": "Clients actifs",
+      "activeProjects": "Projets actifs",
+      "hoursThisMonth": "Heures ce mois-ci",
+      "revenueThisMonth": "Chiffre d'affaires ce mois-ci"
+    },
+    "topClients": {
+      "title": "Meilleurs clients",
+      "loadFailed": "Impossible de charger les données",
+      "none": "Pas encore de données clients",
+      "seeAll": "Tout voir",
+      "rankedBy": "Classés par heures"
+    },
+    "unbilled": {
+      "title": "Heures non facturées",
+      "loadFailed": "Impossible de charger les données",
+      "none": "Aucune heure non facturée",
+      "seeAll": "Tout voir",
+      "entries": "{count, plural, one {# saisie de temps} many {# de saisies de temps} other {# saisies de temps}}",
+      "totalHours": "Total des heures",
+      "estimatedValue": "Valeur estimée"
+    },
+    "absences": {
+      "title": "Absences à venir",
+      "loading": "Chargement…",
+      "none": "Aucune absence validée prévue",
+      "employee": "Collaborateur",
+      "absence": "Absence",
+      "from": "à partir du {date}"
+    },
+    "deadlines": {
+      "title": "Dates importantes",
+      "overdue": "En retard",
+      "today": "Aujourd'hui",
+      "days": "{count, plural, one {# jour} many {# de jours} other {# jours}}",
+      "needsSetup": "Indiquez le type de votre entreprise pour voir les dates importantes",
+      "setUpNow": "Configurer",
+      "none": "Aucune échéance à venir sous 180 jours",
+      "editSettings": "Modifier les paramètres de l'entreprise"
+    },
+    "upcomingTasks": {
+      "title": "Tâches à venir",
+      "none": "Aucune tâche à venir",
+      "seeAll": "Tout voir",
+      "within7": "Sous 7 jours",
+      "noProject": "Sans projet",
+      "deadline": "Échéance : {date}",
+      "more": "+ {count} autres"
+    },
+    "vacation": {
+      "title": "Solde de congés",
+      "daysLeftIn": "jours restants en {label}",
+      "daysLeft": "jours restants"
+    },
+    "vat": {
+      "titleMonthly": "TVA ce mois-ci",
+      "titleQuarterly": "TVA de cette période",
+      "titleSemiAnnual": "TVA de ce semestre",
+      "title": "TVA",
+      "exempt": "Vous êtes enregistré comme non assujetti à la TVA",
+      "changeInSettings": "Modifier dans les paramètres",
+      "createFirst": "Créez votre première facture pour voir une estimation de la TVA",
+      "createInvoice": "Créer une facture",
+      "invoices": "Factures",
+      "toSettle": "TVA à régler",
+      "percentOf": "25 % de {amount} facturés",
+      "nextDeadline": "Prochaine échéance",
+      "inDays": "(dans {count, plural, one {# jour} many {# de jours} other {# jours}})",
+      "overdue": "(en retard)",
+      "ytd": "Total cette année",
+      "setAside": "Mettez de côté <b>{amount}</b> sur un compte séparé"
+    },
+    "weeklyGoal": {
+      "title": "Objectif hebdomadaire",
+      "loadFailed": "Impossible de charger l'objectif hebdomadaire",
+      "trackTime": "Suivre le temps",
+      "reached": "Objectif atteint !",
+      "onTrack": "Dans les temps",
+      "behind": "En retard",
+      "remaining": "<b>{time}</b> restantes",
+      "perDay": "{time}/jour pendant {count, plural, one {# jour} many {# de jours} other {# jours}}"
+    }
+  }
+}

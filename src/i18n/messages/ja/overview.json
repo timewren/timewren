@@ -1,0 +1,188 @@
+{
+  "catalog": {
+    "title": "ウィジェットを追加",
+    "close": "ウィジェットカタログを閉じる",
+    "search": "ウィジェットを検索…",
+    "allAdded": "すべてのウィジェットを追加済みです",
+    "noMatch": "検索に一致するウィジェットはありません",
+    "category": {
+      "stats": "時間とアクティビティ",
+      "finance": "財務",
+      "tasks": "タスク",
+      "activity": "アクティビティ",
+      "actions": "クイックアクション",
+      "calendar": "連携"
+    }
+  },
+  "page": {
+    "layoutSaved": "ダッシュボードのレイアウトを保存しました",
+    "layoutSaveFailed": "レイアウトを保存できませんでした",
+    "resetDone": "ダッシュボードを初期状態に戻しました",
+    "resetFailed": "ダッシュボードをリセットできませんでした",
+    "alreadyAdded": "このウィジェットは追加済みです",
+    "widgetAdded": "{title}を追加しました",
+    "widgetRemoved": "ウィジェットを削除しました",
+    "title": "概要",
+    "subtitle": "数字、タスク、財務をひとつの画面で確認できます。<link>ホームで時間を記録</link>",
+    "unsaved": "未保存の変更があります",
+    "addWidget": "ウィジェットを追加",
+    "reset": "リセット",
+    "save": "保存",
+    "finish": "完了",
+    "editDashboard": "ダッシュボードを編集",
+    "removeWidget": "ウィジェットを削除",
+    "resetTitle": "ダッシュボードをリセット",
+    "resetDescription": "ダッシュボードを初期のレイアウトに戻しますか?",
+    "discardTitle": "変更を破棄",
+    "discardDescription": "未保存の変更があります。保存せずに続行しますか?",
+    "discardConfirm": "破棄",
+    "continue": "続行",
+    "unknownWidget": "不明なウィジェット: {id}"
+  },
+  "widget": {
+    "stats-clients": {
+      "title": "アクティブなクライアント",
+      "description": "アクティブなクライアントの数"
+    },
+    "stats-projects": {
+      "title": "アクティブなプロジェクト",
+      "description": "アクティブなプロジェクトの数"
+    },
+    "stats-hours": {
+      "title": "今月の時間",
+      "description": "今月の合計時間"
+    },
+    "stats-revenue": {
+      "title": "今月の売上",
+      "description": "時間から算出した売上の見込み"
+    },
+    "tasks-upcoming": {
+      "title": "期限が近いタスク",
+      "description": "7日以内に期限を迎えるタスク"
+    },
+    "email-tasks": {
+      "title": "メールから作成したタスク",
+      "description": "メールから作成された最新のタスク"
+    },
+    "tasks-overdue": {
+      "title": "期限超過のタスク",
+      "description": "期限を過ぎているタスク"
+    },
+    "prepaid-low-balance": {
+      "title": "残高が少ない前払いパッケージ",
+      "description": "残りが5時間未満の前払いパッケージ"
+    },
+    "unbilled-time": {
+      "title": "未請求の時間",
+      "description": "まだ請求していない時間"
+    },
+    "recent-activity": {
+      "title": "最近のアクティビティ",
+      "description": "最新の操作"
+    },
+    "top-clients": {
+      "title": "上位クライアント",
+      "description": "時間または売上によるクライアントの順位"
+    },
+    "hours-comparison": {
+      "title": "週の比較",
+      "description": "今週と先週の時間の比較"
+    },
+    "quick-actions": {
+      "title": "クイックアクション",
+      "description": "よく使う操作へのショートカット"
+    },
+    "weekly-goal-tracker": {
+      "title": "週の目標",
+      "description": "週の時間目標に対する進捗"
+    },
+    "revenue-forecast": {
+      "title": "売上予測",
+      "description": "月間の収入を予測"
+    },
+    "project-health": {
+      "title": "プロジェクトの状態",
+      "description": "アクティブなプロジェクトの予算状況"
+    },
+    "expiring-packages": {
+      "title": "期限が近い前払いパッケージ",
+      "description": "まもなく期限を迎える前払いパッケージ"
+    },
+    "productivity-heatmap": {
+      "title": "週ごとの生産性",
+      "description": "週のどの時間帯に最も多く記録しているか"
+    },
+    "daily-hours-chart": {
+      "title": "日別の時間",
+      "description": "過去14日間の時間を示す棒グラフ"
+    },
+    "revenue-by-client": {
+      "title": "クライアント別の売上",
+      "description": "今月の売上が多い上位5クライアント"
+    },
+    "invoice-overview": {
+      "title": "請求書の概要",
+      "description": "ステータス別に見る請求書の流れ"
+    },
+    "month-comparison": {
+      "title": "月の比較",
+      "description": "時間と売上を前月と比較"
+    },
+    "calendar-sync": {
+      "title": "カレンダーと記録の比較",
+      "description": "今週のカレンダー上の時間と記録した時間を比較"
+    },
+    "prepaid-status": {
+      "title": "前払いパッケージの状況",
+      "description": "残高が少ない、またはまもなく期限を迎える前払いパッケージ"
+    },
+    "flex-balance": {
+      "title": "フレックス残高",
+      "description": "累積したフレックスの残高（時間）"
+    },
+    "flex-norm": {
+      "title": "所定期間ごとのフレックス残高",
+      "description": "繰越を含む残高と、週、月、所定期間のフレックス"
+    },
+    "vacation-balance": {
+      "title": "休暇の残高",
+      "description": "今年の休暇の残り日数"
+    },
+    "upcoming-absences": {
+      "title": "今後の不在",
+      "description": "承認済みの今後の不在の一覧"
+    },
+    "pending-approvals": {
+      "title": "承認待ち",
+      "description": "承認待ちの不在申請の数"
+    },
+    "rounding-bonus": {
+      "title": "端数処理のボーナス",
+      "description": "今月と今年の時間の端数処理による追加収入"
+    },
+    "profitability": {
+      "title": "実質の時間単価",
+      "description": "契約上の時間単価と実質の時間単価: 社内時間を含め、1時間あたりの実際の収入を確認できます"
+    },
+    "vat-overview": {
+      "title": "VATの概要",
+      "description": "今期のVAT納税額と次の期限を表示します。デンマーク税務当局（SKAT）への納付に備えて資金を確保できます"
+    },
+    "at-risk-clients": {
+      "title": "クライアントのリスク",
+      "description": "60日間アクティビティのないクライアント: 静かな解約を早めに察知できます"
+    },
+    "cashflow": {
+      "title": "30日間のキャッシュフロー",
+      "description": "未払いの請求書と前払いパッケージの更新から見込まれる、今後4週間の収入"
+    },
+    "upcoming-deadlines": {
+      "title": "重要な日付",
+      "description": "事業形態に応じたVAT、税金、年次報告書の期限"
+    },
+    "coverage": {
+      "title": "稼働率",
+      "description": "勤務時間のうち記録されている割合: 請求対象、請求対象外、クライアント別"
+    }
+  }
+}

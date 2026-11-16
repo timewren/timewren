@@ -1,0 +1,50 @@
+---
+title: "e-conomic"
+description: "Connect e-conomic to TimeWren with an app you register yourself: import customers, export clients and invoices, and sync payment status."
+---
+
+e-conomic is a Danish accounting system. You register your own app at the e-conomic developer portal and give its two tokens to the server. After that, every user grants the app access to their own e-conomic agreement with one click.
+
+## What it does
+
+- Imports e-conomic customers as clients.
+- Exports a client to e-conomic.
+- Exports an invoice. You choose layout, payment terms, product, and one line per entry or a combined line. Optionally the invoice is booked on export.
+- Syncs payment status back to TimeWren.
+
+## Server setup
+
+1. Create an app at [https://www.e-conomic.com/developer](https://www.e-conomic.com/developer). You get an app public token and an app secret token.
+2. Add them to `.env`:
+
+   ```dotenv
+   ECONOMIC_APP_PUBLIC_TOKEN=your-public-token
+   ECONOMIC_APP_SECRET_TOKEN=your-secret-token
+   # Only if the callback differs from NEXT_PUBLIC_APP_URL + /api/integrations/economic/callback
+   # ECONOMIC_REDIRECT_URI=https://timewren.example.com/api/integrations/economic/callback
+   ```
+
+3. Restart the app.
+
+After a user approves access, e-conomic redirects back to:
+
+```text
+https://timewren.example.com/api/integrations/economic/callback
+```
+
+The secret token stays on the server and is never shown to users. `ENCRYPTION_KEY` must be set, because each user's agreement grant token is stored encrypted. See [Environment variables](/docs/configuration/environment).
+
+Without both tokens, the Connect button redirects back with an `economic_not_configured` error.
+
+## Connect as a user
+
+1. Open Settings, Integrations and choose Connect to e-conomic.
+2. Sign in at e-conomic and approve access for your agreement.
+3. Back in TimeWren, choose the default invoice layout, payment terms, products and line settings.
+4. Under Default accounting system, optionally turn on Automatic status sync.
+
+Customers are imported from the Sync page under Integrations. Invoices are exported from the invoice itself.
+
+## Payment status
+
+The `cron` container calls `/api/cron/invoice-sync` every 15 minutes to update payment status for users with automatic sync on. You can also run a manual sync from the integrations settings. There is no e-conomic webhook endpoint.

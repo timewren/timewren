@@ -1,0 +1,55 @@
+{
+  "banner": {
+    "doneToast": "Import abgeschlossen: {count, plural, one {# Zeiteintrag importiert} other {# Zeiteinträge importiert}}",
+    "doneWithErrorsToast": "Import mit Fehlern abgeschlossen: {imported} importiert, {failed} fehlgeschlagen",
+    "failedToast": "Import fehlgeschlagen. Details findest du in den Einstellungen",
+    "running": "Import läuft: {pct} % ({imported}/{total})",
+    "details": "Details anzeigen",
+    "done": "Import abgeschlossen: {count, plural, one {# Zeiteintrag importiert} other {# Zeiteinträge importiert}}",
+    "doneWithFailed": "Import abgeschlossen: {count, plural, one {# Zeiteintrag importiert} other {# Zeiteinträge importiert}}, {failed} fehlgeschlagen",
+    "dismiss": "Schließen"
+  },
+  "page": {
+    "pickDateFormat": "Bitte wähle ein Datumsformat, um fortzufahren.",
+    "success": "Import erfolgreich abgeschlossen!",
+    "failed": "Import fehlgeschlagen. Versuche es erneut.",
+    "backToOnboarding": "← Zurück zur Einrichtung",
+    "backToIntegrations": "← Zurück zu den Integrationen",
+    "onboardingMode": "Einrichtungsmodus aktiviert",
+    "onboardingNote": "Nach einem erfolgreichen Import geht es automatisch mit der Einrichtung weiter.",
+    "uploadFile": "Datei hochladen",
+    "chooseFile": "Datei wählen",
+    "noFile": "Keine Datei ausgewählt",
+    "dateFormat": "Datumsformat",
+    "chooseFormat": "Format wählen…",
+    "dateFormatHint": "Prüfe deine CSV-Daten, um zu sehen, welches Datumsformat verwendet wird.",
+    "billingFilter": "Abrechnungsfilter",
+    "filter": {
+      "all": "Alle importieren",
+      "unbilled": "Nur nicht abgerechnete",
+      "billed": "Nur abgerechnete"
+    },
+    "billingFilterHint": "Filtere Einträge nach dem Abrechnungsstatus aus der Quelle.",
+    "markAllBilled": "Alle importierten Einträge als abgerechnet markieren",
+    "markAllBilledHint": "Nutze das, wenn du aus der Quelle nur bereits abgerechnete Einträge exportierst.",
+    "result": {
+      "clients": "{count, plural, one {# Kunde angelegt} other {# Kunden angelegt}}",
+      "projects": "{count, plural, one {# Projekt angelegt} other {# Projekte angelegt}}",
+      "timeEntries": "{count, plural, one {# Zeiteintrag importiert} other {# Zeiteinträge importiert}}",
+      "billedSplit": "({billed} abgerechnet, {unbilled} nicht abgerechnet)",
+      "skippedRows": "{count, plural, one {# Zeile übersprungen} other {# Zeilen übersprungen}}",
+      "filteredRows": "{count, plural, one {# Zeile herausgefiltert (Abrechnungsfilter)} other {# Zeilen herausgefiltert (Abrechnungsfilter)}}",
+      "totalHours": "Insgesamt {hours} Stunden importiert",
+      "tasks": "{count, plural, one {# Aufgabe importiert} other {# Aufgaben importiert}}",
+      "subtasks": "{count, plural, one {# Teilaufgabe importiert} other {# Teilaufgaben importiert}}",
+      "tasksSkipped": "{count, plural, one {# Aufgabe übersprungen} other {# Aufgaben übersprungen}}"
+    },
+    "importing": "Import läuft…",
+    "start": "Import starten",
+    "mayTakeAWhile": "Das kann je nach Datenmenge einige Minuten dauern…",
+    "warnTitle": "Wichtig zu wissen:",
+    "warn1": "Der Import kann nicht rückgängig gemacht werden",
+    "warn2": "Vorhandene Daten werden nicht überschrieben",
+    "warn3": "Duplikate werden übersprungen"
+  }
+}

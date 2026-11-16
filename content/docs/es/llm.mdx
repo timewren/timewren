@@ -1,0 +1,113 @@
+---
+title: "Usa esta documentación con tu LLM"
+description: "Dale la documentación de TimeWren a Claude Code, Cursor, Codex o ChatGPT, con prompts listos para instalar, actualizar, depurar e integrar."
+---
+
+La documentación de TimeWren está escrita para que la lean tanto personas como modelos de lenguaje. Cada página existe como Markdown plano y toda la documentación cabe en un solo archivo. Apunta tu agente de programación o asistente de chat hacia ella y podrá instalar, actualizar o depurar tu instancia, o escribir una integración contra la API.
+
+## Qué darle al modelo
+
+| URL | Qué es | Úsala cuando |
+| --- | --- | --- |
+| `https://timewren.com/llms-full.txt` | Toda la documentación en inglés en un solo archivo Markdown. | El modelo debe saberlo todo. Lo mejor para agentes con un contexto grande. |
+| `https://timewren.com/llms.txt` | Un índice de todas las páginas con un resumen de una línea y un enlace a su Markdown. | El modelo puede descargar páginas por su cuenta y elegir lo que necesite. |
+| `https://timewren.com/docs/<page>.md` | Una página en Markdown, por ejemplo `https://timewren.com/docs/operations/upgrading.md`. | Sabes qué tema importa. |
+
+Las peticiones a una página de la documentación con `Accept: text/markdown` también reciben la versión en Markdown, así que las herramientas que negocian el contenido funcionan sin el sufijo `.md`. Los enlaces dentro del Markdown apuntan a otras páginas `.md`, de modo que un agente puede seguirlos.
+
+Cada página tiene botones arriba: **Copiar como Markdown** copia la página al portapapeles, **Abrir en ChatGPT** y **Abrir en Claude** inician un chat con un prompt que ya apunta al Markdown de la página, y **Ver como Markdown** abre la página en bruto.
+
+La documentación también está disponible en [danés](https://timewren.com/da/docs), [alemán](https://timewren.com/de/docs) y [español](https://timewren.com/es/docs). `llms-full.txt` solo existe en inglés; los modelos lo entienden bien y pueden responder en tu idioma.
+
+## Claude Code
+
+Inicia Claude Code en el servidor (o en la máquina desde la que despliegas), en el directorio donde TimeWren está o debe instalarse, y pega uno de los prompts listos para usar de más abajo. Claude Code descarga las URL del prompt por sí mismo.
+
+Para que la documentación esté disponible en cada sesión, añade una línea al `CLAUDE.md` de ese directorio:
+
+```text
+TimeWren docs: https://timewren.com/llms.txt (full text: https://timewren.com/llms-full.txt). Read the relevant page before changing the TimeWren installation.
+```
+
+Claude Code también puede trabajar con tus datos de TimeWren (clientes, proyectos, registros de tiempo) a través del [servidor MCP](/es/docs/api/mcp). Es algo aparte de la documentación: la documentación le dice al agente cómo funciona TimeWren, y el servidor MCP le permite actuar en tu cuenta.
+
+## Cursor
+
+En un chat, escribe `@Docs`, elige **Add new doc** e introduce `https://timewren.com/llms-full.txt`. Después refiérete a ella con `@TimeWren` (o el nombre que le hayas dado) en tus prompts. También puedes pegar directamente en el chat la URL de una página que termine en `.md`.
+
+## Codex y otros agentes que leen AGENTS.md
+
+Pon la referencia a la documentación en el `AGENTS.md` del repositorio o directorio en el que trabajas:
+
+```text
+## TimeWren
+Docs for the TimeWren installation: https://timewren.com/llms.txt
+Full text in one file: https://timewren.com/llms-full.txt
+Read the relevant page before changing the TimeWren installation. Never print the contents of .env.
+```
+
+El repositorio del código fuente de TimeWren tiene su propio `AGENTS.md` que remite a los agentes que trabajan en el código a la misma documentación.
+
+## ChatGPT, Claude y otros asistentes de chat
+
+Usa el botón **Abrir en ChatGPT** o **Abrir en Claude** de la página que necesites, o pega uno de los prompts de abajo. Si el asistente no puede abrir enlaces, usa **Copiar como Markdown** y pega la página en el chat.
+
+Los asistentes de chat no pueden ejecutar comandos en tu servidor. Te dan comandos para que los ejecutes tú; lee cada uno antes de ejecutarlo.
+
+## Prompts listos para usar
+
+Sustituye los valores de ejemplo (dominio, versión) antes de enviar un prompt. Cada prompt le dice al agente que no muestre secretos. No pegues nunca tú mismo tu `.env`, tus claves de API ni volcados de la base de datos en un chat.
+
+### Instalar TimeWren en mi servidor
+
+```text
+Instala TimeWren en este servidor Linux. Lee primero https://timewren.com/llms-full.txt y sigue la documentación al pie de la letra, sobre todo "Quickstart" y "One-line install".
+
+- URL pública: https://timewren.example.com (el DNS ya apunta a este servidor).
+- Usa el instalador oficial con HTTPS automático si la documentación lo ofrece; si no, configura un proxy inverso como se describe en "Reverse proxy and TLS".
+- Antes de empezar, comprueba que Docker y Docker Compose v2.24+ están instalados. No instales Docker tú mismo; avísame si falta.
+- No muestres nunca el contenido de .env ni ningún secreto.
+- Cuando esté en marcha, verifícalo como describe la documentación (estado de los contenedores y el endpoint /api/health) y dime qué pasos de "Make it production ready" siguen pendientes (correo electrónico, copias de seguridad, fijar la versión).
+```
+
+### Actualizar mi instalación
+
+```text
+Actualiza mi instalación de TimeWren a la última versión estable. Lee primero https://timewren.com/docs/operations/upgrading.md y https://timewren.com/docs/operations/backup-restore.md y síguelos al pie de la letra.
+
+- La instalación está en el directorio actual (aquí están docker-compose.yml y .env).
+- Haz primero una copia de seguridad completa, como describe la documentación, y muéstrame dónde está antes de continuar.
+- Dime la versión actual y la nueva, y lee las notas de la versión en https://github.com/timewren/timewren/releases por si algo requiere acción.
+- Después de actualizar, revisa en los logs de la aplicación el resultado de la migración ("new migration(s) applied" o "Database is up to date") y el endpoint de salud. Si una migración falló, detente y explica las opciones de recuperación de la documentación antes de cambiar nada.
+- No ejecutes nunca "docker compose down -v" y no muestres nunca .env.
+```
+
+### Depurar mi instalación
+
+```text
+Mi instalación de TimeWren tiene un problema: <describe lo que ves, por ejemplo "el inicio de sesión falla con 403 invalid origin">.
+
+Lee primero https://timewren.com/docs/operations/troubleshooting.md y https://timewren.com/docs/configuration/environment.md. Después diagnostica, al principio solo en modo lectura:
+- docker compose ps, docker compose logs --tail=200 app (y cron si es relevante), el endpoint /api/health.
+- Compara la configuración con la documentación. Puedes listar qué variables están definidas en .env, pero no muestres nunca sus valores.
+Explica la causa raíz con pruebas de los logs, propón la corrección más pequeña y espera mi visto bueno antes de cambiar archivos o reiniciar contenedores. No borres nunca volúmenes.
+```
+
+### Construir una integración con la API
+
+```text
+Construye una integración con mi instancia de TimeWren en https://timewren.example.com. Lee primero https://timewren.com/docs/api/rest.md y https://timewren.com/docs/api/webhooks.md; el documento OpenAPI que se describe ahí es la fuente de verdad para los campos.
+
+Objetivo: <descríbelo, por ejemplo "cada viernes, exportar a CSV los registros de tiempo de la semana pasada por cliente">.
+
+- Lee la clave de API de la variable de entorno TIMEWREN_API_KEY; no la escribas nunca en el código ni la muestres.
+- Gestiona la paginación, los límites de frecuencia (HTTP 429) y los errores como describe la documentación.
+- Si necesitas eventos en lugar de sondeo, usa webhooks y verifica la firma como se muestra en la documentación.
+- Empieza con una pequeña llamada de solo lectura para comprobar que la clave funciona, y construye el resto después, con tests.
+```
+
+## Consejos
+
+- Dale al agente la versión que ejecutas (`TIMEWREN_VERSION` en `.env`, o la etiqueta de la imagen). La documentación describe la versión actual.
+- Pídele al agente que cite la sección de la documentación en la que se apoya. Así es fácil comprobarlo.
+- Para cambios en producción, deja que el agente proponga comandos y ejecútalos tú, o aprueba cada uno.

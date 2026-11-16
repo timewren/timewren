@@ -1,0 +1,475 @@
+{
+  "errors": {
+    "insufficientRights": "Bu işlem için yeterli yetkin yok",
+    "accessDenied": "Bu kaynağa erişimin yok",
+    "unexpected": "Beklenmeyen bir hata oluştu",
+    "clientNotFound": "Müşteri bulunamadı",
+    "clientArchived": "Müşteri arşivlenmiş",
+    "projectNotFound": "Proje bulunamadı",
+    "projectArchived": "Proje arşivlenmiş",
+    "timeEntryNotFound": "Zaman kaydı bulunamadı",
+    "timeEntriesNotFound": "Bir veya daha fazla zaman kaydı bulunamadı",
+    "prepaidNotFound": "Ön ödemeli paket bulunamadı",
+    "prepaidInactive": "Ön ödemeli paket aktif değil",
+    "prepaidInsufficientHours": "Ön ödemeli pakette yeterli saat kalmadı. Kullanılabilir saat: {available}",
+    "prepaidHasUsage": "Kullanımı kaydedilmiş bir ön ödemeli paket silinemez. Bunun yerine devre dışı bırak.",
+    "invoiceNotFound": "Fatura bulunamadı",
+    "invoiceAlreadySent": "Fatura zaten gönderilmiş",
+    "invoiceAlreadyPaid": "Fatura zaten ödenmiş",
+    "userNotFound": "Kullanıcı bulunamadı",
+    "invalidValue": "{field} için geçersiz değer",
+    "operationFailed": "{operation} başarısız oldu"
+  },
+  "friendly": {
+    "network": "TimeTrack ile bağlantı yok. Ağını kontrol edip tekrar dene.",
+    "server": "TimeTrack tarafında bir şeyler ters gitti. Biraz sonra tekrar dene.",
+    "validation": "Bazı alanlar doğru doldurulmamış. Kontrol edip tekrar dene.",
+    "unauthorized": "Artık oturumun açık değil. Lütfen yeniden oturum aç.",
+    "forbidden": "Bunu yapmaya yetkin yok.",
+    "notFound": "Aradığın şey artık yok.",
+    "tooManyRequests": "Kısa sürede çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.",
+    "retry": "Tekrar dene",
+    "login": "Oturum aç"
+  },
+  "zod": {
+    "invalidExpoToken": "Geçersiz Expo push token'ı",
+    "invalidUrl": "Geçersiz URL",
+    "webhookEventRequired": "En az bir olay türü seç",
+    "descriptionRequired": "Açıklama gerekli",
+    "hoursMin": "Saat en az 0,01 olmalı",
+    "endAfterStart": "Bitiş saati başlangıç saatinden sonra olmalı",
+    "cursorOrOffset": "Cursor veya offset kullan, ikisini birden değil",
+    "dateFormat": "Tarih yyyy-MM-dd biçiminde olmalı",
+    "clientOrProject": "Bir müşteri veya bir proje belirt",
+    "nameMin2": "Ad en az 2 karakter olmalı",
+    "invalidEmailShort": "Geçerli bir e-posta gir",
+    "scopeRequired": "En az bir kapsam gerekli",
+    "approvalScope": "period için periodStart+periodEnd gerekir; invoice_draft için invoiceId gerekir",
+    "invalidEmail": "Geçerli bir e-posta adresi gir",
+    "messageMax500": "Mesaj en fazla 500 karakter olabilir",
+    "selectProjectClientOrDescription": "Bir proje veya müşteri seç ya da bir açıklama yaz",
+    "subjectMin5": "Konu en az 5 karakter olmalı",
+    "messageMin10": "Mesaj en az 10 karakter olmalı",
+    "invalidDate": "Geçersiz tarih",
+    "atLeastOneWorkday": "En az bir hafta gününde çalışma saati olmalı",
+    "duplicateDate": "Aynı tarih iki kez eklendi",
+    "nameRequired": "Ad gerekli",
+    "invalidEmailDash": "Geçersiz e-posta adresi",
+    "selectProjectClientOrDescriptionShort": "Bir proje/müşteri seç ya da bir açıklama yaz",
+    "amountRequired": "Tutar gerekli",
+    "amountPositive": "Tutar 0'dan büyük olmalı",
+    "amountTooLarge": "Tutar çok büyük",
+    "amountDecimals": "Tutar en fazla 2 ondalık basamaklı olabilir",
+    "selectClient": "Bir müşteri seç",
+    "issueDateRequired": "Düzenleme tarihi gerekli",
+    "unknownTool": "Bilinmeyen araç",
+    "invalidCostRate": "Geçersiz maliyet fiyatı",
+    "companyNameMin2": "Şirket adı en az 2 karakter olmalı",
+    "invalidEmailAddress": "Geçersiz e-posta adresi",
+    "hourlyRateMin0": "Saatlik ücret en az 0 olmalı",
+    "confirmProjectName": "Onaylamak için proje adını gir",
+    "enterName": "Adını gir",
+    "invalidNumber": "Geçersiz sayı",
+    "descriptionMissing": "Açıklama eksik",
+    "invalidDateFormat": "Geçersiz tarih (yyyy-mm-dd bekleniyor)",
+    "nameMissing": "Ad eksik",
+    "hoursRequired": "Saat gerekli",
+    "atLeastOneRecipient": "En az bir alıcı",
+    "invalidHexColor": "Geçersiz hex rengi",
+    "titleRequired": "Başlık gerekli",
+    "textRequired": "Metin gerekli",
+    "invalidImageUrl": "Geçersiz görsel URL'si",
+    "enterDays": "Bir gün sayısı gir",
+    "invalidColor": "Geçersiz renk",
+    "dateYmd": "Tarih YYYY-MM-DD biçiminde",
+    "noteRequired": "Bir not gir",
+    "unlockReason": "Kilidi açma nedenini yaz",
+    "reasonRequired": "Bir neden belirt",
+    "reopenReason": "Yeniden açma nedenini yaz",
+    "templateNameRequired": "Şablona bir ad ver",
+    "employeeOrDepartment": "Bir çalışan veya bir departman seç",
+    "formatMmDd": "MM-DD biçiminde olmalı"
+  },
+  "webhooks": {
+    "event": {
+      "clientCreated": "Müşteri oluşturuldu",
+      "clientUpdated": "Müşteri güncellendi",
+      "clientArchived": "Müşteri arşivlendi",
+      "projectCreated": "Proje oluşturuldu",
+      "projectUpdated": "Proje güncellendi",
+      "projectStatusChanged": "Proje durumu değişti",
+      "projectBudgetThreshold": "Aylık bütçe eşiğine ulaşıldı",
+      "timeEntryCreated": "Zaman kaydı oluşturuldu",
+      "timeEntryUpdated": "Zaman kaydı güncellendi",
+      "timeEntryDeleted": "Zaman kaydı silindi",
+      "invoiceCreated": "Fatura oluşturuldu",
+      "invoiceSent": "Fatura gönderildi",
+      "invoicePaid": "Fatura ödendi",
+      "invoiceOverdue": "Fatura gecikti",
+      "prepaidCreated": "Ön ödemeli paket oluşturuldu",
+      "prepaidUpdated": "Ön ödemeli paket güncellendi",
+      "prepaidLowBalance": "Ön ödemeli paket bakiyesi düşük",
+      "prepaidExpired": "Ön ödemeli paketin süresi doldu",
+      "taskCreated": "Görev oluşturuldu",
+      "taskUpdated": "Görev güncellendi",
+      "taskCompleted": "Görev tamamlandı"
+    }
+  },
+  "clients": {
+    "invalidDomain": "Geçersiz alan adı: {domain}",
+    "roundingRequired": "roundingEnabled true olduğunda roundingMinutes ve roundingMethod ayarlanmalı"
+  },
+  "alunta": {
+    "webhookUrlUnavailable": "Webhook URL'si gösterilemiyor. Yeni bir URL oluştur."
+  },
+  "desktop": {
+    "licenseMismatch": "Lisans anahtarı ile e-posta eşleştirilemedi. Kontrol et ya da destekle iletişime geç."
+  },
+  "common": {
+    "unknownProject": "Bilinmeyen proje",
+    "unknownError": "Bilinmeyen hata",
+    "noProject": "Proje yok",
+    "unknownClient": "Bilinmeyen müşteri",
+    "unknown": "Bilinmiyor"
+  },
+  "search": {
+    "invoiceTitle": "Fatura {number}",
+    "timeEntryTitle": "Zaman kaydı",
+    "timeSubtitle": "{project} • {hours} sa",
+    "invoiceSubtitle": "{client} • {status}",
+    "prepaidSubtitle": "{client} • {hours} sa kaldı",
+    "taskSubtitle": "{project} • {status}"
+  },
+  "ext": {
+    "loginCodeInvalid": "Oturum açma kodu geçersiz ya da süresi dolmuş. Yeniden oturum aç.",
+    "import": {
+      "noWorkRuleNoTarget": "Çalışma dışı bir kural bir projeyi veya müşteriyi işaret etmiyor",
+      "ruleNeedsTarget": "Bir kural bir projeyi veya müşteriyi işaret etmeli",
+      "linesSumMismatch": "Kalemlerin toplamı ({sum}) fatura tutarı ({amount}) değil",
+      "entryNotImported": "{id} kaydı içe aktarılmadı",
+      "companyProfileMissing": "Şirket bilgileri eksik. Faturaları içe aktarmadan önce bunları Ayarlar → Şirket profili altında doldur.",
+      "fullCreditOnly": "Yalnızca tam iadeler içe aktarılabilir: iade faturası tutarı ({amount}), fatura tutarının ({original}) ters işaretlisi olmalı",
+      "invoiceNotFound": "{id} faturası mevcut değil",
+      "creditNoteAmount": "İade faturasının tutarı 0 veya daha az olmalı",
+      "invoiceIsDraft": "{id} faturası taslak ve iade edilemez",
+      "refMissing": {
+        "client": "{id} müşterisi içe aktarılmadı",
+        "project": "{id} projesi içe aktarılmadı",
+        "prepaid": "{id} ön ödemeli paketi içe aktarılmadı",
+        "task": "{id} görevi içe aktarılmadı",
+        "invoice": "{id} faturası içe aktarılmadı"
+      }
+    }
+  },
+  "invoices": {
+    "transition": {
+      "paid": "Ödenmiş faturalar değiştirilemez. Gerekirse bir iade faturası oluştur.",
+      "deleted": "Silinmiş faturalar geri yüklenemez.",
+      "generic": "Durum \"{from}\" değerinden \"{to}\" değerine değiştirilemez."
+    },
+    "directTime": "Doğrudan süre",
+    "status": {
+      "draft": "taslak",
+      "sent": "gönderildi",
+      "paid": "ödendi",
+      "overdue": "gecikti",
+      "deleted": "silindi"
+    },
+    "specHeading": "--- Özellik listesi ---",
+    "specLine": "{date} - {project}: {description} ({hours} sa × {rate} kr = {amount} kr)"
+  },
+  "logbook": {
+    "endAfterStart": "Bitiş tarihi başlangıç tarihinden sonra olmalı",
+    "periodMaxDays": "Dönem en fazla {days} gün olabilir"
+  },
+  "portal": {
+    "manualDeduction": "Elle düşüm"
+  },
+  "recurringInvoices": {
+    "prepaidAlreadyRecurring": "Ön ödemeli paketin zaten yinelenen bir faturası var"
+  },
+  "storeBilling": {
+    "notAvailable": "Uygulama içi satın alma henüz kullanılamıyor."
+  },
+  "subscription": {
+    "storeManaged": "Aboneliğin {provider} üzerinden ödeniyor. Bunu {provider} içinde değiştirir ya da iptal edersin.",
+    "teamPlanNotConfigured": "Team planı henüz yapılandırılmadı (ALUNTA_PLAN_TEAM_*). Destekle iletişime geç.",
+    "businessPlanNotConfigured": "Business planı henüz yapılandırılmadı (ALUNTA_PLAN_BUSINESS_*). Destekle iletişime geç.",
+    "privatePlanNotAvailable": "Private planı henüz kullanılamıyor (ALUNTA_PLAN_PRIVAT_*). Başka bir plan seç ya da destekle iletişime geç.",
+    "freeNotPurchasable": "Free planı satın alınamaz.",
+    "feedbackEmailMissing": "FEEDBACK_TO_EMAIL ayarlanmamış"
+  },
+  "time": {
+    "invalidEntryDate": "Geçersiz tarih: YYYY-MM-DD bekleniyor"
+  },
+  "billedLock": {
+    "onInvoice": "Zaman kaydı faturalanmış ve değiştirilemez. Önce faturayı iade et ya da kaydı taslak faturadan kaldır.",
+    "marked": "Zaman kaydı faturalandı olarak işaretlenmiş ve değiştirilemez. Önce işareti kaldır.",
+    "bulk": {
+      "delete": "{count, plural, one {Seçili zaman kayıtlarından # tanesi faturalanmış ve silinemez. Önce faturayı iade et ya da işareti kaldır.} other {Seçili zaman kayıtlarından # tanesi faturalanmış ve silinemez. Önce faturayı iade et ya da işareti kaldır.}}",
+      "edit": "{count, plural, one {Seçili zaman kayıtlarından # tanesi faturalanmış ve değiştirilemez. Önce faturayı iade et ya da işareti kaldır.} other {Seçili zaman kayıtlarından # tanesi faturalanmış ve değiştirilemez. Önce faturayı iade et ya da işareti kaldır.}}",
+      "move": "{count, plural, one {Seçili zaman kayıtlarından # tanesi faturalanmış ve taşınamaz. Önce faturayı iade et ya da işareti kaldır.} other {Seçili zaman kayıtlarından # tanesi faturalanmış ve taşınamaz. Önce faturayı iade et ya da işareti kaldır.}}"
+    }
+  },
+  "enterprise": {
+    "activityTypeNameExists": "Bu adda bir etkinlik türü zaten var",
+    "endAfterStart": "Bitiş tarihi başlangıç tarihinden sonra olmalı",
+    "fromBeforeTo": "Başlangıç tarihi bitiş tarihinden önce olmalı",
+    "periodMaxDays": "Dönem en fazla {days} gün olabilir",
+    "employee": {
+      "importManagerMissing": "{email} yöneticisi ne dosyada ne de organizasyonda var. Çalışan yöneticisiz içe aktarıldı."
+    },
+    "payroll": {
+      "hrOnly": "Bordro eşlemesi yalnızca İK ve yöneticilere ayrılmıştır"
+    },
+    "closing": {
+      "changedMeanwhile": "Özet bu arada değiştirildi. Sayfayı yeniden yükle.",
+      "locked": "Dönem kapatılmış ve kilitlenmiş. Kayıtlar değiştirilmeden önce bir yönetici kilidi (bir nedenle) açmalı."
+    },
+    "team": {
+      "absenceLabel": "Devamsızlık"
+    },
+    "timesheet": {
+      "coveredByRequest": "Gün, Devamsızlık altında oluşturulan bir devamsızlık talebiyle kapsanıyor. Bunu orada düzenle.",
+      "otherTypeAbsence": "Bu günde zaten farklı türde bir devamsızlığın var",
+      "absenceRecordedElsewhere": "Devamsızlık aynı anda başka bir yerden kaydedildi. Haftayı yeniden yükle.",
+      "overMax": "{label}: {total} sa, günlük {max} sa üst sınırını aşıyor",
+      "emptyWorkday": "{label} bir çalışma günü ve kaydı ya da devamsızlığı yok",
+      "overNorm": "{label}: {total} sa, {norm} sa normunu aşıyor",
+      "weekOverNorm": "Hafta: {total} sa, {norm} sa haftalık normunu aşıyor",
+      "autoLocked": "Hafta kilitli. Geçen hafta {day} günü kilitlenir. Düzeltilmesi için yöneticinle iletişime geç.",
+      "automatically": "otomatik olarak",
+      "rollingLocked": "{weeks} öncesine ait kayıtlar organizasyon tarafından kilitlenmiştir. Düzeltilmesi için yöneticinle iletişime geç.",
+      "weeks": "{count, plural, one {# hafta} other {# hafta}}"
+    },
+    "workPlans": {
+      "notBackwards": "Bir plan geriye dönük değiştirilemez. Bugünü ya da daha sonraki bir tarihi seç."
+    },
+    "absenceCap": {
+      "used": "{type}, {year} için tükendi (yılda en fazla {cap} gün)",
+      "left": "{year} içinde {type} için {cap} günün yalnızca {remaining} günü kaldı"
+    },
+    "rule": {
+      "avgViolation": "48 saat kuralı: referans dönemi ortalaması {avg} sa/hafta (sınır {limit} sa)",
+      "avgWarning": "48 saat kuralı: referans dönemi ortalaması {avg} sa/hafta ve {limit} sa sınırına yaklaşıyor",
+      "weekInfo": "48 saat kuralı: hafta şu an {week} sa; referans dönemi ortalaması hâlâ {limit} sa altında",
+      "restBefore": "11 saat dinlenme: {day} günündeki işten önce yalnızca {rest} sa dinlenme var (gereken {limit} sa)",
+      "daySum": "11 saat dinlenme: {day} günü kaydedilen {total} sa, {limit} saatten az dinlenme bırakıyor (günde en fazla {max} sa)",
+      "weeklyRest": "24 saat haftalık dinlenme: {day} gününden başlayan haftadaki en uzun kesintisiz dinlenme {rest} sa (gereken {limit} sa)",
+      "noFreeDay": "24 saat haftalık dinlenme: {day} gününden başlayan haftanın 7 gününün hepsinde çalışma kaydedilmiş, tam bir izin günü yok"
+    },
+    "employment": {
+      "endBeforeStart": "Bitiş tarihi başlangıç tarihinden önce olamaz",
+      "onlyFirstUnknown": "Yalnızca ilk dönemin başlangıç tarihi bilinmiyor olabilir",
+      "startAfterPrevStart": "Başlangıç tarihi önceki dönemin başlangıcından ({date}) sonra olmalı",
+      "startAfterPrevEnd": "Başlangıç tarihi önceki istihdamın bitişinden ({date}) sonra olmalı",
+      "endBeforeNext": "Bitiş tarihi sonraki dönemin başlangıcından ({date}) önce olmalı",
+      "endDayBeforeNext": "Bitiş tarihi, sonraki dönemin başlangıcından ({date}) önceki gün olmalı. Bunun yerine sonraki dönemin başlangıç tarihini taşı."
+    },
+    "import": {
+      "fileEmpty": "Dosya boş",
+      "headerEmployees": "Başlık satırı en az \"navn\" ve \"email\" sütunlarını içermeli",
+      "nameMissing": "Ad eksik",
+      "invalidEmail": "Geçersiz e-posta: \"{value}\"",
+      "duplicate": "Dosyada yinelenen kayıt: {email}",
+      "unknownRole": "Bilinmeyen rol: \"{value}\" (medarbejder/leder/admin kullan)",
+      "invalidWeeklyHours": "Geçersiz saat sayısı: \"{value}\" (1-60)",
+      "invalidStartDate": "Geçersiz başlangıç tarihi: \"{value}\" (YYYY-MM-DD kullan)",
+      "invalidManagerEmail": "Geçersiz yönetici e-postası: \"{value}\"",
+      "headerEntries": "Başlık satırı \"email\" (veya \"medarbejder\"), \"dato\" ve \"timer\" sütunlarını içermeli",
+      "invalidDate": "Geçersiz tarih: \"{value}\" (YYYY-MM-DD kullan)",
+      "invalidHours": "Geçersiz saat sayısı: \"{value}\" (0-24)"
+    },
+    "period": {
+      "pickBoth": "Hem başlangıç hem bitiş tarihini seç",
+      "fromBeforeToOrSame": "Başlangıç tarihi bitiş tarihinden önce ya da aynı gün olmalı",
+      "maxDaysShorter": "Dönem en fazla {days} gün olabilir. Daha kısa bir aralık seç."
+    },
+    "vacation": {
+      "notEnough": "{pool} havuzunda yeterli tatil günü yok. {remaining} günün kaldı, ancak kayıt {deducted} gün gerektiriyor{tolerance}.",
+      "overdraftAllowed": " (açığa izin verilir: {days} gün)",
+      "overdraftNotAllowed": " (açığa izin verilmez)"
+    },
+    "workPlan": {
+      "rotation": "Dönüşüm 1 veya 2 hafta olmalı",
+      "weekCount": "Hafta sayısı dönüşümle uyuşmuyor",
+      "invalidWeekday": "Geçersiz hafta günü{label}",
+      "duplicateWeekday": "Bir hafta günü iki kez geçiyor{label}",
+      "timeFormat": "Saatler HH:MM biçiminde yazılmalı{label}",
+      "endAfterStart": "Bitiş saati başlangıç saatinden sonra olmalı{label}",
+      "breakRange": "Mola 0-240 dakika olmalı{label}",
+      "breakShorter": "Mola çalışma gününden kısa olmalı{label}",
+      "inWeek": " hafta {week} içinde",
+      "enterBothTimes": "Hem başlangıç hem bitiş saatini HH:MM olarak gir",
+      "endAfterStartPlain": "Bitiş saati başlangıç saatinden sonra olmalı",
+      "breakShorterPlain": "Mola çalışma gününden kısa olmalı",
+      "rangeOrHours": "Bir saat aralığı ya da 0-24 saat gir"
+    },
+    "closure": {
+      "overlap": "dönemde zaten devamsızlığı var",
+      "noWorkingDays": "dönemde çalışma günü yok",
+      "balance": "yeterli tatil günü yok",
+      "error": "oluşturulamadı (teknik hata)"
+    },
+    "workPlanExport": {
+      "planned": "Plana göre",
+      "deviation": "Sapma",
+      "dayOff": "İzin günü",
+      "absence": "Devamsızlık",
+      "free": "Plana göre boş",
+      "hDate": "Tarih",
+      "hStatus": "Durum",
+      "hPlan": "Plan",
+      "hPlanHours": "Plan (saat)",
+      "hRegisteredRange": "Kaydedilen saat aralığı",
+      "hBreak": "Mola (dk)",
+      "hRegisteredHours": "Kaydedilen (saat)",
+      "hDayOff": "İzin günü",
+      "hNote": "Not",
+      "hEditedBy": "Düzenleyen",
+      "hEditedUtc": "Düzenlenme (UTC)"
+    },
+    "payrollXlsx": {
+      "sheet": "Bordro",
+      "period": "Dönem: {period}"
+    }
+  },
+  "emailTemplates": {
+    "vars": {
+      "companyName": "Şirket adın",
+      "yourName": "Adın",
+      "yourEmail": "E-postan",
+      "yourPhone": "Telefon numaran",
+      "clientFullName": "Müşterinin tam adı",
+      "clientCompany": "Müşterinin şirket adı",
+      "clientEmail": "Müşterinin e-postası",
+      "portalLink": "Müşteri portalı bağlantısı",
+      "invoiceNumber": "Fatura numarası",
+      "totalInclVat": "KDV dahil toplam tutar",
+      "amountExclVat": "KDV hariç tutar",
+      "issueDate": "Düzenleme tarihi",
+      "paymentDeadline": "Son ödeme tarihi",
+      "invoiceStatus": "Ödendi/Ödenmedi/Gecikti",
+      "invoiceLink": "Faturaya doğrudan bağlantı",
+      "daysLate": "Gecikme gün sayısı",
+      "projectName": "Projenin adı",
+      "projectStatus": "Aktif/Tamamlandı/Beklemede",
+      "hoursUsed": "Kullanılan saat",
+      "projectLink": "Portaldaki projeye bağlantı",
+      "prepaidName": "Ön ödemeli paketin adı",
+      "hoursRemaining": "Kalan saat",
+      "hoursTotal": "Toplam saat",
+      "percentUsed": "Kullanım yüzdesi",
+      "expiryDate": "Son kullanma tarihi",
+      "daysToExpiry": "Sona ermeye kalan gün",
+      "hoursForApproval": "Onay için toplam saat",
+      "entryCount": "Zaman kaydı sayısı",
+      "period": "Zaman dönemi",
+      "approvalLink": "Onay sayfasına bağlantı",
+      "loginLink": "Portal girişine bağlantı",
+      "invitationLink": "Davet bağlantısı",
+      "invitationExpiry": "Davetin son kullanma tarihi"
+    }
+  },
+  "deadlines": {
+    "vatQuarterTitle": "KDV (moms) Ç{n}",
+    "vatHalfTitle": "KDV (moms) Y{n}",
+    "vatQuarterDesc": "Çeyrek dönem KDV'sinin (moms) Danimarka Vergi Dairesi'ne (Skattestyrelsen) bildirimi ve ödemesi.",
+    "vatHalfDesc": "Yarıyıl KDV'sinin (moms) Danimarka Vergi Dairesi'ne (Skattestyrelsen) bildirimi ve ödemesi.",
+    "vatMonthTitle": "KDV (moms) {month}",
+    "vatMonthDesc": "{month} {year} KDV'sinin (moms) Danimarka Vergi Dairesi'ne (Skattestyrelsen) bildirimi ve ödemesi.",
+    "bSkatSpring": "Peşin vergi, B-skat (ilkbahar)",
+    "bSkatAutumn": "Peşin vergi, B-skat (sonbahar)",
+    "bSkatDesc": "Peşin B-skat'ın Danimarka Vergi Dairesi'ne (Skattestyrelsen) ödemesi. Serbest çalışanlar ve freelancer'lar için geçerlidir.",
+    "formTitle": "{year} vergi beyannamesi",
+    "formDesc": "{year} gelir yılı için vergi beyannamesinin (oplysningsskema) Danimarka Vergi Dairesi'ne (Skattestyrelsen) verilmesi.",
+    "amTitle": "İşgücü piyasası katkısı (AM) Ç{n}",
+    "amDesc": "Serbest çalışanlar için çeyrek dönem işgücü piyasası katkısının (AM-bidrag) ödemesi.",
+    "arTitle": "Yıllık rapor mali yıl {year}",
+    "arDesc": "Yıllık rapor, mali yıl sonundan en geç 5 ay sonra Danimarka Ticaret Kurumu'na (Erhvervsstyrelsen) sunulmalıdır.",
+    "agmTitle": "Genel kurul mali yıl {year}",
+    "agmDesc": "Yıllık raporu onaylamak için olağan genel kurul.",
+    "corpFormTitle": "Şirket vergi beyannamesi mali yıl {year}",
+    "corpFormDesc": "Şirketin mali yıla ait vergi beyannamesi (oplysningsskema) Danimarka Vergi Dairesi'ne (Skattestyrelsen) sunulmalıdır.",
+    "corpTaxSpring": "Kurumlar vergisi avansı (ilkbahar)",
+    "corpTaxAutumn": "Kurumlar vergisi avansı (sonbahar)",
+    "corpTaxDesc": "Kurumlar vergisi avansının Danimarka Vergi Dairesi'ne (Skattestyrelsen) ödemesi.",
+    "corpFinalTitle": "Kurumlar vergisi nihai uzlaşma {year}",
+    "corpFinalDesc": "{year} gelir yılı için kalan kurumlar vergisinin (nihai vergi) ödemesi.",
+    "payrollTitle": "A-skat/AM katkısı {month}",
+    "payrollDesc": "{month} {year} bordro dönemi için A-skat ve AM katkısının bildirimi ve ödemesi.",
+    "holidayPayTitle": "Tatil ücreti Ç{n}",
+    "holidayPayDesc": "Çeyrek dönem tatil ücretinin Feriekonto'ya (Danimarka tatil ücreti fonu) bildirimi ve ödemesi."
+  },
+  "integrations": {
+    "authExpired": "{name} bağlantısının süresi dolmuş ya da geçersiz. Lütfen Ayarlar → Entegrasyonlar altında yeniden bağlan.",
+    "billy": {
+      "keyRequired": "Bir Billy API anahtarı gerekli",
+      "productDescription": "TimeTrack'ten içe aktarılan saatler"
+    },
+    "dinero": {
+      "keyRequired": "Bir Dinero API anahtarı gerekli",
+      "orgIdRequired": "Bir Dinero organizasyon kimliği gerekli",
+      "tokenFailed": "Dinero token'ı alınamadı",
+      "refreshMissing": "Dinero refresh token'ı eksik",
+      "expiredReconnect": "Dinero bağlantısının süresi doldu. Lütfen yeniden bağlan.",
+      "orgsFailed": "Dinero organizasyonları alınamadı"
+    },
+    "economic": {
+      "secretRequired": "Bir e-conomic App Secret Token gerekli",
+      "grantRequired": "Bir e-conomic Agreement Grant Token gerekli",
+      "consultingHours": "Danışmanlık işi: {hours} saat"
+    },
+    "timeops": {
+      "invalidKey": "API anahtarı geçersiz ya da süresi dolmuş",
+      "premium": "API'lerini kullanmak için TimeOps Premium gerekir",
+      "network": "TimeOps'a bağlanılamadı. Daha sonra tekrar dene.",
+      "unexpected": "TimeOps'a bağlanırken beklenmeyen bir hata oluştu ({detail})"
+    },
+    "icloud": {
+      "syncFailed": "iCloud senkronizasyonu başarısız oldu",
+      "storageMissing": "Sunucuda güvenli parola depolama kurulu olmadığı için iCloud şu an bağlanamıyor. Destekle iletişime geç.",
+      "rejected": "Apple ID veya uygulamaya özel parola reddedildi. Uygulamaya özel parolanın tamamını kopyaladığını kontrol et (normal Apple parolanı değil).",
+      "notConnected": "iCloud bağlı değil",
+      "notConnectedShort": "iCloud'a bağlı değil",
+      "calendarGone": "\"{name}\" takvimi artık iCloud'da yok. Takvimleri yeniden seç.",
+      "unknownCalendar": "bilinmiyor"
+    },
+    "caldav": {
+      "unknown": "iCloud senkronizasyonu başarısız oldu: {message}",
+      "auth": "Apple oturum açmayı reddetti. appleid.apple.com adresinde yeni bir uygulamaya özel parola oluştur ve iCloud'u yeniden bağla.",
+      "network": "Şu an iCloud'a bağlanılamadı. Otomatik olarak yeniden deneyeceğiz."
+    },
+    "cvr": {
+      "invalid": "CVR numarası 8 haneli olmalı",
+      "notFound": "Bu CVR numarasıyla şirket bulunamadı",
+      "rateLimited": "CVR sorguları geçici olarak sınırlandı. Biraz sonra tekrar dene ya da alanları kendin doldur.",
+      "timeout": "CVR sicili şu an yanıt vermiyor. Biraz sonra tekrar dene ya da alanları kendin doldur.",
+      "unavailable": "CVR sorgusu şu an çalışmıyor. Biraz sonra tekrar dene ya da alanları kendin doldur."
+    },
+    "google": {
+      "readOnly": "Google Takvim'in salt okunur erişimle bağlı, bu yüzden TimeTrack içinde etkinlik oluşturamaz veya değiştiremez. Özelliği kullanmak istersen Ayarlar → Entegrasyonlar → Google Takvim altında yazma erişimi ver.",
+      "freeSlot": "Takvimde boş zaman",
+      "deadlineIn": "Son tarihe {count, plural, one {# gün} other {# gün}} kaldı",
+      "urgent": "Acil öncelik",
+      "high": "Yüksek öncelik",
+      "clientLine": "Müşteri: {name}",
+      "projectLine": "Proje: {name}",
+      "hoursLine": "Saat: {hours}",
+      "exportedFrom": "TimeTrack'ten dışa aktarıldı"
+    }
+  },
+  "activity": {
+    "timeEntryFallback": "Zaman kaydı",
+    "timeOnProject": "{name} projesinde {hours} saat",
+    "timeForClient": "{name} için {hours} saat",
+    "timeOnly": "{hours} saat",
+    "invoiceTitle": "Fatura {number}",
+    "invoiceDescription": "{client} için {amount} kr",
+    "newClient": "Yeni müşteri: {name}",
+    "noContact": "İletişim bilgisi yok",
+    "newProject": "Yeni proje: {name}",
+    "projectFor": "{client} için",
+    "internal": "Dahili"
+  }
+}

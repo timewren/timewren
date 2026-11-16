@@ -1,0 +1,94 @@
+---
+title: "Mitwirken"
+description: "Richte eine Entwicklungsumgebung ein, führe die Prüfungen aus, signiere deine Commits und finde dich in Code und Dokumentation zurecht."
+---
+
+Bugfixes, Übersetzungen, Integrationen und Dokumentation sind alle willkommen. TimeWren liegt auf [github.com/timewren/timewren](https://github.com/timewren/timewren).
+
+## Bevor du anfängst
+
+- **Bugs:** Durchsuche zuerst die bestehenden Issues und öffne dann eines mit Schritten zur Reproduktion.
+- **Features und größere Änderungen:** Öffne ein Issue oder einen Thread in den Discussions (Ideas), bevor du Code schreibst, damit der Ansatz zuerst abgestimmt werden kann.
+- **Sicherheitsprobleme:** nie öffentlich. Siehe [Sicherheit](#sicherheit).
+- Mit `good first issue` gekennzeichnete Issues eignen sich gut für den Einstieg. `help wanted` heißt, dass ein Pull Request willkommen ist.
+
+## Entwicklungsumgebung
+
+Du brauchst Node.js 22 oder neuer (`engines` in `package.json`), Docker für PostgreSQL und npm. Forke das Repository, klone deinen Fork und führe aus:
+
+```bash
+npm run setup
+```
+
+Das legt `.env.local` mit lokalen Secrets an (eine vorhandene Datei bleibt unberührt), installiert Abhängigkeiten, startet PostgreSQL in Docker, führt die Migrationen aus, legt Demodaten an und startet den Dev-Server im Hintergrund auf `http://localhost:3000`. Das Log liegt in `.next/dev.log`, und `npm run dev:stop` stoppt ihn. Danach führt `npm run dev` den Server im Vordergrund aus.
+
+Um die Schritte von Hand auszuführen, zum Beispiel auf einem Rechner, auf dem du bereits `.env.local` hast:
+
+```bash
+npm ci
+npm run docker:up
+npm run db:migrate
+npm run db:seed
+npm run dev
+```
+
+Optionale Dienste (S3-Speicher, E-Mail, Valkey, Zahlungen, Buchhaltungsintegrationen) werden in `.env.local` konfiguriert. `.env.example` listet jede Option auf, und du kannst sie leer lassen, wenn du sie nicht brauchst.
+
+## Eine Änderung vornehmen
+
+1. Erstelle in deinem Fork einen Branch von `main`.
+2. Halte die Änderung fokussiert: ein Fix oder Feature pro Pull Request.
+3. Führe die Prüfungen aus, bevor du pushst:
+
+   ```bash
+   npm run lint
+   npx tsc --noEmit
+   npm test
+   npm run i18n:check
+   ```
+
+   `npm test` führt die Vitest-Unit-Tests aus und braucht keine Datenbank. `npm run test:e2e` führt die Playwright-Tests gegen eine lokale Datenbank aus, siehe `tests/e2e/README.md`.
+4. Ergänze oder aktualisiere Tests, wenn du Verhalten änderst. Schreibe bei einem Bug zuerst einen fehlschlagenden Test.
+5. Datenbankänderungen laufen über Drizzle: Bearbeite `src/lib/db/schema.ts` und führe dann `npm run db:generate` aus. Migrationen gehen nur vorwärts: Füge Spalten und Tabellen hinzu und lösche oder benenne sie nicht im selben Release um. Bearbeite nie eine Migration, die bereits veröffentlicht wurde.
+6. Füge unter `## [Unreleased]` in `CHANGELOG.md` eine Zeile für alles hinzu, was ein Benutzer oder Self-Hoster bemerken würde.
+7. Öffne den Pull Request gegen `main`. Füge bei UI-Änderungen Screenshots vorher und nachher hinzu, die mit Demodaten erstellt wurden.
+
+## Konventionen
+
+- **Formatierung und Linting:** nur Biome. Füge weder ESLint noch Prettier hinzu. Formatiere nur die Dateien, die du geändert hast.
+- **Code-Stil:** Der Alias `@/*` verweist auf `src/*`, mit 2 Leerzeichen Einrückung.
+- **Daten:** Archiviere Benutzerdaten, statt sie zu löschen (`isArchived`), und filtere jede Abfrage nach `organizationId`.
+- **Benutzersichtbare Texte** liegen in `src/i18n/messages/<language>/` und sind nie hartcodiert. Neue Texte brauchen `en` und `da`. Andere Sprachen fallen auf Englisch zurück.
+- **Keine gesperrten Features:** Kein Feature darf von einem Plan, Lizenzschlüssel, einer Marke oder einer Abrechnungseinstellung abhängen.
+- **Commit-Nachrichten** sind kurz, im Imperativ und haben ein Conventional-Commits-Präfix: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`. Kennzeichne Breaking Changes mit `!`, wie in `feat!: ...`.
+
+## Commits signieren (DCO)
+
+TimeWren verwendet statt eines CLA das [Developer Certificate of Origin](https://developercertificate.org/). Mit dem Signieren eines Commits bestätigst du, dass du die Änderung selbst geschrieben hast oder das Recht hast, sie unter der Lizenz des Projekts einzureichen. Das Urheberrecht an deiner Arbeit behältst du.
+
+```bash
+git commit -s -m "fix: round klippekort balance correctly"
+```
+
+Das fügt eine Zeile `Signed-off-by: Jane Doe <jane@example.com>` mit dem Namen und der E-Mail aus deiner Git-Konfiguration hinzu. Vergessen? Korrigiere den letzten Commit mit `git commit --amend -s --no-edit` oder einen ganzen Branch mit `git rebase --signoff main` und pushe deinen Branch dann per Force-Push. Pull Requests mit unsignierten Commits können nicht gemergt werden. Rebase auf `main`, statt es in deinen Branch zu mergen.
+
+## Dokumentation
+
+Diese Dokumentation liegt im Repository unter `content/docs/<locale>/`, eine `.mdx`-Datei pro Seite. Englisch (`en`) ist die Quelle. Dänisch (`da`), Deutsch (`de`) und Spanisch (`es`) enthalten die Übersetzungen, mit denselben Dateinamen. Jede Datei beginnt mit einem Frontmatter-Block mit `title` und `description`. Schreibe schlichtes Markdown und halte die Aussagen wahrheitsgemäß zum Code.
+
+Jede Seite wird auch als Markdown ausgeliefert, indem du `.md` an ihre URL hängst, und `/llms.txt` und `/llms-full.txt` listen und bündeln die englische Dokumentation für LLMs. Siehe [Diese Dokumentation mit deinem LLM nutzen](/de/docs/llm).
+
+## Sicherheit
+
+Öffne für ein Sicherheitsproblem kein öffentliches Issue, keine Discussion und keinen Pull Request. Melde es privat über GitHub: [Report a vulnerability](https://github.com/timewren/timewren/security/advisories/new). Wenn du GitHub nicht nutzen kannst, schreibe an `security@timetrack.dk`. Gib eine Beschreibung und die Auswirkungen, Schritte zur Reproduktion sowie die getestete Version oder den getesteten Commit an. Die Sicherheitsrichtlinie in `SECURITY.md` nennt die Reaktionsziele und welche Komponenten unterstützt werden.
+
+## Governance, Lizenz und Marke
+
+- **Governance:** Das Projekt wird von Mahope geleitet, das die Roadmap und Releases bestimmt und Maintainer ernennt. Entscheidungen werden öffentlich getroffen, in Issues, Pull Requests und Discussions. Es gibt keine geschlossene Enterprise-Edition und kein CLA. Siehe `GOVERNANCE.md`.
+- **Lizenz:** Der Code steht unter AGPL-3.0-only. Das Verzeichnis `browser-extension/` steht unter MIT. Dein Beitrag wird unter der Lizenz der Dateien lizenziert, die du änderst. Siehe `LICENSE`.
+- **Name und Logo:** Name und Logo von TimeWren fallen nicht unter die Code-Lizenz. Forks müssen einen eigenen Namen verwenden. Siehe `TRADEMARK.md`.
+- **Verhaltenskodex:** Alle Beteiligten befolgen den Contributor Covenant in `CODE_OF_CONDUCT.md`.
+
+## Arbeiten mit KI-Coding-Agenten
+
+Das Repository liefert `AGENTS.md` und `CLAUDE.md` mit Projekthinweisen für Coding-Agenten mit. Sie folgen denselben Regeln wie oben, einschließlich der DCO-Signatur. Füge Commits keine KI-Attributions-Trailer hinzu.

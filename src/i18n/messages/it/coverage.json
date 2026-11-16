@@ -1,0 +1,67 @@
+{
+  "hourUnit": "h",
+  "headline": {
+    "untilToday": "{logged} su {expected} fino a oggi",
+    "noWorkTimeYet": "Ancora nessun orario di lavoro nel periodo",
+    "of": "{logged} su {expected}",
+    "noWorkTime": "Nessun orario di lavoro nel periodo"
+  },
+  "week": "Settimana {week} ({start}–{end})",
+  "period": {
+    "day": "Giorno",
+    "week": "Settimana",
+    "month": "Mese"
+  },
+  "bar": {
+    "label": "Fatturabili {billable}, non fatturabili {nonBillable} su {expected} di orario di lavoro",
+    "billable": "Fatturabili",
+    "nonBillable": "Non fatturabili",
+    "notLogged": "Non registrate"
+  },
+  "table": {
+    "client": "Cliente",
+    "billable": "Fatturabili",
+    "nonBillableShort": "Non fatt.",
+    "share": "Quota",
+    "ratio": "Non fatt. per ora fatt.",
+    "ratioTitle": "Ore non fatturabili per ora fatturata",
+    "onlyNonBillable": "Solo non fatt."
+  },
+  "strip": {
+    "title": "Copertura",
+    "summary": "<n>{billable}</n> fatturabili · <n>{nonBillable}</n> non fatturabili",
+    "summaryRatio": "<n>{billable}</n> fatturabili · <n>{nonBillable}</n> non fatturabili · <n>{ratio}</n> per ora fatturata",
+    "perClient": "Per cliente"
+  },
+  "page": {
+    "back": "Report",
+    "title": "Copertura",
+    "description": "Quanto del tuo orario di lavoro è stato registrato e dove va a finire",
+    "periodAria": "Periodo",
+    "prev": "Periodo precedente",
+    "next": "Periodo successivo",
+    "today": "Oggi",
+    "workTime": "Orario di lavoro: {hours}/settimana",
+    "workTimeHr": "Orario di lavoro: {hours}/settimana (dalle HR)",
+    "edit": "Modifica",
+    "loadError": "Impossibile recuperare il tasso di copertura.",
+    "retry": "Riprova",
+    "statCoverage": "Copertura",
+    "statBillable": "Fatturabili",
+    "statNonBillable": "Non fatturabili",
+    "statRatio": "Non fatt. per ora fatt.",
+    "ofWorkTime": "{pct} dell'orario di lavoro",
+    "noTimeLogged": "Nessun tempo registrato",
+    "shareBilled": "{pct} del tempo registrato è fatturato",
+    "perClient": "Per cliente",
+    "noTimeInPeriod": "Nessun tempo registrato nel periodo.",
+    "logTime": "Registra tempo",
+    "perDay": "Per giorno",
+    "colDate": "Data",
+    "colWorkTime": "Orario di lavoro",
+    "colLogged": "Registrato",
+    "colBillable": "Di cui fatt.",
+    "colCoverage": "Copertura",
+    "footnote": "Copertura = tempo registrato ÷ il tuo normale orario di lavoro. Festività e assenze non vengono detratte dall'orario di lavoro. Il tempo senza cliente è mostrato come tempo interno."
+  }
+}

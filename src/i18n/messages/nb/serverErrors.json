@@ -1,0 +1,779 @@
+{
+  "core": {
+    "orgMembershipEnded": "Du er ikke lenger medlem av den organisasjonen.",
+    "noAccessToFeature": "Du har ikke tilgang til denne funksjonen",
+    "adminsOnly": "Bare administratorer har tilgang til denne funksjonen",
+    "subscriptionRequired": "Du trenger et aktivt abonnement for å bruke denne funksjonen",
+    "subscriptionExpired": "Abonnementet ditt er utløpt. Forny det for å fortsette.",
+    "roleNoAccess": "Rollen din har ikke tilgang til denne handlingen",
+    "moduleDisabled": "Modulen \"{module}\" er ikke slått på for denne organisasjonen."
+  },
+  "alunta": {
+    "clientAlreadyMapped": "Denne kunden har allerede en aktiv Alunta-kobling",
+    "mappingNotFound": "Fant ikke koblingen"
+  },
+  "common": {
+    "clientNotFound": "Fant ikke kunden",
+    "webhookNotFound": "Fant ikke webhooken",
+    "projectNotFound": "Fant ikke prosjektet",
+    "unknownError": "Ukjent feil",
+    "notOrgMember": "Du er ikke medlem av denne organisasjonen",
+    "noAccessToClient": "Du har ikke tilgang til denne kunden",
+    "templateNotFound": "Fant ikke malen",
+    "unknownClient": "Ukjent kunde",
+    "rateLimited": "For mange forespørsler. Prøv igjen om {seconds} sekunder.",
+    "taskNotFound": "Fant ikke oppgaven",
+    "timeEntryNotFound": "Fant ikke tidsoppføringen",
+    "invoiceNotFound": "Fant ikke fakturaen",
+    "unknownProjectName": "Ukjent prosjekt",
+    "userNotFound": "Fant ikke brukeren",
+    "invalidDate": "Ugyldig dato",
+    "prepaidNotFound": "Fant ikke klippekortet",
+    "notFound": "Ikke funnet",
+    "notOrgMemberShort": "Du er ikke medlem av den organisasjonen",
+    "periodLocked": "Perioden før {date} er låst av organisasjonen. Kontakt en administrator."
+  },
+  "webhooks": {
+    "noValidEvents": "Ingen gyldige hendelsestyper er valgt"
+  },
+  "time": {
+    "defaultRateName": "Standardprisen din",
+    "chooseOnePrepaidOrNone": "Velg enten et klippekort eller ingen",
+    "taskNotFound": "Fant ikke oppgaven",
+    "entryExists": "Tidsoppføringen finnes allerede",
+    "prepaidNotFound": "Fant ikke klippekortet",
+    "prepaidOtherClient": "Klippekortet tilhører en annen kunde enn tidsoppføringens kunde",
+    "onInvoiceUnmark": "{count, plural, one {# av de valgte tidsoppføringene ligger på en faktura. Krediter fakturaen eller fjern oppføringene fra fakturautkastet før du fjerner markeringen.} other {# av de valgte tidsoppføringene ligger på en faktura. Krediter fakturaen eller fjern oppføringene fra fakturautkastet før du fjerner markeringen.}}",
+    "invalidWeek": "Ugyldig uke",
+    "importInvalidDate": "Ugyldig dato: \"{date}\"",
+    "importNoProjectOrClient": "Fant ikke prosjektet \"{project}\" eller kunden \"{client}\""
+  },
+  "resourcePlan": {
+    "needsOrg": "Ressursplanen krever en organisasjon",
+    "ownEmployeesOnlyView": "Du kan bare se planen for dine egne ansatte",
+    "managersOnly": "Bare eieren, administratorer eller ledere kan planlegge",
+    "weekMonday": "Uken må oppgis med mandagen",
+    "ownEmployeesOnlyPlan": "Du kan bare planlegge for dine egne ansatte",
+    "notInOrg": "Den ansatte, prosjektet eller aktiviteten finnes ikke i organisasjonen"
+  },
+  "desktop": {
+    "purchaseNotConfigured": "Kjøp av skrivebordsappen er ikke satt opp ennå. Prøv igjen senere eller kontakt support.",
+    "includedInCloud": "Skrivebordsappen er allerede inkludert i {brand} Cloud-abonnementet ditt, så du trenger ikke en egen lisens. Logg inn og last ned appen fra oversikten.",
+    "checkoutFailed": "Kunne ikke opprette betalingslenken.",
+    "licenseAlreadyInactive": "Lisensen er allerede deaktivert eller refundert.",
+    "notAutoRefundable": "Denne lisensen kan ikke refunderes automatisk. Kontakt support.",
+    "refundWindowExpired": "Refusjonsperioden på {days} dager er utløpt for dette kjøpet.",
+    "tooManyAttempts": "For mange forsøk. Vent litt og prøv igjen.",
+    "noLicenseFound": "Fant ingen lisens.",
+    "noActiveLicenseToRefund": "Ingen aktiv lisens å refundere.",
+    "licenseNotAutoRefundable": "Lisensen kan ikke refunderes automatisk. Kontakt support.",
+    "refundWindowExpiredShort": "Refusjonsperioden på {days} dager er utløpt."
+  },
+  "taskStatuses": {
+    "laneNotFound": "Fant ikke kolonnen",
+    "lanesNotFound": "Fant ikke én eller flere kolonner",
+    "crossContext": "Kan ikke endre rekkefølgen på kolonner på tvers av ulike sammenhenger",
+    "destinationRequired": "Det kreves en målkolonne fordi kolonnen har oppgaver",
+    "destinationNotFound": "Fant ikke målkolonnen",
+    "destinationContext": "Målkolonnen må være i samme sammenheng"
+  },
+  "scheduledRates": {
+    "notFound": "Fant ikke den planlagte prisendringen",
+    "rateFormat": "Timeprisen må være et beløp på 0 eller mer med maks. to desimaler",
+    "dateFormat": "Datoen må ha formatet ÅÅÅÅ-MM-DD",
+    "laterApplied": "En prisendring er allerede iverksatt fra {date}. En ny endring må tre i kraft fra samme dato eller senere.",
+    "alreadyApplied": "Prisendringen er allerede iverksatt og kan ikke avbrytes. Rediger timeprisen på kunden/prosjektet i stedet.",
+    "appliedMeanwhile": "Prisendringen ble iverksatt i mellomtiden og kan ikke avbrytes."
+  },
+  "broadcasts": {
+    "notFound": "Fant ikke kunngjøringen",
+    "confirmNameMismatch": "Bekreftelsesnavnet stemmer ikke. Skriv navnet på kunngjøringen nøyaktig."
+  },
+  "notifications": {
+    "invalidDiscordUrl": "Ugyldig URL til Discord-webhook",
+    "invalidSlackUrl": "Ugyldig URL til Slack-webhook",
+    "noSlackWebhook": "Ingen Slack-webhook er satt opp",
+    "noDiscordWebhook": "Ingen Discord-webhook er satt opp",
+    "discordTestFailed": "Testen av Discord-webhooken mislyktes",
+    "noPushSubscription": "Ingen push-abonnement er satt opp",
+    "pushTestFailed": "Testen av push-varselet mislyktes",
+    "channelNotFound": "Fant ikke kanalen"
+  },
+  "clients": {
+    "hasInvoices": "Én eller flere av de valgte kundene har fakturaer. Arkiver dem i stedet, fordi fakturaer er regnskapsdokumenter og ikke kan slettes.",
+    "hasBilledEntries": "Én eller flere av de valgte kundene har fakturerte tidsoppføringer. Arkiver dem i stedet."
+  },
+  "dashboard": {
+    "prefsTableMissing": "Tabellen for innstillinger på oversikten finnes ikke ennå. Kjør databasemigreringen."
+  },
+  "clientPortal": {
+    "accessNotFound": "Fant ikke tilgangen"
+  },
+  "search": {
+    "invoiceTitle": "Faktura {number}"
+  },
+  "ai": {
+    "noOwnKey": "Sett opp din egen API-nøkkel under Innstillinger → KI for å bruke KI-forslag.",
+    "fillableWithoutAi": "Teksten kunne fylles ut uten KI.",
+    "providerFailed": "KI-leverandøren din kunne ikke lage et forslag. Sjekk nøkkelen og modellen under Innstillinger → KI."
+  },
+  "apiKeys": {
+    "notFound": "Fant ikke API-nøkkelen",
+    "revokeFirst": "Du må trekke tilbake nøkkelen før du sletter den"
+  },
+  "approval": {
+    "invoiceDraftNotFound": "Fant ikke fakturautkastet",
+    "noEntries": "Ingen tidsoppføringer å sende til godkjenning",
+    "requestNotFound": "Fant ikke forespørselen, eller den er allerede behandlet"
+  },
+  "beta": {
+    "thanks": "Takk for at du meldte deg på! Vi sender deg en e-post når betaen åpner.",
+    "emailNotAllowed": "Denne e-postadressen kan ikke brukes til påmelding.",
+    "alreadyOnList": "Denne e-postadressen står allerede på betaventelisten",
+    "signupNotFound": "Fant ikke betapåmeldingen"
+  },
+  "calendar": {
+    "googleNotConfigured": "Integrasjonen med Google Kalender er ikke satt opp",
+    "notConnected": "Ikke koblet til Google Kalender",
+    "scheduledLocally": "Oppgaven er planlagt lokalt (ingen kalender er koblet til)",
+    "timeEntryNotFound": "Fant ikke tidsoppføringen",
+    "eventNotFound": "Fant ikke hendelsen",
+    "eventMissingTimes": "Hendelsen har ingen tidspunkter",
+    "noConnection": "Ingen kalenderforbindelse",
+    "noProject": "Ingen prosjekt",
+    "noConnectionFound": "Fant ingen kalenderforbindelse",
+    "aiFailed": "KI-forslaget mislyktes"
+  },
+  "connectedApps": {
+    "notFound": "Forbindelsen finnes ikke"
+  },
+  "contact": {
+    "thanks": "Takk for meldingen! Vi svarer så snart vi kan."
+  },
+  "dataExport": {
+    "pending": "Du har allerede en ventende eksportforespørsel. Vent litt.",
+    "limit3": "Maks. 3 eksportforespørsler per døgn. Prøv igjen senere.",
+    "fullNotEnabled": "Full eksport er ikke slått på ennå.",
+    "orgInProgress": "En eksport pågår allerede for organisasjonen. Du får en e-post når den er klar.",
+    "orgDailyLimit": "Organisasjonen kan bestille {limit} eksporter per dag. Prøv igjen i morgen.",
+    "notOrgMemberDot": "Du er ikke medlem av organisasjonen.",
+    "inProgress": "En eksport pågår allerede. Du får en e-post når den er klar.",
+    "dailyLimit": "Du kan bestille {limit} eksporter per dag. Prøv igjen i morgen.",
+    "requestNotFound": "Fant ikke eksportforespørselen",
+    "cancelPendingOnly": "Bare ventende forespørsler kan avbrytes",
+    "importClientNotFound": "{name}: Fant ikke kunden \"{client}\"",
+    "importClientRequired": "{name}: Kunde er påkrevd",
+    "importInvoiceClientNotFound": "Faktura {number}: Fant ikke kunden \"{client}\"",
+    "importInvoiceError": "Faktura {number}: {message}"
+  },
+  "dayOff": {
+    "blockedDepartment": "Avdelingen din har valgt fridager, og de gjelder for deg. Du kan ikke velge dine egne fridager.",
+    "blockedOrg": "Organisasjonen din har valgt fridager, og de gjelder for deg. Du kan ikke velge dine egne fridager.",
+    "blockedEmployee": "Som ansatt følger du organisasjonens fridager. Be en administrator velge fridager for organisasjonen eller avdelingen din.",
+    "orgNeedsOrg": "Fridager for en organisasjon krever en organisasjon",
+    "departmentNeedsBusiness": "Fridager per avdeling krever planen Business",
+    "departmentNotFound": "Avdelingen finnes ikke"
+  },
+  "dpa": {
+    "notFromEnv": "Databehandleravtalen kan ikke godtas fra dette miljøet ennå.",
+    "notInOrg": "Du er ikke i en organisasjon",
+    "ownersAdminsOnly": "Bare eiere og administratorer kan godta avtalen"
+  },
+  "emailForwarding": {
+    "ruleNotFound": "Fant ikke regelen"
+  },
+  "emailIntegration": {
+    "imapPasswordRequired": "Et IMAP-passord er påkrevd",
+    "cannotDecrypt": "Det lagrede passordet kunne ikke dekrypteres. Skriv inn IMAP-passordet på nytt.",
+    "connectionFailed": "IMAP-forbindelsen mislyktes: {message}"
+  },
+  "emailTasks": {
+    "taskNotFound": "Fant ikke oppgaven",
+    "blockBracket": "Blokker e-poster med \"[{tag}]\" i emnet",
+    "blockKeyword": "Blokker e-poster med \"{keyword}\" i emnet"
+  },
+  "ext": {
+    "notOrgMemberDot": "Du er ikke medlem av den organisasjonen.",
+    "invalidToken": "Ugyldig token",
+    "tooManyAttempts": "For mange forsøk. Prøv igjen om {seconds} sekunder.",
+    "sessionExpired": "Økten er utløpt eller trukket tilbake. Logg inn på nytt.",
+    "tokenExpired": "Tokenet er utløpt",
+    "tokenNotFound": "Fant ikke tokenet",
+    "timerChangedElsewhere": "Tidtakeren ble endret fra en annen enhet. Prøv igjen.",
+    "datesFormat": "Datoer må ha formatet ÅÅÅÅ-MM-DD",
+    "prepaidNotFound": "Fant ikke klippekortet",
+    "prepaidOtherClient": "Klippekortet tilhører en annen kunde enn oppføringen",
+    "saveEntryFailed": "Kunne ikke lagre tidsoppføringen",
+    "createInProgress": "Opprettelse med denne nøkkelen pågår. Prøv igjen om litt.",
+    "import": {
+      "alreadyRunning": "En import pågår allerede. Vent til den er ferdig."
+    },
+    "projectOrClientNotFound": "Fant ikke prosjektet eller kunden"
+  },
+  "feedback": {
+    "screenshotFailed": "Skjermbildet kunne ikke hentes fra S3"
+  },
+  "imports": {
+    "timeopsConnect": "Kunne ikke koble til TimeOps: {detail}",
+    "networkError": "nettverksfeil",
+    "apiKeyInvalid": "API-nøkkelen er ugyldig eller utløpt",
+    "alreadyRunning": "En import pågår allerede. Fullfør den først.",
+    "notFound": "Fant ikke importen",
+    "cannotStart": "Importen kan ikke startes fra statusen {status}",
+    "cannotCancel": "Importen kan ikke avbrytes i denne tilstanden"
+  },
+  "extension": {
+    "timerRunningProjectWeb": "En tidtaker går allerede på \"{project}\" i nettappen. Stopp den først.",
+    "timerRunningProjectOther": "En tidtaker går allerede på \"{project}\" på en annen enhet. Stopp den først.",
+    "timerRunningAnyWeb": "En tidtaker går allerede i nettappen. Stopp den først.",
+    "timerRunningAnyOther": "En tidtaker går allerede på en annen enhet. Stopp den først."
+  },
+  "integrations": {
+    "dinero": {
+      "expired": "Forbindelsen til Dinero er utløpt. Koble til på nytt under Innstillinger.",
+      "notConnectedShort": "Dinero er ikke koblet til",
+      "notConnected": "Dinero er ikke koblet til",
+      "connectionActive": "Forbindelsen til Dinero er aktiv",
+      "connectionFailed": "Kunne ikke koble til Dinero",
+      "clientExported": "Kunden er eksportert til Dinero",
+      "invoiceAlreadyExported": "Fakturaen er allerede eksportert til Dinero",
+      "contactCreateFailed": "Kunne ikke opprette kunden \"{name}\" i Dinero: API-et ga ingen kontakt-ID. Prøv å eksportere kunden manuelt først.",
+      "noAccount": "Ingen kontonummer er satt opp. Velg en standardkonto under Innstillinger → Dinero.",
+      "invoiceExported": "Fakturaen er eksportert til Dinero",
+      "invoiceNotExported": "Fakturaen er ikke eksportert til Dinero",
+      "noPending": "Fant ingen ventende Dinero-forbindelse. Prøv å koble til på nytt.",
+      "invalidOrg": "Ugyldig organisasjon valgt",
+      "tokensDecryptFailed": "Kunne ikke dekryptere tokenene. Prøv å koble til på nytt."
+    },
+    "billy": {
+      "noApiKey": "Billy API-nøkkelen er ikke satt",
+      "decryptFailed": "Kunne ikke dekryptere Billy API-nøkkelen",
+      "connectionActive": "Forbindelsen til Billy er aktiv",
+      "connectionFailed": "Kunne ikke koble til Billy",
+      "clientExported": "Kunden er eksportert til Billy",
+      "invoiceAlreadyExported": "Fakturaen er allerede eksportert til Billy",
+      "clientCreateFailed": "Kunne ikke opprette eller finne kunden i Billy",
+      "productWithoutId": "Billy returnerte et produkt uten ID: {json}",
+      "invoiceWithoutId": "Billy returnerte en faktura uten ID: {json}",
+      "invoiceExported": "Fakturaen er eksportert til Billy",
+      "exportFailed": "Kunne ikke eksportere til Billy: {message}",
+      "invoiceNotExported": "Fakturaen er ikke eksportert til Billy"
+    },
+    "unknownErrorOccurred": "Det oppstod en ukjent feil",
+    "invoiceMissingClient": "Fakturaen har ingen kunde",
+    "economic": {
+      "noTokens": "e-conomic-tokenene er ikke satt",
+      "decryptFailed": "Kunne ikke dekryptere e-conomic-tokenene",
+      "connectionActive": "Forbindelsen til e-conomic er aktiv",
+      "connectionFailed": "Kunne ikke koble til e-conomic",
+      "clientExported": "Kunden er eksportert til e-conomic",
+      "paymentTermsMissing": "Betalingsbetingelser mangler. Velg dem under Innstillinger → Integrasjoner.",
+      "invoiceAlreadyExported": "Fakturaen er allerede eksportert til e-conomic",
+      "consultingLine": "Konsulentarbeid: {hours} timer",
+      "invoiceBooked": "Fakturaen er bokført i e-conomic",
+      "invoiceDraftCreated": "Fakturaen er opprettet som utkast i e-conomic",
+      "invoiceNotExported": "Fakturaen er ikke eksportert til e-conomic"
+    },
+    "import": {
+      "ambiguousDate": "AMBIGUOUS_DATE_FORMAT: Kunne ikke gjenkjenne datoformatet automatisk. Velg det manuelt.",
+      "noValidRows": "Fant ingen gyldige rader i CSV-filen.",
+      "unknownClient": "Ukjent kunde"
+    }
+  },
+  "invoices": {
+    "companyProfileMissing": "Firmaopplysningene mangler. De må stå på fakturaen, så fyll dem inn under Innstillinger → Firmaprofil (eller be en administrator) før du lager den første fakturaen.",
+    "templateNotFound": "Fant ikke fakturamalen",
+    "issuedCannotChange": "Utstedte fakturaer kan ikke endres. Opprett en kreditnota for å rette beløp eller vilkår.",
+    "deletedCannotEdit": "Slettede fakturaer kan ikke redigeres.",
+    "paidNotesOnly": "Betalte fakturaer kan ikke redigeres. Du kan bare legge til notater.",
+    "draftsOnlyDelete": "Bare utkast kan slettes. Krediter utstedte fakturaer i stedet.",
+    "creditNoteNotCreditable": "En kreditnota kan ikke krediteres",
+    "draftNotCreditable": "Utkast krediteres ikke. Slett utkastet i stedet (det har ikke noe utstedt nummer).",
+    "deletedNotCreditable": "Slettede fakturaer kan ikke krediteres",
+    "alreadyCredited": "Fakturaen er allerede kreditert av {number}",
+    "creditNoteNotes": "Kreditnota for faktura {number} datert {date}",
+    "draftOnlyAddLines": "Linjer kan bare legges til på fakturautkast",
+    "timeEntryNotFound": "Fant ikke tidsoppføringen",
+    "lineNotFound": "Fant ikke fakturalinjen",
+    "draftOnlyEditLines": "Linjer kan bare redigeres på fakturautkast",
+    "draftOnlyDeleteLines": "Linjer kan bare slettes fra fakturautkast",
+    "draftOnlyReorder": "Rekkefølgen kan bare endres på fakturautkast",
+    "clientHasNoEmail": "Kunden har ingen e-postadresse"
+  },
+  "logbook": {
+    "ownOnly": "Du kan bare se din egen kjørebok",
+    "notInYourOrg": "Brukeren er ikke medlem av organisasjonen din",
+    "noAccessWaste": "Du har ikke tilgang til organisasjonens bortkastede tid"
+  },
+  "marketing": {
+    "tooManyAttempts": "For mange forsøk. Prøv igjen senere."
+  },
+  "memberRates": {
+    "membersNotInOrg": "Ett eller flere medlemmer finnes ikke i organisasjonen"
+  },
+  "onboarding": {
+    "ownerManagesPlan": "Eieren av organisasjonen din styrer abonnementet, så du trenger ikke velge en plan.",
+    "privatePlanUnavailable": "Planen Privat er ikke tilgjengelig ennå. Velg en annen plan."
+  },
+  "organization": {
+    "requiresOrg": "Krever en organisasjon",
+    "noActiveOrg": "Ingen aktiv organisasjon",
+    "moduleNotAssigned": "Modulen \"{module}\" er ikke tildelt denne organisasjonen",
+    "moduleUnavailable": "Modulen \"{module}\" er ikke tilgjengelig for deg. Kontakt support.",
+    "noSelfTransfer": "Du kan ikke overføre eierskapet til deg selv",
+    "ownerOnlyTransfer": "Bare eieren kan overføre eierskapet",
+    "memberNotFound": "Fant ikke medlemmet"
+  },
+  "orgAudit": {
+    "ownersAdminsOnly": "Bare eiere og administratorer kan se aktivitetsloggen"
+  },
+  "portalBranding": {
+    "noDomain": "Ikke noe domene å bekrefte",
+    "verifyFailed": "Domenet kunne ikke bekreftes. Sjekk at DNS TXT-posten '_timetrack-verify.{domain}' inneholder tokenet: {token}"
+  },
+  "prepaid": {
+    "invalidHours": "Ugyldig antall timer for klippekorttrekket",
+    "otherClient": "Klippekortet tilhører en annen kunde enn tidsoppføringens kunde",
+    "inactive": "Klippekortet er ikke aktivt",
+    "expired": "Klippekortet er utløpt",
+    "insufficientHours": "Ikke nok timer igjen på klippekortet. Tilgjengelige timer: {available}",
+    "insufficientHoursClip": "Ikke nok timer igjen på klippekortet. Tilgjengelige timer: {available}, krever {required} t (rundet opp til blokker på {minutes} minutter)",
+    "multipleClients": "De valgte tidsoppføringene tilhører flere kunder. Velg oppføringer fra bare én kunde.",
+    "entriesNotFound": "Fant ikke én eller flere tidsoppføringer",
+    "alreadyBilled": "{count, plural, one {# av de valgte tidsoppføringene er allerede fakturert og kan ikke trekkes fra klippekortet} other {# av de valgte tidsoppføringene er allerede fakturert og kan ikke trekkes fra klippekortet}}",
+    "foreignEntries": "{count, plural, one {# tidsoppføring tilhører en annen kunde enn klippekortet} other {# tidsoppføringer tilhører en annen kunde enn klippekortet}}",
+    "requestNotFound": "Fant ikke forespørselen, eller den er allerede behandlet",
+    "gone": "Klippekortet finnes ikke lenger",
+    "renewalInvoiceNote": "Fornyelse av klippekortet \"{name}\", bestilt av kunden via portalen",
+    "totalBelowUsed": "Det totale antallet timer kan ikke være lavere enn timene som allerede er brukt ({used} t)",
+    "hasUsage": "Et klippekort med registrert bruk kan ikke slettes. Deaktiver det i stedet.",
+    "entryNotFound": "Fant ikke tidsoppføringen"
+  },
+  "projects": {
+    "hasBilledEntries": "Prosjektet har fakturerte tidsoppføringer og kan ikke slettes for godt. Arkiver det i stedet.",
+    "nameMismatch": "Prosjektnavnet stemmer ikke",
+    "noneFound": "Fant ingen prosjekter"
+  },
+  "portal": {
+    "invalidLink": "Ugyldig eller utløpt lenke",
+    "invalidLogin": "Ugyldig e-post eller passord",
+    "noInvoiceAccess": "Ingen tilgang til fakturaer",
+    "noProjectAccess": "Ingen tilgang til prosjekter",
+    "noTimeAccess": "Ingen tilgang til tidsoppføringer",
+    "noPrepaidAccess": "Ingen tilgang til klippekort",
+    "tooManyRequests": "For mange forespørsler. Prøv igjen senere.",
+    "prepaidInactive": "Klippekortet er ikke aktivt. Kontakt leverandøren din.",
+    "noAccess": "Ingen tilgang",
+    "notAllowedApprove": "Ikke tillatt å godkjenne tid",
+    "requestNotFound": "Fant ikke forespørselen",
+    "requestHandled": "Forespørselen er allerede behandlet",
+    "notAllowedReject": "Ikke tillatt å avvise tid"
+  },
+  "quickSignup": {
+    "created": "Kontoen er opprettet! Logger deg inn…",
+    "emailNotAllowed": "Denne e-postadressen kan ikke brukes til registrering.",
+    "emailTaken": "Denne e-postadressen er allerede registrert",
+    "createFailed": "Kunne ikke opprette kontoen",
+    "error": "Det oppstod en feil under opprettelsen av kontoen"
+  },
+  "recurringInvoices": {
+    "clientArchived": "Kunden er arkivert. Gjenopprett kunden først.",
+    "prepaidFixedAmount": "Et klippekort faktureres med et fast beløp, så ikke velg registrert tid",
+    "prepaidNoRenewal": "Klippekortet fornyes ikke automatisk. Slå på periodisk fornyelse først.",
+    "needLine": "Legg til minst én linje med et beløp over 0",
+    "firstDateInPast": "Datoen for den første fakturaen kan ikke være før i dag",
+    "notFound": "Fant ikke den gjentakende fakturaen",
+    "nextDateInPast": "Datoen for neste faktura kan ikke være før i dag"
+  },
+  "recurring": {
+    "startDateRequired": "En startdato er påkrevd for gjentakende maler",
+    "cannotPause": "En mal som ikke er gjentakende, kan ikke settes på pause",
+    "cannotResume": "En mal som ikke er gjentakende, kan ikke gjenopptas"
+  },
+  "reports": {
+    "teamProfitabilityNeedsOrg": "Teamlønnsomhet krever en organisasjon",
+    "utilisationNeedsOrg": "Faktureringsgrad krever en organisasjon",
+    "weekdayRange": "Ukedagen må være 1-7",
+    "linkNotFound": "Fant ikke lenken",
+    "tooManyRows": "Rapporten inneholder mer enn 10 000 oppføringer. Begrens datointervallet."
+  },
+  "reportTemplates": {
+    "clientNotYours": "Kunden tilhører ikke kontoen din.",
+    "systemNoEdit": "Systemmaler kan ikke redigeres. Dupliser dem i stedet.",
+    "systemNoDelete": "Systemmaler kan ikke slettes."
+  },
+  "security": {
+    "accountNotFound": "Fant ikke kontoen",
+    "lastLoginMethodRemove": "Du kan ikke fjerne den siste innloggingsmetoden din. Legg til et passord eller en passnøkkel først.",
+    "passkeyNotFound": "Fant ikke passnøkkelen",
+    "lastLoginMethodDelete": "Du kan ikke slette den siste innloggingsmetoden din. Legg til et passord eller koble til en OAuth-konto først.",
+    "sessionNotFound": "Fant ikke økten",
+    "cannotEndCurrent": "Du kan ikke avslutte din nåværende økt. Logg ut i stedet.",
+    "currentSessionNotFound": "Fant ikke den nåværende økten",
+    "phoneIsOnlyMethod": "Du kan ikke fjerne telefonnummeret ditt fordi det er din eneste innloggingsmetode. Legg til en annen metode først.",
+    "deviceNotFound": "Fant ikke enheten",
+    "rec": {
+      "addLoginMethod": "Legg til en innloggingsmetode",
+      "verifyEmail": "Bekreft e-postadressen din",
+      "enable2fa": "Slå på tofaktorautentisering",
+      "addPasskey": "Legg til en passnøkkel for raskere og tryggere innlogging",
+      "addMore": "Legg til flere innloggingsmetoder som reserve"
+    }
+  },
+  "subscription": {
+    "alreadyActive": "Du har allerede et aktivt abonnement. Bruk 'Administrer fakturering' for å bytte plan eller betalingsmåte.",
+    "seatsExceedIncluded": "Organisasjonen din bruker {seats} seter, {extra} flere enn de {included} som er inkludert i {plan}. Selvbetjent oppgradering er ikke mulig ennå uten å miste seter. Kontakt support, så flytter vi deg manuelt.",
+    "noCheckoutUrl": "Alunta ga ingen betalings-URL. Kontakt support.",
+    "extraSeatsNeedSubscription": "Ekstra seter krever et aktivt abonnement. Velg en plan og legg til betaling først.",
+    "noActiveAddPayment": "Fant ikke noe aktivt abonnement. Legg til en betalingsmåte først.",
+    "noActive": "Fant ikke noe aktivt abonnement",
+    "none": "Fant ikke noe abonnement",
+    "requestFailed": "Kunne ikke sende forespørselen. Prøv igjen senere.",
+    "priceSuffixYear": "kr/år",
+    "priceSuffixMonth": "kr/måned",
+    "checkoutComingSoon": "Betaling er ikke åpen her ennå. Du er på gratisplanen."
+  },
+  "tags": {
+    "nameExists": "Det finnes allerede en etikett som heter \"{name}\"",
+    "timeEntryNotFound": "Fant ikke tidsoppføringen",
+    "notYours": "Én eller flere etiketter tilhører ikke deg",
+    "projectNotFound": "Fant ikke prosjektet",
+    "projectsNotFound": "Fant ikke ett eller flere prosjekter, eller du har ikke tilgang til dem",
+    "clientNotFound": "Fant ikke kunden"
+  },
+  "tasks": {
+    "parentNotFound": "Fant ikke overordnet oppgave",
+    "subtaskNoSubtasks": "En deloppgave kan ikke ha egne deloppgaver",
+    "laneNotFound": "Fant ikke kolonnen",
+    "laneOtherBoard": "Kolonnen tilhører en annen tavle enn oppgaven",
+    "moveSameBoard": "Oppgaven kan bare flyttes innenfor samme tavle",
+    "dryRunFailed": "Tørrkjøringen kunne ikke valideres",
+    "bulkFailed": "Masseendringen kunne ikke valideres",
+    "bulkRolledBack": "Ikke alle valgte oppgaver ble oppdatert; transaksjonen er rullet tilbake",
+    "assignNeedsOrg": "Tildeling krever en organisasjon",
+    "assigneeNotMember": "Den som tildeles, er ikke medlem av organisasjonen",
+    "mainTaskNotFound": "Fant ikke hovedoppgaven",
+    "assignedPushTitle": "📋 Ny oppgave tildelt",
+    "assignedPushBody": "{name} tildelte deg \"{task}\"",
+    "aColleague": "En kollega"
+  },
+  "user": {
+    "pageUnavailable": "Denne siden er ikke tilgjengelig for deg akkurat nå",
+    "emailMismatch": "E-posten stemmer ikke med kontoen din",
+    "deleteFailed": "Slettingen kunne ikke fullføres. Kontakt support, så hjelper vi deg.",
+    "aiConnectionOk": "Forbindelsen fungerer! Svar: \"{reply}\"",
+    "aiConnectionFailed": "Forbindelsen mislyktes: {message}"
+  },
+  "enterprise": {
+    "absence": {
+      "ownEmployeesOnly": "Du kan bare håndtere fravær for dine egne ansatte",
+      "requestNotFound": "Fant ikke fraværssøknaden",
+      "approveOnlyPending": "Søknaden kan bare godkjennes mens den venter",
+      "noSelfApprove": "Du kan ikke godkjenne ditt eget fravær",
+      "rejectOnlyPending": "Søknaden kan bare avvises mens den venter",
+      "typeHasPending": "En fraværstype med ventende søknader kan ikke slettes. Avvis eller avbryt dem først.",
+      "managersOnlyForOthers": "Bare ledere og administratorer kan registrere fravær for andre",
+      "endBeforeStart": "Sluttdatoen kan ikke være før startdatoen",
+      "endDateRequired": "En sluttdato er påkrevd for {type}. Bare sykdom og permisjon kan registreres uten sluttdato.",
+      "overlapOther": "Den ansatte har allerede fravær i denne perioden",
+      "overlapOwn": "Du har allerede en fraværssøknad i denne perioden",
+      "registrationNotFound": "Fant ikke fraværsregistreringen",
+      "selfReturnOnly": "Du kan bare melde deg selv frisk",
+      "periodAlreadyEnded": "Perioden er allerede avsluttet",
+      "onlyActiveRecovered": "Bare aktive registreringer kan meldes friske",
+      "lastDayBeforeStart": "Siste fraværsdag kan ikke være før startdatoen",
+      "endedElsewhere": "Perioden er allerede avsluttet et annet sted. Last inn listen på nytt.",
+      "recoveredPushTitle": "Meldt frisk",
+      "recoveredPushBody": "{type} tok slutt {date}",
+      "requestNotFoundShort": "Fant ikke søknaden",
+      "ownOnlyEdit": "Du kan bare redigere dine egne søknader",
+      "pendingOnlyEdit": "Bare ventende søknader kan redigeres",
+      "alreadyCancelled": "Søknaden er allerede avbrutt",
+      "fixedHolidayNoCancel": "Fast ferie (stengeperiode) kan ikke avbrytes. Kontakt administratoren din.",
+      "changedElsewhere": "Søknaden ble endret et annet sted. Last inn listen på nytt.",
+      "employeeNotInOrg": "Den ansatte finnes ikke i organisasjonen"
+    },
+    "handledElsewhere": "Søknaden er allerede behandlet et annet sted. Last inn listen på nytt.",
+    "yourManager": "Lederen din",
+    "absenceTypeNotFound": "Fant ikke fraværstypen",
+    "activityTypeNotInOrg": "Aktivitetstypen finnes ikke i organisasjonen din",
+    "projectNotInOrg": "Prosjektet finnes ikke i organisasjonen din",
+    "activityTypesNotInOrg": "Én eller flere aktivitetstyper finnes ikke i organisasjonen din",
+    "projectsNotInOrg": "Ett eller flere prosjekter finnes ikke i organisasjonen din",
+    "activityTypesUnknown": "Én eller flere aktivitetstyper er ukjente eller arkivert",
+    "checkin": {
+      "already": "Du er allerede stemplet inn",
+      "noneOpen": "Fant ingen åpen innstempling"
+    },
+    "closure": {
+      "maxDays": "En stengeperiode kan være maks. {days} dager. Opprett heller flere perioder.",
+      "needsVacationType": "Faste ferieuker må bruke en fraværstype som trekker fra ferie",
+      "notFound": "Fant ikke stengeperioden"
+    },
+    "employeeProfileNotFound": "Fant ikke ansattprofilen",
+    "compliance": {
+      "ownOnly": "Du kan bare se din egen etterlevelsesstatus",
+      "rejected": "Oppføringen ble avvist av arbeidstidsreglene: {reasons}"
+    },
+    "departmentNotFound": "Fant ikke avdelingen",
+    "deptManagers": {
+      "oncePerDept": "Samme bruker kan bare forekomme én gang per avdeling",
+      "validFromBeforeTo": "Gyldig fra må være før gyldig til",
+      "usersNotMembers": "Én eller flere brukere er ikke medlemmer av organisasjonen"
+    },
+    "employee": {
+      "employmentEnded": "Ansettelsen er allerede avsluttet",
+      "endBeforePeriodStart": "Sluttdatoen kan ikke være før starten av perioden ({date})",
+      "managerNotFound": "Fant ikke lederen",
+      "ownManager": "En ansatt kan ikke være sin egen leder",
+      "managerCycle": "Lederhierarkiet danner en løkke",
+      "viewOwnTeamProfiles": "Du kan bare se profilene til dine egne ansatte",
+      "profileExists": "Den ansatte har allerede en profil i denne organisasjonen",
+      "hireDateManaged": "Ansettelsesdatoen styres av ansettelseshistorikken. Rediger den under fanen Ansettelse.",
+      "viewOwnTeamEmployments": "Du kan bare se ansettelsene til dine egne ansatte",
+      "startAfterLatest": "Startdatoen må være etter starten av den siste perioden ({date})",
+      "endedOn": "Ansettelsen tok slutt {date}. En ny periode må starte etter denne datoen.",
+      "periodNotFound": "Fant ikke ansettelsesperioden",
+      "historyOwnTeamOnly": "Du kan bare se historikken til dine egne ansatte"
+    },
+    "flex": {
+      "ownBalanceOnly": "Du kan bare se din egen fleksisaldo",
+      "recalcScope": "Du kan bare beregne fleksitid på nytt for deg selv eller dine ansatte",
+      "profileNotInOrg": "Fant ikke ansattprofilen i denne organisasjonen"
+    },
+    "holidays": {
+      "notFound": "Fant ikke helligdagen",
+      "defaultNoDelete": "Standard helligdager kan ikke slettes. Velg forhåndsvalget for fridagskalenderen i stedet."
+    },
+    "mw": {
+      "noActiveOrg": "Fant ingen aktiv organisasjon",
+      "noEmployeeProfile": "Du har ingen ansattprofil i denne organisasjonen. Kontakt en administrator.",
+      "twoFactorRequired": "Organisasjonen krever tofaktorautentisering for ledere og administratorer. Slå på 2FA under Innstillinger → Sikkerhet og prøv igjen.",
+      "hrReadOnly": "HR-rollen kan se, men ikke godkjenne eller redigere",
+      "managerRequired": "Denne handlingen krever rettigheter som leder eller administrator",
+      "viewRequiresRole": "Denne visningen krever rettigheter som leder, HR eller administrator",
+      "ownersAdminsOnly": "Bare eiere og administratorer har tilgang til denne funksjonen",
+      "twoFactorAdmins": "Organisasjonen krever tofaktorautentisering for administratorer"
+    },
+    "notifications": {
+      "addTeamsFirst": "Legg til en Teams-webhook før du slår på Teams",
+      "noTeamsWebhook": "Ingen Teams-webhook er lagret",
+      "testBody": "Teams-integrasjonen for {org} fungerer. Lederhendelser (timelister, fravær, sykmeldinger, arbeidstidsregler og oppsummering) sendes hit.",
+      "theOrganisation": "organisasjonen",
+      "teamsRejected": "Teams avviste testmeldingen: {message}"
+    },
+    "organizationNotFound": "Fant ikke organisasjonen",
+    "org": {
+      "deptHasEmployees": "En avdeling med tildelte ansatte kan ikke slettes. Flytt de ansatte først."
+    },
+    "overtime": {
+      "ownEmployeesOnly": "Du kan bare bokføre for dine egne ansatte",
+      "positiveHours": "Skriv inn et positivt antall timer",
+      "notZero": "Oppføringen kan ikke være 0 timer"
+    },
+    "payroll": {
+      "wageTypeNotInOrg": "Lønnsarten finnes ikke i organisasjonen din",
+      "wageTypeCodeExists": "Det finnes allerede en lønnsart med den koden",
+      "ruleNotInOrg": "Regelen finnes ikke i organisasjonen din",
+      "employeeNumberTaken": "Ansattnummeret brukes allerede av en annen",
+      "exportTitle": "Lønnseksport: {org}"
+    },
+    "absenceTypeNotInOrg": "Fraværstypen finnes ikke i organisasjonen din",
+    "exportRateLimited": "For mange eksporter. Prøv igjen om {seconds} sekunder.",
+    "closing": {
+      "notEnabled": "Periodeavslutning er ikke slått på i organisasjonens innstillinger",
+      "afterPeriodEnd": "Oppgjøret kan først opprettes når perioden er slutt",
+      "approvedNoRecalc": "Et godkjent oppgjør kan ikke beregnes på nytt. Lås det opp først.",
+      "noSelfApprove": "Du kan ikke godkjenne ditt eget periodeoppgjør",
+      "alreadyApproved": "Oppgjøret er allerede godkjent",
+      "ownAckOnly": "Du kan bare bekrefte ditt eget oppgjør",
+      "needsManagerApproval": "Oppgjøret må godkjennes av lederen din før du bekrefter det",
+      "notLocked": "Perioden er ikke låst",
+      "notFound": "Oppgjøret finnes ikke"
+    },
+    "assign": {
+      "usersNotActive": "Én eller flere brukere er ikke aktive ansatte i organisasjonen"
+    },
+    "reports": {
+      "payrollHrOnly": "Lønnsrapporten er forbeholdt HR og administratorer",
+      "shareHrOnly": "Bare HR og administratorer kan dele maler med hele organisasjonen",
+      "defaultNoOverwrite": "Standardmalen kan ikke overskrives. Lagre den under et nytt navn.",
+      "ownEditOnly": "Du kan bare redigere dine egne maler",
+      "defaultNoDelete": "Standardmalen kan ikke slettes",
+      "ownDeleteOnly": "Du kan bare slette dine egne maler",
+      "weekdayRange": "Ukedagen må være 1-7"
+    },
+    "reportTypeHrOnly": "Denne rapporttypen er forbeholdt HR og administratorer",
+    "sso": {
+      "invalidTenant": "Ugyldig tenant-ID. Forventet en GUID på formen xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (Directory (tenant) ID i Azure).",
+      "microsoftNotConfigured": "Innlogging med Microsoft er ikke satt opp på denne installasjonen, så 'Bare SSO' kan ikke slås på.",
+      "verifyDomainFirst": "Bekreft minst ett domene før 'Bare SSO' kan slås på, ellers ville regelen ikke gjelde for noen.",
+      "connectMicrosoftFirst": "Koble Microsoft til din egen konto først (Innstillinger → Sikkerhet → Koble til Microsoft), ellers låser du deg selv ute når 'Bare SSO' er på.",
+      "enable2faFirst": "Slå på tofaktorautentisering på din egen konto først, ellers låser du deg selv ute fra administrasjonen.",
+      "invalidDomain": "Ugyldig domene. Skriv for eksempel example.com (uten @ eller https://).",
+      "publicProviders": "Offentlige e-postleverandører (gmail.com, outlook.com osv.) kan ikke brukes til automatisk innmelding.",
+      "domainAlreadyAdded": "Domenet er allerede lagt til.",
+      "domainVerifiedElsewhere": "Domenet er allerede bekreftet av en annen organisasjon. Kontakt support hvis dette er en feil.",
+      "maxDomains": "Maks. {max} domener per organisasjon.",
+      "domainNotFound": "Fant ikke domenet",
+      "domainVerifiedElsewhereShort": "Domenet er allerede bekreftet av en annen organisasjon.",
+      "txtCorrectButTaken": "TXT-posten er riktig, men domenet er allerede bekreftet av en annen organisasjon. Kontakt support.",
+      "justVerifiedElsewhere": "Domenet ble nettopp bekreftet av en annen organisasjon. Kontakt support."
+    },
+    "team": {
+      "timesheetsOwnEmployees": "Du kan bare håndtere timelister for dine egne ansatte",
+      "employeeNotInOrg": "Den ansatte finnes ikke i organisasjonen din",
+      "weekNothingToApprove": "Uken har ingen oppføringer å godkjenne",
+      "weekAlreadyApproved": "Uken er allerede godkjent",
+      "noSelfApprove": "Du kan ikke godkjenne din egen timeliste",
+      "onlySubmittedRejectable": "Bare innsendte uker kan avvises",
+      "weekInClosedPeriod": "Uken ligger i en avsluttet periode. Lås opp perioden under Periodeavslutning først.",
+      "onlyApprovedReopen": "Bare godkjente uker kan gjenåpnes",
+      "historyOwnEmployees": "Du kan bare se historikken til dine egne ansatte"
+    },
+    "import": {
+      "noProject": "(ingen prosjekt)",
+      "beforeLock": "{count} rader ligger før periodelåsen {date}",
+      "submittedWeeks": "{count} innsendte/godkjente uker får nye rader, og de teller ikke med i totalen som allerede var godkjent"
+    },
+    "timesheet": {
+      "weekApprovedAskManager": "Uken er allerede godkjent. Be lederen din gjenåpne den.",
+      "weekAlreadySubmitted": "Uken er allerede sendt inn og venter på godkjenning",
+      "weekNothingToSubmit": "Uken har ingen oppføringer å sende inn",
+      "activityNotAllowed": "Aktiviteten er ikke tillatt på dette prosjektet",
+      "dayHasDetailed": "Dagen har {hours} timer i detaljerte oppføringer. Rediger dem under Tidsregistrering, eller skriv inn minst like mange.",
+      "chooseOtherActivity": "Velg en annen aktivitet å flytte til",
+      "noEmployeeProfile": "Du har ingen ansattprofil i denne organisasjonen",
+      "fixedHoliday": "Dagen er fast ferie (stengeperiode) og kan ikke endres av deg",
+      "coveredByLongAbsence": "Dagen dekkes av en lengre fraværsperiode. Rediger den under Fravær.",
+      "notEmployed": "Du var ikke ansatt på denne datoen",
+      "holidayNoAbsence": "Dagen er en fridag eller helligdag, så fravær kan ikke registreres",
+      "lastWeekEmpty": "Forrige uke har ingen oppføringer å kopiere",
+      "weekNothingToSave": "Uken har ingen oppføringer å lagre som mal",
+      "templateMissing": "Malen finnes ikke"
+    },
+    "workPlans": {
+      "managersOnlyEdit": "Bare ledere kan redigere arbeidstiden til en ansatt",
+      "ownOnlyView": "Du kan bare se din egen arbeidstid",
+      "employeeNotInOrg": "Den ansatte finnes ikke i organisasjonen",
+      "sharedPlan": "Planen brukes også utenfor dine ansatte. Be en administrator endre den.",
+      "planMissing": "Planen finnes ikke",
+      "planArchived": "Planen er arkivert",
+      "laterVersion": "Det finnes en senere versjon fra {date}. Rediger den i stedet.",
+      "versionFromToday": "Det finnes allerede en versjon som gjelder fra i dag. Velg en senere dato.",
+      "adminsOnlyDept": "Bare administratorer kan tildele en plan til en avdeling",
+      "departmentMissing": "Avdelingen finnes ikke",
+      "deviationsRecorded": "Avvik registreres når de skjer. Planlagt fravær registreres under Ferie og fravær.",
+      "noFixedPlanToday": "Det finnes ingen fast arbeidsplan denne dagen. Registrer tiden som tidsoppføringer."
+    },
+    "dpa": {
+      "outdated": "Avtalen er oppdatert siden siden ble lastet. Last inn på nytt og les den nye versjonen.",
+      "acceptFailed": "Kunne ikke registrere godkjenningen",
+      "signIn": "Logg inn for å laste den ned",
+      "ownersAdminsDownload": "Bare eiere og administratorer kan laste ned den fullførte avtalen"
+    },
+    "edit": {
+      "weekApprovedLocked": "Uken er godkjent og låst. Be lederen din gjenåpne den.",
+      "weekSubmitted": "Uken er sendt til godkjenning og kan ikke redigeres",
+      "entryApproved": "Oppføringen er godkjent av lederen din. Be om at uken gjenåpnes."
+    },
+    "periodMaxDaysAsync": "Perioden kan være maks. {days} dager",
+    "scope": {
+      "ownEmployees": "Du kan bare håndtere dine egne ansatte"
+    },
+    "dns": {
+      "unknown": "Ukjent DNS-feil",
+      "lookupFailed": "DNS-oppslaget mislyktes: {error}",
+      "noRecord": "Fant ingen TXT-post \"{record}\" på {hosts}. DNS-endringer kan ta opptil en time."
+    }
+  },
+  "emailTemplates": {
+    "notFound": "Fant ikke malen",
+    "systemNoEdit": "Systemmaler kan ikke redigeres",
+    "systemNoDelete": "Systemmaler kan ikke slettes",
+    "alreadyExist": "Malene finnes allerede"
+  },
+  "api": {
+    "tooManyRequestsLater": "For mange forespørsler. Prøv igjen senere.",
+    "cvr": {
+      "queryMin2": "Søkeordet må ha minst 2 tegn",
+      "noCompany": "Fant ikke noe firma",
+      "searchFailed": "Det oppstod en feil under søket",
+      "numberOrQueryRequired": "Et CVR-nummer eller søkeord er påkrevd",
+      "eightDigits": "CVR-nummeret må ha 8 sifre",
+      "noCompanyForNumber": "Fant ikke noe firma med dette CVR-nummeret",
+      "lookupFailed": "Det oppstod en feil under oppslaget av CVR-nummeret"
+    },
+    "dataExport": {
+      "notFoundOrExpired": "Fant ikke eksporten, eller den er utløpt",
+      "expired": "Eksporten er utløpt eller ikke lenger tilgjengelig. Bestill en ny eksport."
+    },
+    "notAuthorized": "Ikke autorisert. Logg inn først.",
+    "desktop": {
+      "deviceCodeMissing": "Enhetskode mangler (code)",
+      "maxDevices": "Maksimalt antall enheter er nådd ({max}). Deaktiver en enhet først.",
+      "invalidDeviceToken": "Ugyldig enhetstoken",
+      "userNotFound": "Brukeren finnes ikke",
+      "settingsReadFailed": "Kunne ikke lese innstillingene",
+      "notInAnyOrg": "Du er ikke medlem av en organisasjon",
+      "adminsOnlyIntegrations": "Bare administratorer kan endre integrasjonsinnstillinger",
+      "invalidIntegrationSettings": "Ugyldige integrasjonsinnstillinger",
+      "settingsSaveFailed": "Kunne ikke lagre innstillingene",
+      "draftOnlyEditLines": "Linjer kan bare endres på fakturautkast",
+      "invalidPrepaidHours": "Ugyldig antall timer på tidsoppføringen for klippekort",
+      "draftOnlyEditInvoices": "Bare fakturautkast kan redigeres",
+      "unbillOnlyWeb": "Markeringen som fakturert kan bare fjernes i nettappen. Fjern den der først.",
+      "entryNotFoundOrOther": "Fant ikke enheten: {id}. Oppføringen finnes ikke eller tilhører en annen bruker"
+    },
+    "notMemberOfChosenOrg": "Du er ikke medlem av den valgte organisasjonen",
+    "approvalFailed": "Godkjenningen mislyktes",
+    "invalidEmail": "Ugyldig e-postadresse",
+    "genericError": "Det oppstod en feil",
+    "dpa": {
+      "pdfFailed": "PDF-en kunne ikke lages akkurat nå"
+    },
+    "invalidOrigin": "Ugyldig opprinnelse",
+    "invalidRequest": "Ugyldig forespørsel",
+    "ext": {
+      "invalidLoginLink": "Ugyldig innloggingslenke. Start innloggingen på nytt fra appen.",
+      "invalidRedirect": "Ugyldig omdirigerings-URI"
+    },
+    "feedback": {
+      "notSignedIn": "Ikke logget inn",
+      "otherUser": "Rapporten er skrevet av en annen bruker",
+      "tooLarge": "Rapporten er for stor",
+      "invalid": "Ugyldig rapport",
+      "saveFailed": "Tilbakemeldingen kunne ikke lagres"
+    },
+    "invalidJson": "Ugyldig JSON",
+    "integrations": {
+      "dineroFailed": "Forbindelsen til Dinero kunne ikke opprettes. Prøv igjen.",
+      "economicFailed": "Forbindelsen til e-conomic kunne ikke opprettes. Prøv igjen.",
+      "googleFailed": "Forbindelsen til Google kunne ikke opprettes. Prøv igjen."
+    },
+    "invoiceSend": {
+      "invalidRecipient": "Ugyldig e-postadresse for mottakeren",
+      "emailNotConfigured": "E-posttjenesten er ikke satt opp. Kontakt administratoren din for å sette opp RESEND_API_KEY eller SMTP_HOST.",
+      "sendFailed": "Kunne ikke sende e-posten. Prøv igjen senere.",
+      "sent": "E-posten er sendt til {email}",
+      "error": "Det oppstod en feil under sending av e-posten"
+    },
+    "upload": {
+      "notAuthorized": "Ikke autorisert",
+      "noFile": "Ingen fil er lastet opp",
+      "imageTypes": "Bare JPEG, PNG og WebP er tillatt",
+      "tooBig": "Filen er for stor (maks. 8 MB)",
+      "notConfigured": "Filopplasting er ikke satt opp (S3_ENDPOINT eller STORAGE_DRIVER=local mangler)",
+      "failed": "Kunne ikke laste opp filen til lagringen"
+    },
+    "webhookTest": {
+      "tooMany": "For mange testforsøk for denne webhooken. Prøv igjen om litt."
+    },
+    "import": {
+      "tagNoName": "Etiketten har ikke noe navn"
+    }
+  },
+  "timer": {
+    "prepaidOtherClient": "Klippekortet tilhører en annen kunde enn tidtakeren"
+  }
+}

@@ -1,0 +1,49 @@
+---
+title: "Aplicación de escritorio"
+description: "La aplicación de escritorio de TimeWren registra la actividad automáticamente y se sincroniza con tu servidor. Qué ofrece el servidor y cómo inician sesión los dispositivos."
+---
+
+La aplicación de escritorio (Windows y macOS, en beta) registra en qué trabajas, lo clasifica y guarda sus datos localmente en una base de datos de tu ordenador. Sincroniza registros de horas, clientes y proyectos con el servidor y admite el uso sin conexión. El seguimiento automático y la clasificación se ejecutan en el ordenador.
+
+La aplicación de escritorio se compila y se publica desde su propio repositorio, separado del servidor. Esta página trata de lo que tu servidor ofrece para ella. La forma de introducir la dirección del servidor en la aplicación es un ajuste de la propia aplicación, así que consulta su documentación para eso.
+
+## Cómo inicia sesión un dispositivo
+
+La aplicación nunca ve tu contraseña. Abre tu instancia en el navegador, inicias sesión allí y apruebas el dispositivo, y el navegador devuelve a la aplicación un código de un solo uso mediante un deep link.
+
+- El inicio de sesión de dispositivo más reciente usa PKCE y un valor `state`. El código de un solo uso es válido durante 5 minutos y se intercambia por un token de acceso (30 días) y un token de refresco (180 días). La aplicación los renueva sin un nuevo inicio de sesión.
+- El flujo antiguo (`/auth/desktop`) emite un token de dispositivo válido durante 90 días.
+
+Asegúrate de que `NEXT_PUBLIC_APP_URL` sea tu dirección HTTPS real, porque la página de aprobación y las redirecciones se construyen a partir de ella. Los tokens de dispositivo antiguos se firman con `BETTER_AUTH_SECRET`, así que cambiar ese valor cierra la sesión de los dispositivos de escritorio, consulta [Autenticación](/es/docs/configuration/authentication).
+
+## Gestionar dispositivos
+
+Abre Ajustes, Escritorio en la aplicación web para ver los dispositivos conectados (nombre, sistema operativo, última sincronización) y eliminar uno. Un dispositivo eliminado debe volver a iniciar sesión. Los tokens del inicio de sesión más reciente también aparecen en Ajustes, Integraciones y se pueden revocar allí.
+
+## Descargas y actualizaciones
+
+Una instancia nueva de TimeWren no apunta a las versiones de nadie. Si compilas o alojas tus propias versiones de escritorio en GitHub, indícale al servidor dónde están:
+
+```dotenv
+# Build time (rebuild the image after changing)
+NEXT_PUBLIC_DESKTOP_RELEASES_REPO=your-org/your-desktop-releases
+# Server setting, used by the legacy updater endpoint
+DESKTOP_UPDATER_REPO=your-org/your-desktop-app
+```
+
+- `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` (formato `owner/repository`) lo usa la página `/download`, que enlaza el instalador de Windows (un archivo que termina en `-setup.exe`) y la imagen de disco de macOS (`.dmg`) desde la última versión de un repositorio público. No publica nada.
+- `DESKTOP_UPDATER_REPO` lo usa el endpoint de actualización `/api/desktop/update/{target}/{arch}/{current_version}`, que convierte la última versión de GitHub en la respuesta que espera el actualizador de Tauri (recursos `.nsis.zip` de Windows y `.app.tar.gz` de macOS con firmas `.sig`). Las actualizaciones deben firmarse con la clave con la que se hizo la compilación de tu aplicación. Mantén coherentes la clave de firma y la clave pública incluida en tus compilaciones.
+
+Deja ambas vacías si distribuyes la aplicación de otra forma.
+
+## Versiones mínimas de cliente
+
+Puedes impedir que los clientes antiguos escriban datos de horas en tu servidor. Define un mínimo por tipo de cliente:
+
+```dotenv
+MIN_CLIENT_VERSIONS=extension=2.5.2,mobile=1.0.0+5,desktop=0.2.21
+# Only report outdated clients on the admin stability page, do not reject them
+MIN_CLIENT_VERSIONS_MODE=observe
+```
+
+Los tipos de cliente son `web`, `pwa`, `extension`, `mobile`, `desktop`, `api` y `mcp`. Los clientes se identifican con una cabecera `x-timetrack-client: <type>/<version>`. Un cliente por debajo de su mínimo es rechazado en las escrituras de registros de horas, del cronómetro y de la extensión con el error `CLIENT_TOO_OLD`, mientras que la lectura y el inicio de sesión siguen permitidos. Las peticiones sin la cabecera (claves de API, scripts, MCP) nunca se rechazan. Vacío significa que no se aplica ningún mínimo. Los valores anteriores son ejemplos; elige versiones que existan para los clientes que distribuyes.

@@ -1,0 +1,123 @@
+{
+  "magicLink": {
+    "preview": "{brand} oturum açma bağlantın 15 dakika geçerli",
+    "kicker": "Oturum aç",
+    "heading": "{brand} hesabına oturum aç",
+    "footerNote": "Bu e-postayı, adresin için bir oturum açma bağlantısı istendiği için alıyorsun.",
+    "body": "Oturum açmak için düğmeye tıkla. Bağlantı 15 dakika geçerlidir ve yalnızca bir kez kullanılabilir.",
+    "button": "{brand} hesabına oturum aç",
+    "ignore": "Oturum açmak istemediysen bu e-postayı yok sayabilirsin. Sen tıklamadan hiçbir şey olmaz.",
+    "subject": "TimeTrack hesabına oturum aç"
+  },
+  "passwordReset": {
+    "preview": "{brand} parolanı sıfırla",
+    "kicker": "Güvenlik",
+    "heading": "Parolanı sıfırla",
+    "footerNote": "Bu e-postayı, hesabın için yeni bir parola istendiği için alıyorsun.",
+    "greeting": "Merhaba {name},",
+    "body": "Yeni bir parola seçmek için düğmeye tıkla. Bağlantı bir saat içinde geçerliliğini yitirir.",
+    "button": "Yeni parola seç",
+    "ignore": "Bunu sen istemediysen bu e-postayı yok sayabilirsin. Parolan değişmedi ve hesabın güvende.",
+    "subject": "TimeTrack parolanı sıfırla"
+  },
+  "verification": {
+    "preview": "Hesabını etkinleştirmek için e-posta adresini doğrula",
+    "kicker": "Hesap",
+    "heading": "E-posta adresini doğrula",
+    "footerNote": "Bu e-postayı, biri e-posta adresinle {brand} üzerinde bir hesap oluşturduğu için alıyorsun.",
+    "greeting": "Merhaba {name},",
+    "greetingFallback": "Merhaba,",
+    "body": "Kaydolduğun için teşekkürler. E-posta adresini doğrulamak ve hesabını etkinleştirmek için düğmeye tıkla. Bağlantı 24 saat geçerlidir.",
+    "button": "E-posta adresini doğrula",
+    "ignore": "Hesap oluşturmadıysan bu e-postayı dikkate alma. Başka bir şey olmayacak.",
+    "subject": "TimeTrack için e-posta adresini doğrula"
+  },
+  "security": {
+    "kicker": "Güvenlik",
+    "footerNote": "Bu otomatik bir güvenlik bildirimidir.",
+    "greeting": "Merhaba {name},",
+    "time": "Zaman",
+    "ip": "IP adresi",
+    "device": "Cihaz",
+    "place": "Konum",
+    "notYou": "Sen değil miydin?",
+    "openSettings": "Hesap ayarlarını aç",
+    "unknownDevice": "Bilinmeyen cihaz",
+    "browser": "Tarayıcı",
+    "deviceOn": "{os} üzerinde {browser}"
+  },
+  "passwordChanged": {
+    "preview": "{brand} parolan değiştirildi",
+    "heading": "Parolan değiştirildi",
+    "body": "{brand} hesabının parolası az önce değiştirildi. Bunu sen yaptıysan bir şey yapmana gerek yok.",
+    "calloutBody": "Oturum açma sayfasındaki \"Parolamı unuttum\" bağlantısıyla parolanı sıfırla ve hemen [mail]{email}[/mail] adresine yaz.",
+    "subject": "TimeTrack parolan değiştirildi"
+  },
+  "newLogin": {
+    "preview": "{device} cihazından {brand} hesabına yeni oturum açıldı",
+    "heading": "Hesabına yeni oturum açıldı",
+    "body": "Biri {brand} hesabına daha önce kullanılmamış bir cihazdan oturum açtı. Bunu sen yaptıysan bir şey yapmana gerek yok.",
+    "calloutBody": "Parolanı hemen değiştir ve [mail]{email}[/mail] adresine yaz, destek ekibi hesabını güvene almana yardım eder.",
+    "subject": "TimeTrack hesabına yeni oturum açıldı"
+  },
+  "twoFactor": {
+    "preview": "{brand} doğrulama kodun: {code}",
+    "heading": "Doğrulama kodun",
+    "footerNote": "Bu e-postayı, biri hesabına iki adımlı doğrulamayla oturum açtığı için alıyorsun.",
+    "enterCode": "Devam etmek için kodu gir:",
+    "expires": "Kodun süresi 3 dakika içinde dolar. İstemediysen bu e-postayı yok sayabilirsin. Kodu {brand} dışında hiçbir yere girme.",
+    "subject": "{code} TimeTrack doğrulama kodun"
+  },
+  "signupPassword": {
+    "preview": "{brand} için geçici parolan",
+    "kicker": "Hoş geldin",
+    "heading": "{brand} uygulamasına hoş geldin, {name}",
+    "intro": "Hesabın oluşturuldu. İşte geçici parolan:",
+    "changeIt": "İlk oturum açışından sonra ayarlardaki Güvenlik bölümünden değiştir.",
+    "button": "Hesabına oturum aç",
+    "alsoLogin": "E-postan ve yukarıdaki parolayla [login]{url}[/login] adresinden de oturum açabilirsin.",
+    "getStarted": "Nasıl başlanır",
+    "step1": "İlk müşterini oluştur",
+    "step2": "Müşteri için bir proje oluştur",
+    "step3": "Zamanlayıcıyı başlat, iş bitince saatleri faturala",
+    "subject": "TimeTrack parolan"
+  },
+  "orgInvite": {
+    "preview": "{inviter} seni {org} organizasyonuna davet etti",
+    "kicker": "Davet",
+    "heading": "{org} organizasyonuna davet edildin",
+    "footerNote": "Bu e-postayı, biri seni {brand} üzerindeki ekibine davet ettiği için alıyorsun.",
+    "role": {
+      "owner": "sahibi",
+      "admin": "yöneticisi",
+      "member": "üyesi"
+    },
+    "body": "**{inviter}** seni {brand} üzerinde **{org}** organizasyonunun {role} olmaya davet etti.",
+    "body2": "Burada ekibin müşterileri ve projeleri için zaman takibi yaparsın, yönetici de saatleri tek yerden görür.",
+    "button": "Daveti kabul et",
+    "expires": "Davet 48 saat içinde geçerliliğini yitirir. Göndereni tanımıyorsan bu e-postayı yok sayabilirsin.",
+    "subject": "{inviter} seni TimeTrack üzerinde {org} organizasyonuna davet etti"
+  },
+  "portalInvite": {
+    "preview": "{sender} tarafından müşteri portalına davet edildiniz",
+    "kicker": "Müşteri portalı",
+    "heading": "Müşteri portalına hoş geldiniz",
+    "footerNote": "{sender} tarafından {brand} aracılığıyla gönderildi.",
+    "greeting": "Sayın {name},",
+    "body": "{sender} size kendi müşteri portalınıza erişim verdi. Burada faturaları ve projeleri görebilir, ön ödemeli paketinizin bakiyesini takip edebilirsiniz.",
+    "button": "Müşteri portalını açın",
+    "account": "**{email}** e-posta adresi ve {sender} tarafından size iletilen parola ile oturum açın.",
+    "token": "Bağlantı kişiseldir. Başkalarıyla paylaşmayın.",
+    "questions": "Sorularınız olursa {sender} ile [mail]{email}[/mail] adresinden iletişime geçebilirsiniz.",
+    "subject": "{sender} tarafından müşteri portalına davet edildiniz"
+  },
+  "welcome": {
+    "preview": "{brand} uygulamasına hoş geldin",
+    "kicker": "Hoş geldin",
+    "heading": "Hoş geldin, {name}",
+    "intro": "{brand} üzerinde hesap oluşturduğun için teşekkürler. İşte nasıl başlayacağın:",
+    "button": "{brand} uygulamasını aç",
+    "questions": "Sorun mu var? [help]Yardım merkezine[/help] göz at veya [mail]{email}[/mail] adresine yaz.",
+    "subject": "TimeTrack uygulamasına hoş geldin"
+  }
+}

@@ -136,3 +136,19 @@ describe("isEmailVerificationRequired", () => {
     ).toBe(true);
   });
 });
+
+describe("bootstrapAdmin i demo-tilstand (DEMO_MODE=1)", () => {
+  it("gør aldrig en demobruger til admin, heller ikke den første bruger", async () => {
+    const f = fakeDb(user({ email: "demo-abc@demo.invalid" }), [{ id: "u1" }]);
+    expect(await bootstrapAdmin(f.db, "u1", { DEMO_MODE: "1" } as never)).toBe(
+      false,
+    );
+    expect(f.update).not.toHaveBeenCalled();
+  });
+
+  it("ADMIN_EMAIL virker stadig for en rigtig bruger på demo-instansen", async () => {
+    const f = fakeDb(user());
+    const env = { DEMO_MODE: "1", ADMIN_EMAIL: "admin@example.com" };
+    expect(await bootstrapAdmin(f.db, "u1", env as never)).toBe(true);
+  });
+});

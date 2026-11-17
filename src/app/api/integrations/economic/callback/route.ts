@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { tr } from "@/i18n/server-text";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { DEMO_UNAVAILABLE_CODE, isDemoMode } from "@/lib/demo/demo-mode";
 import { saveEconomicGrant } from "@/lib/integrations/economic-grant";
 import { appUrlEnv } from "@/lib/runtime-env";
 
@@ -52,6 +53,7 @@ export async function GET(request: NextRequest) {
       `${base}${INTEGRATIONS_PATH}?success=${encodeURIComponent(code)}`,
       { status: 303 },
     );
+  if (isDemoMode()) return errorRedirect(DEMO_UNAVAILABLE_CODE);
 
   try {
     const session = await auth.api.getSession({ headers: await headers() });

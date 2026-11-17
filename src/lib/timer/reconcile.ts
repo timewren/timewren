@@ -1,4 +1,4 @@
-import { isStaleStartOnClearedRow } from "./resurrection";
+import { isStaleStartOnClearedRow } from "./resurrection-rules";
 
 /**
  * Ren beslutningslogik for web-klientens forsoning med serverens timer-række

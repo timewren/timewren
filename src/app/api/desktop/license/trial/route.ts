@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { desktopTrials } from "@/lib/db/schema";
+import { demoUnavailableResponse } from "@/lib/demo/route-guard";
 import {
   checkRateLimit,
   getClientIp,
@@ -20,6 +21,8 @@ import { copenhagenToday } from "@/lib/time/copenhagen";
  * Response: { started_at: "YYYY-MM-DD", days_remaining: number }
  */
 export async function POST(request: Request) {
+  const demo = demoUnavailableResponse();
+  if (demo) return demo;
   // Rate limit: 3 requests per minute per IP
   const ip = getClientIp(request);
   if (!(await checkRateLimit(`license-trial:${ip}`, 3, 60_000))) {

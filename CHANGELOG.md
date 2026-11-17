@@ -10,6 +10,29 @@ Groups: `Breaking` (needs a `Migration` group in the same release), `Added`, `Ch
 
 ## [Unreleased]
 
+## [0.33.0] - 2026-11-17
+
+### Added
+
+- A public demo mode (`DEMO_MODE=1`) for demo.timewren.com: one-click demo accounts with invented clients, time, klippekort and invoices, a banner, no outgoing e-mail, and an hourly cleanup of demo accounts older than 24 hours (#1206, #1214).
+
+### Changed
+
+- The app version is read at runtime instead of being baked into the build, and the shared client bundle is smaller: about 48 % less initial JavaScript on the front page and 42 % on the dashboard (#1205).
+- The TimeWren name policy in TRADEMARK.md and the AGPL section 7 app store permission for the mobile app are approved and no longer drafts (#1196, #1197).
+- Runtime dependency updates, including the AWS SDK, Sentry and React Email (#1192, #1193).
+
+### Fixed
+
+- Deleting an account no longer fails when the account has used klippekort (#1208).
+- Outgoing e-mail through Resend times out after 15 seconds instead of hanging (#1203).
+- Alunta: GET requests are retried on 5xx, 429 and network errors, but not on our own timeout, and 429 counts as an upstream error (#1191, #1201).
+- Rate limits return 429 instead of a server error, server-side error messages get readable titles in Sentry, and the weekly time report page no longer has a week number mismatch between server and browser (#1191).
+
+### Security
+
+- Team live timers and time entry templates only show data from your own organisation (#1209).
+
 ## [0.32.0] - 2026-11-13
 
 ### Added

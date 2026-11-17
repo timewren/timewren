@@ -56,6 +56,8 @@ cat > "$CRONTAB" << EOF
 # Every hour
 0 * * * * curl -sf --max-time 300 -K "$CURL_AUTH" ${APP_URL}/api/cron/recurring
 30 * * * * curl -sf --max-time 300 -K "$CURL_AUTH" ${APP_URL}/api/cron/migration-drift
+# Offentlig demo (DEMO_MODE=1): slet demokonti ældre end 24 timer. No-op ellers.
+15 * * * * curl -sf --max-time 300 -K "$CURL_AUTH" ${APP_URL}/api/cron/demo-cleanup
 
 # Betalingsjobs (#1014): seat-reconciliation, store-billing-sweep,
 # alunta-duplicate-subs, churn-playbooks, drip-emails, dunning, trial-reminder,

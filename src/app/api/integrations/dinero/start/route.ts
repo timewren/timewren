@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { DEMO_UNAVAILABLE_CODE, isDemoMode } from "@/lib/demo/demo-mode";
 import {
   buildDineroAuthorizationRequest,
   isDineroOAuthConfigured,
@@ -57,6 +58,7 @@ export async function GET(request: NextRequest) {
     NextResponse.redirect(
       `${base}/dashboard/settings/integrations?error=${code}`,
     );
+  if (isDemoMode()) return errorRedirect(DEMO_UNAVAILABLE_CODE);
 
   const session = await auth.api.getSession({ headers: await headers() });
 

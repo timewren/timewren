@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { desktopDevices, desktopLicenses } from "@/lib/db/schema";
+import { demoUnavailableResponse } from "@/lib/demo/route-guard";
 import { rateLimitResponse } from "@/lib/desktop-rate-limit";
 import {
   getClientIp,
@@ -24,6 +25,8 @@ import {
  * }
  */
 export async function GET(request: NextRequest) {
+  const demo = demoUnavailableResponse();
+  if (demo) return demo;
   // Uden login: throttle pr. IP, så nøgler ikke kan afprøves i bulk (#1103).
   const limit = await rateLimiter.check(
     ipRateLimitKey(getClientIp(request.headers), "desktopLicense"),

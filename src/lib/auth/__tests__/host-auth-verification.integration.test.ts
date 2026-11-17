@@ -9,7 +9,8 @@
  *   skal bekræftes, før den kan logge ind.
  *
  * Kører kun med TEST_DATABASE_URL sat til en kasseret database med repoets
- * schema (`drizzle-kit push`, som CI's Unit Tests-job).
+ * schema (`drizzle-kit push`, som CI's Unit Tests-job). Filen får sin egen
+ * klon af den (isolatedTestDatabase), som slettes bagefter.
  */
 import { randomBytes, randomUUID } from "node:crypto";
 import { drizzle } from "drizzle-orm/postgres-js";
@@ -22,7 +23,11 @@ import {
   it,
   vi,
 } from "vitest";
-import { connectTestDb, testPostgres } from "@/test/test-db";
+import {
+  connectTestDb,
+  isolatedTestDatabase,
+  testPostgres,
+} from "@/test/test-db";
 
 const h = vi.hoisted(() => {
   process.env.NEXT_PUBLIC_APP_URL = "https://timetrack.dk";
@@ -87,7 +92,6 @@ vi.mock("@/lib/email/verification", () => ({
   },
 }));
 
-import { buildDeletionSql } from "@/lib/account-deletion";
 import * as schema from "@/lib/db/schema";
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;
@@ -96,13 +100,16 @@ describe.skipIf(!TEST_DATABASE_URL)(
   "signup på tværs af brands med mailkrav (integration)",
   () => {
     const run = randomUUID().slice(0, 8);
-    const pg = testPostgres({ max: 2 });
+    const testDb = isolatedTestDatabase();
+    const pg = testPostgres({ max: 2, database: testDb.name });
     h.db = drizzle(pg, { schema });
-    const emails: string[] = [];
     const password = `pw-${randomBytes(9).toString("hex")}`;
     let ip = 0;
 
-    beforeAll(() => connectTestDb(pg));
+    beforeAll(async () => {
+      await testDb.create();
+      await connectTestDb(pg);
+    });
 
     beforeEach(() => {
       vi.stubEnv("MULTIBRAND_ENABLED", "1");
@@ -113,25 +120,12 @@ describe.skipIf(!TEST_DATABASE_URL)(
 
     afterAll(async () => {
       vi.unstubAllEnvs();
-      const rows = await pg<{ id: string }[]>`
-      SELECT id FROM "user" WHERE email = ANY(${emails})`;
-      for (const { id } of rows) {
-        const orgs = await pg<{ id: string }[]>`
-        SELECT organization_id AS id FROM members WHERE user_id = ${id}`;
-        await pg.unsafe(
-          buildDeletionSql(
-            id,
-            orgs.map((o) => o.id),
-          ),
-        );
-      }
       await pg.end();
+      await testDb.drop();
     });
 
     const newEmail = (name: string) => {
-      const e = `hostverify-${run}-${name}@example.test`;
-      emails.push(e);
-      return e;
+      return `hostverify-${run}-${name}@example.test`;
     };
 
     const headers = (host: string) => ({

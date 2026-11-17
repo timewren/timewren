@@ -26,7 +26,7 @@ Sprogene er `da` (kilde), `en`, `de`, `es` og de 14 nye beta-sprog `sv`, `nb`, `
 
 1. Opret `src/i18n/messages/<kode>/<navneområde>.json`, `browser-extension/src/i18n/messages/<kode>/<navneområde>.json` og
    `browser-extension/_locales/<chrome-kode>/messages.json` (alle `_locales`-nøgler). Navneområder og nøgler, du ikke oversætter, kan udelades.
-2. `npm run i18n:build` (genererer `src/i18n/messages/load.ts` og `static.ts`; de importerer kun filer, der findes).
+2. `npm run i18n:build` (genererer `src/i18n/messages/load.ts`, `static.ts` og `src/i18n/catalogs/<navneområde>.ts`; de importerer kun filer, der findes).
    Rør dem ikke i hånden. Flere oversættelsesjobs kan ramme samme genererede fil, så kør `i18n:build` igen efter en merge.
 3. `node scripts/i18n/check.mjs --lang <kode>` (flere: `--lang sv,nb`) mens du arbejder, `npm run i18n:check` til sidst.
 4. Et helt nyt sprog tilføjes i `LOCALE_META` (`config.ts`), `browser-extension/src/i18n/core.ts` og `catalogs.json` (`locales`, `chrome`, `intl`).
@@ -54,7 +54,8 @@ ja/ko/zh kun `other`; `many` kræves ikke i fr, it, pt, hvor den kun gælder mil
 
 - Web/server: `src/i18n/messages/<sprog>/<navneområde>.json`. Ét navneområde pr. område (`auth`, `clients`, `invoices`, `emails`, `errors`, …).
   Nøgler er kamelskrift, grupperet logisk (`clients.form.nameLabel`). Navneområder må ikke overlappe mellem områder.
-- `src/i18n/messages/load.ts` og `static.ts` er genereret. Efter at du har tilføjet en JSON-fil: `npm run i18n:build`.
+- `src/i18n/messages/load.ts`, `static.ts` og `src/i18n/catalogs/` er genereret. Efter at du har tilføjet en JSON-fil: `npm run i18n:build`.
+- Kode, der også kører i browseren, importerer aldrig `staticMessages` (`src/i18n/static-catalog.ts`): den trækker alle statiske navneområder i alle sprog med ind i klientbundtet, også mails og notifikationer. Brug `catalogMessages` med navneområdets eget modul fra `src/i18n/catalogs/`, som `syncT`, `sharedT` og `pdfText` gør (`src/i18n/__tests__/static-catalog-split.test.ts` vogter dem).
 - Browserudvidelsen har sit eget katalog i `browser-extension/src/i18n/`.
 - `npm run i18n:check` kontrollerer kataloger (regler ovenfor) og at `load.ts`/`static.ts` er opdateret.
   `node scripts/i18n/check.mjs --report` viser dækning pr. sprog og hvor mange nøgler der mangler menneskelig korrektur.

@@ -1,6 +1,7 @@
 import { eq, sql } from "drizzle-orm";
 import type { db as Db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
+import { isDemoEmail, isDemoMode } from "@/lib/demo/demo-mode";
 import { isEmailVerificationRequired } from "./email-verification";
 
 type Database = typeof Db;
@@ -36,6 +37,8 @@ export async function bootstrapAdmin(
     columns: { id: true, email: true, emailVerified: true, role: true },
   });
   if (!user || user.role === "admin") return false;
+  // Offentlig demo: en besøgende må aldrig blive instans-admin.
+  if (isDemoMode(env) && isDemoEmail(user.email)) return false;
   if (user.emailVerified !== true && isEmailVerificationRequired(env)) {
     return false;
   }

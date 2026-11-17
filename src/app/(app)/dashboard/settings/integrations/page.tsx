@@ -40,6 +40,7 @@ import { InlineSpinner, LoadingScreen } from "@/components/ui/LoadingScreen";
 import { switchThumb, switchTrack } from "@/components/ui/switch-styles";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { useSession } from "@/lib/auth-client";
+import { DEMO_UNAVAILABLE_CODE } from "@/lib/demo/demo-mode";
 import { trpc } from "@/providers/trpc-provider";
 
 interface SyncLog {
@@ -427,6 +428,9 @@ export default function IntegrationsPage() {
 
     if (error === "dinero_no_pro_org") {
       toast.error(t("noDineroPro"));
+      router.replace("/dashboard/settings/integrations");
+    } else if (error === DEMO_UNAVAILABLE_CODE) {
+      toast.info(t("demoUnavailable"));
       router.replace("/dashboard/settings/integrations");
     } else if (error) {
       toast.error(t("errorFromUrl", { message: decodeURIComponent(error) }));

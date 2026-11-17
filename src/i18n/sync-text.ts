@@ -1,7 +1,8 @@
 import { createTranslator } from "next-intl";
 import { brandize } from "./brandize";
+import { catalogMessages } from "./catalog-messages";
+import serverSync from "./catalogs/serverSync";
 import { DEFAULT_LOCALE, isLocale, type Locale } from "./config";
-import { staticMessages } from "./static-catalog";
 
 export type TextValues = Record<string, string | number | Date>;
 
@@ -41,7 +42,9 @@ export function syncT(
   }) => (key: string, values?: TextValues) => string;
   const t = create({
     locale: resolved,
-    messages: { serverSync: brandize(staticMessages("serverSync", resolved)) },
+    messages: {
+      serverSync: brandize(catalogMessages("serverSync", serverSync, resolved)),
+    },
     namespace: "serverSync",
   });
   return t(key, values);

@@ -11,13 +11,17 @@
  * - admin-vejen giver samme udfald.
  *
  * Kører kun med TEST_DATABASE_URL sat til en kasseret database med repoets
- * schema (`drizzle-kit push`, som CI's Unit Tests-job). Testen skriver i
- * public-schemaet med unikke id'er pr. kørsel og rydder op efter sig.
+ * schema (`drizzle-kit push`, som CI's Unit Tests-job). Filen får sin egen
+ * klon af den (isolatedTestDatabase), som slettes bagefter.
  */
 import { generateKeyPairSync, randomBytes, randomUUID } from "node:crypto";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import { connectTestDb, testPostgres } from "@/test/test-db";
+import {
+  connectTestDb,
+  isolatedTestDatabase,
+  testPostgres,
+} from "@/test/test-db";
 
 const h = vi.hoisted(() => ({
   db: undefined as unknown,
@@ -60,6 +64,7 @@ import {
   AUDIT_RETENTION_TABLES,
   buildDeletionSql,
   deletedUserEmail,
+  deleteUserAccountCompletely,
   USER_REFERENCE_POLICY,
 } from "@/lib/account-deletion";
 import { APPLE_REVOKE_URL } from "@/lib/auth/apple";
@@ -77,16 +82,18 @@ describe.skipIf(!TEST_DATABASE_URL)(
   () => {
     const run = randomUUID().slice(0, 8);
     const id = (name: string) => `kd-${run}-${name}`;
-    const pg = testPostgres({ max: 2 });
+    const testDb = isolatedTestDatabase();
+    const pg = testPostgres({ max: 2, database: testDb.name });
     const db = drizzle(pg, { schema });
     h.db = db;
-    const createdUsers: string[] = [];
-    const createdOrgs: string[] = [];
     const fetchMock = vi.fn(async () => new Response(null, { status: 200 }));
 
     // Alt hemmeligt dannes ved kørsel; intet nøglelignende står i filen
     const envBefore = { ...process.env };
-    beforeAll(() => connectTestDb(pg));
+    beforeAll(async () => {
+      await testDb.create();
+      await connectTestDb(pg);
+    });
     beforeAll(() => {
       const { privateKey } = generateKeyPairSync("ec", {
         namedCurve: "P-256",
@@ -108,24 +115,12 @@ describe.skipIf(!TEST_DATABASE_URL)(
     afterAll(async () => {
       vi.unstubAllGlobals();
       process.env = envBefore;
-      // Oprydning: tøm testens orgs for medlemmer og slet dem med sletnings-
-      // SQL'en (via en rydde-bruger), og slet så de brugere, der er tilbage.
-      await pg`DELETE FROM members WHERE organization_id = ANY(${createdOrgs})`;
-      const sweeper = await seedUser("rydder");
-      await pg.unsafe(buildDeletionSql(sweeper, createdOrgs));
-      for (const userId of createdUsers.filter((u) => u !== sweeper)) {
-        const [exists] = await pg`SELECT 1 FROM "user" WHERE id = ${userId}`;
-        if (exists) await pg.unsafe(buildDeletionSql(userId, []));
-      }
-      const [left] = await pg`
-        SELECT count(*)::int AS n FROM "user" WHERE id LIKE ${`kd-${run}-%`}`;
-      expect(left.n).toBe(0);
       await pg.end();
+      await testDb.drop();
     });
 
     async function seedUser(name: string, extra: Record<string, unknown> = {}) {
       const userId = id(name);
-      createdUsers.push(userId);
       await pg`
         INSERT INTO "user" ${pg({
           id: userId,
@@ -142,7 +137,6 @@ describe.skipIf(!TEST_DATABASE_URL)(
 
     async function seedOrg(name: string, owner: string, others: string[] = []) {
       const orgId = id(name);
-      createdOrgs.push(orgId);
       await pg`INSERT INTO organizations (id, name, slug) VALUES (${orgId}, ${`Org ${name}`}, ${orgId})`;
       await pg`INSERT INTO members (id, organization_id, user_id, role) VALUES (${`${orgId}-${owner}`}, ${orgId}, ${owner}, 'owner')`;
       for (const m of others) {
@@ -462,6 +456,30 @@ describe.skipIf(!TEST_DATABASE_URL)(
 
       expect(await count('"user"', "id", soloUser)).toBe(0);
       expect(await count("organizations", "id", solo)).toBe(0);
+      expect(await referencesTo(soloUser)).toEqual([]);
+    });
+
+    it("solo-bruger med klippekortforbrug: alt slettes (#1207)", async () => {
+      const soloUser = await seedUser("solo7");
+      const solo = await seedOrg("solo7", soloUser);
+      const { pkg } = await seedWork(soloUser, solo);
+      // prepaid_usage har hverken org-kolonne eller cascade: ét træk fra en
+      // tidspost og ét manuelt træk uden tidspost
+      await pg`
+        INSERT INTO prepaid_usage (prepaid_package_id, time_entry_id, hours_used, value_used)
+        SELECT ${pkg}, id, hours, hours * 900 FROM time_entries
+         WHERE organization_id = ${solo} LIMIT 1`;
+      await pg`
+        INSERT INTO prepaid_usage (prepaid_package_id, hours_used, value_used, description)
+        VALUES (${pkg}, 0.5, 450, 'Manuelt træk')`;
+
+      await expect(deleteUserAccountCompletely(db, soloUser)).resolves.toEqual({
+        outcome: "deleted",
+      });
+
+      expect(await count('"user"', "id", soloUser)).toBe(0);
+      expect(await count("organizations", "id", solo)).toBe(0);
+      expect(await count("prepaid_usage", "prepaid_package_id", pkg)).toBe(0);
       expect(await referencesTo(soloUser)).toEqual([]);
     });
 

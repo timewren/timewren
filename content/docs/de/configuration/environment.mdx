@@ -251,7 +251,8 @@ Compose setzt einige davon selbst; sie sind aufgelistet, damit du weißt, woher 
 | `NEXT_RUNTIME` | von Next.js gesetzt | nein | nein | Wird von Next.js gesetzt (`nodejs` oder `edge`). Setze sie nie selbst. |
 | `CI` | keiner | nein | nein | Unterdrückt, wenn gesetzt, die Build-Logs des Sentry-Plugins. Wird von CI-Systemen gesetzt. |
 | `CI_SKIP_TYPECHECK` | `false` | nein | ja | Build-Argument des Dockerfiles: `true` überspringt die Typprüfung während `next build`. Nur für CI-Builds, die separat typprüfen. |
-| `NEXT_PUBLIC_APP_VERSION` | keiner | nein | ja | Versionszeichenfolge, die in den Client eingebettet wird und dazu dient, ein neues Deployment zu erkennen. Das Dockerfile setzt sie aus dem Build-Argument `APP_VERSION`; leer verwendet die Next.js-Build-ID. |
+| `APP_VERSION` | keiner | nein | nein | Versionszeichenfolge des Deployments, die der Server zur Laufzeit liest, um in offenen Tabs ein neues Deployment zu erkennen. Das Dockerfile setzt sie aus dem Build-Argument `APP_VERSION`; eine Änderung erfordert keinen neuen Build. Leer verwendet die Next.js-Build-ID. |
+| `NEXT_PUBLIC_APP_VERSION` | keiner | nein | nein | Alter Name für `APP_VERSION`, wird zur Laufzeit weiterhin als Fallback gelesen, wenn `APP_VERSION` leer ist. |
 
 ## Nur für den gehosteten Dienst
 
@@ -259,6 +260,7 @@ Compose setzt einige davon selbst; sie sind aufgelistet, damit du weißt, woher 
 
 | Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
 | --- | --- | --- | --- | --- |
+| `DEMO_MODE` | keiner | nein | nein | `1` macht die Instanz zur öffentlichen Demo: eine Sandbox pro Besucher, keine Mails, Zahlungen oder Integrationen, und Konten werden nach 24 Stunden gelöscht. Nur für demo.timewren.com; siehe `docs/demo.md` im Repository. |
 | `ALUNTA_API_KEY` | keiner | nein | nein | Schaltet die Abrechnung ein und aktiviert den Zahlungsanbieter Alunta. |
 | `ALUNTA_WEBHOOK_SECRET` | keiner | mit `ALUNTA_API_KEY` | nein | Überprüft Alunta-Webhooks. Ohne ihn antwortet der Webhook mit 503 und verarbeitet nichts. |
 | `ALUNTA_WEBHOOK_ALLOW_UNSIGNED` | keiner | nein | nein | `1` oder `true` akzeptiert Alunta-Webhooks ohne Signatur, wenn das Secret gesetzt ist. Nur für die Entwicklung; wird bei `NODE_ENV=production` ignoriert. |

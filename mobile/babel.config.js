@@ -5,6 +5,8 @@ module.exports = function (api) {
       'babel-preset-expo',
     ],
     plugins: [
+      // Før module-resolver: direkte filer i stedet for barrel-imports (se filen).
+      './scripts/babel-direct-imports',
       [
         'module-resolver',
         {

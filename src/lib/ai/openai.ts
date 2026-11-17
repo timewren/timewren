@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import OpenAI from "openai";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
+import { isDemoMode } from "@/lib/demo/demo-mode";
 import { decryptSecretOrNull } from "@/lib/utils/encryption";
 
 // Default model for cost-effective parsing
@@ -163,6 +164,8 @@ async function getUserAISettings(
 export async function getOpenAIForUser(
   userId: string,
 ): Promise<{ client: OpenAI; model: string }> {
+  // Offentlig demo: ingen kald til betalte AI-API'er.
+  if (isDemoMode()) throw new Error("Not available in the demo");
   const settings = await getUserAISettings(userId);
 
   // User must have their own API key configured
@@ -200,6 +203,7 @@ export function getOpenAI(): OpenAI {
  * Check if AI is enabled for a specific user (BYOK only)
  */
 export async function isAIEnabledForUser(userId: string): Promise<boolean> {
+  if (isDemoMode()) return false;
   const settings = await getUserAISettings(userId);
   return !!(
     settings?.aiProvider &&
@@ -212,6 +216,7 @@ export async function isAIEnabledForUser(userId: string): Promise<boolean> {
  * Check if system-level AI is enabled
  */
 export function isAIEnabled(): boolean {
+  if (isDemoMode()) return false;
   return !!process.env.OPENAI_API_KEY;
 }
 

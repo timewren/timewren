@@ -85,4 +85,23 @@ describe("integrationstests forbinder via test-db", () => {
 
     expect(direct).toEqual([]);
   });
+
+  // Oprydning i den delte database (kontosletning pr. testbruger) var det
+  // tungeste i suiten og løb over hookTimeout på en presset runner. Hver fil
+  // skriver derfor i sit eget schema eller sin egen database. Dette er kun
+  // konventionen i teksten; at intet faktisk skrives i public, tjekker
+  // integration-db-setup.ts efter kørslen.
+  it("hver fil laver sit eget schema eller sin egen database", () => {
+    const src = join(__dirname, "..");
+    const shared = integrationFiles(src)
+      .filter(
+        (file) =>
+          !/CREATE SCHEMA|isolatedTestDatabase\(/.test(
+            readFileSync(file, "utf8"),
+          ),
+      )
+      .map((file) => relative(src, file));
+
+    expect(shared).toEqual([]);
+  });
 });

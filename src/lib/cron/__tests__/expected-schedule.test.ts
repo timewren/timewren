@@ -66,8 +66,8 @@ describe("isJobSilent", () => {
 // ─── EXPECTED_INTERVAL_MINUTES ────────────────────────────────────────────────
 
 describe("EXPECTED_INTERVAL_MINUTES", () => {
-  it("contains all 47 expected job names", () => {
-    expect(EXPECTED_JOB_NAMES).toHaveLength(47);
+  it("contains all 48 expected job names", () => {
+    expect(EXPECTED_JOB_NAMES).toHaveLength(48);
     expect(EXPECTED_INTERVAL_MINUTES["compliance-forecast"]).toBe(7 * 24 * 60);
   });
 
@@ -90,6 +90,10 @@ describe("EXPECTED_INTERVAL_MINUTES", () => {
 
   it("has the daily Alunta duplicate-subscription reconciliation", () => {
     expect(EXPECTED_INTERVAL_MINUTES["alunta-duplicate-subs"]).toBe(24 * 60);
+  });
+
+  it("has 'demo-cleanup' at hourly", () => {
+    expect(EXPECTED_INTERVAL_MINUTES["demo-cleanup"]).toBe(60);
   });
 
   it("has 'migration-drift' at hourly", () => {

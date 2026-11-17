@@ -8,7 +8,9 @@ import { configDefaults, defineConfig } from "vitest/config";
 // workers og længere timeouts.
 // Alle DB-tests hedder `*.integration.test.ts`; nye filer med TEST_DATABASE_URL
 // skal følge navnet, ellers havner de i unit-projektet, og forbinde via
-// `testPostgres`/`connectTestDb` fra src/test/test-db.ts.
+// `testPostgres`/`connectTestDb` fra src/test/test-db.ts. Hver fil skriver i
+// sit eget schema eller sin egen database (`isolatedTestDatabase`), aldrig i
+// den delte databases public-schema (docs/ci.md).
 const dbTests = ["src/**/*.integration.test.ts"];
 
 // Unit-projektet bruger lokalt vitests standard (kerner - 1). På CI's delte
@@ -47,6 +49,8 @@ export default defineConfig({
           // Egen gruppe, der kører efter unit-projektet (kræves, når maxWorkers
           // er forskellig), så DB-filerne ikke konkurrerer med de ~560 andre.
           sequence: { groupOrder: 1 },
+          // Skabelon til filer med egen database (isolatedTestDatabase)
+          globalSetup: ["./src/test/integration-db-setup.ts"],
           testTimeout: 90_000,
           hookTimeout: 90_000,
         },

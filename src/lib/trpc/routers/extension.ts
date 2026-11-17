@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import {
+  type AnyColumn,
   and,
   desc,
   eq,
@@ -197,6 +198,62 @@ async function resolveExtensionOrg(
     memberships[0]?.organizationId ??
     null;
   return pickExtensionOrgId(requestedOrgId, memberOrgIds, primaryOrgId);
+}
+
+/**
+ * Timerens org efter en skrivning i `orgId`, som SQL til upsertens SET. Den
+ * evalueres mod rækken, som den står, når upserten har låst den — ikke mod en
+ * tidligere læsning, som et samtidigt kald kan have overhalet.
+ *
+ * Felter skrivningen ikke sender, bevares på rækken. Timeren bliver orgens,
+ * når både de sendte (tjekket mod `orgId` ovenfor) og de bevarede felter
+ * hører til `orgId`; ellers beholder den sin hidtidige org, hvis hele den
+ * sammenflettede tilstand hører dér. Passer den til ingen af dem, får den
+ * ingen org, og team-live viser ikke dens beskrivelse (team.liveTimers). En
+ * beskrivelse kan ikke tjekkes og hører til den org, den er skrevet i.
+ */
+function timerOrgAfterWriteSql(write: {
+  orgId: string | null;
+  userId: string;
+  projectId: string | null | undefined;
+  clientId: string | null | undefined;
+  taskId: string | null | undefined;
+  description: string | undefined;
+}): SQL {
+  const { orgId, userId } = write;
+  const sameOrg = sql`${timerStates.organizationId} IS NOT DISTINCT FROM ${orgId}`;
+
+  const fits = (target: "write" | "current") => {
+    const ref = (
+      sent: string | null | undefined,
+      column: AnyColumn,
+      table: typeof projects | typeof clients | typeof tasks,
+    ) => {
+      // De sendte id'er er allerede tjekket mod skrivningens org.
+      if (sent === null || (target === "write" && sent !== undefined)) {
+        return sql`true`;
+      }
+      const value = sent === undefined ? sql`${column}` : sql`${sent}::uuid`;
+      const owned =
+        target === "current"
+          ? sql`${table.organizationId} = ${timerStates.organizationId}`
+          : orgId
+            ? sql`${table.organizationId} = ${orgId}`
+            : sql`${table.userId} = ${userId}`;
+      return sql`(${value} IS NULL OR EXISTS (SELECT 1 FROM ${table} WHERE ${table.id} = ${value} AND ${owned}))`;
+    };
+    const description =
+      target === "write"
+        ? write.description !== undefined
+          ? sql`true`
+          : sql`(COALESCE(${timerStates.description}, '') = '' OR ${sameOrg})`
+        : write.description
+          ? sameOrg
+          : sql`true`;
+    return sql`(${ref(write.projectId, timerStates.projectId, projects)} AND ${ref(write.clientId, timerStates.clientId, clients)} AND ${ref(write.taskId, timerStates.taskId, tasks)} AND ${description})`;
+  };
+
+  return sql`CASE WHEN ${sameOrg} OR ${fits("write")} THEN ${orgId} WHEN ${timerStates.organizationId} IS NOT NULL AND ${fits("current")} THEN ${timerStates.organizationId} ELSE NULL END`;
 }
 
 /**
@@ -828,6 +885,19 @@ export const extensionRouter = router({
       if (input.description !== undefined) {
         timerData.description = input.description;
       }
+      // Team-live viser timeren i den org, hele dens tilstand hører til —
+      // afgjort i selve upserten (se timerOrgAfterWriteSql).
+      timerData.organizationId = timerOrgAfterWriteSql({
+        orgId,
+        userId,
+        projectId: input.projectId,
+        clientId: input.clientId,
+        taskId:
+          input.taskId === undefined && writeResetsPrepaidChoice(input)
+            ? null
+            : input.taskId,
+        description: input.description,
+      });
       // Klippekort-valget (#422) hører til sessionen: en frisk start og en
       // fuld nulstilling starter forfra på automatisk. Et valg truffet før
       // starten sender extensionen igen bagefter (setPrepaidChoice).
@@ -954,6 +1024,7 @@ export const extensionRouter = router({
             clientId: input.clientId ?? null,
             taskId: input.taskId ?? null,
             description: input.description ?? "",
+            organizationId: orgId,
             lastSyncedAt: now,
             lastSyncedFrom: input.source,
             updatedAt: now,
@@ -2298,6 +2369,7 @@ export const extensionRouter = router({
         // Ny session: ingen opgave fra den forrige
         taskId: null,
         description: input.description || "",
+        organizationId: orgId,
         // A fresh start invalidates any lingering stop intent — a stale
         // intent left on the row would let a late confirm-replay or the
         // cleanup cron hit the NEW session.

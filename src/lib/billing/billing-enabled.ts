@@ -1,3 +1,5 @@
+import { isDemoMode } from "@/lib/demo/demo-mode";
+
 /**
  * Én central kontakt for om betaling og planer overhovedet gælder (#962).
  *
@@ -24,6 +26,9 @@
 export function isBillingEnabled(
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): boolean {
+  // Offentlig demo: ingen betaling, checkout eller prøveperiode, heller ikke
+  // hvis en nøgle ved en fejl er sat (docs/demo.md).
+  if (isDemoMode(env)) return false;
   return (
     !!env.ALUNTA_API_KEY?.trim() ||
     !!env.STRIPE_SECRET_KEY?.trim() ||

@@ -14,6 +14,7 @@ beforeAll(() => {
     "scripts/i18n",
     "scripts/release",
     "src/i18n/messages",
+    "src/i18n/catalogs",
     "browser-extension/src/i18n/messages",
     "browser-extension/_locales",
     "package.json",

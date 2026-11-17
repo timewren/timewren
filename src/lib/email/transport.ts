@@ -11,6 +11,7 @@
  */
 
 import type { CreateEmailOptions, CreateEmailResponse } from "resend";
+import { isDemoMode, logDemoSuppressed } from "@/lib/demo/demo-mode";
 
 export type MailTransportName = "resend" | "smtp" | "log";
 
@@ -39,10 +40,15 @@ export function isMailTransportConfigured(
 /**
  * Må afsendere forsøge at sende? Ja med en rigtig transport, og i udvikling
  * også uden (log-only). I produktion uden transport springer afsenderne over
- * som før, så ingen fejlagtigt tror en mail er afsted.
+ * som før, så ingen fejlagtigt tror en mail er afsted. Demoen (DEMO_MODE=1)
+ * lader flowene gennemføres; sendMail sender så intet.
  */
 export function isMailAvailable(env: NodeJS.ProcessEnv = process.env): boolean {
-  return isMailTransportConfigured(env) || env.NODE_ENV === "development";
+  return (
+    isDemoMode(env) ||
+    isMailTransportConfigured(env) ||
+    env.NODE_ENV === "development"
+  );
 }
 
 type AddressList = string | string[] | undefined;
@@ -157,6 +163,12 @@ export async function sendMail(
   deliver?: () => Promise<SendMailResult>,
   env: NodeJS.ProcessEnv = process.env,
 ): Promise<SendMailResult> {
+  // Offentlig demo: ingen mail forlader instansen, uanset transport.
+  if (isDemoMode(env)) {
+    logDemoSuppressed("Mail");
+    return okResult(`demo-${Date.now()}`);
+  }
+
   const transport = getMailTransport(env);
 
   if (transport === "resend") {

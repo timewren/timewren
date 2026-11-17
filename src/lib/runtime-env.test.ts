@@ -66,6 +66,18 @@ describe("renderRuntimeConfigScript", () => {
     });
   });
 
+  it("sætter demo kun i demo-tilstand (DEMO_MODE=1)", () => {
+    const run = () => {
+      const win: Record<string, unknown> = {};
+      new Function("window", renderRuntimeConfigScript())(win);
+      return win.__TT_CONFIG__ as Record<string, unknown>;
+    };
+    vi.stubEnv("DEMO_MODE", "");
+    expect(run()).not.toHaveProperty("demo");
+    vi.stubEnv("DEMO_MODE", "1");
+    expect(run().demo).toBe(true);
+  });
+
   it("kan ikke afsluttes tidligt af en værdi med </script> eller citationstegn", () => {
     vi.stubEnv("NEXT_PUBLIC_APP_URL", 'https://x.example/"</script>');
     const js = renderRuntimeConfigScript();

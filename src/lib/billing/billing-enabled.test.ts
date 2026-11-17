@@ -12,6 +12,17 @@ describe("isBillingEnabled", () => {
     ).toBe(false);
   });
 
+  it("er altid slået fra i den offentlige demo (DEMO_MODE=1)", () => {
+    expect(
+      isBillingEnabled({
+        DEMO_MODE: "1",
+        ALUNTA_API_KEY: "key",
+        STRIPE_SECRET_KEY: "sk_test_x",
+        STORE_BILLING_ENABLED: "1",
+      }),
+    ).toBe(false);
+  });
+
   it("er slået til når Alunta er konfigureret (TimeTrack Cloud)", () => {
     expect(isBillingEnabled({ ALUNTA_API_KEY: "key" })).toBe(true);
   });

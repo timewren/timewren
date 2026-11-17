@@ -11,7 +11,7 @@ import {
   NOTIFICATION_GROUPS,
   type NotificationChannelKey,
   type NotificationGroup,
-} from "@/lib/notifications/bus/events";
+} from "@/lib/notifications/bus/groups";
 import { trpc } from "@/providers/trpc-provider";
 
 type Matrix = Record<

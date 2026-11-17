@@ -16,7 +16,7 @@ import {
 } from "@/lib/client-version/browser";
 import { showUpdatePrompt } from "@/lib/pwa/update-prompt";
 import {
-  BUILD_VERSION,
+  buildVersion,
   isNewDeployment,
   SERVER_VERSION_HEADER,
 } from "@/lib/pwa/version";
@@ -63,7 +63,7 @@ async function trpcFetch(
   const res = await fetch(url, { ...options, credentials: "include" });
   if (!newVersionPrompted) {
     const serverVersion = res.headers.get(SERVER_VERSION_HEADER);
-    if (isNewDeployment(BUILD_VERSION, serverVersion)) {
+    if (isNewDeployment(buildVersion(), serverVersion)) {
       newVersionPrompted = true;
       showUpdatePrompt("new_version");
     }

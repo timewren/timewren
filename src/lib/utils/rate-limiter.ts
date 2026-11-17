@@ -64,6 +64,8 @@ export const RATE_LIMIT_CONFIGS = {
   desktopLicense: { maxRequests: 30, windowMs: 60 * 1000 },
   desktopCheckout: { maxRequests: 10, windowMs: 60 * 60 * 1000 },
   desktopRefund: { maxRequests: 5, windowMs: 60 * 60 * 1000 },
+  // Offentlig demo (DEMO_MODE=1): nye demokonti pr. IP
+  demoStart: { maxRequests: 10, windowMs: 60 * 60 * 1000 },
 } as const;
 
 type RateLimitType = keyof typeof RATE_LIMIT_CONFIGS;

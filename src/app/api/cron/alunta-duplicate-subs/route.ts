@@ -1,5 +1,5 @@
 import { and, desc, eq, inArray, isNotNull, ne } from "drizzle-orm";
-import { alunta, isAluntaUpstreamError } from "@/lib/alunta";
+import { AluntaApiError, alunta, isAluntaUpstreamError } from "@/lib/alunta";
 import { isAluntaEnabled } from "@/lib/billing/billing-enabled";
 import {
   findDuplicateSubscriptions,
@@ -24,7 +24,8 @@ import { captureRouteError } from "@/lib/utils/sentry";
 const JOB_NAME = "alunta-duplicate-subs";
 
 /**
- * Fejlede forrige afsluttede kørsel også, fordi Alunta svarede 5xx? Én dags
+ * Fejlede forrige afsluttede kørsel også, fordi Alunta svarede 5xx/429 eller
+ * ikke svarede? Én dags
  * udfald hos Alunta er ikke en fejl hos os (fejlspor 53); to i træk er det
  * værd at se på, så så sendes fejlen videre til Sentry.
  */
@@ -41,9 +42,14 @@ async function previousRunHadUpstreamError(): Promise<boolean> {
   const meta = prev.metadata as { upstreamError?: unknown } | null;
   return (
     typeof meta?.upstreamError === "number" ||
-    /^Alunta API 5\d\d/.test(prev.errorMessage ?? "")
+    typeof meta?.upstreamError === "string" ||
+    UPSTREAM_ERROR_MESSAGE.test(prev.errorMessage ?? "")
   );
 }
+
+// Fejlbeskeder fra en eskaleret upstream-kørsel (withCronLogging gemmer kun
+// beskeden, ikke metadata).
+const UPSTREAM_ERROR_MESSAGE = /^Alunta (API (5\d\d|429)|svarede ikke)/;
 
 /** Lokale statusser der betyder at kunden forventes at have præcis ét live abo. */
 const LOCAL_LIVE_STATUSES = ["active", "trialing", "past_due"];
@@ -98,17 +104,25 @@ export const GET = withCronLogging(JOB_NAME, async (_request) => {
     // aluntaFetch har allerede prøvet igen. Står Alunta stadig af, springes
     // dagens afstemning over som "partial" (synlig i cron-monitoringen);
     // næste kørsel er i morgen.
-    if (!isAluntaUpstreamError(err) || (await previousRunHadUpstreamError())) {
-      throw err;
+    if (!isAluntaUpstreamError(err)) throw err;
+    if (await previousRunHadUpstreamError()) {
+      // En netværksfejl har ingen "Alunta API"-besked; markér den, så næste
+      // kørsel også genkender udfaldet.
+      if (err instanceof AluntaApiError) throw err;
+      throw new Error(`Alunta svarede ikke: ${err.name}: ${err.message}`, {
+        cause: err,
+      });
     }
+    // HTTP-status, eller fejlnavnet (fx TimeoutError) når Alunta ikke svarede.
+    const upstreamError = err instanceof AluntaApiError ? err.status : err.name;
     console.warn(
-      `[Alunta Duplicate Subs] Alunta svarede ${err.status}; afstemningen springes over til næste kørsel`,
+      `[Alunta Duplicate Subs] Alunta svarede ${upstreamError}; afstemningen springes over til næste kørsel`,
     );
     return {
       itemsProcessed: live.length,
       itemsSucceeded: 0,
       itemsFailed: live.length,
-      metadata: { upstreamError: err.status, duplicates: [] },
+      metadata: { upstreamError, duplicates: [] },
     };
   }
 

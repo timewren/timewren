@@ -112,6 +112,16 @@ Genererer tidsregistreringer fra recurring templates.
 0 * * * * curl -sf -H "Authorization: Bearer $CRON_SECRET" $APP_URL/api/cron/recurring
 ```
 
+#### Demo Cleanup (demo only, hourly)
+
+Kun for den offentlige demo (`DEMO_MODE=1`, se [demo.md](demo.md)): sletter
+demokonti ældre end 24 timer med deres organisation og alle data. På alle
+andre instanser er jobbet en no-op, der ikke rører databasen.
+
+```bash
+15 * * * * curl -sf -H "Authorization: Bearer $CRON_SECRET" $APP_URL/api/cron/demo-cleanup
+```
+
 ### Dagligt
 
 #### Prepaid Alerts (kl. 09:00)
@@ -187,6 +197,7 @@ Sender månedlig opsummering med fakturaer og klippekort-statistik.
 | Calendar Sync                                                                                   | `*/15 * * * *` | `/api/cron/calendar-sync`       |
 | Invoice Sync                                                                                    | `*/15 * * * *` | `/api/cron/invoice-sync`        |
 | Recurring                                                                                       | `0 * * * *`    | `/api/cron/recurring`           |
+| Demo Cleanup (demo only, hourly)                                                                | `15 * * * *`   | `/api/cron/demo-cleanup`        |
 | Planlagte satsændringer                                                                         | `5 0 * * *`    | `/api/cron/scheduled-rates`     |
 | Prepaid Alerts                                                                                  | `0 9 * * *`    | `/api/cron/prepaid-alerts`      |
 | Budget Alerts                                                                                   | `45 8 * * *`   | `/api/cron/budget-alerts`       |

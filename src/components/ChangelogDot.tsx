@@ -1,15 +1,21 @@
 "use client";
 
+import { isDemoMode } from "@/lib/demo/demo-mode";
 import { trpc } from "@/providers/trpc-provider";
 
 // Bor i sin egen fil (ikke i ChangelogModal), så dashboard-skallen kan vise
 // prikken uden at trække modalens markdown-rendering og sanitize-html med i
 // det fælles bundt.
 
-/** Om brugeren har ulæste changelogs — deler query med ChangelogModal. */
+/**
+ * Om brugeren har ulæste changelogs — deler query med ChangelogModal. Aldrig
+ * i den offentlige demo: nyhederne handler om TimeTrack og dets integrationer,
+ * og modalen åbnede oven i rundvisningen (#1213).
+ */
 export function useHasUnseenChangelog(): boolean {
   const { data: unseen } = trpc.changelog.getUnseen.useQuery(undefined, {
     staleTime: 5 * 60 * 1000,
+    enabled: !isDemoMode(),
   });
   return !!unseen && unseen.length > 0;
 }

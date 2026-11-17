@@ -7,6 +7,7 @@
 
 import { toIntlLocale } from "@/i18n/format-locale";
 import type { notificationChannels } from "@/lib/db/schema";
+import { isDemoMode, logDemoSuppressed } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import {
   getDiscordWebhookUrl,
@@ -98,6 +99,10 @@ export async function sendSlackMessage(
   webhookUrl: string,
   message: SlackMessage,
 ): Promise<{ success: boolean; error?: string }> {
+  if (isDemoMode()) {
+    logDemoSuppressed("Slack");
+    return { success: false, error: "Demo" };
+  }
   try {
     const response = await fetch(webhookUrl, {
       method: "POST",
@@ -129,6 +134,10 @@ export async function sendDiscordMessage(
   webhookUrl: string,
   message: DiscordMessage,
 ): Promise<{ success: boolean; error?: string }> {
+  if (isDemoMode()) {
+    logDemoSuppressed("Discord");
+    return { success: false, error: "Demo" };
+  }
   try {
     const response = await fetch(webhookUrl, {
       method: "POST",

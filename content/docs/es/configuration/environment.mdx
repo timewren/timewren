@@ -251,7 +251,8 @@ Compose define algunas de estas variables por sí mismo; se listan para que sepa
 | `NEXT_RUNTIME` | la define Next.js | no | no | La define Next.js (`nodejs` o `edge`). No la definas nunca tú. |
 | `CI` | ninguno | no | no | Cuando está definida, silencia los logs de compilación del plugin de Sentry. La definen los sistemas de CI. |
 | `CI_SKIP_TYPECHECK` | `false` | no | sí | Argumento de compilación del Dockerfile: `true` omite la comprobación de tipos durante `next build`. Solo para compilaciones de CI que comprueban los tipos por separado. |
-| `NEXT_PUBLIC_APP_VERSION` | ninguno | no | sí | Cadena de versión incrustada en el cliente, usada para detectar un nuevo despliegue. El Dockerfile la define a partir del argumento de compilación `APP_VERSION`; vacía usa el ID de compilación de Next.js. |
+| `APP_VERSION` | ninguno | no | no | Cadena de versión del despliegue, que el servidor lee en tiempo de ejecución para detectar un nuevo despliegue en las pestañas abiertas. El Dockerfile la define a partir del argumento de compilación `APP_VERSION`; cambiarla no requiere recompilar. Vacía usa el ID de compilación de Next.js. |
+| `NEXT_PUBLIC_APP_VERSION` | ninguno | no | no | Nombre antiguo de `APP_VERSION`; se sigue leyendo en tiempo de ejecución como respaldo cuando `APP_VERSION` está vacía. |
 
 ## Solo servicio alojado
 
@@ -259,6 +260,7 @@ Compose define algunas de estas variables por sí mismo; se listan para que sepa
 
 | Variable | Default | Required | Build time | Description |
 | --- | --- | --- | --- | --- |
+| `DEMO_MODE` | ninguno | no | no | `1` convierte la instancia en la demo pública: un entorno aislado por visitante, sin correo, pagos ni integraciones, y las cuentas se borran a las 24 horas. Solo para demo.timewren.com; consulta `docs/demo.md` en el repositorio. |
 | `ALUNTA_API_KEY` | ninguno | no | no | Activa la facturación y habilita el proveedor de pagos Alunta. |
 | `ALUNTA_WEBHOOK_SECRET` | ninguno | con `ALUNTA_API_KEY` | no | Verifica los webhooks de Alunta. Sin él, el webhook responde 503 y no procesa nada. |
 | `ALUNTA_WEBHOOK_ALLOW_UNSIGNED` | ninguno | no | no | `1` o `true` acepta webhooks de Alunta sin firma cuando el secreto está configurado. Solo para desarrollo; se ignora con `NODE_ENV=production`. |

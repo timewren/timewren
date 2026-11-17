@@ -1,7 +1,12 @@
 import { createTranslator } from "next-intl";
 import { brandize } from "./brandize";
+import { type Catalogs, catalogMessages } from "./catalog-messages";
+import enterpriseReports from "./catalogs/enterpriseReports";
+import sharedExport from "./catalogs/sharedExport";
+import sharedFormat from "./catalogs/sharedFormat";
+import sharedLabels from "./catalogs/sharedLabels";
+import sharedReports from "./catalogs/sharedReports";
 import { isLocale, type Locale } from "./config";
-import { staticMessages } from "./static-catalog";
 import { currentSyncLocale, type TextValues } from "./sync-text";
 
 export type SharedNamespace =
@@ -10,6 +15,14 @@ export type SharedNamespace =
   | "sharedFormat"
   | "sharedLabels"
   | "sharedReports";
+
+const SHARED_CATALOGS: Record<SharedNamespace, Catalogs> = {
+  enterpriseReports,
+  sharedExport,
+  sharedFormat,
+  sharedLabels,
+  sharedReports,
+};
 
 /**
  * Synkron oversættelse fra de små `shared*`-navneområder (delte hjælpere i lib/ som
@@ -28,7 +41,11 @@ export function sharedT(
     messages: Record<string, unknown>;
     namespace: string;
   }) => (key: string, values?: TextValues) => string;
-  const messages = staticMessages(namespace, resolved);
+  const messages = catalogMessages(
+    namespace,
+    SHARED_CATALOGS[namespace],
+    resolved,
+  );
   return create({
     locale: resolved,
     messages: { [namespace]: brandize(messages) },

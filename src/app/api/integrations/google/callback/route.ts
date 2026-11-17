@@ -4,6 +4,7 @@ import { tr } from "@/i18n/server-text";
 import { auth } from "@/lib/auth";
 import { accountBrand } from "@/lib/auth/account-brand";
 import { db } from "@/lib/db";
+import { DEMO_UNAVAILABLE_CODE, isDemoMode } from "@/lib/demo/demo-mode";
 import {
   exchangeCodeForTokens,
   isGoogleCalendarAvailableForBrand,
@@ -28,6 +29,14 @@ function redirectBase(request: NextRequest): string {
  * Handles the authorization code exchange and saves the connection.
  */
 export async function GET(request: NextRequest) {
+  if (isDemoMode()) {
+    return NextResponse.redirect(
+      new URL(
+        `/dashboard/settings/integrations?error=${DEMO_UNAVAILABLE_CODE}`,
+        redirectBase(request),
+      ),
+    );
+  }
   try {
     // Get current user session
     const session = await auth.api.getSession({

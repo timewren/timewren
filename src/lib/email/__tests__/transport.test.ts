@@ -164,3 +164,37 @@ describe("sendMail", () => {
     expect(warn).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("demo-tilstand (DEMO_MODE=1)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("sender intet, heller ikke med Resend eller SMTP sat, og logger én teknisk linje", async () => {
+    const info = vi.spyOn(console, "info").mockImplementation(() => {});
+    const deliver = vi.fn();
+    sendMailMock.mockClear();
+    for (const env of [
+      { DEMO_MODE: "1", RESEND_API_KEY: "re_x" },
+      { DEMO_MODE: "1", SMTP_HOST: "smtp.x" },
+      { DEMO_MODE: "1" },
+    ]) {
+      const result = await sendMail(payload, deliver, env as never);
+      expect(result.error).toBeNull();
+      expect(result.data?.id).toMatch(/^demo-/);
+    }
+    expect(deliver).not.toHaveBeenCalled();
+    expect(sendMailMock).not.toHaveBeenCalled();
+    expect(info).toHaveBeenCalledTimes(3);
+    // Ingen modtager eller emne i loggen
+    for (const call of info.mock.calls) {
+      expect(String(call[0])).not.toContain("kunde@example.com");
+      expect(String(call[0])).not.toContain("Hej");
+    }
+  });
+
+  it("melder mail tilgængelig, så flows (fx send faktura) gennemføres uden mail", () => {
+    expect(isMailAvailable({ DEMO_MODE: "1" } as never)).toBe(true);
+    expect(isMailTransportConfigured({ DEMO_MODE: "1" } as never)).toBe(false);
+  });
+});

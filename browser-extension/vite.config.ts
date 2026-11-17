@@ -7,7 +7,8 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 /**
  * Content scripts er klassiske scripts og kan ikke importere delte chunks.
  * Gmail-scriptet bygges derfor for sig som én selvstændig IIFE (med sit eget
- * udsnit af i18n-laget), efter at hovedbygget er færdigt.
+ * udsnit af i18n-laget: src/i18n/catalog-modules.gmail.ts), efter at
+ * hovedbygget er færdigt.
  */
 function gmailContentScript(outDir: string): Plugin {
   return {
@@ -17,7 +18,19 @@ function gmailContentScript(outDir: string): Plugin {
       await build({
         configFile: false,
         logLevel: "warn",
-        resolve: { alias: { "@": resolve(__dirname, "src") } },
+        resolve: {
+          alias: [
+            // Kun Gmail-scriptets navneområder, ikke hele kataloget i alle sprog.
+            {
+              find: /^\.\/catalog-modules$/,
+              replacement: resolve(
+                __dirname,
+                "src/i18n/catalog-modules.gmail.ts",
+              ),
+            },
+            { find: "@", replacement: resolve(__dirname, "src") },
+          ],
+        },
         build: {
           outDir,
           emptyOutDir: false,

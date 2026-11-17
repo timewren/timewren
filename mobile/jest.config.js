@@ -1,5 +1,10 @@
+const path = require('node:path');
+const { cacheKey } = require('./scripts/babel-direct-imports');
+
 module.exports = {
   preset: 'jest-expo',
+  // I projektet, så CI kan gemme cachen; babel-direct-imports er ikke en del af babel-jests cachenøgle.
+  cacheDirectory: path.join(__dirname, 'node_modules/.cache/jest', cacheKey),
   roots: ['<rootDir>/src', '<rootDir>/__mocks__', '<rootDir>/scripts'],
   modulePathIgnorePatterns: ['<rootDir>/.claude/', '<rootDir>/ios/', '<rootDir>/android/'],
   setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],

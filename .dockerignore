@@ -4,13 +4,19 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Testing
+# Testing. `**/` is needed: in .dockerignore `*` does not cross `/`, so a bare
+# `*.test.ts` only matched files in the context root. Tests under src/ were in
+# the context (a test-only change invalidated `COPY . .` and the next build)
+# and, through `COPY src/lib`, in the runtime image. Nothing outside the tests
+# imports them; src/test/ (shared helpers) and src/lib/timer/__model__/ stay.
 tests
 coverage
-*.spec.ts
-*.spec.tsx
-*.test.ts
-*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+**/*.test.ts
+**/*.test.tsx
+**/*.dbtest.ts
+**/__snapshots__
 playwright-report
 
 # Next.js

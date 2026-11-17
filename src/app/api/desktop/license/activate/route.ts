@@ -6,6 +6,7 @@ import {
   desktopLicenseDevices,
   desktopLicenses,
 } from "@/lib/db/schema";
+import { demoUnavailableResponse } from "@/lib/demo/route-guard";
 import { signLicenseProof } from "@/lib/desktop-auth";
 import {
   checkRateLimit,
@@ -32,6 +33,8 @@ import {
  * }
  */
 export async function POST(request: Request) {
+  const demo = demoUnavailableResponse();
+  if (demo) return demo;
   // Rate limit: 5 requests per minute per IP
   const ip = getClientIp(request);
   if (!(await checkRateLimit(`license-activate:${ip}`, 5, 60_000))) {

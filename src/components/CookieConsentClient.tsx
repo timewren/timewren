@@ -36,8 +36,11 @@ export interface CookieConsentLabels {
 
 export function CookieConsentClient({
   labels,
+  marketing = true,
 }: {
   labels: CookieConsentLabels;
+  /** Marketingvalget (Google Ads) vises. Slået fra i den offentlige demo. */
+  marketing?: boolean;
 }) {
   // Banneret server-renderes synligt, så det males med første paint i stedet
   // for først efter hydrering (det var LCP-elementet på flere marketingsider).
@@ -136,7 +139,7 @@ export function CookieConsentClient({
     savePreferences({
       necessary: true,
       analytics: true,
-      marketing: true,
+      marketing,
       timestamp: Date.now(),
     });
   };
@@ -220,21 +223,23 @@ export function CookieConsentClient({
               </Link>
             </div>
 
-            <div className="rounded-lg border border-tt-streg p-4">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="font-semibold">{labels.marketingTitle}</h3>
-                <CookieToggle
-                  label={labels.marketingTitle}
-                  checked={preferences.marketing}
-                  onChange={(marketing) =>
-                    setPreferences({ ...preferences, marketing })
-                  }
-                />
+            {marketing && (
+              <div className="rounded-lg border border-tt-streg p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="font-semibold">{labels.marketingTitle}</h3>
+                  <CookieToggle
+                    label={labels.marketingTitle}
+                    checked={preferences.marketing}
+                    onChange={(marketing) =>
+                      setPreferences({ ...preferences, marketing })
+                    }
+                  />
+                </div>
+                <p className="mt-1 text-sm text-tt-graa">
+                  {labels.marketingBody}
+                </p>
               </div>
-              <p className="mt-1 text-sm text-tt-graa">
-                {labels.marketingBody}
-              </p>
-            </div>
+            )}
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">

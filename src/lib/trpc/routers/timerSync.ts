@@ -559,6 +559,9 @@ export const timerSyncRouter = router({
         clientId: input.clientId,
         taskId: input.taskId,
         description: input.description,
+        // Timeren hører til den org, projekt/kunde/opgave er tjekket mod
+        // ovenfor — team-live viser den kun dér.
+        organizationId: ctx.orgId,
         lastSyncedAt: now,
         lastSyncedFrom: input.source,
         lastActivityAt: now,
@@ -724,6 +727,7 @@ export const timerSyncRouter = router({
         clientId: _c,
         taskId: _t,
         description: _d,
+        organizationId: _o,
         ...updateWithoutDetails
       } = writeData;
       const updateData = keepDetails ? updateWithoutDetails : writeData;

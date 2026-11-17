@@ -24,8 +24,9 @@ release is v0.31.0. Never reuse or go below a published version.
 
 The version lives in `package.json`. The release workflow fails if the tag and
 `package.json` disagree. The image is built with
-`NEXT_PUBLIC_APP_VERSION=<version>-<short sha>`, which the feedback panel and
-the "new version, reload" prompt read.
+`APP_VERSION=<version>-<short sha>`. The server reads it at runtime and writes
+it on `<html data-app-version>`, where the feedback panel and the "new version,
+reload" prompt read it.
 
 ## Cutting a release
 

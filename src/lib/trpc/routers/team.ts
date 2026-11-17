@@ -1,4 +1,19 @@
-import { and, asc, eq, gte, inArray, lt, ne } from "drizzle-orm";
+import {
+  and,
+  asc,
+  eq,
+  exists,
+  gte,
+  inArray,
+  isNotNull,
+  isNull,
+  lt,
+  ne,
+  notExists,
+  or,
+  sql,
+} from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { z } from "zod";
 import {
   clients,
@@ -19,11 +34,67 @@ import { orgAdminProcedure, protectedProcedure, router } from "../trpc";
  * Team-live: who on the org is tracking right now. Available to any org member
  * (Team and Enterprise plans); for a solo org it simply shows the one user.
  * The personal timer (`timerStates`) is per-user; this joins each org member to
- * their current timer state for a live overview.
+ * their current timer state for a live overview — but only when the timer runs
+ * in this org, so a member of several orgs doesn't show another org's work.
  */
 export const teamRouter = router({
   liveTimers: protectedProcedure.query(async ({ ctx }) => {
     if (!ctx.orgId) return [];
+    const orgId = ctx.orgId;
+
+    // Rækker uden organizationId (fra før timer-sync satte den, eller en
+    // blanding af to orgs' felter): orgen følger timerens projekt eller kunde,
+    // og uden dem kun når brugeren ikke er i andre orgs. Beskrivelsen kan ikke
+    // tjekkes og vises kun fra en række i orgen: medlemskabet nu siger intet
+    // om, hvor den blev skrevet (et medlem kan have forladt den anden org).
+    const otherMembers = alias(members, "other_members");
+    const onlyInThisOrg = notExists(
+      ctx.db
+        .select({ id: otherMembers.id })
+        .from(otherMembers)
+        .where(
+          and(
+            eq(otherMembers.userId, timerStates.userId),
+            ne(otherMembers.organizationId, orgId),
+          ),
+        ),
+    );
+    const legacyRowInOrg = or(
+      and(
+        isNotNull(timerStates.projectId),
+        exists(
+          ctx.db
+            .select({ id: projects.id })
+            .from(projects)
+            .where(
+              and(
+                eq(projects.id, timerStates.projectId),
+                eq(projects.organizationId, orgId),
+              ),
+            ),
+        ),
+      ),
+      and(
+        isNull(timerStates.projectId),
+        isNotNull(timerStates.clientId),
+        exists(
+          ctx.db
+            .select({ id: clients.id })
+            .from(clients)
+            .where(
+              and(
+                eq(clients.id, timerStates.clientId),
+                eq(clients.organizationId, orgId),
+              ),
+            ),
+        ),
+      ),
+      and(
+        isNull(timerStates.projectId),
+        isNull(timerStates.clientId),
+        onlyInThisOrg,
+      ),
+    );
 
     const rows = await ctx.db
       .select({
@@ -35,16 +106,44 @@ export const teamRouter = router({
         startTime: timerStates.startTime,
         elapsedSeconds: timerStates.elapsedSeconds,
         baseSeconds: timerStates.baseSeconds,
-        description: timerStates.description,
+        description: sql<
+          string | null
+        >`CASE WHEN ${timerStates.organizationId} = ${orgId} THEN ${timerStates.description} END`,
         projectName: projects.name,
         clientName: clients.name,
       })
       .from(members)
       .innerJoin(users, eq(users.id, members.userId))
-      .leftJoin(timerStates, eq(timerStates.userId, members.userId))
-      .leftJoin(projects, eq(projects.id, timerStates.projectId))
-      .leftJoin(clients, eq(clients.id, timerStates.clientId))
-      .where(eq(members.organizationId, ctx.orgId));
+      .leftJoin(
+        timerStates,
+        and(
+          eq(timerStates.userId, members.userId),
+          or(
+            eq(timerStates.organizationId, orgId),
+            and(isNull(timerStates.organizationId), legacyRowInOrg),
+          ),
+        ),
+      )
+      // En anden orgs projekt eller kunde vises aldrig, heller ikke fra en
+      // blandet række.
+      .leftJoin(
+        projects,
+        and(
+          eq(projects.id, timerStates.projectId),
+          or(
+            eq(projects.organizationId, orgId),
+            isNull(projects.organizationId),
+          ),
+        ),
+      )
+      .leftJoin(
+        clients,
+        and(
+          eq(clients.id, timerStates.clientId),
+          or(eq(clients.organizationId, orgId), isNull(clients.organizationId)),
+        ),
+      )
+      .where(eq(members.organizationId, orgId));
 
     return rows.map((r) => ({
       userId: r.userId,

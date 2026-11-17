@@ -7,6 +7,7 @@ const base = {
   tourServerSeen: false,
   tourActive: false,
   showOnboardingModal: false,
+  demo: false,
 };
 
 describe("shouldAutoStartTour", () => {
@@ -59,5 +60,14 @@ describe("shouldAutoStartTour", () => {
         onboardingCompleted: false,
       }),
     ).toBe(false);
+  });
+
+  it("starter ikke i den offentlige demo (#1213)", () => {
+    // Turen åbner over dashboardet og sender et dybt link (fx
+    // /dashboard/clients) tilbage til /dashboard; demoen tilbyder den i
+    // demobjælken i stedet.
+    expect(shouldAutoStartTour({ ...base, orgRole: "owner", demo: true })).toBe(
+      false,
+    );
   });
 });

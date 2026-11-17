@@ -35,8 +35,10 @@ ARG NEXT_PUBLIC_REALTIME_ENABLED
 ARG NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL
 ARG NEXT_PUBLIC_SENTRY_DSN
 ARG NEXT_PUBLIC_SENTRY_BROWSER_ENABLED
-# Git-SHA fra CI: bages ind som NEXT_PUBLIC_APP_VERSION, så åbne faner kan
-# opdage et nyt deploy (/api/version). Tom = Next' BUILD_ID bruges.
+# Git-SHA fra CI, så åbne faner kan opdage et nyt deploy (/api/version). Læses
+# ved kørsel (src/lib/pwa/version.ts), ikke som NEXT_PUBLIC_*-define: en define,
+# der skifter ved hvert commit, ugyldiggør Turbopacks build-cache. Her bruges
+# den kun af de statisk prerenderede sider. Tom = Next' BUILD_ID bruges.
 ARG APP_VERSION
 # Enabled only by CI, where the separate typecheck remains a deploy gate.
 ARG CI_SKIP_TYPECHECK=false
@@ -81,9 +83,14 @@ RUN --mount=type=cache,target=/app/.next/cache \
     echo "Next build cache before build: $(du -sh .next/cache .next/cache/turbopack 2>/dev/null | tr "\n" " ")"; \
     if [ -z "$NEXT_PUBLIC_SENTRY_DSN" ]; then unset NEXT_PUBLIC_SENTRY_DSN; fi; \
     if [ -z "$NEXT_PUBLIC_SENTRY_BROWSER_ENABLED" ]; then unset NEXT_PUBLIC_SENTRY_BROWSER_ENABLED; fi; \
-    if [ -n "$APP_VERSION" ]; then export NEXT_PUBLIC_APP_VERSION="$APP_VERSION"; fi; \
     CI_SKIP_TYPECHECK="$CI_SKIP_TYPECHECK" npm run build && \
     echo "Next build cache after build: $(du -sh .next/cache .next/cache/turbopack 2>/dev/null | tr "\n" " ")"
+
+# File tracing puts public/ and content/ (identical copies) and most of drizzle/
+# into the standalone output, about 70 MB. The runner copies all three itself,
+# so the traced copies would only ship the same files twice, in the standalone
+# layer that changes and is pushed on every deploy.
+RUN rm -rf .next/standalone/public .next/standalone/content .next/standalone/drizzle
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -150,6 +157,11 @@ EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+
+# Same version as the build stage, read by the server at runtime (see the
+# APP_VERSION arg above). Last, so a new SHA does not invalidate any layer.
+ARG APP_VERSION
+ENV APP_VERSION=$APP_VERSION
 
 # Start the application with startup script
 CMD ["./scripts/startup.sh"]

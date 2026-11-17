@@ -6,6 +6,7 @@
 
 import { brand } from "@/lib/brand";
 import { getAppUrl } from "@/lib/config";
+import { isDemoMode, logDemoSuppressed } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import type { RenderedNotification } from "./events";
 
@@ -146,6 +147,7 @@ export async function postTeamsCard(
   card: TeamsCard,
   fetchImpl: typeof fetch = fetch,
 ): Promise<void> {
+  if (isDemoMode()) return logDemoSuppressed("Teams");
   let res: Response;
   try {
     res = await fetchImpl(webhookUrl, {

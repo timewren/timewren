@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useBrand } from "@/components/BrandContext";
 import { showUpdatePrompt } from "@/lib/pwa/update-prompt";
 import {
-  BUILD_VERSION,
+  buildVersion,
   isNewDeployment,
   VERSION_ENDPOINT,
 } from "@/lib/pwa/version";
@@ -97,10 +97,10 @@ export function PWARegistration() {
     };
   }, [brand.id]);
 
-  // Ny deployment: sammenlign serverens version med bundtets egen (bagt ind
-  // ved build); uden bagt version bruges den første, fanen ser.
+  // Ny deployment: sammenlign serverens version med fanens egen (fra <html>,
+  // samme build som bundtet); uden version bruges den første, fanen ser.
   useEffect(() => {
-    let baseline: string | null = BUILD_VERSION;
+    let baseline: string | null = buildVersion();
     let prompted = false;
     if (baseline) tellServiceWorker(baseline);
 

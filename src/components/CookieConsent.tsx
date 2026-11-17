@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { brand } from "@/lib/brand";
+import { isDemoMode } from "@/lib/demo/demo-mode";
 import { CookieConsentClient } from "./CookieConsentClient";
 
 /**
@@ -18,11 +19,17 @@ export async function CookieConsent({
 }) {
   const t = await getTranslations({ locale, namespace: "chrome.cookies" });
   const name = brandName;
+  // Offentlig demo (DEMO_MODE=1): ingen Google Ads (google-ads.ts), så
+  // banneret nævner det ikke og har intet marketingvalg (#1213).
+  const marketing = !isDemoMode();
   return (
     <CookieConsentClient
+      marketing={marketing}
       labels={{
         regionLabel: t("regionLabel"),
-        bannerText: t("bannerText", { brand: name }),
+        bannerText: marketing
+          ? t("bannerText", { brand: name })
+          : t("bannerTextNoAds", { brand: name }),
         readMore: t("readMore"),
         acceptAll: t("acceptAll"),
         necessaryOnly: t("necessaryOnly"),

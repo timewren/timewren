@@ -9,9 +9,11 @@ import { DashboardBackdrop } from "@/components/auth/DashboardBackdrop";
 import { LocaleSwitcher } from "@/components/auth/LocaleSwitcher";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
 import { BrandLogo as Logo } from "@/components/BrandContext";
+import { DemoLogin } from "@/components/demo/DemoLogin";
 import { safeRedirectPath, translateAuthError } from "@/lib/auth/login-helpers";
 import { signIn } from "@/lib/auth-client";
 import { marketingUrl } from "@/lib/config";
+import { isDemoMode } from "@/lib/demo/demo-mode";
 
 function LoginForm() {
   const t = useTranslations("authLogin");
@@ -269,7 +271,8 @@ export default function LoginPage() {
         </div>
       }
     >
-      <LoginForm />
+      {/* Offentlig demo: kun "Prøv demoen" (docs/demo.md) */}
+      {isDemoMode() ? <DemoLogin /> : <LoginForm />}
     </Suspense>
   );
 }

@@ -1,3 +1,5 @@
+import { isDemoMode } from "@/lib/demo/demo-mode";
+
 /**
  * Navneområder der kun læses på serveren (tRPC-fejl, mails, eksport, sync-tekster
  * via getT/createTranslator). Ingen klientkomponent bruger dem, så dashboard-
@@ -19,11 +21,20 @@ export const SERVER_ONLY_NAMESPACES = [
 
 const SERVER_ONLY = new Set<string>(SERVER_ONLY_NAMESPACES);
 
-/** Beskeder til <NextIntlClientProvider>: hele kataloget minus serverens egne. */
+/** Kun den offentlige demo (DEMO_MODE=1) viser demo-teksterne. */
+const DEMO_NAMESPACE = "demo";
+
+/**
+ * Beskeder til <NextIntlClientProvider>: hele kataloget minus serverens egne
+ * (og demo-teksterne uden for demoen, så andre instanser får samme payload).
+ */
 export function withoutServerNamespaces<T extends Record<string, unknown>>(
   messages: T,
 ): Partial<T> {
+  const demo = isDemoMode();
   return Object.fromEntries(
-    Object.entries(messages).filter(([ns]) => !SERVER_ONLY.has(ns)),
+    Object.entries(messages).filter(
+      ([ns]) => !SERVER_ONLY.has(ns) && (demo || ns !== DEMO_NAMESPACE),
+    ),
   ) as Partial<T>;
 }

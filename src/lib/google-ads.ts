@@ -1,3 +1,4 @@
+import { isDemoMode } from "@/lib/demo/demo-mode";
 import { getBrandId } from "./brand-id";
 
 /**
@@ -11,12 +12,14 @@ const CLOUD_GOOGLE_ADS_ID = "AW-18183663242";
  *
  * Sættes eksplicit med NEXT_PUBLIC_GOOGLE_ADS_ID (bages ind ved build). TimeTrack
  * Cloud (NEXT_PUBLIC_BRAND=timetrack) falder tilbage til Mahopes konto, så Cloud
- * ikke ændrer adfærd; alt andet er slukket.
+ * ikke ændrer adfærd; alt andet er slukket. Den offentlige demo (DEMO_MODE=1)
+ * kører Cloud-imaget, men har aldrig annoncesporing (#1213).
  *
  * Skal stå som bar `process.env.NEXT_PUBLIC_…`, ellers inliner Next ikke
  * værdien i klientbundtet.
  */
 export function getGoogleAdsId(): string | undefined {
+  if (isDemoMode()) return undefined;
   const explicit = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID?.trim();
   if (explicit) return explicit;
   return getBrandId() === "timetrack" ? CLOUD_GOOGLE_ADS_ID : undefined;

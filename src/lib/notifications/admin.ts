@@ -1,6 +1,7 @@
 import { toIntlLocale } from "@/i18n/format-locale";
 import { getAppUrl } from "@/lib/config";
 import { db } from "@/lib/db";
+import { isDemoMode, logDemoSuppressed } from "@/lib/demo/demo-mode";
 import { sendAdminNotificationEmail } from "@/lib/email/admin-notifications";
 import { mailT } from "@/lib/email/locale";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
@@ -282,6 +283,7 @@ interface AdminDiscordEmbedParams {
 export async function sendAdminDiscordEmbed(
   params: AdminDiscordEmbedParams,
 ): Promise<void> {
+  if (isDemoMode()) return logDemoSuppressed("Admin-Discord");
   const t = mailT("notifications", params.locale);
   const payload = {
     embeds: [

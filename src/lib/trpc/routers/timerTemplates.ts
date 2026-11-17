@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, isNull, or } from "drizzle-orm";
 import { z } from "zod";
 import { st, tr } from "@/i18n/server-text";
 import { clients, projects, timerTemplates } from "@/lib/db/schema";
@@ -13,6 +13,23 @@ const timerTemplateInput = z.object({
   isFavorite: z.boolean().optional(),
 });
 
+/**
+ * Skabeloner er personlige, men hører til den org, de er oprettet i: i en
+ * anden org (eller efter at have forladt orgen) må de hverken læses, ændres
+ * eller bruges. Ældre skabeloner uden org forbliver synlige for ejeren.
+ */
+function ownTemplate(userId: string, orgId: string | null) {
+  return and(
+    eq(timerTemplates.userId, userId),
+    orgId
+      ? or(
+          eq(timerTemplates.organizationId, orgId),
+          isNull(timerTemplates.organizationId),
+        )
+      : undefined,
+  );
+}
+
 export const timerTemplatesRouter = router({
   // List all timer templates for current user
   list: protectedProcedure
@@ -25,7 +42,7 @@ export const timerTemplatesRouter = router({
     )
     .query(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const conditions = [eq(timerTemplates.userId, userId)];
+      const conditions = [ownTemplate(userId, ctx.orgId)];
 
       if (input?.favoritesOnly) {
         conditions.push(eq(timerTemplates.isFavorite, true));
@@ -60,7 +77,7 @@ export const timerTemplatesRouter = router({
       const template = await ctx.db.query.timerTemplates.findFirst({
         where: and(
           eq(timerTemplates.id, input.id),
-          eq(timerTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
         with: {
           project: {
@@ -146,7 +163,7 @@ export const timerTemplatesRouter = router({
       const existing = await ctx.db.query.timerTemplates.findFirst({
         where: and(
           eq(timerTemplates.id, input.id),
-          eq(timerTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 
@@ -210,7 +227,7 @@ export const timerTemplatesRouter = router({
       const existing = await ctx.db.query.timerTemplates.findFirst({
         where: and(
           eq(timerTemplates.id, input.id),
-          eq(timerTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 
@@ -239,7 +256,7 @@ export const timerTemplatesRouter = router({
       const existing = await ctx.db.query.timerTemplates.findFirst({
         where: and(
           eq(timerTemplates.id, input.id),
-          eq(timerTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 
@@ -269,7 +286,7 @@ export const timerTemplatesRouter = router({
       const existing = await ctx.db.query.timerTemplates.findFirst({
         where: and(
           eq(timerTemplates.id, input.id),
-          eq(timerTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 

@@ -5,7 +5,7 @@ afterEach(() => vi.unstubAllEnvs());
 
 describe("portable image scheduler", () => {
   it("loads all endpoint schedules from the original crontab", () => {
-    expect(jobs).toHaveLength(47);
+    expect(jobs).toHaveLength(48);
     expect(jobs).toContainEqual({
       schedule: "*/2 * * * *",
       endpoint: "data-export",

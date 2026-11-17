@@ -12,6 +12,8 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { GoogleAds } from "@/components/GoogleAds";
 import { type Brand, brand as buildBrand } from "@/lib/brand";
 import { getMarketingUrl } from "@/lib/config";
+import { isDemoMode } from "@/lib/demo/demo-mode";
+import { appVersionAttributes } from "@/lib/pwa/version";
 
 const schibsted = Schibsted_Grotesk({
   variable: "--font-schibsted",
@@ -112,18 +114,20 @@ export function makeMetadata(
       images: ["/opengraph-image"],
     },
     // TimeWren-hosts indekseres ikke, før de har egne marketingsider (spec: SEO).
-    robots: opts.noindex
-      ? { index: false, follow: false }
-      : {
-          index: true,
-          follow: true,
-          googleBot: {
+    // Den offentlige demo (DEMO_MODE=1) indekseres heller aldrig.
+    robots:
+      opts.noindex || isDemoMode()
+        ? { index: false, follow: false }
+        : {
             index: true,
             follow: true,
-            "max-image-preview": "large",
-            "max-snippet": -1,
+            googleBot: {
+              index: true,
+              follow: true,
+              "max-image-preview": "large",
+              "max-snippet": -1,
+            },
           },
-        },
   };
 }
 
@@ -151,6 +155,9 @@ export function DocumentLayout({
     <html
       lang={locale}
       className={`${schibsted.variable} ${geistMono.variable}`}
+      // Fanens build-version til "Ny version"-tjekket. Ved kørsel, ikke som
+      // NEXT_PUBLIC_*-define: den ville ugyldiggøre build-cachen pr. commit.
+      {...appVersionAttributes()}
       suppressHydrationWarning
     >
       {/* biome-ignore lint/style/noHeadElement: roddokument uden for Pages Router; layoutet ejer selv <html> og <head> */}

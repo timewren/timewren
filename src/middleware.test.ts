@@ -50,3 +50,40 @@ describe("middleware: app-host og søgemaskiner", () => {
     expect(res.headers.get("x-robots-tag")).toBeNull();
   });
 });
+
+describe("middleware: offentlig demo (DEMO_MODE=1)", () => {
+  beforeEach(() => {
+    vi.stubEnv("DEMO_MODE", "1");
+    vi.stubEnv("NEXT_PUBLIC_BRAND", "timewren");
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://demo.timewren.com");
+    vi.stubEnv("NEXT_PUBLIC_MARKETING_URL", "");
+  });
+  afterEach(() => vi.unstubAllEnvs());
+
+  it("spærrer alt i robots.txt", async () => {
+    const res = middleware(request("https://demo.timewren.com/robots.txt"));
+    expect(await res.text()).toBe("User-agent: *\nDisallow: /\n");
+    expect(res.headers.get("x-robots-tag")).toBe("noindex, nofollow");
+  });
+
+  it("sætter noindex på alle sider", () => {
+    for (const path of ["/login", "/dashboard", "/"]) {
+      const res = middleware(request(`https://demo.timewren.com${path}`));
+      expect(res.headers.get("x-robots-tag"), path).toBe("noindex, nofollow");
+    }
+  });
+
+  it("sender signup til login-siden med demo-knappen", () => {
+    const res = middleware(request("https://demo.timewren.com/register"));
+    expect(res.status).toBe(307);
+    expect(res.headers.get("location")).toBe("https://demo.timewren.com/login");
+  });
+
+  it("uden DEMO_MODE er robots.txt og signup uændret", () => {
+    vi.stubEnv("DEMO_MODE", "");
+    const robots = middleware(request("https://demo.timewren.com/robots.txt"));
+    expect(robots.headers.get("x-robots-tag")).toBeNull();
+    const signup = middleware(request("https://demo.timewren.com/register"));
+    expect(signup.headers.get("location")).toBeNull();
+  });
+});

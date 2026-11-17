@@ -1,6 +1,7 @@
 import { inArray } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { mobilePushTokens } from "@/lib/db/schema";
+import { isDemoMode, logDemoSuppressed } from "@/lib/demo/demo-mode";
 
 /**
  * Expo Push Service — native push til mobilappen (iOS/Android).
@@ -67,6 +68,10 @@ export async function sendExpoPush(
     deactivated: [],
   };
   if (valid.length === 0) return result;
+  if (isDemoMode()) {
+    logDemoSuppressed("Push");
+    return result;
+  }
 
   const headers: Record<string, string> = {
     Accept: "application/json",

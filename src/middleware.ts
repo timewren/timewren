@@ -19,6 +19,7 @@ import {
   SITE_PREFIX,
 } from "@/lib/brands/timewren-site";
 import { withReportOnlyCsp } from "@/lib/csp-report-only";
+import { isDemoMode } from "@/lib/demo/demo-mode";
 import { guardInstanceOnly, guardMarketing } from "@/lib/marketing-guard";
 import { appUrlEnv, marketingUrlEnv } from "@/lib/runtime-env";
 
@@ -202,7 +203,34 @@ function siteResponse(
 
 export function middleware(req: NextRequest): NextResponse {
   // Stricter CSP as report-only on top of the enforced one (#1121).
-  return withReportOnlyCsp(req, routeRequest(req));
+  return withReportOnlyCsp(
+    req,
+    isDemoMode() ? demoRequest(req) : routeRequest(req),
+  );
+}
+
+/**
+ * Offentlig demo (DEMO_MODE=1, docs/demo.md): intet må indekseres, og der er
+ * ingen almindelig signup; den besøgende starter fra login-siden med "Prøv
+ * demoen". Ellers samme routing som altid.
+ */
+function demoRequest(req: NextRequest): NextResponse {
+  const { pathname } = req.nextUrl;
+  if (pathname === "/robots.txt") {
+    return new NextResponse("User-agent: *\nDisallow: /\n", {
+      status: 200,
+      headers: { "content-type": "text/plain", ...APP_HOST_ROBOTS_HEADER },
+    });
+  }
+  if (pathname === "/register" || pathname.startsWith("/register/")) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/login";
+    url.search = "";
+    return NextResponse.redirect(url, 307);
+  }
+  const res = routeRequest(req);
+  res.headers.set("X-Robots-Tag", "noindex, nofollow");
+  return res;
 }
 
 function routeRequest(req: NextRequest): NextResponse {

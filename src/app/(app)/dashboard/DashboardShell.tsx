@@ -42,6 +42,7 @@ import {
   SidebarNavGroup,
   SidebarNavItem,
 } from "@/components/dashboard-nav";
+import { DemoBanner } from "@/components/demo/DemoBanner";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ImportStatusBanner } from "@/components/ImportStatusBanner";
 import { KeyboardShortcutsModal } from "@/components/KeyboardShortcutsModal";
@@ -57,6 +58,7 @@ import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { useBillingEnabled } from "@/hooks/useBillingEnabled";
 import { useOrgRole } from "@/hooks/useOrgRole";
+import { isDemoMode } from "@/lib/demo/demo-mode";
 import { OPEN_FEEDBACK_EVENT } from "@/lib/feedback/types";
 
 // Lazy-loaded components not needed for initial render
@@ -885,6 +887,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         // Only a real server answer counts: the hook falls back to "owner"
         // while loading or on error, which must not start the tour.
         orgRole: tourOrgRoleResolved ? tourOrgRole : undefined,
+        demo: isDemoMode(),
       })
     ) {
       return;
@@ -1023,6 +1026,8 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
       {/* Impersonation banner — only renders when admin plugin's
           session.impersonatedBy is set on the current session. */}
       <ImpersonationBanner />
+      {/* Offentlig demo (DEMO_MODE=1): fast, smal bjælke på alle sider */}
+      <DemoBanner />
 
       {/* PWA Components - Service Worker Registration & Install Prompt */}
       <PWARegistration />
@@ -1320,21 +1325,24 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                     <MessageSquarePlus className="h-4 w-4 shrink-0" />
                     <span>{t("sendFeedback")}</span>
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUserMenuOpen(false);
-                      setSidebarOpen(false);
-                      setShowChangelog(true);
-                    }}
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 w-full text-left"
-                  >
-                    <div className="relative">
-                      <Sparkles className="h-4 w-4 shrink-0" />
-                      <ChangelogDot />
-                    </div>
-                    <span>{t("whatsNew")}</span>
-                  </button>
+                  {/* Ingen "Nyheder" i den offentlige demo (#1213) */}
+                  {!isDemoMode() && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setUserMenuOpen(false);
+                        setSidebarOpen(false);
+                        setShowChangelog(true);
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 w-full text-left"
+                    >
+                      <div className="relative">
+                        <Sparkles className="h-4 w-4 shrink-0" />
+                        <ChangelogDot />
+                      </div>
+                      <span>{t("whatsNew")}</span>
+                    </button>
+                  )}
                   <Link
                     href="/dashboard/settings"
                     onClick={() => {

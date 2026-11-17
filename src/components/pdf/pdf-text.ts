@@ -1,5 +1,7 @@
 import { createTranslator } from "next-intl";
 import { brandize } from "@/i18n/brandize";
+import { catalogMessages } from "@/i18n/catalog-messages";
+import pdf from "@/i18n/catalogs/pdf";
 import {
   FALLBACK_LOCALE,
   isLocale,
@@ -7,7 +9,6 @@ import {
   type Locale,
 } from "@/i18n/config";
 import { toIntlLocale } from "@/i18n/format-locale";
-import { staticMessages } from "@/i18n/static-catalog";
 
 export type PdfText = (
   key: string,
@@ -34,7 +35,7 @@ export function pdfText(locale?: string | null): {
     : FALLBACK_LOCALE;
   const t = createTranslator({
     locale: resolved,
-    messages: { pdf: brandize(staticMessages("pdf", resolved)) },
+    messages: { pdf: brandize(catalogMessages("pdf", pdf, resolved)) },
     namespace: "pdf",
   }) as unknown as PdfText;
   return { t, intlLocale: toIntlLocale(resolved) };

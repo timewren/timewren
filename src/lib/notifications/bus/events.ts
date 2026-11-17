@@ -10,23 +10,14 @@
 
 import { toIntlLocale } from "@/i18n/format-locale";
 import { formatMailPeriod, mailT } from "@/lib/email/locale";
+import type { NotificationChannelKey, NotificationGroup } from "./groups";
 
-export const NOTIFICATION_CHANNELS = [
-  "in_app",
-  "email",
-  "push",
-  "teams",
-] as const;
-export type NotificationChannelKey = (typeof NOTIFICATION_CHANNELS)[number];
-
-export const NOTIFICATION_GROUPS = [
-  "timesheet",
-  "absence",
-  "reminder",
-  "compliance",
-  "digest",
-] as const;
-export type NotificationGroup = (typeof NOTIFICATION_GROUPS)[number];
+export {
+  NOTIFICATION_CHANNELS,
+  NOTIFICATION_GROUPS,
+  type NotificationChannelKey,
+  type NotificationGroup,
+} from "./groups";
 
 /**
  * Danske standardtekster til indstillingssiderne. De samme tekster ligger i

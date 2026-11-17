@@ -25,6 +25,7 @@ import {
   OPEN_FEEDBACK_EVENT,
   toReportType,
 } from "@/lib/feedback/types";
+import { buildVersion } from "@/lib/pwa/version";
 import { useTimerStore } from "@/stores/timerStore";
 
 type ScreenshotRenderer = (
@@ -190,7 +191,7 @@ export function FeedbackPanel({ userId }: { userId: string }) {
           const { isRunning, projectId, clientId, startTime } =
             useTimerStore.getState();
           return {
-            appVersion: process.env.NEXT_PUBLIC_APP_VERSION ?? "ukendt",
+            appVersion: buildVersion() ?? "ukendt",
             timer: { isRunning, projectId, clientId, startTime },
           };
         },

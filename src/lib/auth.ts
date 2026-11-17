@@ -51,6 +51,8 @@ import { FREE_MAX_SEATS } from "./billing/plan-gate";
 import { db } from "./db";
 import * as schema from "./db/schema";
 import { bannedDomains } from "./db/schema";
+import { isDemoBlockedAuthPath } from "./demo/blocked";
+import { isDemoMode, logDemoSuppressed } from "./demo/demo-mode";
 import { sendDripWelcomeEmail } from "./email/drip";
 import { wasEmailSentRecently } from "./email/logger";
 import { sendMagicLinkEmail } from "./email/magic-link";
@@ -982,6 +984,10 @@ const authOptions = defineOptions((b: BrandAuthParams) => ({
       ? [
           phoneNumber({
             sendOTP: async ({ phoneNumber: phone, code }) => {
+              if (isDemoMode()) {
+                logDemoSuppressed("SMS");
+                return;
+              }
               // MessageBird SMS sending
               const messagebirdApiKey = process.env.MESSAGEBIRD_API_KEY;
               if (!messagebirdApiKey) {
@@ -1074,6 +1080,13 @@ const authOptions = defineOptions((b: BrandAuthParams) => ({
     // link — kun via Microsoft. Kun aktiv når Microsoft-login er konfigureret,
     // så en fejlkonfiguration aldrig kan lukke et helt domæne ude.
     before: createAuthMiddleware(async (ctx) => {
+      // Offentlig demo: ingen signup, OAuth, magic link, SMS eller mails til
+      // vilkårlige adresser. Demobrugere oprettes af POST /api/demo/start.
+      if (isDemoMode() && isDemoBlockedAuthPath(ctx.path)) {
+        throw new APIError("FORBIDDEN", {
+          message: "Not available in the demo",
+        });
+      }
       // Multibrand: en ubekræftet, ubrugt konto på det andet brand må ikke
       // spærre adressen her (auth/stale-signup.ts). Fejler oprydningen, får
       // signup det sædvanlige dubletsvar.

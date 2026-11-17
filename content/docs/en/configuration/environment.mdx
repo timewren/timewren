@@ -251,7 +251,8 @@ Compose sets some of these itself; they are listed so you know where they come f
 | `NEXT_RUNTIME` | set by Next.js | no | no | Set by Next.js (`nodejs` or `edge`). Never set it yourself. |
 | `CI` | none | no | no | Silences build logs of the Sentry plugin when set. Set by CI systems. |
 | `CI_SKIP_TYPECHECK` | `false` | no | yes | Build argument of the Dockerfile: `true` skips the type check during `next build`. Only for CI builds that type-check separately. |
-| `NEXT_PUBLIC_APP_VERSION` | none | no | yes | Version string baked into the client, used to detect a new deploy. The Dockerfile sets it from the `APP_VERSION` build argument; empty uses the Next.js build ID. |
+| `APP_VERSION` | none | no | no | Version string of the deploy, read by the server at runtime and used to detect a new deploy in open tabs. The Dockerfile sets it from the `APP_VERSION` build argument; changing it needs no rebuild. Empty uses the Next.js build ID. |
+| `NEXT_PUBLIC_APP_VERSION` | none | no | no | Old name for `APP_VERSION`, still read as a fallback at runtime when `APP_VERSION` is empty. |
 
 ## Hosted service only
 
@@ -259,6 +260,7 @@ Compose sets some of these itself; they are listed so you know where they come f
 
 | Variable | Default | Required | Build time | Description |
 | --- | --- | --- | --- | --- |
+| `DEMO_MODE` | none | no | no | `1` turns the instance into the public demo: one sandbox per visitor, no mail, payments or integrations, and accounts deleted after 24 hours. Only for demo.timewren.com; see `docs/demo.md` in the repository. |
 | `ALUNTA_API_KEY` | none | no | no | Turns billing on and enables the Alunta payment provider. |
 | `ALUNTA_WEBHOOK_SECRET` | none | with `ALUNTA_API_KEY` | no | Verifies Alunta webhooks. Without it the webhook answers 503 and processes nothing. |
 | `ALUNTA_WEBHOOK_ALLOW_UNSIGNED` | none | no | no | `1` or `true` accepts Alunta webhooks without a signature when the secret is set. Development only; ignored when `NODE_ENV=production`. |

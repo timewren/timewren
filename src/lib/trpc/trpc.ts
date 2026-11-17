@@ -24,6 +24,8 @@ import {
 } from "../client-version/guard";
 import type { db as dbType } from "../db";
 import { subscriptions, users } from "../db/schema";
+import { isDemoBlockedProcedure } from "../demo/blocked";
+import { isDemoMode } from "../demo/demo-mode";
 import { IntegrationAuthError } from "../integrations/base";
 import {
   accessSatisfies,
@@ -515,15 +517,30 @@ const withRateLimitStatus = t.middleware(async ({ next }) => {
   return result;
 });
 
+// Offentlig demo (DEMO_MODE=1): betaling, integrationer, AI, webhooks m.m.
+// svarer med en venlig besked i stedet for at ringe ud (src/lib/demo/blocked.ts).
+// Uden DEMO_MODE kalder den bare videre.
+const withDemoGuard = t.middleware(async ({ next, path }) => {
+  if (isDemoMode() && isDemoBlockedProcedure(path)) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: await tr("serverErrors", "demo.notAvailable"),
+    });
+  }
+  return next();
+});
+
 export const router = t.router;
 export const mergeRouters = t.mergeRouters;
 export const publicProcedure = t.procedure
   .use(withRateLimitStatus)
   .use(withLocale)
+  .use(withDemoGuard)
   .use(withClientVersion);
 export const protectedProcedure = t.procedure
   .use(withRateLimitStatus)
   .use(withLocale)
+  .use(withDemoGuard)
   .use(withClientVersion)
   .use(isAuthed);
 

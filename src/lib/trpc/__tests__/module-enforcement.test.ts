@@ -4,8 +4,9 @@
  * Strategy:
  * - guardedRouter inserts the guard middleware AFTER isAuthed, so the chain
  *   is: withClientVersion → isAuthed → guard → resolver.
- * - isAuthed calls resolveModules via a dynamic await import() that is NOT
- *   intercepted by vi.mock. Module state comes from db.query.organizationModules.
+ * - isAuthed calls the real resolveModules (not mocked: vitest 5.1 also
+ *   intercepts its dynamic import()), so module state comes from
+ *   db.query.organizationModules.
  * - For "blocking" tests: the default callable Proxy returns [] for any query,
  *   so resolveModules produces all-disabled modules → guard throws FORBIDDEN.
  * - For the "allow" test: a DB proxy returns real module rows for
@@ -27,19 +28,6 @@ import type { ModulesContext } from "../routers/enterprise/middleware";
 // ---------------------------------------------------------------------------
 vi.mock("@/lib/db", () => ({ db: {} }));
 vi.mock("@/lib/db/index", () => ({ db: {} }));
-
-// ---------------------------------------------------------------------------
-// Mock resolveModules so isAuthed (runs after guard passes) can resolve
-// modules without hitting the real database.
-// ---------------------------------------------------------------------------
-vi.mock("../routers/enterprise/middleware", async (importOriginal) => {
-  const actual =
-    await importOriginal<typeof import("../routers/enterprise/middleware")>();
-  return {
-    ...actual,
-    resolveModules: vi.fn(),
-  };
-});
 
 // Mock Sentry to avoid side effects and keep tests clean
 vi.mock("@sentry/nextjs", () => ({
@@ -241,12 +229,6 @@ async function buildTestRouter() {
 let testRouter: Awaited<ReturnType<typeof buildTestRouter>>;
 
 beforeAll(async () => {
-  // Note: resolveModules is mocked but the dynamic import() in isAuthed
-  // bypasses vi.mock. Module state is controlled via db.query.organizationModules
-  // rows instead. This seed is kept for legacy compatibility only.
-  const { resolveModules } = await import("../routers/enterprise/middleware");
-  vi.mocked(resolveModules).mockResolvedValue(makeModules([]));
-
   testRouter = await buildTestRouter();
 }, 60_000 /* backstop for a busy CI runner; normally a few seconds */);
 
@@ -256,9 +238,6 @@ beforeAll(async () => {
 
 describe("module enforcement via guarded routers (integration)", () => {
   it("blocks invoices.list when invoicing is disabled", async () => {
-    const { resolveModules } = await import("../routers/enterprise/middleware");
-    vi.mocked(resolveModules).mockResolvedValue(makeModules([]));
-
     const caller = testRouter.createCaller(makeCtx(makeModules([])) as never);
     const err = await caller.invoices.list().catch((e: unknown) => e);
 
@@ -268,9 +247,6 @@ describe("module enforcement via guarded routers (integration)", () => {
   }, 15_000);
 
   it("blocks prepaid.list when klippekort is disabled", async () => {
-    const { resolveModules } = await import("../routers/enterprise/middleware");
-    vi.mocked(resolveModules).mockResolvedValue(makeModules([]));
-
     const caller = testRouter.createCaller(makeCtx(makeModules([])) as never);
     const err = await caller.prepaid.list().catch((e: unknown) => e);
 
@@ -280,9 +256,6 @@ describe("module enforcement via guarded routers (integration)", () => {
   }, 15_000);
 
   it("blocks clients.list when clients is disabled", async () => {
-    const { resolveModules } = await import("../routers/enterprise/middleware");
-    vi.mocked(resolveModules).mockResolvedValue(makeModules([]));
-
     const caller = testRouter.createCaller(makeCtx(makeModules([])) as never);
     const err = await caller.clients.list().catch((e: unknown) => e);
 
@@ -292,9 +265,6 @@ describe("module enforcement via guarded routers (integration)", () => {
   });
 
   it("blocks enterprise.listMembers when enterprise module is disabled", async () => {
-    const { resolveModules } = await import("../routers/enterprise/middleware");
-    vi.mocked(resolveModules).mockResolvedValue(makeModules(["projects"]));
-
     const caller = testRouter.createCaller(
       makeCtx(makeModules(["projects"]), ["projects"]) as never,
     );
@@ -319,10 +289,7 @@ describe("module enforcement via guarded routers (integration)", () => {
   });
 
   it("does NOT block time.list (always-on route, no guardedRouter)", async () => {
-    const { resolveModules } = await import("../routers/enterprise/middleware");
     // All modules disabled — time is unguarded and must still proceed
-    vi.mocked(resolveModules).mockResolvedValue(makeModules([]));
-
     const caller = testRouter.createCaller(makeCtx(makeModules([])) as never);
     const err = await caller.time.list().catch((e: unknown) => e);
 

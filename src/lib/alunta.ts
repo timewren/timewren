@@ -13,13 +13,20 @@ export class AluntaApiError extends Error {
   }
 }
 
-/** Upstream-fejl hos Alunta (5xx) — ikke en fejl i vores kald. */
-export function isAluntaUpstreamError(err: unknown): err is AluntaApiError {
-  return (
-    err instanceof Error &&
-    err.name === "AluntaApiError" &&
-    (err as AluntaApiError).status >= 500
-  );
+// Netværksfejl og timeouts fra aluntaFetch (kalderens egen afbrydelse tæller
+// ikke med).
+const networkFailures = new WeakSet<Error>();
+
+/**
+ * Upstream-fejl hos Alunta (5xx, 429 eller ingen forbindelse/timeout), der
+ * står ved efter genforsøg — ikke en fejl i vores kald.
+ */
+export function isAluntaUpstreamError(err: unknown): err is Error {
+  if (!(err instanceof Error)) return false;
+  if (err.name === "AluntaApiError") {
+    return isRetryableStatus((err as AluntaApiError).status);
+  }
+  return networkFailures.has(err);
 }
 
 // Pauser før genforsøg. Alunta svarer af og til en enkelt 500 "Server Error"
@@ -55,6 +62,7 @@ async function aluntaFetch<T>(path: string, options?: RequestInit): Promise<T> {
       await new Promise((resolve) => setTimeout(resolve, delay));
     };
 
+    const signal = options?.signal ?? AbortSignal.timeout(20_000);
     let res: Response;
     try {
       res = await fetch(url, {
@@ -65,22 +73,39 @@ async function aluntaFetch<T>(path: string, options?: RequestInit): Promise<T> {
           Accept: "application/json",
           ...options?.headers,
         },
-        signal: options?.signal ?? AbortSignal.timeout(20_000),
+        signal,
       });
     } catch (err) {
-      // Netværksfejl eller timeout. Et afbrudt kald (kalderens signal)
-      // prøves ikke igen.
-      if (attempt < retries && !options?.signal?.aborted) {
+      // Netværksfejl prøves igen. Et afbrudt kald prøves ikke igen: hverken
+      // kalderens signal eller vores egen timeout, ellers kan én GET tage over
+      // et minut, og webhooken svarer Alunta for sent.
+      const callerAborted = options?.signal?.aborted ?? false;
+      if (attempt < retries && !signal.aborted) {
         await retry(err instanceof Error ? err.name : "netværksfejl");
         continue;
       }
+      if (err instanceof Error && !callerAborted) networkFailures.add(err);
       throw err;
     }
+
+    // Forbindelsen kan også briste (eller timeouten udløbe), mens svaret
+    // læses. Det er en netværksfejl; ugyldig JSON er det ikke.
+    const response = res;
+    const readBody = async () => {
+      try {
+        return await response.text();
+      } catch (err) {
+        if (err instanceof Error && !options?.signal?.aborted) {
+          networkFailures.add(err);
+        }
+        throw err;
+      }
+    };
 
     const contentType = res.headers.get("content-type") || "";
 
     if (!res.ok) {
-      const text = await res.text();
+      const text = await readBody();
       if (attempt < retries && isRetryableStatus(res.status)) {
         await retry(`API ${res.status}`);
         continue;
@@ -96,7 +121,7 @@ async function aluntaFetch<T>(path: string, options?: RequestInit): Promise<T> {
     }
 
     if (!contentType.includes("application/json")) {
-      const text = await res.text();
+      const text = await readBody();
       console.error(
         `[Alunta] Unexpected content-type "${contentType}" for ${path}:`,
         text.slice(0, 500),
@@ -106,7 +131,7 @@ async function aluntaFetch<T>(path: string, options?: RequestInit): Promise<T> {
       );
     }
 
-    return res.json();
+    return JSON.parse(await readBody());
   }
 }
 

@@ -5,6 +5,7 @@ import { getBrand } from "@/lib/brand";
 import { getEmailDomain } from "@/lib/config";
 import { db } from "@/lib/db";
 import { mobilePushTokens, pushSubscriptions } from "@/lib/db/schema";
+import { isDemoMode } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import { resolveOutgoingLocale } from "@/lib/email/request-locale";
 import { sendExpoPush } from "./expo-push";
@@ -45,6 +46,8 @@ export interface PushPayload {
  * Check if push notifications are configured
  */
 export function isPushConfigured(): boolean {
+  // Offentlig demo: ingen push (sendPushNotification afviser så også).
+  if (isDemoMode()) return false;
   return !!(VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY);
 }
 

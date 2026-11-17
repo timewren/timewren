@@ -1,3 +1,4 @@
+import { isDemoMode, logDemoSuppressed } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import { resolveOutgoingLocale } from "@/lib/email/request-locale";
 import type { NotificationType } from "./index";
@@ -85,6 +86,7 @@ function getEmojiForType(type: NotificationType): string {
 export async function sendDiscordNotification(
   params: DiscordNotificationParams,
 ): Promise<void> {
+  if (isDemoMode()) return logDemoSuppressed("Discord");
   const { webhookUrl, title, message, type, url } = params;
 
   const emoji = getEmojiForType(type);
@@ -231,6 +233,7 @@ export async function sendDailyDigestToDiscord(
     embeds: [embed],
   };
 
+  if (isDemoMode()) return logDemoSuppressed("Discord");
   const response = await fetch(webhookUrl, {
     method: "POST",
     headers: {

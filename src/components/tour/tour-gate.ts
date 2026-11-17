@@ -20,10 +20,16 @@ export interface TourAutoStartInput {
    * endnu — turen starter aldrig på et gæt.
    */
   orgRole: OrgRole | undefined;
+  /**
+   * Offentlig demo (DEMO_MODE=1): turen starter aldrig af sig selv, for den
+   * åbner over dashboardet og sender et dybt link tilbage til /dashboard
+   * (første trin har `page: "/dashboard"`). Demobjælken tilbyder den (#1213).
+   */
+  demo: boolean;
 }
 
 export function shouldAutoStartTour(input: TourAutoStartInput): boolean {
-  if (input.orgRole === undefined) return false;
+  if (input.orgRole === undefined || input.demo) return false;
   if (!input.onboardingCompleted) return false;
   if (input.hasCompletedTour || input.tourServerSeen) return false;
   if (input.tourActive || input.showOnboardingModal) return false;

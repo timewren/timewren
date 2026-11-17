@@ -21,6 +21,8 @@ export const EXPECTED_INTERVAL_MINUTES: Record<string, number> = {
   "stability-watch": 15,
   recurring: 60,
   "migration-drift": 60,
+  // Offentlig demo: sletter demokonti over 24 timer (no-op uden DEMO_MODE)
+  "demo-cleanup": 60,
   "daily-digest": 24 * 60,
   "webhook-cleanup": 24 * 60,
   "calendar-webhook-renew": 24 * 60,

@@ -2,6 +2,7 @@ import { and, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { desktopDevices, desktopLicenses } from "@/lib/db/schema";
+import { demoUnavailableResponse } from "@/lib/demo/route-guard";
 import { rateLimitResponse } from "@/lib/desktop-rate-limit";
 import {
   getClientIp,
@@ -22,6 +23,8 @@ import {
  * Returns: { success: true, devicesRemaining: number }
  */
 export async function POST(request: Request) {
+  const demo = demoUnavailableResponse();
+  if (demo) return demo;
   // Uden login: throttle pr. IP, så nøgler ikke kan afprøves i bulk (#1103).
   const limit = await rateLimiter.check(
     ipRateLimitKey(getClientIp(request.headers), "desktopLicense"),

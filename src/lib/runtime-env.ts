@@ -15,9 +15,11 @@
  *    nedenfor). Et image bygget med de gamle build-args opfører sig derfor
  *    uændret, og TimeTrack Cloud får samme output som før.
  *
- * Variabelnavnene er uændrede. Modulet har ingen afhængigheder, så det kan
- * bruges i middleware (edge) og klientkode.
+ * Variabelnavnene er uændrede. Modulet afhænger kun af demo-mode.ts (som selv
+ * er uden afhængigheder), så det kan bruges i middleware (edge) og klientkode.
  */
+
+import { isDemoMode } from "@/lib/demo/demo-mode";
 
 export interface RuntimeConfig {
   appUrl?: string;
@@ -29,6 +31,11 @@ export interface RuntimeConfig {
    * timetrack-hosts får præcis samme script som før.
    */
   hostBrand?: string;
+  /**
+   * Offentlig demo (DEMO_MODE=1, src/lib/demo/demo-mode.ts). Sættes kun i
+   * demo-tilstand, så alle andre instanser får præcis samme script som før.
+   */
+  demo?: true;
 }
 
 declare global {
@@ -106,6 +113,7 @@ export function renderRuntimeConfigScript(
     marketingUrl: marketingUrlEnv(),
     brand: brandEnv(),
     ...(opts.hostBrand ? { hostBrand: opts.hostBrand } : {}),
+    ...(isDemoMode() ? { demo: true as const } : {}),
   };
   const json = JSON.stringify(config)
     .replace(/</g, "\\u003c")

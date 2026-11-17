@@ -1,5 +1,14 @@
 import { TRPCError } from "@trpc/server";
-import { and, desc, eq, inArray, isNotNull, lte } from "drizzle-orm";
+import {
+  and,
+  desc,
+  eq,
+  inArray,
+  isNotNull,
+  isNull,
+  lte,
+  or,
+} from "drizzle-orm";
 import { z } from "zod";
 import { st, tr } from "@/i18n/server-text";
 import {
@@ -141,11 +150,28 @@ async function assertTemplateClientsOwned(
   }
 }
 
+/**
+ * Skabeloner er personlige, men hører til den org, de er oprettet i: i en
+ * anden org (eller efter at have forladt orgen) må de hverken læses, ændres
+ * eller bruges. Ældre skabeloner uden org forbliver synlige for ejeren.
+ */
+function ownTemplate(userId: string, orgId: string | null) {
+  return and(
+    eq(recurringTimeTemplates.userId, userId),
+    orgId
+      ? or(
+          eq(recurringTimeTemplates.organizationId, orgId),
+          isNull(recurringTimeTemplates.organizationId),
+        )
+      : undefined,
+  );
+}
+
 export const recurringRouter = router({
   // Get all templates for the current user
   list: moduleReadProcedure("templates").query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
-    const scopeFilter = eq(recurringTimeTemplates.userId, userId);
+    const scopeFilter = ownTemplate(userId, ctx.orgId);
 
     const templates = await ctx.db.query.recurringTimeTemplates.findMany({
       where: scopeFilter,
@@ -176,7 +202,7 @@ export const recurringRouter = router({
     .query(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
 
-      const scopeFilter = eq(recurringTimeTemplates.userId, userId);
+      const scopeFilter = ownTemplate(userId, ctx.orgId);
       const templates = await ctx.db.query.recurringTimeTemplates.findMany({
         where: and(
           scopeFilter,
@@ -194,7 +220,7 @@ export const recurringRouter = router({
     .query(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
 
-      const scopeFilter = eq(recurringTimeTemplates.userId, userId);
+      const scopeFilter = ownTemplate(userId, ctx.orgId);
       const template = await ctx.db.query.recurringTimeTemplates.findFirst({
         where: and(eq(recurringTimeTemplates.id, input.id), scopeFilter),
         with: {
@@ -220,7 +246,7 @@ export const recurringRouter = router({
   getPending: moduleReadProcedure("templates").query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
     const now = new Date();
-    const scopeFilter = eq(recurringTimeTemplates.userId, userId);
+    const scopeFilter = ownTemplate(userId, ctx.orgId);
 
     const pending = await ctx.db.query.recurringTimeTemplates.findMany({
       where: and(
@@ -246,7 +272,7 @@ export const recurringRouter = router({
   // List all active templates (for QuickTimeEntryModal)
   listActive: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
-    const scopeFilter = eq(recurringTimeTemplates.userId, userId);
+    const scopeFilter = ownTemplate(userId, ctx.orgId);
 
     const templates = await ctx.db.query.recurringTimeTemplates.findMany({
       where: and(scopeFilter, eq(recurringTimeTemplates.isActive, true)),
@@ -401,7 +427,7 @@ export const recurringRouter = router({
       const template = await ctx.db.query.recurringTimeTemplates.findFirst({
         where: and(
           eq(recurringTimeTemplates.id, input.id),
-          eq(recurringTimeTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 
@@ -578,7 +604,7 @@ export const recurringRouter = router({
       const template = await ctx.db.query.recurringTimeTemplates.findFirst({
         where: and(
           eq(recurringTimeTemplates.id, input.id),
-          eq(recurringTimeTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 
@@ -599,7 +625,7 @@ export const recurringRouter = router({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
 
-      const scopeFilter = eq(recurringTimeTemplates.userId, userId);
+      const scopeFilter = ownTemplate(userId, ctx.orgId);
 
       const original = await ctx.db.query.recurringTimeTemplates.findFirst({
         where: and(eq(recurringTimeTemplates.id, input.id), scopeFilter),
@@ -660,7 +686,7 @@ export const recurringRouter = router({
       const template = await ctx.db.query.recurringTimeTemplates.findFirst({
         where: and(
           eq(recurringTimeTemplates.id, input.templateId),
-          eq(recurringTimeTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 
@@ -758,7 +784,7 @@ export const recurringRouter = router({
       const template = await ctx.db.query.recurringTimeTemplates.findFirst({
         where: and(
           eq(recurringTimeTemplates.id, input.id),
-          eq(recurringTimeTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 
@@ -790,7 +816,7 @@ export const recurringRouter = router({
       const template = await ctx.db.query.recurringTimeTemplates.findFirst({
         where: and(
           eq(recurringTimeTemplates.id, input.id),
-          eq(recurringTimeTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 
@@ -825,7 +851,7 @@ export const recurringRouter = router({
       const template = await ctx.db.query.recurringTimeTemplates.findFirst({
         where: and(
           eq(recurringTimeTemplates.id, input.id),
-          eq(recurringTimeTemplates.userId, userId),
+          ownTemplate(userId, ctx.orgId),
         ),
       });
 

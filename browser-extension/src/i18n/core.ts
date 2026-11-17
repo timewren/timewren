@@ -6,6 +6,8 @@
  * {count, plural, one {# kunde} other {# kunder}}.
  */
 
+import { modules } from "./catalog-modules";
+
 /**
  * Sprogregistret: skal være identisk med src/i18n/config.ts i webappen (udvidelsen er en separat
  * pakke og kan ikke importere derfra); src/i18n/__tests__/locale-registry.test.ts fejler ved afvigelse.
@@ -55,11 +57,6 @@ export const FALLBACK_LOCALE: Locale = "en";
 
 type Messages = Record<string, string>;
 export type Params = Record<string, string | number>;
-
-const modules = import.meta.glob<Record<string, unknown>>(
-  "./messages/*/*.json",
-  { eager: true, import: "default" },
-);
 
 function flatten(obj: unknown, prefix: string, out: Messages): void {
   if (obj && typeof obj === "object") {

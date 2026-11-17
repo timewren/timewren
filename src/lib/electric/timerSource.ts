@@ -1,4 +1,5 @@
 import type { Shape, ShapeStream } from "@electric-sql/client";
+import { isDemoMode } from "@/lib/demo/demo-mode";
 
 /**
  * Shared, ref-counted ElectricSQL subscription to the current user's own
@@ -65,6 +66,9 @@ function toRow(
 
 function start() {
   if (stream || typeof window === "undefined") return;
+  // Den offentlige demo har ingen Electric; proxyen ville svare 503 i ring
+  // (#1213). SSE + polling bærer synkroniseringen som uden Electric.
+  if (isDemoMode()) return;
   const gen = ++generation;
   import("@electric-sql/client")
     .then((electric) => {

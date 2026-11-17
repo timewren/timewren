@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { tr } from "@/i18n/server-text";
 import { db } from "@/lib/db";
 import { dineroOAuthPending } from "@/lib/db/schema";
+import { DEMO_UNAVAILABLE_CODE, isDemoMode } from "@/lib/demo/demo-mode";
 import {
   exchangeDineroCodeForTokens,
   fetchDineroOrganizations,
@@ -84,6 +85,7 @@ async function handleCallback(
       `${base}${INTEGRATIONS_PATH}?success=${encodeURIComponent(code)}`,
       { status: 303 },
     );
+  if (isDemoMode()) return errorRedirect(DEMO_UNAVAILABLE_CODE);
 
   try {
     // Read response params from either POST body (form_post) or query.

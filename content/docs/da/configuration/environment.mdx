@@ -251,7 +251,8 @@ Compose sætter selv nogle af disse. De står her, så du ved, hvor de kommer fr
 | `NEXT_RUNTIME` | sat af Next.js | nej | nej | Sættes af Next.js (`nodejs` eller `edge`). Sæt den aldrig selv. |
 | `CI` | ingen | nej | nej | Gør Sentry-pluginets build-logs tavse, når den er sat. Sættes af CI-systemer. |
 | `CI_SKIP_TYPECHECK` | `false` | nej | ja | Build-argument til Dockerfilen: `true` springer typetjekket over under `next build`. Kun til CI-builds, der typetjekker separat. |
-| `NEXT_PUBLIC_APP_VERSION` | ingen | nej | ja | Versionsstreng, der bages ind i klienten og bruges til at opdage en ny deploy. Dockerfilen sætter den ud fra build-argumentet `APP_VERSION`. Tom bruger Next.js' build-ID. |
+| `APP_VERSION` | ingen | nej | nej | Deployets versionsstreng, som serveren læser ved kørsel og bruger til at opdage en ny deploy i åbne faner. Dockerfilen sætter den ud fra build-argumentet `APP_VERSION`. En ændring kræver ikke et nyt build. Tom bruger Next.js' build-ID. |
+| `NEXT_PUBLIC_APP_VERSION` | ingen | nej | nej | Gammelt navn for `APP_VERSION`. Læses stadig ved kørsel som fallback, når `APP_VERSION` er tom. |
 
 ## Kun den hostede tjeneste
 
@@ -259,6 +260,7 @@ Compose sætter selv nogle af disse. De står her, så du ved, hvor de kommer fr
 
 | Variabel | Standard | Påkrævet | Build time | Beskrivelse |
 | --- | --- | --- | --- | --- |
+| `DEMO_MODE` | ingen | nej | nej | `1` gør instansen til den offentlige demo: én sandkasse pr. besøgende, ingen mail, betaling eller integrationer, og konti slettes efter 24 timer. Kun til demo.timewren.com; se `docs/demo.md` i repoet. |
 | `ALUNTA_API_KEY` | ingen | nej | nej | Slår betaling til og aktiverer betalingsudbyderen Alunta. |
 | `ALUNTA_WEBHOOK_SECRET` | ingen | med `ALUNTA_API_KEY` | nej | Verificerer webhooks fra Alunta. Uden den svarer webhooken 503 og behandler intet. |
 | `ALUNTA_WEBHOOK_ALLOW_UNSIGNED` | ingen | nej | nej | `1` eller `true` accepterer webhooks fra Alunta uden signatur, når secret er sat. Kun til udvikling; ignoreres ved `NODE_ENV=production`. |

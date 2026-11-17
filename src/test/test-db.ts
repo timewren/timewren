@@ -6,7 +6,17 @@
  * `CONNECT_TIMEOUT` i en tilfældig fils beforeAll (#1183). Forbindelserne får
  * derfor 60 s, og opsætningen prøver én gang til ved timeout.
  */
+import { randomUUID } from "node:crypto";
 import postgres from "postgres";
+import { inject } from "vitest";
+
+declare module "vitest" {
+  export interface ProvidedContext {
+    /** Skabelon-databasen fra integration-db-setup.ts, null hvis den mangler. */
+    testDbTemplate: string | null;
+    testDbTemplateError: string | null;
+  }
+}
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;
 
@@ -39,4 +49,40 @@ export async function connectTestDb(...clients: postgres.Sql[]) {
       await sql`select 1`;
     }
   }
+}
+
+/**
+ * Egen database for én testfil, klonet fra skabelonen, som
+ * `integration-db-setup.ts` laver af TEST_DATABASE_URL før kørslen. Til filer,
+ * der skal have hele schemaet med alle FK'er: afterAll sletter databasen i
+ * stedet for at køre kontosletningen pr. testbruger i den delte database,
+ * hvilket tog 15-30 s pr. fil og løb over hookTimeout på en presset runner.
+ *
+ *   const testDb = isolatedTestDatabase();
+ *   const pg = testPostgres({ max: 2, database: testDb.name });
+ *   beforeAll(async () => { await testDb.create(); await connectTestDb(pg); });
+ *   afterAll(async () => { await pg.end(); await testDb.drop(); });
+ */
+export function isolatedTestDatabase() {
+  const template = inject("testDbTemplate");
+  const name = `${template}_${randomUUID().slice(0, 8)}`;
+  // Forbundet til TEST_DATABASE_URL's database, aldrig til skabelonen: en
+  // database kan kun klones, når ingen er forbundet til den.
+  const admin = testPostgres({ max: 1, onnotice: () => {} });
+  return {
+    name,
+    async create() {
+      if (!template) {
+        throw new Error(
+          `Ingen skabelon-database: ${inject("testDbTemplateError") ?? "ukendt fejl"}`,
+        );
+      }
+      await connectTestDb(admin);
+      await admin.unsafe(`CREATE DATABASE "${name}" TEMPLATE "${template}"`);
+    },
+    async drop() {
+      await admin.unsafe(`DROP DATABASE IF EXISTS "${name}" WITH (FORCE)`);
+      await admin.end();
+    },
+  };
 }

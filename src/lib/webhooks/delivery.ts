@@ -5,6 +5,7 @@ import {
   type WebhookEventType,
   webhookDeliveries,
 } from "@/lib/db/schema";
+import { isDemoMode, logDemoSuppressed } from "@/lib/demo/demo-mode";
 import { validateUrlForSSRF } from "@/lib/utils/ssrf-protection";
 import { signWebhookPayload } from "./signing";
 
@@ -109,6 +110,12 @@ async function deliverWebhook(
   responseTimeMs?: number;
   error?: string;
 }> {
+  // Offentlig demo: ingen udgående webhooks.
+  if (isDemoMode()) {
+    logDemoSuppressed("Webhook");
+    return { success: false, responseTimeMs: 0, error: "Demo" };
+  }
+
   const payloadString = JSON.stringify(payload);
   const startTime = Date.now();
 

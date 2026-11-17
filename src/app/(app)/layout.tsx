@@ -7,10 +7,12 @@ import {
   viewport,
 } from "@/components/DocumentLayout";
 import { getRequestBrand } from "@/lib/brands/request";
+import { isDemoMode } from "@/lib/demo/demo-mode";
 
 export async function generateMetadata(): Promise<Metadata> {
   const rb = await getRequestBrand();
-  if (!rb.host) return metadata;
+  // Offentlig demo: noindex (makeMetadata læser DEMO_MODE ved kørsel).
+  if (!rb.host) return isDemoMode() ? makeMetadata(rb.brand) : metadata;
   return makeMetadata(rb.brand, {
     baseUrl: rb.baseUrl ?? undefined,
     locale: rb.locale ?? undefined,

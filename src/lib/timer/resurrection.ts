@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import { timeEntries, timerStates } from "@/lib/db/schema";
+import { RESURRECTION_TOLERANCE_SECONDS } from "./resurrection-rules";
 
 /**
  * Sikkerhedsnet mod GENOPSTANDNE timere (kunde A 1/10).
@@ -26,51 +27,16 @@ import { timeEntries, timerStates } from "@/lib/db/schema";
  * gamle; en ægte ny start har starttid ≈ nu.
  *
  * Prædikaterne indgår i den atomiske upserts `setWhere` — aldrig
- * read-then-write. De rene funktioner nedenfor spejler SQL'en til tests og
+ * read-then-write. De rene funktioner (resurrection-rules.ts, uden
+ * databaseimporter, så klienten kan bruge dem) spejler SQL'en til tests og
  * dokumentation.
  */
-export const RESURRECTION_TOLERANCE_SECONDS = 300;
-
-export interface TimerRowSnapshot {
-  isRunning: boolean | null;
-  elapsedSeconds: number | null;
-  baseSeconds: number | null;
-  projectId?: string | null;
-  clientId?: string | null;
-  lastSyncedAt?: Date | null;
-  updatedAt?: Date | null;
-}
-
-export function isClearedTimerRow(row: TimerRowSnapshot): boolean {
-  return (
-    !row.isRunning &&
-    (row.elapsedSeconds ?? 0) === 0 &&
-    (row.baseSeconds ?? 0) === 0 &&
-    !row.projectId &&
-    !row.clientId
-  );
-}
-
-/** Spejler `NOT noResurrectionGuardSql()` — true = skrivningen skal afvises. */
-export function isStaleStartOnClearedRow(
-  row: TimerRowSnapshot,
-  incomingStartTime: Date | null,
-  /**
-   * Ligger starttiden inde i en gemt post? Udelades den (klienten kender
-   * ikke posterne), afgør rydningstidspunktet alene.
-   */
-  coveredBySavedEntry = true,
-): boolean {
-  if (!isClearedTimerRow(row)) return false;
-  if (!incomingStartTime) return true;
-  const clearedAt = row.lastSyncedAt ?? row.updatedAt ?? null;
-  if (!clearedAt) return false;
-  return (
-    incomingStartTime.getTime() <
-      clearedAt.getTime() - RESURRECTION_TOLERANCE_SECONDS * 1000 &&
-    coveredBySavedEntry
-  );
-}
+export {
+  isClearedTimerRow,
+  isStaleStartOnClearedRow,
+  RESURRECTION_TOLERANCE_SECONDS,
+  type TimerRowSnapshot,
+} from "./resurrection-rules";
 
 /**
  * Rækken er ryddet: intet kører, ingen tid står på den, og projekt/kunde er

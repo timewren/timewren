@@ -11,7 +11,8 @@
  * - uden flagene går timewren.com gennem standardinstansen som før.
  *
  * Kører kun med TEST_DATABASE_URL sat til en kasseret database med repoets
- * schema (`drizzle-kit push`, som CI's Unit Tests-job).
+ * schema (`drizzle-kit push`, som CI's Unit Tests-job). Filen får sin egen
+ * klon af den (isolatedTestDatabase), som slettes bagefter.
  */
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { drizzle } from "drizzle-orm/postgres-js";
@@ -24,7 +25,11 @@ import {
   it,
   vi,
 } from "vitest";
-import { connectTestDb, testPostgres } from "@/test/test-db";
+import {
+  connectTestDb,
+  isolatedTestDatabase,
+  testPostgres,
+} from "@/test/test-db";
 
 const h = vi.hoisted(() => {
   // Modulniveau-værdier i auth.ts læses ved import.
@@ -108,20 +113,22 @@ vi.mock("@/lib/email/verification", () => ({
   sendVerificationEmail: mail("verification"),
 }));
 
-import { buildDeletionSql } from "@/lib/account-deletion";
 import * as schema from "@/lib/db/schema";
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;
 
 describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
   const run = randomUUID().slice(0, 8);
-  const pg = testPostgres({ max: 2 });
+  const testDb = isolatedTestDatabase();
+  const pg = testPostgres({ max: 2, database: testDb.name });
   h.db = drizzle(pg, { schema });
-  const emails: string[] = [];
   const password = `pw-${randomBytes(9).toString("hex")}`;
   let ip = 0;
 
-  beforeAll(() => connectTestDb(pg));
+  beforeAll(async () => {
+    await testDb.create();
+    await connectTestDb(pg);
+  });
 
   beforeEach(() => {
     vi.stubEnv("MULTIBRAND_ENABLED", "1");
@@ -132,28 +139,12 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
 
   afterAll(async () => {
     vi.unstubAllEnvs();
-    const rows = await pg<{ id: string }[]>`
-      SELECT id FROM "user" WHERE email = ANY(${emails})`;
-    for (const { id } of rows) {
-      const orgs = await pg<{ id: string }[]>`
-        SELECT organization_id AS id FROM members WHERE user_id = ${id}`;
-      await pg.unsafe(
-        buildDeletionSql(
-          id,
-          orgs.map((o) => o.id),
-        ),
-      );
-    }
-    const [left] = await pg`
-      SELECT count(*)::int AS n FROM "user" WHERE email = ANY(${emails})`;
-    expect(left.n).toBe(0);
     await pg.end();
+    await testDb.drop();
   });
 
   const newEmail = (name: string) => {
-    const e = `hostauth-${run}-${name}@example.test`;
-    emails.push(e);
-    return e;
+    return `hostauth-${run}-${name}@example.test`;
   };
 
   async function call(host: string, path: string, body: unknown) {
@@ -387,7 +378,7 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
     const tw = await unverifiedOn("timewren.com", "squat-race");
     // En samtidig transaktion (fx SMS-login) har indsat en session, men ikke
     // committet. Oprydningen må vente på låsen og så se sessionen.
-    const other = testPostgres({ max: 1 });
+    const other = testPostgres({ max: 1, database: testDb.name });
     try {
       const conn = await other.reserve();
       await conn`BEGIN`;
@@ -571,12 +562,6 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
     return rows;
   }
 
-  // Oprydning: et joinet medlem i en anden ejers organisation fjernes igen,
-  // ellers afbryder afterAll's sletning af ejeren.
-  const leave = (email: string, org: string) => pg`
-    DELETE FROM members WHERE organization_id = ${org}
-      AND user_id = (SELECT id FROM "user" WHERE email = ${email})`;
-
   const inviteStatus = async (id: string) =>
     (
       await pg<{ status: string }[]>`
@@ -618,7 +603,6 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
       expect((await signUp(host, email)).status).toBe(200);
       expect((await membersOf(email)).map((m) => m.org)).toEqual([o.org]);
       expect(await inviteStatus(inv)).toBe("accepted");
-      await leave(email, o.org);
     }
   });
 
@@ -759,7 +743,6 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
 
     // TimeWren: egen workspace, heller ikke joinet ved login.
     const twEmail = `tw-${run}@${domain}`;
-    emails.push(twEmail);
     expect((await signUp("timewren.com", twEmail)).status).toBe(200);
     expect((await signIn("timewren.com", twEmail)).status).toBe(200);
     const twOrgs = await membersOf(twEmail);
@@ -767,11 +750,9 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
 
     // TimeTrack: joines som før (ingen personlig workspace).
     const ttEmail = `tt-${run}@${domain}`;
-    emails.push(ttEmail);
     expect((await signUp("timetrack.dk", ttEmail)).status).toBe(200);
     expect((await signIn("timetrack.dk", ttEmail)).status).toBe(200);
     expect((await membersOf(ttEmail)).map((o) => o.org)).toEqual([tt.org]);
-    await leave(ttEmail, tt.org);
   });
 
   it("session og API-nøgle gælder kun på kontoens eget brand (tRPC og /api/v1)", async () => {

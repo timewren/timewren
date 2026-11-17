@@ -116,6 +116,8 @@ describe.skipIf(!TEST_DATABASE_URL)(
         CREATE TABLE time_entries (id serial PRIMARY KEY, organization_id text, user_id text);
         CREATE TABLE recurring_time_templates (id serial PRIMARY KEY, organization_id text, user_id text, is_active boolean);
         CREATE TABLE generated_time_entries (id serial PRIMARY KEY, recurring_template_id int, time_entry_id int);
+        CREATE TABLE prepaid_packages (id serial PRIMARY KEY, organization_id text, user_id text);
+        CREATE TABLE prepaid_usage (id serial PRIMARY KEY, prepaid_package_id int, time_entry_id int);
 
         INSERT INTO "user" VALUES ('victim', 'Vera Victim', 'vera@example.dk'),
                                   ('boss', 'Bo Boss', 'bo@example.dk');

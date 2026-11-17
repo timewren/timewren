@@ -652,6 +652,16 @@ BEGIN
            SELECT id FROM time_entries
             WHERE organization_id = ANY(v_orgs)
                OR (user_id = v_user AND organization_id IS NULL));
+  -- Klippekortforbrug (#1207): træk fra slettede klippekort eller tidsposter
+  DELETE FROM prepaid_usage
+   WHERE prepaid_package_id IN (
+           SELECT id FROM prepaid_packages
+            WHERE organization_id = ANY(v_orgs)
+               OR (user_id = v_user AND organization_id IS NULL))
+      OR time_entry_id IN (
+           SELECT id FROM time_entries
+            WHERE organization_id = ANY(v_orgs)
+               OR (user_id = v_user AND organization_id IS NULL));
 
   -- Multi-pass: alt der FK-refererer organizations via single-kolonne-FK mod PK
   FOREACH v_org IN ARRAY v_orgs LOOP

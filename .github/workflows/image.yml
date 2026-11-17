@@ -37,7 +37,6 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
       hub-enabled: ${{ steps.hub.outputs.enabled }}
-      hub-image: ${{ steps.hub.outputs.image }}
     steps:
       - name: Resolve version
         id: version
@@ -58,6 +57,8 @@ jobs:
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
+      # Only a flag leaves this job: GitHub drops job outputs that contain a secret, and
+      # docker.io/<DOCKERHUB_USERNAME>/timewren does, so later jobs build the name from env.
       - name: Check for Docker Hub credentials
         id: hub
         env:
@@ -67,10 +68,8 @@ jobs:
           set -euo pipefail
           if [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_TOKEN" ]; then
             echo "enabled=true" >> "$GITHUB_OUTPUT"
-            echo "image=$DOCKERHUB_IMAGE" >> "$GITHUB_OUTPUT"
           else
             echo "enabled=false" >> "$GITHUB_OUTPUT"
-            echo "image=" >> "$GITHUB_OUTPUT"
             echo "::notice::DOCKERHUB_USERNAME/DOCKERHUB_TOKEN are not set, so Docker Hub is skipped. Only GHCR is published."
           fi
 
@@ -128,7 +127,7 @@ jobs:
         with:
           images: |
             ${{ env.GHCR_IMAGE }}
-            ${{ needs.prepare.outputs.hub-image }}
+            ${{ needs.prepare.outputs.hub-enabled == 'true' && env.DOCKERHUB_IMAGE || '' }}
           labels: |
             org.opencontainers.image.title=TimeWren
             org.opencontainers.image.licenses=AGPL-3.0-only
@@ -205,7 +204,7 @@ jobs:
         with:
           images: |
             ${{ env.GHCR_IMAGE }}
-            ${{ needs.prepare.outputs.hub-image }}
+            ${{ needs.prepare.outputs.hub-enabled == 'true' && env.DOCKERHUB_IMAGE || '' }}
           # vX.Y.Z -> X.Y.Z and X.Y. `latest` is added for stable versions only
           # (metadata-action skips it for prereleases).
           tags: |
@@ -220,7 +219,7 @@ jobs:
       # One manifest list per registry, built from that registry's digests.
       - name: Create manifest lists
         env:
-          HUB_IMAGE: ${{ needs.prepare.outputs.hub-image }}
+          HUB_IMAGE: ${{ needs.prepare.outputs.hub-enabled == 'true' && env.DOCKERHUB_IMAGE || '' }}
           META_JSON: ${{ steps.meta.outputs.json }}
           DIGESTS_DIR: ${{ runner.temp }}/digests
         run: |
@@ -240,7 +239,7 @@ jobs:
 
       - name: Inspect manifests
         env:
-          HUB_IMAGE: ${{ needs.prepare.outputs.hub-image }}
+          HUB_IMAGE: ${{ needs.prepare.outputs.hub-enabled == 'true' && env.DOCKERHUB_IMAGE || '' }}
           VERSION_TAG: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail

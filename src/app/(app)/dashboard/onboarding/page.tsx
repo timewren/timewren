@@ -9,6 +9,7 @@ import { CompleteStep } from "@/components/onboarding/CompleteStep";
 import { DataImportStep } from "@/components/onboarding/DataImportStep";
 import { FirstClientStep } from "@/components/onboarding/FirstClientStep";
 import { SubscriptionStep } from "@/components/onboarding/SubscriptionStep";
+import { TimewrenBillingPanel } from "@/components/subscription/TimewrenBillingPanel";
 import { useBillingEnabled } from "@/hooks/useBillingEnabled";
 import { useSession } from "@/lib/auth-client";
 import type { OnboardingPlanTier } from "@/lib/billing/signup-plan";
@@ -81,14 +82,18 @@ export default function OnboardingPage() {
   const [onboardingData, setOnboardingData] = useState<OnboardingData>({});
 
   // Get tRPC utils for cache invalidation
-  // Plan-trinnet kun når der kan betales: selvhost uden udbyder og TimeWren
-  // (betaling kommer senere) får den stille standardrække i stedet.
+  // Alunta-plantrinnet kun når der kan betales via Alunta: selvhost uden
+  // udbyder og TimeWren uden betaling får den stille standardrække. TimeWren
+  // Cloud (Stripe) viser planerne i EUR (TimewrenBillingPanel).
   const {
     enabled: billingProviderEnabled,
     checkoutAvailable,
+    provider,
     isLoading: billingLoading,
   } = useBillingEnabled();
-  const billingEnabled = billingProviderEnabled && checkoutAvailable;
+  const stripePlanStep = billingProviderEnabled && provider === "stripe";
+  const billingEnabled =
+    billingProviderEnabled && checkoutAvailable && !stripePlanStep;
   const utils = trpc.useUtils();
 
   // Fetch existing progress
@@ -371,7 +376,13 @@ export default function OnboardingPage() {
   // TimeWren-konti får Gratis af serveren (onboarding.createSubscription).
   const skipSubscriptionRef = useRef(false);
   useEffect(() => {
-    if (billingLoading || billingEnabled || step !== "subscription") return;
+    if (
+      billingLoading ||
+      billingEnabled ||
+      stripePlanStep ||
+      step !== "subscription"
+    )
+      return;
 
     if (skipSubscriptionRef.current) return;
     skipSubscriptionRef.current = true;
@@ -387,7 +398,7 @@ export default function OnboardingPage() {
 
   // Progress bar
   const steps = [
-    ...(billingEnabled
+    ...(billingEnabled || stripePlanStep
       ? [{ id: "subscription", label: t("step.subscription") }]
       : []),
     { id: "company_info", label: t("step.company_info") },
@@ -446,6 +457,31 @@ export default function OnboardingPage() {
             <SubscriptionStep
               onNext={handleSubscriptionNext}
               initialData={onboardingData.subscription}
+            />
+          )}
+
+          {/* TimeWren Cloud: serveren opretter Gratis-rækken; en betalt plan
+              går via Stripe Checkout og kommer tilbage til næste trin. */}
+          {step === "subscription" && stripePlanStep && (
+            <TimewrenBillingPanel
+              returnPath="/dashboard/onboarding?step=company_info"
+              beforeCheckout={async () => {
+                await createSubscriptionMutation.mutateAsync({
+                  billingCycle: "monthly",
+                  planTier: "solo",
+                  isEffihubMigrant: false,
+                });
+              }}
+              onContinueFree={() => {
+                createSubscriptionMutation
+                  .mutateAsync({
+                    billingCycle: "monthly",
+                    planTier: "solo",
+                    isEffihubMigrant: false,
+                  })
+                  .catch(() => undefined)
+                  .finally(() => goToStep("company_info"));
+              }}
             />
           )}
 

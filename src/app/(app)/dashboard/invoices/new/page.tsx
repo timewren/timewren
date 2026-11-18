@@ -355,7 +355,7 @@ export default function NewInvoicePage() {
                 className="mt-1 block w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1.5 text-sm text-gray-900 dark:text-white focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
               >
                 <option value="draft">{t("new.statusDraft")}</option>
-                <option value="sent">{t("new.statusSendNow")}</option>
+                <option value="sent">{t("list.markSent")}</option>
               </select>
             </div>
 

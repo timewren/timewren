@@ -20,9 +20,13 @@ const mocks = vi.hoisted(() => ({
   success: vi.fn(),
   error: vi.fn(),
   canWrite: true,
+  moduleEnabled: true,
 }));
 vi.mock("sonner", () => ({
   toast: { success: mocks.success, error: mocks.error },
+}));
+vi.mock("@/hooks/useModules", () => ({
+  useModules: () => ({ isEnabled: () => mocks.moduleEnabled }),
 }));
 vi.mock("@/hooks/usePermission", () => ({
   usePermission: () => ({ canWrite: mocks.canWrite }),
@@ -53,6 +57,19 @@ vi.mock("@/providers/trpc-provider", () => ({
       },
     },
     invoices: {
+      sendPreview: {
+        useQuery: () => ({
+          data: {
+            invoiceNumber: "UDKAST-123",
+            status: "draft",
+            clientName: "Testkunde",
+            email: "kunde@example.test",
+            total: 1250,
+            currency: "DKK",
+            dueDate: new Date("2026-12-01T00:00:00Z"),
+          },
+        }),
+      },
       sendEmail: {
         useMutation: () => ({ mutateAsync: mocks.send, isPending: false }),
       },
@@ -68,6 +85,7 @@ beforeEach(() => {
   ).IS_REACT_ACT_ENVIRONMENT = true;
   vi.clearAllMocks();
   mocks.canWrite = true;
+  mocks.moduleEnabled = true;
   mocks.resolve.mockResolvedValue({ approved: true, invoiceId: "invoice" });
   mocks.send.mockResolvedValue({ success: true });
   container = document.createElement("div");
@@ -80,25 +98,49 @@ afterEach(() => {
 });
 async function click(label: string) {
   await act(async () => root.render(banner()));
-  const button = [...container.querySelectorAll("button")].find(
+  const button = [...document.querySelectorAll("button")].find(
     (b) => b.textContent === label,
   );
   expect(button).toBeDefined();
   await act(async () => button?.click());
 }
-it("approves and sends exactly the returned invoice through the existing issuance flow", async () => {
-  await click("Udsted og send nu");
+it("sends the renewed invoice only after the recipient is confirmed", async () => {
+  await click("Godkend og gennemgå afsendelse");
   expect(mocks.resolve).toHaveBeenCalledWith({
     requestId: "request",
     approve: true,
   });
-  expect(mocks.send).toHaveBeenCalledWith({ id: "invoice" });
-  expect(mocks.resolve.mock.invocationCallOrder[0]).toBeLessThan(
-    mocks.send.mock.invocationCallOrder[0],
-  );
+  expect(mocks.send).not.toHaveBeenCalled();
+  const dialog = document.querySelector('[role="dialog"]');
+  expect(dialog?.textContent).toContain("Testkunde");
+  expect(dialog?.textContent).toContain("UDKAST-123");
+  expect(dialog?.textContent).toContain("1.250,00");
+  expect(dialog?.textContent).toContain("01.12.2026");
+  await click("Send til kunde@example.test");
+  expect(mocks.send).toHaveBeenCalledExactlyOnceWith({
+    id: "invoice",
+    expectedRecipient: "kunde@example.test",
+  });
   expect(mocks.success).toHaveBeenCalledWith(
-    "Fornyet. Faktura udstedt og sendt",
+    "Faktura sendt til kunde@example.test",
   );
+});
+
+it("leaves the renewed invoice as a draft when confirmation is cancelled", async () => {
+  await click("Godkend og gennemgå afsendelse");
+  await click("Annuller");
+  expect(document.querySelector('[role="dialog"]')).toBeNull();
+  expect(mocks.resolve).toHaveBeenCalledTimes(1);
+  expect(mocks.send).not.toHaveBeenCalled();
+  expect(mocks.success).toHaveBeenCalledWith("Fornyet. Fakturakladde oprettet");
+});
+
+it("offers no sending when invoicing is disabled but keeps approval", async () => {
+  mocks.moduleEnabled = false;
+  await act(async () => root.render(banner()));
+  expect(container.textContent).not.toContain("Godkend og gennemgå afsendelse");
+  expect(container.textContent).toContain("Godkend + fakturakladde");
+  expect(container.textContent).toContain("Afvis");
 });
 it("keeps draft approval without sending", async () => {
   await click("Godkend + fakturakladde");
@@ -126,13 +168,14 @@ it("blocks duplicate approval throughout sending", async () => {
       finish = resolve;
     }),
   );
-  await click("Udsted og send nu");
+  await click("Godkend og gennemgå afsendelse");
+  await click("Send til kunde@example.test");
   expect(
     [...container.querySelectorAll("button")].every(
       (button) => button.disabled,
     ),
   ).toBe(true);
-  await click("Udsted og send nu");
+  await click("Godkend + fakturakladde");
   expect(mocks.resolve).toHaveBeenCalledTimes(1);
   expect(mocks.send).toHaveBeenCalledTimes(1);
   expect(mocks.success).not.toHaveBeenCalled();
@@ -145,13 +188,14 @@ it("blocks duplicate approval throughout sending", async () => {
 });
 it("does not send when approval fails", async () => {
   mocks.resolve.mockRejectedValueOnce(new Error("Afvist"));
-  await click("Udsted og send nu");
+  await click("Godkend og gennemgå afsendelse");
   expect(mocks.send).not.toHaveBeenCalled();
   expect(mocks.error).toHaveBeenCalledWith("Afvist");
 });
 it("links to the existing invoice after a send failure without repeating renewal", async () => {
   mocks.send.mockRejectedValueOnce(new Error("Mailfejl"));
-  await click("Udsted og send nu");
+  await click("Godkend og gennemgå afsendelse");
+  await click("Send til kunde@example.test");
   expect(
     container.querySelector('a[href="/dashboard/invoices/invoice"]'),
   ).not.toBeNull();
@@ -160,12 +204,12 @@ it("links to the existing invoice after a send failure without repeating renewal
 });
 it("does not send or claim a draft exists when renewal creates no invoice", async () => {
   mocks.resolve.mockResolvedValueOnce({ approved: true, invoiceId: null });
-  await click("Udsted og send nu");
+  await click("Godkend og gennemgå afsendelse");
   expect(mocks.send).not.toHaveBeenCalled();
   expect(mocks.success).toHaveBeenCalledWith("Fornyet. Ingen faktura oprettet");
 });
 it("hides immediate sending without invoice write access", async () => {
   mocks.canWrite = false;
   await act(async () => root.render(banner()));
-  expect(container.textContent).not.toContain("Udsted og send nu");
+  expect(container.textContent).not.toContain("Godkend og gennemgå afsendelse");
 });

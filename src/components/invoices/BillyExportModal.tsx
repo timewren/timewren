@@ -3,6 +3,10 @@
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
+import {
+  type ReviewedInvoice,
+  SendInvoiceDialog,
+} from "@/components/invoices/SendInvoiceDialog";
 import { Modal } from "@/components/ui/Modal";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -11,6 +15,8 @@ export type BillyLineType = "per_entry" | "combined";
 
 export interface BillyExportSettings {
   action: BillyExportAction;
+  expectedRecipient?: string;
+  expectedInvoice?: ReviewedInvoice;
   productId: string;
   paymentTermsDays: number;
   contactMessage: string;
@@ -21,9 +27,10 @@ export interface BillyExportSettings {
 interface BillyExportModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onExport: (settings: BillyExportSettings) => void;
+  onExport: (settings: BillyExportSettings) => void | Promise<void>;
   invoiceId: string;
   clientEmail?: string;
+  reviewInParent?: boolean;
   isLoading?: boolean;
 }
 
@@ -46,11 +53,14 @@ export function BillyExportModal({
   onClose,
   onExport,
   clientEmail,
+  invoiceId,
+  reviewInParent = false,
   isLoading = false,
 }: BillyExportModalProps) {
   const fid = useId();
   const t = useTranslations("invoices");
   const tc = useTranslations("common");
+  const [review, setReview] = useState<BillyExportSettings | null>(null);
   const [action, setAction] = useState<BillyExportAction>("draft");
   const [productId, setProductId] = useState<string>("");
   const [paymentTermsDays, setPaymentTermsDays] = useState<number>(14);
@@ -137,14 +147,19 @@ export function BillyExportModal({
       saveLineSettingsMutation.mutate({ lineType, lineTemplate });
     }
 
-    onExport({
+    const settings: BillyExportSettings = {
       action,
       productId,
       paymentTermsDays,
       contactMessage,
       lineType,
       lineTemplate,
-    });
+    };
+    if (action === "send" && !reviewInParent) {
+      setReview(settings);
+    } else {
+      await onExport(settings);
+    }
   };
 
   const actionOptions: {
@@ -185,6 +200,24 @@ export function BillyExportModal({
       description: t("exportCommon.combinedHint"),
     },
   ];
+
+  if (isOpen && review) {
+    return (
+      <SendInvoiceDialog
+        invoiceId={invoiceId}
+        provider={{ name: "Billy", paymentTermsDays: review.paymentTermsDays }}
+        onClose={() => setReview(null)}
+        onSend={async (email, expectedInvoice) => {
+          await onExport({
+            ...review,
+            expectedRecipient: email,
+            expectedInvoice,
+          });
+          setReview(null);
+        }}
+      />
+    );
+  }
 
   return (
     <Modal
@@ -382,7 +415,7 @@ export function BillyExportModal({
         </div>
 
         {/* Warning for send action without email */}
-        {action === "send" && !clientEmail && (
+        {action === "send" && !reviewInParent && !clientEmail && (
           <div className="p-3 bg-warning-50 dark:bg-warning-900/20 border border-warning-200 dark:border-warning-800 rounded-lg">
             <p className="text-sm text-warning-700 dark:text-warning-400">
               {t("exportCommon.noEmail")}

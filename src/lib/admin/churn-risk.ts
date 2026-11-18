@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import type { db as DbType } from "@/lib/db";
+import { excludeTestOrganization, excludeTestUsers } from "@/lib/test-accounts";
 import {
   addDaysToDateStr,
   addMonthsToDateStr,
@@ -29,7 +30,11 @@ function getRiskLevel(score: number): "high" | "medium" | "low" {
 
 export async function calculateChurnRisk(
   db: typeof DbType,
-  options: { limit?: number; minLevel?: "high" | "medium" | "low" },
+  options: {
+    limit?: number;
+    minLevel?: "high" | "medium" | "low";
+    includeTestAccounts?: boolean;
+  },
 ): Promise<ChurnRiskUser[]> {
   // Danske datoer som "yyyy-MM-dd" — `toISOString()` af en lokal midnat
   // ville rykke en dag tilbage, hvis processen kørte i Europe/Copenhagen (#649).
@@ -88,8 +93,11 @@ export async function calculateChurnRisk(
       (${scoreExpr})::int AS risk_score
     FROM "user" u
     LEFT JOIN time_entries te ON te.user_id = u.id
+      AND ${excludeTestOrganization(sql`te.organization_id`, options.includeTestAccounts) ?? sql`true`}
     LEFT JOIN subscriptions s ON s.user_id = u.id
+      AND ${excludeTestOrganization(sql`s.organization_id`, options.includeTestAccounts) ?? sql`true`}
     WHERE u.role = 'user'
+      AND ${excludeTestUsers(options.includeTestAccounts, sql`u.id`, sql`u.email`) ?? sql`true`}
       AND (u.is_demo IS NULL OR u.is_demo = false)
       AND u.banned = false
     GROUP BY u.id, u.name, u.email, u.image, s.status, s.trial_ends_at

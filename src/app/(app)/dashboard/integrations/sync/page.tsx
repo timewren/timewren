@@ -31,6 +31,10 @@ import {
   EconomicExportModal,
   type EconomicExportSettings,
 } from "@/components/invoices/EconomicExportModal";
+import {
+  type ReviewedInvoice,
+  SendInvoiceDialog,
+} from "@/components/invoices/SendInvoiceDialog";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -81,6 +85,12 @@ export default function IntegrationsSyncPage() {
   } | null>(null);
 
   // Billy export modal state
+  const sendText = useTranslations("invoices.sendConfirmation");
+  const [billyReview, setBillyReview] = useState<{
+    settings: BillyExportSettings;
+    remaining: string[];
+    confirmed: { id: string; email: string; invoice: ReviewedInvoice }[];
+  } | null>(null);
   const [showBillyExportModal, setShowBillyExportModal] = useState(false);
 
   // e-conomic export modal state
@@ -331,25 +341,37 @@ export default function IntegrationsSyncPage() {
   const executeInvoiceExport = async (
     billySettings?: BillyExportSettings,
     econSettings?: EconomicExportSettings,
+    confirmed?: { id: string; email: string; invoice: ReviewedInvoice }[],
   ) => {
     setExportingInvoices(true);
     setExportResults(null);
 
     const results = { success: 0, failed: 0, errors: [] as string[] };
-    const invoiceIds = Array.from(selectedInvoicesToExport);
+    const invoiceIds =
+      confirmed?.map(({ id }) => id) ?? Array.from(selectedInvoicesToExport);
+    const recipients = new Map(
+      confirmed?.map((confirmation) => [confirmation.id, confirmation]),
+    );
 
     for (const invoiceId of invoiceIds) {
       try {
         if (exportTarget === "billy" && billySettings) {
+          const confirmation = recipients.get(invoiceId);
+          const expectedRecipient = confirmation?.email;
+          if (billySettings.action === "send" && !expectedRecipient) continue;
           await exportInvoiceToBillyMutation.mutateAsync({
             invoiceId,
             action: billySettings.action,
+            expectedRecipient,
+            expectedInvoice: confirmation?.invoice,
             productId: billySettings.productId,
             paymentTermsDays: billySettings.paymentTermsDays,
             contactMessage: billySettings.contactMessage || undefined,
             lineType: billySettings.lineType,
             lineTemplate: billySettings.lineTemplate,
           });
+          if (expectedRecipient)
+            toast.success(sendText("sent", { email: expectedRecipient }));
         } else if (exportTarget === "economic") {
           await exportInvoiceToEconomicMutation.mutateAsync({
             invoiceId,
@@ -397,7 +419,15 @@ export default function IntegrationsSyncPage() {
 
   const handleBillyExport = (settings: BillyExportSettings) => {
     setShowBillyExportModal(false);
-    executeInvoiceExport(settings);
+    if (settings.action === "send") {
+      setBillyReview({
+        settings,
+        remaining: Array.from(selectedInvoicesToExport),
+        confirmed: [],
+      });
+    } else {
+      void executeInvoiceExport(settings);
+    }
   };
 
   const toggleBillyContact = (contactId: string) => {
@@ -1573,11 +1603,42 @@ export default function IntegrationsSyncPage() {
       {/* Billy Export Modal */}
       <BillyExportModal
         isOpen={showBillyExportModal}
+        reviewInParent
         onClose={() => setShowBillyExportModal(false)}
         onExport={handleBillyExport}
         invoiceId={Array.from(selectedInvoicesToExport)[0] || ""}
         isLoading={exportingInvoices}
       />
+
+      {billyReview && (
+        <SendInvoiceDialog
+          key={billyReview.remaining[0]}
+          invoiceId={billyReview.remaining[0] ?? null}
+          provider={{
+            name: "Billy",
+            paymentTermsDays: billyReview.settings.paymentTermsDays,
+          }}
+          onClose={() => setBillyReview(null)}
+          onSend={async (email, invoice) => {
+            const [id, ...remaining] = billyReview.remaining;
+            if (!id) return;
+            const confirmed = [
+              ...billyReview.confirmed,
+              { id, email, invoice },
+            ];
+            if (remaining.length > 0) {
+              setBillyReview({ ...billyReview, remaining, confirmed });
+            } else {
+              await executeInvoiceExport(
+                billyReview.settings,
+                undefined,
+                confirmed,
+              );
+              setBillyReview(null);
+            }
+          }}
+        />
+      )}
 
       {/* e-conomic Export Modal */}
       <EconomicExportModal

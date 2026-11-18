@@ -1,10 +1,13 @@
+import { randomUUID } from "node:crypto";
 import { defineConfig, devices } from "@playwright/test";
 import { CONSENT_STATE } from "./tests/e2e/consent";
 
 const BASE_URL = "http://localhost:3000";
-const AUTH_FILE = "tests/e2e/.auth/user.json";
+process.env.TIMETRACK_E2E_RUN_ID ??= randomUUID();
+const authDir = `tests/e2e/.auth/${process.env.TIMETRACK_E2E_RUN_ID}`;
 
 export default defineConfig({
+  metadata: { authDir },
   testDir: "./tests/e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -26,12 +29,17 @@ export default defineConfig({
   projects: [
     {
       name: "setup",
+      teardown: "cleanup",
       testMatch: /auth\.setup\.ts/,
       use: { ...devices["Desktop Chrome"] },
     },
+    { name: "cleanup", testMatch: /auth\.teardown\.ts/ },
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"], storageState: AUTH_FILE },
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: `${authDir}/user.json`,
+      },
       dependencies: ["setup"],
     },
   ],

@@ -12,7 +12,13 @@ const h = vi.hoisted(() => ({
 }));
 
 vi.mock("@/lib/db", () => ({
-  db: { query: { users: { findFirst: vi.fn(async () => h.user) } } },
+  db: {
+    query: {
+      users: { findFirst: vi.fn(async () => h.user) },
+      members: { findFirst: vi.fn(async () => undefined) },
+    },
+    select: () => ({ from: async () => [{ isTest: false }] }),
+  },
 }));
 vi.mock("@/lib/resend", () => ({
   DEFAULT_FROM_EMAIL: "noreply@timetrack.dk",
@@ -102,7 +108,7 @@ const SENDERS: Record<string, () => Promise<unknown>> = {
     }),
   dripWelcome: () =>
     sendDripWelcomeEmail({
-      to: "a@example.com",
+      to: "account+kunde@company.dk",
       userName: "Test",
       userId: "u1",
     }),
@@ -124,7 +130,7 @@ const SENDERS: Record<string, () => Promise<unknown>> = {
   // Kalderen (Alunta-webhooken) bygger linket med appens URL.
   trialEnding: () =>
     sendTrialEndingEmail({
-      to: "a@example.com",
+      to: "account+kunde@company.dk",
       userName: "Test",
       daysRemaining: 3,
       upgradeUrl: `${APP}/dashboard/settings/subscription`,

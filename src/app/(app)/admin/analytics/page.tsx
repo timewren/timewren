@@ -23,6 +23,7 @@ import {
   AdminStatCard,
   RefreshIndicator,
 } from "@/components/admin";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { InlineSpinner } from "@/components/ui/LoadingScreen";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -38,6 +39,7 @@ const dateRangeLabels: Record<DateRange, string> = {
 };
 
 export default function AnalyticsPage() {
+  const includeTestAccounts = useIncludeTestAccounts();
   const [activeTab, setActiveTab] = useState<Tab>("oversigt");
   const [dateRange, setDateRange] = useState<DateRange>("30d");
   const [deviceDimension, setDeviceDimension] = useState<
@@ -48,44 +50,53 @@ export default function AnalyticsPage() {
   // Oversigt queries
   const { data: growthData, isLoading: loadingGrowth } =
     trpc.admin.getUserGrowthData.useQuery(
-      { monthsBack: 12 },
+      { includeTestAccounts, monthsBack: 12 },
       { enabled: activeTab === "oversigt" },
     );
   const { data: featureUsage, isLoading: loadingFeatures } =
-    trpc.admin.getFeatureUsageStats.useQuery(undefined, {
-      enabled: activeTab === "oversigt",
-    });
+    trpc.admin.getFeatureUsageStats.useQuery(
+      { includeTestAccounts },
+      {
+        enabled: activeTab === "oversigt",
+      },
+    );
   const { data: revenueData, isLoading: loadingRevenue } =
     trpc.admin.getRevenueTrends.useQuery(
-      { monthsBack: 12 },
+      { includeTestAccounts, monthsBack: 12 },
       { enabled: activeTab === "oversigt" },
     );
 
   // Engagement queries
   const { data: activeUserCounts } = trpc.admin.getActiveUserCounts.useQuery(
-    { daysBack: 30 },
+    { includeTestAccounts, daysBack: 30 },
     { enabled: activeTab === "engagement" },
   );
   const { data: engagementStats, isLoading: loadingEngagement } =
     trpc.admin.getUserEngagementStats.useQuery(
-      { limit: 15 },
+      { includeTestAccounts, limit: 15 },
       { enabled: activeTab === "engagement" },
     );
   const { data: retentionCohorts, isLoading: loadingRetention } =
     trpc.admin.getUserRetentionCohorts.useQuery(
-      { months: 6 },
+      { includeTestAccounts, months: 6 },
       { enabled: activeTab === "engagement" },
     );
 
   // Adoption queries
   const { data: funnelData, isLoading: loadingFunnel } =
-    trpc.admin.getOnboardingFunnel.useQuery(undefined, {
-      enabled: activeTab === "adoption",
-    });
+    trpc.admin.getOnboardingFunnel.useQuery(
+      { includeTestAccounts },
+      {
+        enabled: activeTab === "adoption",
+      },
+    );
   const { data: adoptionRates, isLoading: loadingAdoption } =
-    trpc.admin.getFeatureAdoptionRates.useQuery(undefined, {
-      enabled: activeTab === "adoption",
-    });
+    trpc.admin.getFeatureAdoptionRates.useQuery(
+      { includeTestAccounts },
+      {
+        enabled: activeTab === "adoption",
+      },
+    );
 
   // Traffic queries (Plausible)
   const { data: isConfigured } = trpc.plausible.isConfigured.useQuery();

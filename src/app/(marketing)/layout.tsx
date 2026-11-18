@@ -6,6 +6,7 @@ import {
   viewport,
 } from "@/components/DocumentLayout";
 import { MarketingIntlProvider } from "@/components/marketing/MarketingIntlProvider";
+import { UmamiToolAnalytics } from "@/components/marketing/UmamiToolAnalytics";
 import { brandize } from "@/i18n/brandize";
 import { isLocale } from "@/i18n/config";
 import { staticMessages } from "@/i18n/static-catalog";
@@ -53,6 +54,28 @@ function MarketingIntl({
   );
 }
 
+function TimeTrackMarketing({ children }: { children: React.ReactNode }) {
+  const scriptUrl = process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL;
+  const collectUrl = process.env.NEXT_PUBLIC_UMAMI_COLLECT_URL;
+  const websiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+  const content = <MarketingIntl locale="da">{children}</MarketingIntl>;
+  return (
+    <DocumentLayout locale="da">
+      {(collectUrl || scriptUrl) && websiteId ? (
+        <UmamiToolAnalytics
+          collectUrl={collectUrl}
+          scriptUrl={scriptUrl}
+          websiteId={websiteId}
+        >
+          {content}
+        </UmamiToolAnalytics>
+      ) : (
+        content
+      )}
+    </DocumentLayout>
+  );
+}
+
 export default function MarketingLayout({
   children,
 }: {
@@ -60,11 +83,7 @@ export default function MarketingLayout({
 }) {
   // Uden flaget: synkron, statisk og præcis som før.
   if (!isMultibrandEnabled()) {
-    return (
-      <DocumentLayout locale="da">
-        <MarketingIntl locale="da">{children}</MarketingIntl>
-      </DocumentLayout>
-    );
+    return <TimeTrackMarketing>{children}</TimeTrackMarketing>;
   }
   return <BrandedMarketingLayout>{children}</BrandedMarketingLayout>;
 }
@@ -76,11 +95,7 @@ async function BrandedMarketingLayout({
 }) {
   const rb = await getRequestBrand();
   if (!rb.host || rb.host.key === "timetrack") {
-    return (
-      <DocumentLayout locale="da">
-        <MarketingIntl locale="da">{children}</MarketingIntl>
-      </DocumentLayout>
-    );
+    return <TimeTrackMarketing>{children}</TimeTrackMarketing>;
   }
   const locale = rb.locale ?? "en";
   return (

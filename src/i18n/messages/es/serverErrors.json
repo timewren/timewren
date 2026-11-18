@@ -298,6 +298,8 @@
     "draftOnlyEditLines": "Solo se pueden editar las líneas de facturas en borrador",
     "draftOnlyDeleteLines": "Solo se pueden eliminar líneas de facturas en borrador",
     "draftOnlyReorder": "El orden solo se puede cambiar en facturas en borrador",
+    "providerMismatch": "No se pudo verificar el importe o la moneda. Revisa el borrador en tu sistema contable antes de enviarlo.",
+    "recipientChanged": "El correo del destinatario ha cambiado. Vuelve a abrir la confirmación.",
     "clientHasNoEmail": "El cliente no tiene dirección de correo"
   },
   "logbook": {
@@ -431,7 +433,12 @@
     "requestFailed": "No se pudo enviar la solicitud. Inténtalo más tarde.",
     "priceSuffixYear": "kr/año",
     "priceSuffixMonth": "kr/mes",
-    "checkoutComingSoon": "Los pagos aún no están disponibles aquí. Estás en el plan gratuito."
+    "checkoutComingSoon": "Los pagos aún no están disponibles aquí. Estás en el plan gratuito.",
+    "checkoutNotForAccount": "Este método de pago no está disponible para tu cuenta. Gestiona tu plan en Ajustes → Suscripción.",
+    "stripeUnavailable": "Los pagos no están disponibles ahora mismo. Inténtalo de nuevo más tarde.",
+    "stripeAlreadyActive": "Ya tienes una suscripción activa. Usa «Gestionar suscripción» para cambiar de plan o de número de usuarios.",
+    "stripeNoCustomer": "Todavía no hay ninguna suscripción de pago. Elige primero un plan.",
+    "noOrganization": "Tu cuenta no tiene espacio de trabajo. Recarga la página e inténtalo de nuevo."
   },
   "tags": {
     "nameExists": "Ya existe una etiqueta llamada «{name}»",

@@ -302,6 +302,8 @@ export const ORG_EXPORT_EXCLUDED: Record<string, string> =
  * databasens kolonnenavne.
  */
 export const REDACTED_COLUMNS = new Set<string>([
+  // Platformens interne klassifikation
+  "is_test_account",
   // generelle
   "token",
   "secret",

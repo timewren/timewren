@@ -3,6 +3,10 @@
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
+import {
+  type ReviewedInvoice,
+  SendInvoiceDialog,
+} from "@/components/invoices/SendInvoiceDialog";
 import { Modal } from "@/components/ui/Modal";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -11,6 +15,8 @@ export type DineroLineType = "per_entry" | "combined";
 
 export interface DineroExportSettings {
   action: DineroExportAction;
+  expectedRecipient?: string;
+  expectedInvoice?: ReviewedInvoice;
   accountNumber?: number;
   paymentTermsDays: number;
   contactMessage: string;
@@ -21,7 +27,7 @@ export interface DineroExportSettings {
 interface DineroExportModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onExport: (settings: DineroExportSettings) => void;
+  onExport: (settings: DineroExportSettings) => void | Promise<void>;
   invoiceId: string;
   clientEmail?: string;
   isLoading?: boolean;
@@ -46,11 +52,13 @@ export function DineroExportModal({
   onClose,
   onExport,
   clientEmail,
+  invoiceId,
   isLoading = false,
 }: DineroExportModalProps) {
   const fid = useId();
   const t = useTranslations("invoices");
   const tc = useTranslations("common");
+  const [review, setReview] = useState<DineroExportSettings | null>(null);
   const [action, setAction] = useState<DineroExportAction>("draft");
   const [accountNumber, setAccountNumber] = useState<number | undefined>(
     undefined,
@@ -138,14 +146,19 @@ export function DineroExportModal({
       saveLineSettingsMutation.mutate({ lineType, lineTemplate });
     }
 
-    onExport({
+    const settings: DineroExportSettings = {
       action,
       accountNumber,
       paymentTermsDays,
       contactMessage,
       lineType,
       lineTemplate,
-    });
+    };
+    if (action === "send") {
+      setReview(settings);
+    } else {
+      await onExport(settings);
+    }
   };
 
   const actionOptions: {
@@ -186,6 +199,24 @@ export function DineroExportModal({
       description: t("exportCommon.combinedHint"),
     },
   ];
+
+  if (isOpen && review) {
+    return (
+      <SendInvoiceDialog
+        invoiceId={invoiceId}
+        provider={{ name: "Dinero", paymentTermsDays: review.paymentTermsDays }}
+        onClose={() => setReview(null)}
+        onSend={async (email, expectedInvoice) => {
+          await onExport({
+            ...review,
+            expectedRecipient: email,
+            expectedInvoice,
+          });
+          setReview(null);
+        }}
+      />
+    );
+  }
 
   return (
     <Modal

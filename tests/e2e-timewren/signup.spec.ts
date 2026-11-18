@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { type BrowserContext, expect, type Page, test } from "@playwright/test";
 import postgres from "postgres";
+import { cleanupTestAccount } from "../e2e/cleanup-account";
 
 /**
  * TimeWren Cloud ende til ende på https://timewren.com (prods
@@ -15,7 +16,7 @@ import postgres from "postgres";
 const MAIL_DIR = process.env.E2E_MAIL_DIR ?? "";
 const PASSWORD =
   process.env.E2E_TEST_PASSWORD ?? ["e2e", "Lokal", "9x"].join("-");
-const EMAIL = `tw-e2e-${Date.now()}@example.com`;
+const EMAIL = `timewren+e2e-${crypto.randomUUID()}@example.invalid`;
 const consent = encodeURIComponent(
   JSON.stringify({
     necessary: true,
@@ -31,7 +32,11 @@ test.beforeAll(() => {
   sql = postgres(process.env.DATABASE_URL ?? "", { max: 1 });
 });
 test.afterAll(async () => {
-  await sql?.end();
+  try {
+    if (sql) await cleanupTestAccount(sql, EMAIL);
+  } finally {
+    await sql?.end();
+  }
 });
 
 /** Kun timewren.com; alt eksternt afbrydes, og cookie-banneret er besvaret. */

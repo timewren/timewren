@@ -1503,6 +1503,11 @@ export const companyProfiles = pgTable(
 );
 
 // Subscriptions table (onboarding & billing)
+// Retained after account deletion so historical Alunta transactions can be classified.
+export const testAluntaSubscriptions = pgTable("test_alunta_subscriptions", {
+  subscriptionId: varchar("subscription_id", { length: 255 }).primaryKey(),
+});
+
 export const subscriptions = pgTable(
   "subscriptions",
   {
@@ -2528,6 +2533,7 @@ export const organizations = pgTable("organizations", {
   slug: varchar("slug", { length: 255 }).notNull().unique(),
   logo: text("logo"),
   metadata: jsonb("metadata"), // Stores allowedDomains and other custom data
+  isTestAccount: boolean("is_test_account").notNull().default(false),
   // Timer/uge hvor flex-zonen slutter og overtid begynder (null = overtid fra)
   overtimeThresholdHours: decimal("overtime_threshold_hours", {
     precision: 4,

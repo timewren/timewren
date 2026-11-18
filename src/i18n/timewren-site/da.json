@@ -237,7 +237,7 @@
       "caption": "Selvhost og TimeWren Cloud sammenlignet",
       "selfHosted": "Selvhost",
       "cloud": "TimeWren Cloud",
-      "cloudStatus": "Kommer snart",
+      "cloudStatus": "Åben",
       "rows": [
         ["Pris", "Gratis, for altid", "Månedligt abonnement"],
         ["Funktioner", "Dem alle", "Dem alle"],
@@ -314,7 +314,7 @@
         ],
         [
           "Hvad koster TimeWren Cloud?",
-          "Priserne er ikke endelige endnu. Prissiden viser dem i EUR, USD og DKK, og Cloud åbner for nye konti senere."
+          "Der er en gratis plan til op til 3 brugere. Betalte planer starter ved 4 € om måneden og faktureres månedligt i EUR. Priserne er ekskl. moms og står på prissiden."
         ],
         [
           "Hvad skal jeg bruge for at selvhoste?",
@@ -389,7 +389,6 @@
       "unlimited": "Ubegrænset antal aktive kunder"
     },
     "vat": "Alle priser er ekskl. moms.",
-    "billedInDkk": "Priser i EUR og USD faktureres i DKK, indtil lokal fakturering kommer.",
     "cloudCta": "Opret en Cloud-konto",
     "plans": {
       "free": "Gratis",
@@ -445,7 +444,7 @@
           "items": [
             "**Kontooplysninger:** navn, e-mail, virksomhedsnavn og telefonnummer (valgfrit).",
             "**Brugsdata:** tidsregistreringer, kundeoplysninger, projekter, fakturaer og opgaver.",
-            "**Betalingsdata:** abonnementer betales via Alunta, som håndterer kortoplysningerne. Vi modtager aldrig dit fulde kortnummer.",
+            "**Betalingsdata:** betalte planer betales via Stripe, som håndterer kortoplysninger, faktureringsadresse og momsnummer. Vi modtager aldrig dit fulde kortnummer.",
             "**Kalenderdata:** kalenderbegivenheder, kun hvis du forbinder en kalender.",
             "**Tekniske data:** IP-adresse, browsertype, enhedstype og fejlrapporter."
           ]
@@ -469,6 +468,7 @@
           ],
           "items": [
             "**Hetzner Online GmbH (Tyskland):** server, database, filer, backup og vores egen mailserver. Databasen ligger i Nürnberg, Tyskland, og filer og backup i Helsinki, Finland. Begge i EU.",
+            "**Stripe Payments Europe, Ltd. (Irland):** betaling for betalte planer: kortoplysninger, faktureringsnavn og -adresse, momsnummer, fakturaer og kvitteringer. Bruges kun, når en konto vælger en betalt plan. Data kan overføres til Stripe, Inc. i USA under EU-U.S. Data Privacy Framework og EU's standardkontraktbestemmelser.",
             "**Resend, Inc. (USA):** afsender mails fra TimeWren Cloud (login-links, notifikationer, påmindelser) og modtager mails, du videresender. Resends EU-region i Irland. Grundlag: EU-standardkontraktbestemmelser og EU-U.S. Data Privacy Framework.",
             "**Functional Software, Inc. / Sentry (USA):** fejlrapportering. En fejlrapport kan indeholde bruger-id, URL og tekniske detaljer; standard-persondata er slået fra. Grundlag: EU-U.S. Data Privacy Framework med EU-standardkontraktbestemmelser som reserve.",
             "**Discord Inc. (USA):** interne driftsbeskeder til os, herunder navn og e-mail, når en bruger oprettes. Grundlag: EU-U.S. Data Privacy Framework og EU-standardkontraktbestemmelser."
@@ -613,10 +613,9 @@
           "title": "5. Priser og betaling",
           "items": [
             "**Planer og priser:** de gældende planer og priser står på [prissiden](pricing).",
-            "**Årlig betaling:** svarer til 10 måneders pris (2 måneder gratis).",
-            "**Prøveperiode:** 30 dage gratis, intet betalingskort og ingen binding.",
-            "**Valuta og moms:** priserne er ekskl. moms. Abonnementer faktureres i danske kroner (DKK). Priser vist i EUR eller USD faktureres i DKK.",
-            "**Betaling:** månedligt eller årligt forud via kort.",
+            "**Prøveperiode:** planerne Selvstændig, Team og Virksomhed starter med 14 dage gratis. Betalingskort kræves, og du kan opsige inden prøveperiodens slutning uden at betale. Gratis-planen kræver intet kort.",
+            "**Valuta og moms:** abonnementer faktureres i euro (EUR). Priserne er ekskl. moms; momsen lægges til ved betalingen ud fra dit land, eller der bruges omvendt betalingspligt for virksomheder i EU med et gyldigt momsnummer.",
+            "**Betaling:** månedligt forud via kort gennem vores betalingsudbyder Stripe. Kvitteringer og fakturaer sendes på mail og kan hentes under Indstillinger → Abonnement.",
             "**Opsigelse:** du kan opsige når som helst uden binding.",
             "**Refundering:** vi tilbyder 14 dages tilbagebetalingsgaranti. Skriv til {email} for at bede om refundering."
           ]

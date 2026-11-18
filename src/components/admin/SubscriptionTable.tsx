@@ -2,6 +2,7 @@
 
 import { AlertTriangle, Crown } from "lucide-react";
 import { AdminChart, AdminProgressBar } from "@/components/admin";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { InlineSpinner } from "@/components/ui/LoadingScreen";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -13,8 +14,9 @@ function formatDkk(amount: number): string {
 }
 
 export function SubscriptionTable() {
+  const includeTestAccounts = useIncludeTestAccounts();
   const { data: breakdown, isLoading } =
-    trpc.admin.getSubscriptionBreakdown.useQuery();
+    trpc.admin.getSubscriptionBreakdown.useQuery({ includeTestAccounts });
 
   if (isLoading) {
     return (

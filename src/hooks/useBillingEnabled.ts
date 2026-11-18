@@ -8,13 +8,15 @@ import { trpc } from "@/providers/trpc-provider";
  * prisvægge og trial-bannere. `isLoading` er true indtil serveren har svaret,
  * så UI'et ikke blinker en prisvæg for et øjeblik.
  *
- * `checkoutAvailable` er false på TimeWren-hosts, hvor betaling kommer senere
- * (lib/billing/brand-billing.ts): kontoen er på Gratis, plan-trinnet i
- * onboardingen springes over, og opgradering vises som "kommer snart".
+ * `provider` er hostens betaling: "alunta" (TimeTrack), "stripe" (TimeWren
+ * Cloud i EUR, lib/billing/timewren-stripe.ts) eller null (TimeWren uden
+ * betaling: kontoen er på Gratis, og opgradering vises som "kommer snart").
+ * `checkoutAvailable` er provider !== null.
  */
 export function useBillingEnabled(): {
   enabled: boolean;
   checkoutAvailable: boolean;
+  provider: "alunta" | "stripe" | null;
   isLoading: boolean;
 } {
   const { data, isLoading } = trpc.subscription.billingEnabled.useQuery(
@@ -25,6 +27,7 @@ export function useBillingEnabled(): {
   return {
     enabled: data?.enabled ?? true,
     checkoutAvailable: data?.checkoutAvailable ?? true,
+    provider: data ? data.provider : "alunta",
     isLoading,
   };
 }

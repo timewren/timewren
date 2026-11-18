@@ -213,9 +213,10 @@ export const onboardingRouter = router({
         }
       }
 
-      // TimeWren: ingen betaling endnu (lib/billing/brand-billing.ts), så
+      // TimeWren: ingen Alunta-betaling (lib/billing/brand-billing.ts), så
       // kontoen starter på Gratis uden prøveperiode i stedet for en prøve, der
-      // ender i TimeTracks checkout. En eksisterende række røres ikke.
+      // ender i TimeTracks checkout; en betalt plan (med Stripes egen prøve)
+      // vælges bagefter med Stripe. En eksisterende række røres ikke.
       if (!(await isCheckoutAvailableForUser(ctx.db, userId))) {
         const existing = await ctx.db.query.subscriptions.findFirst({
           where: eq(subscriptions.userId, userId),

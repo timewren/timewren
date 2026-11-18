@@ -65,9 +65,10 @@ export function CompleteStep({
   const brand = useBrand();
   const t = useTranslations("onboarding.complete");
   const locale = useLocale();
-  // TimeWren (ingen betaling endnu): ingen planpris, prøve eller betalingspåmindelse.
-  const { enabled, checkoutAvailable } = useBillingEnabled();
-  const billingEnabled = enabled && checkoutAvailable;
+  // TimeWren: ingen TimeTrack-planpris (DKK), prøve eller betalingspåmindelse;
+  // TimeWren Cloud viser planerne i EUR på abonnementssiden.
+  const { enabled, checkoutAvailable, provider } = useBillingEnabled();
+  const billingEnabled = enabled && checkoutAvailable && provider !== "stripe";
   const { data: myTier } = trpc.foundingTier.getMyTier.useQuery();
 
   const trialEndDate = subscriptionData?.trialEndsAt

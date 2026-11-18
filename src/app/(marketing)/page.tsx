@@ -28,8 +28,8 @@ import {
   VAT_NOTE,
 } from "@/lib/marketing/pricing-copy";
 
-const TITLE = "Tidsregistrering med klippekort til selvstændige og bureauer";
-const DESCRIPTION = `Dansk tidsregistrering, der trækker timerne fra kundens klippekort og laver fakturagrundlaget til Billy eller Dinero. Prøv gratis i ${TRIAL_DAYS} dage. Selvstændig ${PLAN_PRICES.selvstaendig.price} ekskl. moms.`;
+const TITLE = "Tidsregistrering til freelancere og bureauer";
+const DESCRIPTION = `Registrér timer pr. kunde og projekt, hold styr på klippekort, og send fakturagrundlaget til Billy eller Dinero. Prøv TimeTrack gratis i ${TRIAL_DAYS} dage.`;
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE} | TimeTrack` },
@@ -179,19 +179,18 @@ export default function LandingPage() {
       <Navigation />
 
       <main>
-        {/* Hero: klippekort-spørgsmålet, prisen over folden, founderen som støttelinje */}
         <section className="pt-28 pb-16 sm:pt-36 sm:pb-20">
           <div className={mk.wrap}>
             <TrustBadge />
             <h1 className={`${mk.h1} mt-4 max-w-4xl`}>
-              Hvor mange timer har kunden tilbage?
+              Hvor mange timer har kunden tilbage på klippekortet?
             </h1>
             <div className="mt-10 grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16 [&>*]:min-w-0">
               <div className="order-2 lg:order-1">
                 <p className={`${mk.lead} max-w-xl`}>
-                  TimeTrack trækker timerne fra kundens klippekort, mens du
-                  arbejder. Kunden kan selv se saldoen, og når kortet er brugt,
-                  ligger fakturagrundlaget klar til Billy eller Dinero.
+                  Tidsregistrering på kunder og projekter i TimeTrack. Timerne
+                  trækkes fra kundens klippekort og samles til fakturaen i Billy
+                  eller Dinero.
                 </p>
                 <HeroCta />
                 <p className={`${mk.fine} max-w-xl`}>{HOME_PRICE_LINE}</p>

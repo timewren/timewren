@@ -81,6 +81,11 @@ export default function TimeloenBeregnerPage() {
       relatedSubtitle="Regn videre:"
       relatedLinks={[
         {
+          href: "/feriepenge-beregner",
+          title: "Beregn feriepenge",
+          description: "Se, hvor meget du optjener som timelønnet.",
+        },
+        {
           href: "/timepris-beregner",
           title: "Timepris-beregner",
           description: "Hvilken timepris skal du tage som selvstændig?",

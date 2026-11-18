@@ -35,7 +35,7 @@ const NATIVE = {
 const WEB = { token: "web-token", hint: "access_token" as const };
 
 function fakeDb(subs: Array<Record<string, unknown>> = []) {
-  return {
+  const db = {
     query: {
       members: {
         findMany: vi.fn(async () => [
@@ -46,6 +46,23 @@ function fakeDb(subs: Array<Record<string, unknown>> = []) {
       accounts: { findMany: vi.fn(async () => []) },
     },
     execute: vi.fn(async () => undefined),
+  };
+  return {
+    ...db,
+    async transaction(run: (tx: unknown) => Promise<void>) {
+      const selection = {
+        from: () => selection,
+        innerJoin: () => selection,
+        where: () => selection,
+      };
+      await run({
+        execute: db.execute,
+        select: () => selection,
+        insert: () => ({
+          select: () => ({ onConflictDoNothing: async () => {} }),
+        }),
+      });
+    },
   };
 }
 

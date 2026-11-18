@@ -19,7 +19,7 @@ import {
 import { sendFirstInvoiceEmail } from "@/lib/email/engagement";
 import { sendInvoiceEmail } from "@/lib/email/invoice";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
-import { roundMoney, sumMoney } from "@/lib/format";
+import { roundMoney, sumMoney, toLocalDateStr } from "@/lib/format";
 import {
   buildInvoicePdfProps,
   renderInvoicePdfBuffer,
@@ -711,6 +711,7 @@ export const invoicesRouter = router({
               amount: formattedAmount,
               clientName: newInvoice.clientName,
               userId,
+              organizationId: ctx.orgId ?? undefined,
             });
           }
         } catch (error) {
@@ -1373,6 +1374,7 @@ export const invoicesRouter = router({
               amount: formattedAmount,
               clientName: client.name,
               userId,
+              organizationId: ctx.orgId ?? undefined,
             });
           }
         } catch (error) {
@@ -1625,28 +1627,62 @@ export const invoicesRouter = router({
     return { total: nums.length, min, max, gaps, gapCount };
   }),
 
+  sendPreview: moduleReadProcedure("invoices")
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        paymentTermsDays: z.number().int().min(1).max(365).optional(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const data = await buildInvoicePdfProps({
+        invoiceId: input.id,
+        userId: ctx.session.user.id,
+        orgId: ctx.orgId,
+      });
+      if (!data) throw Errors.invoiceNotFound();
+      await assertClientAccess(
+        ctx.db,
+        ctx.session.user.id,
+        ctx.orgId,
+        data.invoice.clientId,
+      );
+
+      const { invoice, client, pdfProps } = data;
+      const lines = pdfProps.invoice.lines;
+      const subtotal = lines.length
+        ? lines.reduce((sum, line) => sum + Number.parseFloat(line.amount), 0)
+        : Number.parseFloat(invoice.amount);
+      const vatRate = Number.parseFloat(pdfProps.template?.vatRate || "25.00");
+      const vatAmount = pdfProps.companyProfile?.vatRegistered
+        ? subtotal * (vatRate / 100)
+        : 0;
+      return {
+        invoiceNumber: invoice.invoiceNumber,
+        status: invoice.status,
+        clientName: client.name,
+        email: client.email,
+        total: subtotal + vatAmount,
+        currency: pdfProps.template?.currency || "DKK",
+        dueDate:
+          input.paymentTermsDays === undefined
+            ? invoice.dueDate
+            : toLocalDateStr(
+                addDays(invoice.issueDate, input.paymentTermsDays),
+              ),
+      };
+    }),
+
   // Send invoice email to client
   sendEmail: moduleWriteProcedure("invoices")
-    .input(z.object({ id: z.string().uuid() }))
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        expectedRecipient: z.string().optional(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-
-      // Udstedelse ved afsendelse: en kladde skal have sit rigtige nummer
-      // FOER PDF/email renderes (#196).
-      const preInvoice = await ctx.db.query.invoices.findFirst({
-        where: and(
-          eq(invoices.id, input.id),
-          ctx.orgId
-            ? eq(invoices.organizationId, ctx.orgId)
-            : eq(invoices.userId, userId),
-        ),
-        columns: { id: true, invoiceNumber: true },
-      });
-      if (preInvoice && isDraftInvoiceNumber(preInvoice.invoiceNumber)) {
-        await ctx.db.transaction(async (tx) => {
-          await ensureRealInvoiceNumber(tx, preInvoice, userId, ctx.orgId);
-        });
-      }
 
       // Load invoice + PDF props via the shared helper so this path attaches
       // the same complete PDF (VAT, logo, bank info, lines) as the REST route.
@@ -1661,9 +1697,24 @@ export const invoicesRouter = router({
       }
 
       const { invoice, client, user, companyProfile, pdfProps } = pdfData;
+      await assertClientAccess(ctx.db, userId, ctx.orgId, invoice.clientId);
+
+      if (
+        input.expectedRecipient !== undefined &&
+        input.expectedRecipient !== client.email
+      ) {
+        throw badRequest(await tr("serverErrors", "invoices.recipientChanged"));
+      }
 
       if (!client.email) {
         throw badRequest(await tr("serverErrors", "invoices.clientHasNoEmail"));
+      }
+
+      if (isDraftInvoiceNumber(invoice.invoiceNumber)) {
+        invoice.invoiceNumber = await ctx.db.transaction((tx) =>
+          ensureRealInvoiceNumber(tx, invoice, userId, ctx.orgId),
+        );
+        pdfProps.invoice.invoiceNumber = invoice.invoiceNumber;
       }
 
       const pdfBuffer = await renderInvoicePdfBuffer(pdfProps);

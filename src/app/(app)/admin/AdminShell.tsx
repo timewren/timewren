@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { AdminCommandPalette } from "@/components/admin/AdminCommandPalette";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminTopBar } from "@/components/admin/AdminTopBar";
+import { TestAccountFilter } from "@/components/admin/TestAccountFilter";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { useSession } from "@/lib/auth-client";
 import { trpc } from "@/providers/trpc-provider";
@@ -63,7 +64,9 @@ export default function AdminLayout({
       <div className="flex flex-1 flex-col overflow-hidden">
         <AdminTopBar onOpenSearch={() => setPaletteOpen(true)} />
         <main className="flex-1 overflow-y-auto p-6">
-          <div className="mx-auto max-w-7xl">{children}</div>
+          <div className="mx-auto max-w-7xl">
+            <TestAccountFilter>{children}</TestAccountFilter>
+          </div>
         </main>
       </div>
       <AdminCommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />

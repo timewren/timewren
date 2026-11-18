@@ -1,4 +1,4 @@
-import { desc, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { z } from "zod";
 import {
   members,
@@ -7,8 +7,13 @@ import {
   subscriptions,
   users,
 } from "@/lib/db/schema";
+import { excludeTestSubscription } from "@/lib/test-accounts";
 import { adminProcedure, router } from "../../trpc";
 import { logAdminAction } from "./shared";
+
+const trialListProcedure = adminProcedure.input(
+  z.object({ includeTestAccounts: z.boolean().optional() }).optional(),
+);
 
 /**
  * Prospects router: tracks demo accounts (seed data, internal testers)
@@ -137,7 +142,7 @@ export const adminProspectsRouter = router({
    * already committed to paying (alunta_subscription_id present) or
    * are they floating without a plan?
    */
-  listTrials: adminProcedure.query(async ({ ctx }) => {
+  listTrials: trialListProcedure.query(async ({ ctx, input }) => {
     await logAdminAction(
       ctx.db,
       ctx.session.user.id,
@@ -148,13 +153,6 @@ export const adminProspectsRouter = router({
     );
 
     const now = new Date();
-
-    // Demo exclusion — matches finance.ts pattern
-    const demoIds = await ctx.db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.isDemo, true));
-    const demoSet = new Set(demoIds.map((d) => d.id));
 
     const rows = await ctx.db
       .select({
@@ -180,16 +178,18 @@ export const adminProspectsRouter = router({
       // "free" = udløbet trial nedgraderet til Gratis-tieren (reverse trial) —
       // stadig en opgraderings-prospect, så den tæller med som udløbet.
       .where(
-        inArray(subscriptions.status, ["trialing", "trial_expired", "free"]),
+        and(
+          inArray(subscriptions.status, ["trialing", "trial_expired", "free"]),
+          sql`${users.isDemo} is not true`,
+          excludeTestSubscription(input?.includeTestAccounts),
+        ),
       )
       .orderBy(subscriptions.trialEndsAt);
-
-    const filtered = rows.filter((r) => !demoSet.has(r.userId));
 
     // Classify: committed (has alunta subscription — payment set up) vs
     // floating (no alunta subscription yet — will silently end when trial
     // does, unless we nudge them)
-    const trials = filtered.map((r) => {
+    const trials = rows.map((r) => {
       const committed = Boolean(r.aluntaSubscriptionId);
       const daysUntilEnd = r.trialEndsAt
         ? Math.ceil(

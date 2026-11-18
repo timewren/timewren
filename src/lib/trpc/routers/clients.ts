@@ -652,6 +652,7 @@ export const clientsRouter = router({
               userName: user.name || "der",
               clientName: newClient.name,
               userId,
+              organizationId: ctx.orgId ?? undefined,
             });
           }
         } catch (error) {

@@ -38,6 +38,7 @@ import {
 import { recipientMailBrand } from "@/lib/email/mail-brand";
 import { getFoundingAvailability } from "@/lib/founding-tier";
 import { PERSONAL_FROM_EMAIL, resend } from "@/lib/resend";
+import { excludeTestUsers } from "@/lib/test-accounts";
 import { parseDbTimestamp } from "@/lib/time/db-timestamp";
 import { rateLimiter } from "@/lib/utils/rate-limiter";
 import { escapeCsv } from "@/lib/utils/spreadsheet";
@@ -56,6 +57,7 @@ export const adminUsersRouter = router({
         limit: z.number().min(1).max(100).default(50),
         offset: z.number().min(0).default(0),
         search: z.string().optional(),
+        includeTestAccounts: z.boolean().optional(),
         onlyFlagged: z.boolean().optional(),
         role: z.enum(["user", "supporter", "admin"]).optional(),
         segment: z
@@ -86,6 +88,8 @@ export const adminUsersRouter = router({
 
       // Build where conditions
       const conditions = [];
+      const realUsers = excludeTestUsers(input.includeTestAccounts);
+      if (realUsers) conditions.push(realUsers);
       if (input.onlyFlagged) {
         conditions.push(eq(users.isFlagged, true));
       }
@@ -123,6 +127,7 @@ export const adminUsersRouter = router({
       } else if (input.segment === "churn_high") {
         const churnUsers = await calculateChurnRisk(ctx.db, {
           limit: 200,
+          includeTestAccounts: input.includeTestAccounts,
           minLevel: "high",
         });
         const ids = churnUsers.map((u) => u.userId);
@@ -139,6 +144,7 @@ export const adminUsersRouter = router({
       } else if (input.segment === "churn_medium") {
         const churnUsers = await calculateChurnRisk(ctx.db, {
           limit: 200,
+          includeTestAccounts: input.includeTestAccounts,
           minLevel: "medium",
         });
         const ids = churnUsers.map((u) => u.userId);
@@ -1119,7 +1125,12 @@ export const adminUsersRouter = router({
   }),
 
   getChurnRisk: supporterProcedure
-    .input(z.object({ limit: z.number().min(1).max(50).default(10) }))
+    .input(
+      z.object({
+        limit: z.number().min(1).max(50).default(10),
+        includeTestAccounts: z.boolean().optional(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
       await logAdminAction(
         ctx.db,
@@ -1129,7 +1140,7 @@ export const adminUsersRouter = router({
         null,
         ctx.headers,
       );
-      return calculateChurnRisk(ctx.db, { limit: input.limit });
+      return calculateChurnRisk(ctx.db, input);
     }),
 
   // ============================================

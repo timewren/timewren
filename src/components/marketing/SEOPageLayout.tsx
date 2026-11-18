@@ -27,6 +27,7 @@ export function SEOPageLayout({
   relatedLinks,
   relatedTitle,
   relatedSubtitle,
+  showHeroCta = true,
   ctaTitle,
   ctaSubtitle,
   children,
@@ -39,6 +40,7 @@ export function SEOPageLayout({
   relatedLinks?: RelatedLink[];
   relatedTitle?: string;
   relatedSubtitle?: string;
+  showHeroCta?: boolean;
   ctaTitle?: string;
   ctaSubtitle?: string;
   children: ReactNode;
@@ -58,18 +60,22 @@ export function SEOPageLayout({
       <Navigation />
 
       <MarketingHero badge={badge} title={title} subtitle={subtitle}>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href={appLinkHref("/register")}
-            className={`plausible-event-name=CTA+Click ${mk.btnPrimary}`}
-          >
-            Prøv gratis i {TRIAL_DAYS} dage
-          </Link>
-          <Link href="/pricing" className={mk.btnSecondary}>
-            Se priser
-          </Link>
-        </div>
-        <p className={`${mk.fine} mt-4 max-w-xl`}>{AFTER_TRIAL_SOLO}</p>
+        {showHeroCta && (
+          <>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href={appLinkHref("/register")}
+                className={`plausible-event-name=CTA+Click ${mk.btnPrimary}`}
+              >
+                Prøv gratis i {TRIAL_DAYS} dage
+              </Link>
+              <Link href="/pricing" className={mk.btnSecondary}>
+                Se priser
+              </Link>
+            </div>
+            <p className={`${mk.fine} mt-4 max-w-xl`}>{AFTER_TRIAL_SOLO}</p>
+          </>
+        )}
       </MarketingHero>
 
       {children}

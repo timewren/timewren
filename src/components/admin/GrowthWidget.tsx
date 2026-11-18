@@ -2,6 +2,7 @@
 
 import { ArrowDownRight, ArrowUpRight, Minus, TrendingUp } from "lucide-react";
 import Link from "next/link";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { trpc } from "@/providers/trpc-provider";
 
 function formatDKK(amount: number): string {
@@ -51,10 +52,14 @@ function DeltaBadge({ value }: { value: number | null | undefined }) {
 }
 
 export function GrowthWidget() {
+  const includeTestAccounts = useIncludeTestAccounts();
   const { data: finance, isLoading: financeLoading } =
-    trpc.admin.getFinanceOverview.useQuery();
+    trpc.admin.getFinanceOverview.useQuery({ includeTestAccounts });
   const { data: trends, isLoading: trendsLoading } =
-    trpc.admin.getRevenueTrends.useQuery({ monthsBack: 3 });
+    trpc.admin.getRevenueTrends.useQuery({
+      includeTestAccounts,
+      monthsBack: 3,
+    });
 
   const isLoading = financeLoading || trendsLoading;
 

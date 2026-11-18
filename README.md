@@ -42,7 +42,7 @@ curl -fsSL https://timewren.com/install.sh | bash
 
 ### TimeWren Cloud
 
-TimeWren Cloud is opening soon at [timewren.com](https://timewren.com), with a free plan, hosting in the EU, backups, the official signed apps and support. Paying for Cloud is what funds development. The same service already runs in Danish as [TimeTrack](https://timetrack.dk).
+TimeWren Cloud is open at [timewren.com](https://timewren.com): a free plan, paid plans billed monthly in EUR (from €4 a month excl. VAT, with a 14-day trial on Solo, Team and Business), hosting in the EU, backups, the official signed apps and support. Paying for Cloud is what funds development. The same service already runs in Danish as [TimeTrack](https://timetrack.dk).
 
 ### Run your own instance
 

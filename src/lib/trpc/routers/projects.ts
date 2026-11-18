@@ -545,6 +545,7 @@ export const projectsRouter = router({
               projectName: newProject.name,
               clientName: clientName ?? "Intern",
               userId,
+              organizationId: ctx.orgId ?? undefined,
             });
           }
         } catch (error) {

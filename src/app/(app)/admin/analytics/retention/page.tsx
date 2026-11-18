@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import { CohortHeatmap } from "@/components/admin/CohortHeatmap";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { InlineSpinner } from "@/components/ui/LoadingScreen";
 import { trpc } from "@/providers/trpc-provider";
 
 const MONTH_OPTIONS = [6, 12, 18, 24] as const;
 
 export default function RetentionPage() {
+  const includeTestAccounts = useIncludeTestAccounts();
   const [months, setMonths] = useState<number>(12);
 
   const { data, isLoading } = trpc.admin.getCohortRetention.useQuery({
+    includeTestAccounts,
     months,
   });
 

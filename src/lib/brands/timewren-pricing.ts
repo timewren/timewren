@@ -82,16 +82,24 @@ export function timewrenPlans(): TimewrenPlan[] {
   });
 }
 
-/** Valuta, der er valgt fra start: DKK på dansk, ellers EUR. */
+/**
+ * Valuta, der er valgt fra start. Cloud faktureres i EUR med Stripe (Mads
+ * 17/11-2026), så alle sprog viser EUR.
+ */
 export const DEFAULT_CURRENCY: Record<Locale, Currency> = {
   en: "EUR",
-  da: "DKK",
+  da: "EUR",
   de: "EUR",
   es: "EUR",
 };
 
-/** Rækkefølgen i valutavælgeren. */
-export const PRICE_CURRENCIES: readonly Currency[] = CURRENCIES;
+/**
+ * Valutaerne på prissiden. Kun EUR, indtil der findes Stripe-priser i USD og
+ * DKK; med én valuta vises ingen valutavælger. Alle: CURRENCIES.
+ */
+export const PRICE_CURRENCIES: readonly Currency[] = CURRENCIES.filter(
+  (c) => c === "EUR",
+);
 
 export function formatPrice(
   locale: Locale,

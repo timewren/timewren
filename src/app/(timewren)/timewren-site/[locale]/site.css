@@ -1159,8 +1159,7 @@ pre.code {
 .plan.cloud:has(#currency-USD:checked)
   [data-currency]:not([data-currency="USD"]),
 .plan.cloud:has(#currency-DKK:checked)
-  [data-currency]:not([data-currency="DKK"]),
-.plan.cloud:has(#currency-DKK:checked) .billed-dkk {
+  [data-currency]:not([data-currency="DKK"]) {
   display: none;
 }
 

@@ -1113,6 +1113,12 @@ export const integrationsRouter = router({
         // Legacy fields (kept for backwards compatibility)
         autoApprove: z.boolean().default(false),
         sendEmail: z.boolean().default(false),
+        expectedRecipient: z.string().optional(),
+        // Shown to the user for review only. Billy/Dinero compute the final
+        // amount with their own VAT settings, so it is not compared here.
+        expectedInvoice: z
+          .object({ total: z.number(), currency: z.string() })
+          .optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -1170,6 +1176,12 @@ export const integrationsRouter = router({
         throw badRequest(
           await tr("serverErrors", "integrations.invoiceMissingClient"),
         );
+      }
+      if (
+        input.expectedRecipient !== undefined &&
+        input.expectedRecipient !== invoiceClient.email
+      ) {
+        throw badRequest(await tr("serverErrors", "invoices.recipientChanged"));
       }
 
       const billy = new BillyIntegration(apiKey);
@@ -1434,10 +1446,6 @@ export const integrationsRouter = router({
         }
 
         if (shouldSend && billyInvoice.id && invoiceClient.email) {
-          console.warn(
-            "[Billy Export] Sending invoice to:",
-            invoiceClient.email,
-          );
           await billy.sendInvoice(billyInvoice.id, invoiceClient.email);
           console.warn("[Billy Export] Invoice sent");
         }
@@ -1717,6 +1725,12 @@ export const integrationsRouter = router({
         // Legacy fields (kept for backwards compatibility)
         autoBook: z.boolean().default(false),
         sendEmail: z.boolean().default(false),
+        expectedRecipient: z.string().optional(),
+        // Shown to the user for review only. Billy/Dinero compute the final
+        // amount with their own VAT settings, so it is not compared here.
+        expectedInvoice: z
+          .object({ total: z.number(), currency: z.string() })
+          .optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -1769,6 +1783,12 @@ export const integrationsRouter = router({
         throw badRequest(
           await tr("serverErrors", "integrations.invoiceMissingClient"),
         );
+      }
+      if (
+        input.expectedRecipient !== undefined &&
+        input.expectedRecipient !== invoiceClient.email
+      ) {
+        throw badRequest(await tr("serverErrors", "invoices.recipientChanged"));
       }
 
       try {

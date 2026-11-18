@@ -9,6 +9,8 @@ const conflicts: Array<{
   values: Record<string, unknown>;
   opts: unknown;
 }> = [];
+const claims: Array<Record<string, unknown>> = [];
+let claimRows: Array<{ id: string }> = [{ id: "claim_1" }];
 const updates: Array<Record<string, unknown>> = [];
 const deletes: unknown[] = [];
 let existingLicense: Record<string, unknown> | undefined;
@@ -26,9 +28,22 @@ vi.mock("@/lib/db", () => ({
       values: (values: Record<string, unknown>) => {
         inserts.push({ table, values });
         return Object.assign(Promise.resolve(), {
-          onConflictDoUpdate: async (opts: unknown) => {
-            conflicts.push({ table, values, opts });
-          },
+          // Awaited: registrér udfaldet. .returning(): TimeWrens krav på
+          // eventet før behandling (claimWebhookEvent).
+          onConflictDoUpdate: (opts: unknown) => ({
+            // biome-ignore lint/suspicious/noThenProperty: drizzle-builder er thenable
+            then: (
+              resolve: (v: unknown) => unknown,
+              reject: (e: unknown) => unknown,
+            ) => {
+              conflicts.push({ table, values, opts });
+              return Promise.resolve().then(resolve, reject);
+            },
+            returning: async () => {
+              claims.push(values);
+              return claimRows;
+            },
+          }),
         });
       },
     }),
@@ -53,6 +68,18 @@ vi.mock("@/lib/email/desktop-license", () => ({
     (sendLicenseKeyEmail as (...a: unknown[]) => unknown)(...args),
 }));
 vi.mock("@/lib/utils/sentry", () => ({ captureRouteError: vi.fn() }));
+
+// TimeWren-handleren testes for sig (timewren-stripe-webhook.test.ts); her
+// kun at route'en sender brandede events dertil og ikke til desktop-flowet.
+const handleTimewren = vi.fn(
+  async (..._args: unknown[]): Promise<Record<string, unknown>> => ({
+    outcome: "applied",
+    subscriptionRowId: "row_1",
+  }),
+);
+vi.mock("@/lib/billing/timewren-stripe-webhook", () => ({
+  handleTimewrenStripeEvent: (...args: unknown[]) => handleTimewren(...args),
+}));
 
 import { db } from "@/lib/db";
 import { POST } from "../route";
@@ -115,6 +142,8 @@ describe("POST /api/webhooks/stripe", () => {
   beforeEach(() => {
     inserts.length = 0;
     conflicts.length = 0;
+    claims.length = 0;
+    claimRows = [{ id: "claim_1" }];
     updates.length = 0;
     deletes.length = 0;
     existingLicense = undefined;
@@ -312,6 +341,194 @@ describe("POST /api/webhooks/stripe", () => {
     expect(JSON.stringify(warn.mock.calls)).not.toContain(
       "TT-TEST-KEY-NOT-LOGGED",
     );
+  });
+
+  describe("TimeWren Cloud (metadata.brand)", () => {
+    const twCheckout = {
+      ...checkoutCompleted,
+      id: "evt_tw_checkout",
+      data: {
+        object: {
+          ...checkoutCompleted.data.object,
+          mode: "subscription",
+          subscription: "sub_tw_1",
+          payment_intent: null,
+          metadata: {
+            brand: "timewren",
+            organizationId: "org_tw_1",
+            userId: "user_tw_1",
+            planTier: "solo",
+          },
+        },
+      },
+    };
+
+    beforeEach(() => handleTimewren.mockClear());
+
+    it("sendes til TimeWren-handleren, aldrig til desktop-licensen", async () => {
+      const res = await POST(signedRequest(twCheckout));
+      expect(res.status).toBe(200);
+      expect(handleTimewren).toHaveBeenCalledTimes(1);
+      expect((handleTimewren.mock.calls[0][0] as { id: string }).id).toBe(
+        "evt_tw_checkout",
+      );
+      expect(inserts.find((i) => "licenseKey" in i.values)).toBeUndefined();
+      expect(sendLicenseKeyEmail).not.toHaveBeenCalled();
+      expect(conflicts[0].values).toMatchObject({
+        eventId: "evt_tw_checkout",
+        status: "success",
+      });
+    });
+
+    it.each([
+      "customer.subscription.created",
+      "customer.subscription.updated",
+      "customer.subscription.deleted",
+    ])("%s med brand=timewren går til handleren", async (type) => {
+      const res = await POST(
+        signedRequest({
+          id: `evt_${type}`,
+          object: "event",
+          type,
+          data: {
+            object: {
+              id: "sub_tw_1",
+              object: "subscription",
+              customer: "cus_tw_1",
+              metadata: { brand: "timewren" },
+            },
+          },
+        }),
+      );
+      expect(res.status).toBe(200);
+      expect(handleTimewren).toHaveBeenCalledTimes(1);
+      expect(updates).toHaveLength(0);
+    });
+
+    it.each(["invoice.paid", "invoice.payment_failed"])(
+      "%s med abonnementets brand går til handleren",
+      async (type) => {
+        const res = await POST(
+          signedRequest({
+            id: `evt_${type}`,
+            object: "event",
+            type,
+            data: {
+              object: {
+                id: "in_1",
+                object: "invoice",
+                parent: {
+                  subscription_details: {
+                    subscription: "sub_tw_1",
+                    metadata: { brand: "timewren" },
+                  },
+                },
+              },
+            },
+          }),
+        );
+        expect(res.status).toBe(200);
+        expect(handleTimewren).toHaveBeenCalledTimes(1);
+      },
+    );
+
+    it("idempotens: et allerede behandlet event springes over", async () => {
+      claimRows = [];
+      vi.mocked(db.query.webhookEvents.findFirst).mockResolvedValueOnce({
+        status: "success",
+      } as never);
+      vi.spyOn(console, "warn").mockImplementation(() => {});
+      const res = await POST(signedRequest(twCheckout));
+      expect(res.status).toBe(200);
+      expect(handleTimewren).not.toHaveBeenCalled();
+    });
+
+    it("idempotens: et forældet 'processing'-krav overtages og behandles", async () => {
+      // claimWebhookEvent overtager error-rækker og forældede krav; det
+      // tidligere tjek på status != error svarede 200 uden at nå kravet.
+      vi.mocked(db.query.webhookEvents.findFirst).mockResolvedValue({
+        status: "processing",
+      } as never);
+      const res = await POST(signedRequest(twCheckout));
+      vi.mocked(db.query.webhookEvents.findFirst).mockResolvedValue(
+        undefined as never,
+      );
+      expect(res.status).toBe(200);
+      expect(claims).toHaveLength(1);
+      expect(handleTimewren).toHaveBeenCalledTimes(1);
+    });
+
+    it("idempotens: eventet kræves før behandling, så en samtidig levering springes over", async () => {
+      const res = await POST(signedRequest(twCheckout));
+      expect(res.status).toBe(200);
+      expect(claims[0]).toMatchObject({
+        eventId: "evt_tw_checkout",
+        status: "processing",
+      });
+      expect(handleTimewren).toHaveBeenCalledTimes(1);
+
+      // Anden levering, mens den første stadig kører: kravet giver ingen række,
+      // og udfaldet er ukendt, så Stripe skal prøve igen (ikke 200).
+      claimRows = [];
+      vi.mocked(db.query.webhookEvents.findFirst).mockResolvedValueOnce({
+        status: "processing",
+      } as never);
+      vi.spyOn(console, "warn").mockImplementation(() => {});
+      const dup = await POST(signedRequest(twCheckout));
+      expect(dup.status).toBe(409);
+      expect(handleTimewren).toHaveBeenCalledTimes(1);
+    });
+
+    it("desktop-events uden brand gør ikke krav (flowet er uændret)", async () => {
+      await POST(signedRequest(checkoutCompleted));
+      expect(claims).toHaveLength(0);
+    });
+
+    it("afvist (brand-mismatch): logges som fejl, svar 200 uden nyt forsøg", async () => {
+      handleTimewren.mockResolvedValueOnce({
+        outcome: "rejected",
+        reason: "organization-brand-mismatch",
+      });
+      vi.spyOn(console, "error").mockImplementation(() => {});
+      const res = await POST(signedRequest(twCheckout));
+      expect(res.status).toBe(200);
+      expect(conflicts[0].values).toMatchObject({
+        eventId: "evt_tw_checkout",
+        status: "error",
+        errorMessage: "rejected: organization-brand-mismatch",
+      });
+    });
+
+    it("ukendt brand afvises uden at nå nogen handler", async () => {
+      vi.spyOn(console, "error").mockImplementation(() => {});
+      const res = await POST(
+        signedRequest({
+          ...twCheckout,
+          id: "evt_other_brand",
+          data: {
+            object: {
+              ...twCheckout.data.object,
+              metadata: { brand: "otherbrand" },
+            },
+          },
+        }),
+      );
+      expect(res.status).toBe(200);
+      expect(handleTimewren).not.toHaveBeenCalled();
+      expect(sendLicenseKeyEmail).not.toHaveBeenCalled();
+      expect(conflicts[0].values).toMatchObject({ status: "error" });
+    });
+
+    it("fejl i handleren giver 500, så Stripe prøver igen", async () => {
+      handleTimewren.mockRejectedValueOnce(new Error("Stripe nede"));
+      vi.spyOn(console, "error").mockImplementation(() => {});
+      const res = await POST(signedRequest(twCheckout));
+      expect(res.status).toBe(500);
+      expect(conflicts[0].values).toMatchObject({
+        status: "error",
+        errorMessage: "Stripe nede",
+      });
+    });
   });
 
   it("lader licensen stå ved delvis refundering", async () => {

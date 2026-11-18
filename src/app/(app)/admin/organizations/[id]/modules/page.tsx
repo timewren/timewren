@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/ui";
@@ -14,10 +15,21 @@ import { trpc } from "@/providers/trpc-provider";
 export default function OrganizationModulesAdminPage() {
   const params = useParams<{ id: string }>();
   const id = params.id;
+  const t = useTranslations("adminShell");
   const utils = trpc.useUtils();
   const [showEmptyBundleConfirm, setShowEmptyBundleConfirm] = useState(false);
   const { data: modules, isLoading } =
     trpc.admin.organizationModules.list.useQuery({ organizationId: id });
+
+  const { data: testAccount } =
+    trpc.admin.organizationModules.getTestAccountFlag.useQuery({
+      organizationId: id,
+    });
+  const setTestAccount =
+    trpc.admin.organizationModules.setTestAccountFlag.useMutation({
+      onSuccess: () => utils.admin.invalidate(),
+      onError: (error) => toast.error(error.message),
+    });
 
   const setAvailability =
     trpc.admin.organizationModules.setAvailability.useMutation({
@@ -46,6 +58,24 @@ export default function OrganizationModulesAdminPage() {
           Styr hvilke moduler organisationen har adgang til.
         </p>
       </div>
+
+      {testAccount !== undefined && (
+        <label className="flex min-h-11 w-fit items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            className="size-4"
+            checked={testAccount}
+            disabled={setTestAccount.isPending}
+            onChange={(event) =>
+              setTestAccount.mutate({
+                organizationId: id,
+                testAccount: event.target.checked,
+              })
+            }
+          />
+          {t("markTestOrganization")}
+        </label>
+      )}
 
       <div className="flex flex-wrap gap-2">
         <button

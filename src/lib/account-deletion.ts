@@ -1,15 +1,24 @@
 import { TRPCError } from "@trpc/server";
-import { eq, inArray, or, sql } from "drizzle-orm";
+import { and, eq, inArray, isNull, or, sql } from "drizzle-orm";
 import { sharedT } from "@/i18n/shared-text";
-import { alunta } from "@/lib/alunta";
+import { type AluntaSubscription, alunta } from "@/lib/alunta";
 import {
   type AppleTokenToRevoke,
   collectAppleTokens,
   exchangeAppleAuthorizationCode,
   revokeAppleTokens,
 } from "@/lib/auth/apple";
+import {
+  collectAluntaMembershipIds,
+  hasMatchingAluntaSubscription,
+} from "@/lib/billing/alunta-membership-ids";
 import type { db as defaultDb } from "@/lib/db";
-import { members, organizations, subscriptions } from "@/lib/db/schema";
+import {
+  members,
+  organizations,
+  subscriptions,
+  testAluntaSubscriptions,
+} from "@/lib/db/schema";
 import { DELETED_USER_LABEL } from "@/lib/org-audit";
 import {
   collectUserStorageKeys,
@@ -21,6 +30,7 @@ import {
   storeProviderLabel,
 } from "@/lib/store-billing/products";
 import { isStoreManaged } from "@/lib/store-billing/state";
+import { excludeTestSubscription } from "@/lib/test-accounts";
 
 type Db = typeof defaultDb;
 
@@ -475,8 +485,64 @@ export async function deleteUserAccountCompletely(
     );
   }
 
+  // Alunta-listen hentes FØR transaktionen (listAll prøver selv igen).
+  // Fejler den, gemmes kun de lokalt kendte ID'er: sletningen må aldrig
+  // afhænge af Alunta. Uden et testabonnement at bevare hentes listen ikke.
+  const removedSubscriptions = or(
+    and(eq(subscriptions.userId, userId), isNull(subscriptions.organizationId)),
+    soloOrgIds.length
+      ? inArray(subscriptions.organizationId, soloOrgIds)
+      : undefined,
+  );
+  const removedTestSubscriptions = sql<boolean>`(${removedSubscriptions}) and not (${excludeTestSubscription()})`;
+  const hasAluntaLink = accountSubs.some(
+    (sub) => sub.aluntaSubscriptionId || sub.aluntaCustomerId,
+  );
+  let aluntaMemberships: AluntaSubscription[] | null = null;
+  if (
+    hasAluntaLink &&
+    (await hasMatchingAluntaSubscription(db, removedTestSubscriptions))
+  ) {
+    try {
+      aluntaMemberships = await withTimeout(
+        alunta.subscriptions.listAll(),
+        30_000,
+        "Alunta-liste",
+      );
+    } catch (err) {
+      // Kun fejltypen: Aluntas svartekst kan indeholde persondata.
+      console.error(
+        "[Account Deletion] Alunta-abonnementer kunne ikke hentes; kun lokale abonnements-ID'er markeres som test:",
+        err instanceof Error
+          ? `${err.name}${"status" in err ? ` ${err.status}` : ""}`
+          : "ukendt fejl",
+      );
+    }
+  }
+
   // 2. Transaktionel sletning/anonymisering
-  await db.execute(sql.raw(buildDeletionSql(userId, soloOrgIds, sharedOrgIds)));
+  const deletion = sql.raw(buildDeletionSql(userId, soloOrgIds, sharedOrgIds));
+  await db.transaction(async (tx) => {
+    // Keep only provider membership IDs for test subscriptions being deleted.
+    // This must run while the user and workspace can still be classified.
+    // The early check above only decides whether the list is fetched; this
+    // classifies again, so a workspace marked as test since then keeps its
+    // local IDs.
+    if (hasAluntaLink) {
+      const ids = await collectAluntaMembershipIds(
+        tx,
+        removedTestSubscriptions,
+        aluntaMemberships,
+      );
+      if (ids.size) {
+        await tx
+          .insert(testAluntaSubscriptions)
+          .values([...ids].map((subscriptionId) => ({ subscriptionId })))
+          .onConflictDoNothing();
+      }
+    }
+    await tx.execute(deletion);
+  });
   const remaining = await db.execute(
     sql`SELECT 1 FROM "user" WHERE id = ${userId}`,
   );

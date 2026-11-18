@@ -2,6 +2,7 @@
 
 import { Calculator, Info, TrendingDown, TrendingUp } from "lucide-react";
 import { useId, useMemo, useState } from "react";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { trpc } from "@/providers/trpc-provider";
 
 function formatDKK(amount: number): string {
@@ -177,7 +178,10 @@ function KPI({
 }
 
 export function ScenariosView() {
-  const { data: finance } = trpc.admin.getFinanceOverview.useQuery();
+  const includeTestAccounts = useIncludeTestAccounts();
+  const { data: finance } = trpc.admin.getFinanceOverview.useQuery({
+    includeTestAccounts,
+  });
 
   const baselineCustomers = finance?.counts.active ?? 1;
   const baselineMrr = finance?.mrrActual ?? 0;

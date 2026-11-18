@@ -9,6 +9,7 @@ import { getPersonalReplyTo } from "@/lib/config";
 import { mailT } from "@/lib/email/locale";
 import { resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
+import { isTestEmailRecipient } from "@/lib/email/test-recipient";
 import { isMailAvailable } from "@/lib/email/transport";
 import { DEFAULT_FROM_EMAIL, PERSONAL_FROM_EMAIL, resend } from "@/lib/resend";
 import { appUrlEnv } from "@/lib/runtime-env";
@@ -96,6 +97,7 @@ interface FirstClientEmailParams {
   userName: string;
   clientName: string;
   userId?: string;
+  organizationId?: string;
 }
 
 export async function sendFirstClientEmail({
@@ -103,7 +105,9 @@ export async function sendFirstClientEmail({
   userName,
   clientName,
   userId,
+  organizationId,
 }: FirstClientEmailParams) {
+  if (await isTestEmailRecipient(to, userId, organizationId)) return;
   const mb = await resolveMailBrand({ userId, email: to });
   if (!isMailAvailable()) {
     console.error("RESEND_API_KEY is not configured");
@@ -162,6 +166,7 @@ interface FirstProjectEmailParams {
   projectName: string;
   clientName: string;
   userId?: string;
+  organizationId?: string;
 }
 
 export async function sendFirstProjectEmail({
@@ -170,7 +175,9 @@ export async function sendFirstProjectEmail({
   projectName,
   clientName,
   userId,
+  organizationId,
 }: FirstProjectEmailParams) {
+  if (await isTestEmailRecipient(to, userId, organizationId)) return;
   const mb = await resolveMailBrand({ userId, email: to });
   if (!isMailAvailable()) {
     console.error("RESEND_API_KEY is not configured");
@@ -230,6 +237,7 @@ interface FirstTimeEntryEmailParams {
   hours: string;
   projectName?: string;
   userId?: string;
+  organizationId?: string;
 }
 
 export async function sendFirstTimeEntryEmail({
@@ -238,7 +246,9 @@ export async function sendFirstTimeEntryEmail({
   hours,
   projectName,
   userId,
+  organizationId,
 }: FirstTimeEntryEmailParams) {
+  if (await isTestEmailRecipient(to, userId, organizationId)) return;
   const mb = await resolveMailBrand({ userId, email: to });
   if (!isMailAvailable()) {
     console.error("RESEND_API_KEY is not configured");
@@ -299,6 +309,7 @@ interface FirstInvoiceEmailParams {
   amount: string;
   clientName: string;
   userId?: string;
+  organizationId?: string;
 }
 
 export async function sendFirstInvoiceEmail({
@@ -308,7 +319,9 @@ export async function sendFirstInvoiceEmail({
   amount,
   clientName,
   userId,
+  organizationId,
 }: FirstInvoiceEmailParams) {
+  if (await isTestEmailRecipient(to, userId, organizationId)) return;
   const mb = await resolveMailBrand({ userId, email: to });
   if (!isMailAvailable()) {
     console.error("RESEND_API_KEY is not configured");

@@ -1,6 +1,17 @@
-import { and, eq, ne } from "drizzle-orm";
+import { and, eq, ne, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { toIntlLocale } from "@/i18n/format-locale";
+import {
+  eventBrand,
+  formatEur,
+  TIMEWREN_STRIPE_BRAND,
+} from "@/lib/billing/timewren-stripe";
+import {
+  handleTimewrenStripeEvent,
+  type TimewrenWebhookDeps,
+} from "@/lib/billing/timewren-stripe-webhook";
+import { claimWebhookEvent } from "@/lib/billing/webhook-claim";
 import { db } from "@/lib/db";
 import {
   desktopLicenseDevices,
@@ -9,7 +20,13 @@ import {
   webhookEvents,
 } from "@/lib/db/schema";
 import { generateLicenseKey } from "@/lib/desktop-auth";
+import {
+  sendCancellationConfirmedEmail,
+  sendPaymentFailedEmail,
+} from "@/lib/email/billing";
 import { sendLicenseKeyEmail } from "@/lib/email/desktop-license";
+import { mailBrandFor } from "@/lib/email/mail-brand";
+import { getRecipientLocale } from "@/lib/email/recipient-locale";
 import { captureRouteError } from "@/lib/utils/sentry";
 
 /**
@@ -26,6 +43,10 @@ import { captureRouteError } from "@/lib/utils/sentry";
  * 2. Create webhook endpoint in Stripe dashboard pointing to /api/webhooks/stripe
  * 3. Subscribe to: checkout.session.completed, customer.subscription.updated,
  *    customer.subscription.deleted, charge.refunded
+ * 4. TimeWren Cloud (events with metadata.brand=timewren, see
+ *    lib/billing/timewren-stripe-webhook.ts) also needs these three added to
+ *    the SAME endpoint: customer.subscription.created, invoice.paid,
+ *    invoice.payment_failed. Without them the payment-failed mail never fires.
  */
 
 function getStripe(): Stripe {
@@ -98,6 +119,31 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
+  // TimeWren Cloud-abonnementer (metadata.brand). Events uden brand er
+  // desktop-licensens og behandles præcis som før. Kravet er brandede events'
+  // idempotenstjek: kun en afsluttet række kvitteres med 200. En 'processing'-
+  // række, der endnu ikke er forældet, svares med 409, så Stripe prøver igen:
+  // udfaldet er ukendt, og dør handleren, overtager et senere forsøg kravet.
+  const brand = eventBrand(event);
+  if (brand !== null) {
+    if (!(await claimWebhookEvent(db, event))) {
+      const row = await db.query.webhookEvents.findFirst({
+        where: eq(webhookEvents.eventId, event.id),
+        columns: { status: true },
+      });
+      if (row?.status === "success") {
+        console.warn(`[Stripe Webhook] Duplicate event ${event.id}, skipping`);
+        return NextResponse.json({ received: true });
+      }
+      console.warn(`[Stripe Webhook] Event ${event.id} is being processed`);
+      return NextResponse.json(
+        { error: "Event is being processed" },
+        { status: 409 },
+      );
+    }
+    return handleBrandedEvent(stripe, event, brand);
+  }
+
   // Idempotency check. Rows with status 'error' are skipped on purpose: we
   // answer 500 on failure so Stripe retries, and that retry must be processed.
   const existing = await db.query.webhookEvents.findFirst({
@@ -160,6 +206,91 @@ export async function POST(request: Request) {
       extra: { eventType: event.type, eventId: event.id },
     });
 
+    return NextResponse.json(
+      { error: "Webhook processing failed" },
+      { status: 500 },
+    );
+  }
+}
+
+function timewrenDeps(stripe: Stripe): TimewrenWebhookDeps {
+  const mb = mailBrandFor(TIMEWREN_STRIPE_BRAND);
+  return {
+    db,
+    withSubscriptionLock: (subscriptionId, fn) =>
+      db.transaction(async (tx) => {
+        await tx.execute(
+          sql`select pg_advisory_xact_lock(hashtext(${`stripe-subscription:${subscriptionId}`}))`,
+        );
+        return fn(tx as unknown as typeof db);
+      }),
+    retrieveSubscription: (id) => stripe.subscriptions.retrieve(id),
+    retrieveInvoice: (id) => stripe.invoices.retrieve(id),
+    setItemQuantity: async (itemId, quantity) => {
+      await stripe.subscriptionItems.update(itemId, {
+        quantity,
+        proration_behavior: "create_prorations",
+      });
+    },
+    sendPaymentFailed: (args) => sendPaymentFailedEmail(args),
+    sendCancellation: async ({ endDate, ...args }) => {
+      const locale = await getRecipientLocale({
+        userId: args.userId,
+        fallback: mb.locale,
+      });
+      return sendCancellationConfirmedEmail({
+        ...args,
+        endDate: endDate
+          ? endDate.toLocaleDateString(toIntlLocale(locale), {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+              timeZone: "Europe/Copenhagen",
+            })
+          : "",
+      });
+    },
+    appUrl: mb.appUrl,
+    formatAmount: (cents) => formatEur(cents),
+  };
+}
+
+/**
+ * Events med metadata.brand: kun TimeWren kendes. Et afvist event (forkert
+ * brand, ukendt organisation) logges som fejl, men svares med 200, så Stripe
+ * ikke prøver igen med samme data.
+ */
+async function handleBrandedEvent(
+  stripe: Stripe,
+  event: Stripe.Event,
+  brand: string,
+) {
+  try {
+    const result =
+      brand === TIMEWREN_STRIPE_BRAND
+        ? await handleTimewrenStripeEvent(event, timewrenDeps(stripe))
+        : ({ outcome: "rejected", reason: "unknown-brand" } as const);
+    if (result.outcome === "rejected") {
+      console.error(
+        `[Stripe Webhook] Rejected ${event.type} ${event.id}: ${result.reason}`,
+      );
+      await recordWebhookEvent(event, "error", `rejected: ${result.reason}`);
+      return NextResponse.json({ received: true });
+    }
+    await recordWebhookEvent(event, "success");
+    return NextResponse.json({ received: true });
+  } catch (error) {
+    console.error(`[Stripe Webhook] Error processing ${event.type}:`, error);
+    await recordWebhookEvent(
+      event,
+      "error",
+      error instanceof Error ? error.message : "Unknown error",
+    );
+    captureRouteError(error, {
+      route: "/api/webhooks/stripe",
+      type: "webhook",
+      extra: { eventType: event.type, eventId: event.id, brand },
+    });
     return NextResponse.json(
       { error: "Webhook processing failed" },
       { status: 500 },

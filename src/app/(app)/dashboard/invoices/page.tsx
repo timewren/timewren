@@ -21,11 +21,11 @@ import { toast } from "sonner";
 import { PageHeader } from "@/components/dashboard-nav";
 import { GenerateFromTimeEntriesModal } from "@/components/invoices/GenerateFromTimeEntriesModal";
 import { RecurringInvoicesPanel } from "@/components/invoices/RecurringInvoicesPanel";
+import { SendInvoiceDialog } from "@/components/invoices/SendInvoiceDialog";
 import { ModuleGuard } from "@/components/ModuleGuard";
 import { RoleModuleGuard } from "@/components/RoleModuleGuard";
 import {
   Button,
-  ConfirmDialog,
   InvoicesPageSkeleton,
   ModuleDisabledState,
 } from "@/components/ui";
@@ -151,16 +151,7 @@ function InvoicesPageContent() {
     },
   });
 
-  const sendEmailMutation = trpc.invoices.sendEmail.useMutation({
-    onSuccess: () => {
-      toast.success(t("list.sent"));
-      utils.invoices.list.invalidate();
-      utils.invoices.getStats.invalidate();
-    },
-    onError: (err) => {
-      toast.error(err.message || t("list.sendFailed"));
-    },
-  });
+  const sendEmailMutation = trpc.invoices.sendEmail.useMutation();
 
   const filteredInvoices = useMemo(() => {
     if (!invoices) return undefined;
@@ -268,15 +259,24 @@ function InvoicesPageContent() {
     );
   };
 
-  // Bekræft før der sendes email til kunden
-  const [sendReminderFor, setSendReminderFor] = useState<{
-    id: string;
-    invoiceNumber: string;
-  } | null>(null);
+  const [sendInvoiceId, setSendInvoiceId] = useState<string | null>(null);
 
-  const handleSendEmail = (id: string, invoiceNumber: string) => {
-    setOpenMenuId(null);
-    setSendReminderFor({ id, invoiceNumber });
+  const handleSendEmail = async (email: string) => {
+    if (!sendInvoiceId) return;
+    try {
+      await sendEmailMutation.mutateAsync({
+        id: sendInvoiceId,
+        expectedRecipient: email,
+      });
+      toast.success(t("sendConfirmation.sent", { email }));
+      setSendInvoiceId(null);
+      void utils.invoices.list.invalidate();
+      void utils.invoices.getStats.invalidate();
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : t("list.sendFailed"),
+      );
+    }
   };
 
   if (isLoading) {
@@ -749,10 +749,8 @@ function InvoicesPageContent() {
                                   role="menuitem"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleSendEmail(
-                                      invoice.id,
-                                      invoice.invoiceNumber,
-                                    );
+                                    setOpenMenuId(null);
+                                    setSendInvoiceId(invoice.id);
                                   }}
                                   className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                                 >
@@ -820,21 +818,10 @@ function InvoicesPageContent() {
         onClose={() => setShowGenerateModal(false)}
       />
 
-      <ConfirmDialog
-        isOpen={sendReminderFor !== null}
-        onClose={() => setSendReminderFor(null)}
-        onConfirm={() => {
-          if (sendReminderFor) {
-            sendEmailMutation.mutate({ id: sendReminderFor.id });
-          }
-          setSendReminderFor(null);
-        }}
-        title={t("list.reminderTitle")}
-        description={t("list.reminderDescription", {
-          number: sendReminderFor?.invoiceNumber ?? "",
-        })}
-        confirmLabel={t("list.send")}
-        isLoading={sendEmailMutation.isPending}
+      <SendInvoiceDialog
+        invoiceId={sendInvoiceId}
+        onClose={() => setSendInvoiceId(null)}
+        onSend={handleSendEmail}
       />
     </div>
   );

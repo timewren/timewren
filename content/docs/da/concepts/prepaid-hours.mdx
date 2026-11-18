@@ -89,6 +89,8 @@ Vil du fylde op uden automatisk fornyelse, så opret et nyt klippekort til kunde
 
 Kunder kan se deres klippekort i kundeportalen under fanen Klippekort med saldo og forbrug. To kontakter styrer det: portaltilladelsen `canViewPrepaid` (slået til som standard) og klippekortindstillingen `hiddenFromPortal`, der skjuler et enkelt klippekort helt, også i historikken. Kunder kan også bede om en fornyelse, som dukker op hos dig som en fornyelsesanmodning. Beløb kan skjules for kunder med indstillingen `hidePrepaidValue`, globalt eller pr. kunde.
 
+Hvis fakturering er aktiv, kan du godkende anmodningen med en fakturakladde eller vælge **Godkend og gennemgå afsendelse**. Du godkender klippekortets fornyelse, før dialogen åbner. Her ser du kunden, modtagerens mailadresse, fakturanummeret, beløbet inkl. moms og forfaldsdatoen. Hvis du lukker dialogen, bliver fakturaen liggende som kladde.
+
 ## REST API
 
 Klippekort er tilgængelige som ressourcen `prepaid-packages` med scopes `prepaid:read` og `prepaid:write`. Du kan liste, hente, oprette og opdatere, og `DELETE` arkiverer et klippekort i stedet for at slette det. Godkendelse og scopes er beskrevet i referencen til [REST API](/da/docs/api/rest). Hændelser for klippekort leveres via [webhooks](/da/docs/api/webhooks).

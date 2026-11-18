@@ -1,6 +1,7 @@
-import { eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { type AluntaTransaction, alunta } from "@/lib/alunta";
+import { collectAluntaMembershipIds } from "@/lib/billing/alunta-membership-ids";
 import {
   cycleListPriceForSubscription,
   FOUNDING_MEMBER,
@@ -11,8 +12,10 @@ import {
   SUBSCRIPTION_PRICE_YEARLY,
 } from "@/lib/config";
 import type { db as DbHandle } from "@/lib/db";
-import { subscriptions, users } from "@/lib/db/schema";
+import { subscriptions, testAluntaSubscriptions, users } from "@/lib/db/schema";
 import { isStoreManaged } from "@/lib/store-billing/state";
+
+import { excludeTestSubscription } from "@/lib/test-accounts";
 
 type FinanceDb = typeof DbHandle;
 
@@ -76,14 +79,29 @@ function guessBillingCycle(sub: AluntaSubscriptionFull): "monthly" | "yearly" {
  * Shared by every finance procedure so MRR/ARR, breakdowns, history, forecasts
  * and the bookkeeping guide all agree instead of some tabs counting demo rows.
  */
-async function fetchNonDemoSubscriptions(db: FinanceDb) {
-  const demoUsers = await db
-    .select({ id: users.id })
-    .from(users)
-    .where(eq(users.isDemo, true));
-  const demoUserIds = new Set(demoUsers.map((u) => u.id));
-  const all = await db.query.subscriptions.findMany();
-  return all.filter((s) => !demoUserIds.has(s.userId));
+const metricsInput = z
+  .object({ includeTestAccounts: z.boolean().optional() })
+  .optional();
+const metricsProcedure = supporterProcedure.input(metricsInput);
+const adminMetricsProcedure = adminProcedure.input(metricsInput);
+
+function subscriptionAccountFilter(includeTestAccounts?: boolean) {
+  return and(
+    sql`${users.isDemo} is not true`,
+    excludeTestSubscription(includeTestAccounts),
+  );
+}
+
+async function fetchNonDemoSubscriptions(
+  db: FinanceDb,
+  includeTestAccounts?: boolean,
+) {
+  const rows = await db
+    .select({ subscription: subscriptions })
+    .from(subscriptions)
+    .innerJoin(users, eq(subscriptions.userId, users.id))
+    .where(subscriptionAccountFilter(includeTestAccounts));
+  return rows.map(({ subscription }) => subscription);
 }
 
 export const adminFinanceRouter = router({
@@ -91,9 +109,12 @@ export const adminFinanceRouter = router({
   // Finance Dashboard Procedures
   // =========================================================================
 
-  getFinanceOverview: supporterProcedure.query(async ({ ctx }) => {
+  getFinanceOverview: metricsProcedure.query(async ({ ctx, input }) => {
     // Demo users (kunde C seed, test accounts) excluded via the shared helper.
-    const allSubs = await fetchNonDemoSubscriptions(ctx.db);
+    const allSubs = await fetchNonDemoSubscriptions(
+      ctx.db,
+      input?.includeTestAccounts,
+    );
 
     const now = new Date();
     const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -193,8 +214,19 @@ export const adminFinanceRouter = router({
   }),
 
   // Actual invoiced revenue from Alunta transactions
-  getAluntaRevenue: supporterProcedure.query(async () => {
+  getAluntaRevenue: metricsProcedure.query(async ({ ctx, input }) => {
     try {
+      const excludedSubscriptions = await collectAluntaMembershipIds(
+        ctx.db,
+        sql<boolean>`not (${subscriptionAccountFilter(input?.includeTestAccounts)})`,
+      );
+      if (!input?.includeTestAccounts) {
+        const historical = await ctx.db.select().from(testAluntaSubscriptions);
+        for (const { subscriptionId } of historical) {
+          excludedSubscriptions.add(subscriptionId);
+        }
+      }
+
       // Fetch invoiced transactions (last 12 months)
       const fromDate = addMonthsToDateStr(copenhagenToday(), -12);
 
@@ -209,7 +241,11 @@ export const adminFinanceRouter = router({
             per_page: "100",
             page: String(page),
           });
-          out.push(...res.data);
+          out.push(
+            ...res.data.filter(
+              (tx) => !excludedSubscriptions.has(tx.membership?.uuid),
+            ),
+          );
           if (!res.meta || page >= res.meta.last_page) break;
           page++;
         }
@@ -254,8 +290,11 @@ export const adminFinanceRouter = router({
     }
   }),
 
-  getSubscriptionBreakdown: supporterProcedure.query(async ({ ctx }) => {
-    const allSubs = await fetchNonDemoSubscriptions(ctx.db);
+  getSubscriptionBreakdown: metricsProcedure.query(async ({ ctx, input }) => {
+    const allSubs = await fetchNonDemoSubscriptions(
+      ctx.db,
+      input?.includeTestAccounts,
+    );
     const now = new Date();
 
     // Billing cycle x status breakdown
@@ -360,9 +399,17 @@ export const adminFinanceRouter = router({
   }),
 
   getMrrHistory: supporterProcedure
-    .input(z.object({ monthsBack: z.number().min(1).max(36).default(12) }))
+    .input(
+      z.object({
+        includeTestAccounts: z.boolean().optional(),
+        monthsBack: z.number().min(1).max(36).default(12),
+      }),
+    )
     .query(async ({ ctx, input }) => {
-      const allSubs = await fetchNonDemoSubscriptions(ctx.db);
+      const allSubs = await fetchNonDemoSubscriptions(
+        ctx.db,
+        input?.includeTestAccounts,
+      );
       const now = new Date();
       const months: {
         month: string;
@@ -457,9 +504,17 @@ export const adminFinanceRouter = router({
     }),
 
   getAccrualSchedule: adminProcedure
-    .input(z.object({ year: z.number().min(2020).max(2040) }))
+    .input(
+      z.object({
+        includeTestAccounts: z.boolean().optional(),
+        year: z.number().min(2020).max(2040),
+      }),
+    )
     .query(async ({ ctx, input }) => {
-      const allSubs = await fetchNonDemoSubscriptions(ctx.db);
+      const allSubs = await fetchNonDemoSubscriptions(
+        ctx.db,
+        input?.includeTestAccounts,
+      );
       const { year } = input;
 
       const monthlySchedule: {
@@ -576,9 +631,17 @@ export const adminFinanceRouter = router({
     }),
 
   getRevenueForecasts: supporterProcedure
-    .input(z.object({ monthsForward: z.number().min(1).max(36).default(12) }))
+    .input(
+      z.object({
+        includeTestAccounts: z.boolean().optional(),
+        monthsForward: z.number().min(1).max(36).default(12),
+      }),
+    )
     .query(async ({ ctx, input }) => {
-      const allSubs = await fetchNonDemoSubscriptions(ctx.db);
+      const allSubs = await fetchNonDemoSubscriptions(
+        ctx.db,
+        input?.includeTestAccounts,
+      );
       const now = new Date();
 
       const activeSubs = allSubs.filter((s) => s.status === "active");
@@ -677,8 +740,11 @@ export const adminFinanceRouter = router({
       };
     }),
 
-  getBookkeepingGuide: adminProcedure.query(async ({ ctx }) => {
-    const allSubs = await fetchNonDemoSubscriptions(ctx.db);
+  getBookkeepingGuide: adminMetricsProcedure.query(async ({ ctx, input }) => {
+    const allSubs = await fetchNonDemoSubscriptions(
+      ctx.db,
+      input?.includeTestAccounts,
+    );
     const now = new Date();
     const year = now.getFullYear();
 

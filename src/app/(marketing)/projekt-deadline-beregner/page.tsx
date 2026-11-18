@@ -93,6 +93,11 @@ export default function ProjektDeadlineBeregnerPage() {
 
   const relatedLinks = [
     {
+      href: "/projektbudget-beregner",
+      title: "Beregn projektets timebudget",
+      description: "Se forventet tidsforbrug og resterende budget.",
+    },
+    {
       href: "/online-stopur",
       title: "Online stopur",
       description: "Gratis stopur til tidsregistrering.",

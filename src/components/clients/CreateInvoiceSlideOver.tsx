@@ -20,6 +20,7 @@ import {
   DineroExportModal,
   type DineroExportSettings,
 } from "@/components/invoices/DineroExportModal";
+import { SendInvoiceDialog } from "@/components/invoices/SendInvoiceDialog";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
 import { formatCurrency, formatTime, toLocalDateStr } from "@/lib/format";
 import { trpc } from "@/providers/trpc-provider";
@@ -52,7 +53,7 @@ export function CreateInvoiceSlideOver({
   const fid = useId();
   const t = useTranslations("clients");
   const tc = useTranslations("common");
-  useEscapeKey(onClose, isOpen);
+  const ti = useTranslations("invoices.sendConfirmation");
   const [notes, setNotes] = useState("");
   const [dueDate, setDueDate] = useState(() => {
     // Default to 14 days from now
@@ -63,12 +64,12 @@ export function CreateInvoiceSlideOver({
   const [destination, setDestination] = useState<Destination>("draft");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Billy export modal state
-  const [showBillyModal, setShowBillyModal] = useState(false);
-  const [pendingInvoiceId, setPendingInvoiceId] = useState<string | null>(null);
-
-  // Dinero export modal state
-  const [showDineroModal, setShowDineroModal] = useState(false);
+  const [pendingInvoice, setPendingInvoice] = useState<{
+    id: string;
+    destination: Exclude<Destination, "draft">;
+  } | null>(null);
+  useEscapeKey(onClose, isOpen && !pendingInvoice && !isSubmitting);
+  const sendMutation = trpc.invoices.sendEmail.useMutation();
 
   const utils = trpc.useUtils();
 
@@ -77,17 +78,9 @@ export function CreateInvoiceSlideOver({
 
   const createInvoiceMutation = trpc.invoices.create.useMutation({
     onSuccess: async (_invoice) => {
-      // For Billy/Dinero, don't close yet - let handleSubmit show the modal
-      if (destination === "billy" || destination === "dinero") {
-        return; // handleSubmit will handle the rest
-      }
-
-      // Handle different destinations
-      if (destination === "send") {
-        toast.success(t("createInvoice.sentToClient"));
-      } else {
-        toast.success(t("createInvoice.savedAsDraft"));
-      }
+      if (destination !== "draft") return;
+      setIsSubmitting(false);
+      toast.success(t("createInvoice.savedAsDraft"));
 
       // Invalidate relevant queries
       utils.invoices.list.invalidate();
@@ -123,23 +116,18 @@ export function CreateInvoiceSlideOver({
         issueDate: toLocalDateStr(new Date()),
         dueDate,
         notes: notes || undefined,
-        status: destination === "draft" ? "draft" : "sent",
+        // "send" stays a draft until sendEmail issues it after confirmation.
+        // Billy/Dinero exports keep the previous behaviour (issued locally).
+        status:
+          destination === "billy" || destination === "dinero"
+            ? "sent"
+            : "draft",
         timeEntryIds: selectedEntryIds,
       });
 
-      // Handle integration exports
-      if (destination === "billy") {
-        // Show Billy settings modal before exporting
-        setPendingInvoiceId(invoice.id);
-        setShowBillyModal(true);
+      if (destination !== "draft") {
+        setPendingInvoice({ id: invoice.id, destination });
         setIsSubmitting(false);
-        return; // Don't close yet - wait for modal
-      } else if (destination === "dinero") {
-        // Show Dinero settings modal before exporting
-        setPendingInvoiceId(invoice.id);
-        setShowDineroModal(true);
-        setIsSubmitting(false);
-        return; // Don't close yet - wait for modal
       }
     } catch (_error) {
       // Fejlen vises af mutationens onError — frigiv knappen igen
@@ -147,22 +135,60 @@ export function CreateInvoiceSlideOver({
     }
   };
 
+  const finishInvoice = () => {
+    setPendingInvoice(null);
+    void utils.invoices.list.invalidate();
+    void utils.time.list.invalidate();
+    onSuccess();
+    onClose();
+  };
+
+  const cancelExport = () => {
+    if (isSubmitting) return;
+    toast.info(t("createInvoice.exportCancelled"));
+    finishInvoice();
+  };
+
+  const sendInvoice = async (email: string) => {
+    if (!pendingInvoice) return;
+    try {
+      await sendMutation.mutateAsync({
+        id: pendingInvoice.id,
+        expectedRecipient: email,
+      });
+      toast.success(ti("sent", { email }));
+      finishInvoice();
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : t("createInvoice.createFailed"),
+      );
+    }
+  };
+
   // Handle Billy export after modal submission
   const handleBillyExport = async (settings: BillyExportSettings) => {
-    if (!pendingInvoiceId) return;
+    if (!pendingInvoice) return;
 
     setIsSubmitting(true);
     try {
       await exportToBillyMutation.mutateAsync({
-        invoiceId: pendingInvoiceId,
+        invoiceId: pendingInvoice.id,
         action: settings.action,
+        expectedRecipient: settings.expectedRecipient,
+        expectedInvoice: settings.expectedInvoice,
         productId: settings.productId,
         paymentTermsDays: settings.paymentTermsDays,
         contactMessage: settings.contactMessage || undefined,
         lineType: settings.lineType,
         lineTemplate: settings.lineTemplate,
       });
-      toast.success(t("createInvoice.exportedBilly"));
+      if (settings.expectedRecipient) {
+        toast.success(ti("sent", { email: settings.expectedRecipient }));
+      } else {
+        toast.success(t("createInvoice.exportedBilly"));
+      }
 
       // Invalidate relevant queries
       utils.invoices.list.invalidate();
@@ -171,33 +197,42 @@ export function CreateInvoiceSlideOver({
       onSuccess();
       onClose();
     } catch (_err) {
-      toast.warning(t("createInvoice.exportBillyFailed"));
+      toast.warning(
+        _err instanceof Error
+          ? _err.message
+          : t("createInvoice.exportBillyFailed"),
+      );
       // Still close the slide-over since invoice was created
       onSuccess();
       onClose();
     } finally {
       setIsSubmitting(false);
-      setShowBillyModal(false);
-      setPendingInvoiceId(null);
+      setPendingInvoice(null);
     }
   };
 
   // Handle Dinero export after modal submission
   const handleDineroExport = async (settings: DineroExportSettings) => {
-    if (!pendingInvoiceId) return;
+    if (!pendingInvoice) return;
 
     setIsSubmitting(true);
     try {
       await exportToDineroMutation.mutateAsync({
-        invoiceId: pendingInvoiceId,
+        invoiceId: pendingInvoice.id,
         action: settings.action,
+        expectedRecipient: settings.expectedRecipient,
+        expectedInvoice: settings.expectedInvoice,
         accountNumber: settings.accountNumber,
         paymentTermsDays: settings.paymentTermsDays,
         contactMessage: settings.contactMessage || undefined,
         lineType: settings.lineType,
         lineTemplate: settings.lineTemplate,
       });
-      toast.success(t("createInvoice.exportedDinero"));
+      if (settings.expectedRecipient) {
+        toast.success(ti("sent", { email: settings.expectedRecipient }));
+      } else {
+        toast.success(t("createInvoice.exportedDinero"));
+      }
 
       // Invalidate relevant queries
       utils.invoices.list.invalidate();
@@ -206,14 +241,17 @@ export function CreateInvoiceSlideOver({
       onSuccess();
       onClose();
     } catch (_err) {
-      toast.warning(t("createInvoice.exportDineroFailed"));
+      toast.warning(
+        _err instanceof Error
+          ? _err.message
+          : t("createInvoice.exportDineroFailed"),
+      );
       // Still close the slide-over since invoice was created
       onSuccess();
       onClose();
     } finally {
       setIsSubmitting(false);
-      setShowDineroModal(false);
-      setPendingInvoiceId(null);
+      setPendingInvoice(null);
     }
   };
 
@@ -237,7 +275,7 @@ export function CreateInvoiceSlideOver({
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: klik udenfor lukker dialogen som musegenvej; tastaturvejen er Escape og dialogens egen luk-knap */}
       <div
         className="fixed inset-0 bg-black/50 z-40 transition-opacity"
-        onClick={onClose}
+        onClick={pendingInvoice || isSubmitting ? undefined : onClose}
       />
 
       {/* Slide-over panel */}
@@ -260,6 +298,7 @@ export function CreateInvoiceSlideOver({
           <button
             type="button"
             onClick={onClose}
+            disabled={isSubmitting || pendingInvoice !== null}
             aria-label={tc("close")}
             className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300"
           >
@@ -417,7 +456,7 @@ export function CreateInvoiceSlideOver({
             <button
               type="button"
               onClick={onClose}
-              disabled={isSubmitting}
+              disabled={isSubmitting || pendingInvoice !== null}
               className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2.5 font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
             >
               {tc("cancel")}
@@ -425,7 +464,11 @@ export function CreateInvoiceSlideOver({
             <button
               type="button"
               onClick={handleSubmit}
-              disabled={isSubmitting || selectedEntryIds.length === 0}
+              disabled={
+                isSubmitting ||
+                pendingInvoice !== null ||
+                selectedEntryIds.length === 0
+              }
               className="flex-1 rounded-lg bg-tt-gran px-4 py-2.5 font-medium text-tt-paa-gran hover:bg-tt-gran-moerk disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
@@ -444,44 +487,31 @@ export function CreateInvoiceSlideOver({
         </div>
       </div>
 
-      {/* Billy Export Modal */}
-      <BillyExportModal
-        isOpen={showBillyModal}
+      <SendInvoiceDialog
+        invoiceId={
+          pendingInvoice?.destination === "send" ? pendingInvoice.id : null
+        }
         onClose={() => {
-          setShowBillyModal(false);
-          setPendingInvoiceId(null);
-          // Invoice was created, so complete the flow
-          if (pendingInvoiceId) {
-            toast.info(t("createInvoice.exportCancelled"));
-            utils.invoices.list.invalidate();
-            utils.time.list.invalidate();
-            onSuccess();
-            onClose();
-          }
+          toast.success(t("createInvoice.savedAsDraft"));
+          finishInvoice();
         }}
+        onSend={sendInvoice}
+      />
+
+      <BillyExportModal
+        isOpen={pendingInvoice?.destination === "billy"}
+        onClose={cancelExport}
         onExport={handleBillyExport}
-        invoiceId={pendingInvoiceId || ""}
+        invoiceId={pendingInvoice?.id ?? ""}
         clientEmail={clientEmail || undefined}
         isLoading={isSubmitting}
       />
 
-      {/* Dinero Export Modal */}
       <DineroExportModal
-        isOpen={showDineroModal}
-        onClose={() => {
-          setShowDineroModal(false);
-          setPendingInvoiceId(null);
-          // Invoice was created, so complete the flow
-          if (pendingInvoiceId) {
-            toast.info(t("createInvoice.exportCancelled"));
-            utils.invoices.list.invalidate();
-            utils.time.list.invalidate();
-            onSuccess();
-            onClose();
-          }
-        }}
+        isOpen={pendingInvoice?.destination === "dinero"}
+        onClose={cancelExport}
         onExport={handleDineroExport}
-        invoiceId={pendingInvoiceId || ""}
+        invoiceId={pendingInvoice?.id ?? ""}
         clientEmail={clientEmail || undefined}
         isLoading={isSubmitting}
       />

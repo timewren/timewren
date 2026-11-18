@@ -113,41 +113,41 @@ describe("TimeWren Cloud-priser: konfigurationen", () => {
 });
 
 describe("TimeWren Cloud-priser: prissiden", () => {
-  it("en: EUR valgt fra start, alle tre valutaer i HTML'en", async () => {
+  it("en: kun EUR (Cloud faktureres i EUR med Stripe), ingen valutavælger", async () => {
     const html = await renderPricing("en");
-    expect(html).toMatch(/id="currency-EUR"[^>]*checked=""/);
-    expect(html).not.toMatch(/id="currency-(USD|DKK)"[^>]*checked=""/);
+    expect(html).not.toContain('name="currency"');
+    expect(html).not.toMatch(/data-currency="(USD|DKK)"/);
     expect(planRow(html, "privat")).toBe(
-      " Privat €4 $4 DKK 29 per month 1 user. Up to 10 active clients. ",
+      " Privat €4 per month 1 user. Up to 10 active clients. ",
     );
-    expect(planRow(html, "solo")).toContain("€11 $12 DKK 79 per month");
+    expect(planRow(html, "solo")).toContain("€11 per month");
     expect(planRow(html, "solo")).toContain("Unlimited active clients");
-    expect(planRow(html, "team")).toContain("€7 $8 DKK 49 per user per month");
+    expect(planRow(html, "team")).toContain("€7 per user per month");
     expect(planRow(html, "team")).toContain("2 to 25 users");
-    expect(planRow(html, "business")).toContain("€9 $10 DKK 69");
+    expect(planRow(html, "business")).toContain("€9 per user per month");
     expect(planRow(html, "business")).toContain("5 to 50 users");
     expect(planRow(html, "free")).toContain(
-      "€0 $0 DKK 0 per month Up to 3 users. Up to 3 active clients.",
+      "€0 per month Up to 3 users. Up to 3 active clients.",
     );
     expect(html).toContain("All prices exclude VAT.");
-    expect(html).toContain(
-      '<span class="billed-dkk">Prices in EUR and USD are billed in DKK until local billing launches.</span>',
-    );
+    expect(html).not.toMatch(/billed in DKK|billed-dkk/);
     expect(html).toContain('href="https://timewren.com/register"');
     expect(html).not.toContain("Coming soon");
   });
 
-  it("da: DKK valgt fra start og danske tal", async () => {
+  it("da: også EUR, med danske tal", async () => {
     const html = await renderPricing("da");
-    expect(html).toMatch(/id="currency-DKK"[^>]*checked=""/);
-    expect(planRow(html, "solo")).toMatch(/79\skr\./);
+    expect(html).not.toContain('name="currency"');
+    expect(planRow(html, "solo")).toMatch(/11\s€/);
+    expect(planRow(html, "solo")).not.toContain("kr.");
     expect(planRow(html, "privat")).toContain("Op til 10 aktive kunder");
     expect(html).toContain("Alle priser er ekskl. moms.");
   });
 
-  it.each(["de", "es"])("%s: EUR valgt fra start", async (l) => {
+  it.each(["de", "es"])("%s: kun EUR", async (l) => {
     const html = await renderPricing(l);
-    expect(html).toMatch(/id="currency-EUR"[^>]*checked=""/);
+    expect(html).toContain('data-currency="EUR"');
+    expect(html).not.toMatch(/data-currency="(USD|DKK)"/);
   });
 
   it("grænser og DKK-priser læses fra billing-koden, ikke fra siden", async () => {
@@ -164,7 +164,8 @@ describe("TimeWren Cloud-priser: prissiden", () => {
     const html = await renderPricing("en");
     expect(planRow(html, "privat")).toContain("Up to 7 active clients");
     expect(planRow(html, "free")).toContain("Up to 4 users");
-    expect(planRow(html, "solo")).toContain("DKK 81");
+    const { timewrenPlans: plans } = await import("../timewren-pricing");
+    expect(plans().find((p) => p.tier === "solo")?.monthly.DKK).toBe(81);
   });
 
   it("valutavælgeren virker uden JS: CSS skjuler de andre valutaer", () => {
@@ -177,8 +178,6 @@ describe("TimeWren Cloud-priser: prissiden", () => {
         `.plan.cloud:has(#currency-${c}:checked) [data-currency]:not([data-currency="${c}"])`,
       );
     }
-    // DKK-noten om fakturering vises kun for EUR og USD.
-    expect(css).toContain(".plan.cloud:has(#currency-DKK:checked) .billed-dkk");
   });
 
   it("siden er statisk (ISR) og har ingen klientkomponenter", () => {

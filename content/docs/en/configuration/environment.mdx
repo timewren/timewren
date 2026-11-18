@@ -17,7 +17,7 @@ Variables named `NEXT_PUBLIC_*` are inlined into the browser bundle when the ima
 
 The prebuilt image `ghcr.io/timewren/timewren` therefore has the other build-time variables fixed (for example `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` and the Sentry browser settings). To change those, build your own image with the matching build arguments, see [Install from source](/docs/install/from-source). The `Build time` column below says which variables this applies to.
 
-The Content-Security-Policy headers are generated in `next.config.ts` from `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` and `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, so they use the values present at build time.
+The Content-Security-Policy headers are generated in `next.config.ts` from `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_UMAMI_COLLECT_URL` and `NEXT_PUBLIC_UMAMI_SCRIPT_URL`, so they use the values present at build time.
 
 > **Note:** Billing variables (`ALUNTA_API_KEY`, `STRIPE_SECRET_KEY`, `STORE_BILLING_ENABLED` and everything that goes with them) are inert for self-hosting. Billing is switched on only when at least one of those three is set. Without them every feature is open: there are no user or client limits, no trial that expires, no upgrade buttons and no payment mails.
 
@@ -201,7 +201,10 @@ Nothing is sent to the maintainers unless you set these. See also [Troubleshooti
 
 | Variable | Default | Required | Build time | Description |
 | --- | --- | --- | --- | --- |
-| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | none | no | yes | URL of a Plausible analytics script. Empty: no analytics script is loaded. Also added to the CSP. |
+| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | none | no | yes | URL of a Plausible analytics script. Empty: no Plausible script is loaded. Also added to the CSP. |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | none | no | yes | URL of the Umami tracker script. Used when no collection URL is configured. |
+| `NEXT_PUBLIC_UMAMI_COLLECT_URL` | none | no | yes | Full collection URL or same-origin path, including any custom path. With the website ID and analytics consent, sends tool events immediately with keepalive. |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | none | no | yes | Website ID for the Umami collector. |
 | `PLAUSIBLE_BASE_URL` | `https://plausible.io` | no | no | Plausible host used by the admin analytics page. |
 | `PLAUSIBLE_SITE_ID` | none | no | no | Plausible site ID for the admin analytics page. |
 | `PLAUSIBLE_API_KEY` | none | no | no | Plausible API key. The admin analytics page needs this and `PLAUSIBLE_SITE_ID`. |
@@ -285,6 +288,7 @@ Compose sets some of these itself; they are listed so you know where they come f
 | `STRIPE_WEBHOOK_SECRET` | none | no | no | Verifies Stripe webhooks. |
 | `STRIPE_TAX_ENABLED` | `false` | no | no | `true` enables Stripe Tax. |
 | `STRIPE_DESKTOP_LIFETIME_PRICE_ID` | empty | no | no | Stripe price ID of the desktop lifetime licence. |
+| `STRIPE_TIMEWREN_PORTAL_CONFIGURATION` | empty | no | no | Multibrand Cloud only: Stripe billing portal configuration for TimeWren accounts. Empty: found or created by metadata `brand=timewren`. |
 | `STORE_BILLING_ENABLED` | none | no | no | `1` turns billing on for in-app purchases (App Store and Google Play). |
 | `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | none | no | no | Service account for verifying Google Play purchases. |
 | `GOOGLE_PLAY_PACKAGE_NAME` | none | no | no | Android package name for Google Play. |

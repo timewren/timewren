@@ -43,7 +43,8 @@ vi.mock("@/lib/db", () => ({
 vi.mock("@/lib/alunta", () => ({
   alunta: { subscriptions: { cancel: vi.fn(async () => ({})) } },
 }));
-vi.mock("@/lib/auth/active-org", () => ({
+vi.mock("@/lib/auth/active-org", async (original) => ({
+  ...(await original<typeof import("@/lib/auth/active-org")>()),
   resolveActiveOrgId: vi.fn(async () => h.activeOrg),
   resolveRequestedOrgId: vi.fn(async ({ orgId }: { orgId: string }) => orgId),
 }));

@@ -78,4 +78,4 @@ export const TELEMETRY_DOCS_URL = `${REPO_URL}/blob/main/docs/telemetry.md`;
  * Dato for de juridiske tekster (privacy, terms), vist som "Last updated".
  * Ret den, når teksterne i legal.* ændres.
  */
-export const LEGAL_LAST_UPDATED = "2026-11-08";
+export const LEGAL_LAST_UPDATED = "2026-11-17";

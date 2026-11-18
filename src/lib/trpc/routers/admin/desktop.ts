@@ -22,14 +22,24 @@ import {
 } from "@/lib/db/schema";
 import { generateLicenseKey } from "@/lib/desktop-auth";
 import { getStripe } from "@/lib/stripe";
+import { excludeTestEmail, excludeTestUsers } from "@/lib/test-accounts";
 import { adminProcedure, router } from "../../trpc";
 import { logAdminAction } from "./shared";
+
+const metricsProcedure = adminProcedure.input(
+  z.object({ includeTestAccounts: z.boolean().optional() }).optional(),
+);
 
 export const adminDesktopRouter = router({
   // ============================================
   // Stats overview
   // ============================================
-  getDesktopStats: adminProcedure.query(async ({ ctx }) => {
+  getDesktopStats: metricsProcedure.query(async ({ ctx, input }) => {
+    const realUsers = excludeTestUsers(input?.includeTestAccounts);
+    const realLicenses = and(
+      realUsers,
+      excludeTestEmail(desktopLicenses.email, input?.includeTestAccounts),
+    );
     const now = new Date();
     const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
@@ -49,11 +59,16 @@ export const adminDesktopRouter = router({
           count: count(),
         })
         .from(desktopLicenses)
-        .where(eq(desktopLicenses.isActive, true))
+        .leftJoin(users, eq(desktopLicenses.userId, users.id))
+        .where(and(eq(desktopLicenses.isActive, true), realLicenses))
         .groupBy(desktopLicenses.tier),
 
       // Total devices
-      ctx.db.select({ count: count() }).from(desktopDevices),
+      ctx.db
+        .select({ count: count() })
+        .from(desktopDevices)
+        .innerJoin(users, eq(desktopDevices.userId, users.id))
+        .where(realUsers),
 
       // Active trials (started within last 30 days)
       ctx.db
@@ -77,7 +92,12 @@ export const adminDesktopRouter = router({
         ),
 
       // Waitlist
-      ctx.db.select({ count: count() }).from(desktopWaitlist),
+      ctx.db
+        .select({ count: count() })
+        .from(desktopWaitlist)
+        .where(
+          excludeTestEmail(desktopWaitlist.email, input?.includeTestAccounts),
+        ),
 
       // Analytics events last 7 days
       ctx.db
@@ -95,10 +115,12 @@ export const adminDesktopRouter = router({
           amountPaidDkk: desktopLicenses.amountPaidDkk,
         })
         .from(desktopLicenses)
+        .leftJoin(users, eq(desktopLicenses.userId, users.id))
         .where(
           and(
             eq(desktopLicenses.tier, "lifetime"),
             isNotNull(desktopLicenses.stripePaymentIntentId),
+            realLicenses,
           ),
         ),
     ]);

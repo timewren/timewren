@@ -3,14 +3,17 @@
 import {
   Activity,
   ArrowUpRight,
+  Building2,
   TrendingUp,
   UserPlus,
   Users,
   Wallet,
 } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ChurnRiskWidget } from "@/components/admin/ChurnRiskWidget";
 import { GrowthWidget } from "@/components/admin/GrowthWidget";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { useBrand } from "@/components/BrandContext";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -106,14 +109,17 @@ function formatRelativeTime(dateStr: string): string {
 }
 
 export default function AdminDashboardPage() {
+  const includeTestAccounts = useIncludeTestAccounts();
+  const t = useTranslations("adminShell");
   // Hostens brand (TimeWren på timewren.com), ikke build-brandet.
   const brand = useBrand();
   const { data: stats, isLoading: statsLoading } =
-    trpc.admin.getSystemStats.useQuery();
+    trpc.admin.getSystemStats.useQuery({ includeTestAccounts });
   const { data: finance, isLoading: financeLoading } =
-    trpc.admin.getFinanceOverview.useQuery();
+    trpc.admin.getFinanceOverview.useQuery({ includeTestAccounts });
   const { data: recentUsers, isLoading: usersLoading } =
     trpc.admin.listUsers.useQuery({
+      includeTestAccounts,
       limit: 5,
       offset: 0,
       sortBy: "created",
@@ -139,14 +145,15 @@ export default function AdminDashboardPage() {
 
       {/* Metric cards */}
       {isLoading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+          <SkeletonCard />
           <SkeletonCard />
           <SkeletonCard />
           <SkeletonCard />
           <SkeletonCard />
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
           <MetricCard
             label="Total brugere"
             value={stats?.totalUsers ?? 0}
@@ -159,6 +166,12 @@ export default function AdminDashboardPage() {
             value={stats?.newUsersThisMonth ?? 0}
             icon={UserPlus}
             color="green"
+          />
+          <MetricCard
+            label={t("activeOrganizations")}
+            value={stats?.activeOrganizations ?? 0}
+            icon={Building2}
+            color="blue"
           />
           <MetricCard
             label="MRR"

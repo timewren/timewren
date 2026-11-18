@@ -1352,6 +1352,7 @@ async function handleTrialEnding(data: AluntaWebhookPayload["data"]) {
       to: user.email,
       userName: user.name || "bruger",
       daysRemaining: daysLeft,
+      organizationId: sub.organizationId,
       upgradeUrl: `${getAppUrl()}/dashboard/settings/subscription`,
       userId: sub.userId,
     });

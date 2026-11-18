@@ -243,16 +243,28 @@ describe("sider", () => {
   );
 
   it.each([
-    ["en", "privacy/", "Privacy policy", "November 8, 2026", "12. Self-hosted"],
-    ["da", "privacy/", "Privatlivspolitik", "8. november 2026", "12. Selvhost"],
-    ["en", "terms/", "Terms of service", "November 8, 2026", "Article 28"],
-    ["da", "terms/", "Vilkår", "8. november 2026", "artikel 28"],
+    [
+      "en",
+      "privacy/",
+      "Privacy policy",
+      "November 17, 2026",
+      "12. Self-hosted",
+    ],
+    [
+      "da",
+      "privacy/",
+      "Privatlivspolitik",
+      "17. november 2026",
+      "12. Selvhost",
+    ],
+    ["en", "terms/", "Terms of service", "November 17, 2026", "Article 28"],
+    ["da", "terms/", "Vilkår", "17. november 2026", "artikel 28"],
   ])(
     "%s %s: endelig tekst med dato, uden udkast-mærke",
     async (l, p, title, date, marker) => {
       const html = await render(p, l);
       expect(html).toContain(`<h1>${title}</h1>`);
-      expect(html).toContain('<time dateTime="2026-11-08">');
+      expect(html).toContain('<time dateTime="2026-11-17">');
       expect(html).toContain(date);
       expect(html).toContain(marker);
       expect(html).toContain("Mahope");

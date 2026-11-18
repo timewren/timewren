@@ -5,3 +5,10 @@
 # (se Dockerfile), og postgres-billedets entrypoint skriver i /var/run og
 # data-mappen. cron og wait-for-database har read-only rodfilsystem.
 KSV-0014
+
+# CVE-2026-112366 picomatch 4.0.7 (DoS via glob-mønster). Ingen rettet version
+# findes endnu (4.0.7 er nyeste). picomatch bruges kun af byggeværktøjer
+# (@rollup/pluginutils via @sentry/nextjs, fumadocs-mdx, tinyglobby, fdir,
+# @parcel/watcher) med faste mønstre fra koden, aldrig med brugerinput.
+# Udløber, så fundet kommer igen, hvis der stadig ikke er en rettelse.
+CVE-2026-112366 exp:2026-12-31

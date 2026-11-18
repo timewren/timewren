@@ -7,7 +7,7 @@
  * medlemskabet holder — ellers brugerens primære org (`resolvePrimaryOrgId`).
  */
 
-import { and, asc, eq, sql } from "drizzle-orm";
+import { and, asc, eq, type SQLWrapper, sql } from "drizzle-orm";
 import type { db as dbType } from "@/lib/db";
 import { members, sessions } from "@/lib/db/schema";
 
@@ -84,12 +84,37 @@ export async function resolvePrimaryOrgId({
     where: eq(members.userId, userId),
     columns: { organizationId: true },
     orderBy: [
-      sql`CASE WHEN ',' || replace(lower(${members.role}), ' ', '') || ',' LIKE '%,owner,%' THEN 0 ELSE 1 END`,
+      ownerMembershipOrder(members.role),
       asc(members.createdAt),
       sql`${members.organizationId} COLLATE "C"`,
     ],
   });
   return membership?.organizationId ?? null;
+}
+
+export function isOwnerRoleSql(role: SQLWrapper) {
+  return sql`',' || replace(lower(${role}), ' ', '') || ',' LIKE '%,owner,%'`;
+}
+
+function ownerMembershipOrder(role: SQLWrapper) {
+  return sql`CASE WHEN ${isOwnerRoleSql(role)} THEN 0 ELSE 1 END`;
+}
+
+/** SQL equivalent of the active workspace resolution for a stored session. */
+export function sessionOrganizationIdSql(
+  userId: SQLWrapper = sessions.userId,
+  activeOrganizationId: SQLWrapper = sessions.activeOrganizationId,
+) {
+  return sql`(
+    select membership.organization_id from ${members} as membership
+    where membership.user_id = ${userId}
+    order by
+      case when membership.organization_id = ${activeOrganizationId} then 0 else 1 end,
+      ${ownerMembershipOrder(sql`membership.role`)},
+      membership.created_at asc nulls last,
+      membership.organization_id collate "C"
+    limit 1
+  )`;
 }
 
 /**

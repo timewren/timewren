@@ -21,6 +21,7 @@ import { AdminTable } from "@/components/admin";
 import { BulkBanDomainModal } from "@/components/admin/BulkBanDomainModal";
 import { BulkEmailModal } from "@/components/admin/BulkEmailModal";
 import { BulkRoleChangeModal } from "@/components/admin/BulkRoleChangeModal";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { UserHealthScore } from "@/components/admin/UserHealthScore";
 import { FoundingTierBadge } from "@/components/ui/FoundingTierBadge";
 import { toIntlLocale } from "@/i18n/format-locale";
@@ -112,7 +113,9 @@ export default function AdminUsersPage() {
   const utils = trpc.useUtils();
   const onlyFlagged = searchParams.get("flagged") === "true";
 
+  const includeTestAccounts = useIncludeTestAccounts();
   const { data, isLoading } = trpc.admin.listUsers.useQuery({
+    includeTestAccounts,
     limit,
     offset: page * limit,
     search: search || undefined,

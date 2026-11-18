@@ -237,7 +237,7 @@
       "caption": "Selbst gehostet und TimeWren Cloud im Vergleich",
       "selfHosted": "Selbst gehostet",
       "cloud": "TimeWren Cloud",
-      "cloudStatus": "Demnächst",
+      "cloudStatus": "Geöffnet",
       "rows": [
         ["Preis", "Kostenlos, für immer", "Monatliches Abo"],
         ["Funktionen", "Alle", "Alle"],
@@ -314,7 +314,7 @@
         ],
         [
           "Was kostet TimeWren Cloud?",
-          "Die Preise sind noch nicht endgültig. Die Preisseite zeigt sie in EUR, USD und DKK, und die Cloud öffnet später für neue Konten."
+          "Es gibt einen kostenlosen Plan für bis zu 3 Nutzer. Bezahlte Pläne beginnen bei 4 € im Monat und werden monatlich in EUR abgerechnet. Die Preise verstehen sich zzgl. MwSt. und stehen auf der Preisseite."
         ],
         [
           "Was brauche ich zum Selbsthosten?",
@@ -389,7 +389,6 @@
       "unlimited": "Unbegrenzt viele aktive Kunden"
     },
     "vat": "Alle Preise zzgl. MwSt.",
-    "billedInDkk": "Preise in EUR und USD werden in DKK abgerechnet, bis die lokale Abrechnung startet.",
     "cloudCta": "Cloud-Konto erstellen",
     "plans": {
       "free": "Gratis",
@@ -445,7 +444,7 @@
           "items": [
             "**Kontodaten:** Name, E-Mail-Adresse, Firmenname und Telefonnummer (optional).",
             "**Nutzungsdaten:** Zeiteinträge, Kundendaten, Projekte, Rechnungen und Aufgaben.",
-            "**Zahlungsdaten:** Abonnements werden über Alunta bezahlt, das die Kartendaten verarbeitet. Wir erhalten niemals Ihre vollständige Kartennummer.",
+            "**Zahlungsdaten:** Bezahlte Tarife werden über Stripe bezahlt, das Kartendaten, Rechnungsadresse und USt-IdNr. verarbeitet. Wir erhalten niemals Ihre vollständige Kartennummer.",
             "**Kalenderdaten:** Kalenderereignisse, nur wenn Sie einen Kalender verbinden.",
             "**Technische Daten:** IP-Adresse, Browsertyp, Gerätetyp und Fehlerberichte."
           ]
@@ -469,6 +468,7 @@
           ],
           "items": [
             "**Hetzner Online GmbH (Deutschland):** Server, Datenbank, Dateien, Backups und unser eigener Mailserver. Die Datenbank befindet sich in Nürnberg, Deutschland, Dateien und Backups in Helsinki, Finnland. Beide Standorte liegen in der EU.",
+            "**Stripe Payments Europe, Ltd. (Irland):** Zahlungen für bezahlte Tarife: Kartendaten, Rechnungsname und -adresse, USt-IdNr., Rechnungen und Belege. Wird nur genutzt, wenn ein Konto einen bezahlten Tarif wählt. Daten können auf Grundlage des EU-U.S. Data Privacy Framework und der EU-Standardvertragsklauseln an Stripe, Inc. in den USA übermittelt werden.",
             "**Resend, Inc. (USA):** versendet E-Mails aus TimeWren Cloud (Anmeldelinks, Benachrichtigungen, Erinnerungen) und empfängt E-Mails, die Sie dorthin weiterleiten. Resends EU-Region in Irland. Grundlage: EU-Standardvertragsklauseln und das EU-U.S. Data Privacy Framework.",
             "**Functional Software, Inc. / Sentry (USA):** Fehlerberichterstattung. Ein Bericht kann eine Benutzer-ID, die URL und technische Angaben enthalten; die standardmäßige Erhebung personenbezogener Daten ist deaktiviert. Grundlage: EU-U.S. Data Privacy Framework, mit EU-Standardvertragsklauseln als Auffanglösung.",
             "**Discord Inc. (USA):** interne Betriebsnachrichten an uns, einschließlich Name und E-Mail-Adresse, wenn ein Benutzer angelegt wird. Grundlage: EU-U.S. Data Privacy Framework und EU-Standardvertragsklauseln."
@@ -613,10 +613,9 @@
           "title": "5. Preise und Zahlung",
           "items": [
             "**Tarife und Preise:** die aktuellen Tarife und Preise stehen auf der [Preisseite](pricing).",
-            "**Jährliche Zahlung:** kostet so viel wie 10 Monate (2 Monate kostenlos).",
-            "**Testphase:** 30 Tage kostenlos, ohne Karte und ohne Bindung.",
-            "**Währung und Mehrwertsteuer:** Preise verstehen sich ohne Mehrwertsteuer. Abonnements werden in dänischen Kronen (DKK) abgerechnet. In EUR oder USD angezeigte Preise werden in DKK abgerechnet.",
-            "**Zahlung:** monatlich oder jährlich im Voraus per Karte.",
+            "**Testphase:** die Tarife Solo, Team und Business beginnen mit 14 Tagen kostenlos. Eine Karte ist erforderlich, und Sie können vor dem Ende der Testphase kündigen, ohne zu bezahlen. Der kostenlose Tarif braucht keine Karte.",
+            "**Währung und Mehrwertsteuer:** Abonnements werden in Euro (EUR) abgerechnet. Preise verstehen sich ohne Mehrwertsteuer; die Mehrwertsteuer wird beim Bezahlen je nach Land hinzugefügt, oder für Unternehmen in der EU mit gültiger USt-IdNr. gilt das Reverse-Charge-Verfahren.",
+            "**Zahlung:** monatlich im Voraus per Karte über unseren Zahlungsanbieter Stripe. Belege und Rechnungen kommen per E-Mail und stehen unter Einstellungen → Abonnement zum Download bereit.",
             "**Kündigung:** Sie können jederzeit ohne Bindung kündigen.",
             "**Rückerstattungen:** wir bieten eine 14-tägige Geld-zurück-Garantie. Schreiben Sie an {email}, um eine Rückerstattung zu beantragen."
           ]

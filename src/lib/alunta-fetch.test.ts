@@ -58,6 +58,42 @@ describe("aluntaFetch genforsøg", () => {
     expect(err.message).toMatch(/^Alunta API 502/);
   });
 
+  it("logger ikke Aluntas svartekst efter genforsøg", async () => {
+    fetchMock.mockImplementation(async () =>
+      json({ message: "Konflikt for kunde@example.dk" }, 502),
+    );
+    const err = await alunta.subscriptions.listAll().catch((e) => e);
+    const logged = JSON.stringify(vi.mocked(console.error).mock.calls);
+    expect(logged).toContain("502");
+    expect(logged).not.toContain("kunde@example.dk");
+    expect(err.message).not.toContain("kunde@example.dk");
+  });
+
+  it("logger ikke rå Content-Type-headere", async () => {
+    const contentType = 'application/problem+json; contact="kunde@example.dk"';
+    fetchMock.mockImplementation(
+      async () =>
+        new Response("{}", {
+          status: 502,
+          headers: { "content-type": contentType },
+        }),
+    );
+    const apiErr = await alunta.subscriptions.listAll().catch((e) => e);
+    fetchMock.mockImplementation(
+      async () =>
+        new Response("<html></html>", {
+          status: 200,
+          headers: { "content-type": `text/html; contact="kunde@example.dk"` },
+        }),
+    );
+    const formatErr = await alunta.subscriptions.listAll().catch((e) => e);
+    const logged = JSON.stringify(vi.mocked(console.error).mock.calls);
+    expect(logged).toContain("502");
+    expect(logged).not.toContain("kunde@example.dk");
+    expect(apiErr.message).not.toContain("kunde@example.dk");
+    expect(formatErr.message).not.toContain("kunde@example.dk");
+  });
+
   it("prøver ikke en 4xx igen", async () => {
     fetchMock.mockResolvedValue(json({ message: "Unauthenticated" }, 401));
     const err = await alunta.subscriptions.listAll().catch((e) => e);

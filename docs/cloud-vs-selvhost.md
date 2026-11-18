@@ -27,7 +27,7 @@ TimeTrack Cloud and a self-hosted instance run the same code base. What differs 
 | Data processing agreement | [DPA](DPA.md)                                                         | You are the controller and processor                                                                                                |
 | Support                   | Support level and response times: not decided                         | No direct support. Optional support agreement: not decided                                                                          |
 | SLA                       | Not decided                                                           | None                                                                                                                                |
-| Price                     | Not decided here. The current plans are listed in the app             | Free                                                                                                                                |
+| Price                     | Free plan, paid plans from €4 a month, billed monthly in EUR excl. VAT ([pricing](https://timewren.com/pricing)) | Free                                                                                                                                |
 | License                   | Same source code                                                      | Same source code                                                                                                                    |
 
 ## What Cloud sells

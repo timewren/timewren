@@ -25,6 +25,7 @@ import { useBrand } from "@/components/BrandContext";
 import { PageHeader } from "@/components/dashboard-nav";
 import { AdminOnlyNotice } from "@/components/settings/AdminOnlyNotice";
 import { StoreSubscriptionCard } from "@/components/subscription/StoreSubscriptionCard";
+import { TimewrenBillingPanel } from "@/components/subscription/TimewrenBillingPanel";
 import { FoundingCustomerBadge } from "@/components/ui/FoundingCustomerBadge";
 import { FoundingTierBadge } from "@/components/ui/FoundingTierBadge";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
@@ -279,8 +280,15 @@ export default function SubscriptionPage() {
   const utils = trpc.useUtils();
 
   // Uden billing (selvhost) findes siden ikke: ingen forespørgsler, kun en note
-  const { enabled: billingEnabled, checkoutAvailable } = useBillingEnabled();
-  const billingQuery = { enabled: billingEnabled };
+  const {
+    enabled: billingEnabled,
+    checkoutAvailable,
+    provider,
+    isLoading: billingLoading,
+  } = useBillingEnabled();
+  // TimeWren betaler med Stripe (TimewrenBillingPanel): ingen Alunta-opslag.
+  const isStripe = provider === "stripe";
+  const billingQuery = { enabled: billingEnabled && !isStripe };
 
   const { data: details, isLoading } = trpc.subscription.getDetails.useQuery();
   const { data: seatInfo } = trpc.organization.checkSeatAvailability.useQuery();
@@ -356,6 +364,8 @@ export default function SubscriptionPage() {
 
   // Handle success/cancel redirects from checkout
   useEffect(() => {
+    // Vent på udbyderen, så Stripe-genhentningen nedenfor ikke misses.
+    if (billingLoading) return;
     if (searchParams.get("success") === "true") {
       toast.success(t("toast.paymentMethodAdded"));
       // Track Google Ads conversion
@@ -370,6 +380,14 @@ export default function SubscriptionPage() {
         setDesiredExtraSeats(reseats);
       }
       utils.subscription.getDetails.invalidate();
+      if (isStripe) {
+        // Stripe-webhooken kan lande lidt efter kunden: hent igen om lidt.
+        utils.timewrenBilling.overview.invalidate();
+        setTimeout(() => {
+          utils.timewrenBilling.overview.invalidate();
+          utils.subscription.getDetails.invalidate();
+        }, 4000);
+      }
       router.replace("/dashboard/settings/subscription");
     }
     if (searchParams.get("seats_success") === "true") {
@@ -382,7 +400,7 @@ export default function SubscriptionPage() {
       toast.info(t("toast.paymentCanceled"));
       router.replace("/dashboard/settings/subscription");
     }
-  }, [searchParams, utils, router, t]);
+  }, [searchParams, utils, router, t, isStripe, billingLoading]);
 
   const handleCheckout = async (billingCycle?: "monthly" | "yearly") => {
     const result = await createCheckoutMutation.mutateAsync({
@@ -441,7 +459,21 @@ export default function SubscriptionPage() {
     );
   }
 
-  // TimeWren: kontoen er på Gratis, og betaling kommer senere
+  // TimeWren Cloud: planer i EUR, Stripe Checkout og kundeportal.
+  if (isStripe) {
+    return (
+      <div className="mx-auto max-w-4xl space-y-4">
+        <PageHeader
+          title={t("header.title")}
+          description={t("header.description")}
+        />
+        <AdminOnlyNotice>{t("header.adminOnly")}</AdminOnlyNotice>
+        <TimewrenBillingPanel />
+      </div>
+    );
+  }
+
+  // TimeWren uden betaling: kontoen er på Gratis
   // (lib/billing/brand-billing.ts). Ingen planvalg eller checkout her.
   if (!checkoutAvailable) {
     return (

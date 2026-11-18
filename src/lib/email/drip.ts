@@ -18,6 +18,7 @@ import { getPersonalReplyTo } from "@/lib/config";
 import { mailT } from "@/lib/email/locale";
 import { type MailBrand, resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
+import { isTestEmailRecipient } from "@/lib/email/test-recipient";
 import { PERSONAL_FROM_EMAIL, resend } from "@/lib/resend";
 import { appUrlEnv } from "@/lib/runtime-env";
 import { withEmailLogging } from "./logger";
@@ -39,6 +40,7 @@ export async function sendDripWelcomeEmail({
   userName,
   userId,
 }: DripEmailParams) {
+  if (await isTestEmailRecipient(to, userId)) return;
   const mb = await resolveMailBrand({ userId, email: to });
   const dashboardUrl = `${mb?.appUrl ?? appUrlEnv()}/dashboard`;
 

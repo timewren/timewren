@@ -455,7 +455,14 @@ export class DineroIntegration extends BaseIntegration {
     return this.fetchWithRetry(
       `${this.baseUrl}/${this.organizationId}/invoices/${invoiceGuid}`,
       { headers: this.getHeaders() },
-      async (response) => response.json(),
+      async (response) => {
+        const raw = await response.json();
+        return {
+          ...raw,
+          totalInclVat: raw.TotalInclVat ?? raw.totalInclVat,
+          currency: raw.Currency ?? raw.currency,
+        };
+      },
     );
   }
 

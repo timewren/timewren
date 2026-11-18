@@ -1,6 +1,8 @@
-import { and, eq, isNull, lt, or } from "drizzle-orm";
+import { and, eq, isNull, lt, not, or } from "drizzle-orm";
 import { isBillingEnabled } from "@/lib/billing/billing-enabled";
 import { FREE_TIER_SUBSCRIPTION_FIELDS } from "@/lib/billing/plan-limits";
+import { isTimewrenStripeEnabled } from "@/lib/billing/timewren-stripe";
+import { timewrenStripeRow } from "@/lib/billing/timewren-trial-rows";
 import { withCronLogging } from "@/lib/cron/log-cron-run";
 import { db } from "@/lib/db";
 import { subscriptions } from "@/lib/db/schema";
@@ -22,6 +24,8 @@ import { notStoreManaged } from "@/lib/store-billing/persist";
 // `trial_expired` by the earlier rule (2+ members → paywall) are moved to
 // Gratis by the same run.
 
+const STRIPE_TRIAL_GRACE_MS = 3 * 24 * 60 * 60 * 1000;
+
 export const GET = withCronLogging("trial-expire", async (_request) => {
   // Uden betalingsudbyder (selvhost) findes ingen planer eller prøveperioder
   if (!isBillingEnabled()) {
@@ -34,10 +38,23 @@ export const GET = withCronLogging("trial-expire", async (_request) => {
 
   const now = new Date();
 
+  // TimeWren Cloud (Stripe): Stripe afslutter selv prøven og opkræver, og
+  // webhooken skriver den nye status. Rør kun en TimeWren-Stripe-række, hvis
+  // den stadig står som prøve STRIPE_TRIAL_GRACE_MS efter prøvens slutning.
+  // Kun når TimeWren-betalingen er slået til, og kun TimeWren-organisationers
+  // rækker: TimeTrack-rækker med et historisk Stripe-id er som før.
+  const stripeCutoff = new Date(now.getTime() - STRIPE_TRIAL_GRACE_MS);
+
   const unpaidExpiredFilter = and(
     isNull(subscriptions.aluntaSubscriptionId),
     // Betalt i appen: butikken styrer rækken, aldrig nedgradér den her.
     notStoreManaged(),
+    isTimewrenStripeEnabled()
+      ? or(
+          not(timewrenStripeRow()),
+          lt(subscriptions.trialEndsAt, stripeCutoff),
+        )
+      : undefined,
     or(
       and(
         eq(subscriptions.status, "trialing"),

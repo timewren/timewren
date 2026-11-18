@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { trpc } from "@/providers/trpc-provider";
 
 // ============================================
@@ -921,8 +922,9 @@ function AnalyticsTab() {
 // ============================================
 export default function DesktopAdminPage() {
   const [activeTab, setActiveTab] = useState<Tab>("licenser");
+  const includeTestAccounts = useIncludeTestAccounts();
   const { data: stats, isLoading: statsLoading } =
-    trpc.admin.desktop.getDesktopStats.useQuery();
+    trpc.admin.desktop.getDesktopStats.useQuery({ includeTestAccounts });
 
   return (
     <div className="space-y-6">

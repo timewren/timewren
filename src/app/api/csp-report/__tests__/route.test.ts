@@ -2,7 +2,8 @@
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { RATE_LIMIT_CONFIGS } from "@/lib/utils/rate-limiter";
-import { POST, summarizeReport } from "../route";
+import { POST } from "../route";
+import { summarizeReport } from "../summarize-report";
 
 /**
  * /api/csp-report (#1121): accepts reports without login, logs only the

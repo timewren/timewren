@@ -88,6 +88,11 @@ export default function MinutterTilTimerPage() {
       relatedSubtitle="Flere gratis værktøjer til dig, der arbejder på timer:"
       relatedLinks={[
         {
+          href: "/afrunding-af-timer",
+          title: "Afrund timer til fakturaen",
+          description: "Rund en tidsregistrering op til et aftalt interval.",
+        },
+        {
           href: "/arbejdstimer-beregner",
           title: "Arbejdstimer-beregner",
           description:

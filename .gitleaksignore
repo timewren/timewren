@@ -7,3 +7,7 @@ docs/superpowers/specs/2026-06-18-valkey-realtime-cache-design.md:generic-api-ke
 # match the generic-api-key and asana-client-secret entropy rules.
 src/i18n/messages/en/settingsSecurity.json:generic-api-key:12
 src/i18n/messages/fi/settingsSecurity.json:asana-client-secret:37
+
+# Placeholder Stripe key in a test (commit 4d1505edd); replaced in 07eb40a58.
+4d1505eddf1d99d2923b55743c65f0814f77c85a:src/lib/billing/__tests__/timewren-stripe-trials.integration.test.ts:stripe-access-token:84
+4d1505eddf1d99d2923b55743c65f0814f77c85a:src/lib/billing/__tests__/timewren-stripe-trials.integration.test.ts:stripe-access-token:89

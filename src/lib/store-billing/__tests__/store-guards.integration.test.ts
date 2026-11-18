@@ -71,7 +71,8 @@ vi.mock("@/lib/modules/plan-grants", () => ({
 vi.mock("@/lib/billing/auto-seats", () => ({
   syncSeatsToUsage: vi.fn(async () => ({ ok: false, reason: "test" })),
 }));
-vi.mock("@/lib/auth/active-org", () => ({
+vi.mock("@/lib/auth/active-org", async (original) => ({
+  ...(await original<typeof import("@/lib/auth/active-org")>()),
   resolveActiveOrgId: vi.fn(async () => "org-butik"),
   resolveRequestedOrgId: vi.fn(async ({ orgId }: { orgId: string }) => orgId),
 }));
@@ -96,7 +97,13 @@ import { POST as appStorePOST } from "@/app/api/webhooks/app-store/route";
 import { POST as googlePlayPOST } from "@/app/api/webhooks/google-play/route";
 import { alunta } from "@/lib/alunta";
 import * as schema from "@/lib/db/schema";
-import { members, subscriptions, users, webhookEvents } from "@/lib/db/schema";
+import {
+  members,
+  organizations,
+  subscriptions,
+  users,
+  webhookEvents,
+} from "@/lib/db/schema";
 import {
   sendPaymentReminderEmail,
   sendTrialEndingEmail,
@@ -147,6 +154,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
         "subscriptions",
         "store_billing_events",
         "members",
+        "organizations",
         "invitations",
         "user",
         "sent_emails",
@@ -195,7 +203,13 @@ describe.skipIf(!TEST_DATABASE_URL)(
 
     it("trial-reminder sender ingen web-mail til en butikskunde", async () => {
       const inSevenDays = new Date(Date.now() + 7 * DAY);
-      for (const id of ["tr-web", "tr-butik"]) await user(id);
+      for (const id of ["tr-web", "tr-butik", "tr-marked"]) await user(id);
+      await db.insert(organizations).values({
+        id: "marked-trial",
+        slug: "marked-trial",
+        name: "Marked trial",
+        isTestAccount: true,
+      });
       await db.insert(subscriptions).values([
         {
           userId: "tr-web",
@@ -211,6 +225,13 @@ describe.skipIf(!TEST_DATABASE_URL)(
           ...STORE,
           storeOriginalTransactionId: "otx-tr",
         },
+        {
+          userId: "tr-marked",
+          organizationId: "marked-trial",
+          billingCycle: "monthly",
+          status: "trialing",
+          trialEndsAt: inSevenDays,
+        },
       ]);
       vi.mocked(sendTrialEndingEmail).mockClear();
       await trialReminderGET(cronRequest());
@@ -219,6 +240,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
         .mock.calls.map((c) => c[0].userId);
       expect(recipients).toContain("tr-web");
       expect(recipients).not.toContain("tr-butik");
+      expect(recipients).not.toContain("tr-marked");
     });
 
     it("dunning rykker ikke en butikskunde med web-links", async () => {

@@ -15,6 +15,7 @@ import { RefreshIndicator } from "@/components/admin";
 import { RevenueChart } from "@/components/admin/RevenueChart";
 import { RevenueOverview } from "@/components/admin/RevenueOverview";
 import { SubscriptionTable } from "@/components/admin/SubscriptionTable";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { WebhookLogs } from "@/components/admin/WebhookLogs";
 import { InlineSpinner } from "@/components/ui/LoadingScreen";
 import { trpc } from "@/providers/trpc-provider";
@@ -41,20 +42,24 @@ const tabs: {
 ];
 
 export default function FinancePage() {
+  const includeTestAccounts = useIncludeTestAccounts();
   const [activeTab, setActiveTab] = useState<Tab>("overblik");
   const utils = trpc.useUtils();
 
   const { data: overview, isLoading: loadingOverview } =
-    trpc.admin.getFinanceOverview.useQuery(undefined, {
-      enabled: activeTab === "overblik",
-    });
+    trpc.admin.getFinanceOverview.useQuery(
+      { includeTestAccounts },
+      {
+        enabled: activeTab === "overblik",
+      },
+    );
   const { data: aluntaRevenue } = trpc.admin.getAluntaRevenue.useQuery(
-    undefined,
+    { includeTestAccounts },
     { enabled: activeTab === "overblik" },
   );
   const { data: mrrHistory, isLoading: loadingMrrHistory } =
     trpc.admin.getMrrHistory.useQuery(
-      { monthsBack: 12 },
+      { includeTestAccounts, monthsBack: 12 },
       { enabled: activeTab === "overblik" },
     );
 

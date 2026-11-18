@@ -29,7 +29,7 @@ const KEYS = [
 ];
 
 function fakeDb(execute: () => Promise<unknown>) {
-  return {
+  const db = {
     query: {
       members: {
         findMany: vi.fn(async () => [
@@ -43,6 +43,23 @@ function fakeDb(execute: () => Promise<unknown>) {
       mocks.order.push("db");
       return execute();
     }),
+  };
+  return {
+    ...db,
+    async transaction(run: (tx: unknown) => Promise<void>) {
+      const selection = {
+        from: () => selection,
+        innerJoin: () => selection,
+        where: () => selection,
+      };
+      await run({
+        execute: db.execute,
+        select: () => selection,
+        insert: () => ({
+          select: () => ({ onConflictDoNothing: async () => {} }),
+        }),
+      });
+    },
   };
 }
 

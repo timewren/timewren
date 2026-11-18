@@ -237,7 +237,7 @@
       "caption": "Autoalojado y TimeWren Cloud comparados",
       "selfHosted": "Autoalojado",
       "cloud": "TimeWren Cloud",
-      "cloudStatus": "Próximamente",
+      "cloudStatus": "Abierto",
       "rows": [
         ["Precio", "Gratis, para siempre", "Suscripción mensual"],
         ["Funciones", "Todas", "Todas"],
@@ -330,7 +330,7 @@
         ],
         [
           "¿Cuánto cuesta TimeWren Cloud?",
-          "Los precios aún no son definitivos. La página de precios los muestra en EUR, USD y DKK, y Cloud se abrirá a cuentas nuevas más adelante."
+          "Hay un plan gratuito para hasta 3 usuarios. Los planes de pago empiezan en 4 € al mes y se facturan mensualmente en EUR. Los precios no incluyen IVA y están en la página de precios."
         ],
         [
           "¿Qué necesito para alojarlo yo?",
@@ -405,7 +405,6 @@
       "unlimited": "Clientes activos ilimitados"
     },
     "vat": "Todos los precios sin IVA.",
-    "billedInDkk": "Los precios en EUR y USD se facturan en DKK hasta que llegue la facturación local.",
     "cloudCta": "Crear una cuenta en Cloud",
     "plans": {
       "free": "Gratis",
@@ -461,7 +460,7 @@
           "items": [
             "**Datos de la cuenta:** nombre, correo electrónico, nombre de la empresa y número de teléfono (opcional).",
             "**Datos de uso:** registros de tiempo, datos de clientes, proyectos, facturas y tareas.",
-            "**Datos de pago:** las suscripciones se pagan a través de Alunta, que gestiona los datos de la tarjeta. Nunca recibimos el número completo de su tarjeta.",
+            "**Datos de pago:** los planes de pago se pagan a través de Stripe, que gestiona los datos de la tarjeta, la dirección de facturación y el número de IVA. Nunca recibimos el número completo de su tarjeta.",
             "**Datos del calendario:** eventos del calendario, solo si conecta un calendario.",
             "**Datos técnicos:** dirección IP, tipo de navegador, tipo de dispositivo e informes de errores."
           ]
@@ -485,6 +484,7 @@
           ],
           "items": [
             "**Hetzner Online GmbH (Alemania):** servidor, base de datos, archivos, copias de seguridad y nuestro propio servidor de correo. La base de datos está en Núremberg, Alemania, y los archivos y las copias de seguridad están en Helsinki, Finlandia. Ambas ubicaciones están en la UE.",
+            "**Stripe Payments Europe, Ltd. (Irlanda):** pagos de los planes de pago: datos de la tarjeta, nombre y dirección de facturación, número de IVA, facturas y recibos. Solo se usa cuando una cuenta elige un plan de pago. Los datos pueden transferirse a Stripe, Inc. en EE. UU. en virtud del EU-U.S. Data Privacy Framework y las cláusulas contractuales tipo de la UE.",
             "**Resend, Inc. (EE. UU.):** envía correos electrónicos desde TimeWren Cloud (enlaces de inicio de sesión, notificaciones, recordatorios) y recibe los correos que usted le reenvía. Región de la UE de Resend en Irlanda. Base: cláusulas contractuales tipo de la UE y el Marco de Privacidad de Datos UE-EE. UU.",
             "**Functional Software, Inc. / Sentry (EE. UU.):** informes de errores. Un informe puede contener un ID de usuario, la URL y detalles técnicos; la recogida predeterminada de datos personales está desactivada. Base: Marco de Privacidad de Datos UE-EE. UU., con las cláusulas contractuales tipo de la UE como alternativa de respaldo.",
             "**Discord Inc. (EE. UU.):** mensajes internos de operaciones dirigidos a nosotros, incluidos el nombre y el correo electrónico cuando se crea un usuario. Base: Marco de Privacidad de Datos UE-EE. UU. y cláusulas contractuales tipo de la UE."
@@ -629,10 +629,9 @@
           "title": "5. Precios y pago",
           "items": [
             "**Planes y precios:** los planes y precios actuales están en la [página de precios](pricing).",
-            "**Pago anual:** cuesta lo mismo que 10 meses (2 meses gratis).",
-            "**Prueba:** 30 días gratis, sin tarjeta y sin compromiso.",
-            "**Moneda e IVA:** los precios no incluyen IVA. Las suscripciones se facturan en coronas danesas (DKK). Los precios mostrados en EUR o USD se facturan en DKK.",
-            "**Pago:** mensual o anual por adelantado mediante tarjeta.",
+            "**Prueba:** los planes Solo, Equipo y Empresa empiezan con 14 días gratis. Se requiere tarjeta, y puede cancelar antes de que termine la prueba sin pagar. El plan gratuito no necesita tarjeta.",
+            "**Moneda e IVA:** las suscripciones se facturan en euros (EUR). Los precios no incluyen IVA; el IVA se añade al pagar según su país, o se aplica la inversión del sujeto pasivo a empresas de la UE con un número de IVA válido.",
+            "**Pago:** mensual por adelantado mediante tarjeta, a través de nuestro proveedor de pagos Stripe. Los recibos y las facturas se envían por correo y se pueden descargar en Ajustes → Suscripción.",
             "**Cancelación:** puede cancelar en cualquier momento sin compromiso.",
             "**Reembolsos:** ofrecemos una garantía de devolución del dinero de 14 días. Escriba a {email} para solicitar un reembolso."
           ]

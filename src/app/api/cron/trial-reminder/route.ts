@@ -1,11 +1,14 @@
 import { and, eq, gte, lte } from "drizzle-orm";
 import { isBillingEnabled } from "@/lib/billing/billing-enabled";
+import { isTimewrenStripeEnabled } from "@/lib/billing/timewren-stripe";
+import { timewrenStripeRow } from "@/lib/billing/timewren-trial-rows";
 import { getAppUrl } from "@/lib/config";
 import { withCronLogging } from "@/lib/cron/log-cron-run";
 import { db } from "@/lib/db";
 import { emailDeliveryLogs, subscriptions, users } from "@/lib/db/schema";
 import { sendTrialEndingEmail } from "@/lib/email/billing";
 import { notStoreManaged } from "@/lib/store-billing/persist";
+import { excludeTestOrganization, excludeTestUsers } from "@/lib/test-accounts";
 
 // Cron schedule: 0 9 * * * (every day at 09:00 Europe/Copenhagen)
 //
@@ -47,6 +50,8 @@ export const GET = withCronLogging("trial-reminder", async (_request) => {
   let sent1d = 0;
   let skippedAlreadySent = 0;
   let skippedHasAlunta = 0;
+  let skippedHasStripe = 0;
+  const stripeTrials = isTimewrenStripeEnabled();
   let skippedDemo = 0;
   let failed = 0;
 
@@ -68,8 +73,10 @@ export const GET = withCronLogging("trial-reminder", async (_request) => {
       .select({
         subId: subscriptions.id,
         userId: subscriptions.userId,
+        organizationId: subscriptions.organizationId,
         trialEndsAt: subscriptions.trialEndsAt,
         aluntaSubscriptionId: subscriptions.aluntaSubscriptionId,
+        isTimewrenStripe: timewrenStripeRow(),
         userName: users.name,
         userEmail: users.email,
         isDemo: users.isDemo,
@@ -83,6 +90,8 @@ export const GET = withCronLogging("trial-reminder", async (_request) => {
           lte(subscriptions.trialEndsAt, windowEnd),
           // Betalt i appen: ingen opgraderingsmail med web-links.
           notStoreManaged(),
+          excludeTestUsers(),
+          excludeTestOrganization(subscriptions.organizationId),
         ),
       );
 
@@ -96,6 +105,15 @@ export const GET = withCronLogging("trial-reminder", async (_request) => {
       // will send its own trial_ending email via webhook.
       if (c.aluntaSubscriptionId) {
         skippedHasAlunta++;
+        continue;
+      }
+      // TimeWren Cloud: kortet er registreret ved Stripe Checkout, og Stripe
+      // opkræver selv ved prøvens udløb. "Vælg en plan, ellers Gratis" er
+      // forkert her. Kun når TimeWren-betalingen er slået til, og kun for
+      // TimeWren-organisationer: en TimeTrack-prøve med et historisk Stripe-id
+      // får sin påmindelse som før.
+      if (c.isTimewrenStripe && stripeTrials) {
+        skippedHasStripe++;
         continue;
       }
       if (!c.userEmail) continue;
@@ -139,15 +157,13 @@ export const GET = withCronLogging("trial-reminder", async (_request) => {
           daysRemaining,
           upgradeUrl,
           userId: c.userId,
+          organizationId: c.organizationId,
           templateKey: window.templateKey,
         });
         if (window.templateKey === "trial_reminder_7d") sent7d++;
         else sent1d++;
-      } catch (err) {
-        console.error(
-          `[trial-reminder] Failed to send ${window.templateKey} to ${c.userEmail}:`,
-          err,
-        );
+      } catch {
+        console.error(`[trial-reminder] Failed to send ${window.templateKey}`);
         failed++;
       }
     }
@@ -157,7 +173,12 @@ export const GET = withCronLogging("trial-reminder", async (_request) => {
 
   return {
     itemsProcessed:
-      totalSent + skippedAlreadySent + skippedHasAlunta + skippedDemo + failed,
+      totalSent +
+      skippedAlreadySent +
+      skippedHasAlunta +
+      skippedHasStripe +
+      skippedDemo +
+      failed,
     itemsSucceeded: totalSent,
     itemsFailed: failed,
     metadata: {
@@ -165,6 +186,7 @@ export const GET = withCronLogging("trial-reminder", async (_request) => {
       sent_1d: sent1d,
       skipped_already_sent: skippedAlreadySent,
       skipped_has_alunta: skippedHasAlunta,
+      skipped_has_stripe: skippedHasStripe,
       skipped_demo: skippedDemo,
     },
   };

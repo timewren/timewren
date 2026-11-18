@@ -25,15 +25,16 @@ import Link from "next/link";
 import type { ComponentType } from "react";
 import { SEOPageLayout } from "@/components/marketing/SEOPageLayout";
 
+import { seoTools } from "@/lib/marketing/seo-tools";
+
 export const metadata: Metadata = {
   title: "Gratis værktøjer til freelancere: beregnere, skabeloner og timere",
   description:
-    "15 gratis værktøjer til danske freelancere: health check, timepris-beregner, klippekort-prisberegner, moms-beregner, faktura-skabelon, stopur og meget mere. Ingen login.",
+    "Gratis værktøjer til danske freelancere: health check, timepris-beregner, klippekort-prisberegner, moms-beregner, faktura-skabelon, stopur og meget mere. Ingen login.",
   alternates: { canonical: "/vaerktoejer" },
   openGraph: {
     title: "Gratis værktøjer til freelancere",
-    description:
-      "14 gratis værktøjer: beregnere, skabeloner og timere. Ingen login.",
+    description: "Gratis beregnere, skabeloner og timere. Ingen login.",
     url: "/vaerktoejer",
     type: "website",
     images: [
@@ -181,6 +182,15 @@ const CATEGORIES: { title: string; tools: Tool[] }[] = [
         icon: Table,
       },
     ],
+  },
+  {
+    title: "Arbejdstid, løn og projektøkonomi",
+    tools: Object.values(seoTools).map(({ slug, title, description }) => ({
+      href: `/${slug}`,
+      title,
+      description,
+      icon: Calculator,
+    })),
   },
   {
     title: "Tid & fokus",

@@ -89,6 +89,8 @@ Um ohne automatische Verlängerung aufzustocken, erstelle ein neues Paket für d
 
 Kunden sehen ihre Pakete im Kundenportal auf dem Reiter Stundenpakete mit Saldo und Verbrauch. Zwei Schalter steuern das: die Portalberechtigung `canViewPrepaid` (standardmäßig an) und die Paketeinstellung `hiddenFromPortal`, die ein einzelnes Paket vollständig ausblendet, auch im Verlauf. Kunden können außerdem eine Verlängerung anfragen, die bei dir als Verlängerungsanfrage erscheint. Geldbeträge lassen sich mit der Einstellung `hidePrepaidValue` vor Kunden verbergen, global oder pro Kunde.
 
+Bei aktivierter Rechnungsstellung kannst du die Anfrage mit einem Rechnungsentwurf freigeben oder **Genehmigen und Versand prüfen** wählen. Das Stundenpaket wird verlängert, bevor sich die Bestätigung öffnet. Dort siehst du Kunde, Empfängeradresse, Rechnungsnummer, Betrag inkl. MwSt. und Fälligkeitsdatum. Beim Schließen bleibt die Rechnung als Entwurf erhalten.
+
 ## REST-API
 
 Pakete stehen als Ressource `prepaid-packages` zur Verfügung, mit den Scopes `prepaid:read` und `prepaid:write`. Auflisten, Abrufen, Erstellen und Aktualisieren werden unterstützt, und `DELETE` archiviert ein Paket, statt es zu löschen. Authentifizierung und Scopes sind in der [REST-API](/de/docs/api/rest)-Referenz beschrieben. Paketereignisse werden über [Webhooks](/de/docs/api/webhooks) zugestellt.

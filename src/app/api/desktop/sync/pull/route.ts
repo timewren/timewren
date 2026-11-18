@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
  * Fetch all entities that have been updated since the given date for a user.
  * Does NOT include activities (privacy).
  */
-export async function fetchChangedEntities(
+async function fetchChangedEntities(
   userId: string,
   sinceDate: Date,
   orgId: string | null = null,

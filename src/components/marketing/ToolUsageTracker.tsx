@@ -1,13 +1,11 @@
 "use client";
 
 import { usePlausible } from "next-plausible";
-import { type ReactNode, useRef } from "react";
+import { type ReactNode, useContext, useRef } from "react";
+import { UmamiToolContext } from "./UmamiToolAnalytics";
 
 /**
- * Fyrer ét `tool_used`-event (Plausible) ved den første interaktion med et
- * gratis værktøj — beregnerne er lead magnets, og uden dette event kan vi
- * ikke se hvilke værktøjer der reelt bruges og konverterer (issue #105).
- * Capture-fase så det virker uanset værktøjets interne struktur.
+ * Måler første ændring eller aktivering af en værktøjsknap pr. besøg.
  */
 export function ToolUsageTracker({
   tool,
@@ -17,18 +15,29 @@ export function ToolUsageTracker({
   children: ReactNode;
 }) {
   const plausible = usePlausible();
-  const fired = useRef(false);
+  const trackUmami = useContext(UmamiToolContext);
+  const visit = useRef({ plausibleFired: false });
 
-  const handleInteraction = () => {
-    if (fired.current) return;
-    fired.current = true;
+  const track = () => {
+    trackUmami?.(tool, visit.current);
+    if (visit.current.plausibleFired) return;
+    visit.current.plausibleFired = true;
     plausible("tool_used", { props: { tool } });
   };
 
   return (
     <div
-      onPointerDownCapture={handleInteraction}
-      onKeyDownCapture={handleInteraction}
+      onChangeCapture={track}
+      onClickCapture={({ target }) => {
+        if (!(target instanceof Element) || target.closest("a")) return;
+        if (
+          target.closest(
+            "button:not(:disabled), [role='button']:not([aria-disabled='true'])",
+          )
+        ) {
+          track();
+        }
+      }}
     >
       {children}
     </div>

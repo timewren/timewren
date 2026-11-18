@@ -24,9 +24,9 @@ export async function generateMetadata(props: SiteParams): Promise<Metadata> {
 }
 
 /*
- * Valutavælgeren er radioknapper uden JS: alle tre priser står i HTML'en, og
- * CSS (:has) viser den valgte (site.css, "Valutavælger"). Sprogets valuta er
- * valgt fra start: DKK på dansk, ellers EUR.
+ * Cloud faktureres i EUR (PRICE_CURRENCIES). Kommer der flere valutaer, er
+ * valutavælgeren radioknapper uden JS: alle priser står i HTML'en, og CSS
+ * (:has) viser den valgte (site.css, "Valutavælger").
  */
 export default async function TimewrenPricing(props: SiteParams) {
   const locale = await siteLocale(props);
@@ -70,21 +70,23 @@ export default async function TimewrenPricing(props: SiteParams) {
 
           <section className="plan cloud" aria-labelledby="plan-cloud">
             <h2 id="plan-cloud">{t("pricing.cloudTitle")}</h2>
-            <fieldset className="currency">
-              <legend>{t("pricing.currency")}</legend>
-              {PRICE_CURRENCIES.map((c) => (
-                <label key={c}>
-                  <input
-                    type="radio"
-                    name="currency"
-                    value={c}
-                    id={`currency-${c}`}
-                    defaultChecked={c === DEFAULT_CURRENCY[locale]}
-                  />
-                  <span>{c}</span>
-                </label>
-              ))}
-            </fieldset>
+            {PRICE_CURRENCIES.length > 1 && (
+              <fieldset className="currency">
+                <legend>{t("pricing.currency")}</legend>
+                {PRICE_CURRENCIES.map((c) => (
+                  <label key={c}>
+                    <input
+                      type="radio"
+                      name="currency"
+                      value={c}
+                      id={`currency-${c}`}
+                      defaultChecked={c === DEFAULT_CURRENCY[locale]}
+                    />
+                    <span>{c}</span>
+                  </label>
+                ))}
+              </fieldset>
+            )}
             <ul className="cloud-plans">
               {plans.map((plan) => (
                 <li key={plan.tier} data-plan={plan.tier}>
@@ -111,10 +113,7 @@ export default async function TimewrenPricing(props: SiteParams) {
                 </li>
               ))}
             </ul>
-            <p className="per">
-              {t("pricing.vat")}{" "}
-              <span className="billed-dkk">{t("pricing.billedInDkk")}</span>
-            </p>
+            <p className="per">{t("pricing.vat")}</p>
             <ul className="ticks">
               {cloudPoints.map((p) => (
                 <li key={p}>{p}</li>

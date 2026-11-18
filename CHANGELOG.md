@@ -10,6 +10,32 @@ Groups: `Breaking` (needs a `Migration` group in the same release), `Added`, `Ch
 
 ## [Unreleased]
 
+## [0.34.0] - 2026-11-18
+
+### Added
+
+- TimeWren Cloud takes payment: Personal, Solo, Team and Business through Stripe Checkout in EUR with VAT handled by Stripe Tax, a 14-day trial on Solo, Team and Business, and the Stripe customer portal for plan, seats, card and invoices. Self-hosted installs and TimeTrack Cloud are unchanged (#1227).
+- Six Danish TimeTrack calculators for overtime, holiday pay, flex balances, invoice rounding, project budgets, and effective hourly rates (#1219).
+
+### Changed
+
+- Sending an invoice from the web app now asks for confirmation first and shows the invoice number, client, recipient, total and due date. This covers the invoice list and page, the create-invoice panel, "approve and send" on prepaid renewal requests, and mail through Billy and Dinero (#1224).
+- Admin business metrics (MRR, ARR, signups, active organizations, trials) leave out test and demo accounts by default, with a toggle to show them. Test accounts no longer receive lifecycle e-mails (#1225).
+- TimeTrack’s homepage and working-hours pages make time tracking, monthly norms, and calendar assumptions easier to find (#1219).
+
+### Migration
+
+- 0160 and 0161 add `organizations.is_test_account` (default false) and a table of Alunta IDs kept from deleted test accounts. Both are additive and run at startup (#1225).
+
+### Fixed
+
+- Release images are tagged on Docker Hub (`mahoje/timewren`) as well as GHCR (#1218).
+
+### Security
+
+- `invoices.sendEmail` checks the member's client access, as the other invoice procedures do (#1224).
+- Trivy ignores CVE-2026-112366 in picomatch (no fixed release; only reached from build tooling with fixed patterns) until 2026-12-31 (#1221).
+
 ## [0.33.0] - 2026-11-17
 
 ### Added

@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { organizationModules, organizations } from "@/lib/db/schema";
@@ -10,8 +11,40 @@ import {
   MODULE_KEYS,
 } from "@/lib/modules/constants";
 import { adminProcedure, router } from "../../trpc";
+import { logAdminAction } from "./shared";
 
 export const adminOrganizationModulesRouter = router({
+  getTestAccountFlag: adminProcedure
+    .input(z.object({ organizationId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const org = await ctx.db.query.organizations.findFirst({
+        columns: { isTestAccount: true },
+        where: eq(organizations.id, input.organizationId),
+      });
+      if (!org) throw new TRPCError({ code: "NOT_FOUND" });
+      return org.isTestAccount;
+    }),
+
+  setTestAccountFlag: adminProcedure
+    .input(z.object({ organizationId: z.string(), testAccount: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const [org] = await ctx.db
+        .update(organizations)
+        .set({ isTestAccount: input.testAccount })
+        .where(eq(organizations.id, input.organizationId))
+        .returning({ id: organizations.id });
+      if (!org) throw new TRPCError({ code: "NOT_FOUND" });
+
+      await logAdminAction(
+        ctx.db,
+        ctx.session.user.id,
+        "set_test_account_flag",
+        null,
+        input,
+        ctx.headers,
+      );
+    }),
+
   /** List all module rows for a given organization. */
   list: adminProcedure
     .input(z.object({ organizationId: z.string() }))

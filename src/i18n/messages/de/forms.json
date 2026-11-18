@@ -1,4 +1,51 @@
 {
+  "calculator": {
+    "outOfRange": "Gib eine Zahl zwischen {min} und {max} ein.",
+    "wholeOutOfRange": "Gib eine ganze Zahl zwischen {min} und {max} ein.",
+    "pending": "Eingabe ausstehend",
+    "missingHours": "Gib mehr Arbeitsstunden ein, um den Stundensatz zu berechnen.",
+    "labels": {
+      "workedAfterBreaks": "Arbeitsstunden ohne Pausen",
+      "periodNorm": "Sollstunden im selben Zeitraum",
+      "hourlyWage": "Stundenlohn (DKK)",
+      "overtimePremium": "Vereinbarter Überstundenzuschlag (%)",
+      "overtimeHours": "Stunden über dem Soll",
+      "grossOvertimePay": "Überstundenvergütung vor Steuern",
+      "periodHours": "Arbeitsstunden im Zeitraum",
+      "holidayPaySupplements": "Urlaubsgeldberechtigte Zuschläge (DKK)",
+      "holidayPayWages": "Urlaubsgeldberechtigter Lohn",
+      "grossHolidayPay": "Erworbenes Urlaubsgeld vor Steuern",
+      "openingFlexBalance": "Gleitzeitsaldo vor dem Zeitraum (Stunden)",
+      "loggedAfterBreaks": "Erfasste Stunden ohne Pausen",
+      "normBeforeTimeOff": "Sollstunden vor Gleitzeitabbau",
+      "timeOffIncluded": "In den erfassten Stunden enthaltener Gleitzeitabbau",
+      "hoursDifference": "Differenz zwischen erfassten Stunden und Sollstunden",
+      "newFlexBalance": "Neuer Gleitzeitsaldo",
+      "wholeHours": "Volle Stunden",
+      "extraMinutes": "Zusätzliche Minuten",
+      "roundingInterval": "Auf das nächste Intervall aufrunden (Minuten)",
+      "roundedTime": "Gerundete Zeit",
+      "addedMinutes": "Hinzugefügte Minuten",
+      "projectBudget": "Gesamtes Projektbudget (Stunden)",
+      "hoursSpent": "Bisher aufgewendete Stunden",
+      "remainingWork": "Geschätzter Restaufwand (Stunden)",
+      "budgetLeft": "Derzeit verbleibende Stunden im Budget",
+      "forecastHours": "Geschätzter Gesamtaufwand",
+      "forecastBalance": "Geschätzter Saldo bei Abschluss",
+      "projectRevenue": "Projekteinnahmen ohne MwSt. (DKK)",
+      "directCosts": "Direkte Projektkosten (DKK)",
+      "billableHours": "Abrechenbare Stunden",
+      "otherProjectHours": "Weitere Projektstunden",
+      "revenueAfterCosts": "Einnahmen nach direkten Kosten",
+      "effectiveRate": "Effektiver Stundensatz vor Steuern"
+    },
+    "units": {
+      "currency": "DKK",
+      "hours": "Std.",
+      "minutes": "Min.",
+      "hourlyRate": "DKK/Std."
+    }
+  },
   "quickSignup": {
     "cta": "Kostenlos loslegen"
   },

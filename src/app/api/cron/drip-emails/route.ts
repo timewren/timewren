@@ -32,6 +32,7 @@ import {
   sendDripWinBack60Email,
 } from "@/lib/email/drip";
 import type { EmailType } from "@/lib/email/logger";
+import { isTestEmailRecipient } from "@/lib/email/test-recipient";
 import {
   ACTIVATION_DRIP_MAX_AGE_DAYS,
   DRIP_COOLDOWN_HOURS,
@@ -40,6 +41,7 @@ import {
   shouldSendKlippekortTips,
 } from "@/lib/onboarding/activation";
 import { isStoreManaged } from "@/lib/store-billing/state";
+import { isTestAccountEmail } from "@/lib/test-accounts";
 import { captureRouteError } from "@/lib/utils/sentry";
 
 // Cron schedule: 0 9 * * * (Daily at 09:00)
@@ -78,13 +80,19 @@ export const GET = withCronLogging("drip-emails", async (_request) => {
     if (prefs && prefs.dripEmails === false) continue;
 
     // Skip unverified emails
-    if (!user.emailVerified) continue;
+    if (!user.emailVerified || isTestAccountEmail(user.email)) continue;
 
     // Drip-mailene følger kontoens brand (afsenderne slår users.brand op),
     // så TimeWren-konti får TimeWren-udgaven.
 
     try {
       const orgId = await getUserOrgId(user.id);
+      const isTestWorkspace = await isTestEmailRecipient(
+        user.email,
+        user.id,
+        orgId,
+      );
+      if (isTestWorkspace && !billingEnabled) continue;
 
       const daysSinceSignup = Math.floor(
         (now.getTime() - new Date(user.createdAt).getTime()) /
@@ -108,7 +116,9 @@ export const GET = withCronLogging("drip-emails", async (_request) => {
       const alreadySent = (type: EmailType) => sentTypes.has(type);
 
       // Get last activity date
-      const lastActivity = await getLastActivityDate(user.id, orgId);
+      const lastActivity = isTestWorkspace
+        ? null
+        : await getLastActivityDate(user.id, orgId);
       const daysSinceLastActivity = lastActivity
         ? Math.floor(
             (now.getTime() - lastActivity.getTime()) / (1000 * 60 * 60 * 24),
@@ -167,7 +177,15 @@ export const GET = withCronLogging("drip-emails", async (_request) => {
             (new Date(sub.trialEndsAt).getTime() - now.getTime()) /
               (1000 * 60 * 60 * 24),
           );
-          if (daysLeft >= 0 && daysLeft <= 5) {
+          if (
+            daysLeft >= 0 &&
+            daysLeft <= 5 &&
+            !(await isTestEmailRecipient(
+              user.email,
+              user.id,
+              sub.organizationId ?? orgId,
+            ))
+          ) {
             await sendDripUpgradeReminderEmail({
               to: user.email,
               userName: user.name,
@@ -179,6 +197,8 @@ export const GET = withCronLogging("drip-emails", async (_request) => {
           }
         }
       }
+
+      if (isTestWorkspace) continue;
 
       // Højst én drip-mail pr. 48 timer, så aktiveringsmails og den faste
       // sekvens ikke lander dag efter dag (#91). Win-back og den tidskritiske
@@ -331,9 +351,9 @@ export const GET = withCronLogging("drip-emails", async (_request) => {
         });
         sentCount++;
       }
-    } catch (error) {
-      console.error(`Failed to process drip email for user ${user.id}:`, error);
-      errors.push(`User ${user.id}: ${(error as Error).message}`);
+    } catch {
+      console.error("[drip-emails] Failed to process a recipient");
+      errors.push("Failed to process a recipient");
     }
   }
 

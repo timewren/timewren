@@ -9,25 +9,29 @@ export function WorkdaysTable({
   year,
   hoursPerWeek = 37,
   caption,
+  partTimeHours = [],
 }: {
   year: number;
   hoursPerWeek?: number;
   caption?: string;
+  partTimeHours?: number[];
 }) {
   const months: MonthSummary[] = workdaysByMonth(year, hoursPerWeek);
   const totalDays = months.reduce((s, m) => s + m.workdays, 0);
   const totalHours = months.reduce((s, m) => s + m.hours, 0);
   const totalCommon = months.reduce((s, m) => s + m.commonDaysOff, 0);
 
+  const minWidth = partTimeHours.length ? "min-w-[39rem]" : "min-w-[24rem]";
+
   return (
-    <div className="overflow-x-auto rounded-2xl border border-gray-200">
-      <table className="w-full min-w-[32rem] text-left text-sm">
+    <div className="overflow-x-auto rounded-[14px] border border-tt-streg">
+      <table className={`w-full ${minWidth} text-left text-sm`}>
         {caption ? (
-          <caption className="border-b border-gray-200 bg-gray-50 px-5 py-3 text-left font-semibold text-gray-900">
+          <caption className="border-b border-tt-streg bg-tt-flade px-5 py-3 text-left font-semibold text-tt-blaek">
             {caption}
           </caption>
         ) : null}
-        <thead className="border-b border-gray-200 text-gray-600">
+        <thead className="border-b border-tt-streg text-tt-graa">
           <tr>
             <th scope="col" className="px-5 py-3 font-medium">
               Måned
@@ -38,15 +42,24 @@ export function WorkdaysTable({
             <th scope="col" className="px-5 py-3 text-right font-medium">
               Timer ved {hoursPerWeek} t/uge
             </th>
+            {partTimeHours.map((hours) => (
+              <th
+                key={hours}
+                scope="col"
+                className="px-5 py-3 text-right font-medium"
+              >
+                Timer ved {hours} t/uge
+              </th>
+            ))}
             <th scope="col" className="px-5 py-3 text-right font-medium">
               Almindelige fridage*
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100">
+        <tbody className="divide-y divide-tt-streg">
           {months.map((m) => (
             <tr key={m.month}>
-              <th scope="row" className="px-5 py-2.5 font-medium text-gray-900">
+              <th scope="row" className="px-5 py-2.5 font-medium text-tt-blaek">
                 {m.name}
               </th>
               <td className="px-5 py-2.5 text-right tabular-nums">
@@ -55,13 +68,18 @@ export function WorkdaysTable({
               <td className="px-5 py-2.5 text-right tabular-nums">
                 {formatHours(m.hours)}
               </td>
-              <td className="px-5 py-2.5 text-right tabular-nums text-gray-500">
+              {partTimeHours.map((hours) => (
+                <td key={hours} className="px-5 py-2.5 text-right tabular-nums">
+                  {formatHours((m.workdays * hours) / 5)}
+                </td>
+              ))}
+              <td className="px-5 py-2.5 text-right tabular-nums text-tt-graa">
                 {m.commonDaysOff || "–"}
               </td>
             </tr>
           ))}
         </tbody>
-        <tfoot className="border-t border-gray-200 bg-gray-50 font-semibold text-gray-900">
+        <tfoot className="border-t border-tt-streg bg-tt-flade font-semibold text-tt-blaek">
           <tr>
             <th scope="row" className="px-5 py-3">
               {year} i alt
@@ -70,6 +88,11 @@ export function WorkdaysTable({
             <td className="px-5 py-3 text-right tabular-nums">
               {formatHours(totalHours)}
             </td>
+            {partTimeHours.map((hours) => (
+              <td key={hours} className="px-5 py-3 text-right tabular-nums">
+                {formatHours((totalDays * hours) / 5)}
+              </td>
+            ))}
             <td className="px-5 py-3 text-right tabular-nums">{totalCommon}</td>
           </tr>
         </tfoot>

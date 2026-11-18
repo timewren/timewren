@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { trpc } from "@/providers/trpc-provider";
 
 type Tab = "trials" | "demos";
@@ -117,7 +118,10 @@ function UrgencyBadge({
 }
 
 function TrialsTab() {
-  const { data, isLoading } = trpc.admin.prospects.listTrials.useQuery();
+  const includeTestAccounts = useIncludeTestAccounts();
+  const { data, isLoading } = trpc.admin.prospects.listTrials.useQuery({
+    includeTestAccounts,
+  });
 
   if (isLoading) {
     return <div className="h-48 animate-pulse rounded-lg bg-gray-100" />;

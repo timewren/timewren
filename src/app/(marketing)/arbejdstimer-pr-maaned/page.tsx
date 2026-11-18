@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MonthlyWorkHours } from "@/components/marketing/MonthlyWorkHours";
 import { mk } from "@/components/marketing/mk";
 import { SEOPageLayout } from "@/components/marketing/SEOPageLayout";
 import { TimerPrMaanedBeregner } from "@/components/marketing/TimerPrMaanedBeregner";
-import { WorkdaysTable } from "@/components/marketing/WorkdaysTable";
+import { ToolUsageTracker } from "@/components/marketing/ToolUsageTracker";
+import { appLinkHref } from "@/lib/config";
 import {
   averageMonthlyHours,
   formatHours,
@@ -21,8 +23,8 @@ const MONTHS = workdaysByMonth(YEAR, 37);
 const MIN = MONTHS.reduce((a, b) => (b.workdays < a.workdays ? b : a));
 const MAX = MONTHS.reduce((a, b) => (b.workdays > a.workdays ? b : a));
 
-const TITLE = `Arbejdstimer og arbejdsdage pr. måned ${YEAR}`;
-const DESCRIPTION = `Der er i gennemsnit ${AVG} arbejdstimer og ${formatHours(THIS_YEAR.workdays / 12)} arbejdsdage på en måned ved 37 timer om ugen. Se hver måned i ${YEAR} og ${NEXT}, og regn deltid ud.`;
+const TITLE = `Arbejdstimer pr. måned ${YEAR} og ${NEXT} ved 37 timer`;
+const DESCRIPTION = `Se arbejdstimer pr. måned i ${YEAR} og ${NEXT} ved 37, 32 og 30 timer om ugen. Tabellerne trækker danske helligdage fra. Beregn også din egen norm.`;
 
 export const metadata: Metadata = {
   title: { absolute: `${TITLE} | TimeTrack` },
@@ -45,7 +47,7 @@ const FAQ = [
   },
   {
     question: "Hvor mange arbejdsdage er der på en måned?",
-    answer: `I ${YEAR} er der ${THIS_YEAR.workdays} arbejdsdage, når helligdagene er trukket fra, eller i gennemsnit ${formatHours(THIS_YEAR.workdays / 12)} arbejdsdage pr. måned. ${MIN.name} har færrest med ${MIN.workdays} dage, og ${MAX.name.toLowerCase()} flest med ${MAX.workdays} dage. Tabellen nedenfor viser hver måned.`,
+    answer: `I ${YEAR} er der ${THIS_YEAR.workdays} arbejdsdage, når helligdagene er trukket fra, eller i gennemsnit ${formatHours(THIS_YEAR.workdays / 12)} arbejdsdage pr. måned. ${MIN.name} har færrest med ${MIN.workdays} dage, og ${MAX.name.toLowerCase()} flest med ${MAX.workdays} dage. Tabellen ovenfor viser hver måned.`,
   },
   {
     question: "Hvor mange uger er der på en måned?",
@@ -85,14 +87,30 @@ export default function ArbejdstimerPrMaanedPage() {
 
   return (
     <SEOPageLayout
-      title="Hvor mange arbejdstimer er der på en måned?"
+      title={`Arbejdstimer pr. måned i ${YEAR} og ${NEXT}`}
+      showHeroCta={false}
       subtitle={`I gennemsnit ${AVG} timer ved 37 timer om ugen. Her er tallet for hver måned i ${YEAR} og ${NEXT}, og en beregner til deltid.`}
       jsonLd={faqSchema}
       faqItems={FAQ}
       relatedLinks={[
         {
-          href: `/arbejdsdage-${YEAR}`,
-          title: `Arbejdsdage ${YEAR}`,
+          href: "/arbejdsdage-2027",
+          title: "Arbejdsdage 2027",
+          description: "Se datoer for alle helligdage i 2027.",
+        },
+        {
+          href: "/overarbejde-beregner",
+          title: "Beregn overarbejde",
+          description: "Sammenlign din arbejdstid med normen.",
+        },
+        {
+          href: "/flextid-beregner",
+          title: "Beregn flextid",
+          description: "Find din nye saldo ud fra timer og norm.",
+        },
+        {
+          href: "/arbejdsdage-2026",
+          title: "Arbejdsdage 2026",
           description: "Arbejdsdage og helligdage måned for måned.",
         },
         {
@@ -114,17 +132,36 @@ export default function ArbejdstimerPrMaanedPage() {
       ctaTitle="Hold styr på dine faktiske timer"
       ctaSubtitle="Normtimerne siger, hvad du skal arbejde. TimeTrack viser, hvad du faktisk har arbejdet. Gratis at starte, og virksomheder får flex og overtid regnet ud."
     >
-      <section className={mk.section}>
-        <div className={mk.wrap}>
-          <div className="max-w-3xl rounded-[14px] bg-tt-flade p-6 sm:p-8">
-            <p className="text-lg leading-relaxed text-tt-blaek">
-              <strong>Kort svar:</strong> Ved en 37-timers uge er der i
-              gennemsnit <strong>{AVG} arbejdstimer</strong> på en måned. I{" "}
-              {YEAR} er der {THIS_YEAR.workdays} arbejdsdage, og det giver{" "}
-              {formatHours(THIS_YEAR.hours)} timer på et år før ferie.
-            </p>
-          </div>
+      <section className={`${mk.wrap} pb-12 sm:pb-16`}>
+        <p className={`${mk.body} max-w-[65ch]`}>
+          En 37-timers uge svarer til{" "}
+          <strong>{AVG} timer pr. måned i gennemsnit</strong>. For en bestemt
+          måned bruger du kalenderen nedenfor. Timerne er fordelt ligeligt på
+          mandag til fredag, og helligdage på hverdage er trukket fra.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+          {[YEAR, NEXT].map((year) => (
+            <a key={year} href={`#timer-${year}`} className={mk.link}>
+              Gå til {year}
+            </a>
+          ))}
         </div>
+
+        {[YEAR, NEXT].map((year) => (
+          <MonthlyWorkHours key={year} year={year} />
+        ))}
+        <p className={`${mk.fine} mt-4 max-w-4xl`}>
+          * Grundlovsdag, juleaftensdag og nytårsaftensdag, når de falder på en
+          hverdag. De er med i normen. Har du fri en af dagene, kan du trække
+          dine daglige timer fra.
+        </p>
+        <p className={`${mk.body} mt-4`}>
+          Vil du sammenligne din norm med de timer, du faktisk arbejder?{" "}
+          <Link href={appLinkHref("/register")} className={mk.link}>
+            Gem dine timer i TimeTrack
+          </Link>
+          .
+        </p>
       </section>
 
       <section className={mk.section}>
@@ -134,31 +171,10 @@ export default function ArbejdstimerPrMaanedPage() {
             Skriv dine ugentlige timer, så ser du timer pr. måned og år.
           </p>
           <div className="mt-8 max-w-4xl">
-            <TimerPrMaanedBeregner years={[YEAR, NEXT]} />
+            <ToolUsageTracker tool="arbejdstimer-pr-maaned">
+              <TimerPrMaanedBeregner years={[YEAR, NEXT]} />
+            </ToolUsageTracker>
           </div>
-        </div>
-      </section>
-
-      <section className={mk.section}>
-        <div className={mk.wrap}>
-          <h2 className={mk.h2}>Arbejdstimer for hver måned i {YEAR}</h2>
-          <p className={`${mk.body} mt-4 max-w-2xl`}>
-            Tabellen tæller hverdage og trækker de officielle helligdage fra.
-          </p>
-          <div className="mt-8 max-w-4xl">
-            <WorkdaysTable year={YEAR} />
-          </div>
-
-          <h2 className={`${mk.h2} mt-20`}>
-            Arbejdstimer for hver måned i {NEXT}
-          </h2>
-          <div className="mt-8 max-w-4xl">
-            <WorkdaysTable year={NEXT} />
-          </div>
-          <p className={`${mk.fine} mt-4 max-w-4xl`}>
-            * Grundlovsdag, juleaftensdag og nytårsaftensdag, når de falder på
-            en hverdag. De er ikke helligdage, men mange har fri.
-          </p>
         </div>
       </section>
 

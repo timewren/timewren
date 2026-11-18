@@ -215,7 +215,9 @@ fn cloud_retter_forfald_og_noter_via_web() {
         ..Default::default()
     }))
     .unwrap();
-    let due = day() + chrono::Days::new(21);
+    // Fakturadatoen sætter webben selv (i dag), så forfald regnes fra den og ikke fra day().
+    let issued = inv.issue_date.map(|t| t.date_naive()).unwrap_or_else(day);
+    let due = issued + chrono::Days::new(21);
     let u = block_on(repo.update_invoice_details(&inv.id, due, Some("Betal venligst".into()))).unwrap();
     assert_eq!(u.notes.as_deref(), Some("Betal venligst"));
     assert_eq!(u.due_date.unwrap().date_naive(), due);

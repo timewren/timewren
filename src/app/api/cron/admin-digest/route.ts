@@ -16,6 +16,7 @@ import {
   sendAdminDigest,
 } from "@/lib/email/admin-digest";
 import { countPrepaidIntegrityOrphans } from "@/lib/prepaid/integrity";
+import { excludeTestOrganization, excludeTestUsers } from "@/lib/test-accounts";
 
 // Cron schedule: 0 8 * * 1 (Every Monday at 08:00)
 // Sends a weekly admin briefing email to all admin users + any extra
@@ -36,6 +37,9 @@ export const GET = withCronLogging("admin-digest", async (_request) => {
   const sevenDaysFromNow = new Date(now);
   sevenDaysFromNow.setDate(now.getDate() + 7);
 
+  const realUsers = excludeTestUsers();
+  const realOrgs = excludeTestOrganization(subscriptions.organizationId);
+
   // Fetch metrics in parallel
   const [
     newSignups,
@@ -53,7 +57,7 @@ export const GET = withCronLogging("admin-digest", async (_request) => {
     db
       .select({ count: count() })
       .from(users)
-      .where(gte(users.createdAt, weekStart)),
+      .where(and(gte(users.createdAt, weekStart), realUsers)),
     db
       .select({
         name: users.name,
@@ -61,23 +65,27 @@ export const GET = withCronLogging("admin-digest", async (_request) => {
         createdAt: users.createdAt,
       })
       .from(users)
-      .where(gte(users.createdAt, weekStart))
+      .where(and(gte(users.createdAt, weekStart), realUsers))
       .orderBy(desc(users.createdAt))
       .limit(15),
     billingEnabled
       ? db
           .select({ count: count() })
           .from(subscriptions)
-          .where(eq(subscriptions.status, "active"))
+          .innerJoin(users, eq(subscriptions.userId, users.id))
+          .where(and(eq(subscriptions.status, "active"), realUsers, realOrgs))
       : Promise.resolve([{ count: 0 }]),
     billingEnabled
       ? db
           .select({ count: count() })
           .from(subscriptions)
+          .innerJoin(users, eq(subscriptions.userId, users.id))
           .where(
             and(
               eq(subscriptions.status, "trialing"),
               isNotNull(subscriptions.trialEndsAt),
+              realUsers,
+              realOrgs,
             ),
           )
       : Promise.resolve([{ count: 0 }]),
@@ -85,7 +93,8 @@ export const GET = withCronLogging("admin-digest", async (_request) => {
       ? db
           .select({ count: count() })
           .from(subscriptions)
-          .where(eq(subscriptions.status, "past_due"))
+          .innerJoin(users, eq(subscriptions.userId, users.id))
+          .where(and(eq(subscriptions.status, "past_due"), realUsers, realOrgs))
       : Promise.resolve([{ count: 0 }]),
     db
       .select({ count: count() })
@@ -115,7 +124,7 @@ export const GET = withCronLogging("admin-digest", async (_request) => {
     db
       .select({ count: count() })
       .from(users)
-      .where(and(gte(users.createdAt, previousWeekStart))),
+      .where(and(gte(users.createdAt, previousWeekStart), realUsers)),
     countPrepaidIntegrityOrphans(),
   ]);
 
@@ -134,7 +143,8 @@ export const GET = withCronLogging("admin-digest", async (_request) => {
         aluntaPlanId: subscriptions.aluntaPlanId,
       })
       .from(subscriptions)
-      .where(eq(subscriptions.status, "active"));
+      .innerJoin(users, eq(subscriptions.userId, users.id))
+      .where(and(eq(subscriptions.status, "active"), realUsers, realOrgs));
 
     // Filter trialsEndingSoon properly in JS (cleaner than complex SQL with
     // multiple gte/lte on same column)
@@ -144,7 +154,8 @@ export const GET = withCronLogging("admin-digest", async (_request) => {
         trialEndsAt: subscriptions.trialEndsAt,
       })
       .from(subscriptions)
-      .where(eq(subscriptions.status, "trialing"));
+      .innerJoin(users, eq(subscriptions.userId, users.id))
+      .where(and(eq(subscriptions.status, "trialing"), realUsers, realOrgs));
     trialsEndingSoonCount = trialingRows.filter(
       (r) =>
         r.trialEndsAt &&

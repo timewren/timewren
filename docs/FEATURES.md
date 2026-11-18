@@ -255,6 +255,7 @@
 ### ✅ Implementeret (Ekstra Features)
 
 - **Team/Organization support**: Multi-user med roller
+- **Platform-admin**: Forretningstal udelader testkonti som standard. Brug **Vis testkonti** for at tage dem med. Se [Admin og drift](ENTERPRISE-FEATURES.md#28-admin-og-drift) for manuel markering og mailfiltrering.
 - **Notifications**: Email, Discord, Slack, Push, SMS
 - **11 Cron jobs**: Automated tasks, reminders, sync
 - **Webhooks**: Outgoing webhooks med retry logic

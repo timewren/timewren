@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { OnboardingFunnelView } from "@/components/admin/views/OnboardingFunnelView";
 import { ScenariosView } from "@/components/admin/views/ScenariosView";
 import { trpc } from "@/providers/trpc-provider";
@@ -47,7 +48,9 @@ const STAGE_COLORS: Record<string, { bg: string; bar: string; text: string }> =
   };
 
 function AttributionSection() {
+  const includeTestAccounts = useIncludeTestAccounts();
   const { data } = trpc.admin.getAttributionBreakdown.useQuery({
+    includeTestAccounts,
     daysBack: 90,
   });
   if (!data) return null;
@@ -112,7 +115,10 @@ function AttributionSection() {
 }
 
 function JourneySection() {
-  const { data } = trpc.admin.getJourneyStages.useQuery();
+  const includeTestAccounts = useIncludeTestAccounts();
+  const { data } = trpc.admin.getJourneyStages.useQuery({
+    includeTestAccounts,
+  });
   if (!data) return null;
 
   const maxCount = Math.max(...data.stages.map((s) => s.count), 1);

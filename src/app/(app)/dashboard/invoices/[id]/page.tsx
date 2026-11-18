@@ -21,7 +21,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { use, useState } from "react";
+import { use, useCallback, useState } from "react";
 import { toast } from "sonner";
 import { Breadcrumbs } from "@/components/dashboard-nav";
 import {
@@ -34,6 +34,7 @@ import {
 } from "@/components/invoices/DineroExportModal";
 import { InvoiceLineEditor } from "@/components/invoices/InvoiceLineEditor";
 import { InvoicePDFViewer } from "@/components/invoices/InvoicePDFViewer";
+import { SendInvoiceDialog } from "@/components/invoices/SendInvoiceDialog";
 import { ConfirmDialog } from "@/components/ui";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { usePermission } from "@/hooks/usePermission";
@@ -61,7 +62,7 @@ export default function InvoiceDetailPage({
 
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [recipientEmail, setRecipientEmail] = useState("");
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const closeEmailModal = useCallback(() => setShowEmailModal(false), []);
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -203,13 +204,21 @@ export default function InvoiceDetailPage({
       await exportToBillyMutation.mutateAsync({
         invoiceId: id,
         action: settings.action,
+        expectedRecipient: settings.expectedRecipient,
+        expectedInvoice: settings.expectedInvoice,
         productId: settings.productId,
         paymentTermsDays: settings.paymentTermsDays,
         contactMessage: settings.contactMessage || undefined,
         lineType: settings.lineType,
         lineTemplate: settings.lineTemplate,
       });
-      toast.success(t("detail.billyExported"));
+      if (settings.expectedRecipient) {
+        toast.success(
+          t("sendConfirmation.sent", { email: settings.expectedRecipient }),
+        );
+      } else {
+        toast.success(t("detail.billyExported"));
+      }
       setShowBillyModal(false);
       // Refresh to show updated billyInvoiceId
       utils.invoices.invalidate();
@@ -223,6 +232,7 @@ export default function InvoiceDetailPage({
       );
     } finally {
       setIsExportingToBilly(false);
+      if (settings.expectedInvoice) void utils.invoices.invalidate();
     }
   };
 
@@ -233,13 +243,21 @@ export default function InvoiceDetailPage({
       await exportToDineroMutation.mutateAsync({
         invoiceId: id,
         action: settings.action,
+        expectedRecipient: settings.expectedRecipient,
+        expectedInvoice: settings.expectedInvoice,
         accountNumber: settings.accountNumber,
         paymentTermsDays: settings.paymentTermsDays,
         contactMessage: settings.contactMessage || undefined,
         lineType: settings.lineType,
         lineTemplate: settings.lineTemplate,
       });
-      toast.success(t("detail.dineroExported"));
+      if (settings.expectedRecipient) {
+        toast.success(
+          t("sendConfirmation.sent", { email: settings.expectedRecipient }),
+        );
+      } else {
+        toast.success(t("detail.dineroExported"));
+      }
       setShowDineroModal(false);
       // Refresh to show updated dineroInvoiceGuid
       utils.invoices.invalidate();
@@ -249,6 +267,7 @@ export default function InvoiceDetailPage({
       );
     } finally {
       setIsExportingToDinero(false);
+      if (settings.expectedInvoice) void utils.invoices.invalidate();
     }
   };
 
@@ -311,14 +330,7 @@ export default function InvoiceDetailPage({
     setShowEmailModal(true);
   };
 
-  const handleSendEmail = async () => {
-    if (!recipientEmail?.includes("@")) {
-      toast.error(t("detail.invalidEmail"));
-      return;
-    }
-
-    setIsSendingEmail(true);
-
+  const handleSendEmail = async (recipientEmail: string) => {
     try {
       const response = await fetch(`/api/invoices/${id}/send`, {
         method: "POST",
@@ -337,7 +349,7 @@ export default function InvoiceDetailPage({
         return;
       }
 
-      toast.success(data.message || t("detail.emailSent"));
+      toast.success(t("sendConfirmation.sent", { email: recipientEmail }));
       setShowEmailModal(false);
 
       // Afsendelsen går via REST og dermed uden om MutationCache: opdatér
@@ -347,8 +359,6 @@ export default function InvoiceDetailPage({
     } catch (error) {
       console.error("Email sending error:", error);
       toast.error(t("detail.emailSendError"));
-    } finally {
-      setIsSendingEmail(false);
     }
   };
 
@@ -470,7 +480,7 @@ export default function InvoiceDetailPage({
             className="inline-flex items-center gap-1.5 sm:gap-2 rounded-lg bg-tt-gran px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-tt-paa-gran transition-colors hover:bg-tt-gran-moerk disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
-            {t("detail.sendInvoice")}
+            {t("list.markSent")}
           </button>
         )}
 
@@ -527,7 +537,11 @@ export default function InvoiceDetailPage({
             className="inline-flex items-center gap-1.5 sm:gap-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
           >
             <Mail className="h-4 w-4" />
-            {t("detail.sendEmail")}
+            {t(
+              invoice.status === "draft"
+                ? "sendConfirmation.title"
+                : "list.reminderTitle",
+            )}
           </button>
         )}
 
@@ -895,74 +909,13 @@ export default function InvoiceDetailPage({
         </div>
       </div>
 
-      {/* Email Modal */}
-      {showEmailModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-xl">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                {t("detail.emailModalTitle")}
-              </h3>
-              <button
-                type="button"
-                onClick={() => setShowEmailModal(false)}
-                className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="recipientEmail"
-                className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5"
-              >
-                {t("detail.recipient")}
-              </label>
-              <input
-                type="email"
-                id="recipientEmail"
-                value={recipientEmail}
-                onChange={(e) => setRecipientEmail(e.target.value)}
-                placeholder={t("detail.recipientPlaceholder")}
-                className="block w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
-              />
-              <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                {t("detail.recipientHint")}
-              </p>
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={() => setShowEmailModal(false)}
-                disabled={isSendingEmail}
-                className="flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-50"
-              >
-                {tc("cancel")}
-              </button>
-              <button
-                type="button"
-                onClick={handleSendEmail}
-                disabled={isSendingEmail || !recipientEmail}
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-tt-gran px-4 py-2 text-sm font-medium text-tt-paa-gran transition-colors hover:bg-tt-gran-moerk disabled:opacity-50"
-              >
-                {isSendingEmail ? (
-                  <>
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                    {t("detail.sending")}
-                  </>
-                ) : (
-                  <>
-                    <Mail className="h-4 w-4" />
-                    {t("detail.sendEmail")}
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <SendInvoiceDialog
+        invoiceId={showEmailModal ? id : null}
+        onClose={closeEmailModal}
+        onSend={handleSendEmail}
+        recipient={recipientEmail}
+        onRecipientChange={setRecipientEmail}
+      />
 
       {/* Billy Export Modal */}
       <BillyExportModal

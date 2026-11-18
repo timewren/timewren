@@ -10,6 +10,7 @@ import {
 import { mailT } from "@/lib/email/locale";
 import { brandUrl, resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
+import { isTestEmailRecipient } from "@/lib/email/test-recipient";
 import { isMailAvailable } from "@/lib/email/transport";
 import { DEFAULT_FROM_EMAIL, resend } from "@/lib/resend";
 import { logEmailSkipped, withEmailLogging } from "./logger";
@@ -85,6 +86,7 @@ export async function sendPaymentFailedEmail({
 // ─── Trial Ending ───────────────────────────────────────────────────
 
 interface SendTrialEndingEmailParams {
+  organizationId?: string | null;
   to: string;
   userName: string;
   daysRemaining: number;
@@ -104,8 +106,11 @@ export async function sendTrialEndingEmail({
   daysRemaining,
   upgradeUrl,
   userId,
+  organizationId,
   templateKey = "trial_ending",
 }: SendTrialEndingEmailParams) {
+  if (await isTestEmailRecipient(to, userId, organizationId ?? undefined))
+    return;
   const mb = await resolveMailBrand({ userId, email: to });
   const logContext = {
     emailType: "trial_ending" as const,

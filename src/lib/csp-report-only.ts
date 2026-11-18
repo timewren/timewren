@@ -45,6 +45,8 @@ export function reportOnlyCspFromEnv(
       marketingUrlEnv(),
       appUrlEnv() ?? "http://localhost:3000",
     ),
+    umamiCollectOrigin: originOf(process.env.NEXT_PUBLIC_UMAMI_COLLECT_URL, ""),
+    umamiOrigin: originOf(process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL, ""),
     plausibleOrigin: originOf(process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL, ""),
     storageOrigin: originOf(runtimeEnv("S3_ENDPOINT"), ""),
     ...extra,

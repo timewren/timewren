@@ -73,6 +73,18 @@ describe("timetrack.dk: forside og prisside er uændrede", () => {
     expect(await renderPage(mod)).toMatchSnapshot("html");
   });
 
+  it("shows monthly norms and holidays on the hours calculator", async () => {
+    const mod = await import("@/app/(marketing)/arbejdstimer-beregner/page");
+    const html = await renderPage(mod);
+    expect(html).toContain("2026 i alt");
+    expect(html).toContain("2027 i alt");
+    expect(html).toContain("Timer ved 30 t/uge");
+    expect(html).toContain("Kristi himmelfartsdag");
+    for (const prompt of ["Prøv timeren i TimeTrack", 'name="website"']) {
+      expect(html.indexOf("2027 i alt")).toBeLessThan(html.indexOf(prompt));
+    }
+  });
+
   it("prissiden: metadata og HTML", async () => {
     const mod = await import("@/app/(marketing)/pricing/page");
     expect(JSON.stringify(mod.metadata, null, 1)).toMatchSnapshot("metadata");

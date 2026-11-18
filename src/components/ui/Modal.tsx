@@ -204,6 +204,7 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
   title: string;
   description?: ReactNode;
+  children?: ReactNode;
   confirmLabel?: string;
   cancelLabel?: string;
   variant?: "danger" | "warning" | "default";
@@ -217,6 +218,7 @@ export function ConfirmDialog({
   onConfirm,
   title,
   description,
+  children,
   confirmLabel,
   cancelLabel,
   variant = "default",
@@ -239,7 +241,8 @@ export function ConfirmDialog({
       size="sm"
       showCloseButton={false}
     >
-      <div className="flex items-center justify-end gap-3 mt-4">
+      {children}
+      <div className="flex flex-wrap items-center justify-end gap-3 mt-4">
         <button
           type="button"
           onClick={onClose}
@@ -252,7 +255,7 @@ export function ConfirmDialog({
           type="button"
           onClick={onConfirm}
           disabled={isLoading || confirmDisabled}
-          className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${confirmButtonClasses[variant]}`}
+          className={`max-w-full break-words px-4 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${confirmButtonClasses[variant]}`}
         >
           {isLoading ? t("modal.wait") : (confirmLabel ?? t("modal.confirm"))}
         </button>

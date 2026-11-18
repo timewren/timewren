@@ -21,7 +21,7 @@ vi.mock("@/lib/db", () => {
       Promise.resolve(rows),
       { from: (t: unknown) => chain(t) } as Record<string, unknown>,
     );
-    for (const m of ["where", "orderBy", "limit"]) c[m] = () => c;
+    for (const m of ["where", "orderBy", "limit", "innerJoin"]) c[m] = () => c;
     return c;
   };
   return {

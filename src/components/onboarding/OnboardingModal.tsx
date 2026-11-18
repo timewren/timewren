@@ -9,6 +9,7 @@ import { CompleteStep } from "@/components/onboarding/CompleteStep";
 import { DataImportStep } from "@/components/onboarding/DataImportStep";
 import { FirstClientStep } from "@/components/onboarding/FirstClientStep";
 import { SubscriptionStep } from "@/components/onboarding/SubscriptionStep";
+import { TimewrenBillingPanel } from "@/components/subscription/TimewrenBillingPanel";
 import { useBillingEnabled } from "@/hooks/useBillingEnabled";
 import { useSession } from "@/lib/auth-client";
 import {
@@ -119,9 +120,14 @@ export function OnboardingModal() {
   const {
     enabled: billingProviderEnabled,
     checkoutAvailable,
+    provider,
     isLoading: billingLoading,
   } = useBillingEnabled();
-  const billingEnabled = billingProviderEnabled && checkoutAvailable;
+  // TimeWren Cloud (Stripe): planerne i EUR (TimewrenBillingPanel) i stedet
+  // for Alunta-plantrinnet, som på /dashboard/onboarding.
+  const stripePlanStep = billingProviderEnabled && provider === "stripe";
+  const billingEnabled =
+    billingProviderEnabled && checkoutAvailable && !stripePlanStep;
   // Mutations
   const createSubscriptionMutation =
     trpc.onboarding.createSubscription.useMutation();
@@ -398,7 +404,13 @@ export function OnboardingModal() {
   // TimeWren-konti får Gratis af serveren (onboarding.createSubscription).
   const skipSubscriptionRef = useRef(false);
   useEffect(() => {
-    if (billingLoading || billingEnabled || step !== "subscription") return;
+    if (
+      billingLoading ||
+      billingEnabled ||
+      stripePlanStep ||
+      step !== "subscription"
+    )
+      return;
     if (isOrgMember) return;
     if (skipSubscriptionRef.current) return;
     skipSubscriptionRef.current = true;
@@ -414,7 +426,7 @@ export function OnboardingModal() {
 
   // Progress bar
   const steps = [
-    ...(billingEnabled
+    ...(billingEnabled || stripePlanStep
       ? [{ id: "subscription", label: t("step.subscription") }]
       : []),
     { id: "company_info", label: t("step.company_info") },
@@ -527,6 +539,31 @@ export function OnboardingModal() {
                   }}
                 />
               )}
+
+            {/* TimeWren Cloud: serveren opretter Gratis-rækken; en betalt plan
+                går via Stripe Checkout og kommer tilbage til næste trin. */}
+            {step === "subscription" && stripePlanStep && (
+              <TimewrenBillingPanel
+                returnPath="/dashboard/onboarding?step=company_info"
+                beforeCheckout={async () => {
+                  await createSubscriptionMutation.mutateAsync({
+                    billingCycle: "monthly",
+                    planTier: "solo",
+                    isEffihubMigrant: false,
+                  });
+                }}
+                onContinueFree={() => {
+                  createSubscriptionMutation
+                    .mutateAsync({
+                      billingCycle: "monthly",
+                      planTier: "solo",
+                      isEffihubMigrant: false,
+                    })
+                    .catch(() => undefined)
+                    .finally(() => goToStep("company_info"));
+                }}
+              />
+            )}
 
             {step === "company_info" && (
               <CompanyInfoStep

@@ -110,24 +110,22 @@ async function aluntaFetch<T>(path: string, options?: RequestInit): Promise<T> {
         await retry(`API ${res.status}`);
         continue;
       }
+      // Kun status og længde: Aluntas svartekst og headere kan indeholde
+      // persondata, og kalderne logger fejlbeskeden videre.
       console.error(
-        `[Alunta] API error ${res.status} ${path} (${contentType}):`,
-        text.slice(0, 500),
+        `[Alunta] API error ${res.status} ${path} (${text.length} tegn)`,
       );
-      throw new AluntaApiError(
-        res.status,
-        `Alunta API ${res.status}: ${text.slice(0, 200)}`,
-      );
+      throw new AluntaApiError(res.status, `Alunta API ${res.status}`);
     }
 
     if (!contentType.includes("application/json")) {
       const text = await readBody();
+      // Heller ikke her den rå header: parametre kan indeholde persondata.
       console.error(
-        `[Alunta] Unexpected content-type "${contentType}" for ${path}:`,
-        text.slice(0, 500),
+        `[Alunta] Unexpected content-type for ${path} (${res.status}, ${text.length} tegn)`,
       );
       throw new Error(
-        `Alunta API returnerede uventet format (${contentType}). Tjek ALUNTA_API_KEY og API URL.`,
+        "Alunta API returnerede uventet format. Tjek ALUNTA_API_KEY og API URL.",
       );
     }
 

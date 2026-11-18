@@ -298,6 +298,8 @@
     "draftOnlyEditLines": "Positionen können nur bei Rechnungsentwürfen bearbeitet werden",
     "draftOnlyDeleteLines": "Positionen können nur aus Rechnungsentwürfen gelöscht werden",
     "draftOnlyReorder": "Die Reihenfolge kann nur bei Rechnungsentwürfen geändert werden",
+    "providerMismatch": "Betrag oder Währung konnten nicht bestätigt werden. Prüfen Sie den Entwurf im Buchhaltungssystem vor dem Versand.",
+    "recipientChanged": "Die E-Mail-Adresse des Empfängers hat sich geändert. Öffnen Sie die Bestätigung erneut.",
     "clientHasNoEmail": "Der Kunde hat keine E-Mail-Adresse"
   },
   "logbook": {
@@ -431,7 +433,12 @@
     "requestFailed": "Die Anfrage konnte nicht gesendet werden. Versuche es später erneut.",
     "priceSuffixYear": "kr/Jahr",
     "priceSuffixMonth": "kr/Monat",
-    "checkoutComingSoon": "Bezahlung ist hier noch nicht möglich. Du nutzt den kostenlosen Plan."
+    "checkoutComingSoon": "Bezahlung ist hier noch nicht möglich. Du nutzt den kostenlosen Plan.",
+    "checkoutNotForAccount": "Diese Zahlungsart gilt nicht für dein Konto. Deinen Plan verwaltest du unter Einstellungen → Abonnement.",
+    "stripeUnavailable": "Bezahlung ist gerade nicht möglich. Versuche es später noch einmal.",
+    "stripeAlreadyActive": "Du hast bereits ein aktives Abonnement. Nutze „Abonnement verwalten“, um Plan oder Nutzerzahl zu ändern.",
+    "stripeNoCustomer": "Es gibt noch kein bezahltes Abonnement. Wähle zuerst einen Plan.",
+    "noOrganization": "Dein Konto hat keinen Arbeitsbereich. Lade die Seite neu und versuche es noch einmal."
   },
   "tags": {
     "nameExists": "Ein Tag mit dem Namen „{name}“ existiert bereits",

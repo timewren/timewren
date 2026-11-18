@@ -17,7 +17,7 @@ Variabler med navnet `NEXT_PUBLIC_*` bliver indlejret i browserbundlen, når ima
 
 I det færdigbyggede image `ghcr.io/timewren/timewren` ligger de øvrige build time-variabler derfor fast (for eksempel `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` og Sentrys browserindstillinger). Vil du ændre dem, skal du bygge dit eget image med de tilsvarende build-argumenter, se [Installation fra kildekode](/da/docs/install/from-source). Kolonnen `Build time` nedenfor viser, hvilke variabler det gælder.
 
-Content-Security-Policy-headerne genereres i `next.config.ts` ud fra `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` og `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, så de bruger de værdier, der var til stede ved build.
+Content-Security-Policy-headerne genereres i `next.config.ts` ud fra `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_UMAMI_COLLECT_URL` og `NEXT_PUBLIC_UMAMI_SCRIPT_URL`, så de bruger de værdier, der var til stede ved build.
 
 > **Bemærk:** Betalingsvariablerne (`ALUNTA_API_KEY`, `STRIPE_SECRET_KEY`, `STORE_BILLING_ENABLED` og alt, hvad der hører til dem) gør intet ved selvhosting. Betaling slås kun til, når mindst én af de tre er sat. Uden dem er alle funktioner åbne: Der er ingen grænser for brugere eller kunder, ingen prøveperiode, der udløber, ingen opgraderingsknapper og ingen betalingsmails.
 
@@ -201,7 +201,10 @@ Intet sendes til vedligeholderne, medmindre du sætter disse. Se også [Fejlfind
 
 | Variabel | Standard | Påkrævet | Build time | Beskrivelse |
 | --- | --- | --- | --- | --- |
-| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | ingen | nej | ja | URL til et Plausible-analysescript. Tom: Der indlæses intet analysescript. Tilføjes også til CSP'en. |
+| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | ingen | nej | ja | URL til et Plausible-analysescript. Tom: Der indlæses intet Plausible-script. Tilføjes også til CSP'en. |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | ingen | nej | ja | URL til Umamis sporingsscript. Bruges, når der ikke er angivet en indsamlingsadresse. |
+| `NEXT_PUBLIC_UMAMI_COLLECT_URL` | ingen | nej | ja | Fuld indsamlingsadresse eller sti på samme domæne, inklusive en eventuel tilpasset sti. Med webstedets id og samtykke sendes værktøjshændelser straks med keepalive. |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | ingen | nej | ja | Webstedets id i Umami. |
 | `PLAUSIBLE_BASE_URL` | `https://plausible.io` | nej | nej | Plausible-host, som admin-siden med statistik bruger. |
 | `PLAUSIBLE_SITE_ID` | ingen | nej | nej | Plausible-site-ID til admin-siden med statistik. |
 | `PLAUSIBLE_API_KEY` | ingen | nej | nej | Plausible API-nøgle. Admin-siden med statistik kræver denne og `PLAUSIBLE_SITE_ID`. |
@@ -285,6 +288,7 @@ Compose sætter selv nogle af disse. De står her, så du ved, hvor de kommer fr
 | `STRIPE_WEBHOOK_SECRET` | ingen | nej | nej | Verificerer webhooks fra Stripe. |
 | `STRIPE_TAX_ENABLED` | `false` | nej | nej | `true` slår Stripe Tax til. |
 | `STRIPE_DESKTOP_LIFETIME_PRICE_ID` | tom | nej | nej | Stripe-pris-ID for livstidslicensen til desktop. |
+| `STRIPE_TIMEWREN_PORTAL_CONFIGURATION` | tom | nej | nej | Kun multibrand-Cloud: Stripe-kundeportalens opsætning for TimeWren-konti. Tom: findes eller oprettes ud fra metadata `brand=timewren`. |
 | `STORE_BILLING_ENABLED` | ingen | nej | nej | `1` slår betaling til for køb i appen (App Store og Google Play). |
 | `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | ingen | nej | nej | Servicekonto til at verificere køb i Google Play. |
 | `GOOGLE_PLAY_PACKAGE_NAME` | ingen | nej | nej | Android-pakkenavn til Google Play. |

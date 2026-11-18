@@ -300,6 +300,8 @@
     "draftOnlyEditLines": "Lines can only be edited on draft invoices",
     "draftOnlyDeleteLines": "Lines can only be deleted from draft invoices",
     "draftOnlyReorder": "The order can only be changed on draft invoices",
+    "providerMismatch": "The amount or currency could not be verified. Review the draft in your accounting system before sending.",
+    "recipientChanged": "The recipient’s email has changed. Reopen the confirmation.",
     "clientHasNoEmail": "The client has no email address"
   },
   "logbook": {
@@ -433,7 +435,12 @@
     "requestFailed": "Could not send the request. Try again later.",
     "priceSuffixYear": "kr/year",
     "priceSuffixMonth": "kr/month",
-    "checkoutComingSoon": "Payments aren't open here yet. You're on the Free plan."
+    "checkoutComingSoon": "Payments aren't open here yet. You're on the Free plan.",
+    "checkoutNotForAccount": "This payment option isn't available for your account. Manage your plan under Settings → Subscription.",
+    "stripeUnavailable": "Payments are not available right now. Try again later.",
+    "stripeAlreadyActive": "You already have an active subscription. Use 'Manage subscription' to change plan or users.",
+    "stripeNoCustomer": "No subscription with payment found. Choose a plan first.",
+    "noOrganization": "Your account has no workspace. Reload the page and try again."
   },
   "tags": {
     "nameExists": "A tag named \"{name}\" already exists",

@@ -1762,6 +1762,7 @@ export const timeRouter = router({
               hours: input.hours.toFixed(1).replace(".", ","),
               projectName,
               userId,
+              organizationId: ctx.orgId ?? undefined,
             });
           }
         } catch (error) {

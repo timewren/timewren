@@ -160,6 +160,14 @@ const nextConfig: NextConfig = {
                 process.env.NEXT_PUBLIC_MARKETING_URL,
                 process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
               ),
+              umamiCollectOrigin: originOf(
+                process.env.NEXT_PUBLIC_UMAMI_COLLECT_URL,
+                "",
+              ),
+              umamiOrigin: originOf(
+                process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL,
+                "",
+              ),
               plausibleOrigin: originOf(
                 process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL,
                 "",

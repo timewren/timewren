@@ -496,6 +496,10 @@ export const USER_EXPORT_EXCLUDED: Record<
 
   // TimeTracks egne data
   subscriptions: x("timetrack", "Abonnementet hos TimeTrack."),
+  testAluntaSubscriptions: x(
+    "timetrack",
+    "Interne referencer til testabonnementer.",
+  ),
   paymentMethods: x("timetrack", "Betalingsmetode til abonnementet."),
   supportTickets: x("timetrack", "Henvendelser til support."),
   supportMessages: x("timetrack", "Beskeder i henvendelser til support."),

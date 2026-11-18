@@ -6,6 +6,7 @@ import {
 } from "@playwright/test";
 import * as dotenv from "dotenv";
 import postgres from "postgres";
+import { cleanupTestAccount } from "./cleanup-account";
 
 /**
  * Test helpers and utilities for TimeTrack E2E tests.
@@ -53,12 +54,15 @@ export async function isolateContext(context: BrowserContext) {
   });
 }
 
+const createdAccounts = new WeakMap<Page, string[]>();
+const generatedEmails = new Set<string>();
+
 export const test = base.extend({
   context: async ({ context }, use) => {
     await isolateContext(context);
     await use(context);
   },
-  page: async ({ page }, use) => {
+  page: async ({ page }, use, testInfo) => {
     // "Nyheder og opdateringer" åbner af sig selv, når brugeren har ulæste
     // udgivelser, og en ny testbruger har altid ulæste. Modalen ligger over
     // siden og opsnapper klik (fx på "Gem kunde"), så luk den, når den dukker
@@ -73,6 +77,11 @@ export const test = base.extend({
       },
     );
     await use(page);
+    if (testInfo.project.name === "setup" && testInfo.status === "passed")
+      return;
+    for (const email of createdAccounts.get(page) ?? []) {
+      await cleanupTestAccount(db(), email);
+    }
   },
 });
 
@@ -101,7 +110,9 @@ export async function markEmailVerified(email: string) {
   const rows = await db()`
     UPDATE "user" SET "emailVerified" = true WHERE email = ${email} RETURNING id
   `;
-  expect(rows.length, `bruger ${email} findes ikke i DB`).toBe(1);
+  expect(rows.length, "Den forventede testbruger findes ikke i databasen").toBe(
+    1,
+  );
 }
 
 /**
@@ -183,7 +194,7 @@ export async function waitForSubscription(email: string) {
         return rows.length;
       },
       {
-        message: `løsbart abonnement for ${email} blev ikke oprettet`,
+        message: "Det forventede testabonnement blev ikke oprettet",
         timeout: 20_000,
       },
     )
@@ -194,7 +205,9 @@ export async function waitForSubscription(email: string) {
  * Generate unique test data
  */
 export function generateUniqueEmail(): string {
-  return `e2e-${Date.now()}-${Math.random().toString(36).substring(2, 8)}@example.dk`;
+  const email = `timetrack+e2e-${crypto.randomUUID()}@example.invalid`;
+  generatedEmails.add(email);
+  return email;
 }
 
 export function generateUniqueName(prefix = "Test"): string {
@@ -214,6 +227,11 @@ export async function register(
   await page.fill("#name", name);
   await page.fill("#email", email);
   await page.fill("#password", password);
+  if (generatedEmails.delete(email)) {
+    const accounts = createdAccounts.get(page) ?? [];
+    accounts.push(email);
+    createdAccounts.set(page, accounts);
+  }
   const signUp = page.waitForResponse((r) =>
     r.url().includes("/api/auth/sign-up/email"),
   );
@@ -240,12 +258,10 @@ export async function login(
 
 /**
  * Timer-first-onboarding (#91): ingen wizard — prøven startes i baggrunden,
- * og brugeren lander på Hjem med velkomstkortet.
+ * og brugeren lander på Hjem. Velkomstkortet vises efter kontoens tilstand.
  */
 export async function completeOnboarding(page: Page) {
-  await expect(
-    page.getByRole("heading", { name: "Velkommen til TimeTrack" }),
-  ).toBeVisible();
+  await expect(page.getByRole("region", { name: "Start timer" })).toBeVisible();
 }
 
 /**

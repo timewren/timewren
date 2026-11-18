@@ -2,6 +2,7 @@
 
 import { AlertTriangle, ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { trpc } from "@/providers/trpc-provider";
 
 function RiskBadge({ level }: { level: "high" | "medium" | "low" }) {
@@ -32,7 +33,11 @@ function getInitials(name: string): string {
 }
 
 export function ChurnRiskWidget() {
-  const { data, isLoading } = trpc.admin.getChurnRisk.useQuery({ limit: 10 });
+  const includeTestAccounts = useIncludeTestAccounts();
+  const { data, isLoading } = trpc.admin.getChurnRisk.useQuery({
+    includeTestAccounts,
+    limit: 10,
+  });
 
   const atRiskUsers = data?.filter((u) => u.riskScore >= 40) ?? [];
 

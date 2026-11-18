@@ -76,6 +76,7 @@ import { teamRouter } from "./team";
 import { timeRouter } from "./time";
 import { timerSyncRouter } from "./timerSync";
 import { timerTemplatesRouter } from "./timerTemplates";
+import { timewrenBillingRouter } from "./timewrenBilling";
 import { userRouter } from "./user";
 import { vatRouter } from "./vat";
 import { webhooksRouter } from "./webhooks";
@@ -173,6 +174,7 @@ export const appRouter = router({
   security: securityRouter,
   subscription: subscriptionRouter,
   storeBilling: storeBillingRouter,
+  timewrenBilling: timewrenBillingRouter,
   vat: vatRouter,
   webhooks: webhooksRouter,
 });

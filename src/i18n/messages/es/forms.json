@@ -1,4 +1,51 @@
 {
+  "calculator": {
+    "outOfRange": "Introduce un número entre {min} y {max}.",
+    "wholeOutOfRange": "Introduce un número entero entre {min} y {max}.",
+    "pending": "Pendiente de datos",
+    "missingHours": "Introduce más horas trabajadas para calcular la tarifa por hora.",
+    "labels": {
+      "workedAfterBreaks": "Horas trabajadas sin pausas",
+      "periodNorm": "Horas previstas en el mismo periodo",
+      "hourlyWage": "Salario por hora (DKK)",
+      "overtimePremium": "Recargo acordado por horas extra (%)",
+      "overtimeHours": "Horas por encima de la jornada prevista",
+      "grossOvertimePay": "Pago de horas extra antes de impuestos",
+      "periodHours": "Horas trabajadas en el periodo",
+      "holidayPaySupplements": "Complementos que cuentan para la paga de vacaciones (DKK)",
+      "holidayPayWages": "Salario que cuenta para la paga de vacaciones",
+      "grossHolidayPay": "Paga de vacaciones acumulada antes de impuestos",
+      "openingFlexBalance": "Saldo inicial de horario flexible (horas)",
+      "loggedAfterBreaks": "Horas registradas sin pausas",
+      "normBeforeTimeOff": "Horas previstas antes de compensar el saldo",
+      "timeOffIncluded": "Horas de descanso compensatorio incluidas en el registro",
+      "hoursDifference": "Diferencia entre horas registradas y previstas",
+      "newFlexBalance": "Nuevo saldo de horario flexible",
+      "wholeHours": "Horas completas",
+      "extraMinutes": "Minutos adicionales",
+      "roundingInterval": "Redondear al siguiente intervalo (minutos)",
+      "roundedTime": "Tiempo redondeado",
+      "addedMinutes": "Minutos añadidos",
+      "projectBudget": "Presupuesto total del proyecto (horas)",
+      "hoursSpent": "Horas dedicadas hasta ahora",
+      "remainingWork": "Trabajo restante estimado (horas)",
+      "budgetLeft": "Horas disponibles en el presupuesto actual",
+      "forecastHours": "Total de horas estimadas",
+      "forecastBalance": "Saldo estimado al finalizar",
+      "projectRevenue": "Ingresos del proyecto sin IVA (DKK)",
+      "directCosts": "Costes directos del proyecto (DKK)",
+      "billableHours": "Horas facturables",
+      "otherProjectHours": "Otras horas del proyecto",
+      "revenueAfterCosts": "Ingresos tras costes directos",
+      "effectiveRate": "Tarifa efectiva por hora antes de impuestos"
+    },
+    "units": {
+      "currency": "DKK",
+      "hours": "h",
+      "minutes": "min",
+      "hourlyRate": "DKK/h"
+    }
+  },
   "quickSignup": {
     "cta": "Empieza gratis"
   },

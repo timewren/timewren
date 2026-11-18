@@ -9,7 +9,7 @@ import { type AluntaSubscription, alunta } from "@/lib/alunta";
 import { authBrandForHost } from "@/lib/auth/host-auth";
 import { assertCheckoutAvailable } from "@/lib/billing/assert-checkout";
 import { isBillingEnabled } from "@/lib/billing/billing-enabled";
-import { isCheckoutAvailableForBrand } from "@/lib/billing/brand-billing";
+import { billingProviderForBrand } from "@/lib/billing/brand-billing";
 import {
   countActiveClients,
   displayedMaxActiveClients,
@@ -71,20 +71,37 @@ export async function resolveActiveSubscription(
   db: Db,
   orgId: string | null | undefined,
   userId: string,
+  opts: { stripe?: boolean } = {},
 ) {
   // Deterministic order: an org can accumulate several rows (each member's
   // onboarding / checkout inserts one). Prefer a paid/trialing row linked to
   // Alunta or an app store, then the newest — never an arbitrary expired/solo row, which would
   // drive the wrong price and, worse, point billing mutations at the wrong sub.
-  const preferenceOrder = [
-    desc(
-      sql`case when ${subscriptions.status} in ('active','trialing') then 1 else 0 end`,
-    ),
-    desc(
-      sql`case when ${subscriptions.aluntaSubscriptionId} is not null or ${subscriptions.storeProvider} is not null then 1 else 0 end`,
-    ),
-    desc(subscriptions.createdAt),
-  ];
+  //
+  // `stripe` (TimeWren Cloud only, set by timewrenBilling for Stripe-billed
+  // accounts): a Stripe row counts as provider-linked and still governs while
+  // past_due — it is the one the owner must fix in the portal, not a newer
+  // Gratis row. Opt-in because TimeTrack rows may carry historic Stripe ids
+  // from before the Alunta migration and must order exactly as before.
+  const preferenceOrder = opts.stripe
+    ? [
+        desc(
+          sql`case when ${subscriptions.status} in ('active','trialing') or (${subscriptions.status} = 'past_due' and ${subscriptions.stripeSubscriptionId} is not null) then 1 else 0 end`,
+        ),
+        desc(
+          sql`case when ${subscriptions.stripeSubscriptionId} is not null or ${subscriptions.aluntaSubscriptionId} is not null or ${subscriptions.storeProvider} is not null then 1 else 0 end`,
+        ),
+        desc(subscriptions.createdAt),
+      ]
+    : [
+        desc(
+          sql`case when ${subscriptions.status} in ('active','trialing') then 1 else 0 end`,
+        ),
+        desc(
+          sql`case when ${subscriptions.aluntaSubscriptionId} is not null or ${subscriptions.storeProvider} is not null then 1 else 0 end`,
+        ),
+        desc(subscriptions.createdAt),
+      ];
   if (orgId) {
     const orgSub = await db.query.subscriptions.findFirst({
       where: eq(subscriptions.organizationId, orgId),
@@ -206,15 +223,20 @@ export const subscriptionRouter = router({
   // Get subscription details with computed fields
   // Om betaling overhovedet gælder (selvhost uden udbyder = nej). Klienten
   // læser kun dette flag, aldrig betalingsnøglerne selv.
-  // checkoutAvailable: false på TimeWren-hosts, hvor betaling kommer senere
-  // (lib/billing/brand-billing.ts). Hosten afgør det, fordi kun TimeWren-konti
-  // kan logge ind dér; serveren tjekker kontoens brand ved selve checkout.
-  billingEnabled: publicProcedure.query(({ ctx }) => ({
-    enabled: isBillingEnabled(),
-    checkoutAvailable: isCheckoutAvailableForBrand(
+  // checkoutAvailable og provider følger hosten, fordi kun dens egne konti kan
+  // logge ind dér; serveren tjekker kontoens brand ved selve checkout.
+  // TimeTrack: Alunta. TimeWren: Stripe i EUR, når det er slået til
+  // (lib/billing/timewren-stripe.ts), ellers ingen betaling.
+  billingEnabled: publicProcedure.query(({ ctx }) => {
+    const provider = billingProviderForBrand(
       authBrandForHost(ctx.headers?.get("host")),
-    ),
-  })),
+    );
+    return {
+      enabled: isBillingEnabled(),
+      checkoutAvailable: provider !== null,
+      provider,
+    };
+  }),
 
   getDetails: protectedProcedure.query(async ({ ctx }) => {
     // Uden billing findes ingen plan: null = ingen plan-gate, ingen trial

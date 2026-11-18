@@ -89,6 +89,8 @@ To top up without automatic renewal, create a new package for the client. Severa
 
 Clients can see their packages in the client portal, on a Prepaid tab with balance and usage. Two switches control this: the portal permission `canViewPrepaid` (on by default) and the package setting `hiddenFromPortal`, which hides a single package completely, including from the history. Clients can also request a renewal, which shows up for you as a renewal request. Monetary values can be hidden from clients with the `hidePrepaidValue` setting, globally or per client.
 
+When invoicing is enabled, you can approve the request with a draft invoice or choose **Approve and review sending**. The package is renewed before the confirmation opens. It shows the client, recipient email, invoice number, amount including VAT and due date. Closing the confirmation leaves the invoice as a draft.
+
 ## REST API
 
 Packages are available as the `prepaid-packages` resource, with the `prepaid:read` and `prepaid:write` scopes. List, get, create and update are supported, and `DELETE` archives a package rather than deleting it. Authentication and scopes are described in the [REST API](/docs/api/rest) reference. Package events are delivered through [webhooks](/docs/api/webhooks).

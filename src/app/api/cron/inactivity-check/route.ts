@@ -11,6 +11,7 @@ import {
 } from "@/lib/db/schema";
 import { sendInactivityEmail } from "@/lib/email/engagement";
 import { wasEmailSentRecently } from "@/lib/email/logger";
+import { isTestEmailRecipient } from "@/lib/email/test-recipient";
 import { captureRouteError } from "@/lib/utils/sentry";
 
 // Cron schedule: 0 10 * * * (Daily at 10:00)
@@ -42,6 +43,7 @@ export const GET = withCronLogging("inactivity-check", async (_request) => {
 
     try {
       const orgId = await getUserOrgId(user.id);
+      if (await isTestEmailRecipient(user.email, user.id, orgId)) continue;
 
       // Skip if we sent an inactivity email within the last 7 days. Use the
       // tracked timestamp when available, and fall back to the sent_emails log
@@ -166,12 +168,9 @@ export const GET = withCronLogging("inactivity-check", async (_request) => {
       }
 
       sentCount++;
-    } catch (error) {
-      console.error(
-        `Failed to send inactivity email for user ${user.id}:`,
-        error,
-      );
-      errors.push(`User ${user.id}: ${(error as Error).message}`);
+    } catch {
+      console.error("[inactivity-check] Failed to process a recipient");
+      errors.push("Failed to process a recipient");
     }
   }
 

@@ -834,7 +834,8 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
       "@/lib/trpc/routers/storeBilling"
     );
     const { desktopRouter } = await import("@/lib/trpc/routers/desktop");
-    const refusal = "Betaling er ikke åben her endnu. Du er på Gratis-planen.";
+    const refusal =
+      "Denne betalingsmåde gælder ikke din konto. Du styrer din plan under Indstillinger → Abonnement.";
     const result: Record<string, unknown> = {};
     for (const [host, name] of [
       ["timewren.com", "store-tw"],

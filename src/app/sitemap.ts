@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getMarketingUrl } from "@/lib/config";
+import { seoTools } from "@/lib/marketing/seo-tools";
 import { isMarketingEnabled } from "@/lib/marketing-guard";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -168,6 +169,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/time-tracking-app", changeFrequency: "monthly", priority: 0.6 },
 
     // Free tools
+    ...Object.values(seoTools).map(({ slug }) => ({
+      path: `/${slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     { path: "/vaerktoejer", changeFrequency: "monthly", priority: 0.8 },
     { path: "/skabeloner", changeFrequency: "monthly", priority: 0.75 },
     {

@@ -12,7 +12,9 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { BrandLogo as Logo, useBrand } from "@/components/BrandContext";
+import { TimewrenBillingPanel } from "@/components/subscription/TimewrenBillingPanel";
 import { Button } from "@/components/ui/Button";
+import { useBillingEnabled } from "@/hooks/useBillingEnabled";
 import { signOut } from "@/lib/auth-client";
 import { FREE_MEMBER_LOCKED_MESSAGE } from "@/lib/billing/plan-gate";
 import { planNameForTier, totalPriceForTierSeats } from "@/lib/config";
@@ -56,6 +58,19 @@ export function TrialExpiredWall({ subscription }: TrialExpiredWallProps) {
     },
     onError: () => {
       toast.error(t("checkoutFailed"));
+    },
+  });
+
+  // TimeWren Cloud betaler med Stripe: kort opdateres i Stripes portal, og
+  // planer vælges i TimewrenBillingPanel (EUR), aldrig i Alunta.
+  const { provider } = useBillingEnabled();
+  const isStripe = provider === "stripe";
+  const stripePortal = trpc.timewrenBilling.portal.useMutation({
+    onSuccess: (data) => {
+      window.location.href = data.url;
+    },
+    onError: () => {
+      toast.error(t("portalFailed"));
     },
   });
 
@@ -111,13 +126,21 @@ export function TrialExpiredWall({ subscription }: TrialExpiredWallProps) {
                 variant="primary"
                 size="lg"
                 fullWidth
-                isLoading={createPortal.isPending}
-                onClick={() => createPortal.mutate()}
+                isLoading={
+                  isStripe ? stripePortal.isPending : createPortal.isPending
+                }
+                onClick={() =>
+                  isStripe ? stripePortal.mutate() : createPortal.mutate()
+                }
               >
                 <ExternalLink className="h-5 w-5" />
                 {t("updatePayment")}
               </Button>
             </div>
+          </div>
+        ) : isStripe ? (
+          <div className="mt-8 text-left">
+            <TimewrenBillingPanel />
           </div>
         ) : (
           <>

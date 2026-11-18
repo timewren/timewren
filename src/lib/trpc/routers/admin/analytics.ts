@@ -8,25 +8,30 @@ import {
   lt,
   lte,
   notInArray,
+  type SQLWrapper,
   sql,
   sum,
 } from "drizzle-orm";
 import { z } from "zod";
+import { sessionOrganizationIdSql } from "@/lib/auth/active-org";
 import {
   adminActivityLogs,
   calendarConnections,
   clients,
   extensionTokens,
   invoices,
+  organizations,
   prepaidPackages,
   projects,
   sessions,
+  subscriptions,
   tasks,
   timeEntries,
   timerStates,
   users,
 } from "@/lib/db/schema";
 import { syntheticUserIds } from "@/lib/synthetic-users";
+import { excludeTestOrganization, excludeTestUsers } from "@/lib/test-accounts";
 import {
   addMonthsToDateStr,
   copenhagenDayStart,
@@ -38,6 +43,19 @@ import { parseDbTimestamp } from "@/lib/time/db-timestamp";
 import { adminProcedure, router, supporterProcedure } from "../../trpc";
 import { logAdminAction } from "./shared";
 
+const metricsInput = z
+  .object({ includeTestAccounts: z.boolean().optional() })
+  .optional();
+const metricsProcedure = supporterProcedure.input(metricsInput);
+
+function accountFilters(input?: { includeTestAccounts?: boolean }) {
+  const include = input?.includeTestAccounts;
+  return {
+    realUsers: excludeTestUsers(include),
+    realOrganization: (id: SQLWrapper) => excludeTestOrganization(id, include),
+  };
+}
+
 // Alias for target user in activity logs
 const targetUser = aliasedTable(users, "targetUser");
 
@@ -47,7 +65,8 @@ export const adminAnalyticsRouter = router({
   // Supporters can view
   // ============================================
 
-  getSystemStats: supporterProcedure.query(async ({ ctx }) => {
+  getSystemStats: metricsProcedure.query(async ({ ctx, input }) => {
+    const { realUsers, realOrganization } = accountFilters(input);
     // Log this action
     await logAdminAction(
       ctx.db,
@@ -63,6 +82,7 @@ export const adminAnalyticsRouter = router({
     // metrics reflect real customers.
     const [
       userCount,
+      activeOrganizationCount,
       clientCount,
       projectCount,
       taskCount,
@@ -77,39 +97,92 @@ export const adminAnalyticsRouter = router({
       ctx.db
         .select({ count: count() })
         .from(users)
-        .where(eq(users.isDemo, false)),
+        .where(and(eq(users.isDemo, false), realUsers)),
+      ctx.db
+        .select({ count: sql<number>`count(distinct ${organizations.id})` })
+        .from(sessions)
+        .innerJoin(
+          organizations,
+          eq(sessionOrganizationIdSql(), organizations.id),
+        )
+        .innerJoin(users, eq(sessions.userId, users.id))
+        .where(
+          and(
+            gte(sessions.createdAt, new Date(Date.now() - 30 * 86_400_000)),
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(organizations.id),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(clients)
         .leftJoin(users, eq(clients.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(clients.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(projects)
         .leftJoin(users, eq(projects.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(projects.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(tasks)
         .leftJoin(users, eq(tasks.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(tasks.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(timeEntries)
         .leftJoin(users, eq(timeEntries.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(timeEntries.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(invoices)
         .leftJoin(users, eq(invoices.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(invoices.organizationId),
+          ),
+        ),
       // Platform GMV (users' paid client invoices), excluding demo users
       // so seed / test data doesn't skew the number.
       ctx.db
         .select({ total: sum(invoices.amount) })
         .from(invoices)
         .leftJoin(users, eq(invoices.userId, users.id))
-        .where(and(eq(invoices.status, "paid"), eq(users.isDemo, false))),
+        .where(
+          and(
+            eq(invoices.status, "paid"),
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(invoices.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(users)
@@ -119,17 +192,23 @@ export const adminAnalyticsRouter = router({
               users.createdAt,
               copenhagenDayStart(monthStartDateStr(copenhagenToday())),
             ),
-            eq(users.isDemo, false),
+            and(eq(users.isDemo, false), realUsers),
           ),
         ),
       ctx.db
         .select({ count: count() })
         .from(users)
-        .where(and(eq(users.isFlagged, true), eq(users.isDemo, false))),
+        .where(
+          and(
+            eq(users.isFlagged, true),
+            and(eq(users.isDemo, false), realUsers),
+          ),
+        ),
     ]);
 
     return {
       totalUsers: userCount[0]?.count ?? 0,
+      activeOrganizations: Number(activeOrganizationCount[0]?.count ?? 0),
       totalClients: clientCount[0]?.count ?? 0,
       totalProjects: projectCount[0]?.count ?? 0,
       totalTasks: taskCount[0]?.count ?? 0,
@@ -304,10 +383,12 @@ export const adminAnalyticsRouter = router({
   getUserGrowthData: supporterProcedure
     .input(
       z.object({
+        includeTestAccounts: z.boolean().optional(),
         monthsBack: z.number().min(1).max(24).default(12),
       }),
     )
     .query(async ({ ctx, input }) => {
+      const realUsers = excludeTestUsers(input.includeTestAccounts);
       // Log this action
       await logAdminAction(
         ctx.db,
@@ -336,7 +417,12 @@ export const adminAnalyticsRouter = router({
           count: count(),
         })
         .from(users)
-        .where(and(gte(users.createdAt, startDate), eq(users.isDemo, false)))
+        .where(
+          and(
+            gte(users.createdAt, startDate),
+            and(eq(users.isDemo, false), realUsers),
+          ),
+        )
         .groupBy(sql`TO_CHAR(${copenhagenDateSql(users.createdAt)}, 'YYYY-MM')`)
         .orderBy(
           sql`TO_CHAR(${copenhagenDateSql(users.createdAt)}, 'YYYY-MM')`,
@@ -350,7 +436,8 @@ export const adminAnalyticsRouter = router({
   // Supporters can view
   // ============================================
 
-  getFeatureUsageStats: supporterProcedure.query(async ({ ctx }) => {
+  getFeatureUsageStats: metricsProcedure.query(async ({ ctx, input }) => {
+    const { realUsers, realOrganization } = accountFilters(input);
     // Log this action
     await logAdminAction(
       ctx.db,
@@ -371,22 +458,52 @@ export const adminAnalyticsRouter = router({
       ctx.db
         .select({ count: count() })
         .from(timerStates)
-        .where(eq(timerStates.isRunning, true)),
+        .innerJoin(users, eq(timerStates.userId, users.id))
+        .where(
+          and(
+            eq(timerStates.isRunning, true),
+            realUsers,
+            realOrganization(timerStates.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(prepaidPackages)
-        .where(eq(prepaidPackages.isActive, true)),
+        .innerJoin(users, eq(prepaidPackages.userId, users.id))
+        .where(
+          and(
+            eq(prepaidPackages.isActive, true),
+            realUsers,
+            realOrganization(prepaidPackages.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(invoices)
-        .where(eq(invoices.status, "paid")),
+        .innerJoin(users, eq(invoices.userId, users.id))
+        .where(
+          and(
+            eq(invoices.status, "paid"),
+            realUsers,
+            realOrganization(invoices.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: count() })
         .from(calendarConnections)
-        .where(eq(calendarConnections.syncEnabled, true)),
+        .innerJoin(users, eq(calendarConnections.userId, users.id))
+        .where(
+          and(
+            eq(calendarConnections.syncEnabled, true),
+            realUsers,
+            realOrganization(calendarConnections.organizationId),
+          ),
+        ),
       ctx.db
         .selectDistinct({ userId: extensionTokens.userId })
-        .from(extensionTokens),
+        .from(extensionTokens)
+        .innerJoin(users, eq(extensionTokens.userId, users.id))
+        .where(realUsers),
     ]);
 
     return {
@@ -406,10 +523,12 @@ export const adminAnalyticsRouter = router({
   getRevenueTrends: supporterProcedure
     .input(
       z.object({
+        includeTestAccounts: z.boolean().optional(),
         monthsBack: z.number().min(1).max(24).default(12),
       }),
     )
     .query(async ({ ctx, input }) => {
+      const { realUsers, realOrganization } = accountFilters(input);
       // Log this action
       await logAdminAction(
         ctx.db,
@@ -445,7 +564,8 @@ export const adminAnalyticsRouter = router({
           and(
             eq(invoices.status, "paid"),
             gte(invoices.paidDate, startDate),
-            eq(users.isDemo, false),
+            realOrganization(invoices.organizationId),
+            and(eq(users.isDemo, false), realUsers),
           ),
         )
         .groupBy(
@@ -463,8 +583,14 @@ export const adminAnalyticsRouter = router({
   // ============================================
 
   getActiveUserCounts: supporterProcedure
-    .input(z.object({ daysBack: z.number().min(1).max(365).default(30) }))
-    .query(async ({ ctx }) => {
+    .input(
+      z.object({
+        includeTestAccounts: z.boolean().optional(),
+        daysBack: z.number().min(1).max(365).default(30),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { realUsers, realOrganization } = accountFilters(input);
       const now = new Date();
 
       const dauDate = new Date(now);
@@ -486,15 +612,39 @@ export const adminAnalyticsRouter = router({
         ctx.db
           .select({ count: sql<number>`count(distinct ${sessions.userId})` })
           .from(sessions)
-          .where(and(gte(sessions.createdAt, dauDate), notSynthetic)),
+          .innerJoin(users, eq(sessions.userId, users.id))
+          .where(
+            and(
+              gte(sessions.createdAt, dauDate),
+              notSynthetic,
+              realUsers,
+              realOrganization(sessionOrganizationIdSql()),
+            ),
+          ),
         ctx.db
           .select({ count: sql<number>`count(distinct ${sessions.userId})` })
           .from(sessions)
-          .where(and(gte(sessions.createdAt, wauDate), notSynthetic)),
+          .innerJoin(users, eq(sessions.userId, users.id))
+          .where(
+            and(
+              gte(sessions.createdAt, wauDate),
+              notSynthetic,
+              realUsers,
+              realOrganization(sessionOrganizationIdSql()),
+            ),
+          ),
         ctx.db
           .select({ count: sql<number>`count(distinct ${sessions.userId})` })
           .from(sessions)
-          .where(and(gte(sessions.createdAt, mauDate), notSynthetic)),
+          .innerJoin(users, eq(sessions.userId, users.id))
+          .where(
+            and(
+              gte(sessions.createdAt, mauDate),
+              notSynthetic,
+              realUsers,
+              realOrganization(sessionOrganizationIdSql()),
+            ),
+          ),
       ]);
 
       return {
@@ -518,7 +668,8 @@ export const adminAnalyticsRouter = router({
    *  6. Lapsed: canceled or past_due
    *  7. Dormant: active but no login in >30 days
    */
-  getJourneyStages: supporterProcedure.query(async ({ ctx }) => {
+  getJourneyStages: metricsProcedure.query(async ({ ctx, input }) => {
+    const { realUsers, realOrganization } = accountFilters(input);
     const now = new Date();
     const oneDayAgo = new Date(now);
     oneDayAgo.setDate(oneDayAgo.getDate() - 1);
@@ -539,23 +690,26 @@ export const adminAnalyticsRouter = router({
         lastSessionAt: sql<Date | null>`(
           SELECT MAX(${sessions.createdAt})
           FROM ${sessions}
-          WHERE ${sessions.userId} = "user"."id"
+          WHERE "session"."userId" = "user"."id"
+            AND ${realOrganization(sessionOrganizationIdSql(sql`"session"."userId"`, sql`"session"."activeOrganizationId"`)) ?? sql`true`}
         )`
           .mapWith(sessions.createdAt)
           .as("lastSessionAt"),
         subStatus: sql<string | null>`(
-          SELECT status FROM subscriptions
+          SELECT status FROM ${subscriptions}
           WHERE subscriptions.user_id = "user"."id"
+            AND ${realOrganization(sql`subscriptions.organization_id`) ?? sql`true`}
           LIMIT 1
         )`.as("subStatus"),
         hasTimeEntries: sql<boolean>`EXISTS (
           SELECT 1 FROM time_entries
           WHERE time_entries.user_id = "user"."id"
+            AND ${realOrganization(sql`time_entries.organization_id`) ?? sql`true`}
           LIMIT 1
         )`.as("hasTimeEntries"),
       })
       .from(users)
-      .where(eq(users.isDemo, false));
+      .where(and(eq(users.isDemo, false), realUsers));
 
     const buckets = {
       brand_new: [] as typeof rows,
@@ -662,10 +816,12 @@ export const adminAnalyticsRouter = router({
   getAttributionBreakdown: supporterProcedure
     .input(
       z.object({
+        includeTestAccounts: z.boolean().optional(),
         daysBack: z.number().min(1).max(365).default(90),
       }),
     )
     .query(async ({ ctx, input }) => {
+      const realUsers = excludeTestUsers(input.includeTestAccounts);
       const since = new Date();
       since.setDate(since.getDate() - input.daysBack);
 
@@ -677,7 +833,12 @@ export const adminAnalyticsRouter = router({
           count: count(),
         })
         .from(users)
-        .where(and(gte(users.createdAt, since), eq(users.isDemo, false)))
+        .where(
+          and(
+            gte(users.createdAt, since),
+            and(eq(users.isDemo, false), realUsers),
+          ),
+        )
         .groupBy(sql`COALESCE(${users.attrSource}, 'direct')`)
         .orderBy(desc(count()));
 
@@ -691,7 +852,7 @@ export const adminAnalyticsRouter = router({
           and(
             gte(users.createdAt, since),
             sql`${users.attrCampaign} IS NOT NULL`,
-            eq(users.isDemo, false),
+            and(eq(users.isDemo, false), realUsers),
           ),
         )
         .groupBy(users.attrCampaign)
@@ -715,7 +876,8 @@ export const adminAnalyticsRouter = router({
       };
     }),
 
-  getOnboardingFunnel: supporterProcedure.query(async ({ ctx }) => {
+  getOnboardingFunnel: metricsProcedure.query(async ({ ctx, input }) => {
+    const { realUsers, realOrganization } = accountFilters(input);
     const [
       totalUsers,
       completedOnboarding,
@@ -727,33 +889,60 @@ export const adminAnalyticsRouter = router({
       ctx.db
         .select({ count: count() })
         .from(users)
-        .where(eq(users.isDemo, false)),
+        .where(and(eq(users.isDemo, false), realUsers)),
       ctx.db
         .select({ count: count() })
         .from(users)
         .where(
-          and(eq(users.onboardingCompleted, true), eq(users.isDemo, false)),
+          and(
+            eq(users.onboardingCompleted, true),
+            and(eq(users.isDemo, false), realUsers),
+          ),
         ),
       ctx.db
         .select({ count: sql<number>`count(distinct ${clients.userId})` })
         .from(clients)
         .leftJoin(users, eq(clients.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(clients.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: sql<number>`count(distinct ${projects.userId})` })
         .from(projects)
         .leftJoin(users, eq(projects.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(projects.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: sql<number>`count(distinct ${timeEntries.userId})` })
         .from(timeEntries)
         .leftJoin(users, eq(timeEntries.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(timeEntries.organizationId),
+          ),
+        ),
       ctx.db
         .select({ count: sql<number>`count(distinct ${invoices.userId})` })
         .from(invoices)
         .leftJoin(users, eq(invoices.userId, users.id))
-        .where(eq(users.isDemo, false)),
+        .where(
+          and(
+            eq(users.isDemo, false),
+            realUsers,
+            realOrganization(invoices.organizationId),
+          ),
+        ),
     ]);
 
     return [
@@ -781,7 +970,8 @@ export const adminAnalyticsRouter = router({
     ];
   }),
 
-  getFeatureAdoptionRates: supporterProcedure.query(async ({ ctx }) => {
+  getFeatureAdoptionRates: metricsProcedure.query(async ({ ctx, input }) => {
+    const { realUsers, realOrganization } = accountFilters(input);
     const [
       totalUsers,
       timeUsers,
@@ -791,37 +981,53 @@ export const adminAnalyticsRouter = router({
       extensionUsers,
       taskUsers,
     ] = await Promise.all([
-      ctx.db.select({ count: count() }).from(users),
+      ctx.db.select({ count: count() }).from(users).where(realUsers),
       ctx.db
         .select({
           count: sql<number>`count(distinct ${timeEntries.userId})`,
         })
-        .from(timeEntries),
+        .from(timeEntries)
+        .innerJoin(users, eq(timeEntries.userId, users.id))
+        .where(and(realUsers, realOrganization(timeEntries.organizationId))),
       ctx.db
         .select({
           count: sql<number>`count(distinct ${invoices.userId})`,
         })
-        .from(invoices),
+        .from(invoices)
+        .innerJoin(users, eq(invoices.userId, users.id))
+        .where(and(realUsers, realOrganization(invoices.organizationId))),
       ctx.db
         .select({
           count: sql<number>`count(distinct ${prepaidPackages.userId})`,
         })
-        .from(prepaidPackages),
+        .from(prepaidPackages)
+        .innerJoin(users, eq(prepaidPackages.userId, users.id))
+        .where(
+          and(realUsers, realOrganization(prepaidPackages.organizationId)),
+        ),
       ctx.db
         .select({
           count: sql<number>`count(distinct ${calendarConnections.userId})`,
         })
-        .from(calendarConnections),
+        .from(calendarConnections)
+        .innerJoin(users, eq(calendarConnections.userId, users.id))
+        .where(
+          and(realUsers, realOrganization(calendarConnections.organizationId)),
+        ),
       ctx.db
         .select({
           count: sql<number>`count(distinct ${extensionTokens.userId})`,
         })
-        .from(extensionTokens),
+        .from(extensionTokens)
+        .innerJoin(users, eq(extensionTokens.userId, users.id))
+        .where(realUsers),
       ctx.db
         .select({
           count: sql<number>`count(distinct ${tasks.userId})`,
         })
-        .from(tasks),
+        .from(tasks)
+        .innerJoin(users, eq(tasks.userId, users.id))
+        .where(and(realUsers, realOrganization(tasks.organizationId))),
     ]);
 
     const total = Number(totalUsers[0]?.count ?? 1);
@@ -861,8 +1067,14 @@ export const adminAnalyticsRouter = router({
   }),
 
   getUserRetentionCohorts: supporterProcedure
-    .input(z.object({ months: z.number().min(1).max(12).default(6) }))
+    .input(
+      z.object({
+        includeTestAccounts: z.boolean().optional(),
+        months: z.number().min(1).max(12).default(6),
+      }),
+    )
     .query(async ({ ctx, input }) => {
+      const { realUsers, realOrganization } = accountFilters(input);
       const cohorts: Array<{
         cohortMonth: string;
         signupCount: number;
@@ -884,13 +1096,13 @@ export const adminAnalyticsRouter = router({
         const cohortUsers = await ctx.db
           .select({
             count: count(),
-            ids: sql<string[]>`array_agg(${users.id})`,
           })
           .from(users)
           .where(
             and(
               gte(users.createdAt, cohortStart),
               lt(users.createdAt, cohortEnd),
+              realUsers,
             ),
           );
 
@@ -917,11 +1129,15 @@ export const adminAnalyticsRouter = router({
               count: sql<number>`count(distinct ${sessions.userId})`,
             })
             .from(sessions)
+            .innerJoin(users, eq(sessions.userId, users.id))
             .where(
               and(
                 gte(sessions.createdAt, retStart),
                 lt(sessions.createdAt, retEnd),
-                sql`${sessions.userId} IN (SELECT id FROM "user" WHERE "createdAt" >= ${cohortStart.toISOString()} AND "createdAt" < ${cohortEnd.toISOString()})`,
+                gte(users.createdAt, cohortStart),
+                lt(users.createdAt, cohortEnd),
+                realUsers,
+                realOrganization(sessionOrganizationIdSql()),
               ),
             );
 
@@ -935,8 +1151,14 @@ export const adminAnalyticsRouter = router({
     }),
 
   getCohortRetention: supporterProcedure
-    .input(z.object({ months: z.number().min(3).max(24).default(12) }))
+    .input(
+      z.object({
+        includeTestAccounts: z.boolean().optional(),
+        months: z.number().min(3).max(24).default(12),
+      }),
+    )
     .query(async ({ ctx, input }) => {
+      const { realUsers, realOrganization } = accountFilters(input);
       await logAdminAction(
         ctx.db,
         ctx.session.user.id,
@@ -960,11 +1182,13 @@ export const adminAnalyticsRouter = router({
           SELECT id, date_trunc('month', ${CPH_CREATED_AT}) AS cohort_month
           FROM "user"
           WHERE role = 'user' AND (is_demo IS NULL OR is_demo = false)
+            AND ${realUsers ?? sql`true`}
             AND date_trunc('month', ${CPH_CREATED_AT}) >= ${cutoffStr}::date
         ),
         activity AS (
           SELECT user_id, date_trunc('month', date) AS activity_month
           FROM time_entries
+          WHERE ${realOrganization(timeEntries.organizationId) ?? sql`true`}
           GROUP BY user_id, date_trunc('month', date)
         )
         SELECT
@@ -1031,8 +1255,18 @@ export const adminAnalyticsRouter = router({
     }),
 
   getUserEngagementStats: supporterProcedure
-    .input(z.object({ limit: z.number().min(1).max(50).default(20) }))
+    .input(
+      z.object({
+        includeTestAccounts: z.boolean().optional(),
+        limit: z.number().min(1).max(50).default(20),
+      }),
+    )
     .query(async ({ ctx, input }) => {
+      const realUsers = excludeTestUsers(
+        input.includeTestAccounts,
+        sql`u.id`,
+        sql`u.email`,
+      );
       // Calculate engagement score: sessions*2 + timeEntries*3 + tasks
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -1053,20 +1287,24 @@ export const adminAnalyticsRouter = router({
           SELECT "userId", COUNT(*) as session_count
           FROM session
           WHERE "createdAt" >= ${thirtyDaysAgoISO}
+            AND ${excludeTestOrganization(sessionOrganizationIdSql(), input.includeTestAccounts) ?? sql`true`}
           GROUP BY "userId"
         ) s ON s."userId" = u.id
         LEFT JOIN (
           SELECT user_id, COUNT(*) as time_entry_count
           FROM time_entries
           WHERE created_at >= ${thirtyDaysAgoISO}
+            AND ${excludeTestOrganization(timeEntries.organizationId, input.includeTestAccounts) ?? sql`true`}
           GROUP BY user_id
         ) te ON te.user_id = u.id
         LEFT JOIN (
           SELECT user_id, COUNT(*) as task_count
           FROM tasks
           WHERE created_at >= ${thirtyDaysAgoISO}
+            AND ${excludeTestOrganization(tasks.organizationId, input.includeTestAccounts) ?? sql`true`}
           GROUP BY user_id
         ) t ON t.user_id = u.id
+        WHERE ${realUsers ?? sql`true`}
         ORDER BY engagement_score DESC
         LIMIT ${input.limit}
       `);

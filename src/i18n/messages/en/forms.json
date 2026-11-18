@@ -1,4 +1,51 @@
 {
+  "calculator": {
+    "outOfRange": "Enter a number from {min} to {max}.",
+    "wholeOutOfRange": "Enter a whole number from {min} to {max}.",
+    "pending": "Awaiting input",
+    "missingHours": "Enter more hours worked to calculate the hourly rate.",
+    "labels": {
+      "workedAfterBreaks": "Hours worked after breaks",
+      "periodNorm": "Standard hours in the same period",
+      "hourlyWage": "Hourly wage (DKK)",
+      "overtimePremium": "Agreed overtime premium (%)",
+      "overtimeHours": "Hours above standard",
+      "grossOvertimePay": "Overtime pay before tax",
+      "periodHours": "Hours worked in the period",
+      "holidayPaySupplements": "Supplements eligible for holiday pay (DKK)",
+      "holidayPayWages": "Wages eligible for holiday pay",
+      "grossHolidayPay": "Holiday pay earned before tax",
+      "openingFlexBalance": "Opening flexitime balance (hours)",
+      "loggedAfterBreaks": "Logged hours after breaks",
+      "normBeforeTimeOff": "Standard hours before flexitime leave",
+      "timeOffIncluded": "Flexitime leave included in logged hours",
+      "hoursDifference": "Difference between logged and standard hours",
+      "newFlexBalance": "New flexitime balance",
+      "wholeHours": "Whole hours",
+      "extraMinutes": "Extra minutes",
+      "roundingInterval": "Round up to the next interval (minutes)",
+      "roundedTime": "Rounded time",
+      "addedMinutes": "Minutes added",
+      "projectBudget": "Total project budget (hours)",
+      "hoursSpent": "Hours spent so far",
+      "remainingWork": "Estimated work remaining (hours)",
+      "budgetLeft": "Hours currently left in the budget",
+      "forecastHours": "Estimated total hours",
+      "forecastBalance": "Estimated balance at completion",
+      "projectRevenue": "Project revenue excluding VAT (DKK)",
+      "directCosts": "Direct project costs (DKK)",
+      "billableHours": "Billable hours",
+      "otherProjectHours": "Other project hours",
+      "revenueAfterCosts": "Revenue after direct costs",
+      "effectiveRate": "Effective hourly rate before tax"
+    },
+    "units": {
+      "currency": "DKK",
+      "hours": "hours",
+      "minutes": "minutes",
+      "hourlyRate": "DKK/hour"
+    }
+  },
   "quickSignup": {
     "cta": "Get started for free"
   },

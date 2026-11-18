@@ -89,6 +89,8 @@ Para recargar sin renovación automática, crea un bono nuevo para el cliente. P
 
 Los clientes pueden ver sus bonos en el portal del cliente, en una pestaña Bonos de horas con saldo y uso. Dos interruptores lo controlan: el permiso del portal `canViewPrepaid` (activado por defecto) y el ajuste del bono `hiddenFromPortal`, que oculta un bono por completo, también del historial. Los clientes también pueden solicitar una renovación, que te aparece como una solicitud de renovación. Los valores monetarios se pueden ocultar a los clientes con el ajuste `hidePrepaidValue`, de forma global o por cliente.
 
+Si la facturación está activada, puedes aprobar la solicitud con un borrador o elegir **Aprobar y revisar el envío**. El paquete se renueva antes de que se abra la confirmación. En ella se muestran el cliente, el correo del destinatario, el número de factura, el importe con IVA y la fecha de vencimiento. Al cerrar la confirmación, la factura queda como borrador.
+
 ## API REST
 
 Los bonos están disponibles como el recurso `prepaid-packages`, con los scopes `prepaid:read` y `prepaid:write`. Se admiten listar, obtener, crear y actualizar, y `DELETE` archiva un bono en lugar de borrarlo. La autenticación y los scopes se describen en la referencia de la [API REST](/es/docs/api/rest). Los eventos de los bonos se entregan mediante [webhooks](/es/docs/api/webhooks).

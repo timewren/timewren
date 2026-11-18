@@ -41,12 +41,16 @@ export interface CspOptions {
    * out of the policy when analytics isn't configured.
    */
   plausibleOrigin?: string;
+  umamiOrigin?: string;
+  umamiCollectOrigin?: string;
 }
 
 export function buildContentSecurityPolicy({
   isDevelopment,
   marketingOrigin,
   plausibleOrigin,
+  umamiOrigin,
+  umamiCollectOrigin,
 }: CspOptions): string {
   const scriptSrc = [
     "'self'",
@@ -54,6 +58,7 @@ export function buildContentSecurityPolicy({
     "'unsafe-inline'",
     "'wasm-unsafe-eval'",
     ...(plausibleOrigin ? [plausibleOrigin] : []),
+    ...(umamiOrigin ? [umamiOrigin] : []),
     "https://cdn.jsdelivr.net",
     ...GOOGLE_ADS_SCRIPT_SOURCES,
   ];
@@ -66,6 +71,11 @@ export function buildContentSecurityPolicy({
     // seneste release direkte fra den offentlige GitHub API i browseren.
     "https://api.github.com",
     ...(plausibleOrigin ? [plausibleOrigin] : []),
+    ...(umamiOrigin ? [umamiOrigin] : []),
+    ...(umamiCollectOrigin ? [umamiCollectOrigin] : []),
+    ...(umamiOrigin === "https://cloud.umami.is"
+      ? ["https://gateway.umami.is"]
+      : []),
     "https://*.sentry.io",
     "https://*.ingest.sentry.io",
     "https://fejlspor.mahoje.dk",
@@ -157,6 +167,8 @@ export function buildReportOnlyContentSecurityPolicy({
   isDevelopment,
   marketingOrigin,
   plausibleOrigin,
+  umamiOrigin,
+  umamiCollectOrigin,
   nonce,
   storageOrigin,
   scalarApiReference,
@@ -167,6 +179,7 @@ export function buildReportOnlyContentSecurityPolicy({
     ...(isDevelopment ? ["'unsafe-eval'"] : []),
     "'wasm-unsafe-eval'",
     ...(plausibleOrigin ? [plausibleOrigin] : []),
+    ...(umamiOrigin ? [umamiOrigin] : []),
     ...(scalarApiReference
       ? [`'${EMPTY_INLINE_SCRIPT_HASH}'`, SCALAR_API_REFERENCE_SCRIPT]
       : []),
@@ -188,6 +201,8 @@ export function buildReportOnlyContentSecurityPolicy({
     isDevelopment,
     marketingOrigin,
     plausibleOrigin,
+    umamiOrigin,
+    umamiCollectOrigin,
   })
     .split("; ")
     .filter(

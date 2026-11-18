@@ -8,6 +8,7 @@ import {
   Users,
 } from "lucide-react";
 import { AdminFunnel } from "@/components/admin";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { trpc } from "@/providers/trpc-provider";
 
 function formatPercent(n: number): string {
@@ -15,7 +16,10 @@ function formatPercent(n: number): string {
 }
 
 export function OnboardingFunnelView() {
-  const { data: funnel, isLoading } = trpc.admin.getOnboardingFunnel.useQuery();
+  const includeTestAccounts = useIncludeTestAccounts();
+  const { data: funnel, isLoading } = trpc.admin.getOnboardingFunnel.useQuery({
+    includeTestAccounts,
+  });
 
   const conversions = funnel
     ? funnel.map((step, i) => {

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { AdminStatCard } from "@/components/admin";
+import { useIncludeTestAccounts } from "@/components/admin/TestAccountFilter";
 import { InlineSpinner } from "@/components/ui/LoadingScreen";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -132,22 +133,26 @@ interface RevenueChartProps {
 }
 
 export function RevenueChart({ type }: RevenueChartProps) {
+  const includeTestAccounts = useIncludeTestAccounts();
   const [accrualYear, setAccrualYear] = useState(new Date().getFullYear());
 
   const { data: accrual, isLoading: loadingAccrual } =
     trpc.admin.getAccrualSchedule.useQuery(
-      { year: accrualYear },
+      { includeTestAccounts, year: accrualYear },
       { enabled: type === "accrual" },
     );
   const { data: forecasts, isLoading: loadingForecasts } =
     trpc.admin.getRevenueForecasts.useQuery(
-      { monthsForward: 12 },
+      { includeTestAccounts, monthsForward: 12 },
       { enabled: type === "forecasts" },
     );
   const { data: bookkeeping, isLoading: loadingBookkeeping } =
-    trpc.admin.getBookkeepingGuide.useQuery(undefined, {
-      enabled: type === "bookkeeping",
-    });
+    trpc.admin.getBookkeepingGuide.useQuery(
+      { includeTestAccounts },
+      {
+        enabled: type === "bookkeeping",
+      },
+    );
 
   const loading =
     type === "accrual"

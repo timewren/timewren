@@ -8,7 +8,7 @@ begrundelse øverst i hver fil — genoplives spec for spec efter behov.
 
 | Fil                    | Dækker                                                                                                                                       |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `auth.setup.ts`        | Registrér → bekræft e-mail (DB) → log ind → onboarding/trial → tour afvist. Gemmer sessionen i `.auth/user.json` (gitignored)                |
+| `auth.setup.ts`        | Registrér → bekræft e-mail (DB) → log ind → onboarding/trial → tour afvist. Gemmer sessionen i `.auth/<kørsel>/user.json` (gitignored)                |
 | `core-flow.spec.ts`    | Opret kunde → projekt → tidspostering → ses i listen; beskyttede ruter; forkert adgangskode                                                  |
 | `gratis-limit.spec.ts` | Egen bruger på Gratis: 4. aktive kunde blokeres med den rolige note, og serveren afviser                                                     |
 | `public-pages.spec.ts` | `/`, `/pricing`, `/privat`, `/selvstaendig`, `/teams-og-bureauer`, `/virksomheder` loader uden konsolfejl; `/offline` hydrerer uden mismatch |
@@ -16,6 +16,11 @@ begrundelse øverst i hver fil — genoplives spec for spec efter behov.
 `helpers.ts` eksporterer en `test`-fixture, der blokerer alle eksterne requests
 (Google Ads, Plausible, Sentry …) og giver hver test sin egen `x-forwarded-for`,
 så better-auths login-rate-limit ikke rammer ved gentagne kørsler.
+
+
+Nye konti bruger en unik `+e2e-…@example.invalid`-adresse, så de genkendes
+som testkonti. Testenes egne brugere ryddes op i fixture-teardown. Den fælles
+setup-konto ryddes op, efter alle afhængige tests er færdige.
 
 ## Kørsel lokalt
 

@@ -1,4 +1,13 @@
 {
+  "sendConfirmation": {
+    "title": "Send faktura",
+    "sendTo": "Send til {email}",
+    "sent": "Faktura sendt til {email}",
+    "total": "Beløb inkl. moms",
+    "loading": "Henter fakturaoplysninger …",
+    "draftNumber": "Det endelige fakturanummer tildeles ved udstedelse.",
+    "provider": "Beløbet vises ud fra TimeTrack. {provider} beregner det endelige beløb med egne momsindstillinger."
+  },
   "status": {
     "draft": "Kladde",
     "sent": "Sendt",
@@ -131,7 +140,7 @@
     "client": "Kunde",
     "viewClient": "Se kundens detaljer",
     "emailModalTitle": "Send Faktura via Email",
-    "recipient": "Modtager Email",
+    "recipient": "Modtagerens mailadresse",
     "recipientPlaceholder": "eksempel@firma.dk",
     "recipientHint": "Fakturaen vil blive sendt som PDF vedhæftning til denne email adresse.",
     "sending": "Sender...",

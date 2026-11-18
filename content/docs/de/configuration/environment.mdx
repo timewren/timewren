@@ -17,7 +17,7 @@ Variablen mit dem Namen `NEXT_PUBLIC_*` werden beim Bauen des Images in das Brow
 
 Beim vorgebauten Image `ghcr.io/timewren/timewren` sind die übrigen Build-Zeit-Variablen daher fest (zum Beispiel `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` und die Sentry-Browser-Einstellungen). Um sie zu ändern, baust du ein eigenes Image mit den passenden Build-Argumenten, siehe [Aus dem Quellcode installieren](/de/docs/install/from-source). Die Spalte "Build-Zeit" unten zeigt, für welche Variablen das gilt.
 
-Die Content-Security-Policy-Header werden in `next.config.ts` aus `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` und `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` erzeugt, verwenden also die Werte, die zur Build-Zeit vorlagen.
+Die Content-Security-Policy-Header werden in `next.config.ts` aus `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_UMAMI_COLLECT_URL` und `NEXT_PUBLIC_UMAMI_SCRIPT_URL` erzeugt, verwenden also die Werte, die zur Build-Zeit vorlagen.
 
 > **Hinweis:** Die Abrechnungsvariablen (`ALUNTA_API_KEY`, `STRIPE_SECRET_KEY`, `STORE_BILLING_ENABLED` und alles, was dazugehört) haben beim Self-Hosting keine Wirkung. Die Abrechnung wird nur eingeschaltet, wenn mindestens eine dieser drei Variablen gesetzt ist. Ohne sie sind alle Funktionen offen: keine Benutzer- oder Kundenlimits, keine ablaufende Testphase, keine Upgrade-Buttons und keine Zahlungsmails.
 
@@ -201,7 +201,10 @@ An die Maintainer wird nichts gesendet, solange du diese Variablen nicht setzt. 
 
 | Variable | Standard | Erforderlich | Build-Zeit | Beschreibung |
 | --- | --- | --- | --- | --- |
-| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | keiner | nein | ja | URL eines Plausible-Analytics-Skripts. Leer: Es wird kein Analytics-Skript geladen. Wird außerdem zur CSP hinzugefügt. |
+| `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | keiner | nein | ja | URL eines Plausible-Analytics-Skripts. Leer: Es wird kein Plausible-Skript geladen. Wird außerdem zur CSP hinzugefügt. |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | keiner | nein | ja | URL des Umami-Trackers. Wird ohne konfigurierte Erfassungs-URL verwendet. |
+| `NEXT_PUBLIC_UMAMI_COLLECT_URL` | keiner | nein | ja | Vollständige Erfassungs-URL oder Pfad auf derselben Origin, einschließlich eines benutzerdefinierten Pfads. Mit Website-ID und Einwilligung werden Rechnerereignisse sofort mit keepalive gesendet. |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | keiner | nein | ja | Website-ID in Umami. |
 | `PLAUSIBLE_BASE_URL` | `https://plausible.io` | nein | nein | Plausible-Host, den die Admin-Analytics-Seite verwendet. |
 | `PLAUSIBLE_SITE_ID` | keiner | nein | nein | Plausible-Site-ID für die Admin-Analytics-Seite. |
 | `PLAUSIBLE_API_KEY` | keiner | nein | nein | Plausible-API-Schlüssel. Die Admin-Analytics-Seite braucht ihn und `PLAUSIBLE_SITE_ID`. |
@@ -285,6 +288,7 @@ Compose setzt einige davon selbst; sie sind aufgelistet, damit du weißt, woher 
 | `STRIPE_WEBHOOK_SECRET` | keiner | nein | nein | Überprüft Stripe-Webhooks. |
 | `STRIPE_TAX_ENABLED` | `false` | nein | nein | `true` aktiviert Stripe Tax. |
 | `STRIPE_DESKTOP_LIFETIME_PRICE_ID` | leer | nein | nein | Stripe-Preis-ID der Desktop-Lifetime-Lizenz. |
+| `STRIPE_TIMEWREN_PORTAL_CONFIGURATION` | leer | nein | nein | Nur Multibrand-Cloud: Konfiguration des Stripe-Kundenportals für TimeWren-Konten. Leer: wird über Metadaten `brand=timewren` gefunden oder angelegt. |
 | `STORE_BILLING_ENABLED` | keiner | nein | nein | `1` schaltet die Abrechnung für In-App-Käufe ein (App Store und Google Play). |
 | `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | keiner | nein | nein | Dienstkonto zur Überprüfung von Google-Play-Käufen. |
 | `GOOGLE_PLAY_PACKAGE_NAME` | keiner | nein | nein | Android-Paketname für Google Play. |

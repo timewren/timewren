@@ -5,6 +5,7 @@ import { mailT } from "@/lib/email/locale";
 import { withEmailLogging } from "@/lib/email/logger";
 import { mailBrandFor } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
+import { isTestEmailRecipient } from "@/lib/email/test-recipient";
 import { isMailAvailable } from "@/lib/email/transport";
 import { DEFAULT_FROM_EMAIL, resend } from "@/lib/resend";
 import { appUrlEnv } from "@/lib/runtime-env";
@@ -24,6 +25,7 @@ export async function sendWelcomeEmail({
   brand: brandKey,
   userId,
 }: WelcomeEmailParams) {
+  if (await isTestEmailRecipient(to, userId)) return;
   // Kun ikke-standardbrands får en brand-bevidst mail; timetrack er uændret.
   const mb =
     brandKey && brandKey !== "timetrack" ? mailBrandFor(brandKey) : undefined;

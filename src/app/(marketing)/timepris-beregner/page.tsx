@@ -57,6 +57,11 @@ export default function TimeprisBeregnerPage() {
 
   const relatedLinks = [
     {
+      href: "/effektiv-timepris-beregner",
+      title: "Beregn effektiv timepris",
+      description: "Se hvad en afsluttet opgave gav pr. arbejdstime.",
+    },
+    {
       href: "/moms-beregner",
       title: "Moms-beregner",
       description: "Beregn moms (25%) hurtigt.",

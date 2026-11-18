@@ -28,7 +28,13 @@ const STORE_ROW = {
 };
 
 function fakeDb(subs: Array<Record<string, unknown>>) {
-  return {
+  const selection = {
+    from: () => selection,
+    innerJoin: () => selection,
+    where: async () => [],
+  };
+  const db = {
+    select: () => selection,
     query: {
       members: {
         findMany: vi.fn(async () => [
@@ -39,6 +45,18 @@ function fakeDb(subs: Array<Record<string, unknown>>) {
       accounts: { findMany: vi.fn(async () => []) },
     },
     execute: vi.fn(async () => undefined),
+  };
+  return {
+    ...db,
+    async transaction(run: (tx: unknown) => Promise<void>) {
+      await run({
+        execute: db.execute,
+        select: () => selection,
+        insert: () => ({
+          select: () => ({ onConflictDoNothing: async () => {} }),
+        }),
+      });
+    },
   };
 }
 

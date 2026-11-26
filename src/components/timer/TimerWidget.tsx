@@ -26,6 +26,12 @@ import { showPrepaidDeductionToast } from "@/lib/prepaidToast";
 import { buildContinuedEntryPatch } from "@/lib/timer/continue-entry";
 import type { TimerPrepaidChoiceInput as PrepaidChoiceInput } from "@/lib/timer/prepaid-choice";
 import { timerSaveKeys } from "@/lib/timer/save-key";
+import {
+  beginStopClaim,
+  isOwnLandedStart,
+  isStillStopTarget,
+  startNeverLanded,
+} from "@/lib/timer/web-session";
 import { trpc } from "@/providers/trpc-provider";
 import {
   enqueueOfflineStop,
@@ -435,6 +441,7 @@ export function TimerWidget({
       enqueueOfflineStop({
         sessionStartTime: offline.sessionStartTime,
         startTime: offline.startTime,
+        sessionId: offline.sessionId,
         entry: {
           projectId: timerProjectId || undefined,
           clientId: selectedClientId || undefined,
@@ -472,8 +479,28 @@ export function TimerWidget({
     let claimedClientId: string | null = selectedClientId || null;
     let stopPackageId =
       usePrepaid && selectedPackageId ? selectedPackageId : undefined;
+    // Stopmålet er sessionen ved klikket (#1333). Adopterer afstemningen en
+    // anden session, mens et kald venter, må svaret hverken gemme dens tid
+    // som målets eller nulstille den.
+    const clicked = useTimerStore.getState();
+    const stopTarget = {
+      sessionId: clicked.sessionId,
+      sessionStartTime: clicked.sessionStartTime,
+    };
+    const isStillTarget = (claimedSessionId?: string | null) => {
+      const now = useTimerStore.getState();
+      return isStillStopTarget(
+        stopTarget,
+        now,
+        claimedSessionId === undefined ? now.sessionId : claimedSessionId,
+      );
+    };
     try {
       const serverState = await utils.timerSync.getState.fetch();
+      if (!isStillTarget()) {
+        toast.error(t("widget.stoppedElsewhere"));
+        return;
+      }
       if (
         !serverState?.isRunning &&
         !serverState?.elapsedSeconds &&
@@ -486,13 +513,63 @@ export function TimerWidget({
         useTimerStore.getState().resetTimer();
         return;
       }
-      const claim = await claimForStopMutation.mutateAsync({
-        expectedVersion: serverState?.version ?? 0,
-        source: "web",
-        // Kun netop vores session må claimes (#788)
-        sessionId: useTimerStore.getState().sessionId ?? undefined,
-      });
+      // Uden id (svaret på starten gik tabt) bærer claimet startnøglen, som
+      // bjælken, så serveren selv finder sessionen (#1333): en anden session
+      // startet inden for et sekund af vores ligner ellers vores. Uden nøgle
+      // er rækkens session kun bevist vores, hvis den kører med vores start;
+      // så bindes claimet til dens id. Ellers må den ikke claimes.
+      const local = useTimerStore.getState();
+      let claimSessionId = local.sessionId ?? undefined;
+      let claimSessionOpId: string | undefined;
+      if (!claimSessionId) {
+        if (local.startOpId) {
+          claimSessionOpId = local.startOpId;
+        } else if (
+          serverState?.sessionId &&
+          serverState.isRunning &&
+          isOwnLandedStart(serverState.startTime, clicked.startTime)
+        ) {
+          claimSessionId = serverState.sessionId;
+        } else if (serverState?.sessionId) {
+          toast.error(t("widget.stoppedElsewhere"));
+          return;
+        }
+      }
+      const endClaim = beginStopClaim();
+      let claim: Awaited<ReturnType<typeof claimForStopMutation.mutateAsync>>;
+      try {
+        claim = await claimForStopMutation.mutateAsync({
+          expectedVersion: serverState?.version ?? 0,
+          source: "web",
+          // Kun netop vores session må claimes (#788)
+          sessionId: claimSessionId,
+          sessionOpId: claimSessionOpId,
+        });
+      } finally {
+        endClaim();
+      }
+      if (!isStillTarget(claim.success ? claim.sessionId : undefined)) {
+        if (claim.success) {
+          // Claimet lykkedes: frigiv det, bundet til den claimede session,
+          // så rækken ikke står i "stopping", til cron'en parkerer den.
+          await cancelStopMutation
+            .mutateAsync({
+              version: claim.version,
+              source: "web",
+              sessionId: claim.sessionId ?? undefined,
+            })
+            .catch(() => {});
+        }
+        toast.error(t("widget.stoppedElsewhere"));
+        return;
+      }
       if (!claim.success) {
+        // Startnøglen fandt ingen session: tiden findes kun her og må ikke
+        // smides væk; starten afspilles af synken, og stoppet kan prøves igen.
+        if (startNeverLanded(claim)) {
+          toast.error(t("widget.stopFailed"));
+          return;
+        }
         if (claim.reason === "session_mismatch") {
           // Vores session er afsluttet et andet sted — drop den lokale kopi
           useTimerStore.getState().resetTimer();
@@ -617,7 +694,11 @@ export function TimerWidget({
         })
         .then((res) => {
           // Posten blev gemt alligevel (tabt svar): sessionen er slut (#783)
-          if (!res.success && res.reason === "already_saved") {
+          if (
+            !res.success &&
+            res.reason === "already_saved" &&
+            isStillTarget(claimedSessionId)
+          ) {
             useTimerStore.getState().resetTimer();
           }
         })
@@ -625,8 +706,9 @@ export function TimerWidget({
       return;
     }
 
-    // Posten er gemt — nu må store'en nulstilles
-    stopTimer();
+    // Posten er gemt — nu må store'en nulstilles, men kun hvis den stadig er
+    // den stoppede session (#1333)
+    if (isStillTarget(claimedSessionId)) stopTimer();
     timerSaveKeys.reset();
     for (const w of complianceWarnings) toast.warning(w);
 

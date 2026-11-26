@@ -226,7 +226,9 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
       expect(selected).toHaveLength(3);
       const timeEntryIds = selected.map(({ id }) => id);
       const cards = await caller.getPackagesForEntries({ timeEntryIds });
-      expect(cards.packages.map(({ id }) => id)).toEqual([packageId]);
+      expect(cards.packages).toEqual([
+        expect.objectContaining({ id: packageId, overdraftPolicy: "block" }),
+      ]);
       const preview = await caller.getAssignableEntries({
         packageId,
         timeEntryIds,

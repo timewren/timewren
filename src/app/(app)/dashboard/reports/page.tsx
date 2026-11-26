@@ -2,7 +2,7 @@
 "use client";
 import { skipToken } from "@tanstack/react-query";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/dashboard-nav";
@@ -10,6 +10,7 @@ import { ModuleGuard } from "@/components/ModuleGuard";
 import { ModuleDisabledState } from "@/components/ui";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { useDebounce } from "@/hooks/useDebounce";
+import { isLocale } from "@/i18n/config";
 import { isModuleDisabledError } from "@/lib/modules/forbidden-error";
 import type { ReportTemplateConfig } from "@/lib/reports/config-schema";
 import { trpc } from "@/providers/trpc-provider";
@@ -25,6 +26,7 @@ import { TemplateBar } from "./_components/TemplateBar";
 
 function ReportsPageContent() {
   const t = useTranslations("reports");
+  const locale = useLocale();
   const { data: templates } = trpc.reportTemplates.list.useQuery();
   const defaultTpl = useMemo(
     () => templates?.find((t) => t.isDefault) ?? templates?.[0],
@@ -108,7 +110,10 @@ function ReportsPageContent() {
     refetch: refetchReport,
   } = trpc.reports.getReportData.useQuery(
     debouncedConfig && !isDebouncedCustomIncomplete
-      ? { config: debouncedConfig }
+      ? {
+          config: debouncedConfig,
+          locale: isLocale(locale) ? locale : undefined,
+        }
       : skipToken,
     {
       staleTime: 10_000,

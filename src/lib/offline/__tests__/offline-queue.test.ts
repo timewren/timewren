@@ -28,6 +28,8 @@ import {
 
 const T0 = Date.UTC(2026, 9, 1, 8, 0, 0); // 10:00 dansk tid
 const MIN = 60_000;
+const SESSION_A = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
+const SESSION_B = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
 
 interface Row {
   isRunning: boolean;
@@ -38,6 +40,8 @@ interface Row {
   intent: string | null;
   intentFrom: string | null;
   lastClientOpId: string | null;
+  /** Server-udstedt session (timer-sessioner); null på en ryddet række. */
+  sessionId: string | null;
 }
 
 class FakeServer {
@@ -50,9 +54,13 @@ class FakeServer {
     intent: null,
     intentFrom: null,
     lastClientOpId: null,
+    sessionId: null,
   };
   entries: CreateEntryInput[] = [];
   calls: string[] = [];
+  /** Sessionen claim/confirm blev sendt for (#1333). */
+  claimSessionIds: (string | undefined)[] = [];
+  confirmSessionIds: (string | undefined)[] = [];
   /** Metoder hvis NÆSTE kald skal lykkes på serveren men miste svaret. */
   loseResponse = new Set<keyof ReplayApi>();
   /** Metoder hvis næste kald fejler før serveren nås. */
@@ -62,13 +70,29 @@ class FakeServer {
    * post (sessionen er stoppet og gemt et andet sted).
    */
   staleStart = false;
+  /** Id, serveren udsteder til næste nye start (null: ingen sessioner). */
+  nextSessionId: string | null = null;
+  /** Sker på serveren lige før næste createEntry (en anden klient). */
+  beforeCreate: (() => void) | null = null;
+
+  /** En anden webfane starter B og claimer den for stop. */
+  startAndClaimElsewhere(at: number, sessionId: string) {
+    this.startElsewhere(at, sessionId);
+    this.row = {
+      ...this.row,
+      intent: "stopping",
+      intentFrom: "web",
+      version: this.row.version + 1,
+    };
+  }
 
   /** En anden enhed starter en timer (online, uden kø). */
-  startElsewhere(at: number) {
+  startElsewhere(at: number, sessionId: string | null = null) {
     this.row = {
       ...this.row,
       isRunning: true,
       startTime: at,
+      sessionId,
       version: this.row.version + 1,
     };
   }
@@ -83,6 +107,7 @@ class FakeServer {
       baseSeconds: 0,
       intent: null,
       intentFrom: null,
+      sessionId: null,
       version: this.row.version + 2,
     };
   }
@@ -137,8 +162,13 @@ class FakeServer {
         baseSeconds: p.baseSeconds,
         version: this.row.version + 1,
         lastClientOpId: p.clientOpId,
+        sessionId: this.nextSessionId,
       };
-      return { success: true, version: this.row.version };
+      return {
+        success: true,
+        version: this.row.version,
+        sessionId: this.row.sessionId,
+      };
     }),
     getTimerState: this.wrap(
       "getTimerState",
@@ -152,31 +182,48 @@ class FakeServer {
         version: this.row.version,
         intent: this.row.intent,
         intentFrom: this.row.intentFrom,
+        sessionId: this.row.sessionId,
       }),
     ),
-    claimForStop: this.wrap("claimForStop", async (expectedVersion) => {
-      if (
-        this.row.version !== expectedVersion ||
-        this.row.intent === "stopping"
-      ) {
-        return {
-          success: false,
-          reason:
-            this.row.intent === "stopping"
-              ? "already_stopping"
-              : "version_mismatch",
-          version: this.row.version,
+    claimForStop: this.wrap(
+      "claimForStop",
+      async (expectedVersion, sessionId) => {
+        this.claimSessionIds.push(sessionId);
+        // Som serveren: med et sessionId lander claimet kun på netop den.
+        if (sessionId !== undefined && this.row.sessionId !== sessionId) {
+          return {
+            success: false,
+            reason: "session_mismatch",
+            version: this.row.version,
+          };
+        }
+        if (
+          this.row.version !== expectedVersion ||
+          this.row.intent === "stopping"
+        ) {
+          return {
+            success: false,
+            reason:
+              this.row.intent === "stopping"
+                ? "already_stopping"
+                : "version_mismatch",
+            version: this.row.version,
+          };
+        }
+        this.row = {
+          ...this.row,
+          intent: "stopping",
+          intentFrom: "web",
+          version: this.row.version + 1,
         };
+        return { success: true, version: this.row.version };
+      },
+    ),
+    confirmStop: this.wrap("confirmStop", async (version, sessionId) => {
+      this.confirmSessionIds.push(sessionId);
+      if (sessionId !== undefined && this.row.sessionId !== sessionId) {
+        return { success: false, reason: "session_mismatch" };
       }
-      this.row = {
-        ...this.row,
-        intent: "stopping",
-        intentFrom: "web",
-        version: this.row.version + 1,
-      };
-      return { success: true, version: this.row.version };
-    }),
-    confirmStop: this.wrap("confirmStop", async (version) => {
       if (this.row.intent !== "stopping") {
         return { success: false, reason: "not_stopping" };
       }
@@ -195,13 +242,19 @@ class FakeServer {
         baseSeconds: 0,
         intent: null,
         intentFrom: null,
+        sessionId: null,
         version: this.row.version + 1,
       };
       return { success: true, version: this.row.version };
     }),
     createEntry: this.wrap("createEntry", async (entry) => {
+      this.beforeCreate?.();
+      this.beforeCreate = null;
+      // Som time.create: samme nøgle eller samme timer-session = én post.
       const existing = this.entries.find(
-        (e) => e.clientEntryId && e.clientEntryId === entry.clientEntryId,
+        (e) =>
+          (e.clientEntryId && e.clientEntryId === entry.clientEntryId) ||
+          (e.timerSessionId && e.timerSessionId === entry.timerSessionId),
       );
       if (existing) return { ...existing, deduplicated: true };
       this.entries.push(entry);
@@ -582,6 +635,357 @@ describe("offline-kø: konflikter", () => {
     expect(server.row.isRunning).toBe(true);
     expect(server.row.intent).toBeNull();
     expect(server.entries).toHaveLength(0);
+  });
+
+  it("et offline-stop er bundet til sin session: claim og confirm sender id'et (#1333)", async () => {
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        knownVersion: server.row.version,
+        sessionId: SESSION_A,
+      }),
+    );
+
+    await drainQueue(store, server.api, later);
+    expect(server.claimSessionIds).toEqual([SESSION_A]);
+    expect(server.confirmSessionIds).toEqual([SESSION_A]);
+    expect(server.entries).toHaveLength(1);
+    expect(server.row.isRunning).toBe(false);
+  });
+
+  it("en ny session adopteret før gem bærer samme version: den stoppes ikke (#1333)", async () => {
+    // A blev stoppet offline og gemt på en anden enhed; B kører nu. Fanen
+    // kom online og adopterede B, så den kendte version er B's.
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    server.stopElsewhere();
+    server.startElsewhere(T0 + 45 * MIN, SESSION_B);
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        knownVersion: server.row.version,
+        sessionId: SESSION_A,
+      }),
+    );
+
+    const result = await drainQueue(store, server.api, later);
+    expect(result.events).toMatchObject([{ type: "stopped_elsewhere" }]);
+    expect(server.calls).not.toContain("claimForStop");
+    expect(server.row).toMatchObject({
+      isRunning: true,
+      intent: null,
+      sessionId: SESSION_B,
+    });
+    expect(server.entries).toHaveLength(0);
+  });
+
+  it("et stop bag en afspillet start får startens id og bekræfter aldrig en anden fanes stop (#1333)", async () => {
+    const server = new FakeServer();
+    server.nextSessionId = SESSION_A;
+    const store = new MemoryStore();
+    // A startes og stoppes offline.
+    store.add(startOp("11111111-1111-4111-8111-111111111111"));
+    store.inFlight = "11111111-1111-4111-8111-111111111111";
+    store.add(stopOp("22222222-2222-4222-8222-222222222222"));
+    store.inFlight = null;
+
+    // Efter genforbindelse claimes A, men posten fejler midlertidigt.
+    server.failBefore.add("createEntry");
+    await drainQueue(store, server.api, () => T0);
+    expect(server.claimSessionIds).toEqual([SESSION_A]);
+    expect(store.items).toHaveLength(1);
+    expect(store.items[0]).toMatchObject({
+      kind: "timer.stop",
+      sessionId: SESSION_A,
+      claimedVersion: 2,
+    });
+
+    // A kasseres; B startes, og en anden webfane claimer B for stop.
+    server.stopElsewhere();
+    server.startElsewhere(T0 + 45 * MIN, SESSION_B);
+    server.row = { ...server.row, intent: "stopping", intentFrom: "web" };
+
+    await drainQueue(store, server.api, later);
+    expect(server.calls.filter((c) => c === "confirmStop")).toEqual([]);
+    expect(server.row).toMatchObject({
+      isRunning: true,
+      intent: "stopping",
+      sessionId: SESSION_B,
+    });
+  });
+
+  it("et ældre claimet stop uden id bekræfter ikke en anden sessions stop (#1333)", async () => {
+    // Vores claim af A gav version 2; siden er A ryddet, og B er startet og
+    // claimet af en anden webfane (en senere version).
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    server.row = { ...server.row, version: server.row.version + 1 };
+    server.stopElsewhere();
+    server.startAndClaimElsewhere(T0 + 45 * MIN, SESSION_B);
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", { claimedVersion: 2 }),
+    );
+
+    await drainQueue(store, server.api, later);
+    expect(server.calls).not.toContain("confirmStop");
+    expect(server.row).toMatchObject({ intent: "stopping" });
+  });
+
+  it("et ældre claimet stop uden id bekræfter med id'et fra rækken, det matchede (#1333)", async () => {
+    // A er claimet af køen (svaret kom); elementet har intet id.
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    server.row = {
+      ...server.row,
+      intent: "stopping",
+      intentFrom: "web",
+      version: server.row.version + 1,
+    };
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        claimedVersion: server.row.version,
+      }),
+    );
+    // Mens posten gemmes, kasseres A, og en anden webfane claimer B.
+    server.beforeCreate = () => {
+      server.stopElsewhere();
+      server.startAndClaimElsewhere(T0 + 45 * MIN, SESSION_B);
+    };
+
+    await drainQueue(store, server.api, later);
+    expect(server.confirmSessionIds.every((id) => id === SESSION_A)).toBe(true);
+    expect(server.entries).toMatchObject([{ timerSessionId: SESSION_A }]);
+    expect(server.row).toMatchObject({
+      isRunning: true,
+      intent: "stopping",
+      sessionId: SESSION_B,
+    });
+  });
+
+  it("et stop uden id rydder ikke en anden sessions stop efter sit claim (#1333)", async () => {
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        knownVersion: server.row.version,
+      }),
+    );
+    server.beforeCreate = () => {
+      server.stopElsewhere();
+      server.startAndClaimElsewhere(T0 + 45 * MIN, SESSION_B);
+    };
+
+    await drainQueue(store, server.api, later);
+    expect(server.confirmSessionIds.every((id) => id === SESSION_A)).toBe(true);
+    expect(server.row).toMatchObject({
+      isRunning: true,
+      intent: "stopping",
+      sessionId: SESSION_B,
+    });
+  });
+
+  it("et stop bag en afspillet start gemmes ikke igen, når en anden klient har gemt sessionen (#1333)", async () => {
+    const server = new FakeServer();
+    server.nextSessionId = SESSION_A;
+    const store = new MemoryStore();
+    store.add(startOp("11111111-1111-4111-8111-111111111111"));
+    store.inFlight = "11111111-1111-4111-8111-111111111111";
+    store.add(stopOp("22222222-2222-4222-8222-222222222222"));
+    store.inFlight = null;
+
+    // A claimes af køen, men posten fejler midlertidigt.
+    server.failBefore.add("createEntry");
+    await drainQueue(store, server.api, () => T0);
+    expect(store.items).toMatchObject([
+      {
+        kind: "timer.stop",
+        entry: { timerSessionId: SESSION_A },
+      },
+    ]);
+
+    // En anden klient gemmer A (sin egen nøgle, samme session).
+    server.entries.push(
+      entry({ clientEntryId: undefined, timerSessionId: SESSION_A }),
+    );
+    server.stopElsewhere();
+
+    await drainQueue(store, server.api, later);
+    expect(store.items).toHaveLength(0);
+    expect(server.entries).toHaveLength(1);
+  });
+
+  it("et ældre claimet stop uden id gemmer bindingen, før posten sendes (#1333)", async () => {
+    // A er claimet af køen (svaret kom); elementet har intet id.
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    server.row = {
+      ...server.row,
+      intent: "stopping",
+      intentFrom: "web",
+      version: server.row.version + 1,
+    };
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        claimedVersion: server.row.version,
+      }),
+    );
+
+    // Posten fejler midlertidigt.
+    server.failBefore.add("createEntry");
+    await drainQueue(store, server.api, () => T0);
+    expect(store.items).toMatchObject([
+      {
+        kind: "timer.stop",
+        sessionId: SESSION_A,
+        entry: { timerSessionId: SESSION_A },
+      },
+    ]);
+
+    // En anden klient gemmer A og rydder rækken inden næste forsøg.
+    server.entries.push(
+      entry({ clientEntryId: undefined, timerSessionId: SESSION_A }),
+    );
+    server.stopElsewhere();
+
+    await drainQueue(store, server.api, later);
+    expect(store.items).toHaveLength(0);
+    expect(server.entries).toHaveLength(1);
+  });
+
+  it("et ældre claimet stop uden id binder en pauset A på den claimede version (#1333)", async () => {
+    // A er pauset (ingen starttid, opsparet tid) og claimet af køen; elementet
+    // har intet id. Rækken står præcis på den claimede version.
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    server.row = {
+      ...server.row,
+      isRunning: false,
+      startTime: null,
+      baseSeconds: 1800,
+      intent: "stopping",
+      intentFrom: "web",
+      version: server.row.version + 2,
+    };
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        claimedVersion: server.row.version,
+      }),
+    );
+
+    // Posten fejler midlertidigt.
+    server.failBefore.add("createEntry");
+    await drainQueue(store, server.api, () => T0);
+    expect(store.items).toMatchObject([
+      {
+        kind: "timer.stop",
+        sessionId: SESSION_A,
+        entry: { timerSessionId: SESSION_A },
+      },
+    ]);
+
+    // En anden klient gemmer A og rydder rækken inden næste forsøg.
+    server.entries.push(
+      entry({ clientEntryId: undefined, timerSessionId: SESSION_A }),
+    );
+    server.stopElsewhere();
+
+    await drainQueue(store, server.api, later);
+    expect(store.items).toHaveLength(0);
+    expect(server.entries).toHaveLength(1);
+  });
+
+  it("et stop for en pauset A gemmes, selv om en anden klient har skrevet på A siden (#1333)", async () => {
+    // A er pauset, da den stoppes offline. Bagefter ændrer en anden klient
+    // beskrivelsen på A, så versionen stiger; A er stadig pauset.
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    server.row = {
+      ...server.row,
+      isRunning: false,
+      startTime: null,
+      baseSeconds: 1800,
+      version: server.row.version + 1,
+    };
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        knownVersion: server.row.version,
+        sessionId: SESSION_A,
+      }),
+    );
+    server.row = { ...server.row, version: server.row.version + 1 };
+
+    const result = await drainQueue(store, server.api, later);
+    expect(result.events).toEqual([]);
+    expect(server.claimSessionIds).toEqual([SESSION_A]);
+    expect(server.confirmSessionIds).toEqual([SESSION_A]);
+    expect(server.entries).toMatchObject([{ timerSessionId: SESSION_A }]);
+    expect(server.row).toMatchObject({ intent: null, sessionId: null });
+  });
+
+  it("et stop overtager ikke en anden webfanes claim af en pauset A (#1333)", async () => {
+    // Køens claim når aldrig frem. En anden webfane claimer den pausede A og
+    // har sin gemmedialog åben: det er dens stop, ikke køens.
+    const server = new FakeServer();
+    server.startElsewhere(T0, SESSION_A);
+    server.row = {
+      ...server.row,
+      isRunning: false,
+      startTime: null,
+      baseSeconds: 1800,
+      version: server.row.version + 1,
+    };
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        knownVersion: server.row.version,
+        sessionId: SESSION_A,
+      }),
+    );
+    server.failBefore.add("claimForStop");
+    await drainQueue(store, server.api, () => T0);
+    expect(store.items[0]).toMatchObject({ claiming: true });
+
+    server.row = {
+      ...server.row,
+      intent: "stopping",
+      intentFrom: "web",
+      version: server.row.version + 1,
+    };
+    await drainQueue(store, server.api, later);
+    expect(server.entries).toEqual([]);
+    expect(server.confirmSessionIds).toEqual([]);
+    expect(server.row).toMatchObject({
+      intent: "stopping",
+      sessionId: SESSION_A,
+    });
+  });
+
+  it("et køelement med id, men uden id på posten, sender posten med id'et (#1333)", async () => {
+    // Fra den forrige implementation: sessionId sat, entry.timerSessionId ikke.
+    // En anden klient har allerede gemt A og ryddet rækken.
+    const server = new FakeServer();
+    server.entries.push(
+      entry({ clientEntryId: undefined, timerSessionId: SESSION_A }),
+    );
+    const store = new MemoryStore();
+    store.add(
+      stopOp("22222222-2222-4222-8222-222222222222", {
+        sessionId: SESSION_A,
+        claimedVersion: 2,
+      }),
+    );
+
+    await drainQueue(store, server.api, later);
+    expect(store.items).toHaveLength(0);
+    expect(server.entries).toHaveLength(1);
   });
 
   it("en permanent afvist start gør sit stop til en ren oprettelse", async () => {

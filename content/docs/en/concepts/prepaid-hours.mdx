@@ -24,6 +24,8 @@ A package (`prepaid_packages`) belongs to one client and stores:
 
 Every deduction is also written to a usage log (`prepaid_usage`) with the hours, the value, the linked time entry and a description. Manual deductions without a time entry are logged the same way.
 
+Manual deductions can exceed the balance when overdraft is allowed. The excess is recorded as overdraft debt. Block and invoice policies cap manual deductions at the largest amount the remaining balance covers after rounding up to whole clips.
+
 ## Which entries deduct
 
 Nothing is deducted automatically behind your back. The server only deducts when a time entry is saved with an explicit package id, or when you make a manual deduction. The apps suggest a package for you:

@@ -601,6 +601,37 @@ describe("POST /api/desktop/sync/push — create", () => {
     );
   });
 
+  it("returns the deduction appCode alongside the per-entry error", async () => {
+    const { appCodeError } = await import("@/lib/trpc/app-code");
+    const message = "Not enough hours on the prepaid package";
+    vi.mocked(deductHoursCore).mockRejectedValueOnce(
+      appCodeError("BAD_REQUEST", "PREPAID_DEDUCTION_FAILED", message),
+    );
+    const res = await POST(
+      request([
+        {
+          type: "time_entry",
+          action: "create",
+          data: {
+            clientId: CLIENT_ID,
+            prepaidPackageId: "pkg-1",
+            hours: "1",
+            date: "2026-09-30",
+          },
+        },
+      ]),
+    );
+    const body = await res.json();
+    expect(body.accepted).toEqual([]);
+    expect(body.errors).toEqual([
+      expect.objectContaining({
+        type: "time_entry",
+        error: message,
+        appCode: "PREPAID_DEDUCTION_FAILED",
+      }),
+    ]);
+  });
+
   it("accepterer en kunde uden projekt", async () => {
     const res = await POST(
       request([

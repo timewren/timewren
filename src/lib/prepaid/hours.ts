@@ -49,6 +49,32 @@ export function normalizePrepaidDeductionHours(
   return roundPrepaidHours(hours);
 }
 
+/** Largest input in hundredths of an hour that fits the rounded deduction. */
+export function maxPrepaidDeductionHours(
+  remainingHours: number,
+  clipSizeMinutes?: number | null,
+): number {
+  const balance = roundPrepaidHours(remainingHours);
+  let lower = 0;
+  let upper = Math.max(0, Math.round(balance * PREPAID_HOUR_SCALE));
+
+  while (lower < upper) {
+    const midpoint = Math.ceil((lower + upper) / 2);
+    if (
+      normalizePrepaidDeductionHours(
+        midpoint / PREPAID_HOUR_SCALE,
+        clipSizeMinutes,
+      ) <= balance
+    ) {
+      lower = midpoint;
+    } else {
+      upper = midpoint - 1;
+    }
+  }
+
+  return lower / PREPAID_HOUR_SCALE;
+}
+
 /**
  * Restsaldo når kortets total rettes. Null når den nye total ligger under
  * det allerede brugte: prod har en CHECK (`check_hours_consistency`), der

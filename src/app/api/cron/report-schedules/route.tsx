@@ -1,6 +1,7 @@
 import { renderToBuffer } from "@react-pdf/renderer";
 import { eq } from "drizzle-orm";
 import { toIntlLocale } from "@/i18n/format-locale";
+import { runWithLocale } from "@/i18n/server-text";
 import { withCronLogging } from "@/lib/cron/log-cron-run";
 import { db } from "@/lib/db";
 import {
@@ -313,7 +314,13 @@ export const GET = withCronLogging("report-schedules", async (_request) => {
             end,
           })
         : null;
+      const mb = await resolveMailBrand({ userId: schedule.userId });
+      const locale = await getRecipientLocale({
+        userId: schedule.userId,
+        fallback: mb?.locale,
+      });
       const aggregates = aggregateReport(entries, config.grouping, {
+        locale,
         budgetUsageByProject: budget?.usageByProject,
         budgetMonth: budget?.month,
         includePauses: config.branding.showPauses,
@@ -324,61 +331,58 @@ export const GET = withCronLogging("report-schedules", async (_request) => {
       const periodLabel = `${toLocalDateStr(start)}–${toLocalDateStr(end)}`;
 
       // Generér vedhæftning
-      const attachment = await runWithOwnerCurrency(schedule, async () => {
-        const safeName = schedule.templateName.replace(/[^\wæøåÆØÅ -]/g, "");
-        if (schedule.format === "csv") {
-          return {
-            filename: `${safeName}.csv`,
-            content: Buffer.from(
-              generateCSV(entries, {
-                columns: config.columns,
-                groups: exportGroups,
-                groupingNote: aggregates.groupingNote,
-                pauses: aggregates.pauses,
-              }),
-              "utf-8",
-            ),
-          };
-        }
-        if (schedule.format === "xlsx") {
-          const buf = await generateXLSX(entries, {
-            columns: config.columns,
-            groups: exportGroups,
-            groupingNote: aggregates.groupingNote,
+      const attachment = await runWithLocale(locale, () =>
+        runWithOwnerCurrency(schedule, async () => {
+          const safeName = schedule.templateName.replace(/[^\wæøåÆØÅ -]/g, "");
+          if (schedule.format === "csv") {
+            return {
+              filename: `${safeName}.csv`,
+              content: Buffer.from(
+                generateCSV(entries, {
+                  columns: config.columns,
+                  groups: exportGroups,
+                  groupingNote: aggregates.groupingNote,
+                  pauses: aggregates.pauses,
+                }),
+                "utf-8",
+              ),
+            };
+          }
+          if (schedule.format === "xlsx") {
+            const buf = await generateXLSX(entries, {
+              columns: config.columns,
+              groups: exportGroups,
+              groupingNote: aggregates.groupingNote,
+            });
+            return {
+              filename: `${safeName}.xlsx`,
+              content: Buffer.from(buf),
+            };
+          }
+          const company = await db.query.companyProfiles.findFirst({
+            where: schedule.organizationId
+              ? eq(companyProfiles.organizationId, schedule.organizationId)
+              : eq(companyProfiles.userId, schedule.userId),
+            columns: { name: true, logoUrl: true },
           });
+          const pdfBuffer = await renderToBuffer(
+            <ReportPDF
+              config={config}
+              aggregates={aggregates}
+              entries={entries}
+              startDate={toLocalDateStr(start)}
+              endDate={toLocalDateStr(end)}
+              logoUrl={company?.logoUrl ?? null}
+              companyName={company?.name ?? ""}
+            />,
+          );
           return {
-            filename: `${safeName}.xlsx`,
-            content: Buffer.from(buf),
+            filename: `${safeName}.pdf`,
+            content: Buffer.from(pdfBuffer),
           };
-        }
-        const company = await db.query.companyProfiles.findFirst({
-          where: schedule.organizationId
-            ? eq(companyProfiles.organizationId, schedule.organizationId)
-            : eq(companyProfiles.userId, schedule.userId),
-          columns: { name: true, logoUrl: true },
-        });
-        const pdfBuffer = await renderToBuffer(
-          <ReportPDF
-            config={config}
-            aggregates={aggregates}
-            entries={entries}
-            startDate={toLocalDateStr(start)}
-            endDate={toLocalDateStr(end)}
-            logoUrl={company?.logoUrl ?? null}
-            companyName={company?.name ?? ""}
-          />,
-        );
-        return {
-          filename: `${safeName}.pdf`,
-          content: Buffer.from(pdfBuffer),
-        };
-      });
+        }),
+      );
 
-      const mb = await resolveMailBrand({ userId: schedule.userId });
-      const locale = await getRecipientLocale({
-        userId: schedule.userId,
-        fallback: mb?.locale,
-      });
       const t = mailT("emailsReports", locale, mb?.key);
       const subject =
         schedule.subject ||

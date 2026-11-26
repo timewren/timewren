@@ -164,6 +164,8 @@ export function enqueueOfflineStart(
 export function enqueueOfflineStop(args: {
   sessionStartTime: number | null;
   startTime: number | null;
+  /** Den stoppede sessions id (#1333) — claim/confirm lander kun på den. */
+  sessionId: string | null;
   entry: CreateEntryInput;
 }): void {
   const s = useOfflineQueueStore.getState();
@@ -172,10 +174,15 @@ export function enqueueOfflineStop(args: {
     opId: newOpId(),
     sessionStartTime: args.sessionStartTime,
     serverStartTime: args.startTime,
+    sessionId: args.sessionId,
     knownVersion: s.knownServerVersion,
+    // Et server-udstedt id betyder, at serveren kender sessionen, også når
+    // fanen kun har adopteret den (#1333): stoppet må ikke blive en ren
+    // oprettelse uden claim.
     serverKnown:
-      args.sessionStartTime !== null &&
-      s.establishedSessionStart === args.sessionStartTime,
+      !!args.sessionId ||
+      (args.sessionStartTime !== null &&
+        s.establishedSessionStart === args.sessionStartTime),
     entry: args.entry,
   });
 }

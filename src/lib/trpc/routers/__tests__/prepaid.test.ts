@@ -296,6 +296,55 @@ describe("deductHoursCore — overtræks-politik (#93)", () => {
     });
   });
 
+  it.each(["block", "invoice"])(
+    "caps manual deductions with %s policy",
+    async (overdraftPolicy) => {
+      const { tx, updates, inserts } = makeTx(
+        pkgRow({ usedHours: "17", remainingHours: "3", overdraftPolicy }),
+      );
+      const error = await deduct(tx, { hours: 5, clientId: null }).catch(
+        (err: unknown) => err,
+      );
+      expect(appCodeOf(error)).toBe("PREPAID_DEDUCTION_FAILED");
+      expect(updates).toEqual([]);
+      expect(inserts).toEqual([]);
+      await expect(
+        deduct(tx, { hours: 3, clientId: null }),
+      ).resolves.toMatchObject({
+        hoursDeducted: 3,
+        remainingHours: 0,
+      });
+    },
+  );
+
+  it.each(["0", "3"])(
+    "records a manual overdraft with %s hours left",
+    async (remainingHours) => {
+      const { tx, updates, inserts } = makeTx(
+        pkgRow({
+          usedHours: String(20 - Number(remainingHours)),
+          remainingHours,
+          overdraftPolicy: "allow",
+        }),
+      );
+      const debt = 5 - Number(remainingHours);
+      await expect(
+        deduct(tx, { hours: 5, clientId: null }),
+      ).resolves.toMatchObject({
+        hoursDeducted: 5,
+        overdraftedHours: debt,
+        remainingHours: 0,
+      });
+      expect(
+        sqlParams(writeTo(updates, prepaidPackages)?.overdraftHours),
+      ).toEqual([debt]);
+      expect(writeTo(inserts, prepaidUsage)).toMatchObject({
+        overdraftHours: String(debt),
+      });
+      expect(writeTo(updates, timeEntries)).toBeUndefined();
+    },
+  );
+
   it("invoice: rører ikke kortet og gør posten fakturerbar til overtræks-satsen", async () => {
     const { tx, updates, inserts } = makeTx(
       pkgRow({

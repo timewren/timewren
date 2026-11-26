@@ -49,6 +49,11 @@ interface SaveTimeEntryModalProps {
   onProjectChange?: (projectId: string, clientId: string) => void;
   /** When true (segment mode), prepaid/klippekort options are hidden — segments don't support prepaid deduction */
   isSegmentMode?: boolean;
+  /**
+   * Den stoppede sessions id (#1333). Serverens klippekortvalg gælder kun,
+   * når rækken stadig bærer netop den session. Udeladt: intet tjek.
+   */
+  timerSessionId?: string | null;
 }
 
 export function SaveTimeEntryModal({
@@ -65,6 +70,7 @@ export function SaveTimeEntryModal({
   isSaving,
   onProjectChange,
   isSegmentMode = false,
+  timerSessionId,
 }: SaveTimeEntryModalProps) {
   const t = useTranslations("timer");
   const tc = useTranslations("common");
@@ -224,7 +230,14 @@ export function SaveTimeEntryModal({
   });
   const timerChoicePending =
     timerChoiceEnabled && !timerChoiceQuery.data && !timerChoiceQuery.isError;
-  const timerChoice = timerChoiceQuery.data?.prepaidChoice ?? null;
+  // Har fanen adopteret en anden session (B), mens dialogen for A står åben,
+  // er rækkens valg B's og må ikke forvælges for A (#1333).
+  const choiceIsStoppedSession =
+    timerSessionId === undefined ||
+    (timerChoiceQuery.data?.sessionId ?? null) === timerSessionId;
+  const timerChoice = choiceIsStoppedSession
+    ? (timerChoiceQuery.data?.prepaidChoice ?? null)
+    : null;
 
   // Auto-træk: har kunden et kort med auto-træk, er klippekort forvalgt, så
   // tiden lander på kortet uden et ekstra klik. Valget vises stadig og kan

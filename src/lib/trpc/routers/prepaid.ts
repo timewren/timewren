@@ -236,7 +236,7 @@ export async function deductHoursCore(
   let overdrafted = 0;
 
   if (remainingHours < hoursToDeduct) {
-    if (policy === "block") {
+    if (policy === "block" || (policy === "invoice" && !options.timeEntryId)) {
       throw prepaidDeductionError({
         code: "BAD_REQUEST",
         message: pkg.clipSizeMinutes

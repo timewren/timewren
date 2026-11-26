@@ -24,6 +24,8 @@ Un bono (`prepaid_packages`) pertenece a un cliente y almacena:
 
 Cada descuento se escribe además en un registro de uso (`prepaid_usage`) con las horas, el valor, el registro de tiempo vinculado y una descripción. Los descuentos manuales sin registro de tiempo se anotan de la misma forma.
 
+Los descuentos manuales pueden superar el saldo si se permite el sobregiro. El exceso se registra como deuda. Con las políticas de bloqueo y facturación, el diálogo muestra el importe máximo que cubre el saldo restante después de redondear hacia arriba a unidades completas.
+
 ## Qué registros descuentan
 
 No se descuenta nada automáticamente a tus espaldas. El servidor solo descuenta cuando se guarda un registro de tiempo con un id de bono explícito, o cuando haces un descuento manual. Las aplicaciones te sugieren un bono:

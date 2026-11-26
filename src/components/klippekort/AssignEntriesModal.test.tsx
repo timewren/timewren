@@ -10,6 +10,7 @@ import reports from "@/i18n/messages/da/reports.json";
 import time from "@/i18n/messages/da/time.json";
 import ui from "@/i18n/messages/da/ui.json";
 import { AssignEntriesModal } from "./AssignEntriesModal";
+import { BulkAssignPrepaidModal } from "./BulkAssignPrepaidModal";
 
 const { assign } = vi.hoisted(() => ({ assign: vi.fn() }));
 const entry = {
@@ -36,16 +37,46 @@ vi.mock("@/providers/trpc-provider", () => ({
   trpc: {
     useUtils: () => ({}),
     prepaid: {
+      getPackagesForEntries: {
+        useQuery: () => ({
+          data: {
+            clientId: "client-1",
+            packages: [
+              {
+                id: "allow-card",
+                name: "Allow card",
+                remainingHours: 0,
+                clipSizeMinutes: null,
+                overdraftPolicy: "allow",
+              },
+              {
+                id: "block-card",
+                name: "Block card",
+                remainingHours: 0,
+                clipSizeMinutes: null,
+                overdraftPolicy: "block",
+              },
+            ],
+          },
+        }),
+      },
       getAssignableProjects: {
         useQuery: () => ({
           data: [{ id: entry.projectId, name: entry.projectName }],
         }),
       },
       getAssignableEntries: {
-        useQuery: (input: { includeOtherCards: boolean }) => ({
-          data: input.includeOtherCards
-            ? [entry, unlinkedEntry]
-            : [unlinkedEntry],
+        useQuery: (input: {
+          includeOtherCards: boolean;
+          timeEntryIds?: string[];
+        }) => ({
+          data: input.timeEntryIds
+            ? [entry, unlinkedEntry].filter(({ id }) =>
+                input.timeEntryIds?.includes(id),
+              )
+            : input.includeOtherCards
+              ? [entry, unlinkedEntry]
+              : [unlinkedEntry],
         }),
       },
       bulkAssignEntries: { useMutation: () => ({ mutate: assign }) },
@@ -286,6 +317,51 @@ it.each([
       await act(async () => root.unmount());
       entry.hours = 0.17;
       unlinkedEntry.hours = 0.17;
+      vi.unstubAllGlobals();
+    }
+  },
+);
+
+it.each([
+  ["Allow card", "Resten registreres som overtræk.", false],
+  ["Block card", "overtræk er slået fra.", true],
+])(
+  "uses the policy returned for %s in the bulk assignment preview",
+  async (name, warning, disabled) => {
+    vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
+    const root = createRoot(document.createElement("div"));
+    try {
+      await act(async () =>
+        root.render(
+          <NextIntlClientProvider
+            locale="da"
+            timeZone="UTC"
+            messages={{ common, home, klippekort, reports, time, ui }}
+          >
+            <BulkAssignPrepaidModal
+              isOpen
+              timeEntryIds={[unlinkedEntry.id]}
+              onClose={vi.fn()}
+              onAssigned={vi.fn()}
+            />
+          </NextIntlClientProvider>,
+        ),
+      );
+      const button = (text: string) =>
+        [
+          ...document.querySelectorAll<HTMLButtonElement>(
+            '[role="dialog"] button',
+          ),
+        ].find((candidate) => candidate.textContent?.includes(text));
+      const card = button(name);
+      expect(card).toBeDefined();
+      await act(async () => card?.click());
+      expect(document.querySelector('[role="dialog"]')?.textContent).toContain(
+        warning,
+      );
+      expect(button(klippekort.assign.submit)?.disabled).toBe(disabled);
+    } finally {
+      await act(async () => root.unmount());
       vi.unstubAllGlobals();
     }
   },

@@ -76,6 +76,7 @@ import {
 import { resolveDefaultBillable } from "@/lib/time/default-billable";
 import { entryDateFromInput } from "@/lib/time/entry-date-input";
 import { lockTimeEntryTasks } from "@/lib/time/task-locks";
+import { type AppErrorCode, appCodeOf } from "@/lib/trpc/app-code";
 import { resolveModules } from "@/lib/trpc/routers/enterprise/middleware";
 import {
   markEntriesBilled,
@@ -150,6 +151,7 @@ interface EntityError {
   type: string;
   action?: string;
   error: string;
+  appCode?: AppErrorCode;
 }
 
 // Map entity type to table and key fields
@@ -527,6 +529,7 @@ export async function POST(request: Request) {
           type: entity.type,
           action: entity.action,
           error: err instanceof Error ? err.message : "Unknown error",
+          appCode: appCodeOf(err) ?? undefined,
         });
       }
     }

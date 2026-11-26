@@ -7,9 +7,10 @@ import {
   FileSpreadsheet,
   FileText,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { isLocale } from "@/i18n/config";
 import type { ReportTemplateConfig } from "@/lib/reports/config-schema";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -27,6 +28,7 @@ const FORMATS = [
 
 export function ExportMenu({ config, templateId }: Props) {
   const t = useTranslations("reports");
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +60,11 @@ export function ExportMenu({ config, templateId }: Props) {
     setOpen(false);
     try {
       toast.loading(t("export.generating"), { id: "export" });
-      const result = await exportMutation.mutateAsync({ config, format });
+      const result = await exportMutation.mutateAsync({
+        config,
+        format,
+        locale: isLocale(locale) ? locale : undefined,
+      });
       const filenameBase = `tidsrapport_${Date.now()}`;
 
       if (result.format === "csv" || result.format === "json") {

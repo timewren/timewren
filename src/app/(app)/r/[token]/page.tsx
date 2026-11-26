@@ -106,7 +106,7 @@ export default async function PublicReportPage({
     );
   }
 
-  const aggregates = aggregateReport(entries, config.grouping);
+  const aggregates = aggregateReport(entries, config.grouping, { locale });
 
   // Afsender-identitet (samme prioritet som faktura-PDF'en)
   const profile = await db.query.companyProfiles.findFirst({

@@ -125,6 +125,28 @@ const mkEntry = (over: Partial<ReportEntry> = {}): ReportEntry => ({
 });
 
 describe("aggregateReport", () => {
+  it.each([
+    ["client", "(No client)", "(Ingen kunde)"],
+    ["project", "(No project)", "(Intet projekt)"],
+    [
+      "clientProject",
+      "(No client) — (No project)",
+      "(Ingen kunde) — (Intet projekt)",
+    ],
+    ["task", "(No task)", "(Ingen opgave)"],
+    ["prepaidPackage", "(No prepaid package)", "(Uden klippekort)"],
+    ["member", "(No employee)", "(Ingen medarbejder)"],
+    ["tag", "No tag", "Uden tag"],
+  ] as const)("localizes the empty %s group", (grouping, english, danish) => {
+    const entries = [mkEntry({ client: null, project: null })];
+    expect(
+      aggregateReport(entries, grouping, { locale: "en" }).groups[0]?.label,
+    ).toBe(english);
+    expect(
+      aggregateReport(entries, grouping, { locale: "da" }).groups[0]?.label,
+    ).toBe(danish);
+  });
+
   it("sums hundredths and rounded minutes independently of entry order", () => {
     const entries = [
       mkEntry({ hours: "0.01", _rounded: 0.01, isBilled: true }),

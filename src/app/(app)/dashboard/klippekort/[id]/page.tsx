@@ -41,6 +41,11 @@ import { isModuleDisabledError } from "@/lib/modules/forbidden-error";
 import { prepaidBalanceLevel } from "@/lib/prepaid/balance";
 import { formatPrepaidExpiry } from "@/lib/prepaid/expiry";
 import {
+  maxPrepaidDeductionHours,
+  normalizePrepaidDeductionHours,
+  roundPrepaidHours,
+} from "@/lib/prepaid/hours";
+import {
   sortUsageByDisplayDate,
   usageDisplayDate,
 } from "@/lib/prepaid/usage-view";
@@ -186,27 +191,6 @@ export default function PackageDetailPage({
     setShowDeleteConfirm(true);
   };
 
-  const handleManualDeduct = async () => {
-    const hours = Number.parseFloat(deductHours);
-    if (Number.isNaN(hours) || hours <= 0) {
-      toast.error(t("detail.invalidHours"));
-      return;
-    }
-    if (!deductDescription.trim()) {
-      toast.error(t("detail.enterDescription"));
-      return;
-    }
-    try {
-      await manualDeductMutation.mutateAsync({
-        packageId: id,
-        hours,
-        description: deductDescription.trim(),
-      });
-    } catch {
-      // Fejlen vises af mutationens onError.
-    }
-  };
-
   if (isLoading) {
     return <LoadingScreen message={t("detail.loading")} />;
   }
@@ -243,6 +227,19 @@ export default function PackageDetailPage({
   const totalHours = parseFloat(pkg.totalHours || "0");
   const usedHours = parseFloat(pkg.usedHours || "0");
   const remainingHours = parseFloat(pkg.remainingHours || "0");
+  const manualDeductMax =
+    pkg.overdraftPolicy === "allow"
+      ? undefined
+      : maxPrepaidDeductionHours(remainingHours, pkg.clipSizeMinutes);
+  const exceedsManualDeductMax =
+    manualDeductMax !== undefined && Number(deductHours) > manualDeductMax;
+  const manualDeductEmpty =
+    manualDeductMax !== undefined && manualDeductMax <= 0;
+  const manualDeductOverdraft =
+    pkg.overdraftPolicy === "allow" &&
+    Number(deductHours) > 0 &&
+    normalizePrepaidDeductionHours(Number(deductHours), pkg.clipSizeMinutes) >
+      roundPrepaidHours(remainingHours);
   const hourlyRate = parseFloat(pkg.hourlyRate);
   const hideValue = pkg.hideValue;
   const percentage = totalHours > 0 ? (usedHours / totalHours) * 100 : 0;
@@ -252,6 +249,28 @@ export default function PackageDetailPage({
   const usageHistory = sortUsageByDisplayDate(pkg.usageHistory ?? []).map(
     (usage) => ({ ...usage, usageDate: usageDisplayDate(usage) }),
   );
+
+  const handleManualDeduct = async () => {
+    if (exceedsManualDeductMax) return;
+    const hours = Number(deductHours);
+    if (Number.isNaN(hours) || hours <= 0) {
+      toast.error(t("detail.invalidHours"));
+      return;
+    }
+    if (!deductDescription.trim()) {
+      toast.error(t("detail.enterDescription"));
+      return;
+    }
+    try {
+      await manualDeductMutation.mutateAsync({
+        packageId: id,
+        hours,
+        description: deductDescription.trim(),
+      });
+    } catch {
+      // Fejlen vises af mutationens onError.
+    }
+  };
 
   // Samme tone-regler som i klippekort-oversigten.
   const hulTone: KlippekortTone =
@@ -364,13 +383,15 @@ export default function PackageDetailPage({
             <button
               type="button"
               onClick={() => setShowDeductModal(true)}
-              disabled={!pkg.isActive || remainingHours <= 0}
+              disabled={!pkg.isActive || manualDeductEmpty}
               className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-tt-gran-lys disabled:opacity-50 transition-colors"
               title={
                 !pkg.isActive
                   ? t("detail.notActive")
-                  : remainingHours <= 0
-                    ? t("detail.noHoursLeft")
+                  : manualDeductEmpty
+                    ? remainingHours > 0
+                      ? t("detail.balanceBelowClip")
+                      : t("detail.noHoursLeft")
                     : t("detail.deductManually")
               }
             >
@@ -826,15 +847,24 @@ export default function PackageDetailPage({
                   type="number"
                   step="0.01"
                   min="0.01"
-                  max={remainingHours}
+                  max={manualDeductMax}
                   value={deductHours}
                   onChange={(e) => setDeductHours(e.target.value)}
                   className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-2 text-sm text-gray-900 dark:text-white focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
                   placeholder={t("detail.hoursPlaceholder")}
                 />
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  {t("detail.maxHours", { time: formatTime(remainingHours) })}
-                </p>
+                {manualDeductMax !== undefined && (
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    {t("detail.maxHours", {
+                      time: formatTime(manualDeductMax),
+                    })}
+                  </p>
+                )}
+                {manualDeductOverdraft && (
+                  <p className="mt-1 text-xs text-amber-700 dark:text-amber-400">
+                    {t("detail.overdraftDeductNote")}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -866,7 +896,9 @@ export default function PackageDetailPage({
                 <button
                   type="button"
                   onClick={handleManualDeduct}
-                  disabled={manualDeductMutation.isPending}
+                  disabled={
+                    manualDeductMutation.isPending || exceedsManualDeductMax
+                  }
                   className="flex-1 rounded-lg bg-tt-gran px-4 py-2 text-sm font-medium text-tt-paa-gran transition-colors hover:bg-tt-gran-moerk disabled:opacity-50"
                 >
                   {manualDeductMutation.isPending

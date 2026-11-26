@@ -29,6 +29,7 @@ import {
   longTimerKey,
 } from "@/lib/timer/long-timer-reminder";
 import { timerSaveKeys } from "@/lib/timer/save-key";
+import { isStillStopTarget, type StopTarget } from "@/lib/timer/web-session";
 import { trpc } from "@/providers/trpc-provider";
 import {
   enqueueOfflineStop,
@@ -68,6 +69,65 @@ function offlineStopMeta(): {
   if (!shouldQueueTimerWrites()) return null;
   const { sessionStartTime, startTime } = useTimerStore.getState();
   return { sessionStartTime, startTime };
+}
+
+/**
+ * Sessionen fanen stopper, fanget ved stop (#1333). Gem-dialogen kan stå
+ * åben, mens afstemningen adopterer en anden session; posten, confirm og
+ * offline-køen skal stadig bære den stoppede sessions id.
+ */
+function currentStopTarget(): StopSnapshot {
+  const {
+    sessionId,
+    sessionStartTime,
+    projectId,
+    clientId,
+    taskId,
+    description,
+    continuingEntryId,
+    continuingEntryHours,
+    resumeEntryId,
+  } = useTimerStore.getState();
+  return {
+    sessionId,
+    sessionStartTime,
+    projectId,
+    clientId,
+    taskId,
+    description,
+    continuingEntryId,
+    continuingEntryHours,
+    resumeEntryId,
+  };
+}
+
+/**
+ * Stopmålet plus sessionens detaljer, som de stod ved stop, med gem-dialogens
+ * valg af projekt og kunde.
+ */
+type StopSnapshot = StopTarget & {
+  projectId: string | null;
+  clientId: string | null;
+  taskId: string | null;
+  description: string;
+  continuingEntryId: string | null;
+  continuingEntryHours: number | null;
+  resumeEntryId: string | null;
+};
+
+/** Er fanen skiftet til en anden session end den stoppede (#1333)? */
+function stopTargetMoved(target: StopTarget | null): boolean {
+  const live = useTimerStore.getState();
+  return !!target && !isStillStopTarget(target, live, live.sessionId);
+}
+
+/** Nulstil fanens timer, men kun hvis den stadig er den stoppede session. */
+function resetIfStillStopTarget(target: StopTarget | null) {
+  const store = useTimerStore.getState();
+  // Uden id afgør starten alene: et id lært imens er samme sessions.
+  if (!target || isStillStopTarget(target, store, store.sessionId)) {
+    store.resetTimer();
+  }
 }
 
 export function TimeTrackingBar() {
@@ -252,45 +312,50 @@ export function TimeTrackingBar() {
   tRef.current = t;
   if (!longTimerReminderRef.current) {
     const reminder = createLongTimerReminder({
-      show: (key, hours) => {
+      show: (toastId, hours, closedByUser) => {
         toast.warning(tRef.current("bar.longTimer.title", { hours }), {
-          id: key,
+          id: toastId,
           description: tRef.current("bar.longTimer.description"),
           duration: Number.POSITIVE_INFINITY,
-          onDismiss: () => reminder.dismissed(key),
+          onDismiss: closedByUser,
           action: {
             label: tRef.current("bar.longTimer.stop"),
             onClick: () => {
-              if (reminder.canStop(key)) stopFromReminderRef.current();
+              if (reminder.canStop(toastId)) stopFromReminderRef.current();
             },
           },
         });
       },
-      dismiss: (key) => toast.dismiss(key),
+      dismiss: (toastId) => toast.dismiss(toastId),
       storage: () => sessionStorage,
+      // Kun den varighed, serveren har bekræftet efter seneste genindlæsning
+      // eller fokus: fanens elapsedTime kan være regnet fra en forældet
+      // start, til afstemningen er landet (#1324).
+      confirmation: timerSync.serverConfirmation,
     });
     longTimerReminderRef.current = reminder;
   }
+  useEffect(() => longTimerReminderRef.current?.connect(), []);
   const longTimerReminderKey = longTimerKey({
     sessionStartTime,
     sessionId: timerSessionId,
     startTime: segmentStartTime,
   });
+  // Kører hvert sekund (tick), så en ny eller tabt bekræftelse slår igennem.
   useEffect(() => {
+    void elapsedTime;
     longTimerReminderRef.current?.update({
       isRunning,
-      elapsedSeconds: elapsedTime,
+      sessionId: timerSessionId,
       key: longTimerReminderKey,
     });
-  }, [elapsedTime, isRunning, longTimerReminderKey]);
+  }, [elapsedTime, isRunning, longTimerReminderKey, timerSessionId]);
   // Toasteren lever videre, når bjælken forsvinder (andre sider, skjult
   // bjælke). Luk påmindelsen sammen med bjælken, så dens stop-knap aldrig
   // peger på en afmonteret komponent.
-  const longTimerReminderKeyRef = useRef(longTimerReminderKey);
-  longTimerReminderKeyRef.current = longTimerReminderKey;
   useEffect(
     () => () => {
-      toast.dismiss(longTimerReminderKeyRef.current);
+      longTimerReminderRef.current?.close();
     },
     [],
   );
@@ -339,6 +404,10 @@ export function TimeTrackingBar() {
   // annulleres — posten kan allerede være oprettet, og en annullering ville
   // lade serverens timer køre videre med den gemte tid (dobbelt tid).
   const savePhaseRef = useRef(false);
+  // Den stoppede session (#1333), sat når gem-dialogen åbnes. State-kopien
+  // viser dialogen A's detaljer, hvis fanen imens skifter til en anden session.
+  const stopTargetRef = useRef<StopSnapshot | null>(null);
+  const [stopDetails, setStopDetails] = useState<StopSnapshot | null>(null);
   // Offline-stop (#703): intet claim er taget — stoppet lægges i køen ved
   // gem. Sessionens tider fanges FØR pause (pause nulstiller startTime).
   const offlineStopRef = useRef<{
@@ -349,7 +418,8 @@ export function TimeTrackingBar() {
     if (!showSaveModal) return;
     const handlePageHide = () => {
       if (savePhaseRef.current || offlineStopRef.current) return;
-      timerSync.cancelStopOnUnload();
+      // Den stoppede sessions claim, ikke en session adopteret imens (#1333).
+      timerSync.cancelStopOnUnload(stopTargetRef.current);
     };
     // Kommer siden tilbage fra bfcache (tilbage-knappen) står dialogen der
     // stadig, men claimet er frigivet — et gem nu ville oprette posteringen
@@ -359,6 +429,7 @@ export function TimeTrackingBar() {
       if (!e.persisted) return;
       setShowSaveModal(false);
       setPendingSaveData(null);
+      if (stopTargetMoved(stopTargetRef.current)) return;
       useTimerStore.getState().resumeTimer();
       timerSync.syncToServer();
     };
@@ -439,6 +510,8 @@ export function TimeTrackingBar() {
     // Get the actual session start time from timer store before pausing
     const timerState = useTimerStore.getState();
     const sessionStartTime = timerState.sessionStartTime;
+    stopTargetRef.current = currentStopTarget();
+    setStopDetails(stopTargetRef.current);
 
     // Pause timer and capture state for save modal
     pauseTimer();
@@ -460,6 +533,24 @@ export function TimeTrackingBar() {
   };
   stopFromReminderRef.current = () => void handleStop();
 
+  /**
+   * Detaljerne et gem bruger: den levende timers, mens den stadig er den
+   * stoppede session. Er fanen skiftet til en anden session, mens dialogen
+   * stod åben, gælder stoppets øjebliksbillede med dialogens valg (#1333).
+   */
+  const saveDetails = (target: StopSnapshot | null) =>
+    target && stopTargetMoved(target)
+      ? target
+      : {
+          projectId,
+          clientId,
+          taskId,
+          description,
+          continuingEntryHours,
+          resumeEntryId,
+          continuingEntryId,
+        };
+
   const handleSaveConfirm = async (options: {
     usePrepaid: boolean;
     prepaidPackageId?: string;
@@ -475,12 +566,24 @@ export function TimeTrackingBar() {
     savePhaseRef.current = true;
 
     const hours = Math.max(0.01, pendingSaveData.duration / 3600);
+    // Server-udstedt session: én session ⇒ én post — et gentaget "Gem"
+    // (tabt svar) returnerer den eksisterende post. Id'et er den stoppede
+    // sessions, ikke en session adopteret imens (#1333).
+    const stopTarget = stopTargetRef.current;
+    const timerSessionId = stopTarget?.sessionId ?? undefined;
+    // Detaljerne er den stoppede sessions (#1333), ikke en adopteret imens.
+    const {
+      projectId,
+      clientId,
+      taskId,
+      description,
+      continuingEntryHours,
+      resumeEntryId,
+      continuingEntryId,
+    } = saveDetails(stopTarget);
     // Capture IDs before resetTimer clears them
     const entryIdForSegment = resumeEntryId;
     let entryIdToUpdate = continuingEntryId;
-    // Server-udstedt session: én session ⇒ én post — et gentaget "Gem"
-    // (tabt svar) returnerer den eksisterende post.
-    const timerSessionId = useTimerStore.getState().sessionId ?? undefined;
     let createdEntry:
       | Awaited<ReturnType<typeof saveTimeEntryMutation.mutateAsync>>
       | undefined;
@@ -620,11 +723,11 @@ export function TimeTrackingBar() {
       });
 
       // Confirm stop on server - this clears the timer state permanently
-      await timerSync.confirmStop();
+      await timerSync.confirmStop(timerSessionId);
 
       // Reset timer state - use resetTimer() as it always works
       // (stopTimer() has a guard that returns early if sessionStartTime is null)
-      useTimerStore.getState().resetTimer();
+      resetIfStillStopTarget(stopTarget);
       timerSaveKeys.reset();
       setPendingSaveData(null);
       setShowSaveModal(false);
@@ -633,6 +736,39 @@ export function TimeTrackingBar() {
     } finally {
       savePhaseRef.current = false;
     }
+  };
+
+  /**
+   * Gem-dialogens valg af projekt og kunde hører til den stoppede session
+   * (#1333): det gemmes på stoppets øjebliksbillede og kun på den levende
+   * timer, mens den stadig er samme session, aldrig på en adopteret anden.
+   */
+  const handleSaveProjectChange = (
+    newProjectId: string,
+    newClientId: string,
+  ) => {
+    const target = stopTargetRef.current;
+    const moved = stopTargetMoved(target);
+    if (target) {
+      const nextClientId = newClientId || null;
+      // Som timerStore.updateProject: en ny kunde løsner fortsat post/segment.
+      const clientChanged = nextClientId !== (target.clientId || null);
+      const next: StopSnapshot = {
+        ...target,
+        projectId: newProjectId || null,
+        clientId: nextClientId,
+        ...(clientChanged
+          ? {
+              continuingEntryId: null,
+              continuingEntryHours: 0,
+              resumeEntryId: null,
+            }
+          : {}),
+      };
+      stopTargetRef.current = next;
+      setStopDetails(next);
+    }
+    if (!moved) updateProject(newProjectId, newClientId);
   };
 
   /**
@@ -649,7 +785,12 @@ export function TimeTrackingBar() {
   }) => {
     const meta = offlineStopRef.current;
     if (!pendingSaveData || !meta) return;
-    if (resumeEntryId || continuingEntryId) {
+    // Bundet til den stoppede session, også hvis en anden er adopteret, mens
+    // dialogen stod åben (#1333): dens id, detaljer og dialogens valg.
+    const stopTarget = stopTargetRef.current;
+    const timerSessionId = stopTarget?.sessionId ?? undefined;
+    const details = saveDetails(stopTarget);
+    if (details.resumeEntryId || details.continuingEntryId) {
       toast.error(t("bar.offlineExisting"));
       return;
     }
@@ -657,15 +798,18 @@ export function TimeTrackingBar() {
     enqueueOfflineStop({
       sessionStartTime: meta.sessionStartTime,
       startTime: meta.startTime,
+      sessionId: timerSessionId ?? null,
       entry: {
-        projectId: projectId || undefined,
-        clientId: !projectId ? clientId || undefined : undefined,
-        description: description || t("bar.timerEntry"),
+        projectId: details.projectId || undefined,
+        clientId: !details.projectId
+          ? details.clientId || undefined
+          : undefined,
+        description: details.description || t("bar.timerEntry"),
         hours,
         date: toLocalDateStr(pendingSaveData.startTime),
         startTime: pendingSaveData.startTime.toISOString(),
         endTime: pendingSaveData.endTime.toISOString(),
-        taskId: taskId || undefined,
+        taskId: details.taskId || undefined,
         isBillable: options.isBillable,
         fromTimer: true,
         prepaidPackageId:
@@ -678,15 +822,15 @@ export function TimeTrackingBar() {
           options.prepaidHoursOverride
             ? options.prepaidHoursOverride
             : undefined,
-        timerSessionId: useTimerStore.getState().sessionId ?? undefined,
+        timerSessionId,
       },
     });
     offlineStopRef.current = null;
-    useTimerStore.getState().resetTimer();
+    resetIfStillStopTarget(stopTarget);
     setPendingSaveData(null);
     setShowSaveModal(false);
     toast.success(t("bar.savedOffline", { hours: hours.toFixed(2) }));
-    if (options.markTaskDone && taskId) {
+    if (options.markTaskDone && details.taskId) {
       toast.info(t("bar.taskDoneOnline"));
     }
   };
@@ -701,14 +845,20 @@ export function TimeTrackingBar() {
       timerSync.syncToServer();
       return;
     }
-    // Cancel the stop intent so other clients can see timer is still running
-    const outcome = await timerSync.cancelStop();
+    // Cancel the stop intent so other clients can see timer is still running.
+    // Det er den stoppede sessions claim, ikke en session adopteret, mens
+    // dialogen stod åben (#1333).
+    const stopTarget = stopTargetRef.current;
+    const outcome = await timerSync.cancelStop(stopTarget);
     if (outcome === "already_saved") {
       // Posten blev faktisk gemt (svaret gik tabt) — sessionen er slut og må
       // ikke køre videre (#783). Hooken har nulstillet timeren.
       toast.info(t("bar.alreadySaved"));
       return;
     }
+    // Er fanen skiftet til en anden session, hører den ikke til dette stop og
+    // må ikke genoptages herfra.
+    if (stopTargetMoved(stopTarget)) return;
     // Resume the timer since user cancelled
     resumeTimer();
     // Sync the resumed state to server
@@ -912,6 +1062,8 @@ export function TimeTrackingBar() {
       const timerState = useTimerStore.getState();
       const sessionStartTime = timerState.sessionStartTime;
       const duration = timerState.elapsedTime;
+      stopTargetRef.current = currentStopTarget();
+      setStopDetails(stopTargetRef.current);
       // "Stop timeren kl. …" fra idle-dialogen sender sluttidspunktet med.
       const endOverride = (
         event as CustomEvent<{ endTime?: number }> | undefined
@@ -974,6 +1126,13 @@ export function TimeTrackingBar() {
   // Find current project and client names
   const currentProject = allProjects?.find((p) => p.id === projectId);
   const currentClient = clients?.find((c) => c.id === clientId);
+  // Gem-dialogen viser den stoppede sessions detaljer, også når fanen imens
+  // har adopteret en anden session (#1333).
+  const dialogDetails = saveDetails(showSaveModal ? stopDetails : null);
+  const dialogProject = allProjects?.find(
+    (p) => p.id === dialogDetails.projectId,
+  );
+  const dialogClient = clients?.find((c) => c.id === dialogDetails.clientId);
 
   return (
     <section
@@ -1290,19 +1449,18 @@ export function TimeTrackingBar() {
         onClose={handleSaveModalClose}
         onSave={handleSaveConfirm}
         hours={pendingSaveData ? pendingSaveData.duration / 3600 : 0}
-        description={description}
-        projectId={projectId}
-        clientId={clientId}
-        projectName={currentProject?.name}
-        clientName={currentClient?.name}
-        taskId={taskId}
+        description={dialogDetails.description}
+        projectId={dialogDetails.projectId}
+        clientId={dialogDetails.clientId}
+        projectName={dialogProject?.name}
+        clientName={dialogClient?.name}
+        taskId={dialogDetails.taskId}
         isSaving={
           saveTimeEntryMutation.isPending || markTaskDoneMutation.isPending
         }
-        onProjectChange={(newProjectId, newClientId) => {
-          updateProject(newProjectId, newClientId);
-        }}
-        isSegmentMode={!!resumeEntryId}
+        onProjectChange={handleSaveProjectChange}
+        isSegmentMode={!!dialogDetails.resumeEntryId}
+        timerSessionId={stopDetails?.sessionId ?? null}
       />
 
       <QuickActionsDropdown

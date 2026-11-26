@@ -10,6 +10,12 @@ Groups: `Breaking` (needs a `Migration` group in the same release), `Added`, `Ch
 
 ## [Unreleased]
 
+### Fixed
+
+- Manual deductions can overdraw prepaid packages that allow it. For block and invoice policies, the dialog accounts for clip rounding when showing and enforcing the maximum deduction.
+- Report group labels for entries without a client, project, task, prepaid package, employee or tag follow the report language. Scheduled CSV, XLSX and PDF attachments use the owner’s language.
+- Desktop sync returns `PREPAID_DEDUCTION_FAILED` for refused deductions from prepaid packages.
+
 ## [0.37.4] - 2026-11-25
 
 ### Added
@@ -28,6 +34,8 @@ Groups: `Breaking` (needs a `Migration` group in the same release), `Added`, `Ch
 - A deduction that is an exact number of clips is no longer charged 0.01 h too much because of float rounding (for example six 24-minute clips were drawn as 2.41 h instead of 2.40 h), and an entry stored in hundredths of an hour costs the clips it actually covers (40 minutes, stored as 0.67 h, is two 20-minute clips, not three). The timer, save and quick-entry pickers show the same rounding as the server.
 - The dialog for linking time to a klippekort says how much time the card can cover in one entry, using the same per-entry rounding as the server, and why an entry is blocked. Project budgets (total and monthly) are explained in text, not only by colour.
 - Every refused klippekort deduction carries the language-neutral error code `PREPAID_DEDUCTION_FAILED`, so the browser extension saves the time without the card in every language instead of rejecting the stop.
+- The "timer has been running for a long time" reminder only appears once the server has confirmed the running timer after a reload or tab focus, so a stale tab from yesterday no longer warns about a timer that just started.
+- Stopping a timer in the web app, or cancelling its save dialog, no longer affects a timer started on another device in the meantime. The time is saved to the timer you stopped, with its own project and description, also when you stopped it offline.
 
 ## [0.37.3] - 2026-11-23
 

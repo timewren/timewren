@@ -3,6 +3,7 @@ import {
   afterStartApplied,
   afterStartConflict,
   afterStartRejected,
+  bindStopToSession,
   type CreateEntryInput,
   classifyError,
   nextRunnable,
@@ -32,6 +33,8 @@ export interface ServerTimer {
   version: number;
   intent: string | null;
   intentFrom: string | null;
+  /** Rækkens aktuelle session (timer-sessioner); null på en ryddet række. */
+  sessionId?: string | null;
 }
 
 export type SyncStartResult =
@@ -41,6 +44,8 @@ export type SyncStartResult =
       deduplicated?: boolean;
       /** Rækkens startTime ved en afspilning (deduplicated). */
       startTime?: string | null;
+      /** Server-udstedt id på startens session (#1333). */
+      sessionId?: string | null;
     }
   | {
       success: false;
@@ -54,17 +59,25 @@ export interface ReplayApi {
     payload: TimerStartPayload & { clientOpId: string },
   ): Promise<SyncStartResult>;
   getTimerState(): Promise<ServerTimer>;
+  /** Med `sessionId` lander claimet kun på netop den session (#1333). */
   claimForStop(
     expectedVersion: number,
-  ): Promise<{ success: boolean; version?: number; reason?: string }>;
+    sessionId?: string,
+  ): Promise<{
+    success: boolean;
+    version?: number;
+    reason?: string;
+    sessionId?: string | null;
+  }>;
   confirmStop(
     version: number,
+    sessionId?: string,
   ): Promise<{ success: boolean; version?: number; reason?: string }>;
   createEntry(entry: CreateEntryInput): Promise<unknown>;
 }
 
 export type ReplayOutcome =
-  | { kind: "done"; version?: number }
+  | { kind: "done"; version?: number; sessionId?: string }
   | { kind: "start_conflict"; otherStart: number | null }
   | { kind: "stopped_elsewhere" };
 
@@ -89,7 +102,31 @@ function isCleared(server: ServerTimer): boolean {
 }
 
 /**
+ * Bærer rækken en ANDEN server-udstedt session end den, vi stoppede (#1333)?
+ * Versionen kan ikke afgøre det: kom fanen online og adopterede den nye
+ * session, før stoppet blev gemt, er den kendte version den nyes.
+ */
+function isOtherSession(
+  server: ServerTimer,
+  op: Extract<QueueOp, { kind: "timer.stop" }>,
+): boolean {
+  return (
+    !!op.sessionId && !!server.sessionId && server.sessionId !== op.sessionId
+  );
+}
+
+/** Bærer rækken netop den server-udstedte session, vi stoppede (#1333)? */
+function isSameSession(
+  server: ServerTimer,
+  op: Extract<QueueOp, { kind: "timer.stop" }>,
+): boolean {
+  return !!op.sessionId && server.sessionId === op.sessionId;
+}
+
+/**
  * Er serverens række stadig den session, vi stoppede offline?
+ * - en anden session (id) er aldrig vores; samme id altid, også på en pauset
+ *   række, som en anden klient har skrevet på siden (fx beskrivelsen)
  * - versionen er uændret siden vi sidst så den → ingen har skrevet, den er vores
  * - eller den kører med samme startTime (en anden enhed har blot sendt
  *   heartbeats på samme session)
@@ -100,7 +137,8 @@ export function isOurSession(
   server: ServerTimer,
   op: Extract<QueueOp, { kind: "timer.stop" }>,
 ): boolean {
-  if (isCleared(server)) return false;
+  if (isCleared(server) || isOtherSession(server, op)) return false;
+  if (isSameSession(server, op)) return true;
   if (op.knownVersion !== null && server.version === op.knownVersion) {
     return true;
   }
@@ -113,14 +151,21 @@ export function isOurSession(
   );
 }
 
-async function confirmWithRetry(api: ReplayApi, version: number) {
+async function confirmWithRetry(
+  api: ReplayApi,
+  version: number,
+  sessionId: string | undefined,
+) {
   let next = version;
   for (let attempt = 0; attempt < 3; attempt++) {
-    const result = await api.confirmStop(next);
+    const result = await api.confirmStop(next, sessionId);
     if (result.success) return true;
+    // En nyere version må kun prøves med sessionens id: uden id kan den
+    // tilhøre en anden sessions stop, og confirm ville rydde den (#1333).
     if (
       result.reason === "version_mismatch" &&
-      typeof result.version === "number"
+      typeof result.version === "number" &&
+      sessionId
     ) {
       next = result.version;
       continue;
@@ -135,8 +180,11 @@ async function confirmWithRetry(api: ReplayApi, version: number) {
 export interface ReplayHooks {
   /** Lige FØR claimForStop sendes — markér elementet (overlever tabt svar). */
   onClaiming?: () => void;
-  /** Claimet er vores — gem versionen på elementet. */
-  onClaimed?: (version: number) => void;
+  /**
+   * Claimet er vores — gem versionen på elementet, og sessionens id, hvis
+   * elementet ikke selv havde det (#1333).
+   */
+  onClaimed?: (version: number, sessionId?: string) => void;
 }
 
 function sameStart(
@@ -152,10 +200,13 @@ function sameStart(
 }
 
 async function replayStop(
-  op: Extract<QueueOp, { kind: "timer.stop" }>,
+  queued: Extract<QueueOp, { kind: "timer.stop" }>,
   api: ReplayApi,
   hooks: ReplayHooks,
 ): Promise<ReplayOutcome> {
+  // Et element med id, men en post uden (fra før #1333), sender id'et med.
+  const op = bindStopToSession(queued, queued.sessionId);
+  const sessionId = op.sessionId ?? undefined;
   // Sessionen fandtes kun lokalt: gem posten, rør ikke serverens timer.
   if (!op.serverKnown) {
     await api.createEntry(op.entry);
@@ -166,9 +217,27 @@ async function replayStop(
   // stoppet færdigt. Posten er idempotent via clientEntryId.
   if (op.claimedVersion !== undefined) {
     const server = await api.getTimerState();
-    await api.createEntry(op.entry);
-    if (server.intent === "stopping" && server.intentFrom === "web") {
-      await confirmWithRetry(api, server.version);
+    // Kun vores eget claim bekræftes: rækken kan siden bære en anden
+    // sessions stop fra en anden webfane (#1333). Uden id afgør den claimede
+    // version (ingen har skrevet siden; virker også på en pauset række uden
+    // starttid) eller starten, og id'et fra den række, der matchede, binder
+    // posten og confirm til den.
+    const ours =
+      server.intent === "stopping" &&
+      server.intentFrom === "web" &&
+      (op.sessionId
+        ? !isOtherSession(server, op)
+        : server.version === op.claimedVersion ||
+          sameStart(server.startTime, op.serverStartTime));
+    const bound = ours ? bindStopToSession(op, server.sessionId) : op;
+    // Gem bindingen på elementet før posten: fejler den, og rydder en anden
+    // klient rækken imens, kender næste forsøg ellers ikke sessionen.
+    if (bound !== op) {
+      hooks.onClaimed?.(op.claimedVersion, bound.sessionId ?? undefined);
+    }
+    await api.createEntry(bound.entry);
+    if (ours) {
+      await confirmWithRetry(api, server.version, bound.sessionId ?? undefined);
     }
     return { kind: "done" };
   }
@@ -178,15 +247,21 @@ async function replayStop(
     // Claimet blev sendt, men svaret gik tabt: rækken står i 'stopping' fra
     // web på vores session. Det er vores eget claim — gør stoppet færdigt i
     // stedet for at kalde det "stoppet et andet sted" og tabe tiden.
+    // Kun på en kørende række med vores start: `claiming` beviser kun et
+    // forsøg, og id'et kun sessionen. En pauset A i 'stopping' kan være en
+    // anden webfanes claim med gemmedialogen åben, så den overtages ikke på
+    // id'et alene; den fanes stop (eller cron'ens parkering) afgør den (#1333).
     if (
       op.claiming &&
       server.intent === "stopping" &&
       server.intentFrom === "web" &&
-      sameStart(server.startTime, op.serverStartTime)
+      sameStart(server.startTime, op.serverStartTime) &&
+      !isOtherSession(server, op)
     ) {
-      hooks.onClaimed?.(server.version);
-      await api.createEntry(op.entry);
-      await confirmWithRetry(api, server.version);
+      const bound = bindStopToSession(op, server.sessionId);
+      hooks.onClaimed?.(server.version, bound.sessionId ?? undefined);
+      await api.createEntry(bound.entry);
+      await confirmWithRetry(api, server.version, bound.sessionId ?? undefined);
       return { kind: "done" };
     }
     if (!isOurSession(server, op)) return { kind: "stopped_elsewhere" };
@@ -194,15 +269,17 @@ async function replayStop(
     if (server.intent === "stopping") return { kind: "stopped_elsewhere" };
 
     hooks.onClaiming?.();
-    const claim = await api.claimForStop(server.version);
+    const claim = await api.claimForStop(server.version, sessionId);
     if (!claim.success || claim.version === undefined) {
       // Versionen flyttede sig mellem læsning og claim — læs igen én gang.
       if (claim.reason === "version_mismatch") continue;
       return { kind: "stopped_elsewhere" };
     }
-    hooks.onClaimed?.(claim.version);
-    await api.createEntry(op.entry);
-    await confirmWithRetry(api, claim.version);
+    // Claimet ramte rækken, vi læste (versions-prædikat): dens id er vores.
+    const bound = bindStopToSession(op, claim.sessionId ?? server.sessionId);
+    hooks.onClaimed?.(claim.version, bound.sessionId ?? undefined);
+    await api.createEntry(bound.entry);
+    await confirmWithRetry(api, claim.version, bound.sessionId ?? undefined);
     return { kind: "done" };
   }
   throw new RetryLaterError("Timeren ændrede sig under stop — prøver igen");
@@ -224,7 +301,11 @@ async function replayStart(
       !sameStart(result.startTime, ownStart);
     return otherSession
       ? { kind: "done" }
-      : { kind: "done", version: result.version };
+      : {
+          kind: "done",
+          version: result.version,
+          sessionId: result.sessionId ?? undefined,
+        };
   }
   if (result.reason === "already_running") {
     // Rækken kører vores egen session: starten landede online, men svaret
@@ -335,13 +416,30 @@ export async function drainQueue(
       const itemApi = typeof api === "function" ? api(item) : api;
       const outcome = await executeOp(item, itemApi, {
         onClaiming: () => patchStop({ claiming: true }),
-        onClaimed: (version) => patchStop({ claimedVersion: version }),
+        onClaimed: (version, sessionId) => {
+          const current = store.getItems().find((i) => i.opId === item.opId);
+          patchStop(
+            current?.kind === "timer.stop"
+              ? {
+                  ...bindStopToSession(current, sessionId),
+                  claimedVersion: version,
+                }
+              : { claimedVersion: version },
+          );
+        },
       });
       const remaining = store.getItems().filter((i) => i.opId !== item.opId);
       if (outcome.kind === "done") {
         result.succeeded++;
         if (item.kind === "timer.start" && outcome.version !== undefined) {
-          store.setItems(afterStartApplied(remaining, item, outcome.version));
+          store.setItems(
+            afterStartApplied(
+              remaining,
+              item,
+              outcome.version,
+              outcome.sessionId,
+            ),
+          );
           result.establishedSessions.push(item.payload.sessionStartTime);
         } else {
           store.setItems(remaining);

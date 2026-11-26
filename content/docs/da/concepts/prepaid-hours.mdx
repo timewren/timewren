@@ -24,6 +24,8 @@ Et klippekort (`prepaid_packages`) hører til én kunde og gemmer:
 
 Hvert træk skrives også i en forbrugslog (`prepaid_usage`) med timerne, værdien, den tilknyttede tidsregistrering og en beskrivelse. Manuelle træk uden en tidsregistrering logges på samme måde.
 
+Manuelle træk kan overstige saldoen, når overtræk er tilladt. Det overskydende registreres som overtræksgæld. Ved blokering eller fakturering viser dialogen det største manuelle træk, som restsaldoen kan dække efter afrunding op til hele klip.
+
 ## Hvilke registreringer der trækkes
 
 Intet trækkes automatisk bag om ryggen på dig. Serveren trækker kun, når en tidsregistrering gemmes med et eksplicit klippekort-id, eller når du laver et manuelt træk. Apps'ene foreslår et klippekort for dig:

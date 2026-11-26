@@ -43,6 +43,11 @@ export type QueueOp =
       sessionStartTime: number | null;
       /** Rækkens `startTime`, som serveren sidst fik den fra os. */
       serverStartTime: number | null;
+      /**
+       * Server-udstedt id på den stoppede session (#1333). Claim og confirm
+       * lander kun på netop den. Mangler på elementer lagt i køen før.
+       */
+      sessionId?: string | null;
       /** Rækkens version, som vi sidst så den (før nettet forsvandt). */
       knownVersion: number | null;
       /**
@@ -275,24 +280,50 @@ export function resetForRetry(item: QueueItem): QueueItem {
 /**
  * Starten er landet: et stop for samme session, der blev lagt i køen mens
  * starten var undervejs, skal claime den version, starten gav — ellers
- * kan det ikke genkende rækken som sin egen.
+ * kan det ikke genkende rækken som sin egen. Det får også sessionens id, så
+ * claim og confirm kun lander på netop den (#1333).
  */
 export function afterStartApplied(
   items: readonly QueueItem[],
   start: Extract<QueueOp, { kind: "timer.start" }>,
   version: number,
+  sessionId?: string,
 ): QueueItem[] {
   return items.map((i) =>
     i.kind === "timer.stop" &&
     i.sessionStartTime === start.payload.sessionStartTime
-      ? {
-          ...i,
-          knownVersion: version,
-          serverStartTime: start.payload.startTime,
-          serverKnown: true,
-        }
+      ? bindStopToSession(
+          {
+            ...i,
+            knownVersion: version,
+            serverStartTime: start.payload.startTime,
+            serverKnown: true,
+          },
+          sessionId,
+        )
       : i,
   );
+}
+
+/**
+ * Giv et stop uden id sessionens server-udstedte id (#1333): claim og
+ * confirm lander så kun på den, og posten bærer det også, så et nyt forsøg
+ * efter en fejl finder posten, hvis en anden klient har gemt sessionen
+ * imens (time.create slår op på sessionen). Et id, stoppet har, beholdes —
+ * og gives også til en post, der mangler det (elementer fra før #1333).
+ */
+export function bindStopToSession<
+  T extends Extract<QueueOp, { kind: "timer.stop" }>,
+>(stop: T, sessionId: string | null | undefined): T {
+  const bound = stop.sessionId ?? sessionId;
+  if (!bound || (stop.sessionId && stop.entry.timerSessionId)) return stop;
+  return {
+    ...stop,
+    sessionId: bound,
+    entry: stop.entry.timerSessionId
+      ? stop.entry
+      : { ...stop.entry, timerSessionId: bound },
+  };
 }
 
 /**

@@ -1,5 +1,6 @@
 // src/lib/reports/query.ts
 import { and, eq, exists, gte, inArray, lt, sql } from "drizzle-orm";
+import { sharedT } from "@/i18n/shared-text";
 import type { db as defaultDb } from "@/lib/db";
 import {
   clients,
@@ -81,6 +82,7 @@ export interface ReportGroupBudget {
 }
 
 export interface AggregateOptions {
+  locale?: string;
   /**
    * Månedens forbrug pr. projekt, hentet med `loadMonthlyUsage`. Mangler den,
    * bliver `group.budget` null og kolonnen skjules — sådan opfører det sig
@@ -106,9 +108,6 @@ export function budgetMonthForRange(start: Date, end: Date): string | null {
   const a = monthKeyCopenhagen(start);
   return a === monthKeyCopenhagen(end) ? a : null;
 }
-
-const MULTI_TAG_NOTE =
-  "Poster med flere tags tælles i hver gruppe — summen kan overstige totalen.";
 
 // Units of 1/300 hour represent both hundredths of an hour and whole
 // minutes exactly, so regrouping or sorting cannot change the sum.
@@ -179,9 +178,22 @@ export function aggregateReport(
     }
   >();
 
+  const localizedLabels = new Map<string, string>();
+  const labelFor = (key: string) => {
+    const cached = localizedLabels.get(key);
+    if (cached !== undefined) return cached;
+    const label = sharedT(
+      "sharedReports",
+      `grouping.${key}`,
+      undefined,
+      opts.locale,
+    );
+    localizedLabels.set(key, label);
+    return label;
+  };
   for (const e of entries) {
     // Tag-gruppering kan give flere grupper pr. post; alle andre giver én.
-    for (const { key, label } of groupKeysFor(e, grouping)) {
+    for (const { key, label } of groupKeysFor(e, grouping, labelFor)) {
       const g = groups.get(key) ?? {
         key,
         label,
@@ -234,7 +246,7 @@ export function aggregateReport(
       ...group,
       hours: hourUnits / REPORT_HOUR_UNITS,
     })).sort((a, b) => b.hours - a.hours),
-    groupingNote: grouping === "tag" ? MULTI_TAG_NOTE : null,
+    groupingNote: grouping === "tag" ? labelFor("tagNote") : null,
     pauses,
   };
 }
@@ -252,34 +264,36 @@ interface GroupRef {
 function groupKeysFor(
   e: ReportEntry,
   grouping: ReportTemplateConfig["grouping"],
+  labelFor: (key: string) => string,
 ): GroupRef[] {
   if (grouping === "tag") {
     if (e.tags.length === 0) {
-      return [{ key: "_none", label: "Uden tag" }];
+      return [{ key: "_none", label: labelFor("noTag") }];
     }
     return e.tags.map((t) => ({ key: t.id, label: t.name }));
   }
-  return [groupKeyFor(e, grouping)];
+  return [groupKeyFor(e, grouping, labelFor)];
 }
 
 function groupKeyFor(
   e: ReportEntry,
   grouping: ReportTemplateConfig["grouping"],
+  labelFor: (key: string) => string,
 ): { key: string; label: string } {
   switch (grouping) {
     case "client": {
       const c = e.client ?? e.project?.client;
-      return { key: c?.id ?? "_none", label: c?.name ?? "(Ingen kunde)" };
+      return { key: c?.id ?? "_none", label: c?.name ?? labelFor("noClient") };
     }
     case "project":
       return {
         key: e.project?.id ?? "_none",
-        label: e.project?.name ?? "(Intet projekt)",
+        label: e.project?.name ?? labelFor("noProject"),
       };
     case "clientProject": {
       const c = e.client ?? e.project?.client;
-      const clientName = c?.name ?? "(Ingen kunde)";
-      const projectName = e.project?.name ?? "(Intet projekt)";
+      const clientName = c?.name ?? labelFor("noClient");
+      const projectName = e.project?.name ?? labelFor("noProject");
       return {
         key: `${c?.id ?? ""}:${e.project?.id ?? ""}`,
         label: `${clientName} — ${projectName}`,
@@ -295,17 +309,17 @@ function groupKeyFor(
       if (desc && (cId || projId)) {
         return { key: `${cId ?? ""}:${projId ?? ""}:${desc}`, label: desc };
       }
-      return { key: "_none", label: "(Ingen opgave)" };
+      return { key: "_none", label: labelFor("noTask") };
     }
     case "prepaidPackage":
       return {
         key: e.prepaidPackage?.id ?? "_none",
-        label: e.prepaidPackage?.name ?? "(Uden klippekort)",
+        label: e.prepaidPackage?.name ?? labelFor("noPrepaidPackage"),
       };
     case "member":
       return {
         key: e.member?.userId ?? "_none",
-        label: e.member?.name ?? "(Ingen medarbejder)",
+        label: e.member?.name ?? labelFor("noMember"),
       };
     case "day":
     case "week":
@@ -320,7 +334,7 @@ function groupKeyFor(
       return { key, label: key };
     }
     default:
-      return { key: "_all", label: "Alle" };
+      return { key: "_all", label: labelFor("all") };
   }
 }
 

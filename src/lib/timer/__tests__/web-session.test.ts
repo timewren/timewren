@@ -2,8 +2,44 @@ import { describe, expect, it } from "vitest";
 import {
   decideDedupedStart,
   isOwnLandedStart,
+  isStillStopTarget,
   startNeverLanded,
 } from "../web-session";
+
+describe("isStillStopTarget (#1333)", () => {
+  const A = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
+  const B = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
+
+  it("med kendt id afgør id'et", () => {
+    const target = { sessionId: A, sessionStartTime: 1000 };
+    expect(
+      isStillStopTarget(target, { sessionId: A, sessionStartTime: 1000 }),
+    ).toBe(true);
+    expect(
+      isStillStopTarget(target, { sessionId: B, sessionStartTime: 1000 }),
+    ).toBe(false);
+    // Nulstillet af afstemningen, før B er adopteret
+    expect(
+      isStillStopTarget(target, { sessionId: null, sessionStartTime: null }),
+    ).toBe(false);
+  });
+
+  it("uden id: samme start, og et id lært imens er claimets", () => {
+    const target = { sessionId: null, sessionStartTime: 1000 };
+    expect(
+      isStillStopTarget(target, { sessionId: null, sessionStartTime: 1000 }),
+    ).toBe(true);
+    expect(
+      isStillStopTarget(target, { sessionId: A, sessionStartTime: 1000 }, A),
+    ).toBe(true);
+    expect(
+      isStillStopTarget(target, { sessionId: B, sessionStartTime: 1000 }, A),
+    ).toBe(false);
+    expect(
+      isStillStopTarget(target, { sessionId: null, sessionStartTime: 2000 }),
+    ).toBe(false);
+  });
+});
 
 describe("isOwnLandedStart", () => {
   const local = Date.parse("2026-10-04T08:00:00.000Z");

@@ -175,14 +175,14 @@ export function useOfflineQueueSync() {
         ) as ReturnType<ReplayApi["syncStart"]>,
       getTimerState: () =>
         utils.client.timerSync.getStateWithVersion.query(undefined, opts),
-      claimForStop: (expectedVersion) =>
+      claimForStop: (expectedVersion, sessionId) =>
         utils.client.timerSync.claimForStop.mutate(
-          { expectedVersion, source: "web" },
+          { expectedVersion, source: "web", sessionId },
           opts,
         ),
-      confirmStop: (version) =>
+      confirmStop: (version, sessionId) =>
         utils.client.timerSync.confirmStop.mutate(
-          { version, source: "web" },
+          { version, source: "web", sessionId },
           opts,
         ),
       createEntry: (entry) => utils.client.time.create.mutate(entry, opts),

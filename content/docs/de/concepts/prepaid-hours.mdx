@@ -24,6 +24,8 @@ Ein Paket (`prepaid_packages`) gehört zu genau einem Kunden und speichert:
 
 Jede Abbuchung wird zusätzlich in ein Nutzungsprotokoll (`prepaid_usage`) geschrieben, mit den Stunden, dem Wert, dem verknüpften Zeiteintrag und einer Beschreibung. Manuelle Abbuchungen ohne Zeiteintrag werden genauso protokolliert.
 
+Bei erlaubter Überziehung dürfen manuelle Abbuchungen das Guthaben überschreiten. Der Mehrverbrauch wird als Überziehung erfasst. Bei Sperre oder Abrechnung zeigt der Dialog den größten Betrag an, den das Restguthaben nach Aufrundung auf ganze Einheiten deckt.
+
 ## Welche Einträge abbuchen
 
 Nichts wird automatisch hinter deinem Rücken abgebucht. Der Server bucht nur ab, wenn ein Zeiteintrag mit einer ausdrücklichen Paket-ID gespeichert wird oder wenn du manuell abbuchst. Die Apps schlagen dir ein Paket vor:

@@ -36,13 +36,21 @@ import {
   type TimerSelection,
 } from "@/lib/timer/reconcile";
 import {
+  createServerConfirmation,
+  type ServerConfirmation,
+} from "@/lib/timer/server-confirmation";
+import {
   shouldSendBackgroundTimerWrite,
   shouldTakeOverOnHandover,
 } from "@/lib/timer/tab-owner";
 import {
+  beginStopClaim,
   type ClaimSnapshot,
   decideDedupedStart,
   isOwnLandedStart,
+  isStillStopTarget,
+  isStopClaimInFlight,
+  type StopTarget,
   startNeverLanded,
 } from "@/lib/timer/web-session";
 import { trpc } from "@/providers/trpc-provider";
@@ -168,6 +176,13 @@ export function useTimerSync() {
   // that arrive while a reconcile is already in flight.
   const isReconcilingRef = useRef(false);
   const pendingReconcileRef = useRef(false);
+  // Serverens bekræftelse af fanens kørende timer siden seneste genindlæsning
+  // eller fokus (#1324). Påmindelsen om en lang timer bruger kun den.
+  const serverConfirmationRef = useRef<ServerConfirmation | null>(null);
+  if (!serverConfirmationRef.current) {
+    serverConfirmationRef.current = createServerConfirmation();
+  }
+  const serverConfirmation = serverConfirmationRef.current;
 
   // Ejerskab af denne fanes baggrunds-skrivninger (lib/timer/tab-owner.ts).
   // Læst synkront fra callbacks/intervaller via en ref, så den ikke tvinger
@@ -664,6 +679,14 @@ export function useTimerSync() {
   const claimTimerForStop = useCallback(async (): Promise<
     ClaimSnapshot | "unsynced" | false
   > => {
+    // Stopmålet er sessionen ved klikket, læst FØR refetch'et (#1333): en
+    // afstemning, der adopterer en anden session imens, må ikke gøre den til
+    // målet.
+    const clicked = useTimerStore.getState();
+    const target = {
+      sessionId: clicked.sessionId,
+      sessionStartTime: clicked.sessionStartTime,
+    };
     try {
       // Refetch the CURRENT server version right before claiming. The cached
       // serverVersionRef can lag an in-flight heartbeat's version bump, and a
@@ -675,10 +698,13 @@ export function useTimerSync() {
           serverVersionRef.current = fresh.data.version;
         }
         // En start hvis svar gik tabt, men som landede: det er vores
-        // session — claim den med dens id (timer-sessioner).
+        // session — claim den med dens id (timer-sessioner). Har vi
+        // startnøglen, finder claimet sessionen med den i stedet (#1333):
+        // en anden session startet inden for et sekund af vores ligner vores.
         const before = useTimerStore.getState();
         if (
           !before.sessionId &&
+          !before.startOpId &&
           before.isRunning &&
           fresh.data?.isRunning &&
           fresh.data.sessionId &&
@@ -692,15 +718,60 @@ export function useTimerSync() {
       }
 
       const local = useTimerStore.getState();
-      const result = await claimForStopMutation.mutateAsync({
-        expectedVersion: serverVersionRef.current,
-        source: "web",
-        // Kun netop vores session må claimes (#788) — kendes id'et ikke
-        // endnu (tabt svar på starten), så sessionen startnøglen oprettede
-        sessionId: local.sessionId ?? undefined,
-        sessionOpId:
-          !local.sessionId && local.startOpId ? local.startOpId : undefined,
-      });
+      // Et id lært ovenfor er målets eget (samme lokale start).
+      if (!isStillStopTarget(target, local, local.sessionId)) {
+        console.log(
+          "[Timer Sync] Fanen skiftede session, før stoppet blev claimet",
+        );
+        return false;
+      }
+      const endClaim = beginStopClaim();
+      let result: Awaited<ReturnType<typeof claimForStopMutation.mutateAsync>>;
+      try {
+        result = await claimForStopMutation.mutateAsync({
+          expectedVersion: serverVersionRef.current,
+          source: "web",
+          // Kun netop vores session må claimes (#788) — kendes id'et ikke
+          // endnu (tabt svar på starten), så sessionen startnøglen oprettede
+          sessionId: local.sessionId ?? undefined,
+          sessionOpId:
+            !local.sessionId && local.startOpId ? local.startOpId : undefined,
+        });
+      } finally {
+        endClaim();
+      }
+
+      // Svaret kan lande efter, at afstemningen har adopteret en anden
+      // session (#1333). Det hører til A og må hverken skrive oven i B,
+      // nulstille den eller give den gem-dialog; versionen er også A's.
+      if (
+        !isStillStopTarget(
+          local,
+          useTimerStore.getState(),
+          result.success ? result.sessionId : undefined,
+        )
+      ) {
+        console.log(
+          "[Timer Sync] Claim-svar for en session, fanen ikke længere kører",
+        );
+        if (result.success) {
+          // Claimet lykkedes: frigiv det, bundet til den claimede session,
+          // så rækken ikke står i "stopping", til cron'en parkerer den.
+          try {
+            const released = await cancelStopMutation.mutateAsync({
+              version: result.version,
+              source: "web",
+              sessionId: result.sessionId ?? undefined,
+            });
+            if (released?.version !== undefined) {
+              serverVersionRef.current = released.version;
+            }
+          } catch (error) {
+            console.error("Failed to release stop claim:", error);
+          }
+        }
+        return false;
+      }
 
       if (result.success) {
         serverVersionRef.current = result.version;
@@ -751,79 +822,98 @@ export function useTimerSync() {
       console.error("Failed to claim timer for stop:", error);
       return false;
     }
-  }, [claimForStopMutation, refetchServerState]);
+  }, [claimForStopMutation, cancelStopMutation, refetchServerState]);
 
-  // Confirm stop - called after saving time entry
-  const confirmStop = useCallback(async (): Promise<boolean> => {
-    const sessionId = useTimerStore.getState().sessionId ?? undefined;
-    try {
-      // Bounded retry on version_mismatch: another write (e.g. a second
-      // tab's heartbeat) can bump the row version between claim and confirm.
-      // Giving up would leave the row stuck in "stopping" with the
-      // already-saved session on it until the cleanup cron parks it.
-      let version = serverVersionRef.current;
-      for (let attempt = 0; attempt < 3; attempt++) {
-        const result = await confirmStopMutation.mutateAsync({
-          version,
-          source: "web",
-          sessionId,
-        });
+  // Confirm stop - called after saving time entry. `stoppedSessionId` is the
+  // session the save dialog was opened for (#1333); the store may have
+  // adopted another one since.
+  const confirmStop = useCallback(
+    async (stoppedSessionId?: string): Promise<boolean> => {
+      const sessionId =
+        stoppedSessionId ?? useTimerStore.getState().sessionId ?? undefined;
+      try {
+        // Bounded retry on version_mismatch: another write (e.g. a second
+        // tab's heartbeat) can bump the row version between claim and confirm.
+        // Giving up would leave the row stuck in "stopping" with the
+        // already-saved session on it until the cleanup cron parks it.
+        let version = serverVersionRef.current;
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const result = await confirmStopMutation.mutateAsync({
+            version,
+            source: "web",
+            sessionId,
+          });
 
-        if (result.success) {
-          if (result.version !== undefined) {
-            serverVersionRef.current = result.version;
-            useOfflineQueueStore
-              .getState()
-              .setKnownServerVersion(result.version);
+          if (result.success) {
+            if (result.version !== undefined) {
+              serverVersionRef.current = result.version;
+              useOfflineQueueStore
+                .getState()
+                .setKnownServerVersion(result.version);
+            }
+            return true;
           }
-          return true;
+          if (
+            result.reason === "version_mismatch" &&
+            typeof result.version === "number"
+          ) {
+            version = result.version;
+            continue;
+          }
+          // no_timer / not_stopping / wrong_source: nothing left for us to
+          // confirm.
+          return false;
         }
-        if (
-          result.reason === "version_mismatch" &&
-          typeof result.version === "number"
-        ) {
-          version = result.version;
-          continue;
-        }
-        // no_timer / not_stopping / wrong_source: nothing left for us to
-        // confirm.
+        return false;
+      } catch (error) {
+        console.error("Failed to confirm stop:", error);
         return false;
       }
-      return false;
-    } catch (error) {
-      console.error("Failed to confirm stop:", error);
-      return false;
-    }
-  }, [confirmStopMutation]);
+    },
+    [confirmStopMutation],
+  );
 
   // Cancel stop - called when user cancels from save modal.
   // "already_saved": posten blev gemt (svaret gik tabt) — sessionen er slut,
   // og timeren må IKKE køre videre (#783). Den lokale timer nulstilles her.
-  const cancelStop = useCallback(async (): Promise<
-    "cancelled" | "already_saved" | "failed"
-  > => {
-    try {
-      const result = await cancelStopMutation.mutateAsync({
-        version: serverVersionRef.current,
-        source: "web",
-        sessionId: useTimerStore.getState().sessionId ?? undefined,
-      });
+  // `stopTarget` er den stoppede session (#1333): fanen kan have skiftet til
+  // en anden, mens gem-dialogen stod åben, og dens claim er ikke vores.
+  const cancelStop = useCallback(
+    async (
+      stopTarget?: StopTarget | null,
+    ): Promise<"cancelled" | "already_saved" | "failed"> => {
+      try {
+        const live = useTimerStore.getState();
+        const result = await cancelStopMutation.mutateAsync({
+          version: serverVersionRef.current,
+          source: "web",
+          sessionId:
+            (stopTarget ? stopTarget.sessionId : live.sessionId) ?? undefined,
+        });
 
-      if (result.version !== undefined) {
-        serverVersionRef.current = result.version;
+        if (result.version !== undefined) {
+          serverVersionRef.current = result.version;
+        }
+        if (result.success) return "cancelled";
+        if (result.reason === "already_saved") {
+          const now = useTimerStore.getState();
+          if (
+            !stopTarget ||
+            isStillStopTarget(stopTarget, now, now.sessionId)
+          ) {
+            now.resetTimer();
+          }
+          void invalidateDomains(queryClient, TIME_ENTRY_DOMAINS);
+          return "already_saved";
+        }
+        return "failed";
+      } catch (error) {
+        console.error("Failed to cancel stop:", error);
+        return "failed";
       }
-      if (result.success) return "cancelled";
-      if (result.reason === "already_saved") {
-        useTimerStore.getState().resetTimer();
-        void invalidateDomains(queryClient, TIME_ENTRY_DOMAINS);
-        return "already_saved";
-      }
-      return "failed";
-    } catch (error) {
-      console.error("Failed to cancel stop:", error);
-      return "failed";
-    }
-  }, [cancelStopMutation, queryClient]);
+    },
+    [cancelStopMutation, queryClient],
+  );
 
   // Annullér et claim på vej ud af siden. Et forladt stop-claim (fanen lukkes
   // eller brugeren navigerer væk mens gem-dialogen står åben) efterlader
@@ -874,8 +964,12 @@ export function useTimerSync() {
     }
   }, []);
 
-  const cancelStopOnUnload = useCallback(() => {
+  // Som cancelStop: bundet til den stoppede session (#1333).
+  const cancelStopOnUnload = useCallback((stopTarget?: StopTarget | null) => {
     try {
+      const sessionId = stopTarget
+        ? stopTarget.sessionId
+        : useTimerStore.getState().sessionId;
       void fetch("/api/trpc/timerSync.cancelStop", {
         method: "POST",
         credentials: "include",
@@ -888,7 +982,7 @@ export function useTimerSync() {
           json: {
             version: serverVersionRef.current,
             source: "web",
-            sessionId: useTimerStore.getState().sessionId ?? undefined,
+            sessionId: sessionId ?? undefined,
           },
         }),
       }).catch(() => {});
@@ -926,12 +1020,29 @@ export function useTimerSync() {
         return;
       }
       isReconcilingRef.current = true;
+      const readEpoch = serverConfirmation.beginRead();
+      let confirmRead: Omit<
+        Parameters<typeof serverConfirmation.complete>[1],
+        "local"
+      > | null = null;
 
       try {
         const result = await refetchServerState();
         const serverData = result.data;
 
         if (!serverData) return;
+        // En fejlet refetch beholder forrige data: det er ingen bekræftelse.
+        if (result.isSuccess) {
+          confirmRead = {
+            server: {
+              isRunning: serverData.isRunning ?? null,
+              intent: serverData.intent ?? null,
+              sessionId: serverData.sessionId ?? null,
+            },
+            serverElapsedSeconds: elapsedFromServer(serverData),
+            at: Date.now(),
+          };
+        }
 
         // Capture the version we last applied BEFORE overwriting it, so we can
         // tell whether this change came from ANOTHER client (version bumped past
@@ -1263,8 +1374,11 @@ export function useTimerSync() {
 
         // If timer is being stopped, don't recover
         if (serverData.intent === "stopping") {
-          // If local timer is running but server has stopping intent, stop local
-          if (store.isRunning) {
+          // If local timer is running but server has stopping intent, stop local.
+          // Venter fanen selv på svar på et stop-claim, er rækken sandsynligvis
+          // vores eget claim: stopvejen afgør sessionen, ikke afstemningen
+          // (#1333). Ellers rydder den stopmålets start, og svaret afvises.
+          if (store.isRunning && !isStopClaimInFlight()) {
             console.log(
               "[Timer Sync] Server timer is stopping (from",
               serverData.intentFrom,
@@ -1496,9 +1610,17 @@ export function useTimerSync() {
           }
         }
       } catch (error) {
+        confirmRead = null;
         console.error("[Timer Sync] Failed to check server state:", error);
       } finally {
         isReconcilingRef.current = false;
+        // Serverens tilstand er nu anvendt på fanen (alle grene ovenfor).
+        if (confirmRead) {
+          serverConfirmation.complete(readEpoch, {
+            ...confirmRead,
+            local: useTimerStore.getState(),
+          });
+        }
         // A realtime signal arrived mid-reconcile — run one follow-up so its
         // change isn't lost to the lock.
         if (pendingReconcileRef.current) {
@@ -1510,7 +1632,7 @@ export function useTimerSync() {
         }
       }
     },
-    [refetchServerState, queryClient],
+    [refetchServerState, queryClient, serverConfirmation],
   );
 
   // Realtime signals reconcile IMMEDIATELY (bypass the 2s poll throttle) so
@@ -1639,19 +1761,29 @@ export function useTimerSync() {
 
   // Nettet er tilbage eller fanen er synlig igen: drop backoff og afstem med
   // det samme i stedet for at vente på næste tik.
+  // Fokus og bfcache gør det samme: fanens timer kan være forældet, så
+  // bekræftelsen glemmes, til afstemningen har svaret igen (#1324).
   useEffect(() => {
     const resume = () => {
+      serverConfirmation.invalidate();
       if (document.visibilityState === "hidden") return;
       pollBackoffUntilRef.current = 0;
       void checkAndRecoverFromServerRef.current?.({ immediate: true });
     };
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) resume();
+    };
     window.addEventListener("online", resume);
+    window.addEventListener("focus", resume);
+    window.addEventListener("pageshow", onPageShow);
     document.addEventListener("visibilitychange", resume);
     return () => {
       window.removeEventListener("online", resume);
+      window.removeEventListener("focus", resume);
+      window.removeEventListener("pageshow", onPageShow);
       document.removeEventListener("visibilitychange", resume);
     };
-  }, []);
+  }, [serverConfirmation]);
 
   // Set up periodic sync when timer is running
   useEffect(() => {
@@ -1765,5 +1897,6 @@ export function useTimerSync() {
     lastSyncedAt: lastSyncRef.current,
     isSyncing: syncMutation.isPending,
     serverVersion: serverVersionRef.current,
+    serverConfirmation,
   };
 }

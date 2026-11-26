@@ -11,6 +11,7 @@ import { toIntlLocale } from "@/i18n/format-locale";
 import { formatDuration } from "@/lib/format";
 import { MAX_PREPAID_ASSIGN_SELECTION } from "@/lib/prepaid/bulk-assign";
 import {
+  maxPrepaidDeductionHours,
   normalizePrepaidDeductionHours,
   roundPrepaidHours,
 } from "@/lib/prepaid/hours";
@@ -163,25 +164,13 @@ export function AssignEntriesModal({
       : 0;
   // Den længste enkeltpostering (registreringer gemmes i hundrededele af en
   // time), som serverens afrunding pr. postering kan dække af saldoen.
-  let largestPostingHours = 0;
-  if (blocked && clipSizeMinutes && clipSizeMinutes > 0) {
-    for (
-      let cents = Math.min(
-        Math.round(remainingHours * 100),
-        MAX_ENTRY_HOURS_CENTS,
-      );
-      cents > 0;
-      cents--
-    ) {
-      if (
-        normalizePrepaidDeductionHours(cents / 100, clipSizeMinutes) <=
-        remainingHours
-      ) {
-        largestPostingHours = cents / 100;
-        break;
-      }
-    }
-  }
+  const largestPostingHours =
+    blocked && clipSizeMinutes && clipSizeMinutes > 0
+      ? Math.min(
+          maxPrepaidDeductionHours(remainingHours, clipSizeMinutes),
+          MAX_ENTRY_HOURS_CENTS / 100,
+        )
+      : 0;
   const needsReview =
     sources.size > 0 || (exceedsBalance && overdraftPolicy === "invoice");
 

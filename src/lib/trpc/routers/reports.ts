@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq, gte, inArray, isNull, ne, sql } from "drizzle-orm";
 import { z } from "zod";
+import { LOCALES } from "@/i18n/config";
 import { st, tr } from "@/i18n/server-text";
 import { getAppUrl } from "@/lib/config";
 import { todayInTimeZone } from "@/lib/coverage/coverage";
@@ -676,7 +677,12 @@ export const reportsRouter = router({
     }),
 
   getReportData: moduleReadProcedure("reports")
-    .input(z.object({ config: reportTemplateConfigSchema }))
+    .input(
+      z.object({
+        config: reportTemplateConfigSchema,
+        locale: z.enum(LOCALES).optional(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
       const entries = await loadReportEntries(ctx.db, {
         userId: ctx.session.user.id,
@@ -695,6 +701,7 @@ export const reportsRouter = router({
           })
         : null;
       const aggregates = aggregateReport(entries, input.config.grouping, {
+        locale: input.locale,
         budgetUsageByProject: budget?.usageByProject,
         budgetMonth: budget?.month,
         includePauses: input.config.branding.showPauses,
@@ -711,6 +718,7 @@ export const reportsRouter = router({
       z.object({
         config: reportTemplateConfigSchema,
         format: z.enum(["csv", "xlsx", "json", "pdf"]),
+        locale: z.enum(LOCALES).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -761,6 +769,7 @@ export const reportsRouter = router({
           })
         : null;
       const aggregates = aggregateReport(entries, input.config.grouping, {
+        locale: input.locale,
         budgetUsageByProject: exportBudget?.usageByProject,
         budgetMonth: exportBudget?.month,
         includePauses: input.config.branding.showPauses,

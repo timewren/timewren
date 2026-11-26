@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Link, Redirect } from 'expo-router';
 import * as React from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
@@ -14,6 +14,7 @@ import { ServerSelector } from '~/features/server/server-selector';
 import { translate } from '~/lib/i18n';
 import { AppleSignInButton } from './components/apple-button';
 import { useSocialProviders } from './social-providers';
+import { useAuthStore } from './use-auth-store';
 import { MIN_PASSWORD, useSignup } from './use-signup';
 
 // Apple 4.8: Sign in with Apple tilbydes via AppleSignInButton (native) på iOS.
@@ -21,6 +22,10 @@ const SOCIAL_LOGIN_ENABLED = !isTimeWren;
 
 export function SignupScreen() {
   const s = useSignup();
+  const status = useAuthStore.use.status();
+  // Bekræftelseslinket logger ind udefra, mens skærmen står åben.
+  if (status === 'signIn')
+    return <Redirect href="/" />;
   return (
     <SafeAreaView className="flex-1 bg-background">
       <FocusAwareStatusBar />

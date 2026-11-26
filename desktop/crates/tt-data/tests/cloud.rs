@@ -184,8 +184,8 @@ fn browser_login_checks_state_and_refreshes_tokens() {
 
     // Et link med forkert state afvises uden at veksle koden (login-CSRF).
     let url = repo.begin_login();
-    let forged = "timetrack://auth/callback?code=stjaalet&state=forkert";
-    assert!(matches!(block_on(repo.complete_login(forged)), Err(DataError::Auth(_))));
+    let forged = format!("{}?code=stjaalet&state=forkert", tt_data::cloud::auth::redirect_uri());
+    assert!(matches!(block_on(repo.complete_login(&forged)), Err(DataError::Auth(_))));
     assert_eq!(mock.calls("extension.device.exchangeCode"), 0);
 
     let url2 = repo.begin_login();
@@ -551,6 +551,111 @@ fn invoice_draft_brings_its_lines_and_retries_with_the_same_key() {
     assert_eq!(mock.calls("extension.invoices.linesByInvoice"), 1);
 }
 
+/// Web's to veje: "Send Faktura" på en kladde giver nummer og status uden
+/// mail, `send` sender mailen, og en kladde kan slettes, så posterne bliver
+/// ufaktureret igen. Kun mock-web: der sendes aldrig noget til rigtige kunder.
+#[test]
+fn invoice_issue_without_mail_mail_send_and_draft_delete() {
+    let clock = FakeClock::new();
+    let (mock, repo) = cloud(&clock);
+    let c = block_on(repo.create_client(NewClient {
+        name: "Fakturakunde".into(),
+        default_hourly_rate: Some(d("850")),
+        ..Default::default()
+    }))
+    .unwrap();
+    let draft = |name: &str| {
+        let e = block_on(repo.create_entry(NewTimeEntry {
+            client_id: Some(c.id.clone()),
+            ..entry(name)
+        }))
+        .unwrap()
+        .entry;
+        block_on(repo.create_invoice_draft(NewInvoiceDraft {
+            client_id: c.id.clone(),
+            time_entry_ids: vec![e.id],
+            ..Default::default()
+        }))
+        .unwrap()
+    };
+
+    // Udsted uden mail.
+    let a = draft("Design");
+    assert_eq!(a.status, InvoiceStatus::Draft);
+    let issued = block_on(repo.mark_invoice_sent(&a.id)).unwrap();
+    assert_eq!(issued.status, InvoiceStatus::Sent);
+    assert_eq!(mock.calls("extension.invoices.send"), 0, "ingen mail");
+
+    // Sendes med mail.
+    let b = draft("Kode");
+    block_on(repo.send_invoice(&b.id)).unwrap();
+    assert_eq!(mock.calls("extension.invoices.send"), 1);
+
+    // En kladde kan slettes, og posten er ufaktureret igen; en udstedt ikke.
+    let e = draft("Test");
+    assert!(block_on(repo.uninvoiced_entries(&c.id)).unwrap().is_empty());
+    block_on(repo.delete_invoice_draft(&e.id)).unwrap();
+    assert_eq!(block_on(repo.uninvoiced_entries(&c.id)).unwrap().len(), 1);
+    assert!(
+        block_on(repo.delete_invoice_draft(&a.id)).is_err(),
+        "udstedt kan ikke slettes"
+    );
+}
+
+/// Cloud's "Gem PDF" og moms: web's tal fra `totals` og web's egen PDF fra
+/// `pdfLink` (præcis de bytes, ruten svarer), med web's fejl.
+#[test]
+fn invoice_totals_and_pdf_come_from_web() {
+    let clock = FakeClock::new();
+    let (mock, repo) = cloud(&clock);
+    let c = block_on(repo.create_client(NewClient {
+        name: "Momskunde".into(),
+        default_hourly_rate: Some(d("850")),
+        ..Default::default()
+    }))
+    .unwrap();
+    let e = block_on(repo.create_entry(NewTimeEntry { client_id: Some(c.id.clone()), ..entry("Design") }))
+        .unwrap()
+        .entry;
+    let inv = block_on(repo.create_invoice_draft(NewInvoiceDraft {
+        client_id: c.id.clone(),
+        time_entry_ids: vec![e.id],
+        ..Default::default()
+    }))
+    .unwrap();
+
+    // Ikke momsregistreret (web's standard): ingen moms, total = subtotal.
+    let t = block_on(repo.invoice_totals(&inv.id)).unwrap();
+    assert_eq!(
+        (t.subtotal, t.vat_amount, t.total, t.show_vat, t.currency.as_str()),
+        (d("850"), d("0"), d("850"), false, "DKK")
+    );
+    assert_eq!(t.vat_rate, d("25"));
+
+    // Momsregistreret: 25 % oveni, som web's PDF.
+    mock.set_vat_registered(true);
+    let t = block_on(repo.invoice_totals(&inv.id)).unwrap();
+    assert_eq!((t.vat_amount, t.total, t.show_vat), (d("212.50"), d("1062.50"), true));
+
+    // PDF'en er web's bytes, hentet med Bearer-tokenet via stien fra pdfLink.
+    let pdf = block_on(repo.invoice_pdf(&inv.id)).unwrap();
+    assert_eq!(pdf, MockWeb::invoice_pdf(&inv.id));
+    assert_eq!(mock.calls("extension.invoices.pdfLink"), 1);
+    assert_eq!(mock.calls("GET /api/ext/invoices/pdf"), 1);
+
+    // Fakturamodulet slået fra: 403 fra ruten.
+    mock.set_pdf_status(Some(403));
+    let err = block_on(repo.invoice_pdf(&inv.id)).unwrap_err();
+    assert!(matches!(&err, DataError::Rejected { code, status: 403, .. } if code == "FORBIDDEN"), "{err:?}");
+    mock.set_pdf_status(None);
+
+    // Uden net: Offline, og intet køes.
+    mock.set_offline(true);
+    assert_eq!(block_on(repo.invoice_pdf(&inv.id)).unwrap_err(), DataError::Offline);
+    assert_eq!(block_on(repo.invoice_totals(&inv.id)).unwrap_err(), DataError::Offline);
+    assert_eq!(repo.pending_count(), 0);
+}
+
 #[test]
 fn queued_create_reuses_its_key_after_a_lost_response() {
     let clock = FakeClock::new();
@@ -858,8 +963,8 @@ fn forged_deep_link_does_not_cancel_login() {
     let mock = MockWeb::start(TOKEN);
     let repo = cloud_for(&mock, &clock, None);
     let url = repo.begin_login();
-    let forged = "timetrack://auth/callback?code=x&state=forkert";
-    assert!(block_on(repo.complete_login(forged)).is_err());
+    let forged = format!("{}?code=x&state=forkert", tt_data::cloud::auth::redirect_uri());
+    assert!(block_on(repo.complete_login(&forged)).is_err());
     // Det rigtige svar virker stadig.
     let callback = mock.approve_login(&url);
     assert!(block_on(repo.complete_login(&callback)).is_ok());

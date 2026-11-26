@@ -157,6 +157,42 @@ describe('enqueueItem', () => {
   });
 });
 
+describe('afterFailure: loftet for forsøg', () => {
+  const base = item({ type: 'time.create', payload: createPayload });
+
+  it('opgiver stadig en post efter MAX_ATTEMPTS fejl, der ikke er tabt net', () => {
+    // drain.ts kaster almindelige Error'er på et serversvar (ukendt `reason`),
+    // og en kodefejl giver en TypeError uden net-ord. Bliver de ved at blokere,
+    // sendes intet af det, der ligger efter dem i den strengt ordnede kø.
+    for (const error of [new Error('timer.start: something_new'), new TypeError('Cannot read properties of undefined')]) {
+      let current = base;
+      for (let i = 0; i < MAX_ATTEMPTS; i++)
+        current = afterFailure(current, error, 0);
+      expect(current.failed).toBe(true);
+    }
+  });
+
+  it('en gift-post blokerer ikke den gyldige post efter sig for evigt', () => {
+    let poison = item({ id: 'p', type: 'timer.start', payload: { startTime: '2026-09-06T08:00:00.000Z' } as never });
+    const valid = item({ id: 'v', type: 'time.create', payload: createPayload });
+    let now = 0;
+    for (let i = 0; i < MAX_ATTEMPTS; i++) {
+      expect(runnableItems([poison, valid], now).map(x => x.id)[0]).toBe('p');
+      poison = afterFailure(poison, new Error('timer.start: something_new'), now);
+      now = poison.nextAttemptAt === Number.MAX_SAFE_INTEGER ? now : poison.nextAttemptAt;
+    }
+    expect(runnableItems([poison, valid], now).map(x => x.id)).toEqual(['v']);
+  });
+
+  it('opgiver ikke en post, når en proxy svarer uden JSON under en deploy', () => {
+    const badGateway = TRPCClientError.from(new SyntaxError('JSON Parse error: Unexpected character: <'));
+    let current = base;
+    for (let i = 0; i < MAX_ATTEMPTS + 3; i++)
+      current = afterFailure(current, badGateway, 0);
+    expect(current.failed).toBe(false);
+  });
+});
+
 describe('afterFailure / runnableItems', () => {
   const base = item({ type: 'time.create', payload: createPayload });
 
@@ -180,15 +216,30 @@ describe('afterFailure / runnableItems', () => {
     expect(failedCount([failed])).toBe(1);
   });
 
-  it('markerer som fejlet efter MAX_ATTEMPTS forbigående fejl', () => {
+  it('markerer som fejlet efter MAX_ATTEMPTS serverfejl', () => {
     let current = base;
     for (let i = 0; i < MAX_ATTEMPTS - 1; i++) {
-      current = afterFailure(current, new Error('net'), 0);
+      current = afterFailure(current, trpcError('INTERNAL_SERVER_ERROR'), 0);
       expect(current.failed).toBe(false);
     }
-    current = afterFailure(current, new Error('net'), 0);
+    current = afterFailure(current, trpcError('INTERNAL_SERVER_ERROR'), 0);
     expect(current.failed).toBe(true);
     expect(current.attempts).toBe(MAX_ATTEMPTS);
+  });
+
+  it('opgiver aldrig en post, fordi serveren ikke kunne nås', () => {
+    // Svagt net, captive portal eller en deploy: telefonen tror den er online,
+    // men intet svar kom. Det er ikke postens skyld, så den må ikke blive rød
+    // og vente på et tryk på "Prøv igen" — den prøves igen med backoff-loftet.
+    let current = base;
+    for (let i = 0; i < MAX_ATTEMPTS + 3; i++)
+      current = afterFailure(current, new TypeError('Network request failed'), 0);
+    expect(current.failed).toBe(false);
+    expect(current.nextAttemptAt).toBe(backoffDelay(current.attempts));
+    const noResponse = TRPCClientError.from(new TypeError('Network request failed'));
+    for (let i = 0; i < MAX_ATTEMPTS + 3; i++)
+      current = afterFailure(current, noResponse, 0);
+    expect(current.failed).toBe(false);
   });
 
   it('markerer en forbigående create som ubekræftet, så næste forsøg slår den op', () => {

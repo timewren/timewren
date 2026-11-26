@@ -1,5 +1,6 @@
 import type { RouterInputs } from '~/api/app-router';
 import { CLIENT_VERSION, isClientTooOld } from '~/lib/api/client-version';
+import { hasNetworkHint, isNetworkFailure } from '~/lib/api/error-reporting';
 import { isTRPCClientError } from '~/lib/api/trpc';
 
 /**
@@ -478,6 +479,19 @@ function markUnconfirmedCreate(item: QueueItem, kind: ErrorKind, now: number): Q
   };
 }
 
+/**
+ * Sand når kaldet aldrig fik et svar fra vores server: fetch døde (tabt net),
+ * eller en proxy svarede uden JSON (502/503 under en deploy). Afgøres positivt,
+ * så en ukendt fejl aldrig tolkes som "bare netproblemer".
+ */
+function isNoResponse(error: unknown): boolean {
+  if (isNetworkFailure(error))
+    return true;
+  if (error instanceof TypeError)
+    return hasNetworkHint(error.message);
+  return isTRPCClientError(error) && error.data == null && error.cause instanceof SyntaxError;
+}
+
 /** Ny tilstand for et element efter et mislykket forsøg. */
 export function afterFailure(item: QueueItem, error: unknown, now: number): QueueItem {
   // Udløbet login: serveren afviste FØR noget blev gemt, og et genforsøg kan
@@ -506,7 +520,13 @@ export function afterFailure(item: QueueItem, error: unknown, now: number): Queu
   }
   const attempts = item.attempts + 1;
   const kind = classifyError(error);
-  const failed = kind === 'permanent' || attempts >= MAX_ATTEMPTS;
+  // Uden svar fra serveren (svagt net, captive portal, deploy) er posten ikke
+  // skyld i fejlen, og efter fem hurtige forsøg (~30 s) stod den før rød og
+  // ventede på "Prøv igen". Den tæller derfor ikke mod loftet; backoff-loftet
+  // på 5 min holder genforsøgene billige. Alt andet (et serversvar, en ukendt
+  // `reason` fra drain, en kodefejl) opgives stadig, ellers blokerer posten
+  // alt efter sig i den strengt ordnede kø.
+  const failed = kind === 'permanent' || (!isNoResponse(error) && attempts >= MAX_ATTEMPTS);
   return {
     ...markUnconfirmedCreate(item, kind, now),
     attempts,

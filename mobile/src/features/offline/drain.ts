@@ -291,7 +291,7 @@ export async function drainQueue(deps: DrainDeps = {}): Promise<DrainResult> {
         // Et element, der nu er opgivet, er tid der ikke nåede serveren — det
         // skal Mads kunne se. Kun typen og fejlen, aldrig indholdet.
         if (store().items.find(i => i.id === item.id)?.failed)
-          captureError(error, { reason: 'queue_item_failed', type: item.type, attempts: item.attempts + 1 });
+          captureError(error);
         if (classifyError(error) === 'transient') {
           result.stopped = true;
           break;

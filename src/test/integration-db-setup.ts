@@ -1,6 +1,6 @@
 /**
  * globalSetup for integration-projektet: kloner TEST_DATABASE_URL's database
- * (med repoets schema fra `drizzle-kit push`) til en skabelon, som
+ * (med repoets schema fra `npm run db:migrate`) til en skabelon, som
  * `isolatedTestDatabase()` laver en database pr. fil ud fra. Klonen sker her,
  * før nogen worker er forbundet; mens testene kører, er de forbundet til
  * kildedatabasen, og så kan den ikke klones.

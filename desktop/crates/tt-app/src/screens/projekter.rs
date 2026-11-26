@@ -8,6 +8,7 @@ use gpui_kit::component::button::{Button, ButtonVariants as _};
 use gpui_kit::component::input::InputState;
 use gpui_kit::component::select::SelectEvent;
 use gpui_kit::component::{h_flex, v_flex};
+use gpui_kit::prelude::FluentBuilder as _;
 use gpui_kit::*;
 
 use crate::ui::Icon;
@@ -48,6 +49,9 @@ pub fn validate_project(
     }
     if name.trim().is_empty() {
         err.name = Some(t("projekter.fejl.navn"));
+    } else if name.trim().chars().count() < 2 {
+        // Som web's projects.create: "mindst 2 tegn".
+        err.name = Some(t("projekter.fejl.navn_kort"));
     }
     let rate = forms::parse_kr(rate).map_err(|e| err.rate = Some(e)).ok();
     let budget = pickers::parse_optional_total_hours(budget)
@@ -181,6 +185,8 @@ pub struct ProjekterScreen {
     form: Option<ProjectForm>,
     /// Kvittering eller fejl efter en handling (rolle `Status`/`Alert`).
     notice: Option<(SharedString, bool)>,
+    /// Projektet, der venter på det andet tryk på "Arkivér" (`forms::confirm_twice`).
+    confirm_archive: Option<Id>,
     _subs: Vec<Subscription>,
 }
 
@@ -200,6 +206,7 @@ impl ProjekterScreen {
             show_archived: false,
             form: None,
             notice: None,
+            confirm_archive: None,
             _subs: subs,
         };
         this.reload(cx);
@@ -382,6 +389,16 @@ impl ProjekterScreen {
         );
     }
 
+    /// Rækkens knap: arkivér efter det andet tryk (som web's "Arkiver
+    /// projekt"-bekræftelse), gør aktiv igen straks.
+    fn archive_clicked(&mut self, id: &str, next: ProjectStatus, cx: &mut Context<Self>) {
+        if next == ProjectStatus::Archived && !forms::confirm_twice(&mut self.confirm_archive, id) {
+            cx.notify();
+            return;
+        }
+        self.set_status(id, next, cx);
+    }
+
     pub fn set_status(&mut self, id: &str, status: ProjectStatus, cx: &mut Context<Self>) {
         let id = id.to_string();
         self.ctx.mutate(
@@ -422,6 +439,7 @@ impl ProjekterScreen {
         let edit_id = p.id.clone();
         let status_id = p.id.clone();
         let next = if archived { ProjectStatus::Active } else { ProjectStatus::Archived };
+        let confirming = !archived && self.confirm_archive.as_deref() == Some(p.id.as_str());
         ui::list_row(
             b,
             SharedString::from(format!("projekt-{}", p.id)),
@@ -469,6 +487,8 @@ impl ProjekterScreen {
                         SharedString::from(format!("projekt-arkiv-{}", p.id)),
                         if archived {
                             t("projekter.raekke.genaktiver")
+                        } else if confirming {
+                            t("projekter.raekke.arkiver_bekraeft")
                         } else {
                             t("projekter.raekke.arkiver")
                         },
@@ -476,15 +496,31 @@ impl ProjekterScreen {
                     .accessibility_label(tf(
                         if archived {
                             "projekter.raekke.genaktiver_label"
+                        } else if confirming {
+                            "projekter.raekke.arkiver_bekraeft_label"
                         } else {
                             "projekter.raekke.arkiver_label"
                         },
                         &[("navn", &p.name)],
                     ))
+                    .when(confirming, |b| b.danger())
                     .on_click(cx.listener(move |this, _, _, cx| {
-                        this.set_status(&status_id, next, cx)
+                        this.archive_clicked(&status_id, next, cx)
                     })),
-                ),
+                )
+                .when(confirming, |d| {
+                    d.child(
+                        forms::small_button(
+                            SharedString::from(format!("projekt-arkiv-fortryd-{}", p.id)),
+                            t("projekter.raekke.arkiver_fortryd"),
+                        )
+                        .ghost()
+                        .on_click(cx.listener(|this, _, _, cx| {
+                            this.confirm_archive = None;
+                            cx.notify();
+                        })),
+                    )
+                }),
         )
         .into_any_element()
     }
@@ -709,6 +745,14 @@ mod tests {
         }
     }
 
+    /// Web's projects.create: `name.min(2)`.
+    #[test]
+    fn projektnavn_kraever_to_tegn() {
+        let e = validate_project(Some("k1"), "W", "", "").unwrap_err();
+        assert_eq!(e.name, Some("Navnet skal være mindst 2 tegn"));
+        assert!(validate_project(Some("k1"), "Wb", "", "").is_ok());
+    }
+
     #[test]
     fn validering_samler_alle_fejl() {
         let e = validate_project(None, " ", "abc", "x").unwrap_err();
@@ -720,7 +764,7 @@ mod tests {
         assert_eq!(ok.name, "Webshop");
         assert_eq!(ok.hourly_rate, Some(85_050));
         assert_eq!(ok.budget_minutes, Some(2400));
-        let tom = validate_project(Some("k1"), "A", "", "").unwrap();
+        let tom = validate_project(Some("k1"), "Ad", "", "").unwrap();
         assert_eq!((tom.hourly_rate, tom.budget_minutes), (None, None));
     }
 
@@ -835,6 +879,34 @@ mod probe {
         assert!(!a.has_label_containing("Ny webshop"));
     }
 
+    /// Web spørger "Arkiver projekt?". Første tryk spørger, andet arkiverer.
+    #[gpui_kit::test]
+    fn projekt_arkivering_kraever_to_tryk(cx: &mut TestAppContext) {
+        let mock = testing::mock();
+        let id = mock
+            .projects(None, false)
+            .unwrap()
+            .into_iter()
+            .find(|p| p.status == ProjectStatus::Active)
+            .expect("et aktivt projekt")
+            .id;
+        let (h, app) = testing::open_app(cx, mock.clone());
+        testing::navigate(cx, h, &app, Screen::Projekter);
+        let st = || mock.projects(None, true).unwrap().into_iter().find(|x| x.id == id).unwrap().status;
+        cx.update_window(h, |_, w, cx| w.click(format!("projekt-arkiv-{id}"), cx)).unwrap();
+        cx.run_until_parked();
+        assert_eq!(st(), ProjectStatus::Active, "første tryk arkiverer ikke");
+        assert!(testing::a11y(cx, h).has_label_containing("Ja, arkivér "));
+        cx.update_window(h, |_, w, cx| w.click(format!("projekt-arkiv-fortryd-{id}"), cx)).unwrap();
+        cx.run_until_parked();
+        assert!(!testing::a11y(cx, h).has_label_containing("Ja, arkivér "));
+        cx.update_window(h, |_, w, cx| w.click(format!("projekt-arkiv-{id}"), cx)).unwrap();
+        cx.run_until_parked();
+        cx.update_window(h, |_, w, cx| w.click(format!("projekt-arkiv-{id}"), cx)).unwrap();
+        cx.run_until_parked();
+        assert_eq!(st(), ProjectStatus::Archived);
+    }
+
     #[gpui_kit::test]
     fn opret_med_validering_ret_og_arkiver(cx: &mut TestAppContext) {
         let mock = testing::mock();
@@ -909,7 +981,15 @@ mod probe {
         let after = mock.projects(Some("kunde_yoga"), true).unwrap();
         assert!(after.iter().any(|x| x.id == id && x.name == "Medlemsportal"));
 
-        // Arkivér og genaktivér.
+        // Arkivér (første tryk spørger, som web) og genaktivér.
+        cx.update_window(h, |_, w, cx| w.click(format!("projekt-arkiv-{id}"), cx)).unwrap();
+        cx.run_until_parked();
+        assert!(testing::a11y(cx, h).has_label_containing("Ja, arkivér "));
+        // Første tryk ændrer intet: projektet står stadig "På pause".
+        assert_eq!(
+            mock.projects(None, true).unwrap().into_iter().find(|x| x.id == id).unwrap().status,
+            ProjectStatus::Paused
+        );
         cx.update_window(h, |_, w, cx| w.click(format!("projekt-arkiv-{id}"), cx)).unwrap();
         cx.run_until_parked();
         assert!(testing::a11y(cx, h).has_label("Projektet er arkiveret"));

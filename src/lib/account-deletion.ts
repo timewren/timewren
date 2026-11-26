@@ -19,6 +19,11 @@ import {
   subscriptions,
   testAluntaSubscriptions,
 } from "@/lib/db/schema";
+import {
+  executeGoogleCalendarRevokes,
+  lockGoogleCalendarRows,
+  planGoogleCalendarRevokes,
+} from "@/lib/integrations/google-calendar-revoke";
 import { DELETED_USER_LABEL } from "@/lib/org-audit";
 import {
   collectUserStorageKeys,
@@ -90,6 +95,7 @@ export const USER_REFERENCE_POLICY: Record<string, UserReferenceAction> = {
   "department_managers.user_id": "delete",
   "project_assignments.user_id": "delete",
   // Egne integrationer, præferencer, notifikationer og spor
+  // Alle udbydere (Google, Outlook, iCloud): rækken og dens tokens slettes
   "calendar_connections.user_id": "delete",
   "calendar_events.user_id": "delete",
   "calendar_matching_rules.user_id": "delete",
@@ -369,7 +375,10 @@ export async function findActiveStoreSubscription(
  * 3. EFTER commit (best effort, fejl logges som MANUEL OPFØLGNING): Alunta-
  *    abonnementer i solo-orgs annulleres, Apple-tokens tilbagekaldes (#919;
  *    læst og dekrypteret FØR sletningen, og for native iOS-login ombyttet fra
- *    appens `appleAuthorizationCode` FØR sletningen), og filer i S3 slettes. Ved
+ *    appens `appleAuthorizationCode` FØR sletningen), og filer i S3 slettes.
+ *    Google Calendar-bevillinger tilbagekaldes derimod i sletningens
+ *    transaktion, før rækkerne slettes, og kun når ingen anden forbindelse
+ *    har samme Google-konto (best effort, blokerer aldrig). Ved
  *    anonymisering slettes kun profilbilleder — logoer o.l. kan bruges af
  *    teamet, og opgavefiler i teamets orgs bevares.
  */
@@ -522,7 +531,18 @@ export async function deleteUserAccountCompletely(
 
   // 2. Transaktionel sletning/anonymisering
   const deletion = sql.raw(buildDeletionSql(userId, soloOrgIds, sharedOrgIds));
-  await db.transaction(async (tx) => {
+  const googleRevokes = await db.transaction(async (tx) => {
+    // Google Calendar: rækkerne låses her under brugerens lås, så en samtidig
+    // OAuth-callback enten har gemt før (og rækken slettes med) eller venter
+    // og bagefter ikke kan gemme, fordi brugeren er væk. Om bevillingen må
+    // tilbagekaldes, afgøres her, før `deletion` sletter rækkerne (kun når
+    // ingen anden forbindelse kan have samme Google-konto,
+    // google-calendar-revoke.ts). Google kaldes først efter commit, så en
+    // rollback aldrig efterlader en levende konto med tilbagekaldt kalender,
+    // og efter en ny optælling under kontoens lås.
+    const googleRows = await lockGoogleCalendarRows(tx, userId);
+    const planned = await planGoogleCalendarRevokes(tx, userId, googleRows);
+
     // Keep only provider membership IDs for test subscriptions being deleted.
     // This must run while the user and workspace can still be classified.
     // The early check above only decides whether the list is fetched; this
@@ -542,7 +562,10 @@ export async function deleteUserAccountCompletely(
       }
     }
     await tx.execute(deletion);
+    return planned;
   });
+  // Kaster ikke, så Google aldrig vælter sletningen
+  await executeGoogleCalendarRevokes(db, googleRevokes);
   const remaining = await db.execute(
     sql`SELECT 1 FROM "user" WHERE id = ${userId}`,
   );

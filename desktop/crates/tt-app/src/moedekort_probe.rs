@@ -31,7 +31,7 @@ fn idle_dialogen_har_fire_valg_og_tildel_flytter_tiden(cx: &mut TestAppContext) 
     mock.demo_timer(target(), 3600 + 30);
     let p = open(cx, mock, Screen::Hjem);
     let hub = p.app.read_with(cx, |a, _| a.ctx.hub.clone());
-    let away_since = Local::now() - chrono::Duration::minutes(25);
+    let away_since = testing::now() - chrono::Duration::minutes(25);
     let prompt = IdlePrompt {
         away_since,
         back_at: away_since + chrono::Duration::minutes(20),

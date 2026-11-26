@@ -22,6 +22,12 @@ Nye konti bruger en unik `+e2e-…@example.invalid`-adresse, så de genkendes
 som testkonti. Testenes egne brugere ryddes op i fixture-teardown. Den fælles
 setup-konto ryddes op, efter alle afhængige tests er færdige.
 
+Før setup gemmer sessionen, kontrollerer det, at kontoen har rollen `user`,
+at sessionens `activeOrganizationId` er tomt, og at organisationen har en
+prøveperiode eller et aktivt abonnement. tRPC bruger den primære organisation
+til at finde abonnementet for den session. En test holder også oprettelsen af
+prøveperioden tilbage og kontrollerer, at kundeformularen først åbner bagefter.
+
 ## Kørsel lokalt
 
 1. PostgreSQL med skemaet pushet: `npm run docker:up && npm run db:push`
@@ -30,7 +36,10 @@ setup-konto ryddes op, efter alle afhængige tests er færdige.
    markerer e-mail som bekræftet og sætter Gratis-tieren direkte i DB.
 3. `npm run test:e2e` — starter dev-serveren med registrering slået til
    (se `webServer` i `playwright.config.ts`), eller genbruger en dev-server,
-   der allerede kører på port 3000. `npm test` kører enhedstestene og kræver
+   der allerede kører på port 3000. Ved genbrug skal serveren have samme
+   miljø som Playwright, herunder `ADMIN_EMAIL=instance-admin@example.invalid`,
+   så testkonti ikke bliver gjort til instansadmin på en tom database.
+   `npm test` kører enhedstestene og kræver
    ingen database; E2E-suiten har sit eget script, fordi den kræver Postgres.
 
 Kør mod en lokal database med eksterne nøgler (Resend, Stripe, OpenAI,
@@ -38,5 +47,8 @@ Alunta, Sentry) tomme, så intet rammer produktionstjenester. Uden
 `RESEND_API_KEY` fejler afsendelsen af bekræftelsesmailen stille, og signup
 lykkes stadig.
 
-Nyttige varianter: `npx playwright test core-flow --headed`,
-`npx playwright test --ui`, `npm run test:report`.
+Kør kernetesten med `npx playwright test tests/e2e/core-flow.spec.ts --retries=0`.
+Den fulde filsti afgrænser testen, også hvis worktree-mappen hedder noget med
+`core-flow`. Brug eventuelt `--headed` til at vise browseren.
+
+Andre varianter: `npx playwright test --ui`, `npm run test:report`.

@@ -49,8 +49,36 @@ pub fn parse_date(s: &str, today: NaiveDate) -> Option<NaiveDate> {
 }
 
 /// Kroner til øre: "850", "850,50", "1.250", "1.250,5 kr". Tomt felt = `None`.
+/// I TimeWren (euro) er et punkt med 1-2 cifre efter sig et decimaltegn:
+/// "12.50" er 12,50 €, ikke 1250 (se [`point_as_decimal`]).
 pub fn parse_kr(s: &str) -> Result<Option<i64>, &'static str> {
-    let s = s.trim().trim_end_matches("kr").trim().trim_end_matches('.');
+    parse_kr_for(s, tt_core::edition::EDITION.currency_code != "DKK")
+}
+
+/// "12.50" → "12,50", hvis der er ét punkt, intet komma og 1-2 cifre efter
+/// punktummet. "1.250" (tre cifre) er stadig tusindtalsskilletegn.
+fn point_as_decimal(s: &str) -> String {
+    if !s.contains(',')
+        && s.matches('.').count() == 1
+        && let Some((w, f)) = s.split_once('.')
+        && (1..=2).contains(&f.len())
+        && f.chars().all(|c| c.is_ascii_digit())
+    {
+        return format!("{w},{f}");
+    }
+    s.to_owned()
+}
+
+fn parse_kr_for(s: &str, dot_is_decimal: bool) -> Result<Option<i64>, &'static str> {
+    let s = s
+        .trim()
+        .trim_end_matches("kr")
+        .trim_end_matches('€')
+        .trim_start_matches('€')
+        .trim()
+        .trim_end_matches('.');
+    let owned = if dot_is_decimal { point_as_decimal(s) } else { s.to_owned() };
+    let s = owned.as_str();
     if s.is_empty() {
         return Ok(None);
     }
@@ -416,14 +444,64 @@ pub fn small_button(id: impl Into<ElementId>, label: impl Into<SharedString>) ->
     Button::new(id).label(label).small().outline()
 }
 
+/// To tryk før en arkivering, som web's bekræftelsesdialog ("Er du sikker?"):
+/// første tryk på et element sætter `pending` og giver `false` (spørg),
+/// andet tryk på samme element rydder den og giver `true` (udfør). Et tryk
+/// på et andet element spørger forfra.
+pub fn confirm_twice(pending: &mut Option<String>, id: &str) -> bool {
+    if pending.as_deref() == Some(id) {
+        *pending = None;
+        true
+    } else {
+        *pending = Some(id.to_string());
+        false
+    }
+}
+
+/// Antal dage til forfald, som web (`paymentTermsDays`: heltal 0-365). Tomt
+/// felt = standarden (`None`).
+pub fn parse_payment_terms(s: &str) -> Result<Option<u32>, &'static str> {
+    let s = s.trim();
+    if s.is_empty() {
+        return Ok(None);
+    }
+    match s.parse::<u32>() {
+        Ok(d) if d <= 365 => Ok(Some(d)),
+        _ => Err(t("ui.form.payment_terms")),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use chrono::NaiveDate;
 
     use super::{
-        hours_field, kr_field, matches_query, parse_cvr, parse_date, parse_email, parse_kr,
-        parse_optional_hours,
+        confirm_twice, hours_field, kr_field, matches_query, parse_cvr, parse_date, parse_email, parse_kr,
+        parse_kr_for, parse_optional_hours, parse_payment_terms,
     };
+
+    #[test]
+    fn arkivering_kraever_to_tryk() {
+        let mut pending = None;
+        assert!(!confirm_twice(&mut pending, "k1"), "første tryk spørger");
+        assert_eq!(pending.as_deref(), Some("k1"));
+        assert!(!confirm_twice(&mut pending, "k2"), "et andet element spørger forfra");
+        assert!(confirm_twice(&mut pending, "k2"), "andet tryk udfører");
+        assert_eq!(pending, None);
+        assert!(!confirm_twice(&mut pending, "k2"), "og næste gang spørges igen");
+    }
+
+    #[test]
+    fn betalingsfrist_valideres() {
+        assert_eq!(parse_payment_terms(""), Ok(None));
+        assert_eq!(parse_payment_terms(" 30 "), Ok(Some(30)));
+        assert_eq!(parse_payment_terms("0"), Ok(Some(0)));
+        assert_eq!(parse_payment_terms("365"), Ok(Some(365)));
+        assert!(parse_payment_terms("366").is_err());
+        assert!(parse_payment_terms("-1").is_err());
+        assert!(parse_payment_terms("14,5").is_err());
+        assert!(parse_payment_terms("x").is_err());
+    }
 
     fn today() -> NaiveDate {
         NaiveDate::from_ymd_opt(2026, 10, 26).unwrap()
@@ -445,6 +523,13 @@ mod tests {
     #[test]
     fn kroner_til_oere() {
         assert_eq!(parse_kr(""), Ok(None));
+        // Punktum som decimaltegn (kun euro) og valutategn.
+        assert_eq!(parse_kr_for("12.50", true), Ok(Some(1_250)));
+        assert_eq!(parse_kr_for("€ 12.5", true), Ok(Some(1_250)));
+        assert_eq!(parse_kr_for("850 €", true), Ok(Some(85_000)));
+        assert_eq!(parse_kr_for("1.250", true), Ok(Some(125_000)), "tre cifre: tusindtal");
+        assert_eq!(parse_kr_for("1.250,50", true), Ok(Some(125_050)));
+        assert_eq!(parse_kr_for("12.50", false), Ok(Some(125_000)), "kr: som før");
         assert_eq!(parse_kr("850"), Ok(Some(85_000)));
         assert_eq!(parse_kr("850,5"), Ok(Some(85_050)));
         assert_eq!(parse_kr("1.250,75 kr"), Ok(Some(125_075)));

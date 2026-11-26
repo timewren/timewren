@@ -13,7 +13,6 @@ import {
   members,
   tasks,
 } from "@/lib/db/schema";
-import { appUrlEnv } from "@/lib/runtime-env";
 import { hashToken } from "@/lib/security/token-hash";
 import {
   addDaysToDateStr,
@@ -31,17 +30,22 @@ import {
   encryptSecretOrNull,
 } from "@/lib/utils/encryption";
 import {
+  calendarAppUrl,
+  connectionOAuthBrand,
+  googleCalendarClient,
+} from "./calendar-oauth-clients";
+import {
+  executeGoogleCalendarRevokes,
+  lockGoogleCalendarAccount,
+  lockGoogleCalendarRows,
+  lockGoogleCalendarUser,
+  planGoogleCalendarRevokes,
+} from "./google-calendar-revoke";
+import {
   getAuthScopes,
   getCalendarAccessLevel,
   normalizeGrantedScopes,
 } from "./google-calendar-scopes";
-
-// Google OAuth2 Configuration
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const GOOGLE_REDIRECT_URI =
-  process.env.GOOGLE_REDIRECT_URI ||
-  `${appUrlEnv()}/api/integrations/google/callback`;
 
 /**
  * Resolve org for a user from the members table.
@@ -55,35 +59,36 @@ async function resolveUserOrgId(userId: string): Promise<string | null> {
 }
 
 /**
- * Check if Google Calendar integration is configured
+ * Check if Google Calendar integration is configured (TimeTracks klient)
  */
 export function isGoogleCalendarConfigured(): boolean {
-  return !!(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET);
+  return googleCalendarClient(DEFAULT_BRAND_KEY) !== null;
 }
 
 /**
- * Kan en konto på `brand` forbinde Google Calendar? Klienten her er TimeTracks
- * (GOOGLE_CLIENT_ID, redirect til TimeTracks app-URL), så kun TimeTrack-konti.
- * TimeWren-konti ser "kommer snart", til TimeWren har sin egen Google-klient
- * og synkroniseringen kan vælge klient pr. forbindelse
- * (docs/specs/timewren-cloud.md → 5, "Login-udbydere").
+ * Kan en konto på `brand` forbinde Google Calendar? Kun med brandets egen
+ * klient: TimeTrack GOOGLE_*, TimeWren TIMEWREN_GOOGLE_* (aldrig TimeTracks).
+ * Uden TimeWren-nøgler ser TimeWren-konti "kommer snart"
+ * (docs/specs/timewren-cloud.md → 5, "Kalender").
  */
 export function isGoogleCalendarAvailableForBrand(brand: BrandKey): boolean {
-  return brand === DEFAULT_BRAND_KEY && isGoogleCalendarConfigured();
+  return googleCalendarClient(brand) !== null;
 }
 
 /**
- * Create OAuth2 client with timeout configuration
+ * Create OAuth2 client with timeout configuration, for brandets Google-klient
+ * (standard: TimeTracks). Forbindelser bruger altid `connectionOAuthBrand`.
  */
-export function createOAuth2Client() {
-  if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
+export function createOAuth2Client(brand: BrandKey = DEFAULT_BRAND_KEY) {
+  const client = googleCalendarClient(brand);
+  if (!client) {
     throw new Error("Google Calendar credentials not configured");
   }
 
   const oauth2Client = new OAuth2Client(
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET,
-    GOOGLE_REDIRECT_URI,
+    client.clientId,
+    client.clientSecret,
+    client.redirectUri,
   );
 
   // Set default timeout for all googleapis requests via this client
@@ -104,9 +109,13 @@ export function createOAuth2Client() {
  */
 export function getAuthorizationUrl(
   state?: string,
-  options: { write?: boolean; loginHint?: string | null } = {},
+  options: {
+    write?: boolean;
+    loginHint?: string | null;
+    brand?: BrandKey;
+  } = {},
 ): string {
-  const oauth2Client = createOAuth2Client();
+  const oauth2Client = createOAuth2Client(options.brand);
 
   return oauth2Client.generateAuthUrl({
     access_type: "offline",
@@ -118,11 +127,16 @@ export function getAuthorizationUrl(
   });
 }
 
+const GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo";
+
 /**
  * Exchange authorization code for tokens
  */
-export async function exchangeCodeForTokens(code: string) {
-  const oauth2Client = createOAuth2Client();
+export async function exchangeCodeForTokens(
+  code: string,
+  brand: BrandKey = DEFAULT_BRAND_KEY,
+) {
+  const oauth2Client = createOAuth2Client(brand);
 
   const { tokens } = await oauth2Client.getToken(code);
 
@@ -132,8 +146,11 @@ export async function exchangeCodeForTokens(code: string) {
 
   // Get user info to identify the account
   oauth2Client.setCredentials(tokens);
-  const userInfo = await oauth2Client.request<{ email?: string | null }>({
-    url: "https://www.googleapis.com/oauth2/v2/userinfo",
+  const userInfo = await oauth2Client.request<{
+    id?: string | null;
+    email?: string | null;
+  }>({
+    url: GOOGLE_USERINFO_URL,
   });
 
   return {
@@ -141,6 +158,8 @@ export async function exchangeCodeForTokens(code: string) {
     refreshToken: tokens.refresh_token,
     tokenExpiry: tokens.expiry_date ? new Date(tokens.expiry_date) : null,
     accountEmail: userInfo.data.email,
+    // Googles stabile konto-id: tilbagekald matcher på det (e-mail kan skifte)
+    accountSub: userInfo.data.id,
     grantedScopes: normalizeGrantedScopes(tokens.scope),
   };
 }
@@ -167,12 +186,27 @@ export async function getAuthenticatedClient(userId: string) {
   // med en tydelig fejl i stedet for at lade som om kalenderen ikke er
   // forbundet — og uden at slå brugerens sync fra.
   const tokens = readConnectionTokens(connection);
-  const oauth2Client = createOAuth2Client();
+  // Forbindelsens egen klient: et TimeWren-token kan kun fornyes med
+  // TimeWrens Google-klient.
+  const oauth2Client = createOAuth2Client(connectionOAuthBrand(connection));
   oauth2Client.setCredentials({
     access_token: tokens.accessToken,
     refresh_token: tokens.refreshToken || undefined,
     expiry_date: connection.tokenExpiry?.getTime(),
   });
+
+  // Alle skrivninger herfra rammer kun rækken, så længe den har det
+  // access-token, vi sidst læste eller selv skrev. Har OAuth-callbacken imens
+  // gemt en ny forbindelse (måske til en anden Google-konto), må den gamle
+  // forbindelses tokens, konto-id eller fejlstatus aldrig lande på den nye.
+  let storedAccessToken = connection.accessToken;
+  const unchanged = () =>
+    and(
+      eq(calendarConnections.id, connection.id),
+      storedAccessToken === null
+        ? isNull(calendarConnections.accessToken)
+        : eq(calendarConnections.accessToken, storedAccessToken),
+    );
 
   // Check if token needs refresh
   if (connection.tokenExpiry && connection.tokenExpiry < new Date()) {
@@ -185,7 +219,7 @@ export async function getAuthenticatedClient(userId: string) {
           syncError: "Token expired. Please reconnect your calendar.",
           updatedAt: new Date(),
         })
-        .where(eq(calendarConnections.id, connection.id));
+        .where(unchanged());
       return null;
     }
 
@@ -197,10 +231,11 @@ export async function getAuthenticatedClient(userId: string) {
       oauth2Client.setCredentials(credentials);
 
       // Update stored tokens (krypteret at rest, #690)
-      await db
+      const refreshedAccessToken = encryptSecret(credentials.access_token);
+      const saved = await db
         .update(calendarConnections)
         .set({
-          accessToken: encryptSecret(credentials.access_token),
+          accessToken: refreshedAccessToken,
           tokenExpiry: credentials.expiry_date
             ? new Date(credentials.expiry_date)
             : null,
@@ -210,9 +245,18 @@ export async function getAuthenticatedClient(userId: string) {
           syncError: null,
           updatedAt: new Date(),
         })
-        .where(eq(calendarConnections.id, connection.id));
+        .where(unchanged())
+        .returning({ id: calendarConnections.id });
+      // Erstattet imens: klienten bærer den gamle forbindelses tokens. Næste
+      // synkronisering bruger den nye.
+      if (saved.length === 0) return null;
+      storedAccessToken = refreshedAccessToken;
     } catch (error) {
-      console.error("Failed to refresh Google token:", error);
+      // Kun fejltypen: gaxios-fejlen bærer forespørgslen med refresh-tokenet
+      console.error(
+        "Failed to refresh Google token:",
+        error instanceof Error ? error.name : "unknown",
+      );
       // Manglende/ugyldig ENCRYPTION_KEY er en serverfejl — slå ikke brugerens
       // sync fra for den.
       if (error instanceof EncryptionKeyError) throw error;
@@ -223,8 +267,37 @@ export async function getAuthenticatedClient(userId: string) {
           syncError: "Failed to refresh token. Please reconnect your calendar.",
           updatedAt: new Date(),
         })
-        .where(eq(calendarConnections.id, connection.id));
+        .where(unchanged());
       return null;
+    }
+  }
+
+  // Ældre rækker mangler Googles konto-id, uden hvilket frakobling hverken
+  // tilbagekalder eller ser forbindelsen som delt. Hentes én gang her, under
+  // samme låse som callbacken; en fejl må ikke stoppe synkroniseringen.
+  if (connection.providerAccountSub === null) {
+    try {
+      const info = await oauth2Client.request<{ id?: string | null }>({
+        url: GOOGLE_USERINFO_URL,
+      });
+      const accountSub = info.data.id;
+      if (accountSub) {
+        await db.transaction(async (tx) => {
+          await lockGoogleCalendarUser(tx, userId);
+          await lockGoogleCalendarAccount(tx, accountSub);
+          await tx
+            .update(calendarConnections)
+            .set({ providerAccountSub: accountSub })
+            .where(
+              and(unchanged(), isNull(calendarConnections.providerAccountSub)),
+            );
+        });
+      }
+    } catch (error) {
+      console.warn(
+        "[Google Calendar] Konto-id kunne ikke hentes:",
+        error instanceof Error ? error.name : "unknown",
+      );
     }
   }
 
@@ -246,7 +319,12 @@ export function readConnectionTokens(connection: {
 }
 
 /**
- * Save or update calendar connection
+ * Save or update calendar connection.
+ *
+ * Gemmes under brugerens lås og Google-kontoens lås, de samme som frakobling
+ * og kontosletning tager (google-calendar-revoke.ts), så en gem aldrig
+ * blandes med en sletning af samme Google-konto. Er brugeren slettet imens,
+ * fejler indsættelsen på fremmednøglen, og intet gemmes.
  */
 export async function saveCalendarConnection(
   userId: string,
@@ -255,104 +333,138 @@ export async function saveCalendarConnection(
     refreshToken: string | null | undefined;
     tokenExpiry: Date | null;
     accountEmail: string | null | undefined;
+    accountSub?: string | null;
     grantedScopes?: string | null;
   },
+  /** Brandet hvis Google-klient udstedte tokens. */
+  brand: BrandKey = DEFAULT_BRAND_KEY,
 ) {
   // Kryptér før vi rører databasen: mangler ENCRYPTION_KEY, fejler vi her og
   // gemmer aldrig tokens i klartekst (#690).
   const encryptedAccessToken = encryptSecret(tokens.accessToken);
   const encryptedRefreshToken = encryptSecretOrNull(tokens.refreshToken);
+  const accountSub = tokens.accountSub || null;
 
-  // Check if primary connection already exists (only primary holds tokens)
-  const existing = await db.query.calendarConnections.findFirst({
-    where: and(
-      eq(calendarConnections.userId, userId),
-      eq(calendarConnections.provider, "google"),
-      isNull(calendarConnections.parentConnectionId),
-    ),
-  });
+  return db.transaction(async (tx) => {
+    await lockGoogleCalendarUser(tx, userId);
+    if (accountSub) await lockGoogleCalendarAccount(tx, accountSub);
 
-  if (existing) {
-    await db
-      .update(calendarConnections)
-      .set({
-        accessToken: encryptedAccessToken,
-        // Google sender kun refresh-token ved første samtykke — behold den
-        // gemte (allerede lagrede) værdi uændret når der ikke kommer en ny.
-        refreshToken: encryptedRefreshToken ?? existing.refreshToken,
-        tokenExpiry: tokens.tokenExpiry,
-        providerAccountId: tokens.accountEmail || existing.providerAccountId,
-        grantedScopes: tokens.grantedScopes ?? existing.grantedScopes,
-        syncEnabled: true,
-        syncError: null,
-        updatedAt: new Date(),
-      })
-      .where(eq(calendarConnections.id, existing.id));
-    return existing.id;
-  }
-
-  const [newConnection] = await db
-    .insert(calendarConnections)
-    .values({
-      userId,
-      provider: "google",
-      providerAccountId: tokens.accountEmail,
-      accessToken: encryptedAccessToken,
-      refreshToken: encryptedRefreshToken,
-      tokenExpiry: tokens.tokenExpiry,
-      grantedScopes: tokens.grantedScopes ?? null,
-      calendarId: "primary",
-      // Read-only connections can't write back; don't claim two-way sync.
-      syncDirection:
-        getCalendarAccessLevel(tokens.grantedScopes ?? null) === "read_write"
-          ? "both"
-          : "inbound",
-      syncEnabled: true,
-    })
-    .returning({ id: calendarConnections.id });
-
-  return newConnection.id;
-}
-
-/**
- * Disconnect Google Calendar
- */
-export async function disconnectCalendar(userId: string) {
-  // Delete all events for this user that came from Google — iCloud-
-  // hændelser (andre forbindelser) skal blive stående
-  const googleConnectionIds = (
-    await db.query.calendarConnections.findMany({
+    // Check if primary connection already exists (only primary holds tokens)
+    const existing = await tx.query.calendarConnections.findFirst({
       where: and(
         eq(calendarConnections.userId, userId),
         eq(calendarConnections.provider, "google"),
+        isNull(calendarConnections.parentConnectionId),
       ),
-      columns: { id: true },
-    })
-  ).map((c) => c.id);
-  await db
-    .delete(calendarEvents)
-    .where(
-      and(
-        eq(calendarEvents.userId, userId),
-        eq(calendarEvents.syncDirection, "inbound"),
-        googleConnectionIds.length > 0
-          ? or(
-              isNull(calendarEvents.calendarConnectionId),
-              inArray(calendarEvents.calendarConnectionId, googleConnectionIds),
-            )
-          : isNull(calendarEvents.calendarConnectionId),
-      ),
-    );
+    });
 
-  // Delete the connection
-  await db
-    .delete(calendarConnections)
-    .where(
-      and(
-        eq(calendarConnections.userId, userId),
-        eq(calendarConnections.provider, "google"),
-      ),
-    );
+    if (existing) {
+      // Det gemte refresh-token genbruges aldrig. Det kan høre til en anden
+      // Google-konto eller en anden OAuth-klient (også et skiftet klient-id
+      // under samme brand), og så kunne rækken bære den nye kontos id med den
+      // gamles token, og en frakobling tilbagekalde den forkerte bevilling.
+      // Med prompt=consent sender Google et nyt; gør Google det ikke, beder
+      // forbindelsen om "forbind igen", når access-tokenet udløber.
+      await tx
+        .update(calendarConnections)
+        .set({
+          accessToken: encryptedAccessToken,
+          refreshToken: encryptedRefreshToken,
+          tokenExpiry: tokens.tokenExpiry,
+          providerAccountId: tokens.accountEmail || existing.providerAccountId,
+          // Altid den aktuelle konto: et forkert id kunne få en frakobling til
+          // at overse en delt Google-konto.
+          providerAccountSub: accountSub,
+          grantedScopes: tokens.grantedScopes ?? existing.grantedScopes,
+          // Nye tokens fra en anden klient (fx efter brandflytning) skal
+          // fornyes med den klient. Uændret for TimeTrack.
+          ...(connectionOAuthBrand(existing) !== brand && {
+            oauthBrand: brand,
+          }),
+          syncEnabled: true,
+          syncError: null,
+          updatedAt: new Date(),
+        })
+        .where(eq(calendarConnections.id, existing.id));
+      return existing.id;
+    }
+
+    const [newConnection] = await tx
+      .insert(calendarConnections)
+      .values({
+        userId,
+        provider: "google",
+        // Kun ikke-standardbrands skrives; TimeTrack bruger kolonnens default.
+        ...(brand !== DEFAULT_BRAND_KEY && { oauthBrand: brand }),
+        providerAccountId: tokens.accountEmail,
+        providerAccountSub: accountSub,
+        accessToken: encryptedAccessToken,
+        refreshToken: encryptedRefreshToken,
+        tokenExpiry: tokens.tokenExpiry,
+        grantedScopes: tokens.grantedScopes ?? null,
+        calendarId: "primary",
+        // Read-only connections can't write back; don't claim two-way sync.
+        syncDirection:
+          getCalendarAccessLevel(tokens.grantedScopes ?? null) === "read_write"
+            ? "both"
+            : "inbound",
+        syncEnabled: true,
+      })
+      .returning({ id: calendarConnections.id });
+
+    return newConnection.id;
+  });
+}
+
+/**
+ * Disconnect Google Calendar. Rækkerne låses (`FOR UPDATE`) under brugerens
+ * lås. Før sletningen afgøres, om bevillingen må tilbagekaldes (kun når ingen
+ * anden forbindelse kan have samme Google-konto, google-calendar-revoke.ts);
+ * Google kaldes først, når sletningen er committet, så en rollback aldrig
+ * efterlader en lokal forbindelse med en tilbagekaldt bevilling, og efter en
+ * ny optælling under kontoens lås. Fejler
+ * tilbagekaldet, er forbindelsen alligevel frakoblet.
+ */
+export async function disconnectCalendar(userId: string) {
+  const revokes = await db.transaction(async (tx) => {
+    const connections = await lockGoogleCalendarRows(tx, userId);
+    const googleConnectionIds = connections.map((c) => c.id);
+
+    const planned = await planGoogleCalendarRevokes(tx, userId, connections);
+
+    // Delete all events for this user that came from Google — iCloud-
+    // hændelser (andre forbindelser) skal blive stående
+    await tx
+      .delete(calendarEvents)
+      .where(
+        and(
+          eq(calendarEvents.userId, userId),
+          eq(calendarEvents.syncDirection, "inbound"),
+          googleConnectionIds.length > 0
+            ? or(
+                isNull(calendarEvents.calendarConnectionId),
+                inArray(
+                  calendarEvents.calendarConnectionId,
+                  googleConnectionIds,
+                ),
+              )
+            : isNull(calendarEvents.calendarConnectionId),
+        ),
+      );
+
+    // Delete the connection
+    await tx
+      .delete(calendarConnections)
+      .where(
+        and(
+          eq(calendarConnections.userId, userId),
+          eq(calendarConnections.provider, "google"),
+        ),
+      );
+
+    return planned;
+  });
+  await executeGoogleCalendarRevokes(db, revokes);
 }
 
 /**
@@ -686,7 +798,10 @@ export async function syncCalendarEvents(
         error instanceof Error ? error.message : "Token decryption failed",
       );
     }
-    const oauth2Client = createOAuth2Client();
+    // Børn bruger forælderens tokens og dermed forælderens klient
+    const oauth2Client = createOAuth2Client(
+      connectionOAuthBrand(tokenConnection),
+    );
     oauth2Client.setCredentials({
       access_token: tokens.accessToken,
       refresh_token: tokens.refreshToken || undefined,
@@ -1521,14 +1636,19 @@ export async function registerWebhookChannel(
       error: error instanceof Error ? error.message : "Token decryption failed",
     };
   }
-  const oauth2Client = createOAuth2Client();
+  const brand = connectionOAuthBrand(connection);
+  const oauth2Client = createOAuth2Client(brand);
   oauth2Client.setCredentials({
     access_token: tokens.accessToken,
     refresh_token: tokens.refreshToken,
   });
 
   const calendar = createCalendar({ version: "v3", auth: oauth2Client });
-  const webhookUrl = `${getCallbackBaseUrl()}/api/webhooks/google-calendar`;
+  // TimeTrack som før; TimeWren-kanaler peger på TimeWrens egen host (samme
+  // app og endpoint, kanalen findes ud fra kanal-id'et).
+  const webhookBase =
+    brand === DEFAULT_BRAND_KEY ? getCallbackBaseUrl() : calendarAppUrl(brand);
+  const webhookUrl = `${webhookBase}/api/webhooks/google-calendar`;
   const channelId = `tt-cal-${connection.id}`;
 
   // Generate a per-channel random token. Google echoes this back in
@@ -1612,7 +1732,7 @@ export async function stopWebhookChannel(
     console.error("Failed to read Google tokens for channel stop:", error);
     return { success: false };
   }
-  const oauth2Client = createOAuth2Client();
+  const oauth2Client = createOAuth2Client(connectionOAuthBrand(connection));
   oauth2Client.setCredentials({
     access_token: tokens.accessToken,
     refresh_token: tokens.refreshToken,

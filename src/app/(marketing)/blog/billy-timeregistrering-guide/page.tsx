@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { mk } from "@/components/marketing/mk";
 import { Navigation } from "@/components/Navigation";
-import { appLinkHref } from "@/lib/config";
+import { appLinkHref, getMarketingUrl } from "@/lib/config";
 import {
   HOME_PRICE_LINE,
   PLAN_PRICES,
@@ -47,7 +47,7 @@ export default function BillyTimeregistreringGuidePage() {
     dateModified: "2026-10-12",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://timetrack.dk${PATH}`,
+      "@id": new URL(PATH, getMarketingUrl()).href,
     },
   };
 

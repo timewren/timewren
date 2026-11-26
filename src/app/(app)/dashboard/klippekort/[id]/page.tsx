@@ -35,6 +35,7 @@ import { ConfirmDialog, ModuleDisabledState } from "@/components/ui";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { usePermission } from "@/hooks/usePermission";
 import { toIntlLocale } from "@/i18n/format-locale";
+import { activeDemoCurrency, isDemoMode } from "@/lib/demo/demo-mode";
 import { formatCurrency, formatTime } from "@/lib/format";
 import { isModuleDisabledError } from "@/lib/modules/forbidden-error";
 import { prepaidBalanceLevel } from "@/lib/prepaid/balance";
@@ -696,9 +697,26 @@ export default function PackageDetailPage({
         <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
           {t("detail.history")}
         </h2>
+        <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+          {t("assignedTimeStaysOnProject")}
+        </p>
         <UsageExport
           packageId={pkg.id}
           packageName={pkg.name}
+          pdfLanguage={
+            isDemoMode()
+              ? {
+                  locale,
+                  title: t("detail.history"),
+                  date: t("usagePdf.date"),
+                  description: t("usagePdf.description"),
+                  hours: t("usagePdf.hours"),
+                  value: t("usagePdf.value", {
+                    currency: activeDemoCurrency(),
+                  }),
+                }
+              : undefined
+          }
           showValue={!hideValue}
           usage={usageHistory.map((u) => ({
             id: u.id,
@@ -964,6 +982,8 @@ export default function PackageDetailPage({
         packageId={id}
         packageName={pkg.name}
         remainingHours={remainingHours}
+        clipSizeMinutes={pkg.clipSizeMinutes}
+        overdraftPolicy={pkg.overdraftPolicy}
         onAssigned={refetch}
       />
 

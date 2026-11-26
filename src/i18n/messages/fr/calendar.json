@@ -129,6 +129,7 @@
     "dragHint": "Cliquez et faites glisser pour créer des saisies de temps",
     "connectBoth": "Connecter Google Agenda ou iCloud",
     "connectICloud": "Connecter le calendrier iCloud",
+    "connectCalendar": "Connecter un calendrier (Google, Outlook ou iCloud)",
     "settings": "Paramètres",
     "registerAll": "Tout saisir ({count})",
     "sync": "Synchroniser",
@@ -177,7 +178,8 @@
     "settingsSaved": "Vos paramètres ont été enregistrés",
     "back": "Retour",
     "goToCalendar": "Aller au calendrier",
-    "next": "Suivant"
+    "next": "Suivant",
+    "outlookNote": "{brand} lit votre calendrier Outlook par défaut. Vous gérez la connexion dans <link>Paramètres → Intégrations</link>. Les filtres et la saisie automatique d'ici s'appliquent aussi à Outlook."
   },
   "icloud": {
     "connected": "iCloud est connecté. Choisissez maintenant les calendriers à lire.",
@@ -220,6 +222,29 @@
     "disconnect": "Déconnecter",
     "disconnectTitle": "Déconnecter le calendrier iCloud",
     "disconnectDescription": "{brand} supprime le mot de passe d'application enregistré et les événements iCloud récupérés. Vos saisies de temps restent. Pensez aussi à révoquer le mot de passe sur appleid.apple.com.",
+    "disconnectConfirm": "Déconnecter"
+  },
+  "outlook": {
+    "title": "Calendrier Outlook",
+    "intro": "Votre calendrier est dans Outlook ou Microsoft 365 ? Voyez vos réunions dans {brand} et saisissez du temps à partir d'elles.",
+    "readOnlyNote": "{brand} demande uniquement à lire vos calendriers et n'y écrit jamais. Vous vous connectez chez Microsoft, et {brand} ne voit jamais votre mot de passe.",
+    "connect": "Connecter Outlook",
+    "badgeConnected": "Connecté",
+    "badgeReconnect": "Reconnexion requise",
+    "badgeReadOnly": "Lecture seule",
+    "loadingStatus": "Chargement du statut Outlook...",
+    "brokenConnection": "La connexion à Outlook ne fonctionne plus",
+    "reconnect": "Reconnecter",
+    "connectedAs": "Connecté en tant que {account}",
+    "lastSynced": "Dernière synchronisation {time}",
+    "syncing": "Synchronisation...",
+    "syncNow": "Synchroniser maintenant",
+    "syncResult": "Synchronisé : {synced} nouveaux, {updated} mis à jour",
+    "syncFailed": "La synchronisation a échoué",
+    "disconnect": "Déconnecter",
+    "disconnected": "Calendrier Outlook déconnecté",
+    "disconnectTitle": "Déconnecter le calendrier Outlook",
+    "disconnectDescription": "{brand} supprime les clés d'accès enregistrées et les événements Outlook récupérés. Vos saisies de temps sont conservées. Vous pouvez aussi retirer {brand} des applications autorisées dans votre compte Microsoft.",
     "disconnectConfirm": "Déconnecter"
   }
 }

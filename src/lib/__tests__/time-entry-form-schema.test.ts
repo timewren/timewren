@@ -52,11 +52,11 @@ describe("buildTimeEntrySchema (#426)", () => {
       showProjects: true,
     });
 
-    it("requires at least one of projectId/clientId", () => {
+    it("accepts internal time without project and client, like the timer", () => {
       expect(
         schema.safeParse({ ...validEntry, projectId: "", clientId: "" })
           .success,
-      ).toBe(false);
+      ).toBe(true);
     });
 
     it("accepts clientId alone", () => {

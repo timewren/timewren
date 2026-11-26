@@ -1532,6 +1532,96 @@ impl CloudRepo {
         })
         .await
     }
+
+    /// Udsted en kladde uden mail: web's "Send Faktura" på en kladde
+    /// (`extension.invoices.update` med status "sent"), som giver fakturaen
+    /// sit rigtige nummer. Kunden får intet; `send_invoice` sender mailen.
+    pub async fn mark_invoice_sent(&self, id: &str) -> Result<Invoice> {
+        let id = id.to_owned();
+        self.run(move |i| {
+            let data = json!({ "id": id, "status": "sent" });
+            i.call(
+                Kind::Mutation,
+                "extension.invoices.update",
+                json!({ "data": data }),
+                &[],
+                REQUEST_TIMEOUT,
+            )?;
+            i.changed(&[Entity::Invoices]);
+            i.query("extension.invoices.get", json!({ "id": id }))
+        })
+        .await
+    }
+
+    /// Slet en kladde (web: `extension.invoices.delete`, som frigiver
+    /// posterne, så de kan faktureres igen). Kun kladder; en server uden
+    /// proceduren giver `MissingProcedure`.
+    pub async fn delete_invoice_draft(&self, id: &str) -> Result<()> {
+        let id = id.to_owned();
+        self.run(move |i| {
+            i.call(
+                Kind::Mutation,
+                "extension.invoices.delete",
+                json!({ "id": id }),
+                &[],
+                REQUEST_TIMEOUT,
+            )?;
+            i.changed(&[Entity::Invoices, Entity::Entries]);
+            Ok(())
+        })
+        .await
+    }
+
+    /// Subtotal, moms og total, som web's PDF viser dem
+    /// (`extension.invoices.totals`). Hentes hver gang (ingen cache): momsen
+    /// følger firmaprofilen og skabelonen i web.
+    pub async fn invoice_totals(&self, id: &str) -> Result<InvoiceTotals> {
+        let id = id.to_owned();
+        self.run(move |i| i.query("extension.invoices.totals", json!({ "id": id }))).await
+    }
+
+    /// Fakturaens PDF fra web (`extension.invoices.pdfLink`, hentet med
+    /// Bearer-tokenet): præcis de bytes, web's egen PDF-motor laver.
+    pub async fn invoice_pdf(&self, id: &str) -> Result<Vec<u8>> {
+        let id = id.to_owned();
+        self.run(move |i| {
+            let link: PdfLink = i.query("extension.invoices.pdfLink", json!({ "id": id }))?;
+            i.download(&link.path)
+        })
+        .await
+    }
+}
+
+/// `extension.invoices.pdfLink`.
+#[derive(Deserialize)]
+struct PdfLink {
+    path: String,
+}
+
+impl CloudInner {
+    /// En fil fra web med Bearer-tokenet. Ved 401 fornyes tokenet én gang
+    /// (som `call_in`).
+    fn download(&self, path: &str) -> Result<Vec<u8>> {
+        let creds = self.creds()?;
+        let r = self.api.download(path, &creds.access_token, SAVE_TIMEOUT);
+        self.note(&r);
+        match r {
+            Err(DataError::Unauthorized) if creds.refresh_token.is_some() => {
+                let fresh = self.refresh_if_same(&creds.access_token)?;
+                let r = self.api.download(path, &fresh.access_token, SAVE_TIMEOUT);
+                self.note(&r);
+                if matches!(r, Err(DataError::Unauthorized)) {
+                    self.logged_out_if(&fresh.access_token, LogoutReason::Unauthorized);
+                }
+                r
+            }
+            Err(DataError::Unauthorized) => {
+                self.logged_out_if(&creds.access_token, LogoutReason::Unauthorized);
+                Err(DataError::Unauthorized)
+            }
+            other => other,
+        }
+    }
 }
 
 // --------------------------------------------------------------- trait

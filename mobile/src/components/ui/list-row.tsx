@@ -1,3 +1,4 @@
+import type { PressableProps } from 'react-native';
 import { ChevronRight } from 'lucide-react-native';
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
@@ -15,6 +16,9 @@ type ListRowProps = {
   left?: React.ReactNode;
   onPress?: () => void;
   onLongPress?: () => void;
+  pressRef?: React.Ref<View>;
+  actionLabel?: string;
+  wrapText?: boolean;
   chevron?: boolean;
   className?: string;
   testID?: string;
@@ -45,7 +49,7 @@ type ListRowProps = {
  * læses avatarens navn to gange, lige før titlen siger det samme.
  */
 export function ListRow(props: ListRowProps) {
-  const { title, subtitle, right, left, onPress, onLongPress, chevron, className = '', testID, last, a11yLabel, a11yState } = props;
+  const { title, subtitle, right, left, onPress, onLongPress, chevron, className = '', testID, last, a11yLabel, a11yState, pressRef, actionLabel, wrapText } = props;
   const { theme } = useUniwind();
   const label = a11yLabel ?? (right == null || typeof right === 'string'
     ? [title, subtitle, typeof right === 'string' ? right : null]
@@ -70,8 +74,8 @@ export function ListRow(props: ListRowProps) {
           )
         : null}
       <View className="flex-1">
-        <Text className="text-[15px] font-medium text-foreground" numberOfLines={1}>{title}</Text>
-        {subtitle ? <Text className="text-[13px] text-muted-foreground" numberOfLines={1}>{subtitle}</Text> : null}
+        <Text className="text-[15px] font-medium text-foreground" numberOfLines={wrapText ? undefined : 1}>{title}</Text>
+        {subtitle ? <Text className="text-[13px] text-muted-foreground" numberOfLines={wrapText ? undefined : 1}>{subtitle}</Text> : null}
       </View>
       {typeof right === 'string'
         ? <Text className="text-[15px] font-medium text-foreground" style={{ fontVariant: ['tabular-nums'] }}>{right}</Text>
@@ -84,8 +88,17 @@ export function ListRow(props: ListRowProps) {
   const a11y = label ? { accessible: true, accessibilityLabel: label } : {};
   if (!onPress && !onLongPress)
     return <View testID={testID} {...a11y} accessibilityState={a11yState}>{content}</View>;
+  const action: Pick<PressableProps, 'accessibilityActions' | 'onAccessibilityAction'> = actionLabel && onLongPress
+    ? {
+        accessibilityActions: [{ name: 'showActions', label: actionLabel }],
+        onAccessibilityAction: (event) => {
+          if (event.nativeEvent.actionName === 'showActions')
+            onLongPress();
+        },
+      }
+    : {};
   return (
-    <Pressable onPress={onPress} onLongPress={onLongPress} className="active:bg-muted" accessibilityRole="button" testID={testID} {...a11y} accessibilityState={a11yState}>
+    <Pressable ref={pressRef} onPress={onPress} onLongPress={onLongPress} className="active:bg-muted" accessibilityRole="button" testID={testID} {...a11y} {...action} accessibilityState={a11yState}>
       {content}
     </Pressable>
   );

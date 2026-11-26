@@ -1,5 +1,6 @@
 "use client";
 
+import { getQueryKey } from "@trpc/react-query";
 import {
   Bookmark,
   CheckCircle2,
@@ -39,19 +40,14 @@ import {
   TaskListTable,
 } from "@/components/tasks/TaskListTable";
 import { TaskSidePanel } from "@/components/tasks/TaskSidePanel";
-import {
-  Button,
-  Card,
-  ConfirmDialog,
-  SkeletonList,
-  SkeletonStats,
-} from "@/components/ui";
+import { Button, Card, ConfirmDialog } from "@/components/ui";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useModules } from "@/hooks/useModules";
 import {
   type TaskUndoSnapshot,
   useTaskDeleteUndo,
 } from "@/hooks/useTaskDeleteUndo";
+import { useTaskPages } from "@/hooks/useTaskPages";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { useSession } from "@/lib/auth-client";
 import { formatTaskMinutes } from "@/lib/tasks/time-progress";
@@ -257,7 +253,23 @@ function TasksPageContent() {
   const { data: emailSettings } = trpc.user.getEmailToTaskSettings.useQuery();
 
   const utils = trpc.useUtils();
-  const { data: tasks, isLoading } = trpc.tasks.list.useQuery();
+  const listInput = {
+    omitNotes: true,
+    descriptionPreview: true,
+    search: debouncedSearch || undefined,
+  };
+  const {
+    rows: tasks,
+    isLoading,
+    isError,
+    hasNextPage,
+    refetch,
+  } = useTaskPages(
+    getQueryKey(trpc.tasks.list, listInput, "infinite"),
+    (cursor, signal) =>
+      utils.client.tasks.list.query({ ...listInput, cursor }, { signal }),
+    viewMode !== "board",
+  );
   const { data: stats } = trpc.tasks.getStats.useQuery();
   const { isEnabled: isModuleEnabled, isPlaceholder: modulesPlaceholder } =
     useModules();
@@ -341,19 +353,45 @@ function TasksPageContent() {
     },
   });
 
+  async function withFullDescription(
+    task: TaskForList,
+    action: (task: TaskForList) => void,
+  ) {
+    try {
+      const { description } = await utils.client.tasks.getById.query({
+        id: task.id,
+      });
+      action({ ...task, description });
+    } catch {
+      toast.error(tc("error"));
+    }
+  }
+
+  function editTask(task: TaskForList) {
+    void withFullDescription(task, (fullTask) => {
+      setEditingTask({
+        id: fullTask.id,
+        title: fullTask.title,
+        description: fullTask.description,
+        projectId: fullTask.project?.id || null,
+        clientId: fullTask.client?.id || null,
+        status: fullTask.status,
+        statusId: fullTask.statusId,
+        priority: fullTask.priority,
+        deadline: fullTask.deadline,
+        estimatedMinutes: fullTask.estimatedMinutes,
+      });
+      setModalOpen(true);
+    });
+  }
+
   const filteredTasks = tasks?.filter((task) => {
-    const query = localSearch.toLowerCase();
     const taskProject = Array.isArray(task.project)
       ? task.project[0]
       : task.project;
     const taskClient = Array.isArray(task.client)
       ? task.client[0]
       : task.client;
-    const matchesSearch =
-      task.title.toLowerCase().includes(query) ||
-      task.description?.toLowerCase().includes(query) ||
-      (taskProject?.name || "").toLowerCase().includes(query) ||
-      (taskClient?.name || "").toLowerCase().includes(query);
 
     const matchesStatus =
       statusFilter === "all" ||
@@ -396,7 +434,6 @@ function TasksPageContent() {
           : task.assignedToUserId === effectiveAssigneeFilter);
 
     return (
-      matchesSearch &&
       matchesStatus &&
       matchesPriority &&
       matchesClient &&
@@ -424,21 +461,6 @@ function TasksPageContent() {
     setModalDefaultStatus(status);
     setModalOpen(true);
   }, []);
-
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="h-9 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2" />
-            <div className="h-5 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-          </div>
-        </div>
-        <SkeletonStats />
-        <SkeletonList items={5} />
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-4" data-tour="tasks-board">
@@ -827,6 +849,22 @@ function TasksPageContent() {
             />
           </div>
 
+          {isError ? (
+            <button
+              type="button"
+              className="text-sm underline"
+              onClick={() => void refetch()}
+            >
+              {tc("error")} {t("page.retryLoading")}
+            </button>
+          ) : (
+            hasNextPage && (
+              <p role="status" className="text-sm text-gray-500">
+                {tc("loading")}
+              </p>
+            )
+          )}
+
           {/* Task table */}
           <TaskListTable
             tasks={(filteredTasks as TaskForList[]) ?? []}
@@ -843,21 +881,7 @@ function TasksPageContent() {
             onUpdateTask={(taskId, updates) => {
               updateTaskMutation.mutate({ id: taskId, ...updates });
             }}
-            onEditTask={(task) => {
-              setEditingTask({
-                id: task.id,
-                title: task.title,
-                description: task.description,
-                projectId: task.project?.id || null,
-                clientId: task.client?.id || null,
-                status: task.status,
-                statusId: task.statusId,
-                priority: task.priority,
-                deadline: task.deadline,
-                estimatedMinutes: task.estimatedMinutes,
-              });
-              setModalOpen(true);
-            }}
+            onEditTask={editTask}
           />
 
           {/* Context menu for list view */}
@@ -887,19 +911,7 @@ function TasksPageContent() {
                 type="button"
                 onClick={() => {
                   setListContextMenu(null);
-                  setEditingTask({
-                    id: listContextMenu.task.id,
-                    title: listContextMenu.task.title,
-                    description: listContextMenu.task.description,
-                    projectId: listContextMenu.task.project?.id || null,
-                    clientId: listContextMenu.task.client?.id || null,
-                    status: listContextMenu.task.status,
-                    statusId: listContextMenu.task.statusId,
-                    priority: listContextMenu.task.priority,
-                    deadline: listContextMenu.task.deadline,
-                    estimatedMinutes: listContextMenu.task.estimatedMinutes,
-                  });
-                  setModalOpen(true);
+                  editTask(listContextMenu.task);
                 }}
                 className="flex w-full items-center gap-2 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
               >
@@ -908,7 +920,10 @@ function TasksPageContent() {
               <button
                 type="button"
                 onClick={() => {
-                  setTemplateTask(listContextMenu.task);
+                  void withFullDescription(
+                    listContextMenu.task,
+                    setTemplateTask,
+                  );
                   setListContextMenu(null);
                 }}
                 className="flex w-full items-center gap-2 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
@@ -920,19 +935,21 @@ function TasksPageContent() {
               <button
                 type="button"
                 onClick={() => {
-                  setDeleteConfirmTask({
-                    id: listContextMenu.task.id,
-                    title: listContextMenu.task.title,
-                    snapshot: {
-                      title: listContextMenu.task.title,
-                      description: listContextMenu.task.description,
-                      projectId: listContextMenu.task.project?.id,
-                      clientId: listContextMenu.task.client?.id,
-                      status: listContextMenu.task.status,
-                      priority: listContextMenu.task.priority,
-                      deadline: listContextMenu.task.deadline,
-                      estimatedMinutes: listContextMenu.task.estimatedMinutes,
-                    },
+                  void withFullDescription(listContextMenu.task, (task) => {
+                    setDeleteConfirmTask({
+                      id: task.id,
+                      title: task.title,
+                      snapshot: {
+                        title: task.title,
+                        description: task.description,
+                        projectId: task.project?.id,
+                        clientId: task.client?.id,
+                        status: task.status,
+                        priority: task.priority,
+                        deadline: task.deadline,
+                        estimatedMinutes: task.estimatedMinutes,
+                      },
+                    });
                   });
                   setListContextMenu(null);
                 }}

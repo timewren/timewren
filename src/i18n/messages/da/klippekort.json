@@ -26,28 +26,41 @@
   "assignedWithBalance": "{count, plural, one {# postering} other {# posteringer}} trukket på {name}, {balance} tilbage",
   "overflowed": "{count} posteringer kunne ikke dækkes af kortet og forbliver fakturerbare",
   "bulk": {
-    "failed": "Kunne ikke trække timerne",
-    "title": "Træk fra klippekort",
-    "description": "{count, plural, one {# postering trækkes på det valgte kort.} other {# posteringer trækkes på det valgte kort.}}",
+    "title": "Tilknyt klippekort",
+    "description": "{count, plural, one {Vælg et klippekort til # tidspostering.} other {Vælg et klippekort til # tidsposteringer.}}",
     "noPackages": "{client} har ingen aktive klippekort.",
     "noClient": "De valgte posteringer har ingen kunde at trække fra.",
-    "left": "{time} tilbage",
-    "selectedHours": "De valgte posteringer fylder {time}.",
-    "exceeds": "Timerne overstiger kortets saldo. Afhængigt af kortets overtræks-politik bliver trækket afvist, eller resten føres som overtræk.",
-    "submit": "Træk på klippekort"
+    "left": "{time} tilbage"
   },
+  "assignedTimeStaysOnProject": "Tiden bliver på projektet. Den trækkes kun fra klippekortets saldo.",
   "assign": {
+    "selectedDescription": "Se, hvad der trækkes fra {name}, før du tilknytter tiden.",
+    "ineligibleSelection": "En eller flere af de valgte tidsposteringer kan ikke tilknyttes. Kontrollér, at de er ufakturerede, ulåste og tilhører kortets kunde.",
+    "alreadyOnPackage": "De valgte tidsposteringer er allerede tilknyttet dette klippekort.",
     "failed": "Kunne ikke trække posteringerne",
     "title": "Tilknyt eksisterende tid",
-    "description": "Vælg de posteringer der skal trækkes på {name}. Kun kundens tid der hverken er trukket eller faktureret, vises her.",
+    "description": "Vælg ufaktureret tid fra kunden, som skal trækkes på {name}. Listen viser som udgangspunkt tid uden klippekort.",
     "loadFailed": "Kunne ikke hente tidsposteringerne. Prøv at åbne vinduet igen.",
-    "empty": "Der er ingen utrukket tid på denne kunde.",
+    "empty": "Ingen tidsposteringer matcher filtrene.",
     "deselectAll": "Fravælg alle",
     "selectAll": "Vælg alle ({count})",
-    "balance": "Saldo: {time}",
-    "exceeds": "De valgte {selected} overstiger saldoen på {balance}. Afhængigt af kortets overtræks-politik bliver trækket afvist, eller resten føres som overtræk.",
     "selectedSummary": "{count} valgt, {time}",
-    "submit": "Træk på klippekort"
+    "submit": "Træk på klippekort",
+    "includeOtherCards": "Vis også tid på andre klippekort",
+    "projectsFailed": "Projektlisten kunne ikke hentes.",
+    "selectProject": "Vælg alle i {name} ({count})",
+    "selection": "Valg",
+    "reviewMove": "Gennemgå flytning",
+    "confirmMove": "Før {restored} timer tilbage til {from} og træk {deducted} timer fra {to}.",
+    "confirmLink": "Tilknyt {hours} timer uden klippekort til {to}",
+    "confirmInvoiceFrom": "Før {restored} timer tilbage til {from}. {hours} timer bliver fakturerbare uden klippekort.",
+    "confirmInvoice": "{hours} timer uden klippekort forbliver fakturerbare.",
+    "balanceAfter": "Saldo efter tilknytning: {time}",
+    "exceedsBlock": "De valgte posteringer trækker {selected} efter afrunding. Der er {balance} tilbage, og overtræk er slået fra. Vælg posteringer, der kan dækkes af saldoen efter afrunding, eller tillad overtræk under Rediger på klippekortet.",
+    "exceedsBlockWithClips": "De valgte posteringer trækker {selected} efter afrunding. Der er {balance} tilbage, men saldoen dækker højst {limit} i én postering. Trækket beregnes for hver postering for sig og rundes op til hele klip og hundrededele af en time, så flere små posteringer kan trække mere. Overtræk er slået fra. Vælg tid, der kan dækkes. Tillad overtræk under Rediger på klippekortet.",
+    "balanceBelowClip": "Der er {balance} tilbage, og det mindste træk er {minimum}. Du kan ikke tilknytte tid, fordi overtræk er slået fra. Tillad overtræk under Rediger på klippekortet.",
+    "exceedsAllow": "De valgte posteringer trækker {selected}. Kortet har {balance} tilbage. Resten registreres som overtræk.",
+    "exceedsInvoice": "De valgte posteringer kræver {selected}. Kortet har {balance} tilbage. Posteringer, som kortet ikke kan dække, bliver fakturerbare uden klippekort."
   },
   "holes": {
     "label": "{remaining} t tilbage af {total}",
@@ -138,6 +151,12 @@
       "approveAndSend": "Godkend og gennemgå afsendelse"
     }
   },
+  "usagePdf": {
+    "date": "Dato",
+    "description": "Beskrivelse",
+    "hours": "Timer",
+    "value": "Værdi ({currency})"
+  },
   "detail": {
     "renewalUpdated": "Fornyelse opdateret",
     "deactivated": "Klippekort deaktiveret. Kunden ser det nu under 'Tidligere klippekort'",
@@ -198,7 +217,7 @@
     "description": "Beskrivelse",
     "hourlyRate": "Timepris",
     "rateValue": "{rate} kr/time",
-    "totalValue": "Total Værdi",
+    "totalValue": "Samlet værdi",
     "amountKr": "{amount} kr",
     "clipSize": "Klipstørrelse",
     "clipSizeValue": "{minutes} min",
@@ -305,6 +324,7 @@
     "overdraftInvoice": "Overløb til normal fakturering",
     "overdraftRateLabel": "Overtræks-sats (kr. pr. time, tom = postens egen sats)",
     "overdraftRatePlaceholder": "fx 950",
+    "overdraftHintEdit": "Gælder fra nu af. Timer, der allerede er trukket, ændres ikke.",
     "purchaseDate": "Købsdato *",
     "expiryDate": "Udløbsdato (valgfri)",
     "expiryHint": "Lad stå tomt hvis klippekortet ikke udløber",

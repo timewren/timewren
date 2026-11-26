@@ -7,6 +7,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({ cancel: vi.fn() }));
 
+vi.mock("@/lib/integrations/google-calendar-revoke", () => ({
+  lockGoogleCalendarRows: vi.fn(async () => []),
+  planGoogleCalendarRevokes: vi.fn(async () => []),
+  executeGoogleCalendarRevokes: vi.fn(async () => undefined),
+}));
 vi.mock("@/lib/alunta", () => ({
   alunta: { subscriptions: { cancel: mocks.cancel } },
 }));

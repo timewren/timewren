@@ -229,7 +229,7 @@ const ALLOWED_LICENSE_READERS = [
   /^app\/api\/desktop\/admin\/licenses\//,
   /^app\/api\/webhooks\/stripe\//,
   /^lib\/trpc\/routers\/(admin\/)?desktop\.ts$/,
-  /^lib\/(db\/schema|desktop-auth|account-deletion|stripe|config)\.ts$/,
+  /^lib\/(db\/schema|desktop-auth|desktop-license-brand|account-deletion|stripe|config)\.ts$/,
   /^lib\/export\//,
   /^lib\/email\//,
   // Kendte visnings-/formularfiler (klient eller e-mail): viser en nøgle, låser intet

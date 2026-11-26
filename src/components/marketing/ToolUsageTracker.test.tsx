@@ -6,15 +6,19 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { ToolUsageTracker } from "./ToolUsageTracker";
 import { UmamiToolAnalytics } from "./UmamiToolAnalytics";
 
-const { plausible, consent, ready } = vi.hoisted(() => ({
+type ScriptProps = Record<string, unknown> & { onReady: () => void };
+
+const { plausible, consent, ready, script } = vi.hoisted(() => ({
   plausible: vi.fn(),
   ready: { current: undefined as (() => void) | undefined },
+  script: { current: undefined as ScriptProps | undefined },
   consent: vi.fn(() => ({ analytics: true })),
 }));
 
 vi.mock("next/script", () => ({
-  default: ({ onReady }: { onReady: () => void }) => {
-    ready.current = onReady;
+  default: (props: ScriptProps) => {
+    ready.current = props.onReady;
+    script.current = props;
     return null;
   },
 }));
@@ -35,19 +39,24 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => root.render(null));
   ready.current = undefined;
+  script.current = undefined;
   vi.unstubAllGlobals();
   vi.clearAllMocks();
   consent.mockReturnValue({ analytics: true });
 });
 
-async function renderTools(children?: ReactNode, useScript = false) {
+async function renderTools(
+  children?: ReactNode,
+  useScript: boolean | string = false,
+) {
+  const scriptUrl = useScript === true ? "/stats.js" : useScript || undefined;
   await act(async () =>
     root.render(
       <UmamiToolAnalytics
         collectUrl={
-          useScript ? undefined : "https://collector.example/api/stats"
+          scriptUrl ? undefined : "https://collector.example/api/stats"
         }
-        scriptUrl={useScript ? "/stats.js" : undefined}
+        scriptUrl={scriptUrl}
         websiteId="test"
       >
         {children ?? (
@@ -183,5 +192,111 @@ it("lets the configured tracker deliver a queued event with its original path", 
     name: "tool_used",
     data: { tool: "test-tool" },
   });
+  expect(send).not.toHaveBeenCalled();
+});
+
+/**
+ * Behaves like the Umami tracker: it sends to `data-host-url`, else the host
+ * built into the tracker (gateway.umami.is for Umami Cloud), else the script's
+ * own directory, plus its built-in endpoint. It swallows every failure, so
+ * `track()` resolves the same way whether the event arrived or not.
+ */
+function loadTracker(
+  built: { host?: string; endpoint?: string; url?: string } = {},
+) {
+  const src = String(script.current?.src);
+  const hostUrl = script.current?.["data-host-url"];
+  const scriptDir = new URL(".", new URL(src, window.location.href)).href;
+  const host =
+    typeof hostUrl === "string" ? hostUrl : (built.host ?? scriptDir);
+  const endpoint = `${host.replace(/\/$/, "")}${built.endpoint ?? "/api/send"}`;
+  vi.stubGlobal("umami", {
+    track: async (update: (defaults: object) => object) => {
+      const payload = update({ website: "test" });
+      if (built.url) Object.assign(payload, { url: built.url });
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: JSON.stringify({ type: "event", payload }),
+        });
+        await (response as Response).json();
+      } catch {}
+    },
+  });
+}
+
+const cloud = { host: "https://gateway.umami.is" };
+
+async function trackOnce(scriptUrl: string, built: object) {
+  await renderTools(undefined, scriptUrl);
+  loadTracker(built);
+  await act(async () => ready.current?.());
+  await act(async () => container.querySelector("button")?.click());
+}
+
+it("sends through a same-origin Cloud script proxy to its own /api/send", async () => {
+  await trackOnce("/stats.js", cloud);
+  expect(script.current?.["data-host-url"]).toBeUndefined();
+  expect(send).toHaveBeenCalledExactlyOnceWith(
+    `${window.location.origin}/api/send`,
+    expect.anything(),
+  );
+});
+
+// ORIGIN stands for the page's own origin, which is only known inside a test.
+it.each([
+  ["Umami Cloud", "https://cloud.umami.is/script.js", cloud],
+  ["a self-hosted tracker", "https://umami.example/script.js", {}],
+  [
+    "a self-hosted tracker with COLLECT_API_ENDPOINT",
+    "https://umami.example/script.js",
+    { endpoint: "/api/custom" },
+  ],
+  [
+    "a proxied self-hosted tracker with a built-in collector",
+    "/stats.js",
+    { host: "ORIGIN/metrics", endpoint: "/api/custom" },
+  ],
+])("leaves the collector of %s alone", async (_, url, built) => {
+  const tracker: { host?: string; endpoint?: string } = { ...built };
+  tracker.host = tracker.host?.replace("ORIGIN", window.location.origin);
+  await trackOnce(url, tracker);
+  expect(script.current?.src).toBe(url);
+  expect(script.current?.["data-host-url"]).toBeUndefined();
+  const host = tracker.host ?? new URL(url, window.location.href).origin;
+  expect(send).toHaveBeenCalledExactlyOnceWith(
+    `${host}${tracker.endpoint ?? "/api/send"}`,
+    expect.anything(),
+  );
+});
+
+it.each([
+  ["HTTP 503", {}],
+  ["network failure", {}],
+  ["HTTP 503 with a rewritten page URL", { url: "/calculator" }],
+])("retries a tool action after a tracker %s", async (failure, built) => {
+  if (failure.startsWith("HTTP 503")) {
+    send.mockResolvedValueOnce({ ok: false, status: 503 } as never);
+  } else send.mockRejectedValueOnce(new TypeError("offline"));
+
+  await renderTools(undefined, true);
+  loadTracker({ ...cloud, ...built });
+  await act(async () => ready.current?.());
+  await act(async () => {
+    container.querySelector("button")?.click();
+    container.querySelector("button")?.click();
+  });
+  expect(send).toHaveBeenCalledOnce();
+  await act(async () => container.querySelector("button")?.click());
+  expect(send).toHaveBeenCalledTimes(2);
+  await act(async () => container.querySelector("button")?.click());
+  expect(send).toHaveBeenCalledTimes(2);
+});
+
+it("loads no tracker without statistics consent", async () => {
+  consent.mockReturnValue({ analytics: false });
+  await renderTools(undefined, true);
+  await act(async () => container.querySelector("button")?.click());
+  expect(script.current).toBeUndefined();
   expect(send).not.toHaveBeenCalled();
 });

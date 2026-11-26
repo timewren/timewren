@@ -300,7 +300,10 @@
     "draftOnlyReorder": "L'ordine si può cambiare solo nelle bozze di fattura",
     "providerMismatch": "Non è stato possibile verificare l’importo o la valuta. Controlla la bozza nel gestionale prima dell’invio.",
     "recipientChanged": "L’indirizzo del destinatario è cambiato. Riapri la conferma.",
-    "clientHasNoEmail": "Il cliente non ha un indirizzo e-mail"
+    "clientHasNoEmail": "Il cliente non ha un indirizzo e-mail",
+    "exportInProgress": "Questa fattura è già in fase di esportazione. Riprova tra un momento.",
+    "providerEmailUncertain": "Non abbiamo potuto confermare che il tuo programma di contabilità abbia inviato la fattura. Controlla lo stato dell'e-mail in Billy o Dinero e segna il risultato nella pagina della fattura prima di inviarla di nuovo.",
+    "sendReviewChanged": "La fattura è cambiata dopo la tua conferma. Riapri la conferma."
   },
   "logbook": {
     "ownOnly": "Puoi vedere solo il tuo registro chilometrico",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Impossibile creare il collegamento a Dinero. Riprova.",
       "economicFailed": "Impossibile creare il collegamento a e-conomic. Riprova.",
-      "googleFailed": "Impossibile creare il collegamento a Google. Riprova."
+      "googleFailed": "Impossibile creare il collegamento a Google. Riprova.",
+      "outlookFailed": "Impossibile creare la connessione a Outlook. Riprova."
     },
     "invoiceSend": {
       "invalidRecipient": "E-mail del destinatario non valida",

@@ -238,12 +238,22 @@ export default function FAQPage() {
                 question: "Findes der en timeregistrering app?",
                 answer: (
                   <>
-                    TimeTrack er webbaseret og kan bruges på mobil. Se{" "}
+                    Ja. Appen til iPhone og iPad ligger i App Store, og
+                    desktop-appen findes til Mac og Windows. Android-appen
+                    kommer snart i Google Play, og indtil da virker webappen på
+                    telefonen. Du finder dem alle på{" "}
+                    <Link
+                      className="underline hover:text-brand-600"
+                      href="/download"
+                    >
+                      download-siden
+                    </Link>
+                    , og mere om{" "}
                     <Link
                       className="underline hover:text-brand-600"
                       href="/timeregistrering-app"
                     >
-                      timeregistrering app
+                      appen til tidsregistrering
                     </Link>
                     .
                   </>

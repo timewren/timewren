@@ -8,6 +8,7 @@ import { HeroKlippekort } from "@/components/marketing/home/HeroKlippekort";
 import { HeroTimer } from "@/components/marketing/home/HeroTimer";
 import { IntegrationsRow } from "@/components/marketing/home/IntegrationsRow";
 import { LatestPosts } from "@/components/marketing/home/LatestPosts";
+import { Platforms } from "@/components/marketing/home/Platforms";
 import { ProductShowcase } from "@/components/marketing/home/ProductShowcase";
 import { Testimonials } from "@/components/marketing/home/Testimonials";
 import { mk } from "@/components/marketing/mk";
@@ -97,7 +98,7 @@ const FAQ = [
   },
   {
     q: "Findes der en app til telefonen?",
-    a: "TimeTrack virker i telefonens browser, og du kan lægge den på hjemmeskærmen. Apps til iPhone og Android er i beta, og du kan melde dig som betatester. Browserudvidelsen til Chrome og Edge og desktop-appen til Mac og Windows findes allerede. Alle apps er med i alle planer, også Gratis.",
+    a: "Ja. Appen til iPhone og iPad ligger i App Store, og Android-appen kommer snart i Google Play. TimeTrack virker også i telefonens browser, og du kan lægge den på hjemmeskærmen. Browserudvidelsen til Chrome og Edge og desktop-appen til Mac og Windows findes allerede. Alle apps er med i alle planer, også Gratis, og du finder dem på download-siden.",
   },
   {
     q: "Kan jeg lave fakturaer ud fra mine timer?",
@@ -132,7 +133,7 @@ const softwareSchema = {
   "@type": "SoftwareApplication",
   name: "TimeTrack",
   applicationCategory: "BusinessApplication",
-  operatingSystem: "Web, Windows, macOS",
+  operatingSystem: "Web, iOS, iPadOS, Windows, macOS",
   description: DESCRIPTION,
   offers: {
     "@type": "AggregateOffer",
@@ -179,20 +180,22 @@ export default function LandingPage() {
       <Navigation />
 
       <main>
+        {/* Hero: spørgsmålet om tabt fakturering, prisen over folden, founderen som støttelinje */}
         <section className="pt-28 pb-16 sm:pt-36 sm:pb-20">
           <div className={mk.wrap}>
             <TrustBadge />
             <h1 className={`${mk.h1} mt-4 max-w-4xl`}>
-              Hvor mange timer har kunden tilbage på klippekortet?
+              Hvor mange timer glemmer du at fakturere?
             </h1>
             <div className="mt-10 grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16 [&>*]:min-w-0">
               <div className="order-2 lg:order-1">
                 <p className={`${mk.lead} max-w-xl`}>
-                  Tidsregistrering på kunder og projekter i TimeTrack. Timerne
-                  trækkes fra kundens klippekort og samles til fakturaen i Billy
-                  eller Dinero.
+                  TimeTrack får hver time med på fakturaen uden tung
+                  administration. Timerne trækkes fra kundens klippekort, mens
+                  du arbejder, og fakturagrundlaget ligger klar til Billy eller
+                  Dinero.
                 </p>
-                <HeroCta />
+                <HeroCta secondary="download" />
                 <p className={`${mk.fine} max-w-xl`}>{HOME_PRICE_LINE}</p>
                 <FounderNote className="mt-9 max-w-xl" />
               </div>
@@ -264,6 +267,8 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <Platforms />
+
         {/* Timeren uden konto: sekundær handling */}
         <section
           id="timer"
@@ -278,18 +283,14 @@ export default function LandingPage() {
                 Prøv timeren her, uden konto
               </h2>
               <p className={`${mk.lead} mt-5 max-w-xl`}>
-                Den virker med det samme i browseren. Med en konto har du de
-                samme timer i{" "}
+                Den virker med det samme i browseren. Med en konto følger dine
+                timer med mellem appen, webappen,{" "}
                 <Link href="/browser-extension" className={mk.link}>
                   browserudvidelsen
-                </Link>
-                , i{" "}
+                </Link>{" "}
+                og{" "}
                 <Link href="/desktop" className={mk.link}>
                   desktop-appen
-                </Link>{" "}
-                og på telefonen, hvor{" "}
-                <Link href="/timeregistrering-app" className={mk.link}>
-                  appen er i beta
                 </Link>
                 .
               </p>

@@ -9,6 +9,7 @@ import {
 import { pdfText } from "@/components/pdf/pdf-text";
 import { BRAND_LIGHT, DEFAULT_INVOICE_PRIMARY_COLOR } from "@/lib/brand/tokens";
 import { formatInvoiceNumber } from "@/lib/invoices/draft-number";
+import { invoicePdfTotals } from "@/lib/invoices/pdf-totals";
 import { TT_IKON_PNG_DATA_URI } from "@/lib/pdf/brand-icon";
 import { registerPdfFonts } from "@/lib/pdf/react-pdf-fonts";
 
@@ -90,6 +91,7 @@ interface InvoicePDFProps {
   template?: InvoiceTemplate | null;
   /** Sprog til fakturaens tekster (standard: dansk). */
   locale?: string;
+  currency?: string;
 }
 
 export function InvoicePDF({
@@ -98,13 +100,18 @@ export function InvoicePDF({
   companyProfile,
   template,
   locale,
+  currency: accountCurrency,
 }: InvoicePDFProps) {
   const { t, intlLocale } = pdfText(locale);
   // Kundens egen farve respekteres altid; ellers brandets default.
   const primaryColor = template?.primaryColor || DEFAULT_INVOICE_PRIMARY_COLOR;
-  const currency = template?.currency || "DKK";
-  const vatRate = Number.parseFloat(template?.vatRate || "25.00");
-  const showVat = companyProfile?.vatRegistered === true;
+  const { currency, vatRate, showVat, subtotal, vatAmount, total } =
+    invoicePdfTotals({
+      invoice,
+      companyProfile,
+      template,
+      currency: accountCurrency,
+    });
   const hasLines = invoice.lines && invoice.lines.length > 0;
   const hasTimeEntries = invoice.timeEntries && invoice.timeEntries.length > 0;
   const logoUrl = template?.logoUrl || companyProfile?.logoUrl;
@@ -136,19 +143,6 @@ export function InvoicePDF({
     });
   };
 
-  // Calculate totals
-  let subtotal: number;
-  if (hasLines) {
-    subtotal = (invoice.lines ?? []).reduce(
-      (sum, line) => sum + Number.parseFloat(line.amount),
-      0,
-    );
-  } else {
-    subtotal = Number.parseFloat(invoice.amount);
-  }
-  const vatAmount = showVat ? subtotal * (vatRate / 100) : 0;
-  const total = subtotal + vatAmount;
-
   const styles = createStyles(primaryColor);
 
   return (
@@ -167,7 +161,7 @@ export function InvoicePDF({
               {invoice.kind === "credit_note" ? t("creditNote") : t("invoice")}
             </Text>
             <Text style={styles.invoiceNumber}>
-              {formatInvoiceNumber(invoice.invoiceNumber)}
+              {formatInvoiceNumber(invoice.invoiceNumber, t("draft"))}
             </Text>
           </View>
         </View>
@@ -181,7 +175,7 @@ export function InvoicePDF({
                 : t("invoiceNoColon")}
             </Text>
             <Text style={styles.metaValue}>
-              {formatInvoiceNumber(invoice.invoiceNumber)}
+              {formatInvoiceNumber(invoice.invoiceNumber, t("draft"))}
             </Text>
           </View>
           {invoice.kind === "credit_note" && invoice.relatedInvoiceNumber ? (

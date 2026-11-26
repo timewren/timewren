@@ -19,6 +19,7 @@ import { invalidateOrgModules } from "@/lib/modules/cache";
 import { FREELANCE_BUNDLE, MODULE_KEYS } from "@/lib/modules/constants";
 import { resolveOrgProfile } from "@/lib/modules/org-profile";
 import { shouldMakeModuleAvailable } from "@/lib/modules/toggle";
+import { DEFAULT_ORG_REGION, orgRegionFromMetadata } from "@/lib/org/region";
 import { logOrgAudit } from "@/lib/org-audit";
 import type { OrgRole } from "@/lib/permissions/org-role";
 import { resolveEffectiveOrgRole } from "@/lib/permissions/role-access";
@@ -102,6 +103,8 @@ export const organizationRouter = router({
         slug: null,
         metadata: null,
         orgProfile: "freelance" as const,
+        teamSize: null,
+        region: DEFAULT_ORG_REGION,
         modules: FREELANCE_FALLBACK_MODULES,
       };
     }
@@ -111,6 +114,9 @@ export const organizationRouter = router({
     const moduleRows = await ctx.db.query.organizationModules.findMany({
       where: eq(organizationModules.organizationId, ctx.orgId),
     });
+    // Medlemmer plus gyldige invitationer: menuen skjuler teampunkterne for
+    // en solo-freelancer og viser dem, så snart nogen er inviteret (fund 15).
+    const seats = await countSeatUsage(ctx.db, ctx.orgId);
     // Profil: eksplicit metadata.type vinder; ellers modul-heuristik
     // (se resolveOrgProfile, #452).
     const moduleOn = (key: string) =>
@@ -125,6 +131,8 @@ export const organizationRouter = router({
       slug: org?.slug ?? null,
       metadata: org?.metadata ?? null,
       orgProfile,
+      teamSize: seats.total,
+      region: orgRegionFromMetadata(org?.metadata),
       modules: moduleRows.map((r) => ({
         key: r.moduleKey,
         isAvailable: r.isAvailable,

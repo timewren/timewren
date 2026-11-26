@@ -40,6 +40,8 @@ Elige este método si quieres ejecutar código modificado o contribuir. Si solo 
 
 Los argumentos de compilación `NEXT_PUBLIC_DESKTOP_RELEASES_REPO`, `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_SENTRY_DSN` y `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` se compilan dentro del bundle del navegador, por lo que cambiarlos en `.env` requiere volver a ejecutar `docker compose up -d --build`. La URL de la aplicación, la URL de marketing y la marca se leen en tiempo de ejecución y no requieren recompilar.
 
+El bloque `build` del archivo Compose establece el argumento de compilación `BUILD_PROFILE: selfhost`. Ese perfil deja fuera de la compilación el sitio de marketing de Cloud (precios, blog, páginas de aterrizaje) y el sitio web de TimeWren, por lo que la compilación es más corta y la imagen más pequeña. Las páginas de cookies, contacto, descarga y eliminación de cuenta, las páginas propias de la instancia sobre privacidad, RGPD, condiciones y tratamiento de datos, y la propia aplicación no cambian. La imagen precompilada se construye así. Para compilar la aplicación completa, incluidas las páginas de marketing que activa `NEXT_PUBLIC_MARKETING_URL`, quita el argumento o establece `BUILD_PROFILE: full`.
+
 También puedes ejecutar el instalador del checkout, `./scripts/install.sh`. En un checkout construye la imagen e inicia el stack con `docker compose up -d --build` cada vez que se ejecuta. Consulta [Instalación en una línea](/es/docs/install/quick).
 
 ## Ejecutar el servidor de desarrollo

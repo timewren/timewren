@@ -302,7 +302,10 @@
     "draftOnlyReorder": "The order can only be changed on draft invoices",
     "providerMismatch": "The amount or currency could not be verified. Review the draft in your accounting system before sending.",
     "recipientChanged": "The recipient’s email has changed. Reopen the confirmation.",
-    "clientHasNoEmail": "The client has no email address"
+    "clientHasNoEmail": "The client has no email address",
+    "exportInProgress": "This invoice is already being exported. Try again in a moment.",
+    "providerEmailUncertain": "We couldn't confirm that your accounting system sent the invoice. Check the email status in Billy or Dinero and mark the result on the invoice page before you send it again.",
+    "sendReviewChanged": "The invoice changed after you confirmed it. Open the confirmation again."
   },
   "logbook": {
     "ownOnly": "You can only view your own logbook",
@@ -438,6 +441,7 @@
     "checkoutComingSoon": "Payments aren't open here yet. You're on the Free plan.",
     "checkoutNotForAccount": "This payment option isn't available for your account. Manage your plan under Settings → Subscription.",
     "stripeUnavailable": "Payments are not available right now. Try again later.",
+    "stripeCheckoutBusy": "Checkout is already in progress for this organization. Wait a moment and try again.",
     "stripeAlreadyActive": "You already have an active subscription. Use 'Manage subscription' to change plan or users.",
     "stripeNoCustomer": "No subscription with payment found. Choose a plan first.",
     "noOrganization": "Your account has no workspace. Reload the page and try again."
@@ -760,7 +764,8 @@
     "integrations": {
       "dineroFailed": "The Dinero connection could not be created. Try again.",
       "economicFailed": "The e-conomic connection could not be created. Try again.",
-      "googleFailed": "The Google connection could not be created. Try again."
+      "googleFailed": "The Google connection could not be created. Try again.",
+      "outlookFailed": "The Outlook connection could not be created. Try again."
     },
     "invoiceSend": {
       "invalidRecipient": "Invalid recipient email",

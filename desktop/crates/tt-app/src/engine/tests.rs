@@ -1077,7 +1077,7 @@ fn permissions_are_mapped() {
     let dir = tempfile::tempdir().unwrap();
     let e = engine(dir.path());
     let p = e.permissions().unwrap();
-    if cfg!(target_os = "macos") {
+    if cfg!(target_os = "macos") && !cfg!(feature = "mas") {
         assert!(matches!(
             p.accessibility,
             PermissionState::Granted | PermissionState::Denied | PermissionState::Unknown
@@ -1114,18 +1114,25 @@ fn chrome_window(title: &str) -> tr::RawWindow {
     }
 }
 
-fn wait_for_signal(rx: &ChangeRx) -> bool {
-    let until = Instant::now() + Duration::from_secs(10);
-    while Instant::now() < until {
-        if rx.try_recv().is_ok() {
-            return true;
-        }
-        std::thread::sleep(Duration::from_millis(20));
+/// Venter, til en `ScriptedPlatform` er spillet færdig: den stopper selv
+/// trackeren efter sidste frame, og tråden gemmer segmentet, før den slutter.
+/// Ingen fast ventetid: på en belastet CI-maskine tog 450 polls over 10 s.
+/// Nødgrænsen fanger kun en tracker, der aldrig stopper af sig selv.
+#[cfg(not(feature = "mas"))]
+fn wait_until_script_done(e: &Engine) {
+    let t = Instant::now();
+    while lock(&e.tracker).as_ref().is_some_and(tr::Tracker::is_running) {
+        assert!(
+            t.elapsed() < Duration::from_secs(300),
+            "scriptet blev ikke spillet færdigt (trackeren stopper ikke selv)"
+        );
+        std::thread::sleep(Duration::from_millis(5));
     }
-    false
+    e.stop_tracking();
 }
 
 #[test]
+#[cfg(not(feature = "mas"))]
 fn a_replayed_day_flows_through_the_tracker_into_a_suggestion() {
     let dir = tempfile::tempdir().unwrap();
     // 450 polls à 2 s = 15 minutter i Alfas webshop.
@@ -1143,23 +1150,18 @@ fn a_replayed_day_flows_through_the_tracker_into_a_suggestion() {
     assert_eq!(e.tracking_state(), TrackingState::NotStarted);
 
     e.apply_settings(&settings(AiMode::Off));
-    assert!(wait_for_signal(&rx), "trackeren skulle give et signal");
+    wait_until_script_done(&e);
+    assert!(rx.try_recv().is_ok(), "trackeren skulle give et signal");
     // Trackeren gemmer, og forslaget kommer uden at rå aktivitet forlader motoren.
-    let until = Instant::now() + Duration::from_secs(10);
-    let s = loop {
-        let s = suggest(&e, day());
-        if !s.is_empty() || Instant::now() > until {
-            break s;
-        }
-        std::thread::sleep(Duration::from_millis(20));
-    };
+    let s = suggest(&e, day());
     assert_eq!(s.len(), 1, "{s:?}");
     assert_eq!(s[0].customer_id.as_deref(), Some("k_alfa"));
     assert_eq!(s[0].start, time(9, 0));
-    assert!(s[0].minutes() >= 14);
+    assert_eq!(s[0].minutes(), 15, "450 polls à 2 s");
 }
 
 #[test]
+#[cfg(not(feature = "mas"))]
 fn tracking_is_paused_and_resumed_by_the_settings() {
     let dir = tempfile::tempdir().unwrap();
     let frames = vec![Frame {
@@ -1186,12 +1188,40 @@ fn tracking_is_paused_and_resumed_by_the_settings() {
     assert_eq!(e.tracking_state(), TrackingState::Running);
 }
 
+/// App Store-udgaven: sporingen starter aldrig, heller ikke med en platform,
+/// der kan se et vindue, og selv om indstillingerne slår den til.
+#[test]
+#[cfg(feature = "mas")]
+fn mas_starter_aldrig_sporingen() {
+    let dir = tempfile::tempdir().unwrap();
+    let frames = vec![Frame {
+        window: Some(chrome_window("Ordrer")),
+        idle_secs: 0,
+    }];
+    let platform = ScriptedPlatform::new(at(day(), 9, 0), frames);
+    let e = Engine::new(dir.path().to_path_buf(), Some(Box::new(platform)));
+    let mut on = settings(AiMode::Off);
+    on.tracking.enabled = true;
+    on.tracking.start_on_launch = true;
+    e.apply_settings(&on);
+    assert_eq!(e.tracking_state(), TrackingState::NotStarted);
+    assert!(lock(&e.tracker).is_none(), "ingen tracker");
+    // Den rigtige motor får ingen platform, og ingen tilladelser mangler.
+    let native = Engine::native(tempfile::tempdir().unwrap().path().to_path_buf());
+    assert!(lock(&native.platform).is_none());
+    let p = native.permissions().unwrap();
+    assert_eq!(p.accessibility, PermissionState::NotNeeded);
+    assert_eq!(p.screen_recording, PermissionState::NotNeeded);
+}
+
 /// Et vindue, der bliver ved med at være fremme. Uret går 2 s pr. poll, men
 /// der ventes kun 1 ms, så et segment på flere minutter tager et øjeblik.
+#[cfg(not(feature = "mas"))]
 struct Steady {
     clock: DateTime<Utc>,
 }
 
+#[cfg(not(feature = "mas"))]
 impl tr::Platform for Steady {
     fn foreground(&mut self) -> Option<tr::RawWindow> {
         Some(chrome_window("Ordrer - Alfa Shop"))
@@ -1209,6 +1239,7 @@ impl tr::Platform for Steady {
 }
 
 #[test]
+#[cfg(not(feature = "mas"))]
 fn stop_tracking_gemmer_det_igangvaerende_segment() {
     // Afslutter brugeren appen (Cmd+Q, log ud, sluk), mens et vindue er
     // fremme, skal det segment gemmes. Set på en rigtig Mac: 40 s i Safari

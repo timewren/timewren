@@ -317,7 +317,7 @@ impl Settings {
             },
             shortcuts: default_shortcuts(),
             appearance: Appearance::System,
-            language: Language::Da,
+            language: Language::edition_default(),
             update_channel: UpdateChannel::Stable,
             d21: D21Settings::default(),
             export: ExportSettings::default(),
@@ -332,10 +332,11 @@ fn default_shortcuts() -> Vec<Shortcut> {
     let m = if os == Os::Mac { "cmd" } else { "ctrl" };
     // De globale genveje er de samme, som `hotkeys` registrerer fra start.
     let global = |action: &str| default_global(action, os).expect("global standard").to_owned();
+    let show = format!("Vis {}", tt_core::edition::EDITION.name);
     [
         ("timer.toggle", "Start eller pause timeren", global("timer.toggle"), true),
         ("timer.stop", "Stop og gem timeren", global("timer.stop"), true),
-        ("app.show", "Vis TimeTrack", global("app.show"), true),
+        ("app.show", show.as_str(), global("app.show"), true),
         ("tracking.toggle", "Pause eller genoptag sporingen", global("tracking.toggle"), true),
         ("palette.open", "Åbn kommandopaletten", format!("{m}-k"), false),
         ("entry.new", "Ny registrering", format!("{m}-n"), false),
@@ -1016,5 +1017,24 @@ mod tests {
         assert_eq!(AiServerKind::LmStudio.port(), 1234);
         assert_eq!(AiServerKind::Jan.port(), 1337);
         assert_eq!(AiServerKind::Llamafile.port(), 8080);
+    }
+}
+
+#[cfg(test)]
+mod brand_tests {
+    use super::*;
+
+    /// Standardsproget er udgavens: dansk (TimeTrack) eller engelsk (TimeWren).
+    #[test]
+    fn brand_standardsproget_er_udgavens() {
+        let want = match tt_core::edition::EDITION.default_language {
+            "en" => Language::En,
+            _ => Language::Da,
+        };
+        assert_eq!(Settings::defaults().language, want);
+        assert_eq!(Language::edition_default(), want);
+        assert_eq!(Language::from_locale(None), want);
+        assert_eq!(Language::from_locale(Some("fr-FR")), Language::En);
+        assert_eq!(Language::from_locale(Some("da-DK")), Language::Da);
     }
 }

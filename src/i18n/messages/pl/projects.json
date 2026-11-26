@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Budżet miesięczny",
     "hint": "{hours} godz. miesięcznie, zerowanie pierwszego dnia miesiąca.",
-    "usage": "{used} z {budget} godz. ({pct}%)",
     "overrun": "Budżet miesięczny został przekroczony o {hours} godz.",
-    "previous": "Poprzednie miesiące",
-    "hoursPct": "{hours} godz. ({pct}%)"
+    "previous": "Poprzednie miesiące"
   },
   "activityTypes": {
     "allowedAll": "W projekcie dozwolone są wszystkie rodzaje aktywności",
@@ -66,10 +64,8 @@
     "title": "Budżet godzin",
     "derived": "wyliczony",
     "derivedTitle": "Wyliczony z ceny ryczałtowej ÷ stawki godzinowej. Ustaw budżet godzin w projekcie, aby kontrolować go bezpośrednio.",
-    "hoursOf": "{used} / {total} godz.",
     "over": "{hours} godz. ponad budżet",
     "remaining": "Pozostało {hours} godz.",
-    "ariaUsed": "Wykorzystano {pct}% budżetu godzin",
     "plannedTitle": "{hours} godz. zaplanowanych z wyprzedzeniem",
     "pctUsed": "Wykorzystano {pct}%",
     "planned": "+ {planned} godz. zaplanowanych = {forecast} godz. ({pct}%)",
@@ -188,11 +184,11 @@
     "colTotal": "Razem",
     "colStatus": "Status",
     "selectProject": "Zaznacz: {name}",
-    "budgetUsedTitle": "Wykorzystano {pct}% budżetu godzin ({used}/{total} godz.)",
     "noClient": "Brak klienta",
-    "monthlyUsed": "{used}/{budget} godz.",
     "monthlyAria": "Wykorzystano {pct}% budżetu miesięcznego",
-    "monthlyTitle": "Wykorzystano {used} z {budget} godz. w tym miesiącu ({pct}%)"
+    "monthlyTitle": "Wykorzystano {used} z {budget} godz. w tym miesiącu ({pct}%)",
+    "emptyNeedsClientHint": "Projekt należy do klienta. Najpierw dodaj klienta, a potem utwórz projekt.",
+    "createClientFirst": "Dodaj pierwszego klienta"
   },
   "detail": {
     "status": {

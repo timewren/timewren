@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Kuukausibudjetti",
     "hint": "{hours} tuntia kuukaudessa, nollautuu kuukauden 1. päivänä.",
-    "usage": "{used} / {budget} h ({pct} %)",
     "overrun": "Kuukausibudjetti on ylittynyt {hours} tunnilla",
-    "previous": "Aiemmat kuukaudet",
-    "hoursPct": "{hours} h ({pct} %)"
+    "previous": "Aiemmat kuukaudet"
   },
   "activityTypes": {
     "allowedAll": "Kaikki toimintatyypit on sallittu projektissa",
@@ -66,10 +64,8 @@
     "title": "Tuntibudjetti",
     "derived": "johdettu",
     "derivedTitle": "Johdettu kiinteästä hinnasta ÷ tuntihinta. Aseta projektille tuntibudjetti, jos haluat hallita sitä suoraan.",
-    "hoursOf": "{used} / {total} h",
     "over": "{hours} h yli",
     "remaining": "{hours} h jäljellä",
-    "ariaUsed": "{pct} % tuntibudjetista käytetty",
     "plannedTitle": "{hours} h suunniteltu etukäteen",
     "pctUsed": "{pct} % käytetty",
     "planned": "+ {planned} h suunniteltu = {forecast} h ({pct} %)",
@@ -188,11 +184,11 @@
     "colTotal": "Yhteensä",
     "colStatus": "Tila",
     "selectProject": "Valitse {name}",
-    "budgetUsedTitle": "{pct} % tuntibudjetista käytetty ({used}/{total} h)",
     "noClient": "Ei asiakasta",
-    "monthlyUsed": "{used}/{budget} h",
     "monthlyAria": "{pct} % kuukausibudjetista käytetty",
-    "monthlyTitle": "{used} / {budget} h käytetty tässä kuussa ({pct} %)"
+    "monthlyTitle": "{used} / {budget} h käytetty tässä kuussa ({pct} %)",
+    "emptyNeedsClientHint": "Projekti kuuluu asiakkaalle. Lisää ensin asiakas ja luo sitten projekti.",
+    "createClientFirst": "Lisää ensimmäinen asiakas"
   },
   "detail": {
     "status": {

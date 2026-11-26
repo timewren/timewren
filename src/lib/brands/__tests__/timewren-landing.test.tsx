@@ -59,6 +59,7 @@ describe("sprogkataloger", () => {
   // Fanger engelsk tekst, der er glemt på en oversat forside.
   const SAME_IN_ALL = new Set([
     "TimeWren Cloud",
+    "Android",
     "Team",
     "Teams",
     "Support",
@@ -82,13 +83,16 @@ describe("sprogkataloger", () => {
     "Web app",
     "Webapp",
     "Docs",
+    "Desktop",
+    "Mac",
+    "Windows",
     "Open source under AGPL-3.0",
   ]);
   it.each(["da", "de", "es"] as const)(
     "%s: ingen engelske strenge på forsiden, i menu og footer",
     (l) => {
       const untranslated = en
-        // Plannavnene er egennavne som i appen ("the Selvstændig plan").
+        // Plannavnene følger appen pr. sprog, og "Solo"/"Team" er ens på flere sprog.
         .filter((k) => /^(home|nav|footer|pricing|selfHosting)\./.test(k))
         .filter((k) => !k.startsWith("pricing.plans."))
         .filter((k) => {

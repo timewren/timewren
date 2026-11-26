@@ -170,13 +170,13 @@ describe("metadata og SEO", () => {
     expect(JSON.stringify(siteMetadata("/terms", "en"))).not.toMatch(/draft/i);
   });
 
-  it("noindex uden TIMEWREN_INDEXABLE, index med", () => {
-    vi.stubEnv("TIMEWREN_INDEXABLE", "");
+  it("index som standard, noindex med TIMEWREN_INDEXABLE=0", () => {
+    vi.stubEnv("TIMEWREN_INDEXABLE", "0");
     expect(siteMetadata("/", "en").robots).toEqual({
       index: false,
       follow: false,
     });
-    vi.stubEnv("TIMEWREN_INDEXABLE", "1");
+    vi.stubEnv("TIMEWREN_INDEXABLE", "");
     expect(siteMetadata("/", "en").robots).toEqual({
       index: true,
       follow: true,
@@ -196,7 +196,10 @@ describe("metadata og SEO", () => {
   it("sitemap: 4 sprog på alle sider", () => {
     const xml = siteSitemapXml("https://timewren.com");
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-    expect(locs).toHaveLength(5 * 4);
+    expect(locs).toHaveLength(7 * 4);
+    expect(locs).toContain("https://timewren.com/da/desktop");
+    expect(locs).toContain("https://timewren.com/download");
+    expect(locs).toContain("https://timewren.com/de/download");
     expect(locs).toContain("https://timewren.com/es/self-hosting");
     expect(locs).toContain("https://timewren.com/privacy");
     expect(locs).toContain("https://timewren.com/da/terms");
@@ -206,10 +209,10 @@ describe("metadata og SEO", () => {
     );
   });
 
-  it("robots.txt: sitemap kun på marketinghosten med flaget", () => {
-    vi.stubEnv("TIMEWREN_INDEXABLE", "");
+  it("robots.txt: sitemap kun på marketinghosten, ikke når indeksering er slået fra", () => {
+    vi.stubEnv("TIMEWREN_INDEXABLE", "0");
     expect(siteRobotsTxt(true)).toBe("User-agent: *\nAllow: /\n");
-    vi.stubEnv("TIMEWREN_INDEXABLE", "1");
+    vi.stubEnv("TIMEWREN_INDEXABLE", "");
     expect(siteRobotsTxt(true)).toContain(
       "Sitemap: https://timewren.com/sitemap.xml",
     );
@@ -291,6 +294,27 @@ describe("sider", () => {
       }
     }
   });
+
+  it.each(["en", "da", "de", "es"] as const)(
+    "%s: desktop-siden viser prisen i EUR og en købsformular uden JS",
+    async (l) => {
+      const html = await render("desktop/", l);
+      const copy = RAW_SITE_MESSAGES[l].desktop as { title: string };
+      expect(html).toContain(`<h1>${copy.title}</h1>`);
+      // €69 (en), 69 € (da, de, es): altid beløbet i euro.
+      expect(html).toMatch(/€\s?69|69\s?€/);
+      expect(html).not.toMatch(/kr\.?\b|DKK/);
+      expect(html).toContain('method="post"');
+      expect(html).toContain('action="/api/desktop/checkout"');
+      expect(html).toContain(`name="locale" value="${l}"`);
+      expect(html).toContain('type="email"');
+      expect(html).not.toContain("<script");
+      // Beskederne vises med :target.
+      for (const id of ["bought", "included", "error"]) {
+        expect(html).toContain(`id="${id}"`);
+      }
+    },
+  );
 
   it("interne links i juridiske tekster bliver på sproget", async () => {
     const da = await render("terms/", "da");

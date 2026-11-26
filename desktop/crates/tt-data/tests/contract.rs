@@ -720,6 +720,41 @@ async fn timer_stop_subtracts_idle(repo: &dyn Repository, clock: &FakeClock) {
     assert!(!all.timer.is_active());
 }
 
+/// Betalingsfrist og intern kunde (web's `paymentTermsDays` og
+/// `defaultBillable`): sat ved oprettelse, uændret, når en rettelse ikke
+/// nævner dem, og `Some(None)` fjerner fristen. Tid på en intern kunde er
+/// ikke fakturerbar, når kalderen ikke siger andet.
+async fn client_payment_terms_and_internal(repo: &dyn Repository, _: &FakeClock) {
+    let c = repo
+        .create_client(NewClient {
+            name: "Kontoret".into(),
+            payment_terms_days: Some(30),
+            default_billable: Some(false),
+            ..Default::default()
+        })
+        .await
+        .unwrap();
+    assert_eq!((c.payment_terms_days, c.default_billable), (Some(30), false));
+    repo.update_client(&c.id, ClientPatch { phone: Some("12345678".into()), ..Default::default() }).await.unwrap();
+    let got = repo.get_client(&c.id).await.unwrap();
+    assert_eq!((got.payment_terms_days, got.default_billable), (Some(30), false), "uændret");
+    let e = repo
+        .create_entry(NewTimeEntry { client_id: Some(c.id.clone()), ..entry("Admin", "1") })
+        .await
+        .unwrap();
+    assert_eq!(e.entry.is_billable, Some(false), "intern kunde: ikke fakturerbar");
+    repo.update_client(
+        &c.id,
+        ClientPatch { payment_terms_days: Some(None), default_billable: Some(true), ..Default::default() },
+    )
+    .await
+    .unwrap();
+    let got = repo.get_client(&c.id).await.unwrap();
+    assert_eq!((got.payment_terms_days, got.default_billable), (None, true));
+    let plain = new_client(repo, "Almindelig", None).await;
+    assert_eq!((plain.payment_terms_days, plain.default_billable), (None, true));
+}
+
 // ------------------------------------------------------------------ kørsel
 
 macro_rules! contract {
@@ -766,4 +801,5 @@ contract!(
     client_domains_and_site_mappings,
     account,
     timer_stop_subtracts_idle,
+    client_payment_terms_and_internal,
 );

@@ -129,6 +129,7 @@
     "dragHint": "Luo tuntikirjauksia klikkaamalla ja vetämällä",
     "connectBoth": "Yhdistä Google Calendar tai iCloud",
     "connectICloud": "Yhdistä iCloud-kalenteri",
+    "connectCalendar": "Yhdistä kalenteri (Google, Outlook tai iCloud)",
     "settings": "Asetukset",
     "registerAll": "Kirjaa kaikki ({count})",
     "sync": "Synkronoi",
@@ -177,7 +178,8 @@
     "settingsSaved": "Asetukset on tallennettu",
     "back": "Takaisin",
     "goToCalendar": "Siirry kalenteriin",
-    "next": "Seuraava"
+    "next": "Seuraava",
+    "outlookNote": "{brand} lukee Outlookin oletuskalenterisi. Yhteyttä hallitset kohdassa <link>Asetukset → Integraatiot</link>. Täällä asetetut suodattimet ja automaattinen kirjaus koskevat myös Outlookia."
   },
   "icloud": {
     "connected": "iCloud on yhdistetty. Valitse nyt, mitä kalentereita luetaan.",
@@ -221,5 +223,28 @@
     "disconnectTitle": "Katkaise iCloud-kalenterin yhteys",
     "disconnectDescription": "{brand} poistaa tallennetun sovelluskohtaisen salasanan ja haetut iCloud-tapahtumat. Tuntikirjauksesi säilyvät. Muista mitätöidä salasana myös osoitteessa appleid.apple.com.",
     "disconnectConfirm": "Katkaise yhteys"
+  },
+  "outlook": {
+    "title": "Outlook-kalenteri",
+    "intro": "Onko kalenterisi Outlookissa tai Microsoft 365:ssä? Näe kokouksesi {brand}-palvelussa ja kirjaa aikaa niiden pohjalta.",
+    "readOnlyNote": "{brand} pyytää vain lukuoikeutta kalentereihisi eikä koskaan kirjoita niihin. Kirjaudut Microsoftiin, eikä {brand} näe salasanaasi.",
+    "connect": "Yhdistä Outlook",
+    "badgeConnected": "Yhdistetty",
+    "badgeReconnect": "Vaatii uuden yhdistämisen",
+    "badgeReadOnly": "Vain luku",
+    "loadingStatus": "Haetaan Outlookin tilaa...",
+    "brokenConnection": "Yhteys Outlookiin ei enää toimi",
+    "reconnect": "Yhdistä uudelleen",
+    "connectedAs": "Yhdistetty tilillä {account}",
+    "lastSynced": "Viimeksi synkronoitu {time}",
+    "syncing": "Synkronoidaan...",
+    "syncNow": "Synkronoi nyt",
+    "syncResult": "Synkronoitu: {synced} uutta, {updated} päivitetty",
+    "syncFailed": "Synkronointi epäonnistui",
+    "disconnect": "Katkaise yhteys",
+    "disconnected": "Outlook-kalenterin yhteys katkaistu",
+    "disconnectTitle": "Katkaise Outlook-kalenterin yhteys",
+    "disconnectDescription": "{brand} poistaa tallennetut käyttöoikeusavaimet ja haetut Outlook-tapahtumat. Aikakirjauksesi säilyvät. Voit myös poistaa {brand}-palvelun Microsoft-tilisi sovelluksista, joilla on käyttöoikeus.",
+    "disconnectConfirm": "Katkaise"
   }
 }

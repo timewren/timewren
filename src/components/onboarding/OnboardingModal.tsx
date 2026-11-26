@@ -55,7 +55,8 @@ interface OnboardingData {
     country: string;
     bankRegNr?: string;
     bankAccountNr?: string;
-    vatRegistered: boolean;
+    vatRegistered?: boolean;
+    vatRegisteredChosen?: boolean;
     vatNumber?: string;
   };
   import?: {
@@ -215,6 +216,7 @@ export function OnboardingModal() {
             bankRegNr: existingCompanyProfile.bankRegNr || undefined,
             bankAccountNr: existingCompanyProfile.bankAccountNr || undefined,
             vatRegistered: existingCompanyProfile.vatRegistered || false,
+            vatRegisteredChosen: existingCompanyProfile.vatRegisteredChosen,
             vatNumber: existingCompanyProfile.vatNumber || undefined,
           },
         }));
@@ -268,11 +270,17 @@ export function OnboardingModal() {
     if (!data) return;
 
     try {
-      await saveCompanyProfileMutation.mutateAsync(data);
+      const saved = await saveCompanyProfileMutation.mutateAsync(data);
 
       setOnboardingData((prev) => ({
         ...prev,
-        companyInfo: data,
+        // Momsfluebenet som serveren gemte det (CVR-reglen), så et skridt
+        // tilbage viser det samme og husker, om brugeren selv valgte
+        companyInfo: {
+          ...data,
+          vatRegistered: saved.vatRegistered ?? false,
+          vatRegisteredChosen: saved.vatRegisteredChosen,
+        },
       }));
 
       goToStep("data_import");
@@ -387,6 +395,7 @@ export function OnboardingModal() {
     try {
       await completeOnboardingMutation.mutateAsync();
 
+      await utils.subscription.getDetails.invalidate();
       // Invalidate the user profile cache so dashboard won't show modal again
       await utils.user.getProfile.invalidate();
       await utils.onboarding.getProgress.invalidate();

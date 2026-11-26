@@ -342,12 +342,13 @@ pub fn windows_toast_xml(n: &Notification) -> String {
 pub fn windows_script(n: &Notification) -> String {
     let xml = windows_toast_xml(n);
     let xml = xml.replace('\'', "''");
+    let app = tt_core::edition::EDITION.name;
     format!(
         "[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null; \
          [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null; \
          $x = New-Object Windows.Data.Xml.Dom.XmlDocument; $x.LoadXml('{xml}'); \
          $t = [Windows.UI.Notifications.ToastNotification]::new($x); \
-         [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('TimeTrack').Show($t)"
+         [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('{app}').Show($t)"
     )
 }
 

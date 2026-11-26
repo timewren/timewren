@@ -176,7 +176,7 @@
       "deleted": "已删除"
     },
     "specHeading": "--- 明细 ---",
-    "specLine": "{date} - {project}：{description}（{hours} 小时 × {rate} kr = {amount} kr）"
+    "specLine": "{date} - {project}：{description}（{hours} 小时 × {rate} = {amount}）"
   },
   "logbook": {
     "endAfterStart": "结束日期必须晚于开始日期",
@@ -457,6 +457,10 @@
       "projectLine": "项目：{name}",
       "hoursLine": "工时：{hours}",
       "exportedFrom": "从 TimeTrack 导出"
+    },
+    "outlook": {
+      "notConnected": "未连接到 Outlook",
+      "syncFailed": "Outlook 同步失败"
     }
   },
   "activity": {

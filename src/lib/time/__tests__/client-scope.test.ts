@@ -13,8 +13,17 @@ describe("entryBelongsToClient", () => {
     const { sql, params } = dialect.sqlToQuery(entryBelongsToClient(CLIENT_ID));
     expect(sql).toContain('"time_entries"."client_id" = $1');
     expect(sql).toMatch(
-      /"time_entries"\."project_id" in \(select "projects"\."id" from "projects" where "projects"\."client_id" = \$2\)/i,
+      /"time_entries"\."project_id" = any\(array\(select "scope_p"\."id" from "projects" "scope_p" where "scope_p"\."client_id" = \$2\)\)/i,
     );
     expect(params).toEqual([CLIENT_ID, CLIENT_ID]);
+  });
+
+  it("holder projekt-grenen indekserbar (ingen IN-subquery)", () => {
+    // `project_id IN (subquery)` bliver en hashed SubPlan, som Postgres kun
+    // kan bruge som filter: kundesiden læste så alle organisationens poster
+    // for at finde kundens. `= ANY(ARRAY(subquery))` er en InitPlan med et
+    // array, så begge grene kan gå gennem deres indeks (BitmapOr).
+    const { sql } = dialect.sqlToQuery(entryBelongsToClient(CLIENT_ID));
+    expect(sql).not.toMatch(/"project_id" in \(/i);
   });
 });

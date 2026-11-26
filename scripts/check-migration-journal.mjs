@@ -12,6 +12,26 @@ const journal = JSON.parse(
 );
 const journalTags = new Set(journal.entries.map((e) => e.tag));
 
+// Drizzle resumes by timestamp, and the SQL bootstrap covers the prefix
+// through 0160. Later migrations must always advance that cursor.
+const checkpointIndex = journal.entries.findIndex(
+  (entry) => entry.tag === "0160_test_account_classification",
+);
+if (
+  checkpointIndex === -1 ||
+  journal.entries
+    .slice(checkpointIndex + 1)
+    .some(
+      (entry, index) =>
+        entry.when <= journal.entries[checkpointIndex + index].when,
+    )
+) {
+  console.error(
+    "Migration timestamps after 0160 must increase in journal order. See docs/SETUP.MD for db:generate.",
+  );
+  process.exit(1);
+}
+
 const sqlFiles = readdirSync(drizzleDir)
   .filter((f) => f.endsWith(".sql"))
   .map((f) => f.replace(/\.sql$/, ""));

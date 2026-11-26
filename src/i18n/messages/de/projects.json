@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Monatsbudget",
     "hint": "{hours} Stunden pro Monat, wird am 1. zurückgesetzt.",
-    "usage": "{used} von {budget} Std. ({pct} %)",
     "overrun": "Das Monatsbudget wurde um {hours} Stunden überschritten",
-    "previous": "Frühere Monate",
-    "hoursPct": "{hours} Std. ({pct} %)"
+    "previous": "Frühere Monate"
   },
   "activityTypes": {
     "allowedAll": "Alle Aktivitätstypen sind für das Projekt erlaubt",
@@ -62,14 +60,13 @@
     "save": "Zuweisungen speichern",
     "assignedNow": "Aktuell zugewiesen: {names}"
   },
+  "budgetStatus": "{status, select, yellow {Nahe am Budgetlimit} red {Am oder nahe am Budgetlimit} over {Über Budget} other {Im Budget}}: {used, number, ::.##} von {total, number, ::.##} Std.",
   "budgetBar": {
     "title": "Stundenbudget",
     "derived": "abgeleitet",
     "derivedTitle": "Abgeleitet aus Festpreis ÷ Stundensatz. Lege ein Stundenbudget für das Projekt fest, um es direkt zu steuern.",
-    "hoursOf": "{used} / {total} Std.",
     "over": "{hours} Std. darüber",
     "remaining": "{hours} Std. übrig",
-    "ariaUsed": "{pct} % des Stundenbudgets verbraucht",
     "plannedTitle": "{hours} Std. in Zukunft geplant",
     "pctUsed": "{pct} % verbraucht",
     "planned": "+ {planned} Std. geplant = {forecast} Std. ({pct} %)",
@@ -188,11 +185,11 @@
     "colTotal": "Gesamt",
     "colStatus": "Status",
     "selectProject": "{name} auswählen",
-    "budgetUsedTitle": "{pct} % des Stundenbudgets verbraucht ({used}/{total} Std.)",
     "noClient": "Kein Kunde",
-    "monthlyUsed": "{used}/{budget} Std.",
     "monthlyAria": "{pct} % des Monatsbudgets verbraucht",
-    "monthlyTitle": "{used} von {budget} Std. in diesem Monat verbraucht ({pct} %)"
+    "monthlyTitle": "{used} von {budget} Std. in diesem Monat verbraucht ({pct} %)",
+    "emptyNeedsClientHint": "Ein Projekt gehört zu einem Kunden. Lege zuerst den Kunden an, dann das Projekt.",
+    "createClientFirst": "Ersten Kunden anlegen"
   },
   "detail": {
     "status": {

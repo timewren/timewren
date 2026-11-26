@@ -1,9 +1,16 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { OnboardingModal } from "@/components/onboarding/OnboardingModal";
 import { TimewrenBillingPanel } from "@/components/subscription/TimewrenBillingPanel";
+import { ErrorState } from "@/components/ui/ErrorState";
 import { Modal } from "@/components/ui/Modal";
 import { useBillingEnabled } from "@/hooks/useBillingEnabled";
 import { readCampaignCookie } from "@/lib/billing/campaign-codes";
@@ -26,7 +33,11 @@ import { trpc } from "@/providers/trpc-provider";
  * Fejler opstarten, vises den gamle wizard som sikkerhedsnet, så ingen
  * bruger kan ende uden abonnement eller fast i en halv tilstand.
  */
-export function TimerFirstOnboarding() {
+export function TimerFirstOnboarding({
+  loadingFallback,
+}: {
+  loadingFallback?: ReactNode;
+}) {
   const searchParams = useSearchParams();
   const utils = trpc.useUtils();
   const [failed, setFailed] = useState(false);
@@ -34,12 +45,13 @@ export function TimerFirstOnboarding() {
 
   // Org-bevidst opslag: en inviteret admin i en org med abonnement må ikke
   // få en ekstra prøve oven i org'ens (#91-review)
+  const subscriptionQuery = trpc.subscription.getDetails.useQuery();
+  const roleQuery = trpc.organization.getMyRole.useQuery();
+  const planOptionsQuery = trpc.onboarding.planOptions.useQuery();
   const { data: subscription, isSuccess: subscriptionLoaded } =
-    trpc.subscription.getDetails.useQuery();
-  const { data: myRole, isSuccess: roleLoaded } =
-    trpc.organization.getMyRole.useQuery();
-  const { data: planOptions, isSuccess: planOptionsLoaded } =
-    trpc.onboarding.planOptions.useQuery();
+    subscriptionQuery;
+  const { data: myRole, isSuccess: roleLoaded } = roleQuery;
+  const { data: planOptions, isSuccess: planOptionsLoaded } = planOptionsQuery;
 
   // TimeWren Cloud (Stripe): ejeren ser planerne i EUR, før onboardingen
   // afsluttes, og vælger en betalt plan eller fortsætter på Gratis.
@@ -158,5 +170,24 @@ export function TimerFirstOnboarding() {
       </Modal>
     );
   }
-  return null;
+  const failedQueries = [subscriptionQuery, roleQuery, planOptionsQuery].filter(
+    (query) => query.isError,
+  );
+  if (failedQueries.length > 0) {
+    return (
+      <div
+        className={
+          loadingFallback ? "grid min-h-screen place-items-center p-4" : "p-4"
+        }
+      >
+        <ErrorState
+          isRetrying={failedQueries.some((query) => query.isFetching)}
+          onRetry={() => {
+            for (const query of failedQueries) void query.refetch();
+          }}
+        />
+      </div>
+    );
+  }
+  return loadingFallback ?? null;
 }

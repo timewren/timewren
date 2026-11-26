@@ -1,17 +1,29 @@
 import { randomBytes, randomUUID } from "node:crypto";
 import { hashPassword } from "better-auth/crypto";
 import { and, eq, like, sql } from "drizzle-orm";
+import type { Locale } from "@/i18n/config";
 import type { db as Database } from "@/lib/db";
 import {
   accounts,
+  invoiceTemplates,
   members,
   organizationModules,
   organizations,
   users,
 } from "@/lib/db/schema";
 import { seedNewOrgModules } from "@/lib/modules/bundles";
-import { DEMO_EMAIL_DOMAIN, DEMO_MAX_LIVE_USERS } from "./demo-mode";
-import { type SandboxCounts, seedDemoSandbox } from "./seed-demo-sandbox";
+import { regionForNewOrg, regionMetadata } from "@/lib/org/region";
+import {
+  DEMO_CURRENCY,
+  DEMO_EMAIL_DOMAIN,
+  DEMO_MAX_LIVE_USERS,
+  EUR_DEMO_EMAIL_PREFIX,
+} from "./demo-mode";
+import {
+  DEMO_HOURLY_RATE,
+  type SandboxCounts,
+  seedDemoSandbox,
+} from "./seed-demo-sandbox";
 
 type Db = typeof Database;
 
@@ -46,16 +58,31 @@ export function liveDemoUsersWhere() {
  * Loftet over levende demobrugere tjekkes bag en advisory lock, så samtidige
  * kald ikke kan smutte forbi det.
  */
+/**
+ * Demoorganisationens metadata. Demoen er TimeWren i EUR uanset sproget
+ * (fakturaskabelonen og demodata er i EUR), så valutaen er låst; land og
+ * sprog følger demobrugerens sprog som ved en ny TimeWren-workspace.
+ */
+export function demoOrgMetadata(locale: Locale): Record<string, unknown> {
+  return {
+    type: "freelance",
+    ...regionMetadata({
+      ...regionForNewOrg("timewren", locale),
+      currency: DEMO_CURRENCY,
+    }),
+  };
+}
+
 export async function createDemoAccount(
   db: Db,
-  opts: { maxLiveUsers?: number; now?: Date } = {},
+  opts: { locale?: Locale; maxLiveUsers?: number; now?: Date } = {},
 ): Promise<CreateDemoAccountResult> {
   const maxLiveUsers = opts.maxLiveUsers ?? DEMO_MAX_LIVE_USERS;
   const now = opts.now ?? new Date();
   const userId = randomUUID();
   const orgId = randomUUID();
   const handle = randomBytes(6).toString("hex");
-  const email = `demo-${handle}@${DEMO_EMAIL_DOMAIN}`;
+  const email = `${EUR_DEMO_EMAIL_PREFIX}${handle}@${DEMO_EMAIL_DOMAIN}`;
   const password = randomBytes(24).toString("base64url");
   // Uden for transaktionen: scrypt tager ~50 ms og skal ikke holde låsen.
   const passwordHash = await hashPassword(password);
@@ -75,7 +102,8 @@ export async function createDemoAccount(
       emailVerified: true,
       isDemo: true,
       onboardingCompleted: true,
-      defaultHourlyRate: "750",
+      locale: opts.locale ?? "en",
+      defaultHourlyRate: DEMO_HOURLY_RATE,
       createdAt: now,
       updatedAt: now,
     });
@@ -88,9 +116,9 @@ export async function createDemoAccount(
     });
     await tx.insert(organizations).values({
       id: orgId,
-      name: "Demo-workspace",
+      name: "Demo workspace",
       slug: `demo-${handle}`,
-      metadata: { type: "freelance" },
+      metadata: demoOrgMetadata(opts.locale ?? "en"),
     });
     await tx.insert(members).values({
       id: randomUUID(),
@@ -110,9 +138,19 @@ export async function createDemoAccount(
           eq(organizationModules.moduleKey, "tasks"),
         ),
       );
+    const [template] = await tx
+      .insert(invoiceTemplates)
+      .values({
+        userId,
+        organizationId: orgId,
+        name: "Standard invoice",
+        currency: DEMO_CURRENCY,
+        isDefault: true,
+      })
+      .returning({ id: invoiceTemplates.id });
     const counts = await seedDemoSandbox(
       tx as unknown as Db,
-      { userId, orgId },
+      { userId, orgId, invoiceTemplateId: template.id },
       now,
     );
 

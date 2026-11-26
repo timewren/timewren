@@ -10,7 +10,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps --prefer-offline --no-audit --no-fund
+    npm ci --prefer-offline --no-audit --no-fund
 
 # Production-only deps for the runtime image (smaller → faster layer push)
 FROM base AS deps-prod
@@ -18,7 +18,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --legacy-peer-deps --prefer-offline --no-audit --no-fund --omit=dev
+    npm ci --prefer-offline --no-audit --no-fund --omit=dev
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -43,6 +43,11 @@ ARG NEXT_PUBLIC_SENTRY_BROWSER_ENABLED
 # der skifter ved hvert commit, ugyldiggør Turbopacks build-cache. Her bruges
 # den kun af de statisk prerenderede sider. Tom = Next' BUILD_ID bruges.
 ARG APP_VERSION
+# full = the whole app (Cloud, the default). selfhost = without the marketing
+# and TimeWren site route groups: the image self-hosters run, about a third
+# smaller standalone output and a shorter, lighter build (#1100). See
+# docs/self-hosting.md, "Build profiles".
+ARG BUILD_PROFILE=full
 # Enabled only by CI, where the separate typecheck remains a deploy gate.
 ARG CI_SKIP_TYPECHECK=false
 ARG BETTER_AUTH_SECRET
@@ -51,6 +56,7 @@ ARG DATABASE_URL
 # Set environment variables for production build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV BUILD_PROFILE=$BUILD_PROFILE
 # APP_URL, MARKETING_URL and BRAND are read at RUNTIME (src/lib/runtime-env.ts,
 # #1017): the args above are optional. Build without them for an image that
 # takes the values from the container env; values given here stay as defaults
@@ -76,10 +82,9 @@ ENV NODE_OPTIONS="--max-old-space-size=6144"
 # Disable Sentry upload for faster/safer CI builds
 ENV SENTRY_DISABLED=1
 
-# Mount Next.js build cache. Next 16 keeps Turbopack's persistent build cache
-# in .next/cache/turbopack (experimental.turbopackFileSystemCacheForBuild
-# defaults to true), so a warm builder reuses compiled modules. The du lines
-# show in the build log whether the mount survived since the previous build.
+# Next.js enables Turbopack's filesystem cache for production builds.
+# BuildKit keeps .next/cache on the local builder, outside the image layers
+# and the registry cache. The warm CI builders retain it across jobs.
 # Browser-Sentry (src/instrumentation-client.ts) læser NEXT_PUBLIC_SENTRY_DSN
 # fra klientbundtet, så den bages ind her (build-arg). NEXT_PUBLIC_* inlines
 # også i serverkoden, så en TOM værdi må ikke nå buildet: den ville overskrive
@@ -171,4 +176,3 @@ ENV APP_VERSION=$APP_VERSION
 
 # Start the application with startup script
 CMD ["./scripts/startup.sh"]
-# CI: Build Docker-jobbet har 35 min timeout (kold npm-cache kan tage 12+ min)

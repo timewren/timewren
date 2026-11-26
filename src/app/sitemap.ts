@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getMarketingUrl } from "@/lib/config";
+import { seoPagePaths } from "@/lib/marketing/arbejdsdage-seo";
 import { seoTools } from "@/lib/marketing/seo-tools";
 import { isMarketingEnabled } from "@/lib/marketing-guard";
 
@@ -210,8 +211,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    { path: "/arbejdsdage-2026", changeFrequency: "yearly", priority: 0.7 },
-    { path: "/arbejdsdage-2027", changeFrequency: "yearly", priority: 0.7 },
+    // Programmatiske sider: hub, år, måneder og arbejdstimer pr. år
+    ...seoPagePaths().map((path) => ({
+      path,
+      changeFrequency: "yearly" as const,
+      priority: path === "/arbejdsdage" ? 0.8 : 0.7,
+    })),
     {
       path: "/ugentlig-timerapport",
       changeFrequency: "monthly",

@@ -552,7 +552,6 @@ mod tests {
 
 #[cfg(all(test, feature = "probe"))]
 mod probe_tests {
-    use chrono::Local;
     use gpui_kit::TestAppContext;
 
     use crate::backend::licens::{Access, LockReason};
@@ -642,8 +641,8 @@ mod probe_tests {
         let p = open(cx, mock, Screen::Hjem);
         let hub = p.app.read_with(cx, |a, _| a.ctx.hub.clone());
         let prompt = IdlePrompt {
-            away_since: Local::now(),
-            back_at: Local::now(),
+            away_since: testing::now(),
+            back_at: testing::now(),
             away_secs: 20 * 60,
             target: target(),
             timer_started: p.mock.timer().unwrap().started_at,
@@ -680,8 +679,8 @@ mod probe_tests {
         let p = open(cx, mock, Screen::Hjem);
         let hub = p.app.read_with(cx, |a, _| a.ctx.hub.clone());
         let prompt = IdlePrompt {
-            away_since: Local::now(),
-            back_at: Local::now(),
+            away_since: testing::now(),
+            back_at: testing::now(),
             away_secs: 600,
             target: target(),
             timer_started: p.mock.timer().unwrap().started_at,
@@ -708,7 +707,7 @@ mod probe_tests {
         let p = open(cx, mock, Screen::Hjem);
         let hub = p.app.read_with(cx, |a, _| a.ctx.hub.clone());
         let started = p.mock.timer().unwrap().started_at;
-        let now = Local::now();
+        let now = testing::now();
         for (from, away) in [(50, 10), (20, 15)] {
             let prompt = IdlePrompt {
                 away_since: now - chrono::Duration::minutes(from),

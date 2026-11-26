@@ -1,5 +1,6 @@
 import { Alert, View } from 'react-native';
 import { Badge, Button, Card, ErrorState, ListRow, ListSkeleton, Screen, SectionHeader, Text } from '~/components/ui';
+import { brand } from '~/features/server/server-config';
 import { errorMessage, trpc } from '~/lib/api';
 import { formatDateShort, formatTime } from '~/lib/format';
 import { translate } from '~/lib/i18n';
@@ -52,7 +53,7 @@ function SessionsSection() {
                 {list.map((s, i) => (
                   <ListRow
                     key={s.id}
-                    title={describeUserAgent(s.userAgent, translate('settings.security.unknown_device'))}
+                    title={describeUserAgent(s.userAgent, translate('settings.security.unknown_device'), brand.name)}
                     subtitle={[s.ipAddress, `${formatDateShort(s.createdAt)} ${formatTime(s.createdAt)}`].filter(Boolean).join(' · ')}
                     right={s.isCurrent
                       ? <Badge label={translate('settings.security.current')} tone="primary" />
@@ -147,7 +148,7 @@ function HistorySection() {
           : list.map((s, i) => (
               <ListRow
                 key={s.id}
-                title={describeUserAgent(s.userAgent, translate('settings.security.unknown_device'))}
+                title={describeUserAgent(s.userAgent, translate('settings.security.unknown_device'), brand.name)}
                 subtitle={`${formatDateShort(s.createdAt)} ${formatTime(s.createdAt)}${s.ipAddress ? ` · ${s.ipAddress}` : ''}`}
                 right={<Badge label={translate(s.isActive ? 'settings.security.active' : 'settings.security.expired')} tone={s.isActive ? 'success' : 'default'} />}
                 last={i === list.length - 1}

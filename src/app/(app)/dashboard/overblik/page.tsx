@@ -2,7 +2,7 @@
 
 import { Edit3, Plus, RotateCcw, Save } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { type LayoutItem, verticalCompactor } from "react-grid-layout";
+import type { LayoutItem } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -593,7 +593,7 @@ export default function OverblikPage() {
       {/* "Fakturér nu"-nudge (#89): kun når en kunde har oplagt tid */}
       <InvoiceNudge surface="dashboard" />
 
-      {/* Desktop app download (Windows/macOS, Beta) */}
+      {/* Desktop app download (Windows/macOS) */}
       <DesktopDownloadCard />
 
       {/* Header — Hjem har hilsen og hurtig registrering; her er det tal */}
@@ -695,7 +695,6 @@ export default function OverblikPage() {
           dragConfig={{ enabled: isEditMode }}
           resizeConfig={{ enabled: isEditMode }}
           onLayoutChange={handleLayoutChange}
-          compactor={verticalCompactor}
         >
           {visibleWidgets.map((widgetId) => (
             <div

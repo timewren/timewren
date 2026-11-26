@@ -378,27 +378,102 @@ impl Detection for NoDetection {
 }
 
 /// Appens datamappe. `TT_DATA_DIR` vinder (tests, demo). Ellers
-/// `~/Library/Application Support/TimeTrack` på macOS og
-/// `%APPDATA%\TimeTrack` på Windows. Den gamle Tauri-app bruger
-/// `dk.timetrack.desktop`, så de to apps deler ikke filer.
+/// `~/Library/Application Support/<navn>` på macOS og `%APPDATA%\<navn>` på
+/// Windows, hvor navnet er udgavens (`TimeTrack` eller `TimeWren`), så de to
+/// apps kan ligge side om side uden at dele filer. Den gamle Tauri-app bruger
+/// `dk.timetrack.desktop`, så den heller ikke deler filer med TimeTrack.
 pub fn data_dir() -> PathBuf {
-    if let Some(d) = std::env::var_os("TT_DATA_DIR") {
+    data_dir_in(&tt_core::edition::EDITION, |k| std::env::var_os(k))
+}
+
+fn data_dir_in(
+    e: &tt_core::edition::Edition,
+    env: impl Fn(&str) -> Option<std::ffi::OsString>,
+) -> PathBuf {
+    if let Some(d) = env("TT_DATA_DIR") {
         return PathBuf::from(d);
     }
     #[cfg(windows)]
     {
-        if let Some(a) = std::env::var_os("APPDATA") {
-            return PathBuf::from(a).join("TimeTrack");
+        if let Some(a) = env("APPDATA") {
+            return PathBuf::from(a).join(e.data_dir_name);
         }
     }
     #[cfg(target_os = "macos")]
     {
-        if let Some(h) = std::env::var_os("HOME") {
-            return PathBuf::from(h).join("Library/Application Support/TimeTrack");
+        if let Some(h) = env("HOME") {
+            return PathBuf::from(h)
+                .join("Library/Application Support")
+                .join(e.data_dir_name);
         }
     }
-    if let Some(h) = std::env::var_os("HOME") {
-        return PathBuf::from(h).join(".local/share/timetrack");
+    if let Some(h) = env("HOME") {
+        return PathBuf::from(h).join(".local/share").join(e.data_dir_unix);
     }
-    PathBuf::from(".timetrack")
+    PathBuf::from(format!(".{}", e.id))
+}
+
+#[cfg(test)]
+mod brand_tests {
+    use super::data_dir_in;
+    use std::ffi::OsString;
+    use tt_core::edition::{Edition, TIMETRACK, TIMEWREN};
+
+    fn env(k: &str) -> Option<OsString> {
+        match k {
+            "APPDATA" => Some("/u/AppData/Roaming".into()),
+            "HOME" => Some("/u/home".into()),
+            _ => None,
+        }
+    }
+
+    /// TimeTrack og TimeWren har hver sin datamappe, så de kan ligge side om side.
+    #[test]
+    fn brand_hver_udgave_har_sin_datamappe() {
+        let a = data_dir_in(&TIMETRACK, env);
+        let b = data_dir_in(&TIMEWREN, env);
+        assert_ne!(a, b);
+        let leaf = |p: &std::path::Path| p.file_name().unwrap().to_string_lossy().into_owned();
+        let own = |e: &Edition, p: &std::path::Path| {
+            let l = leaf(p);
+            l == e.data_dir_name || l == e.data_dir_unix
+        };
+        assert!(own(&TIMETRACK, &a), "{a:?}");
+        assert!(own(&TIMEWREN, &b), "{b:?}");
+        assert!(!a.to_string_lossy().contains("TimeWren"));
+        assert!(!b.to_string_lossy().contains("TimeTrack"));
+        assert!(!b.to_string_lossy().to_lowercase().contains("timetrack"));
+        // TimeTracks mappe er som før.
+        #[cfg(windows)]
+        assert_eq!(a, std::path::Path::new("/u/AppData/Roaming").join("TimeTrack"));
+        #[cfg(target_os = "macos")]
+        assert_eq!(a, std::path::Path::new("/u/home/Library/Application Support/TimeTrack"));
+    }
+
+    #[test]
+    fn brand_tt_data_dir_vinder_stadig() {
+        let with = |k: &str| match k {
+            "TT_DATA_DIR" => Some("/tmp/x".into()),
+            other => env(other),
+        };
+        for e in Edition::ALL {
+            assert_eq!(data_dir_in(&e, with), std::path::PathBuf::from("/tmp/x"));
+        }
+    }
+
+    #[test]
+    fn brand_datamappen_uden_hjem_er_udgavens() {
+        let none = |_: &str| None;
+        assert_eq!(data_dir_in(&TIMETRACK, none), std::path::PathBuf::from(".timetrack"));
+        assert_eq!(data_dir_in(&TIMEWREN, none), std::path::PathBuf::from(".timewren"));
+    }
+
+    /// Den rigtige `data_dir()` hører til den byggede udgave.
+    #[test]
+    fn brand_data_dir_er_den_byggede_udgaves() {
+        if std::env::var_os("TT_DATA_DIR").is_none() {
+            let d = super::data_dir().to_string_lossy().to_lowercase();
+            assert!(d.contains(tt_core::edition::EDITION.id), "{d}");
+        }
+    }
 }

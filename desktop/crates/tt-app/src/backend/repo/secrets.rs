@@ -10,7 +10,7 @@ use keyring_core::{CredentialStore, Entry, Error as KeyringError};
 use tt_data::{Credentials, MemorySecretStore, SecretStore};
 
 /// Nøgleringens service-navn. Adskilt fra AI-nøglerne (`….ai`).
-pub const SERVICE: &str = "dk.timetrack.desktop";
+pub const SERVICE: &str = tt_core::edition::EDITION.bundle_id;
 const ACCOUNT: &str = "login";
 
 pub struct KeyringSecretStore {
@@ -162,5 +162,25 @@ mod tests {
             .set_password("ikke json")
             .unwrap();
         assert_eq!(KeyringSecretStore::with_store(store).load(), None);
+    }
+}
+
+#[cfg(test)]
+mod brand_tests {
+    /// Login-token og AI-nøgler ligger under udgavens eget servicenavn, så
+    /// TimeWren aldrig læser eller overskriver TimeTracks nøgler.
+    #[test]
+    fn brand_nogleringen_bruger_udgavens_bundle_id() {
+        let e = tt_core::edition::EDITION;
+        assert_eq!(super::SERVICE, e.bundle_id);
+        assert_eq!(tt_ai::secrets::SERVICE, e.ai_keyring_service);
+        assert!(e.ai_keyring_service.starts_with(e.bundle_id));
+        for other in tt_core::edition::Edition::ALL
+            .iter()
+            .filter(|o| o.id != e.id)
+        {
+            assert_ne!(super::SERVICE, other.bundle_id);
+            assert_ne!(tt_ai::secrets::SERVICE, other.ai_keyring_service);
+        }
     }
 }

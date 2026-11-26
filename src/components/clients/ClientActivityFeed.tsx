@@ -45,6 +45,7 @@ export function ClientActivityFeed({
   timeEntries,
 }: ClientActivityFeedProps) {
   const t = useTranslations("clients");
+  const tInvoices = useTranslations("invoices");
   const locale = useLocale();
   const { data: invoices } = trpc.invoices.list.useQuery({
     clientId,
@@ -93,7 +94,10 @@ export function ClientActivityFeed({
         type: "invoice_created",
         date: new Date(invoice.createdAt),
         title: t("activityFeed.invoiceCreated", {
-          number: formatInvoiceNumber(invoice.invoiceNumber),
+          number: formatInvoiceNumber(
+            invoice.invoiceNumber,
+            tInvoices("status.draft"),
+          ),
         }),
         value: parseFloat(invoice.amount || "0"),
         icon: FileText,
@@ -138,7 +142,7 @@ export function ClientActivityFeed({
     return items
       .sort((a, b) => b.date.getTime() - a.date.getTime())
       .slice(0, 8);
-  }, [timeEntries, clientInvoices, t]);
+  }, [timeEntries, clientInvoices, t, tInvoices]);
 
   const formatRelativeDate = (date: Date) => {
     const now = new Date();

@@ -18,6 +18,8 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
+import { useQueryClient } from "@tanstack/react-query";
+import { getQueryKey } from "@trpc/react-query";
 import {
   CheckCircle,
   ChevronRight,
@@ -42,6 +44,7 @@ import { ConfirmDialog } from "@/components/ui";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useModules } from "@/hooks/useModules";
 import { useTaskDeleteUndo } from "@/hooks/useTaskDeleteUndo";
+import { useTaskPages } from "@/hooks/useTaskPages";
 import { useSession } from "@/lib/auth-client";
 import {
   BOARD_SORT_LABELS,
@@ -50,6 +53,7 @@ import {
   moveItem,
   sortLaneTasks,
 } from "@/lib/kanban/lane-category";
+import { flattenTaskPages, groupTaskPageRows } from "@/lib/tasks/task-pages";
 import { parseEstimate } from "@/lib/tasks/time-progress";
 import { trpc } from "@/providers/trpc-provider";
 import { useTaskPreferencesStore } from "@/stores/taskPreferencesStore";
@@ -157,11 +161,19 @@ export function KanbanBoard({
 
   // Fetch tasks grouped by statusId (or legacy status for unmigrated rows)
   const listInput = { projectId, filterProjectId };
+  const queryClient = useQueryClient();
+  const queryKey = getQueryKey(trpc.tasks.listByStatus, listInput, "infinite");
   const {
-    data: rawData,
+    data: taskPages,
+    rows,
     isLoading,
+    isError,
+    hasNextPage,
     refetch,
-  } = trpc.tasks.listByStatus.useQuery(listInput);
+  } = useTaskPages(queryKey, (cursor, signal) =>
+    utils.client.tasks.listByStatus.query({ ...listInput, cursor }, { signal }),
+  );
+  const rawData = rows ? groupTaskPageRows(rows) : undefined;
 
   // Fetch projects and clients for filter dropdowns
   const { isEnabled: isModuleEnabled, isPlaceholder: modulesPlaceholder } =
@@ -207,7 +219,6 @@ export function KanbanBoard({
               id: task.id,
               title: task.title,
               description: task.description,
-              notes: task.notes ?? null,
               status: task.status,
               priority: task.priority,
               deadline: task.deadline,
@@ -320,9 +331,10 @@ export function KanbanBoard({
   // Tavlen opdateres med det samme og hentes igen bagefter.
   const moveMutation = trpc.tasks.move.useMutation({
     onMutate: async ({ taskId, statusId, orderedTaskIds }) => {
-      await utils.tasks.listByStatus.cancel(listInput);
-      utils.tasks.listByStatus.setData(listInput, (old) => {
-        if (!old) return old;
+      await queryClient.cancelQueries({ queryKey, exact: true });
+      queryClient.setQueryData<typeof taskPages>(queryKey, (pages) => {
+        if (!pages) return pages;
+        const old = groupTaskPageRows(flattenTaskPages(pages.pages));
         let moved: (typeof old)[string][number] | undefined;
         const next: typeof old = {};
         for (const [key, list] of Object.entries(old)) {
@@ -332,8 +344,11 @@ export function KanbanBoard({
             return false;
           });
         }
-        if (!moved) return old;
-        const target = [...(next[statusId] ?? []), moved];
+        if (!moved) return pages;
+        const target = [
+          ...(next[statusId] ?? []),
+          { ...moved, laneKey: statusId },
+        ];
         if (orderedTaskIds) {
           const rank = new Map(orderedTaskIds.map((id, i) => [id, i]));
           target.sort(
@@ -343,7 +358,20 @@ export function KanbanBoard({
           );
         }
         next[statusId] = target;
-        return next;
+        const tasks = Object.values(next).flat();
+        let offset = 0;
+        return {
+          ...pages,
+          pages: pages.pages.map((page, index) => {
+            const end =
+              index === pages.pages.length - 1
+                ? tasks.length
+                : offset + page.rows.length;
+            const rows = tasks.slice(offset, end);
+            offset = end;
+            return { ...page, rows };
+          }),
+        };
       });
     },
     onSettled: async () => {
@@ -522,7 +550,7 @@ export function KanbanBoard({
       return;
     }
 
-    if (!data) return;
+    if (!data || hasNextPage || isError) return;
 
     const taskId = activeId;
     const sourceColumn = findColumn(taskId);
@@ -565,6 +593,7 @@ export function KanbanBoard({
   // Alt+piletaster på et fokuseret kort: op/ned i kolonnen (efter de viste
   // kort), venstre/højre øverst i nabokolonnen. Fokus følger kortet.
   const handleKeyboardMove = (task: TaskCardData, move: KeyboardMove) => {
+    if (hasNextPage || isError) return;
     if (!data || !lanes) return;
     const sourceColumn = findColumn(task.id);
     const laneIndex = orderedLanes.findIndex((l) => l.id === sourceColumn);
@@ -688,8 +717,16 @@ export function KanbanBoard({
   };
 
   // Handle delete task
-  const handleDeleteTask = (task: TaskCardData) => {
-    setDeleteConfirmTask(task);
+  const handleDeleteTask = async (task: TaskCardData) => {
+    setContextMenu(null);
+    try {
+      const { description } = await utils.client.tasks.getById.query({
+        id: task.id,
+      });
+      setDeleteConfirmTask({ ...task, description });
+    } catch {
+      toast.error(t("board.deleteFailed"));
+    }
   };
 
   // Handle inline add in column. The `laneId` is a UUID from the lanes
@@ -885,6 +922,22 @@ export function KanbanBoard({
         )}
       </div>
 
+      {isError ? (
+        <button
+          type="button"
+          className="text-sm underline"
+          onClick={() => void refetch()}
+        >
+          {tc("error")} {t("page.retryLoading")}
+        </button>
+      ) : (
+        hasNextPage && (
+          <p role="status" className="text-sm text-gray-500">
+            {tc("loading")}
+          </p>
+        )
+      )}
+
       <div className="flex gap-4 overflow-x-auto pb-4">
         {lanesLoading && orderedLanes.length === 0 ? (
           // Render 4 skeleton columns while lanes load
@@ -940,7 +993,9 @@ export function KanbanBoard({
                 onOpenSettings={
                   filterProjectId ? undefined : () => setShowLaneSettings(true)
                 }
-                onTaskKeyboardMove={handleKeyboardMove}
+                onTaskKeyboardMove={
+                  hasNextPage || isError ? undefined : handleKeyboardMove
+                }
                 focusTaskId={focusTaskId}
               />
             ))}
@@ -1123,7 +1178,7 @@ export function KanbanBoard({
           {/* Delete task */}
           <button
             type="button"
-            onClick={() => handleDeleteTask(contextMenu.task)}
+            onClick={() => void handleDeleteTask(contextMenu.task)}
             className="flex w-full items-center gap-2 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
           >
             <Trash2 className="h-4 w-4" />

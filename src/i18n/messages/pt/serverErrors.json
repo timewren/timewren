@@ -300,7 +300,10 @@
     "draftOnlyReorder": "A ordem só pode ser alterada em faturas em rascunho",
     "providerMismatch": "Não foi possível verificar o montante ou a moeda. Reveja o rascunho no seu sistema contabilístico antes de o enviar.",
     "recipientChanged": "O email do destinatário mudou. Volte a abrir a confirmação.",
-    "clientHasNoEmail": "O cliente não tem endereço de e-mail"
+    "clientHasNoEmail": "O cliente não tem endereço de e-mail",
+    "exportInProgress": "Esta fatura já está a ser exportada. Tente novamente daqui a pouco.",
+    "providerEmailUncertain": "Não foi possível confirmar que o seu programa de contabilidade enviou a fatura. Verifique o estado do e-mail no Billy ou no Dinero e marque o resultado na página da fatura antes de a enviar novamente.",
+    "sendReviewChanged": "A fatura mudou depois de a confirmar. Abra a confirmação novamente."
   },
   "logbook": {
     "ownOnly": "Só podes ver o teu próprio registo de deslocações",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Não foi possível criar a ligação ao Dinero. Tenta novamente.",
       "economicFailed": "Não foi possível criar a ligação ao e-conomic. Tenta novamente.",
-      "googleFailed": "Não foi possível criar a ligação ao Google. Tenta novamente."
+      "googleFailed": "Não foi possível criar a ligação ao Google. Tenta novamente.",
+      "outlookFailed": "Não foi possível criar a ligação ao Outlook. Tente novamente."
     },
     "invoiceSend": {
       "invalidRecipient": "E-mail do destinatário inválido",

@@ -2,8 +2,8 @@ use chrono::NaiveDate;
 
 use super::logic::{self, legacy_status_for_lane, resolve_lane};
 use super::{
-    new_task_choices, panel_input, place_choices, place_value, progress_text,
-    project_filter_choices, project_label, validate_task,
+    edit_task_choices, new_task_choices, panel_input, place_choices, place_value,
+    progress_text, project_filter_choices, project_label, validate_task,
 };
 use crate::backend::{Customer, LaneCategory, Project, ProjectStatus, Task, TaskLane, TaskStatus};
 
@@ -48,6 +48,7 @@ fn task(id: &str, status: TaskStatus, status_id: Option<&str>) -> Task {
         description: None,
         customer_id: None,
         status_id: status_id.map(Into::into),
+        completed: None,
     }
 }
 
@@ -57,6 +58,7 @@ fn lane(id: &str, name: &str, category: LaneCategory) -> TaskLane {
         name: name.into(),
         color: None,
         category,
+        is_archive: category == LaneCategory::Done,
     }
 }
 
@@ -230,6 +232,7 @@ fn fremdrift_som_tekst() {
         description: None,
         customer_id: None,
         status_id: None,
+        completed: None,
     };
     assert_eq!(progress_text(&t), "5,67 t");
     t.estimate_minutes = Some(600);
@@ -271,16 +274,126 @@ fn nye_opgaver_kun_paa_aktive_projekter_hos_aktive_kunder() {
         proj("p3", "k2", "Arkiv", ProjectStatus::Active),
     ];
     let c = new_task_choices(&customers, &projects);
-    assert_eq!(c.len(), 1);
-    assert_eq!(c[0].label.as_ref(), "Bageriet · Webshop");
-    assert_eq!(c[0].value.as_ref(), "p1");
+    let got: Vec<(&str, &str)> = c.iter().map(|c| (c.value.as_ref(), c.label.as_ref())).collect();
+    assert_eq!(
+        got,
+        vec![
+            ("", "Ingen kunde eller projekt"),
+            ("c:k1", "Bageriet"),
+            ("p1", "Bageriet · Webshop"),
+        ]
+    );
+}
+
+/// En opgave hos en arkiveret kunde (uden projekt) skal beholde kunden,
+/// når den rettes: valget skal stå i listen, ellers gemmes `clientId: null`.
+#[test]
+fn ret_opgave_beholder_arkiveret_kunde_og_inaktivt_projekt() {
+    let customers = vec![cust("k1", "Bageriet", false), cust("k2", "Gammel", true)];
+    let projects = vec![
+        proj("p1", "k1", "Webshop", ProjectStatus::Active),
+        proj("p2", "k1", "Pause", ProjectStatus::Paused),
+    ];
+    let has = |c: &[crate::ui::forms::Choice], v: &str| c.iter().any(|c| c.value.as_ref() == v);
+
+    let mut on_customer = task("t1", TaskStatus::Todo, None);
+    on_customer.customer_id = Some("k2".into());
+    let c = edit_task_choices(&customers, &projects, Some(&on_customer));
+    assert!(has(&c, "c:k2"));
+
+    let mut on_project = task("t2", TaskStatus::Todo, None);
+    on_project.project_id = "p2".into();
+    assert!(has(&edit_task_choices(&customers, &projects, Some(&on_project)), "p2"));
+
+    // Ny opgave: kun de aktive valg.
+    assert_eq!(
+        edit_task_choices(&customers, &projects, None).len(),
+        new_task_choices(&customers, &projects).len()
+    );
+}
+
+/// Web: projekt og kunde er valgfri på en ny opgave (`tasks.ts`
+/// createTaskSchema). Før krævede desktop et projekt.
+#[test]
+fn opgave_uden_projekt_er_gyldig() {
+    let t = today();
+    let none = validate_task(None, "Ring til revisor", "", "", t).unwrap();
+    assert_eq!((none.project_id.as_str(), none.customer_id), ("", None));
+    let blank = validate_task(Some(""), "Ring", "", "", t).unwrap();
+    assert_eq!((blank.project_id.as_str(), blank.customer_id), ("", None));
+    let customer = validate_task(Some("c:k1"), "Ring", "", "", t).unwrap();
+    assert_eq!(customer.project_id, "");
+    assert_eq!(customer.customer_id.as_deref(), Some("k1"));
+    let project = validate_task(Some("p1"), "Ring", "", "", t).unwrap();
+    assert_eq!((project.project_id.as_str(), project.customer_id), ("p1", None));
+}
+
+/// Web's "Registrér tid" i opgavens sidepanel. Før fandtes den ikke i
+/// desktop (kun timeren).
+#[test]
+fn tid_paa_opgave_valideres() {
+    let t = today();
+    let customers = vec![cust("k1", "Bageriet", false), Customer { internal: true, ..cust("k2", "Kontoret", false) }];
+    let projects = vec![proj("p1", "k1", "Webshop", ProjectStatus::Active)];
+    let mut task = task("t1", TaskStatus::Todo, None);
+    task.title = "Ny forside".into();
+    task.project_id = "p1".into();
+    let ok = super::log_time_input(&task, &customers, &projects, "", "1,5", " ", t).unwrap();
+    assert_eq!((ok.date, ok.minutes), (t, 90), "tom dato = i dag");
+    assert_eq!(ok.description, "Ny forside", "uden tekst: opgavens titel");
+    assert_eq!((ok.customer_id.as_str(), ok.project_id.as_deref(), ok.task_id.as_deref()), ("k1", Some("p1"), Some("t1")));
+    assert!(ok.billable);
+    // Intern kunde uden projekt: ikke fakturerbar.
+    task.project_id = String::new();
+    task.customer_id = Some("k2".into());
+    let intern = super::log_time_input(&task, &customers, &projects, "1.11", "45m", "Møde", t).unwrap();
+    assert_eq!((intern.customer_id.as_str(), intern.project_id), ("k2", None));
+    assert_eq!((intern.date, intern.minutes, intern.description.as_str()), (NaiveDate::from_ymd_opt(2026, 11, 1).unwrap(), 45, "Møde"));
+    assert!(!intern.billable);
+    let e = super::log_time_input(&task, &customers, &projects, "31.02", "", "", t).unwrap_err();
+    assert!(e.date.is_some() && e.hours.is_some());
+}
+
+#[test]
+fn timer_fra_opgave_uden_projekt() {
+    let projects = vec![proj("p1", "k1", "Webshop", ProjectStatus::Active)];
+    let mut t = task("t1", TaskStatus::Todo, None);
+    let target = logic::timer_target(&projects, &t);
+    assert_eq!(target.project_id, None, "før: Some(\"\"), som web afviste");
+    assert_eq!(target.customer_id, None);
+    t.customer_id = Some("k2".into());
+    assert_eq!(logic::timer_target(&projects, &t).customer_id.as_deref(), Some("k2"));
+    t.project_id = "p1".into();
+    let target = logic::timer_target(&projects, &t);
+    assert_eq!(target.project_id.as_deref(), Some("p1"));
+    assert_eq!(target.customer_id.as_deref(), Some("k1"), "projektets kunde");
+    assert_eq!(target.task_id.as_deref(), Some("t1"));
+}
+
+/// Web fjerner afsluttede opgaver ældre end 14 dage fra arkiv-kolonnerne
+/// (`tasks.listByStatus`). Listen viser dem stadig.
+#[test]
+fn gamle_afsluttede_skjules_paa_tavlen() {
+    let lanes = logic::fixed_lanes(|s| format!("{s:?}"));
+    let done = lanes.iter().position(|l| l.is_archive).unwrap();
+    let mk = |id: &str, days_ago: Option<u64>| {
+        let mut t = task(id, TaskStatus::Done, None);
+        t.completed = days_ago.map(|d| today() - chrono::Days::new(d));
+        t
+    };
+    let tasks = vec![mk("ny", Some(13)), mk("graense", Some(14)), mk("gammel", Some(30)), mk("uden_dato", None)];
+    let f = logic::Filters::default();
+    let cols = logic::board_columns(&tasks, &[], &[], &f, today(), &lanes);
+    let ids: Vec<&str> = cols[done].iter().map(|t| t.id.as_str()).collect();
+    assert!(ids.contains(&"ny") && ids.contains(&"uden_dato"), "{ids:?}");
+    assert!(!ids.contains(&"gammel") && !ids.contains(&"graense"), "{ids:?}");
+    assert_eq!(logic::visible(&tasks, &[], &[], &f, today()).len(), 4, "listen viser alle");
 }
 
 #[test]
 fn validering_samler_alle_fejl() {
     let t = today();
     let e = validate_task(None, " ", "31.02.2026", "x", t).unwrap_err();
-    assert_eq!(e.project, Some("Vælg et projekt"));
     assert_eq!(e.title, Some("Skriv opgavens titel"));
     assert_eq!(e.due, Some("Skriv en dato, fx 31.12.2026"));
     assert!(e.estimate.is_some());
@@ -1026,6 +1139,40 @@ mod probe {
             .find(|t| t.title == "Afventer logo")
             .expect("oprettet");
         assert_eq!((t.status, t.status_id.as_deref()), (TaskStatus::InProgress, Some("kol_venter")));
+    }
+
+    #[gpui_kit::test]
+    fn registrer_tid_paa_opgave_i_panelet(cx: &mut TestAppContext) {
+        let mock = testing::mock();
+        mock.demo_custom_lanes();
+        let (h, app) = testing::open_app(cx, mock.clone());
+        testing::navigate(cx, h, &app, Screen::Opgaver);
+        let s = board(cx, h, &app);
+        cx.update_window(h, |_, w, cx| w.click("kort-opg_10", cx)).unwrap();
+        cx.run_until_parked();
+        cx.update_window(h, |_, w, cx| w.click("opgave-panel-tid", cx)).unwrap();
+        cx.run_until_parked();
+        assert!(testing::a11y(cx, h).has_label("Registrér tid på opgaven"));
+        cx.update_window(h, |_, w, cx| {
+            w.click("opgave-tid-timer", cx);
+            w.input("1,5", cx);
+            w.click("opgave-tid-gem", cx);
+        })
+        .unwrap();
+        cx.run_until_parked();
+        assert!(cx.update(|cx| s.read(cx).log.is_none()), "formularen lukker");
+        let task = task_of(&mock, "opg_10");
+        assert!(testing::a11y(cx, h).has_label_containing(&format!("er registreret på {}", task.title)));
+        let today = mock.today();
+        let e = mock
+            .entries(crate::backend::DateRange::day(today))
+            .unwrap()
+            .into_iter()
+            .find(|e| e.task_id.as_deref() == Some("opg_10"))
+            .expect("posten er gemt på opgaven");
+        assert_eq!((e.minutes, e.description.as_str()), (90, task.title.as_str()));
+        assert_eq!(e.customer_id, "kunde_klinik", "opgavens kunde uden projekt");
+        assert_eq!(e.project_id, None);
     }
 
     #[gpui_kit::test]

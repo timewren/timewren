@@ -30,6 +30,7 @@ vi.mock("../clientAccess", () => ({
 import { prepaidPackages, prepaidUsage, timeEntries } from "@/lib/db/schema";
 import { sendLowBalanceAlert } from "@/lib/email/prepaid";
 import { emitWebhookEvent } from "@/lib/webhooks/events";
+import { appCodeOf } from "../../app-code";
 import {
   checkAndSendLowBalanceAlert,
   deductHoursCore,
@@ -168,7 +169,7 @@ describe("deductHoursCore — saldoen efter et træk", () => {
     });
     // Rækken låses før saldoen læses — ellers kan to samtidige træk
     // dobbelt-bruge de samme timer.
-    expect(locks).toEqual([{ table: prepaidPackages, mode: "update" }]);
+    expect(locks).toEqual([{ table: prepaidPackages, mode: "no key update" }]);
   });
 
   it("afrunder til databasens skala, så brugt + tilbage = total", async () => {
@@ -239,6 +240,24 @@ describe("deductHoursCore — overtræks-politik (#93)", () => {
     );
     expect(updates).toEqual([]);
     expect(inserts).toEqual([]);
+  });
+
+  it("alle afvisninger bærer den sprogneutrale kode (#1320)", async () => {
+    // Udvidelsen gemmer tiden uden kort, når koden er sat. Teksten er
+    // oversat, så den må ikke være det eneste kendetegn.
+    const cases: Array<[Pkg | null, Parameters<typeof deduct>[1]]> = [
+      [null, { hours: 1 }],
+      [pkgRow({ usedHours: "17", remainingHours: "3" }), { hours: 5 }],
+      [pkgRow({ isActive: false }), { hours: 1 }],
+      [pkgRow({ expiryDate: new Date("2020-01-01T00:00:00Z") }), { hours: 1 }],
+      [pkgRow(), { hours: 1, timeEntryId: ENTRY, clientId: "client-2" }],
+      [pkgRow(), { hours: 0 }],
+    ];
+    for (const [pkg, opts] of cases) {
+      const { tx } = makeTx(pkg);
+      const error = await deduct(tx, opts).catch((e: unknown) => e);
+      expect(appCodeOf(error)).toBe("PREPAID_DEDUCTION_FAILED");
+    }
   });
 
   it("block med klip: fortæller også det oprundede krav", async () => {
@@ -399,7 +418,7 @@ describe("reversePrepaidUsage", () => {
     // Lav-saldo-mailen må kunne sendes igen, når saldoen er oppe.
     expect(values?.lowBalanceAlertSentAt).toBeNull();
     expect(deletes).toEqual([prepaidUsage]);
-    expect(locks).toEqual([{ table: prepaidPackages, mode: "update" }]);
+    expect(locks).toEqual([{ table: prepaidPackages, mode: "no key update" }]);
   });
 
   it("summerer flere forbrugsrækker for samme post", async () => {

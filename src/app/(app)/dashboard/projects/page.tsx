@@ -29,6 +29,7 @@ import {
   type PeriodKey,
   percentChange,
 } from "@/lib/periods";
+import { budgetLabel } from "@/lib/projects/budget-label";
 import { trpc } from "@/providers/trpc-provider";
 
 const FILTER_TABS: { id: string; labelKey: string }[] = [
@@ -78,9 +79,12 @@ const SORT_KEYS = SORT_OPTIONS.map((o) => o.key);
 /** Celler Excel ellers ville tolke som formel. */
 const FORMULA_PREFIX = /^[=+\-@\t\r]/;
 
-/** "12,5" — sprogets talformat med højst én decimal. */
-function formatHoursNumber(n: number, locale: string): string {
-  return n.toLocaleString(toIntlLocale(locale), { maximumFractionDigits: 1 });
+function formatHoursNumber(
+  n: number,
+  locale: string,
+  maximumFractionDigits = 1,
+): string {
+  return n.toLocaleString(toIntlLocale(locale), { maximumFractionDigits });
 }
 
 function ProjectsPageContent() {
@@ -143,6 +147,13 @@ function ProjectsPageContent() {
       { placeholderData: keepPreviousData },
     );
   const projects = data?.projects;
+  // Et projekt kræver en kunde. Uden projekter og uden kunder peger den tomme
+  // side derfor på kunden først i stedet for en formular med tom kundeliste.
+  const noProjectsYet = !!projects && projects.length === 0;
+  const { data: clientList } = trpc.clients.list.useQuery(undefined, {
+    enabled: noProjectsYet,
+  });
+  const needsClientFirst = noProjectsYet && clientList?.length === 0;
 
   const periodLabel = t(`periodShort.${period}`);
 
@@ -592,15 +603,23 @@ function ProjectsPageContent() {
           <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             {projects && projects.length > 0
               ? t("list.emptyNoMatchHint")
-              : t("list.emptyNoneHint")}
+              : needsClientFirst
+                ? t("list.emptyNeedsClientHint")
+                : t("list.emptyNoneHint")}
           </p>
           {(!projects || projects.length === 0) && (
             <Link
-              href="/dashboard/projects/new"
+              href={
+                needsClientFirst
+                  ? "/dashboard/clients/new"
+                  : "/dashboard/projects/new"
+              }
               className="mt-4 inline-flex items-center gap-2 rounded-lg bg-tt-gran px-4 py-2 text-sm font-medium text-tt-paa-gran hover:bg-tt-gran-moerk"
             >
               <Plus className="h-4 w-4" />
-              {t("list.createFirst")}
+              {needsClientFirst
+                ? t("list.createClientFirst")
+                : t("list.createFirst")}
             </Link>
           )}
         </div>
@@ -635,6 +654,15 @@ function ProjectsPageContent() {
                 project.stats.periodHours,
                 project.stats.previousPeriodHours,
               );
+              const { monthly, projectBudget, healthStatus } = project.stats;
+              const monthlyLabel = monthly
+                ? budgetLabel(
+                    t,
+                    monthly.healthStatus,
+                    monthly.usedHoursExact,
+                    monthly.budgetHours,
+                  )
+                : undefined;
               return (
                 <div key={project.id} className="flex items-center">
                   {selecting && (
@@ -659,21 +687,6 @@ function ProjectsPageContent() {
                         <span className="truncate text-sm font-medium text-gray-900 dark:text-white">
                           {project.name}
                         </span>
-                        {project.stats.healthStatus && (
-                          <span
-                            className={`h-2 w-2 shrink-0 rounded-full ${HEALTH_STYLES[project.stats.healthStatus]}`}
-                            title={
-                              project.stats.budgetPercentage !== null
-                                ? t("list.budgetUsedTitle", {
-                                    pct: project.stats.budgetPercentage,
-                                    used: project.stats.totalHours,
-                                    total:
-                                      project.stats.estimatedBudgetHours ?? 0,
-                                  })
-                                : undefined
-                            }
-                          />
-                        )}
                         {(project.tags ?? []).map((tag) => (
                           <span
                             key={tag.id}
@@ -690,42 +703,62 @@ function ProjectsPageContent() {
                       <p className="truncate text-xs text-gray-600 dark:text-gray-400">
                         {project.client?.name || t("list.noClient")}
                       </p>
+                      {healthStatus && projectBudget && (
+                        <span className="mt-0.5 flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                          <span
+                            aria-hidden="true"
+                            className={`h-2 w-2 shrink-0 rounded-full ${HEALTH_STYLES[healthStatus]}`}
+                          />
+                          {budgetLabel(
+                            t,
+                            healthStatus,
+                            projectBudget.usedHours,
+                            projectBudget.budgetHours,
+                          )}
+                        </span>
+                      )}
                     </div>
 
                     {/* Månedsbudget: mini-bar + "brugt/budget t denne måned" */}
                     <div className="hidden w-36 shrink-0 flex-col items-end gap-1 lg:flex">
-                      {project.stats.monthly ? (
+                      {monthly ? (
                         <>
                           <span
-                            className={`text-xs tabular-nums ${MONTHLY_TEXT_STYLES[project.stats.monthly.healthStatus]}`}
+                            className={`text-right text-xs tabular-nums ${MONTHLY_TEXT_STYLES[monthly.healthStatus]}`}
                           >
-                            {t("list.monthlyUsed", {
-                              used: hours(project.stats.monthly.usedHours),
-                              budget: hours(project.stats.monthly.budgetHours),
-                            })}
+                            <span className="block">
+                              {t("list.colMonthBudget")}
+                            </span>
+                            {monthlyLabel}
                           </span>
                           <div
                             className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800"
                             role="progressbar"
                             aria-valuemin={0}
                             aria-valuemax={100}
-                            aria-valuenow={Math.min(
-                              100,
-                              project.stats.monthly.percentage,
-                            )}
+                            aria-valuenow={Math.min(100, monthly.percentage)}
                             aria-label={t("list.monthlyAria", {
-                              pct: project.stats.monthly.percentage,
+                              pct: monthly.percentage,
                             })}
+                            aria-valuetext={monthlyLabel}
                             title={t("list.monthlyTitle", {
-                              used: hours(project.stats.monthly.usedHours),
-                              budget: hours(project.stats.monthly.budgetHours),
-                              pct: project.stats.monthly.percentage,
+                              used: formatHoursNumber(
+                                monthly.usedHoursExact,
+                                locale,
+                                2,
+                              ),
+                              budget: formatHoursNumber(
+                                monthly.budgetHours,
+                                locale,
+                                2,
+                              ),
+                              pct: monthly.percentage,
                             })}
                           >
                             <div
-                              className={`h-full rounded-full ${HEALTH_STYLES[project.stats.monthly.healthStatus]}`}
+                              className={`h-full rounded-full ${HEALTH_STYLES[monthly.healthStatus]}`}
                               style={{
-                                width: `${Math.min(100, Math.max(0, project.stats.monthly.percentage))}%`,
+                                width: `${Math.min(100, Math.max(0, monthly.percentage))}%`,
                               }}
                             />
                           </div>

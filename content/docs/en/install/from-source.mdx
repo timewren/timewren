@@ -40,6 +40,8 @@ Choose this method if you want to run modified code or contribute. If you only w
 
 The build arguments `NEXT_PUBLIC_DESKTOP_RELEASES_REPO`, `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_SENTRY_DSN` and `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` are compiled into the browser bundle, so changing them in `.env` needs `docker compose up -d --build` again. The app URL, marketing URL and brand are read at runtime and need no rebuild.
 
+The compose build block sets the build argument `BUILD_PROFILE: selfhost`. That profile leaves the Cloud marketing site (pricing, blog, landing pages) and the TimeWren website out of the build, so the build is shorter and the image smaller. The cookies, contact, download and account-deletion pages, the instance's own privacy, GDPR, terms and data processing pages, and the app itself are unaffected. The prebuilt image is built this way. To build the full app, including the marketing pages that `NEXT_PUBLIC_MARKETING_URL` enables, remove the argument or set `BUILD_PROFILE: full`.
+
 You can also run the checkout's installer, `./scripts/install.sh`. In a checkout it builds the image and starts the stack with `docker compose up -d --build`, on every run. See [One-line install](/docs/install/quick).
 
 ## Run the development server

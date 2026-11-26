@@ -8,11 +8,11 @@ import { Button, Card, colors, ErrorState, Input, Screen, Text } from '~/compone
 import { signOut, useAuthStore } from '~/features/auth/use-auth-store';
 import { useStoreBillingConfig } from '~/features/billing/store-billing-api';
 import { openSubscriptionStore } from '~/features/billing/use-store-billing';
-import { errorMessage, trpc } from '~/lib/api';
+import { trpc } from '~/lib/api';
 import { appleCodeForAccountDeletion } from '~/lib/auth/apple';
 import { translate } from '~/lib/i18n';
 import { showMessage } from '~/lib/notify';
-import { loadOrgsWithMembers, planOrgSteps, runOrgSteps } from './account-deletion-orgs';
+import { findSharedOrgs, loadOrgsWithMembers } from './account-deletion-orgs';
 
 /**
  * Et abonnement købt i App Store eller Google Play stopper ikke, når kontoen slettes. Det skal
@@ -49,7 +49,7 @@ function OrgConsequences({ steps }: { steps: OrgStep[] }) {
         <Text key={step.orgId} className="mt-1 text-sm text-foreground">
           {step.kind === 'leave'
             ? translate('settings.delete_account.org_leave', { name: step.name })
-            : translate('settings.delete_account.org_delete', { name: step.name, count: step.memberIds.length })}
+            : translate('settings.delete_account.org_transfer', { name: step.name })}
         </Text>
       ))}
     </Card>
@@ -61,50 +61,66 @@ function useAccountDeletion() {
   const session = useAuthStore.use.session();
   const user = (session as { user?: { id?: string; email?: string } } | null)?.user;
   const email = (user?.email ?? '').toLowerCase();
-  const orgs = useQuery({ queryKey: ['account-deletion', 'orgs'], queryFn: loadOrgsWithMembers, enabled: !!user?.id });
-  const steps = React.useMemo(() => (user?.id && orgs.data ? planOrgSteps(user.id, orgs.data) : []), [user?.id, orgs.data]);
+  const orgs = useQuery({ queryKey: ['account-deletion', 'orgs', user?.id], queryFn: loadOrgsWithMembers, enabled: !!user?.id, staleTime: 0 });
+  const sharedOrgs = user?.id && orgs.data ? findSharedOrgs(user.id, orgs.data) : [];
   const del = trpc.user.deleteAccount.useMutation();
   // Serveren tjekker butiksabonnementer på tværs af alle brugerens organisationer, ikke kun den aktive.
-  const info = trpc.user.getAccountDeletionInfo.useQuery();
+  const info = trpc.user.getAccountDeletionInfo.useQuery(undefined, { staleTime: 0 });
+  const serverBlocks = info.data?.blockingOrgs ?? [];
+  const steps: OrgStep[] = [
+    ...sharedOrgs
+      .filter(org => !serverBlocks.some(blocked => blocked.id === org.id))
+      .map(org => ({ kind: 'leave' as const, orgId: org.id, name: org.name })),
+    ...serverBlocks.map(org => ({ kind: 'transfer' as const, orgId: org.id, name: org.name })),
+  ];
+  const canDelete = info.isSuccess && info.data?.canDelete === true && !!orgs.data
+    && !orgs.isError && !orgs.isFetching && !info.isFetching;
   const source = useStoreBillingConfig().data?.current.source;
   const storeSubscription = source === 'apple' || source === 'google' || !!info.data?.storeSubscription;
   const [preparing, setPreparing] = React.useState(false);
 
+  // En Alert-handler kan kaldes igen, før React når at deaktivere knappen.
+  const startedRef = React.useRef(false);
+
   async function run(confirmEmail: string) {
+    if (!canDelete || startedRef.current)
+      return;
+    startedRef.current = true;
+    setPreparing(true);
+
+    let deleted = false;
     try {
-      // Apple-koden hentes først: lukker brugeren Apple-arket, er intet rørt endnu.
-      setPreparing(true);
       const appleCode = await appleCodeForAccountDeletion();
       if (appleCode === 'canceled')
         return;
-      await runOrgSteps(steps);
-      // Serveren tilbagekalder Apple-login med koden. En server uden feltet ignorerer det (zod).
+      // Apple-koden bruges kun til dette forsøg. Serveren ejer hele sletteoperationen.
       const apple: { appleAuthorizationCode?: string } = appleCode ? { appleAuthorizationCode: appleCode } : {};
       await del.mutateAsync({ confirmEmail, ...(storeSubscription ? { storeSubscriptionAcknowledged: true } : {}), ...apple });
-      showMessage({ message: translate('settings.delete_account.done'), type: 'success' });
-      await signOut();
-      // Skærmen ligger i en stak over fanerne, så fane-layoutets omdirigering når den ikke.
-      router.replace('/login');
+      deleted = true;
     }
-    catch (e) {
-      // Et delvist gennemført forløb (fx nogle medlemmer fjernet) skal planlægges forfra.
-      void orgs.refetch();
-      showMessage({ message: errorMessage(e), type: 'danger' });
+    catch {
+      showMessage({ message: translate('settings.delete_account.retry_error'), type: 'danger' });
+      // Ejerskabet eller abonnementet kan have ændret sig siden bekræftelsen.
+      await Promise.all([orgs.refetch(), info.refetch()]);
     }
     finally {
-      setPreparing(false);
+      if (!deleted) {
+        startedRef.current = false;
+        setPreparing(false);
+      }
+    }
+
+    if (deleted) {
+      showMessage({ message: translate('settings.delete_account.done'), type: 'success' });
+      await signOut();
+      // Skærmen ligger over fanerne og skal selv omdirigere efter sletning.
+      router.replace('/login');
     }
   }
 
-  return { email, orgs, info, steps, storeSubscription, run, busy: del.isPending || preparing };
+  return { email, orgs, info, steps, storeSubscription, run, canDelete, busy: preparing };
 }
 
-/**
- * Slet konto i appen (krav fra App Store 5.1.1(v) og Google Play).
- * Backenden kræver at brugeren skriver sin egen e-mail som bekræftelse. Er brugeren eneste ejer
- * af et team, fjernes de øvrige medlemmer først; ellers forlader serveren teamet selv og
- * anonymiserer brugeren (se account-deletion-orgs.ts). Apple-login tilbagekaldes via en frisk kode.
- */
 export function DeleteAccountScreen() {
   const d = useAccountDeletion();
   const [confirm, setConfirm] = React.useState('');
@@ -158,8 +174,7 @@ export function DeleteAccountScreen() {
           variant="destructive"
           label={translate('settings.delete_account.cta')}
           onPress={ask}
-          // Butiksbekræftelsen afhænger af serverens svar: slet ikke på et gæt.
-          disabled={!matches || d.busy || d.orgs.isLoading || d.orgs.isError || !d.info.isSuccess}
+          disabled={!matches || d.busy || !d.canDelete}
           loading={d.busy}
           testID="delete-account-submit"
         />

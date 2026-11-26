@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Orçamento mensal",
     "hint": "{hours} horas por mês, reposto no dia 1.",
-    "usage": "{used} de {budget} h ({pct}%)",
     "overrun": "O orçamento mensal foi excedido em {hours} horas",
-    "previous": "Meses anteriores",
-    "hoursPct": "{hours} h ({pct}%)"
+    "previous": "Meses anteriores"
   },
   "activityTypes": {
     "allowedAll": "Todos os tipos de atividade são permitidos no projeto",
@@ -66,10 +64,8 @@
     "title": "Orçamento de horas",
     "derived": "derivado",
     "derivedTitle": "Derivado do preço fixo ÷ taxa horária. Define um orçamento de horas no projeto para o controlares diretamente.",
-    "hoursOf": "{used} / {total} h",
     "over": "{hours} h acima",
     "remaining": "{hours} h restantes",
-    "ariaUsed": "{pct}% do orçamento de horas utilizado",
     "plannedTitle": "{hours} h planeadas",
     "pctUsed": "{pct}% utilizado",
     "planned": "+ {planned} h planeadas = {forecast} h ({pct}%)",
@@ -188,11 +184,11 @@
     "colTotal": "Total",
     "colStatus": "Estado",
     "selectProject": "Selecionar {name}",
-    "budgetUsedTitle": "{pct}% do orçamento de horas utilizado ({used}/{total} h)",
     "noClient": "Sem cliente",
-    "monthlyUsed": "{used}/{budget} h",
     "monthlyAria": "{pct}% do orçamento mensal utilizado",
-    "monthlyTitle": "{used} de {budget} h utilizadas este mês ({pct}%)"
+    "monthlyTitle": "{used} de {budget} h utilizadas este mês ({pct}%)",
+    "emptyNeedsClientHint": "Um projeto pertence a um cliente. Adicione primeiro o cliente e depois crie o projeto.",
+    "createClientFirst": "Adicionar o primeiro cliente"
   },
   "detail": {
     "status": {

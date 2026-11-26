@@ -10,7 +10,9 @@
     "language": "Language",
     "beta": "beta",
     "betaNote": "Translation not yet reviewed.",
-    "docs": "Docs"
+    "docs": "Docs",
+    "desktop": "Desktop",
+    "download": "Get the app"
   },
   "footer": {
     "tagline": "Open-source time tracking with prepaid hours and invoicing.",
@@ -27,9 +29,13 @@
     "contact": "Contact"
   },
   "meta": {
+    "deleteAccount": {
+      "title": "Delete your TimeWren account",
+      "description": "Request deletion of your TimeWren Cloud account and associated data from Mahope."
+    },
     "home": {
       "title": "TimeWren: open-source time tracking with prepaid hours",
-      "description": "Open-source time tracking and CRM for freelancers and small teams, built around prepaid hours. Self-host it for free with one command, or use TimeWren Cloud."
+      "description": "Open-source time tracking and CRM for freelancers and small teams, built around prepaid hours. Self-host it for free with one command, or use TimeWren Cloud. Apps for iPhone, Mac and Windows."
     },
     "pricing": {
       "title": "Pricing | TimeWren",
@@ -46,14 +52,26 @@
     "terms": {
       "title": "Terms of service | TimeWren",
       "description": "Terms of service for TimeWren Cloud, including the data processing agreement, prices and payment, your data and liability."
+    },
+    "desktop": {
+      "title": "Desktop app | TimeWren",
+      "description": "The TimeWren desktop app is free for personal use. A business licence without an account is a one-time payment of 69 euros."
+    },
+    "download": {
+      "title": "Get the app | TimeWren",
+      "description": "TimeWren for iPhone and iPad in the App Store, the desktop app for macOS and Windows, and the web app in any browser."
     }
   },
   "home": {
     "title": "Time tracking and CRM for freelancers, built around prepaid hours",
     "lead": "TimeWren is open source. Track your time, sell it to clients as prepaid hours and invoice it from the same entries. It works for one freelancer or a small team, on your own server or in our cloud.",
+    "ctaStart": "Start free in the Cloud",
+    "ctaApp": "Get the app",
+    "cloudFree": "TimeWren Cloud has a free plan for up to 3 users.",
+    "selfHostPrompt": "Prefer your own server?",
     "ctaInstall": "Install in 5 minutes",
-    "ctaGithub": "See it on GitHub",
-    "ctaCloud": "TimeWren Cloud",
+    "or": "or",
+    "ctaGithub": "see the code on GitHub",
     "heroNote": "AGPL-3.0. Every feature in every install, with no licence key.",
     "oneLinerLabel": "Install on a Linux server with Docker:",
     "oneLinerNote": "The script checks Docker, writes fresh secrets to .env, pulls the image and starts the stack. It never uses sudo and never prints the secrets.",
@@ -171,14 +189,29 @@
       ]
     },
     "apps": {
-      "title": "Where you track",
-      "lead": "Your timer follows you between the web app, the extension and the apps.",
+      "title": "On all your devices",
+      "lead": "One account on your phone, your computer and in the browser. Start the timer on your phone and stop it on your computer.",
       "available": "Available",
       "coming": "Coming",
       "items": [
         [
+          "iPhone and iPad",
+          "In the App Store. Start and stop the timer and add time for earlier days.",
+          "available"
+        ],
+        [
+          "Mac",
+          "The desktop app for macOS 11 or later. Free for personal use.",
+          "available"
+        ],
+        [
+          "Windows",
+          "The desktop app for Windows 10 or later. Free for personal use.",
+          "available"
+        ],
+        [
           "Web app",
-          "In any browser, and installable as an app on desktop and phone.",
+          "In any browser, also on Linux, and installable on your phone's home screen.",
           "available"
         ],
         [
@@ -186,10 +219,13 @@
           "Start and stop the timer from any tab. Chrome and Firefox, MIT licence.",
           "available"
         ],
-        ["Desktop app", "macOS and Windows.", "coming"],
-        ["Mobile app", "iOS and Android.", "coming"]
+        ["Android", "Coming to Google Play.", "coming"]
       ],
-      "mobileAlt": "The TimeWren dashboard on a phone"
+      "note": "The iPhone app signs in to TimeWren Cloud. The desktop app signs in to TimeWren Cloud or runs locally without an account. Connecting them to your own server is planned; the web app and the extension already work with it.",
+      "androidLive": "In Google Play.",
+      "mobileAlt": "The TimeWren dashboard on a phone",
+      "desktopAlt": "The TimeWren project list on a computer, with hours this month and in total per project",
+      "getApp": "Get the app"
     },
     "install": {
       "title": "Install it your way",
@@ -338,7 +374,7 @@
         ],
         [
           "Is there a mobile app?",
-          "The web app works on a phone and can be installed on the home screen. Native apps for iOS and Android are on the way."
+          "Yes. TimeWren for iPhone and iPad is in the App Store, and the Android app is coming to Google Play. The web app also works on a phone and can be installed on the home screen."
         ],
         [
           "Does a self-hosted instance send data anywhere?",
@@ -391,11 +427,11 @@
     "vat": "All prices exclude VAT.",
     "cloudCta": "Create a Cloud account",
     "plans": {
-      "free": "Gratis",
-      "privat": "Privat",
-      "solo": "Selvstændig",
+      "free": "Free",
+      "privat": "Personal",
+      "solo": "Solo",
       "team": "Team",
-      "business": "Virksomhed"
+      "business": "Business"
     }
   },
   "selfHosting": {
@@ -424,6 +460,20 @@
       ["Troubleshooting", "operations/troubleshooting"]
     ],
     "telemetry": "Telemetry and outbound connections"
+  },
+  "deleteAccount": {
+    "intro": "TimeWren Cloud is operated by Mahope (CVR 39413892). You can request deletion without signing in or installing the app.",
+    "requestTitle": "Request deletion by email",
+    "emailLabel": "Email Mahope",
+    "request": "Send the request from the email address you use for TimeWren. Ask us to delete your TimeWren Cloud account and associated data. If you no longer have access to that address, contact us and explain how we can reach you.",
+    "appTitle": "Delete your account in the app",
+    "app": "Open TimeWren and go to More → Profile → Delete account. Enter your account email and confirm. If you are the only owner of a shared team, transfer ownership first. To stop future store charges, cancel your subscription in Google Play or the App Store. Deleting the account does not cancel it.",
+    "dataTitle": "What we delete or anonymise",
+    "data": "We remove your account access and delete or anonymise your profile details and sign-in data. If you are the only member of a workspace, the workspace and its data, such as time entries, clients, projects, invoices and tasks, are deleted. Shared workspaces keep their business records, such as time entries, with your account identity removed or anonymised.",
+    "retentionTitle": "How long we keep your data",
+    "retention": "As stated in our privacy policy, we delete or anonymise your personal data within 30 days of account deletion, unless the law requires us to keep it longer. Bookkeeping records that we are required to keep under the Danish Bookkeeping Act are retained for up to five years.",
+    "privacy": "TimeWren privacy policy",
+    "selfHosted": "If you use TimeWren on a self-hosted server, contact the operator of that server to request deletion."
   },
   "legal": {
     "englishPrevails": "In case of discrepancies, the English version prevails.",
@@ -734,5 +784,83 @@
         }
       ]
     }
+  },
+  "desktop": {
+    "title": "TimeWren Desktop",
+    "lead": "The desktop app is free for personal use. If you use it for work without a TimeWren account, you need a licence: {price}, once.",
+    "freeTitle": "Free",
+    "freePoints": [
+      "Personal use of the official builds",
+      "Included with a TimeWren account on every plan, also Free",
+      "Self-built from the source code: free for any use"
+    ],
+    "licenceTitle": "Business licence",
+    "licencePer": "once, no subscription",
+    "licencePoints": [
+      "For work use without a TimeWren account",
+      "Up to three computers",
+      "Yours to keep, with no renewal",
+      "Full refund within 30 days"
+    ],
+    "emailLabel": "Your email",
+    "emailNote": "The licence key arrives by email right after payment. Stripe sends the invoice, with room for your company name and VAT number.",
+    "buy": "Buy for {price}",
+    "download": "Download the desktop app",
+    "refundNote": "Changed your mind? Write to {email} within 30 days and you get all the money back.",
+    "bought": "Thank you. Your licence key is on its way by email. Enter it in the app when it asks for a licence.",
+    "error": "We could not start the payment. Try again, or write to {email}.",
+    "included": "This address already has TimeWren Cloud, which includes the desktop app. You do not need a licence."
+  },
+  "download": {
+    "title": "Get TimeWren",
+    "lead": "One account on every device. Start the timer on your phone and stop it on your computer.",
+    "featured": {
+      "iphone": "On your iPhone",
+      "ipad": "On your iPad",
+      "android": "On your Android phone",
+      "mac": "On your Mac",
+      "windows": "On your Windows PC",
+      "web": "In your browser"
+    },
+    "guessNote": "We guessed your device from your browser. Every platform is listed below.",
+    "ipadHint": "On an iPad? The app for iPhone and iPad is in the App Store.",
+    "appStoreAlt": "Download on the App Store",
+    "comingSoon": "Coming soon to Google Play",
+    "version": "Version {version}",
+    "allFiles": "All files on GitHub",
+    "unavailable": "The download links are unavailable right now. Try again shortly, or use the web app.",
+    "macWhich": "Which one? Open the Apple menu and choose About This Mac. A chip called Apple M1 or later is Apple silicon; a processor called Intel is Intel.",
+    "allTitle": "All platforms",
+    "platforms": {
+      "ios": {
+        "name": "iPhone and iPad",
+        "body": "Start and stop the timer, add time for earlier days and see your week."
+      },
+      "android": {
+        "name": "Android",
+        "body": "The Android app is in testing and coming to Google Play. Until then, the web app works on your phone.",
+        "bodyLive": "The app for your Android phone. Start and stop the timer and see your week's hours.",
+        "button": "Get it on Google Play"
+      },
+      "mac": {
+        "name": "macOS",
+        "body": "The desktop app for macOS 11 or later.",
+        "arm": "Download for Apple silicon",
+        "intel": "Download for Intel"
+      },
+      "windows": {
+        "name": "Windows",
+        "body": "The desktop app for Windows 10 or later.",
+        "button": "Download for Windows"
+      },
+      "web": {
+        "name": "Web app",
+        "body": "Works in any modern browser. Use TimeWren Cloud, or run it on your own server.",
+        "cloud": "Open TimeWren Cloud",
+        "selfHost": "Self-host it"
+      }
+    },
+    "desktopNote": "The desktop app is free for personal use. Work use without a TimeWren account needs a licence.",
+    "desktopLink": "Desktop app and licence"
   }
 }

@@ -176,7 +176,7 @@
       "deleted": "slettet"
     },
     "specHeading": "--- Specifikation ---",
-    "specLine": "{date} - {project}: {description} ({hours} t × {rate} kr = {amount} kr)"
+    "specLine": "{date} - {project}: {description} ({hours} t × {rate} = {amount})"
   },
   "logbook": {
     "endAfterStart": "Slutdato skal være efter startdato",
@@ -457,6 +457,10 @@
       "projectLine": "Projekt: {name}",
       "hoursLine": "Timer: {hours}",
       "exportedFrom": "Eksporteret fra TimeTrack"
+    },
+    "outlook": {
+      "notConnected": "Ikke forbundet til Outlook",
+      "syncFailed": "Outlook-synkronisering fejlede"
     }
   },
   "activity": {

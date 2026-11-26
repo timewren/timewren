@@ -23,6 +23,11 @@ import { toIntlLocale } from "@/i18n/format-locale";
 import { toLocalDateStr } from "@/lib/format";
 import { showPrepaidDeductionToast } from "@/lib/prepaidToast";
 import { buildContinuedEntryPatch } from "@/lib/timer/continue-entry";
+import { stoppedTimerStart } from "@/lib/timer/entry-span";
+import {
+  createLongTimerReminder,
+  longTimerKey,
+} from "@/lib/timer/long-timer-reminder";
 import { timerSaveKeys } from "@/lib/timer/save-key";
 import { trpc } from "@/providers/trpc-provider";
 import {
@@ -86,6 +91,8 @@ export function TimeTrackingBar() {
     isRunning,
     elapsedTime,
     sessionStartTime,
+    startTime: segmentStartTime,
+    sessionId: timerSessionId,
     projectId,
     clientId,
     taskId,
@@ -234,6 +241,60 @@ export function TimeTrackingBar() {
     }
   }, [elapsedTime, isRunning, t]);
 
+  // Venlig påmindelse om en timer, der har kørt meget længe. Én gang pr.
+  // timer (også efter genindlæsning), og den bliver stående, til brugeren
+  // reagerer: en glemt timer opdages typisk, når man kommer tilbage til fanen.
+  const stopFromReminderRef = useRef<() => void>(() => {});
+  const longTimerReminderRef = useRef<ReturnType<
+    typeof createLongTimerReminder
+  > | null>(null);
+  const tRef = useRef(t);
+  tRef.current = t;
+  if (!longTimerReminderRef.current) {
+    const reminder = createLongTimerReminder({
+      show: (key, hours) => {
+        toast.warning(tRef.current("bar.longTimer.title", { hours }), {
+          id: key,
+          description: tRef.current("bar.longTimer.description"),
+          duration: Number.POSITIVE_INFINITY,
+          onDismiss: () => reminder.dismissed(key),
+          action: {
+            label: tRef.current("bar.longTimer.stop"),
+            onClick: () => {
+              if (reminder.canStop(key)) stopFromReminderRef.current();
+            },
+          },
+        });
+      },
+      dismiss: (key) => toast.dismiss(key),
+      storage: () => sessionStorage,
+    });
+    longTimerReminderRef.current = reminder;
+  }
+  const longTimerReminderKey = longTimerKey({
+    sessionStartTime,
+    sessionId: timerSessionId,
+    startTime: segmentStartTime,
+  });
+  useEffect(() => {
+    longTimerReminderRef.current?.update({
+      isRunning,
+      elapsedSeconds: elapsedTime,
+      key: longTimerReminderKey,
+    });
+  }, [elapsedTime, isRunning, longTimerReminderKey]);
+  // Toasteren lever videre, når bjælken forsvinder (andre sider, skjult
+  // bjælke). Luk påmindelsen sammen med bjælken, så dens stop-knap aldrig
+  // peger på en afmonteret komponent.
+  const longTimerReminderKeyRef = useRef(longTimerReminderKey);
+  longTimerReminderKeyRef.current = longTimerReminderKey;
+  useEffect(
+    () => () => {
+      toast.dismiss(longTimerReminderKeyRef.current);
+    },
+    [],
+  );
+
   // Reset milestones when timer is reset
   useEffect(() => {
     if (elapsedTime === 0) {
@@ -381,17 +442,23 @@ export function TimeTrackingBar() {
 
     // Pause timer and capture state for save modal
     pauseTimer();
+    const endTime = new Date();
     setPendingSaveData({
       duration: elapsedTime,
-      // Use actual session start time from timer, or fallback to calculated
-      startTime: sessionStartTime
-        ? new Date(sessionStartTime)
-        : new Date(Date.now() - elapsedTime * 1000),
-      endTime: new Date(),
+      // Sessionens første start, men aldrig senere end slut − sporet tid:
+      // tid lagt til og en start sat til seneste genoptagelse må ikke give en
+      // post med flere timer end tidsrummet (lib/timer/entry-span.ts)
+      startTime: stoppedTimerStart(
+        sessionStartTime ? new Date(sessionStartTime) : endTime,
+        endTime,
+        elapsedTime,
+      ),
+      endTime,
     });
     // Open save modal directly — project/client can be selected inside
     setShowSaveModal(true);
   };
+  stopFromReminderRef.current = () => void handleStop();
 
   const handleSaveConfirm = async (options: {
     usePrepaid: boolean;
@@ -852,13 +919,16 @@ export function TimeTrackingBar() {
 
       // Pause timer and open save modal
       pauseTimer();
+      const endTime = endOverride ? new Date(endOverride) : new Date();
       setPendingSaveData({
         duration,
-        // Use actual session start time from timer, or fallback to calculated
-        startTime: sessionStartTime
-          ? new Date(sessionStartTime)
-          : new Date(Date.now() - duration * 1000),
-        endTime: endOverride ? new Date(endOverride) : new Date(),
+        // Som handleStop: første start, højst slut − sporet tid
+        startTime: stoppedTimerStart(
+          sessionStartTime ? new Date(sessionStartTime) : endTime,
+          endTime,
+          duration,
+        ),
+        endTime,
       });
       setShowSaveModal(true);
     };

@@ -9,6 +9,33 @@
  * bruges i middleware (edge) og klientkode.
  */
 
+export const DEMO_CURRENCY = "EUR";
+export type DemoCurrency = typeof DEMO_CURRENCY | "DKK";
+export const EUR_DEMO_EMAIL_PREFIX = "demo-eur-";
+
+let resolveServerCurrency: (() => DemoCurrency | undefined) | undefined;
+
+export function registerDemoCurrencyResolver(
+  resolve: () => DemoCurrency | undefined,
+): void {
+  resolveServerCurrency = resolve;
+}
+
+/**
+ * Valutaen, beløb vises i. Demoen vælger den pr. demokonto; uden for demoen
+ * følger den organisationens valuta (src/lib/org/region.ts, fund 19), som
+ * serveren sætter for kaldet (tRPC) og på <html data-demo-currency>. Uden
+ * noget sat er den DKK som før.
+ */
+export function activeDemoCurrency(): DemoCurrency {
+  if (typeof window !== "undefined") {
+    return document.documentElement.dataset.demoCurrency === DEMO_CURRENCY
+      ? DEMO_CURRENCY
+      : "DKK";
+  }
+  return resolveServerCurrency?.() ?? "DKK";
+}
+
 const DEMO_MODE_ENV = "DEMO_MODE";
 
 /** Er instansen den offentlige demo? */
@@ -30,6 +57,17 @@ export const DEMO_EMAIL_DOMAIN = "demo.invalid";
 
 export function isDemoEmail(email: string | null | undefined): boolean {
   return !!email && email.toLowerCase().endsWith(`@${DEMO_EMAIL_DOMAIN}`);
+}
+
+/** The reserved demo address records the currency used to seed the account. */
+export function demoCurrencyForEmail(
+  email: string | null | undefined,
+): DemoCurrency {
+  return isDemoMode() &&
+    isDemoEmail(email) &&
+    email?.startsWith(EUR_DEMO_EMAIL_PREFIX)
+    ? DEMO_CURRENCY
+    : "DKK";
 }
 
 /** Demodata slettes, når brugeren er ældre end dette. */

@@ -65,11 +65,8 @@ export function DesktopDownloadCard() {
         <div className="flex items-center gap-3 min-w-0">
           <Download className="h-5 w-5 shrink-0 text-tt-graa" />
           <div className="min-w-0">
-            <p className="flex items-center gap-2 text-sm font-medium text-brand-900 dark:text-brand-100">
+            <p className="text-sm font-medium text-brand-900 dark:text-brand-100">
               {brand.name} Desktop
-              <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
-                {t("beta")}
-              </span>
             </p>
             <p className="text-xs text-brand-700/80 dark:text-brand-300/80">
               {hasDownloads

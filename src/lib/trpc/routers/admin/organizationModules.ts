@@ -10,6 +10,7 @@ import {
   FREELANCE_BUNDLE,
   MODULE_KEYS,
 } from "@/lib/modules/constants";
+import { parseOrgMetadata } from "@/lib/utils/org-metadata";
 import { adminProcedure, router } from "../../trpc";
 import { logAdminAction } from "./shared";
 
@@ -146,7 +147,9 @@ export const adminOrganizationModulesRouter = router({
         where: eq(organizations.id, input.organizationId),
       });
       const newMetadata = {
-        ...((currentOrg?.metadata as Record<string, unknown>) ?? {}),
+        // Parse først: Better-Auth gemmer metadata som JSON-streng, og en
+        // spredt streng sletter de øvrige felter (domæner, valuta).
+        ...parseOrgMetadata(currentOrg?.metadata),
         type: input.bundle,
       };
       await ctx.db

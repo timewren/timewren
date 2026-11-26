@@ -9,7 +9,10 @@ import {
   __resetValkeyAlertForTests,
   reportValkeyError,
   reportValkeyReady,
+  VALKEY_ALERT_GRACE_MS,
 } from "@/lib/valkey";
+
+const T0 = 1_000_000;
 
 describe("Valkey Sentry alert throttle", () => {
   beforeEach(() => {
@@ -23,10 +26,20 @@ describe("Valkey Sentry alert throttle", () => {
     vi.restoreAllMocks();
   });
 
-  it("alerts Sentry once per down-episode despite repeated errors", () => {
-    reportValkeyError("ECONNREFUSED");
-    reportValkeyError("ECONNREFUSED");
-    reportValkeyError("ECONNREFUSED");
+  it("does not alert on a short blip that recovers within the grace period", () => {
+    reportValkeyError("getaddrinfo ENOTFOUND valkey", T0);
+    reportValkeyError("getaddrinfo ENOTFOUND valkey", T0 + 2_000);
+    reportValkeyReady();
+    expect(captureMessage).not.toHaveBeenCalled();
+  });
+
+  it("alerts once when the outage outlasts the grace period", () => {
+    reportValkeyError("ECONNREFUSED", T0);
+    reportValkeyError("ECONNREFUSED", T0 + VALKEY_ALERT_GRACE_MS - 1);
+    expect(captureMessage).not.toHaveBeenCalled();
+
+    reportValkeyError("ECONNREFUSED", T0 + VALKEY_ALERT_GRACE_MS);
+    reportValkeyError("ECONNREFUSED", T0 + VALKEY_ALERT_GRACE_MS + 2_000);
     expect(captureMessage).toHaveBeenCalledTimes(1);
     expect(captureMessage).toHaveBeenCalledWith(
       expect.stringContaining("Valkey connection lost"),
@@ -35,7 +48,8 @@ describe("Valkey Sentry alert throttle", () => {
   });
 
   it("alerts on recovery and re-arms for the next outage", () => {
-    reportValkeyError("down");
+    reportValkeyError("down", T0);
+    reportValkeyError("down", T0 + VALKEY_ALERT_GRACE_MS);
     expect(captureMessage).toHaveBeenCalledTimes(1);
 
     reportValkeyReady();
@@ -45,8 +59,11 @@ describe("Valkey Sentry alert throttle", () => {
       { level: "info" },
     );
 
-    // Re-armed: a fresh outage alerts again.
-    reportValkeyError("down again");
+    // Re-armed: a fresh outage starts a new grace period, then alerts again.
+    const T1 = T0 + 10 * VALKEY_ALERT_GRACE_MS;
+    reportValkeyError("down again", T1);
+    expect(captureMessage).toHaveBeenCalledTimes(2);
+    reportValkeyError("down again", T1 + VALKEY_ALERT_GRACE_MS);
     expect(captureMessage).toHaveBeenCalledTimes(3);
   });
 

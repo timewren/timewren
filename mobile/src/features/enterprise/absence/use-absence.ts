@@ -46,6 +46,11 @@ export function usePendingTeamRequests(enabled: boolean) {
   return { ...query, pending };
 }
 
+export function useApprovedTeamRequests() {
+  // The server's year filter matches start dates, excluding earlier periods that still overlap.
+  return trpc.enterprise.listRequests.useQuery({ status: 'approved' });
+}
+
 /** Helligdage for i år + næste år (vinduet kan krydse årsskiftet). */
 export function useHolidays() {
   const year = useCurrentYear();

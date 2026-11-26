@@ -70,12 +70,15 @@ impl Flag {
     }
 }
 
-/// Lav saldo: under 2 t tilbage, som 0.2's `klippekort_low_threshold_hours`.
-pub const LOW_BALANCE_MINUTES: i64 = 120;
-
-/// Saldoen er lav (men ikke brugt op).
-pub fn is_low(remaining_minutes: i64) -> bool {
-    remaining_minutes > 0 && remaining_minutes < LOW_BALANCE_MINUTES
+/// Saldoen er lav (men ikke brugt op), som web's `prepaidBalanceLevel`:
+/// højst 1 t tilbage eller højst 20 % af kortet (`tt_core::klippekort`).
+/// Før: fast under 2 t, så et kort på 100 t først blev lavt ved 2 t.
+pub fn is_low(remaining_minutes: i64, total_minutes: u32) -> bool {
+    remaining_minutes > 0
+        && tt_core::klippekort::is_balance_low(
+            remaining_minutes as f64 / 60.0,
+            total_minutes as f64 / 60.0,
+        )
 }
 
 /// Teksten ved bekræftelse af et forslag eller en timer på kortet: "Træk
@@ -88,7 +91,7 @@ pub fn deduction_text(card: &PunchCard, minutes: u32) -> (String, bool) {
         (tf("gendan.klippekort.deduct_over", &[("hours", &hours), ("over", &over)]), true)
     } else {
         let r = format::hours(rest as u32);
-        (tf("gendan.klippekort.deduct", &[("hours", &hours), ("rest", &r)]), rest < LOW_BALANCE_MINUTES)
+        (tf("gendan.klippekort.deduct", &[("hours", &hours), ("rest", &r)]), rest == 0 || is_low(rest, card.total_minutes))
     }
 }
 
@@ -137,7 +140,7 @@ pub fn usage_csv_name(card: &PunchCard, today: NaiveDate) -> String {
 pub fn card_flags(card: &PunchCard, today: NaiveDate) -> Vec<Flag> {
     let mut v = Vec::new();
     let remaining = card.remaining_minutes();
-    if is_low(remaining) {
+    if is_low(remaining, card.total_minutes) {
         v.push(Flag::LowBalance);
     } else if remaining == 0 {
         v.push(Flag::Depleted);
@@ -309,6 +312,8 @@ pub struct KlippekortScreen {
     top_up: Option<TopUpForm>,
     /// Kvittering eller fejl efter en handling (rolle `Status`/`Alert`).
     notice: Option<(SharedString, bool)>,
+    /// Kortet, der venter på det andet tryk på "Arkivér" (`forms::confirm_twice`).
+    confirm_archive: Option<Id>,
     /// gendan: vis arkiverede kort i stedet for de aktive.
     show_archived: bool,
     /// `TT_DEMO=ret`/`fyld`: åbn en dialog, når data er hentet (skærmbilleder).
@@ -338,6 +343,7 @@ impl KlippekortScreen {
             form: None,
             top_up: None,
             notice: None,
+            confirm_archive: None,
             show_archived: false,
             demo: std::env::var("TT_DEMO")
                 .ok()
@@ -926,12 +932,40 @@ impl KlippekortScreen {
                 );
             }
         } else {
+            // Som web's bekræftelse: første tryk spørger, andet arkiverer.
+            let confirming = self.confirm_archive.as_deref() == Some(k.id.as_str());
             v.push(
-                forms::small_button(SharedString::from(format!("kort-arkiver-{}", k.id)), t("gendan.klippekort.archive"))
-                    .accessibility_label(tf("gendan.klippekort.archive_for", &[("name", &k.name)]))
-                    .on_click(cx.listener(move |this, _, _, cx| this.set_archived(&id, true, cx)))
-                    .into_any_element(),
+                forms::small_button(
+                    SharedString::from(format!("kort-arkiver-{}", k.id)),
+                    if confirming { t("gendan.klippekort.archive_confirm") } else { t("gendan.klippekort.archive") },
+                )
+                .accessibility_label(tf(
+                    if confirming { "gendan.klippekort.archive_confirm_for" } else { "gendan.klippekort.archive_for" },
+                    &[("name", &k.name)],
+                ))
+                .when(confirming, |b| b.danger())
+                .on_click(cx.listener(move |this, _, _, cx| {
+                    if forms::confirm_twice(&mut this.confirm_archive, &id) {
+                        this.set_archived(&id, true, cx);
+                    }
+                    cx.notify();
+                }))
+                .into_any_element(),
             );
+            if confirming {
+                v.push(
+                    forms::small_button(
+                        SharedString::from(format!("kort-arkiver-fortryd-{}", k.id)),
+                        t("gendan.klippekort.archive_cancel"),
+                    )
+                    .ghost()
+                    .on_click(cx.listener(|this, _, _, cx| {
+                        this.confirm_archive = None;
+                        cx.notify();
+                    }))
+                    .into_any_element(),
+                );
+            }
         }
         v
     }
@@ -1240,13 +1274,28 @@ mod tests {
     use chrono::{Days, NaiveDate};
 
     use super::{
-        Flag, balance_text, card_flags, deduction_text, group_cards, usage_csv, usage_csv_name,
+        Flag, balance_text, card_flags, deduction_text, group_cards, is_low, usage_csv, usage_csv_name,
         validate_card, validate_card_edit,
     };
     use crate::backend::{Customer, PunchCard, PunchUsage};
 
     fn today() -> NaiveDate {
         NaiveDate::from_ymd_opt(2026, 10, 26).unwrap()
+    }
+
+    /// Web's `prepaidBalanceLevel`: lav ved højst 20 % af kortet, kritisk
+    /// ved højst 1 t. Før: fast under 2 t.
+    #[test]
+    fn lav_saldo_som_web() {
+        // 100 t-kort: lav ved 20 t (før først under 2 t).
+        assert!(is_low(20 * 60, 100 * 60));
+        assert!(!is_low(21 * 60, 100 * 60));
+        // 5 t-kort: 1 t er både 20 % og kritisk.
+        assert!(is_low(60, 5 * 60));
+        assert!(!is_low(90, 5 * 60), "1,5 t af 5 t er 30 %");
+        // Brugt op eller i minus er ikke "lav" (egne mærkater).
+        assert!(!is_low(0, 10 * 60));
+        assert!(!is_low(-30, 10 * 60));
     }
 
     fn card(total_h: u32, used_min: u32, expires: Option<NaiveDate>) -> PunchCard {
@@ -1275,12 +1324,13 @@ mod tests {
     }
 
     #[test]
-    fn lav_saldo_under_to_timer_som_i_0_2() {
-        // 0.2's regel: under 2 t tilbage (klippekort_low_threshold_hours = 2).
-        assert_eq!(card_flags(&card(20, 18 * 60 + 1, None), today()), [Flag::LowBalance]);
-        assert!(card_flags(&card(20, 18 * 60, None), today()).is_empty(), "præcis 2 t er ikke lav");
-        assert!(card_flags(&card(20, 16 * 60, None), today()).is_empty(), "4 t tilbage er ikke lav");
-        assert_eq!(card_flags(&card(5, 3 * 60 + 1, None), today()), [Flag::LowBalance]);
+    fn lav_saldo_mærkat_som_web() {
+        // 20 t-kort: lav ved højst 4 t (20 %).
+        assert_eq!(card_flags(&card(20, 16 * 60, None), today()), [Flag::LowBalance]);
+        assert!(card_flags(&card(20, 16 * 60 - 1, None), today()).is_empty(), "4 t 1 min er ikke lav");
+        // 5 t-kort: 1 t tilbage er lav.
+        assert_eq!(card_flags(&card(5, 4 * 60, None), today()), [Flag::LowBalance]);
+        assert!(card_flags(&card(5, 3 * 60, None), today()).is_empty(), "2 t af 5 t er 40 %");
     }
 
     #[test]
@@ -1500,6 +1550,10 @@ mod probe {
             .expect("csv");
         assert!(std::fs::read_to_string(csv).unwrap().contains("Timer i alt"));
 
+        // Første tryk spørger (som web), andet arkiverer.
+        click(cx, "kort-arkiver-kort_bageriet");
+        assert!(!mock.archived_punch_cards().unwrap().iter().any(|k| k.id == "kort_bageriet"));
+        assert!(testing::a11y(cx, h).has_label_containing("Ja, arkivér"));
         click(cx, "kort-arkiver-kort_bageriet");
         assert!(mock.archived_punch_cards().unwrap().iter().any(|k| k.id == "kort_bageriet"));
         assert!(testing::a11y(cx, h).has_label_containing("Kortet er arkiveret"));

@@ -8,23 +8,21 @@ type Db = typeof DbHandle;
 export const CLAIM_STALE_MS = 5 * 60 * 1000;
 
 /**
- * Brandede Stripe-events gør krav på eventet, før de behandles, så to
- * samtidige leveringer ikke begge sender samme betalingsmail. Kravet lykkes
+ * Et krav før behandling udelukker to samtidige leveringer af samme event. Kravet lykkes
  * for et nyt event, et event der fejlede, og et krav fra en handler, der er
- * død (en 'processing'-række ældre end CLAIM_STALE_MS). Bruges af
- * app/api/webhooks/stripe/route.ts; ligger her, så SQL-betingelsen kan testes
- * mod PostgreSQL (webhook-claim.integration.test.ts).
+ * død (en 'processing'-række ældre end CLAIM_STALE_MS). Bruges af Stripe og
+ * de signerede Billy/Dinero-leveringer.
  */
 export async function claimWebhookEvent(
   db: Db,
-  event: { id: string; type: string },
+  event: { id: string; type: string; source?: "stripe" | "billy" | "dinero" },
   now: Date = new Date(),
 ): Promise<boolean> {
   const rows = await db
     .insert(webhookEvents)
     .values({
       eventId: event.id,
-      source: "stripe",
+      source: event.source ?? "stripe",
       eventType: event.type,
       status: "processing",
       processedAt: now,

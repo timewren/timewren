@@ -10,11 +10,13 @@
 - **Opret/rediger kunder manuelt** - Formular til at tilføje nye kunder med felter for navn, CVR, kontaktinfo, adresse, betalingsbetingelser
 - **Kundearkivering** - Mulighed for at arkivere inaktive kunder så de ikke vises i hovedlisten, men data bevares
 - **CVR-opslag integration** - Automatisk udfyldning af kundedata ved indtastning af CVR-nummer via offentlig API
-- **Kundedetaljer side** - Vis komplet kundeoversigt med projekter, timer, klippekort, fakturaer og historik
+- **Kundedetaljer** - Kundeoversigt med projekter, timer, klippekort, fakturaer og historik
+- **Timer i perioden** - Se registrerede timer i alt og pr. projekt, inklusive timer uden projekt. Vælg denne måned (standard), sidste måned, i år, sidste år eller egne datoer. Perioderne følger dansk kalender, og tallene følger kundens rapport og dens afrundingsindstillinger. Rapportens links til tidslisten medtager også projektposter uden en direkte kundetilknytning.
 
 ### Timeregistrering (Time Tracking)
 
 - **Indbygget stopur** - Start/stop timer direkte fra opgaver og projekter med realtids visning
+- **Påmindelse om glemt timer** - Har stopuret kørt i 10 timer, viser timerbjælken én venlig påmindelse med en knap til at stoppe det (én gang pr. timer)
 - **Manuel timeoprettelse** - Tilføj timer manuelt med dato, fra/til tidspunkt, beskrivelse og kunde/projekt
 - **Timeoversigt** - Liste over alle registrerede timer med filtrering på dato, kunde, projekt og status
 - **Redigering af timer** - Mulighed for at rette i registrerede timer (tidspunkt, beskrivelse, tilknytning)
@@ -27,6 +29,10 @@
 - **Klippekort-typer** - Forskellige typer: Engangskort, periodiske (månedlige), bundlede pakker
 - **Automatisk klip** - Træk automatisk timer fra klippekort når der registreres tid på tilknyttede projekter
 - **Manuel klip-funktion** - Mulighed for at klippe manuelt fra klippekort uden timeregistrering
+- **Tilknyt og flyt tid** - Find ufaktureret tid efter projekt og dato. Markér **Vis også tid på andre klippekort** for at flytte tid fra kundens øvrige kort. Bladr mellem resultaterne, og se de valgte timer, den forventede saldo og hvilke timer der flyttes eller kan faktureres uden klippekort.
+  Tilknyttet tid bliver på projektet og trækkes fra klippekortets saldo. Ved blokeret overtræk viser dialogen den resterende saldo og den længste postering, saldoen kan dække (trækket beregnes pr. postering og rundes op til hele klip og hundrededele af en time, højst 999,99 t pr. postering), og forklarer, hvor overtræk kan tillades. Hvis saldoen ikke dækker ét klip, viser dialogen også det mindste træk. Listen viser en posterings længde i hundrededele af en time, når den ikke går op i hele minutter.
+- **Massehandlinger på Tid** - Flyt valgte tidsposteringer til et projekt, fjern dem fra deres projekter og behold tiden på kunden, eller tilknyt op til 200 posteringer fra samme kunde til et aktivt klippekort. Klippekortets saldo og eventuelt fakturerbart overtræk vises inden bekræftelse. Fakturerede og låste poster kan ikke fjernes fra projektet eller tilknyttes et klippekort. Markeringen ryddes, når perioden eller et filter ændres.
+- **Når kortet løber tomt** - Vælg pr. kort, om træk ud over saldoen afvises, føres som overtræk (gæld på kortet) eller faktureres som normal tid. Politikken kan også ændres på et eksisterende kort under Rediger.
 - **Klippekort saldo** - Realtids visning af resterende timer på aktive klippekort
 - **Udløbshåndtering** - Automatisk markering/sletning af udløbne klippekort med varslinger
 - **Klippekort historik** - Log over alle klip med dato, beskrivelse og resterende saldo
@@ -35,7 +41,7 @@
 
 - **Opret projekter** - Definer projekter med navn, beskrivelse, kunde, budget, deadline og status
 - **Projekt-til-kunde tilknytning** - Link projekter til specifikke kunder for korrekt time- og økonomistyring
-- **Projektbudget** - Angiv timebudget og se løbende forbrug i forhold til estimat
+- **Projektbudget** - Angiv timebudget og se løbende forbrug i forhold til estimat. Projektlisten og projektsiden viser budgetstatus som tekst med brugte og budgetterede timer.
 - **Projektstatus** - Workflow med statusser: Ikke startet, I gang, On hold, Afsluttet, Faktureret
 - **Projektoversigt** - Dashboard med alle projekter, deres status, timeforbrug og økonomi
 
@@ -72,6 +78,7 @@
 - **Omsætningsrapport** - Vis total omsætning fordelt på kunder, projekter og perioder
 - **Timefaktureringsrapport** - Oversigt over fakturerede vs. ikke-fakturerede timer
 - **Klippekort rapport** - Status på alle aktive klippekort med saldo og forbrug
+- **Rapport pr. klippekort** - Gruppér en rapport pr. klippekort (Tilpas → Gruppering). Tid kan ligge på et projekt og samtidig være trukket fra et kort, så tallene pr. kort kan afvige fra tallene pr. projekt. Tid uden kort samles under "Uden klippekort".
 - **Projektbudget rapport** - Sammenligning af budgetterede vs. faktiske timer per projekt
 - **Handshop rapport** (muligvis "Handler rapport") - Transaktion/handelshistorik
 - **PDF/CSV eksport** - Download alle rapporter som PDF eller CSV til videre analyse
@@ -248,7 +255,7 @@
 - **Real-time timer sync**: Intent-baseret synkronisering
 - **Project auto-detection**: URL pattern matching
 - **Gmail integration**: Email-to-task direkte fra Gmail
-- **New tab dashboard**: 14 widgets, konfigurerbart
+- **New tab dashboard**: 14 widgets, konfigurerbart. Kan slås fra: Chrome viser så sin egen nye fane (Googles udgave), andre browsere en enkel side med søgefelt (#1322)
 - **Offline support**: Offline queue med sync
 - **Smart notifications**: Pattern detection, DND, digest mode
 

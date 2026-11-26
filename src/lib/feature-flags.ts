@@ -75,3 +75,33 @@ export const FEATURE_FLAG_META: Record<
     icon: "KeyRound",
   },
 };
+
+/**
+ * Standard for et flag, der ikke har en række i feature_flags. Uden række
+ * var et flag slået fra, og admin-listen viste kun eksisterende rækker. På en
+ * ny installation (selvhostet TimeWren, lokal udvikling) sagde Klippekort,
+ * produktets kerne, derfor "deaktiveret af en administrator", uden at en
+ * administrator kunne slå det til (gennemgang af første oplevelse,
+ * 2026-11-22). Resten er som før: slået fra, til en administrator slår dem til.
+ */
+export const FEATURE_FLAG_DEFAULTS: Partial<Record<FeatureFlagKey, boolean>> = {
+  prepaidPackages: true,
+};
+
+export function featureFlagDefault(key: FeatureFlagKey): boolean {
+  return FEATURE_FLAG_DEFAULTS[key] ?? false;
+}
+
+/** Rækkerne fra feature_flags oven på standarderne. En række vinder altid. */
+export function resolveFeatureFlags(
+  rows: readonly { key: string; enabled: boolean }[],
+): Record<string, boolean> {
+  const result: Record<string, boolean> = {};
+  for (const key of FEATURE_FLAG_KEYS) {
+    if (FEATURE_FLAG_DEFAULTS[key] !== undefined) {
+      result[key] = featureFlagDefault(key);
+    }
+  }
+  for (const row of rows) result[row.key] = row.enabled;
+  return result;
+}

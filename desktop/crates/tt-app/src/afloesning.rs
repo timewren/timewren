@@ -23,7 +23,7 @@ pub const OLD_EXE_WINDOWS: &str = "timetrack-desktop.exe";
 pub const NEW_EXE_WINDOWS: &str = "timetrack.exe";
 /// Navnet på autostart-værdien under `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`
 /// (det samme som den gamle apps).
-pub const RUN_VALUE: &str = "TimeTrack";
+pub const RUN_VALUE: &str = tt_core::edition::EDITION.name;
 pub const RUN_KEY: &str = r"HKCU\Software\Microsoft\Windows\CurrentVersion\Run";
 
 use std::sync::atomic::{AtomicBool, Ordering};

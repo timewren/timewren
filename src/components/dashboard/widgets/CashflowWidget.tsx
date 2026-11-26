@@ -5,13 +5,14 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { InlineSpinner } from "@/components/ui/LoadingScreen";
+import { withDemoCurrency } from "@/lib/demo/currency-messages";
 import { dkkFormatter } from "@/lib/format";
 import { trpc } from "@/providers/trpc-provider";
 import { DashboardWidget } from "../DashboardWidget";
 
-/** Format a number as Danish currency (no decimals for whole numbers). */
+/** Format a forecast amount without decimals. */
 function fmtKr(amount: number): string {
-  return `${dkkFormatter.format(Math.round(amount))} kr`;
+  return `${dkkFormatter.format(Math.round(amount))}${withDemoCurrency(" kr")}`;
 }
 
 export function CashflowWidget() {

@@ -168,14 +168,15 @@ describe("unbilledTimeEntryFilter", () => {
   });
 
   it("lægger periodegrænser på når from/to er givet", () => {
-    const sql = toSql(
+    const { sql, params } = dialect.sqlToQuery(
       unbilledTimeEntryFilter({
         ...base,
         from: new Date("2026-01-01"),
-        to: new Date("2026-01-31"),
+        toExclusive: new Date("2026-02-01"),
       }),
     );
-    expect(sql).toContain("date");
+    expect(sql).toMatch(/"date" < \$\d+/);
+    expect(params).toContain("2026-02-01T00:00:00.000Z");
   });
 });
 

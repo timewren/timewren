@@ -9,11 +9,13 @@ use tt_data as td;
 
 use crate::backend::{
     BackendError, Customer, CustomerInput, Entry, EntryInput, Invoice, InvoiceLine, InvoiceStatus,
-    Project, ProjectInput, ProjectStatus, PunchCard, PunchCardInput, PunchUsage, Report, ReportGrouping,
+    Project, ProjectInput, ProjectStatus, PunchCard, PunchCardInput, PunchUsage, Report, ReportGrouping, StoredLine,
     LaneCategory, ReportRow, Task, TaskInput, TaskLane, TaskPriority, TaskStatus, TimerState, TimerStatus,
+    WebInvoiceTotals,
 };
 
-/// Moms i promille (25 %). Samme som `tt_core::faktura::DEFAULT_VAT_RATE_PERCENT`.
+/// Moms i promille (25 %) på lokale fakturaer. Samme som
+/// `tt_core::faktura::DEFAULT_VAT_RATE_PERCENT`. I cloud afgør web momsen.
 pub const VAT_PERMILLE: u32 = 250;
 
 // ---------------------------------------------------------------- beløb og tid
@@ -111,6 +113,8 @@ pub fn customer(c: &td::Client) -> Customer {
         phone: non_empty(&c.phone),
         notes: non_empty(&c.notes),
         domains: c.domains.clone(),
+        internal: !c.default_billable,
+        payment_terms_days: c.payment_terms_days.and_then(|d| u32::try_from(d).ok()),
     }
 }
 
@@ -129,6 +133,8 @@ pub fn new_client(input: &CustomerInput) -> td::NewClient {
         phone: non_empty(&input.phone),
         notes: non_empty(&input.notes),
         domains: input.domains.clone().unwrap_or_default(),
+        payment_terms_days: input.payment_terms_days.map(|d| d as i32),
+        default_billable: input.internal.then_some(false),
         ..td::NewClient::default()
     }
 }
@@ -152,6 +158,10 @@ pub fn client_patch(input: &CustomerInput, existing: &td::Client) -> td::ClientP
         notes: text(&input.notes, &existing.notes),
         color: text(&input.color, &existing.color),
         domains: input.domains.clone(),
+        // Kun ændringer sendes: udeladt er uændret i web.
+        payment_terms_days: (input.payment_terms_days.map(|d| d as i32) != existing.payment_terms_days)
+            .then_some(input.payment_terms_days.map(|d| d as i32)),
+        default_billable: (input.internal == existing.default_billable).then_some(!input.internal),
         ..td::ClientPatch::default()
     }
 }
@@ -394,6 +404,7 @@ pub fn task(t: &td::Task) -> Task {
         description: t.description.clone().filter(|d| !d.trim().is_empty()),
         customer_id: t.client_id.clone().filter(|c| !c.is_empty()),
         status_id: t.status_id.clone().filter(|s| !s.is_empty()),
+        completed: t.completed_at.map(tt_core::tid::copenhagen_date),
     }
 }
 
@@ -418,6 +429,7 @@ pub fn task_lane(l: &td::TaskLane) -> TaskLane {
             .filter(|c| c.len() == 6)
             .and_then(|c| u32::from_str_radix(c, 16).ok()),
         category,
+        is_archive: l.is_archive,
     }
 }
 
@@ -476,15 +488,32 @@ pub fn invoice_number(raw: &str) -> Option<u32> {
 }
 
 pub fn invoice_line(l: &td::InvoiceLine) -> InvoiceLine {
+    let minutes = hours_to_minutes(l.quantity);
+    let rate = kroner_to_ore(l.unit_price);
     InvoiceLine {
         description: l.description.clone(),
-        minutes: hours_to_minutes(l.quantity),
-        rate: kroner_to_ore(l.unit_price),
+        minutes,
+        rate,
         entry_ids: l.time_entry_id.iter().cloned().collect(),
+        // Web's beløb er sandheden (timer med to decimaler × sats), ikke
+        // hele minutter × sats.
+        stored: Some(StoredLine {
+            minutes,
+            rate,
+            hours: l.quantity,
+            amount: kroner_to_ore(l.amount),
+        }),
     }
 }
 
-pub fn invoice(i: &td::Invoice, lines: &[td::InvoiceLine], today: NaiveDate) -> Invoice {
+/// `vat_permille`: momssatsen, når appen selv afgør momsen (lokal tilstand),
+/// `None` i cloud (se `Invoice::vat_permille`).
+pub fn invoice(
+    i: &td::Invoice,
+    lines: &[td::InvoiceLine],
+    today: NaiveDate,
+    vat_permille: Option<u32>,
+) -> Invoice {
     let issued = i.issue_date.map(local_date).unwrap_or(today);
     Invoice {
         id: i.id.clone(),
@@ -499,34 +528,98 @@ pub fn invoice(i: &td::Invoice, lines: &[td::InvoiceLine], today: NaiveDate) -> 
         lines: lines.iter().map(invoice_line).collect(),
         lines_loaded: true,
         subtotal_hint: kroner_to_ore(i.amount),
-        vat_permille: VAT_PERMILLE,
+        vat_permille,
         // Kun rigtige numre (kladder hedder "Kladde" eller "UDKAST-…").
         number_text: invoice_number(&i.invoice_number).map(|_| i.invoice_number.clone()),
         title: i.title.clone(),
         notes: i.notes.clone(),
+        delivery: None,
     }
 }
 
 /// Faktura fra listen uden linjer (de hentes, når fakturaen åbnes).
-pub fn invoice_header(i: &td::Invoice, today: NaiveDate) -> Invoice {
-    Invoice { lines_loaded: false, ..invoice(i, &[], today) }
+pub fn invoice_header(i: &td::Invoice, today: NaiveDate, vat_permille: Option<u32>) -> Invoice {
+    Invoice { lines_loaded: false, ..invoice(i, &[], today, vat_permille) }
 }
 
-/// Én `tt-data`-linje pr. post. Beløbet er antal timer × timepris.
+/// Web's fakturatal (`extension.invoices.totals`) i øre og promille.
+pub fn web_invoice_totals(t: &td::InvoiceTotals) -> WebInvoiceTotals {
+    WebInvoiceTotals {
+        subtotal: kroner_to_ore(t.subtotal),
+        vat: kroner_to_ore(t.vat_amount),
+        total: kroner_to_ore(t.total),
+        vat_permille: (t.vat_rate * Decimal::TEN)
+            .round_dp_with_strategy(0, RoundingStrategy::MidpointAwayFromZero)
+            .to_u32()
+            .unwrap_or(0),
+        show_vat: t.show_vat,
+        currency: t.currency.clone(),
+    }
+}
+
+/// Hvad der hentes fra web på en faktura (til fejlteksten).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum WebInvoicePart {
+    Pdf,
+    Totals,
+}
+
+/// Fejl fra `totals` og PDF'en som dansk tekst. Intet ligger i køen, så
+/// "ingen forbindelse" må ikke sige, at noget sendes senere, og 403 betyder,
+/// at fakturamodulet er slået fra i web (eller at rollen ikke må se
+/// fakturaer).
+pub fn web_invoice_error(e: td::DataError, part: WebInvoicePart) -> BackendError {
+    use td::DataError as D;
+    let name = tt_core::edition::EDITION.name;
+    let what = match part {
+        WebInvoicePart::Pdf => "PDF'en",
+        WebInvoicePart::Totals => "Momsen og totalen",
+    };
+    match e {
+        D::Offline | D::Timeout => BackendError::Validation(format!(
+            "Ingen forbindelse til {name}. {what} hentes fra web, så prøv igen, når du er online"
+        )),
+        D::Rejected { ref code, status, .. } if code == "FORBIDDEN" || status == 403 => {
+            BackendError::Validation(format!(
+                "{what} kan ikke hentes: fakturaer er slået fra i web, eller din rolle har ikke adgang til dem"
+            ))
+        }
+        D::Rejected { status: 429, .. } => BackendError::Validation(format!(
+            "{name} har fået for mange forsøg fra denne forbindelse. Vent et par minutter, og prøv igen"
+        )),
+        D::InvalidResponse(_) if part == WebInvoicePart::Pdf => BackendError::Validation(format!(
+            "{name} sendte ikke en PDF. Prøv igen om lidt"
+        )),
+        other => error(other, "Fakturaen"),
+    }
+}
+
+/// Én `tt-data`-linje pr. post. Beløbet er antal timer × timepris, afrundet
+/// til øre halvt væk fra nul som web's `roundMoney`. En linje, hvor tid og
+/// sats ikke er rettet, gemmes med web's eget antal og beløb, så det ikke
+/// ændrer sig, bare fordi en anden linje blev rettet.
 pub fn to_data_line(
     l: &InvoiceLine,
     sort_order: i32,
     entry_id: Option<String>,
     minutes: u32,
 ) -> td::InvoiceLine {
-    let quantity = minutes_to_hours_precise(minutes);
     let unit_price = ore_to_kroner(l.rate);
+    let (quantity, amount) = match l.unchanged_stored().filter(|s| s.minutes == minutes) {
+        Some(s) => (s.hours, ore_to_kroner(s.amount)),
+        None => {
+            let quantity = minutes_to_hours_precise(minutes);
+            let amount = (quantity * unit_price)
+                .round_dp_with_strategy(2, RoundingStrategy::MidpointAwayFromZero);
+            (quantity, amount)
+        }
+    };
     td::InvoiceLine {
         id: None,
         description: l.description.clone(),
         quantity,
         unit_price,
-        amount: (quantity * unit_price).round_dp(2),
+        amount,
         time_entry_id: entry_id,
         sort_order,
     }
@@ -621,13 +714,20 @@ pub fn error(e: td::DataError, what: &str) -> BackendError {
         },
         D::Timeout => BackendError::Other("Forbindelsen tog for lang tid. Prøv igen".into()),
         D::Server { status } => BackendError::Other(format!(
-            "TimeTrack svarede med fejl {status}. Prøv igen om lidt"
+            "{} svarede med fejl {status}. Prøv igen om lidt",
+            tt_core::edition::EDITION.name
         )),
         D::InvalidResponse(_) => {
-            BackendError::Other("TimeTrack svarede med noget uventet. Prøv igen om lidt".into())
+            BackendError::Other(format!(
+                "{} svarede med noget uventet. Prøv igen om lidt",
+                tt_core::edition::EDITION.name
+            ))
         }
         D::MissingProcedure(p) => {
-            BackendError::Other(format!("Din TimeTrack-konto understøtter ikke {p} endnu"))
+            BackendError::Other(format!(
+                "Din {}-konto understøtter ikke {p} endnu",
+                tt_core::edition::EDITION.name
+            ))
         }
         D::Storage(m) => BackendError::Other(format!("Databasefejl: {m}")),
         D::Auth(m) => BackendError::Validation(format!("Login mislykkedes: {m}")),
@@ -1039,6 +1139,7 @@ mod tests {
             minutes: 90,
             rate: 85_000,
             entry_ids: vec!["e1".into()],
+            stored: None,
         };
         let dl = to_data_line(&line, 0, Some("e1".into()), 90);
         assert_eq!(dl.quantity, d("1.5"));
@@ -1056,12 +1157,151 @@ mod tests {
             },
             &[dl],
             today,
+            Some(VAT_PERMILLE),
         );
         assert_eq!(inv.number, None);
-        assert_eq!(inv.lines, vec![line.clone()]);
+        let back: Vec<InvoiceLine> =
+            inv.lines.iter().map(|l| InvoiceLine { stored: None, ..l.clone() }).collect();
+        assert_eq!(back, vec![line.clone()]);
         assert_eq!(inv.subtotal(), 127_500, "linjebeløb stemmer med tt-data");
-        assert_eq!(inv.vat(), 31_875);
+        assert_eq!(inv.vat(), Some(31_875));
         assert_eq!(inv.due, inv.issued + Duration::days(14));
+    }
+
+    /// En linje, som web gemte den: 20 min er 0,33 t, og beløbet er
+    /// `roundMoney(0,33 × 1.000)`.
+    fn web_line(hours: &str, price: &str, amount: &str) -> td::InvoiceLine {
+        td::InvoiceLine {
+            id: Some("l1".into()),
+            description: "Møde".into(),
+            quantity: d(hours),
+            unit_price: d(price),
+            amount: d(amount),
+            time_entry_id: Some("e1".into()),
+            sort_order: 0,
+        }
+    }
+
+    #[test]
+    fn linje_fra_web_beholder_beloebet() {
+        let l = invoice_line(&web_line("0.33", "1000", "330.00"));
+        assert_eq!(l.minutes, 20);
+        // Før: 20 min × 1.000 kr./t = 333,33 kr., ikke web's 330,00.
+        assert_eq!(l.amount(), 33_000);
+    }
+
+    #[test]
+    fn uaendret_linje_gemmes_med_webs_tal() {
+        let mut l = invoice_line(&web_line("0.33", "1000", "330.00"));
+        l.description = "Møde med kunden".into();
+        let dl = to_data_line(&l, 0, Some("e1".into()), l.minutes);
+        assert_eq!(dl.quantity, d("0.33"), "web's antal, ikke 0,3333");
+        assert_eq!(dl.amount, d("330.00"));
+        assert_eq!(dl.description, "Møde med kunden");
+
+        // Rettes tiden, regnes beløbet forfra.
+        l.minutes = 30;
+        assert_eq!(l.amount(), 50_000);
+        let dl = to_data_line(&l, 0, Some("e1".into()), l.minutes);
+        assert_eq!(dl.quantity, d("0.5"));
+        assert_eq!(dl.amount, d("500.00"));
+
+        // Og satsen.
+        let mut l = invoice_line(&web_line("0.33", "1000", "330.00"));
+        l.rate = 120_000;
+        assert_eq!(l.amount(), 40_000);
+    }
+
+    #[test]
+    fn negativ_linje_runder_som_positiv() {
+        let line = |rate| InvoiceLine {
+            description: "Kreditnota".into(),
+            minutes: 1,
+            rate,
+            entry_ids: vec![],
+            stored: None,
+        };
+        // 100 kr./t i 1 min = 1,666… kr.
+        assert_eq!(line(10_000).amount(), 167);
+        assert_eq!(line(-10_000).amount(), -167, "før: -166 (heltalsdivision mod nul)");
+        let dl = to_data_line(&line(-10_000), 0, None, 1);
+        assert_eq!(dl.amount, -d("1.67"));
+    }
+
+    #[test]
+    fn webs_fakturatal_i_oere() {
+        let t = td::InvoiceTotals {
+            subtotal: d("2380.00"),
+            vat_rate: d("12.50"),
+            vat_amount: d("297.50"),
+            total: d("2677.50"),
+            show_vat: true,
+            currency: "DKK".into(),
+        };
+        let w = web_invoice_totals(&t);
+        assert_eq!((w.subtotal, w.vat, w.total, w.vat_permille, w.show_vat), (238_000, 29_750, 267_750, 125, true));
+    }
+
+    /// Fejl fra web's PDF og tal: dansk tekst, der ikke lover, at noget sendes
+    /// senere (intet er i køen), og 403 = fakturamodulet er slået fra.
+    #[test]
+    fn webs_pdf_og_tal_fejl_paa_dansk() {
+        let txt = |e, part| web_invoice_error(e, part).to_string();
+        let offline = txt(td::DataError::Offline, WebInvoicePart::Pdf);
+        assert!(offline.starts_with("Ingen forbindelse til"), "{offline}");
+        assert!(offline.contains("PDF'en hentes fra web"), "{offline}");
+        assert!(!offline.contains("sendes"), "intet ligger i køen: {offline}");
+        assert!(txt(td::DataError::Timeout, WebInvoicePart::Totals).contains("Momsen og totalen hentes fra web"));
+        let forbidden = td::DataError::Rejected {
+            code: "FORBIDDEN".into(),
+            message: "Ingen adgang".into(),
+            app_code: None,
+            status: 403,
+        };
+        assert_eq!(
+            txt(forbidden, WebInvoicePart::Pdf),
+            "PDF'en kan ikke hentes: fakturaer er slået fra i web, eller din rolle har ikke adgang til dem"
+        );
+        assert!(
+            txt(td::DataError::InvalidResponse("html".into()), WebInvoicePart::Pdf).contains("sendte ikke en PDF")
+        );
+        let too_many = td::DataError::Rejected {
+            code: "TOO_MANY_REQUESTS".into(),
+            message: "For mange forsøg".into(),
+            app_code: None,
+            status: 429,
+        };
+        let too_many = txt(too_many, WebInvoicePart::Pdf);
+        assert!(too_many.contains("for mange forsøg"), "{too_many}");
+        assert!(!too_many.contains("sendte ikke en PDF"), "{too_many}");
+        assert_eq!(
+            web_invoice_error(td::DataError::Unauthorized, WebInvoicePart::Pdf),
+            BackendError::Unauthorized
+        );
+    }
+
+    #[test]
+    fn cloud_faktura_kender_ikke_momsen() {
+        let today = NaiveDate::from_ymd_opt(2026, 11, 22).unwrap();
+        let raw = td::Invoice {
+            id: "i1".into(),
+            invoice_number: "INV-007".into(),
+            client_id: "k1".into(),
+            status: td::InvoiceStatus::Sent,
+            amount: d("10000"),
+            ..td::Invoice::default()
+        };
+        let line = web_line("10", "1000", "10000.00");
+        let cloud = invoice(&raw, std::slice::from_ref(&line), today, None);
+        assert_eq!(cloud.subtotal(), 1_000_000);
+        assert_eq!(cloud.vat(), None);
+        assert_eq!(cloud.total(), 1_000_000, "som web's liste: beløbet ekskl. moms");
+        let header = invoice_header(&raw, today, None);
+        assert_eq!(header.total(), 1_000_000);
+
+        let local = invoice(&raw, &[line], today, Some(VAT_PERMILLE));
+        assert_eq!(local.vat(), Some(250_000));
+        assert_eq!(local.total(), 1_250_000);
     }
 
     #[test]

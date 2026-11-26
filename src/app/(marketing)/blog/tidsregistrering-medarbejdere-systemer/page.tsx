@@ -12,6 +12,7 @@ import {
   BUSINESS_INCLUDED_SEATS,
   BUSINESS_SEAT_PRICE_MONTHLY,
   FREE_TRIAL_DAYS,
+  getMarketingUrl,
   TEAM_INCLUDED_SEATS,
   TEAM_SEAT_PRICE_MONTHLY,
 } from "@/lib/config";
@@ -115,7 +116,7 @@ export default function TidsregistreringMedarbejdereSystemerPage() {
     dateModified: "2026-10-11",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://timetrack.dk${PATH}`,
+      "@id": new URL(PATH, getMarketingUrl()).href,
     },
   };
 

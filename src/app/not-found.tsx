@@ -1,3 +1,3 @@
 import "@/app/globals.css";
 
-export { default, metadata } from "@/app/(marketing)/not-found";
+export { default, metadata } from "@/components/instance-pages/NotFound";

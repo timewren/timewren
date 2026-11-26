@@ -176,7 +176,7 @@
       "deleted": "削除済み"
     },
     "specHeading": "--- 明細 ---",
-    "specLine": "{date} - {project}：{description}（{hours}時間 × {rate} kr = {amount} kr）"
+    "specLine": "{date} - {project}：{description}（{hours}時間 × {rate} = {amount}）"
   },
   "logbook": {
     "endAfterStart": "終了日は開始日より後にしてください",
@@ -457,6 +457,10 @@
       "projectLine": "プロジェクト：{name}",
       "hoursLine": "時間：{hours}",
       "exportedFrom": "TimeTrackからエクスポート"
+    },
+    "outlook": {
+      "notConnected": "Outlook に接続されていません",
+      "syncFailed": "Outlook の同期に失敗しました"
     }
   },
   "activity": {

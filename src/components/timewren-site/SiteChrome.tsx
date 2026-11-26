@@ -95,6 +95,20 @@ export function SiteHeader({
           <a href={docsPath("index", locale)}>{t("nav.docs")}</a>
           <a
             className="nav-hide"
+            href={sitePath("/download", locale)}
+            aria-current={current("/download")}
+          >
+            {t("nav.download")}
+          </a>
+          <a
+            className="nav-hide"
+            href={sitePath("/desktop", locale)}
+            aria-current={current("/desktop")}
+          >
+            {t("nav.desktop")}
+          </a>
+          <a
+            className="nav-hide"
             href={sitePath("/self-hosting", locale)}
             aria-current={current("/self-hosting")}
           >
@@ -129,6 +143,12 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <ul>
               <li>
                 <a href={sitePath("/pricing", locale)}>{t("nav.pricing")}</a>
+              </li>
+              <li>
+                <a href={sitePath("/download", locale)}>{t("nav.download")}</a>
+              </li>
+              <li>
+                <a href={sitePath("/desktop", locale)}>{t("nav.desktop")}</a>
               </li>
               <li>
                 <a href={sitePath("/self-hosting", locale)}>

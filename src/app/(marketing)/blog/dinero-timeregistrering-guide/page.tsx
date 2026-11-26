@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
+import { getMarketingUrl } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Dinero + TimeTrack: Automatisk fakturering for freelancere",
@@ -36,7 +37,8 @@ export default function DineroTimeregistreringGuidePage() {
     dateModified: "2026-04-05",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://timetrack.dk/blog/dinero-timeregistrering-guide",
+      "@id": new URL("/blog/dinero-timeregistrering-guide", getMarketingUrl())
+        .href,
     },
   };
 

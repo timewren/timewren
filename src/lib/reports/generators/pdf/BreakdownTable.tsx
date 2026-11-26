@@ -1,19 +1,10 @@
 // src/lib/reports/generators/pdf/BreakdownTable.tsx
 
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
-import { toIntlLocale } from "@/i18n/format-locale";
-import { resolveSharedLocale, sharedT } from "@/i18n/shared-text";
+import { sharedT } from "@/i18n/shared-text";
 import { BRAND_LIGHT as T } from "@/lib/brand/tokens";
+import { dkkCurrencyFormatter } from "@/lib/format";
 import type { ReportAggregates } from "../../query";
-
-function formatCurrency(n: number): string {
-  return new Intl.NumberFormat(toIntlLocale(resolveSharedLocale()), {
-    style: "currency",
-    currency: "DKK",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(n);
-}
 
 function formatHours(h: number): string {
   const hh = Math.floor(h);
@@ -107,7 +98,9 @@ export function BreakdownTable({
         >
           <Text style={[s.cell, nameStyle]}>{g.label}</Text>
           <Text style={[s.cell, hoursStyle]}>{formatHours(g.hours)}</Text>
-          <Text style={[s.cell, valueStyle]}>{formatCurrency(g.revenue)}</Text>
+          <Text style={[s.cell, valueStyle]}>
+            {dkkCurrencyFormatter.format(g.revenue)}
+          </Text>
           {showBudget && (
             <Text
               style={[

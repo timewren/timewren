@@ -13,16 +13,17 @@ use gpui_kit::component::{Disableable as _, Sizable as _, h_flex, v_flex};
 use gpui_kit::prelude::FluentBuilder as _;
 use gpui_kit::*;
 
-use crate::ui::Icon;
 use crate::app::AppCtx;
 use crate::backend::{
-    Customer, Entry, Id, Invoice, InvoiceDetails, InvoiceLine, InvoiceProfile, InvoiceStatus, Mode,
-    Project,
+    BackendError, Customer, Entry, Id, Invoice, InvoiceDelivery, InvoiceDetails, InvoiceLine,
+    InvoiceProfile, InvoiceSendPreview, InvoiceStatus, Mode, Project, StoredLine, WebInvoiceTotals,
+    can_remind,
 };
 use crate::brand::{Brand, brand};
 use crate::export;
 use crate::i18n::{t, tf};
-use crate::ui::{self, Loadable, Tone, format};
+use crate::ui::Icon;
+use crate::ui::{self, Loadable, Tone, format, forms};
 
 // ---------- Ren logik ----------
 
@@ -103,6 +104,7 @@ pub fn per_entry_lines(
                     minutes: e.minutes,
                     rate: line.rate,
                     entry_ids: vec![e.id.clone()],
+                    stored: None,
                 },
             ));
         }
@@ -218,6 +220,88 @@ pub fn hours_input(minutes: u32) -> String {
     format::hours_number(minutes as i64)
 }
 
+/// Er kladdens linjer rettet i editoren (tekst, tid, sats eller antal
+/// linjer) uden at være gemt?
+pub fn lines_unsaved(edited: &[InvoiceLine], saved: &[InvoiceLine]) -> bool {
+    edited.len() != saved.len()
+        || edited.iter().zip(saved).any(|(a, b)| {
+            a.description.trim() != b.description.trim() || a.minutes != b.minutes || a.rate != b.rate
+        })
+}
+
+/// Er kladdens forfaldsdato eller noter rettet uden at være gemt? Felterne
+/// gemmes med samme knap som linjerne (`save_lines`), og web's PDF viser de
+/// gemte. Titlen kan kun rettes lokalt, hvor PDF'en tegnes fra felterne.
+pub fn details_unsaved(edited: &InvoiceDetails, saved: &Invoice) -> bool {
+    fn norm(n: Option<&str>) -> Option<&str> {
+        n.map(str::trim).filter(|n| !n.is_empty())
+    }
+    edited.due != saved.due || norm(edited.notes.as_deref()) != norm(saved.notes.as_deref())
+}
+
+/// Teksterne under linjerne. `total` er `None`, mens web's tal hentes, eller
+/// når de ikke kunne hentes (`vat_failed`).
+#[derive(Debug, PartialEq, Eq)]
+pub struct TotalsText {
+    pub subtotal: String,
+    pub vat: String,
+    pub vat_failed: bool,
+    pub total: Option<String>,
+}
+
+/// Subtotal, moms og i alt. Cloud: web's tal (`extension.invoices.totals`),
+/// de samme som på web's PDF, så længe linjerne er gemt. Uden web's tal
+/// (lokal tilstand) regner appen selv med fakturaens sats.
+pub fn totals_text(
+    c: &Invoice,
+    unsaved: bool,
+    web: Option<&Loadable<Option<WebInvoiceTotals>>>,
+) -> TotalsText {
+    let subtotal = tf("fakturaer.totals.subtotal", &[("amount", &export::kroner(c.subtotal()))]);
+    let pending = |vat: String, vat_failed: bool| TotalsText {
+        subtotal: subtotal.clone(),
+        vat,
+        vat_failed,
+        total: None,
+    };
+    match web {
+        None | Some(Loadable::Ready(None)) => TotalsText {
+            subtotal: subtotal.clone(),
+            vat: match (c.vat_permille, c.vat()) {
+                (Some(permille), Some(vat)) => tf(
+                    "fakturaer.totals.vat",
+                    &[("percent", &export::vat_percent(permille)), ("amount", &export::kroner(vat))],
+                ),
+                _ => t("fakturaer.totals.vat_web").to_string(),
+            },
+            vat_failed: false,
+            total: Some(tf(
+                if c.vat_permille.is_some() { "fakturaer.totals.total" } else { "fakturaer.totals.total_ex_vat" },
+                &[("amount", &export::kroner(c.total()))],
+            )),
+        },
+        Some(Loadable::Loading) => pending(t("fakturaer.totals.loading").to_string(), false),
+        Some(Loadable::Failed(e)) => pending(e.to_string(), true),
+        Some(Loadable::Ready(Some(_))) if unsaved => TotalsText {
+            total: Some(tf("fakturaer.totals.total_ex_vat", &[("amount", &export::kroner(c.subtotal()))])),
+            ..pending(t("fakturaer.totals.unsaved").to_string(), false)
+        },
+        Some(Loadable::Ready(Some(w))) => TotalsText {
+            subtotal: tf("fakturaer.totals.subtotal", &[("amount", &w.money(w.subtotal))]),
+            vat: if w.show_vat {
+                tf(
+                    "fakturaer.totals.vat",
+                    &[("percent", &export::vat_percent(w.vat_permille)), ("amount", &w.money(w.vat))],
+                )
+            } else {
+                t("fakturaer.totals.no_vat").to_string()
+            },
+            vat_failed: false,
+            total: Some(tf("fakturaer.totals.total", &[("amount", &w.money(w.total))])),
+        },
+    }
+}
+
 /// Fakturaens titel i listen: "Faktura 1042" eller "Kladde".
 pub fn invoice_title(inv: &Invoice) -> String {
     match inv.number_label() {
@@ -225,6 +309,115 @@ pub fn invoice_title(inv: &Invoice) -> String {
         None => t("fakturaer.title.draft").into(),
     }
 }
+
+/// Hvad en afsendelse gør: sender en mail til kunden, udsteder kun
+/// fakturaen (nummer og status "Sendt", ingen mail), eller sender en udstedt
+/// faktura igen som påmindelse (web's "Send påmindelse").
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SendKind {
+    Mail,
+    NoMail,
+    Reminder,
+}
+
+impl SendKind {
+    /// Går der en mail til kunden?
+    pub fn mails(self) -> bool {
+        matches!(self, SendKind::Mail | SendKind::Reminder)
+    }
+}
+
+/// "Sendt 20.11.2026 kl. 10:12 til kunde@…": hvornår og til hvem fakturaen
+/// gik, som den blev sendt herfra. `None` for en kladde og for en faktura,
+/// der er sendt et andet sted (web, en anden enhed).
+pub fn delivery_text(inv: &Invoice, today: NaiveDate) -> Option<String> {
+    if inv.status == InvoiceStatus::Draft {
+        return None;
+    }
+    Some(match &inv.delivery {
+        Some(InvoiceDelivery { at, to: Some(to) }) => tf(
+            "fakturaer.delivery.mail",
+            &[
+                ("date", &format::date_medium(at.date(), today.year())),
+                ("time", &format::time(at.time())),
+                ("to", to),
+            ],
+        ),
+        Some(InvoiceDelivery { at, to: None }) => tf(
+            "fakturaer.delivery.issued",
+            &[
+                ("date", &format::date_medium(at.date(), today.year())),
+                ("time", &format::time(at.time())),
+            ],
+        ),
+        None => return None,
+    })
+}
+
+/// Teksten på fejlen, når en afsendelse mislykkes. En mail kan være gået, selv
+/// om svaret udeblev (timeout, tabt forbindelse), så "prøv igen" må ikke stå
+/// alene: brugeren skal først se fakturaens status.
+pub fn send_error_text(e: &BackendError, kind: SendKind) -> String {
+    match (e, kind) {
+        (BackendError::Offline, _) => t("fakturaer.send.offline").into(),
+        (
+            BackendError::Validation(_) | BackendError::NotFound(_) | BackendError::PlanLimit(_),
+            _,
+        )
+        | (_, SendKind::NoMail) => e.to_string(),
+        _ => tf("fakturaer.send.uncertain", &[("error", &e.to_string())]),
+    }
+}
+
+/// `true`, når en mail kan være gået, selv om afsendelsen fejlede.
+pub fn send_outcome_uncertain(e: &BackendError, kind: SendKind) -> bool {
+    kind.mails()
+        && !matches!(
+            e,
+            BackendError::Offline
+                | BackendError::Validation(_)
+                | BackendError::NotFound(_)
+                | BackendError::PlanLimit(_)
+        )
+}
+
+/// Betalingsdatoen fra "Markér betalt": en dato som i resten af appen
+/// ("20.11", "20.11.2026"). Tom = i dag.
+pub fn parse_paid_date(s: &str, today: NaiveDate) -> Option<NaiveDate> {
+    if s.trim().is_empty() {
+        return Some(today);
+    }
+    forms::parse_date(s, today)
+}
+
+/// "Markér betalt" venter på betalingsdatoen.
+struct PaidForm {
+    id: Id,
+    date: Entity<InputState>,
+    error: Option<SharedString>,
+}
+
+/// Bekræftelsen, før en faktura sendes (eller udstedes).
+struct SendDialog {
+    kind: SendKind,
+    preview: InvoiceSendPreview,
+    busy: bool,
+    error: Option<SharedString>,
+}
+
+/// Hvor fokus skal hen ved næste tegning (kun `render` har vinduet).
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Refocus {
+    /// "Annuller" i bekræftelsen: Enter må ikke sende uden et bevidst valg.
+    Cancel,
+    Page,
+}
+
+/// Faktura, der skal åbnes, næste gang Fakturaer vises (link fra en post i
+/// kalenderen).
+pub struct OpenInvoice(pub Id);
+
+impl Global for OpenInvoice {}
 
 fn status_label(s: InvoiceStatus) -> &'static str {
     match s {
@@ -266,6 +459,8 @@ struct LineInputs {
     hours: Entity<InputState>,
     rate: Entity<InputState>,
     entry_ids: Vec<Id>,
+    /// Linjen, som den var gemt (se `InvoiceLine::stored`).
+    stored: Option<StoredLine>,
 }
 
 struct Editor {
@@ -306,6 +501,18 @@ pub struct FakturaerScreen {
     profile: Option<InvoiceProfile>,
     /// gendan: "Slet kladde" er trykket én gang og venter på bekræftelse.
     confirm_delete: bool,
+    /// Bekræftelsen før en afsendelse (modal).
+    send_dialog: Option<SendDialog>,
+    /// "Markér betalt" med betalingsdatoen.
+    paid_form: Option<PaidForm>,
+    /// "Annuller" i bekræftelsen, som får fokus, når den åbnes.
+    cancel_focus: FocusHandle,
+    refocus: Option<Refocus>,
+    /// Posterne på den åbne faktura (til "Vis i kalenderen").
+    invoice_entries: Option<(Id, Vec<Entry>)>,
+    /// Web's subtotal, moms og total for den åbne faktura (cloud). `None`
+    /// i svaret: appen regner selv (lokal tilstand).
+    web_totals: Option<(Id, Loadable<Option<WebInvoiceTotals>>)>,
     focus: FocusHandle,
     _subs: Vec<Subscription>,
 }
@@ -349,6 +556,12 @@ impl FakturaerScreen {
             pending_open_id: None,
             profile: None,
             confirm_delete: false,
+            send_dialog: None,
+            paid_form: None,
+            cancel_focus: cx.focus_handle(),
+            refocus: None,
+            invoice_entries: None,
+            web_totals: None,
             focus: cx.focus_handle(),
             _subs: subs,
         };
@@ -358,7 +571,8 @@ impl FakturaerScreen {
     }
 
     /// `TT_FAKTURA_VIEW` til skærmbilleder: "ny", "kladde" (opretter en
-    /// kladde og åbner den) eller et faktura-id.
+    /// kladde og åbner den), "send" (som "kladde", med bekræftelsen før
+    /// afsendelsen åben) eller et faktura-id.
     fn demo_view(&mut self, cx: &mut Context<Self>) {
         let Ok(v) = std::env::var("TT_FAKTURA_VIEW") else {
             return;
@@ -385,6 +599,41 @@ impl FakturaerScreen {
                     }
                 },
             ),
+            // Kladden åbnet med bekræftelsen før afsendelsen.
+            "send" => self.ctx.mutate(
+                cx,
+                |b| {
+                    for c in b.customers(false)? {
+                        let e = b.uninvoiced_entries(&c.id)?;
+                        if !e.is_empty() {
+                            let ids: Vec<Id> = e.iter().map(|e| e.id.clone()).collect();
+                            let inv = b.create_invoice_draft(&c.id, &ids)?;
+                            let preview = b.invoice_send_preview(&inv.id)?;
+                            return Ok((inv, preview));
+                        }
+                    }
+                    Err(crate::backend::BackendError::Validation(
+                        "Ingen ufaktureret tid".into(),
+                    ))
+                },
+                |this, res, _| {
+                    if let Ok((inv, preview)) = res {
+                        let kind = if preview.sends_mail {
+                            SendKind::Mail
+                        } else {
+                            SendKind::NoMail
+                        };
+                        this.open_new(inv);
+                        this.send_dialog = Some(SendDialog {
+                            kind,
+                            preview,
+                            busy: false,
+                            error: None,
+                        });
+                        this.refocus = Some(Refocus::Cancel);
+                    }
+                },
+            ),
             id => self.pending_open_id = Some(id.to_string()),
         }
     }
@@ -403,6 +652,33 @@ impl FakturaerScreen {
         if matches!(self.view, View::New) {
             self.load_uninvoiced(cx);
         }
+        // Linjerne kan være gemt, eller momsen ændret i web.
+        if let View::Detail(id) = &self.view {
+            self.load_web_totals(id.clone(), cx);
+        }
+    }
+
+    /// Web's tal for fakturaen (cloud). Et tidligere svar for samme faktura
+    /// bliver stående, mens der hentes igen, så tallene ikke blinker.
+    fn load_web_totals(&mut self, id: Id, cx: &mut Context<Self>) {
+        if !matches!(self.ctx.backend.mode(), Mode::Cloud { .. }) {
+            self.web_totals = None;
+            return;
+        }
+        if self.web_totals.as_ref().is_none_or(|(open, _)| *open != id) {
+            self.web_totals = Some((id.clone(), Loadable::Loading));
+        }
+        self.ctx.fetch(
+            cx,
+            move |b| Ok((id.clone(), b.web_invoice_totals(&id))),
+            |this, res, _| {
+                if let Ok((id, r)) = res
+                    && matches!(&this.view, View::Detail(open) if *open == id)
+                {
+                    this.web_totals = Some((id, Loadable::from_result(r)));
+                }
+            },
+        );
     }
 
     fn load_uninvoiced(&mut self, cx: &mut Context<Self>) {
@@ -455,6 +731,10 @@ impl FakturaerScreen {
         self.view = View::List;
         self.editor = None;
         self.confirm_delete = false;
+        self.send_dialog = None;
+        self.paid_form = None;
+        self.invoice_entries = None;
+        self.web_totals = None;
         self.notice = None;
         cx.notify();
     }
@@ -499,7 +779,24 @@ impl FakturaerScreen {
             .cloned()
             .map(|inv| Self::make_editor(&inv, window, cx));
         self.confirm_delete = false;
-        self.view = View::Detail(id);
+        self.send_dialog = None;
+        self.paid_form = None;
+        self.view = View::Detail(id.clone());
+        self.load_web_totals(id.clone(), cx);
+        // Posterne på fakturaen, til linket "Vis i kalenderen".
+        self.invoice_entries = None;
+        self.ctx.fetch(
+            cx,
+            move |b| Ok((id.clone(), b.invoice_entries(&id)?)),
+            |this, res, cx| {
+                if let Ok(found) = res
+                    && matches!(&this.view, View::Detail(open) if *open == found.0)
+                {
+                    this.invoice_entries = Some(found);
+                    cx.notify();
+                }
+            },
+        );
         cx.notify();
     }
 
@@ -530,19 +827,29 @@ impl FakturaerScreen {
                 cx,
             ),
         };
-        Editor { rows, details, _subs: subs }
+        Editor {
+            rows,
+            details,
+            _subs: subs,
+        }
     }
 
     /// Titel, forfald og noter fra felterne. Titlen kun i lokal tilstand.
     fn edited_details(&self, cx: &App) -> Result<Option<InvoiceDetails>, String> {
-        let Some(ed) = &self.editor else { return Ok(None) };
+        let Some(ed) = &self.editor else {
+            return Ok(None);
+        };
         let today = self.ctx.backend.today();
         let due = ui::forms::parse_date(&ui::forms::value(&ed.details.due, cx), today)
             .ok_or_else(|| t("gendan.fakturaer.err_due").to_string())?;
         let opt = |s: String| (!s.is_empty()).then_some(s);
         let local = matches!(self.ctx.backend.mode(), Mode::Local);
         Ok(Some(InvoiceDetails {
-            title: if local { opt(ui::forms::value(&ed.details.title, cx)) } else { None },
+            title: if local {
+                opt(ui::forms::value(&ed.details.title, cx))
+            } else {
+                None
+            },
             due,
             notes: opt(ui::forms::value(&ed.details.notes, cx)),
         }))
@@ -603,6 +910,7 @@ impl FakturaerScreen {
                 cx,
             ),
             entry_ids: l.entry_ids.clone(),
+            stored: l.stored.clone(),
         };
         for i in [&row.desc, &row.hours, &row.rate] {
             subs.push(cx.subscribe(i, |_, _, ev: &InputEvent, cx| {
@@ -647,6 +955,7 @@ impl FakturaerScreen {
                     minutes,
                     rate,
                     entry_ids: r.entry_ids.clone(),
+                    stored: r.stored.clone(),
                 })
             })
             .collect()
@@ -663,6 +972,7 @@ impl FakturaerScreen {
                     .and_then(|r| parse_kroner(&r.rate.read(cx).value()).ok())
                     .unwrap_or(85_000),
                 entry_ids: vec![],
+                stored: None,
             };
             let row = Self::make_row(&l, &mut ed._subs, window, cx);
             row.desc.update(cx, |s, cx| s.focus(window, cx));
@@ -681,7 +991,10 @@ impl FakturaerScreen {
         }
     }
 
-    fn save_lines(&mut self, id: Id, then_send: bool, cx: &mut Context<Self>) {
+    /// Gem linjer og detaljer. Med `confirm` åbnes bekræftelsen bagefter,
+    /// så den viser de gemte tal. Intet sendes herfra: det sker først, når
+    /// brugeren trykker "Send til kunden" i bekræftelsen (`confirm_send`).
+    fn save_lines(&mut self, id: Id, confirm: Option<SendKind>, cx: &mut Context<Self>) {
         let lines = match self.edited_lines(cx) {
             Ok(l) => l,
             Err(e) => {
@@ -706,46 +1019,201 @@ impl FakturaerScreen {
                     b.update_invoice_details(&id, d)?;
                 }
                 let inv = b.update_invoice_lines(&id, lines)?;
-                if then_send {
-                    b.send_invoice(&inv.id)
-                } else {
-                    Ok(inv)
-                }
+                let preview = match confirm {
+                    Some(_) => Some(b.invoice_send_preview(&inv.id)?),
+                    None => None,
+                };
+                Ok((inv, preview))
             },
             move |this, res, cx| {
                 this.busy = false;
-                this.notice = Some(match res {
-                    Ok(inv) if then_send => {
-                        this.editor = None;
-                        (
-                            tf("fakturaer.notice.sent", &[("title", &invoice_title(&inv))]).into(),
-                            false,
-                        )
+                match (res, confirm) {
+                    (Ok((_, Some(preview))), Some(kind)) => {
+                        // En mail kræver en modtager; uden mail er "Udsted" nok.
+                        let kind = if preview.sends_mail {
+                            kind
+                        } else {
+                            SendKind::NoMail
+                        };
+                        this.notice = None;
+                        this.send_dialog = Some(SendDialog {
+                            kind,
+                            preview,
+                            busy: false,
+                            error: None,
+                        });
+                        this.refocus = Some(Refocus::Cancel);
                     }
-                    Ok(_) => (t("fakturaer.notice.lines_saved").into(), false),
-                    Err(e) => (e.to_string().into(), true),
-                });
+                    (Ok(_), _) => {
+                        this.notice = Some((t("fakturaer.notice.lines_saved").into(), false));
+                    }
+                    (Err(e), _) => this.notice = Some((e.to_string().into(), true)),
+                }
                 cx.notify();
             },
         );
     }
 
-    fn mark_paid(&mut self, id: Id, cx: &mut Context<Self>) {
+    /// "Annuller" i bekræftelsen: intet er sendt, og fakturaen er en kladde.
+    fn cancel_send(&mut self, cx: &mut Context<Self>) {
+        if self.send_dialog.as_ref().is_some_and(|d| d.busy) {
+            return;
+        }
+        if let Some(d) = self.send_dialog.take() {
+            self.refocus = Some(Refocus::Page);
+            let msg = if d.kind == SendKind::Reminder {
+                t("fakturaer.notice.reminder_not_sent")
+            } else {
+                t("fakturaer.notice.not_sent")
+            };
+            self.notice = Some((msg.into(), false));
+        }
+        cx.notify();
+    }
+
+    /// "Send påmindelse": åbner samme bekræftelse som afsendelsen, med
+    /// modtager og beløb. Intet sendes før "Send påmindelse" i dialogen.
+    fn open_reminder(&mut self, id: Id, cx: &mut Context<Self>) {
         self.busy = true;
         self.ctx.mutate(
             cx,
-            move |b| b.mark_invoice_paid(&id),
-            |this, res, _| {
+            move |b| b.invoice_send_preview(&id),
+            |this, res, cx| {
                 this.busy = false;
-                this.notice = Some(match res {
-                    Ok(()) => (t("fakturaer.notice.paid").into(), false),
-                    Err(e) => (e.to_string().into(), true),
-                });
+                match res {
+                    Ok(preview) => {
+                        this.notice = None;
+                        this.send_dialog = Some(SendDialog {
+                            kind: SendKind::Reminder,
+                            preview,
+                            busy: false,
+                            error: None,
+                        });
+                        this.refocus = Some(Refocus::Cancel);
+                    }
+                    Err(e) => this.notice = Some((e.to_string().into(), true)),
+                }
+                cx.notify();
             },
         );
     }
 
-    fn save_pdf(&mut self, inv: Invoice, cx: &mut Context<Self>) {
+    /// "Send til kunden": det bevidste valg, der sender mailen (eller
+    /// udsteder fakturaen uden mail). Modtageren, brugeren så, følger med, og
+    /// datalaget sender kun, hvis den stadig er kundens mailadresse.
+    fn confirm_send(&mut self, cx: &mut Context<Self>) {
+        let Some(d) = self.send_dialog.as_mut() else {
+            return;
+        };
+        if d.busy {
+            return;
+        }
+        d.busy = true;
+        d.error = None;
+        let (id, kind, to) = (
+            d.preview.invoice_id.clone(),
+            d.kind,
+            d.preview.recipient.clone(),
+        );
+        self.ctx.mutate(
+            cx,
+            move |b| match kind {
+                SendKind::Mail => b.send_invoice(&id, to.as_deref()),
+                SendKind::NoMail => b.issue_invoice(&id),
+                SendKind::Reminder => b.send_reminder(&id, to.as_deref()),
+            },
+            move |this, res, cx| {
+                match res {
+                    Ok(inv) => {
+                        this.send_dialog = None;
+                        this.editor = None;
+                        this.refocus = Some(Refocus::Page);
+                        let title = invoice_title(&inv);
+                        let msg = match (kind, inv.delivery.as_ref().and_then(|d| d.to.clone())) {
+                            (SendKind::Reminder, Some(to)) => tf(
+                                "fakturaer.notice.reminder_sent",
+                                &[("title", &title), ("to", &to)],
+                            ),
+                            (SendKind::Mail, Some(to)) => tf(
+                                "fakturaer.notice.sent_to",
+                                &[("title", &title), ("to", &to)],
+                            ),
+                            _ => tf("fakturaer.notice.issued", &[("title", &title)]),
+                        };
+                        this.notice = Some((msg.into(), false));
+                    }
+                    Err(e) => {
+                        let text: SharedString = send_error_text(&e, kind).into();
+                        if send_outcome_uncertain(&e, kind) {
+                            // Mailen kan være gået: luk bekræftelsen, så
+                            // "Send til kunden" ikke står klar til en mail nummer to.
+                            this.send_dialog = None;
+                            this.refocus = Some(Refocus::Page);
+                            this.notice = Some((text, true));
+                        } else if let Some(d) = this.send_dialog.as_mut() {
+                            d.busy = false;
+                            d.error = Some(text);
+                        }
+                        // Mailen kan være gået: vis fakturaens rigtige status.
+                        this.reload(cx);
+                    }
+                }
+                cx.notify();
+            },
+        );
+    }
+
+    /// "Markér betalt": spørger om betalingsdatoen (i dag som standard), som
+    /// web's `markPaid` med `paidDate`.
+    fn open_paid(&mut self, id: Id, window: &mut Window, cx: &mut Context<Self>) {
+        let today = self.ctx.backend.today();
+        let date = forms::input("20.11.2026", &format::date_short(today), window, cx);
+        date.update(cx, |s, cx| s.focus(window, cx));
+        self.paid_form = Some(PaidForm { id, date, error: None });
+        cx.notify();
+    }
+
+    fn save_paid(&mut self, cx: &mut Context<Self>) {
+        let today = self.ctx.backend.today();
+        let Some(f) = self.paid_form.as_mut() else {
+            return;
+        };
+        let Some(paid) = parse_paid_date(&forms::value(&f.date, cx), today) else {
+            f.error = Some(t("fakturaer.paid.err_date").into());
+            cx.notify();
+            return;
+        };
+        let id = f.id.clone();
+        self.busy = true;
+        self.ctx.mutate(
+            cx,
+            move |b| b.mark_invoice_paid(&id, paid),
+            |this, res, _| {
+                this.busy = false;
+                match res {
+                    Ok(()) => {
+                        this.paid_form = None;
+                        this.notice = Some((t("fakturaer.notice.paid").into(), false));
+                    }
+                    Err(e) => {
+                        if let Some(f) = this.paid_form.as_mut() {
+                            f.error = Some(e.to_string().into());
+                        }
+                    }
+                }
+            },
+        );
+    }
+
+    /// "Gem som PDF". Cloud: web's egen PDF (`Backend::web_invoice_pdf`), med
+    /// web's moms og skabelon. Den viser fakturaen, som den er gemt i web,
+    /// så rettede linjer skal gemmes først. Lokalt tegner appen selv PDF'en.
+    fn save_pdf(&mut self, inv: Invoice, unsaved: bool, cx: &mut Context<Self>) {
+        if unsaved && matches!(self.ctx.backend.mode(), Mode::Cloud { .. }) {
+            self.notice = Some((t("fakturaer.notice.pdf_unsaved").into(), true));
+            cx.notify();
+            return;
+        }
         let buyer = self
             .data
             .ready()
@@ -759,8 +1227,13 @@ impl FakturaerScreen {
         self.ctx.fetch(
             cx,
             move |b| {
-                let sender = b.invoice_profile()?;
-                let bytes = export::invoice_pdf(&inv, &buyer, sender.as_ref());
+                let bytes = match b.web_invoice_pdf(&inv.id)? {
+                    Some(web) => web,
+                    None => {
+                        let sender = b.invoice_profile()?;
+                        export::invoice_pdf(&inv, &buyer, sender.as_ref())
+                    }
+                };
                 export::write_unique(
                     &export::export_dir(),
                     &export::invoice_file_name(&inv),
@@ -971,38 +1444,61 @@ impl FakturaerScreen {
                     ui::list_row(b, ("faktura-raekke", i), label.clone())
                         .p_0()
                         .child(
-                            Button::new(("faktura-aabn", i))
-                                .ghost()
-                                .w_full()
-                                .accessibility_label(tf("fakturaer.row.open", &[("label", &label)]))
-                                .on_click(
-                                    cx.listener(move |this, _, w, cx| this.open(id.clone(), w, cx)),
-                                )
-                                .child(
-                                    h_flex()
-                                        .w_full()
-                                        .gap_3()
-                                        .items_center()
-                                        .child(
-                                            div()
-                                                .w(px(110.))
-                                                .font_weight(FontWeight::SEMIBOLD)
-                                                .child(title),
-                                        )
-                                        .child(div().flex_1().min_w_0().truncate().child(customer))
-                                        .child(div().w(px(130.)).text_color(b.grey).child(due))
-                                        .child(div().w(px(130.)).flex().justify_end().child(total))
-                                        .child(div().w(px(110.)).flex().justify_end().child(
-                                            ui::badge_icon(
-                                                b,
-                                                ("faktura-status", i),
-                                                status_label(inv.status),
-                                                status_tone(inv.status),
-                                                status_icon(inv.status),
+                        Button::new(("faktura-aabn", i))
+                            .ghost()
+                            .w_full()
+                            .accessibility_label(tf("fakturaer.row.open", &[("label", &label)]))
+                            .on_click(
+                                cx.listener(move |this, _, w, cx| this.open(id.clone(), w, cx)),
+                            )
+                            .child(
+                                h_flex()
+                                    .w_full()
+                                    .gap_3()
+                                    .items_center()
+                                    .child(
+                                        div()
+                                            .w(px(110.))
+                                            .font_weight(FontWeight::SEMIBOLD)
+                                            .child(title),
+                                    )
+                                    .child(
+                                        v_flex()
+                                            .flex_1()
+                                            .min_w_0()
+                                            .child(div().truncate().child(customer))
+                                            .child(
+                                                div()
+                                                    .truncate()
+                                                    .text_xs()
+                                                    .text_color(b.grey)
+                                                    .child(
+                                                    delivery_text(inv, today).unwrap_or_else(
+                                                        || {
+                                                            if inv.status == InvoiceStatus::Draft {
+                                                                t("fakturaer.delivery.draft_short")
+                                                                    .into()
+                                                            } else {
+                                                                String::new()
+                                                            }
+                                                        },
+                                                    ),
+                                                ),
                                             ),
-                                        )),
-                                ),
-                        )
+                                    )
+                                    .child(div().w(px(130.)).text_color(b.grey).child(due))
+                                    .child(div().w(px(130.)).flex().justify_end().child(total))
+                                    .child(div().w(px(110.)).flex().justify_end().child(
+                                        ui::badge_icon(
+                                            b,
+                                            ("faktura-status", i),
+                                            status_label(inv.status),
+                                            status_tone(inv.status),
+                                            status_icon(inv.status),
+                                        ),
+                                    )),
+                            ),
+                    )
                 }))
                 .into_any_element()
         };
@@ -1231,9 +1727,13 @@ impl FakturaerScreen {
         let calc = match (&self.editor, &edited) {
             (Some(_), Ok(lines)) => Some(Invoice {
                 lines: lines.clone(),
-                title: details.as_ref().map_or(inv.title.clone(), |d| d.title.clone()),
+                title: details
+                    .as_ref()
+                    .map_or(inv.title.clone(), |d| d.title.clone()),
                 due: details.as_ref().map_or(inv.due, |d| d.due),
-                notes: details.as_ref().map_or(inv.notes.clone(), |d| d.notes.clone()),
+                notes: details
+                    .as_ref()
+                    .map_or(inv.notes.clone(), |d| d.notes.clone()),
                 ..inv.clone()
             }),
             (Some(_), Err(_)) => None,
@@ -1271,6 +1771,7 @@ impl FakturaerScreen {
                                         minutes: m,
                                         rate,
                                         entry_ids: vec![],
+                                        stored: r.stored.clone(),
                                     }
                                     .amount()
                                 });
@@ -1364,45 +1865,41 @@ impl FakturaerScreen {
                 }))
                 .into_any_element()
         };
+        // Rettede, ikke gemte linjer: web's tal og PDF gælder den gemte faktura.
+        let unsaved = calc
+            .as_ref()
+            .is_none_or(|c| lines_unsaved(&c.lines, &inv.lines));
+        // Web's PDF viser også den gemte forfaldsdato og noter. En ugyldig
+        // dato i feltet tæller som ikke gemt.
+        let pdf_unsaved = unsaved
+            || match self.edited_details(cx) {
+                Ok(Some(d)) => details_unsaved(&d, inv),
+                Ok(None) => false,
+                Err(_) => true,
+            };
+        let web = self
+            .web_totals
+            .as_ref()
+            .filter(|(open, _)| *open == inv.id)
+            .map(|(_, w)| w);
         let totals = match &calc {
-            Some(c) => v_flex()
-                .gap_1()
-                .items_end()
-                .child(
-                    ui::text(
-                        "faktura-subtotal",
-                        tf(
-                            "fakturaer.totals.subtotal",
-                            &[("amount", &export::kroner(c.subtotal()))],
-                        ),
+            Some(c) => {
+                let texts = totals_text(c, unsaved, web);
+                v_flex()
+                    .gap_1()
+                    .items_end()
+                    .child(ui::text("faktura-subtotal", texts.subtotal).text_sm())
+                    .child(
+                        ui::text("faktura-moms", texts.vat)
+                            .text_sm()
+                            .text_color(if texts.vat_failed { b.danger } else { b.grey }),
                     )
-                    .text_sm(),
-                )
-                .child(
-                    ui::text(
-                        "faktura-moms",
-                        tf(
-                            "fakturaer.totals.vat",
-                            &[
-                                ("percent", &export::vat_percent(c.vat_permille).to_string()),
-                                ("amount", &export::kroner(c.vat())),
-                            ],
-                        ),
-                    )
-                    .text_sm()
-                    .text_color(b.grey),
-                )
-                .child(
-                    ui::text(
-                        "faktura-total",
-                        tf(
-                            "fakturaer.totals.total",
-                            &[("amount", &export::kroner(c.total()))],
-                        ),
-                    )
-                    .text_lg()
-                    .font_weight(FontWeight::BOLD),
-                ),
+                    .children(texts.total.map(|total| {
+                        ui::text("faktura-total", total)
+                            .text_lg()
+                            .font_weight(FontWeight::BOLD)
+                    }))
+            }
             None => v_flex().items_end().child(
                 ui::el(
                     "faktura-total-fejl",
@@ -1418,7 +1915,7 @@ impl FakturaerScreen {
         let is_cloud = matches!(self.ctx.backend.mode(), Mode::Cloud { .. });
         let mut actions = h_flex().gap_2().flex_wrap();
         if inv.status == InvoiceStatus::Draft {
-            let (i1, i2) = (id.clone(), id.clone());
+            let (i1, i2, i3) = (id.clone(), id.clone(), id.clone());
             actions =
                 actions
                     .child(
@@ -1426,9 +1923,10 @@ impl FakturaerScreen {
                             .label(t("fakturaer.action.save_lines"))
                             .disabled(self.busy)
                             .on_click(cx.listener(move |this, _, _, cx| {
-                                this.save_lines(i1.clone(), false, cx)
+                                this.save_lines(i1.clone(), None, cx)
                             })),
                     )
+                    // Sender intet: åbner bekræftelsen med modtager og beløb.
                     .child(
                         Button::new("faktura-send")
                             .label(if is_cloud {
@@ -1440,9 +1938,19 @@ impl FakturaerScreen {
                             .loading(self.busy)
                             .disabled(self.busy)
                             .on_click(cx.listener(move |this, _, _, cx| {
-                                this.save_lines(i2.clone(), true, cx)
+                                this.save_lines(i2.clone(), Some(SendKind::Mail), cx)
                             })),
-                    );
+                    )
+                    .when(is_cloud, |a| {
+                        a.child(
+                            Button::new("faktura-udsted")
+                                .label(t("fakturaer.action.issue"))
+                                .disabled(self.busy)
+                                .on_click(cx.listener(move |this, _, _, cx| {
+                                    this.save_lines(i3.clone(), Some(SendKind::NoMail), cx)
+                                })),
+                        )
+                    });
         }
         if matches!(inv.status, InvoiceStatus::Sent | InvoiceStatus::Overdue) {
             let i = id.clone();
@@ -1450,8 +1958,19 @@ impl FakturaerScreen {
                 Button::new("faktura-betalt")
                     .label(t("fakturaer.action.mark_paid"))
                     .primary()
+                    .disabled(self.busy || self.paid_form.is_some())
+                    .on_click(cx.listener(move |this, _, w, cx| this.open_paid(i.clone(), w, cx))),
+            );
+        }
+        // Som web: "Send påmindelse" på en sendt eller forfalden faktura (kun
+        // med konto; lokalt sendes ingen mail).
+        if can_remind(inv, &self.ctx.backend.mode()) {
+            let i = id.clone();
+            actions = actions.child(
+                Button::new("faktura-paamind")
+                    .label(t("fakturaer.action.remind"))
                     .disabled(self.busy)
-                    .on_click(cx.listener(move |this, _, _, cx| this.mark_paid(i.clone(), cx))),
+                    .on_click(cx.listener(move |this, _, _, cx| this.open_reminder(i.clone(), cx))),
             );
         }
         let pdf_inv = match &calc {
@@ -1459,7 +1978,7 @@ impl FakturaerScreen {
             None => inv.clone(),
         };
         // gendan: slet kladde (lokal), med bekræftelse.
-        if inv.status == InvoiceStatus::Draft && !is_cloud {
+        if inv.status == InvoiceStatus::Draft {
             let i = id.clone();
             actions = actions.child(
                 Button::new("faktura-slet")
@@ -1487,7 +2006,7 @@ impl FakturaerScreen {
         actions = actions.child(
             Button::new("faktura-pdf")
                 .label(t("fakturaer.action.save_pdf"))
-                .on_click(cx.listener(move |this, _, _, cx| this.save_pdf(pdf_inv.clone(), cx))),
+                .on_click(cx.listener(move |this, _, _, cx| this.save_pdf(pdf_inv.clone(), pdf_unsaved, cx))),
         );
         let today_year = self.ctx.backend.today().year();
         v_flex()
@@ -1511,28 +2030,262 @@ impl FakturaerScreen {
                     .child(ui::muted(
                         b,
                         "faktura-datoer",
-                        tf(
-                            "fakturaer.detail.dates",
-                            &[
-                                ("issued", &format::date_medium(inv.issued, today_year)),
-                                ("due", &format::date_medium(inv.due, today_year)),
-                                ("vat", &export::vat_percent(inv.vat_permille)),
-                            ],
-                        ),
+                        match inv.vat_permille {
+                            Some(permille) => tf(
+                                "fakturaer.detail.dates",
+                                &[
+                                    ("issued", &format::date_medium(inv.issued, today_year)),
+                                    ("due", &format::date_medium(inv.due, today_year)),
+                                    ("vat", &export::vat_percent(permille)),
+                                ],
+                            ),
+                            None => tf(
+                                "fakturaer.detail.dates_no_vat",
+                                &[
+                                    ("issued", &format::date_medium(inv.issued, today_year)),
+                                    ("due", &format::date_medium(inv.due, today_year)),
+                                ],
+                            ),
+                        },
                     ))
+                    .child(self.render_delivery(b, inv))
                     .children(self.render_sender_warning(b, inv))
                     .child(self.render_details(b, inv, is_cloud))
                     .child(lines)
                     .child(totals)
+                    .children(self.render_entries_link(b, inv, cx))
                     .children(self.confirm_delete.then(|| {
-                        ui::el("faktura-slet-advarsel", Role::Alert, t("gendan.fakturaer.delete_warning"))
-                            .text_sm()
-                            .text_color(b.danger)
-                            .child(t("gendan.fakturaer.delete_warning"))
+                        ui::el(
+                            "faktura-slet-advarsel",
+                            Role::Alert,
+                            t("gendan.fakturaer.delete_warning"),
+                        )
+                        .text_sm()
+                        .text_color(b.danger)
+                        .child(t("gendan.fakturaer.delete_warning"))
                     }))
-                    .child(actions),
+                    .child(actions)
+                    .children(self.render_paid_form(b, cx)),
             )
             .into_any_element()
+    }
+
+    /// Betalingsdatoen under "Markér betalt".
+    fn render_paid_form(&self, b: &Brand, cx: &mut Context<Self>) -> Option<AnyElement> {
+        let f = self.paid_form.as_ref()?;
+        Some(
+            v_flex()
+                .gap_2()
+                .max_w(px(360.))
+                .child(forms::text_field(
+                    b,
+                    "faktura-betalt-dato",
+                    t("fakturaer.paid.date"),
+                    &f.date,
+                    f.error.clone(),
+                ))
+                .child(
+                    h_flex()
+                        .gap_2()
+                        .child(
+                            Button::new("faktura-betalt-gem")
+                                .label(t("fakturaer.paid.save"))
+                                .primary()
+                                .loading(self.busy)
+                                .disabled(self.busy)
+                                .on_click(cx.listener(|this, _, _, cx| this.save_paid(cx))),
+                        )
+                        .child(
+                            Button::new("faktura-betalt-fortryd")
+                                .label(t("fakturaer.paid.cancel"))
+                                .ghost()
+                                .on_click(cx.listener(|this, _, _, cx| {
+                                    this.paid_form = None;
+                                    cx.notify();
+                                })),
+                        ),
+                )
+                .into_any_element(),
+        )
+    }
+}
+
+impl FakturaerScreen {
+    /// Hvor fakturaen står: kladde (ikke sendt), eller hvornår og til hvem
+    /// den blev sendt. Samme tre tilstande som web: Kladde, Sendt, Betalt.
+    fn render_delivery(&self, b: &Brand, inv: &Invoice) -> AnyElement {
+        let text = match (delivery_text(inv, self.ctx.backend.today()), inv.status) {
+            (Some(s), _) => s,
+            (None, InvoiceStatus::Draft) => t("fakturaer.delivery.draft").into(),
+            (None, _) => t("fakturaer.delivery.unknown").into(),
+        };
+        ui::el("faktura-afsendelse", Role::Status, text.clone())
+            .text_sm()
+            .text_color(if inv.status == InvoiceStatus::Draft {
+                b.grey
+            } else {
+                b.ink
+            })
+            .child(text)
+            .into_any_element()
+    }
+
+    /// "N poster, X timer" og et link til dem i kalenderen (filtreret til
+    /// fakturerede poster).
+    fn render_entries_link(
+        &self,
+        b: &Brand,
+        inv: &Invoice,
+        cx: &mut Context<Self>,
+    ) -> Option<AnyElement> {
+        let (id, entries) = self.invoice_entries.as_ref()?;
+        if *id != inv.id || entries.is_empty() {
+            return None;
+        }
+        let first = entries.iter().map(|e| e.date).min()?;
+        let minutes: u32 = entries.iter().map(|e| e.minutes).sum();
+        let summary = tf(
+            "fakturaer.entries.summary",
+            &[
+                ("count", &entries.len().to_string()),
+                ("hours", &format::hours(minutes)),
+            ],
+        );
+        Some(
+            h_flex()
+                .gap_3()
+                .items_center()
+                .child(ui::muted(b, "faktura-poster", summary))
+                .child(
+                    Button::new("faktura-vis-poster")
+                        .icon(Icon::Calendar)
+                        .label(t("fakturaer.entries.show"))
+                        .ghost()
+                        .small()
+                        .on_click(cx.listener(move |_, _, w, cx| {
+                            cx.set_global(crate::screens::kalender::ShowInvoiced(first));
+                            w.dispatch_action(Box::new(crate::app::GaTilKalender), cx);
+                        })),
+                )
+                .into_any_element(),
+        )
+    }
+
+    /// Bekræftelsen før en faktura sendes: hvem den går til, og hvad den
+    /// omfatter. "Annuller" har fokus; Enter sender ikke.
+    fn render_send_dialog(&self, b: &Brand, cx: &mut Context<Self>) -> Option<Div> {
+        let d = self.send_dialog.as_ref()?;
+        let p = &d.preview;
+        let mail = d.kind.mails();
+        let reminder = d.kind == SendKind::Reminder;
+        let (overlay, dialog) = forms::modal(
+            b,
+            "send-dialog",
+            match d.kind {
+                SendKind::Mail => t("fakturaer.send.title"),
+                SendKind::NoMail => t("fakturaer.send.title_issue"),
+                SendKind::Reminder => t("fakturaer.send.title_reminder"),
+            },
+        );
+        let no_recipient = mail && p.recipient.is_none();
+        let statement: SharedString = match (&p.recipient, mail) {
+            (Some(to), true) if reminder => tf("fakturaer.send.reminder_to", &[("to", to)]).into(),
+            (Some(to), true) => tf("fakturaer.send.mail_to", &[("to", to)]).into(),
+            (None, true) => t("fakturaer.send.no_recipient").into(),
+            (_, false) => t("fakturaer.send.no_mail").into(),
+        };
+        let number = p
+            .number
+            .clone()
+            .unwrap_or_else(|| t("fakturaer.send.number_on_send").into());
+        let row = |id: &'static str, label: &'static str, value: String| {
+            h_flex()
+                .gap_3()
+                .justify_between()
+                .child(ui::muted(
+                    b,
+                    SharedString::from(format!("{id}-etiket")),
+                    t(label),
+                ))
+                .child(
+                    ui::text(id, value)
+                        .text_sm()
+                        .font_weight(FontWeight::MEDIUM),
+                )
+        };
+        let confirm_label = match d.kind {
+            SendKind::Mail => t("fakturaer.send.confirm"),
+            SendKind::NoMail => t("fakturaer.send.confirm_issue"),
+            SendKind::Reminder => t("fakturaer.send.confirm_reminder"),
+        };
+        Some(
+            overlay.child(
+                dialog
+                    .child(
+                        ui::el("send-modtager", Role::Alert, statement.clone())
+                            .text_color(if no_recipient { b.danger } else { b.ink })
+                            .font_weight(FontWeight::SEMIBOLD)
+                            .child(statement),
+                    )
+                    .child(
+                        v_flex()
+                            .gap_1()
+                            .child(row(
+                                "send-kunde",
+                                "fakturaer.send.customer",
+                                p.customer_name.clone(),
+                            ))
+                            .child(row("send-nummer", "fakturaer.send.number", number))
+                            .child(row(
+                                "send-poster",
+                                "fakturaer.send.entries",
+                                p.entry_count.to_string(),
+                            ))
+                            .child(row(
+                                "send-timer",
+                                "fakturaer.send.hours",
+                                format::hours(p.minutes),
+                            ))
+                            .child(row(
+                                "send-beloeb",
+                                if p.vat_included {
+                                    "fakturaer.send.total"
+                                } else {
+                                    "fakturaer.send.total_ex_vat"
+                                },
+                                export::kroner(p.total),
+                            )),
+                    )
+                    .when(mail && !no_recipient, |d| {
+                        d.child(ui::muted(b, "send-advarsel", t("fakturaer.send.warning")))
+                    })
+                    .children(
+                        d.error
+                            .clone()
+                            .map(|e| forms::form_error(b, "send-fejl", e)),
+                    )
+                    .child(
+                        h_flex()
+                            .justify_end()
+                            .gap_2()
+                            .pt_2()
+                            .child(
+                                Button::new("send-annuller")
+                                    .label(t("fakturaer.send.cancel"))
+                                    .track_focus(&self.cancel_focus)
+                                    .on_click(cx.listener(|this, _, _, cx| this.cancel_send(cx))),
+                            )
+                            .child(
+                                Button::new("send-bekraeft")
+                                    .label(confirm_label)
+                                    .primary()
+                                    .loading(d.busy)
+                                    .disabled(d.busy || no_recipient)
+                                    .on_click(cx.listener(|this, _, _, cx| this.confirm_send(cx))),
+                            ),
+                    ),
+            ),
+        )
     }
 }
 
@@ -1584,15 +2337,13 @@ impl FakturaerScreen {
                     None,
                 ));
             }
-            top = top.child(
-                div().w(px(160.)).child(ui::forms::text_field(
-                    b,
-                    "faktura-felt-forfald",
-                    t("gendan.fakturaer.due"),
-                    &d.due,
-                    None,
-                )),
-            );
+            top = top.child(div().w(px(160.)).child(ui::forms::text_field(
+                b,
+                "faktura-felt-forfald",
+                t("gendan.fakturaer.due"),
+                &d.due,
+                None,
+            )));
             return v_flex()
                 .gap_2()
                 .child(top)
@@ -1607,12 +2358,18 @@ impl FakturaerScreen {
         }
         v_flex()
             .gap_1()
-            .children(inv.title.clone().map(|tl| {
-                ui::text("faktura-vis-titel", tl).font_weight(FontWeight::MEDIUM)
-            }))
+            .children(
+                inv.title
+                    .clone()
+                    .map(|tl| ui::text("faktura-vis-titel", tl).font_weight(FontWeight::MEDIUM)),
+            )
             .children(inv.notes.clone().map(|n| {
-                ui::muted(b, "faktura-vis-noter", tf("gendan.fakturaer.notes_shown", &[("notes", &n)]))
-                    .text_sm()
+                ui::muted(
+                    b,
+                    "faktura-vis-noter",
+                    tf("gendan.fakturaer.notes_shown", &[("notes", &n)]),
+                )
+                .text_sm()
             }))
             .into_any_element()
     }
@@ -1620,11 +2377,26 @@ impl FakturaerScreen {
 
 impl Render for FakturaerScreen {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
+        // Link fra en post i kalenderen.
+        if let Some(OpenInvoice(id)) = cx
+            .try_global::<OpenInvoice>()
+            .map(|o| OpenInvoice(o.0.clone()))
+        {
+            cx.remove_global::<OpenInvoice>();
+            self.pending_open_id = Some(id);
+        }
         if let Some(id) = self.pending_open_id.clone()
             && self.invoice(&id).is_some()
         {
             self.pending_open_id = None;
             self.open(id, window, cx);
+        }
+        match self.refocus.take() {
+            Some(Refocus::Cancel) if self.send_dialog.is_some() => {
+                self.cancel_focus.focus(window, cx)
+            }
+            Some(Refocus::Page) => self.focus.focus(window, cx),
+            _ => {}
         }
         let b = brand(cx);
         let page = ui::page(
@@ -1632,14 +2404,7 @@ impl Render for FakturaerScreen {
             "fakturaer",
             t("fakturaer.page.title"),
             Some(t("fakturaer.page.subtitle").into()),
-        )
-        .track_focus(&self.focus)
-        .on_key_down(cx.listener(|this, ev: &KeyDownEvent, _, cx| {
-            if ev.keystroke.key == "escape" && !matches!(this.view, View::List) {
-                this.show_list(cx);
-                cx.stop_propagation();
-            }
-        }));
+        );
         let notice = self.render_notice(&b, cx);
         let body: AnyElement = match &self.data {
             Loadable::Loading => {
@@ -1677,7 +2442,25 @@ impl Render for FakturaerScreen {
                 }
             }
         };
-        page.children(notice).child(body)
+        let dialog = self.render_send_dialog(&b, cx);
+        div()
+            .relative()
+            .size_full()
+            .track_focus(&self.focus)
+            .capture_key_down(cx.listener(|this, ev: &KeyDownEvent, _, cx| {
+                if ev.keystroke.key == "escape" && this.send_dialog.is_some() {
+                    this.cancel_send(cx);
+                    cx.stop_propagation();
+                }
+            }))
+            .on_key_down(cx.listener(|this, ev: &KeyDownEvent, _, cx| {
+                if ev.keystroke.key == "escape" && !matches!(this.view, View::List) {
+                    this.show_list(cx);
+                    cx.stop_propagation();
+                }
+            }))
+            .child(page.children(notice).child(body))
+            .children(dialog)
     }
 }
 
@@ -1686,11 +2469,27 @@ mod tests {
     use std::collections::HashMap;
 
     use super::{
-        Filter, InvoiceStatus, hours_input, in_period, kroner_input, parse_kroner, parse_quantity,
-        per_entry_lines,
+        Filter, InvoiceStatus, hours_input, in_period, kroner_input, parse_kroner, parse_paid_date,
+        parse_quantity, per_entry_lines,
     };
-    use crate::backend::{Entry, InvoiceLine};
+    use crate::backend::{BackendError, Entry, Invoice, InvoiceLine, Mode, can_remind};
     use chrono::NaiveDate;
+
+    #[test]
+    fn usikkert_svar_lukker_bekraeftelsen_kun_for_mail() {
+        use super::{SendKind, send_outcome_uncertain};
+        let timeout = BackendError::Other("timeout".into());
+        assert!(send_outcome_uncertain(&timeout, SendKind::Mail));
+        assert!(!send_outcome_uncertain(&timeout, SendKind::NoMail));
+        assert!(!send_outcome_uncertain(
+            &BackendError::Offline,
+            SendKind::Mail
+        ));
+        assert!(!send_outcome_uncertain(
+            &BackendError::Validation("x".into()),
+            SendKind::Mail
+        ));
+    }
 
     fn d(day: u32) -> NaiveDate {
         NaiveDate::from_ymd_opt(2026, 10, day).unwrap()
@@ -1725,6 +2524,52 @@ mod tests {
         assert_eq!(hours_input(90), "1,5");
     }
 
+    /// En linje, der åbnes i editoren og gemmes uden rettelser, skal have
+    /// samme minutter bagefter, ellers mister den web's gemte beløb.
+    #[test]
+    fn uaendret_tid_i_editoren_giver_samme_minutter() {
+        for m in 1..=24 * 60 {
+            assert_eq!(parse_quantity(&hours_input(m)), Ok(m), "{m} min");
+        }
+    }
+
+    #[test]
+    fn betalingsdato_tolkes() {
+        let today = NaiveDate::from_ymd_opt(2026, 11, 22).unwrap();
+        assert_eq!(parse_paid_date("", today), Some(today), "tom = i dag");
+        assert_eq!(parse_paid_date("20.11.2026", today), NaiveDate::from_ymd_opt(2026, 11, 20));
+        assert_eq!(parse_paid_date("20.11", today), NaiveDate::from_ymd_opt(2026, 11, 20));
+        assert_eq!(parse_paid_date("31.02.2026", today), None);
+    }
+
+    /// Web viser "Send påmindelse" på sendt og forfalden faktura, og kun
+    /// cloud sender mail.
+    #[test]
+    fn paamindelse_kun_paa_udstedt() {
+        let cloud = Mode::Cloud { organization: "Acme".into() };
+        let inv = |status| Invoice {
+            id: "i".into(),
+            number: Some(1),
+            customer_id: "k".into(),
+            status,
+            issued: NaiveDate::from_ymd_opt(2026, 11, 1).unwrap(),
+            due: NaiveDate::from_ymd_opt(2026, 11, 15).unwrap(),
+            lines: vec![],
+            lines_loaded: true,
+            subtotal_hint: 0,
+            vat_permille: None,
+            number_text: None,
+            title: None,
+            notes: None,
+            delivery: None,
+        };
+        assert!(can_remind(&inv(InvoiceStatus::Sent), &cloud));
+        assert!(can_remind(&inv(InvoiceStatus::Overdue), &cloud));
+        assert!(!can_remind(&inv(InvoiceStatus::Draft), &cloud));
+        assert!(!can_remind(&inv(InvoiceStatus::Paid), &cloud));
+        assert!(!can_remind(&inv(InvoiceStatus::Sent), &Mode::Local), "lokalt sendes ingen mail");
+    }
+
     #[test]
     fn kroner_tolkes() {
         assert_eq!(parse_kroner("850"), Ok(85_000));
@@ -1757,12 +2602,14 @@ mod tests {
                 minutes: 150,
                 rate: 75_000,
                 entry_ids: vec!["e1".into(), "e2".into()],
+                stored: None,
             },
             InvoiceLine {
                 description: "Diverse".into(),
                 minutes: 30,
                 rate: 85_000,
                 entry_ids: vec!["e3".into()],
+                stored: None,
             },
         ];
         let projects = HashMap::from([("p1".to_string(), "Ny webshop".to_string())]);
@@ -1789,6 +2636,131 @@ mod tests {
         assert!(Filter::Overdue.matches(InvoiceStatus::Overdue));
         assert!(!Filter::Sent.matches(InvoiceStatus::Overdue));
     }
+
+    fn faktura(subtotal: i64, vat_permille: Option<u32>) -> Invoice {
+        Invoice {
+            id: "f1".into(),
+            number: Some(7),
+            customer_id: "c1".into(),
+            status: InvoiceStatus::Sent,
+            issued: NaiveDate::from_ymd_opt(2026, 11, 1).unwrap(),
+            due: NaiveDate::from_ymd_opt(2026, 11, 15).unwrap(),
+            lines: vec![],
+            lines_loaded: false,
+            subtotal_hint: subtotal,
+            vat_permille,
+            number_text: None,
+            title: None,
+            notes: None,
+            delivery: None,
+        }
+    }
+
+    fn web(subtotal: i64, show_vat: bool) -> crate::backend::WebInvoiceTotals {
+        let vat = if show_vat { subtotal / 4 } else { 0 };
+        crate::backend::WebInvoiceTotals {
+            subtotal,
+            vat,
+            total: subtotal + vat,
+            vat_permille: 250,
+            show_vat,
+            currency: "DKK".into(),
+        }
+    }
+
+    /// Cloud: momsen og totalen er web's (som på web's PDF), ikke 25 % regnet
+    /// lokalt. Lokalt: fakturaens egen sats.
+    #[test]
+    fn totaler_fra_web_i_cloud_og_lokalt_ellers() {
+        use super::{TotalsText, totals_text};
+        use crate::ui::Loadable;
+        let cloud = faktura(100_000, None);
+
+        let moms = Loadable::Ready(Some(web(100_000, true)));
+        assert_eq!(
+            totals_text(&cloud, false, Some(&moms)),
+            TotalsText {
+                subtotal: "Subtotal 1.000,00 kr.".into(),
+                vat: "Moms 25 % 250,00 kr.".into(),
+                vat_failed: false,
+                total: Some("I alt 1.250,00 kr.".into()),
+            }
+        );
+
+        // Ikke momsregistreret i web: ingen moms, i alt = subtotal.
+        let uden = Loadable::Ready(Some(web(100_000, false)));
+        let t = totals_text(&cloud, false, Some(&uden));
+        assert_eq!(t.vat, "Ingen moms: virksomheden er ikke momsregistreret i web");
+        assert_eq!(t.total.as_deref(), Some("I alt 1.000,00 kr."));
+
+        // Rettede linjer: web's tal gælder den gemte faktura.
+        let t = totals_text(&faktura(120_000, None), true, Some(&moms));
+        assert_eq!(t.subtotal, "Subtotal 1.200,00 kr.");
+        assert!(t.vat.contains("når linjerne er gemt"), "{}", t.vat);
+        assert_eq!(t.total.as_deref(), Some("I alt ekskl. moms 1.200,00 kr."));
+
+        // Henter og fejl: ingen total, der kunne være forkert.
+        let t = totals_text(&cloud, false, Some(&Loadable::Loading));
+        assert_eq!((t.total, t.vat_failed), (None, false));
+        let fejl = Loadable::Failed("Ingen forbindelse".into());
+        let t = totals_text(&cloud, false, Some(&fejl));
+        assert_eq!((t.vat.as_str(), t.vat_failed, t.total), ("Ingen forbindelse", true, None));
+
+        // Lokalt (ingen web-tal): fakturaens sats.
+        let lokal = faktura(100_000, Some(250));
+        for w in [None, Some(&Loadable::Ready(None))] {
+            let t = totals_text(&lokal, false, w);
+            assert_eq!(t.vat, "Moms 25 % 250,00 kr.");
+            assert_eq!(t.total.as_deref(), Some("I alt 1.250,00 kr."));
+        }
+    }
+
+    #[test]
+    fn web_beloeb_i_anden_valuta_har_valutakoden() {
+        let mut w = web(123_450, false);
+        assert_eq!(w.money(123_450), "1.234,50 kr.");
+        w.currency = "EUR".into();
+        assert_eq!(w.money(123_450), "1.234,50 EUR");
+    }
+
+    #[test]
+    fn rettede_linjer_er_ikke_gemt() {
+        use super::lines_unsaved;
+        let line = |d: &str, minutes: u32, rate: i64| InvoiceLine {
+            description: d.into(),
+            minutes,
+            rate,
+            entry_ids: vec![],
+            stored: None,
+        };
+        let saved = vec![line("Design", 60, 85_000), line("Kode", 30, 85_000)];
+        assert!(!lines_unsaved(&saved.clone(), &saved));
+        assert!(!lines_unsaved(&[line("Design ", 60, 85_000), line("Kode", 30, 85_000)], &saved));
+        assert!(lines_unsaved(&[line("Design", 90, 85_000), line("Kode", 30, 85_000)], &saved));
+        assert!(lines_unsaved(&[line("Design", 60, 90_000), line("Kode", 30, 85_000)], &saved));
+        assert!(lines_unsaved(&[line("Logo", 60, 85_000), line("Kode", 30, 85_000)], &saved));
+        assert!(lines_unsaved(&saved[..1], &saved));
+    }
+
+    #[test]
+    fn rettet_forfald_eller_note_er_ikke_gemt() {
+        use super::details_unsaved;
+        use crate::backend::InvoiceDetails;
+        let mut saved = faktura(0, None);
+        saved.notes = Some("Tak for samarbejdet".into());
+        let d = |due: NaiveDate, notes: Option<&str>| InvoiceDetails {
+            title: None,
+            due,
+            notes: notes.map(Into::into),
+        };
+        let later = NaiveDate::from_ymd_opt(2026, 11, 22).unwrap();
+        assert!(!details_unsaved(&d(saved.due, Some("Tak for samarbejdet")), &saved));
+        assert!(details_unsaved(&d(later, Some("Tak for samarbejdet")), &saved));
+        assert!(details_unsaved(&d(saved.due, Some("Betal venligst")), &saved));
+        assert!(details_unsaved(&d(saved.due, None), &saved));
+        saved.notes = Some("  ".into());
+        assert!(!details_unsaved(&d(saved.due, None), &saved));
+    }
 }
 
 #[cfg(all(test, feature = "probe"))]
@@ -1797,7 +2769,7 @@ mod probe_tests {
 
     use gpui_kit::{AppContext as _, TestAppContext};
 
-    use super::FakturaerScreen;
+    use super::{FakturaerScreen, invoice_title};
     use crate::backend::{Backend as _, BackendError, InvoiceStatus, MockBackend};
     use crate::screens::Screen;
     use crate::testing;
@@ -1833,7 +2805,17 @@ mod probe_tests {
         let n_before = p.mock.invoices().unwrap().len();
         p.click(cx, ("linje-fjern", 0usize));
         p.click(cx, "faktura-send");
-        p.assert_label(cx, "er sendt");
+        // Først bekræftelsen: intet er sendt endnu.
+        p.assert_label(cx, "sendes på mail til");
+        assert!(
+            p.mock
+                .invoices()
+                .unwrap()
+                .iter()
+                .all(|i| i.number != Some(1042))
+        );
+        p.click(cx, "send-bekraeft");
+        p.assert_label(cx, "er sendt til");
         let invs = p.mock.invoices().unwrap();
         assert_eq!(invs.len(), n_before);
         let sent = invs
@@ -1867,15 +2849,21 @@ mod probe_tests {
         cx.update_window(p.handle, |_, window, cx| {
             screen.update(cx, |s, cx| {
                 let d = &s.editor.as_ref().expect("editor").details;
-                d.title.update(cx, |i, cx| i.set_value("Webshop, oktober", window, cx));
-                d.due.update(cx, |i, cx| i.set_value("30.11.2026", window, cx));
-                d.notes.update(cx, |i, cx| i.set_value("Tak for samarbejdet", window, cx));
+                d.title
+                    .update(cx, |i, cx| i.set_value("Webshop, oktober", window, cx));
+                d.due
+                    .update(cx, |i, cx| i.set_value("30.11.2026", window, cx));
+                d.notes
+                    .update(cx, |i, cx| i.set_value("Tak for samarbejdet", window, cx));
             })
         })
         .unwrap();
         p.settle(cx);
         p.click(cx, "faktura-send");
-        p.assert_label(cx, "er sendt");
+        // Lokalt sendes der ingen mail: bekræftelsen siger det.
+        p.assert_label(cx, "Der sendes ingen mail");
+        p.click(cx, "send-bekraeft");
+        p.assert_label(cx, "er markeret som sendt");
         let inv = p
             .mock
             .invoices()
@@ -1884,7 +2872,10 @@ mod probe_tests {
             .find(|i| i.title.as_deref() == Some("Webshop, oktober"))
             .expect("titlen er gemt");
         assert_eq!(inv.notes.as_deref(), Some("Tak for samarbejdet"));
-        assert_eq!(inv.due, chrono::NaiveDate::from_ymd_opt(2026, 11, 30).unwrap());
+        assert_eq!(
+            inv.due,
+            chrono::NaiveDate::from_ymd_opt(2026, 11, 30).unwrap()
+        );
         assert_eq!(inv.number_label().as_deref(), Some("2026-1042"));
         p.assert_label(cx, "Faktura 2026-1042");
     }
@@ -1899,7 +2890,11 @@ mod probe_tests {
         let n = p.mock.invoices().unwrap().len();
         p.click(cx, "faktura-slet");
         p.assert_label(cx, "Det kan ikke fortrydes");
-        assert_eq!(p.mock.invoices().unwrap().len(), n, "første klik spørger kun");
+        assert_eq!(
+            p.mock.invoices().unwrap().len(),
+            n,
+            "første klik spørger kun"
+        );
         p.click(cx, "faktura-slet");
         p.assert_label(cx, "Kladden er slettet");
         assert_eq!(p.mock.invoices().unwrap().len(), n - 1);
@@ -1909,24 +2904,277 @@ mod probe_tests {
     fn manglende_afsender_vises_og_stopper_udstedelse(cx: &mut TestAppContext) {
         let mock = testing::mock();
         mock.set_local(true);
-        mock.save_invoice_profile(crate::backend::InvoiceProfile::default()).unwrap();
+        mock.save_invoice_profile(crate::backend::InvoiceProfile::default())
+            .unwrap();
         let p = open(cx, mock, Screen::Fakturaer);
         p.click(cx, "faktura-ny");
         p.click(cx, "ny-kladde-opret");
-        p.assert_label(cx, "Udfyld firmanavn, CVR, adresse og bankkonto eller MobilePay");
+        p.assert_label(
+            cx,
+            "Udfyld firmanavn, CVR, adresse og bankkonto eller MobilePay",
+        );
         p.click(cx, "faktura-send");
+        p.click(cx, "send-bekraeft");
         p.assert_label(cx, "før fakturaen udstedes");
-        assert!(p.mock.invoices().unwrap().iter().all(|i| i.number != Some(1042)));
+        assert!(
+            p.mock
+                .invoices()
+                .unwrap()
+                .iter()
+                .all(|i| i.number != Some(1042))
+        );
     }
 
     #[gpui_kit::test]
-    fn cloud_har_ingen_titel_og_ingen_slet(cx: &mut TestAppContext) {
+    fn cloud_har_ingen_titel_men_kladden_kan_slettes(cx: &mut TestAppContext) {
         let p = open(cx, testing::mock(), Screen::Fakturaer);
         p.click(cx, "faktura-ny");
         p.click(cx, "ny-kladde-opret");
         p.assert_label(cx, "Forfald");
-        p.assert_no_label(cx, "Slet kladde");
+        p.assert_label(cx, "Slet kladde");
         p.assert_no_label(cx, "Titel");
+    }
+
+    /// Opretter en kladde for første kunde med ufaktureret tid og åbner den.
+    fn open_ny_kladde(p: &crate::testing_b::Probe, cx: &mut TestAppContext) {
+        p.click(cx, "faktura-ny");
+        p.click(cx, "ny-kladde-opret");
+        p.assert_label(cx, "Kladde til");
+    }
+
+    fn drafts(p: &crate::testing_b::Probe) -> Vec<crate::backend::Invoice> {
+        p.mock
+            .invoices()
+            .unwrap()
+            .into_iter()
+            .filter(|i| i.status == InvoiceStatus::Draft)
+            .collect()
+    }
+
+    /// Web's "Send påmindelse" på en sendt eller forfalden faktura, med samme
+    /// bekræftelse som afsendelsen (før: blokeret med "allerede sendt").
+    #[gpui_kit::test]
+    fn paamindelse_kraever_bekraeftelse(cx: &mut TestAppContext) {
+        let p = open(cx, testing::mock(), Screen::Fakturaer);
+        // Kun udstedte fakturaer kan få en påmindelse.
+        for paid in p.mock.invoices().unwrap().iter().filter(|i| i.status == InvoiceStatus::Paid) {
+            assert!(p.mock.send_reminder(&paid.id, None).is_err());
+        }
+        let sent = p
+            .mock
+            .invoices()
+            .unwrap()
+            .into_iter()
+            .find(|i| matches!(i.status, InvoiceStatus::Sent | InvoiceStatus::Overdue))
+            .expect("en sendt faktura i demoen");
+        // Kunden skal have en mail, ellers kan intet sendes.
+        let c = p.mock.customers(true).unwrap().into_iter().find(|c| c.id == sent.customer_id).unwrap();
+        if c.email.is_none() {
+            let input = crate::backend::CustomerInput {
+                name: c.name.clone(),
+                email: Some("bogholderi@example.dk".into()),
+                ..Default::default()
+            };
+            p.mock.update_customer(&c.id, input).unwrap();
+        }
+        let ix = p.mock.invoices().unwrap().iter().position(|i| i.id == sent.id).unwrap();
+        p.click(cx, ("faktura-aabn", ix));
+        p.click(cx, "faktura-paamind");
+        assert_eq!(p.a11y(cx).count("Dialog"), 1, "påmindelsen åbner bekræftelsen");
+        let to = p.mock.invoice_send_preview(&sent.id).unwrap().recipient.expect("kunden har en mail");
+        p.assert_label(cx, &format!("Fakturaen sendes igen på mail til {to}"));
+        assert_eq!(p.mock.invoice(&sent.id).unwrap().delivery, sent.delivery, "intet sendt endnu");
+        // Enter rammer "Annuller".
+        p.press(cx, "enter");
+        assert_eq!(p.a11y(cx).count("Dialog"), 0);
+        p.assert_label(cx, "Påmindelsen er ikke sendt");
+        p.click(cx, "faktura-paamind");
+        p.click(cx, "send-bekraeft");
+        p.assert_label(cx, &format!("Påmindelse om {} er sendt til {to}", invoice_title(&sent)));
+        let after = p.mock.invoice(&sent.id).unwrap();
+        assert_eq!(after.status, sent.status, "status ændres ikke");
+        assert_eq!(after.delivery.expect("afsendelsen").to.as_deref(), Some(to.as_str()));
+    }
+
+    /// Sagen fra 17/11: en faktura gik som mail til kunden uden en tydelig
+    /// bekræftelse. Oprettelsen giver kun en kladde, og "Send til kunden"
+    /// åbner en dialog med modtager og beløb. "Annuller" har fokus, så Enter
+    /// ikke sender; kun et bevidst klik på "Send til kunden" gør.
+    #[gpui_kit::test]
+    fn send_kraever_bekraeftelse_og_enter_sender_ikke(cx: &mut TestAppContext) {
+        let p = open(cx, testing::mock(), Screen::Fakturaer);
+        let before = p.mock.invoices().unwrap().len();
+        open_ny_kladde(&p, cx);
+        // Kladde først: ingen afsendelse ved oprettelsen.
+        let draft = drafts(&p).pop().expect("kladden");
+        assert_eq!(draft.delivery, None);
+        assert_eq!(p.mock.invoices().unwrap().len(), before + 1);
+        p.assert_label(cx, "Kladde. Ikke sendt endnu");
+
+        // Dialogen: modtager, kunde, nummer, poster, timer og beløb inkl. moms.
+        p.click(cx, "faktura-send");
+        assert_eq!(p.a11y(cx).count("Dialog"), 1);
+        let preview = p.mock.invoice_send_preview(&draft.id).unwrap();
+        let to = preview.recipient.clone().expect("kunden har en mail");
+        p.assert_label(cx, &format!("Fakturaen sendes på mail til {to}"));
+        p.assert_label(cx, &preview.customer_name);
+        p.assert_label(cx, &crate::export::kroner(preview.total));
+        p.assert_label(cx, "Tildeles ved afsendelse");
+        assert_eq!(drafts(&p).len(), 1, "åbning af dialogen sender intet");
+
+        // Enter rammer "Annuller" (har fokus): dialogen lukkes, intet sendt.
+        p.press(cx, "enter");
+        assert_eq!(p.a11y(cx).count("Dialog"), 0);
+        p.assert_label(cx, "Fakturaen er ikke sendt");
+        let still = p.mock.invoice(&draft.id).unwrap();
+        assert_eq!((still.status, still.delivery), (InvoiceStatus::Draft, None));
+
+        // Esc lukker også uden at sende.
+        p.click(cx, "faktura-send");
+        assert_eq!(p.a11y(cx).count("Dialog"), 1);
+        p.press(cx, "escape");
+        assert_eq!(p.a11y(cx).count("Dialog"), 0);
+        assert_eq!(
+            p.mock.invoice(&draft.id).unwrap().status,
+            InvoiceStatus::Draft
+        );
+
+        // Det bevidste valg: "Send til kunden". Status og modtager huskes.
+        p.click(cx, "faktura-send");
+        p.click(cx, "send-bekraeft");
+        p.assert_label(cx, &format!("er sendt til {to}"));
+        let sent = p.mock.invoice(&draft.id).unwrap();
+        assert_eq!(sent.status, InvoiceStatus::Sent);
+        assert_eq!(
+            sent.delivery.expect("afsendelsen").to.as_deref(),
+            Some(to.as_str())
+        );
+        // Detaljevisningen viser, hvornår og til hvem.
+        p.assert_label(cx, &format!("til {to}"));
+    }
+
+    /// En kunde uden mailadresse: dialogen siger det, og "Send til kunden"
+    /// er slukket. Intet sendes.
+    #[gpui_kit::test]
+    fn kunde_uden_mail_kan_ikke_faa_fakturaen_sendt(cx: &mut TestAppContext) {
+        let mock = testing::mock();
+        let ids: Vec<_> = mock
+            .uninvoiced_entries("kunde_klinik")
+            .unwrap()
+            .into_iter()
+            .map(|e| e.id)
+            .collect();
+        assert!(!ids.is_empty(), "demodata: Klinikken har ufaktureret tid");
+        let draft = mock.create_invoice_draft("kunde_klinik", &ids).unwrap();
+        let p = open(cx, mock, Screen::Fakturaer);
+        p.click(cx, "faktura-filter-1"); // Kladder
+        p.click(cx, ("faktura-aabn", 0usize));
+        p.click(cx, "faktura-send");
+        p.assert_label(cx, "Kunden har ingen mailadresse");
+        p.click(cx, "send-bekraeft");
+        assert_eq!(
+            p.mock.invoice(&draft.id).unwrap().status,
+            InvoiceStatus::Draft
+        );
+        p.assert_no_label(cx, "er sendt");
+    }
+
+    /// "Markér som sendt (uden mail)": som web's "Send Faktura" på en kladde.
+    #[gpui_kit::test]
+    fn kladde_kan_udstedes_uden_mail(cx: &mut TestAppContext) {
+        let p = open(cx, testing::mock(), Screen::Fakturaer);
+        open_ny_kladde(&p, cx);
+        let draft = drafts(&p).pop().expect("kladden");
+        p.click(cx, "faktura-udsted");
+        p.assert_label(cx, "Der sendes ingen mail");
+        p.click(cx, "send-bekraeft");
+        p.assert_label(cx, "er markeret som sendt");
+        let issued = p.mock.invoice(&draft.id).unwrap();
+        assert_eq!(issued.status, InvoiceStatus::Sent);
+        assert_eq!(issued.delivery.expect("afsendelsen").to, None);
+        p.assert_label(cx, "Ingen mail er sendt herfra");
+    }
+
+    /// Fortryd: en kladde slettes (også i cloud), og posterne er ufaktureret
+    /// igen. Første klik spørger kun.
+    #[gpui_kit::test]
+    fn kladde_slettes_i_cloud_og_posterne_frigives(cx: &mut TestAppContext) {
+        let p = open(cx, testing::mock(), Screen::Fakturaer);
+        open_ny_kladde(&p, cx);
+        let draft = drafts(&p).pop().expect("kladden");
+        assert!(!p.mock.invoice_entries(&draft.id).unwrap().is_empty());
+        p.click(cx, "faktura-slet");
+        p.assert_label(cx, "Det kan ikke fortrydes");
+        assert_eq!(drafts(&p).len(), 1, "første klik spørger kun");
+        p.click(cx, "faktura-slet");
+        p.assert_label(cx, "Kladden er slettet");
+        assert!(drafts(&p).is_empty());
+        assert!(p.mock.invoice_entries(&draft.id).unwrap().is_empty());
+        assert!(
+            !p.mock
+                .uninvoiced_entries(&draft.customer_id)
+                .unwrap()
+                .is_empty()
+        );
+    }
+
+    /// Status i listen og i detaljen: Kladde / Sendt (dato, tid og modtager) / Betalt.
+    #[gpui_kit::test]
+    fn status_viser_afsendelse_med_dato_tid_og_modtager(cx: &mut TestAppContext) {
+        let p = open(cx, testing::mock(), Screen::Fakturaer);
+        // 1039 er sendt herfra (mock): modtager og tidspunkt.
+        p.click(cx, ("faktura-aabn", 0usize));
+        p.assert_label(cx, "Faktura 1039");
+        p.assert_label(cx, "kl. 10:12 til bogholderi@toemrer.example.dk");
+        // 1040 er sendt et andet sted: siger det i stedet for at gætte.
+        p.click(cx, "faktura-tilbage");
+        p.click(cx, ("faktura-aabn", 2usize));
+        p.assert_label(cx, "Faktura 1040");
+        p.assert_label(cx, "Tidspunkt og modtager kendes ikke her");
+    }
+
+    /// Fra en faktura til kalenderen (kun de fakturerede poster) og tilbage
+    /// fra en faktureret post til fakturaen.
+    #[gpui_kit::test]
+    fn link_mellem_faktura_og_poster(cx: &mut TestAppContext) {
+        let p = open(cx, testing::mock(), Screen::Fakturaer);
+        open_ny_kladde(&p, cx);
+        let draft = drafts(&p).pop().expect("kladden");
+        let entries = p.mock.invoice_entries(&draft.id).unwrap();
+        assert!(!entries.is_empty());
+        p.assert_label(cx, &format!("{} poster", entries.len()));
+        p.click(cx, "faktura-vis-poster");
+        // Kalenderen viser nu kun fakturerede poster på den dag.
+        p.assert_label(cx, "Faktureret");
+        let cal = p.screen::<crate::screens::kalender::KalenderScreen>(cx, Screen::Kalender);
+        let shown = cal.read_with(cx, |k, _| k.shown_ids());
+        let first_day = entries.iter().map(|e| e.date).min().unwrap();
+        let first = entries
+            .iter()
+            .find(|e| e.date == first_day)
+            .unwrap()
+            .id
+            .clone();
+        assert!(shown.contains(&first), "fakturaens post vises");
+        let wide = crate::backend::DateRange {
+            from: testing::today() - chrono::Days::new(90),
+            to: testing::today() + chrono::Days::new(90),
+        };
+        let all = p.mock.entries(wide).unwrap();
+        assert!(
+            shown
+                .iter()
+                .all(|id| all.iter().any(|e| &e.id == id && e.invoice_id.is_some())),
+            "kun fakturerede poster"
+        );
+        // Tilbage: åbn posten, og følg linket til fakturaen.
+        cx.update_window(p.handle, |_, window, cx| {
+            cal.update(cx, |k, cx| k.open_edit(&first, window, cx))
+        })
+        .unwrap();
+        p.settle(cx);
+        p.click(cx, "post-aabn-faktura");
+        p.assert_label(cx, "Kladde til");
     }
 
     #[gpui_kit::test]
@@ -1958,6 +3206,46 @@ mod probe_tests {
         );
     }
 
+    /// Cloud: totalen og momsen er web's, og "Gem som PDF" gemmer præcis web's
+    /// PDF. Fejl fra web vises på dansk, og der gemmes ingen PDF uden moms.
+    #[gpui_kit::test]
+    fn cloud_pdf_og_moms_kommer_fra_web(cx: &mut TestAppContext) {
+        let dir = std::env::temp_dir().join(format!("tt-export-probe-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        // SAFETY: alle tests, der eksporterer, sætter samme mappe.
+        unsafe { std::env::set_var("TT_EXPORT_DIR", &dir) };
+        // 1041, ikke 1040: `forfalden_markeres_betalt_og_pdf` gemmer
+        // Faktura-1040.pdf i samme mappe samtidig.
+        const AABN_1041: usize = 1;
+        let mock = testing::mock();
+        mock.set_web_invoices(false, None);
+        let p = open(cx, mock, Screen::Fakturaer);
+        p.click(cx, ("faktura-aabn", AABN_1041));
+        p.assert_label(cx, "Faktura 1041 til");
+        p.assert_label(cx, "Ingen moms: virksomheden er ikke momsregistreret i web");
+        p.assert_label(cx, "I alt 39.000,00 kr.");
+        p.click(cx, "faktura-pdf");
+        p.assert_label(cx, "PDF gemt");
+        let file = dir.join("Faktura-1041.pdf");
+        let pdf = std::fs::read(&file).expect("pdf skrevet");
+        std::fs::remove_file(&file).ok();
+        assert_eq!(pdf, MockBackend::web_pdf("faktura_1041"), "web's bytes, uændret");
+
+        // Momsregistreret i web: web's moms og total.
+        p.mock.set_web_invoices(true, None);
+        p.click(cx, "faktura-tilbage");
+        p.click(cx, ("faktura-aabn", AABN_1041));
+        p.assert_label(cx, "Moms 25 % 9.750,00 kr.");
+        p.assert_label(cx, "I alt 48.750,00 kr.");
+
+        // Fakturamodulet slået fra (403): dansk fejl, ingen fil.
+        let off = "PDF'en kan ikke hentes: fakturaer er slået fra i web, eller din rolle har ikke adgang til dem";
+        p.mock.set_web_invoices(true, Some(BackendError::Validation(off.into())));
+        p.click(cx, "faktura-pdf");
+        p.assert_label(cx, off);
+        assert!(!file.exists(), "ingen lokal PDF uden web's moms");
+    }
+
     #[gpui_kit::test]
     fn forfalden_markeres_betalt_og_pdf(cx: &mut TestAppContext) {
         let dir = std::env::temp_dir().join(format!("tt-export-probe-{}", std::process::id()));
@@ -1974,7 +3262,15 @@ mod probe_tests {
         let pdf = std::fs::read(dir.join("Faktura-1040.pdf")).expect("pdf skrevet");
         std::fs::remove_file(dir.join("Faktura-1040.pdf")).ok();
         assert!(pdf.starts_with(b"%PDF"));
+        // Som web: betalingsdatoen kan vælges (i dag som standard).
         p.click(cx, "faktura-betalt");
+        p.assert_label(cx, "Betalingsdato");
+        assert_ne!(
+            p.mock.invoices().unwrap().into_iter().find(|i| i.id == "faktura_1040").unwrap().status,
+            InvoiceStatus::Paid,
+            "første tryk spørger om datoen"
+        );
+        p.click(cx, "faktura-betalt-gem");
         p.assert_label(cx, "markeret som betalt");
         let inv = p
             .mock

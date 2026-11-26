@@ -300,7 +300,10 @@
     "draftOnlyReorder": "Rekkefølgen kan bare endres på fakturautkast",
     "providerMismatch": "Beløpet eller valutaen kunne ikke bekreftes. Se gjennom utkastet i regnskapssystemet før du sender det.",
     "recipientChanged": "Mottakerens e-postadresse er endret. Åpne bekreftelsen på nytt.",
-    "clientHasNoEmail": "Kunden har ingen e-postadresse"
+    "clientHasNoEmail": "Kunden har ingen e-postadresse",
+    "exportInProgress": "Fakturaen eksporteres allerede. Prøv igjen om litt.",
+    "providerEmailUncertain": "Vi kunne ikke bekrefte at regnskapsprogrammet sendte fakturaen. Sjekk e-poststatusen i Billy eller Dinero, og marker resultatet på fakturasiden før du sender den igjen.",
+    "sendReviewChanged": "Fakturaen er endret etter at du bekreftet den. Åpne bekreftelsen igjen."
   },
   "logbook": {
     "ownOnly": "Du kan bare se din egen kjørebok",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Forbindelsen til Dinero kunne ikke opprettes. Prøv igjen.",
       "economicFailed": "Forbindelsen til e-conomic kunne ikke opprettes. Prøv igjen.",
-      "googleFailed": "Forbindelsen til Google kunne ikke opprettes. Prøv igjen."
+      "googleFailed": "Forbindelsen til Google kunne ikke opprettes. Prøv igjen.",
+      "outlookFailed": "Outlook-tilkoblingen kunne ikke opprettes. Prøv igjen."
     },
     "invoiceSend": {
       "invalidRecipient": "Ugyldig e-postadresse for mottakeren",

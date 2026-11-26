@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Info.plist for TimeWren (tt-app bygget med featuren brand-timewren).
+  scripts/bundle-macos.sh udfylder @VERSION@ fra crates/tt-app/Cargo.toml.
+  Værdierne (navn, bundle-id, exe, ikon, URL-skema) står også i
+  scripts/brands.json og crates/tt-core/src/edition.rs; scripts/check-brand.mjs
+  tjekker, at de stemmer.
+
+  Eget bundle-id (com.timewren.desktop), så de to udgaver af appen kan ligge
+  side om side i /Applications med hver sine tilladelser, datamappe og
+  nøglering. Ingen 0.2.x-forgænger at afløse, så exe'en hedder blot timewren.
+-->
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+  <key>CFBundleDisplayName</key>
+  <string>TimeWren</string>
+  <key>CFBundleExecutable</key>
+  <string>timewren</string>
+  <key>CFBundleIconFile</key>
+  <string>TimeWren</string>
+  <key>CFBundleIdentifier</key>
+  <string>com.timewren.desktop</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleName</key>
+  <string>TimeWren</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleShortVersionString</key>
+  <string>@VERSION@</string>
+  <key>CFBundleVersion</key>
+  <string>@VERSION@</string>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>com.timewren.desktop</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>timewren</string>
+      </array>
+    </dict>
+  </array>
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.productivity</string>
+  <key>LSMinimumSystemVersion</key>
+  <string>10.15</string>
+  <key>NSHighResolutionCapable</key>
+  <true/>
+  <key>NSSupportsAutomaticGraphicsSwitching</key>
+  <true/>
+  <key>NSCalendarsFullAccessUsageDescription</key>
+  <string>TimeWren reads your calendar events and suggests them as time entries. The app never writes to your calendar, and your events do not leave your computer.</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>TimeWren reads your calendar events and suggests them as time entries. The app never writes to your calendar, and your events do not leave your computer.</string>
+  <key>NSAppleEventsUsageDescription</key>
+  <string>TimeWren reads the address of the active tab in your browser so it can suggest the right customer. The address never leaves your computer.</string>
+  <key>NSHumanReadableCopyright</key>
+  <string>© Mahope</string>
+</dict>
+</plist>

@@ -34,12 +34,16 @@ import {
 } from "@/components/invoices/DineroExportModal";
 import { InvoiceLineEditor } from "@/components/invoices/InvoiceLineEditor";
 import { InvoicePDFViewer } from "@/components/invoices/InvoicePDFViewer";
-import { SendInvoiceDialog } from "@/components/invoices/SendInvoiceDialog";
+import { ProviderEmailUncertainBanner } from "@/components/invoices/ProviderEmailUncertainBanner";
+import {
+  type ReviewedInvoice,
+  SendInvoiceDialog,
+} from "@/components/invoices/SendInvoiceDialog";
 import { ConfirmDialog } from "@/components/ui";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { usePermission } from "@/hooks/usePermission";
 import { toIntlLocale } from "@/i18n/format-locale";
-import { toLocalDateStr } from "@/lib/format";
+import { formatCurrency, toLocalDateStr } from "@/lib/format";
 import { formatInvoiceNumber } from "@/lib/invoices/draft-number";
 import { broadcastDataChange } from "@/lib/query/cross-tab";
 import {
@@ -57,6 +61,15 @@ export default function InvoiceDetailPage({
   const t = useTranslations("invoices");
   const tc = useTranslations("common");
   const locale = useLocale();
+  const currency = t("detail.currencyShort");
+  // Beløb og timer i sprogets format (2.125,00 og 2,5 på dansk), ikke som
+  // "2125.00" og "2.50" (gennemgang af første oplevelse, 2026-11-22).
+  const displayAmount = (amount: string | number) =>
+    formatCurrency(amount, { locale, suffix: "", decimals: 2 });
+  const displayHours = (hours: string | number) =>
+    Number(hours).toLocaleString(toIntlLocale(locale), {
+      maximumFractionDigits: 2,
+    });
   const router = useRouter();
   const { canWrite: canInvoice } = usePermission("invoices");
 
@@ -283,7 +296,7 @@ export default function InvoiceDetailPage({
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${t("detail.pdfFilePrefix")}_${formatInvoiceNumber(invoice?.invoiceNumber)}.pdf`;
+      link.download = `${t("detail.pdfFilePrefix")}_${formatInvoiceNumber(invoice?.invoiceNumber, t("status.draft"))}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -330,7 +343,10 @@ export default function InvoiceDetailPage({
     setShowEmailModal(true);
   };
 
-  const handleSendEmail = async (recipientEmail: string) => {
+  const handleSendEmail = async (
+    recipientEmail: string,
+    expectedInvoice: ReviewedInvoice,
+  ) => {
     try {
       const response = await fetch(`/api/invoices/${id}/send`, {
         method: "POST",
@@ -339,6 +355,7 @@ export default function InvoiceDetailPage({
         },
         body: JSON.stringify({
           recipientEmail,
+          expectedInvoice,
         }),
       });
 
@@ -420,14 +437,19 @@ export default function InvoiceDetailPage({
         <Breadcrumbs
           items={[
             { label: t("detail.breadcrumb"), href: "/dashboard/invoices" },
-            { label: formatInvoiceNumber(invoice.invoiceNumber) },
+            {
+              label: formatInvoiceNumber(
+                invoice.invoiceNumber,
+                t("status.draft"),
+              ),
+            },
           ]}
         />
 
         <div className="mt-4 flex items-start justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-              {formatInvoiceNumber(invoice.invoiceNumber)}
+              {formatInvoiceNumber(invoice.invoiceNumber, t("status.draft"))}
             </h1>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               {t("detail.to", { name: client?.name ?? "" })}
@@ -617,7 +639,10 @@ export default function InvoiceDetailPage({
                   {t("detail.invoiceNumber")}
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 dark:text-white">
-                  {formatInvoiceNumber(invoice.invoiceNumber)}
+                  {formatInvoiceNumber(
+                    invoice.invoiceNumber,
+                    t("status.draft"),
+                  )}
                 </dd>
               </div>
               <div>
@@ -668,6 +693,8 @@ export default function InvoiceDetailPage({
               )}
             </dl>
           </div>
+
+          <ProviderEmailUncertainBanner invoiceId={id} />
 
           {/* E-mailstatus */}
           {emailStatus && (
@@ -761,17 +788,17 @@ export default function InvoiceDetailPage({
                           date: new Date(entry.date).toLocaleDateString(
                             toIntlLocale(locale),
                           ),
-                          hours: entry.hours,
+                          hours: displayHours(entry.hours),
                         })}
                         {entry.project && ` • ${entry.project.name}`}
                       </p>
                     </div>
                     <div className="text-sm font-medium tabular-nums text-gray-900 dark:text-white">
                       {t("detail.amountKr", {
-                        amount: (
+                        amount: displayAmount(
                           Number.parseFloat(entry.hours) *
-                          Number.parseFloat(entry.billableRate || "0")
-                        ).toFixed(2),
+                            Number.parseFloat(entry.billableRate || "0"),
+                        ),
                       })}
                     </div>
                   </div>
@@ -799,12 +826,12 @@ export default function InvoiceDetailPage({
                   </span>
                   <span className="tabular-nums text-gray-900 dark:text-white">
                     {t("detail.hoursShort", {
-                      hours: invoice.timeEntries
-                        .reduce(
+                      hours: displayHours(
+                        invoice.timeEntries.reduce(
                           (sum, entry) => sum + Number.parseFloat(entry.hours),
                           0,
-                        )
-                        .toFixed(2),
+                        ),
+                      ),
                     })}
                   </span>
                 </div>
@@ -832,12 +859,14 @@ export default function InvoiceDetailPage({
                     className="w-40 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-1.5 text-right text-lg font-bold tabular-nums focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
                   />
                   <span className="text-lg font-bold text-gray-900 dark:text-white">
-                    {t("detail.currencyShort")}
+                    {currency}
                   </span>
                 </div>
               ) : (
                 <span className="text-2xl font-bold tabular-nums text-gray-900 dark:text-white">
-                  {t("detail.amountKr", { amount: invoice.amount })}
+                  {t("detail.amountKr", {
+                    amount: displayAmount(invoice.amount),
+                  })}
                 </span>
               )}
             </div>

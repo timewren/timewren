@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { initTRPC, TRPCError } from "@trpc/server";
-import { and, desc, eq, isNull, or, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import superjson from "superjson";
 import {
   localeFromHeaders,
@@ -10,23 +10,29 @@ import {
   tr,
 } from "@/i18n/server-text";
 import type { Session } from "../auth";
+import { accountBrand } from "../auth/account-brand";
 import { resolveActiveOrgId, resolveRequestedOrgId } from "../auth/active-org";
 import { orglessForbiddenMessage } from "../auth/orgless";
 import { isBillingEnabled } from "../billing/billing-enabled";
+import { resolveActiveSubscription } from "../billing/governing-subscription";
+import { isPastDueWithinGrace } from "../billing/plan-gate";
 import {
   freeMemberLockedMessage,
   isFreeSubscription,
   isFreeTierMemberLocked,
 } from "../billing/plan-limits";
+import { isStripeBillingBrand } from "../billing/timewren-stripe";
 import {
   clientTooOldCause,
   enforceClientVersion,
 } from "../client-version/guard";
 import type { db as dbType } from "../db";
-import { subscriptions, users } from "../db/schema";
+import { users } from "../db/schema";
 import { isDemoBlockedProcedure } from "../demo/blocked";
 import { isDemoMode } from "../demo/demo-mode";
+import { runWithCurrency, runWithDemoCurrency } from "../demo/server-currency";
 import { IntegrationAuthError } from "../integrations/base";
+import { getOrgRegion } from "../org/region.server";
 import {
   accessSatisfies,
   type PermissionModuleKey,
@@ -133,6 +139,11 @@ function isOrglessAllowedPath(path: string): boolean {
   return ORGLESS_ALLOWED_PATHS.has(path) || path.startsWith("admin.");
 }
 
+/** Kører kaldet i organisationens valuta; DKK rører intet (som før). */
+function withOrgCurrency<T>(currency: "DKK" | "EUR", fn: () => T): T {
+  return currency === "DKK" ? fn() : runWithCurrency(currency, fn);
+}
+
 const isAuthed = t.middleware(async ({ next, ctx, path, type }) => {
   if (!ctx.session?.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -188,14 +199,28 @@ const isAuthed = t.middleware(async ({ next, ctx, path, type }) => {
       )
     : makePermissiveModules();
 
-  const result = await next({
-    ctx: {
-      session: ctx.session,
-      db: ctx.db,
-      orgId,
-      modules,
-    },
-  });
+  // Beløb, tekster og PDF'er i organisationens valuta (fund 19). Demoen
+  // vælger selv valuta pr. konto (withLocale); TimeTrack er altid DKK.
+  const currency =
+    activeOrgId && !isDemoMode()
+      ? (
+          await memoize(ctx.memo, `region:${activeOrgId}`, () =>
+            getOrgRegion(ctx.db, activeOrgId),
+          )
+        ).currency
+      : "DKK";
+  // Indsnævringen af ctx.session (tjekket øverst) følger ikke med ind i en closure.
+  const session = ctx.session;
+  const result = await withOrgCurrency(currency, () =>
+    next({
+      ctx: {
+        session,
+        db: ctx.db,
+        orgId,
+        modules,
+      },
+    }),
+  );
 
   // Krydsenheds-friskhed: en vellykket skrivning af tid/klippekort/fakturaer
   // — fra web, mobil, API eller MCP (alle går gennem denne middleware) —
@@ -323,45 +348,10 @@ export async function resolvePlanTier(ctx: {
   }
 
   const orgId = ctx.orgId;
-  // An org can hold several subscription rows (each member's onboarding /
-  // checkout inserts one). Prefer an active/trialing row, then the newest —
-  // mirrors resolveActiveSubscription in getDetails so the guard, the member
-  // lock and the displayed tier all read the SAME row. A stray canceled/free
-  // row must not win over the org's live paid sub and wrongly lock members.
-  const subPreference = [
-    desc(
-      sql`case when ${subscriptions.status} in ('active','trialing') then 1 else 0 end`,
-    ),
-    desc(
-      sql`case when ${subscriptions.aluntaSubscriptionId} is not null or ${subscriptions.storeProvider} is not null then 1 else 0 end`,
-    ),
-    desc(subscriptions.createdAt),
-  ];
-  let sub: typeof subscriptions.$inferSelect | undefined;
-  if (orgId) {
-    sub = await ctx.db.query.subscriptions.findFirst({
-      where: eq(subscriptions.organizationId, orgId),
-      orderBy: subPreference,
-    });
-  }
-  if (!sub) {
-    // Org-rækken manglede (eller der er ingen org): fald tilbage til brugerens
-    // personlige/legacy række, men aldrig en række der hører til en ANDEN
-    // organisation — ellers kunne et medlem uden egen org-subscription låses
-    // op eller låses ned af en tidligere (forladt) organisations plan.
-    sub = await ctx.db.query.subscriptions.findFirst({
-      where: and(
-        eq(subscriptions.userId, ctx.session.user.id),
-        orgId
-          ? or(
-              isNull(subscriptions.organizationId),
-              eq(subscriptions.organizationId, orgId),
-            )
-          : isNull(subscriptions.organizationId),
-      ),
-      orderBy: subPreference,
-    });
-  }
+  const userId = ctx.session.user.id;
+  const sub = await resolveActiveSubscription(ctx.db, orgId, userId, {
+    stripe: isStripeBillingBrand(await accountBrand(ctx.db, userId)),
+  });
 
   if (!sub) {
     throw new TRPCError({
@@ -377,12 +367,7 @@ export async function resolvePlanTier(ctx: {
   const isFree = isFreeSubscription(sub);
   const isTrialing =
     sub.status === "trialing" && sub.trialEndsAt.getTime() > now;
-  const isPastDueGrace =
-    sub.status === "past_due" &&
-    (!sub.pastDueSince ||
-      now - sub.pastDueSince.getTime() <= 7 * 24 * 60 * 60 * 1000);
-
-  if (!isActive && !isFree && !isTrialing && !isPastDueGrace) {
+  if (!isActive && !isFree && !isTrialing && !isPastDueWithinGrace(sub, now)) {
     throw new TRPCError({
       code: "FORBIDDEN",
       message: await tr("serverErrors", "core.subscriptionExpired"),
@@ -494,7 +479,11 @@ const withClientVersion = t.middleware(
 // Brandet i teksterne følger hosten (TimeWren på timewren.com).
 const withLocale = t.middleware(({ ctx, next }) =>
   runWithLocale(localeFromHeaders(ctx.headers), () =>
-    runWithBrand(textBrandFromHeaders(ctx.headers), () => next()),
+    runWithBrand(textBrandFromHeaders(ctx.headers), () =>
+      isDemoMode()
+        ? runWithDemoCurrency(ctx.session?.user.email, next)
+        : next(),
+    ),
   ),
 );
 

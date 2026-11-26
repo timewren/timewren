@@ -13,7 +13,9 @@ Un valor vacío cuenta como "no definido". `NEXT_PUBLIC_APP_URL=` vuelve a su va
 
 ### Compilación y ejecución
 
-Las variables `NEXT_PUBLIC_*` se incrustan en el bundle del navegador cuando se construye la imagen. Cambiarlas después en `.env` no tiene efecto sobre la imagen ya construida. Hay tres excepciones que se leen en tiempo de ejecución, y el valor de compilación solo sirve como respaldo: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` y `NEXT_PUBLIC_BRAND`. El servidor las lee de su entorno y el navegador las recibe de `/runtime-config.js`, que el servidor genera en cada petición.
+Las variables `NEXT_PUBLIC_*` se incrustan en el bundle del navegador cuando se construye la imagen. Cambiarlas después en `.env` no tiene efecto sobre la imagen ya construida. Hay tres excepciones que se leen en tiempo de ejecución, y el valor de compilación solo sirve como respaldo: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` y `NEXT_PUBLIC_BRAND`. El servidor las lee de su entorno y el navegador las recibe de `/runtime-config.js`, que el servidor genera en cada petición. Las páginas de marketing solo existen en una compilación con `BUILD_PROFILE=full`. La imagen precompilada y el ejemplo de Compose usan `selfhost`, que no tiene ninguna, así que `NEXT_PUBLIC_MARKETING_URL` no tiene allí páginas de marketing que activar.
+
+Las páginas de la instancia, como las de cookies, contacto y eliminación de cuenta, usan la URL y la marca de la aplicación en ejecución. Configura `NEXT_PUBLIC_MARKETING_URL` explícitamente para activar el marketing en un dominio autoalojado. La navegación compartida y los metadatos del sitio usan la URL de marketing y la marca en ejecución. Los metadatos editoriales y los textos de las páginas describen TimeTrack Cloud, incluidos sus precios y su editor. El PDF público del acuerdo de tratamiento de datos solo está disponible en TimeTrack Cloud.
 
 Por eso, en la imagen precompilada `ghcr.io/timewren/timewren` las demás variables de compilación vienen fijadas (por ejemplo `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` y los ajustes de Sentry para el navegador). Para cambiarlas, construye tu propia imagen con los argumentos de compilación correspondientes, consulta [Instalar desde el código fuente](/es/docs/install/from-source). La columna `Build time` de las tablas siguientes indica a qué variables afecta esto.
 
@@ -55,7 +57,7 @@ Compose se niega a arrancar si falta `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, 
 | Variable | Default | Required | Build time | Description |
 | --- | --- | --- | --- | --- |
 | `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | sí | no | URL pública de la aplicación. Se lee en tiempo de ejecución; el valor de compilación es el respaldo. Se usa en los enlaces de los correos, en los callbacks de OAuth y en las URI de redirección por defecto de las integraciones. |
-| `NEXT_PUBLIC_MARKETING_URL` | la URL de la aplicación | no | no | Host público o de marketing separado. Vacía replica `NEXT_PUBLIC_APP_URL` (un solo host). Con la marca `timewren` y sin URL de marketing, las páginas de marketing están desactivadas: `/` redirige al panel y el resto de rutas de marketing devuelven 404. Se lee en tiempo de ejecución. |
+| `NEXT_PUBLIC_MARKETING_URL` | la URL de la aplicación | no | no | Host público o de marketing separado. Sin una URL de marketing explícita, las instancias autoalojadas de ambas marcas redirigen `/` al panel y devuelven 404 en otras rutas de marketing. Si cambia la URL de la aplicación o la marca en tiempo de ejecución, vuelve a configurar la URL de marketing para activarlas. Se lee en tiempo de ejecución. Requiere una imagen compilada con `BUILD_PROFILE=full`; la imagen precompilada no tiene páginas de marketing. |
 | `NEXT_PUBLIC_BRAND` | `timewren` | no | no | `timewren` (autoalojamiento) o `timetrack` (el servicio alojado danés, TimeTrack Cloud). Cualquier otro valor, o ninguno, da TimeWren. Se lee en tiempo de ejecución. |
 | `SUPPORT_EMAIL` | `support@<EMAIL_DOMAIN>` | no | no | Dirección de soporte que se muestra en los correos y en la interfaz. |
 | `NEXT_PUBLIC_SUPPORT_EMAIL` | ninguno | no | sí | Alias antiguo de `SUPPORT_EMAIL`. Si ambas están definidas, gana `SUPPORT_EMAIL`. |
@@ -64,7 +66,7 @@ Compose se niega a arrancar si falta `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, 
 | `TRUSTED_ORIGINS` | ninguno | no | no | Orígenes adicionales aceptados por las comprobaciones de autenticación y CSRF, separados por comas. Las entradas no válidas se omiten. |
 | `CORS_ALLOWED_ORIGINS` | orígenes de extensiones de navegador | no | no | Sustituye la lista de CORS de la API tRPC. Orígenes exactos, separados por comas, sin barra final ni comodines. Sin valor se aceptan los orígenes de extensiones de navegador. Vacío desactiva el acceso entre orígenes. No sustituye la autenticación por token. |
 | `APP_SCHEMES` | `timetrack://,timetrack.preview://` | no | no | Esquemas de app nativa que acepta la autenticación, separados por comas. Ponlo al esquema de una compilación propia de la app, por ejemplo `timewren://`. Vacío desactiva los orígenes nativos. |
-| `DEVICE_CALLBACK_URL` | `timetrack://auth/callback` | no | no | Callback del inicio de sesión de dispositivo. Debe ser un esquema nativo con exactamente `auth/callback`; se rechazan URL web, credenciales, query y fragmento. Ajústalo a `APP_SCHEMES`. |
+| `DEVICE_CALLBACK_URL` | `timewren://auth/callback` (TimeWren) / `timetrack://auth/callback` | no | no | Callback del inicio de sesión de dispositivo. Debe ser un esquema nativo con exactamente `auth/callback`; se rechazan URL web, credenciales, query y fragmento. Ajústalo a `APP_SCHEMES`. Sin valor decide la marca de la instancia (`timewren://auth/callback` para TimeWren, si no `timetrack://auth/callback`); el `redirect_uri` de un cliente solo se respeta si está en `APP_SCHEMES`, es uno de los callbacks estándar (`timetrack://`, `timewren://`) o es este valor. Los clientes antiguos sin `redirect_uri` en un autoalojamiento estándar (marca TimeWren) reciben `timewren://`; define entonces `DEVICE_CALLBACK_URL=timetrack://auth/callback`. |
 | `CALLBACK_BASE_URL` | la URL de la aplicación | no | no | Base de los enlaces de callback almacenados y registrados, por ejemplo los callbacks de webhooks. |
 | `AUTH_COOKIE_DOMAIN` | ninguno | no | no | Comparte la cookie de sesión entre hosts, por ejemplo `.example.com`. Solo hace falta con hosts de aplicación y de marketing separados. |
 | `AUTH_RP_ID` | host de marketing si los hosts están separados; si no, el host de la aplicación | no | no | ID de la relying party de las passkeys, por ejemplo `example.com`. Solo hace falta con hosts de aplicación y de marketing separados. |
@@ -78,7 +80,7 @@ Compose se niega a arrancar si falta `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, 
 
 ## Correo
 
-Elige un transporte: SMTP o Resend. Sin ninguno, los correos se escriben en el log del servidor en lugar de enviarse. Encontrarás detalles y ejemplos en [Correo electrónico](/es/docs/configuration/email).
+Elige un transporte: SMTP o Resend. Sin un transporte, el servidor registra los envíos omitidos. Encontrarás detalles y ejemplos en [Correo electrónico](/es/docs/configuration/email).
 
 El transporte se elige en este orden: `MAIL_TRANSPORT` si tiene un valor válido; si no, Resend cuando `RESEND_API_KEY` está definida; si no, SMTP cuando `SMTP_HOST` está definida; si no, solo log.
 
@@ -151,6 +153,10 @@ Billy no necesita nada aquí: cada usuario pega su propia clave de API de Billy 
 | Variable | Default | Required | Build time | Description |
 | --- | --- | --- | --- | --- |
 | `GOOGLE_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/google/callback` | no | no | URI de redirección OAuth de la integración con Google Calendar. Usa `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET`. |
+| `OUTLOOK_CALENDAR_CLIENT_ID` | ninguno | no | no | Client ID de un registro de aplicación de Microsoft Entra ID para la integración con el calendario de Outlook (Microsoft Graph, solo lectura). Junto con su secreto, el calendario de Outlook se ofrece en Ajustes, Integraciones; sin él, Outlook se oculta. La aplicación de inicio de sesión (`MICROSOFT_CLIENT_ID`) nunca se usa para esto. |
+| `OUTLOOK_CALENDAR_CLIENT_SECRET` | ninguno | no | no | Client secret de la aplicación del calendario de Outlook. |
+| `OUTLOOK_CALENDAR_TENANT_ID` | `common` | no | no | Tenant de Microsoft para el calendario de Outlook: `common`, `organizations`, `consumers` o un GUID de tenant. |
+| `OUTLOOK_CALENDAR_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/outlook/callback` | no | no | URI de redirección OAuth de la integración con el calendario de Outlook. |
 | `DINERO_CLIENT_ID` | ninguno | condicional | no | Aplicación OAuth de Visma Connect para Dinero. Hacen falta el ID y el secreto para activar la integración. |
 | `DINERO_CLIENT_SECRET` | ninguno | condicional | no | Secreto de la aplicación de Visma Connect. |
 | `DINERO_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/dinero/callback` | no | no | URI de redirección OAuth de Dinero. |
@@ -163,7 +169,7 @@ Billy no necesita nada aquí: cada usuario pega su propia clave de API de Billy 
 | `CVR_SERVICE_URL` | el servicio CVR del mantenedor | no | no | URL base del servicio de consulta de CVR que se usa junto con `CVR_SERVICE_API_KEY`. |
 | `CVR_API_TIMEOUT_MS` | `10000` | no | no | Tiempo límite de las consultas de CVR en milisegundos. |
 | `GITHUB_TOKEN` | ninguno | no | no | Token de GitHub para consultar las actualizaciones de escritorio, con un límite de peticiones más alto. |
-| `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` | ninguno | no | sí | `owner/repo` de GitHub al que apuntan las descargas de escritorio. Desactivado salvo que se defina. |
+| `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` | `mahope/timetrack-releases` (TimeTrack) | no | sí | `owner/repo` de GitHub para las descargas de escritorio. Las compilaciones de TimeTrack usan `mahope/timetrack-releases` de forma predeterminada. En las demás, las descargas requieren un repositorio configurado. Cambiar la marca en tiempo de ejecución conserva el repositorio de la compilación. |
 | `DESKTOP_UPDATER_REPO` | ninguno | no | no | `owner/repo` de GitHub para las actualizaciones de escritorio heredadas. Desactivado salvo que se defina. |
 | `CHANGELOG_REPO` | ninguno | no | no | `owner/repo` de GitHub del que se lee el registro de cambios. Desactivado salvo que se defina. |
 
@@ -192,6 +198,7 @@ Valkey es opcional. Aporta límites de frecuencia compartidos entre procesos y s
 | `RATE_LIMIT_BACKEND` | en memoria | no | no | `valkey` guarda los límites de frecuencia en Valkey. Cualquier otro valor los mantiene en memoria. |
 | `REALTIME_ENABLED` | `true` en la imagen de Docker | no | no | Indicador del servidor para los eventos del temporizador en tiempo real. El tiempo real también necesita `VALKEY_URL`. Ponlo en `false` para desactivarlo sin recompilar. |
 | `NEXT_PUBLIC_REALTIME_ENABLED` | ninguno | no | sí | Indicador del cliente, debe ser `true` en el momento de la compilación. Tanto este como `REALTIME_ENABLED` deben ser `true`. La imagen precompilada no lo define. |
+| `BUILD_PROFILE` | `full` | no | sí | Argumento de compilación y variable para `npm run build`. `selfhost` deja fuera de la compilación el sitio de marketing de Cloud y el sitio web de TimeWren (compilación más corta, imagen más pequeña); la imagen precompilada lo usa. `full` también compila las páginas de marketing que activa `NEXT_PUBLIC_MARKETING_URL`. |
 | `ELECTRIC_URL` | ninguno | no | no | Proxy experimental de ElectricSQL para la forma del temporizador. No hace nada salvo que se definan ambas variables; entonces los endpoints responden 503 y los clientes recurren al respaldo. |
 | `ELECTRIC_SECRET` | ninguno | no | no | Secreto del proxy de ElectricSQL. |
 
@@ -202,7 +209,7 @@ No se envía nada a los mantenedores salvo que definas estas variables. Consulta
 | Variable | Default | Required | Build time | Description |
 | --- | --- | --- | --- | --- |
 | `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | ninguno | no | sí | URL de un script de analítica de Plausible. Vacía: no se carga el script de Plausible. También se añade a la CSP. |
-| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | ninguno | no | sí | URL del script de Umami. Se usa si no se configura una URL de recopilación. |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | ninguno | no | sí | URL del script de Umami. Se usa si no se configura una URL de recopilación. Los eventos van al recopilador integrado en el script. Un script en el mismo origen que hace de proxy de Umami Cloud (por ejemplo `/stats.js`) envía en su lugar a través de `/api/send` junto a él, no a `gateway.umami.is`. |
 | `NEXT_PUBLIC_UMAMI_COLLECT_URL` | ninguno | no | sí | URL de recopilación completa o ruta en el mismo origen, incluida una ruta personalizada. Con el ID del sitio y el consentimiento, los eventos se envían de inmediato con keepalive. |
 | `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | ninguno | no | sí | ID del sitio web en Umami. |
 | `PLAUSIBLE_BASE_URL` | `https://plausible.io` | no | no | Host de Plausible que usa la página de analítica de administración. |
@@ -306,7 +313,7 @@ Compose define algunas de estas variables por sí mismo; se listan para que sepa
 | `MULTIBRAND_ENABLED` | ninguno | no | no | `1` activa el registro de hosts multimarca del servicio alojado. |
 | `BRANDS_CONFIG` | marcadores de posición integrados | no | no | JSON con los hosts reales de las marcas de la configuración multimarca alojada. |
 | `TIMEWREN_APP_ENABLED` | ninguno | no | no | `1` abre la aplicación (inicio de sesión, registro, panel) en los hosts alojados de TimeWren. |
-| `TIMEWREN_INDEXABLE` | ninguno | no | no | `1` permite que los motores de búsqueda indexen el sitio alojado de TimeWren. |
+| `TIMEWREN_INDEXABLE` | ninguno | no | no | `0` envía noindex (p. ej. staging); si no, las páginas son indexables. |
 | `TIMEWREN_GOOGLE_CLIENT_ID` | ninguno | no | no | Client ID de la aplicación de Google de TimeWren Cloud. Junto con su secreto, se ofrece el inicio de sesión con Google en los hosts de TimeWren; sin él, el botón se oculta y el proveedor no se registra allí. Las claves de TimeTrack nunca se usan en los hosts de TimeWren. |
 | `TIMEWREN_GOOGLE_CLIENT_SECRET` | ninguno | no | no | Client secret de la aplicación de Google de TimeWren Cloud. |
 | `TIMEWREN_GITHUB_CLIENT_ID` | ninguno | no | no | Client ID de la aplicación de GitHub de TimeWren Cloud. Junto con su secreto, se ofrece el inicio de sesión con GitHub en los hosts de TimeWren; sin él, el botón se oculta y el proveedor no se registra allí. Las claves de TimeTrack nunca se usan en los hosts de TimeWren. |
@@ -316,7 +323,13 @@ Compose define algunas de estas variables por sí mismo; se listan para que sepa
 | `TIMEWREN_MICROSOFT_CLIENT_ID` | ninguno | no | no | Client ID de la aplicación de Microsoft Entra ID de TimeWren Cloud. Junto con su secreto, se ofrece el inicio de sesión con Microsoft Entra ID en los hosts de TimeWren; sin él, el botón se oculta y el proveedor no se registra allí. Las claves de TimeTrack nunca se usan en los hosts de TimeWren. |
 | `TIMEWREN_MICROSOFT_CLIENT_SECRET` | ninguno | no | no | Client secret de la aplicación de Microsoft Entra ID de TimeWren Cloud. |
 | `TIMEWREN_MICROSOFT_TENANT_ID` | `common` | no | no | Tenant de Microsoft para el inicio de sesión en TimeWren Cloud, como `MICROSOFT_TENANT_ID`. |
+| `TIMEWREN_GOOGLE_REDIRECT_URI` | `https://<host de TimeWren>/api/integrations/google/callback` | no | no | URI de redirección de Google Calendar para cuentas de TimeWren Cloud. Google Calendar en TimeWren usa `TIMEWREN_GOOGLE_CLIENT_ID` y `TIMEWREN_GOOGLE_CLIENT_SECRET`; sin ellos, las cuentas de TimeWren ven "próximamente". |
+| `TIMEWREN_OUTLOOK_CLIENT_ID` | ninguno | no | no | Client ID de la aplicación del calendario de Outlook de TimeWren Cloud. Sin él, se usa también para el calendario la aplicación de inicio de sesión de Microsoft de TimeWren (`TIMEWREN_MICROSOFT_CLIENT_ID`), si está configurada. |
+| `TIMEWREN_OUTLOOK_CLIENT_SECRET` | ninguno | no | no | Client secret de la aplicación del calendario de Outlook de TimeWren Cloud. |
+| `TIMEWREN_OUTLOOK_REDIRECT_URI` | `https://<host de TimeWren>/api/integrations/outlook/callback` | no | no | URI de redirección del calendario de Outlook para cuentas de TimeWren Cloud. |
 | `TIMEWREN_APPLE_CLIENT_ID` | ninguno | no | no | Services ID de la aplicación Sign in with Apple de TimeWren Cloud. Se firma con la clave del equipo (`APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`). |
+
+**Recordatorios de prueba en TimeWren Cloud.** Activa los recordatorios de fin de prueba en el Dashboard de Stripe, en Subscriptions and emails. Stripe envía los recordatorios de sus períodos de prueba. La aplicación no envía recordatorios para esas pruebas. [Guía de configuración de Stripe](https://docs.stripe.com/billing/subscriptions/trials/manage-trial-compliance#stripe-hosted-reminder-emails)
 
 ## Solo desarrollo y pruebas
 

@@ -30,6 +30,7 @@ export async function Navigation({ locale = "da" }: { locale?: string } = {}) {
           "/vaerktoejer": t("freeTools"),
           "/blog": t("blog"),
           "/tillid": t("trust"),
+          "/download": t("getApp"),
         },
       }}
     />

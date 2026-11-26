@@ -7,9 +7,11 @@ import {
   eq,
   gte,
   inArray,
+  isNull,
   lt,
   lte,
   ne,
+  or,
   type SQL,
   sql,
 } from "drizzle-orm";
@@ -40,8 +42,10 @@ import {
 } from "@/lib/db/schema";
 import { recordDeletionTombstones } from "@/lib/desktop-sync-tombstones";
 import { sendFirstTimeEntryEmail } from "@/lib/email/engagement";
+import { assertEntriesEditable } from "@/lib/enterprise/bulk-edit-guard";
 import { assertEntryCompliant } from "@/lib/enterprise/compliance-guard";
 import { assertEntryEditable } from "@/lib/enterprise/edit-guard";
+import { inOrgOrOwnLegacy } from "@/lib/enterprise/time-entry-scope";
 import {
   loadUnbilledByClient,
   loadUnbilledSummary,
@@ -80,6 +84,7 @@ import {
 } from "@/lib/time/billed-lock";
 import {
   entryBelongsToClient,
+  entryMatchesEffectiveClients,
   sumClientEntries,
 } from "@/lib/time/client-scope";
 import {
@@ -100,6 +105,7 @@ import {
   entryDateStrInput,
   hoursKey,
 } from "@/lib/time/entry-date-input";
+import { TIME_LIST_SUMMARY_COLUMNS } from "@/lib/time/list-summary";
 import { PREVIEW_RATE_MIN_HOURS } from "@/lib/time/preview-rate";
 import {
   mergeIntoSameSessionEntry,
@@ -107,7 +113,9 @@ import {
 } from "@/lib/time/same-session-merge";
 import { planSegmentAppend } from "@/lib/time/segment-append";
 import { segmentShiftMs } from "@/lib/time/segment-shift";
+import { lockTimeEntryTasks } from "@/lib/time/task-locks";
 import { weekClosureKey, weekClosureStreak } from "@/lib/time/week-closure";
+import { normalizeTimerEntryInput } from "@/lib/timer/entry-span";
 import { logTimerEvent, timerEventOrigin } from "@/lib/timer/events";
 import {
   findLegacySavedEntry,
@@ -120,10 +128,16 @@ import {
 import { resolveRoundingConfig, roundHours } from "@/lib/utils/rounding";
 import { emitWebhookEvent } from "@/lib/webhooks/events";
 import { badRequest, Errors, forbidden, notFound } from "../errors";
-import { protectedProcedure, router, subscribedProcedure } from "../trpc";
+import {
+  moduleWriteProcedure,
+  protectedProcedure,
+  router,
+  subscribedProcedure,
+} from "../trpc";
 import {
   checkAndSendLowBalanceAlert,
   deductHoursCore,
+  lockPrepaidPackages,
   reversePrepaidUsage,
 } from "./prepaid";
 
@@ -539,29 +553,54 @@ export async function buildRateLookupCache(
   db: PostgresJsDatabase<typeof schema>,
   userId: string,
   orgId?: string | null,
+  entries?: readonly { projectId: string | null; clientId: string | null }[],
 ): Promise<RateLookupCache> {
-  const [userProjects, userClients, user, scheduledChanges] = await Promise.all(
-    [
-      db.query.projects.findMany({
-        where: orgId
+  const projectIds = entries
+    ? [
+        ...new Set(
+          entries.flatMap(({ projectId }) => (projectId ? [projectId] : [])),
+        ),
+      ]
+    : undefined;
+  const [userProjects, user] = await Promise.all([
+    db.query.projects.findMany({
+      where: and(
+        orgId
           ? eq(projects.organizationId, orgId)
           : eq(projects.userId, userId),
-        columns: { id: true, hourlyRate: true, clientId: true },
-      }),
-      db.query.clients.findMany({
-        where: orgId
-          ? eq(clients.organizationId, orgId)
-          : eq(clients.userId, userId),
-        columns: { id: true, defaultHourlyRate: true },
-      }),
-      db.query.users.findFirst({
-        where: eq(users.id, userId),
-        columns: { defaultHourlyRate: true },
-      }),
-      // Alle planlagte ændringer i scope i én query (ikke én pr. post)
-      loadScheduledChangesForScope(db, userId, orgId),
-    ],
-  );
+        projectIds && inArray(projects.id, projectIds),
+      ),
+      columns: { id: true, hourlyRate: true, clientId: true },
+    }),
+    db.query.users.findFirst({
+      where: eq(users.id, userId),
+      columns: { defaultHourlyRate: true },
+    }),
+  ]);
+  const clientIds = entries
+    ? [
+        ...new Set(
+          [...entries, ...userProjects].flatMap(({ clientId }) =>
+            clientId ? [clientId] : [],
+          ),
+        ),
+      ]
+    : undefined;
+  const [userClients, scheduledChanges] = await Promise.all([
+    db.query.clients.findMany({
+      where: and(
+        orgId ? eq(clients.organizationId, orgId) : eq(clients.userId, userId),
+        clientIds && inArray(clients.id, clientIds),
+      ),
+      columns: { id: true, defaultHourlyRate: true },
+    }),
+    loadScheduledChangesForScope(
+      db,
+      userId,
+      orgId,
+      projectIds && clientIds ? { projectIds, clientIds } : undefined,
+    ),
+  ]);
 
   // Load member-specific rates if in org context
   let memberRateEntries: MemberRateEntry[] = [];
@@ -576,6 +615,18 @@ export async function buildRateLookupCache(
         where: and(
           eq(memberRates.organizationId, orgId),
           eq(memberRates.memberId, membership.id),
+          projectIds && clientIds
+            ? or(
+                inArray(memberRates.projectId, projectIds),
+                and(
+                  isNull(memberRates.projectId),
+                  or(
+                    isNull(memberRates.clientId),
+                    inArray(memberRates.clientId, clientIds),
+                  ),
+                ),
+              )
+            : undefined,
         ),
         columns: { projectId: true, clientId: true, hourlyRate: true },
       });
@@ -676,42 +727,6 @@ async function resolveInitialApprovalStatus(
     approvalClient,
   );
   return approvalMode === "per_entry" ? "pending" : "not_required";
-}
-
-/**
- * Fælles redigeringsguard (#467) for bulk-operationer: ét kald pr. ejer, så
- * ugestatus og rullende lås vurderes for den rigtige bruger.
- */
-async function assertEntriesEditable(
-  db: Parameters<typeof assertEntryEditable>[0],
-  input: {
-    orgId: string | null | undefined;
-    actorUserId: string;
-    entries: ReadonlyArray<{
-      userId: string;
-      date: Date;
-      approvalStatus: string | null;
-    }>;
-    periodOnly?: boolean;
-  },
-): Promise<void> {
-  if (!input.orgId) return;
-  const byOwner = new Map<string, (typeof input.entries)[number][]>();
-  for (const e of input.entries) {
-    const list = byOwner.get(e.userId) ?? [];
-    list.push(e);
-    byOwner.set(e.userId, list);
-  }
-  for (const [ownerId, rows] of byOwner) {
-    await assertEntryEditable(db, {
-      orgId: input.orgId,
-      userId: ownerId,
-      actorUserId: input.actorUserId,
-      dates: rows.map((r) => r.date),
-      entries: rows,
-      periodOnly: input.periodOnly,
-    });
-  }
 }
 
 export const timeRouter = router({
@@ -817,8 +832,9 @@ export const timeRouter = router({
         .object({
           projectId: z.string().uuid().optional(),
           clientId: z.string().uuid().optional(),
+          // Rapportlinks bruger den effektive kunde og medtager egne ældre poster uden org.
+          reportScope: z.boolean().optional(),
           // Kundens poster inkl. poster på kundens projekter (kundesiden).
-          // `clientId` matcher kun direkte sat kunde og bevares for API'et.
           forClientId: z.string().uuid().optional(),
           taskId: z.string().uuid().optional(),
           startDate: z.string().optional(),
@@ -846,6 +862,10 @@ export const timeRouter = router({
           // sorteres kun den aktuelle side, og rækker havner på forkert side.
           sortBy: z.enum(["date", "createdAt", "hours"]).optional(),
           sortOrder: z.enum(["asc", "desc"]).optional(),
+          // "summary": relationerne kun med de kolonner, web-UI'et læser
+          // (src/lib/time/list-summary.ts). Standard er de fulde rækker,
+          // som REST, MCP, udvidelsen og mobilen bygger på.
+          view: z.enum(["full", "summary"]).optional(),
         })
         .refine((data) => !(data.cursor && data.offset !== undefined), {
           error: () => st("zod.cursorOrOffset"),
@@ -862,11 +882,12 @@ export const timeRouter = router({
         ? !(await canViewAllOrgTime(ctx.db, ctx.orgId, userId))
         : false;
 
-      const conditions = [
-        ctx.orgId
-          ? eq(timeEntries.organizationId, ctx.orgId)
-          : eq(timeEntries.userId, userId),
-      ];
+      const scope = ctx.orgId
+        ? input?.reportScope
+          ? inOrgOrOwnLegacy(ctx.orgId, userId)
+          : eq(timeEntries.organizationId, ctx.orgId)
+        : eq(timeEntries.userId, userId);
+      const conditions = [scope];
       if (restrictToOwnEntries || input?.onlyOwn) {
         conditions.push(eq(timeEntries.userId, userId));
       }
@@ -876,7 +897,11 @@ export const timeRouter = router({
       }
 
       if (input?.clientId) {
-        conditions.push(eq(timeEntries.clientId, input.clientId));
+        conditions.push(
+          input.reportScope
+            ? entryMatchesEffectiveClients([input.clientId])
+            : eq(timeEntries.clientId, input.clientId),
+        );
       }
 
       if (input?.forClientId) {
@@ -927,12 +952,7 @@ export const timeRouter = router({
       let cursorCondition: SQL | undefined;
       if (input?.cursor) {
         const cursorEntry = await ctx.db.query.timeEntries.findFirst({
-          where: and(
-            eq(timeEntries.id, input.cursor),
-            ctx.orgId
-              ? eq(timeEntries.organizationId, ctx.orgId)
-              : eq(timeEntries.userId, userId),
-          ),
+          where: and(eq(timeEntries.id, input.cursor), scope),
         });
         if (cursorEntry) {
           // Rækkerne strengt efter cursoren i sorteringen (date, createdAt,
@@ -1025,39 +1045,69 @@ export const timeRouter = router({
         },
       });
 
-      const entriesQuery = ctx.db.query.timeEntries.findMany({
+      const listQuery = {
         where: and(...conditions),
         orderBy,
         limit: limit + 1, // Fetch one extra to check if there are more
         ...(input?.offset !== undefined && { offset: input.offset }),
-        with: {
-          project: {
-            with: {
-              client: true,
-            },
-          },
-          client: true,
-          prepaidPackage: true,
-          tags: {
-            with: {
-              tag: true,
-            },
-          },
-          task: {
-            columns: {
-              id: true,
-              title: true,
-            },
-          },
-          user: {
-            columns: {
-              id: true,
-              name: true,
-              image: true,
-            },
+      };
+      const sharedWith = {
+        tags: {
+          with: {
+            tag: true,
           },
         },
-      });
+        task: {
+          columns: {
+            id: true,
+            title: true,
+          },
+        },
+        user: {
+          columns: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+      } as const;
+      const fullEntriesQuery = () =>
+        ctx.db.query.timeEntries.findMany({
+          ...listQuery,
+          with: {
+            project: {
+              with: {
+                client: true,
+              },
+            },
+            client: true,
+            prepaidPackage: true,
+            ...sharedWith,
+          },
+        });
+      type FullEntries = Awaited<ReturnType<typeof fullEntriesQuery>>;
+      // Udtrykket har de fulde rækkers type, så procedurens output-type er
+      // den samme for alle kaldere. Summary-kaldere læser den gennem
+      // useTimeListSummary, hvis type kun har de valgte kolonner.
+      const entriesQuery: Promise<FullEntries> =
+        input?.view === "summary"
+          ? (ctx.db.query.timeEntries.findMany({
+              ...listQuery,
+              with: {
+                project: {
+                  columns: TIME_LIST_SUMMARY_COLUMNS.project,
+                  with: {
+                    client: { columns: TIME_LIST_SUMMARY_COLUMNS.client },
+                  },
+                },
+                client: { columns: TIME_LIST_SUMMARY_COLUMNS.client },
+                prepaidPackage: {
+                  columns: TIME_LIST_SUMMARY_COLUMNS.prepaidPackage,
+                },
+                ...sharedWith,
+              },
+            }) as unknown as Promise<FullEntries>)
+          : fullEntriesQuery();
 
       const [total, entries, userRow, clientTotals] = await Promise.all([
         totalQuery,
@@ -1087,6 +1137,9 @@ export const timeRouter = router({
         roundingMethod: null,
       };
 
+      // NB: summary-grenen er castet til FullEntries, så tsc fanger ikke
+      // felter, den ikke henter. Alt, der læses fra entry herunder, skal stå
+      // i TIME_LIST_SUMMARY_COLUMNS (src/lib/time/list-summary.ts).
       const entriesWithRounding = entries.map((entry) => {
         const clientRounding =
           entry.client ?? entry.project?.client ?? nullRounding;
@@ -1294,7 +1347,7 @@ export const timeRouter = router({
         legacyStop && legacyStop.clientId === null
           ? await lookupProjectClientId(ctx.db, legacyStop.projectId)
           : null;
-      const input = legacyStop
+      const resolved = legacyStop
         ? withLegacyStopTarget(requested, {
             ...legacyStop,
             projectClientId: legacyProjectClientId,
@@ -1304,19 +1357,27 @@ export const timeRouter = router({
       // Idempotens (#703): en afspilning af en oprettelse, hvis svar gik tabt,
       // returnerer den post der allerede findes — før validering og låse, så
       // en periodelås der er sat siden ikke gør en gemt post til en fejl.
-      if (input.clientEntryId) {
+      if (resolved.clientEntryId) {
         const existing = await findEntryByClientEntryId(
           ctx.db,
           userId,
-          input.clientEntryId,
+          resolved.clientEntryId,
         );
         if (existing) return asDeduplicatedCreate(existing);
       }
       // Samme for en timer-session der allerede er gemt. Et fremmed/ukendt
       // sessionId ignoreres (posten gemmes som fra en ældre klient).
-      const ownSession = input.timerSessionId
-        ? await findOwnSession(ctx.db, userId, input.timerSessionId)
+      const ownSession = resolved.timerSessionId
+        ? await findOwnSession(ctx.db, userId, resolved.timerSessionId)
         : undefined;
+      // En timer-gemning gemmes med en start, der rummer timetallet
+      // (lib/timer/entry-span.ts): pauser, genoptagelser og tid lagt til må
+      // ikke give en post med flere timer end slut − start. Reglen dækker også
+      // ældre klienter (desktop, extension, mobil, en cachet PWA).
+      const input =
+        ownSession || resolved.fromTimer === true
+          ? normalizeTimerEntryInput(resolved)
+          : resolved;
       const timerSessionId = ownSession?.id ?? undefined;
       if (timerSessionId) {
         const existing = await findEntryForTimerSession(
@@ -1465,6 +1526,11 @@ export const timeRouter = router({
             userId,
             orgId: ctx.orgId,
             startTime: sessionStart,
+            // Starten klienten sendte: en post gemt før normaliseringen
+            // (eller uden at starten blev flyttet) står med den.
+            clientStartTime: resolved.startTime
+              ? new Date(resolved.startTime)
+              : undefined,
             endTime: input.endTime ? new Date(input.endTime) : null,
             hours: input.hours,
             prepaidPackageId: input.prepaidPackageId ?? null,
@@ -1504,6 +1570,12 @@ export const timeRouter = router({
             return mergedSession.entry;
           }
         }
+
+        // Take the card lock before the insert's foreign-key check.
+        if (input.prepaidPackageId) {
+          await lockPrepaidPackages(tx, [input.prepaidPackageId]);
+        }
+        await lockTimeEntryTasks(tx, [input.taskId]);
 
         const [entry] = await tx
           .insert(timeEntries)
@@ -1828,6 +1900,31 @@ export const timeRouter = router({
           deduplicated: true,
         };
       }
+      // "Fortsæt" fra en timer: den forlængede post skal stadig kunne rumme
+      // sit timetal (lib/timer/entry-span.ts) — fx når der er lagt tid til
+      // sessionen. En almindelig redigering røres ikke.
+      if (continuingSession && input.data.fromTimer === true) {
+        const startTime =
+          input.data.startTime !== undefined
+            ? input.data.startTime
+            : (existingEntry.startTime?.toISOString() ?? null);
+        const normalized = normalizeTimerEntryInput({
+          startTime,
+          endTime:
+            input.data.endTime !== undefined
+              ? input.data.endTime
+              : (existingEntry.endTime?.toISOString() ?? null),
+          hours: input.data.hours,
+          date: input.data.date,
+        });
+        if (normalized.startTime !== startTime) {
+          input.data = {
+            ...input.data,
+            startTime: normalized.startTime,
+            date: normalized.date,
+          };
+        }
+      }
 
       // Fakturerede poster er låst (#702): kun den interne note må rettes,
       // medmindre en manuel faktureret-markering fjernes i samme gem.
@@ -2010,60 +2107,6 @@ export const timeRouter = router({
       });
 
       const updateTx = ctx.db.transaction(async (tx) => {
-        // Sessionen markeres gemt FØRST og atomisk: taber vi kapløbet (et
-        // samtidigt gem af samme session), rulles hele opdateringen tilbage.
-        if (continuingSession) {
-          const won = await saveSessionEntry(tx, {
-            userId,
-            organizationId: ctx.orgId,
-            sessionId: continuingSession.id,
-            entryId: input.id,
-          });
-          if (!won) throw new SessionAlreadySavedError();
-        }
-        // Flyttes posten til en anden dato, følger dens segmenter med — kun
-        // tidspunkterne; varighed og timer er uændrede.
-        const segmentShift = segmentShiftMs({
-          oldDate: existingEntry.date,
-          newDateStr: input.data.date,
-          oldStart: existingEntry.startTime,
-          newStart: input.data.startTime,
-        });
-        if (segmentShift !== 0) {
-          const shift = sql`(${segmentShift}::double precision * interval '1 millisecond')`;
-          await tx
-            .update(timeEntrySegments)
-            .set({
-              startTime: sql`${timeEntrySegments.startTime} + ${shift}`,
-              endTime: sql`${timeEntrySegments.endTime} + ${shift}`,
-            })
-            .where(eq(timeEntrySegments.timeEntryId, input.id));
-        }
-
-        if (oldTaskId !== newTaskId || oldHours !== newHours) {
-          if (oldTaskId) {
-            const oldMinutes = Math.round(oldHours * 60);
-            await tx
-              .update(tasks)
-              .set({
-                actualMinutes: sql`GREATEST(0, COALESCE(${tasks.actualMinutes}, 0) - ${oldMinutes})`,
-                updatedAt: new Date(),
-              })
-              .where(eq(tasks.id, oldTaskId));
-          }
-
-          if (newTaskId) {
-            const newMinutes = Math.round(newHours * 60);
-            await tx
-              .update(tasks)
-              .set({
-                actualMinutes: sql`COALESCE(${tasks.actualMinutes}, 0) + ${newMinutes}`,
-                updatedAt: new Date(),
-              })
-              .where(eq(tasks.id, newTaskId));
-          }
-        }
-
         // Reconcile the klippekort balance when a prepaid entry changes
         // (#204): timer ændret, klient skiftet eller pakke skiftet/fjernet.
         // Reversér den oprindelige (klip-afrundede) usage, deduktér på
@@ -2096,6 +2139,24 @@ export const timeRouter = router({
           }
         }
 
+        if (needsPrepaidReconcile) {
+          const cardIds = [
+            wasPrepaid ? oldPackageId : null,
+            targetPackageId,
+          ].filter((id): id is string => !!id);
+          if (cardIds.length > 0) await lockPrepaidPackages(tx, cardIds);
+        }
+        const lockedTasks = await lockTimeEntryTasks(tx, [
+          oldTaskId,
+          newTaskId,
+        ]);
+        // The FK may already have cleared an unchanged link while we waited.
+        const taskIdForUpdate =
+          newTaskId === oldTaskId &&
+          !lockedTasks.some(({ id }) => id === newTaskId)
+            ? undefined
+            : newTaskId;
+
         let overflowedToInvoice = false;
         if (needsPrepaidReconcile) {
           if (wasPrepaid && oldPackageId) {
@@ -2117,7 +2178,7 @@ export const timeRouter = router({
           }
         }
 
-        return tx
+        const updated = await tx
           .update(timeEntries)
           .set({
             projectId: input.data.projectId || null,
@@ -2153,10 +2214,62 @@ export const timeRouter = router({
               isPrepaid: !!targetPackageId && !overflowedToInvoice,
               prepaidPackageId: overflowedToInvoice ? null : targetPackageId,
             }),
-            taskId: newTaskId,
+            taskId: taskIdForUpdate,
           })
           .where(and(eq(timeEntries.id, input.id), ownershipFilter))
           .returning();
+
+        // Save in the same transaction so a lost claim rolls back the edit.
+        if (continuingSession) {
+          const won = await saveSessionEntry(tx, {
+            userId,
+            organizationId: ctx.orgId,
+            sessionId: continuingSession.id,
+            entryId: input.id,
+          });
+          if (!won) throw new SessionAlreadySavedError();
+        }
+
+        // Flyttes posten til en anden dato, følger dens segmenter med — kun
+        // tidspunkterne; varighed og timer er uændrede.
+        const segmentShift = segmentShiftMs({
+          oldDate: existingEntry.date,
+          newDateStr: input.data.date,
+          oldStart: existingEntry.startTime,
+          newStart: input.data.startTime,
+        });
+        if (segmentShift !== 0) {
+          const shift = sql`(${segmentShift}::double precision * interval '1 millisecond')`;
+          await tx
+            .update(timeEntrySegments)
+            .set({
+              startTime: sql`${timeEntrySegments.startTime} + ${shift}`,
+              endTime: sql`${timeEntrySegments.endTime} + ${shift}`,
+            })
+            .where(eq(timeEntrySegments.timeEntryId, input.id));
+        }
+
+        if (oldTaskId !== newTaskId || oldHours !== newHours) {
+          const taskIds = [...new Set([oldTaskId, newTaskId])].sort();
+          for (const taskId of taskIds) {
+            if (!taskId) continue;
+            const current = sql`COALESCE(${tasks.actualMinutes}, 0)`;
+            const afterRemoval =
+              taskId === oldTaskId
+                ? sql`GREATEST(0, ${current} - ${Math.round(oldHours * 60)})`
+                : current;
+            const actualMinutes =
+              taskId === newTaskId
+                ? sql`${afterRemoval} + ${Math.round(newHours * 60)}`
+                : afterRemoval;
+            await tx
+              .update(tasks)
+              .set({ actualMinutes, updatedAt: new Date() })
+              .where(eq(tasks.id, taskId));
+          }
+        }
+
+        return updated;
       });
       const txResult = await updateTx.catch((err: unknown) => {
         if (err instanceof SessionAlreadySavedError) return null;
@@ -2265,6 +2378,17 @@ export const timeRouter = router({
       });
 
       await ctx.db.transaction(async (tx) => {
+        // Fælles reversal: refunderer kortet og rydder også efterladte
+        // usage-rækker på ikke-prepaid poster (FK uden ON DELETE).
+        await refundPrepaidForDeletion(tx, [existingEntry]);
+        await lockTimeEntryTasks(tx, [existingEntry.taskId]);
+
+        await tx
+          .delete(generatedTimeEntries)
+          .where(eq(generatedTimeEntries.timeEntryId, input.id));
+
+        await tx.delete(timeEntries).where(eq(timeEntries.id, input.id));
+
         if (existingEntry.taskId) {
           const minutesToRemove = Math.round(Number(existingEntry.hours) * 60);
           await tx
@@ -2275,16 +2399,6 @@ export const timeRouter = router({
             })
             .where(eq(tasks.id, existingEntry.taskId));
         }
-
-        // Fælles reversal: refunderer kortet og rydder også efterladte
-        // usage-rækker på ikke-prepaid poster (FK uden ON DELETE).
-        await refundPrepaidForDeletion(tx, [existingEntry]);
-
-        await tx
-          .delete(generatedTimeEntries)
-          .where(eq(generatedTimeEntries.timeEntryId, input.id));
-
-        await tx.delete(timeEntries).where(eq(timeEntries.id, input.id));
       });
 
       // Skrivebordet skal høre om sletningen, også når den sker i browseren —
@@ -2551,6 +2665,22 @@ export const timeRouter = router({
       });
 
       await ctx.db.transaction(async (tx) => {
+        // Samme reversal som time.delete (A1 P2-3): låser pakken, giver
+        // kun ikke-overtræk tilbage på saldoen og nedskriver overtrækket.
+        await refundPrepaidForDeletion(tx, existingEntries);
+        await lockTimeEntryTasks(
+          tx,
+          existingEntries.map((entry) => entry.taskId),
+        );
+
+        await tx
+          .delete(generatedTimeEntries)
+          .where(inArray(generatedTimeEntries.timeEntryId, input.ids));
+
+        await tx
+          .delete(timeEntries)
+          .where(and(inArray(timeEntries.id, input.ids), ownershipFilter));
+
         const minutesByTask = new Map<string, number>();
         for (const entry of existingEntries) {
           if (!entry.taskId) continue;
@@ -2560,7 +2690,9 @@ export const timeRouter = router({
             (minutesByTask.get(entry.taskId) ?? 0) + minutes,
           );
         }
-        for (const [taskId, minutesToRemove] of minutesByTask) {
+        for (const [taskId, minutesToRemove] of [...minutesByTask].sort(
+          ([a], [b]) => a.localeCompare(b),
+        )) {
           await tx
             .update(tasks)
             .set({
@@ -2569,18 +2701,6 @@ export const timeRouter = router({
             })
             .where(eq(tasks.id, taskId));
         }
-
-        // Samme reversal som time.delete (A1 P2-3): låser pakken, giver
-        // kun ikke-overtræk tilbage på saldoen og nedskriver overtrækket.
-        await refundPrepaidForDeletion(tx, existingEntries);
-
-        await tx
-          .delete(generatedTimeEntries)
-          .where(inArray(generatedTimeEntries.timeEntryId, input.ids));
-
-        await tx
-          .delete(timeEntries)
-          .where(and(inArray(timeEntries.id, input.ids), ownershipFilter));
       });
 
       // Uden for transaktionen — en fejlet tombstone-insert må ikke kunne
@@ -2841,6 +2961,102 @@ export const timeRouter = router({
       };
     }),
 
+  bulkRemoveFromProject: moduleWriteProcedure("time")
+    .input(z.object({ ids: z.array(z.string().uuid()) }))
+    .mutation(async ({ ctx, input }) => {
+      if (input.ids.length === 0) return { success: true, count: 0 };
+
+      const userId = ctx.session.user.id;
+      const ownershipFilter = await resolveTimeOwnershipFilter(
+        ctx.db,
+        ctx.orgId,
+        userId,
+      );
+      const selected = and(inArray(timeEntries.id, input.ids), ownershipFilter);
+      return ctx.db.transaction(async (tx) => {
+        const sources = await tx
+          .select({ packageId: timeEntries.prepaidPackageId })
+          .from(timeEntries)
+          .where(selected);
+        const packageIds = new Set(
+          sources.flatMap(({ packageId }) => (packageId ? [packageId] : [])),
+        );
+
+        // Match bulkAssignEntries: lock cards first, then entries in the same order.
+        if (packageIds.size > 0) await lockPrepaidPackages(tx, [...packageIds]);
+        const entries = await tx
+          .select()
+          .from(timeEntries)
+          .where(selected)
+          .orderBy(desc(timeEntries.date), desc(timeEntries.id))
+          .for("update");
+        if (entries.length !== input.ids.length) {
+          throw Errors.timeEntriesNotFound();
+        }
+
+        assertNoEntriesBilled(entries, "flyttes");
+        await assertEntriesEditable(tx, {
+          orgId: ctx.orgId,
+          actorUserId: userId,
+          entries,
+        });
+
+        // A card assignment may have completed while we waited for a lock.
+        if (
+          entries.some(
+            ({ prepaidPackageId }) =>
+              prepaidPackageId && !packageIds.has(prepaidPackageId),
+          )
+        ) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: await tr("time", "page.bulkMoveFailed"),
+          });
+        }
+
+        const projectedEntries = entries.filter(
+          ({ projectId }) => projectId !== null,
+        );
+        if (projectedEntries.length === 0) return { success: true, count: 0 };
+        const rateCache = await buildRateLookupCache(
+          tx,
+          userId,
+          ctx.orgId,
+          projectedEntries,
+        );
+        for (const entry of projectedEntries) {
+          const projectClientId = entry.projectId
+            ? (rateCache.projects.get(entry.projectId)?.clientId ?? null)
+            : null;
+          const clientId = projectClientId ?? entry.clientId;
+          const hours = Number(entry.hours);
+          const { patch } = await reconcilePrepaidAfterEdit(tx, {
+            userId,
+            orgId: ctx.orgId,
+            entry: { ...entry, hours },
+            oldClient: { clientId: entry.clientId, projectClientId },
+            newClient: { clientId, projectClientId: null },
+            newHours: hours,
+          });
+          await tx
+            .update(timeEntries)
+            .set({
+              projectId: null,
+              clientId,
+              billableRate: getRateFromCache(
+                rateCache,
+                null,
+                clientId,
+                entry.date,
+              ),
+              ...patch,
+            })
+            .where(and(eq(timeEntries.id, entry.id), ownershipFilter));
+        }
+        return { success: true, count: projectedEntries.length };
+      });
+    }),
+
   // Bulk recalculate billable rates based on current rate hierarchy
   bulkRecalculateRates: subscribedProcedure
     .input(z.object({ ids: z.array(z.string().uuid()) }))
@@ -2968,18 +3184,16 @@ export const timeRouter = router({
         (await lookupProjectClientId(ctx.db, existingEntry.projectId));
 
       const [updatedEntry] = await ctx.db.transaction(async (tx) => {
-        if (
-          existingEntry.isPrepaid &&
-          existingEntry.prepaidPackageId &&
-          oldHours !== newHours
-        ) {
-          await reversePrepaidUsage(
-            tx,
-            input.id,
-            existingEntry.prepaidPackageId,
-          );
+        const packageId =
+          existingEntry.isPrepaid && oldHours !== newHours
+            ? existingEntry.prepaidPackageId
+            : null;
+        if (packageId) await lockPrepaidPackages(tx, [packageId]);
+        await lockTimeEntryTasks(tx, [existingEntry.taskId]);
+        if (packageId) {
+          await reversePrepaidUsage(tx, input.id, packageId);
           await deductHoursCore(tx, userId, ctx.orgId, {
-            packageId: existingEntry.prepaidPackageId,
+            packageId,
             hours: newHours,
             timeEntryId: input.id,
             allowInactive: newHours <= oldHours,
@@ -3283,8 +3497,7 @@ export const timeRouter = router({
           orgId: ctx.orgId,
           onlyOwnEntries: true,
           from: monday,
-          // weekEnd er mandag + 7 døgn (eksklusiv); helperen er inklusiv
-          to: new Date(weekEnd.getTime() - 1),
+          toExclusive: weekEnd,
         }),
         ctx.db.query.users.findFirst({
           where: eq(users.id, userId),
@@ -3465,30 +3678,31 @@ export const timeRouter = router({
           ? eq(timeEntries.organizationId, ctx.orgId)
           : eq(timeEntries.userId, userId);
 
-      // PERF: Previously called getRateForTimeEntry inside the per-entry loop,
-      // producing an N+1 cascade (3 additional queries per time entry). Build
-      // a single rate lookup cache up front and only fetch the columns we need.
-      const [entries, rateCache] = await Promise.all([
-        ctx.db.query.timeEntries.findMany({
-          where: and(
-            scopeFilter,
-            gte(timeEntries.date, startOfMonth),
-            lt(timeEntries.date, startOfNextDay(endOfMonth)),
-          ),
-          columns: {
-            hours: true,
-            projectId: true,
-            clientId: true,
-            isPrepaid: true,
-            date: true,
-          },
-        }),
-        buildRateLookupCache(ctx.db, userId, ctx.orgId),
-      ]);
+      const entries = await ctx.db.query.timeEntries.findMany({
+        where: and(
+          scopeFilter,
+          gte(timeEntries.date, startOfMonth),
+          lt(timeEntries.date, startOfNextDay(endOfMonth)),
+        ),
+        columns: {
+          hours: true,
+          projectId: true,
+          clientId: true,
+          isPrepaid: true,
+          date: true,
+        },
+      });
+      const billableEntries = entries.filter((entry) => !entry.isPrepaid);
+      if (billableEntries.length === 0) return 0;
+      const rateCache = await buildRateLookupCache(
+        ctx.db,
+        userId,
+        ctx.orgId,
+        billableEntries,
+      );
 
       let totalRevenue = 0;
-      for (const entry of entries) {
-        if (entry.isPrepaid) continue;
+      for (const entry of billableEntries) {
         const rate = getRateFromCache(
           rateCache,
           entry.projectId,
@@ -3713,9 +3927,6 @@ export const timeRouter = router({
     const userId = ctx.session.user.id;
     const now = copenhagenTodayAnchor(); // dansk dato uanset proces-TZ (#649)
 
-    // Build rate cache once (avoids N+1 queries)
-    const rateCache = await buildRateLookupCache(ctx.db, userId, ctx.orgId);
-
     // Calculate date range for all 6 months
     const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
     const endOfCurrentMonth = new Date(
@@ -3733,26 +3944,22 @@ export const timeRouter = router({
         lt(timeEntries.date, startOfNextDay(endOfCurrentMonth)),
         eq(timeEntries.isPrepaid, false), // Only billable time
       ),
+      columns: { hours: true, projectId: true, clientId: true, date: true },
     });
+    const rateCache = await buildRateLookupCache(
+      ctx.db,
+      userId,
+      ctx.orgId,
+      allEntries,
+    );
 
     // Group entries by month and calculate revenue
     const months = [];
     for (let i = 5; i >= 0; i--) {
       const monthDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const startOfMonth = new Date(
-        monthDate.getFullYear(),
-        monthDate.getMonth(),
-        1,
-      );
-      const endOfMonth = new Date(
-        monthDate.getFullYear(),
-        monthDate.getMonth() + 1,
-        0,
-      );
-
-      // Filter entries for this month
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
       const monthEntries = allEntries.filter(
-        (e) => e.date >= startOfMonth && e.date <= endOfMonth,
+        (e) => e.date >= monthDate && e.date < nextMonth,
       );
 
       // Calculate revenue using cached rates (no DB queries)

@@ -1,3 +1,5 @@
+import type { SQL } from "drizzle-orm";
+import { PgDialect } from "drizzle-orm/pg-core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 /**
@@ -7,6 +9,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
  */
 
 const h = vi.hoisted(() => ({
+  findUser: vi.fn(),
+  findSentEmail: vi.fn(),
+  persistSentEmail: vi.fn(),
+  findMembership: vi.fn(),
+  classifyOrganization: vi.fn(),
   sent: [] as Array<Record<string, unknown>>,
   user: { brand: "timewren", locale: null as string | null },
 }));
@@ -14,10 +21,14 @@ const h = vi.hoisted(() => ({
 vi.mock("@/lib/db", () => ({
   db: {
     query: {
-      users: { findFirst: vi.fn(async () => h.user) },
-      members: { findFirst: vi.fn(async () => undefined) },
+      users: { findFirst: h.findUser },
+      sentEmails: { findFirst: h.findSentEmail },
+      members: { findFirst: h.findMembership },
     },
-    select: () => ({ from: async () => [{ isTest: false }] }),
+    select: (fields: { isTest: { sql: SQL } }) => ({
+      from: () => h.classifyOrganization(fields.isTest.sql),
+    }),
+    insert: () => ({ values: h.persistSentEmail }),
   },
 }));
 vi.mock("@/lib/resend", () => ({
@@ -33,11 +44,6 @@ vi.mock("@/lib/resend", () => ({
   },
 }));
 vi.mock("@/lib/email/transport", () => ({ isMailAvailable: () => true }));
-vi.mock("./logger", () => ({
-  withEmailLogging: (_ctx: unknown, fn: () => unknown) => fn(),
-  wasEmailSentRecently: async () => false,
-  logEmailSkipped: () => {},
-}));
 
 import { sendPaymentFailedEmail, sendTrialEndingEmail } from "./billing";
 import { sendDripWelcomeEmail } from "./drip";
@@ -53,6 +59,7 @@ import {
   sendTwoFactorCodeEmail,
 } from "./security";
 import { sendVerificationEmail } from "./verification";
+import { sendWelcomeEmail } from "./welcome";
 
 const APP = "https://timetrack.dk";
 
@@ -163,8 +170,16 @@ beforeEach(() => {
   vi.stubEnv("NEXT_PUBLIC_APP_URL", APP);
   vi.stubEnv("DATABASE_URL", "postgres://test");
   h.sent = [];
+  h.findUser.mockReset().mockImplementation(async () => h.user);
+  h.findSentEmail.mockReset().mockResolvedValue(undefined);
+  h.persistSentEmail.mockReset().mockResolvedValue(undefined);
+  h.findMembership.mockReset().mockResolvedValue({ organizationId: "org1" });
+  h.classifyOrganization.mockReset().mockResolvedValue([{ isTest: false }]);
 });
-afterEach(() => vi.unstubAllEnvs());
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllEnvs();
+});
 
 const body = (p: Record<string, unknown>) =>
   `${p.subject} ${p.html ?? ""} ${p.text ?? ""} ${JSON.stringify(p.headers ?? {})} ${p.replyTo ?? ""}`;
@@ -256,4 +271,99 @@ describe("resolveMailBrand og brandUrl", () => {
     expect(brandUrl(`${APP}/dashboard`, undefined)).toBe(`${APP}/dashboard`);
     expect(brandUrl(null, mb)).toBeNull();
   });
+});
+
+describe("lifecycle mail recipient checks", () => {
+  const recipient = "account+customer@example.net";
+  const name = "Example Customer";
+  const senders = [
+    {
+      name: "welcome",
+      send: (to: string) =>
+        sendWelcomeEmail({ to, name, brand: "timewren", userId: "u1" }),
+    },
+    {
+      name: "drip welcome",
+      send: (to: string) =>
+        sendDripWelcomeEmail({ to, userName: name, userId: "u1" }),
+    },
+    {
+      name: "trial ending with an explicit subscription organization",
+      send: (to: string) =>
+        sendTrialEndingEmail({
+          to,
+          userName: name,
+          daysRemaining: 3,
+          upgradeUrl: APP,
+          userId: "u1",
+          organizationId: "subscription-org",
+        }),
+    },
+  ];
+
+  it.each(senders)(
+    "$name sends without logging personal data when lookups fail",
+    async ({ send }) => {
+      const info = vi.spyOn(console, "log").mockImplementation(() => {});
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const error = vi.spyOn(console, "error").mockImplementation(() => {});
+      const queryError = new Error(
+        `Failed query\nparams: ${recipient},${name}`,
+      );
+      h.classifyOrganization.mockRejectedValueOnce(queryError);
+      h.findUser.mockRejectedValue(queryError);
+      h.findSentEmail.mockRejectedValue(queryError);
+      h.persistSentEmail.mockRejectedValue(queryError);
+
+      await send(recipient);
+
+      expect(h.sent).toHaveLength(1);
+      expect(h.sent[0].to).toBe(recipient);
+      expect(h.persistSentEmail).toHaveBeenCalledWith(
+        expect.objectContaining({ recipientEmail: recipient }),
+      );
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining("Test recipient lookup failed"),
+        expect.objectContaining({ userId: "u1" }),
+      );
+      expect(info).toHaveBeenCalledWith(expect.stringContaining("email.sent"));
+      const logs = [info, warn, error]
+        .flatMap((spy) => spy.mock.calls)
+        .map((args) => args.map(String).join(" "))
+        .join("\n");
+      expect(logs).not.toContain(recipient);
+      expect(logs).not.toContain(name);
+    },
+  );
+
+  it("uses the test subscription organization over the real primary workspace", async () => {
+    const dialect = new PgDialect();
+    h.classifyOrganization.mockImplementation(async (query: SQL) => [
+      { isTest: dialect.sqlToQuery(query).params.includes("subscription-org") },
+    ]);
+
+    await senders[2].send(recipient);
+
+    expect(h.classifyOrganization).toHaveBeenCalledOnce();
+    expect(h.sent).toHaveLength(0);
+  });
+
+  it.each(senders)(
+    "$name skips an identified test organization",
+    async ({ send }) => {
+      h.classifyOrganization.mockResolvedValueOnce([{ isTest: true }]);
+      await send(recipient);
+      expect(h.sent).toHaveLength(0);
+    },
+  );
+
+  it.each(senders)(
+    "$name skips a test address before querying the database",
+    async ({ send }) => {
+      await send("test@example.com");
+      expect(h.findMembership).not.toHaveBeenCalled();
+      expect(h.classifyOrganization).not.toHaveBeenCalled();
+      expect(h.sent).toHaveLength(0);
+    },
+  );
 });

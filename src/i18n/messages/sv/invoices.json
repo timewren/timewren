@@ -4,9 +4,11 @@
     "sendTo": "Skicka till {email}",
     "sent": "Fakturan skickades till {email}",
     "total": "Belopp inklusive moms",
+    "totalNoVat": "Belopp (utan moms)",
     "loading": "Hämtar fakturauppgifter …",
     "draftNumber": "Det slutliga fakturanumret tilldelas när fakturan utfärdas.",
-    "provider": "Beloppet kommer från TimeTrack. {provider} beräknar slutbeloppet med sina egna momsinställningar."
+    "provider": "Beloppet kommer från TimeTrack. {provider} beräknar slutbeloppet med sina egna momsinställningar.",
+    "lineCount": "Rader"
   },
   "status": {
     "draft": "Utkast",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtrerat)",
     "reminderTitle": "Skicka påminnelse",
     "reminderDescription": "Skicka faktura {number} till kunden med e-post?",
-    "send": "Skicka"
+    "send": "Skicka",
+    "emptyUnbilledHint": "Du har {duration} ofakturerad tid. Fakturera den, så fylls rader och belopp i åt dig.",
+    "emptyNoTimeHint": "Fakturor görs enklast utifrån registrerad tid. Registrera tid först, eller skapa en faktura med ett fast belopp.",
+    "invoiceUnbilled": "Fakturera ofakturerad tid",
+    "createBlank": "Skapa tom faktura",
+    "registerTimeFirst": "Registrera tid",
+    "createFixedAmount": "Faktura med fast belopp"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Anteckning på fakturan (valfritt)",
     "notePlaceholder": "T.ex. Avtal om teknisk partnerskap, '{måned}'"
   },
-  "tableLabel": "Fakturor"
+  "tableLabel": "Fakturor",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} bekräftade inte om fakturan skickades via e-post. Kontrollera e-poststatusen i {provider} och markera resultatet på fakturasidan innan du skickar den igen.",
+    "uncertainTitle": "Vi vet inte om {provider} har skickat fakturan",
+    "uncertainBody": "{provider} svarade inte när fakturan skulle skickas via e-post, så kunden kan ha fått den. Kontrollera fakturans e-poststatus i {provider}. Tills du har markerat resultatet här kan fakturan inte skickas igen från TimeTrack.",
+    "wasSent": "{provider} har skickat den",
+    "notSent": "Den har inte skickats",
+    "resolved": "E-poststatus sparad"
+  }
 }

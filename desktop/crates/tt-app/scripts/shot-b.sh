@@ -22,6 +22,8 @@ shots=(
   "fakturaer-ny|TT_SCREEN=fakturaer TT_FAKTURA_VIEW=ny"
   "fakturaer-kladde|TT_SCREEN=fakturaer TT_FAKTURA_VIEW=kladde"
   "fakturaer-forfalden|TT_SCREEN=fakturaer TT_FAKTURA_VIEW=faktura_1040"
+  "fakturaer-send-bekraeftelse|TT_SCREEN=fakturaer TT_FAKTURA_VIEW=send"
+  "fakturaer-sendt|TT_SCREEN=fakturaer TT_FAKTURA_VIEW=faktura_1039"
   "rapporter|TT_SCREEN=rapporter"
   "indstillinger-konto|TT_SCREEN=indstillinger TT_SETTINGS=konto"
   "indstillinger-sporing|TT_SCREEN=indstillinger TT_SETTINGS=sporing"

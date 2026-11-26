@@ -9,9 +9,9 @@ This page covers what your server provides for it. How the app's server address 
 
 ## Signing in
 
-The app uses the same device login as the desktop app: it opens your instance in the browser, you sign in and approve the device, and the browser returns to the app through the deep link `timetrack://auth/callback`. The access token lasts 30 days and is renewed with a refresh token (180 days), so you rarely sign in again. The app can also use the OAuth providers and Sign in with Apple that you configure, see [Authentication](/docs/configuration/authentication).
+The app uses the same device login as the desktop app: it opens your instance in the browser, you sign in and approve the device, and the browser returns to the app through the deep link `timetrack://auth/callback` (`timewren://auth/callback` on a TimeWren instance). The access token lasts 30 days and is renewed with a refresh token (180 days), so you rarely sign in again. The app can also use the OAuth providers and Sign in with Apple that you configure, see [Authentication](/docs/configuration/authentication).
 
-The server trusts the app schemes `timetrack://` and `timetrack.preview://` automatically. You do not need to add them to `TRUSTED_ORIGINS`.
+The server trusts the app schemes `timetrack://` and `timetrack.preview://` automatically (on a TimeWren instance also `timewren://`). You do not need to add them to `TRUSTED_ORIGINS`.
 
 For native Sign in with Apple, set `APPLE_APP_BUNDLE_IDENTIFIER` to the bundle id of the app build you use (default `dk.timetrack.app`), together with the other Apple variables.
 

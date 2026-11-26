@@ -39,6 +39,7 @@ const PARAM_NAMES = [
   "device_name",
   "os",
   "kind",
+  "redirect_uri",
 ] as const;
 
 function Card({ children }: { children: React.ReactNode }) {
@@ -66,6 +67,7 @@ function DeviceAuthContent() {
   const deviceName = searchParams.get("device_name") ?? "";
   const os = searchParams.get("os") ?? "";
   const kind = searchParams.get("kind") ?? "desktop";
+  const redirectUri = searchParams.get("redirect_uri") ?? "";
 
   const [status, setStatus] = useState<PageStatus>("loading");
   const [errorMessage, setErrorMessage] = useState("");
@@ -105,6 +107,7 @@ function DeviceAuthContent() {
           deviceName: deviceName || undefined,
           os: os || undefined,
           kind,
+          redirectUri: redirectUri || undefined,
           organizationId: selectedOrgId || undefined,
         }),
       });
@@ -123,7 +126,17 @@ function DeviceAuthContent() {
       setStatus("error");
       setErrorMessage(err instanceof Error ? err.message : t("genericError"));
     }
-  }, [state, challenge, deviceId, deviceName, os, kind, selectedOrgId, t]);
+  }, [
+    state,
+    challenge,
+    deviceId,
+    deviceName,
+    os,
+    kind,
+    redirectUri,
+    selectedOrgId,
+    t,
+  ]);
 
   if (status === "loading") {
     return (

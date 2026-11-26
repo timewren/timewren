@@ -1,12 +1,12 @@
 import type { QueueItem } from './queue-logic';
 import { CloudOff } from 'lucide-react-native';
 import * as React from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { Badge, Button, Card, EmptyState, ListRow, Screen, SectionHeader, Text } from '~/components/ui';
 import { useCapabilities } from '~/features/capabilities/use-capabilities';
 import { formatHours, formatTime } from '~/lib/format';
 import { translate } from '~/lib/i18n';
-import { pendingCount } from './queue-logic';
+import { failedCount, pendingCount } from './queue-logic';
 import { useOfflineQueue } from './queue-store';
 import { useOfflineSync } from './use-offline-sync';
 
@@ -41,6 +41,13 @@ function itemSubtitle(item: QueueItem): string {
 function QueueRow({ item, last, held }: { item: QueueItem; last: boolean; held: boolean }) {
   const retry = useOfflineQueue.use.retry();
   const remove = useOfflineQueue.use.remove();
+  // Tid, der aldrig nåede serveren, er væk for altid — ét tryk er for lidt.
+  const confirmDiscard = () => {
+    Alert.alert(translate('offline.discard_title'), translate('offline.discard_body'), [
+      { text: translate('common.cancel'), style: 'cancel' },
+      { text: translate('offline.discard'), style: 'destructive', onPress: () => remove(item.id) },
+    ]);
+  };
   return (
     <View className={last ? '' : 'border-b border-border'}>
       <ListRow
@@ -55,7 +62,7 @@ function QueueRow({ item, last, held }: { item: QueueItem; last: boolean; held: 
         {item.failed && !held
           ? <Button size="sm" variant="outline" label={translate('offline.retry')} onPress={() => retry(item.id)} testID={`offline-retry-${item.id}`} />
           : null}
-        <Button size="sm" variant="ghost" label={translate('offline.discard')} textClassName="text-danger-600 no-underline" onPress={() => remove(item.id)} testID={`offline-discard-${item.id}`} />
+        <Button size="sm" variant="ghost" label={translate('offline.discard')} textClassName="text-danger-600 no-underline" onPress={confirmDiscard} testID={`offline-discard-${item.id}`} />
       </View>
     </View>
   );
@@ -71,6 +78,8 @@ export function OfflineQueueScreen() {
   const caps = useCapabilities();
   const activeOrgId = caps.isLoading ? undefined : caps.orgId;
   const pending = pendingCount(items);
+  // "Synkronisér nu" prøver også fejlede igen (`retryAll`), så de tæller med.
+  const sendable = pending + failedCount(items);
   // Elementer fra en anden org må ikke drænes, men de må heller ikke forsvinde
   // fra oversigten — brugeren skal kunne se at de stadig er der.
   const isHeld = (item: QueueItem) => activeOrgId !== undefined && item.orgId !== undefined && item.orgId !== activeOrgId;
@@ -102,7 +111,7 @@ export function OfflineQueueScreen() {
                 label={translate('offline.sync_now')}
                 onPress={syncNow}
                 loading={isSyncing}
-                disabled={!isOnline || pending === 0 || held === items.length}
+                disabled={!isOnline || sendable === 0 || held === items.length}
                 testID="offline-sync-now"
               />
               <SectionHeader title={translate('offline.queue_heading', { count: items.length })} />

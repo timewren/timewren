@@ -1,6 +1,6 @@
 import type { BottomSheetModal } from '@gorhom/bottom-sheet';
 import type { TimerSelection } from '../timer-logic';
-import type { RouterOutputs } from '~/api/app-router';
+import type { CachedClient as Client, CachedProject as Project } from '~/lib/api/offline-read-data';
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { Briefcase, ChevronLeft, FolderOpen, Search } from 'lucide-react-native';
 import * as React from 'react';
@@ -8,18 +8,17 @@ import { Pressable, View } from 'react-native';
 import { useUniwind } from 'uniwind';
 import { ColorDot, colors, EmptyState, ErrorState, ListRow, ListSkeleton, Modal, Text } from '~/components/ui';
 import { BottomSheetTextInput } from '~/components/ui/bottom-sheet';
-import { trpc } from '~/lib/api';
+import { OfflineReadNotice } from '~/features/offline/components/offline-read-notice';
+import { useClientChoices, useProjectChoices } from '~/lib/api/use-offline-read';
 import { translate } from '~/lib/i18n';
 import { intlLocale } from '~/lib/locale';
 import { useAnnounceVisible } from '~/lib/notify';
 
 export type PickerSelection = Pick<TimerSelection, 'clientId' | 'clientName' | 'projectId' | 'projectName'>;
 
-type Client = RouterOutputs['clients']['list'][number];
-type Project = RouterOutputs['projects']['list'][number];
-
 type Props = {
   ref: React.RefObject<BottomSheetModal | null>;
+  onDismiss?: () => void;
   onSelect: (selection: PickerSelection) => void;
 };
 
@@ -30,7 +29,7 @@ function useSearchColors() {
   const dark = theme === 'dark';
   return {
     dark,
-    icon: dark ? colors.neutral[400] : colors.neutral[500],
+    icon: dark ? colors.neutral[400] : colors.neutral[600],
     text: dark ? colors.neutral[100] : colors.neutral[900],
     field: dark ? colors.neutral[800] : colors.neutral[100],
   };
@@ -45,11 +44,12 @@ function SearchField({ value, onChange, placeholder }: { value: string; onChange
         value={value}
         onChangeText={onChange}
         placeholder={placeholder}
+        accessibilityLabel={placeholder}
         placeholderTextColor={c.icon}
         autoCorrect={false}
         autoCapitalize="none"
         clearButtonMode="while-editing"
-        style={{ flex: 1, paddingVertical: 10, fontSize: 16, color: c.text, fontFamily: 'Inter' }}
+        style={{ flex: 1, minHeight: 48, paddingVertical: 10, fontSize: 16, color: c.text, fontFamily: 'Inter' }}
         testID="picker-search"
       />
     </View>
@@ -65,28 +65,32 @@ function matches(name: string, query: string) {
  * skifte undervejs). Første trin viser kunder + "Intern tid"; andet trin
  * viser kundens projekter + "Kun kunden".
  */
-export function ProjectPickerModal({ ref, onSelect }: Props) {
-  const [client, setClient] = React.useState<Client | null>(null);
+export function ProjectPickerModal({ ref, onDismiss, onSelect }: Props) {
+  const [clientId, setClientId] = React.useState<string | null>(null);
+  const clients = useClientChoices();
+  const client = clients.data?.find(candidate => candidate.id === clientId);
+  if (clientId && !client)
+    setClientId(null);
   const [query, setQuery] = React.useState('');
   const c = useSearchColors();
 
   const choose = React.useCallback((selection: PickerSelection) => {
     onSelect(selection);
     ref.current?.dismiss();
-    setClient(null);
+    setClientId(null);
     setQuery('');
   }, [onSelect, ref]);
 
   const back = () => {
-    setClient(null);
+    setClientId(null);
     setQuery('');
   };
 
   const header = client
     ? (
-        <Pressable onPress={back} className="mx-4 mb-2 flex-row items-center gap-1" hitSlop={8} accessibilityRole="button" testID="picker-back">
+        <Pressable onPress={back} className="mx-4 mb-2 min-h-12 flex-row items-center gap-1" accessibilityRole="button" testID="picker-back">
           <ChevronLeft size={18} color={c.icon} />
-          <Text className="text-sm text-muted-foreground">{translate('timer.pick_client')}</Text>
+          <Text className="flex-1 text-sm text-muted-foreground">{translate('timer.pick_client')}</Text>
         </Pressable>
       )
     : null;
@@ -99,7 +103,10 @@ export function ProjectPickerModal({ ref, onSelect }: Props) {
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
       android_keyboardInputMode="adjustResize"
-      onDismiss={back}
+      onDismiss={() => {
+        back();
+        onDismiss?.();
+      }}
     >
       {header}
       <SearchField
@@ -115,28 +122,36 @@ export function ProjectPickerModal({ ref, onSelect }: Props) {
           cache. Se `useAnnounceVisible`. */}
       {client
         ? <ProjectStep client={client} query={query} onChoose={choose} />
-        : <ClientStep query={query} onPick={setClient} onChoose={choose} />}
+        : <ClientStep clientsQuery={clients} query={query} onPick={setClientId} onChoose={choose} />}
     </Modal>
   );
 }
 
-function ClientStep({ query, onPick, onChoose }: { query: string; onPick: (c: Client) => void; onChoose: (s: PickerSelection) => void }) {
-  const { data, isLoading, isError, refetch } = trpc.clients.list.useQuery({ includeArchived: false });
+type ClientStepProps = {
+  clientsQuery: ReturnType<typeof useClientChoices>;
+  query: string;
+  onPick: (id: string) => void;
+  onChoose: (selection: PickerSelection) => void;
+};
+
+function ClientStep({ clientsQuery, query, onPick, onChoose }: ClientStepProps) {
+  const { data, isLoading, isError, refetch, offline, savedAt } = clientsQuery;
   useAnnounceVisible({ isLoading, isError }, translate('timer.clients_loaded'));
   const clients = React.useMemo(
     () => (data ?? []).filter(cl => matches(cl.name, query)),
     [data, query],
   );
-  if (isLoading)
+  if (!offline && isLoading)
     return <View className="px-4"><ListSkeleton rows={4} /></View>;
   // Uden denne ville et fejlet kald vise "Du har ingen kunder endnu" — en
   // påstand om brugerens kunder, der skyldes et netværksproblem.
-  if (isError)
+  if (!offline && isError)
     return <View className="px-4"><ErrorState onRetry={() => void refetch()} /></View>;
 
   const internal = !query.trim()
     ? (
         <ListRow
+          wrapText
           title={translate('timer.internal')}
           subtitle={translate('timer.internal_hint')}
           left={<Briefcase size={18} color={colors.neutral[400]} />}
@@ -153,19 +168,27 @@ function ClientStep({ query, onPick, onChoose }: { query: string; onPick: (c: Cl
       data={clients}
       keyExtractor={(item: Client) => item.id}
       keyboardShouldPersistTaps="handled"
-      ListHeaderComponent={internal}
-      ListEmptyComponent={(
-        <EmptyState
-          compact
-          title={translate(data?.length ? 'timer.no_results' : 'timer.no_clients')}
-        />
+      ListHeaderComponent={(
+        <>
+          {offline && <OfflineReadNotice savedAt={savedAt} />}
+          {internal}
+        </>
       )}
+      ListEmptyComponent={offline && !data
+        ? undefined
+        : (
+            <EmptyState
+              compact
+              title={translate(data?.length ? 'timer.no_results' : 'timer.no_clients')}
+            />
+          )}
       renderItem={({ item }: { item: Client }) => (
         <ListRow
+          wrapText
           title={item.name}
           subtitle={item.company ?? undefined}
-          left={<ColorDot color={item.color} />}
-          onPress={() => onPick(item)}
+          left={<ColorDot color={item.color ?? null} />}
+          onPress={() => onPick(item.id)}
           testID={`picker-client-${item.id}`}
         />
       )}
@@ -174,7 +197,7 @@ function ClientStep({ query, onPick, onChoose }: { query: string; onPick: (c: Cl
 }
 
 function ProjectStep({ client, query, onChoose }: { client: Client; query: string; onChoose: (s: PickerSelection) => void }) {
-  const { data, isLoading, isError, refetch } = trpc.projects.list.useQuery();
+  const { data, isLoading, isError, refetch, offline, savedAt } = useProjectChoices();
   useAnnounceVisible({ isLoading, isError }, translate('timer.projects_loaded', { name: client.name }));
   const projects = React.useMemo(
     () => (data ?? []).filter(p =>
@@ -184,14 +207,15 @@ function ProjectStep({ client, query, onChoose }: { client: Client; query: strin
     ),
     [data, client.id, query],
   );
-  if (isLoading)
+  if (!offline && isLoading)
     return <View className="px-4"><ListSkeleton rows={3} /></View>;
-  if (isError)
+  if (!offline && isError)
     return <View className="px-4"><ErrorState onRetry={() => void refetch()} /></View>;
 
   const clientOnly = !query.trim()
     ? (
         <ListRow
+          wrapText
           title={translate('timer.client_only')}
           left={<FolderOpen size={18} color={colors.neutral[400]} />}
           onPress={() => onChoose({ clientId: client.id, clientName: client.name, projectId: null, projectName: null })}
@@ -207,10 +231,16 @@ function ProjectStep({ client, query, onChoose }: { client: Client; query: strin
       data={projects}
       keyExtractor={(item: Project) => item.id}
       keyboardShouldPersistTaps="handled"
-      ListHeaderComponent={clientOnly}
-      ListEmptyComponent={<EmptyState compact title={translate(query.trim() ? 'timer.no_results' : 'timer.no_projects')} />}
+      ListHeaderComponent={(
+        <>
+          {offline && <OfflineReadNotice savedAt={savedAt} />}
+          {clientOnly}
+        </>
+      )}
+      ListEmptyComponent={offline && !data ? undefined : <EmptyState compact title={translate(query.trim() ? 'timer.no_results' : 'timer.no_projects')} />}
       renderItem={({ item }: { item: Project }) => (
         <ListRow
+          wrapText
           title={item.name}
           subtitle={item.description ?? undefined}
           onPress={() => onChoose({ clientId: client.id, clientName: client.name, projectId: item.id, projectName: item.name })}

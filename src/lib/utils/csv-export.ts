@@ -5,6 +5,7 @@
 
 import daExport from "@/i18n/messages/da/sharedExport.json";
 import { sharedT } from "@/i18n/shared-text";
+import { withDemoCurrency } from "@/lib/demo/currency-messages";
 import { toLocalDateStr } from "@/lib/format";
 import { escapeCsv } from "@/lib/utils/spreadsheet";
 
@@ -30,7 +31,6 @@ const DEFAULT_OPTIONS: ExportOptions = {
   delimiter: ";", // Danish Excel uses semicolon
   includeHeaders: true,
   dateFormat: "danish",
-  currencySymbol: "kr",
   decimalSeparator: ",",
 };
 
@@ -214,7 +214,7 @@ function formatValue(
         ? formatted.replace(".", ",")
         : formatted;
 
-    return `${withSeparator} ${options?.currencySymbol || "kr"}`;
+    return `${withSeparator} ${options?.currencySymbol || withDemoCurrency("kr")}`;
   }
 
   // Handle time (hours)

@@ -36,6 +36,7 @@ function DesktopAuthContent() {
 
   const code = searchParams.get("code");
   const deviceName = searchParams.get("deviceName");
+  const redirectUri = searchParams.get("redirect_uri");
 
   const [status, setStatus] = useState<PageStatus>("loading");
   const [selectedOrgId, setSelectedOrgId] = useState<string>("");
@@ -85,6 +86,7 @@ function DesktopAuthContent() {
         credentials: "include",
         body: JSON.stringify({
           code,
+          redirectUri: redirectUri || undefined,
           organizationId: selectedOrgId || undefined,
         }),
       });
@@ -108,7 +110,7 @@ function DesktopAuthContent() {
       setStatus("error");
       setErrorMessage(err instanceof Error ? err.message : t("genericError"));
     }
-  }, [code, selectedOrgId, t]);
+  }, [code, redirectUri, selectedOrgId, t]);
 
   // --- Loading ---
   if (sessionLoading || orgsLoading || status === "loading") {
@@ -126,7 +128,7 @@ function DesktopAuthContent() {
 
   // --- Login required ---
   if (status === "login-required") {
-    const returnUrl = `/auth/desktop?code=${encodeURIComponent(code ?? "")}&deviceName=${encodeURIComponent(deviceName ?? "")}`;
+    const returnUrl = `/auth/desktop?code=${encodeURIComponent(code ?? "")}&deviceName=${encodeURIComponent(deviceName ?? "")}${redirectUri ? `&redirect_uri=${encodeURIComponent(redirectUri)}` : ""}`;
     const loginUrl = `/login?redirect=${encodeURIComponent(returnUrl)}`;
 
     return (

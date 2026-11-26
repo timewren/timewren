@@ -1,6 +1,14 @@
 "use client";
 
-import { Building2, CalendarClock, Loader2, Search } from "lucide-react";
+import {
+  ArrowLeft,
+  Building2,
+  CalendarClock,
+  Loader2,
+  Search,
+} from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -17,6 +25,7 @@ import { useAutoSave } from "@/hooks/useAutoSave";
 import { useSession } from "@/lib/auth-client";
 import type { AutoSaveStatus as SaveStatus } from "@/lib/auto-save";
 import { zodFieldValidator } from "@/lib/auto-save";
+import { decideVat } from "@/lib/invoices/vat-default";
 import { trpc } from "@/providers/trpc-provider";
 
 type CompanyTypeValue = "sole_prop" | "i_s" | "aps" | "as" | "freelance";
@@ -34,6 +43,8 @@ type CompanyForm = {
   bankRegNr: string;
   bankAccountNr: string;
   vatRegistered: boolean;
+  /** Har brugeren selv valgt momsfluebenet? Sendes ikke som felt. */
+  vatRegisteredChosen: boolean;
   vatNumber: string;
   logoUrl: string | null;
 };
@@ -58,12 +69,20 @@ const COMPANY_DEFAULTS: CompanyForm = {
   bankRegNr: "",
   bankAccountNr: "",
   vatRegistered: false,
+  vatRegisteredChosen: false,
   vatNumber: "",
   logoUrl: null,
 };
 
 export default function CompanySettingsPage() {
   const t = useTranslations("settingsCompany");
+  // Kom brugeren fra "Før din første faktura", skal der være en vej tilbage,
+  // ellers ender de på en lang indstillingsside uden næste skridt.
+  const from = useSearchParams().get("from");
+  const fromInvoice = from === "invoice" || from === "invoices";
+  // Fra den tomme fakturaliste går vejen tilbage dertil, ellers til formularen.
+  const backToInvoiceHref =
+    from === "invoices" ? "/dashboard/invoices" : "/dashboard/invoices/new";
   // Samme krav som onboarding.updateCompanyProfile
   const validateCompanyField = useMemo(
     () =>
@@ -120,6 +139,7 @@ export default function CompanySettingsPage() {
             bankRegNr: profile.bankRegNr || "",
             bankAccountNr: profile.bankAccountNr || "",
             vatRegistered: profile.vatRegistered || false,
+            vatRegisteredChosen: profile.vatRegisteredChosen ?? false,
             vatNumber: profile.vatNumber || "",
             logoUrl: profile.logoUrl || null,
           }
@@ -128,9 +148,12 @@ export default function CompanySettingsPage() {
     atomic: true,
     validate: validateCompanyField,
     errorTitle: t("saveFailed"),
-    save: (_patch, v) =>
+    save: (_patch, { vatRegistered, vatRegisteredChosen, ...v }) =>
       updateMutation.mutateAsync({
         ...v,
+        // Kun brugerens eget valg sendes; ellers afgør serveren det efter
+        // CVR-reglen (vat-default.ts)
+        ...(vatRegisteredChosen ? { vatRegistered } : {}),
         // Tomme felter sendes som "", så et ryddet felt også ryddes i DB
         logoUrl: v.logoUrl ?? "",
       }),
@@ -191,11 +214,22 @@ export default function CompanySettingsPage() {
     bankRegNr,
     bankAccountNr,
     vatRegistered,
+    vatRegisteredChosen,
     vatNumber,
     logoUrl,
   } = company.values;
   const { companyType, vatPeriod, fiscalYearEnd, hasEmployees } =
     companyInfo.values;
+
+  // Et dansk CVR slår "Jeg er momsregistreret" til, indtil brugeren selv
+  // har valgt (gemt på profilen). Udregnes af de aktuelle felter ved hver
+  // visning, så et halvt CVR eller et land under redigering ikke huskes.
+  const vatChecked = decideVat({
+    chosen: vatRegisteredChosen,
+    stored: vatRegistered,
+    cvrNumber,
+    country,
+  }).vatRegistered;
 
   const handleCvrLookup = async () => {
     if (!cvrNumber || cvrNumber.length < 8) {
@@ -219,9 +253,8 @@ export default function CompanySettingsPage() {
           ...(data.address ? { address: data.address } : {}),
           ...(data.postalCode ? { postalCode: data.postalCode } : {}),
           ...(data.city ? { city: data.city } : {}),
-          ...(data.vatNumber
-            ? { vatNumber: data.vatNumber, vatRegistered: true }
-            : {}),
+          // Fluebenet følger CVR-reglen (vatChecked) eller brugerens valg
+          ...(data.vatNumber ? { vatNumber: data.vatNumber } : {}),
         },
         "now",
       );
@@ -250,6 +283,21 @@ export default function CompanySettingsPage() {
   return (
     <div className="space-y-6">
       <PageHeader title={t("title")} />
+
+      {fromInvoice && (
+        <div className="flex flex-col gap-3 rounded-xl border border-brand-200 bg-brand-50 p-4 sm:flex-row sm:items-center sm:justify-between dark:border-brand-600 dark:bg-tt-gran-lys">
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            {t("fromInvoiceHint")}
+          </p>
+          <Link
+            href={backToInvoiceHref}
+            className="inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-lg bg-tt-gran px-4 text-sm font-medium text-tt-paa-gran hover:bg-tt-gran-moerk"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            {t("backToInvoice")}
+          </Link>
+        </div>
+      )}
 
       <AdminOnlyNotice>{t("adminOnly")}</AdminOnlyNotice>
 
@@ -595,10 +643,17 @@ export default function CompanySettingsPage() {
                 <input
                   type="checkbox"
                   id="vatRegistered"
-                  checked={vatRegistered}
-                  onChange={(e) =>
-                    setCompany("moms", "vatRegistered", e.target.checked, "now")
-                  }
+                  checked={vatChecked}
+                  onChange={(e) => {
+                    setActiveCard("moms");
+                    company.setMany(
+                      {
+                        vatRegistered: e.target.checked,
+                        vatRegisteredChosen: true,
+                      },
+                      "now",
+                    );
+                  }}
                   className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-600 dark:text-brand-400 focus:ring-brand-500"
                 />
                 <label
@@ -609,7 +664,7 @@ export default function CompanySettingsPage() {
                 </label>
               </div>
 
-              {vatRegistered && (
+              {vatChecked && (
                 <div>
                   <label htmlFor="vatNumber" className={labelClass}>
                     {t("vatNumber")}

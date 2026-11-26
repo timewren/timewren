@@ -15,6 +15,7 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useModules } from "@/hooks/useModules";
 import { toLocalDateStr } from "@/lib/format";
 import { shouldPopulateForm } from "@/lib/forms/populate-once";
+import { canTakePrepaidHours } from "@/lib/prepaid/can-take-hours";
 import { adjustRangeForEdit } from "@/lib/time/edit-range";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -73,12 +74,14 @@ export function TimeEntryEditModal({
         data.hoursInput > 0 || data.minutesInput > 0 || data.secondsInput > 0,
       { message: t("edit.minOneSecond"), path: ["minutesInput"] },
     );
-    if (!showProjects && !showClients) {
+    // Samme regel som "Registrer tid" (buildTimeEntrySchema): med kunder slået
+    // til er en post uden kunde og projekt intern tid.
+    if (showClients || !showProjects) {
       return withTime;
     }
     return baseTimeEntrySchema
-      .refine((data) => data.projectId || data.clientId, {
-        message: t("edit.pickProjectOrClient"),
+      .refine((data) => !!data.projectId, {
+        message: t("validation.pickProject"),
         path: ["projectId"],
       })
       .refine(
@@ -623,7 +626,15 @@ export function TimeEntryEditModal({
                         const available =
                           pkg.remainingHours +
                           (isCurrent && entry ? parseFloat(entry.hours) : 0);
-                        const notEnough = available < enteredHours;
+                        // Overtræk tilladt: kortet tager imod, selv om
+                        // saldoen ikke dækker (#1319)
+                        const notEnough = !canTakePrepaidHours(
+                          {
+                            remainingHours: available,
+                            overdraftPolicy: pkg.overdraftPolicy,
+                          },
+                          enteredHours,
+                        );
                         const selected = prepaidPackageId === pkg.id;
                         return (
                           // biome-ignore lint/a11y/useSemanticElements: knapper brugt som radiogruppe med aria-checked; native radio kræver skjulte inputs og anden styling

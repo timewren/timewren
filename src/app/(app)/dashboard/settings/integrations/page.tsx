@@ -33,6 +33,7 @@ import { useEffect, useId, useState } from "react";
 import { toast } from "sonner";
 import { useBrand } from "@/components/BrandContext";
 import { ICloudCalendarSection } from "@/components/calendar/ICloudCalendarSection";
+import { OutlookCalendarSection } from "@/components/calendar/OutlookCalendarSection";
 import { PageHeader } from "@/components/dashboard-nav";
 import { ConnectedAiAppsSection } from "@/components/settings/ConnectedAiAppsSection";
 import { ConfirmDialog } from "@/components/ui";
@@ -216,7 +217,12 @@ export default function IntegrationsPage() {
 
   // Google Calendar queries
   const { data: calendarConfigured } = trpc.calendar.isConfigured.useQuery();
+  // Udbydere pr. kontoens brand: Outlook vises kun med brandets egen klient
+  const { data: calendarProviders } = trpc.calendar.providers.useQuery();
   const { data: calendarStatus } = trpc.calendar.getConnectionStatus.useQuery();
+  // Afbryd skal kunne nås, selv hvis Outlook-nøglerne er fjernet efter at
+  // brugeren har forbundet.
+  const { data: outlookStatus } = trpc.calendar.outlookStatus.useQuery();
   // getConnectionStatus falder tilbage til iCloud — Google-kortet skal kun
   // vise Google-forbindelsen
   const googleCalendarStatus =
@@ -413,6 +419,13 @@ export default function IntegrationsPage() {
       router.replace("/dashboard/settings/integrations");
     }
 
+    if (success === "outlook_connected") {
+      toast.success(t("outlookConnected"));
+      utils.calendar.getConnectionStatus.invalidate();
+      utils.calendar.outlookStatus.invalidate();
+      router.replace("/dashboard/settings/integrations");
+    }
+
     if (success === "dinero_connected") {
       toast.success(t("dineroIsNowConnected"));
       utils.user.getIntegrationStatus.invalidate();
@@ -440,6 +453,7 @@ export default function IntegrationsPage() {
     searchParams,
     router,
     utils.calendar.getConnectionStatus,
+    utils.calendar.outlookStatus,
     utils.user.getIntegrationStatus,
     utils.integrations.testDineroConnection,
   ]);
@@ -1543,6 +1557,12 @@ export default function IntegrationsPage() {
             </div>
           )}
         </div>
+
+        {/* Outlook (Microsoft Graph): når brandet har en Outlook-klient, eller
+            brugeren allerede har en forbindelse, der skal kunne afbrydes */}
+        {(calendarProviders?.outlook || outlookStatus?.connected) && (
+          <OutlookCalendarSection />
+        )}
 
         {/* iCloud / CalDAV (#676) */}
         <ICloudCalendarSection />

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Entitlements for Mac App Store-udgaven (cargo-featuren mas, se
+  docs/v1/MAC-APP-STORE.md). App Sandbox, ingen temporary exceptions.
+  Developer ID-udgaven bruger entitlements.plist og er uændret.
+
+  scripts/bundle-macos-mas.sh tilføjer ved signering
+  com.apple.application-identifier (<team-id>.<bundle-id>) og
+  com.apple.developer.team-identifier fra APPLE_TEAM_ID, så de passer til den
+  indlejrede provisioning profile. Ad hoc (tørkørsel) bruges filen, som den er.
+
+  - app-sandbox: krævet i Mac App Store. Alle filer (data, logs, modeller,
+    cache) ligger i appens container, fordi HOME peger dér.
+  - network.client: web (synkronisering, login, licens), AI-udbydere, hentning
+    af den indbyggede model og lokale AI-servere (Ollama, LM Studio) på
+    localhost. Appen lytter ikke på nogen port (ingen network.server).
+  - files.user-selected.read-write: gendannelse af en backup, som brugeren
+    selv vælger i en åbn-dialog.
+  - files.downloads.read-write: eksport (CSV, PDF, backup) lægges i
+    Overførsler som i den fulde udgave (export::export_dir).
+  - personal-information.calendars: Indstillinger → Kalender læser systemets
+    kalender (EventKit); brugeren godkender stadig selv (TCC).
+  Ingen automation.apple-events: App Store-udgaven læser ikke browserens
+  adresse og sporer ikke andre programmer (src/mas.rs).
+-->
+<plist version="1.0">
+<dict>
+  <key>com.apple.security.app-sandbox</key>
+  <true/>
+  <key>com.apple.security.network.client</key>
+  <true/>
+  <key>com.apple.security.files.user-selected.read-write</key>
+  <true/>
+  <key>com.apple.security.files.downloads.read-write</key>
+  <true/>
+  <key>com.apple.security.personal-information.calendars</key>
+  <true/>
+</dict>
+</plist>

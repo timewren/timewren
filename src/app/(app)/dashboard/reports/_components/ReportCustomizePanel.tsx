@@ -106,6 +106,7 @@ function GroupingTab({ config, onChange }: Props) {
     { k: "clientProject", label: t("customize.groupClientProject") },
     { k: "project", label: t("customize.groupProject") },
     { k: "tag", label: t("customize.groupTag") },
+    { k: "prepaidPackage", label: t("customize.groupPrepaidPackage") },
     { k: "task", label: t("customize.groupTask") },
     { k: "member", label: t("customize.groupMember") },
     { k: "day", label: t("customize.groupDay") },

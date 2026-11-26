@@ -176,7 +176,7 @@
       "deleted": "verwijderd"
     },
     "specHeading": "--- Specificatie ---",
-    "specLine": "{date} - {project}: {description} ({hours} u × {rate} kr = {amount} kr)"
+    "specLine": "{date} - {project}: {description} ({hours} u × {rate} = {amount})"
   },
   "logbook": {
     "endAfterStart": "De einddatum moet na de startdatum liggen",
@@ -457,6 +457,10 @@
       "projectLine": "Project: {name}",
       "hoursLine": "Uren: {hours}",
       "exportedFrom": "Geëxporteerd uit TimeTrack"
+    },
+    "outlook": {
+      "notConnected": "Niet gekoppeld aan Outlook",
+      "syncFailed": "Outlook-synchronisatie mislukt"
     }
   },
   "activity": {

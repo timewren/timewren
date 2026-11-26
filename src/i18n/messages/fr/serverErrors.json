@@ -300,7 +300,10 @@
     "draftOnlyReorder": "L'ordre ne peut être modifié que sur les factures brouillon",
     "providerMismatch": "Le montant ou la devise n’a pas pu être vérifié. Vérifiez le brouillon dans votre logiciel comptable avant l’envoi.",
     "recipientChanged": "L’adresse du destinataire a changé. Rouvrez la confirmation.",
-    "clientHasNoEmail": "Le client n'a pas d'adresse e-mail"
+    "clientHasNoEmail": "Le client n'a pas d'adresse e-mail",
+    "exportInProgress": "Cette facture est déjà en cours d'export. Réessayez dans un instant.",
+    "providerEmailUncertain": "Nous n'avons pas pu confirmer que votre logiciel de comptabilité a envoyé la facture. Vérifiez le statut de l'e-mail dans Billy ou Dinero et indiquez le résultat sur la page de la facture avant de la renvoyer.",
+    "sendReviewChanged": "La facture a changé après votre confirmation. Rouvrez la confirmation."
   },
   "logbook": {
     "ownOnly": "Vous ne pouvez consulter que votre propre carnet de déplacements",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "La connexion à Dinero n'a pas pu être créée. Réessayez.",
       "economicFailed": "La connexion à e-conomic n'a pas pu être créée. Réessayez.",
-      "googleFailed": "La connexion à Google n'a pas pu être créée. Réessayez."
+      "googleFailed": "La connexion à Google n'a pas pu être créée. Réessayez.",
+      "outlookFailed": "La connexion Outlook n'a pas pu être créée. Réessayez."
     },
     "invoiceSend": {
       "invalidRecipient": "Adresse e-mail du destinataire non valide",

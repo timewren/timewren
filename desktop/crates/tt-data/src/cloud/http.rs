@@ -16,6 +16,8 @@ pub const REQUEST_TIMEOUT: Duration = Duration::from_secs(8);
 /// Gem af en post får længere tid: en langsom server, der alligevel når at
 /// gemme, må ikke ligne en fejl (det gav dobbelte poster i udvidelsen).
 pub const SAVE_TIMEOUT: Duration = Duration::from_secs(20);
+/// Filer fra web (fakturaens PDF med logo): højst 50 MB.
+pub const DOWNLOAD_LIMIT: u64 = 50 * 1024 * 1024;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Kind {
@@ -98,6 +100,55 @@ impl Api {
         }
         let json = json.ok_or_else(|| DataError::InvalidResponse("svaret var ikke JSON".into()))?;
         trpc::decode_result(&json)
+    }
+
+    /// Hent en fil fra web med Bearer-tokenet (fx fakturaens PDF fra
+    /// `invoices.pdfLink`). `path` er en sti på web's egen adresse
+    /// ("/api/ext/…"); tokenet sendes aldrig til en anden vært. 401 giver
+    /// `Unauthorized`, 403 `Rejected { code: "FORBIDDEN" }`, 404 `NotFound`
+    /// og 429 `Rejected { code: "TOO_MANY_REQUESTS" }`.
+    pub fn download(&self, path: &str, token: &str, timeout: Duration) -> Result<Vec<u8>> {
+        if !path.starts_with("/api/") {
+            return Err(DataError::InvalidResponse(format!("uventet sti: {path}")));
+        }
+        let url = format!("{}{path}", self.base_url);
+        let mut response = self
+            .agent
+            .get(&url)
+            .header("Authorization", &format!("Bearer {token}"))
+            .header(CLIENT_HEADER, &self.client_header)
+            .config()
+            .timeout_global(Some(timeout))
+            .build()
+            .call()
+            .map_err(map_ureq_error)?;
+        let status = response.status().as_u16();
+        match status {
+            200..=299 => response
+                .body_mut()
+                .with_config()
+                .limit(DOWNLOAD_LIMIT)
+                .read_to_vec()
+                .map_err(map_ureq_error),
+            401 => Err(DataError::Unauthorized),
+            403 => Err(DataError::Rejected {
+                code: "FORBIDDEN".into(),
+                message: "Ingen adgang".into(),
+                app_code: None,
+                status,
+            }),
+            404 => Err(DataError::NotFound),
+            408 => Err(DataError::Timeout),
+            // Web's budget for forkerte tokens pr. IP er brugt.
+            429 => Err(DataError::Rejected {
+                code: "TOO_MANY_REQUESTS".into(),
+                message: "For mange forsøg".into(),
+                app_code: None,
+                status,
+            }),
+            s if s >= 500 => Err(DataError::Server { status: s }),
+            s => Err(DataError::InvalidResponse(format!("HTTP {s}"))),
+        }
     }
 
     /// Åbn SSE-strømmen. Læsninger time'er ud efter `idle` uden data (web

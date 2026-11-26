@@ -222,7 +222,12 @@ export default function RegisterPage() {
                 ✓ {t("trustNoLockIn")}
               </span>
               <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-brand-100">
-                ✓ {t("trustSupport")}
+                {/* TimeWren er international: open source gælder alle
+                    installationer, dansk support kun TimeTrack. */}
+                ✓{" "}
+                {brand.id === "timetrack"
+                  ? t("trustSupport")
+                  : t("trustOpenSource")}
               </span>
               <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-brand-100">
                 ✓ {t("trustNoCard")}

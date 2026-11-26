@@ -75,6 +75,60 @@ describe("withCronLogging", () => {
     expect(mockUpdate).not.toHaveBeenCalled();
   });
 
+  it("skips a second run in the same process even when the DB row looks dead", async () => {
+    // The DB guard regards a "running" row older than 330 s as a crashed
+    // run, but curl's --max-time does not stop the handler on the server.
+    // A long job must still not run twice side by side in this process.
+    let finish!: () => void;
+    const inner = vi.fn(
+      () =>
+        new Promise<{ itemsProcessed: number }>((resolve) => {
+          finish = () => resolve({ itemsProcessed: 1 });
+        }),
+    );
+    const handler = withCronLogging("long-job", inner);
+    const first = handler(makeRequest("Bearer secret123"));
+    await vi.waitFor(() => expect(inner).toHaveBeenCalledTimes(1));
+
+    const second = await handler(makeRequest("Bearer secret123"));
+    expect(await second.json()).toMatchObject({ skipped: true });
+    expect(inner).toHaveBeenCalledTimes(1);
+
+    finish();
+    expect((await first).status).toBe(200);
+    // Released again once the first run is done
+    const third = handler(makeRequest("Bearer secret123"));
+    await vi.waitFor(() => expect(inner).toHaveBeenCalledTimes(2));
+    finish();
+    expect((await third).status).toBe(200);
+  });
+
+  it("releases the in-process guard when the job throws", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const inner = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("first fails"))
+      .mockResolvedValueOnce({ itemsProcessed: 1 });
+    const handler = withCronLogging("flaky-job", inner);
+    expect((await handler(makeRequest("Bearer secret123"))).status).toBe(500);
+    expect((await handler(makeRequest("Bearer secret123"))).status).toBe(200);
+    expect(inner).toHaveBeenCalledTimes(2);
+    errorSpy.mockRestore();
+  });
+
+  it("logs a thrown error once, with the job name and duration", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const handler = withCronLogging("log-job", async () => {
+      throw new Error("kunne ikke");
+    });
+    await handler(makeRequest("Bearer secret123"));
+    expect(errorSpy).toHaveBeenCalledTimes(1);
+    expect(String(errorSpy.mock.calls[0][0])).toMatch(
+      /\[Cron\] log-job failed after \d+ ms/,
+    );
+    errorSpy.mockRestore();
+  });
+
   it("rejects requests with no auth header", async () => {
     const handler = withCronLogging("test-job", async () => ({
       itemsProcessed: 1,
@@ -197,7 +251,7 @@ describe("withCronLogging", () => {
     expect(mockCapture).toHaveBeenCalledWith(boom, {
       route: "/api/cron/sentry-job",
       type: "cron",
-      extra: { jobName: "sentry-job" },
+      extra: { jobName: "sentry-job", durationMs: expect.any(Number) },
     });
   });
 

@@ -61,6 +61,21 @@ export function useOfflineSync() {
       void sync();
   }, [authStatus, sync]);
 
+  // Organisationen blev kendt (capabilities hentet efter kold start): send det,
+  // der ventede på den. Ellers lå posterne til næste forgrund eller ny post.
+  React.useEffect(() => {
+    if (orgId !== undefined)
+      void sync();
+  }, [orgId, sync]);
+
+  // TanStack Query går først online, når provideren har tjekket sessionen —
+  // EFTER expo-network-eventet nedenfor, hvor `sync` derfor stadig ser offline.
+  // Uden dette blev køen hængende, til appen kom i forgrunden igen.
+  React.useEffect(() => onlineManager.subscribe((online) => {
+    if (online)
+      void sync();
+  }), [sync]);
+
   // Online-overgang (expo-network) — spejles i køens isOnline til banneret.
   React.useEffect(() => {
     offlineQueue().setOnline(onlineManager.isOnline());

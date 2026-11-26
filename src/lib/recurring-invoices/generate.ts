@@ -16,7 +16,9 @@ import {
   notPrepaidFilter,
   unbilledTimeEntryFilter,
 } from "@/lib/invoicing/unbilled";
+import { getOrgLanguage } from "@/lib/org/region.server";
 import { addDaysToDateStr, entryDateFromStr } from "@/lib/time/copenhagen";
+import { endOfDayExclusive } from "@/lib/time/date-bounds";
 import {
   formatDanishDate,
   type InvoicePeriod,
@@ -145,7 +147,7 @@ export async function generateRecurringInvoiceInTx(
         userId: template.userId,
         orgId: template.organizationId,
         from: entryDateFromStr(period.start),
-        to: entryDateFromStr(period.end),
+        toExclusive: endOfDayExclusive(period.end),
       }),
       resolvedClientIs(template.clientId),
     ];
@@ -193,7 +195,9 @@ export async function generateRecurringInvoiceInTx(
   const [invoice] = await tx
     .insert(invoices)
     .values({
-      invoiceNumber: draftInvoiceNumber(),
+      invoiceNumber: draftInvoiceNumber(
+        await getOrgLanguage(tx, template.organizationId, template.userId),
+      ),
       clientId: template.clientId,
       userId: template.userId,
       organizationId: template.organizationId,

@@ -1,6 +1,6 @@
 {
   "openInvoices": {
-    "title": "Åbne Fakturaer",
+    "title": "Åbne fakturaer",
     "empty": "Ingen åbne fakturaer",
     "countOne": "faktura",
     "countOther": "fakturaer",
@@ -52,7 +52,7 @@
       "planUuidLabel": "Alunta Plan UUID",
       "planUuidPlaceholder": "f.eks. plan_abc123...",
       "planUuidHelp": "Find denne under Planer i dit Alunta dashboard.",
-      "planNameLabel": "Alunta Plan Navn",
+      "planNameLabel": "Alunta-plannavn",
       "planNamePlaceholder": "f.eks. Support 10 timer/md",
       "hoursLabel": "Timer pr. periode",
       "rateLabel": "Timepris (DKK)",
@@ -64,7 +64,7 @@
     }
   },
   "activityFeed": {
-    "title": "Seneste Aktivitet",
+    "title": "Seneste aktivitet",
     "empty": "Ingen aktivitet endnu",
     "timeEntryFallback": "Tidsregistrering",
     "invoiceCreated": "Faktura {number} oprettet",
@@ -180,8 +180,11 @@
     "cityPlaceholder": "København",
     "country": "Land",
     "countryPlaceholder": "Danmark",
-    "cvr": "CVR Nummer",
-    "hourlyRate": "Standard Timepris (kr)",
+    "cvr": "CVR-nummer",
+    "vatNumber": "Momsnummer",
+    "vatInvalid": "Skriv momsnummeret med landekode, fx DE123456789",
+    "taxIdTooLong": "Skattenummeret må højst være 20 tegn",
+    "hourlyRate": "Standardtimepris (kr)",
     "hourlyRateHint": "Bruges som standard for projekter med denne kunde",
     "paymentTerms": "Betalingsbetingelser (dage)",
     "paymentTermsHint": "Forfaldsdato sættes automatisk til udstedelsesdato + dette antal dage. Tomt = brug skabelonens/standard (14 dage).",
@@ -348,6 +351,16 @@
     }
   },
   "detail": {
+    "periodHours": {
+      "title": "Timer i perioden",
+      "lastYear": "Sidste år",
+      "chooseDates": "Vælg en start- og slutdato.",
+      "loadError": "Timerne kunne ikke hentes.",
+      "retry": "Prøv igen",
+      "total": "I alt",
+      "noProject": "Uden projekt",
+      "empty": "Ingen registrerede timer i perioden."
+    },
     "loading": "Henter kunde...",
     "loadFailed": "Kunden kunne ikke indlæses. Prøv igen",
     "notFound": "Kunde ikke fundet",
@@ -381,15 +394,15 @@
     },
     "overview": {
       "projects": "Projekter",
-      "hoursTotal": "Timer Total",
-      "activePrepaid": "Aktive Klippekort",
-      "prepaidHours": "Klippekort Timer",
+      "hoursTotal": "Timer i alt",
+      "activePrepaid": "Aktive klippekort",
+      "prepaidHours": "Klippekorttimer",
       "contactTitle": "Kontaktoplysninger",
       "email": "Email",
       "phone": "Telefon",
       "company": "Firma",
       "address": "Adresse",
-      "defaultRate": "Standard Timepris",
+      "defaultRate": "Standardtimepris",
       "rateValue": "{rate} kr/time",
       "notes": "Noter"
     },
@@ -512,7 +525,7 @@
       "accountEmail": "Konto: {email}",
       "statusActive": "Aktiv",
       "statusInactive": "Inaktiv",
-      "portalLink": "Portal Link",
+      "portalLink": "Portallink",
       "expires": "Udløber: {date}",
       "regenerate": "Generer nyt link",
       "deactivate": "Deaktiver",
@@ -524,7 +537,7 @@
       "permViewPrepaid": "Se klippekort",
       "permDownloadInvoices": "Download fakturaer",
       "permApproveTime": "Godkend tid",
-      "recentActivity": "Seneste Aktivitet",
+      "recentActivity": "Seneste aktivitet",
       "action": {
         "login": "Loggede ind",
         "view_invoices": "Så fakturaer",

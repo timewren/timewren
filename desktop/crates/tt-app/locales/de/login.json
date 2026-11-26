@@ -1,6 +1,13 @@
 {
-  "login.error.not_link": "Das ist kein Login-Link von TimeTrack",
+  "login.error.not_link": "Das ist kein Login-Link von {brand}",
   "login.error.denied": "Der Login wurde im Browser abgelehnt",
   "login.error.state": "Die Login-Antwort gehört nicht zu diesem Login. Starte sicherheitshalber neu",
-  "login.error.missing_code": "In der Login-Antwort fehlt der Code. Versuche es erneut"
+  "login.error.missing_code": "In der Login-Antwort fehlt der Code. Versuche es erneut",
+  "login.server.label": "Serveradresse",
+  "login.server.hint": "Leer lassen, um {brand} Cloud zu nutzen. Betreibst du einen eigenen Server? Gib seine Adresse ein.",
+  "login.server.err.invalid": "Das ist keine Webadresse. Verwende z. B. https://zeit.beispiel.de",
+  "login.server.err.https": "Verwende https:// für den Server. Einfaches http:// funktioniert nur für einen Server auf diesem Computer (localhost)",
+  "login.server.err.credentials": "Gib Benutzername und Passwort nicht in der Adresse an",
+  "login.server.err.logged_in": "Melde dich ab, bevor du den Server wechselst",
+  "login.server.err.unsupported": "Diese Version kann den Server nicht wechseln"
 }

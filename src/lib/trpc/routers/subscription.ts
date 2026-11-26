@@ -1,15 +1,17 @@
 // Subscriptions are org-scoped (with userId fallback for legacy/personal accounts)
 
 import { TRPCError } from "@trpc/server";
-import { and, desc, eq, isNull, or, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { st, tr } from "@/i18n/server-text";
 import { type AluntaSubscription, alunta } from "@/lib/alunta";
+import { accountBrand } from "@/lib/auth/account-brand";
 import { authBrandForHost } from "@/lib/auth/host-auth";
 import { assertCheckoutAvailable } from "@/lib/billing/assert-checkout";
 import { isBillingEnabled } from "@/lib/billing/billing-enabled";
 import { billingProviderForBrand } from "@/lib/billing/brand-billing";
+import { resolveActiveSubscription } from "@/lib/billing/governing-subscription";
 import {
   countActiveClients,
   displayedMaxActiveClients,
@@ -26,6 +28,7 @@ import {
   upgradeSeatCount,
   validateExtraSeatsPurchase,
 } from "@/lib/billing/seats";
+import { isStripeBillingBrand } from "@/lib/billing/timewren-stripe";
 import {
   clampSeats,
   FREE_TRIAL_DAYS,
@@ -41,7 +44,6 @@ import {
   seatPriceForTier,
   totalPriceForTierSeats,
 } from "@/lib/config";
-import type { db as DbHandle } from "@/lib/db";
 import { invoices, subscriptions, timeEntries, users } from "@/lib/db/schema";
 import { sendCancellationConfirmedEmail } from "@/lib/email/billing";
 import { resolveMailBrand } from "@/lib/email/mail-brand";
@@ -58,88 +60,7 @@ import {
   router,
 } from "../trpc";
 
-type Db = typeof DbHandle;
-
-/**
- * Resolve the subscription governing the current context, preferring the
- * organization's subscription over the caller's personal one. Replaces a
- * non-deterministic `or(organizationId, userId)` lookup that could return a
- * team member's own (e.g. expired/solo) subscription instead of the org's —
- * which would gate them behind the paywall despite an active team plan.
- */
-export async function resolveActiveSubscription(
-  db: Db,
-  orgId: string | null | undefined,
-  userId: string,
-  opts: { stripe?: boolean } = {},
-) {
-  // Deterministic order: an org can accumulate several rows (each member's
-  // onboarding / checkout inserts one). Prefer a paid/trialing row linked to
-  // Alunta or an app store, then the newest — never an arbitrary expired/solo row, which would
-  // drive the wrong price and, worse, point billing mutations at the wrong sub.
-  //
-  // `stripe` (TimeWren Cloud only, set by timewrenBilling for Stripe-billed
-  // accounts): a Stripe row counts as provider-linked and still governs while
-  // past_due — it is the one the owner must fix in the portal, not a newer
-  // Gratis row. Opt-in because TimeTrack rows may carry historic Stripe ids
-  // from before the Alunta migration and must order exactly as before.
-  const preferenceOrder = opts.stripe
-    ? [
-        desc(
-          sql`case when ${subscriptions.status} in ('active','trialing') or (${subscriptions.status} = 'past_due' and ${subscriptions.stripeSubscriptionId} is not null) then 1 else 0 end`,
-        ),
-        desc(
-          sql`case when ${subscriptions.stripeSubscriptionId} is not null or ${subscriptions.aluntaSubscriptionId} is not null or ${subscriptions.storeProvider} is not null then 1 else 0 end`,
-        ),
-        desc(subscriptions.createdAt),
-      ]
-    : [
-        desc(
-          sql`case when ${subscriptions.status} in ('active','trialing') then 1 else 0 end`,
-        ),
-        desc(
-          sql`case when ${subscriptions.aluntaSubscriptionId} is not null or ${subscriptions.storeProvider} is not null then 1 else 0 end`,
-        ),
-        desc(subscriptions.createdAt),
-      ];
-  if (orgId) {
-    const orgSub = await db.query.subscriptions.findFirst({
-      where: eq(subscriptions.organizationId, orgId),
-      orderBy: preferenceOrder,
-    });
-    if (orgSub) return orgSub;
-    // Orgen har ingen egen række: fald tilbage til brugerens personlige/legacy
-    // række, men ALDRIG en række der tilhører en ANDEN organisation — ellers
-    // kunne et medlem uden egen org-subscription arve en tidligere (forladt)
-    // organisations pris og faktureringsdata.
-    return (
-      (await db.query.subscriptions.findFirst({
-        where: and(
-          eq(subscriptions.userId, userId),
-          or(
-            isNull(subscriptions.organizationId),
-            eq(subscriptions.organizationId, orgId),
-          ),
-        ),
-        orderBy: preferenceOrder,
-      })) ?? null
-    );
-  }
-  // Org-løs kalder (fjernet medlem eller aldrig haft en org): kun
-  // personlige/legacy rækker uden organizationId. Uden dette filter ville
-  // `userId`-opslaget stadig finde den subscription-række, brugeren fik da
-  // vedkommende oprettede sin (nu forladte) organisation, og lække dens
-  // pris og faktureringsdata til et fjernet medlem.
-  return (
-    (await db.query.subscriptions.findFirst({
-      where: and(
-        eq(subscriptions.userId, userId),
-        isNull(subscriptions.organizationId),
-      ),
-      orderBy: preferenceOrder,
-    })) ?? null
-  );
-}
+export { resolveActiveSubscription };
 
 /**
  * Alle Alunta-subscriptions for kunden, som UNION af flere mulige
@@ -247,6 +168,7 @@ export const subscriptionRouter = router({
       ctx.db,
       ctx.orgId,
       userId,
+      { stripe: isStripeBillingBrand(await accountBrand(ctx.db, userId)) },
     );
 
     if (!subscription) return null;

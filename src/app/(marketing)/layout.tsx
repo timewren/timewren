@@ -10,19 +10,33 @@ import { UmamiToolAnalytics } from "@/components/marketing/UmamiToolAnalytics";
 import { brandize } from "@/i18n/brandize";
 import { isLocale } from "@/i18n/config";
 import { staticMessages } from "@/i18n/static-catalog";
+import { smartAppBanner } from "@/lib/app-stores";
 import { isMultibrandEnabled } from "@/lib/brands/registry";
 import { getRequestBrand } from "@/lib/brands/request";
+import { isTimeTrackCloud } from "@/lib/marketing-guard";
 
 export { viewport };
 
+/**
+ * Safari på iPhone/iPad tilbyder brandets app øverst på marketingsiderne
+ * (Smart App Banner). Kun på Mahopes egne hosts: en selvhostet instans med
+ * marketing slået til reklamerer ikke for Mahopes app.
+ */
 export async function generateMetadata(): Promise<Metadata> {
   const rb = await getRequestBrand();
-  if (!rb.host) return metadata;
-  return makeMetadata(rb.brand, {
-    baseUrl: rb.baseUrl ?? undefined,
-    locale: rb.locale ?? undefined,
-    noindex: rb.host.key !== "timetrack",
-  });
+  if (!rb.host) {
+    return isTimeTrackCloud()
+      ? { ...metadata, itunes: smartAppBanner("timetrack") }
+      : metadata;
+  }
+  return {
+    ...makeMetadata(rb.brand, {
+      baseUrl: rb.baseUrl ?? undefined,
+      locale: rb.locale ?? undefined,
+      noindex: rb.host.key !== "timetrack",
+    }),
+    itunes: smartAppBanner(rb.host.key),
+  };
 }
 
 /** Navneområder, som klientkomponenter på marketingsiderne oversætter med. */

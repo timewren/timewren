@@ -137,13 +137,11 @@ describe('select a11y ', () => {
     await user.press(screen.getByTestId('select-trigger'));
 
     expect(
-      screen.getByTestId('select-item-strawberry').props.accessibilityState
-        .selected,
-    ).toBe(true);
+      screen.getByRole('button', { name: 'Strawberry', selected: true }),
+    ).toBeOnTheScreen();
     expect(
-      screen.getByTestId('select-item-chocolate').props.accessibilityState
-        .selected,
-    ).toBe(false);
+      screen.getByRole('button', { name: 'Chocolate', selected: false }),
+    ).toBeOnTheScreen();
   });
 
   it('should announce a disabled trigger as disabled', () => {
@@ -151,7 +149,6 @@ describe('select a11y ', () => {
       <Select label="Kunde" options={options} disabled testID="select" />,
     );
 
-    const trigger = screen.getByTestId('select-trigger');
-    expect(trigger.props.accessibilityState.disabled).toBe(true);
+    expect(screen.getByRole('button', { name: 'Kunde', disabled: true })).toBeDisabled();
   });
 });

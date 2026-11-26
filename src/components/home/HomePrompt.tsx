@@ -20,6 +20,7 @@ import { useFreetextSuggestion } from "@/components/time/useFreetextSuggestion";
 import { useLocalDictation } from "@/hooks/useLocalDictation";
 import { isNetworkError } from "@/lib/offline/queue";
 import { pickAutoDeductPackage } from "@/lib/prepaid/auto-select";
+import { canTakePrepaidHours } from "@/lib/prepaid/can-take-hours";
 import { appendDictation } from "@/lib/speech/local-speech";
 import { rangeToISO } from "@/lib/time/entry-range";
 import { trpc } from "@/providers/trpc-provider";
@@ -112,9 +113,7 @@ export function HomePrompt({
   );
   const prepaidCandidate = useMemo(() => {
     if (!showKlippekort || !clientId || !prepaidPackages) return null;
-    const open = prepaidPackages.filter(
-      (p) => Number.parseFloat(p.remainingHours || "0") > 0,
-    );
+    const open = prepaidPackages.filter((p) => canTakePrepaidHours(p));
     const auto = pickAutoDeductPackage(open);
     if (auto) return { pkg: auto, auto: true };
     return open.length === 1 ? { pkg: open[0], auto: false } : null;

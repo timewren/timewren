@@ -66,6 +66,10 @@ pub struct State {
     /// Hvornår den lokale database sidst blev importeret til cloud.
     #[serde(default)]
     pub imported_at: Option<DateTime<Utc>>,
+    /// Egen (self-host) server valgt ved login. `None`: udgavens standard
+    /// (`tt_core::edition::Edition::web_url`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub server_url: Option<String>,
 }
 
 impl Default for State {
@@ -73,6 +77,7 @@ impl Default for State {
         State {
             mode: StoredMode::Local,
             imported_at: None,
+            server_url: None,
         }
     }
 }
@@ -101,6 +106,34 @@ pub fn load_settings(dir: &Path) -> Result<Settings> {
 
 pub fn store_settings(dir: &Path, settings: &Settings) -> Result<()> {
     write_json(&settings_path(dir), settings)
+}
+
+// ------------------------------------------------------- invoice-sends.json
+
+/// Hvornår og til hvem fakturaer er sendt herfra (fakturaens id → afsendelse).
+/// Web gemmer kun status på fakturaen; tidspunkt og modtager står her, så
+/// listen kan vise "Sendt 20.11.2026 kl. 10.12 til kunde@…".
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct InvoiceSends(pub std::collections::BTreeMap<String, StoredSend>);
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct StoredSend {
+    /// Lokal tid, `YYYY-MM-DDTHH:MM:SS`.
+    pub at: chrono::NaiveDateTime,
+    pub to: Option<String>,
+}
+
+pub fn invoice_sends_path(dir: &Path) -> PathBuf {
+    dir.join("invoice-sends.json")
+}
+
+pub fn load_invoice_sends(dir: &Path) -> Result<InvoiceSends> {
+    Ok(read_json(&invoice_sends_path(dir), "Fakturaernes afsendelser")?.unwrap_or_default())
+}
+
+pub fn store_invoice_sends(dir: &Path, sends: &InvoiceSends) -> Result<()> {
+    write_json(&invoice_sends_path(dir), sends)
 }
 
 // ---------------------------------------------------------------- license.json
@@ -361,11 +394,19 @@ mod tests {
         let st = State {
             mode: StoredMode::Cloud,
             imported_at: Some(Utc::now()),
+            server_url: Some("https://time.example.com".into()),
         };
         save_state(dir.path(), &st).unwrap();
         assert_eq!(load_state(dir.path()).unwrap(), st);
         let text = std::fs::read_to_string(state_path(dir.path())).unwrap();
         assert!(text.contains("\"cloud\""), "{text}");
+        assert!(text.contains("\"serverUrl\""), "{text}");
+        // Uden egen server står feltet ikke i filen, og en gammel fil uden det kan læses.
+        save_state(dir.path(), &State::default()).unwrap();
+        let text = std::fs::read_to_string(state_path(dir.path())).unwrap();
+        assert!(!text.contains("serverUrl"), "{text}");
+        assert_eq!(load_state(dir.path()).unwrap().server_url, None);
+        save_state(dir.path(), &st).unwrap();
 
         let mut s = Settings::defaults();
         s.tracking.idle_minutes = 9;

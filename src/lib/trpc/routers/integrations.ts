@@ -1,5 +1,15 @@
 import { TRPCError } from "@trpc/server";
-import { and, desc, eq, gt, inArray, isNotNull, or } from "drizzle-orm";
+import {
+  and,
+  desc,
+  eq,
+  gt,
+  inArray,
+  isNotNull,
+  ne,
+  or,
+  sql,
+} from "drizzle-orm";
 import { z } from "zod";
 import { tr } from "@/i18n/server-text";
 import {
@@ -10,6 +20,7 @@ import {
   sanitizeString,
   stripHtmlTags,
 } from "@/lib/csv-parser";
+import { type db as DbClient, withReservedConnection } from "@/lib/db";
 import {
   apiKeys,
   calendarConnections,
@@ -68,7 +79,22 @@ import {
   type EconomicInvoiceLine,
 } from "@/lib/integrations/economic";
 import { disconnectEconomic } from "@/lib/integrations/economic-grant";
+import { buildInvoicePdfProps } from "@/lib/invoice-pdf";
 import { markInvoicePaid } from "@/lib/invoices/mark-paid";
+import {
+  findUncertainProviderEmail,
+  getProviderEmailState,
+  type InvoiceProvider,
+  ProviderEmailUncertainError,
+  type ProviderLogInvoice,
+  sendProviderInvoiceEmail,
+} from "@/lib/invoices/provider-export-state";
+import {
+  invoiceSendReview,
+  matchesInvoiceReview,
+  type ReviewedInvoice,
+  reviewedInvoiceSchema,
+} from "@/lib/invoices/send-review";
 import { isPrepaidExpired } from "@/lib/prepaid/expiry";
 import {
   localDateToEntryDate,
@@ -76,13 +102,14 @@ import {
 } from "@/lib/time/copenhagen";
 import { decrypt } from "@/lib/utils/encryption";
 import { rateLimiter, userRateLimitKey } from "@/lib/utils/rate-limiter";
-import { badRequest, notFound } from "../errors";
+import { badRequest, conflict, notFound } from "../errors";
 import {
   orgAdminProcedure,
   protectedProcedure,
   router,
   subscribedProcedure,
 } from "../trpc";
+import { assertClientAccess } from "./clientAccess";
 
 /**
  * Format decimal hours as readable Danish string: "1 t, 24 min, 30 sek"
@@ -104,7 +131,7 @@ function formatHoursReadable(hours: number): string {
 
 // Helper to log sync operations
 async function logSync(
-  db: typeof import("@/lib/db").db,
+  db: typeof DbClient,
   userId: string,
   integrationType: string,
   operation: string,
@@ -113,13 +140,19 @@ async function logSync(
   itemsFailed: number,
   errorMessage?: string,
   metadata?: Record<string, unknown>,
+  // Invoice logs pass the invoice's own org, so they are found by the same
+  // org-scoped lookups as the invoice (see provider-export-state.ts).
+  invoiceOrganizationId?: string | null,
 ) {
   // Stempl org (#169): uden denne var org-rollup af sync-logs umulig —
   // resolves fra membership så de 13 call sites ikke skal ændres.
-  const membership = await db.query.members.findFirst({
-    where: eq(members.userId, userId),
-    columns: { organizationId: true },
-  });
+  const membership =
+    invoiceOrganizationId === undefined
+      ? await db.query.members.findFirst({
+          where: eq(members.userId, userId),
+          columns: { organizationId: true },
+        })
+      : { organizationId: invoiceOrganizationId };
   await db.insert(integrationSyncLogs).values({
     userId,
     organizationId: membership?.organizationId ?? null,
@@ -166,7 +199,7 @@ async function withIntegrationErrorHandling<T>(
  * OAuth users get automatic token refresh; legacy users use stored API key.
  */
 async function getDineroClient(
-  db: typeof import("@/lib/db").db,
+  db: typeof DbClient,
   userId: string,
 ): Promise<DineroIntegration> {
   const user = await db.query.users.findFirst({
@@ -316,6 +349,110 @@ function toCvrTrpcError(error: unknown): unknown {
     code: CVR_TRPC_CODES[error.kind],
     message: error.message,
   });
+}
+
+type InvoiceExportDb = typeof DbClient;
+
+/**
+ * Runs one Billy/Dinero export of an invoice on its own reserved connection,
+ * serialized by a session advisory lock: a second export of the same invoice
+ * fails at once instead of waiting, so a double click or a retry cannot
+ * create or send twice. The connection runs in autocommit, so the provider
+ * link, the mail attempt and a renewed Dinero token are committed the moment
+ * they are written and survive a crash or a deploy mid-export. If the
+ * process dies, Postgres releases the lock with the connection.
+ */
+async function withInvoiceExportLock<T>(
+  invoiceId: string,
+  userId: string,
+  orgId: string | null,
+  fn: (db: InvoiceExportDb) => Promise<T>,
+): Promise<T> {
+  return withReservedConnection(async (db) => {
+    const key = `invoice-export:${invoiceId.toLowerCase()}`;
+    const [lock] = await db.execute<{ acquired: boolean }>(
+      sql`SELECT pg_try_advisory_lock(hashtextextended(${key}, 0)) AS acquired`,
+    );
+    if (!lock?.acquired) {
+      throw conflict(await tr("serverErrors", "invoices.exportInProgress"));
+    }
+    try {
+      const invoice = await db.query.invoices.findFirst({
+        columns: { clientId: true },
+        where: and(
+          eq(invoices.id, invoiceId),
+          orgId
+            ? eq(invoices.organizationId, orgId)
+            : eq(invoices.userId, userId),
+          ne(invoices.status, "deleted"),
+        ),
+      });
+      if (!invoice) {
+        throw notFound(await tr("serverErrors", "common.invoiceNotFound"));
+      }
+      await assertClientAccess(db, userId, orgId, invoice.clientId);
+      return await fn(db);
+    } finally {
+      // An unlock that fails on a broken connection is harmless: postgres.js
+      // closes the connection, and Postgres drops the lock with it.
+      await db
+        .execute(sql`SELECT pg_advisory_unlock(hashtextextended(${key}, 0))`)
+        .catch((error) => {
+          console.error("[Invoice export] advisory unlock failed:", error);
+        });
+    }
+  });
+}
+
+/**
+ * Refuses a provider mail while any mail of the invoice may already have
+ * gone out: an uncertain result (Billy or Dinero) until the user has checked
+ * the accounting system, or a confirmed send through this provider.
+ */
+async function assertProviderEmailCanSend(
+  db: InvoiceExportDb,
+  provider: InvoiceProvider,
+  invoice: ProviderLogInvoice & {
+    billyInvoiceId: string | null;
+    dineroInvoiceGuid: string | null;
+  },
+) {
+  if (await findUncertainProviderEmail(db, invoice)) {
+    throw conflict(await tr("serverErrors", "invoices.providerEmailUncertain"));
+  }
+  const externalId =
+    provider === "billy" ? invoice.billyInvoiceId : invoice.dineroInvoiceGuid;
+  if (
+    (await getProviderEmailState(db, provider, invoice, externalId)) === "sent"
+  ) {
+    throw badRequest(
+      await tr(
+        "serverErrors",
+        `integrations.${provider}.invoiceAlreadyExported`,
+      ),
+    );
+  }
+}
+
+/**
+ * The invoice the user confirmed in SendInvoiceDialog must still be the one
+ * TimeTrack would send: same number, total incl. VAT, currency, line count
+ * and recipient. Read on the export connection, after the lock.
+ */
+async function assertProviderSendReview(
+  db: InvoiceExportDb,
+  expected: ReviewedInvoice,
+  scope: { invoiceId: string; userId: string; orgId: string | null },
+  recipient: string,
+) {
+  // Scoped like invoices.sendPreview, which the dialog showed.
+  const pdfData = await buildInvoicePdfProps({ ...scope, db });
+  if (
+    !pdfData ||
+    !matchesInvoiceReview(expected, invoiceSendReview(pdfData, recipient))
+  ) {
+    throw conflict(await tr("serverErrors", "invoices.sendReviewChanged"));
+  }
 }
 
 export const integrationsRouter = router({
@@ -1114,17 +1251,25 @@ export const integrationsRouter = router({
         autoApprove: z.boolean().default(false),
         sendEmail: z.boolean().default(false),
         expectedRecipient: z.string().optional(),
-        // Shown to the user for review only. Billy/Dinero compute the final
-        // amount with their own VAT settings, so it is not compared here.
-        expectedInvoice: z
-          .object({ total: z.number(), currency: z.string() })
-          .optional(),
+        // What SendInvoiceDialog showed (TimeTrack's own PDF totals). The
+        // server rebuilds it under the export lock and refuses the send when
+        // it changed. Billy may still compute its own VAT on the lines.
+        expectedInvoice: reviewedInvoiceSchema.optional(),
       }),
     )
+    .use(({ ctx, input, next }) =>
+      withInvoiceExportLock(
+        input.invoiceId,
+        ctx.session.user.id,
+        ctx.orgId,
+        (db) => next({ ctx: { invoiceExportDb: db } }),
+      ),
+    )
     .mutation(async ({ ctx, input }) => {
+      const db = ctx.invoiceExportDb;
       const userId = ctx.session.user.id;
 
-      const user = await ctx.db.query.users.findFirst({
+      const user = await db.query.users.findFirst({
         where: eq(users.id, userId),
       });
 
@@ -1136,7 +1281,7 @@ export const integrationsRouter = router({
       }
 
       // Get the invoice with client and time entries — verify ownership to prevent IDOR
-      const invoice = await ctx.db.query.invoices.findFirst({
+      const invoice = await db.query.invoices.findFirst({
         where: and(
           eq(invoices.id, input.invoiceId),
           ctx.orgId
@@ -1177,11 +1322,24 @@ export const integrationsRouter = router({
           await tr("serverErrors", "integrations.invoiceMissingClient"),
         );
       }
+      const recipient = invoiceClient.email?.trim() ?? "";
       if (
         input.expectedRecipient !== undefined &&
-        input.expectedRecipient !== invoiceClient.email
+        input.expectedRecipient.trim() !== recipient
       ) {
         throw badRequest(await tr("serverErrors", "invoices.recipientChanged"));
+      }
+      const sendsEmail = input.action === "send" || input.sendEmail;
+      if (sendsEmail) {
+        await assertProviderEmailCanSend(db, "billy", invoice);
+        if (input.expectedInvoice) {
+          await assertProviderSendReview(
+            db,
+            input.expectedInvoice,
+            { invoiceId: invoice.id, userId, orgId: ctx.orgId },
+            recipient,
+          );
+        }
       }
 
       const billy = new BillyIntegration(apiKey);
@@ -1234,7 +1392,7 @@ export const integrationsRouter = router({
 
           // Update client with Billy ID
           console.warn("[Billy Export] Updating client in DB...");
-          await ctx.db
+          await db
             .update(clients)
             .set({
               billyId: billyContactId,
@@ -1259,7 +1417,7 @@ export const integrationsRouter = router({
             );
           }
           defaultProductId = defaultProduct.id;
-          await ctx.db
+          await db
             .update(users)
             .set({ billyDefaultProductId: defaultProductId })
             .where(eq(users.id, userId));
@@ -1423,14 +1581,37 @@ export const integrationsRouter = router({
           );
         }
 
-        // Save external ID immediately — before approve/send, so we keep the reference even if those fail
-        await ctx.db
+        // Save external ID immediately — before approve/send, so we keep the
+        // reference even if those fail or the process dies (the export
+        // connection runs in autocommit).
+        await db
           .update(invoices)
           .set({
             billyInvoiceId: billyInvoice.id,
             updatedAt: new Date(),
           })
           .where(eq(invoices.id, input.invoiceId));
+        // The account the draft lives in: the invoice sync only releases the
+        // link on a 404 from this same account.
+        await logSync(
+          db,
+          userId,
+          "billy",
+          "link_invoice_draft",
+          "success",
+          0,
+          0,
+          undefined,
+          {
+            invoiceId: invoice.id,
+            externalId: billyInvoice.id,
+            accountId: await billy
+              .getOrganization()
+              .then((organization) => organization.id)
+              .catch(() => undefined),
+          },
+          invoice.organizationId,
+        );
 
         // Handle action: approve or send
         const shouldApprove =
@@ -1445,13 +1626,17 @@ export const integrationsRouter = router({
           console.warn("[Billy Export] Invoice approved");
         }
 
-        if (shouldSend && billyInvoice.id && invoiceClient.email) {
-          await billy.sendInvoice(billyInvoice.id, invoiceClient.email);
+        const externalId = billyInvoice.id;
+        const emailSent = shouldSend && Boolean(externalId && recipient);
+        if (emailSent && externalId) {
+          await sendProviderInvoiceEmail(db, invoice, "billy", externalId, () =>
+            billy.sendInvoice(externalId, recipient),
+          );
           console.warn("[Billy Export] Invoice sent");
         }
 
         await logSync(
-          ctx.db,
+          db,
           userId,
           "billy",
           "export_invoice",
@@ -1459,7 +1644,13 @@ export const integrationsRouter = router({
           1,
           0,
           undefined,
-          { invoiceId: input.invoiceId, billyInvoiceId: billyInvoice.id },
+          {
+            invoiceId: input.invoiceId,
+            billyInvoiceId: billyInvoice.id,
+            externalId: billyInvoice.id,
+            emailSent,
+          },
+          invoice.organizationId,
         );
 
         return {
@@ -1493,7 +1684,7 @@ export const integrationsRouter = router({
           );
         }
         await logSync(
-          ctx.db,
+          db,
           userId,
           "billy",
           "export_invoice",
@@ -1502,7 +1693,13 @@ export const integrationsRouter = router({
           1,
           errorMessage,
           { invoiceId: input.invoiceId },
+          invoice.organizationId,
         );
+        if (error instanceof ProviderEmailUncertainError) {
+          throw conflict(
+            await tr("serverErrors", "invoices.providerEmailUncertain"),
+          );
+        }
         // Wrap in a proper Error so tRPC serializes the message correctly
         throw new Error(
           await tr("serverErrors", "integrations.billy.exportFailed", {
@@ -1726,24 +1923,32 @@ export const integrationsRouter = router({
         autoBook: z.boolean().default(false),
         sendEmail: z.boolean().default(false),
         expectedRecipient: z.string().optional(),
-        // Shown to the user for review only. Billy/Dinero compute the final
-        // amount with their own VAT settings, so it is not compared here.
-        expectedInvoice: z
-          .object({ total: z.number(), currency: z.string() })
-          .optional(),
+        // What SendInvoiceDialog showed (TimeTrack's own PDF totals). The
+        // server rebuilds it under the export lock and refuses the send when
+        // it changed. Dinero may still compute its own VAT on the lines.
+        expectedInvoice: reviewedInvoiceSchema.optional(),
       }),
     )
+    .use(({ ctx, input, next }) =>
+      withInvoiceExportLock(
+        input.invoiceId,
+        ctx.session.user.id,
+        ctx.orgId,
+        (db) => next({ ctx: { invoiceExportDb: db } }),
+      ),
+    )
     .mutation(async ({ ctx, input }) => {
+      const db = ctx.invoiceExportDb;
       const userId = ctx.session.user.id;
 
-      const user = await ctx.db.query.users.findFirst({
+      const user = await db.query.users.findFirst({
         where: eq(users.id, userId),
       });
 
-      const dinero = await getDineroClient(ctx.db, userId);
+      const dinero = await getDineroClient(db, userId);
 
       // Get the invoice with client and time entries — verify ownership to prevent IDOR
-      const invoice = await ctx.db.query.invoices.findFirst({
+      const invoice = await db.query.invoices.findFirst({
         where: and(
           eq(invoices.id, input.invoiceId),
           ctx.orgId
@@ -1784,11 +1989,24 @@ export const integrationsRouter = router({
           await tr("serverErrors", "integrations.invoiceMissingClient"),
         );
       }
+      const recipient = invoiceClient.email?.trim() ?? "";
       if (
         input.expectedRecipient !== undefined &&
-        input.expectedRecipient !== invoiceClient.email
+        input.expectedRecipient.trim() !== recipient
       ) {
         throw badRequest(await tr("serverErrors", "invoices.recipientChanged"));
+      }
+      const sendsEmail = input.action === "send" || input.sendEmail;
+      if (sendsEmail) {
+        await assertProviderEmailCanSend(db, "dinero", invoice);
+        if (input.expectedInvoice) {
+          await assertProviderSendReview(
+            db,
+            input.expectedInvoice,
+            { invoiceId: invoice.id, userId, orgId: ctx.orgId },
+            recipient,
+          );
+        }
       }
 
       try {
@@ -1822,7 +2040,7 @@ export const integrationsRouter = router({
 
           // Update client with Dinero ID
           if (dineroContactGuid) {
-            await ctx.db
+            await db
               .update(clients)
               .set({
                 dineroId: dineroContactGuid,
@@ -1992,15 +2210,35 @@ export const integrationsRouter = router({
           comment: input.contactMessage || undefined,
         });
 
-        // Save external ID immediately — before book/send, so we keep the reference even if those fail
+        // Save external ID immediately — before book/send, so we keep the
+        // reference even if those fail or the process dies (the export
+        // connection runs in autocommit).
         if (dineroInvoice.guid) {
-          await ctx.db
+          await db
             .update(invoices)
             .set({
               dineroInvoiceGuid: dineroInvoice.guid,
               updatedAt: new Date(),
             })
             .where(eq(invoices.id, input.invoiceId));
+          // The account the draft lives in: the invoice sync only releases
+          // the link on a 404 from this same account.
+          await logSync(
+            db,
+            userId,
+            "dinero",
+            "link_invoice_draft",
+            "success",
+            0,
+            0,
+            undefined,
+            {
+              invoiceId: invoice.id,
+              externalId: dineroInvoice.guid,
+              accountId: dinero.getOrganizationId(),
+            },
+            invoice.organizationId,
+          );
         }
 
         // Handle action: book or send (with legacy compat)
@@ -2015,12 +2253,20 @@ export const integrationsRouter = router({
           );
         }
 
-        if (shouldSend && dineroInvoice.guid && invoiceClient.email) {
-          await dinero.sendInvoice(dineroInvoice.guid, invoiceClient.email);
+        const externalId = dineroInvoice.guid;
+        const emailSent = shouldSend && Boolean(externalId && recipient);
+        if (emailSent && externalId) {
+          await sendProviderInvoiceEmail(
+            db,
+            invoice,
+            "dinero",
+            externalId,
+            () => dinero.sendInvoice(externalId, recipient),
+          );
         }
 
         await logSync(
-          ctx.db,
+          db,
           userId,
           "dinero",
           "export_invoice",
@@ -2028,7 +2274,13 @@ export const integrationsRouter = router({
           1,
           0,
           undefined,
-          { invoiceId: input.invoiceId, dineroInvoiceGuid: dineroInvoice.guid },
+          {
+            invoiceId: input.invoiceId,
+            dineroInvoiceGuid: externalId,
+            externalId,
+            emailSent,
+          },
+          invoice.organizationId,
         );
 
         return {
@@ -2043,7 +2295,7 @@ export const integrationsRouter = router({
         };
       } catch (error) {
         await logSync(
-          ctx.db,
+          db,
           userId,
           "dinero",
           "export_invoice",
@@ -2054,7 +2306,13 @@ export const integrationsRouter = router({
             ? error.message
             : await tr("serverErrors", "common.unknownError"),
           { invoiceId: input.invoiceId },
+          invoice.organizationId,
         );
+        if (error instanceof ProviderEmailUncertainError) {
+          throw conflict(
+            await tr("serverErrors", "invoices.providerEmailUncertain"),
+          );
+        }
         throw error;
       }
     }),

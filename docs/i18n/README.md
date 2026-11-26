@@ -74,6 +74,12 @@ t("list.count", { count: n }); // "{count, plural, one {# kunde} other {# kunder
 
 Servercomponent: `const t = await getTranslations("clients")` (`next-intl/server`).
 
+Med `getTranslations({ locale, namespace })` bruger serveren instansens brand
+eller et brand, der allerede er sat i kaldets kontekst. Det eksplicitte sprog
+kan bruges ved statisk rendering, fordi opslaget hverken læser headers eller
+cookies. På en delt multibrand-instans bruges `getTranslations("clients")`
+uden `locale`, når både sprog og brand skal følge forespørgslen.
+
 Udenfor React (tRPC-fejl, mails, PDF, eksport, cron): `const t = await getT("errors", locale?)` fra `@/i18n/server`.
 Uden forespørgselskontekst (cron, tests, scripts) giver `getT` dansk, så eksisterende tekster og tests er uændrede.
 

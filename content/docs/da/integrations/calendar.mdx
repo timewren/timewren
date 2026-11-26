@@ -1,9 +1,9 @@
 ---
 title: "Kalender"
-description: "Forbind Google Kalender eller iCloud med TimeWren for at se møder, planlægge tidsblokke og gøre aftaler til tidsregistreringer. Outlook understøttes ikke."
+description: "Forbind Google Kalender, Outlook eller iCloud med TimeWren for at se møder, planlægge tidsblokke og gøre aftaler til tidsregistreringer."
 ---
 
-TimeWren kan læse din kalender for at vise møder ved siden af dine tidsregistreringer, foreslå ledige tidsrum til opgaver og gøre aftaler til tidsregistreringer. Der findes to udbydere: Google Kalender og iCloud. Der er ingen synkronisering med Outlook- eller Microsoft 365-kalendere. Databaseskemaet giver plads til en udbyder ved navn `outlook`, men intet implementerer den. Microsoft Entra ID i TimeWren er [kun til login](/da/docs/configuration/authentication).
+TimeWren kan læse din kalender for at vise møder ved siden af dine tidsregistreringer, foreslå ledige tidsrum til opgaver og gøre aftaler til tidsregistreringer. Der findes tre udbydere: Google Kalender, Outlook (Microsoft 365 og Outlook.com via Microsoft Graph) og iCloud. Hver vises kun, når den er sat op.
 
 <Screenshot name="calendar" alt="Kalendervisningen" />
 
@@ -54,7 +54,42 @@ Er din OAuth-samtykkeskærm i testtilstand, så tilføj dine brugere som testbru
 
 ### Forbind som bruger
 
-Åbn Indstillinger, Integrationer, vælg Forbind Google Calendar, og godkend adgangen. Vælg derefter, hvilke kalendere der skal synkroniseres. Du kan sætte synkroniseringsfiltre, en privatlivstilstand og matchregler, der kobler aftalers titler til projekter. Afbryd fjerner forbindelsen fra samme side.
+Åbn Indstillinger, Integrationer, vælg Forbind Google Calendar, og godkend adgangen. Vælg derefter, hvilke kalendere der skal synkroniseres. Du kan sætte synkroniseringsfiltre, en privatlivstilstand og matchregler, der kobler aftalers titler til projekter. Afbryd fjerner forbindelsen fra samme side og tilbagekalder samtidig TimeWrens adgang hos Google, så appen også forsvinder fra Google-kontoens tredjepartsforbindelser (myaccount.google.com/connections). Sletter du din konto, sker det samme for alle Google-forbindelser. Adgangen tilbagekaldes kun, når det er sikkert, ellers fjernes forbindelsen kun her. Det gælder, når en anden forbindelse (også en anden brugers eller et andet brands) bruger samme Google-konto, når en ældre forbindelse endnu ikke har synkroniseret, så Google-kontoen ikke er kendt, og når Google ikke kan nås. I de tilfælde kan du selv se og tilbagekalde adgangen på myaccount.google.com/connections.
+
+Forbinder du igen få sekunder efter at have afbrudt, kan Googles tilbagekald, som slår igennem med lidt forsinkelse ([Googles dokumentation](https://developers.google.com/identity/protocols/oauth2/web-server#tokenrevoke)), også ramme den nye forbindelse. Viser kalenderen så "Genopret forbindelse", så forbind én gang til.
+
+## Outlook
+
+Outlook bruger Microsoft Graph og er kun læsning: TimeWren læser brugerens standardkalender og skriver aldrig i den.
+
+### Opsætning på serveren
+
+1. Opret en app-registrering i Microsoft Entra admin center. Vælg de kontotyper, du vil tillade (alle organisationer og personlige konti svarer til tenant `common`).
+2. Tilføj en redirect-URI af platformstypen "Web":
+
+   ```text
+   https://timewren.example.com/api/integrations/outlook/callback
+   ```
+
+3. Under API-tilladelser tilføjer du de delegerede Microsoft Graph-tilladelser `offline_access`, `User.Read` og `Calendars.Read`. De kræver ikke admin-samtykke. Opret en client secret under Certifikater og hemmeligheder, og notér udløbsdatoen.
+4. Sæt nøglerne i `.env`:
+
+   ```dotenv
+   OUTLOOK_CALENDAR_CLIENT_ID=dit-application-id
+   OUTLOOK_CALENDAR_CLIENT_SECRET=din-client-secret
+   # common (standard), organizations, consumers eller et tenant-GUID
+   # OUTLOOK_CALENDAR_TENANT_ID=common
+   # Kun hvis callbacken afviger fra NEXT_PUBLIC_APP_URL + /api/integrations/outlook/callback
+   # OUTLOOK_CALENDAR_REDIRECT_URI=https://timewren.example.com/api/integrations/outlook/callback
+   ```
+
+5. Genstart appen.
+
+Login-appen til Microsoft Entra ID (`MICROSOFT_CLIENT_ID`) bruges aldrig til kalenderen. Uden variablerne ovenfor vises Outlook ikke. Flowet bruger PKCE og en signeret state, og tokens gemmes krypteret, så `ENCRYPTION_KEY` skal være sat.
+
+### Forbind som bruger
+
+Åbn Indstillinger, Integrationer, vælg Forbind Outlook, log ind hos Microsoft og godkend adgangen. Aftaler fra 30 dage tilbage til 90 dage frem synkroniseres hvert 15. minut af samme cron-job, og Synkroniser nu kører det med det samme. Der er ingen push-notifikationer for Outlook. Synkroniseringsfiltre, privatlivstilstand og matchningsregler deles med de andre udbydere. Afbryd sletter de gemte tokens og de hentede Outlook-aftaler. Microsoft har ingen måde at tilbagekalde én apps token på, så adgangen fjernes kun i TimeWren. Vil du også fjerne appen fra Microsoft-kontoen, så gå til account.live.com/consent/Manage (personlig konto) eller myapps.microsoft.com (arbejdskonto).
 
 ## iCloud
 
@@ -68,4 +103,4 @@ Sådan forbinder du:
 2. Åbn Indstillinger, Integrationer i TimeWren, find afsnittet om iCloud-kalender, indtast Apple-id'et og den app-specifikke adgangskode, og forbind.
 3. Vælg, hvilke kalendere der skal læses. Der læses intet fra kalendere, du ikke sætter flueben ved.
 
-Aftaler fra 30 dage tilbage til 90 dage frem synkroniseres. Det samme cronjob opdaterer dem hvert 15. minut, og Synkroniser nu kører det, når du vil. Synkroniseringsfiltre, privatlivstilstand og matchregler deles med Google.
+Aftaler fra 30 dage tilbage til 90 dage frem synkroniseres. Det samme cronjob opdaterer dem hvert 15. minut, og Synkroniser nu kører det, når du vil. Synkroniseringsfiltre, privatlivstilstand og matchregler deles med Google og Outlook.

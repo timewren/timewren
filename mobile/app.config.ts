@@ -2,6 +2,8 @@ import type { ConfigContext, ExpoConfig } from '@expo/config';
 
 import type { AppIconBadgeConfig } from 'app-icon-badge/types';
 
+import { statSync } from 'node:fs';
+import { resolve } from 'node:path';
 import 'tsx/cjs';
 
 // adding lint exception as we need to import tsx/cjs before env.ts is imported
@@ -11,6 +13,21 @@ import Env, { timewren } from './env';
 const isTimeWren = process.env.APP_VARIANT === 'timewren';
 const asset = (name: string) => `./assets/${isTimeWren ? 'timewren/' : ''}${name}.png`;
 const primaryColor = isTimeWren ? timewren.primaryColor : '#3B82F6';
+// TimeWren bruger en lys flade bag mærket; TimeTrack bruger primærfarven.
+const surfaceColor = isTimeWren ? timewren.backgroundColor : primaryColor;
+
+function getGoogleServicesFile(projectRoot: string): string | undefined {
+  const variable = isTimeWren ? 'GOOGLE_SERVICES_JSON_TIMEWREN' : 'GOOGLE_SERVICES_JSON';
+  const stage = Env.EXPO_PUBLIC_APP_ENV;
+  const variant = isTimeWren ? 'timewren' : stage === 'production' ? 'timetrack' : stage;
+  const localFile = `./credentials/google-services.${variant}.json`;
+  const easFile = process.env[variable];
+  if (easFile && statSync(resolve(projectRoot, easFile), { throwIfNoEntry: false })?.isFile())
+    return easFile;
+  if (statSync(resolve(projectRoot, localFile), { throwIfNoEntry: false })?.isFile())
+    return localFile;
+  console.warn(`[Firebase] Android-push er ikke konfigureret for ${Env.EXPO_PUBLIC_PACKAGE}. Sæt ${variable} eller tilføj ${localFile}.`);
+}
 
 // ---------------------------------------------------------------------------
 // Store-udgivelse — hvad Mads skal udfylde (se docs/STORE-CHECKLIST.md):
@@ -69,6 +86,8 @@ const plugins: ExpoConfig['plugins'] = [
   ...sentryPlugin,
   // Xcode 27 (EAS latest) afviser pods med deployment target under 15.
   './plugins/with-pods-deployment-target',
+  // iOS 27 SDK kræver UIScene-livscyklus (se plugins/with-uiscene.js).
+  './plugins/with-uiscene',
   [
     'expo-build-properties',
     {
@@ -86,10 +105,12 @@ const plugins: ExpoConfig['plugins'] = [
   [
     'expo-splash-screen',
     {
-      backgroundColor: primaryColor,
+      backgroundColor: surfaceColor,
       image: asset('splash-icon'),
       imageWidth: 160,
-      dark: { backgroundColor: isTimeWren ? timewren.darkColor : '#1E3A8A' },
+      dark: isTimeWren
+        ? { backgroundColor: timewren.darkColor, image: asset('splash-icon-dark') }
+        : { backgroundColor: '#1E3A8A' },
     },
   ],
   [
@@ -158,10 +179,9 @@ const plugins: ExpoConfig['plugins'] = [
     },
   ],
   ['app-icon-badge', appIconBadgeConfig],
-  ['react-native-edge-to-edge'],
 ];
 
-export default ({ config }: ConfigContext): ExpoConfig => ({
+export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
   ...config,
   name: Env.EXPO_PUBLIC_NAME,
   description: isTimeWren ? 'TimeWren' : 'TimeTrack — tidsregistrering, klippekort og fravær for freelancere, teams og virksomheder',
@@ -176,9 +196,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   // Systemtekster pr. sprog (iOS InfoPlist.strings). Dansk står i infoPlist
   // nedenfor og er standard; Android har ingen egne permission-tekster.
   locales: {
-    en: { NSPhotoLibraryUsageDescription: 'Choose a picture from your photo library to attach it to a task.' },
-    de: { NSPhotoLibraryUsageDescription: 'Wähle ein Bild aus deiner Fotomediathek, um es an eine Aufgabe anzuhängen.' },
-    es: { NSPhotoLibraryUsageDescription: 'Elige una imagen de tu fototeca para adjuntarla a una tarea.' },
+    en: { ios: { NSPhotoLibraryUsageDescription: 'Choose a picture from your photo library to attach it to a task.' } },
+    de: { ios: { NSPhotoLibraryUsageDescription: 'Wähle ein Bild aus deiner Fotomediathek, um es an eine Aufgabe anzuhängen.' } },
+    es: { ios: { NSPhotoLibraryUsageDescription: 'Elige una imagen de tu fototeca para adjuntarla a una tarea.' } },
   },
   // Ingen OTA-opdateringer før der findes et EAS-projekt (expo-updates er ikke
   // installeret). Slå til ved at installere expo-updates, sætte enabled: true og
@@ -226,11 +246,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     typedRoutes: true,
   },
   android: {
+    edgeToEdgeEnabled: true,
     adaptiveIcon: {
       foregroundImage: asset('adaptive-icon'),
-      backgroundColor: primaryColor,
+      ...(isTimeWren ? { monochromeImage: asset('adaptive-icon-monochrome') } : {}),
+      backgroundColor: surfaceColor,
     },
     package: Env.EXPO_PUBLIC_PACKAGE,
+    googleServicesFile: getGoogleServicesFile(projectRoot),
     versionCode: APP_BUILD_NUMBER,
     // Session-cookie ligger i SecureStore/Keystore — den må ikke ende i
     // Google-backup af app-data.

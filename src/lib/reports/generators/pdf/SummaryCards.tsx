@@ -1,19 +1,10 @@
 // src/lib/reports/generators/pdf/SummaryCards.tsx
 
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
-import { toIntlLocale } from "@/i18n/format-locale";
-import { resolveSharedLocale, sharedT } from "@/i18n/shared-text";
+import { sharedT } from "@/i18n/shared-text";
 import { BRAND_LIGHT as T } from "@/lib/brand/tokens";
+import { dkkCurrencyFormatter } from "@/lib/format";
 import type { ReportAggregates } from "../../query";
-
-function formatCurrency(n: number): string {
-  return new Intl.NumberFormat(toIntlLocale(resolveSharedLocale()), {
-    style: "currency",
-    currency: "DKK",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(n);
-}
 
 function formatHours(h: number): string {
   const hh = Math.floor(h);
@@ -54,7 +45,9 @@ export function SummaryCards({
         <Text style={s.label}>
           {sharedT("sharedReports", "pdf.totalRevenue")}
         </Text>
-        <Text style={s.value}>{formatCurrency(summary.totalRevenue)}</Text>
+        <Text style={s.value}>
+          {dkkCurrencyFormatter.format(summary.totalRevenue)}
+        </Text>
       </View>
       <View style={s.card}>
         <Text style={s.label}>{sharedT("sharedReports", "pdf.unbilled")}</Text>
@@ -64,7 +57,9 @@ export function SummaryCards({
         <Text style={s.label}>
           {sharedT("sharedReports", "pdf.unbilledValue")}
         </Text>
-        <Text style={s.value}>{formatCurrency(summary.unbilledRevenue)}</Text>
+        <Text style={s.value}>
+          {dkkCurrencyFormatter.format(summary.unbilledRevenue)}
+        </Text>
       </View>
     </View>
   );

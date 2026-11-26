@@ -8,6 +8,7 @@ import {
 } from "@/lib/db/schema";
 import { demoUnavailableResponse } from "@/lib/demo/route-guard";
 import { signLicenseProof } from "@/lib/desktop-auth";
+import { licenseMatchesHost } from "@/lib/desktop-license-brand";
 import {
   checkRateLimit,
   getClientIp,
@@ -20,7 +21,7 @@ import {
  * Activate a license key for a device.
  *
  * Body: {
- *   licenseKey: "TT-XXXX-XXXX-XXXX-XXXX",
+ *   licenseKey: "TT-XXXX-XXXX-XXXX-XXXX" (TW-... for TimeWren),
  *   machineId: "...",
  *   deviceName?: "...",
  *   os?: "windows" | "macos" | "linux"
@@ -62,7 +63,12 @@ export async function POST(request: Request) {
       where: eq(desktopLicenses.licenseKey, licenseKey),
     });
 
-    if (!license) {
+    // A licence only activates on its own brand's host (TT- on TimeTrack, TW-
+    // on TimeWren); anywhere else it is "not found", so keys do not leak.
+    if (
+      !license ||
+      !licenseMatchesHost(license.licenseKey, request.headers.get("host"))
+    ) {
       return NextResponse.json(
         { error: "Invalid license key" },
         { status: 404 },

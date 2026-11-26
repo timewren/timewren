@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { mk } from "@/components/marketing/mk";
 import { Navigation } from "@/components/Navigation";
-import { appLinkHref } from "@/lib/config";
+import { appLinkHref, getMarketingUrl } from "@/lib/config";
 import { HOME_PRICE_LINE, TRIAL_DAYS } from "@/lib/marketing/pricing-copy";
 
 const TITLE = "Freelancer timepris 2026: sådan regner du din minimumssats ud";
@@ -41,7 +41,7 @@ export default function FreelancerTimepris2026Page() {
     dateModified: "2026-10-12",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://timetrack.dk${PATH}`,
+      "@id": new URL(PATH, getMarketingUrl()).href,
     },
   };
 

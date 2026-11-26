@@ -1,6 +1,7 @@
 import { Link, Text } from "@react-email/components";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { brand as buildBrand } from "@/lib/brand";
+import { DEMO_CURRENCY } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import type { MailBrand } from "@/lib/email/mail-brand";
 import {
@@ -16,6 +17,7 @@ interface InvoiceEmailProps {
   invoiceNumber: string;
   clientName: string;
   amount: string;
+  currency?: typeof DEMO_CURRENCY;
   dueDate: string;
   senderName: string;
   senderEmail: string;
@@ -29,21 +31,29 @@ interface InvoiceEmailProps {
  * Beløbet kommer fra databasen som "8125.00"; skriv det som "8.125,00 kr.".
  * En tekst der allerede er formateret ("8.125,00") får kun enheden.
  */
-function formatKr(raw: string, locale: string): string {
+function formatAmount(
+  raw: string,
+  locale: string,
+  currency?: typeof DEMO_CURRENCY,
+): string {
   const t = mailT("emailsBilling", locale);
   const value = raw.trim();
-  if (!/^-?\d+(\.\d+)?$/.test(value)) return t("kr", { amount: value });
-  const formatted = new Intl.NumberFormat(toIntlLocale(locale), {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(Number(value));
-  return t("kr", { amount: formatted });
+  const formatted = /^-?\d+(\.\d+)?$/.test(value)
+    ? new Intl.NumberFormat(toIntlLocale(locale), {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(Number(value))
+    : value;
+  return currency === DEMO_CURRENCY
+    ? `${formatted} ${currency}`
+    : t("kr", { amount: formatted });
 }
 
 export function InvoiceEmail({
   invoiceNumber,
   clientName,
   amount,
+  currency,
   dueDate,
   senderName,
   senderEmail,
@@ -60,7 +70,7 @@ export function InvoiceEmail({
       month: "long",
       year: "numeric",
     });
-  const formattedAmount = formatKr(amount, locale);
+  const formattedAmount = formatAmount(amount, locale, currency);
 
   return (
     <EmailShell

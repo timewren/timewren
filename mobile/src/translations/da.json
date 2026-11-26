@@ -6,6 +6,18 @@
     "email": "E-mail",
     "error_generic": "Login mislykkedes. Tjek e-mail og adgangskode, og prøv igen.",
     "error_no_session": "Kunne ikke hente din session. Prøv igen.",
+    "errors": {
+      "code_expired": "Koden er udløbet. Log ind igen for at få en ny.",
+      "email_not_verified": "Din e-mail er ikke bekræftet endnu. Åbn linket i bekræftelsesmailen, og prøv igen.",
+      "invalid_code": "Koden passer ikke. Prøv igen.",
+      "invalid_credentials": "Forkert e-mail eller adgangskode.",
+      "invalid_email": "E-mailadressen er ikke gyldig.",
+      "network": "Ingen forbindelse. Prøv igen, når du er online.",
+      "password_too_long": "Adgangskoden er for lang.",
+      "password_too_short": "Adgangskoden er for kort.",
+      "too_many_attempts": "For mange forsøg. Vent lidt, og prøv igen.",
+      "user_exists": "Der findes allerede en konto med den e-mail. Log ind i stedet."
+    },
     "link_sent_body": "Vi har sendt et login-link til {{email}}. Åbn det på denne telefon.",
     "link_sent_title": "Tjek din indbakke",
     "no_account_hint": "Har du ikke en konto? Opret den her",
@@ -22,10 +34,24 @@
       "sent_title": "Bekræft din e-mail",
       "submit": "Opret konto",
       "subtitle": "30 dages gratis prøveperiode — uden kort.",
-      "terms": "Ved at oprette en konto accepterer du vilkårene og privatlivspolitikken på timetrack.dk.",
+      "terms": "Ved at oprette en konto accepterer du vilkårene og privatlivspolitikken på {{site}}.",
       "title": "Opret konto"
     },
     "tagline": "Tid, klippekort og fravær — i lommen.",
+    "two_factor": {
+      "body_backup": "Skriv en af dine backupkoder.",
+      "body_otp": "Vi har sendt en kode til din e-mail. Skriv den her.",
+      "body_totp": "Skriv den 6-cifrede kode fra din godkendelsesapp.",
+      "cancel": "Tilbage til login",
+      "code": "Kode",
+      "code_sent": "Koden er sendt til din e-mail.",
+      "resend_email": "Send koden igen",
+      "title": "Bekræft, at det er dig",
+      "use_backup": "Brug en backupkode",
+      "use_email": "Send en kode på e-mail i stedet",
+      "use_totp": "Brug koden fra godkendelsesappen",
+      "verify": "Bekræft"
+    },
     "use_magic_link": "Brug login-link i stedet",
     "use_other_email": "Brug en anden e-mail",
     "use_password": "Log ind med adgangskode"
@@ -44,7 +70,7 @@
     "cycle_yearly": "Årlig",
     "ends_on": "Udløber {{date}}",
     "errors": {
-      "account_mismatch": "Købet hører til en anden TimeTrack-konto. Log ind med den konto, der købte abonnementet.",
+      "account_mismatch": "Købet hører til en anden {{appName}}-konto. Log ind med den konto, der købte abonnementet.",
       "already_owned": "Du har allerede dette abonnement. Tryk på Gendan køb for at hente det.",
       "network": "Ingen forbindelse. Prøv igen, når du er online.",
       "purchase_failed": "Købet gik ikke igennem. Prøv igen.",
@@ -255,6 +281,7 @@
     "requires_enterprise": "Kræver enterprise-modulet.",
     "requires_manager": "Kræver leder- eller HR-rolle.",
     "retry": "Prøv igen",
+    "root_error": "Appen kunne ikke indlæses. Prøv igen.",
     "save": "Gem",
     "today": "I dag",
     "yes": "Ja"
@@ -341,6 +368,9 @@
       "tab_approve": "Godkend",
       "tab_overview": "Overblik",
       "tab_requests": "Anmodninger",
+      "tab_team": "Team",
+      "team_calendar_empty": "Intet godkendt teamfravær i denne måned",
+      "team_calendar_offline": "Teamfravær kan først hentes, når du er online.",
       "title": "Fravær",
       "type": "Fraværstype",
       "type_placeholder": "Vælg type",
@@ -467,7 +497,7 @@
       "unread": "Ulæste"
     },
     "locked": {
-      "description": "Fravær, flex og overtid er en del af TimeTrack Enterprise. Kontakt din administrator for at få det slået til.",
+      "description": "Fravær, flex og overtid er en del af {{appName}} Enterprise. Kontakt din administrator for at få det slået til.",
       "title": "Kræver Enterprise"
     },
     "overtime": {
@@ -694,7 +724,8 @@
       "tag_inherited": "{{name}} (fra kunde/projekt)",
       "tag_load_error": "Tags kunne ikke hentes.",
       "tags": "Tags",
-      "task": "Opgave"
+      "task": "Opgave",
+      "task_more": "Listen viser kun de første opgaver. Resten findes under Opgaver."
     },
     "internal": "Intern tid",
     "month": "Måned",
@@ -709,6 +740,7 @@
     "register": "Registrer tid",
     "save": "Gem",
     "saved": "Registrering gemt",
+    "selected_project": "Valgt projekt",
     "tags_not_saved": "Tiden er gemt, men tags kunne ikke sættes.",
     "title": "Tid",
     "today": "I dag",
@@ -892,14 +924,18 @@
       "clients": "Kunder",
       "cta": "Overfør til min konto",
       "delete": "Slet lokale data i stedet",
+      "destination_changed": "Importen er stoppet. Vend tilbage til den oprindelige server, log ind med den oprindelige konto, og vælg den oprindelige organisation under Indstillinger. Luk og åbn appen for at prøve igen.",
       "done": "Overført. Din tid ligger nu på din konto.",
       "entries": "Registreringer",
+      "entry_conflict": "Importen er stoppet, fordi en lokal post afviger fra den gemte serverpost. Den lokale kopi er bevaret. Sammenlign posterne, og ret eventuelt serverposten, før du prøver igen.",
       "later": "Senere",
+      "legacy_journal": "En tidligere import mangler oplysninger om, hvor den blev sendt hen. Appen kan derfor ikke genoptage den sikkert. Dine registreringer ligger stadig på telefonen.",
       "progress": "Overfører {{done}} af {{total}}…",
       "projects": "Projekter",
       "tags": "Tags",
       "title": "Overfør din tid",
-      "total": "Tid i alt"
+      "total": "Tid i alt",
+      "unsupported_server": "Denne server understøtter ikke sikker import til den valgte organisation. Dine registreringer ligger stadig på telefonen."
     },
     "log_in": "Log ind",
     "manage": "Projekter, kunder og tags",
@@ -965,7 +1001,7 @@
     "worked": "Registreret"
   },
   "more": {
-    "about": "Om TimeTrack",
+    "about": "Om {{appName}}",
     "absence": "Fravær",
     "account": "Konto",
     "appearance": "Udseende",
@@ -1006,9 +1042,20 @@
     "week_review": "Ugens afslutning",
     "work": "Arbejde"
   },
+  "navigation": {
+    "app": "{{appName}}",
+    "client": "Kunde",
+    "entry": "Tidsregistrering",
+    "invoice": "Faktura",
+    "prepaid": "Klippekort",
+    "project": "Projekt",
+    "settings": "Indstillinger",
+    "task": "Opgave",
+    "welcome": "Velkommen til {{appName}}"
+  },
   "notifications": {
     "daily_body": "Har du registreret tid i dag?",
-    "daily_title": "TimeTrack",
+    "daily_title": "{{appName}}",
     "reminders": "Påmindelser",
     "reminders_daily": "Daglig påmindelse kl. 17 på hverdage",
     "reminders_daily_hint": "\"Har du registreret tid i dag?\" — kun lokalt på telefonen",
@@ -1028,11 +1075,14 @@
     "badge_failed": "Fejlet",
     "badge_pending": "Afventer sync",
     "banner_failed": "{{count}} ændring(er) kunne ikke synkroniseres — tryk for at se",
+    "banner_hint": "Åbner listen over ændringer, der venter",
     "banner_offline": "Ingen forbindelse — ændringer gemmes lokalt",
     "banner_offline_pending": "Offline – {{count}} ændring(er) venter",
     "banner_pending": "{{count}} ændring(er) venter på sync",
     "banner_syncing": "Synkroniserer…",
     "discard": "Kassér",
+    "discard_body": "Den bliver ikke sendt til serveren og kan ikke hentes tilbage.",
+    "discard_title": "Kassér ændringen?",
     "empty_body": "Alle dine ændringer er synkroniseret.",
     "empty_title": "Intet i køen",
     "failed_label": "Fejl",
@@ -1046,6 +1096,8 @@
     "other_org": "Gemt under en anden organisation",
     "other_org_body": "Disse ændringer hører til en organisation, du ikke er i lige nu. Skift tilbage til den, eller kassér dem.",
     "queue_heading": "Kø ({{count}})",
+    "read_saved": "Viser gemte data. Sidst opdateret {{updated}}.",
+    "read_unavailable": "Du er offline. Der er ingen gemte data til denne visning.",
     "retry": "Prøv igen",
     "row_failed": "Kunne ikke synkroniseres — se Indstillinger",
     "row_pending": "Gemt offline — synkroniseres når der er net",
@@ -1164,7 +1216,7 @@
         "title": "Årsoversigt og tendenser"
       },
       "sync": {
-        "body": "Din tid på alle dine enheder og på timetrack.dk.",
+        "body": "Din tid på alle dine enheder og på {{webHost}}.",
         "title": "Backup og synkronisering"
       }
     },
@@ -1172,8 +1224,8 @@
     "not_now": "Ikke nu",
     "price_note": "Privat er et abonnement med månedlig eller årlig betaling, og du ser prisen, før du køber. Årsoversigt og eksport er gratis i beta lige nu.",
     "see_plans": "Se abonnementer",
-    "title": "TimeTrack Privat",
-    "what_is": "Hvad er TimeTrack Privat?"
+    "title": "{{appName}} Privat",
+    "what_is": "Hvad er {{appName}} Privat?"
   },
   "prepaid": {
     "actions_title": "Handlinger",
@@ -1218,7 +1270,7 @@
     "hours": "Timer",
     "low_balance": "Lav saldo",
     "manual_entry": "Manuelt træk",
-    "module_disabled_body": "Slå modulet til under Indstillinger på app.timetrack.dk.",
+    "module_disabled_body": "Slå modulet til under Indstillinger på {{webHost}}.",
     "module_disabled_title": "Klippekort er slået fra",
     "name": "Navn",
     "name_placeholder": "fx 10-timers klippekort",
@@ -1326,7 +1378,7 @@
     "due_title": "Klar nu",
     "edit_action": "Redigér",
     "edit_title": "Redigér skabelon",
-    "empty_action": "Åbn TimeTrack på web",
+    "empty_action": "Åbn {{appName}} på web",
     "empty_body": "En skabelon registrerer de samme timer igen og igen. Du opretter den på web, og herfra kan du lægge den ind, når den er klar.",
     "empty_title": "Ingen gentagne registreringer",
     "error_client": "Vælg en kunde eller et projekt — tiden skal skrives på noget.",
@@ -1401,6 +1453,7 @@
     "by_client": "Pr. kunde",
     "by_member": "Pr. medarbejder",
     "by_project": "Pr. projekt",
+    "csv_share_error": "Kunne ikke åbne delingsarket. Prøv igen.",
     "csv_title": "Tidsrapport {{start}} – {{end}}",
     "empty_body": "Der er ingen registreringer i den valgte periode.",
     "empty_title": "Ingen data",
@@ -1492,9 +1545,9 @@
       "changelog_empty": "Ingen nyheder endnu",
       "privacy": "Privatlivspolitik",
       "terms": "Vilkår",
-      "title": "Om TimeTrack",
+      "title": "Om {{appName}}",
       "version": "Version",
-      "website": "timetrack.dk"
+      "website": "{{site}}"
     },
     "appearance": {
       "danish": "Dansk",
@@ -1535,23 +1588,24 @@
     },
     "delete_account": {
       "cancel": "Annullér",
-      "confirm_body": "Alle dine registreringer, kunder og data slettes permanent. Dette kan ikke fortrydes.",
+      "confirm_body": "Din konto slettes permanent. Dette kan ikke fortrydes.",
       "confirm_cta": "Slet min konto",
       "confirm_title": "Er du helt sikker?",
       "cta": "Slet konto permanent",
       "done": "Din konto er slettet.",
       "field": "Skriv din e-mail for at bekræfte",
       "instruction": "For at bekræfte skal du skrive den e-mail, du er logget ind med:",
-      "org_delete": "Du er eneste ejer af «{{name}}». De {{count}} andre medlemmer fjernes, og organisationen slettes med alle dens data.",
       "org_leave": "Du forlader «{{name}}». Dine registreringer bliver i organisationen uden dit navn, og din konto og dine personoplysninger slettes.",
+      "org_transfer": "Du er eneste ejer af «{{name}}». Log ind på {{webHost}}, vælg teamet, og overdrag ejerskabet til et andet medlem under Organisation. Åbn derefter Slet konto igen.",
       "orgs_error": "Dine organisationer kunne ikke hentes. Prøv igen, før du sletter kontoen.",
       "orgs_title": "Organisationer du deler med andre",
+      "retry_error": "Kontoen kunne ikke slettes. Prøv igen, eller kontakt support, hvis fejlen fortsætter.",
       "store_body_apple": "Abonnementet er købt i App Store. Løber det stadig, bliver du ved med at betale for det, selvom du sletter kontoen. Opsig det under Administrér abonnement, før du sletter kontoen.",
       "store_body_google": "Abonnementet er købt i Google Play. Løber det stadig, bliver du ved med at betale for det, selvom du sletter kontoen. Opsig det under Administrér abonnement, før du sletter kontoen.",
       "store_title": "Dit abonnement stopper ikke af sig selv",
       "title": "Slet konto",
-      "warning_body": "Din konto, organisation (hvis du er eneste ejer), tidsregistreringer, kunder, fakturaer og klippekort slettes permanent. Har du et aktivt abonnement, opsiges det.",
-      "warning_body_store": "Din konto, organisation (hvis du er eneste ejer), tidsregistreringer, kunder, fakturaer og klippekort slettes permanent.",
+      "warning_body": "Din konto slettes permanent. Har du et aktivt abonnement, opsiges det.",
+      "warning_body_store": "Din konto slettes permanent.",
       "warning_title": "Dette kan ikke fortrydes"
     },
     "feedback": {
@@ -1577,7 +1631,7 @@
       "channel_push": "Browser-push",
       "channel_slack": "Slack",
       "channels": "Andre kanaler",
-      "channels_hint": "Opsættes på app.timetrack.dk",
+      "channels_hint": "Opsættes på {{webHost}}",
       "connected": "Forbundet",
       "disconnected": "Ikke forbundet",
       "email": "E-mail",
@@ -1585,10 +1639,12 @@
       "inactivity": "Påmindelse ved inaktivitet",
       "monthly_report": "Månedsrapport",
       "new_login_alert": "Advarsel ved nyt login",
+      "open_settings": "Åbn Indstillinger",
       "push": "Push på denne telefon",
       "push_denied": "Du har afvist notifikationer. Slå dem til i telefonens indstillinger.",
       "push_enable": "Modtag push-notifikationer",
       "push_error": "Kunne ikke registrere telefonen. Prøv igen.",
+      "push_firebase_unavailable": "Push-notifikationer er ikke sat op i denne version. Opdatér appen, når en ny version er tilgængelig.",
       "push_hint": "Timerstop, godkendelser og påmindelser",
       "push_simulator": "Push virker kun på en rigtig telefon",
       "saved": "Gemt",
@@ -1611,7 +1667,7 @@
     "profile": {
       "delete_account": "Slet konto",
       "email": "E-mail",
-      "email_hint": "Skift e-mail på app.timetrack.dk",
+      "email_hint": "Skift e-mail på {{webHost}}",
       "hourly_rate": "Standardtimepris (kr.)",
       "name": "Navn",
       "name_error": "Skriv et navn på mindst 2 tegn",
@@ -1626,7 +1682,7 @@
       "current": "Denne enhed",
       "expired": "Udløbet",
       "login_history": "Login-historik",
-      "manage_on_web": "Administreres på app.timetrack.dk",
+      "manage_on_web": "Administreres på {{webHost}}",
       "passkeys": "Passkeys",
       "passkeys_empty": "Ingen passkeys",
       "revoke": "Log ud",
@@ -1691,7 +1747,7 @@
     "start": {
       "body": "Vi opretter din arbejdsplads med 30 dages gratis prøveperiode. Ingen kort, ingen binding.",
       "cta": "Kom i gang",
-      "title": "Velkommen til TimeTrack"
+      "title": "Velkommen til {{appName}}"
     }
   },
   "tabs": {
@@ -1767,6 +1823,7 @@
     "no_deadline": "Ingen deadline",
     "no_description": "Ingen beskrivelse",
     "no_project": "Intet projekt",
+    "none_in_loaded": "Ingen i det hentede. Tryk på Vis flere for at søge videre.",
     "open_client_hint": "Åbner kunden",
     "open_project_hint": "Åbner projektet",
     "overdue_badge": "Forfalden",
@@ -1786,6 +1843,7 @@
       "overdue": "Forfaldne",
       "today": "I dag"
     },
+    "show_more": "Vis flere",
     "start_timer": "Start timer på opgaven",
     "status": "Status",
     "subtasks": "Underopgaver",
@@ -1822,10 +1880,15 @@
     "client_only": "Kun kunden (uden projekt)",
     "clients_loaded": "Kunder indlæst",
     "default_description": "Tidsregistrering",
+    "description_label": "Beskrivelse",
     "description_placeholder": "Hvad arbejder du på?",
     "discard": "Kassér",
     "discard_body": "Tiden bliver ikke gemt.",
     "discard_title": "Kassér timeren?",
+    "elapsed_hours_one": "{{count}} time",
+    "elapsed_hours_other": "{{count}} timer",
+    "elapsed_minutes_one": "{{count}} minut",
+    "elapsed_minutes_other": "{{count}} minutter",
     "favorites_title": "Favoritter",
     "idle": "Stopur ikke startet",
     "internal": "Intern tid",
@@ -1856,7 +1919,7 @@
   "update": {
     "body": "Dine ventende registreringer er gemt på telefonen og sendes, så snart appen er opdateret.",
     "button": "Opdatér appen",
-    "title": "Din TimeTrack-app er for gammel — opdatér for at fortsætte"
+    "title": "Din {{appName}}-app er for gammel — opdatér for at fortsætte"
   },
   "waste": {
     "above_threshold": "over {{minutes}} min.",

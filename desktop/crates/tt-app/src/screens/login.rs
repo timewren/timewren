@@ -30,6 +30,16 @@ impl std::fmt::Display for AuthError {
     }
 }
 
+/// Teksten til en server-adresse, der ikke dur (`tt_core::edition::normalize_server_url`).
+pub fn server_url_error(e: tt_core::edition::ServerUrlError) -> &'static str {
+    use tt_core::edition::ServerUrlError::*;
+    match e {
+        Empty | Invalid => crate::i18n::t("login.server.err.invalid"),
+        NeedsHttps => crate::i18n::t("login.server.err.https"),
+        Credentials => crate::i18n::t("login.server.err.credentials"),
+    }
+}
+
 /// `%C3%A6` → "æ", `+` → mellemrum. Ugyldige sekvenser beholdes som de er.
 pub fn percent_decode(s: &str) -> String {
     let b = s.as_bytes();

@@ -1,0 +1,11 @@
+-- Googles stabile konto-id (`sub`, feltet `id` fra userinfo) på primære
+-- Google Calendar-forbindelser (docs/specs/timewren-cloud.md → 5, "Kalender").
+-- Et tilbagekald hos Google fjerner hele bevillingen for Google-kontoen, så
+-- frakobling skal kunne se, om en anden forbindelse har samme konto, også
+-- hvis kontoens e-mail er skiftet. E-mailen i provider_account_id kan skifte;
+-- sub kan ikke.
+--
+-- Rent additivt: én ny nullable kolonne uden default. Eksisterende rækker får
+-- værdien ved næste synk eller gentilkobling; indtil da tilbagekaldes de ikke.
+-- Idempotent.
+ALTER TABLE "calendar_connections" ADD COLUMN IF NOT EXISTS "provider_account_sub" varchar(255);

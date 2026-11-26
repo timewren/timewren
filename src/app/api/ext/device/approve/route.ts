@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { tr } from "@/i18n/server-text";
 import { auth } from "@/lib/auth";
 import { resolvePrimaryOrgId } from "@/lib/auth/active-org";
+import { deviceLoginBrand } from "@/lib/auth/device-brand";
 import { getAppUrl } from "@/lib/config";
 import { db } from "@/lib/db";
 import { deviceAuthCodes, members } from "@/lib/db/schema";
@@ -33,8 +34,10 @@ import { hashToken } from "@/lib/security/token-hash";
  * tokenet udstedes først, når appen veksler koden med sin verifier
  * (extension.device.exchangeCode), så det aldrig står i en URL.
  *
- * Body: { state, codeChallenge, deviceId, deviceName?, os?, kind?, organizationId? }
+ * Body: { state, codeChallenge, deviceId, deviceName?, os?, kind?, redirectUri?, organizationId? }
  * Svar: { redirectUrl: "timetrack://auth/callback?code=…&state=…" }
+ * `redirectUri` vælger appens scheme (timetrack:// eller timewren://), men kun
+ * fra allowlisten; ellers bruges instansens brand (se resolveDeviceCallback).
  */
 export async function POST(request: Request) {
   const ip = getClientIp(request);
@@ -124,7 +127,12 @@ export async function POST(request: Request) {
       expiresAt: new Date(Date.now() + DEVICE_CODE_TTL_MS),
     });
 
-    return NextResponse.json({ redirectUrl: deviceCallbackUrl(code, state) });
+    return NextResponse.json({
+      redirectUrl: deviceCallbackUrl(code, state, {
+        redirectUri: body.redirectUri,
+        brand: deviceLoginBrand(request),
+      }),
+    });
   } catch (error) {
     console.error("[ext device approve] error:", error);
     return NextResponse.json(

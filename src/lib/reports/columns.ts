@@ -1,6 +1,7 @@
 // src/lib/reports/columns.ts
 import { toIntlLocale } from "@/i18n/format-locale";
 import { resolveSharedLocale, sharedT } from "@/i18n/shared-text";
+import { withDemoCurrency } from "@/lib/demo/currency-messages";
 import { toLocalDateStr } from "@/lib/format";
 import type { ReportColumnKey } from "./config-schema";
 
@@ -77,7 +78,7 @@ export function formatReportCell(
       maximumFractionDigits: 2,
     });
     return format === "currency"
-      ? `${n}${sharedT("sharedLabels", "report.currencySuffix", undefined, locale)}`
+      ? `${n}${withDemoCurrency(sharedT("sharedLabels", "report.currencySuffix", undefined, locale))}`
       : n;
   }
   return value;

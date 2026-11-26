@@ -10,7 +10,7 @@ import {
 import { mailT } from "@/lib/email/locale";
 import { brandUrl, resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
-import { isTestEmailRecipient } from "@/lib/email/test-recipient";
+import { isTestEmailRecipientOrAllow } from "@/lib/email/test-recipient";
 import { isMailAvailable } from "@/lib/email/transport";
 import { DEFAULT_FROM_EMAIL, resend } from "@/lib/resend";
 import { logEmailSkipped, withEmailLogging } from "./logger";
@@ -35,6 +35,7 @@ export async function sendPaymentFailedEmail({
   const mb = await resolveMailBrand({ userId, email: to });
   const logContext = {
     emailType: "payment_failed" as const,
+    userId,
     to,
     amountDue,
   };
@@ -109,13 +110,15 @@ export async function sendTrialEndingEmail({
   organizationId,
   templateKey = "trial_ending",
 }: SendTrialEndingEmailParams) {
-  if (await isTestEmailRecipient(to, userId, organizationId ?? undefined))
+  if (
+    await isTestEmailRecipientOrAllow(to, userId, organizationId ?? undefined)
+  )
     return;
   const mb = await resolveMailBrand({ userId, email: to });
   const logContext = {
     emailType: "trial_ending" as const,
     to,
-    daysRemaining,
+    userId,
   };
 
   if (!isMailAvailable()) {
@@ -154,7 +157,7 @@ export async function sendTrialEndingEmail({
       });
 
       if (response.error) {
-        throw new Error(`Resend API error: ${JSON.stringify(response.error)}`);
+        throw new Error("Failed to send trial ending email");
       }
 
       return response;
@@ -179,6 +182,7 @@ interface SendCancellationConfirmedEmailParams {
   endDate: string;
   reactivateUrl: string;
   userId?: string;
+  idempotencyKey?: string;
 }
 
 export async function sendCancellationConfirmedEmail({
@@ -187,10 +191,12 @@ export async function sendCancellationConfirmedEmail({
   endDate,
   reactivateUrl,
   userId,
+  idempotencyKey,
 }: SendCancellationConfirmedEmailParams) {
   const mb = await resolveMailBrand({ userId, email: to });
   const logContext = {
     emailType: "cancellation_confirmed" as const,
+    userId,
     to,
   };
 
@@ -221,12 +227,15 @@ export async function sendCancellationConfirmedEmail({
   return withEmailLogging(
     { ...logContext, subject },
     async () => {
-      const response = await resend.emails.send({
-        from: mb?.from ?? DEFAULT_FROM_EMAIL,
-        to,
-        subject,
-        html: emailHtml,
-      });
+      const response = await resend.emails.send(
+        {
+          from: mb?.from ?? DEFAULT_FROM_EMAIL,
+          to,
+          subject,
+          html: emailHtml,
+        },
+        idempotencyKey ? { idempotencyKey } : undefined,
+      );
 
       if (response.error) {
         throw new Error(`Resend API error: ${JSON.stringify(response.error)}`);

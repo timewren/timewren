@@ -39,6 +39,10 @@ macro_rules! icons {
 
             fn bytes(self) -> &'static [u8] {
                 match self {
+                    // Brandets mærke: TimeWren har sit eget (foreløbige) mærke.
+                    Icon::TimeTrack if cfg!(feature = "brand-timewren") => {
+                        include_bytes!("../../assets/icons/tt-maerke-timewren.svg")
+                    }
                     $(Icon::$name => include_bytes!(concat!("../../assets/icons/", $file, ".svg")),)*
                 }
             }
@@ -47,7 +51,8 @@ macro_rules! icons {
 }
 
 icons! {
-    // TimeTracks mærke (web: docs/brand/logo/tt-maerke-currentcolor.svg).
+    // Brandets mærke: TimeTracks (web: docs/brand/logo/tt-maerke-currentcolor.svg) eller
+    // TimeWrens (tt-maerke-timewren.svg, foreløbig monogram, se docs/v1/TIMEWREN.md).
     TimeTrack => "tt-maerke",
     // Navigation
     Home => "house",

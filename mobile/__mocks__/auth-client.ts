@@ -12,6 +12,15 @@ export const authClient = {
     social: jest.fn(async () => ({ error: null })),
     oauth2: jest.fn(async () => ({ error: null })),
   },
+  signUp: {
+    email: jest.fn(async () => ({ data: null as { token: string | null } | null, error: null })),
+  },
+  twoFactor: {
+    verifyTotp: jest.fn(async (_input: { code: string }) => ({ error: null })),
+    verifyOtp: jest.fn(async (_input: { code: string }) => ({ error: null })),
+    verifyBackupCode: jest.fn(async (_input: { code: string }) => ({ error: null })),
+    sendOtp: jest.fn(async () => ({ error: null })),
+  },
 };
 
 export function getSessionCookie(): Promise<string> {

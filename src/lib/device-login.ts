@@ -19,12 +19,20 @@
  */
 
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { appSchemes, BRAND_APP_SCHEMES } from "@/lib/auth/trusted-origins";
 
 export const DEVICE_CODE_TTL_MS = 5 * 60_000;
 export const DEVICE_ACCESS_TTL_MS = 30 * 24 * 60 * 60_000;
 export const DEVICE_REFRESH_TTL_MS = 180 * 24 * 60 * 60_000;
 
 export const DEVICE_CALLBACK_URL = "timetrack://auth/callback";
+/** Appens svar-sti efter scheme; samme for alle brands. */
+const CALLBACK_SUFFIX = "auth/callback";
+/** Callback pr. brand, når klienten ikke beder om et kendt scheme. */
+const BRAND_CALLBACK_URLS: Readonly<Record<string, string>> = {
+  timetrack: DEVICE_CALLBACK_URL,
+  timewren: `${BRAND_APP_SCHEMES.timewren[0]}${CALLBACK_SUFFIX}`,
+};
 
 export const DEVICE_CLIENT_KINDS = ["desktop", "mobile", "extension"] as const;
 export type DeviceClientKind = (typeof DEVICE_CLIENT_KINDS)[number];
@@ -95,18 +103,74 @@ export function cleanDeviceLabel(
   return cleaned ? cleaned.slice(0, maxLength) : null;
 }
 
-export function deviceCallbackUrl(code: string, state: string): string {
-  const callback = process.env.DEVICE_CALLBACK_URL ?? DEVICE_CALLBACK_URL;
-  if (
-    !/^[a-z][a-z0-9+.-]*:\/\/auth\/callback$/i.test(callback) ||
-    /^(https?|javascript|data|file|exp):/i.test(callback)
-  ) {
+function isNativeCallback(callback: string): boolean {
+  return (
+    /^[a-z][a-z0-9+.-]*:\/\/auth\/callback$/i.test(callback) &&
+    !/^(https?|javascript|data|file|exp):/i.test(callback)
+  );
+}
+
+/**
+ * Callbacks klienten må bede om: samme allowlist som better-auths
+ * trustedOrigins (APP_SCHEMES + brandenes app-schemes) plus instansens
+ * DEVICE_CALLBACK_URL. Aldrig en vilkårlig URL, så koden ikke kan sendes til
+ * en fremmed adresse (open redirect).
+ */
+export function allowedDeviceCallbacks(): string[] {
+  const schemes = [
+    ...appSchemes(process.env.APP_SCHEMES),
+    ...Object.values(BRAND_APP_SCHEMES).flat(),
+  ];
+  // Begge brands' standardcallbacks er altid med, også når APP_SCHEMES er
+  // sat til andet, så en klient aldrig mister sit eget scheme.
+  const callbacks = [
+    ...Object.values(BRAND_CALLBACK_URLS),
+    ...schemes.map((scheme) => `${scheme}${CALLBACK_SUFFIX}`),
+  ];
+  const configured = process.env.DEVICE_CALLBACK_URL;
+  if (configured && isNativeCallback(configured)) callbacks.push(configured);
+  return callbacks.filter((v, i, a) => a.indexOf(v) === i);
+}
+
+export interface DeviceCallbackOptions {
+  /** `redirect_uri` fra klienten. Kun et eksakt match i allowlisten tæller. */
+  redirectUri?: unknown;
+  /** Instansens/hostens brand; styrer fallbacket. Uden: timetrack. */
+  brand?: string;
+}
+
+/**
+ * Callbacket for en godkendelse: klientens `redirect_uri`, hvis den står i
+ * allowlisten; ellers instansens DEVICE_CALLBACK_URL; ellers brandets eget
+ * (timewren://auth/callback for TimeWren, ellers timetrack://auth/callback).
+ */
+export function resolveDeviceCallback({
+  redirectUri,
+  brand,
+}: DeviceCallbackOptions = {}): string {
+  const configured = process.env.DEVICE_CALLBACK_URL;
+  if (configured !== undefined && !isNativeCallback(configured)) {
     throw new Error(
       "DEVICE_CALLBACK_URL skal være et app-link til auth/callback",
     );
   }
+  if (typeof redirectUri === "string") {
+    const requested = redirectUri.trim().toLowerCase();
+    const match = allowedDeviceCallbacks().find(
+      (allowed) => allowed.toLowerCase() === requested,
+    );
+    if (match) return match;
+  }
+  return configured ?? BRAND_CALLBACK_URLS[brand ?? ""] ?? DEVICE_CALLBACK_URL;
+}
+
+export function deviceCallbackUrl(
+  code: string,
+  state: string,
+  options: DeviceCallbackOptions = {},
+): string {
   const params = new URLSearchParams({ code, state });
-  return `${callback}?${params.toString()}`;
+  return `${resolveDeviceCallback(options)}?${params.toString()}`;
 }
 
 /** Visningsnavn for tokenet i web's liste ("TimeTrack Desktop (Mads' Mac)"). */

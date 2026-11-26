@@ -5,6 +5,7 @@ import { isAppleCancel, signInWithApple } from '~/lib/auth/apple';
 import { authClient } from '~/lib/auth/client';
 import { translate } from '~/lib/i18n';
 import { showMessage } from '~/lib/notify';
+import { authErrorMessage } from './auth-errors';
 import { setSession } from './use-auth-store';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,22 +38,36 @@ export function useSignup() {
       await fn();
     }
     catch (e) {
-      showMessage({ message: (e as Error)?.message || translate('auth.error_generic'), type: 'danger' });
+      showMessage({ message: authErrorMessage(e), type: 'danger' });
     }
     finally {
       setBusy(null);
     }
   }, []);
 
+  /** Logget ind? Så videre ind i appen. `false` = ingen session (fx afbrudt socialt login). */
+  const enterIfSignedIn = React.useCallback(async (): Promise<boolean> => {
+    const { data } = await authClient.getSession();
+    if (!data)
+      return false;
+    setSession(data);
+    router.replace('/');
+    return true;
+  }, [router]);
+
   const signUpWithEmail = () => run('email', async () => {
-    const { error } = await authClient.signUp.email({
+    const { data, error } = await authClient.signUp.email({
       name: name.trim(),
       email: email.trim().toLowerCase(),
       password,
       callbackURL: '/',
     });
     if (error)
-      throw new Error(error.message);
+      throw error;
+    // En server uden mailbekræftelse (typisk selvhostet) logger ind med det
+    // samme. Før lovede appen så en bekræftelsesmail, der aldrig kom.
+    if (data?.token && await enterIfSignedIn())
+      return;
     setSent(true);
   });
 
@@ -67,17 +82,17 @@ export function useSignup() {
         throw err;
       }
     }
-    else if (provider === 'microsoft') {
-      await authClient.signIn.oauth2({ providerId: 'microsoft-entra-id', callbackURL: '/' });
-    }
     else {
-      await authClient.signIn.social({ provider, callbackURL: '/' });
+      const result = provider === 'microsoft'
+        ? await authClient.signIn.oauth2({ providerId: 'microsoft-entra-id', callbackURL: '/' })
+        : await authClient.signIn.social({ provider, callbackURL: '/' });
+      if (result?.error)
+        throw result.error;
     }
-    const { data } = await authClient.getSession();
-    if (!data)
-      throw new Error(translate('auth.error_no_session'));
-    setSession(data);
-    router.replace('/');
+    // Lukker brugeren browseren, returnerer expo-klienten stille uden session:
+    // det er et fortrudt valg, ikke en fejl. Apple melder selv sin annullering.
+    if (!await enterIfSignedIn() && provider === 'apple')
+      showMessage({ message: translate('auth.error_no_session'), type: 'danger' });
   });
 
   return {

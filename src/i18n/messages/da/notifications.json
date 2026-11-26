@@ -167,7 +167,7 @@
     "yesterdayTime": "Tid registreret i går: {h}t {m}m",
     "yesterdayDone": "Opgaver fuldført i går: {count}",
     "digestFooter": "TimeTrack • Daglig Oversigt",
-    "testTitle": "Test Notifikation",
+    "testTitle": "Testnotifikation",
     "testMessage": "Din Discord webhook er nu forbundet til TimeTrack! 🎉"
   },
   "taskDigestSubject": "Dine opgaver {date}",
@@ -178,7 +178,7 @@
     "bodyUnbilled": "{hours} er ikke faktureret.",
     "bodyRevenue": "Anslået omsætning: {amount} kr.",
     "bodyNone": "Husk at registrere din tid, inden dagen er omme.",
-    "footer": "TimeTrack Dagsoversigt"
+    "footer": "TimeTrack dagsoversigt"
   },
   "msg": {
     "idleDetected": {
@@ -272,7 +272,7 @@
     "whenDays": "om {days} dage",
     "upcomingLine": "• **{title}** ({project}) - deadline {when}",
     "upcomingTitle": "{count, plural, one {# opgave} other {# opgaver}} med kommende deadline",
-    "upcomingFooter": "TimeTrack Deadline Påmindelse",
+    "upcomingFooter": "TimeTrack deadline-påmindelse",
     "projOverdueTitle": "{count, plural, one {# projekt} other {# projekter}} over slutdato",
     "projOverdueLine": "• **{name}** - slutdato overskredet med {days, plural, one {# dag} other {# dage}}",
     "projSoonTitle": "{count, plural, one {# projekt} other {# projekter}} med kommende slutdato",
@@ -301,7 +301,7 @@
     "tasksDone": "Opgaver fuldført",
     "projects": "Projekter",
     "noEntriesToday": "Ingen tidsregistreringer i dag",
-    "weeklyTitle": "Ugentlig rapport - Uge {week}",
+    "weeklyTitle": "Ugentlig rapport - uge {week}",
     "unbilled": "Ufaktureret",
     "topClients": "Top klienter",
     "noEntriesWeek": "Ingen tidsregistreringer denne uge",
@@ -314,13 +314,13 @@
     "unbilledReminderDiscord": "Du har ufaktureret tid til en værdi af **{value} kr**.\n\n{list}",
     "unbilledReminderSlack": "Du har ufaktureret tid til en værdi af *{value} kr*.\n\n{list}",
     "unbilledReminderLine": "• {name}: {hours} - {value} kr",
-    "unbilledReminderFooter": "TimeTrack Ufaktureret Påmindelse",
+    "unbilledReminderFooter": "TimeTrack påmindelse om ufaktureret tid",
     "aiFocusName": "🎯 Dagens fokus ({count} opgaver)",
     "aiWarnings": "⚠️ Advarsler",
     "aiDeferred": "📋 Udskudt",
     "aiDeferredValue": "{count, plural, one {# opgave} other {# opgaver}} anbefales udskudt til senere",
     "aiGreeting": "God morgen, {name}!",
-    "aiFooter": "TimeTrack AI Forslag",
+    "aiFooter": "TimeTrack AI-forslag",
     "aiFocusBlock": "🎯 Dagens fokus",
     "aiWarningsBlock": "⚠️ Advarsler"
   }

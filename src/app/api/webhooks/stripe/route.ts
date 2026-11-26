@@ -1,8 +1,9 @@
-import { and, eq, ne, sql } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { toIntlLocale } from "@/i18n/format-locale";
 import {
+  DESKTOP_BRAND_METADATA_KEY,
   eventBrand,
   formatEur,
   TIMEWREN_STRIPE_BRAND,
@@ -10,6 +11,7 @@ import {
 import {
   handleTimewrenStripeEvent,
   type TimewrenWebhookDeps,
+  timewrenWebhookDatabase,
 } from "@/lib/billing/timewren-stripe-webhook";
 import { claimWebhookEvent } from "@/lib/billing/webhook-claim";
 import { db } from "@/lib/db";
@@ -111,11 +113,8 @@ export async function POST(request: Request) {
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-  } catch (err) {
-    console.error(
-      "[Stripe Webhook] Signature verification failed:",
-      err instanceof Error ? err.message : err,
-    );
+  } catch {
+    console.error("[Stripe Webhook] Signature verification failed");
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
@@ -216,22 +215,9 @@ export async function POST(request: Request) {
 function timewrenDeps(stripe: Stripe): TimewrenWebhookDeps {
   const mb = mailBrandFor(TIMEWREN_STRIPE_BRAND);
   return {
-    db,
-    withSubscriptionLock: (subscriptionId, fn) =>
-      db.transaction(async (tx) => {
-        await tx.execute(
-          sql`select pg_advisory_xact_lock(hashtext(${`stripe-subscription:${subscriptionId}`}))`,
-        );
-        return fn(tx as unknown as typeof db);
-      }),
+    ...timewrenWebhookDatabase(db),
     retrieveSubscription: (id) => stripe.subscriptions.retrieve(id),
     retrieveInvoice: (id) => stripe.invoices.retrieve(id),
-    setItemQuantity: async (itemId, quantity) => {
-      await stripe.subscriptionItems.update(itemId, {
-        quantity,
-        proration_behavior: "create_prorations",
-      });
-    },
     sendPaymentFailed: (args) => sendPaymentFailedEmail(args),
     sendCancellation: async ({ endDate, ...args }) => {
       const locale = await getRecipientLocale({
@@ -279,18 +265,22 @@ async function handleBrandedEvent(
     }
     await recordWebhookEvent(event, "success");
     return NextResponse.json({ received: true });
-  } catch (error) {
-    console.error(`[Stripe Webhook] Error processing ${event.type}:`, error);
+  } catch {
+    console.error(
+      "[Stripe Webhook] TimeWren event processing failed",
+      event.id,
+    );
     await recordWebhookEvent(
       event,
       "error",
-      error instanceof Error ? error.message : "Unknown error",
+      "TimeWren event processing failed",
     );
-    captureRouteError(error, {
+    captureRouteError(new Error("TimeWren Stripe event processing failed"), {
       route: "/api/webhooks/stripe",
       type: "webhook",
-      extra: { eventType: event.type, eventId: event.id, brand },
+      extra: { eventType: event.type, eventId: event.id },
     });
+
     return NextResponse.json(
       { error: "Webhook processing failed" },
       { status: 500 },
@@ -345,8 +335,15 @@ async function handleCheckoutCompleted(
   // Stripe amounts are in øre (smallest DKK unit); store whole DKK so the
   // admin revenue report reflects the price actually paid, not whatever
   // DESKTOP_LIFETIME_PRICE happens to be today (see LEGACY_DESKTOP_LIFETIME_PRICE).
+  // TimeWren sells the licence in EUR (metadata.desktop_brand, set by
+  // buildTimewrenDesktopCheckoutSessionParams): the amount is not DKK, so none
+  // is stored and the key gets the TW- prefix that scopes it to TimeWren.
+  const licenseBrand =
+    session.metadata?.[DESKTOP_BRAND_METADATA_KEY] === TIMEWREN_STRIPE_BRAND
+      ? TIMEWREN_STRIPE_BRAND
+      : "timetrack";
   const amountPaidDkk =
-    typeof session.amount_total === "number"
+    licenseBrand === "timetrack" && typeof session.amount_total === "number"
       ? Math.round(session.amount_total / 100)
       : null;
 
@@ -375,6 +372,7 @@ async function handleCheckoutCompleted(
       tier: existingLicense.tier,
       name: user?.name,
       maxDevices: existingLicense.maxDevices,
+      locale: session.metadata?.locale,
     });
     console.warn(
       `[Stripe Webhook] License already existed for session ${session.id}; key email re-sent`,
@@ -383,7 +381,7 @@ async function handleCheckoutCompleted(
   }
 
   // Generate the license key
-  const licenseKey = generateLicenseKey();
+  const licenseKey = generateLicenseKey(licenseBrand);
 
   // Determine expiration — one-time purchases are lifetime, subscriptions expire
   let expiresAt: Date | null = null;
@@ -431,6 +429,7 @@ async function handleCheckoutCompleted(
     tier,
     name: user?.name,
     maxDevices,
+    locale: session.metadata?.locale,
   });
 
   console.warn(
@@ -497,19 +496,13 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
  * - Handle cancellation at period end
  */
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
-  const customerId =
-    typeof subscription.customer === "string"
-      ? subscription.customer
-      : subscription.customer.id;
-
-  // Find license(s) by Stripe customer ID
   const licenses = await db.query.desktopLicenses.findMany({
-    where: eq(desktopLicenses.stripeCustomerId, customerId),
+    where: eq(desktopLicenses.stripeSubscriptionId, subscription.id),
   });
 
   if (licenses.length === 0) {
     console.warn(
-      `[Stripe Webhook] No desktop license found for customer ${customerId}`,
+      `[Stripe Webhook] No desktop license found for subscription ${subscription.id}`,
     );
     return;
   }
@@ -544,19 +537,13 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
  * - Deactivate the license when subscription is cancelled
  */
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
-  const customerId =
-    typeof subscription.customer === "string"
-      ? subscription.customer
-      : subscription.customer.id;
-
-  // Find license(s) by Stripe customer ID
   const licenses = await db.query.desktopLicenses.findMany({
-    where: eq(desktopLicenses.stripeCustomerId, customerId),
+    where: eq(desktopLicenses.stripeSubscriptionId, subscription.id),
   });
 
   if (licenses.length === 0) {
     console.warn(
-      `[Stripe Webhook] No desktop license found for customer ${customerId} (deletion)`,
+      `[Stripe Webhook] No desktop license found for subscription ${subscription.id} (deletion)`,
     );
     return;
   }

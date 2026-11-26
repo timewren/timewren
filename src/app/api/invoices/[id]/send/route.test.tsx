@@ -6,6 +6,8 @@ const mocks = vi.hoisted(() => ({
   requireInvoiceRouteAccess: vi.fn(),
   resolvePlanTier: vi.fn(),
   findFirst: vi.fn(),
+  logFindFirst: vi.fn(),
+  ensureRealInvoiceNumber: vi.fn(),
   transaction: vi.fn(),
   buildInvoicePdfProps: vi.fn(),
   isMailAvailable: vi.fn(),
@@ -23,7 +25,10 @@ vi.mock("@/lib/trpc/trpc", () => ({
 }));
 vi.mock("@/lib/db", () => ({
   db: {
-    query: { invoices: { findFirst: mocks.findFirst } },
+    query: {
+      invoices: { findFirst: mocks.findFirst },
+      integrationSyncLogs: { findFirst: mocks.logFindFirst },
+    },
     transaction: mocks.transaction,
     insert: mocks.insert,
     update: mocks.update,
@@ -55,7 +60,7 @@ vi.mock("@/lib/email/transport", () => ({
   isMailAvailable: mocks.isMailAvailable,
 }));
 vi.mock("@/lib/trpc/routers/invoices", () => ({
-  ensureRealInvoiceNumber: vi.fn(),
+  ensureRealInvoiceNumber: mocks.ensureRealInvoiceNumber,
 }));
 vi.mock("@/lib/resend", () => ({
   DEFAULT_FROM_EMAIL: "noreply@example.com",
@@ -74,11 +79,13 @@ function invoiceRow(email: string | null = CLIENT_EMAIL) {
   return { id: "inv-1", invoiceNumber: "1001", client: { email } };
 }
 
-function pdfData() {
+function pdfData(invoiceNumber = "1001") {
   return {
     invoice: {
       id: "inv-1",
-      invoiceNumber: "1001",
+      invoiceNumber,
+      billyInvoiceId: "billy-1",
+      dineroInvoiceGuid: null,
       amount: "1000",
       status: "sent",
       dueDate: new Date("2026-12-01"),
@@ -91,7 +98,29 @@ function pdfData() {
     client: { id: "client-1", name: "Testkunde ApS", email: CLIENT_EMAIL },
     user: { name: "Test Bruger", email: "bruger@example.com" },
     companyProfile: null,
-    pdfProps: {},
+    // 1.000 kr. + 25 % moms = 1.250 kr. på én linje.
+    pdfProps: {
+      invoice: {
+        invoiceNumber,
+        amount: "1000",
+        lines: [{ amount: "1000" }],
+        timeEntries: [],
+      },
+      companyProfile: { vatRegistered: true },
+      template: { vatRate: "25.00", currency: "DKK" },
+    },
+  };
+}
+
+/** What SendInvoiceDialog showed for pdfData(). */
+function reviewed(overrides: Record<string, unknown> = {}) {
+  return {
+    invoiceNumber: "1001",
+    total: 1250,
+    currency: "DKK",
+    lineCount: 1,
+    recipient: CLIENT_EMAIL,
+    ...overrides,
   };
 }
 
@@ -115,7 +144,10 @@ describe("POST /api/invoices/[id]/send", () => {
     });
     mocks.resolvePlanTier.mockResolvedValue("solo");
     mocks.findFirst.mockResolvedValue(undefined);
+    mocks.logFindFirst.mockResolvedValue(undefined);
     mocks.buildInvoicePdfProps.mockResolvedValue(null);
+    mocks.transaction.mockImplementation(async (fn) => fn({}));
+    mocks.ensureRealInvoiceNumber.mockResolvedValue("1002");
     mocks.isMailAvailable.mockReturnValue(true);
     mocks.rateCheck.mockResolvedValue({
       allowed: true,
@@ -243,6 +275,72 @@ describe("POST /api/invoices/[id]/send", () => {
     expect(mocks.send).toHaveBeenCalledWith(
       expect.objectContaining({ to: CLIENT_EMAIL }),
     );
+  });
+
+  it("sender, når det bekræftede stadig passer med fakturaen", async () => {
+    mocks.findFirst.mockResolvedValue(invoiceRow());
+    mocks.buildInvoicePdfProps.mockResolvedValue(pdfData());
+    const res = await call({
+      recipientEmail: CLIENT_EMAIL,
+      expectedInvoice: reviewed(),
+    });
+    expect(res.status).toBe(200);
+    expect(mocks.send).toHaveBeenCalledOnce();
+  });
+
+  it.each([
+    ["beløbet", { total: 1000 }],
+    ["fakturanummeret", { invoiceNumber: "1000" }],
+    ["antal linjer", { lineCount: 2 }],
+    ["modtageren", { recipient: "en.anden@example.com" }],
+    ["valutaen", { currency: "EUR" }],
+  ])(
+    "afviser med 409, når %s er ændret siden bekræftelsen",
+    async (_, changed) => {
+      mocks.findFirst.mockResolvedValue(invoiceRow());
+      mocks.buildInvoicePdfProps.mockResolvedValue(pdfData());
+      const res = await call({
+        recipientEmail: CLIENT_EMAIL,
+        expectedInvoice: reviewed(changed),
+      });
+      expect(res.status).toBe(409);
+      expect(await res.json()).toEqual({ error: "invoices.sendReviewChanged" });
+      expect(mocks.send).not.toHaveBeenCalled();
+    },
+  );
+
+  it("sammenligner kladdens nummer, før det rigtige nummer tildeles", async () => {
+    mocks.findFirst.mockResolvedValue(invoiceRow());
+    mocks.buildInvoicePdfProps.mockResolvedValue(pdfData("UDKAST-1"));
+    const res = await call({
+      recipientEmail: CLIENT_EMAIL,
+      expectedInvoice: reviewed({ invoiceNumber: "UDKAST-1" }),
+    });
+    expect(res.status).toBe(200);
+    expect(mocks.ensureRealInvoiceNumber).toHaveBeenCalledOnce();
+  });
+
+  it("tildeler ikke et nummer, når det bekræftede ikke passer", async () => {
+    mocks.findFirst.mockResolvedValue(invoiceRow());
+    mocks.buildInvoicePdfProps.mockResolvedValue(pdfData("UDKAST-1"));
+    const res = await call({
+      recipientEmail: CLIENT_EMAIL,
+      expectedInvoice: reviewed({ invoiceNumber: "UDKAST-1", total: 1 }),
+    });
+    expect(res.status).toBe(409);
+    expect(mocks.ensureRealInvoiceNumber).not.toHaveBeenCalled();
+  });
+
+  it("afviser med 409, mens Billy måske allerede har mailet fakturaen", async () => {
+    mocks.findFirst.mockResolvedValue(invoiceRow());
+    mocks.buildInvoicePdfProps.mockResolvedValue(pdfData());
+    mocks.logFindFirst.mockResolvedValue({ status: "partial" });
+    const res = await call({ recipientEmail: CLIENT_EMAIL });
+    expect(res.status).toBe(409);
+    expect(await res.json()).toEqual({
+      error: "invoices.providerEmailUncertain",
+    });
+    expect(mocks.send).not.toHaveBeenCalled();
   });
 
   it("begrænser afsendelser pr. organisation med 429", async () => {

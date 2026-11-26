@@ -245,7 +245,15 @@ vi.mock("@/lib/time/default-billable", () => ({
   resolveDefaultBillable: async () => true,
 }));
 vi.mock("@/lib/telemetry/track", () => ({ trackEvent: vi.fn() }));
+vi.mock("@/lib/time/task-locks", () => ({
+  lockTimeEntryTasks: vi.fn(
+    async (_tx, ids: Array<string | null | undefined>) =>
+      ids.filter(Boolean).map((id) => ({ id })),
+  ),
+}));
+
 vi.mock("@/lib/trpc/routers/prepaid", () => ({
+  lockPrepaidPackages: vi.fn(async () => {}),
   deductHoursCore: vi.fn(),
   reversePrepaidUsage: vi.fn(),
 }));
@@ -262,6 +270,7 @@ interface PushEntity {
   action: "create" | "update" | "delete";
   data: Record<string, unknown>;
   localId?: string;
+  localUpdatedAt?: string;
 }
 
 async function push(...entities: PushEntity[]) {
@@ -329,6 +338,39 @@ describe("desktop-push — referencer skal tilhøre callerens org (#750)", () =>
       clientId: ids.clientA,
       taskId: ids.taskA,
     });
+  });
+
+  it("returns the current server row when an offline update references a deleted task", async () => {
+    state.rows.tasks = state.rows.tasks.filter(({ id }) => id !== ids.taskA);
+    const body = await push({
+      type: "time_entry",
+      action: "update",
+      localUpdatedAt: "2025-12-31T23:00:00Z",
+      data: { id: ids.entryA, taskId: ids.taskA, hours: 2 },
+    });
+    expect(body.errors).toEqual([]);
+    expect(body.conflicts).toEqual([
+      expect.objectContaining({
+        remoteId: ids.entryA,
+        serverData: expect.objectContaining({ taskId: null, hours: "1.00" }),
+      }),
+    ]);
+    expect(entityWrites("time_entries")).toEqual([]);
+  });
+
+  it("rejects a current update that references a deleted task", async () => {
+    state.rows.tasks = state.rows.tasks.filter(({ id }) => id !== ids.taskA);
+    const body = await push({
+      type: "time_entry",
+      action: "update",
+      localUpdatedAt: "2026-01-01T00:00:00Z",
+      data: { id: ids.entryA, taskId: ids.taskA, hours: 2 },
+    });
+    expect(body.conflicts).toEqual([]);
+    expect(body.errors).toEqual([
+      expect.objectContaining({ error: "Opgave ikke fundet" }),
+    ]);
+    expect(entityWrites("time_entries")).toEqual([]);
   });
 
   it("afviser time_entry-update der flytter posten til et fremmed projekt", async () => {

@@ -11,30 +11,47 @@ import {
   X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useId, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/Button";
+import { toIntlLocale } from "@/i18n/format-locale";
 import { dkkCurrencyFormatter } from "@/lib/format";
 import { formatInvoiceNumber } from "@/lib/invoices/draft-number";
 import { trpc } from "@/providers/trpc-provider";
+import {
+  CompanyProfileRequired,
+  isCompanyProfileRequiredError,
+} from "./CompanyProfileRequired";
 
 interface GenerateFromTimeEntriesModalProps {
   isOpen: boolean;
   onClose: () => void;
+  /**
+   * Organisationen har ingen fakturaer og ingen virksomhedsprofil. Den første
+   * faktura kræver profilen, så modalen viser vejen dertil i stedet for
+   * kundelisten (samme link som den tomme fakturaliste).
+   */
+  missingCompanyProfile?: boolean;
 }
 
 export function GenerateFromTimeEntriesModal({
   isOpen,
   onClose,
+  missingCompanyProfile = false,
 }: GenerateFromTimeEntriesModalProps) {
   const fid = useId();
   const t = useTranslations("invoices");
   const tc = useTranslations("common");
+  const locale = useLocale();
+  // "2,5 timer" på dansk, ikke "2.5".
+  const displayHours = (hours: number) =>
+    hours.toLocaleString(toIntlLocale(locale), { maximumFractionDigits: 1 });
   const router = useRouter();
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [profileRejected, setProfileRejected] = useState(false);
 
   const { data: uninvoicedSummary, isLoading } =
     trpc.invoices.getUninvoicedSummary.useQuery();
@@ -43,7 +60,10 @@ export function GenerateFromTimeEntriesModal({
     onSuccess: (result) => {
       toast.success(
         t("generate.created", {
-          number: formatInvoiceNumber(result.invoice.invoiceNumber),
+          number: formatInvoiceNumber(
+            result.invoice.invoiceNumber,
+            t("status.draft"),
+          ),
           amount: formatCurrency(result.totalAmount),
         }),
       );
@@ -51,6 +71,12 @@ export function GenerateFromTimeEntriesModal({
       router.push(`/dashboard/invoices/${result.invoice.id}`);
     },
     onError: (error) => {
+      // Sidens profilopslag kan stadig være undervejs (fx ?fraTid=1 på et
+      // langsomt net); så vises vejen til oplysningerne, ikke en fejl-toast.
+      if (isCompanyProfileRequiredError(error)) {
+        setProfileRejected(true);
+        return;
+      }
       toast.error(error.message || t("generate.createFailed"));
     },
   });
@@ -67,6 +93,7 @@ export function GenerateFromTimeEntriesModal({
       timeEntryIds: selectedClient.entryIds,
       notes: notes || undefined,
       dueDate: dueDate || undefined,
+      requireCompanyProfile: true,
     });
   };
 
@@ -118,6 +145,8 @@ export function GenerateFromTimeEntriesModal({
                 {t("generate.noUnbilledHint")}
               </p>
             </div>
+          ) : missingCompanyProfile || profileRejected ? (
+            <CompanyProfileRequired />
           ) : !selectedClientId ? (
             // Client selection
             <div className="space-y-4">
@@ -144,7 +173,7 @@ export function GenerateFromTimeEntriesModal({
                           <p className="text-sm text-gray-500 dark:text-gray-400">
                             {t("generate.entriesHours", {
                               entries: summary.entryCount,
-                              hours: summary.totalHours.toFixed(1),
+                              hours: displayHours(summary.totalHours),
                             })}
                           </p>
                         </div>
@@ -174,7 +203,7 @@ export function GenerateFromTimeEntriesModal({
                               </span>
                               <span className="text-gray-500 dark:text-gray-400">
                                 {t("generate.projectHours", {
-                                  hours: project.hours.toFixed(1),
+                                  hours: displayHours(project.hours),
                                   amount: formatCurrency(project.amount),
                                 })}
                               </span>
@@ -225,7 +254,7 @@ export function GenerateFromTimeEntriesModal({
                       {t("generate.hours")}
                     </p>
                     <p className="text-lg font-semibold text-brand-900 dark:text-brand-100">
-                      {selectedClient?.totalHours.toFixed(1)}
+                      {displayHours(selectedClient?.totalHours ?? 0)}
                     </p>
                   </div>
                   <div>

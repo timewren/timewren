@@ -17,7 +17,7 @@
 use std::collections::BTreeMap;
 use std::sync::Arc;
 
-use chrono::NaiveDate;
+use chrono::{DateTime, Local, NaiveDate, TimeZone, Utc};
 use gpui_kit::test::TestWindowExt as _;
 use gpui_kit::*;
 
@@ -25,14 +25,27 @@ use crate::app::{self, AppView};
 use crate::backend::MockBackend;
 use crate::brand;
 use crate::screens::Screen;
+use crate::ur::ManualClock;
 
 /// Den faste dato, testdata ligger omkring (en mandag).
 pub fn today() -> NaiveDate {
     NaiveDate::from_ymd_opt(2026, 10, 26).expect("dato")
 }
 
+/// Det faste tidspunkt, mockens timer går efter: kl. 12 på `today()`.
+pub fn now() -> DateTime<Local> {
+    Local
+        .from_local_datetime(&today().and_hms_opt(12, 0, 0).expect("tidspunkt"))
+        .single()
+        .expect("entydigt tidspunkt")
+}
+
+/// Mock med fastfrosset ur: en timer, der har kørt 1:00:30, er stadig 1:00:30,
+/// når en langsom CI-maskine kommer til at stoppe den. `MockBackend::with_today`
+/// alene går efter systemuret; brug `with_clock`, hvis testen tjekker minutter.
 pub fn mock() -> Arc<MockBackend> {
-    Arc::new(MockBackend::with_today(today()))
+    let clock = ManualClock::new(now().with_timezone(&Utc));
+    Arc::new(MockBackend::with_today(today()).with_clock(Arc::new(clock)))
 }
 
 /// Åbner appen i et 1200x800-vindue og venter, til første data er hentet.

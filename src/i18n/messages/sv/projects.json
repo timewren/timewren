@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Månadsbudget",
     "hint": "{hours} timmar per månad, nollställs den 1:a.",
-    "usage": "{used} av {budget} h ({pct} %)",
     "overrun": "Månadsbudgeten har överskridits med {hours} timmar",
-    "previous": "Tidigare månader",
-    "hoursPct": "{hours} h ({pct} %)"
+    "previous": "Tidigare månader"
   },
   "activityTypes": {
     "allowedAll": "Alla aktivitetstyper är tillåtna på projektet",
@@ -66,10 +64,8 @@
     "title": "Timbudget",
     "derived": "härledd",
     "derivedTitle": "Härledd från fast pris ÷ timpris. Ange en timbudget på projektet för att styra den direkt.",
-    "hoursOf": "{used} / {total} h",
     "over": "{hours} h över",
     "remaining": "{hours} h kvar",
-    "ariaUsed": "{pct} % av timbudgeten är förbrukad",
     "plannedTitle": "{hours} h planerade framåt",
     "pctUsed": "{pct} % förbrukat",
     "planned": "+ {planned} h planerat = {forecast} h ({pct} %)",
@@ -188,11 +184,11 @@
     "colTotal": "Totalt",
     "colStatus": "Status",
     "selectProject": "Markera {name}",
-    "budgetUsedTitle": "{pct} % av timbudgeten är förbrukad ({used}/{total} h)",
     "noClient": "Ingen kund",
-    "monthlyUsed": "{used}/{budget} h",
     "monthlyAria": "{pct} % av månadsbudgeten är förbrukad",
-    "monthlyTitle": "{used} av {budget} h förbrukade den här månaden ({pct} %)"
+    "monthlyTitle": "{used} av {budget} h förbrukade den här månaden ({pct} %)",
+    "emptyNeedsClientHint": "Ett projekt hör till en kund. Lägg till kunden först och skapa sedan projektet.",
+    "createClientFirst": "Lägg till din första kund"
   },
   "detail": {
     "status": {

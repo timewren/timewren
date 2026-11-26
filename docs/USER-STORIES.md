@@ -199,7 +199,7 @@ CREATE INDEX idx_tasks_status ON tasks(status);
 CREATE INDEX idx_tasks_deadline ON tasks(deadline);
 
 // tRPC Router: tasks
-tasks.list(filter?: TaskFilter) → Task[]
+tasks.list(filter?: TaskFilter & { offset?: number }) → { rows: Task[], nextOffset: number | null }
 tasks.getById(id: string) → Task
 tasks.create(input: CreateTaskInput) → Task
 tasks.update(id: string, input: UpdateTaskInput) → Task

@@ -15,6 +15,7 @@
 import { randomUUID } from "node:crypto";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import type { Locale } from "@/i18n/config";
 import {
   connectTestDb,
   isolatedTestDatabase,
@@ -79,27 +80,29 @@ describe.skipIf(!TEST_DATABASE_URL)(
       return row.n as number;
     };
 
-    async function newDemo(now?: Date) {
-      const result = await createDemoAccount(db as never, { now });
+    async function newDemo(now?: Date, locale?: Locale) {
+      const result = await createDemoAccount(db as never, { now, locale });
       if (!result.ok) throw new Error("demo-loftet er nået");
       return result;
     }
 
     it("opretter en isoleret demokonto med ejer-org og demodata, også to gange", async () => {
       const a = await newDemo();
-      const b = await newDemo();
+      const b = await newDemo(undefined, "de");
       expect(a.orgId).not.toBe(b.orgId);
-      expect(a.email).toMatch(/^demo-[0-9a-f]{12}@demo\.invalid$/);
+      expect(a.email).toMatch(/^demo-eur-[0-9a-f]{12}@demo\.invalid$/);
 
       for (const acc of [a, b]) {
         const [user] = await pg`
-          SELECT is_demo, "emailVerified", onboarding_completed, role
+          SELECT is_demo, "emailVerified", onboarding_completed, role, locale, default_hourly_rate
           FROM "user" WHERE id = ${acc.userId}`;
         expect(user).toMatchObject({
           is_demo: true,
           emailVerified: true,
           onboarding_completed: true,
           role: "user",
+          locale: acc === a ? "en" : "de",
+          default_hourly_rate: "90.00",
         });
         const memberships = await pg`
           SELECT organization_id, role FROM members WHERE user_id = ${acc.userId}`;
@@ -169,30 +172,57 @@ describe.skipIf(!TEST_DATABASE_URL)(
       expect(acc.counts.timeEntries).toBe(51);
       expect(ms).toBeLessThan(2000);
 
+      const clientRows = await pg`
+        SELECT name, email FROM clients
+        WHERE organization_id = ${acc.orgId} ORDER BY name`;
+      expect(clientRows.map((c) => c.name)).toEqual([
+        "Greenleaf Shop",
+        "Harbour Architects",
+        "Hilltop Brewery",
+        "Northwind Studio",
+        "Saltwater Communications",
+      ]);
+      for (const client of clientRows) {
+        expect(client.email).toMatch(/\.example$/);
+      }
+
       const pkgs = await pg`
-        SELECT p.total_hours, p.used_hours, p.remaining_hours,
+        SELECT p.name, p.total_hours, p.used_hours, p.remaining_hours,
+               p.total_value, p.hourly_rate,
                COALESCE(SUM(u.hours_used), 0) AS usage
         FROM prepaid_packages p
         LEFT JOIN prepaid_usage u ON u.prepaid_package_id = p.id
         WHERE p.organization_id = ${acc.orgId}
         GROUP BY p.id ORDER BY p.total_hours`;
       for (const p of pkgs) {
+        expect(Number(p.total_value)).toBe(
+          Number(p.total_hours) * Number(p.hourly_rate),
+        );
         expect(Number(p.usage)).toBeCloseTo(Number(p.used_hours));
         expect(Number(p.total_hours) - Number(p.used_hours)).toBeCloseTo(
           Number(p.remaining_hours),
         );
       }
       // Ét næsten opbrugt klippekort (10 t, 1 t tilbage)
-      expect(pkgs.map((p) => Number(p.remaining_hours))).toContain(1);
+      expect(pkgs[0]).toMatchObject({
+        name: "Prepaid 10 hours",
+        remaining_hours: "1.00",
+        total_value: "950.00",
+      });
 
       const inv = await pg`
-        SELECT i.status, i.amount, COALESCE(SUM(t.hours * t.billable_rate), 0) AS entries,
+        SELECT i.status, i.amount, template.currency, l.amount AS line_amount, COALESCE(SUM(t.hours * t.billable_rate), 0) AS entries,
                bool_and(t.is_billed) AS billed
-        FROM invoices i LEFT JOIN time_entries t ON t.invoice_id = i.id
+        FROM invoices i
+        JOIN invoice_templates template ON template.id = i.template_id
+        JOIN invoice_lines l ON l.invoice_id = i.id
+        LEFT JOIN time_entries t ON t.invoice_id = i.id
         WHERE i.organization_id = ${acc.orgId}
-        GROUP BY i.id ORDER BY i.status`;
+        GROUP BY i.id, template.currency, l.amount ORDER BY i.status`;
       expect(inv.map((i) => i.status)).toEqual(["draft", "paid", "sent"]);
       for (const i of inv) {
+        expect(i.currency).toBe("EUR");
+        expect(i.amount).toBe(i.line_amount);
         expect(Number(i.amount)).toBeGreaterThan(0);
         expect(Number(i.amount)).toBeCloseTo(Number(i.entries));
         expect(i.billed).toBe(i.status !== "draft");
@@ -265,6 +295,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
         "time_entries",
         "tasks",
         "invoices",
+        "invoice_templates",
         "rate_history",
       ]) {
         expect(await count(table, expired.orgId), table).toBe(0);

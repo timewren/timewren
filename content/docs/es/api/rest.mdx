@@ -84,6 +84,8 @@ Los endpoints de listado aceptan `page` (por defecto 1) y `limit` (por defecto 2
 
 Sigue pidiendo páginas mientras `hasMore` sea `true`.
 
+`GET /tasks` permite ordenar por `createdAt`, `status`, `priority` y `deadline`. Las tareas sin valor en el campo de ordenación aparecen al final en ambos sentidos.
+
 ### Errores
 
 Los errores comparten una misma forma:

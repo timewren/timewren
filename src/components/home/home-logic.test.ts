@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
+import { formatDuration } from "@/lib/format";
 import {
   canSaveHomeDraft,
-  formatDuration,
   formatRange,
   greetingFor,
   isTypingTarget,

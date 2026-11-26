@@ -1,5 +1,17 @@
-import { TRPCError } from "@trpc/server";
-import { and, desc, eq, inArray, ne, sql } from "drizzle-orm";
+import { type TRPC_ERROR_CODE_KEY, TRPCError } from "@trpc/server";
+import {
+  and,
+  desc,
+  eq,
+  gte,
+  inArray,
+  isNotNull,
+  isNull,
+  lt,
+  ne,
+  or,
+  sql,
+} from "drizzle-orm";
 import { z } from "zod";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { activeLocale, st, tr } from "@/i18n/server-text";
@@ -17,10 +29,15 @@ import {
   users,
 } from "@/lib/db/schema";
 import { sendLowBalanceAlert } from "@/lib/email/prepaid";
-import { assertPeriodUnlocked } from "@/lib/org/period-lock";
+import { assertEntriesEditable } from "@/lib/enterprise/bulk-edit-guard";
+import { getEffectivePeriodLock } from "@/lib/org/period-lock";
 import { getClientPortalUrl } from "@/lib/portal/client-url";
 import { isPrepaidBalanceLow } from "@/lib/prepaid/balance";
-import { planBulkAssign } from "@/lib/prepaid/bulk-assign";
+import {
+  MAX_PREPAID_ASSIGN_SELECTION,
+  planBulkAssign,
+} from "@/lib/prepaid/bulk-assign";
+import { canTakePrepaidHours } from "@/lib/prepaid/can-take-hours";
 import {
   duplicatedPrepaidExpiry,
   isPrepaidExpired,
@@ -36,8 +53,12 @@ import { computeNextRenewal } from "@/lib/prepaid/renewal";
 import { resolveHidePrepaidValue } from "@/lib/prepaid/usage-view";
 import { syncPrepaidLinkedRecurringInvoice } from "@/lib/recurring-invoices/prepaid-link";
 import { trackEvent } from "@/lib/telemetry/track";
-import { assertEntryNotBilled, isBilledLocked } from "@/lib/time/billed-lock";
+import {
+  assertEntryNotBilled,
+  assertNoEntriesBilled,
+} from "@/lib/time/billed-lock";
 import { emitWebhookEvent } from "@/lib/webhooks/events";
+import { appCodeError } from "../app-code";
 import {
   moduleReadProcedure,
   moduleWriteProcedure,
@@ -85,6 +106,41 @@ export interface DeductResult {
   overflowedToInvoice?: boolean;
 }
 
+// Lock balances in ID order while allowing foreign-key checks on the card.
+export async function lockPrepaidPackages(
+  tx: Pick<Parameters<Parameters<typeof DbType.transaction>[0]>[0], "select">,
+  packageIds: string[],
+  scope?: { userId: string; orgId: string | null },
+) {
+  await tx
+    .select({ id: prepaidPackages.id })
+    .from(prepaidPackages)
+    .where(
+      and(
+        inArray(prepaidPackages.id, packageIds),
+        scope
+          ? scope.orgId
+            ? eq(prepaidPackages.organizationId, scope.orgId)
+            : eq(prepaidPackages.userId, scope.userId)
+          : undefined,
+      ),
+    )
+    .orderBy(prepaidPackages.id)
+    .for("no key update");
+}
+
+/**
+ * Et træk, kortet ikke kan tage. Fejlen bærer den sprogneutrale kode
+ * PREPAID_DEDUCTION_FAILED, så udvidelsen kan gemme tiden uden kort på alle
+ * sprog i stedet for at matche på den oversatte tekst (#1320).
+ */
+export function prepaidDeductionError(opts: {
+  code: TRPC_ERROR_CODE_KEY;
+  message: string;
+}): TRPCError {
+  return appCodeError(opts.code, "PREPAID_DEDUCTION_FAILED", opts.message);
+}
+
 /**
  * Core deduction logic shared between deductHours, manualDeduct, and recurring cron.
  * Handles transaction, validation, and updating the package.
@@ -98,7 +154,7 @@ export async function deductHoursCore(
   // Money guard: NaN sniger sig ellers forbi baade saldo-tjekket (NaN-
   // sammenligning er false) og Math.max-gulvet, og skriver "NaN" i saldoen.
   if (!Number.isFinite(options.hours) || options.hours <= 0) {
-    throw new TRPCError({
+    throw prepaidDeductionError({
       code: "BAD_REQUEST",
       message: await tr("serverErrors", "prepaid.invalidHours"),
     });
@@ -113,17 +169,17 @@ export async function deductHoursCore(
     .select()
     .from(prepaidPackages)
     .where(and(eq(prepaidPackages.id, options.packageId), ownershipFilter))
-    .for("update");
+    .for("no key update");
 
   if (!pkg) {
-    throw new TRPCError({
+    throw prepaidDeductionError({
       code: "NOT_FOUND",
       message: await tr("serverErrors", "common.prepaidNotFound"),
     });
   }
 
   if (options.timeEntryId && options.clientId !== pkg.clientId) {
-    throw new TRPCError({
+    throw prepaidDeductionError({
       code: "BAD_REQUEST",
       message: await tr("serverErrors", "prepaid.otherClient"),
     });
@@ -131,7 +187,7 @@ export async function deductHoursCore(
 
   if (!options.allowInactive) {
     if (!pkg.isActive) {
-      throw new TRPCError({
+      throw prepaidDeductionError({
         code: "BAD_REQUEST",
         message: await tr("serverErrors", "prepaid.inactive"),
       });
@@ -140,7 +196,7 @@ export async function deductHoursCore(
     // så en udløbet pakke må ikke acceptere træk i vinduet indtil da.
     // Kortet gælder hele udløbsdagen i dansk tid (#736).
     if (isPrepaidExpired(pkg.expiryDate)) {
-      throw new TRPCError({
+      throw prepaidDeductionError({
         code: "BAD_REQUEST",
         message: await tr("serverErrors", "prepaid.expired"),
       });
@@ -168,7 +224,7 @@ export async function deductHoursCore(
     pkg.clipSizeMinutes,
   );
   if (hoursToDeduct <= 0) {
-    throw new TRPCError({
+    throw prepaidDeductionError({
       code: "BAD_REQUEST",
       message: await tr("serverErrors", "prepaid.invalidHours"),
     });
@@ -181,7 +237,7 @@ export async function deductHoursCore(
 
   if (remainingHours < hoursToDeduct) {
     if (policy === "block") {
-      throw new TRPCError({
+      throw prepaidDeductionError({
         code: "BAD_REQUEST",
         message: pkg.clipSizeMinutes
           ? await tr("serverErrors", "prepaid.insufficientHoursClip", {
@@ -310,7 +366,7 @@ export async function reversePrepaidUsage(
     .select({ id: prepaidPackages.id })
     .from(prepaidPackages)
     .where(eq(prepaidPackages.id, packageId))
-    .for("update");
+    .for("no key update");
 
   const usageRecords = await tx.query.prepaidUsage.findMany({
     where: eq(prepaidUsage.timeEntryId, timeEntryId),
@@ -536,6 +592,124 @@ async function listPrepaidPackages(
   }));
 }
 
+const assignablePackageProcedure = moduleReadProcedure("klippekort")
+  .input(
+    z.object({
+      packageId: z.string().uuid(),
+      includeOtherCards: z.boolean().default(false),
+    }),
+  )
+  .use(async ({ ctx, input, next }) => {
+    const userId = ctx.session.user.id;
+    const ownershipFilter = ctx.orgId
+      ? eq(prepaidPackages.organizationId, ctx.orgId)
+      : eq(prepaidPackages.userId, userId);
+
+    const pkg = await ctx.db.query.prepaidPackages.findFirst({
+      where: and(eq(prepaidPackages.id, input.packageId), ownershipFilter),
+      columns: { id: true, clientId: true },
+    });
+    if (!pkg) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: await tr("serverErrors", "common.prepaidNotFound"),
+      });
+    }
+    await assertClientAccess(ctx.db, userId, ctx.orgId, pkg.clientId);
+
+    const lockedBefore = ctx.orgId
+      ? await getEffectivePeriodLock(ctx.db, ctx.orgId)
+      : null;
+    return next({
+      ctx: {
+        assignablePackage: pkg,
+        assignableOwnership: ownershipFilter,
+        lockedBefore,
+      },
+    });
+  });
+
+function assignableEntriesQuery(
+  ctx: {
+    db: typeof DbType;
+    orgId: string | null;
+    session: { user: { id: string } };
+    assignablePackage: { id: string; clientId: string };
+    assignableOwnership: ReturnType<typeof eq>;
+    lockedBefore: Date | null;
+  },
+  filters: {
+    includeOtherCards: boolean;
+    projectId?: string;
+    timeEntryIds?: string[];
+    from?: string;
+    to?: string;
+  },
+) {
+  const { db, orgId, assignablePackage: pkg, assignableOwnership } = ctx;
+  const unlinked = and(
+    sql`COALESCE(${timeEntries.isPrepaid}, false) = false`,
+    isNull(timeEntries.prepaidPackageId),
+  );
+  return db
+    .select({
+      id: timeEntries.id,
+      date: timeEntries.date,
+      description: timeEntries.description,
+      hours: timeEntries.hours,
+      projectId: timeEntries.projectId,
+      projectName: projects.name,
+      prepaidPackageId: prepaidPackages.id,
+      prepaidPackageName: prepaidPackages.name,
+      prepaidHoursRestored: sql<number>`GREATEST(0, COALESCE((
+        SELECT SUM(${prepaidUsage.hoursUsed} - COALESCE(${prepaidUsage.overdraftHours}, 0))
+        FROM ${prepaidUsage}
+        WHERE ${prepaidUsage.timeEntryId} = ${timeEntries.id}
+          AND ${prepaidUsage.prepaidPackageId} = ${prepaidPackages.id}
+      ), 0))`
+        .mapWith(Number)
+        .as("prepaid_hours_restored"),
+    })
+    .from(timeEntries)
+    .leftJoin(projects, eq(timeEntries.projectId, projects.id))
+    .leftJoin(
+      prepaidPackages,
+      and(
+        eq(timeEntries.prepaidPackageId, prepaidPackages.id),
+        filters.timeEntryIds ? undefined : ne(prepaidPackages.id, pkg.id),
+        eq(prepaidPackages.clientId, pkg.clientId),
+        assignableOwnership,
+      ),
+    )
+    .where(
+      and(
+        orgId
+          ? eq(timeEntries.organizationId, orgId)
+          : eq(timeEntries.userId, ctx.session.user.id),
+        filters.timeEntryIds
+          ? inArray(timeEntries.id, filters.timeEntryIds)
+          : undefined,
+        filters.includeOtherCards
+          ? or(unlinked, isNotNull(prepaidPackages.id))
+          : unlinked,
+        // Match the billed lock enforced by bulkAssignEntries.
+        sql`COALESCE(${timeEntries.isBilled}, false) = false`,
+        isNull(timeEntries.invoiceId),
+        ctx.lockedBefore ? gte(timeEntries.date, ctx.lockedBefore) : undefined,
+        sql`COALESCE(${timeEntries.clientId}, ${projects.clientId}) = ${pkg.clientId}`,
+        filters.projectId
+          ? eq(timeEntries.projectId, filters.projectId)
+          : undefined,
+        filters.from
+          ? gte(timeEntries.date, new Date(filters.from))
+          : undefined,
+        filters.to
+          ? lt(timeEntries.date, sql`${filters.to}::date + interval '1 day'`)
+          : undefined,
+      ),
+    );
+}
+
 export const prepaidRouter = router({
   // Klippekort-discovery (#90): kunder uden aktivt klippekort med fast,
   // mindre månedlig tid — med et forudfyldt forslag (timer/pris ud fra
@@ -593,8 +767,8 @@ export const prepaidRouter = router({
       return packages
         .filter((pkg) => {
           if (pkg.id === input.includePackageId) return true;
-          const remainingHours = parseFloat(pkg.remainingHours || "0");
-          if (remainingHours <= 0) return false;
+          // Et tomt kort med overtræk tilladt kan stadig vælges (#1319)
+          if (!canTakePrepaidHours(pkg)) return false;
           if (isPrepaidExpired(pkg.expiryDate, now)) return false;
           return true;
         })
@@ -608,6 +782,7 @@ export const prepaidRouter = router({
           purchaseDate: pkg.purchaseDate,
           clipSizeMinutes: pkg.clipSizeMinutes,
           autoDeduct: pkg.autoDeduct,
+          overdraftPolicy: pkg.overdraftPolicy,
         }));
     }),
 
@@ -646,71 +821,44 @@ export const prepaidRouter = router({
       return { autoDeduct: input.autoDeduct };
     }),
 
-  /**
-   * Tidsposter hos kortets kunde der endnu ikke er trukket på ET kort.
-   * Kandidatlisten til bulk-tilknytning. Klienten kan sidde på posten
-   * direkte ELLER via projektet (posten har clientId=null når et projekt
-   * er valgt) — begge veje skal med, ellers mangler halvdelen af tiden.
-   */
-  getAssignableEntries: moduleReadProcedure("klippekort")
+  /** Kandidater til at tilknytte eller flytte tid for kortets kunde. */
+  getAssignableEntries: assignablePackageProcedure
     .input(
       z.object({
-        packageId: z.string().uuid(),
+        timeEntryIds: z
+          .array(z.string().uuid())
+          .min(1)
+          .max(MAX_PREPAID_ASSIGN_SELECTION)
+          .optional(),
         limit: z.number().int().min(1).max(500).default(200),
+        offset: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER).default(0),
+        projectId: z.string().uuid().optional(),
+        from: z.iso.date().optional(),
+        to: z.iso.date().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      const userId = ctx.session.user.id;
-      const ownershipFilter = ctx.orgId
-        ? eq(prepaidPackages.organizationId, ctx.orgId)
-        : eq(prepaidPackages.userId, userId);
+      const rows = await assignableEntriesQuery(ctx, input)
+        .orderBy(desc(timeEntries.date), desc(timeEntries.id))
+        .limit(input.limit)
+        .offset(input.offset);
 
-      const pkg = await ctx.db.query.prepaidPackages.findFirst({
-        where: and(eq(prepaidPackages.id, input.packageId), ownershipFilter),
-        columns: { id: true, clientId: true, clipSizeMinutes: true },
-      });
-      if (!pkg) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: await tr("serverErrors", "common.prepaidNotFound"),
-        });
-      }
-      await assertClientAccess(ctx.db, userId, ctx.orgId, pkg.clientId);
-
-      const rows = await ctx.db
-        .select({
-          id: timeEntries.id,
-          date: timeEntries.date,
-          description: timeEntries.description,
-          hours: timeEntries.hours,
-          projectName: projects.name,
-        })
-        .from(timeEntries)
-        .leftJoin(projects, eq(timeEntries.projectId, projects.id))
-        .where(
-          and(
-            ctx.orgId
-              ? eq(timeEntries.organizationId, ctx.orgId)
-              : eq(timeEntries.userId, userId),
-            sql`COALESCE(${timeEntries.isPrepaid}, false) = false`,
-            sql`${timeEntries.prepaidPackageId} IS NULL`,
-            // Allerede fakturerede timer må ikke også trækkes på kortet —
-            // så betaler kunden for den samme tid to gange.
-            sql`COALESCE(${timeEntries.isBilled}, false) = false`,
-            sql`COALESCE(${timeEntries.clientId}, ${projects.clientId}) = ${pkg.clientId}`,
-          ),
-        )
-        .orderBy(desc(timeEntries.date))
-        .limit(input.limit);
-
-      return rows.map((r) => ({
-        id: r.id,
-        date: r.date,
-        description: r.description,
-        hours: parseFloat(r.hours || "0"),
-        projectName: r.projectName,
-      }));
+      return rows.map((row) => ({ ...row, hours: Number(row.hours) }));
     }),
+
+  getAssignableProjects: assignablePackageProcedure.query(
+    async ({ ctx, input }) => {
+      const entries = assignableEntriesQuery(ctx, input).as(
+        "assignable_entries",
+      );
+
+      return ctx.db
+        .selectDistinct({ id: projects.id, name: projects.name })
+        .from(entries)
+        .innerJoin(projects, eq(entries.projectId, projects.id))
+        .orderBy(projects.name, projects.id);
+    },
+  ),
 
   /**
    * Aktive kort for den kunde et udvalg af tidsposter tilhører. Bruges af
@@ -720,13 +868,18 @@ export const prepaidRouter = router({
    */
   getPackagesForEntries: moduleReadProcedure("klippekort")
     .input(
-      z.object({ timeEntryIds: z.array(z.string().uuid()).min(1).max(200) }),
+      z.object({
+        timeEntryIds: z
+          .array(z.string().uuid())
+          .min(1)
+          .max(MAX_PREPAID_ASSIGN_SELECTION),
+      }),
     )
     .query(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
 
       const rows = await ctx.db
-        .selectDistinct({
+        .select({
           clientId: sql<
             string | null
           >`COALESCE(${timeEntries.clientId}, ${projects.clientId})`,
@@ -742,23 +895,28 @@ export const prepaidRouter = router({
           ),
         );
 
-      const clientIds = rows.map((r) => r.clientId).filter(Boolean) as string[];
-      if (clientIds.length === 0 || clientIds.length < rows.length) {
+      if (rows.length !== input.timeEntryIds.length) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: await tr("serverErrors", "prepaid.entriesNotFound"),
+        });
+      }
+      const clientIds = new Set(rows.map((r) => r.clientId));
+      const clientId = rows[0]?.clientId;
+      if (!clientId || clientIds.has(null)) {
         return {
           clientId: null,
           clientName: null,
           packages: [],
-          selectedHours: 0,
         };
       }
-      if (clientIds.length > 1) {
+      if (clientIds.size > 1) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: await tr("serverErrors", "prepaid.multipleClients"),
         });
       }
 
-      const clientId = clientIds[0];
       await assertClientAccess(ctx.db, userId, ctx.orgId, clientId);
 
       const client = await ctx.db.query.clients.findFirst({
@@ -773,40 +931,30 @@ export const prepaidRouter = router({
             : eq(prepaidPackages.userId, userId),
           eq(prepaidPackages.clientId, clientId),
           eq(prepaidPackages.isActive, true),
+          sql`${prepaidPackages.isArchived} is not true`,
         ),
         orderBy: [desc(prepaidPackages.purchaseDate)],
         columns: {
           id: true,
           name: true,
           remainingHours: true,
+          clipSizeMinutes: true,
+          overdraftPolicy: true,
           expiryDate: true,
         },
       });
-
-      // Timetallet de valgte poster kræver — så modalen kan advare om at
-      // saldoen ikke rækker, FØR trækket forsøges.
-      const [totals] = await ctx.db
-        .select({ hours: sql<string>`COALESCE(SUM(${timeEntries.hours}), 0)` })
-        .from(timeEntries)
-        .where(
-          and(
-            inArray(timeEntries.id, input.timeEntryIds),
-            ctx.orgId
-              ? eq(timeEntries.organizationId, ctx.orgId)
-              : eq(timeEntries.userId, userId),
-          ),
-        );
 
       const now = new Date();
       return {
         clientId,
         clientName: client?.name ?? null,
-        selectedHours: parseFloat(totals?.hours ?? "0"),
         packages: packages
           .filter((p) => !isPrepaidExpired(p.expiryDate, now))
           .map((p) => ({
             id: p.id,
             name: p.name,
+            clipSizeMinutes: p.clipSizeMinutes,
+            overdraftPolicy: p.overdraftPolicy,
             remainingHours: parseFloat(p.remainingHours || "0"),
           })),
       };
@@ -823,7 +971,10 @@ export const prepaidRouter = router({
     .input(
       z.object({
         packageId: z.string().uuid(),
-        timeEntryIds: z.array(z.string().uuid()).min(1).max(200),
+        timeEntryIds: z
+          .array(z.string().uuid())
+          .min(1)
+          .max(MAX_PREPAID_ASSIGN_SELECTION),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -844,25 +995,34 @@ export const prepaidRouter = router({
       }
       await assertClientAccess(ctx.db, userId, ctx.orgId, pkg.clientId);
 
-      let hoursDeducted = 0;
-      let overflowed = 0;
-      let assignedCount = 0;
-      let alreadyOnPackageCount = 0;
-      const deductResults = await ctx.db.transaction(async (tx) => {
-        // Læs posterne INDE i transaktionen og lås kortet først. Læses de
-        // udenfor, kan en samtidig tildeling nå at sætte prepaidPackageId
-        // mellem læsning og træk: planen tror posten er utrukket, springer
-        // reversal over, og timerne trækkes to gange.
-        await tx
-          .select({ id: prepaidPackages.id })
-          .from(prepaidPackages)
-          .where(eq(prepaidPackages.id, pkg.id))
-          .for("update");
+      const selectedEntriesFilter = and(
+        inArray(timeEntries.id, input.timeEntryIds),
+        ctx.orgId
+          ? eq(timeEntries.organizationId, ctx.orgId)
+          : eq(timeEntries.userId, userId),
+      );
+
+      const assign = async (
+        tx: Parameters<Parameters<typeof DbType.transaction>[0]>[0],
+      ) => {
+        const sources = await tx
+          .select({ packageId: timeEntries.prepaidPackageId })
+          .from(timeEntries)
+          .where(selectedEntriesFilter);
+        const packageIds = new Set([pkg.id]);
+        for (const { packageId } of sources) {
+          if (packageId) packageIds.add(packageId);
+        }
+        // Keep card locks ahead of entry locks, as in single-entry edits.
+        // Opposite moves must acquire the same cards in the same order.
+        await lockPrepaidPackages(tx, [...packageIds]);
 
         const entries = await tx
           .select({
             id: timeEntries.id,
             date: timeEntries.date,
+            userId: timeEntries.userId,
+            approvalStatus: timeEntries.approvalStatus,
             hours: timeEntries.hours,
             isBilled: timeEntries.isBilled,
             invoiceId: timeEntries.invoiceId,
@@ -873,14 +1033,9 @@ export const prepaidRouter = router({
           })
           .from(timeEntries)
           .leftJoin(projects, eq(timeEntries.projectId, projects.id))
-          .where(
-            and(
-              inArray(timeEntries.id, input.timeEntryIds),
-              ctx.orgId
-                ? eq(timeEntries.organizationId, ctx.orgId)
-                : eq(timeEntries.userId, userId),
-            ),
-          )
+          .where(selectedEntriesFilter)
+          // Process entries in the same order as the dialog preview.
+          .orderBy(desc(timeEntries.date), desc(timeEntries.id))
           .for("update", { of: timeEntries });
 
         if (entries.length !== input.timeEntryIds.length) {
@@ -890,17 +1045,23 @@ export const prepaidRouter = router({
           });
         }
 
-        // Fakturerede timer må ikke trækkes: kunden har allerede betalt for
-        // dem, og et træk ville koste dem timerne på kortet oveni.
-        const billed = entries.filter(isBilledLocked);
-        if (billed.length > 0) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: await tr("serverErrors", "prepaid.alreadyBilled", {
-              count: billed.length,
-            }),
-          });
+        // A concurrent move may have changed the source while we waited.
+        // Retry in a fresh transaction to acquire the new set in order.
+        if (
+          entries.some(
+            (entry) =>
+              entry.prepaidPackageId && !packageIds.has(entry.prepaidPackageId),
+          )
+        ) {
+          return null;
         }
+
+        assertNoEntriesBilled(entries, "flyttes");
+        await assertEntriesEditable(tx, {
+          orgId: ctx.orgId,
+          actorUserId: userId,
+          entries,
+        });
 
         const { toAssign, alreadyOnPackage, foreign } = planBulkAssign(
           pkg.id,
@@ -915,17 +1076,10 @@ export const prepaidRouter = router({
             }),
           });
         }
-        assignedCount = toAssign.length;
-        alreadyOnPackageCount = alreadyOnPackage.length;
 
-        // Org-periodelås (#144): en låst måned må heller ikke få tilføjet træk
-        await assertPeriodUnlocked(
-          tx,
-          ctx.orgId,
-          entries.map((e) => e.date),
-        );
-
-        const results: DeductResult[] = [];
+        let last: DeductResult | undefined;
+        let overflowed = 0;
+        let hoursDeducted = 0;
         for (const entry of toAssign) {
           // Flytter posten fra et andet kort: det gamle træk skal føres
           // tilbage før det nye lægges på, ellers tælles timerne to steder.
@@ -947,12 +1101,29 @@ export const prepaidRouter = router({
           } else {
             hoursDeducted += result.hoursDeducted;
           }
-          results.push(result);
+          last = result;
         }
-        return results;
-      });
+        return {
+          last,
+          assigned: toAssign.length - overflowed,
+          alreadyOnPackage: alreadyOnPackage.length,
+          overflowed,
+          hoursDeducted,
+        };
+      };
 
-      const last = deductResults.at(-1);
+      let assignment = await ctx.db.transaction(assign);
+      for (let retry = 0; assignment === null && retry < 2; retry++) {
+        assignment = await ctx.db.transaction(assign);
+      }
+      if (assignment === null) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: await tr("klippekort", "assign.failed"),
+        });
+      }
+
+      const { last, ...result } = assignment;
       if (last) {
         await checkAndSendLowBalanceAlert(ctx.db, userId, pkg.id, last);
       }
@@ -964,10 +1135,7 @@ export const prepaidRouter = router({
       });
 
       return {
-        assigned: assignedCount - overflowed,
-        alreadyOnPackage: alreadyOnPackageCount,
-        overflowed,
-        hoursDeducted,
+        ...result,
         remainingHours: last?.remainingHours ?? null,
         packageName: pkg.name,
       };

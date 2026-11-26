@@ -35,28 +35,36 @@ pub struct VatRow {
 }
 
 /// Udstedte fakturaer (ikke kladder) med fakturadato i perioden, pr. sats.
+/// Fakturaer uden kendt momssats (cloud, se `Invoice::vat_permille`) er ikke
+/// med; dem tæller `vat_unknown`.
 pub fn vat_summary(invoices: &[Invoice], range: DateRange) -> Vec<VatRow> {
     let mut rows: Vec<VatRow> = vec![];
-    for i in invoices
-        .iter()
-        .filter(|i| i.status != InvoiceStatus::Draft && range.contains(i.issued))
-    {
-        match rows.iter_mut().find(|r| r.permille == i.vat_permille) {
+    for i in issued_in(invoices, range) {
+        let (Some(permille), Some(vat)) = (i.vat_permille, i.vat()) else {
+            continue;
+        };
+        match rows.iter_mut().find(|r| r.permille == permille) {
             Some(r) => {
                 r.base += i.subtotal();
-                r.vat += i.vat();
+                r.vat += vat;
                 r.invoices += 1;
             }
-            None => rows.push(VatRow {
-                permille: i.vat_permille,
-                base: i.subtotal(),
-                vat: i.vat(),
-                invoices: 1,
-            }),
+            None => rows.push(VatRow { permille, base: i.subtotal(), vat, invoices: 1 }),
         }
     }
     rows.sort_by_key(|r| std::cmp::Reverse(r.permille));
     rows
+}
+
+/// Udstedte fakturaer i perioden, hvor web afgør momsen (cloud).
+pub fn vat_unknown(invoices: &[Invoice], range: DateRange) -> usize {
+    issued_in(invoices, range).filter(|i| i.vat_permille.is_none()).count()
+}
+
+fn issued_in(invoices: &[Invoice], range: DateRange) -> impl Iterator<Item = &Invoice> {
+    invoices
+        .iter()
+        .filter(move |i| i.status != InvoiceStatus::Draft && range.contains(i.issued))
 }
 
 struct Csv {
@@ -233,7 +241,7 @@ impl RapporterScreen {
     pub(super) fn export_entries(&mut self, cx: &mut Context<Self>) {
         let Some(d) = self.data.ready() else { return };
         let csv = entries_csv(&d.entries, &d.customers, &d.projects, d.export);
-        let name = format!("timetrack-poster-{}-{}.csv", self.range.from, self.range.to);
+        let name = format!("{}-poster-{}-{}.csv", tt_core::edition::EDITION.id, self.range.from, self.range.to);
         self.write(name, csv, cx);
     }
 
@@ -298,7 +306,16 @@ impl RapporterScreen {
             );
             ui::list_row(b, ("moms-sats", i), label.clone()).child(div().flex_1().child(label))
         });
-        let vat_body: AnyElement = if rows.is_empty() {
+        let unknown = vat_unknown(&d.invoices, q);
+        let vat_body: AnyElement = if rows.is_empty() && unknown > 0 {
+            // Cloud: momsen afgøres af firmaprofilen i web.
+            ui::muted(
+                b,
+                "moms-web",
+                tf("gendan.rapporter.vat_web", &[("n", &unknown.to_string())]),
+            )
+            .into_any_element()
+        } else if rows.is_empty() {
             ui::muted(b, "moms-ingen", t("gendan.rapporter.vat_none")).into_any_element()
         } else {
             v_flex()
@@ -465,12 +482,13 @@ mod tests {
             status,
             issued,
             due: issued,
-            lines: vec![InvoiceLine { description: "x".into(), minutes, rate: 100_000, entry_ids: vec![] }],
+            lines: vec![InvoiceLine { description: "x".into(), minutes, rate: 100_000, entry_ids: vec![], stored: None }],
             lines_loaded: true,
             subtotal_hint: 0,
-            vat_permille: permille,
+            vat_permille: Some(permille),
             number_text: None,
             title: None,
+            delivery: None,
             notes: None,
         }
     }

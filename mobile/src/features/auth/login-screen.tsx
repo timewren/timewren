@@ -1,5 +1,5 @@
 import type { Busy, Provider } from './use-login';
-import { Link, useRouter } from 'expo-router';
+import { Link, Redirect, useRouter } from 'expo-router';
 import * as React from 'react';
 import { Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import {
@@ -11,11 +11,13 @@ import {
   View,
 } from '~/components/ui';
 import { localStore } from '~/features/local/local-store';
-import { isTimeWren, timewrenBrand } from '~/features/server/server-config';
+import { brand, isTimeWren } from '~/features/server/server-config';
 import { ServerSelector } from '~/features/server/server-selector';
 import { translate } from '~/lib/i18n';
 import { AppleSignInButton } from './components/apple-button';
+import { TwoFactorForm } from './components/two-factor-form';
 import { useSocialProviders } from './social-providers';
+import { useAuthStore } from './use-auth-store';
 import { useLogin } from './use-login';
 
 // Apple 4.8: Sign in with Apple tilbydes via AppleSignInButton (native) øverst på iOS.
@@ -23,6 +25,12 @@ const SOCIAL_LOGIN_ENABLED = !isTimeWren;
 
 export function LoginScreen() {
   const login = useLogin();
+  const status = useAuthStore.use.status();
+
+  // Et magic link (eller bekræftelsesmail) logger ind udefra, mens skærmen står
+  // åben. Uden dette blev brugeren stående på en tom loginformular.
+  if (status === 'signIn')
+    return <Redirect href="/" />;
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -37,15 +45,17 @@ export function LoginScreen() {
         >
           <Header />
           <ServerSelector />
-          {login.linkSent
-            ? <LinkSent email={login.email} onReset={login.resetLink} />
-            : (
-                <View>
-                  {isTimeWren ? <Text className="mb-3 text-sm text-muted-foreground" tx="server.password_hint" /> : null}
-                  <EmailForm {...login} />
-                  {SOCIAL_LOGIN_ENABLED ? <SocialButtons busy={login.busy} onPress={login.signInSocial} /> : null}
-                </View>
-              )}
+          {login.twoFactor.twoFactor
+            ? <TwoFactorForm login={login} />
+            : login.linkSent
+              ? <LinkSent email={login.email} onReset={login.resetLink} />
+              : (
+                  <View>
+                    {isTimeWren ? <Text className="mb-3 text-sm text-muted-foreground" tx="server.password_hint" /> : null}
+                    <EmailForm {...login} />
+                    {SOCIAL_LOGIN_ENABLED ? <SocialButtons busy={login.busy} onPress={login.signInSocial} /> : null}
+                  </View>
+                )}
           <Link href="/signup" replace asChild>
             <Text className="mt-auto pt-10 text-center text-sm text-primary-600 dark:text-primary-400" tx="auth.no_account_hint" />
           </Link>
@@ -77,7 +87,7 @@ function Header() {
         style={{ width: 72, height: 72, borderRadius: 18, marginBottom: 16 }}
         accessibilityIgnoresInvertColors
       />
-      <Text className="text-3xl font-bold text-foreground">{timewrenBrand?.name ?? 'TimeTrack'}</Text>
+      <Text className="text-3xl font-bold text-foreground">{brand.name}</Text>
       <Text className="mt-1 text-center text-muted-foreground" tx="auth.tagline" />
     </View>
   );
@@ -132,10 +142,11 @@ function EmailForm(p: EmailFormProps) {
         : null}
       <Button
         label={translate(p.usePassword ? 'auth.sign_in' : 'auth.send_link')}
-        onPress={canSubmit ? (p.usePassword ? p.signInWithPassword : p.sendMagicLink) : undefined}
+        onPress={p.usePassword ? p.signInWithPassword : p.sendMagicLink}
         loading={p.busy === 'password' || p.busy === 'magic'}
-        className={canSubmit ? '' : 'opacity-50'}
-        accessibilityState={{ disabled: !canSubmit }}
+        // Rigtig `disabled`: Pressable overskrev før `accessibilityState`, så
+        // VoiceOver kaldte knappen aktiv, og et tryk gjorde intet.
+        disabled={!canSubmit}
         testID="login-submit"
       />
       {!isTimeWren && (

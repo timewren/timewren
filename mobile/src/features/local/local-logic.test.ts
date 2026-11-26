@@ -160,6 +160,7 @@ describe('overførsel', () => {
   it('mapper til time.create-input', () => {
     const e = entry('e1', [at(9), at(9, 20)], { projectId: 'p1', clientId: 'c1' });
     expect(toTimeCreateInput(e, { p1: 'P', c1: 'C' })).toEqual({
+      clientEntryId: e.id,
       description: FALLBACK_DESCRIPTION,
       hours: 0.33,
       date: '2026-09-24',

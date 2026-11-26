@@ -21,9 +21,12 @@ export const SITE_PREFIX = "/timewren-site";
 export const SITE_PAGES = [
   "/",
   "/pricing",
+  "/desktop",
+  "/download",
   "/self-hosting",
   "/privacy",
   "/terms",
+  "/delete-account",
 ] as const;
 export type SitePage = (typeof SITE_PAGES)[number];
 
@@ -62,9 +65,13 @@ export function isMarketingHost(cfg: BrandHostConfig, host: string): boolean {
   return host === primary || host === `www.${primary}`;
 }
 
-/** Eksplicit til: TimeWren må først indekseres, når TIMEWREN_INDEXABLE=1. */
+/**
+ * Marketinghostens offentlige sider er indekserbare som standard. Kun
+ * TIMEWREN_INDEXABLE=0 (fx staging) slår det fra. Appen og Markdown-
+ * repræsentationerne er noindex uanset.
+ */
 export function isTimewrenIndexable(): boolean {
-  return process.env.TIMEWREN_INDEXABLE === "1";
+  return process.env.TIMEWREN_INDEXABLE !== "0";
 }
 
 /**

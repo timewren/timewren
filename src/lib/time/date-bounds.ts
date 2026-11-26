@@ -7,7 +7,9 @@
 // derfor alle poster efter 00:00 på sidste dag. Brug i stedet en eksklusiv
 // grænse på næste dags start: `lt(date, <start af dagen efter>)`.
 
-import { type AnyColumn, lt, lte, type SQL, sql } from "drizzle-orm";
+import { type AnyColumn, and, gte, lt, lte, type SQL, sql } from "drizzle-orm";
+
+import { copenhagenDayStart } from "./copenhagen";
 
 const DATE_ONLY_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -61,4 +63,16 @@ export function dateUpperBound(column: AnyColumn, endDate: string): SQL {
  */
 export function copenhagenDateSql(column: AnyColumn | SQL): SQL<string> {
   return sql<string>`((${column} AT TIME ZONE 'UTC') AT TIME ZONE 'Europe/Copenhagen')::date`;
+}
+
+/** Half-open interval of Danish calendar dates for a UTC timestamp column. */
+export function copenhagenDateRange(
+  column: AnyColumn,
+  from: string,
+  until: string,
+) {
+  return and(
+    gte(column, copenhagenDayStart(from)),
+    lt(column, copenhagenDayStart(until)),
+  );
 }

@@ -31,9 +31,13 @@ const PRIMARY = [
 ].map((href) => ({ href }));
 
 /** Kun i mobilmenuen; på desktop ligger de i footeren. */
-const SECONDARY = ["/integrations", "/vaerktoejer", "/blog", "/tillid"].map(
-  (href) => ({ href }),
-);
+const SECONDARY = [
+  "/integrations",
+  "/vaerktoejer",
+  "/blog",
+  "/tillid",
+  "/download",
+].map((href) => ({ href }));
 
 export function NavigationClient({ labels }: { labels: NavigationLabels }) {
   const plausible = usePlausible();

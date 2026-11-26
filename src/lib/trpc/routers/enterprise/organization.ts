@@ -14,6 +14,7 @@ import {
 } from "@/lib/db/schema";
 import { getVisibleScope } from "@/lib/enterprise/scope";
 import { BREAK_POLICIES, type BreakPolicy } from "@/lib/enterprise/timesheet";
+import { newOrgRegionMetadata } from "@/lib/org/new-org-region";
 import { auditDiff, logOrgAudit, pickAuditFields } from "@/lib/org-audit";
 import { roleSatisfies } from "@/lib/permissions/org-role";
 import { protectedProcedure, router } from "../../trpc";
@@ -38,13 +39,12 @@ export const enterpriseOrganizationRouter = router({
     .mutation(async ({ ctx, input }) => {
       // Multibrand: organisationen får ejerens brand i samme insert. Kun
       // ikke-standardbrands skrives; timetrack bruger kolonnens default.
-      const owner = isMultibrandEnabled()
-        ? await ctx.db.query.users.findFirst({
-            where: eq(users.id, ctx.session.user.id),
-            columns: { brand: true },
-          })
-        : undefined;
-      const brand = toBrandKey(owner?.brand);
+      // Valuta, land og sprog følger ejeren (src/lib/org/new-org-region.ts).
+      const owner = await ctx.db.query.users.findFirst({
+        where: eq(users.id, ctx.session.user.id),
+        columns: { brand: true, locale: true },
+      });
+      const brand = toBrandKey(isMultibrandEnabled() ? owner?.brand : null);
 
       // Create organization
       const orgId = crypto.randomUUID();
@@ -54,6 +54,7 @@ export const enterpriseOrganizationRouter = router({
           id: orgId,
           name: input.name,
           slug: input.slug,
+          metadata: newOrgRegionMetadata(owner ?? {}),
           ...(brand !== DEFAULT_BRAND_KEY && { brand }),
         })
         .returning();

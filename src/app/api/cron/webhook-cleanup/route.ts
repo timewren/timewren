@@ -9,7 +9,6 @@ import {
   webhookEvents,
 } from "@/lib/db/schema";
 import { TIMER_EVENT_RETENTION_DAYS } from "@/lib/timer/events";
-import { captureRouteError } from "@/lib/utils/sentry";
 import { cleanupOldDeliveries } from "@/lib/webhooks/delivery";
 
 /**
@@ -26,16 +25,8 @@ export const GET = withCronLogging("webhook-cleanup", async (_request) => {
     `[Webhook Cleanup] Starting cleanup job at ${now.toISOString()}`,
   );
 
-  let deliveryResults: Awaited<ReturnType<typeof cleanupOldDeliveries>>;
-  try {
-    deliveryResults = await cleanupOldDeliveries();
-  } catch (error) {
-    captureRouteError(error, {
-      route: "/api/cron/webhook-cleanup",
-      type: "cron",
-    });
-    throw error;
-  }
+  // En fejl logges og rapporteres én gang af withCronLogging.
+  const deliveryResults = await cleanupOldDeliveries();
 
   // Clean up old webhook events (older than 90 days)
   const cutoff = new Date();

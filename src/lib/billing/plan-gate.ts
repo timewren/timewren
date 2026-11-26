@@ -1,11 +1,26 @@
 /**
  * Ren (klient-sikker) plan-gate-logik til dashboard-UI'et. Ingen DB-/server-
  * imports, så den kan bruges fra "use client"-komponenter og testes i vitest.
- * Serveren (plan-limits.ts) er den autoritative kontrol — dette styrer kun
- * kapacitet (aktive kunder). Ingen funktion er låst bag en plan (#1012).
+ * Serveren håndhæver betalingsfristen og planens kapacitetsgrænser.
+ * Ingen funktion er låst bag en plan (#1012).
  */
 
 import { sharedT } from "@/i18n/shared-text";
+
+/** Seven days of access after a payment first becomes past due. */
+export function isPastDueWithinGrace(
+  subscription:
+    | { status: string; pastDueSince?: Date | string | null }
+    | null
+    | undefined,
+  now = Date.now(),
+): boolean {
+  return (
+    subscription?.status === "past_due" &&
+    (!subscription.pastDueSince ||
+      now - new Date(subscription.pastDueSince).getTime() <= 7 * 86_400_000)
+  );
+}
 
 /**
  * Antal brugere (medlemmer + gyldige afventende invitationer) på Gratis.

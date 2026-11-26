@@ -4,9 +4,10 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { useUniwind } from 'uniwind';
 import { Avatar, Card, colors, EmptyState, ErrorState, ListRow, ListSkeleton, Screen, SectionHeader, Text } from '~/components/ui';
+import { changeActiveOrganization } from '~/features/auth/use-auth-store';
 import { useCapabilities } from '~/features/capabilities/use-capabilities';
 import { RoleBadge } from '~/features/team/components/members-list';
-import { errorMessage, queryClient, trpc } from '~/lib/api';
+import { errorMessage, trpc } from '~/lib/api';
 import { authClient } from '~/lib/auth/client';
 import { translate } from '~/lib/i18n';
 import { showMessage, useAnnounceLoaded } from '~/lib/notify';
@@ -39,9 +40,7 @@ export function OrganizationScreen() {
   const switchTo = async (org: OrgSummary) => {
     setSwitching(org.id);
     try {
-      await setActiveOrganization(org.id);
-      // Alt er org-scoped: ryd hele cachen så ingen skærm viser den gamle orgs data.
-      queryClient.clear();
+      await changeActiveOrganization(() => setActiveOrganization(org.id));
       showMessage({ message: translate('settings.organization.switched', { name: org.name }), type: 'success' });
     }
     catch {

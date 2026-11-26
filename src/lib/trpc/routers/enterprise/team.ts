@@ -1,16 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import {
-  and,
-  asc,
-  eq,
-  gte,
-  inArray,
-  isNull,
-  lt,
-  lte,
-  or,
-  sql,
-} from "drizzle-orm";
+import { and, asc, eq, gte, inArray, isNull, lte, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import { st, tr } from "@/i18n/server-text";
 import type { db as dbClient } from "@/lib/db";
@@ -62,8 +51,8 @@ import {
   logOrgAudit,
   resolveUserLabel,
 } from "@/lib/org-audit";
-import { copenhagenToday } from "@/lib/time/copenhagen";
-import { copenhagenDateSql } from "@/lib/time/date-bounds";
+import { addDaysToDateStr, copenhagenToday } from "@/lib/time/copenhagen";
+import { copenhagenDateRange, copenhagenDateSql } from "@/lib/time/date-bounds";
 import { router } from "../../trpc";
 import { orgManagerProcedure, orgManagerReadProcedure } from "./middleware";
 
@@ -159,8 +148,12 @@ async function approveWeekForUser(
   /** Forud-opløste labels fra bulk-godkendelse (#479) — spar opslag */
   knownLabels?: { actorLabel: string | null; userLabel: string | null },
 ) {
-  const weekStart = parseLocalDate(input.weekStart);
-  const weekEnd = addDays(weekStart, 7);
+  const weekEnd = addDaysToDateStr(input.weekStart, 7);
+  const entryRange = copenhagenDateRange(
+    timeEntries.date,
+    input.weekStart,
+    weekEnd,
+  );
   const now = new Date();
   // Labels opløses én gang pr. kald og gives videre til hændelse + audit
   const userLabel =
@@ -184,13 +177,7 @@ async function approveWeekForUser(
       total: sql<string>`COALESCE(SUM(${timeEntries.hours}::numeric), 0)`,
     })
     .from(timeEntries)
-    .where(
-      and(
-        ownTimeEntriesInOrg(input.userId, ctx.orgId),
-        gte(timeEntries.date, weekStart),
-        lt(timeEntries.date, weekEnd),
-      ),
-    );
+    .where(and(ownTimeEntriesInOrg(input.userId, ctx.orgId), entryRange));
   const totalHours = Number(totals[0]?.total ?? 0);
   if (totalHours <= 0) {
     throw new TRPCError({
@@ -268,13 +255,7 @@ async function approveWeekForUser(
         approvedBy: ctx.session.user.id,
         updatedAt: now,
       })
-      .where(
-        and(
-          ownTimeEntriesInOrg(input.userId, ctx.orgId),
-          gte(timeEntries.date, weekStart),
-          lt(timeEntries.date, weekEnd),
-        ),
-      );
+      .where(and(ownTimeEntriesInOrg(input.userId, ctx.orgId), entryRange));
 
     // Overtid: timer over org-tærsklen flyttes til overtidssaldoen.
     // Idempotent: tidligere auto-postering for ugen erstattes.
@@ -338,10 +319,14 @@ export const enterpriseTeamRouter = router({
       z.object({ weekStart: dateString, departmentId: z.string().optional() }),
     )
     .query(async ({ ctx, input }) => {
-      const weekStart = parseLocalDate(input.weekStart);
-      const weekEnd = addDays(weekStart, 7);
+      const weekEnd = addDaysToDateStr(input.weekStart, 7);
+      const entryRange = copenhagenDateRange(
+        timeEntries.date,
+        input.weekStart,
+        weekEnd,
+      );
       const days = Array.from({ length: 7 }, (_, i) =>
-        toDateStr(addDays(weekStart, i)),
+        addDaysToDateStr(input.weekStart, i),
       );
       const weekEndStr = days[6];
 
@@ -364,13 +349,7 @@ export const enterpriseTeamRouter = router({
               total: sql<string>`SUM(${timeEntries.hours}::numeric)`,
             })
             .from(timeEntries)
-            .where(
-              and(
-                usersTimeEntriesInOrg(userIds, ctx.orgId),
-                gte(timeEntries.date, weekStart),
-                lt(timeEntries.date, weekEnd),
-              ),
-            )
+            .where(and(usersTimeEntriesInOrg(userIds, ctx.orgId), entryRange))
             .groupBy(timeEntries.userId, copenhagenDateSql(timeEntries.date)),
           ctx.db.query.timesheetWeeks.findMany({
             where: and(
@@ -642,8 +621,12 @@ export const enterpriseTeamRouter = router({
       }
 
       const now = new Date();
-      const weekStart = parseLocalDate(input.weekStart);
-      const weekEnd = addDays(weekStart, 7);
+      const weekEnd = addDaysToDateStr(input.weekStart, 7);
+      const entryRange = copenhagenDateRange(
+        timeEntries.date,
+        input.weekStart,
+        weekEnd,
+      );
       await ctx.db.transaction(async (tx) => {
         await tx
           .update(timesheetWeeks)
@@ -680,13 +663,7 @@ export const enterpriseTeamRouter = router({
         await tx
           .update(timeEntries)
           .set({ approvalStatus: "not_required", updatedAt: now })
-          .where(
-            and(
-              ownTimeEntriesInOrg(input.userId, ctx.orgId),
-              gte(timeEntries.date, weekStart),
-              lt(timeEntries.date, weekEnd),
-            ),
-          );
+          .where(and(ownTimeEntriesInOrg(input.userId, ctx.orgId), entryRange));
       });
 
       void notify({
@@ -763,8 +740,12 @@ export const enterpriseTeamRouter = router({
       }
 
       const now = new Date();
-      const weekStart = parseLocalDate(input.weekStart);
-      const weekEnd = addDays(weekStart, 7);
+      const weekEnd = addDaysToDateStr(input.weekStart, 7);
+      const entryRange = copenhagenDateRange(
+        timeEntries.date,
+        input.weekStart,
+        weekEnd,
+      );
       await ctx.db.transaction(async (tx) => {
         await tx
           .update(timesheetWeeks)
@@ -824,13 +805,7 @@ export const enterpriseTeamRouter = router({
             approvedBy: null,
             updatedAt: now,
           })
-          .where(
-            and(
-              ownTimeEntriesInOrg(input.userId, ctx.orgId),
-              gte(timeEntries.date, weekStart),
-              lt(timeEntries.date, weekEnd),
-            ),
-          );
+          .where(and(ownTimeEntriesInOrg(input.userId, ctx.orgId), entryRange));
       });
 
       void notify({

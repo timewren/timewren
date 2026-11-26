@@ -13,7 +13,9 @@ En tom værdi tæller som "ikke sat". `NEXT_PUBLIC_APP_URL=` falder tilbage til 
 
 ### Build time og runtime
 
-Variabler med navnet `NEXT_PUBLIC_*` bliver indlejret i browserbundlen, når imaget bygges. Ændrer du dem i `.env` bagefter, har det ingen effekt på det færdigbyggede image. Tre undtagelser læses ved runtime, og build-værdien bruges kun som fallback: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` og `NEXT_PUBLIC_BRAND`. Serveren læser dem fra sit miljø, og browseren får dem fra `/runtime-config.js`, som serveren genererer for hver forespørgsel.
+Variabler med navnet `NEXT_PUBLIC_*` bliver indlejret i browserbundlen, når imaget bygges. Ændrer du dem i `.env` bagefter, har det ingen effekt på det færdigbyggede image. Tre undtagelser læses ved runtime, og build-værdien bruges kun som fallback: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_MARKETING_URL` og `NEXT_PUBLIC_BRAND`. Serveren læser dem fra sit miljø, og browseren får dem fra `/runtime-config.js`, som serveren genererer for hver forespørgsel. Marketingsider findes kun i et build med `BUILD_PROFILE=full`. Det færdigbyggede image og compose-eksemplet bruger `selfhost`, som ingen har, så `NEXT_PUBLIC_MARKETING_URL` har dér ingen marketingsider at slå til.
+
+Instanssider som cookies, kontakt og sletning af konto bruger den kørende apps URL og brand. Sæt `NEXT_PUBLIC_MARKETING_URL` eksplicit for at aktivere marketing på et selvhostet domæne. Den fælles navigation og webstedets metadata bruger den kørende marketing-URL og det valgte brand. Redaktionelle metadata og sidetekster beskriver TimeTrack Cloud, herunder priser og udgiver. Den offentlige PDF med Clouds databehandleraftale er kun tilgængelig på TimeTrack Cloud.
 
 I det færdigbyggede image `ghcr.io/timewren/timewren` ligger de øvrige build time-variabler derfor fast (for eksempel `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` og Sentrys browserindstillinger). Vil du ændre dem, skal du bygge dit eget image med de tilsvarende build-argumenter, se [Installation fra kildekode](/da/docs/install/from-source). Kolonnen `Build time` nedenfor viser, hvilke variabler det gælder.
 
@@ -55,7 +57,7 @@ Compose nægter at starte, når `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCR
 | Variabel | Standard | Påkrævet | Build time | Beskrivelse |
 | --- | --- | --- | --- | --- |
 | `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | ja | nej | Appens offentlige URL. Læses ved runtime, og build-værdien er fallback. Bruges til links i mails, OAuth-callbacks og integrationernes standard-redirect-URI'er. |
-| `NEXT_PUBLIC_MARKETING_URL` | app-URL'en | nej | nej | Separat offentlig host eller marketinghost. Tom spejler `NEXT_PUBLIC_APP_URL` (én host). Med brandet `timewren` og uden marketing-URL er marketingsiderne slået fra: `/` går til dashboardet, og de øvrige marketingstier returnerer 404. Læses ved runtime. |
+| `NEXT_PUBLIC_MARKETING_URL` | app-URL'en | nej | nej | Særskilt vært til offentlige sider eller marketing. Uden en eksplicit marketing-URL sender selvhostede instanser af begge brands `/` til dashboardet og returnerer 404 for andre marketingstier. Hvis appens URL eller brand ændres ved opstart, skal marketing-URL’en sættes igen for at aktivere siderne. Læses ved opstart. Kræver et image bygget med `BUILD_PROFILE=full`; det færdigbyggede image har ingen marketingsider. |
 | `NEXT_PUBLIC_BRAND` | `timewren` | nej | nej | `timewren` (selvhosting) eller `timetrack` (den danske hostede søster, TimeTrack Cloud). Enhver anden værdi, eller ingen, giver TimeWren. Læses ved runtime. |
 | `SUPPORT_EMAIL` | `support@<EMAIL_DOMAIN>` | nej | nej | Supportadresse, der vises i mails og i brugerfladen. |
 | `NEXT_PUBLIC_SUPPORT_EMAIL` | ingen | nej | ja | Ældre alias for `SUPPORT_EMAIL`. `SUPPORT_EMAIL` vinder, når begge er sat. |
@@ -64,7 +66,7 @@ Compose nægter at starte, når `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCR
 | `TRUSTED_ORIGINS` | ingen | nej | nej | Ekstra origins, som auth- og CSRF-tjekket accepterer, kommasepareret. Ugyldige værdier springes over. |
 | `CORS_ALLOWED_ORIGINS` | browserudvidelsers origins | nej | nej | Erstatter CORS-listen for tRPC-API'et. Præcise origins, kommaseparerede, uden efterstillet skråstreg eller wildcards. Uden værdi accepteres browserudvidelsers origins. Tom værdi slår adgang på tværs af origins fra. Erstatter ikke token-godkendelse. |
 | `APP_SCHEMES` | `timetrack://,timetrack.preview://` | nej | nej | Native app-schemes, som auth accepterer, kommasepareret. Sæt den til schemet i en egen app-build, fx `timewren://`. Tom værdi slår native origins fra. |
-| `DEVICE_CALLBACK_URL` | `timetrack://auth/callback` | nej | nej | Callback til device-login. Skal være et native scheme med præcis `auth/callback`; web-adresser, brugeroplysninger, query og fragment afvises. Tilpas den til `APP_SCHEMES`. |
+| `DEVICE_CALLBACK_URL` | `timewren://auth/callback` (TimeWren) / `timetrack://auth/callback` | nej | nej | Callback til device-login. Skal være et native scheme med præcis `auth/callback`; web-adresser, brugeroplysninger, query og fragment afvises. Tilpas den til `APP_SCHEMES`. Uden værdi afgør instansens brand (`timewren://auth/callback` for TimeWren, ellers `timetrack://auth/callback`); en klients `redirect_uri` følges kun, hvis den står i `APP_SCHEMES`, er et af standardcallbacks (`timetrack://`, `timewren://`) eller er denne værdi. Ældre klienter uden `redirect_uri` på en standard-selfhost (brand TimeWren) får `timewren://`; sæt da `DEVICE_CALLBACK_URL=timetrack://auth/callback`. |
 | `CALLBACK_BASE_URL` | app-URL'en | nej | nej | Basis for gemte og registrerede callback-links, for eksempel webhook-callbacks. |
 | `AUTH_COOKIE_DOMAIN` | ingen | nej | nej | Deler sessionscookien på tværs af hosts, for eksempel `.example.com`. Kun nødvendig med adskilt app- og marketinghost. |
 | `AUTH_RP_ID` | marketinghosten, når hosts er adskilt, ellers apphosten | nej | nej | Relying party-ID til passkeys, for eksempel `example.com`. Kun nødvendig med adskilt app- og marketinghost. |
@@ -78,7 +80,7 @@ Compose nægter at starte, når `POSTGRES_PASSWORD`, `BETTER_AUTH_SECRET`, `ENCR
 
 ## Mail
 
-Vælg én transport: SMTP eller Resend. Uden nogen af dem skrives mails til serverloggen i stedet for at blive sendt. Detaljer og eksempler står under [Mail](/da/docs/configuration/email).
+Vælg én transport: SMTP eller Resend. Uden nogen af dem logger serveren, at afsendelsen blev sprunget over. Detaljer og eksempler står under [Mail](/da/docs/configuration/email).
 
 Transporten vælges i denne rækkefølge: `MAIL_TRANSPORT`, hvis den er sat til en gyldig værdi, ellers Resend, når `RESEND_API_KEY` er sat, ellers SMTP, når `SMTP_HOST` er sat, ellers kun log.
 
@@ -151,6 +153,10 @@ Billy kræver intet her: Hver bruger indsætter sin egen Billy API-nøgle i appe
 | Variabel | Standard | Påkrævet | Build time | Beskrivelse |
 | --- | --- | --- | --- | --- |
 | `GOOGLE_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/google/callback` | nej | nej | OAuth-redirect-URI for Google Kalender-integrationen. Bruger `GOOGLE_CLIENT_ID` og `GOOGLE_CLIENT_SECRET`. |
+| `OUTLOOK_CALENDAR_CLIENT_ID` | ingen | nej | nej | Client ID for en app-registrering i Microsoft Entra ID til Outlook-kalenderen (Microsoft Graph, kun læsning). Sammen med secret'en tilbydes Outlook-kalenderen under Indstillinger, Integrationer; uden den er Outlook skjult. Login-appen (`MICROSOFT_CLIENT_ID`) bruges aldrig til den. |
+| `OUTLOOK_CALENDAR_CLIENT_SECRET` | ingen | nej | nej | Client secret for Outlook-kalenderens app. |
+| `OUTLOOK_CALENDAR_TENANT_ID` | `common` | nej | nej | Microsoft-tenant for Outlook-kalenderen: `common`, `organizations`, `consumers` eller et tenant-GUID. |
+| `OUTLOOK_CALENDAR_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/outlook/callback` | nej | nej | OAuth-redirect-URI for Outlook-kalenderintegrationen. |
 | `DINERO_CLIENT_ID` | ingen | betinget | nej | Visma Connect OAuth-app til Dinero. Både ID og hemmelighed skal til for at slå integrationen til. |
 | `DINERO_CLIENT_SECRET` | ingen | betinget | nej | Hemmelighed til Visma Connect-appen. |
 | `DINERO_REDIRECT_URI` | `{NEXT_PUBLIC_APP_URL}/api/integrations/dinero/callback` | nej | nej | OAuth-redirect-URI til Dinero. |
@@ -163,7 +169,7 @@ Billy kræver intet her: Hver bruger indsætter sin egen Billy API-nøgle i appe
 | `CVR_SERVICE_URL` | vedligeholderens CVR-tjeneste | nej | nej | Basis-URL for CVR-opslagstjenesten, der bruges sammen med `CVR_SERVICE_API_KEY`. |
 | `CVR_API_TIMEOUT_MS` | `10000` | nej | nej | Timeout for CVR-opslag i millisekunder. |
 | `GITHUB_TOKEN` | ingen | nej | nej | GitHub-token til opslag efter desktopopdateringer, som giver en højere rate limit. |
-| `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` | ingen | nej | ja | GitHub-`owner/repo`, som desktopdownloads linker til. Slået fra, medmindre den er sat. |
+| `NEXT_PUBLIC_DESKTOP_RELEASES_REPO` | `mahope/timetrack-releases` (TimeTrack) | nej | ja | GitHub-`owner/repo` til desktopdownloads. TimeTrack-builds bruger som standard `mahope/timetrack-releases`. I andre builds kræver downloads et konfigureret repo. Et brandskift ved opstart beholder buildets download-repo. |
 | `DESKTOP_UPDATER_REPO` | ingen | nej | nej | GitHub-`owner/repo` til ældre desktopopdateringer. Slået fra, medmindre den er sat. |
 | `CHANGELOG_REPO` | ingen | nej | nej | GitHub-`owner/repo`, som changeloggen læses fra. Slået fra, medmindre den er sat. |
 
@@ -192,6 +198,7 @@ Valkey er valgfrit. Det giver rate limits, der deles mellem processer, og synkro
 | `RATE_LIMIT_BACKEND` | i hukommelsen | nej | nej | `valkey` gemmer rate limits i Valkey. Enhver anden værdi holder dem i hukommelsen. |
 | `REALTIME_ENABLED` | `true` i Docker-imaget | nej | nej | Serverflag for timerhændelser i realtid. Realtid kræver også `VALKEY_URL`. Sæt `false` for at slå det fra uden et nyt build. |
 | `NEXT_PUBLIC_REALTIME_ENABLED` | ingen | nej | ja | Klientflag, skal være `true` ved build. Både denne og `REALTIME_ENABLED` skal være `true`. Det færdigbyggede image sætter den ikke. |
+| `BUILD_PROFILE` | `full` | nej | ja | Build-argument og variabel til `npm run build`. `selfhost` udelader Clouds marketingsite og TimeWrens hjemmeside fra buildet (kortere build, mindre image); det færdigbyggede image bruger den. `full` bygger også de marketingsider, som `NEXT_PUBLIC_MARKETING_URL` slår til. |
 | `ELECTRIC_URL` | ingen | nej | nej | Eksperimentel ElectricSQL-shape-proxy til timeren. Gør intet, medmindre begge variabler er sat. Endpointene svarer så 503, og klienterne falder tilbage. |
 | `ELECTRIC_SECRET` | ingen | nej | nej | Hemmelighed til ElectricSQL-proxyen. |
 
@@ -202,7 +209,7 @@ Intet sendes til vedligeholderne, medmindre du sætter disse. Se også [Fejlfind
 | Variabel | Standard | Påkrævet | Build time | Beskrivelse |
 | --- | --- | --- | --- | --- |
 | `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | ingen | nej | ja | URL til et Plausible-analysescript. Tom: Der indlæses intet Plausible-script. Tilføjes også til CSP'en. |
-| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | ingen | nej | ja | URL til Umamis sporingsscript. Bruges, når der ikke er angivet en indsamlingsadresse. |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | ingen | nej | ja | URL til Umamis sporingsscript. Bruges, når der ikke er angivet en indsamlingsadresse. Hændelserne går til den collector, der er bygget ind i scriptet. Et script på samme origin, der proxyer Umami Cloud (fx `/stats.js`), sender i stedet via `/api/send` ved siden af, ikke til `gateway.umami.is`. |
 | `NEXT_PUBLIC_UMAMI_COLLECT_URL` | ingen | nej | ja | Fuld indsamlingsadresse eller sti på samme domæne, inklusive en eventuel tilpasset sti. Med webstedets id og samtykke sendes værktøjshændelser straks med keepalive. |
 | `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | ingen | nej | ja | Webstedets id i Umami. |
 | `PLAUSIBLE_BASE_URL` | `https://plausible.io` | nej | nej | Plausible-host, som admin-siden med statistik bruger. |
@@ -306,7 +313,7 @@ Compose sætter selv nogle af disse. De står her, så du ved, hvor de kommer fr
 | `MULTIBRAND_ENABLED` | ingen | nej | nej | `1` slår den hostede tjenestes register over brand-hosts til. |
 | `BRANDS_CONFIG` | indbyggede pladsholdere | nej | nej | JSON med de rigtige brand-hosts i den hostede multibrand-opsætning. |
 | `TIMEWREN_APP_ENABLED` | ingen | nej | nej | `1` åbner appen (login, oprettelse, dashboard) på de hostede TimeWren-hosts. |
-| `TIMEWREN_INDEXABLE` | ingen | nej | nej | `1` tillader søgemaskiner at indeksere det hostede TimeWren-site. |
+| `TIMEWREN_INDEXABLE` | ingen | nej | nej | `0` giver noindex (fx staging); ellers kan siderne indekseres. |
 | `TIMEWREN_GOOGLE_CLIENT_ID` | ingen | nej | nej | Client ID for TimeWren Clouds Google-app. Sammen med secret'en vises Google-login på TimeWren-hosts; uden den er knappen skjult, og udbyderen er ikke registreret dér. TimeTracks nøgler bruges aldrig på TimeWren-hosts. |
 | `TIMEWREN_GOOGLE_CLIENT_SECRET` | ingen | nej | nej | Client secret for TimeWren Clouds Google-app. |
 | `TIMEWREN_GITHUB_CLIENT_ID` | ingen | nej | nej | Client ID for TimeWren Clouds GitHub-app. Sammen med secret'en vises GitHub-login på TimeWren-hosts; uden den er knappen skjult, og udbyderen er ikke registreret dér. TimeTracks nøgler bruges aldrig på TimeWren-hosts. |
@@ -316,7 +323,13 @@ Compose sætter selv nogle af disse. De står her, så du ved, hvor de kommer fr
 | `TIMEWREN_MICROSOFT_CLIENT_ID` | ingen | nej | nej | Client ID for TimeWren Clouds Microsoft Entra ID-app. Sammen med secret'en vises Microsoft Entra ID-login på TimeWren-hosts; uden den er knappen skjult, og udbyderen er ikke registreret dér. TimeTracks nøgler bruges aldrig på TimeWren-hosts. |
 | `TIMEWREN_MICROSOFT_CLIENT_SECRET` | ingen | nej | nej | Client secret for TimeWren Clouds Microsoft Entra ID-app. |
 | `TIMEWREN_MICROSOFT_TENANT_ID` | `common` | nej | nej | Microsoft-tenant for login på TimeWren Cloud, som `MICROSOFT_TENANT_ID`. |
+| `TIMEWREN_GOOGLE_REDIRECT_URI` | `https://<TimeWren-host>/api/integrations/google/callback` | nej | nej | Google Kalender-redirect for TimeWren Cloud-konti. Google Kalender på TimeWren bruger `TIMEWREN_GOOGLE_CLIENT_ID` og `TIMEWREN_GOOGLE_CLIENT_SECRET`; uden dem ser TimeWren-konti "kommer snart". |
+| `TIMEWREN_OUTLOOK_CLIENT_ID` | ingen | nej | nej | Client ID for TimeWren Clouds Outlook-kalenderapp. Uden den bruges TimeWrens Microsoft-login-app (`TIMEWREN_MICROSOFT_CLIENT_ID`) også til kalenderen, hvis den er sat. |
+| `TIMEWREN_OUTLOOK_CLIENT_SECRET` | ingen | nej | nej | Client secret for TimeWren Clouds Outlook-kalenderapp. |
+| `TIMEWREN_OUTLOOK_REDIRECT_URI` | `https://<TimeWren-host>/api/integrations/outlook/callback` | nej | nej | Outlook-kalenderens redirect-URI for TimeWren Cloud-konti. |
 | `TIMEWREN_APPLE_CLIENT_ID` | ingen | nej | nej | Services ID for TimeWren Clouds Sign in with Apple-app. Signeres med teamets nøgle (`APPLE_TEAM_ID`, `APPLE_KEY_ID`, `APPLE_PRIVATE_KEY`). |
+
+**Påmindelser om prøveperioder på TimeWren Cloud.** Slå påmindelser om prøveperiodens udløb til i Stripe Dashboard under Subscriptions and emails. Stripe sender påmindelsen for Stripe-prøver. Appen sender ingen påmindelse for dem. [Stripes opsætningsvejledning](https://docs.stripe.com/billing/subscriptions/trials/manage-trial-compliance#stripe-hosted-reminder-emails)
 
 ## Kun udvikling og test
 

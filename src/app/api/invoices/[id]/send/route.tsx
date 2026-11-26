@@ -17,6 +17,11 @@ import {
   renderInvoicePdfBuffer,
 } from "@/lib/invoice-pdf";
 import { isDraftInvoiceNumber } from "@/lib/invoices/draft-number";
+import { invoiceSendBlocker } from "@/lib/invoices/send-guard";
+import {
+  type ReviewedInvoice,
+  reviewedInvoiceSchema,
+} from "@/lib/invoices/send-review";
 import { DEFAULT_FROM_EMAIL, resend } from "@/lib/resend";
 import { ensureRealInvoiceNumber } from "@/lib/trpc/routers/invoices";
 import { resolvePlanTier } from "@/lib/trpc/trpc";
@@ -90,8 +95,6 @@ export async function POST(
       );
     }
 
-    // Udstedelse ved afsendelse: en kladde skal have sit rigtige,
-    // fortlobende nummer FOER PDF/email renderes (#196).
     const preInvoice = await db.query.invoices.findFirst({
       where: and(
         eq(invoices.id, id),
@@ -120,12 +123,6 @@ export async function POST(
       );
     }
 
-    if (isDraftInvoiceNumber(preInvoice.invoiceNumber)) {
-      await db.transaction(async (tx) => {
-        await ensureRealInvoiceNumber(tx, preInvoice, userId, orgId);
-      });
-    }
-
     // Load invoice + PDF props via the shared helper so the emailed PDF is
     // identical to the downloaded one (VAT, logo, bank info, invoice lines).
     const pdfData = await buildInvoicePdfProps({
@@ -142,6 +139,41 @@ export async function POST(
     }
 
     const { invoice, client, user, companyProfile, pdfProps } = pdfData;
+
+    // `expectedInvoice`: what SendInvoiceDialog showed. Checked before the
+    // draft gets its real number, since the dialog showed the draft number.
+    let expectedInvoice: ReviewedInvoice | undefined;
+    if (body?.expectedInvoice !== undefined) {
+      const parsed = reviewedInvoiceSchema.safeParse(body.expectedInvoice);
+      if (!parsed.success) {
+        return NextResponse.json(
+          { error: await tr("serverErrors", "invoices.sendReviewChanged") },
+          { status: 409 },
+        );
+      }
+      expectedInvoice = parsed.data;
+    }
+    const blocker = await invoiceSendBlocker(
+      db,
+      pdfData,
+      recipientEmail,
+      expectedInvoice,
+    );
+    if (blocker) {
+      return NextResponse.json(
+        { error: await tr("serverErrors", blocker) },
+        { status: 409 },
+      );
+    }
+
+    // Udstedelse ved afsendelse: en kladde skal have sit rigtige,
+    // fortlobende nummer FOER PDF/email renderes (#196).
+    if (isDraftInvoiceNumber(invoice.invoiceNumber)) {
+      invoice.invoiceNumber = await db.transaction((tx) =>
+        ensureRealInvoiceNumber(tx, invoice, userId, orgId),
+      );
+      pdfProps.invoice.invoiceNumber = invoice.invoiceNumber;
+    }
 
     // Prefer the org's company profile as sender identity so the client sees
     // a consistent company regardless of which member sends.
@@ -185,6 +217,7 @@ export async function POST(
         invoiceNumber: invoice.invoiceNumber,
         clientName: client.name,
         amount: invoice.amount,
+        currency: pdfProps.currency,
         dueDate:
           invoice.dueDate?.toISOString() || invoice.issueDate.toISOString(),
         senderName,

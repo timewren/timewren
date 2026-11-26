@@ -60,8 +60,6 @@ export function RecurringFormScreen() {
   // at den indlæser (porten i `notify.test.ts`).
   useReportLoad(editing ? template : list, translate('common.loaded'));
 
-  if (editing && template.isLoading)
-    return <Screen back title={translate('recurring.edit_title')}><ListSkeleton rows={4} /></Screen>;
   if (editing && template.isError) {
     return (
       <Screen back title={translate('recurring.edit_title')}>
@@ -72,7 +70,7 @@ export function RecurringFormScreen() {
 
   const saved = editing ? template.data : undefined;
   if (editing && !saved)
-    return null;
+    return <Screen back title={translate('recurring.edit_title')}><ListSkeleton rows={4} /></Screen>;
 
   // `getById` svarer uden `templateClients` (routeren:245-253), så listen bruges
   // til at se, om der står flere kunder på skabelonen. De skal bare *vises* —

@@ -58,6 +58,7 @@ vi.mock("@sentry/nextjs", () => ({
 import { invoiceLines, invoices, timeEntries } from "@/lib/db/schema";
 import { isDraftInvoiceNumber } from "@/lib/invoices/draft-number";
 import { emitWebhookEvent } from "@/lib/webhooks/events";
+import { appCodeOf } from "../../app-code";
 import {
   computeNextInvoiceNumber,
   ensureRealInvoiceNumber,
@@ -150,6 +151,8 @@ function numberingTx(maxNum: number) {
   return { tx, executed, updates };
 }
 
+const DRAFT_PATTERNS = ["UDKAST-%", "DRAFT-%", "ENTWURF-%", "BORRADOR-%"];
+
 describe("computeNextInvoiceNumber — fortløbende numre (#196)", () => {
   it("låser serien pr. org før nummeret læses", async () => {
     const { tx, executed } = numberingTx(0);
@@ -170,7 +173,7 @@ describe("computeNextInvoiceNumber — fortløbende numre (#196)", () => {
 
     expect(executed[0].params).toEqual([USER]);
     expect(executed[1].sql).toContain("user_id");
-    expect(executed[1].params).toEqual([USER]);
+    expect(executed[1].params).toEqual([USER, ...DRAFT_PATTERNS]);
   });
 
   it("scoper optællingen til org'en og springer kladder over", async () => {
@@ -180,9 +183,10 @@ describe("computeNextInvoiceNumber — fortløbende numre (#196)", () => {
       "INV-008",
     );
     expect(executed[1].sql).toContain("organization_id");
-    expect(executed[1].sql).toContain("UDKAST-%");
+    expect(executed[1].sql).toContain("NOT LIKE");
     expect(executed[1].sql).not.toContain("user_id");
-    expect(executed[1].params).toEqual([ORG]);
+    // Kladder på alle sprog springes over (fund 18).
+    expect(executed[1].params).toEqual([ORG, ...DRAFT_PATTERNS]);
   });
 
   it("starter på INV-001 og tæller op fra det højeste nummer", async () => {
@@ -576,10 +580,15 @@ function generateDb(entries: Record<string, unknown>[]) {
   return { db, inserts, marked };
 }
 
-const generate = (db: Parameters<typeof caller>[0], timeEntryIds: string[]) =>
+const generate = (
+  db: Parameters<typeof caller>[0],
+  timeEntryIds: string[],
+  extra: { requireCompanyProfile?: boolean } = {},
+) =>
   caller(db).generateFromTimeEntries({
     clientId: CLIENT_ID,
     timeEntryIds,
+    ...extra,
   }) as Promise<{
     invoice: { amount: string; invoiceNumber: string; status: string };
     totalAmount: number;
@@ -674,6 +683,49 @@ describe("invoices.generateFromTimeEntries — beløbet", () => {
     const result = await generate(db, [ENTRY_2, ENTRY_1]);
 
     expect(result.lines.map((l) => l.amount)).toEqual(["200.00", "100.00"]);
+  });
+});
+
+describe("invoices.generateFromTimeEntries — første faktura", () => {
+  /** Ingen fakturaer endnu; `profile` er virksomhedsprofilen eller undefined. */
+  function firstInvoiceDb(profile: { id: string } | undefined) {
+    const setup = generateDb([entryRow()]);
+    setup.db.query.invoices = { findMany: async () => [] };
+    (setup.db.query as Record<string, unknown>).companyProfiles = {
+      findFirst: async () => profile,
+    };
+    return setup;
+  }
+
+  const web = { requireCompanyProfile: true };
+
+  it("web: afviser den første faktura uden virksomhedsoplysninger", async () => {
+    const { db, inserts, marked } = firstInvoiceDb(undefined);
+
+    const error = await generate(db, [ENTRY_1], web).catch((e) => e);
+    expect(error).toMatchObject({ code: "BAD_REQUEST" });
+    // Web viser vejen til oplysningerne ud fra koden, ikke den oversatte tekst.
+    expect(appCodeOf(error)).toBe("COMPANY_PROFILE_REQUIRED");
+    expect(inserts).toEqual([]);
+    expect(marked).toEqual([]);
+  });
+
+  it("web: laver den første faktura, når virksomhedsoplysningerne findes", async () => {
+    const { db, inserts } = firstInvoiceDb({ id: "profile-1" });
+
+    const result = await generate(db, [ENTRY_1], web);
+
+    expect(result.totalAmount).toBe(2250);
+    expect(inserts.map((i) => i.table)).toEqual([invoices, invoiceLines]);
+  });
+
+  it("uden web's krav (desktop, REST, MCP): første kladde også uden profil", async () => {
+    const { db, inserts } = firstInvoiceDb(undefined);
+
+    const result = await generate(db, [ENTRY_1]);
+
+    expect(result.totalAmount).toBe(2250);
+    expect(inserts.map((i) => i.table)).toEqual([invoices, invoiceLines]);
   });
 });
 

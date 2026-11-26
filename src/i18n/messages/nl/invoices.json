@@ -4,9 +4,11 @@
     "sendTo": "Verzenden naar {email}",
     "sent": "Factuur verzonden naar {email}",
     "total": "Bedrag inclusief btw",
+    "totalNoVat": "Bedrag (zonder btw)",
     "loading": "Factuurgegevens laden…",
     "draftNumber": "Het definitieve factuurnummer wordt bij uitgifte toegewezen.",
-    "provider": "Het bedrag komt uit TimeTrack. {provider} berekent het eindbedrag met eigen belastinginstellingen."
+    "provider": "Het bedrag komt uit TimeTrack. {provider} berekent het eindbedrag met eigen belastinginstellingen.",
+    "lineCount": "Regels"
   },
   "status": {
     "draft": "Concept",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (gefilterd)",
     "reminderTitle": "Herinnering sturen",
     "reminderDescription": "Factuur {number} per e-mail naar de klant sturen?",
-    "send": "Verzenden"
+    "send": "Verzenden",
+    "emptyUnbilledHint": "Je hebt {duration} niet-gefactureerde tijd. Factureer die, dan worden regels en bedragen voor je ingevuld.",
+    "emptyNoTimeHint": "Facturen maak je het makkelijkst van geregistreerde tijd. Registreer eerst tijd, of maak een factuur met een vast bedrag.",
+    "invoiceUnbilled": "Openstaande tijd factureren",
+    "createBlank": "Lege factuur maken",
+    "registerTimeFirst": "Tijd registreren",
+    "createFixedAmount": "Factuur met vast bedrag"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Notitie op de factuur (optioneel)",
     "notePlaceholder": "Bijv. Afspraak over technisch partnerschap, '{måned}'"
   },
-  "tableLabel": "Facturen"
+  "tableLabel": "Facturen",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} heeft niet bevestigd of de factuur per e-mail is verstuurd. Controleer de e-mailstatus in {provider} en geef het resultaat aan op de factuurpagina voordat je hem opnieuw verstuurt.",
+    "uncertainTitle": "We weten niet of {provider} de factuur heeft verstuurd",
+    "uncertainBody": "{provider} reageerde niet toen de factuur per e-mail werd verstuurd, dus de klant heeft hem mogelijk ontvangen. Controleer de e-mailstatus van de factuur in {provider}. Tot je het resultaat hier aangeeft, kan de factuur niet opnieuw vanuit TimeTrack worden verstuurd.",
+    "wasSent": "{provider} heeft hem verstuurd",
+    "notSent": "Hij is niet verstuurd",
+    "resolved": "E-mailstatus opgeslagen"
+  }
 }

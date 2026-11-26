@@ -16,6 +16,7 @@ import {
   LayoutDashboard,
   Lock,
   Mail,
+  Monitor,
   RefreshCw,
   Shield,
   Smartphone,
@@ -618,13 +619,25 @@ export default function FeaturesPage() {
           <section>
             <SectionHeader
               title="Platform & udvikler"
-              subtitle="PWA, browser extension, public API og webhooks."
+              subtitle="Apps til iPhone, Mac og Windows, browserudvidelse, API og webhooks."
             />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <FeatureCard
                 icon={<Smartphone className="h-6 w-6" />}
-                title="PWA: installérbar app"
-                description="Installer TimeTrack som en app på din telefon eller computer. Offline-support med lokal queue og sync ved reconnect."
+                title="App til iPhone og iPad"
+                description="Start og stop timeren, og skriv tid ind for tidligere dage. Appen ligger i App Store, og Android-appen kommer snart i Google Play."
+                links={[{ href: "/download", label: "Hent appen" }]}
+              />
+              <FeatureCard
+                icon={<Monitor className="h-6 w-6" />}
+                title="Desktop-app til Mac og Windows"
+                description="Timeren tæt på, også når browseren er lukket. Desktop-appen kan registrere, hvilke programmer du arbejder i, og aktiviteten bliver på din computer."
+                links={[{ href: "/desktop", label: "Se desktop-appen" }]}
+              />
+              <FeatureCard
+                icon={<Globe className="h-6 w-6" />}
+                title="Webapp, der kan installeres"
+                description="Læg TimeTrack på telefonens hjemmeskærm eller som app på computeren. Virker også uden netforbindelse og synkroniserer, når du er online igen."
               />
               <FeatureCard
                 icon={<AppWindow className="h-6 w-6" />}

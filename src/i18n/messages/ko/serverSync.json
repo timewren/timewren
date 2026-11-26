@@ -176,7 +176,7 @@
       "deleted": "삭제됨"
     },
     "specHeading": "--- 명세 ---",
-    "specLine": "{date} - {project}: {description} ({hours}시간 × {rate} kr = {amount} kr)"
+    "specLine": "{date} - {project}: {description} ({hours}시간 × {rate} = {amount})"
   },
   "logbook": {
     "endAfterStart": "종료일은 시작일보다 늦어야 해요",
@@ -457,6 +457,10 @@
       "projectLine": "프로젝트: {name}",
       "hoursLine": "시간: {hours}",
       "exportedFrom": "TimeTrack에서 내보냄"
+    },
+    "outlook": {
+      "notConnected": "Outlook에 연결되지 않음",
+      "syncFailed": "Outlook 동기화에 실패했습니다"
     }
   },
   "activity": {

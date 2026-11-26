@@ -11,7 +11,7 @@ import {
   startOfMonth,
   startOfWeek,
 } from 'date-fns';
-import { dateFnsLocale, formatWords } from '~/lib/locale';
+import { dateFnsLocale, dayOfMonth, formatWords } from '~/lib/locale';
 
 export type PeriodMode = 'day' | 'week' | 'month';
 
@@ -52,14 +52,14 @@ function capitalize(text: string): string {
 /** Overskrift for perioden: "I dag · lørdag 6. september" / "Uge 36 · 31. aug.–6. sep." / "September 2026" */
 export function periodTitle(mode: PeriodMode, date: Date): string {
   if (mode === 'day') {
-    const text = capitalize(format(date, 'EEEE d. MMMM', { locale: dateFnsLocale() }));
+    const text = capitalize(format(date, `EEEE ${dayOfMonth()} MMMM`, { locale: dateFnsLocale() }));
     return isToday(date) ? `${formatWords().today} · ${text}` : text;
   }
   if (mode === 'week') {
     const { start, end } = weekRange(date);
     const sameMonth = isSameMonth(start, end);
-    const from = format(start, sameMonth ? 'd.' : 'd. MMM', { locale: dateFnsLocale() });
-    const to = format(end, 'd. MMM', { locale: dateFnsLocale() });
+    const from = format(start, sameMonth ? dayOfMonth() : `${dayOfMonth()} MMM`, { locale: dateFnsLocale() });
+    const to = format(end, `${dayOfMonth()} MMM`, { locale: dateFnsLocale() });
     return `${formatWords().week} ${format(date, 'I', { locale: dateFnsLocale() })} · ${from}–${to}`;
   }
   return capitalize(format(date, 'MMMM yyyy', { locale: dateFnsLocale() }));

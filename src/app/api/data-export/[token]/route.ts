@@ -6,6 +6,7 @@ import { sharedT } from "@/i18n/shared-text";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { dataExportRequests } from "@/lib/db/schema";
+import { runWithDemoCurrency } from "@/lib/demo/server-currency";
 import {
   authorizeZipExportDownload,
   ORG_EXPORT_DOWNLOADABLE,
@@ -128,11 +129,13 @@ export async function GET(
       if (data.length > 0) {
         sections.push(`\n=== ${title} ===`);
         sections.push(
-          convertToCSV(data, columns, {
-            delimiter: ";",
-            dateFormat: "danish",
-            decimalSeparator: ",",
-          }),
+          runWithDemoCurrency(session.user.email, () =>
+            convertToCSV(data, columns, {
+              delimiter: ";",
+              dateFormat: "danish",
+              decimalSeparator: ",",
+            }),
+          ),
         );
       }
     };

@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 import { toIntlLocale } from "@/i18n/format-locale";
 import { budgetHealthStatus } from "@/lib/projects/budget";
+import { budgetLabel } from "@/lib/projects/budget-label";
 
 // Periodevalgene bor i @/lib/periods (delt med tRPC-routerne) — re-eksporteres
 // her, så eksisterende importører af denne komponent ikke skal ændres.
@@ -57,7 +58,9 @@ export function ProjectBudgetBar({
   const pct = Math.max(0, budget.percentage);
   const width = Math.min(pct, 100);
   const over = budget.remainingHours < 0;
-  const tone = BUDGET_TONES[budgetHealthStatus(pct)];
+  const health = budgetHealthStatus(pct);
+  const tone = BUDGET_TONES[health];
+  const label = budgetLabel(t, health, budget.usedHours, budget.budgetHours);
   // Ressourceplan (#508): brugt + planlagt fremover holdt op mod budgettet
   const planned = Math.max(0, budget.plannedHours ?? 0);
   const forecast = budget.usedHours + planned;
@@ -85,10 +88,7 @@ export function ProjectBudgetBar({
         </div>
         <div className="flex items-center gap-3 text-sm">
           <span className="tabular-nums text-gray-900 dark:text-white">
-            {t("budgetBar.hoursOf", {
-              used: fmt(budget.usedHours),
-              total: fmt(budget.budgetHours),
-            })}
+            {label}
           </span>
           <span className={`font-medium ${tone.text}`}>
             {over
@@ -103,7 +103,8 @@ export function ProjectBudgetBar({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={width}
-        aria-label={t("budgetBar.ariaUsed", { pct })}
+        aria-label={t("budgetBar.title")}
+        aria-valuetext={label}
       >
         <div className="flex h-full">
           <div

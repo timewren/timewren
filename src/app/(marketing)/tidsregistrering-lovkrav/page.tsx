@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SEOPageLayout } from "@/components/marketing/SEOPageLayout";
-import { BUSINESS_SEAT_PRICE_MONTHLY } from "@/lib/config";
+import { BUSINESS_SEAT_PRICE_MONTHLY, getMarketingUrl } from "@/lib/config";
 
 // Retstilstanden er tjekket 1/10-2026 mod lovbekendtgørelse nr. 982 af
 // 12/08/2024 på retsinformation.dk (status: gældende). Opdatér datoen og
@@ -94,7 +94,8 @@ export default function TidsregistreringLovkravPage() {
         name: "TimeTrack",
         url: "https://timetrack.dk",
       },
-      mainEntityOfPage: "https://timetrack.dk/tidsregistrering-lovkrav",
+      mainEntityOfPage: new URL("/tidsregistrering-lovkrav", getMarketingUrl())
+        .href,
       citation: Object.values(KILDER),
     },
     {

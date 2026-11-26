@@ -49,7 +49,8 @@
     "title": "新しいタブの設定",
     "close": "設定を閉じる",
     "enable": "新しいタブでTimeTrackを使う",
-    "enableHint": "ブラウザのスタートページをTimeTrackに置き換えます",
+    "enableHint": "ブラウザの新しいタブをTimeTrackに置き換えます。オフにすると、検索ボックスのあるシンプルなページが表示されます",
+    "enableHintChrome": "ブラウザの新しいタブをTimeTrackに置き換えます。オフにすると、Chrome 標準の新しいタブが常に Google 版で表示されます（既定の検索エンジンが Google 以外でも同じです）",
     "appearance": "外観",
     "theme": "テーマ",
     "themeHint": "拡張機能のカラーテーマ",
@@ -95,5 +96,10 @@
     "chartLabel": "週の時間の概要",
     "workHours": "{day}の勤務時間",
     "dayHours": "{day}: {hours}"
+  },
+  "search": {
+    "label": "ウェブを検索",
+    "submit": "検索",
+    "error": "検索を開始できませんでした。アドレスバーに入力してください。"
   }
 }

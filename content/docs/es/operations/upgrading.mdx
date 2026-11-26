@@ -66,7 +66,8 @@ El archivo de Compose define `MIGRATE_ON_START=1`. Cada vez que arranca el conte
 
 - Toma un advisory lock de Postgres, de modo que dos contenedores que arrancan a la vez no migren en paralelo. El segundo espera hasta 5 minutos (`MIGRATION_LOCK_TIMEOUT_MS`) y después falla.
 - Aplica las migraciones pendientes de `drizzle/` mediante el migrador de Drizzle, que las ejecuta en una transacción.
-- En una base de datos vacía crea el esquema actual y registra todas las migraciones como aplicadas.
+- En una base de datos vacía instala el esquema SQL versionado hasta la migración `0160` y registra el historial en la misma transacción. Después ejecuta `0161` y las migraciones posteriores.
+- En una base de datos existente con un historial de migraciones vacío o ausente, restaura el historial hasta `0161` y completa el esquema de cuentas de prueba en la misma transacción. Conserva las marcas de cuenta de prueba guardadas incluso si falta la entrada de `0161` en un historial que ya contiene otras migraciones. Si faltaba la columna, la restaura y recupera las marcas del registro de auditoría. En una columna existente, las marcas guardadas nunca se bajan ni se reescriben desde el registro de auditoría; una organización sin marca solo se sube cuando la marca `testAccount` anterior en los metadatos todavía la señala (una base de datos que registró `0160` antes de restaurar las marcas) y su última entrada del registro de auditoría también la marca como cuenta de prueba. Ejecutar a mano el SQL versionado da el mismo resultado.
 - Un arranque sin novedades imprime `Database is up to date`; en caso contrario, `N new migration(s) applied`.
 
 ## Si falla una migración

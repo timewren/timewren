@@ -44,6 +44,27 @@ export async function requireInvoiceRouteAccess(input: {
     userId,
     session: session as unknown as Record<string, unknown>,
   });
+  return checkRouteModuleAccess({
+    userId,
+    orgId,
+    moduleKey: input.moduleKey,
+    featureModule: input.featureModule,
+    required: input.required,
+  });
+}
+
+/**
+ * Org-, modul- og rollevagten fra `requireInvoiceRouteAccess` til routes,
+ * der selv har fundet brugeren (fx /api/ext/* med extension-token).
+ */
+export async function checkRouteModuleAccess(input: {
+  userId: string;
+  orgId: string | null;
+  moduleKey: PermissionModuleKey;
+  featureModule: ModuleKey;
+  required: "read" | "write";
+}): Promise<RouteGuardResult> {
+  const { userId, orgId } = input;
   if (!orgId) {
     return { ok: false, status: 403, error: orglessForbiddenMessage() };
   }

@@ -39,6 +39,20 @@ export const TIMEWREN_LOOKUP_KEYS: Record<TimewrenPaidTier, string> = {
   business: "timewren_business_monthly_eur",
 };
 
+/**
+ * Desktop-livstidslicensen (engangskøb i EUR). Slås op på lookup_key som
+ * Cloud-priserne; prisen skal være engangs, EUR og
+ * TIMEWREN_DESKTOP_LIFETIME_PRICE_EUR (se timewrenDesktopPrice).
+ */
+export const TIMEWREN_DESKTOP_LOOKUP_KEY = "timewren_desktop_lifetime_eur";
+
+/**
+ * Metadata-nøglen på desktop-checkout'en. Bevidst IKKE `brand`: events med
+ * metadata.brand går til Cloud-handleren (eventBrand), og licensen skal
+ * udstedes af desktop-vejen i webhooken.
+ */
+export const DESKTOP_BRAND_METADATA_KEY = "desktop_brand";
+
 /** Prøveperiode ved første checkout. Privat har ingen. */
 export const TIMEWREN_TRIAL_DAYS = 14;
 
@@ -127,6 +141,8 @@ export function timewrenCheckoutParams(
     billing_address_collection: "required",
     customer_update: { address: "auto", name: "auto" },
     allow_promotion_codes: true,
+    // The Stripe account is named after TimeTrack; Checkout shows TimeWren.
+    branding_settings: { display_name: "TimeWren" },
     metadata,
     subscription_data: { metadata, ...trial },
     success_url: `${base}${path}${sep}success=true`,
@@ -173,19 +189,6 @@ export function paidSeats(tier: TimewrenPaidTier, quantity: number): number {
   return Math.min(maxSeatsForTier(tier), Math.max(1, Math.round(quantity)));
 }
 
-/**
- * Det antal, Stripe skal rettes til, når kunden betaler for mere, end planen
- * giver (fx Team med 3 sæder skiftet til Selvstændig i portalen). null = intet
- * at rette. Der rettes kun nedad, så kunden aldrig opkræves for mere end valgt.
- */
-export function normalizedQuantity(
-  tier: TimewrenPaidTier,
-  quantity: number,
-): number | null {
-  const max = isPerSeatTier(tier) ? maxSeatsForTier(tier) : 1;
-  return quantity > max ? max : null;
-}
-
 export interface SubscriptionRowState {
   status: string;
   pastDueSince: Date | null;
@@ -226,8 +229,7 @@ export function subscriptionFieldsFromStripe(
   if (status === "incomplete" || !tier) return ids;
 
   // Sæder = det betalte antal (højst tierens loft). Under planens minimum
-  // gives kun det betalte; for mange på en plan uden sæder rettes i Stripe
-  // af webhooken (normalizedQuantity).
+  // gives kun det betalte. Stripe styrer det fakturerede antal.
   const seats = paidSeats(tier, item?.quantity ?? 1);
   const mapped =
     status === "active"

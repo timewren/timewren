@@ -1,6 +1,5 @@
 import type { NextRequest } from "next/server";
 import {
-  applyPaginationAndSort,
   authenticateApiKey,
   corsPreflightResponse,
   errorResponse,
@@ -12,6 +11,8 @@ import {
   successResponse,
   withRateLimitHeaders,
 } from "@/lib/api/middleware";
+
+import { taskRestSortFields } from "@/lib/tasks/task-pages";
 
 const VALID_STATUSES = ["backlog", "todo", "in_progress", "done"] as const;
 const VALID_PRIORITIES = ["low", "medium", "high", "urgent"] as const;
@@ -56,30 +57,22 @@ export async function GET(request: NextRequest) {
     const pagination = parsePagination(params);
     if ("error" in pagination) return pagination.error;
     const { page, limit } = pagination;
-    const { sort, order } = parseSorting(params, [
-      "createdAt",
-      "status",
-      "priority",
-      "deadline",
-    ]);
+    const { sort, order } = parseSorting(params, [...taskRestSortFields]);
 
-    const allItems = await auth.context.caller.tasks.list({
+    const { rows, total } = await auth.context.caller.tasks.list({
       ...(projectId ? { projectId } : {}),
       ...(clientId ? { clientId } : {}),
       ...(status ? { status } : {}),
       ...(priority ? { priority } : {}),
+      restPage: {
+        page: Math.min(page, Number.MAX_SAFE_INTEGER),
+        limit,
+        sort: sort as (typeof taskRestSortFields)[number],
+        order,
+      },
     });
-
-    const items = Array.isArray(allItems) ? allItems : [];
-    const { data, total } = applyPaginationAndSort(
-      items as Record<string, unknown>[],
-      page,
-      limit,
-      sort,
-      order,
-    );
     return withRateLimitHeaders(
-      paginatedResponse(data, page, limit, total),
+      paginatedResponse(rows, page, limit, total ?? 0),
       auth.context.rateLimit,
     );
   } catch (error) {

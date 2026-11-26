@@ -1,4 +1,4 @@
-import type { Bar, ReportEntryLike, ReportMetric, ReportPeriod } from './report-logic';
+import type { Bar, ReportConfig, ReportEntryLike, ReportMetric, ReportPeriod } from './report-logic';
 import type { SharePeriod } from './report-share-logic';
 import { BarChart3 } from 'lucide-react-native';
 import * as React from 'react';
@@ -50,16 +50,7 @@ export function ReportsScreen() {
   );
   useAnnounceLoaded(report, translate('common.loaded'));
 
-  const exportCsv = trpc.reports.exportReport.useMutation({
-    onSuccess: async (result) => {
-      if (result.format !== 'csv')
-        return;
-      const p = report.data?.period;
-      const title = p ? translate('reports.csv_title', { start: p.start, end: p.end }) : translate('reports.title');
-      await Share.share({ message: result.data, title });
-    },
-    onError: error => showMessage({ message: errorMessage(error), type: 'danger' }),
-  });
+  const { shareCsv, sharingCsv } = useShareCsv(config, report.data?.period);
 
   const periodOptions = React.useMemo(
     () => REPORT_PERIODS.map(p => ({ value: p, label: translate(`reports.period.${p}`) })),
@@ -126,7 +117,7 @@ export function ReportsScreen() {
                     {caps.isManager && hasMemberData(entries)
                       ? <BarSection title={translate('reports.by_member')} bars={groupEntries(entries, 'member', translate('reports.no_member'))} metric={metric} />
                       : null}
-                    <Button className="mt-8" variant="outline" label={translate('reports.share_csv')} loading={exportCsv.isPending} onPress={() => exportCsv.mutate({ config, format: 'csv' })} testID="reports-share-csv" />
+                    <Button className="mt-8" variant="outline" label={translate('reports.share_csv')} loading={sharingCsv} onPress={shareCsv} testID="reports-share-csv" />
                     <Button className="mt-2" variant="outline" label={translate('reports.share_action')} onPress={openShare} testID="reports-share-link" />
                     <Text className="mt-2 text-center text-xs text-muted-foreground">{translate('reports.entries_count', { count: entries.length })}</Text>
                   </>
@@ -134,6 +125,53 @@ export function ReportsScreen() {
       <ShareReportSheet ref={share.ref} period={serverPeriod} config={config} enabled={shareOpen} onDismiss={() => setShareOpen(false)} />
     </Screen>
   );
+}
+
+function useShareCsv(config: ReportConfig | null, period: SharePeriod | undefined) {
+  const exportCsv = trpc.reports.exportReport.useMutation();
+  const csvInFlightRef = React.useRef(false);
+  const [sharingCsv, setSharingCsv] = React.useState(false);
+
+  async function shareCsv() {
+    if (!config || !period || csvInFlightRef.current)
+      return;
+
+    csvInFlightRef.current = true;
+    setSharingCsv(true);
+    try {
+      const title = translate('reports.csv_title', { start: period.start, end: period.end });
+      const result = await exportCsv.mutateAsync({
+        config: {
+          ...config,
+          filters: {
+            ...config.filters,
+            dateRange: 'custom',
+            customStart: period.start,
+            customEnd: period.end,
+          },
+        },
+        format: 'csv',
+      });
+      if (result.format !== 'csv')
+        return;
+
+      try {
+        await Share.share({ message: result.data, title });
+      }
+      catch {
+        showMessage({ message: translate('reports.csv_share_error'), type: 'danger' });
+      }
+    }
+    catch (error) {
+      showMessage({ message: errorMessage(error), type: 'danger' });
+    }
+    finally {
+      csvInFlightRef.current = false;
+      setSharingCsv(false);
+    }
+  }
+
+  return { shareCsv, sharingCsv };
 }
 
 type Summary = { totalHours: number; totalRevenue: number; unbilledRevenue: number };

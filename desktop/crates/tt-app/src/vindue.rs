@@ -78,7 +78,7 @@ pub fn init(cx: &mut App) {
             KeyBinding::new("cmd-w", LukVindue, None),
             KeyBinding::new("cmd-q", Afslut, None),
         ]);
-        cx.set_menus([Menu::new("TimeTrack").items([
+        cx.set_menus([Menu::new(tt_core::edition::EDITION.name).items([
             MenuItem::action(t("app.vindue.luk"), LukVindue),
             MenuItem::separator(),
             MenuItem::action(t("tray.menu.quit"), Afslut),

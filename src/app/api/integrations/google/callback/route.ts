@@ -3,8 +3,11 @@ import { type NextRequest, NextResponse } from "next/server";
 import { tr } from "@/i18n/server-text";
 import { auth } from "@/lib/auth";
 import { accountBrand } from "@/lib/auth/account-brand";
+import { type BrandKey, DEFAULT_BRAND_KEY } from "@/lib/brands/registry";
 import { db } from "@/lib/db";
 import { DEMO_UNAVAILABLE_CODE, isDemoMode } from "@/lib/demo/demo-mode";
+import { calendarAppUrl } from "@/lib/integrations/calendar-oauth-clients";
+import { verifyCalendarOAuthState } from "@/lib/integrations/calendar-oauth-state";
 import {
   exchangeCodeForTokens,
   isGoogleCalendarAvailableForBrand,
@@ -18,7 +21,12 @@ import { appUrlEnv } from "@/lib/runtime-env";
  * request.url containerens interne adresse (https://0.0.0.0:3000), så en
  * redirect ud fra den lander på en død side.
  */
-function redirectBase(request: NextRequest): string {
+function redirectBase(
+  request: NextRequest,
+  brand: BrandKey = DEFAULT_BRAND_KEY,
+): string {
+  // TimeWren-konti lander på TimeWrens egen host (hosts[0]); TimeTrack som før.
+  if (brand !== DEFAULT_BRAND_KEY) return calendarAppUrl(brand);
   return appUrlEnv() || request.url;
 }
 
@@ -37,6 +45,7 @@ export async function GET(request: NextRequest) {
       ),
     );
   }
+  let brand: BrandKey = DEFAULT_BRAND_KEY;
   try {
     // Get current user session
     const session = await auth.api.getSession({
@@ -49,16 +58,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // TimeWren-konti må aldrig forbindes med TimeTracks Google-klient.
-    if (
-      !isGoogleCalendarAvailableForBrand(
-        await accountBrand(db, session.user.id),
-      )
-    ) {
+    // Kontoens brand vælger Google-klienten. Uden brandets egen klient
+    // afvises forbindelsen (TimeWren bruger aldrig TimeTracks klient).
+    brand = await accountBrand(db, session.user.id);
+    if (!isGoogleCalendarAvailableForBrand(brand)) {
       return NextResponse.redirect(
         new URL(
           "/dashboard/settings/integrations?error=not_available",
-          redirectBase(request),
+          redirectBase(request, brand),
         ),
       );
     }
@@ -69,14 +76,23 @@ export async function GET(request: NextRequest) {
     const error = searchParams.get("error");
     const state = searchParams.get("state");
 
-    // Verify OAuth state parameter to prevent CSRF
-    const storedState = request.cookies.get("google_oauth_state")?.value;
-    if (!state || !storedState || state !== storedState) {
-      console.error("Google OAuth CSRF check failed: state mismatch");
+    // Verify OAuth state parameter to prevent CSRF: staten skal stå i
+    // cookien, være signeret, ikke udløbet og udstedt til denne konto og
+    // dette brand (den klient, flowet startede med).
+    const verified = verifyCalendarOAuthState({
+      state,
+      cookieState: request.cookies.get("google_oauth_state")?.value,
+      userId: session.user.id,
+      provider: "google",
+    });
+    if (!verified.ok || verified.brand !== brand) {
+      console.error(
+        `Google OAuth CSRF check failed: ${verified.ok ? "brand_mismatch" : verified.reason}`,
+      );
       return NextResponse.redirect(
         new URL(
           "/dashboard/settings/integrations?error=invalid_state",
-          redirectBase(request),
+          redirectBase(request, brand),
         ),
       );
     }
@@ -87,7 +103,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(
         new URL(
           `/dashboard/settings/integrations?error=${encodeURIComponent(error)}`,
-          redirectBase(request),
+          redirectBase(request, brand),
         ),
       );
     }
@@ -97,23 +113,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(
         new URL(
           "/dashboard/settings/integrations?error=no_code",
-          redirectBase(request),
+          redirectBase(request, brand),
         ),
       );
     }
 
     // Exchange code for tokens
-    const tokens = await exchangeCodeForTokens(code);
+    const tokens = await exchangeCodeForTokens(code, brand);
 
-    // Save the connection
-    await saveCalendarConnection(session.user.id, tokens);
+    // Save the connection (med brandet hvis klient udstedte tokens). Gemmes
+    // under Google-kontoens lås, så den aldrig blandes med en frakobling eller
+    // kontosletning af samme konto (google-calendar-revoke.ts).
+    await saveCalendarConnection(session.user.id, tokens, brand);
 
     // Clear state cookie and redirect to settings with success message.
     // `access` lets the page confirm whether write access was actually granted
     // (the user can untick calendar.events on Google's consent screen).
     const successUrl = new URL(
       "/dashboard/settings/integrations?success=google_connected",
-      redirectBase(request),
+      redirectBase(request, brand),
     );
     if (tokens.grantedScopes) {
       successUrl.searchParams.set(
@@ -133,7 +151,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(
       new URL(
         `/dashboard/settings/integrations?error=${encodeURIComponent(await tr("serverErrors", "api.integrations.googleFailed"))}`,
-        redirectBase(request),
+        redirectBase(request, brand),
       ),
     );
   }

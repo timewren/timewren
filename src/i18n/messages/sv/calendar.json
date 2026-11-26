@@ -129,6 +129,7 @@
     "dragHint": "Klicka och dra för att skapa tidposter",
     "connectBoth": "Anslut Google Kalender eller iCloud",
     "connectICloud": "Anslut iCloud-kalender",
+    "connectCalendar": "Anslut en kalender (Google, Outlook eller iCloud)",
     "settings": "Inställningar",
     "registerAll": "Registrera alla ({count})",
     "sync": "Synkronisera",
@@ -177,7 +178,8 @@
     "settingsSaved": "Dina inställningar är sparade",
     "back": "Tillbaka",
     "goToCalendar": "Gå till kalendern",
-    "next": "Nästa"
+    "next": "Nästa",
+    "outlookNote": "{brand} läser din standardkalender i Outlook. Anslutningen hanterar du under <link>Inställningar → Integrationer</link>. Filter och automatisk registrering härifrån gäller även för Outlook."
   },
   "icloud": {
     "connected": "iCloud är anslutet. Välj nu vilka kalendrar som ska läsas.",
@@ -221,5 +223,28 @@
     "disconnectTitle": "Koppla bort iCloud-kalendern",
     "disconnectDescription": "{brand} raderar det lagrade appspecifika lösenordet och de hämtade iCloud-händelserna. Dina tidposter finns kvar. Glöm inte att också återkalla lösenordet på appleid.apple.com.",
     "disconnectConfirm": "Koppla bort"
+  },
+  "outlook": {
+    "title": "Outlook-kalender",
+    "intro": "Har du din kalender i Outlook eller Microsoft 365? Se dina möten i {brand} och registrera tid utifrån dem.",
+    "readOnlyNote": "{brand} ber bara om att läsa dina kalendrar och skriver aldrig i dem. Du loggar in hos Microsoft, och {brand} ser aldrig ditt lösenord.",
+    "connect": "Anslut Outlook",
+    "badgeConnected": "Ansluten",
+    "badgeReconnect": "Kräver ny anslutning",
+    "badgeReadOnly": "Endast läsning",
+    "loadingStatus": "Hämtar Outlook-status...",
+    "brokenConnection": "Anslutningen till Outlook fungerar inte längre",
+    "reconnect": "Anslut igen",
+    "connectedAs": "Ansluten som {account}",
+    "lastSynced": "Senast synkroniserad {time}",
+    "syncing": "Synkroniserar...",
+    "syncNow": "Synkronisera nu",
+    "syncResult": "Synkroniserat: {synced} nya, {updated} uppdaterade",
+    "syncFailed": "Synkroniseringen misslyckades",
+    "disconnect": "Koppla från",
+    "disconnected": "Outlook-kalendern frånkopplad",
+    "disconnectTitle": "Koppla från Outlook-kalendern",
+    "disconnectDescription": "{brand} raderar de sparade åtkomstnycklarna och de hämtade Outlook-händelserna. Dina tidsregistreringar ligger kvar. Du kan också ta bort {brand} under appar med åtkomst i ditt Microsoft-konto.",
+    "disconnectConfirm": "Koppla från"
   }
 }

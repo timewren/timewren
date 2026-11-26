@@ -7,75 +7,9 @@
 import { db } from "@/lib/db";
 import { sentEmails } from "@/lib/db/schema";
 import { isSyntheticEmail, isSyntheticUserId } from "@/lib/synthetic-users";
+import type { EmailType } from "./email-types";
 
-export type EmailType =
-  | "welcome"
-  | "password_changed"
-  | "new_login"
-  | "magic_link"
-  | "email_verification"
-  | "password_reset"
-  | "two_factor_code"
-  | "invoice"
-  | "first_client"
-  | "first_project"
-  | "first_time_entry"
-  | "first_invoice"
-  | "low_balance_alert"
-  | "expiry_warning"
-  | "weekly_summary"
-  | "monthly_summary"
-  | "unbilled_reminder"
-  | "end_of_day"
-  | "inactivity"
-  | "organization_invite"
-  | "data_export"
-  | "test"
-  | "drip_welcome"
-  | "drip_getting_started"
-  | "drip_need_help"
-  | "drip_extension_tips"
-  | "drip_ai_features"
-  | "drip_first_week_stats"
-  | "drip_upgrade_reminder"
-  | "drip_klippekort_tips"
-  | "drip_win_back_30"
-  | "drip_win_back_60"
-  // Aktivering (#91/#175): adfærdstriggede, én gang pr. bruger
-  | "drip_no_time_48h"
-  | "drip_time_no_invoice"
-  | "drip_client_no_klippekort"
-  | "beta_invite"
-  | "payment_failed"
-  | "trial_ending"
-  | "trial_reminder_7d"
-  | "trial_reminder_1d"
-  | "cancellation_confirmed"
-  | "dunning_reminder"
-  // Rykkerniveauer (#1108); "dunning_reminder" er kun i gamle rækker
-  | "dunning_warning"
-  | "dunning_urgent"
-  | "import_complete"
-  | "alunta_klippekort_created"
-  | "timesheet_submitted"
-  | "timesheet_reminder"
-  | "timesheet_approved"
-  | "timesheet_rejected"
-  | "absence_requested"
-  | "absence_approved"
-  | "absence_rejected"
-  | "absence_registered"
-  | "time_approval_request"
-  | "portal_invitation"
-  | "timesheet_reopened"
-  | "absence_sick_registered"
-  | "compliance_warning"
-  | "manager_digest"
-  | "project_budget_alert"
-  | "coverage_reminder"
-  | "period_closing_ready"
-  | "period_closing_approved"
-  | "period_closing_unlocked";
+export type { EmailType } from "./email-types";
 
 export type EmailLogLevel = "info" | "warn" | "error";
 
@@ -99,57 +33,25 @@ export interface TrackingContext {
   clientId?: string;
 }
 
-interface EmailLogEntry {
-  timestamp: string;
-  level: EmailLogLevel;
-  event: string;
-  context: EmailLogContext;
-  error?: {
-    name: string;
-    message: string;
-    stack?: string;
-  };
-  durationMs?: number;
-}
-
 /**
- * Log an email operation event
+ * Log an email operation event. Delivery details are only used for sending
+ * and tracking. Provider and database errors can also contain those details.
  */
 function logEmail(
   level: EmailLogLevel,
   event: string,
   context: EmailLogContext,
-  error?: unknown,
   durationMs?: number,
+  skipReason?: string,
 ): void {
-  const entry: EmailLogEntry = {
+  const { emailType, userId, clientId, invoiceId, templateId } = context;
+  const entry = {
     timestamp: new Date().toISOString(),
     level,
     event,
-    context,
+    context: { emailType, userId, clientId, invoiceId, templateId, skipReason },
     durationMs,
   };
-
-  // Extract error details if present
-  if (error) {
-    if (error instanceof Error) {
-      entry.error = {
-        name: error.name,
-        message: error.message,
-        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
-      };
-    } else if (typeof error === "object" && error !== null) {
-      entry.error = {
-        name: "UnknownError",
-        message: JSON.stringify(error),
-      };
-    } else {
-      entry.error = {
-        name: "UnknownError",
-        message: String(error),
-      };
-    }
-  }
 
   const logLine = JSON.stringify(entry);
   const logFn = { info: console.log, warn: console.warn, error: console.error }[
@@ -172,18 +74,7 @@ export function logEmailSent(
   context: EmailLogContext,
   durationMs?: number,
 ): void {
-  logEmail("info", "email.sent", context, undefined, durationMs);
-}
-
-/**
- * Log email send failure
- */
-export function logEmailError(
-  context: EmailLogContext,
-  error: unknown,
-  durationMs?: number,
-): void {
-  logEmail("error", "email.failed", context, error, durationMs);
+  logEmail("info", "email.sent", context, durationMs);
 }
 
 /**
@@ -193,7 +84,7 @@ export function logEmailSkipped(
   context: EmailLogContext,
   reason: string,
 ): void {
-  logEmail("info", "email.skipped", { ...context, skipReason: reason });
+  logEmail("info", "email.skipped", context, undefined, reason);
 }
 
 /**
@@ -221,8 +112,11 @@ export async function wasEmailSentRecently(
       columns: { id: true },
     });
     return Boolean(recent);
-  } catch (err) {
-    console.error("[EMAIL] Failed to check recent sent emails:", err);
+  } catch {
+    console.error("[EMAIL] Failed to check recent sent emails", {
+      userId,
+      emailType,
+    });
     return false;
   }
 }
@@ -278,8 +172,8 @@ export async function isRecipientSuppressed(email: string): Promise<boolean> {
       return when.getTime() > Date.now() - BOUNCE_SUPPRESSION_MS;
     }
     return false;
-  } catch (err) {
-    console.error("[EMAIL] Failed to check recipient suppression:", err);
+  } catch {
+    console.error("[EMAIL] Failed to check recipient suppression");
     return false;
   }
 }
@@ -322,9 +216,12 @@ async function persistSentEmail(
       latestStatus: "sent",
       sentAt: new Date(),
     });
-  } catch (err) {
-    // Don't let tracking failures break email sending
-    console.error("[EMAIL] Failed to persist sent email to DB:", err);
+  } catch {
+    console.error("[EMAIL] Failed to persist sent email to DB", {
+      userId: tracking.userId,
+      emailType: tracking.emailType,
+      resendEmailId,
+    });
   }
 }
 
@@ -409,7 +306,7 @@ export async function withEmailLogging<T>(
     return result;
   } catch (error) {
     const durationMs = Date.now() - startTime;
-    logEmailError(context, error, durationMs);
+    logEmail("error", "email.failed", context, durationMs);
     throw error;
   }
 }

@@ -4,9 +4,11 @@
     "sendTo": "{email} に送信",
     "sent": "請求書を {email} に送信しました",
     "total": "税込金額",
+    "totalNoVat": "金額（税なし）",
     "loading": "請求書の詳細を読み込み中…",
     "draftNumber": "正式な請求書番号は発行時に割り当てられます。",
-    "provider": "金額は TimeTrack の表示額です。最終金額は {provider} の税設定で計算されます。"
+    "provider": "金額は TimeTrack の表示額です。最終金額は {provider} の税設定で計算されます。",
+    "lineCount": "明細行"
   },
   "status": {
     "draft": "下書き",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (絞り込み中)",
     "reminderTitle": "リマインダーを送信",
     "reminderDescription": "請求書 {number} をメールでクライアントに送信しますか？",
-    "send": "送信"
+    "send": "送信",
+    "emptyUnbilledHint": "未請求の時間が{duration}あります。この時間から請求書を作ると、明細と金額が自動で入力されます。",
+    "emptyNoTimeHint": "請求書は記録した時間から作るのが一番簡単です。まず時間を記録するか、固定金額の請求書を作成してください。",
+    "invoiceUnbilled": "未請求の時間を請求",
+    "createBlank": "空の請求書を作成",
+    "registerTimeFirst": "時間を記録",
+    "createFixedAmount": "固定金額の請求書"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "請求書のメモ (任意)",
     "notePlaceholder": "例：テクニカルパートナーシップの契約、'{måned}'"
   },
-  "tableLabel": "請求書"
+  "tableLabel": "請求書",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} から請求書がメール送信されたかどうかの確認が取れませんでした。{provider} でメールの状態を確認し、再送信する前に請求書ページで結果を記録してください。",
+    "uncertainTitle": "{provider} が請求書を送信したかどうか不明です",
+    "uncertainBody": "請求書のメール送信中に {provider} から応答がなかったため、顧客が受け取っている可能性があります。{provider} で請求書のメール状態を確認してください。ここで結果を記録するまで、TimeTrack から請求書を再送信することはできません。",
+    "wasSent": "{provider} で送信済み",
+    "notSent": "送信されていない",
+    "resolved": "メールの状態を保存しました"
+  }
 }

@@ -7,7 +7,6 @@ import {
   invoiceSubscriptionRef,
   isStripeBillingBrand,
   isTimewrenStripeEnabled,
-  normalizedQuantity,
   safeReturnPath,
   subscriptionFieldsFromStripe,
   TIMEWREN_LOOKUP_KEYS,
@@ -333,10 +332,6 @@ describe("abonnement fra Stripe", () => {
       subscriptionFieldsFromStripe(sub({ tier: "team", quantity: 40 }), null)
         .maxSeats,
     ).toBe(25);
-    expect(normalizedQuantity("solo", 3)).toBe(1);
-    expect(normalizedQuantity("team", 40)).toBe(25);
-    expect(normalizedQuantity("team", 1)).toBeNull();
-    expect(normalizedQuantity("business", 7)).toBeNull();
   });
 });
 

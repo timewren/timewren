@@ -14,6 +14,16 @@ Dinero er et dansk regnskabsprogram. Fordi TimeWren er selvhostet, registrerer d
 - Eksporterer en faktura som kladde, bogført eller bogført og sendt. Du vælger indtægtskonto, betalingsbetingelser og én linje pr. registrering eller en samlet linje.
 - Synkroniserer betalingsstatus tilbage, så betalte fakturaer markeres som betalt i TimeWren.
 
+## Send på mail
+
+Vælger du at bogføre og sende fakturaen, viser TimeWren først en bekræftelse med modtager, fakturanummer, beløb inkl. moms, antal linjer og forfaldsdato, som TimeWren beregner dem. Dinero beregner det endelige beløb med sine egne momsindstillinger. Er fakturaen ændret, efter du åbnede bekræftelsen, afviser TimeWren afsendelsen, og du åbner bekræftelsen igen.
+
+Den samme faktura eksporteres aldrig to gange på én gang. Klikker du to gange, eller prøver du igen, mens eksporten kører, afviser TimeWren det andet forsøg, så Dinero hverken opretter eller mailer fakturaen to gange.
+
+Svarer Dinero ikke, når mailen sendes, eller afbrydes TimeWren midt i afsendelsen, ved TimeWren ikke, om kunden har fået fakturaen. Fakturasiden viser så en advarsel, og fakturaen kan ikke sendes igen fra TimeWren, før du har tjekket mailstatus i Dinero og markeret, om den blev sendt.
+
+Sletter du fakturaen i Dinero, fjerner den automatiske statussynkronisering koblingen i TimeWren, men kun når det tilknyttede Dinero-regnskab beviseligt er det, fakturaen blev eksporteret til: TimeWren registrerede regnskabet ved eksporten, eller, for en faktura eksporteret før det, kunden er ikke ændret siden døgnet før eksporten, og kundens kontakt findes stadig i det tilknyttede regnskab. Ellers beholder TimeWren koblingen. En kladde uden kobling kan eksporteres igen.
+
 ## Opsætning på serveren
 
 1. Registrér en applikation hos Visma Connect (udviklerportalen til Dineros offentlige API), og sæt denne redirect-URI præcis som skrevet:
@@ -59,3 +69,5 @@ Endpointet `/api/webhooks/dinero` er valgfrit. Det markerer fakturaer som betalt
 ```dotenv
 DINERO_WEBHOOK_SECRET=a-long-random-string
 ```
+
+TimeWren behandler byte-identiske signerede leveringer én gang, mens registreringen gemmes (90 dage). En fejlet levering kan behandles igen. Det gælder også betalingshændelser, der ankommer, før TimeWren har gemt det eksterne faktura-id.

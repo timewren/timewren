@@ -176,7 +176,7 @@
       "deleted": "eliminata"
     },
     "specHeading": "--- Dettaglio ---",
-    "specLine": "{date} - {project}: {description} ({hours} h × {rate} kr = {amount} kr)"
+    "specLine": "{date} - {project}: {description} ({hours} h × {rate} = {amount})"
   },
   "logbook": {
     "endAfterStart": "La data di fine deve essere successiva alla data di inizio",
@@ -457,6 +457,10 @@
       "projectLine": "Progetto: {name}",
       "hoursLine": "Ore: {hours}",
       "exportedFrom": "Esportato da TimeTrack"
+    },
+    "outlook": {
+      "notConnected": "Non collegato a Outlook",
+      "syncFailed": "Sincronizzazione Outlook non riuscita"
     }
   },
   "activity": {

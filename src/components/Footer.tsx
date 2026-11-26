@@ -23,6 +23,7 @@ const MAIN: FooterColumn[] = [
       { href: "/kundeportal", labelKey: "clientPortal" },
       { href: "/integrations", labelKey: "integrations" },
       { href: "/browser-extension", labelKey: "browserExtension" },
+      { href: "/download", labelKey: "getApp" },
       { href: "/desktop", labelKey: "desktopApp" },
       { href: "/timeregistrering-app", labelKey: "phoneApp" },
       { href: "/integrations/ai", labelKey: "aiAssistants" },

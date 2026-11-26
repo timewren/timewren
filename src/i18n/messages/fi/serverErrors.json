@@ -300,7 +300,10 @@
     "draftOnlyReorder": "Järjestystä voi muuttaa vain laskuluonnoksissa",
     "providerMismatch": "Summaa tai valuuttaa ei voitu vahvistaa. Tarkista luonnos kirjanpitojärjestelmässä ennen lähettämistä.",
     "recipientChanged": "Vastaanottajan sähköpostiosoite on muuttunut. Avaa vahvistus uudelleen.",
-    "clientHasNoEmail": "Asiakkaalla ei ole sähköpostiosoitetta"
+    "clientHasNoEmail": "Asiakkaalla ei ole sähköpostiosoitetta",
+    "exportInProgress": "Laskua viedään jo. Yritä hetken kuluttua uudelleen.",
+    "providerEmailUncertain": "Emme voineet vahvistaa, että kirjanpito-ohjelmasi lähetti laskun. Tarkista sähköpostin tila Billyssä tai Dinerossa ja merkitse tulos laskun sivulle ennen kuin lähetät sen uudelleen.",
+    "sendReviewChanged": "Lasku muuttui vahvistuksesi jälkeen. Avaa vahvistus uudelleen."
   },
   "logbook": {
     "ownOnly": "Voit katsoa vain omaa ajopäiväkirjaasi",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Dinero-yhteyttä ei voitu luoda. Yritä uudelleen.",
       "economicFailed": "e-conomic-yhteyttä ei voitu luoda. Yritä uudelleen.",
-      "googleFailed": "Google-yhteyttä ei voitu luoda. Yritä uudelleen."
+      "googleFailed": "Google-yhteyttä ei voitu luoda. Yritä uudelleen.",
+      "outlookFailed": "Outlook-yhteyttä ei voitu luoda. Yritä uudelleen."
     },
     "invoiceSend": {
       "invalidRecipient": "Virheellinen vastaanottajan sähköposti",

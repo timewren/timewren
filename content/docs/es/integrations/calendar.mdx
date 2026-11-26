@@ -1,9 +1,9 @@
 ---
 title: "Calendario"
-description: "Conecta Google Calendar o iCloud con TimeWren para ver reuniones, planificar bloques de tiempo y convertir eventos en registros de horas. Outlook no es compatible."
+description: "Conecta Google Calendar, Outlook o iCloud con TimeWren para ver reuniones, planificar bloques de tiempo y convertir eventos en registros de tiempo."
 ---
 
-TimeWren puede leer tu calendario para mostrar las reuniones junto a tus registros de horas, sugerir huecos libres para las tareas y convertir eventos en registros de horas. Existen dos proveedores: Google Calendar e iCloud. No hay sincronización con el calendario de Outlook ni de Microsoft 365. El esquema de la base de datos deja sitio para un proveedor llamado `outlook`, pero nada lo implementa. Microsoft Entra ID en TimeWren es [solo para iniciar sesión](/es/docs/configuration/authentication).
+TimeWren puede leer tu calendario para mostrar las reuniones junto a tus registros de horas, sugerir huecos libres para las tareas y convertir eventos en registros de horas. Hay tres proveedores: Google Calendar, Outlook (Microsoft 365 y Outlook.com, mediante Microsoft Graph) e iCloud. Cada uno solo se muestra cuando está configurado.
 
 <Screenshot name="calendar" alt="La vista de calendario" />
 
@@ -54,7 +54,42 @@ Si tu pantalla de consentimiento de OAuth está en modo de pruebas, añade a tus
 
 ### Conectar como usuario
 
-Abre Ajustes, Integraciones, elige Conectar Google Calendar y aprueba el acceso. Después elige qué calendarios sincronizar. Puedes configurar filtros de sincronización, un modo de privacidad y reglas de coincidencia que asignan títulos de eventos a proyectos. Desconectar elimina la conexión desde la misma página.
+Abre Ajustes, Integraciones, elige Conectar Google Calendar y aprueba el acceso. Después elige qué calendarios sincronizar. Puedes configurar filtros de sincronización, un modo de privacidad y reglas de coincidencia que asignan títulos de eventos a proyectos. Desconectar elimina la conexión desde la misma página y a la vez revoca el acceso de TimeWren en Google, así que la app también desaparece de las conexiones de terceros de la cuenta de Google (myaccount.google.com/connections). Al eliminar tu cuenta ocurre lo mismo con todas las conexiones de Google. El acceso solo se revoca cuando es seguro; si no, la conexión solo se elimina aquí. Eso ocurre cuando otra conexión (también la de otro usuario o de otra marca) usa la misma cuenta de Google, cuando una conexión antigua aún no se ha sincronizado y por eso no se conoce su cuenta de Google, y cuando no se puede contactar con Google. En esos casos puedes comprobar y revocar el acceso tú mismo en myaccount.google.com/connections.
+
+Si vuelves a conectar pocos segundos después de desconectar, la revocación de Google, que se aplica con un pequeño retraso ([documentación de Google](https://developers.google.com/identity/protocols/oauth2/web-server#tokenrevoke)), puede afectar también a la nueva conexión. Si el calendario muestra entonces "Restablecer conexión", conecta una vez más.
+
+## Outlook
+
+Outlook usa Microsoft Graph y es de solo lectura: TimeWren lee el calendario predeterminado del usuario y nunca escribe en él.
+
+### Configuración del servidor
+
+1. En el centro de administración de Microsoft Entra, crea un registro de aplicación. Elige los tipos de cuenta que quieras permitir (todas las organizaciones y cuentas personales corresponde al tenant `common`).
+2. Añade un URI de redirección de tipo de plataforma "Web":
+
+   ```text
+   https://timewren.example.com/api/integrations/outlook/callback
+   ```
+
+3. En Permisos de API, añade los permisos delegados de Microsoft Graph `offline_access`, `User.Read` y `Calendars.Read`. No necesitan consentimiento del administrador. Crea un secreto de cliente en Certificados y secretos y anota su fecha de caducidad.
+4. Configura las credenciales en `.env`:
+
+   ```dotenv
+   OUTLOOK_CALENDAR_CLIENT_ID=tu-application-id
+   OUTLOOK_CALENDAR_CLIENT_SECRET=tu-client-secret
+   # common (predeterminado), organizations, consumers o un GUID de tenant
+   # OUTLOOK_CALENDAR_TENANT_ID=common
+   # Solo si el callback difiere de NEXT_PUBLIC_APP_URL + /api/integrations/outlook/callback
+   # OUTLOOK_CALENDAR_REDIRECT_URI=https://timewren.example.com/api/integrations/outlook/callback
+   ```
+
+5. Reinicia la aplicación.
+
+La aplicación de inicio de sesión de Microsoft Entra ID (`MICROSOFT_CLIENT_ID`) nunca se usa para el calendario. Sin las variables anteriores, Outlook no se muestra. El flujo usa PKCE y un state firmado, y los tokens se guardan cifrados, así que `ENCRYPTION_KEY` debe estar configurada.
+
+### Conectar como usuario
+
+Abre Ajustes, Integraciones, elige Conectar Outlook, inicia sesión con Microsoft y aprueba el acceso. Los eventos desde 30 días atrás hasta 90 días adelante se sincronizan cada 15 minutos con el mismo cron, y Sincronizar ahora lo ejecuta al momento. Outlook no tiene notificaciones push. Los filtros de sincronización, el modo de privacidad y las reglas de coincidencia se comparten con los demás proveedores. Desconectar elimina los tokens guardados y los eventos de Outlook descargados. Microsoft no permite revocar el token de una sola app, así que el acceso solo se elimina en TimeWren. Para quitar la app también de la cuenta de Microsoft, ve a account.live.com/consent/Manage (cuentas personales) o myapps.microsoft.com (cuentas de trabajo).
 
 ## iCloud
 
@@ -68,4 +103,4 @@ Para conectar:
 2. En TimeWren, abre Ajustes, Integraciones, busca la sección del calendario de iCloud, introduce el ID de Apple y la contraseña específica de aplicación, y conecta.
 3. Elige qué calendarios leer. No se lee nada de los calendarios que dejes sin marcar.
 
-Se sincronizan los eventos desde 30 días atrás hasta 90 días por delante. La misma tarea cron los actualiza cada 15 minutos, y Sincronizar ahora la ejecuta bajo demanda. Los filtros de sincronización, el modo de privacidad y las reglas de coincidencia se comparten con Google.
+Se sincronizan los eventos desde 30 días atrás hasta 90 días por delante. La misma tarea cron los actualiza cada 15 minutos, y Sincronizar ahora la ejecuta bajo demanda. Los filtros de sincronización, el modo de privacidad y las reglas de coincidencia se comparten con Google y Outlook.

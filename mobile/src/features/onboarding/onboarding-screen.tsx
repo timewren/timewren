@@ -12,7 +12,7 @@ import {
   View,
 } from '~/components/ui';
 import { localStore } from '~/features/local/local-store';
-import { isTimeWren, timewrenBrand } from '~/features/server/server-config';
+import { brand, isTimeWren } from '~/features/server/server-config';
 import { useIsFirstTime } from '~/lib/hooks';
 import { translate } from '~/lib/i18n';
 
@@ -49,7 +49,7 @@ export function OnboardingScreen() {
             style={{ width: 64, height: 64, borderRadius: 16 }}
             accessibilityIgnoresInvertColors
           />
-          <Text className="mt-4 text-3xl font-bold text-foreground">{timewrenBrand?.name ?? 'TimeTrack'}</Text>
+          <Text className="mt-4 text-3xl font-bold text-foreground">{brand.name}</Text>
           <Text className="mt-1 text-center text-base text-muted-foreground" tx="onboarding.tagline" />
         </View>
         <View className="gap-5">

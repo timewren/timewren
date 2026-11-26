@@ -13,6 +13,8 @@ import { toIntlLocale } from "@/i18n/format-locale";
 import { toLocalDateStr } from "@/lib/format";
 import { isNetworkError } from "@/lib/offline/queue";
 import { pickAutoDeductPackage } from "@/lib/prepaid/auto-select";
+import { canTakePrepaidHours } from "@/lib/prepaid/can-take-hours";
+import { normalizePrepaidDeductionHours } from "@/lib/prepaid/hours";
 import { showPrepaidDeductionToast } from "@/lib/prepaidToast";
 import { trpc } from "@/providers/trpc-provider";
 import { createOrQueue } from "@/stores/offlineQueueStore";
@@ -647,7 +649,10 @@ export function QuickTimeEntryModal({
                       const hoursToDeduct =
                         prepaidHoursOverride ??
                         Math.round(totalHours * 100) / 100;
-                      const insufficient = hoursToDeduct > pkg.remainingHours;
+                      const insufficient = !canTakePrepaidHours(
+                        pkg,
+                        hoursToDeduct,
+                      );
                       return (
                         <button
                           key={pkg.id}
@@ -692,10 +697,10 @@ export function QuickTimeEntryModal({
                             pkg.clipSizeMinutes &&
                             pkg.clipSizeMinutes > 0 &&
                             (() => {
-                              const clipHours = pkg.clipSizeMinutes / 60;
-                              const rounded =
-                                Math.ceil(hoursToDeduct / clipHours) *
-                                clipHours;
+                              const rounded = normalizePrepaidDeductionHours(
+                                hoursToDeduct,
+                                pkg.clipSizeMinutes,
+                              );
                               return rounded > hoursToDeduct ? (
                                 <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
                                   {t("quick.roundedTo", {
@@ -766,7 +771,7 @@ export function QuickTimeEntryModal({
                     hoursInput + minutesInput / 60 + secondsInput / 3600;
                   const hoursToDeduct =
                     prepaidHoursOverride ?? Math.round(totalHours * 100) / 100;
-                  return !pkg || hoursToDeduct > pkg.remainingHours;
+                  return !pkg || !canTakePrepaidHours(pkg, hoursToDeduct);
                 })())
             }
             className="inline-flex items-center gap-2 rounded-lg bg-tt-gran px-4 py-2 text-sm font-medium text-tt-paa-gran hover:bg-tt-gran-moerk disabled:opacity-50 transition-colors"

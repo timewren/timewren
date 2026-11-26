@@ -21,7 +21,10 @@ function Selector() {
   const [url, setUrl] = React.useState(getApiUrl);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState('');
-  const [restart, setRestart] = React.useState(false);
+  const [restart, setRestart] = React.useState(() => {
+    const saved = SecureStore.getItem(SERVER_KEY);
+    return saved !== null && normalizeServerUrl(saved) !== getApiUrl();
+  });
   const apply = async () => {
     setBusy(true);
     setError('');

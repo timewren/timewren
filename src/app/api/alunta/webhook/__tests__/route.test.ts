@@ -1,7 +1,6 @@
 /**
  * Handler-tests for Alunta-webhookens penge-kritiske stier (#424):
- * - fund 5: fejlede events skal kunne replayes (dedup springer error-rækker
- *   over) og seats-annullerings-fallbacken beholder pladser ved API-fejl.
+ * - fund 5: fejlede events skal kunne replayes og seats-annullerings-fallbacken beholder pladser ved API-fejl.
  * - fund 6: payment_failed/invoice_paid fra en ikke-linket (erstattet) sub
  *   må ikke mutere den sunde række.
  * - fund 1/2/7/9: seats-aktivering annullerer PRÆCIS de metadata-udpegede
@@ -51,8 +50,11 @@ vi.mock("@/lib/db", () => ({
     },
     update: () => ({
       set: (values: Record<string, unknown>) => ({
-        where: async () => {
+        where: () => {
           state.updates.push(values);
+          return Object.assign(Promise.resolve(), {
+            returning: async () => [{ id: "row-1" }],
+          });
         },
       }),
     }),
@@ -103,6 +105,7 @@ vi.mock("@/lib/notifications/admin", () => ({
 const captureRouteError = vi.hoisted(() => vi.fn());
 vi.mock("@/lib/utils/sentry", () => ({ captureRouteError }));
 
+import { sendTrialEndingEmail } from "@/lib/email/billing";
 import { notifyAdmin } from "@/lib/notifications/admin";
 import { POST } from "../route";
 
@@ -144,6 +147,7 @@ function makeSubRow(overrides: Record<string, unknown> = {}) {
     isTrial: false,
     trialEndsAt: new Date(Date.now() + 86400000),
     planTier: "team",
+    updatedAt: new Date(),
     seatCount: 5,
     maxSeats: 5,
     discountPercent: 0,
@@ -163,6 +167,7 @@ beforeEach(() => {
   state.aluntaListAll = undefined;
   state.cancelled = [];
   captureRouteError.mockClear();
+  vi.mocked(sendTrialEndingEmail).mockClear();
   notifyAdminMock.mockClear();
   // Alunta slået til med secret; makeRequest signerer som Alunta gør
   vi.stubEnv("ALUNTA_API_KEY", "test-alunta-key");
@@ -174,6 +179,24 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.unstubAllEnvs();
+});
+
+it("passes the subscription organization to the trial-ending sender", async () => {
+  state.subscriptionRow = makeSubRow({ organizationId: "subscription-org" });
+  const res = await POST(
+    makeRequest({
+      event: "subscription.trial_ending",
+      data: { external_customer_id: "user-1" },
+    }),
+  );
+
+  expect(res.status).toBe(200);
+  expect(sendTrialEndingEmail).toHaveBeenCalledExactlyOnceWith(
+    expect.objectContaining({
+      organizationId: "subscription-org",
+      userId: "user-1",
+    }),
+  );
 });
 
 describe("signaturtjek fejler lukket (#1103)", () => {
@@ -273,8 +296,43 @@ describe("dedup + replay (fund 5)", () => {
     expect(state.updates).toEqual([]);
   });
 
-  it("genkører når dedup'en intet finder (error-rækker filtreres af ne-betingelsen) og upserter resultatet", async () => {
-    state.webhookEventRow = undefined; // ne(status,'error') → error-række matches ikke
+  it.each(["error", "success", undefined])(
+    "behandler kun gamle signerede leveringer med en registreret fejl (%s)",
+    async (status) => {
+      state.aluntaGet = async () => ({ data: { status: "past_due" } });
+      state.webhookEventRow = status ? { id: "evt-old", status } : undefined;
+      state.subscriptionRow = makeSubRow();
+      const res = await POST(
+        makeRequest({
+          timestamp: new Date(Date.now() - 86_400_000).toISOString(),
+          event: "subscription.payment_failed",
+          data: { subscription: { uuid: "base-1", status: "past_due" } },
+        }),
+      );
+      expect(res.status).toBe(200);
+      expect(state.updates.some((u) => u.status === "past_due")).toBe(
+        status === "error",
+      );
+    },
+  );
+
+  it("ignores an old payment failure if Alunta now reports an active subscription", async () => {
+    state.webhookEventRow = { id: "evt-old", status: "error" };
+    state.subscriptionRow = makeSubRow();
+    state.aluntaGet = async () => ({ data: { status: "active" } });
+    const res = await POST(
+      makeRequest({
+        timestamp: new Date(Date.now() - 86_400_000).toISOString(),
+        event: "subscription.payment_failed",
+        data: { subscription: { uuid: "base-1", status: "past_due" } },
+      }),
+    );
+    expect(res.status).toBe(200);
+    expect(state.updates).toEqual([]);
+  });
+
+  it("genkører en registreret fejl og upserter resultatet", async () => {
+    state.webhookEventRow = { id: "evt-1", status: "error" };
     state.subscriptionRow = makeSubRow();
     const res = await POST(
       makeRequest({

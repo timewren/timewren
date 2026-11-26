@@ -2,7 +2,7 @@ import type { MenuCaps } from './menu';
 import type { ModuleKey } from '~/features/capabilities/use-capabilities';
 import da from '~/translations/da.json';
 import en from '~/translations/en.json';
-import { buildMoreMenu } from './menu';
+import { buildMoreMenu, showSubscription } from './menu';
 
 function caps(overrides: Partial<MenuCaps> & { modules?: ModuleKey[] } = {}): MenuCaps {
   const modules = new Set<ModuleKey>(overrides.modules ?? ['invoicing', 'tasks', 'klippekort', 'reports', 'projects', 'clients']);
@@ -110,5 +110,33 @@ describe('menuens tekster', () => {
     expect(labels.length).toBeGreaterThan(10);
     const missing = labels.filter(k => !(k in da.more) || !(k in en.more));
     expect(missing).toEqual([]);
+  });
+});
+
+describe('abonnement', () => {
+  const show = (isTimeWren: boolean, billingEnabled?: boolean, storeBillingEnabled?: boolean) =>
+    showSubscription(isTimeWren, { billingEnabled, storeBillingEnabled });
+
+  it('skjules for begge brands, når serveren har betaling slået helt fra', () => {
+    expect(show(false, false, undefined)).toBe(false);
+    expect(show(true, false, true)).toBe(false);
+  });
+
+  it('timeTrack beholder punktet, selv om butikskøb er slået fra (web-abonnement via Alunta/Stripe)', () => {
+    expect(show(false, true, false)).toBe(true);
+    expect(show(false, undefined, false)).toBe(true);
+    expect(show(false, undefined, undefined)).toBe(true);
+  });
+
+  it('timeWren viser kun punktet, når serveren bekræfter butikskøb', () => {
+    expect(show(true, true, false)).toBe(false);
+    expect(show(true, true, undefined)).toBe(false);
+    expect(show(true, undefined, true)).toBe(true);
+    expect(show(true, true, true)).toBe(true);
+  });
+
+  it('menuen udelader punktet, når det er slået fra', () => {
+    expect(keys(buildMoreMenu(caps()), 'account')).toContain('subscription');
+    expect(keys(buildMoreMenu(caps(), { subscription: false }), 'account')).not.toContain('subscription');
   });
 });

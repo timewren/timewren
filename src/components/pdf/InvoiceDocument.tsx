@@ -16,6 +16,7 @@ import { Text } from "@/components/pdf/text/text";
 import { PdfcnThemeProvider } from "@/components/pdf/theme-provider";
 import { DEFAULT_INVOICE_PRIMARY_COLOR } from "@/lib/brand/tokens";
 import { formatInvoiceNumber } from "@/lib/invoices/draft-number";
+import { invoicePdfTotals } from "@/lib/invoices/pdf-totals";
 import { Document, Image, Page, View } from "@/lib/pdf-primitives";
 import { timetrackPdfTheme } from "@/lib/pdf-themes/timetrack";
 import type { InvoicePDF } from "./InvoicePDF";
@@ -39,6 +40,7 @@ export function InvoiceDocument({
   template,
   paymentUrl,
   locale,
+  currency: accountCurrency,
 }: InvoiceDocumentProps) {
   const { t, intlLocale } = pdfText(locale);
   const formatDate = (date: Date | string | null) =>
@@ -63,9 +65,13 @@ export function InvoiceDocument({
     template?.primaryColor || DEFAULT_INVOICE_PRIMARY_COLOR,
   );
   const c = theme.colors;
-  const currency = template?.currency || "DKK";
-  const vatRate = Number.parseFloat(template?.vatRate || "25.00");
-  const showVat = companyProfile?.vatRegistered === true;
+  const { currency, vatRate, showVat, subtotal, vatAmount, total } =
+    invoicePdfTotals({
+      invoice,
+      companyProfile,
+      template,
+      currency: accountCurrency,
+    });
   const lines = invoice.lines ?? [];
   const hasLines = lines.length > 0;
   const entries = invoice.timeEntries ?? [];
@@ -81,16 +87,10 @@ export function InvoiceDocument({
     template?.bankAccount || companyProfile?.bankAccountNr || null;
   const hasBankInfo = !!(bankRegNr && bankAccountNr);
 
-  const subtotal = hasLines
-    ? lines.reduce((sum, line) => sum + Number.parseFloat(line.amount), 0)
-    : Number.parseFloat(invoice.amount);
-  const vatAmount = showVat ? subtotal * (vatRate / 100) : 0;
-  const total = subtotal + vatAmount;
-
   const meta = [
     {
       key: isCreditNote ? t("creditNoteNo") : t("invoiceNo"),
-      value: formatInvoiceNumber(invoice.invoiceNumber),
+      value: formatInvoiceNumber(invoice.invoiceNumber, t("draft")),
     },
     ...(isCreditNote && invoice.relatedInvoiceNumber
       ? [{ key: t("creditOf"), value: invoice.relatedInvoiceNumber }]
@@ -163,7 +163,7 @@ export function InvoiceDocument({
                 {isCreditNote ? t("creditNote") : t("invoice")}
               </Heading>
               <Text variant="xs" color={c.mutedForeground} noMargin>
-                {formatInvoiceNumber(invoice.invoiceNumber)}
+                {formatInvoiceNumber(invoice.invoiceNumber, t("draft"))}
               </Text>
             </View>
           </View>
@@ -391,7 +391,10 @@ export function InvoiceDocument({
                   </Text>
                   <Text variant="xs" color={c.mutedForeground} noMargin>
                     {t(isCreditNote ? "quoteCreditNote" : "quoteInvoice", {
-                      number: formatInvoiceNumber(invoice.invoiceNumber),
+                      number: formatInvoiceNumber(
+                        invoice.invoiceNumber,
+                        t("draft"),
+                      ),
                     })}
                   </Text>
                 </View>

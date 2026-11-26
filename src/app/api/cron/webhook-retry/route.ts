@@ -1,5 +1,4 @@
 import { withCronLogging } from "@/lib/cron/log-cron-run";
-import { captureRouteError } from "@/lib/utils/sentry";
 import { retryFailedWebhooks } from "@/lib/webhooks/delivery";
 
 /**
@@ -13,16 +12,8 @@ export const GET = withCronLogging("webhook-retry", async (_request) => {
     `[Webhook Retry] Starting webhook retry job at ${new Date().toISOString()}`,
   );
 
-  let results: Awaited<ReturnType<typeof retryFailedWebhooks>>;
-  try {
-    results = await retryFailedWebhooks();
-  } catch (error) {
-    captureRouteError(error, {
-      route: "/api/cron/webhook-retry",
-      type: "cron",
-    });
-    throw error;
-  }
+  // En fejl logges og rapporteres én gang af withCronLogging.
+  const results = await retryFailedWebhooks();
 
   console.warn(
     `[Webhook Retry] Completed: ${results.processed} processed, ${results.succeeded} succeeded, ${results.failed} failed, ${results.permanentlyFailed} permanently failed`,

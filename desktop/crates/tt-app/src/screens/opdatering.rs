@@ -75,7 +75,8 @@ fn auto_check_enabled() -> bool {
 impl UpdatePanel {
     /// Opret panelet og start baggrundstjekket. Kaldes én gang fra roden.
     pub fn install(ctx: AppCtx, cx: &mut App) {
-        if cx.has_global::<Handle>() {
+        // App Store-udgaven: App Store opdaterer appen; intet panel, intet tjek.
+        if !crate::mas::UPDATER || cx.has_global::<Handle>() {
             return;
         }
         // Skærmbilleder: TT_DEMO + TT_UPDATE_DEMO=0.2.24 viser en klar version.

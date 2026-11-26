@@ -52,19 +52,6 @@ export function greetingFor(hour: number): string {
   return "God aften";
 }
 
-/** "2 t 15 min" / "45 min" / "0 min" (enheder kan gives pr. sprog) */
-export function formatDuration(
-  hours: number,
-  units: { h: string; min: string } = { h: "t", min: "min" },
-): string {
-  const totalMin = Math.max(0, Math.round(hours * 60));
-  const h = Math.floor(totalMin / 60);
-  const m = totalMin % 60;
-  if (h === 0) return `${m} ${units.min}`;
-  if (m === 0) return `${h} ${units.h}`;
-  return `${h} ${units.h} ${m} ${units.min}`;
-}
-
 /** "09:15–11:00" i dansk tid, eller null uden tidsrum */
 export function formatRange(
   start: Date | string | null,

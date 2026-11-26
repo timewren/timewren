@@ -1,5 +1,6 @@
 import { Text } from "@react-email/components";
 import { toIntlLocale } from "@/i18n/format-locale";
+import type { DemoCurrency } from "@/lib/demo/demo-mode";
 import { formatMailHours, mailT } from "@/lib/email/locale";
 import type { MailBrand } from "@/lib/email/mail-brand";
 import { MAIL, MAIL_DASHBOARD_URL, MAIL_FONT } from "./brand";
@@ -34,6 +35,7 @@ interface WeeklySummaryEmailProps {
   daysTracked: number;
   dashboardUrl?: string;
   locale?: string;
+  currencyCode?: DemoCurrency;
   /** Multibrand: brandet for modtagerens konto. Udeladt = build-brandet. */
   mailBrand?: MailBrand;
 }
@@ -52,13 +54,14 @@ export function WeeklySummaryEmail({
   daysTracked,
   dashboardUrl = mailBrand?.dashboardUrl ?? MAIL_DASHBOARD_URL,
   locale = "da",
+  currencyCode = "DKK",
 }: WeeklySummaryEmailProps) {
   const t = mailT("emailsReports", locale, mailBrand?.key);
   const fmtHours = (h: number) => formatMailHours(h, locale);
   const formatCurrency = (amount: number) =>
     new Intl.NumberFormat(toIntlLocale(locale), {
       style: "currency",
-      currency: "DKK",
+      currency: currencyCode,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);

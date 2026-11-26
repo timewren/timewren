@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import type Stripe from "stripe";
 import { tr } from "@/i18n/server-text";
 import type { db as DbHandle } from "@/lib/db";
@@ -39,11 +39,8 @@ export function hasLiveStripeSubscription(
   return !!sub?.stripeSubscriptionId && LIVE.has(sub.status);
 }
 
-async function stripeFailed(err: unknown): Promise<TRPCError> {
-  console.error(
-    "[TimeWren billing] Stripe call failed:",
-    err instanceof Error ? err.message : err,
-  );
+async function stripeFailed(id: string): Promise<TRPCError> {
+  console.error("[TimeWren billing] Stripe call failed", id);
   return new TRPCError({
     code: "INTERNAL_SERVER_ERROR",
     message: await tr("serverErrors", "subscription.stripeUnavailable"),
@@ -118,24 +115,50 @@ async function customerEmail(
 }
 
 export interface TimewrenCheckoutOptions {
-  db: Db;
   stripe: Stripe;
   userId: string;
   orgId: string;
   /** Brandets app-URL (appUrlForHost), aldrig timetrack.dk. */
   appUrl: string;
-  /**
-   * Kører fn under en lås pr. organisation (pg_advisory_xact_lock i
-   * routeren). Hele forløbet fra opslag af abonnementet til oprettet checkout
-   * sker under låsen, så to samtidige kald ikke begge ser nul abonnementer og
-   * nul åbne checkouts.
-   */
+  /** With a non-blocking database lock for this organization. */
   withOrgLock: <T>(fn: (db: Db) => Promise<T>) => Promise<T>;
   /** Organisationens styrende abonnement, læst under låsen. */
   loadSub: (db: Db) => Promise<GoverningSubscription | null>;
   tier: TimewrenPaidTier;
   seats?: number;
   returnPath?: string;
+}
+
+export async function withTimewrenCheckoutLock<T>(
+  db: Db,
+  orgId: string,
+  fn: (db: Db) => Promise<T>,
+): Promise<T> {
+  const result = await db.transaction(async (tx) => {
+    const [row] = await tx.execute<{ locked: boolean }>(
+      sql`select pg_try_advisory_xact_lock(hashtext(${`timewren-checkout:${orgId}`})) as locked`,
+    );
+    if (!row?.locked) return { outcome: "busy" } as const;
+    // Commit the Stripe customer ID even if a later Stripe call failed.
+    // Holding the lock and writing through the same connection avoids
+    // borrowing a second connection from the pool while the lock is held.
+    try {
+      return {
+        outcome: "success",
+        value: await fn(tx as unknown as Db),
+      } as const;
+    } catch (error) {
+      return { outcome: "error", error } as const;
+    }
+  });
+  if (result.outcome === "busy") {
+    throw new TRPCError({
+      code: "CONFLICT",
+      message: await tr("serverErrors", "subscription.stripeCheckoutBusy"),
+    });
+  }
+  if (result.outcome === "error") throw result.error;
+  return result.value;
 }
 
 export function createTimewrenCheckout(
@@ -173,10 +196,10 @@ async function createCheckoutLocked(
   }
   const seatsInUse = (await countSeatUsage(db, orgId)).total;
 
+  let newCustomerId: string | null = null;
   try {
     const prices = await timewrenPrices(stripe);
-    // Genbrug organisationens Stripe-kunde; ellers opret den og gem den
-    // straks, så et nyt forsøg ikke giver en kunde nummer to.
+    // Genbrug organisationens Stripe-kunde, eller opret en under org-låsen.
     let customerId = sub?.stripeCustomerId ?? null;
     if (!customerId) {
       // Nøglen og parametrene afhænger kun af organisationen: et kald, der
@@ -193,15 +216,7 @@ async function createCheckoutLocked(
         { idempotencyKey: `timewren-customer:${orgId}` },
       );
       customerId = customer.id;
-      if (sub) {
-        // Gemmes uden for låsens transaktion, så id'et bliver stående, også
-        // hvis oprettelsen af checkout fejler bagefter og transaktionen
-        // rulles tilbage. Låsen er en advisory lock, ikke en rækkelås.
-        await opts.db
-          .update(subscriptions)
-          .set({ stripeCustomerId: customerId, updatedAt: new Date() })
-          .where(eq(subscriptions.id, sub.id));
-      }
+      newCustomerId = customerId;
     }
 
     // Kun det nyeste checkout kan betales; et ældre åbent checkout ville
@@ -240,7 +255,14 @@ async function createCheckoutLocked(
     return { url: session.url };
   } catch (err) {
     if (err instanceof TRPCError) throw err;
-    throw await stripeFailed(err);
+    throw await stripeFailed(orgId);
+  } finally {
+    if (sub && newCustomerId) {
+      await db
+        .update(subscriptions)
+        .set({ stripeCustomerId: newCustomerId, updatedAt: new Date() })
+        .where(eq(subscriptions.id, sub.id));
+    }
   }
 }
 
@@ -266,7 +288,7 @@ export async function createTimewrenPortal(opts: {
       return_url: `${opts.appUrl}/dashboard/settings/subscription`,
     });
     return { url: portal.url };
-  } catch (err) {
-    throw await stripeFailed(err);
+  } catch {
+    throw await stripeFailed(customer);
   }
 }

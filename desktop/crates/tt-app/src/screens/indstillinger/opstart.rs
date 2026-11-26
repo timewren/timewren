@@ -3,6 +3,7 @@
 
 use gpui_kit::component::switch::Switch;
 use gpui_kit::component::v_flex;
+use gpui_kit::prelude::FluentBuilder as _;
 use gpui_kit::*;
 
 use super::{Data, IndstillingerScreen, row};
@@ -61,7 +62,8 @@ impl IndstillingerScreen {
                         .on_click(cx.listener(|this, checked: &bool, _, cx| this.set_autostart(*checked, cx))),
                 ),
             )
-            .child(
+            // App Store-udgaven har ingen sporing at starte.
+            .when(!crate::mas::ENABLED, |el| el.child(
                 row(
                     b,
                     "sporing-opstart",
@@ -81,11 +83,12 @@ impl IndstillingerScreen {
                             );
                         })),
                 ),
-            )
+            ))
     }
 }
 
-#[cfg(all(test, feature = "probe"))]
+// App Store-udgaven har ikke "Start sporing ved opstart".
+#[cfg(all(test, feature = "probe", not(feature = "mas")))]
 mod probe_tests {
     use gpui_kit::TestAppContext;
 

@@ -4,9 +4,11 @@
     "sendTo": "Wyślij do {email}",
     "sent": "Faktura wysłana do {email}",
     "total": "Kwota brutto",
+    "totalNoVat": "Kwota (bez VAT)",
     "loading": "Wczytywanie danych faktury…",
     "draftNumber": "Ostateczny numer faktury zostanie nadany przy wystawieniu.",
-    "provider": "Kwota pochodzi z TimeTrack. {provider} oblicza kwotę końcową według własnych ustawień podatkowych."
+    "provider": "Kwota pochodzi z TimeTrack. {provider} oblicza kwotę końcową według własnych ustawień podatkowych.",
+    "lineCount": "Pozycje"
   },
   "status": {
     "draft": "Szkic",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (przefiltrowane)",
     "reminderTitle": "Wyślij przypomnienie",
     "reminderDescription": "Wysłać fakturę {number} do klienta e-mailem?",
-    "send": "Wyślij"
+    "send": "Wyślij",
+    "emptyUnbilledHint": "Masz {duration} niezafakturowanego czasu. Zafakturuj go, a pozycje i kwoty zostaną uzupełnione.",
+    "emptyNoTimeHint": "Najprościej wystawić fakturę z zarejestrowanego czasu. Najpierw zarejestruj czas albo utwórz fakturę na stałą kwotę.",
+    "invoiceUnbilled": "Zafakturuj niezafakturowany czas",
+    "createBlank": "Utwórz pustą fakturę",
+    "registerTimeFirst": "Zarejestruj czas",
+    "createFixedAmount": "Faktura na stałą kwotę"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Uwaga na fakturze (opcjonalnie)",
     "notePlaceholder": "Np. Umowa o współpracy technicznej, '{måned}'"
   },
-  "tableLabel": "Faktury"
+  "tableLabel": "Faktury",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} nie potwierdził, czy faktura została wysłana e-mailem. Sprawdź status e-maila w {provider} i oznacz wynik na stronie faktury, zanim wyślesz ją ponownie.",
+    "uncertainTitle": "Nie wiemy, czy {provider} wysłał fakturę",
+    "uncertainBody": "{provider} nie odpowiedział podczas wysyłania faktury e-mailem, więc klient mógł ją otrzymać. Sprawdź status e-maila faktury w {provider}. Dopóki nie oznaczysz tutaj wyniku, faktury nie można ponownie wysłać z TimeTrack.",
+    "wasSent": "{provider} ją wysłał",
+    "notSent": "Nie została wysłana",
+    "resolved": "Status e-maila zapisany"
+  }
 }

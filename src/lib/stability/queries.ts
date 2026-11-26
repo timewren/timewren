@@ -32,6 +32,7 @@ import type {
   ZombieClearRow,
 } from "./detectors";
 import {
+  HOURS_MISMATCH_TOLERANCE,
   RUNAWAY_HOURS,
   SESSION_OVERLAP_MIN_SECONDS,
   STALE_CLIENT_EVENTS,
@@ -463,7 +464,7 @@ export async function queryHoursMismatch(
         WHERE te.created_at >= ${toUtcSql(since)}::timestamp
           AND te.start_time IS NOT NULL
           AND te.end_time IS NOT NULL
-          AND abs(te.hours - extract(epoch FROM (te.end_time - te.start_time)) / 3600) > 0.25
+          AND abs(te.hours - extract(epoch FROM (te.end_time - te.start_time)) / 3600) > ${HOURS_MISMATCH_TOLERANCE}
         LIMIT ${ROW_LIMIT}`,
   );
   return result.map((r) => ({

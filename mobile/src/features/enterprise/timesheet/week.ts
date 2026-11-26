@@ -2,7 +2,7 @@ import type { StatTone } from '~/components/ui/stat-tile';
 import { addDays, format, startOfWeek } from 'date-fns';
 import { formatDateLong, formatHours, toISODate } from '~/lib/format';
 import { translate } from '~/lib/i18n';
-import { dateFnsLocale, formatWords, intlLocale } from '~/lib/locale';
+import { dateFnsLocale, dayOfMonth, formatWords, intlLocale } from '~/lib/locale';
 
 /** Timeseddel-ugestatus (timesheet_weeks.status). null = kladde. */
 export type WeekStatus = 'submitted' | 'approved' | 'rejected' | 'reopened' | null;
@@ -35,8 +35,8 @@ export function formatWeekRange(weekStart: string): string {
   const start = parseISODate(weekStart);
   const end = addDays(start, 6);
   const sameMonth = start.getMonth() === end.getMonth();
-  const left = sameMonth ? format(start, 'd.') : format(start, 'd. MMM', { locale: dateFnsLocale() });
-  return `${left}–${format(end, 'd. MMM', { locale: dateFnsLocale() })}`;
+  const left = sameMonth ? format(start, dayOfMonth()) : format(start, `${dayOfMonth()} MMM`, { locale: dateFnsLocale() });
+  return `${left}–${format(end, `${dayOfMonth()} MMM`, { locale: dateFnsLocale() })}`;
 }
 
 /** ISO-ugenummer, fx 36. */

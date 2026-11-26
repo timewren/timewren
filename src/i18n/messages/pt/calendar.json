@@ -129,6 +129,7 @@
     "dragHint": "Clica e arrasta para criar registos de tempo",
     "connectBoth": "Ligar o Google Calendar ou o iCloud",
     "connectICloud": "Ligar o calendário iCloud",
+    "connectCalendar": "Ligar um calendário (Google, Outlook ou iCloud)",
     "settings": "Definições",
     "registerAll": "Registar tudo ({count})",
     "sync": "Sincronizar",
@@ -177,7 +178,8 @@
     "settingsSaved": "As tuas definições foram guardadas",
     "back": "Voltar",
     "goToCalendar": "Ir para o calendário",
-    "next": "Seguinte"
+    "next": "Seguinte",
+    "outlookNote": "O {brand} lê o seu calendário predefinido do Outlook. Gere a ligação em <link>Definições → Integrações</link>. Os filtros e o registo automático daqui também se aplicam ao Outlook."
   },
   "icloud": {
     "connected": "O iCloud está ligado. Escolhe agora os calendários a ler.",
@@ -220,6 +222,29 @@
     "disconnect": "Desligar",
     "disconnectTitle": "Desligar calendário iCloud",
     "disconnectDescription": "O {brand} elimina a palavra-passe específica da aplicação guardada e os eventos do iCloud obtidos. Os teus registos de tempo mantêm-se. Lembra-te de revogar também a palavra-passe em appleid.apple.com.",
+    "disconnectConfirm": "Desligar"
+  },
+  "outlook": {
+    "title": "Calendário Outlook",
+    "intro": "Tem o seu calendário no Outlook ou no Microsoft 365? Veja as suas reuniões no {brand} e registe tempo a partir delas.",
+    "readOnlyNote": "O {brand} só pede para ler os seus calendários e nunca escreve neles. Inicia sessão na Microsoft e o {brand} nunca vê a sua palavra-passe.",
+    "connect": "Ligar o Outlook",
+    "badgeConnected": "Ligado",
+    "badgeReconnect": "Requer nova ligação",
+    "badgeReadOnly": "Só leitura",
+    "loadingStatus": "A carregar o estado do Outlook...",
+    "brokenConnection": "A ligação ao Outlook já não funciona",
+    "reconnect": "Ligar novamente",
+    "connectedAs": "Ligado como {account}",
+    "lastSynced": "Última sincronização {time}",
+    "syncing": "A sincronizar...",
+    "syncNow": "Sincronizar agora",
+    "syncResult": "Sincronizado: {synced} novos, {updated} atualizados",
+    "syncFailed": "A sincronização falhou",
+    "disconnect": "Desligar",
+    "disconnected": "Calendário Outlook desligado",
+    "disconnectTitle": "Desligar o calendário Outlook",
+    "disconnectDescription": "O {brand} apaga as chaves de acesso guardadas e os eventos do Outlook obtidos. Os seus registos de tempo mantêm-se. Também pode remover o {brand} nas aplicações com acesso da sua conta Microsoft.",
     "disconnectConfirm": "Desligar"
   }
 }

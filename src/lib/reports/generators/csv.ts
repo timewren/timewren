@@ -1,6 +1,7 @@
 // src/lib/reports/generators/csv.ts
 
 import { sharedT } from "@/i18n/shared-text";
+import { withDemoCurrencyUnit } from "@/lib/demo/currency-messages";
 import { formatPause } from "@/lib/format";
 import { escapeCsv } from "@/lib/utils/spreadsheet";
 import type { ReportEntry } from "../columns";
@@ -28,7 +29,16 @@ export function generateCSV(
   },
 ): string {
   const cols = entryColumns(opts.columns);
-  const header = cols.map((k) => escapeCell(reportColumnLabel(k))).join(DELIM);
+  const header = cols
+    .map((k) => {
+      const label = reportColumnLabel(k);
+      return escapeCell(
+        REPORT_COLUMNS[k].format === "currency"
+          ? withDemoCurrencyUnit(label)
+          : label,
+      );
+    })
+    .join(DELIM);
 
   const rows = entries.map((e) =>
     cols
@@ -50,7 +60,7 @@ export function generateCSV(
       [
         sharedT("sharedReports", "group"),
         sharedT("sharedReports", "columns.hours"),
-        sharedT("sharedReports", "revenue"),
+        withDemoCurrencyUnit(sharedT("sharedReports", "revenue")),
         sharedT("sharedReports", "monthlyBudget"),
         sharedT("sharedReports", "usedInMonth"),
         sharedT("sharedReports", "usedPct"),

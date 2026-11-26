@@ -7,14 +7,31 @@ import type { PrepaidPackage, ServerPrepaidChoice } from "../types";
  * testes uden browser.
  */
 
-/** Kundens kort der stadig har timer tilbage. */
+/**
+ * Kan kortet tage et træk? Spejler src/lib/prepaid/can-take-hours.ts
+ * (paritetstest i prepaid-parity.test.ts). Ved overtræks-politik "allow" eller
+ * "invoice" tager kortet altid imod, også når saldoen står på 0 (#1319).
+ */
+export function canTakePrepaidHours(
+  pkg: Pick<PrepaidPackage, "remainingHours" | "overdraftPolicy">,
+  hours?: number,
+): boolean {
+  if (pkg.overdraftPolicy === "allow" || pkg.overdraftPolicy === "invoice") {
+    return true;
+  }
+  const remaining = Number(pkg.remainingHours);
+  if (!Number.isFinite(remaining)) return false;
+  return hours !== undefined && hours > 0 ? remaining >= hours : remaining > 0;
+}
+
+/** Kundens kort der kan tage et træk (saldo tilbage eller overtræk tilladt). */
 export function packagesForClient(
   packages: PrepaidPackage[] | undefined,
   clientId: string | null | undefined,
 ): PrepaidPackage[] {
   if (!packages || !clientId) return [];
   return packages.filter(
-    (p) => p.clientId === clientId && p.remainingHours > 0,
+    (p) => p.clientId === clientId && canTakePrepaidHours(p),
   );
 }
 
@@ -42,7 +59,11 @@ export function pickAutoPrepaid(
   );
   if (candidates.length === 0) return null;
 
-  return [...candidates].sort((a, b) => {
+  // Kort med saldo før kort, der kun kan tage overtræk (#1319), som web.
+  const withBalance = candidates.filter((p) => Number(p.remainingHours) > 0);
+  const pool = withBalance.length > 0 ? withBalance : candidates;
+
+  return [...pool].sort((a, b) => {
     const ea = isoMs(a.expiresAt);
     const eb = isoMs(b.expiresAt);
     if (ea !== eb) {
@@ -147,15 +168,27 @@ export function canStoreServerChoice(
   );
 }
 
+/** Serverens sprogneutrale kode for et træk, kortet ikke kan tage (#1320). */
+export const PREPAID_DEDUCTION_FAILED = "PREPAID_DEDUCTION_FAILED";
+
 /**
- * Er en createTimeEntry-fejl klippekort-relateret? Serverens prepaid-fejl
- * ("Klippekort ikke fundet", "Klippekortet er udløbet", "Ikke nok timer
- * tilbage på klippekortet…", "klippekort-traek" osv.) nævner alle kortet ved
- * navn — andre fejl (projekt/kunde/periodelås) gør ikke. Bruges til at
- * gemme tiden UDEN træk i stedet for at tabe registreringen.
+ * Er en createTimeEntry-fejl klippekort-relateret? Bruges til at gemme tiden
+ * UDEN træk i stedet for at tabe registreringen.
+ *
+ * Serveren sætter koden PREPAID_DEDUCTION_FAILED på alle klippekort-fejl.
+ * Teksten er oversat til brugerens sprog, så den kan ikke bruges alene (#1320).
+ * Ældre servere sender kun den danske tekst ("Klippekort ikke fundet",
+ * "Ikke nok timer tilbage på klippekortet…" osv.), som alle nævner kortet ved
+ * navn; den genkendes stadig, når der ikke er nogen kode.
  */
-export function isPrepaidDeductionError(message: string): boolean {
-  return /klippekort/i.test(message);
+export function isPrepaidDeductionError(error: unknown): boolean {
+  if (typeof error === "string") return /klippekort/i.test(error);
+  if (!(error instanceof Error)) return false;
+  const appCode = (error as { appCode?: unknown }).appCode;
+  if (typeof appCode === "string" && appCode !== "") {
+    return appCode === PREPAID_DEDUCTION_FAILED;
+  }
+  return /klippekort/i.test(error.message);
 }
 
 export type PrepaidReceiptKind =

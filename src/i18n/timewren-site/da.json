@@ -10,7 +10,9 @@
     "language": "Sprog",
     "beta": "beta",
     "betaNote": "Oversættelsen er ikke gennemlæst endnu.",
-    "docs": "Docs"
+    "docs": "Docs",
+    "desktop": "Desktop",
+    "download": "Hent appen"
   },
   "footer": {
     "tagline": "Open source-tidsregistrering med klippekort og fakturering.",
@@ -27,9 +29,13 @@
     "contact": "Kontakt"
   },
   "meta": {
+    "deleteAccount": {
+      "title": "Slet din TimeWren-konto",
+      "description": "Anmod Mahope om at slette din TimeWren Cloud-konto og de tilknyttede data."
+    },
     "home": {
       "title": "TimeWren: open source-tidsregistrering med klippekort",
-      "description": "Open source-tidsregistrering og kundestyring for freelancere og små teams, bygget op om klippekort. Selvhost gratis med én kommando, eller brug TimeWren Cloud."
+      "description": "Open source-tidsregistrering og kundestyring for freelancere og små teams, bygget op om klippekort. Selvhost gratis med én kommando, eller brug TimeWren Cloud. Apps til iPhone, Mac og Windows."
     },
     "pricing": {
       "title": "Priser | TimeWren",
@@ -46,14 +52,26 @@
     "terms": {
       "title": "Vilkår | TimeWren",
       "description": "Vilkår for TimeWren Cloud, herunder databehandleraftalen, priser og betaling, dine data og ansvar."
+    },
+    "desktop": {
+      "title": "Desktop-app | TimeWren",
+      "description": "TimeWren-desktopappen er gratis til personlig brug. En erhvervslicens uden konto er en engangsbetaling på 69 euro."
+    },
+    "download": {
+      "title": "Hent appen | TimeWren",
+      "description": "TimeWren til iPhone og iPad i App Store, desktop-appen til macOS og Windows og webappen i enhver browser."
     }
   },
   "home": {
     "title": "Tidsregistrering og kundestyring for freelancere, bygget op om klippekort",
     "lead": "TimeWren er open source. Registrér din tid, sælg den til kunderne som klippekort, og fakturér fra de samme registreringer. Det passer til én freelancer eller et lille team, på din egen server eller i vores cloud.",
+    "ctaStart": "Start gratis i Cloud",
+    "ctaApp": "Hent appen",
+    "cloudFree": "TimeWren Cloud har en gratis plan til op til 3 brugere.",
+    "selfHostPrompt": "Vil du hellere bruge din egen server?",
     "ctaInstall": "Installér på 5 minutter",
-    "ctaGithub": "Se koden på GitHub",
-    "ctaCloud": "TimeWren Cloud",
+    "or": "eller",
+    "ctaGithub": "se koden på GitHub",
     "heroNote": "AGPL-3.0. Alle funktioner i alle installationer, uden licensnøgle.",
     "oneLinerLabel": "Installér på en Linux-server med Docker:",
     "oneLinerNote": "Scriptet tjekker Docker, skriver nye hemmeligheder i .env, henter imaget og starter det hele. Det bruger aldrig sudo og viser aldrig hemmelighederne.",
@@ -171,14 +189,29 @@
       ]
     },
     "apps": {
-      "title": "Hvor du registrerer",
-      "lead": "Timeren følger med dig mellem webappen, udvidelsen og apps.",
+      "title": "På alle dine enheder",
+      "lead": "Én konto på telefonen, computeren og i browseren. Start timeren på telefonen, og stop den på computeren.",
       "available": "Klar",
       "coming": "På vej",
       "items": [
         [
+          "iPhone og iPad",
+          "I App Store. Start og stop timeren, og skriv tid ind for tidligere dage.",
+          "available"
+        ],
+        [
+          "Mac",
+          "Desktop-appen til macOS 11 eller nyere. Gratis til personlig brug.",
+          "available"
+        ],
+        [
+          "Windows",
+          "Desktop-appen til Windows 10 eller nyere. Gratis til personlig brug.",
+          "available"
+        ],
+        [
           "Webapp",
-          "I enhver browser, og kan installeres som app på computer og telefon.",
+          "I enhver browser, også på Linux, og kan lægges på telefonens hjemmeskærm.",
           "available"
         ],
         [
@@ -186,10 +219,13 @@
           "Start og stop timeren fra enhver fane. Chrome og Firefox, MIT-licens.",
           "available"
         ],
-        ["Desktop-app", "macOS og Windows.", "coming"],
-        ["Mobilapp", "iOS og Android.", "coming"]
+        ["Android", "Kommer i Google Play.", "coming"]
       ],
-      "mobileAlt": "TimeWrens forside på en telefon"
+      "note": "Appen til iPhone logger ind på TimeWren Cloud. Desktop-appen logger ind på TimeWren Cloud eller kører lokalt uden konto. Forbindelse til din egen server er planlagt; webappen og udvidelsen virker allerede med den.",
+      "androidLive": "I Google Play.",
+      "mobileAlt": "TimeWrens forside på en telefon",
+      "desktopAlt": "Projektlisten i TimeWren på en computer med timer for måneden og i alt pr. projekt",
+      "getApp": "Hent appen"
     },
     "install": {
       "title": "Installér, som det passer dig",
@@ -338,7 +374,7 @@
         ],
         [
           "Er der en mobilapp?",
-          "Webappen virker på telefonen og kan lægges på hjemmeskærmen. Apps til iOS og Android er på vej."
+          "Ja. TimeWren til iPhone og iPad ligger i App Store, og Android-appen kommer i Google Play. Webappen virker også på telefonen og kan lægges på hjemmeskærmen."
         ],
         [
           "Sender en selvhostet installation data nogen steder hen?",
@@ -424,6 +460,20 @@
       ["Fejlsøgning", "operations/troubleshooting"]
     ],
     "telemetry": "Telemetri og udgående forbindelser"
+  },
+  "deleteAccount": {
+    "intro": "Mahope (CVR 39413892) driver TimeWren Cloud. Du kan anmode om sletning uden at logge ind eller installere appen.",
+    "requestTitle": "Anmod om sletning via e-mail",
+    "emailLabel": "Skriv til Mahope",
+    "request": "Send anmodningen fra den e-mailadresse, du bruger til TimeWren. Bed os om at slette din TimeWren Cloud-konto og de tilknyttede data. Hvis du har mistet adgangen til adressen, kan du skrive til os og fortælle, hvordan vi kan kontakte dig.",
+    "appTitle": "Slet din konto i appen",
+    "app": "Åbn TimeWren, og gå til Mere → Profil → Slet konto. Indtast din kontos e-mailadresse, og bekræft. Hvis du er eneste ejer af et fælles team, skal du først overdrage ejerskabet. Opsig dit abonnement i Google Play eller App Store for at stoppe fremtidige opkrævninger. Sletning af kontoen opsiger ikke abonnementet.",
+    "dataTitle": "Hvad vi sletter eller anonymiserer",
+    "data": "Vi fjerner din kontoadgang og sletter eller anonymiserer dine profil- og loginoplysninger. Hvis du er eneste medlem af et arbejdsområde, slettes arbejdsområdet og dets data, fx tidsregistreringer, kunder, projekter, fakturaer og opgaver. Fælles arbejdsområder beholder deres forretningsdata, fx tidsregistreringer, med din kontoidentitet fjernet eller anonymiseret.",
+    "retentionTitle": "Hvor længe vi opbevarer dine data",
+    "retention": "Som beskrevet i vores privatlivspolitik sletter eller anonymiserer vi dine personoplysninger inden for 30 dage efter kontosletning, medmindre loven kræver længere opbevaring. Vi opbevarer bogføringsmateriale, som vi skal gemme efter bogføringsloven, i op til fem år.",
+    "privacy": "TimeWrens privatlivspolitik",
+    "selfHosted": "Hvis du bruger TimeWren på en selvhostet server, skal du kontakte den, der driver serveren, for at anmode om sletning."
   },
   "legal": {
     "englishPrevails": "Ved uoverensstemmelser er den engelske version gældende.",
@@ -734,5 +784,83 @@
         }
       ]
     }
+  },
+  "desktop": {
+    "title": "TimeWren Desktop",
+    "lead": "Desktopappen er gratis til personlig brug. Bruger du den til arbejde uden en TimeWren-konto, skal du have en licens: {price}, én gang.",
+    "freeTitle": "Gratis",
+    "freePoints": [
+      "Personlig brug af de officielle builds",
+      "Med i en TimeWren-konto på alle planer, også Gratis",
+      "Bygget selv fra kildekoden: gratis til al brug"
+    ],
+    "licenceTitle": "Erhvervslicens",
+    "licencePer": "én gang, uden abonnement",
+    "licencePoints": [
+      "Til arbejde uden en TimeWren-konto",
+      "Op til tre computere",
+      "Din for altid, uden fornyelse",
+      "Alle pengene tilbage inden for 30 dage"
+    ],
+    "emailLabel": "Din mail",
+    "emailNote": "Licensnøglen kommer på mail lige efter betalingen. Stripe sender fakturaen, med plads til firmanavn og momsnummer.",
+    "buy": "Køb for {price}",
+    "download": "Download desktop-appen",
+    "refundNote": "Fortryder du, så skriv til {email} inden for 30 dage, så får du alle pengene tilbage.",
+    "bought": "Tak. Din licensnøgle er på vej på mail. Indtast den i appen, når den spørger efter en licens.",
+    "error": "Vi kunne ikke starte betalingen. Prøv igen, eller skriv til {email}.",
+    "included": "Den adresse har allerede TimeWren Cloud, hvor desktopappen er med. Du behøver ikke en licens."
+  },
+  "download": {
+    "title": "Hent TimeWren",
+    "lead": "Én konto på alle enheder. Start timeren på telefonen, og stop den på computeren.",
+    "featured": {
+      "iphone": "Til din iPhone",
+      "ipad": "Til din iPad",
+      "android": "Til din Android-telefon",
+      "mac": "Til din Mac",
+      "windows": "Til din Windows-pc",
+      "web": "I din browser"
+    },
+    "guessNote": "Enheden er gættet ud fra browseren. Alle platforme står nedenfor.",
+    "ipadHint": "Er du på en iPad? Appen til iPhone og iPad ligger i App Store.",
+    "appStoreAlt": "Hent i App Store",
+    "comingSoon": "Kommer snart i Google Play",
+    "version": "Version {version}",
+    "allFiles": "Alle filer på GitHub",
+    "unavailable": "Downloadlinkene virker ikke lige nu. Prøv igen om lidt, eller brug webappen.",
+    "macWhich": "Hvilken skal du vælge? Åbn Apple-menuen, og vælg Om denne Mac. Står der en chip som Apple M1 eller nyere, er det Apple silicon; står der Intel, er det Intel.",
+    "allTitle": "Alle platforme",
+    "platforms": {
+      "ios": {
+        "name": "iPhone og iPad",
+        "body": "Start og stop timeren, skriv tid ind for tidligere dage, og se din uge."
+      },
+      "android": {
+        "name": "Android",
+        "body": "Android-appen er i test og kommer i Google Play. Indtil da virker webappen på telefonen.",
+        "bodyLive": "Appen til din Android-telefon. Start og stop timeren, og se ugens timer.",
+        "button": "Hent den i Google Play"
+      },
+      "mac": {
+        "name": "macOS",
+        "body": "Desktop-appen til macOS 11 eller nyere.",
+        "arm": "Download til Apple silicon",
+        "intel": "Download til Intel"
+      },
+      "windows": {
+        "name": "Windows",
+        "body": "Desktop-appen til Windows 10 eller nyere.",
+        "button": "Download til Windows"
+      },
+      "web": {
+        "name": "Webapp",
+        "body": "Virker i enhver moderne browser. Brug TimeWren Cloud, eller kør den på din egen server.",
+        "cloud": "Åbn TimeWren Cloud",
+        "selfHost": "Host den selv"
+      }
+    },
+    "desktopNote": "Desktop-appen er gratis til personlig brug. Bruger du den til arbejde uden en TimeWren-konto, skal du have en licens.",
+    "desktopLink": "Desktop-appen og licensen"
   }
 }

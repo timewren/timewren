@@ -61,7 +61,7 @@ const ROWS: Row[] = [
       "Én bruger og ubegrænset antal kunder",
       "Klippekort og kundeportal",
       "Fakturagrundlag til Billy og Dinero, PDF og CSV",
-      "Web, browserudvidelse, desktop-app og app (beta)",
+      "Web, browserudvidelse, desktop-app og app til iPhone",
     ],
     signup: "/register",
     highlight: true,
@@ -281,8 +281,8 @@ export default function PricingPage() {
               </p>
               <p>{AFTER_TRIAL_TEAM}</p>
               <p>
-                Desktop-appen, browserudvidelsen og appen til telefonen (beta)
-                er med i alle planer.{" "}
+                Desktop-appen, browserudvidelsen og appen til iPhone og iPad er
+                med i alle planer.{" "}
                 <Link href="/team-prisberegner" className={mk.link}>
                   Beregn prisen for jeres team
                 </Link>

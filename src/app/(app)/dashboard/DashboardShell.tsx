@@ -58,6 +58,7 @@ import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { useBillingEnabled } from "@/hooks/useBillingEnabled";
 import { useOrgRole } from "@/hooks/useOrgRole";
+import { isPastDueWithinGrace } from "@/lib/billing/plan-gate";
 import { isDemoMode } from "@/lib/demo/demo-mode";
 import { OPEN_FEEDBACK_EVENT } from "@/lib/feedback/types";
 
@@ -310,6 +311,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     isPlaceholder: modulesPlaceholder,
     isError: modulesError,
     orgProfile,
+    teamSize,
   } = useModules();
 
   // Role-based module access (rolePermissions). Hide nav items the caller's
@@ -384,6 +386,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
             isModuleEnabled,
             canAccessModule,
             role: myRole,
+            teamSize,
             orgProfile,
           });
         }),
@@ -397,6 +400,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     aclLoading,
     myRole,
     orgProfile,
+    teamSize,
   ]);
 
   const visibleBottomNavItems = useMemo(
@@ -409,6 +413,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
           isModuleEnabled,
           canAccessModule,
           role: myRole,
+          teamSize,
           orgProfile,
         });
       }),
@@ -420,6 +425,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
       aclLoading,
       myRole,
       orgProfile,
+      teamSize,
     ],
   );
 
@@ -479,9 +485,10 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Check if user needs onboarding
-  const { data: userProfile } = trpc.user.getProfile.useQuery(undefined, {
-    enabled: !!session?.user,
-  });
+  const { data: userProfile, isLoading: profileLoading } =
+    trpc.user.getProfile.useQuery(undefined, {
+      enabled: !!session?.user,
+    });
   const electricBadgeEnabled = useElectricBadgeEnabled();
 
   // Subscription check for trial gating
@@ -973,15 +980,14 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
 
   // Subscription gating — block access for expired trials, canceled, and past_due > 7 days.
   // Gratis-tier ("free") has access; its limits are enforced server-side.
-  const isPastDueWithinGrace = (() => {
-    if (subscription?.status !== "past_due") return false;
-    if (!subscription.pastDueSince) return true; // No timestamp = assume within grace
-    const daysSincePastDue = Math.floor(
-      (Date.now() - new Date(subscription.pastDueSince).getTime()) /
-        (1000 * 60 * 60 * 24),
-    );
-    return daysSincePastDue <= 7;
-  })();
+  // TimeWren matches its server gate. TimeTrack retains its rounded-day grace.
+  const withinPaymentGrace =
+    brand.id === "timewren"
+      ? isPastDueWithinGrace(subscription)
+      : subscription?.status === "past_due" &&
+        (!subscription.pastDueSince ||
+          Date.now() - new Date(subscription.pastDueSince).getTime() <
+            8 * 86_400_000);
 
   // Medlem nr. 4+ i en org på Gratis er låst (subscription.getDetails).
   const hasAccess =
@@ -992,19 +998,38 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
       (subscription.status === "active" ||
         subscription.status === "free" ||
         subscription.status === "canceled" ||
-        isPastDueWithinGrace ||
+        withinPaymentGrace ||
         (subscription.status === "trialing" && !subscription.isTrialExpired)));
 
+  const isOnboardingPath = pathname?.startsWith("/dashboard/onboarding");
   const isExemptPath =
     pathname === "/dashboard/my-records" ||
     pathname?.startsWith("/dashboard/settings/subscription") ||
     pathname?.startsWith("/dashboard/settings/data") ||
-    pathname?.startsWith("/dashboard/onboarding");
+    isOnboardingPath;
 
-  // Don't block users who haven't completed onboarding yet
-  const needsOnboarding = userProfile && !userProfile.onboardingCompleted;
+  const onboarding = showOnboardingModal && !isOnboardingPath && (
+    <TimerFirstOnboarding />
+  );
 
-  if (!subLoading && !hasAccess && !isExemptPath && !needsOnboarding) {
+  // Keep onboarding mounted while it provisions the plan required by writes.
+  if (
+    billingEnabled &&
+    !subscription &&
+    !isOnboardingPath &&
+    (profileLoading || showOnboardingModal)
+  ) {
+    const loading = (
+      <LoadingScreen fullScreen message={t("loading")} showTip={false} />
+    );
+    return showOnboardingModal ? (
+      <TimerFirstOnboarding loadingFallback={loading} />
+    ) : (
+      loading
+    );
+  }
+
+  if (!hasAccess && !isExemptPath && !showOnboardingModal) {
     return <TrialExpiredWall subscription={subscription ?? null} />;
   }
 
@@ -1021,7 +1046,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     !pastDueBannerDismissed &&
     subscription?.status === "past_due";
 
-  return (
+  const dashboard = (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Impersonation banner — only renders when admin plugin's
           session.impersonatedBy is set on the current session. */}
@@ -1045,12 +1070,6 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
       {userProfile?.role === "admin" && electricBadgeEnabled && (
         <ElectricTimerDebug />
       )}
-
-      {/* Onboarding — timer-first, ingen wizard i den kritiske vej (#91) */}
-      {showOnboardingModal &&
-        !pathname?.startsWith("/dashboard/onboarding") && (
-          <TimerFirstOnboarding />
-        )}
 
       {/* Guided Tour - shows after onboarding completion */}
       {tourActive && <GuidedTour />}
@@ -1603,6 +1622,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                 isModuleEnabled,
                 canAccessModule,
                 role: myRole,
+                teamSize,
                 orgProfile,
               });
             })
@@ -1646,5 +1666,12 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         onExitFocus={() => setFocusMode(false)}
       />
     </div>
+  );
+
+  return (
+    <>
+      {onboarding}
+      {dashboard}
+    </>
   );
 }

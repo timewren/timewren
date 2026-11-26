@@ -10,6 +10,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/utils/sentry", () => ({ captureRouteError: vi.fn() }));
 
+import { webhookEvents } from "@/lib/db/schema";
+
+const claims = vi.hoisted(() => new Set<string>());
+vi.mock("@/lib/billing/webhook-claim", () => ({
+  claimWebhookEvent: vi.fn(async (_db, event: { id: string }) => {
+    if (claims.has(event.id)) return false;
+    claims.add(event.id);
+    return true;
+  }),
+}));
+
 const state = vi.hoisted(() => ({
   user: null as Record<string, unknown> | null,
   membership: null as { organizationId: string } | null,
@@ -61,9 +72,16 @@ vi.mock("@/lib/db", async () => {
           },
         }),
       }),
-      update: () => ({
+      update: (table: unknown) => ({
         set: (set: Record<string, unknown>) => ({
           where: async (where: unknown) => {
+            if (table === webhookEvents) {
+              if (set.status === "error") {
+                const { params } = dialect.sqlToQuery(where as SQL);
+                claims.delete(String(params[0]));
+              }
+              return Promise.resolve();
+            }
             state.updates.push({
               set,
               // biome-ignore lint/suspicious/noExplicitAny: SQL-typen er ikke i scope her
@@ -127,6 +145,7 @@ const whereParams = (index = 0) =>
   new PgDialect().sqlToQuery(state.invoiceQueries[index] as SQL).params;
 
 beforeEach(() => {
+  claims.clear();
   state.user = { id: USER_ID, dineroOrganizationId: String(DINERO_ORG) };
   state.membership = { organizationId: "team-org-1" };
   state.invoice = {
@@ -309,4 +328,25 @@ describe("Dinero-webhook: øvrige hændelser", () => {
       itemsProcessed: 0,
     });
   });
+});
+
+it("behandler to samtidige identiske leveringer én gang", async () => {
+  const body = payload();
+  const responses = await Promise.all([signedPost(body), signedPost(body)]);
+  expect(responses.map(({ status }) => status)).toEqual([200, 200]);
+  expect(state.invoiceQueries).toHaveLength(1);
+  expect(state.inserts).toHaveLength(1);
+});
+
+it("retries a payment delivery after the external invoice is linked", async () => {
+  const invoice = state.invoice;
+  state.invoice = null;
+  const body = payload();
+  expect((await signedPost(body)).status).toBe(200);
+  state.invoice = invoice;
+  expect((await signedPost(body)).status).toBe(200);
+  expect(state.invoiceQueries).toHaveLength(2);
+  expect(state.updates.filter(({ set }) => set.status === "paid")).toHaveLength(
+    1,
+  );
 });

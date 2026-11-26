@@ -48,9 +48,9 @@ export function PrepaidDetailScreen() {
   useAnnounceLoaded(pkg, translate('common.loaded'));
 
   if (pkg.isLoading)
-    return <Screen back title=""><ListSkeleton rows={4} /></Screen>;
+    return <Screen back title={translate('navigation.prepaid')}><ListSkeleton rows={4} /></Screen>;
   if (pkg.isError || !pkg.data)
-    return <Screen back title=""><ErrorState message={errorMessage(pkg.error)} onRetry={() => void pkg.refetch()} /></Screen>;
+    return <Screen back title={translate('navigation.prepaid')}><ErrorState message={errorMessage(pkg.error)} onRetry={() => void pkg.refetch()} /></Screen>;
 
   const data = pkg.data;
   const s = prepaidStatus(data);

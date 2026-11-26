@@ -13,7 +13,24 @@ const isWindows = process.platform === "win32";
 
 const nextConfig: NextConfig = {
   typescript: {
+    tsconfigPath:
+      process.env.BUILD_PROFILE === "selfhost"
+        ? "tsconfig.selfhost.json"
+        : "tsconfig.json",
     ignoreBuildErrors: process.env.CI_SKIP_TYPECHECK === "true",
+  },
+
+  // Capture even absent values for the build/runtime comparison in runtime-env.ts.
+  // Server reads with computed keys still use the running process's environment.
+  env: {
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? "",
+    NEXT_PUBLIC_MARKETING_URL: process.env.NEXT_PUBLIC_MARKETING_URL ?? "",
+    NEXT_PUBLIC_BRAND: process.env.NEXT_PUBLIC_BRAND ?? "",
+    // Inlined so the guard knows at runtime that the marketing group is not in
+    // this build (BUILD_PROFILE=selfhost, #1100).
+    BUILD_PROFILE: process.env.BUILD_PROFILE ?? "full",
+    NEXT_PUBLIC_DESKTOP_RELEASES_REPO:
+      process.env.NEXT_PUBLIC_DESKTOP_RELEASES_REPO ?? "",
   },
 
   // Enable standalone output for Docker (disabled on Windows due to filename issues)
@@ -83,6 +100,16 @@ const nextConfig: NextConfig = {
   // Ensure Turbopack uses this repo root (avoid parent lockfile detection)
   turbopack: {
     root: path.resolve(__dirname),
+    // BUILD_PROFILE=selfhost (scripts/build.mjs) builds without the marketing
+    // and TimeWren route groups, so the one module that loads Cloud marketing
+    // pages is replaced by a stand-in that 404s (#1100).
+    resolveAlias:
+      process.env.BUILD_PROFILE === "selfhost"
+        ? {
+            "@/lib/instance-marketing-loader":
+              "./src/lib/instance-marketing-loader.selfhost.ts",
+          }
+        : undefined,
   },
 
   // React strict mode for better development

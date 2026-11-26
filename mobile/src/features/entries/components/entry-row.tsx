@@ -10,7 +10,7 @@ import { entryContextLabel, entryTitle } from '../labels';
 type EntryRowProps = {
   entry: TimeEntry;
   onPress: () => void;
-  onLongPress: () => void;
+  onLongPress: (getTrigger: () => View | null) => void;
   last?: boolean;
   /** Rækken har en rettelse i offline-køen — vis den nye værdi + "venter". */
   pendingSync?: boolean;
@@ -25,6 +25,7 @@ type EntryRowProps = {
 
 /** Én tidspost i dagslisten: beskrivelse, projekt/kunde, timer og status-chips. */
 export function EntryRow({ entry, onPress, onLongPress, last, pendingSync, selected }: EntryRowProps) {
+  const rowRef = React.useRef<View>(null);
   const nonBillable = entry.isBillable === false;
   const right = (
     <View className="items-end gap-1">
@@ -47,7 +48,9 @@ export function EntryRow({ entry, onPress, onLongPress, last, pendingSync, selec
       right={right}
       chevron={false}
       onPress={onPress}
-      onLongPress={onLongPress}
+      pressRef={rowRef}
+      onLongPress={() => onLongPress(() => rowRef.current)}
+      actionLabel={selected === undefined ? translate('entries.actions.title') : undefined}
       last={last}
       // Samme markering som en kørende timer (`timer-card`): brand-blå i lys
       // modus, dæmpet i mørk — ikke en ny farve kun til denne skærm.

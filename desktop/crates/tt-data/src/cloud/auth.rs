@@ -22,8 +22,14 @@ use uuid::Uuid;
 use crate::error::{DataError, Result};
 use crate::model::{DeviceInfo, User};
 
-/// Redirect-URI for deep linket.
+/// Redirect-URI for deep linket i TimeTrack. Brug [`redirect_uri`], som
+/// følger udgaven (TimeWren: `timewren://auth/callback`).
 pub const REDIRECT_URI: &str = "timetrack://auth/callback";
+
+/// Deep linkets adresse i denne udgave.
+pub fn redirect_uri() -> String {
+    tt_core::edition::EDITION.redirect_uri()
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -118,6 +124,12 @@ impl PendingLogin {
             .append_pair("device_name", &device.device_name)
             .append_pair("os", &device.os)
             .append_pair("kind", "desktop");
+        // TimeTrack-webben sender altid brugeren til timetrack://; en anden
+        // udgave beder om sit eget skema, så to apps på samme maskine ikke
+        // tager hinandens login-svar.
+        if tt_core::edition::EDITION.url_scheme != "timetrack" {
+            url.query_pairs_mut().append_pair("redirect_uri", &tt_core::edition::EDITION.redirect_uri());
+        }
         url.into()
     }
 
@@ -128,7 +140,7 @@ impl PendingLogin {
         }
         let url = url::Url::parse(callback_url)
             .map_err(|_| DataError::Auth("Ugyldigt login-link".into()))?;
-        if url.scheme() != "timetrack" {
+        if url.scheme() != tt_core::edition::EDITION.url_scheme {
             return Err(DataError::Auth("Ugyldigt login-link".into()));
         }
         let mut code = None;
@@ -213,6 +225,26 @@ mod tests {
         assert_eq!(q["kind"], "desktop");
         assert_eq!(q["device_name"], "Mads' MacBook");
         assert!(!url.as_str().contains(&p.code_verifier), "verifier må aldrig i URL'en");
+        // TimeTrack-webben redirecter altid selv; en anden udgave beder om sit skema.
+        if tt_core::edition::EDITION.is_timewren() {
+            assert_eq!(q["redirect_uri"], "timewren://auth/callback");
+        } else {
+            assert!(!q.contains_key("redirect_uri"));
+        }
+    }
+
+    /// Et login-svar til den anden udgaves skema afvises: to apps på samme
+    /// maskine må ikke tage hinandens svar.
+    #[test]
+    fn callback_to_the_other_editions_scheme_is_rejected() {
+        let now = Utc::now();
+        let p = PendingLogin::new(now);
+        let other = tt_core::edition::Edition::ALL
+            .iter()
+            .find(|e| e.url_scheme != tt_core::edition::EDITION.url_scheme)
+            .unwrap();
+        let cb = format!("{}?code=abc&state={}", other.redirect_uri(), p.state);
+        assert!(p.verify_callback(&cb, now).is_err());
     }
 
     #[test]
@@ -227,17 +259,18 @@ mod tests {
     fn callback_requires_matching_state() {
         let now = Utc::now();
         let p = PendingLogin::new(now);
-        let ok = format!("timetrack://auth/callback?code=abc&state={}", p.state);
+        let cb = redirect_uri();
+        let ok = format!("{cb}?code=abc&state={}", p.state);
         assert_eq!(p.verify_callback(&ok, now).unwrap(), "abc");
-        let csrf = "timetrack://auth/callback?code=angriber&state=forkert";
-        assert!(matches!(p.verify_callback(csrf, now), Err(DataError::Auth(_))));
-        let no_state = "timetrack://auth/callback?code=abc";
-        assert!(p.verify_callback(no_state, now).is_err());
+        let csrf = format!("{cb}?code=angriber&state=forkert");
+        assert!(matches!(p.verify_callback(&csrf, now), Err(DataError::Auth(_))));
+        let no_state = format!("{cb}?code=abc");
+        assert!(p.verify_callback(&no_state, now).is_err());
         let wrong_scheme = format!("https://evil.example/cb?code=abc&state={}", p.state);
         assert!(p.verify_callback(&wrong_scheme, now).is_err());
         let late = now + chrono::Duration::minutes(11);
         assert!(p.verify_callback(&ok, late).is_err());
-        let denied = format!("timetrack://auth/callback?error=access_denied&state={}", p.state);
+        let denied = format!("{cb}?error=access_denied&state={}", p.state);
         assert!(p.verify_callback(&denied, now).is_err());
     }
 

@@ -86,6 +86,9 @@ linux-keyutils-keyring-store = "1"
 [profile.dev]
 incremental = true
 
+# Gælder: src-tauri er udelukket fra rod-workspacet (exclude i ../Cargo.toml)
+# og er sit eget workspace med egen Cargo.lock, så rodens profil rører ikke den
+# gamle Tauri-app.
 [profile.release]
 codegen-units = 1
 lto = true

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Alert } from 'react-native';
+import { signOut } from '~/features/auth/use-auth-store';
 import { translate } from '~/lib/i18n';
 import { cleanup, fireEvent, render, screen, waitFor } from '~/lib/test-utils';
 import { DeleteAccountScreen } from './delete-account-screen';
@@ -10,17 +11,15 @@ const mockCalls: string[] = [];
 const mockMutateAsync = jest.fn(async () => {
   mockCalls.push('deleteAccount');
 });
-const mockRunOrgSteps = jest.fn(async () => {
-  mockCalls.push('runOrgSteps');
-});
-const mockOrgs: { current: { data?: unknown; isLoading: boolean; isError?: boolean; refetch?: () => void } } = { current: { data: [], isLoading: false } };
+const mockFetch = jest.fn();
+const mockShowMessage = jest.fn();
+const mockOrgs: { current: { data?: unknown; isLoading: boolean; isError?: boolean; refetch?: () => void } } = { current: { data: [], isLoading: false, refetch: jest.fn() } };
 const mockSubmitFeedback = jest.fn(async (_input: { message: string }) => {
   mockCalls.push('feedback');
 });
-const mockDeletionInfo: { current: { data?: { storeSubscription: unknown }; isSuccess?: boolean; isError?: boolean; refetch?: () => void } } = { current: { data: { storeSubscription: null }, isSuccess: true } };
+const mockDeletionInfo: { current: { data?: { storeSubscription: unknown; canDelete?: boolean; blockingOrgs?: { id: string; name: string }[] }; isSuccess?: boolean; isError?: boolean; refetch?: () => void } } = { current: { data: { storeSubscription: null, canDelete: true }, isSuccess: true, refetch: jest.fn() } };
 
 jest.mock('~/lib/api', () => ({
-  errorMessage: () => 'fejl',
   trpc: {
     user: {
       deleteAccount: { useMutation: () => ({ mutateAsync: mockMutateAsync, isPending: false }) },
@@ -41,10 +40,24 @@ jest.mock('@tanstack/react-query', () => ({ useQuery: () => mockOrgs.current }))
 jest.mock('./account-deletion-orgs', () => ({
   ...jest.requireActual('./account-deletion-orgs'),
   loadOrgsWithMembers: jest.fn(),
-  runOrgSteps: (...args: unknown[]) => mockRunOrgSteps(...(args as [])),
 }));
-const mockAppleCode: { current: string | null | 'canceled' } = { current: null };
-jest.mock('~/lib/auth/apple', () => ({ appleCodeForAccountDeletion: async () => mockAppleCode.current }));
+jest.mock('~/lib/auth/client', () => ({ authClient: { $fetch: (...args: unknown[]) => mockFetch(...args) } }));
+jest.mock('~/lib/notify', () => ({ showMessage: (...args: unknown[]) => mockShowMessage(...args) }));
+const mockAppleCode = jest.fn<Promise<string | null>, []>(async () => null);
+jest.mock('~/lib/auth/apple', () => ({ appleCodeForAccountDeletion: () => mockAppleCode() }));
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  mockAppleCode.mockReset().mockResolvedValue(null);
+  mockConfig.current = {};
+  mockCalls.length = 0;
+  mockOrgs.current = { data: [], isLoading: false, refetch: jest.fn() };
+  mockDeletionInfo.current = { data: { storeSubscription: null, canDelete: true }, isSuccess: true, refetch: jest.fn() };
+});
+afterEach(() => {
+  cleanup();
+  jest.restoreAllMocks();
+});
 const mockReplace = jest.fn();
 jest.mock('expo-router', () => ({ useRouter: () => ({ back: jest.fn(), push: jest.fn(), replace: mockReplace }) }));
 
@@ -54,9 +67,15 @@ function withSource(source: string, productId: string | null = null) {
   };
 }
 
-describe('slet konto med et abonnement fra butikken', () => {
-  afterEach(cleanup);
+function confirmAndSubmit() {
+  jest.spyOn(Alert, 'alert').mockImplementation((_t, _m, buttons) => {
+    buttons?.find(b => b.style === 'destructive')?.onPress?.();
+  });
+  fireEvent.changeText(screen.getByTestId('delete-account-email'), 'demo@example.com');
+  fireEvent.press(screen.getByTestId('delete-account-submit'));
+}
 
+describe('slet konto med et abonnement fra butikken', () => {
   it.each([
     ['apple', 'dk.timetrack.app.privat.monthly', 'settings.delete_account.store_body_apple'],
     ['google', 'privat', 'settings.delete_account.store_body_google'],
@@ -80,26 +99,12 @@ describe('slet konto med et abonnement fra butikken', () => {
   });
 
   it('viser ingen butiksadvarsel, før serverens svar er kommet', () => {
-    mockConfig.current = {};
     render(<DeleteAccountScreen />);
     expect(screen.queryByTestId('delete-account-store-subscription')).toBeNull();
   });
 });
 
 describe('slet konto, når brugeren deler organisation med andre', () => {
-  afterEach(() => {
-    cleanup();
-    mockCalls.length = 0;
-    mockOrgs.current = { data: [], isLoading: false };
-    mockDeletionInfo.current = { data: { storeSubscription: null }, isSuccess: true };
-    mockMutateAsync.mockClear();
-    mockRunOrgSteps.mockClear();
-    mockSubmitFeedback.mockClear();
-    mockReplace.mockClear();
-    mockAppleCode.current = null;
-    jest.restoreAllMocks();
-  });
-
   const team = {
     id: 'org-1',
     name: 'Demo ApS',
@@ -110,71 +115,106 @@ describe('slet konto, når brugeren deler organisation med andre', () => {
     ],
   };
 
-  it('viser, at organisationen slettes, når brugeren er eneste ejer', () => {
-    mockConfig.current = {};
-    mockOrgs.current = { data: [team], isLoading: false };
+  it('blokerer sletning for eneejeren uden at ændre teamets medlemskaber', () => {
+    mockOrgs.current = { data: [team], isLoading: false, refetch: jest.fn() };
+    mockDeletionInfo.current = {
+      data: { storeSubscription: null, canDelete: false, blockingOrgs: [team] },
+      isSuccess: true,
+    };
     render(<DeleteAccountScreen />);
-    expect(screen.getByText(translate('settings.delete_account.org_delete', { name: 'Demo ApS', count: 2 }))).toBeOnTheScreen();
+    confirmAndSubmit();
+    expect(screen.getByText(translate('settings.delete_account.org_transfer', { name: team.name }))).toBeOnTheScreen();
+    expect(screen.getByTestId('delete-account-submit')).toBeDisabled();
+    expect(screen.getByText('Your account will be permanently deleted. If you have an active subscription, it will be cancelled.')).toBeOnTheScreen();
+    expect(Alert.alert).not.toHaveBeenCalled();
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(mockAppleCode).not.toHaveBeenCalled();
+    expect(mockMutateAsync).not.toHaveBeenCalled();
+    expect(signOut).not.toHaveBeenCalled();
+  });
+
+  it('følger serverens sletteplan, når den accepterer en delt konto med rollen admin,owner', async () => {
+    mockOrgs.current = {
+      data: [{ ...team, members: team.members.map(m => m.userId === 'u-me' ? { ...m, role: 'admin,owner' } : m) }],
+      isLoading: false,
+    };
+    render(<DeleteAccountScreen />);
+    expect(screen.getByText(translate('settings.delete_account.org_leave', { name: team.name }))).toBeOnTheScreen();
+    confirmAndSubmit();
+    await waitFor(() => expect(mockReplace).toHaveBeenCalledWith('/login'));
+    expect(mockMutateAsync).toHaveBeenCalledTimes(1);
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 
   it('viser intet om organisationer for en bruger uden team', () => {
-    mockConfig.current = {};
     render(<DeleteAccountScreen />);
     expect(screen.queryByTestId('delete-account-orgs')).toBeNull();
   });
 
-  it('rydder organisationerne, før kontoen slettes', async () => {
-    mockConfig.current = {};
-    mockOrgs.current = { data: [team], isLoading: false };
-    jest.spyOn(Alert, 'alert').mockImplementation((_t, _m, buttons) => {
-      buttons?.find(b => b.style === 'destructive')?.onPress?.();
-    });
-    render(<DeleteAccountScreen />);
-    fireEvent.changeText(screen.getByTestId('delete-account-email'), 'demo@example.com');
-    fireEvent.press(screen.getByTestId('delete-account-submit'));
-    await waitFor(() => expect(mockCalls).toHaveLength(2));
-    expect(mockRunOrgSteps).toHaveBeenCalledWith([{ kind: 'remove-members', orgId: 'org-1', name: 'Demo ApS', memberIds: ['m-2', 'm-3'] }]);
-    expect(mockCalls).toEqual(['runOrgSteps', 'deleteAccount']);
-    // Efter sletningen sendes brugeren væk fra den døde sletteskærm.
-    await waitFor(() => expect(mockReplace).toHaveBeenCalledWith('/login'));
-  });
-
-  function confirmAndSubmit() {
-    jest.spyOn(Alert, 'alert').mockImplementation((_t, _m, buttons) => {
-      buttons?.find(b => b.style === 'destructive')?.onPress?.();
-    });
-    fireEvent.changeText(screen.getByTestId('delete-account-email'), 'demo@example.com');
-    fireEvent.press(screen.getByTestId('delete-account-submit'));
-  }
-
   // Serveren forlader selv teamet og anonymiserer brugeren (web #918), så et teammedlem
   // sletter kontoen direkte i appen i stedet for at sende en anmodning (App Store 5.1.1(v)).
-  it('lader et teammedlem slette kontoen direkte, når brugeren ikke er eneste ejer', async () => {
-    mockConfig.current = {};
+  it.each(['member', 'owner'])('lader en %s slette, mens serveren bevarer teamets data anonymiseret', async (role) => {
     mockOrgs.current = {
-      data: [{ id: 'org-2', name: 'Kunde A/S', members: [{ id: 'b', userId: 'u-boss', role: 'owner' }, { id: 'me', userId: 'u-me', role: 'member' }] }],
+      data: [{ id: 'org-2', name: 'Kunde A/S', members: [{ id: 'b', userId: 'u-boss', role: 'owner' }, { id: 'me', userId: 'u-me', role }] }],
       isLoading: false,
+      refetch: jest.fn(),
     };
     render(<DeleteAccountScreen />);
     expect(screen.getByText(translate('settings.delete_account.org_leave', { name: 'Kunde A/S' }))).toBeOnTheScreen();
     confirmAndSubmit();
     await waitFor(() => expect(mockMutateAsync).toHaveBeenCalled());
-    expect(mockCalls).toEqual(['runOrgSteps', 'deleteAccount']);
+    expect(Alert.alert).toHaveBeenCalledWith(
+      expect.any(String),
+      'Your account will be permanently deleted. This cannot be undone.',
+      expect.any(Array),
+    );
+    expect(mockCalls).toEqual(['deleteAccount']);
+    expect(mockFetch).not.toHaveBeenCalled();
     expect(mockSubmitFeedback).not.toHaveBeenCalled();
     await waitFor(() => expect(mockReplace).toHaveBeenCalledWith('/login'));
   });
 
+  it('bevarer session og medlemskaber ved serverfejl efter en forældet sletteplan', async () => {
+    const refetchInfo = jest.fn();
+    mockDeletionInfo.current = { data: { storeSubscription: null, canDelete: true }, isSuccess: true, refetch: refetchInfo };
+    mockOrgs.current = {
+      data: [{ ...team, members: team.members.map(m => m.id === 'm-2' ? { ...m, role: 'owner' } : m) }],
+      isLoading: false,
+      refetch: jest.fn(),
+    };
+    mockMutateAsync.mockRejectedValueOnce(new Error('Organisation changed during deletion'));
+    const { rerender } = render(<DeleteAccountScreen />);
+    confirmAndSubmit();
+    await waitFor(() => expect(refetchInfo).toHaveBeenCalledTimes(1));
+    expect(mockMutateAsync).toHaveBeenCalledTimes(1);
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(signOut).not.toHaveBeenCalled();
+    expect(mockReplace).not.toHaveBeenCalled();
+    expect(mockShowMessage).toHaveBeenCalledWith({
+      message: translate('settings.delete_account.retry_error'),
+      type: 'danger',
+    });
+
+    mockDeletionInfo.current = {
+      data: { storeSubscription: null, canDelete: false, blockingOrgs: [team] },
+      isSuccess: true,
+    };
+    rerender(<DeleteAccountScreen />);
+    expect(screen.getByText(translate('settings.delete_account.org_transfer', { name: team.name }))).toBeOnTheScreen();
+    expect(screen.getByTestId('delete-account-submit')).toBeDisabled();
+  });
+
   it('bekræfter et butiksabonnement, som kun serveren kender (anden organisation end den aktive)', async () => {
-    mockConfig.current = {};
-    mockDeletionInfo.current = { data: { storeSubscription: { id: 's1' } }, isSuccess: true };
+    mockDeletionInfo.current = { data: { storeSubscription: { id: 's1' }, canDelete: true }, isSuccess: true };
     render(<DeleteAccountScreen />);
     confirmAndSubmit();
     await waitFor(() => expect(mockMutateAsync).toHaveBeenCalled());
     expect(mockMutateAsync).toHaveBeenCalledWith({ confirmEmail: 'demo@example.com', storeSubscriptionAcknowledged: true });
   });
+});
 
+describe('forudsætninger for kontosletning', () => {
   it('kan ikke slette, når organisationerne ikke kunne hentes', () => {
-    mockConfig.current = {};
     mockOrgs.current = { data: undefined, isLoading: false, isError: true, refetch: jest.fn() };
     render(<DeleteAccountScreen />);
     fireEvent.changeText(screen.getByTestId('delete-account-email'), 'demo@example.com');
@@ -183,7 +223,6 @@ describe('slet konto, når brugeren deler organisation med andre', () => {
   });
 
   it('kan ikke slette, før serveren har svaret om butiksabonnementer', () => {
-    mockConfig.current = {};
     mockDeletionInfo.current = { isSuccess: false, isError: true, refetch: jest.fn() };
     render(<DeleteAccountScreen />);
     fireEvent.changeText(screen.getByTestId('delete-account-email'), 'demo@example.com');
@@ -192,40 +231,62 @@ describe('slet konto, når brugeren deler organisation med andre', () => {
 });
 
 describe('slet konto med Apple-login', () => {
-  beforeEach(() => mockReplace.mockClear());
-  afterEach(() => {
-    cleanup();
-    mockCalls.length = 0;
-    mockMutateAsync.mockClear();
-    mockAppleCode.current = null;
-    jest.restoreAllMocks();
-  });
-
-  function confirmAndSubmit() {
-    jest.spyOn(Alert, 'alert').mockImplementation((_t, _m, buttons) => {
-      buttons?.find(b => b.style === 'destructive')?.onPress?.();
-    });
-    fireEvent.changeText(screen.getByTestId('delete-account-email'), 'demo@example.com');
-    fireEvent.press(screen.getByTestId('delete-account-submit'));
-  }
-
   // Apple 5.1.1(v): Apple-login skal tilbagekaldes. Det native login gemmer intet token på
   // serveren, så appen henter en frisk kode fra Apple, som serveren veksler og tilbagekalder.
   it('sender en frisk Apple-kode med, så serveren kan tilbagekalde Apple-login', async () => {
-    mockConfig.current = {};
-    mockAppleCode.current = 'apple-code-123';
+    mockAppleCode.mockResolvedValue('apple-code-123');
     render(<DeleteAccountScreen />);
     confirmAndSubmit();
     await waitFor(() => expect(mockMutateAsync).toHaveBeenCalled());
     expect(mockMutateAsync).toHaveBeenCalledWith({ confirmEmail: 'demo@example.com', appleAuthorizationCode: 'apple-code-123' });
   });
 
-  it('sletter ikke, når brugeren lukker Apple-arket', async () => {
-    mockConfig.current = {};
-    mockAppleCode.current = 'canceled';
+  it('bevarer sessionen ved en serverfejl og henter en ny Apple-kode ved næste forsøg', async () => {
+    mockAppleCode.mockResolvedValueOnce('first-code').mockResolvedValueOnce('second-code');
+    mockMutateAsync.mockRejectedValueOnce(new Error('Server failure'));
     render(<DeleteAccountScreen />);
     confirmAndSubmit();
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await waitFor(() => expect(mockShowMessage).toHaveBeenCalledWith({
+      message: translate('settings.delete_account.retry_error'),
+      type: 'danger',
+    }));
+    expect(mockMutateAsync).toHaveBeenNthCalledWith(1, { confirmEmail: 'demo@example.com', appleAuthorizationCode: 'first-code' });
+    expect(signOut).not.toHaveBeenCalled();
+    expect(mockReplace).not.toHaveBeenCalled();
+    expect(mockShowMessage).toHaveBeenCalledTimes(1);
+    expect(mockFetch).not.toHaveBeenCalled();
+
+    await waitFor(() => expect(screen.getByTestId('delete-account-submit')).toBeEnabled());
+    fireEvent.press(screen.getByTestId('delete-account-submit'));
+    await waitFor(() => expect(mockReplace).toHaveBeenCalledWith('/login'));
+    expect(mockAppleCode).toHaveBeenCalledTimes(2);
+    expect(mockMutateAsync).toHaveBeenNthCalledWith(2, { confirmEmail: 'demo@example.com', appleAuthorizationCode: 'second-code' });
+    expect(signOut).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignorerer gentagne bekræftelser, mens sletningen kører og efter succes', async () => {
+    const confirm = jest.fn();
+    jest.spyOn(Alert, 'alert').mockImplementation((_t, _m, buttons) => {
+      confirm.mockImplementation(buttons?.find(b => b.style === 'destructive')?.onPress ?? (() => {}));
+      confirm();
+      confirm();
+    });
+    render(<DeleteAccountScreen />);
+    fireEvent.changeText(screen.getByTestId('delete-account-email'), 'demo@example.com');
+    fireEvent.press(screen.getByTestId('delete-account-submit'));
+    await waitFor(() => expect(mockReplace).toHaveBeenCalledWith('/login'));
+    confirm();
+    expect(mockAppleCode).toHaveBeenCalledTimes(1);
+    expect(mockMutateAsync).toHaveBeenCalledTimes(1);
+    expect(signOut).toHaveBeenCalledTimes(1);
+    expect(mockShowMessage).toHaveBeenCalledTimes(1);
+  });
+
+  it('sletter ikke, når brugeren lukker Apple-arket', async () => {
+    mockAppleCode.mockResolvedValue('canceled');
+    render(<DeleteAccountScreen />);
+    confirmAndSubmit();
+    await waitFor(() => expect(screen.getByTestId('delete-account-submit')).toBeEnabled());
     // Afbrudt før noget er rørt: ingen medlemmer fjernet, ingen sletning.
     expect(mockCalls).toEqual([]);
     expect(mockMutateAsync).not.toHaveBeenCalled();

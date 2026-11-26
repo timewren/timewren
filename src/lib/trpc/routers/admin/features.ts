@@ -2,7 +2,7 @@ import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { changelogs, featureFlags, users } from "@/lib/db/schema";
 import type { FeatureFlagKey } from "@/lib/feature-flags";
-import { FEATURE_FLAG_KEYS } from "@/lib/feature-flags";
+import { FEATURE_FLAG_KEYS, featureFlagDefault } from "@/lib/feature-flags";
 import { adminProcedure, router, supporterProcedure } from "../../trpc";
 import { logAdminAction } from "./shared";
 
@@ -34,13 +34,27 @@ export const adminFeaturesRouter = router({
       .from(featureFlags)
       .leftJoin(users, eq(featureFlags.updatedBy, users.id));
 
-    return flags.map((f) => ({
+    const rows = flags.map((f) => ({
       key: f.key,
       enabled: f.enabled,
       description: f.description,
-      updatedAt: f.updatedAt,
+      updatedAt: f.updatedAt as Date | null,
       updater: f.updatedBy ? { id: f.updatedBy, name: f.updaterName } : null,
     }));
+    // Flag uden række vises med deres standard, så en administrator også kan
+    // slå dem til på en ny installation.
+    const existing = new Set(rows.map((r) => r.key));
+    for (const key of FEATURE_FLAG_KEYS) {
+      if (existing.has(key)) continue;
+      rows.push({
+        key,
+        enabled: featureFlagDefault(key),
+        description: null,
+        updatedAt: null,
+        updater: null,
+      });
+    }
+    return rows;
   }),
 
   toggleFeatureFlag: adminProcedure

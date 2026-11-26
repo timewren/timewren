@@ -186,7 +186,7 @@ export default function NewInvoicePage() {
             {t("new.companyBody")}
           </p>
           <Link
-            href="/dashboard/settings/company"
+            href="/dashboard/settings/company?from=invoice"
             className="mt-3 inline-flex min-h-[44px] items-center rounded-lg bg-tt-gran px-4 text-sm font-medium text-tt-paa-gran transition-colors hover:bg-tt-gran-moerk"
           >
             {t("new.companyCta")}

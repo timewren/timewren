@@ -162,7 +162,7 @@ async function runStop(deps: StopDeps): Promise<boolean> {
       return true;
     }
     if (result.kind === 'saved_unconfirmed') {
-      captureError(new Error('timer.stop: saved_unconfirmed'), { reason: 'saved_unconfirmed' });
+      captureError(new Error('timer.stop: saved_unconfirmed'));
       // Posten ligger gemt, men serverens claim kunne ikke bekræftes, så
       // rækken hænger i 'stopping' og næste claim ville blive afvist med
       // `already_stopping`. Den lokale timer ryddes (tiden ER gemt), men
@@ -183,7 +183,7 @@ async function runStop(deps: StopDeps): Promise<boolean> {
     if (!mayHaveSaved(result.error))
       setPendingStop(null);
     if (!isAuthFailure(result.error))
-      captureError(result.error, { reason: 'save_failed' });
+      captureError(result.error);
     if (result.claimKept) {
       showMessage({ message: translate('timer.save_uncertain'), type: 'warning' });
       return false;
@@ -195,7 +195,7 @@ async function runStop(deps: StopDeps): Promise<boolean> {
     // Her ved vi ikke, hvor langt kæden nåede, før nettet/appen døde.
     // Journalen BLIVER liggende, så næste start kan genkøre stoppet.
     if (!isNetworkFailure(error) && !isAuthFailure(error))
-      captureError(error, { reason: 'stop_chain_threw' });
+      captureError(error);
     showMessage({ message: errorMessage(error, failedText()), type: 'danger' });
     return false;
   }
@@ -227,7 +227,7 @@ function handleNotStopped(
   }
   else {
     // Claimet blev aldrig taget, så serverens session kører videre.
-    captureError(new Error(`timer.stop: claim_failed ${result.reason}`), { reason: result.reason });
+    captureError(new Error(`timer.stop: claim_failed ${result.reason}`));
     showMessage({ message: translate('timer.claim_failed'), type: 'danger' });
   }
   // Bevidst ikke awaited: afstemningen går via `recoverPendingStop`, som
@@ -288,7 +288,7 @@ async function stopLocalOnlySession({ snapshot, now, failedText, invalidate }: L
   }
   catch (error) {
     if (!mayHaveSaved(error)) {
-      captureError(error, { reason: 'local_save_failed' });
+      captureError(error);
       showMessage({ message: errorMessage(error, failedText()), type: 'danger' });
       return false;
     }

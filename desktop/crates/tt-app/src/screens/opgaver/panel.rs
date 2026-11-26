@@ -4,7 +4,7 @@
 
 use chrono::Datelike as _;
 use gpui_kit::component::button::{Button, ButtonVariants as _};
-use gpui_kit::component::{Sizable as _, h_flex, v_flex};
+use gpui_kit::component::{Disableable as _, Sizable as _, h_flex, v_flex};
 use gpui_kit::prelude::FluentBuilder as _;
 use gpui_kit::*;
 
@@ -37,6 +37,7 @@ impl OpgaverScreen {
         let tid = task.id.clone();
         let edit_id = task.id.clone();
         let timer_id = task.id.clone();
+        let log_id = task.id.clone();
 
         let header = h_flex()
             .gap_2()
@@ -189,6 +190,14 @@ impl OpgaverScreen {
                     .on_click(cx.listener(move |this, _, _, cx| this.start_timer(&timer_id, cx))),
             )
             .child(
+                Button::new("opgave-panel-tid")
+                    .label(t("opx.log.open"))
+                    .small()
+                    .disabled(self.log.is_some())
+                    .accessibility_label(tf("opx.log.open_for", &[("title", &task.title)]))
+                    .on_click(cx.listener(move |this, _, w, cx| this.open_log(&log_id, w, cx))),
+            )
+            .child(
                 Button::new("opgave-panel-ret")
                     .label(t("opgaver.row.edit"))
                     .small()
@@ -197,6 +206,7 @@ impl OpgaverScreen {
                         cx.listener(move |this, _, w, cx| this.open_form(Some(&edit_id), w, cx)),
                     ),
             );
+        let log = self.render_log(b, cx);
 
         Some(
             ui::el(
@@ -232,6 +242,7 @@ impl OpgaverScreen {
             )
             .children(progress)
             .child(actions)
+            .children(log)
             .child(entries)
             .into_any_element(),
         )
@@ -300,6 +311,59 @@ impl OpgaverScreen {
                             ),
                     )
                 }),
+        )
+    }
+
+    /// "Registrér tid" på opgaven: dato, timer og tekst.
+    fn render_log(&self, b: &Brand, cx: &mut Context<Self>) -> Option<Div> {
+        let f = self.log.as_ref()?;
+        let err = |e: Option<&'static str>| e.map(SharedString::from);
+        Some(
+            v_flex()
+                .gap_2()
+                .p_3()
+                .rounded_md()
+                .border_1()
+                .border_color(b.border)
+                .child(ui::heading(b, "opgave-tid-titel", t("opx.log.title"), 3))
+                .child(
+                    h_flex()
+                        .gap_2()
+                        .items_start()
+                        .child(forms::text_field(b, "opgave-tid-dato", t("opx.log.date"), &f.date, err(f.errors.date)))
+                        .child(forms::text_field(b, "opgave-tid-timer", t("opx.log.hours"), &f.hours, err(f.errors.hours))),
+                )
+                .child(forms::text_field(
+                    b,
+                    "opgave-tid-tekst",
+                    t("opx.log.description"),
+                    &f.description,
+                    None,
+                ))
+                .children(f.error.clone().map(|e| forms::form_error(b, "opgave-tid-fejl", e)))
+                .child(
+                    h_flex()
+                        .gap_2()
+                        .child(
+                            Button::new("opgave-tid-gem")
+                                .label(t("opx.log.save"))
+                                .primary()
+                                .small()
+                                .loading(f.busy)
+                                .disabled(f.busy)
+                                .on_click(cx.listener(|this, _, _, cx| this.save_log(cx))),
+                        )
+                        .child(
+                            Button::new("opgave-tid-annuller")
+                                .label(t("opx.log.cancel"))
+                                .small()
+                                .ghost()
+                                .on_click(cx.listener(|this, _, _, cx| {
+                                    this.log = None;
+                                    cx.notify();
+                                })),
+                        ),
+                ),
         )
     }
 

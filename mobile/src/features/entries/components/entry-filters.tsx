@@ -47,7 +47,7 @@ export function EntryFilters({ filter, onChange, projects, projectsError }: Entr
         value={filter.projectId}
         onSelect={v => onChange({ ...filter, projectId: String(v) })}
         error={projectsError ? translate('common.error_load') : undefined}
-        placeholder={translate('entries.all_projects')}
+        placeholder={translate(filter.projectId ? 'entries.selected_project' : 'entries.all_projects')}
         testID="time-project"
       />
       <Select

@@ -4,7 +4,7 @@ import type { InvoiceFilter } from './invoice-logic';
 import { useRouter } from 'expo-router';
 import { FileText, Plus } from 'lucide-react-native';
 import * as React from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import {
   EmptyState,
   ErrorState,
@@ -28,6 +28,8 @@ export function InvoicesScreen() {
   const caps = useCapabilities();
   const enabled = caps.isEnabled('invoicing');
   const router = useRouter();
+  const { width, fontScale } = useWindowDimensions();
+  const useTwoColumns = width >= 360 && fontScale <= 1;
   const [filter, setFilter] = React.useState<InvoiceFilter>('all');
   const sheetRef = React.useRef<BottomSheetModal | null>(null);
 
@@ -81,10 +83,12 @@ export function InvoicesScreen() {
         onRefresh={refresh}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
         ListHeaderComponent={(
-          <View className="mb-4 flex-row gap-3">
-            <StatTile label={translate('invoices.stats.outstanding')} value={formatMoney(stats.data?.totalPending ?? 0)} loading={stats.isLoading} error={stats.isError} tone="primary" />
-            <StatTile label={translate('invoices.stats.overdue')} value={formatMoney(extra.overdueAmount)} loading={list.isLoading} error={list.isError} tone={extra.overdueAmount > 0 ? 'danger' : 'default'} />
-            <StatTile label={translate('invoices.stats.paid_month')} value={formatMoney(extra.paidThisMonth)} loading={list.isLoading} error={list.isError} tone="success" />
+          <View className="mb-4 gap-3">
+            <View className={useTwoColumns ? 'flex-row gap-3' : 'gap-3'}>
+              <StatTile label={translate('invoices.stats.outstanding')} value={formatMoney(stats.data?.totalPending ?? 0)} loading={stats.isLoading} error={stats.isError} tone="primary" className={useTwoColumns ? undefined : 'flex-none'} fitOnOneLine={fontScale <= 1} />
+              <StatTile label={translate('invoices.stats.overdue')} value={formatMoney(extra.overdueAmount)} loading={list.isLoading} error={list.isError} tone={extra.overdueAmount > 0 ? 'danger' : 'default'} className={useTwoColumns ? undefined : 'flex-none'} fitOnOneLine={fontScale <= 1} />
+            </View>
+            <StatTile label={translate('invoices.stats.paid_month')} value={formatMoney(extra.paidThisMonth)} loading={list.isLoading} error={list.isError} tone="success" className="flex-none" fitOnOneLine={fontScale <= 1} />
           </View>
         )}
         ListEmptyComponent={(

@@ -50,6 +50,26 @@ type Entry = {
   fromTimer?: boolean;
 };
 
+// Runneren skifter af og til netværk midt i en navigation (net::ERR_NETWORK_CHANGED,
+// 19.-20/11-2026). Det er runner-støj, ikke en sync-fejl: kun selve navigationen prøves
+// igen, én gang. Alle tjek af timerens tilstand kører uændret og uden retry.
+const RUNNER_NET_ERRORS =
+  /net::ERR_(NETWORK_CHANGED|INTERNET_DISCONNECTED|NETWORK_IO_SUSPENDED)/;
+
+async function navigate(page: Page, url?: string): Promise<void> {
+  const go = () => (url ? page.goto(url) : page.reload());
+  try {
+    await go();
+  } catch (err) {
+    if (!RUNNER_NET_ERRORS.test(String(err))) throw err;
+    console.warn(
+      `Netværksskift på runneren under navigation, prøver igen: ${String(err).split("\n")[0]}`,
+    );
+    await page.waitForTimeout(2_000);
+    await go();
+  }
+}
+
 async function apiFetch(method: string, path: string): Promise<Response> {
   const res = await fetch(`${APP}/api/v1${path}`, {
     method,
@@ -235,8 +255,8 @@ test("timer startet på enhed A ses, stoppes og gemmes én gang fra enhed B", as
     opened.push(B);
 
     await test.step("begge enheder viser en stoppet timer", async () => {
-      await A.page.goto(`${APP}/dashboard/time`);
-      await B.page.goto(`${APP}/dashboard/time`);
+      await navigate(A.page, `${APP}/dashboard/time`);
+      await navigate(B.page, `${APP}/dashboard/time`);
       await expect(bar(A.page)).toHaveAttribute("data-timer-state", "idle", {
         timeout: 30_000,
       });
@@ -292,7 +312,7 @@ test("timer startet på enhed A ses, stoppes og gemmes én gang fra enhed B", as
     });
 
     await test.step("A genopliver ikke timeren efter reload", async () => {
-      await A.page.reload();
+      await navigate(A.page);
       await expect(bar(A.page)).toBeVisible({ timeout: 30_000 });
       // To poll-cyklusser (10-15 s) skal gå uden at timeren kommer tilbage
       const until = Date.now() + 35_000;
@@ -314,7 +334,7 @@ test("timer startet på enhed A ses, stoppes og gemmes én gang fra enhed B", as
       });
 
     await test.step("Fortsæt bevarer den oprindelige start", async () => {
-      await A.page.goto(`${APP}/dashboard/time`);
+      await navigate(A.page, `${APP}/dashboard/time`);
       await A.page.getByTestId("entry-continue").first().click();
       await expect(bar(A.page)).toHaveAttribute("data-timer-state", "running");
       await A.page.waitForTimeout(5_000);

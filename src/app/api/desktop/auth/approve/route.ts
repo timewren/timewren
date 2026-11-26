@@ -2,9 +2,11 @@ import { and, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { tr } from "@/i18n/server-text";
 import { auth } from "@/lib/auth";
+import { deviceLoginBrand } from "@/lib/auth/device-brand";
 import { db } from "@/lib/db";
 import { desktopDevices, desktopLicenses, members } from "@/lib/db/schema";
 import { generateDeviceToken } from "@/lib/desktop-auth";
+import { resolveDeviceCallback } from "@/lib/device-login";
 
 /**
  * POST /api/desktop/auth/approve
@@ -12,9 +14,11 @@ import { generateDeviceToken } from "@/lib/desktop-auth";
  * Called from the browser when the user clicks "Godkend forbindelse"
  * on the desktop authorization page.
  *
- * Body: { code: string, organizationId?: string }
+ * Body: { code: string, organizationId?: string, redirectUri?: string }
  *
  * Returns: { redirectUrl: "timetrack://auth/callback?token=JWT&org=ORG_ID" }
+ * The scheme follows `redirectUri` if it is on the app-scheme allowlist,
+ * otherwise the instance brand (timewren:// or timetrack://).
  */
 export async function POST(request: Request) {
   try {
@@ -33,6 +37,7 @@ export async function POST(request: Request) {
     const body = (await request.json()) as {
       code?: string;
       organizationId?: string;
+      redirectUri?: string;
     };
 
     if (!body.code || typeof body.code !== "string") {
@@ -128,7 +133,11 @@ export async function POST(request: Request) {
     params.set("name", userName);
     params.set("tier", tier);
 
-    const redirectUrl = `timetrack://auth/callback?${params.toString()}`;
+    const callback = resolveDeviceCallback({
+      redirectUri: body.redirectUri,
+      brand: deviceLoginBrand(request),
+    });
+    const redirectUrl = `${callback}?${params.toString()}`;
 
     return NextResponse.json({ redirectUrl });
   } catch (error) {

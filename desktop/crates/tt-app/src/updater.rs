@@ -15,6 +15,8 @@
 //!     argumenter (`/P /R /UPDATE`), og appen lukker. Installeren starter
 //!     appen igen.
 //!   - Genstart sker først, når brugeren har accepteret.
+//! - App Store-udgaven (`mas`): slået helt fra. Intet netværkskald, ingen
+//!   installation og ingen genstart; alt giver [`UpdateError::Disabled`].
 
 use std::collections::BTreeMap;
 use std::io::Read;
@@ -25,13 +27,14 @@ use serde::Deserialize;
 
 use crate::i18n::tf;
 
-/// Stabil kanal (samme som Tauri-appen).
-pub const ENDPOINT: &str =
-    "https://github.com/mahope/timetrack-releases/releases/latest/download/latest.json";
-/// Beta-kanal: et fast `beta`-release på samme repo, som release-workflowen
-/// overskriver (se `docs/v1/UDGIVELSE.md`).
-pub const ENDPOINT_BETA: &str =
-    "https://github.com/mahope/timetrack-releases/releases/download/beta/latest.json";
+/// Stabil kanal. TimeTrack: repoets seneste release (samme adresse som
+/// Tauri-appen). TimeWren: det faste `timewren-stable`-release, som aldrig er
+/// repoets "latest", så de to apps' brugere aldrig får hinandens versioner
+/// (`tt_core::edition`, `docs/v1/UDGIVELSE.md`).
+pub const ENDPOINT: &str = tt_core::edition::EDITION.update_stable_url;
+/// Beta-kanal: et fast release (`beta` eller `timewren-beta`) på samme repo,
+/// som release-workflowen overskriver.
+pub const ENDPOINT_BETA: &str = tt_core::edition::EDITION.update_beta_url;
 /// Tauri-appens minisign-nøgle (`plugins.updater.pubkey`), key id 79C1EBC058733350.
 pub const PUBKEY: &str = "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDc5QzFFQkMwNTg3MzMzNTAKUldSUU0zTll3T3ZCZWJaMkVYOFpnaXFFVmhyTGZQZkJqODhTU0hGODRBZ0QxVDlNSUZYaVN0cVcK";
 
@@ -50,6 +53,8 @@ pub enum UpdateError {
     Signature(String),
     /// Installationen fejlede. Den installerede app er urørt.
     Install(String),
+    /// App Store-udgaven (`mas`): App Store opdaterer appen.
+    Disabled,
 }
 
 impl std::fmt::Display for UpdateError {
@@ -62,6 +67,7 @@ impl std::fmt::Display for UpdateError {
             }
             UpdateError::Signature(e) => f.write_str(&tf("opdatering.err.signature", &[("error", e)])),
             UpdateError::Install(e) => f.write_str(&tf("opdatering.err.install", &[("error", e)])),
+            UpdateError::Disabled => f.write_str(crate::i18n::t("mas.opdateringer.tekst")),
         }
     }
 }
@@ -157,6 +163,7 @@ pub fn verify_signature(data: &[u8], signature_b64: &str, pubkey_b64: &str) -> R
 
 /// Spørg kanalen. `Ok(None)` = ingen nyere version.
 pub fn check(endpoint: &str, current: &str) -> Result<Option<Update>, UpdateError> {
+    enabled()?;
     let platform = platform_key()
         .ok_or_else(|| UpdateError::NoPlatform(std::env::consts::OS.to_string()))?;
     let json = http_get(endpoint, 1024 * 1024)?;
@@ -199,10 +206,16 @@ pub fn newest(results: Vec<Result<Option<Update>, UpdateError>>) -> Result<Optio
     }
 }
 
+/// `Err(Disabled)` i App Store-udgaven, før noget andet sker.
+fn enabled() -> Result<(), UpdateError> {
+    if crate::mas::UPDATER { Ok(()) } else { Err(UpdateError::Disabled) }
+}
+
 fn http_get(url: &str, max: u64) -> Result<Vec<u8>, UpdateError> {
+    enabled()?;
     let agent = ureq::Agent::config_builder()
         .timeout_global(Some(std::time::Duration::from_secs(600)))
-        .user_agent(format!("TimeTrack/{}", env!("CARGO_PKG_VERSION")))
+        .user_agent(format!("{}/{}", tt_core::edition::EDITION.name, env!("CARGO_PKG_VERSION")))
         .build()
         .new_agent();
     let mut resp = agent
@@ -244,6 +257,7 @@ pub enum Installed {
 
 /// Installér en verificeret pakke.
 pub fn install(bytes: &[u8]) -> Result<Installed, UpdateError> {
+    enabled()?;
     let exe = std::env::current_exe().map_err(|e| UpdateError::Install(e.to_string()))?;
     install_for(&exe, bytes)
 }
@@ -251,7 +265,7 @@ pub fn install(bytes: &[u8]) -> Result<Installed, UpdateError> {
 #[cfg(target_os = "macos")]
 fn install_for(exe: &Path, bytes: &[u8]) -> Result<Installed, UpdateError> {
     let app = bundle_of(exe).ok_or_else(|| {
-        UpdateError::Install("appen kører ikke fra en installeret TimeTrack.app".into())
+        UpdateError::Install(format!("appen kører ikke fra en installeret {}.app", tt_core::edition::EDITION.name))
     })?;
     replace_bundle(&app, bytes)?;
     Ok(Installed::App(app))
@@ -261,7 +275,7 @@ fn install_for(exe: &Path, bytes: &[u8]) -> Result<Installed, UpdateError> {
 fn install_for(_exe: &Path, bytes: &[u8]) -> Result<Installed, UpdateError> {
     // Kun skrevet her. Installeren lukker appen, så den startes først, når
     // brugeren trykker "Genstart" (`relaunch`).
-    let path = std::env::temp_dir().join(format!("TimeTrack-opdatering-{}-setup.exe", std::process::id()));
+    let path = std::env::temp_dir().join(format!("{}-opdatering-{}-setup.exe", tt_core::edition::EDITION.name, std::process::id()));
     std::fs::write(&path, bytes).map_err(|e| UpdateError::Install(e.to_string()))?;
     Ok(Installed::Installer(path))
 }
@@ -280,6 +294,7 @@ pub const WINDOWS_INSTALLER_ARGS: [&str; 3] = ["/P", "/R", "/UPDATE"];
 /// Kaldes lige før appen lukker: macOS starter den nye app, Windows starter
 /// installeren (som lukker resten og starter appen igen med `/R`).
 pub fn relaunch(installed: &Installed) -> Result<(), UpdateError> {
+    enabled()?;
     let res = match installed {
         Installed::App(app) => std::process::Command::new("/usr/bin/open").arg("-n").arg(app).spawn(),
         Installed::Installer(setup) => std::process::Command::new(setup).args(WINDOWS_INSTALLER_ARGS).spawn(),
@@ -306,7 +321,7 @@ pub fn replace_bundle(app: &Path, tar_gz: &[u8]) -> Result<(), UpdateError> {
         .parent()
         .ok_or_else(|| UpdateError::Install("ingen mappe".into()))?;
     let pid = std::process::id();
-    let work = parent.join(format!(".TimeTrack-opdatering-{pid}"));
+    let work = parent.join(format!(".{}-opdatering-{pid}", tt_core::edition::EDITION.name));
     let _ = std::fs::remove_dir_all(&work);
     std::fs::create_dir_all(&work).map_err(|e| {
         if e.kind() == std::io::ErrorKind::PermissionDenied {
@@ -344,7 +359,7 @@ pub fn replace_bundle(app: &Path, tar_gz: &[u8]) -> Result<(), UpdateError> {
         if !new_app.join("Contents/Info.plist").is_file() {
             return Err(UpdateError::Install("pakken er ikke en hel app".into()));
         }
-        let old = parent.join(format!(".TimeTrack-gammel-{pid}.app"));
+        let old = parent.join(format!(".{}-gammel-{pid}.app", tt_core::edition::EDITION.name));
         let _ = std::fs::remove_dir_all(&old);
         std::fs::rename(app, &old).map_err(err)?;
         if let Err(e) = std::fs::rename(&new_app, app) {
@@ -360,3 +375,27 @@ pub fn replace_bundle(app: &Path, tar_gz: &[u8]) -> Result<(), UpdateError> {
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(test)]
+mod brand_tests {
+    /// Hver udgave læser sin egen `latest.json`, så TimeTrack-brugere aldrig
+    /// får TimeWren og omvendt.
+    #[test]
+    fn brand_opdateringskanalen_er_udgavens() {
+        let e = tt_core::edition::EDITION;
+        assert_eq!(super::ENDPOINT, e.update_stable_url);
+        assert_eq!(super::ENDPOINT_BETA, e.update_beta_url);
+        for other in tt_core::edition::Edition::ALL.iter().filter(|o| o.id != e.id) {
+            assert_ne!(super::ENDPOINT, other.update_stable_url);
+            assert_ne!(super::ENDPOINT_BETA, other.update_beta_url);
+        }
+        if e.is_timewren() {
+            assert!(super::ENDPOINT.contains("/timewren-stable/"));
+            assert!(super::ENDPOINT_BETA.contains("/timewren-beta/"));
+        } else {
+            // Uændret: repoets seneste release og det faste beta-release.
+            assert!(super::ENDPOINT.ends_with("/releases/latest/download/latest.json"));
+            assert!(super::ENDPOINT_BETA.ends_with("/releases/download/beta/latest.json"));
+        }
+    }
+}

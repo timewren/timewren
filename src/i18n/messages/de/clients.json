@@ -179,8 +179,11 @@
     "city": "Stadt",
     "cityPlaceholder": "Kopenhagen",
     "country": "Land",
-    "countryPlaceholder": "Dänemark",
+    "countryPlaceholder": "z. B. Österreich",
     "cvr": "CVR-Nummer",
+    "vatNumber": "USt-IdNr.",
+    "vatInvalid": "Gib die USt-IdNr. mit Ländercode ein, z. B. DE123456789",
+    "taxIdTooLong": "Die Steuernummer darf höchstens 20 Zeichen lang sein",
     "hourlyRate": "Standard-Stundensatz (DKK)",
     "hourlyRateHint": "Wird standardmäßig für Projekte mit diesem Kunden verwendet",
     "paymentTerms": "Zahlungsbedingungen (Tage)",
@@ -348,6 +351,16 @@
     }
   },
   "detail": {
+    "periodHours": {
+      "title": "Stunden im Zeitraum",
+      "lastYear": "Letztes Jahr",
+      "chooseDates": "Wähle ein Start- und Enddatum.",
+      "loadError": "Die Stunden konnten nicht geladen werden.",
+      "retry": "Erneut versuchen",
+      "total": "Gesamt",
+      "noProject": "Ohne Projekt",
+      "empty": "Keine erfassten Stunden in diesem Zeitraum."
+    },
     "loading": "Kunde wird geladen…",
     "loadFailed": "Der Kunde konnte nicht geladen werden. Bitte versuche es erneut",
     "notFound": "Kunde nicht gefunden",

@@ -15,10 +15,11 @@ import { DripWinBack30Email } from "@/components/email/DripWinBack30Email";
 import { DripWinBack60Email } from "@/components/email/DripWinBack60Email";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { getPersonalReplyTo } from "@/lib/config";
+import { demoCurrencyForEmail } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import { type MailBrand, resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
-import { isTestEmailRecipient } from "@/lib/email/test-recipient";
+import { isTestEmailRecipientOrAllow } from "@/lib/email/test-recipient";
 import { PERSONAL_FROM_EMAIL, resend } from "@/lib/resend";
 import { appUrlEnv } from "@/lib/runtime-env";
 import { withEmailLogging } from "./logger";
@@ -40,7 +41,7 @@ export async function sendDripWelcomeEmail({
   userName,
   userId,
 }: DripEmailParams) {
-  if (await isTestEmailRecipient(to, userId)) return;
+  if (await isTestEmailRecipientOrAllow(to, userId)) return;
   const mb = await resolveMailBrand({ userId, email: to });
   const dashboardUrl = `${mb?.appUrl ?? appUrlEnv()}/dashboard`;
 
@@ -499,6 +500,7 @@ export async function sendDripWinBack30Email({
   const t = mailT("emailsDrip", locale, mb?.key);
   const emailHtml = await render(
     createElement(DripWinBack30Email, {
+      currencyCode: demoCurrencyForEmail(to),
       mailBrand: mb,
       locale,
       userName,

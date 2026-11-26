@@ -17,6 +17,15 @@ vi.mock("@/lib/db", () => ({ db: {} }));
 describe("external calls give up on a hanging server", () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    // Node's AbortSignal.timeout uses native timers outside Vitest's clock.
+    vi.spyOn(AbortSignal, "timeout").mockImplementation((ms) => {
+      const controller = new AbortController();
+      setTimeout(
+        () => controller.abort(new DOMException("Timed out", "TimeoutError")),
+        ms,
+      );
+      return controller.signal;
+    });
     vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(console, "warn").mockImplementation(() => {});
     vi.spyOn(console, "log").mockImplementation(() => {});
@@ -84,8 +93,7 @@ describe("external calls give up on a hanging server", () => {
     expect(result.error).not.toBeNull();
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(console.error).toHaveBeenCalledWith(
-      expect.stringContaining("[Mail]"),
-      expect.anything(),
+      "[Mail] Resend-afsendelse afbrudt (timeout eller annulleret)",
     );
   });
 

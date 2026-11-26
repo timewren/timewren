@@ -12,7 +12,7 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { GoogleAds } from "@/components/GoogleAds";
 import { type Brand, brand as buildBrand } from "@/lib/brand";
 import { getMarketingUrl } from "@/lib/config";
-import { isDemoMode } from "@/lib/demo/demo-mode";
+import { type DemoCurrency, isDemoMode } from "@/lib/demo/demo-mode";
 import { appVersionAttributes } from "@/lib/pwa/version";
 
 const schibsted = Schibsted_Grotesk({
@@ -100,7 +100,7 @@ export function makeMetadata(
           width: 1200,
           height: 630,
           alt: isCloud
-            ? "TimeTrack: Hvor mange timer har kunden tilbage?"
+            ? "TimeTrack: Hvor mange timer glemmer du at fakturere? Tidsregistrering med klippekort."
             : "TimeWren: open-source time tracking, prepaid hours and invoicing",
         },
       ],
@@ -136,12 +136,14 @@ export const metadata: Metadata = makeMetadata(buildBrand);
 export function DocumentLayout({
   children,
   locale,
+  demoCurrency,
   brand: brandProp,
   colors,
   plausibleScriptUrl,
 }: Readonly<{
   children: React.ReactNode;
   locale: string;
+  demoCurrency?: DemoCurrency;
   /** Multibrand: brandet for denne host. Udeladt = build-brandet (uændret). */
   brand?: Brand;
   /** Multibrand: overstyrer --tt-gran-familien med brandets primærfarve. */
@@ -154,6 +156,7 @@ export function DocumentLayout({
   return (
     <html
       lang={locale}
+      data-demo-currency={demoCurrency}
       className={`${schibsted.variable} ${geistMono.variable}`}
       // Fanens build-version til "Ny version"-tjekket. Ved kørsel, ikke som
       // NEXT_PUBLIC_*-define: den ville ugyldiggøre build-cachen pr. commit.

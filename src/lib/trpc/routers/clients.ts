@@ -39,8 +39,17 @@ import {
 } from "@/lib/desktop-sync-tombstones";
 import { sendFirstClientEmail } from "@/lib/email/engagement";
 import { unbilledTimeEntryFilter } from "@/lib/invoicing/unbilled";
+import { defaultClientCountryFor } from "@/lib/org/region.server";
 import { logOrgAudit } from "@/lib/org-audit";
+import { canViewAllOrgTime } from "@/lib/permissions/server";
+import { CLIENT_PERIODS, reportDateBounds } from "@/lib/reports/date-range";
+import {
+  REPORT_HOUR_UNITS,
+  reportEntryScope,
+  reportRoundedHoursSql,
+} from "@/lib/reports/query";
 import { trackEvent } from "@/lib/telemetry/track";
+import { entryMatchesEffectiveClients } from "@/lib/time/client-scope";
 import { emitWebhookEvent } from "@/lib/webhooks/events";
 import { Errors } from "../errors";
 import {
@@ -570,6 +579,79 @@ export const clientsRouter = router({
       };
     }),
 
+  getPeriodHours: moduleReadProcedure("clients")
+    .input(
+      z
+        .object({
+          clientId: z.string().uuid(),
+          dateRange: z.enum(CLIENT_PERIODS).default("thisMonth"),
+          customStart: z.iso.date().optional(),
+          customEnd: z.iso.date().optional(),
+        })
+        .refine(
+          ({ dateRange, customStart, customEnd }) =>
+            dateRange !== "custom" ||
+            (customStart && customEnd && customStart <= customEnd),
+        ),
+    )
+    .query(async ({ ctx, input }) => {
+      const { db, orgId } = ctx;
+      const userId = ctx.session.user.id;
+      const [client, accessibleIds, viewAll] = await Promise.all([
+        db.query.clients.findFirst({
+          where: and(
+            eq(clients.id, input.clientId),
+            orgId
+              ? eq(clients.organizationId, orgId)
+              : eq(clients.userId, userId),
+          ),
+          columns: { id: true },
+        }),
+        orgId ? getAccessibleClientIds(db, userId, orgId) : null,
+        canViewAllOrgTime(db, orgId, userId),
+      ]);
+      if (!client || (accessibleIds && !accessibleIds.includes(client.id))) {
+        throw Errors.clientNotFound();
+      }
+
+      const rows = await db
+        .select({
+          projectId: timeEntries.projectId,
+          projectName: projects.name,
+          hourUnits:
+            sql<number>`sum(round(${reportRoundedHoursSql()} * ${REPORT_HOUR_UNITS})::bigint)`.mapWith(
+              Number,
+            ),
+        })
+        .from(timeEntries)
+        .leftJoin(projects, eq(timeEntries.projectId, projects.id))
+        .innerJoin(clients, eq(clients.id, client.id))
+        .leftJoin(users, eq(users.id, userId))
+        .where(
+          and(
+            ...reportEntryScope(
+              userId,
+              orgId,
+              !viewAll,
+              reportDateBounds(input),
+            ),
+            entryMatchesEffectiveClients([client.id]),
+          ),
+        )
+        .groupBy(timeEntries.projectId, projects.name)
+        .orderBy(asc(projects.name), asc(timeEntries.projectId));
+
+      return {
+        totalHours:
+          rows.reduce((total, row) => total + row.hourUnits, 0) /
+          REPORT_HOUR_UNITS,
+        projects: rows.map(({ hourUnits, ...project }) => ({
+          ...project,
+          hours: hourUnits / REPORT_HOUR_UNITS,
+        })),
+      };
+    }),
+
   // Create a new client
   create: subscribedProcedure
     .input(clientInput)
@@ -591,6 +673,8 @@ export const clientsRouter = router({
         limit: 1,
       });
       const isFirstClient = existingClients.length === 0;
+      // Uden land: Danmark for en dansk organisation (som før), ellers tomt (fund 19).
+      const defaultCountry = await defaultClientCountryFor(ctx.db, ctx.orgId);
 
       const [newClient] = await ctx.db
         .insert(clients)
@@ -604,7 +688,7 @@ export const clientsRouter = router({
           address: input.address || null,
           city: input.city || null,
           postalCode: input.postalCode || null,
-          country: input.country || "Danmark",
+          country: input.country || defaultCountry,
           cvrNumber: input.cvrNumber || null,
           notes: input.notes || null,
           defaultHourlyRate: input.defaultHourlyRate || null,
@@ -722,6 +806,7 @@ export const clientsRouter = router({
         });
       }
 
+      const defaultCountry = await defaultClientCountryFor(ctx.db, ctx.orgId);
       const [updatedClient] = await ctx.db
         .update(clients)
         .set({
@@ -732,7 +817,7 @@ export const clientsRouter = router({
           address: input.data.address || null,
           city: input.data.city || null,
           postalCode: input.data.postalCode || null,
-          country: input.data.country || "Danmark",
+          country: input.data.country || defaultCountry,
           cvrNumber: input.data.cvrNumber || null,
           notes: input.data.notes || null,
           defaultHourlyRate: input.data.defaultHourlyRate || null,
@@ -806,7 +891,7 @@ export const clientsRouter = router({
           address: input.data.address || null,
           city: input.data.city || null,
           postalCode: input.data.postalCode || null,
-          country: input.data.country || "Danmark",
+          country: input.data.country || defaultCountry,
           cvrNumber: input.data.cvrNumber || null,
           notes: input.data.notes || null,
           defaultHourlyRate: input.data.defaultHourlyRate || null,

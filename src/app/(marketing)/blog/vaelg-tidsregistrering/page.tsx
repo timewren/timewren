@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
+import { getMarketingUrl } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Sådan vælger du det rigtige tidsregistreringssystem i 2026",
@@ -36,7 +37,7 @@ export default function VaelgTidsregistreringPage() {
     dateModified: "2026-04-18",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://timetrack.dk/blog/vaelg-tidsregistrering",
+      "@id": new URL("/blog/vaelg-tidsregistrering", getMarketingUrl()).href,
     },
   };
 

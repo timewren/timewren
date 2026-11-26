@@ -28,6 +28,8 @@ type StatTileProps = {
    */
   error?: boolean;
   className?: string;
+  /** Tilpas etiket og værdi til én linje ved normal systemskriftstørrelse. */
+  fitOnOneLine?: boolean;
   testID?: string;
   /** Samlet label. Uden den laves den af label, værdi og hint. */
   a11yLabel?: string;
@@ -54,14 +56,14 @@ function toneColor(tone: StatTone, dark: boolean): string {
 }
 
 /** Nøgletal i et lille kort — til dashboards og overblik. Sæt 2 pr. række med `flex-1`. */
-export function StatTile({ label, value, hint, icon: Icon, tone = 'default', onPress, loading = false, error = false, className = '', testID, a11yLabel }: StatTileProps) {
+export function StatTile({ label, value, hint, icon: Icon, tone = 'default', onPress, loading = false, error = false, className = '', fitOnOneLine = false, testID, a11yLabel }: StatTileProps) {
   const { theme } = useUniwind();
   const dark = theme === 'dark';
   const errorText = translate('common.error_value');
   const body = (
     <>
       <View className="flex-row items-center justify-between">
-        <Text className="flex-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase" numberOfLines={2}>{label}</Text>
+        <Text className="flex-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase" numberOfLines={fitOnOneLine ? 1 : 2} adjustsFontSizeToFit={fitOnOneLine}>{label}</Text>
         {Icon ? <Icon size={16} color={toneColor(error ? 'danger' : tone, dark)} /> : null}
       </View>
       {error
@@ -76,7 +78,7 @@ export function StatTile({ label, value, hint, icon: Icon, tone = 'default', onP
           /* Uden `numberOfLines` får beløb og timer to linjer i stedet for at blive
              skåret til "1.234…" ved en stor system-skriftstørrelse. Et afkortet
              beløb er et tal, brugeren ikke kan bruge. */
-          : <Text className={twMerge('mt-1 text-2xl font-semibold tracking-tight', TONE_TEXT[tone])} style={{ fontVariant: ['tabular-nums'] }}>{value}</Text>}
+          : <Text className={twMerge('mt-1 text-2xl font-semibold tracking-tight', TONE_TEXT[tone])} style={{ fontVariant: ['tabular-nums'] }} numberOfLines={fitOnOneLine ? 1 : undefined} adjustsFontSizeToFit={fitOnOneLine}>{value}</Text>}
       {!error && hint ? <Text className="mt-0.5 text-xs text-muted-foreground">{hint}</Text> : null}
     </>
   );

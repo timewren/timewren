@@ -32,7 +32,8 @@ export function BetaTesterSignup() {
 function BetaTesterForm() {
   const plausible = usePlausible();
   const [email, setEmail] = useState("");
-  const [platform, setPlatform] = useState<Platform>("ios");
+  // iOS er i App Store; testerne er nu primært til Android.
+  const [platform, setPlatform] = useState<Platform>("android");
   const [website, setWebsite] = useState(""); // honeypot
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");

@@ -1,6 +1,6 @@
 /**
  * INTEGRATION: `resolveActiveSubscription(..., { stripe: true })` (kun
- * timewrenBilling) på en organisation med en ældre Stripe-række og en nyere
+ * TimeWren) på en organisation med en ældre Stripe-række og en nyere
  * Gratis-række. Stripe-rækken styrer, også mens den er past_due, så ejeren kan
  * rette kortet i portalen i stedet for at få tilbudt endnu et checkout. Uden
  * tilvalget (TimeTrack, hvor rækker kan have historiske Stripe-id'er fra før
@@ -16,10 +16,18 @@ import { connectTestDb, testPostgres } from "@/test/test-db";
 
 vi.mock("@/lib/db", () => ({ db: {} }));
 vi.mock("@/lib/db/index", () => ({ db: {} }));
+vi.mock("@/lib/auth/active-org", () => ({
+  resolveRequestedOrgId: async ({ orgId }: { orgId: string }) => orgId,
+}));
+vi.mock("../enterprise/middleware", () => ({
+  resolveModules: async () => ({}),
+  makePermissiveModules: () => ({}),
+}));
 
 import * as schema from "@/lib/db/schema";
 import { subscriptions } from "@/lib/db/schema";
-import { resolveActiveSubscription } from "../subscription";
+import { resolvePlanTier, router } from "../../trpc";
+import { resolveActiveSubscription, subscriptionRouter } from "../subscription";
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;
 
@@ -39,12 +47,16 @@ describe.skipIf(!TEST_DATABASE_URL)(
     let stripeRowId = "";
     let freeRowId = "";
 
+    const billingRouter = router({ subscription: subscriptionRouter });
+
     beforeAll(async () => {
       await connectTestDb(admin, client);
       await admin.unsafe(`CREATE SCHEMA ${scratch}`);
-      await admin.unsafe(
-        `CREATE TABLE ${scratch}."subscriptions" (LIKE public."subscriptions" INCLUDING ALL)`,
-      );
+      for (const table of ["subscriptions", "clients"]) {
+        await admin.unsafe(
+          `CREATE TABLE ${scratch}."${table}" (LIKE public."${table}" INCLUDING ALL)`,
+        );
+      }
       const base = {
         userId: OWNER,
         organizationId: ORG,
@@ -81,6 +93,58 @@ describe.skipIf(!TEST_DATABASE_URL)(
       await admin.unsafe(`DROP SCHEMA ${scratch} CASCADE`);
       await client.end();
       await admin.end();
+    });
+
+    it("uses the same past-due Stripe row in the dashboard and the plan gate", async () => {
+      vi.stubEnv("STRIPE_SECRET_KEY", "sk_test_unit");
+      vi.stubEnv("MULTIBRAND_ENABLED", "1");
+      vi.stubEnv("TIMEWREN_APP_ENABLED", "1");
+      await db
+        .update(subscriptions)
+        .set({ status: "past_due", pastDueSince: new Date(0) })
+        .where(eq(subscriptions.id, stripeRowId));
+      const context = {
+        db: {
+          ...db,
+          select: db.select.bind(db),
+          query: {
+            ...db.query,
+            users: {
+              findFirst: async () => ({ role: "user", brand: "timewren" }),
+            },
+          },
+        } as typeof db,
+        orgId: ORG,
+        session: { user: { id: OWNER } },
+      };
+
+      try {
+        const caller = billingRouter.createCaller({
+          db: context.db,
+          session: context.session as never,
+          headers: null,
+          orgOverride: ORG,
+        });
+        await expect(caller.subscription.getDetails()).resolves.toMatchObject({
+          id: stripeRowId,
+          status: "past_due",
+          isFree: false,
+        });
+        await expect(resolvePlanTier(context)).rejects.toMatchObject({
+          code: "FORBIDDEN",
+        });
+        await db
+          .update(subscriptions)
+          .set({ pastDueSince: new Date() })
+          .where(eq(subscriptions.id, stripeRowId));
+        await expect(resolvePlanTier(context)).resolves.toBe("team");
+      } finally {
+        vi.unstubAllEnvs();
+        await db
+          .update(subscriptions)
+          .set({ status: "active", pastDueSince: null })
+          .where(eq(subscriptions.id, stripeRowId));
+      }
     });
 
     it("aktiv Stripe-række vinder over en nyere Gratis-række", async () => {

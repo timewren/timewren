@@ -14,6 +14,16 @@ Billy ist ein dänisches Buchhaltungssystem. Die Integration braucht auf dem Ser
 
 Billy verlangt für jede Rechnungszeile ein Produkt. Wähle in den Einstellungen ein Standardprodukt oder lass TimeWren beim ersten Export eines anlegen. Für Stunden aus Stundenpaketen kannst du ein eigenes Produkt wählen.
 
+## Versand per E-Mail
+
+Wenn du die Rechnung freigeben und senden möchtest, zeigt TimeWren zuerst eine Bestätigung mit Empfänger, Rechnungsnummer, Betrag inkl. MwSt., Anzahl der Positionen und Fälligkeitsdatum, wie TimeWren sie berechnet. Billy berechnet den endgültigen Betrag mit den eigenen MwSt.-Einstellungen. Ändert sich die Rechnung, nachdem du die Bestätigung geöffnet hast, lehnt TimeWren den Versand ab, und du öffnest die Bestätigung erneut.
+
+Dieselbe Rechnung wird nie zweimal gleichzeitig exportiert. Klickst du doppelt oder versuchst es erneut, während der Export läuft, lehnt TimeWren den zweiten Versuch ab, sodass Billy die Rechnung weder doppelt anlegt noch doppelt per E-Mail versendet.
+
+Antwortet Billy beim E-Mail-Versand nicht oder wird TimeWren dabei unterbrochen, weiß TimeWren nicht, ob der Kunde die Rechnung erhalten hat. Die Rechnungsseite zeigt dann eine Warnung, und die Rechnung kann aus TimeWren erst wieder gesendet werden, wenn du den E-Mail-Status in Billy geprüft und markiert hast, ob sie versendet wurde.
+
+Löschst du die Rechnung in Billy, entfernt die automatische Statussynchronisierung die Verknüpfung in TimeWren, aber nur, wenn die verbundene Billy-Organisation nachweislich die ist, in die die Rechnung exportiert wurde: TimeWren hat die Organisation beim Export gespeichert, oder, bei einer früher exportierten Rechnung, der Kunde wurde seit dem Tag vor dem Export nicht geändert und sein Kontakt existiert noch in der verbundenen Organisation. Andernfalls behält TimeWren die Verknüpfung. Ein Entwurf ohne Verknüpfung kann erneut exportiert werden.
+
 ## Server-Einrichtung
 
 Voraussetzungen auf dem Server:
@@ -42,5 +52,7 @@ Der Endpunkt `/api/webhooks/billy` akzeptiert Billy-Webhooks und markiert bei `i
 ```dotenv
 BILLY_WEBHOOK_SECRET=a-long-random-string
 ```
+
+TimeWren verarbeitet byteidentische signierte Zustellungen nur einmal, solange der Zustellungsnachweis gespeichert ist (90 Tage). Fehlgeschlagene Zustellungen können erneut verarbeitet werden. Das gilt auch für Zahlungsereignisse, die eintreffen, bevor TimeWren die externe Rechnungs-ID gespeichert hat.
 
 Der Endpunkt findet den Benutzer über seine gespeicherte Billy-Organisations-ID. Die Web-Einstellungen speichern sie nicht, verlasse dich in den meisten Setups also auf die oben beschriebene 15-Minuten-Synchronisierung statt auf Webhooks.

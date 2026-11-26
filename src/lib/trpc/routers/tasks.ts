@@ -2,17 +2,22 @@ import { TRPCError } from "@trpc/server";
 import {
   and,
   asc,
-  desc,
+  count,
   eq,
+  gt,
   gte,
   inArray,
+  isNotNull,
   isNull,
   lt,
   lte,
   ne,
+  notInArray,
+  or,
   type SQL,
   sql,
 } from "drizzle-orm";
+import type { PgColumn } from "drizzle-orm/pg-core";
 import { z } from "zod";
 import { st, tr } from "@/i18n/server-text";
 import { db } from "@/lib/db";
@@ -46,6 +51,11 @@ import {
   assertTaskBulkResolutionHash,
   buildTaskBulkResolutionPreview,
 } from "@/lib/tasks/bulk-resolution";
+import {
+  groupTaskPageRows,
+  type TaskCursor,
+  taskRestSortFields,
+} from "@/lib/tasks/task-pages";
 import { parseEstimate } from "@/lib/tasks/time-progress";
 import { toTimeTaskPayload } from "@/lib/tasks/time-task-payload";
 import {
@@ -310,15 +320,17 @@ function simpleParseText(text: string): {
 }
 
 /**
- * Registreret tid (minutter) pr. opgave for alle opgaver der matcher `where`
+ * Registreret tid (minutter) pr. opgave på den aktuelle side
  * — ét GROUP BY over time_entries i stedet for et opslag pr. opgave (#212).
  * Summerer posteringerne direkte frem for `tasks.actualMinutes`, fordi den
  * denormaliserede kolonne kun vedligeholdes af en del af oprettelsesstierne
  * (timer, API, import, kalender …). Samme regnestykke som sidepanelets "Tid".
  */
 async function trackedMinutesByTask(
+  taskIds: string[],
   where: SQL | undefined,
 ): Promise<Map<string, number>> {
+  if (taskIds.length === 0) return new Map();
   const rows = await db
     .select({
       taskId: timeEntries.taskId,
@@ -326,7 +338,7 @@ async function trackedMinutesByTask(
     })
     .from(timeEntries)
     .innerJoin(tasks, eq(timeEntries.taskId, tasks.id))
-    .where(where)
+    .where(and(where, inArray(tasks.id, taskIds)))
     .groupBy(timeEntries.taskId);
   const result = new Map<string, number>();
   for (const row of rows) {
@@ -335,12 +347,127 @@ async function trackedMinutesByTask(
   return result;
 }
 
+const TASK_PAGE_SIZE = 100;
+const taskCursor = z
+  .object({
+    id: z.string().uuid(),
+    position: z.number().int().nullable(),
+    priority: z.string().max(20).nullable(),
+    deadline: z.iso.datetime({ local: true }).nullable(),
+    createdAt: z.iso.datetime({ local: true }).nullable(),
+  })
+  .nullish();
+
+type TaskOrder = readonly [key: keyof TaskCursor, direction: "asc" | "desc"][];
+
+const positionOrder: TaskOrder = [
+  ["position", "asc"],
+  ["createdAt", "desc"],
+  ["id", "asc"],
+];
+
+function taskOrderBy(order: TaskOrder) {
+  return order.map(
+    ([key, direction]) => sql`${tasks[key]} ${sql.raw(direction)}`,
+  );
+}
+
+function afterTask(order: TaskOrder, cursor: TaskCursor | null | undefined) {
+  if (!cursor) return undefined;
+  return or(
+    ...order.map(([key, direction], index) => {
+      const column: PgColumn = tasks[key];
+      const value = cursor[key];
+      const after =
+        direction === "desc"
+          ? value === null
+            ? isNotNull(column)
+            : sql`${column} < ${value}`
+          : value === null
+            ? undefined
+            : or(sql`${column} > ${value}`, isNull(column));
+      if (!after) return undefined;
+      return and(
+        ...order.slice(0, index).map(([prefix]) => {
+          const column = tasks[prefix];
+          const value = cursor[prefix];
+          return value === null ? isNull(column) : sql`${column} = ${value}`;
+        }),
+        after,
+      );
+    }),
+  );
+}
+
+// Keep PostgreSQL's sub-millisecond precision when a timestamp is a sort key.
+const taskCursorExtras = {
+  cursorDeadline: sql<
+    string | null
+  >`replace(${tasks.deadline}::text, ' ', 'T')`.as("cursor_deadline"),
+  cursorCreatedAt: sql<
+    string | null
+  >`replace(${tasks.createdAt}::text, ' ', 'T')`.as("cursor_created_at"),
+};
+
+type TaskPageRow = typeof tasks.$inferSelect;
+function taskCursorFrom(
+  row: Pick<TaskPageRow, "id" | "position" | "priority"> & {
+    cursorDeadline: string | null;
+    cursorCreatedAt: string | null;
+  },
+): TaskCursor {
+  return {
+    id: row.id,
+    position: row.position,
+    priority: row.priority,
+    deadline: row.cursorDeadline,
+    createdAt: row.cursorCreatedAt,
+  };
+}
+
+const descriptionPreview = sql<
+  string | null
+>`left(${tasks.description}, 240)`.as("description_preview");
+
+function taskSearch(search: string) {
+  const matches = (column: SQL) =>
+    sql`strpos(lower(${column}), lower(${search})) > 0`;
+  return or(
+    matches(sql`${tasks.title}`),
+    matches(sql`${tasks.description}`),
+    sql`exists (
+      select 1 from projects as task_project
+      where task_project.id = ${tasks.projectId} and ${matches(sql`task_project.name`)}
+    )`,
+    sql`exists (
+      select 1 from clients as task_client
+      where task_client.id = coalesce(
+        ${tasks.clientId},
+        (select client_id from projects where id = ${tasks.projectId})
+      ) and ${matches(sql`task_client.name`)}
+    )`,
+  );
+}
+
+const taskRelations = {
+  project: {
+    columns: { id: true, name: true },
+    with: { client: { columns: { id: true, name: true, color: true } } },
+  },
+  client: { columns: { id: true, name: true, color: true } },
+} as const;
+
+const taskListRelations = {
+  ...taskRelations,
+  subtasks: { columns: { id: true, title: true, status: true } },
+} as const;
+
 /**
  * Opgaver grupperet efter tavlens kolonner. Delt af Kanban-tavlen
  * (`listByStatus`, kræver opgave-adgang) og opgavevalget i
  * tidsregistreringen (`listForTime`, kræver kun tids-adgang, #1116).
  */
-async function listTasksGroupedByStatus(
+async function boardTaskScope(
   userId: string,
   orgId: string | null,
   input?: {
@@ -363,86 +490,113 @@ async function listTasksGroupedByStatus(
     conditions.push(eq(tasks.clientId, input.clientId));
   }
 
-  const [rawTasks, trackedByTask] = await Promise.all([
-    db.query.tasks.findMany({
-      where: and(...conditions),
-      with: {
-        project: {
-          columns: {
-            id: true,
-            name: true,
-          },
-          with: {
-            client: {
-              columns: {
-                id: true,
-                name: true,
-                color: true,
-              },
-            },
-          },
-        },
-        client: {
-          columns: {
-            id: true,
-            name: true,
-            color: true,
-          },
-        },
-        subtasks: {
-          columns: {
-            id: true,
-            title: true,
-            status: true,
-          },
-        },
-      },
-      orderBy: [asc(tasks.position), desc(tasks.createdAt)],
-    }),
-    trackedMinutesByTask(and(...conditions)),
-  ]);
-  const allTasks = rawTasks.map((t) => ({
-    ...t,
-    client: t.client ?? t.project?.client ?? null,
-    trackedMinutes: trackedByTask.get(t.id) ?? 0,
-  }));
-
-  // Grupér efter tavlens kolonner. resolveTaskLaneId placerer også
-  // opgaver uden statusId, opgaver hvis status er ændret et andet sted
-  // (desktop, API, listen) og opgaver med en kolonne fra et andet board,
-  // så ingen opgave falder ud af tavlen.
   const userLanes = await listBoardLanes(db, {
     userId,
     orgId,
     projectId: input?.projectId ?? null,
   });
+  const archiveLaneIds = new Set(
+    userLanes.filter((lane) => lane.isArchive).map((lane) => lane.id),
+  );
+  if (archiveLaneIds.size > 0) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 14);
 
-  const grouped: Record<string, typeof allTasks> = {};
-  for (const row of allTasks) {
-    const key = resolveTaskLaneId(row, userLanes) ?? row.status;
-    if (!grouped[key]) {
-      grouped[key] = [];
-    }
-    grouped[key].push(row);
+    // Resolve historical/mismatched statusIds exactly as on the board.
+    // Unknown legacy statuses share the same resolver branch as "".
+    const visibleWhenOld = [...taskStatusEnum.options, ""].map((status) => {
+      const staysVisible = (statusId: string | null) => {
+        const laneId = resolveTaskLaneId({ statusId, status }, userLanes);
+        return laneId === null || !archiveLaneIds.has(laneId);
+      };
+      const defaultVisible = staysVisible(null);
+      const exceptions = userLanes
+        .filter((lane) => staysVisible(lane.id) !== defaultVisible)
+        .map((lane) => lane.id);
+      return and(
+        status
+          ? eq(tasks.status, status)
+          : notInArray(tasks.status, taskStatusEnum.options),
+        defaultVisible
+          ? or(isNull(tasks.statusId), notInArray(tasks.statusId, exceptions))
+          : inArray(tasks.statusId, exceptions),
+      );
+    });
+    const archiveFilter = or(
+      isNull(tasks.completedAt),
+      gt(tasks.completedAt, cutoff),
+      ...visibleWhenOld,
+    );
+    if (archiveFilter) conditions.push(archiveFilter);
   }
 
-  // Auto-archive: remove done tasks older than 14 days from archive lanes
-  const archiveLaneIds = new Set(
-    userLanes.filter((l) => l.isArchive).map((l) => l.id),
-  );
-  const fourteenDaysAgo = new Date();
-  fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+  return { conditions, userLanes };
+}
 
-  for (const laneId of archiveLaneIds) {
-    if (grouped[laneId]) {
-      grouped[laneId] = grouped[laneId].filter(
-        (task) =>
-          !task.completedAt || new Date(task.completedAt) > fourteenDaysAgo,
+type BoardTaskInput = NonNullable<Parameters<typeof boardTaskScope>[2]> & {
+  cursor?: TaskCursor | null;
+};
+
+async function listBoardTaskPage(
+  userId: string,
+  orgId: string | null,
+  input?: BoardTaskInput,
+) {
+  const { conditions, userLanes } = await boardTaskScope(userId, orgId, input);
+  const rawTasks = await db.query.tasks.findMany({
+    where: and(...conditions, afterTask(positionOrder, input?.cursor)),
+    columns: { notes: false, description: false },
+    with: taskListRelations,
+    extras: { ...taskCursorExtras, descriptionPreview },
+    orderBy: taskOrderBy(positionOrder),
+    limit: TASK_PAGE_SIZE + 1,
+  });
+  const page = rawTasks.slice(0, TASK_PAGE_SIZE);
+  const trackedByTask = await trackedMinutesByTask(
+    page.map((task) => task.id),
+    and(...conditions),
+  );
+  return {
+    nextCursor:
+      rawTasks.length > TASK_PAGE_SIZE
+        ? taskCursorFrom(page[page.length - 1])
+        : null,
+    rows: page.map(
+      ({
+        cursorDeadline: _deadline,
+        cursorCreatedAt: _createdAt,
+        descriptionPreview,
+        ...task
+      }) => ({
+        ...task,
+        description: descriptionPreview,
+        client: task.client ?? task.project?.client ?? null,
+        trackedMinutes: trackedByTask.get(task.id) ?? 0,
+        laneKey: resolveTaskLaneId(task, userLanes) ?? task.status,
+      }),
+    ),
+  };
+}
+
+async function deleteTasksInOrder(filter: SQL | undefined) {
+  await db.transaction(async (tx) => {
+    // Lock the entire batch before DELETE starts clearing child references.
+    // Time-entry writes that span several tasks take these locks in ID order.
+    const rows = await tx
+      .select({ id: tasks.id })
+      .from(tasks)
+      .where(filter)
+      .orderBy(tasks.id)
+      .for("update");
+    if (rows.length > 0) {
+      await tx.delete(tasks).where(
+        inArray(
+          tasks.id,
+          rows.map(({ id }) => id),
+        ),
       );
     }
-  }
-
-  return grouped;
+  });
 }
 
 export const tasksRouter = router({
@@ -456,6 +610,18 @@ export const tasksRouter = router({
           projectId: z.string().uuid().optional(),
           clientId: z.string().uuid().optional(),
           parentTaskId: z.string().uuid().optional().nullable(),
+          omitNotes: z.boolean().optional(),
+          descriptionPreview: z.boolean().optional(),
+          search: z.string().optional(),
+          cursor: taskCursor,
+          restPage: z
+            .object({
+              page: z.number().int().positive().max(Number.MAX_SAFE_INTEGER),
+              limit: z.number().int().min(1).max(TASK_PAGE_SIZE),
+              sort: z.enum(taskRestSortFields),
+              order: z.enum(["asc", "desc"]),
+            })
+            .optional(),
           includeSubtasks: z.boolean().optional().default(false),
           orderBy: z
             .enum(["position", "deadline", "createdAt", "priority"])
@@ -499,60 +665,97 @@ export const tasksRouter = router({
         conditions.push(isNull(tasks.parentTaskId));
       }
 
-      // Determine order
-      const orderByClause =
+      const search = input?.search ? taskSearch(input.search) : undefined;
+      if (search) conditions.push(search);
+
+      const order: TaskOrder =
         input?.orderBy === "deadline"
-          ? [asc(tasks.deadline), asc(tasks.position)]
+          ? [
+              ["deadline", "asc"],
+              ["position", "asc"],
+              ["id", "asc"],
+            ]
           : input?.orderBy === "createdAt"
-            ? [desc(tasks.createdAt)]
+            ? [
+                ["createdAt", "desc"],
+                ["id", "asc"],
+              ]
             : input?.orderBy === "priority"
-              ? [desc(tasks.priority), asc(tasks.position)]
-              : [asc(tasks.position), desc(tasks.createdAt)];
+              ? [
+                  ["priority", "desc"],
+                  ["position", "asc"],
+                  ["id", "asc"],
+                ]
+              : positionOrder;
 
-      const [allTasks, trackedByTask] = await Promise.all([
-        db.query.tasks.findMany({
-          where: and(...conditions),
-          with: {
-            project: {
-              columns: {
-                id: true,
-                name: true,
+      const rest = input?.restPage;
+      const scope = and(...conditions);
+      const restOffset = rest ? (rest.page - 1) * rest.limit : 0;
+      const limit = rest?.limit ?? TASK_PAGE_SIZE;
+      const [allTasks, total] = await Promise.all([
+        restOffset > Number.MAX_SAFE_INTEGER
+          ? []
+          : db.query.tasks.findMany({
+              where: rest ? scope : and(scope, afterTask(order, input?.cursor)),
+              columns: input?.descriptionPreview
+                ? {
+                    description: false,
+                    ...(input.omitNotes ? { notes: false } : {}),
+                  }
+                : input?.omitNotes
+                  ? { notes: false }
+                  : undefined,
+              with: taskListRelations,
+              extras: {
+                ...taskCursorExtras,
+                descriptionPreview: input?.descriptionPreview
+                  ? descriptionPreview
+                  : sql<string | null>`null`.as("description_preview"),
               },
-              with: {
-                client: {
-                  columns: {
-                    id: true,
-                    name: true,
-                    color: true,
-                  },
-                },
-              },
-            },
-            client: {
-              columns: {
-                id: true,
-                name: true,
-                color: true,
-              },
-            },
-            subtasks: {
-              columns: {
-                id: true,
-                title: true,
-                status: true,
-              },
-            },
-          },
-          orderBy: orderByClause,
-        }),
-        trackedMinutesByTask(and(...conditions)),
+              orderBy: rest
+                ? [
+                    sql`${tasks[rest.sort]} ${sql.raw(rest.order)} nulls last`,
+                    ...taskOrderBy(positionOrder),
+                  ]
+                : taskOrderBy(order),
+              offset: rest ? restOffset : undefined,
+              limit: rest ? limit : limit + 1,
+            }),
+        rest
+          ? db
+              .select({ total: count() })
+              .from(tasks)
+              .where(scope)
+              .then(([row]) => row.total)
+          : undefined,
       ]);
-
-      return allTasks.map((t) => ({
-        ...t,
-        client: t.client ?? t.project?.client ?? null,
-        trackedMinutes: trackedByTask.get(t.id) ?? 0,
-      }));
+      const page = allTasks.slice(0, limit);
+      const trackedByTask = await trackedMinutesByTask(
+        page.map((task) => task.id),
+        scope,
+      );
+      return {
+        total,
+        nextCursor:
+          allTasks.length > limit
+            ? taskCursorFrom(page[page.length - 1])
+            : null,
+        rows: page.map(
+          ({
+            cursorDeadline: _deadline,
+            cursorCreatedAt: _createdAt,
+            descriptionPreview,
+            ...task
+          }) => ({
+            ...task,
+            description: input?.descriptionPreview
+              ? (descriptionPreview ?? null)
+              : task.description,
+            client: task.client ?? task.project?.client ?? null,
+            trackedMinutes: trackedByTask.get(task.id) ?? 0,
+          }),
+        ),
+      };
     }),
 
   // List tasks grouped by status (for Kanban board)
@@ -565,22 +768,47 @@ export const tasksRouter = router({
           // Projektets opgaver i de generelle lanes — boardet på projektsiden
           // (#213). `projectId` skifter derimod til projekt-scopede lanes.
           filterProjectId: z.string().uuid().optional(),
+          cursor: taskCursor,
         })
         .optional(),
     )
     .query(({ ctx, input }) =>
-      listTasksGroupedByStatus(ctx.session.user.id, ctx.orgId, input),
+      listBoardTaskPage(ctx.session.user.id, ctx.orgId, input),
     ),
 
   // Opgavevalget i tidsregistreringen (timer, ny/hurtig/rediger post,
   // kalender). Kræver kun adgang til tid, så en rolle med "none" på
   // opgaver stadig kan knytte tiden til en opgave (#1116). Svaret er
   // skåret ned til det, valget viser (toTimeTaskPayload).
-  listForTime: moduleReadProcedure("time").query(async ({ ctx }) =>
-    toTimeTaskPayload(
-      await listTasksGroupedByStatus(ctx.session.user.id, ctx.orgId),
-    ),
-  ),
+  listForTime: moduleReadProcedure("time").query(async ({ ctx }) => {
+    const { conditions, userLanes } = await boardTaskScope(
+      ctx.session.user.id,
+      ctx.orgId,
+    );
+    const rows = await db.query.tasks.findMany({
+      where: and(...conditions),
+      columns: {
+        id: true,
+        title: true,
+        status: true,
+        statusId: true,
+        completedAt: true,
+        projectId: true,
+        clientId: true,
+      },
+      with: taskRelations,
+      orderBy: taskOrderBy(positionOrder),
+    });
+    return toTimeTaskPayload(
+      groupTaskPageRows(
+        rows.map((task) => ({
+          ...task,
+          client: task.client ?? task.project?.client ?? null,
+          laneKey: resolveTaskLaneId(task, userLanes) ?? task.status,
+        })),
+      ),
+    );
+  }),
 
   // Get single task by ID
   getById: moduleReadProcedure("tasks")
@@ -1416,15 +1644,15 @@ export const tasksRouter = router({
         ? eq(tasks.organizationId, ctx.orgId)
         : eq(tasks.userId, userId);
 
-      // Delete subtasks first
-      await db
-        .delete(tasks)
-        .where(and(bulkOwnership, inArray(tasks.parentTaskId, input.taskIds)));
-
-      // Delete the tasks themselves
-      await db
-        .delete(tasks)
-        .where(and(bulkOwnership, inArray(tasks.id, input.taskIds)));
+      await deleteTasksInOrder(
+        and(
+          bulkOwnership,
+          or(
+            inArray(tasks.parentTaskId, input.taskIds),
+            inArray(tasks.id, input.taskIds),
+          ),
+        ),
+      );
 
       return { success: true, count: input.taskIds.length };
     }),
@@ -1634,9 +1862,9 @@ export const tasksRouter = router({
         });
       }
 
-      // Delete subtasks first (cascade should handle this, but be explicit)
-      await db.delete(tasks).where(eq(tasks.parentTaskId, input.id));
-      await db.delete(tasks).where(eq(tasks.id, input.id));
+      await deleteTasksInOrder(
+        or(eq(tasks.parentTaskId, input.id), eq(tasks.id, input.id)),
+      );
 
       return { success: true };
     }),
@@ -1828,18 +2056,23 @@ export const tasksRouter = router({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
 
-      // Verify parent task ownership — også i den aktive org, ellers kopieres
-      // en anden orgs projekt og kunde ind i denne org's underopgave.
+      // Forælderen skal ligge i den aktive org (som getById og resten af
+      // opgaverne), ellers kopieres en anden orgs projekt og kunde ind i
+      // denne org's underopgave. Uden org: brugerens egne.
       const parentTask = await db.query.tasks.findFirst({
         where: and(
           eq(tasks.id, input.parentTaskId),
-          eq(tasks.userId, userId),
-          ctx.orgId ? eq(tasks.organizationId, ctx.orgId) : undefined,
+          ctx.orgId
+            ? eq(tasks.organizationId, ctx.orgId)
+            : eq(tasks.userId, userId),
         ),
       });
 
       if (!parentTask) {
-        throw new Error(await tr("serverErrors", "tasks.mainTaskNotFound"));
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: await tr("serverErrors", "tasks.mainTaskNotFound"),
+        });
       }
 
       // Get next position

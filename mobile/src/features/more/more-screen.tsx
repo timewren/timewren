@@ -7,14 +7,16 @@ import { Alert, View } from 'react-native';
 import { Avatar, Button, Card, IconButton, ListRow, Screen, SectionHeader, Text } from '~/components/ui';
 import { antalDaLogUdsletter, uafsluttetTidNu } from '~/features/auth/logout-guard';
 import { signOut } from '~/features/auth/use-auth-store';
+import { useStoreBillingConfig } from '~/features/billing/store-billing-api';
 import { isCallLoggingEnabled } from '~/features/calls/call-settings';
 import { isDefaultOrgName, useCapabilities } from '~/features/capabilities/use-capabilities';
+import { isTimeWren } from '~/features/server/server-config';
 import { RoleBadge } from '~/features/team/components/members-list';
 import { roleLabel } from '~/features/team/role-logic';
 import { trpc } from '~/lib/api';
 import { translate } from '~/lib/i18n';
 import { href } from './links';
-import { buildMoreMenu } from './menu';
+import { buildMoreMenu, showSubscription } from './menu';
 
 /** Mere-fanen er hub'en: profilkort, grupperede menuer og log ud. */
 export function MoreScreen() {
@@ -24,7 +26,10 @@ export function MoreScreen() {
   // Lokal indstilling: læses igen hver gang fanen vises, så et skift i Opkald slår igennem.
   const [callLogging, setCallLogging] = React.useState(isCallLoggingEnabled);
   useFocusEffect(React.useCallback(() => setCallLogging(isCallLoggingEnabled()), []));
-  const sections = React.useMemo(() => buildMoreMenu(caps, { callLogging }), [caps, callLogging]);
+  const billingEnabled = trpc.subscription.billingEnabled.useQuery().data?.enabled;
+  const storeBillingEnabled = useStoreBillingConfig().data?.enabled;
+  const subscription = showSubscription(isTimeWren, { billingEnabled, storeBillingEnabled });
+  const sections = React.useMemo(() => buildMoreMenu(caps, { callLogging, subscription }), [caps, callLogging, subscription]);
 
   const confirmSignOut = () => {
     // Log ud rydder timeren og offline-køen, så en kørende timer og usendte

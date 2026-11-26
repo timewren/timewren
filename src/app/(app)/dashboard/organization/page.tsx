@@ -313,6 +313,7 @@ export default function OrganizationPage() {
       await fetchOrgDetails(activeOrg.id);
       // A pending invitation consumes a seat — refresh the seat counter.
       utils.organization.checkSeatAvailability.invalidate();
+      utils.organization.getCurrent.invalidate();
     } catch (_error) {
       toast.error(t("o003"));
     } finally {
@@ -341,6 +342,7 @@ export default function OrganizationPage() {
       await fetchOrgDetails(activeOrg.id);
       // Cancelling frees the seat the pending invite held.
       utils.organization.checkSeatAvailability.invalidate();
+      utils.organization.getCurrent.invalidate();
     } catch (_error) {
       toast.error(t("o004"));
     }
@@ -370,6 +372,7 @@ export default function OrganizationPage() {
       toast.success(t("resent", { email: invitation.email }));
       await fetchOrgDetails(activeOrg.id);
       utils.organization.checkSeatAvailability.invalidate();
+      utils.organization.getCurrent.invalidate();
     } catch (_error) {
       toast.error(t("o005"));
     } finally {
@@ -1553,6 +1556,7 @@ export default function OrganizationPage() {
             await fetchOrgDetails(activeOrg.id);
             // Removing a member frees a seat.
             utils.organization.checkSeatAvailability.invalidate();
+            utils.organization.getCurrent.invalidate();
           } catch (_error) {
             toast.error(t("o068"));
           }

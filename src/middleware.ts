@@ -20,7 +20,15 @@ import {
 } from "@/lib/brands/timewren-site";
 import { withReportOnlyCsp } from "@/lib/csp-report-only";
 import { isDemoMode } from "@/lib/demo/demo-mode";
-import { guardInstanceOnly, guardMarketing } from "@/lib/marketing-guard";
+import { INSTANCE_PAGES_PREFIX, isInstancePage } from "@/lib/instance-paths";
+import {
+  CLOUD_DPA_PDF_PATH,
+  guardInstanceOnly,
+  guardMarketing,
+  isInstancePath,
+  isTimeTrackCloud,
+  usesRuntimeInstancePages,
+} from "@/lib/marketing-guard";
 import { appUrlEnv, marketingUrlEnv } from "@/lib/runtime-env";
 
 /**
@@ -150,7 +158,7 @@ function multibrandResponse(
  * TimeWrens marketingsite (src/lib/brands/timewren-site.ts): forside, priser,
  * selvhost og juridiske sider på marketinghosten, plus robots.txt og
  * sitemap.xml pr. host. null = ikke en marketingsti; appens logik tager over.
- * Hosten forbliver noindex, indtil TIMEWREN_INDEXABLE=1.
+ * Marketingsiderne er indekserbare, medmindre TIMEWREN_INDEXABLE=0.
  */
 function siteResponse(
   req: NextRequest,
@@ -233,7 +241,24 @@ function demoRequest(req: NextRequest): NextResponse {
   return res;
 }
 
+function runtimePage(req: NextRequest, path: string) {
+  const url = req.nextUrl.clone();
+  url.pathname = `${INSTANCE_PAGES_PREFIX}${path}`;
+  return NextResponse.rewrite(url);
+}
+
 function routeRequest(req: NextRequest): NextResponse {
+  const { pathname } = req.nextUrl;
+  if (pathname === CLOUD_DPA_PDF_PATH && !isTimeTrackCloud()) {
+    return new NextResponse(null, { status: 404 });
+  }
+  if (
+    pathname === INSTANCE_PAGES_PREFIX ||
+    pathname.startsWith(`${INSTANCE_PAGES_PREFIX}/`)
+  ) {
+    return NextResponse.rewrite(new URL("/_marketing-disabled", req.url));
+  }
+  const runtimePages = usesRuntimeInstancePages();
   // TimeWren-sitets interne sider nås kun via rewrite herfra, aldrig direkte.
   if (isSiteInternalPath(req.nextUrl.pathname)) {
     return NextResponse.rewrite(new URL("/_marketing-disabled", req.url));
@@ -253,13 +278,13 @@ function routeRequest(req: NextRequest): NextResponse {
     if (cfg.key !== "timetrack") return multibrandResponse(req, cfg);
   }
 
-  // /sitemap.xml er kun i matcheren for TimeWren-hostens skyld. Alle andre
-  // hosts får den statiske sitemap præcis som før (som om den ikke matchede).
-  if (req.nextUrl.pathname === "/sitemap.xml") return NextResponse.next();
+  if (pathname === "/sitemap.xml") {
+    return runtimePages ? runtimePage(req, pathname) : NextResponse.next();
+  }
   // Det samme for TimeWren-docs' filstier (llms*.txt, *.md): uændret svar.
   if (isDocsFilePath(req.nextUrl.pathname)) return NextResponse.next();
 
-  // Selvhost (TimeWren uden NEXT_PUBLIC_MARKETING_URL): ingen marketingsider.
+  // Selvhost uden NEXT_PUBLIC_MARKETING_URL: ingen marketingsider.
   // Roden sendes til appen, resten af marketing-stierne giver 404.
   const guard = guardMarketing(req.nextUrl.pathname);
   if (guard.action === "redirect") {
@@ -268,8 +293,7 @@ function routeRequest(req: NextRequest): NextResponse {
     return NextResponse.redirect(url, 307);
   }
   if (guard.action === "notFound") {
-    // Rewrite til en sti, der ikke findes: Next svarer med 404-siden.
-    return NextResponse.rewrite(new URL("/_marketing-disabled", req.url));
+    return runtimePage(req, "/not-found");
   }
 
   const appUrl = appUrlEnv() || "";
@@ -278,13 +302,21 @@ function routeRequest(req: NextRequest): NextResponse {
   const appHost = hostOf(appUrl);
   const marketingHost = hostOf(marketingUrl);
 
+  const runtimeResponse = () =>
+    runtimePages &&
+    (isInstancePage(pathname) ||
+      pathname === "/robots.txt" ||
+      (pathname !== "/opengraph-image" && !isInstancePath(pathname)))
+      ? runtimePage(req, pathname === "/" ? "" : pathname)
+      : NextResponse.next();
+
   // Feature disabled when unconfigured or both hosts are identical.
   if (!appHost || !marketingHost || appHost === marketingHost) {
-    return NextResponse.next();
+    return runtimeResponse();
   }
 
   const host = req.headers.get("host") || "";
-  const { pathname, search } = req.nextUrl;
+  const { search } = req.nextUrl;
 
   // 308 (permanent) by default: the split is settled, and search engines
   // must move signals to the right host. Set SUBDOMAIN_REDIRECT_STATUS=307
@@ -336,7 +368,7 @@ function routeRequest(req: NextRequest): NextResponse {
     return NextResponse.next({ headers: APP_HOST_ROBOTS_HEADER });
   }
 
-  return NextResponse.next();
+  return runtimeResponse();
 }
 
 export const config = {
@@ -346,7 +378,8 @@ export const config = {
   matcher: [
     "/((?!api/|_next/|monitoring|.well-known/|.*\\.[\\w]+$).*)",
     "/robots.txt",
-    // Kun TimeWren-hosts bruger den; for alle andre er svaret uændret.
+    "/instance-pages/robots.txt",
+    "/instance-pages/sitemap.xml",
     "/sitemap.xml",
     "/install.sh",
     "/timewren-site/install.sh",

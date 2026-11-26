@@ -21,6 +21,7 @@ import {
   timeEntries,
   users,
 } from "@/lib/db/schema";
+import { demoCurrencyForEmail } from "@/lib/demo/demo-mode";
 import { toLocalDateStr } from "@/lib/format";
 import { isUnbilledEntry } from "@/lib/invoicing/unbilled";
 import { hashToken, tokenLookup } from "@/lib/security/token-hash";
@@ -346,6 +347,7 @@ export const publicPortalRouter = router({
           clientId: session.portalAccess.clientId,
           clientName: session.portalAccess.client.name,
           freelancerName: session.portalAccess.freelancer.name,
+          currency: demoCurrencyForEmail(session.portalAccess.freelancer.email),
           permissions: {
             canViewInvoices: session.portalAccess.canViewInvoices,
             canViewProjects: session.portalAccess.canViewProjects,

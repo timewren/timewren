@@ -63,7 +63,7 @@ export async function connectTestDb(...clients: postgres.Sql[]) {
  *   beforeAll(async () => { await testDb.create(); await connectTestDb(pg); });
  *   afterAll(async () => { await pg.end(); await testDb.drop(); });
  */
-export function isolatedTestDatabase() {
+export function isolatedTestDatabase({ empty = false } = {}) {
   const template = inject("testDbTemplate");
   const name = `${template}_${randomUUID().slice(0, 8)}`;
   // Forbundet til TEST_DATABASE_URL's database, aldrig til skabelonen: en
@@ -78,7 +78,7 @@ export function isolatedTestDatabase() {
         );
       }
       await connectTestDb(admin);
-      await admin.unsafe(`CREATE DATABASE "${name}" TEMPLATE "${template}"`);
+      await admin`CREATE DATABASE ${admin(name)} TEMPLATE ${admin(empty ? "template0" : template)}`;
     },
     async drop() {
       await admin.unsafe(`DROP DATABASE IF EXISTS "${name}" WITH (FORCE)`);

@@ -58,6 +58,11 @@ export interface NavItem {
    * org (admin/owner still see everything).
    */
   freelancerOnly?: boolean;
+  /**
+   * Giver kun mening med kolleger (teamoverblik, ressourceplan). Skjult, når
+   * organisationen har ét medlem og ingen ventende invitationer (fund 15).
+   */
+  teamOnly?: boolean;
   dataTour?: string;
 }
 
@@ -128,6 +133,7 @@ export type NavGating = Pick<
   | "minRole"
   | "hideForRoles"
   | "freelancerOnly"
+  | "teamOnly"
 >;
 
 export function isNavItemVisible(
@@ -141,6 +147,10 @@ export function isNavItemVisible(
     role?: NavRole;
     /** Org profile. Undefined is treated as "freelance". */
     orgProfile?: OrgProfile;
+    /**
+     * Medlemmer plus ventende invitationer. Undefined = ukendt (vises som før).
+     */
+    teamSize?: number;
   },
 ): boolean {
   if (item.featureFlag && !opts.isFlagEnabled(item.featureFlag)) return false;
@@ -163,6 +173,9 @@ export function isNavItemVisible(
     opts.orgProfile === "enterprise" &&
     !roleSatisfies(opts.role, "admin")
   ) {
+    return false;
+  }
+  if (item.teamOnly && opts.teamSize !== undefined && opts.teamSize <= 1) {
     return false;
   }
   return true;
@@ -299,6 +312,7 @@ export const mainNavGroups: NavGroup[] = [
         permissionModule: "time",
         icon: ClipboardCheck,
         minRole: "admin",
+        teamOnly: true,
       },
       {
         // Planlagte timer pr. medarbejder × projekt mod registreret (#508).
@@ -308,6 +322,7 @@ export const mainNavGroups: NavGroup[] = [
         translationKey: "resourcePlan",
         href: "/dashboard/resource-plan",
         icon: CalendarRange,
+        teamOnly: true,
       },
     ],
   },

@@ -4,6 +4,7 @@
 import { useMemo } from "react";
 import type { ModuleKey } from "@/lib/modules/constants";
 import { CORE_BUNDLE, MODULE_KEYS } from "@/lib/modules/constants";
+import { DEFAULT_ORG_REGION, type OrgRegion } from "@/lib/org/region";
 import { trpc } from "@/providers/trpc-provider";
 
 export interface UseModulesResult {
@@ -21,6 +22,10 @@ export interface UseModulesResult {
   /** "enterprise" = internal time tracking org (no freelance CRM). Placeholder
    * is "freelance" — check `isPlaceholder` before acting on it. */
   orgProfile: OrgProfile;
+  /** Medlemmer plus ventende invitationer; undefined indtil det er hentet. */
+  teamSize: number | undefined;
+  /** Organisationens valuta, land og sprog (DKK og Danmark som pladsholder). */
+  region: OrgRegion;
 }
 
 export type OrgProfile = "freelance" | "enterprise";
@@ -39,6 +44,8 @@ const PLACEHOLDER_RESPONSE = {
   slug: null,
   metadata: null,
   orgProfile: "freelance" as const,
+  teamSize: null,
+  region: DEFAULT_ORG_REGION,
   modules: CORE_BUNDLE.map((key) => ({
     key,
     isAvailable: true,
@@ -75,6 +82,8 @@ export function useModules(): UseModulesResult {
       isAvailable,
       enabledKeys,
       orgProfile: data?.orgProfile ?? "freelance",
+      teamSize: data?.teamSize ?? undefined,
+      region: data?.region ?? DEFAULT_ORG_REGION,
     };
   }, [data, isLoading, isPlaceholderData, isError]);
 }

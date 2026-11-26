@@ -3,7 +3,9 @@ title: "Desktop app"
 description: "The TimeWren desktop app tracks activity automatically and syncs with your server. What the server provides, how devices sign in, and how to offer your own builds."
 ---
 
-The desktop app (Windows and macOS, in beta) records what you work on, classifies it, and keeps its data locally in a database on your computer. It syncs time entries, clients and projects with the server and supports offline use. Auto-tracking and classification run on the computer.
+The desktop app (Windows and macOS) records what you work on, classifies it, and keeps its data locally in a database on your computer. It syncs time entries, clients and projects with the server and supports offline use. Auto-tracking and classification run on the computer.
+
+If an offline edit reaches the server after the server entry changed, sync returns the current server entry as a conflict, even if the task referenced by the offline edit was deleted.
 
 The desktop app is built and released from its own repository, separate from the server. This page covers what your server provides for it. How the app's server address is entered is a setting of the app itself, so follow the app's own documentation for that.
 

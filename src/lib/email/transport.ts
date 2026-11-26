@@ -7,7 +7,7 @@
  * 1. `MAIL_TRANSPORT=resend|smtp|log` hvis sat eksplicit
  * 2. `RESEND_API_KEY` sat → Resend (som før; produktion rammer altid denne)
  * 3. `SMTP_HOST` sat → SMTP via nodemailer
- * 4. ellers log-only: mailen skrives til serverloggen og sendes ikke
+ * 4. ellers log-only: kun afsendelsens status logges
  */
 
 import type { CreateEmailOptions, CreateEmailResponse } from "resend";
@@ -184,9 +184,9 @@ export async function sendMail(
       const transporter = await getSmtpTransporter(env);
       const info = await transporter.sendMail(toSmtpMessage(payload, env));
       return okResult(info.messageId ?? `smtp-${Date.now()}`);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      console.error("[Mail] SMTP-afsendelse fejlede:", message);
+    } catch {
+      const message = "[Mail] SMTP-afsendelse fejlede";
+      console.error(message);
       return errorResult(message);
     }
   }
@@ -194,15 +194,9 @@ export async function sendMail(
   if (!warnedLogOnly) {
     warnedLogOnly = true;
     console.warn(
-      "[Mail] Ingen mail-transport er sat (RESEND_API_KEY eller SMTP_HOST). Mails sendes ikke, men skrives til loggen.",
+      "[Mail] Ingen mail-transport er sat (RESEND_API_KEY eller SMTP_HOST). Afsendelser springes over.",
     );
   }
-  const p = payload as { to?: AddressList; subject?: string; text?: string };
-  // Brødteksten (links, tokens, kundedata) logges kun i udvikling.
-  const body =
-    process.env.NODE_ENV === "development" ? `\n${p.text ?? ""}` : "";
-  console.info(
-    `[Mail:log] til=${toList(p.to)?.join(",") ?? ""} emne="${p.subject ?? ""}"${body}`,
-  );
+  console.info("[Mail:log] Mail suppressed");
   return okResult(`log-${Date.now()}`);
 }

@@ -20,6 +20,8 @@ import { useModules } from "@/hooks/useModules";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { formatTime as formatHoursToTime, toLocalDateStr } from "@/lib/format";
 import { resolveTimerPrepaidSelection } from "@/lib/prepaid/auto-select";
+import { canTakePrepaidHours } from "@/lib/prepaid/can-take-hours";
+import { normalizePrepaidDeductionHours } from "@/lib/prepaid/hours";
 import { showPrepaidDeductionToast } from "@/lib/prepaidToast";
 import { buildContinuedEntryPatch } from "@/lib/timer/continue-entry";
 import type { TimerPrepaidChoiceInput as PrepaidChoiceInput } from "@/lib/timer/prepaid-choice";
@@ -148,8 +150,8 @@ export function TimerWidget({
   );
 
   // Filter packages with remaining hours
-  const availablePackages = prepaidPackages?.filter(
-    (pkg) => parseFloat(pkg.remainingHours || "0") > 0,
+  const availablePackages = prepaidPackages?.filter((pkg) =>
+    canTakePrepaidHours(pkg),
   );
 
   // Timerens klippekort-valg gemt på serveren (#422): et valg truffet i
@@ -803,9 +805,10 @@ export function TimerWidget({
                             currentHours > 0 &&
                             (() => {
                               const clipMinutes = Number(pkg.clipSizeMinutes);
-                              const clipHours = clipMinutes / 60;
-                              const rounded =
-                                Math.ceil(currentHours / clipHours) * clipHours;
+                              const rounded = normalizePrepaidDeductionHours(
+                                currentHours,
+                                clipMinutes,
+                              );
                               return rounded > currentHours ? (
                                 <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
                                   {t("widget.roundedTo", {

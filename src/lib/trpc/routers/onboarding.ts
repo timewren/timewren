@@ -10,6 +10,7 @@ import {
   resolveCampaignCode,
 } from "@/lib/billing/campaign-codes";
 import { FREE_TIER_SUBSCRIPTION_FIELDS } from "@/lib/billing/plan-limits";
+import { companySettingsForNewProfile } from "@/lib/company-settings";
 import {
   clampSeats,
   FOUNDING_MEMBER,
@@ -33,6 +34,7 @@ import {
   hasDemoData,
   seedDemoData,
 } from "@/lib/demo/seed-demo-data";
+import { decideVat } from "@/lib/invoices/vat-default";
 import { grantEnterpriseForTierSafe } from "@/lib/modules/plan-grants";
 import { isPrimaryUse, PRIMARY_USES } from "@/lib/onboarding/activation";
 import { isStoreManaged } from "@/lib/store-billing/state";
@@ -56,6 +58,31 @@ async function markSubscriptionStepDone(db: typeof Db, userId: string) {
         updatedAt: new Date(),
       },
     });
+}
+
+/**
+ * Momsfluebenet for et gem af virksomhedsprofilen (vat-default.ts): sendes
+ * `vatRegistered`, er det brugerens valg; ellers følger det CVR-reglen,
+ * indtil brugeren har valgt.
+ */
+function vatFor(
+  input: { vatRegistered?: boolean; cvrNumber?: string; country: string },
+  existing:
+    | {
+        vatRegistered: boolean | null;
+        vatRegisteredChosen: boolean;
+        cvrNumber: string | null;
+      }
+    | undefined,
+) {
+  return decideVat({
+    requested: input.vatRegistered,
+    chosen: existing?.vatRegisteredChosen ?? false,
+    stored: existing?.vatRegistered,
+    // Et udeladt CVR rører ikke det gemte
+    cvrNumber: input.cvrNumber ?? existing?.cvrNumber,
+    country: input.country,
+  });
 }
 
 export const onboardingRouter = router({
@@ -403,12 +430,13 @@ export const onboardingRouter = router({
         country: z.string().default("Danmark"),
         bankRegNr: z.string().optional(),
         bankAccountNr: z.string().optional(),
-        vatRegistered: z.boolean().default(false),
+        /** Udeladt = intet valg; CVR-reglen (vat-default.ts) afgør det. */
+        vatRegistered: z.boolean().optional(),
         vatNumber: z.string().optional(),
         logoUrl: z.string().optional(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input: rawInput }) => {
       const userId = ctx.session.user.id;
 
       // Check if profile already exists
@@ -419,6 +447,7 @@ export const onboardingRouter = router({
       const existingProfile = await ctx.db.query.companyProfiles.findFirst({
         where: profileFilter,
       });
+      const input = { ...rawInput, ...vatFor(rawInput, existingProfile) };
 
       if (existingProfile) {
         // Update existing profile
@@ -459,6 +488,7 @@ export const onboardingRouter = router({
         .values({
           userId,
           organizationId: ctx.orgId,
+          ...(await companySettingsForNewProfile(ctx.db, userId)),
           ...input,
         })
         .returning();
@@ -508,12 +538,13 @@ export const onboardingRouter = router({
         country: z.string().default("Danmark"),
         bankRegNr: z.string().optional(),
         bankAccountNr: z.string().optional(),
-        vatRegistered: z.boolean().default(false),
+        /** Udeladt = intet valg; CVR-reglen (vat-default.ts) afgør det. */
+        vatRegistered: z.boolean().optional(),
         vatNumber: z.string().optional(),
         logoUrl: z.string().optional(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input: rawInput }) => {
       const userId = ctx.session.user.id;
       const profileFilter = ctx.orgId
         ? eq(companyProfiles.organizationId, ctx.orgId)
@@ -522,6 +553,7 @@ export const onboardingRouter = router({
       const existingProfile = await ctx.db.query.companyProfiles.findFirst({
         where: profileFilter,
       });
+      const input = { ...rawInput, ...vatFor(rawInput, existingProfile) };
 
       if (existingProfile) {
         const [updated] = await ctx.db
@@ -540,6 +572,7 @@ export const onboardingRouter = router({
         .values({
           userId,
           organizationId: ctx.orgId,
+          ...(await companySettingsForNewProfile(ctx.db, userId)),
           ...input,
         })
         .returning();

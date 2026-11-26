@@ -24,6 +24,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ComponentType } from "react";
 import { SEOPageLayout } from "@/components/marketing/SEOPageLayout";
+import { getMarketingUrl } from "@/lib/config";
 
 import { seoTools } from "@/lib/marketing/seo-tools";
 
@@ -227,9 +228,9 @@ const CATEGORIES: { title: string; tools: Tool[] }[] = [
         icon: Clock,
       },
       {
-        href: "/arbejdsdage-2026",
-        title: "Arbejdsdage 2026",
-        description: "Arbejdsdage og helligdage måned for måned.",
+        href: "/arbejdsdage",
+        title: "Arbejdsdage pr. år og måned",
+        description: "Arbejdsdage og helligdage for hvert år og hver måned.",
         icon: CalendarClock,
       },
       {
@@ -258,7 +259,7 @@ export default function VaerktoejerPage() {
       "@type": "ListItem",
       position: i + 1,
       name: tool.title,
-      url: `https://timetrack.dk${tool.href}`,
+      url: new URL(tool.href, getMarketingUrl()).href,
     })),
   };
 

@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { LeveretAfTimeTrack } from "@/components/LeveretAfTimeTrack";
 import { getPortalPath, useCustomDomain } from "@/hooks/useCustomDomain";
 import { toIntlLocale } from "@/i18n/format-locale";
+import type { DemoCurrency } from "@/lib/demo/demo-mode";
 import { clearPortalSessions } from "@/lib/portal/session-key";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -282,9 +283,8 @@ export function PortalEmpty({
 /**
  * Tal, beløb og datoer i portalens sprog. Dansk giver "12,5", "1.250 kr" og
  * "5.11.2026" som før; andre sprog bruger Intl med samme sprogkode.
- * Portalbeløb er altid i kr (DKK).
  */
-export function usePortalFormat() {
+export function usePortalFormat(currency: DemoCurrency = "DKK") {
   const locale = toIntlLocale(useLocale());
   const isDanish = locale === "da-DK";
   return {
@@ -298,11 +298,11 @@ export function usePortalFormat() {
     number: (n: number | string): string => Number(n).toLocaleString(locale),
     /** "1.250 kr" (da) / "DKK 1,250" (andre). */
     money: (n: number | string): string =>
-      isDanish
+      isDanish && currency === "DKK"
         ? `${Number(n).toLocaleString(locale, { maximumFractionDigits: 0 })} kr`
         : Number(n).toLocaleString(locale, {
             style: "currency",
-            currency: "DKK",
+            currency,
             maximumFractionDigits: 0,
           }),
     date: (d: Date | string | null | undefined): string =>

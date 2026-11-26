@@ -103,7 +103,7 @@ export async function verifyAndFinish(purchase: Purchase, platform: StorePlatfor
     }
     catch (error) {
       // Serveren har købet, så brugeren har sin plan. Transaktionen afsluttes ved næste opstart.
-      captureError(error, { route: 'billing.finishTransaction' });
+      captureError(error);
     }
     return { status: 'verified', current };
   }

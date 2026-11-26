@@ -18,6 +18,9 @@ export function getResend(): Resend {
       );
     }
     _resend = new Resend(apiKey);
+    // The SDK reads RESEND_DEBUG at construction and has no public debug option.
+    // Disable its raw API error logging without changing the process environment.
+    Reflect.set(_resend, "debug", false);
   }
   return _resend;
 }
@@ -41,7 +44,7 @@ export const resend = {
             sendMail(payload, async () => {
               // Et hængende Resend-kald må ikke holde en request eller et
               // cron-run åbent. SDK'et giver et afbrudt kald tilbage som en
-              // almindelig `{ error }`, og logger kun uden for produktion.
+              // almindelig `{ error }`.
               // Kalderens eget signal kombineres med fristen, så det ikke
               // slår timeouten fra.
               const timeout = AbortSignal.timeout(RESEND_TIMEOUT_MS);
@@ -54,8 +57,7 @@ export const resend = {
               });
               if (result.error && signal.aborted) {
                 console.error(
-                  "[Mail] Resend-afsendelse afbrudt (timeout eller annulleret):",
-                  result.error.message,
+                  "[Mail] Resend-afsendelse afbrudt (timeout eller annulleret)",
                 );
               }
               return result;

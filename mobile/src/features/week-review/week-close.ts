@@ -1,5 +1,4 @@
 import * as Notifications from 'expo-notifications';
-import { Platform } from 'react-native';
 import { ANDROID_CHANNEL_ID } from '~/features/notifications/push-registration';
 import { errorMessage } from '~/lib/api';
 import { queryClient } from '~/lib/api/provider';
@@ -54,10 +53,8 @@ export function weekCloseReminderTrigger(): Notifications.WeeklyTriggerInput {
   };
 }
 
-/** Kanalkategorien med «Luk ugen»-knappen. Kun nødvendig på iOS. */
+/** Kategorien med «Luk ugen»-knappen. Også Android: expo læser knapperne fra kategorien dér. */
 async function ensureCategory(): Promise<void> {
-  if (Platform.OS === 'android')
-    return;
   await Notifications.setNotificationCategoryAsync(WEEK_CLOSE_CATEGORY_ID, [
     {
       identifier: WEEK_CLOSE_ACTION,

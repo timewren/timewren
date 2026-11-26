@@ -12,9 +12,11 @@
 //! - [`faktura`]: linjebeløb, moms, forhåndsvisning, fakturanumre, momsoverblik
 //! - [`format`]: "7,5 t", "45 min", "850 kr./t"
 //! - [`tid`]: danske kalenderdage og datogrænser
+//! - [`edition`]: brandet (TimeTrack eller TimeWren) som byggekonfiguration
 //! - [`js`]: JavaScript-kompatibel afrunding og talformat, som reglerne hviler på
 
 pub mod afrunding;
+pub mod edition;
 pub mod faktura;
 pub mod format;
 pub mod huller;

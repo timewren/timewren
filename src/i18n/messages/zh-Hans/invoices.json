@@ -4,9 +4,11 @@
     "sendTo": "发送至 {email}",
     "sent": "发票已发送至 {email}",
     "total": "含增值税金额",
+    "totalNoVat": "金额（不含增值税）",
     "loading": "正在加载发票详情…",
     "draftNumber": "正式发票号码将在开具时分配。",
-    "provider": "此金额来自 TimeTrack。{provider} 会根据自身的税务设置计算最终金额。"
+    "provider": "此金额来自 TimeTrack。{provider} 会根据自身的税务设置计算最终金额。",
+    "lineCount": "明细行"
   },
   "status": {
     "draft": "草稿",
@@ -66,7 +68,13 @@
     "filteredSuffix": "（已筛选）",
     "reminderTitle": "发送提醒",
     "reminderDescription": "要通过邮件将发票 {number} 发送给客户吗？",
-    "send": "发送"
+    "send": "发送",
+    "emptyUnbilledHint": "你有 {duration} 未开票的时间。用这些时间开票，明细和金额会自动填好。",
+    "emptyNoTimeHint": "用已记录的时间开票最简单。先记录时间，或创建一张固定金额的发票。",
+    "invoiceUnbilled": "为未开票时间开票",
+    "createBlank": "创建空白发票",
+    "registerTimeFirst": "记录时间",
+    "createFixedAmount": "固定金额发票"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "发票备注（可选）",
     "notePlaceholder": "例如：技术合作协议，“{måned}”"
   },
-  "tableLabel": "发票"
+  "tableLabel": "发票",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} 未确认发票是否已通过邮件发送。请在 {provider} 中查看邮件状态，并在发票页面标记结果后再重新发送。",
+    "uncertainTitle": "我们不确定 {provider} 是否已发送发票",
+    "uncertainBody": "通过邮件发送发票时 {provider} 没有响应，因此客户可能已经收到。请在 {provider} 中查看该发票的邮件状态。在此处标记结果之前，无法从 TimeTrack 再次发送该发票。",
+    "wasSent": "{provider} 已发送",
+    "notSent": "未发送",
+    "resolved": "邮件状态已保存"
+  }
 }

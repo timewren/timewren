@@ -1,6 +1,6 @@
 "use client";
 
-import { createTranslator, useTranslations } from "next-intl";
+import { createTranslator, useMessages, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { brandize } from "@/i18n/brandize";
 
@@ -37,7 +37,8 @@ function fallbackFor(namespace: string, daMessages: Messages): SafeT {
 /**
  * `useTranslations` for komponenter, der også vises på sider uden
  * next-intl-udbyder (offentlige sider, kundeportal, platformadmin). Uden
- * udbyder falder den tilbage på de danske tekster, som `getT` gør uden
+ * udbyder, eller med en udbyder uden navneområdet (marketingsiderne har kun
+ * "forms"), falder den tilbage på de danske tekster, som `getT` gør uden
  * forespørgselskontekst. Giv kun et enkelt navneområde (uden punktum).
  */
 export function useSafeTranslations(
@@ -45,7 +46,10 @@ export function useSafeTranslations(
   daMessages: Messages,
 ): SafeT {
   try {
-    // biome-ignore lint/correctness/useHookAtTopLevel: useTranslations kaster uden udbyder; hooks-rækkefølgen er den samme i begge tilfælde
+    // biome-ignore lint/correctness/useHookAtTopLevel: useMessages kaster uden udbyder; hooks-rækkefølgen er den samme i begge tilfælde
+    const messages = useMessages();
+    if (!(namespace in messages)) return fallbackFor(namespace, daMessages);
+    // biome-ignore lint/correctness/useHookAtTopLevel: se ovenfor; udbyderen skifter ikke under en rendering
     return useTranslations(namespace) as unknown as SafeT;
   } catch {
     return fallbackFor(namespace, daMessages);

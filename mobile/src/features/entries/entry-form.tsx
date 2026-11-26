@@ -6,7 +6,10 @@ import { Pressable, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 import { Button, Input, Segmented, Switch, Text } from '~/components/ui';
 import { useCapabilities } from '~/features/capabilities/use-capabilities';
+import { OfflineReadNotice } from '~/features/offline/components/offline-read-notice';
+import { normalizeTaskList } from '~/features/tasks/normalize-task-list';
 import { trpc } from '~/lib/api';
+import { useClientChoices, useProjectChoices } from '~/lib/api/use-offline-read';
 import { formatHours } from '~/lib/format';
 import { translate } from '~/lib/i18n';
 import { DateField } from './components/date-field';
@@ -32,8 +35,8 @@ export type EntryFormProps = {
 /** Kunde → projekt (filtreret) → opgave (kun med tasks-modul). */
 function ContextFields({ state, onChange }: Pick<EntryFormProps, 'state' | 'onChange'>) {
   const caps = useCapabilities();
-  const clients = trpc.clients.list.useQuery({});
-  const projects = trpc.projects.list.useQuery();
+  const clients = useClientChoices();
+  const projects = useProjectChoices();
   const tasksEnabled = caps.isEnabled('tasks') && !!state.projectId;
   const tasks = trpc.tasks.list.useQuery({ projectId: state.projectId ?? undefined }, { enabled: tasksEnabled });
 
@@ -47,10 +50,13 @@ function ContextFields({ state, onChange }: Pick<EntryFormProps, 'state' | 'onCh
       .map(p => ({ value: p.id, label: p.name, sublabel: p.client?.name ?? undefined })),
     [projects.data, state.clientId],
   );
+  const taskPage = React.useMemo(() => normalizeTaskList(tasks.data), [tasks.data]);
   const taskOptions = React.useMemo<PickerOption[]>(
-    () => (tasks.data ?? []).filter(t => t.status !== 'done').map(t => ({ value: t.id, label: t.title })),
-    [tasks.data],
+    () => taskPage.rows.filter(t => t.status !== 'done').map(t => ({ value: t.id, label: t.title })),
+    [taskPage],
   );
+  // Vælgeren læser kun første side; sig det, så en manglende opgave ikke ligner en fejl.
+  const tasksTruncated = taskPage.nextCursor != null;
 
   const pickClient = (clientId: string | null) => onChange({ clientId, projectId: null, taskId: null, prepaidPackageId: null });
   const pickProject = (projectId: string | null) => {
@@ -62,8 +68,13 @@ function ContextFields({ state, onChange }: Pick<EntryFormProps, 'state' | 'onCh
   // tiden på intern tid, fordi kunden og projektet ikke kunne vælges.
   const loadError = translate('common.error_load');
 
+  const choicesSavedAt = Math.min(clients.savedAt ?? Infinity, projects.savedAt ?? Infinity);
+  const choiceError = (query: typeof clients | typeof projects) =>
+    query.offline ? (!query.data ? translate('offline.read_unavailable') : undefined) : (query.isError ? loadError : undefined);
+
   return (
     <View>
+      {clients.offline && Number.isFinite(choicesSavedAt) && <OfflineReadNotice savedAt={choicesSavedAt} />}
       <PickerField
         label={translate('entries.form.client')}
         value={state.clientId}
@@ -71,7 +82,7 @@ function ContextFields({ state, onChange }: Pick<EntryFormProps, 'state' | 'onCh
         onChange={pickClient}
         placeholder={translate('entries.form.select_client')}
         noneLabel={translate('entries.form.none')}
-        error={clients.isError ? loadError : undefined}
+        error={choiceError(clients)}
         testID="field-client"
       />
       <PickerField
@@ -82,7 +93,7 @@ function ContextFields({ state, onChange }: Pick<EntryFormProps, 'state' | 'onCh
         placeholder={translate('entries.form.select_project')}
         noneLabel={translate('entries.form.none')}
         hint={!state.clientId && !state.projectId ? translate('entries.form.internal_hint') : undefined}
-        error={projects.isError ? loadError : undefined}
+        error={choiceError(projects)}
         testID="field-project"
       />
       {caps.isEnabled('tasks') && state.projectId
@@ -94,6 +105,7 @@ function ContextFields({ state, onChange }: Pick<EntryFormProps, 'state' | 'onCh
               onChange={taskId => onChange({ taskId })}
               placeholder={translate('entries.form.select_task')}
               noneLabel={translate('entries.form.none')}
+              hint={tasksTruncated ? translate('entries.form.task_more') : undefined}
               error={tasks.isError ? loadError : undefined}
               testID="field-task"
             />

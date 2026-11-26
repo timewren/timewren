@@ -11,6 +11,7 @@
  *   TEST_DATABASE_URL=postgres://… npx vitest run <denne fil>
  */
 
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { connectTestDb, testPostgres } from "@/test/test-db";
@@ -27,6 +28,11 @@ vi.mock("@sentry/nextjs", () => ({
 }));
 vi.mock("@/lib/telemetry/track", () => ({ trackEvent: vi.fn() }));
 
+vi.mock("@/lib/notifications/bus", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/notifications/bus")>()),
+  notify: vi.fn(),
+}));
+
 import * as schema from "@/lib/db/schema";
 import {
   clients,
@@ -35,13 +41,17 @@ import {
   organizations,
   projects,
   timeEntries,
+  timesheetWeeks,
   users,
 } from "@/lib/db/schema";
+import { assertEntryEditable } from "@/lib/enterprise/edit-guard";
+import { enterpriseTeamRouter } from "../team";
 import { enterpriseTimesheetRouter } from "../timesheet";
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;
 
 const USER = "timesheet-cell-user";
+const MANAGER = "timesheet-cell-manager";
 const ORG = "timesheet-cell-org";
 const CLIENT = "aaaaaaa1-1111-4111-8111-111111111114";
 const PROJECT = "ccccccc3-3333-4333-8333-333333333334";
@@ -102,6 +112,17 @@ describe.skipIf(!TEST_DATABASE_URL)(
         weeklyHours: "37.0",
         workingDays: ["1", "2", "3", "4", "5"],
       } as never);
+      await db.insert(users).values({
+        id: MANAGER,
+        email: "manager@example.com",
+        name: "Manager Test",
+      });
+      await db.insert(members).values({
+        id: "m-timesheet-cell-manager",
+        organizationId: ORG,
+        userId: MANAGER,
+        role: "owner",
+      });
       await db.insert(clients).values({
         id: CLIENT,
         userId: USER,
@@ -131,6 +152,97 @@ describe.skipIf(!TEST_DATABASE_URL)(
       const entries = await db.select().from(timeEntries);
       expect(entries).toHaveLength(1);
       expect(Number(entries[0].hours)).toBe(3);
+      expect(entries[0].date.toISOString()).toBe("2026-11-02T00:00:00.000Z");
+    });
+
+    it("uses the Danish week for reading, edit locks, submission and approval", async () => {
+      const [entry] = await db
+        .insert(timeEntries)
+        .values({
+          userId: USER,
+          organizationId: ORG,
+          projectId: PROJECT,
+          clientId: CLIENT,
+          description: "Midnight entry",
+          date: new Date("2026-11-08T23:30:00Z"),
+          hours: "2.00",
+        })
+        .returning();
+      await db
+        .update(organizations)
+        .set({
+          timesheetLockAfterWeeks: 0,
+          timesheetAutoLockWeekday: 1,
+        })
+        .where(eq(organizations.id, ORG));
+      const editInput = {
+        orgId: ORG,
+        userId: USER,
+        role: "member" as const,
+        dates: [entry.date],
+        today: new Date("2026-11-09T12:00:00Z"),
+      };
+      await expect(assertEntryEditable(db, editInput)).resolves.toBeUndefined();
+      await expect(
+        assertEntryEditable(db, {
+          ...editInput,
+          dates: [new Date("2026-11-08T22:30:00Z")],
+        }),
+      ).rejects.toMatchObject({ code: "FORBIDDEN" });
+      const caller = enterpriseTimesheetRouter.createCaller({
+        db,
+        headers: new Headers(),
+        session: { user: { id: USER }, activeOrganizationId: ORG },
+      } as never);
+      const previous = await caller.getTimesheetWeek({
+        weekStart: "2026-11-02",
+      });
+      const current = await caller.getTimesheetWeek({
+        weekStart: "2026-11-09",
+      });
+      expect(
+        previous.rows.find(({ projectId }) => projectId === PROJECT)?.days[
+          "2026-11-08"
+        ],
+      ).toBeUndefined();
+      expect(
+        current.rows.find(({ projectId }) => projectId === PROJECT)?.days[
+          "2026-11-09"
+        ],
+      ).toMatchObject({ total: 2 });
+      await expect(
+        caller.submitTimesheetWeek({ weekStart: "2026-11-09", confirm: true }),
+      ).resolves.toMatchObject({
+        status: "submitted",
+        totalHours: 2,
+      });
+      await expect(assertEntryEditable(db, editInput)).rejects.toMatchObject({
+        code: "FORBIDDEN",
+      });
+      expect(
+        await db.query.timeEntries.findFirst({
+          where: eq(timeEntries.id, entry.id),
+        }),
+      ).toMatchObject({ approvalStatus: "pending" });
+      const manager = enterpriseTeamRouter.createCaller({
+        db,
+        headers: new Headers(),
+        session: { user: { id: MANAGER }, activeOrganizationId: ORG },
+      } as never);
+      await manager.approveTimesheetWeek({
+        userId: USER,
+        weekStart: "2026-11-09",
+      });
+      expect(
+        await db.query.timeEntries.findFirst({
+          where: eq(timeEntries.id, entry.id),
+        }),
+      ).toMatchObject({ approvalStatus: "approved", approvedBy: MANAGER });
+      expect(
+        await db.query.timesheetWeeks.findFirst({
+          where: eq(timesheetWeeks.weekStart, "2026-11-09"),
+        }),
+      ).toMatchObject({ status: "approved", decidedBy: MANAGER });
     });
   },
 );

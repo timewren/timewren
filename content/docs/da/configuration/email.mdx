@@ -77,8 +77,8 @@ docker compose logs -f app
 | Loglinje | Betydning |
 | -------- | ------- |
 | `[Mail] Ingen mail-transport er sat (RESEND_API_KEY eller SMTP_HOST)...` | Der er ikke konfigureret en transport. Skrives én gang pr. start. |
-| `[Mail:log] til=... emne="..."` | En mail blev sprunget over, og kun modtager og emne blev logget. Indholdet logges ikke i produktion. |
-| `[Mail] SMTP-afsendelse fejlede: ...` | SMTP-serveren afviste mailen eller kunne ikke nås. Teksten efter kolonet er fejlen. |
+| `[Mail:log] Mail suppressed` | Transporten sprang en afsendelse over. Den logger ingen detaljer om mailen. |
+| `[Mail] SMTP-afsendelse fejlede` | SMTP-afsendelsen fejlede. Se din udbyders afsendelseslog for detaljer. |
 
 Nogle af disse beskeder er på dansk, fordi de kommer fra samme kodebase som TimeTrack Cloud. Der skrives ingen loglinje ved en vellykket SMTP-afsendelse. Er der ingen fejl, og kommer mailen ikke frem, så tjek spammappen og din udbyders afsendelseslog.
 

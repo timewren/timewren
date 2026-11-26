@@ -206,7 +206,7 @@ impl Tray {
         #[cfg(not(target_os = "macos"))]
         let builder = builder.with_icon(clock_icon());
         let icon = builder
-            .with_tooltip("TimeTrack")
+            .with_tooltip(tt_core::edition::EDITION.name)
             .build()
             .map_err(|e| e.to_string())?;
         Ok((
@@ -361,7 +361,7 @@ impl TrayController {
                 return;
             }
             if let Ok(d) = res {
-                let now = Local::now();
+                let now = this.ctx.backend.local_now();
                 let m = TrayModel::build(&d.timer, &d.suggestions, &d.customers, now)
                     .with_day_total(d.today_minutes, &d.timer, now);
                 this.tray.apply(&m);
@@ -373,7 +373,7 @@ impl TrayController {
     fn next_wait(&self) -> u64 {
         self.timer
             .as_ref()
-            .map(|t| timer::secs_to_next_minute(t, Local::now()))
+            .map(|t| timer::secs_to_next_minute(t, self.ctx.backend.local_now()))
             .unwrap_or(60)
     }
 

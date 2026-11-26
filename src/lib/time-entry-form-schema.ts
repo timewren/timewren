@@ -6,7 +6,6 @@ export interface TimeEntrySchemaMessages {
   hoursMin: string;
   endAfterStart: string;
   pickProject: string;
-  pickProjectOrClient: string;
 }
 
 const DEFAULT_MESSAGES: TimeEntrySchemaMessages = {
@@ -14,7 +13,6 @@ const DEFAULT_MESSAGES: TimeEntrySchemaMessages = {
   hoursMin: "Timer skal være mindst 0.01",
   endAfterStart: "Sluttid skal være efter starttid",
   pickProject: "Vælg et projekt",
-  pickProjectOrClient: "Vælg enten et projekt eller en klient",
 };
 
 function createBaseTimeEntrySchema(messages: TimeEntrySchemaMessages) {
@@ -45,6 +43,10 @@ export interface TimeEntrySchemaModules {
  * Bygger valideringsschemaet for "Registrer tid" ud fra hvilke moduler
  * organisationen har slået til. Kunde-feltet er skjult når clients-modulet
  * er fra, så det må aldrig være et (usynligt) krav i den situation.
+ *
+ * Med kunder slået til er både kunde og projekt valgfrie: en post uden
+ * nogen af dem er intern tid, som timeren og API'et også tillader (fund 12).
+ * Kun en organisation uden kunder (enterprise) skal vælge et projekt.
  */
 export function buildTimeEntrySchema(
   { showClients, showProjects }: TimeEntrySchemaModules,
@@ -57,17 +59,11 @@ export function buildTimeEntrySchema(
       !data.startTime || !data.endTime || data.startTime !== data.endTime,
     { message: messages.endAfterStart, path: ["endTime"] },
   );
-  if (!showProjects && !showClients) {
+  if (showClients || !showProjects) {
     return withRange;
   }
-  if (!showClients) {
-    return withRange.refine((data) => !!data.projectId, {
-      message: messages.pickProject,
-      path: ["projectId"],
-    });
-  }
-  return withRange.refine((data) => data.projectId || data.clientId, {
-    message: messages.pickProjectOrClient,
+  return withRange.refine((data) => !!data.projectId, {
+    message: messages.pickProject,
     path: ["projectId"],
   });
 }

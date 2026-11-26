@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AppStoreBadge } from "@/components/marketing/AppStoreBadge";
 import { BetaTesterSignup } from "@/components/marketing/BetaTesterSignup";
 import { SEOPageLayout } from "@/components/marketing/SEOPageLayout";
 import {
@@ -26,10 +27,10 @@ export const metadata: Metadata = {
 
 const PLATFORMS = [
   {
-    name: "iPhone og Android",
-    status: "I test nu, kommer snart i App Store og Google Play",
-    text: "Start og stop timeren fra telefonen, skriv tid ind for tidligere dage, og se ugens og månedens timer. Appen kan bruges uden konto, og timerne synkroniseres, når du logger ind. Du kan prøve den allerede nu som betatester.",
-    href: "#betatester",
+    name: "iPhone og iPad",
+    status: "Virker i dag",
+    text: "Start og stop timeren fra telefonen, skriv tid ind for tidligere dage, og se ugens og månedens timer. Appen kan bruges uden konto, og timerne synkroniseres, når du logger ind. Android-appen er i test og kommer snart i Google Play.",
+    href: "/download",
   },
   {
     name: "Telefonens browser",
@@ -57,9 +58,9 @@ const FAQ = [
     answer: `Ja. TimeTrack er gratis for op til ${FREE_MAX_SEATS} brugere med ${FREE_MAX_ACTIVE_CLIENTS} kunder, og alle apps er med, også på Gratis. Har du brug for flere kunder, har Privat plads til ${PRIVAT_MAX_ACTIVE_CLIENTS} aktive kunder og koster ${PRIVAT_PRICE_MONTHLY} kr./md., og Selvstændig har ubegrænset antal kunder for ${SUBSCRIPTION_PRICE_MONTHLY} kr./md. Priserne er ekskl. moms.`,
   },
   {
-    question: "Hvornår kommer appen i App Store og Google Play?",
+    question: "Findes appen i App Store og Google Play?",
     answer:
-      "Appen er i test lige nu og kommer i App Store og Google Play snart. Vil du prøve den før alle andre, kan du melde dig som betatester på denne side. Indtil da kan du bruge TimeTrack i telefonens browser og lægge den på hjemmeskærmen. Dine timer følger med over i appen.",
+      "Appen til iPhone og iPad ligger i App Store nu. Android-appen er i test og kommer snart i Google Play, og vil du prøve den før alle andre, kan du melde dig som betatester på denne side. Indtil da kan du bruge TimeTrack i telefonens browser og lægge den på hjemmeskærmen. Dine timer følger med over i appen.",
   },
   {
     question: "Kan jeg registrere tid uden internet?",
@@ -155,24 +156,44 @@ export default function TimeregistreringAppPage() {
                     href={p.href}
                     className="mt-3 inline-block text-sm font-semibold text-brand-700 hover:text-brand-800"
                   >
-                    {p.href.startsWith("#") ? "Bliv betatester" : "Læs mere"}
+                    {p.href === "/download" ? "Hent appen" : "Læs mere"}
                   </Link>
                 ) : null}
               </div>
             ))}
           </div>
 
+          <div className="mt-16 flex flex-col gap-4 rounded-2xl border border-brand-100 bg-brand-50 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+            <div>
+              <h2 className="text-balance text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
+                Hent appen til iPhone og iPad
+              </h2>
+              <p className="mt-2 text-lg leading-relaxed text-gray-700">
+                Appen kan bruges uden konto. Til computeren finder du
+                desktop-appen på{" "}
+                <Link
+                  href="/download"
+                  className="font-medium text-brand-700 underline underline-offset-2"
+                >
+                  download-siden
+                </Link>
+                .
+              </p>
+            </div>
+            <AppStoreBadge brand="timetrack" height={54} className="shrink-0" />
+          </div>
+
           <div
             id="betatester"
-            className="mt-16 scroll-mt-24 rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8"
+            className="mt-8 scroll-mt-24 rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8"
           >
             <h2 className="text-balance text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
-              Bliv betatester af mobilappen
+              Bliv betatester af Android-appen
             </h2>
             <p className="mt-3 text-lg leading-relaxed text-gray-700">
-              Appen til iPhone og Android er næsten klar. Meld dig, så sender vi
-              dig en invitation via TestFlight eller Google Play, og du kan
-              bruge den, før den kommer i butikkerne.
+              Android-appen er næsten klar. Meld dig, så sender vi dig en
+              invitation via Google Play, og du kan bruge den, før den kommer i
+              butikken.
             </p>
             <div className="mt-6 max-w-xl">
               <BetaTesterSignup />

@@ -15,6 +15,7 @@ import {
   FileSpreadsheet,
   Filter,
   FolderKanban,
+  FolderMinus,
   Grid3x3,
   List,
   Play,
@@ -37,12 +38,14 @@ import { ProjectSelect } from "@/components/ui/ProjectSelect";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useModules } from "@/hooks/useModules";
 import { useServerValue } from "@/hooks/useServerValue";
+import { useTimeListSummary } from "@/hooks/useTimeListSummary";
 import { toIntlLocale } from "@/i18n/format-locale";
 import {
   dkkCurrencyFormatter,
   formatTime as formatHoursToTime,
   toLocalDateStr,
 } from "@/lib/format";
+import { MAX_PREPAID_ASSIGN_SELECTION } from "@/lib/prepaid/bulk-assign";
 import { canPreviewRate } from "@/lib/time/preview-rate";
 import { toastError } from "@/lib/trpc/error-toast";
 import { trpc } from "@/providers/trpc-provider";
@@ -610,6 +613,7 @@ export default function TimePage() {
   };
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [reportScope] = useState(() => searchParams.get("report") === "1");
   const [_showAddForm, _setShowAddForm] = useState(false);
 
   // Date range state — initialize from URL or default
@@ -636,6 +640,7 @@ export default function TimePage() {
   );
   const [showBulkActions, setShowBulkActions] = useState(false);
   const [showMoveToProject, setShowMoveToProject] = useState(false);
+  const [showRemoveFromProject, setShowRemoveFromProject] = useState(false);
   const [showAssignPrepaid, setShowAssignPrepaid] = useState(false);
   const groupBy = useTimeListPreferences((s) => s.groupBy);
   const setGroupBy = useTimeListPreferences((s) => s.setGroupBy);
@@ -647,6 +652,7 @@ export default function TimePage() {
   // Gemte standardfiltre gælder kun når URL'en ikke selv har filter-params
   // (et delt link skal vise præcis det, linket siger)
   const urlHasFilters = !!(
+    reportScope ||
     searchParams.get("project") ||
     searchParams.get("client") ||
     searchParams.get("billed") ||
@@ -680,8 +686,7 @@ export default function TimePage() {
       "",
   );
   const [filterMemberId, setFilterMemberId] = useState("");
-  // Default: vis kun egne poster. Owner/admin kan slå hele teamet til.
-  const [showTeamTime, setShowTeamTime] = useState(false);
+  const [showTeamTime, setShowTeamTime] = useState(reportScope);
   const [showImportModal, setShowImportModal] = useState(false);
   const [templateEntry, setTemplateEntry] = useState<{
     description: string;
@@ -719,6 +724,7 @@ export default function TimePage() {
 
   useEffect(() => {
     const params = new URLSearchParams();
+    if (reportScope) params.set("report", "1");
     if (debouncedPreset !== "thisWeek") params.set("range", debouncedPreset);
     if (debouncedPreset === "custom") {
       params.set("from", startDate);
@@ -733,6 +739,7 @@ export default function TimePage() {
     const newUrl = paramStr ? `/dashboard/time?${paramStr}` : "/dashboard/time";
     router.replace(newUrl, { scroll: false });
   }, [
+    reportScope,
     debouncedPreset,
     debouncedProject,
     debouncedClient,
@@ -770,11 +777,12 @@ export default function TimePage() {
     isFetching,
     isLoading: timeEntriesLoading,
     error: timeEntriesError,
-  } = trpc.time.list.useQuery({
+  } = useTimeListSummary({
     startDate,
     endDate,
     projectId: filterProjectId || undefined,
     clientId: filterClientId || undefined,
+    reportScope: reportScope || undefined,
     isBilled:
       filterBilledStatus === "billed"
         ? true
@@ -797,13 +805,27 @@ export default function TimePage() {
   type TimeEntry = NonNullable<typeof timeEntriesData>["entries"][number];
   const [allEntries, setAllEntries] = useState<TimeEntry[]>([]);
 
-  // Reset pagination when filters change
-  // Nulstil pagination når team-scope/medarbejder skifter (datasættet ændres).
-  // biome-ignore lint/correctness/useExhaustiveDependencies: showTeamTime og filterMemberId er udløsere: listen nulstilles, når visningen skifter
+  // Markeringen gælder den filtrerede liste, også når flere sider er indlæst.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Filtrene udløser nulstilling af listen og dens markering.
   useEffect(() => {
     setCursor(undefined);
     setAllEntries([]);
-  }, [showTeamTime, filterMemberId]);
+    setSelectedEntries(new Set());
+    setShowBulkActions(false);
+    setShowMoveToProject(false);
+    setShowRemoveFromProject(false);
+    setShowAssignPrepaid(false);
+    setShowBulkDeleteConfirm(false);
+  }, [
+    startDate,
+    endDate,
+    filterProjectId,
+    filterClientId,
+    filterBilledStatus,
+    filterBillableStatus,
+    showTeamTime,
+    filterMemberId,
+  ]);
 
   // Merge entries when data changes
   useEffect(() => {
@@ -824,27 +846,28 @@ export default function TimePage() {
     }
   }, [timeEntriesData?.entries, cursor]);
 
-  // Use merged entries for display, normalizing Drizzle relation types
-  const timeEntries = allEntries.map((entry) => {
-    const project = Array.isArray(entry.project)
-      ? entry.project[0]
-      : entry.project;
-    const client = Array.isArray(entry.client) ? entry.client[0] : entry.client;
-    return {
-      ...entry,
-      project: project
-        ? {
-            ...project,
-            client: project.client
-              ? Array.isArray(project.client)
-                ? project.client[0]
-                : project.client
-              : null,
-          }
-        : null,
-      client,
-    };
-  });
+  // Én-relationer er altid et objekt eller null, aldrig et array. En
+  // Array.isArray-normalisering her gjorde relationerne til `any`, så tsc
+  // ikke kunne se, hvilke felter siden læser (time.list view "summary").
+  const timeEntries = allEntries;
+  const selectedRows = timeEntries.filter(({ id }) => selectedEntries.has(id));
+  const selectedClients = new Set(
+    selectedRows.map(
+      (entry) => entry.clientId ?? entry.project?.clientId ?? null,
+    ),
+  );
+  const canAssignPrepaid =
+    selectedRows.length === selectedEntries.size &&
+    selectedClients.size === 1 &&
+    !selectedClients.has(null);
+  const prepaidSelectionHelp = !canAssignPrepaid
+    ? t("page.prepaidSingleClient")
+    : selectedEntries.size > MAX_PREPAID_ASSIGN_SELECTION
+      ? t("page.prepaidSelectionLimit", { max: MAX_PREPAID_ASSIGN_SELECTION })
+      : undefined;
+  const hasProjectSelection =
+    selectedRows.length === selectedEntries.size &&
+    selectedRows.some(({ projectId }) => projectId !== null);
   const hasMore = timeEntriesData?.hasMore ?? false;
 
   const loadMore = () => {
@@ -1001,6 +1024,17 @@ export default function TimePage() {
       });
     },
   });
+  const bulkRemoveFromProjectMutation =
+    trpc.time.bulkRemoveFromProject.useMutation({
+      onSuccess: ({ count }) => {
+        toast.success(t("page.bulkRemovedFromProject", { count }));
+        setSelectedEntries(new Set());
+        setShowRemoveFromProject(false);
+        pageUtils.prepaid.invalidate();
+        refetchEntries();
+      },
+      onError: (error) => toastError(error, t("page.bulkMoveFailed")),
+    });
   const bulkRecalculateRatesMutation =
     trpc.time.bulkRecalculateRates.useMutation({
       onSuccess: (data) => {
@@ -1610,7 +1644,9 @@ export default function TimePage() {
           </div>
 
           {/* Time entries */}
-          <div className="rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 overflow-hidden">
+          <div
+            className={`rounded-xl border border-gray-200/80 bg-white dark:border-gray-800 dark:bg-gray-900 ${showBulkActions && selectedEntries.size > 0 ? "" : "overflow-hidden"}`}
+          >
             <div className="border-b border-gray-200 dark:border-gray-800 px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {timeEntries && timeEntries.length > 0 && (
@@ -1659,16 +1695,17 @@ export default function TimePage() {
 
               {/* Bulk Actions Dropdown */}
               {selectedEntries.size > 0 && (
-                <div className="relative">
+                <div className={showBulkActions ? "relative z-20" : "relative"}>
                   <Button
                     onClick={() => setShowBulkActions(!showBulkActions)}
+                    aria-expanded={showBulkActions}
                     rightIcon={<ChevronDown className="h-4 w-4" />}
                   >
                     {t("page.actions", { count: selectedEntries.size })}
                   </Button>
 
                   {showBulkActions && (
-                    <div className="absolute right-0 z-20 mt-2 w-56 rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg">
+                    <div className="absolute right-0 z-20 mt-2 max-h-[70dvh] w-56 overflow-y-auto rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg">
                       <div className="py-1">
                         {/* Mark as Billed */}
                         <button
@@ -1712,18 +1749,54 @@ export default function TimePage() {
                           {t("page.moveToProject")}
                         </button>
 
-                        {/* Træk de valgte poster på et klippekort */}
                         <button
                           type="button"
+                          disabled={!hasProjectSelection}
                           onClick={() => {
                             setShowBulkActions(false);
-                            setShowAssignPrepaid(true);
+                            setShowRemoveFromProject(true);
                           }}
-                          className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                          className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:text-gray-200 dark:hover:bg-gray-800/50"
                         >
-                          <Ticket className="h-4 w-4 text-purple-600" />
-                          {t("page.drawFromPrepaid")}
+                          <FolderMinus
+                            aria-hidden="true"
+                            className="h-4 w-4 shrink-0 text-tt-gran"
+                          />
+                          {t("page.removeFromProject")}
                         </button>
+
+                        {isModuleEnabled("klippekort") && (
+                          <>
+                            <button
+                              type="button"
+                              disabled={Boolean(prepaidSelectionHelp)}
+                              aria-describedby={
+                                prepaidSelectionHelp
+                                  ? "time-prepaid-selection-help"
+                                  : undefined
+                              }
+                              onClick={() => {
+                                setShowBulkActions(false);
+                                setShowAssignPrepaid(true);
+                              }}
+                              className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:text-gray-200 dark:hover:bg-gray-800/50"
+                            >
+                              <Ticket
+                                aria-hidden="true"
+                                className="h-4 w-4 shrink-0 text-purple-600"
+                              />
+                              {t("page.drawFromPrepaid")}
+                            </button>
+                            {prepaidSelectionHelp && (
+                              <p
+                                id="time-prepaid-selection-help"
+                                className="px-4 pb-2 text-xs text-tt-graa"
+                              >
+                                {prepaidSelectionHelp}
+                              </p>
+                            )}
+                          </>
+                        )}
 
                         {/* Recalculate rates */}
                         <button
@@ -2261,16 +2334,34 @@ export default function TimePage() {
         isLoading={bulkDeleteMutation.isPending}
       />
 
-      {/* Bulk: træk de markerede posteringer på et klippekort */}
-      <BulkAssignPrepaidModal
-        isOpen={showAssignPrepaid}
-        onClose={() => setShowAssignPrepaid(false)}
-        timeEntryIds={Array.from(selectedEntries)}
-        onAssigned={() => {
-          setSelectedEntries(new Set());
-          refetchEntries();
+      <ConfirmDialog
+        isOpen={showRemoveFromProject}
+        onClose={() => {
+          if (!bulkRemoveFromProjectMutation.isPending)
+            setShowRemoveFromProject(false);
         }}
+        onConfirm={() =>
+          bulkRemoveFromProjectMutation.mutate({
+            ids: Array.from(selectedEntries),
+          })
+        }
+        title={t("page.removeFromProject")}
+        description={t("page.removeFromProjectDescription")}
+        confirmLabel={t("page.removeFromProject")}
+        isLoading={bulkRemoveFromProjectMutation.isPending}
       />
+
+      {showAssignPrepaid && (
+        <BulkAssignPrepaidModal
+          isOpen
+          onClose={() => setShowAssignPrepaid(false)}
+          timeEntryIds={Array.from(selectedEntries)}
+          onAssigned={() => {
+            setSelectedEntries(new Set());
+            refetchEntries();
+          }}
+        />
+      )}
 
       {/* Save as Template Modal */}
       <SaveAsTemplateModal

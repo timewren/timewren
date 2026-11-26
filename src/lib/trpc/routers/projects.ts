@@ -355,6 +355,7 @@ export const projectsRouter = router({
         let monthly: {
           budgetHours: number;
           usedHours: number;
+          usedHoursExact: number;
           percentage: number;
           healthStatus: "green" | "yellow" | "red";
         } | null = null;
@@ -366,6 +367,7 @@ export const projectsRouter = router({
             monthly = {
               budgetHours,
               usedHours: Math.round(usedHours * 10) / 10,
+              usedHoursExact: usedHours,
               percentage: status.percentage,
               healthStatus: status.healthStatus,
             };
@@ -388,6 +390,10 @@ export const projectsRouter = router({
                 ? Math.round(estimatedBudgetHours * 10) / 10
                 : null,
             healthStatus,
+            projectBudget:
+              estimatedBudgetHours === null
+                ? null
+                : { usedHours: totalHours, budgetHours: estimatedBudgetHours },
             monthly,
           },
         };

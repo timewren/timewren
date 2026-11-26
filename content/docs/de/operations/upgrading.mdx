@@ -66,7 +66,8 @@ Die Compose-Datei setzt `MIGRATE_ON_START=1`. Bei jedem Start des Containers `ap
 
 - Es nimmt ein Postgres-Advisory-Lock, damit zwei gleichzeitig startende Container nicht parallel migrieren. Ein zweiter wartet bis zu 5 Minuten (`MIGRATION_LOCK_TIMEOUT_MS`) und schlägt dann fehl.
 - Es wendet die ausstehenden Migrationen aus `drizzle/` über den Migrator von Drizzle an, der sie in einer Transaktion ausführt.
-- Auf einer leeren Datenbank legt es das aktuelle Schema an und vermerkt alle Migrationen als angewendet.
+- Auf einer leeren Datenbank installiert es den versionierten SQL-Schemastand bis einschließlich Migration `0160` und erfasst den Verlauf in derselben Transaktion. Anschließend führt es `0161` und alle späteren Migrationen aus.
+- Bei einer bestehenden Datenbank mit fehlendem oder leerem Migrationsverlauf stellt es den Verlauf bis einschließlich `0161` wieder her und ergänzt in derselben Transaktion das Schema für Testkonten. Gespeicherte Testkonto-Markierungen bleiben auch dann erhalten, wenn der Eintrag für `0161` im ansonsten befüllten Migrationsverlauf fehlt. Wenn die Spalte für die Markierung fehlte, stellt das Skript die Spalte wieder her und übernimmt die Markierungen aus dem Audit-Protokoll. In einer vorhandenen Spalte werden gespeicherte Markierungen nie gesenkt oder aus dem Audit-Protokoll überschrieben; eine Organisation ohne Markierung wird nur angehoben, wenn die ältere `testAccount`-Markierung in den Metadaten sie noch kennzeichnet (eine Datenbank, die `0160` vor der Wiederherstellung der Markierungen registriert hat) und ihr letzter Audit-Protokoll-Eintrag sie ebenfalls als Testkonto markiert. Das manuelle Ausführen des versionierten SQL liefert dasselbe Ergebnis.
 - Ein Start ohne Neuerungen gibt `Database is up to date` aus; sonst `N new migration(s) applied`.
 
 ## Wenn eine Migration fehlschlägt

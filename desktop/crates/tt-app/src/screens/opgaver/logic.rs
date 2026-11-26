@@ -5,7 +5,9 @@ use std::path::{Path, PathBuf};
 
 use chrono::{Days, NaiveDate};
 
-use crate::backend::{Customer, Id, LaneCategory, Project, Task, TaskLane, TaskPriority, TaskStatus};
+use crate::backend::{
+    Customer, Id, LaneCategory, Project, Task, TaskLane, TaskPriority, TaskStatus, TimerTarget,
+};
 use crate::ui::farve;
 
 // ------------------------------------------------------------------ visning
@@ -158,6 +160,21 @@ pub fn project_of<'a>(projects: &'a [Project], task: &Task) -> Option<&'a Projec
     projects.iter().find(|p| p.id == task.project_id)
 }
 
+/// Timeren for en opgave: projektet, hvis opgaven har et, og kunden fra
+/// projektet eller direkte fra opgaven. En opgave uden projekt starter en
+/// timer uden projekt (før: projekt-id "", som web afviste).
+pub fn timer_target(projects: &[Project], task: &Task) -> TimerTarget {
+    let project = project_of(projects, task);
+    TimerTarget {
+        customer_id: project
+            .map(|p| p.customer_id.clone())
+            .or_else(|| task.customer_id.clone()),
+        project_id: Some(task.project_id.clone()).filter(|p| !p.is_empty()),
+        task_id: Some(task.id.clone()),
+        description: task.title.clone(),
+    }
+}
+
 /// Opgavens kunde: projektets, ellers kunden direkte på opgaven (web
 /// tillader en opgave med kunde uden projekt).
 pub fn customer_of<'a>(
@@ -288,9 +305,22 @@ pub fn visible<'a>(
     v
 }
 
+/// Hvor længe en afsluttet opgave står i tavlens arkiv-kolonner (web's
+/// `listByStatus`: "remove done tasks older than 14 days from archive lanes").
+pub const ARCHIVE_DAYS: u64 = 14;
+
+/// Er opgaven afsluttet for mere end 14 dage siden? Uden dato (ældre data)
+/// bliver den stående, som i web.
+pub fn archived_away(task: &Task, today: NaiveDate) -> bool {
+    task.completed
+        .is_some_and(|d| today.checked_sub_days(Days::new(ARCHIVE_DAYS)).is_some_and(|cut| d <= cut))
+}
+
 /// Boardets kolonner, én pr. kolonne i `lanes` (web's egne statusser, i
 /// tavlens rækkefølge). Kortene placeres som i web (`resolve_lane`). Skjulte
 /// afsluttede giver tomme afsluttede kolonner, så boardet har samme form.
+/// Som i web forsvinder afsluttede opgaver fra arkiv-kolonnerne efter 14
+/// dage; listen viser dem stadig.
 pub fn board_columns<'a>(
     tasks: &'a [Task],
     customers: &[Customer],
@@ -305,6 +335,9 @@ pub fn board_columns<'a>(
         .filter(|t| matches(t, customers, projects, f, today))
     {
         if let Some(ix) = resolve_lane(t, lanes) {
+            if lanes[ix].is_archive && archived_away(t, today) {
+                continue;
+            }
             cols[ix].push(t);
         }
     }
@@ -412,6 +445,7 @@ pub fn fixed_lanes(name: impl Fn(TaskStatus) -> String) -> Vec<TaskLane> {
             name: name(s),
             color: None,
             category: category_for_status(s),
+            is_archive: s == TaskStatus::Done,
         })
         .collect()
 }
@@ -689,6 +723,7 @@ mod tests {
             description: None,
             customer_id: None,
             status_id: None,
+            completed: None,
         }
     }
 

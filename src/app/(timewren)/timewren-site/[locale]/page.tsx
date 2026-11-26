@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AppStoreBadge } from "@/components/timewren-site/AppStoreBadge";
 import {
   Command,
   InstallMethods,
@@ -11,6 +12,7 @@ import {
   SiteShell,
   siteLocale,
 } from "@/components/timewren-site/SiteShell";
+import { playStoreUrl } from "@/lib/app-stores";
 import {
   docsPath,
   LLMS_FULL_TXT_PATH,
@@ -24,7 +26,7 @@ import {
   siteTranslator,
   TELEMETRY_DOCS_URL,
 } from "@/lib/brands/timewren-site-copy";
-import { siteMetadata } from "@/lib/brands/timewren-site-meta";
+import { cloudSignupUrl, siteMetadata } from "@/lib/brands/timewren-site-meta";
 
 // Statisk pr. sprog; fornyes, så noindex/host fra miljøet slår igennem.
 export const revalidate = 300;
@@ -53,7 +55,13 @@ export default async function TimewrenHome(props: SiteParams) {
   const t = siteTranslator(locale);
   const steps = t.raw("home.prepaid.steps") as Pair[];
   const features = t.raw("home.features.items") as Feature[];
-  const apps = t.raw("home.apps.items") as Triple[];
+  // Android reads "coming" until its Play listing is public (`playLive`).
+  const apps = (t.raw("home.apps.items") as Triple[]).map(
+    ([name, desc, state]): Triple =>
+      name === "Android" && playStoreUrl("timewren")
+        ? [name, t("home.apps.androidLive"), "available"]
+        : [name, desc, state],
+  );
   const rows = t.raw("home.compare.rows") as Triple[];
   const dataPoints = t.raw("home.data.points") as Pair[];
   const devItems = t.raw("home.dev.items") as Pair[];
@@ -66,18 +74,22 @@ export default async function TimewrenHome(props: SiteParams) {
           <h1 id="hero-title">{t("home.title")}</h1>
           <p className="lead">{t("home.lead")}</p>
           <div className="actions">
-            <a className="btn" href={docsPath("install/quick", locale)}>
-              {t("home.ctaInstall")}
+            <a className="btn" href={cloudSignupUrl()}>
+              {t("home.ctaStart")}
             </a>
-            <a className="btn btn-quiet" href={REPO_URL}>
-              {t("home.ctaGithub")}
-            </a>
-            <a className="btn btn-quiet" href={sitePath("/pricing", locale)}>
-              {t("home.ctaCloud")}
-              <span className="status">{t("home.compare.cloudStatus")}</span>
+            <a className="btn btn-quiet" href={sitePath("/download", locale)}>
+              {t("home.ctaApp")}
             </a>
           </div>
-          <p className="hero-note">{t("home.heroNote")}</p>
+          <p className="hero-note">{t("home.cloudFree")}</p>
+          <p className="hero-alt">
+            {t("home.selfHostPrompt")}{" "}
+            <a href={docsPath("install/quick", locale)}>
+              {t("home.ctaInstall")}
+            </a>{" "}
+            {t("home.or")} <a href={REPO_URL}>{t("home.ctaGithub")}</a>.{" "}
+            {t("home.heroNote")}
+          </p>
           <OneLiner locale={locale} />
           <Screen
             name="dashboard"
@@ -153,26 +165,47 @@ export default async function TimewrenHome(props: SiteParams) {
           <div className="stack">
             <h2 id="apps-title">{t("home.apps.title")}</h2>
             <p className="prose">{t("home.apps.lead")}</p>
+            <ul className="apps">
+              {apps.map(([name, desc, state]) => (
+                <li key={name}>
+                  <h3>{name}</h3>
+                  <p>{desc}</p>
+                  <span className="status" data-state={state}>
+                    {state === "available"
+                      ? t("home.apps.available")
+                      : t("home.apps.coming")}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="apps-note">{t("home.apps.note")}</p>
+            <div className="actions apps-actions">
+              <a className="btn" href={sitePath("/download", locale)}>
+                {t("home.apps.getApp")}
+              </a>
+              <AppStoreBadge locale={locale} />
+            </div>
+            <p>
+              <a href={sitePath("/desktop", locale)}>
+                {t("download.desktopLink")}
+              </a>
+            </p>
+          </div>
+          <div className="devices">
+            <Screen
+              name="projects"
+              locale={locale}
+              alt={t("home.apps.desktopAlt")}
+              half
+            />
             <Screen
               name="mobile-dashboard"
               locale={locale}
               alt={t("home.apps.mobileAlt")}
               className="phone"
+              sizes="(min-width: 40rem) 11rem, 8rem"
             />
           </div>
-          <ul className="apps">
-            {apps.map(([name, desc, state]) => (
-              <li key={name}>
-                <h3>{name}</h3>
-                <p>{desc}</p>
-                <span className="status" data-state={state}>
-                  {state === "available"
-                    ? t("home.apps.available")
-                    : t("home.apps.coming")}
-                </span>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 

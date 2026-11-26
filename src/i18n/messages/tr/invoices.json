@@ -4,9 +4,11 @@
     "sendTo": "{email} adresine gönder",
     "sent": "Fatura {email} adresine gönderildi",
     "total": "KDV dâhil tutar",
+    "totalNoVat": "Tutar (KDV'siz)",
     "loading": "Fatura bilgileri yükleniyor…",
     "draftNumber": "Nihai fatura numarası düzenleme sırasında atanır.",
-    "provider": "Tutar TimeTrack verisidir. {provider} nihai tutarı kendi vergi ayarlarına göre hesaplar."
+    "provider": "Tutar TimeTrack verisidir. {provider} nihai tutarı kendi vergi ayarlarına göre hesaplar.",
+    "lineCount": "Satırlar"
   },
   "status": {
     "draft": "Taslak",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtrelenmiş)",
     "reminderTitle": "Hatırlatma gönder",
     "reminderDescription": "{number} numaralı fatura müşteriye e-postayla gönderilsin mi?",
-    "send": "Gönder"
+    "send": "Gönder",
+    "emptyUnbilledHint": "{duration} faturalanmamış zamanın var. Bu zamandan fatura oluştur, kalemler ve tutarlar otomatik dolsun.",
+    "emptyNoTimeHint": "Fatura en kolay kaydedilen zamandan oluşturulur. Önce zaman kaydet ya da sabit tutarlı bir fatura oluştur.",
+    "invoiceUnbilled": "Faturalanmamış zamanı faturala",
+    "createBlank": "Boş fatura oluştur",
+    "registerTimeFirst": "Zaman kaydet",
+    "createFixedAmount": "Sabit tutarlı fatura"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Faturada not (isteğe bağlı)",
     "notePlaceholder": "Örn. Teknik ortaklık anlaşması, '{måned}'"
   },
-  "tableLabel": "Faturalar"
+  "tableLabel": "Faturalar",
+  "providerEmail": {
+    "uncertainBlocked": "{provider}, faturanın e-postayla gönderilip gönderilmediğini doğrulamadı. Yeniden göndermeden önce {provider} içindeki e-posta durumunu kontrol edin ve sonucu fatura sayfasında işaretleyin.",
+    "uncertainTitle": "{provider} faturayı gönderdi mi bilmiyoruz",
+    "uncertainBody": "Fatura e-postayla gönderilirken {provider} yanıt vermedi, bu yüzden müşteri faturayı almış olabilir. Faturanın e-posta durumunu {provider} içinde kontrol edin. Sonucu burada işaretleyene kadar fatura TimeTrack'ten yeniden gönderilemez.",
+    "wasSent": "{provider} gönderdi",
+    "notSent": "Gönderilmedi",
+    "resolved": "E-posta durumu kaydedildi"
+  }
 }

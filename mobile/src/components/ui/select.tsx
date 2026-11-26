@@ -37,8 +37,8 @@ const selectTv = tv({
     error: {
       true: {
         input: 'border-danger-600',
-        label: 'text-danger-600 dark:text-danger-600',
-        inputValue: 'text-danger-600',
+        label: 'text-danger-600 dark:text-danger-400',
+        inputValue: 'text-danger-600 dark:text-danger-400',
       },
     },
     disabled: {
@@ -60,6 +60,7 @@ export type OptionType = { label: string; value: string | number };
 type OptionsProps = {
   options: OptionType[];
   onSelect: (option: OptionType) => void;
+  onDismiss?: () => void;
   value?: string | number;
   testID?: string;
 };
@@ -68,9 +69,7 @@ function keyExtractor(item: OptionType) {
   return `select-item-${item.value}`;
 }
 
-export function Options({ ref, options, onSelect, value, testID }: OptionsProps & { ref?: React.RefObject<BottomSheetModal | null> }) {
-  const height = options.length * 70 + 100;
-  const snapPoints = React.useMemo(() => [height], [height]);
+export function Options({ ref, options, onSelect, onDismiss, value, testID }: OptionsProps & { ref?: React.RefObject<BottomSheetModal | null> }) {
   const { theme } = useUniwind();
   const isDark = theme === 'dark';
 
@@ -90,8 +89,8 @@ export function Options({ ref, options, onSelect, value, testID }: OptionsProps 
   return (
     <Modal
       ref={ref}
-      index={0}
-      snapPoints={snapPoints}
+      onDismiss={onDismiss}
+      snapPoints={['70%']}
       backgroundStyle={{
         backgroundColor: isDark ? colors.theme.dark.card : colors.theme.light.card,
       }}
@@ -118,8 +117,9 @@ const Option = React.memo(
   }) => {
     return (
       <Pressable
-        className="flex-row items-center border-b border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800"
+        className="min-h-12 flex-row items-center border-b border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-800"
         accessibilityRole="button"
+        accessibilityLabel={label}
         accessibilityState={{ selected }}
         {...props}
       >
@@ -153,6 +153,7 @@ export function Select(props: SelectProps) {
     testID,
   } = props;
   const modal = useModal();
+  const triggerRef = React.useRef<View>(null);
 
   const onSelectOption = React.useCallback(
     (option: OptionType) => {
@@ -194,13 +195,14 @@ export function Select(props: SelectProps) {
         <Pressable
           className={styles.input()}
           disabled={disabled}
-          onPress={modal.present}
+          ref={triggerRef}
+          onPress={() => modal.presentFrom(() => triggerRef.current)}
           testID={testID ? `${testID}-trigger` : undefined}
           accessibilityRole="button"
-          accessibilityLabel={label}
+          accessibilityLabel={label ?? placeholder}
           accessibilityHint={error}
           accessibilityValue={{ text: textValue }}
-          accessibilityState={{ disabled, expanded: false }}
+          accessibilityState={{ disabled }}
         >
           <View className="flex-1">
             <Text className={styles.inputValue()}>{textValue}</Text>
@@ -210,7 +212,7 @@ export function Select(props: SelectProps) {
         {error && (
           <Text
             testID={`${testID}-error`}
-            className="text-sm text-danger-300 dark:text-danger-600"
+            className="text-sm text-danger-600 dark:text-danger-400"
             accessible={false}
           >
             {error}
@@ -223,6 +225,7 @@ export function Select(props: SelectProps) {
         options={options}
         value={value}
         onSelect={onSelectOption}
+        onDismiss={modal.restoreFocus}
       />
     </>
   );

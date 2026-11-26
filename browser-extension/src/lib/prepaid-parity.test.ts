@@ -3,9 +3,14 @@ import { describe, expect, it } from "vitest";
 // udeladt af Docker-build-konteksten, så en import herfra i src/ brækker
 // next build's typecheck (main 5/9-2026). Root-vitest inkluderer denne fil.
 import { pickAutoDeductPackage } from "../../../src/lib/prepaid/auto-select";
+import { canTakePrepaidHours as webCanTake } from "../../../src/lib/prepaid/can-take-hours";
 import { prepaidDaysUntilExpiry } from "../../../src/lib/prepaid/expiry";
 import type { PrepaidPackage as ExtensionPrepaidPackage } from "../types";
-import { daysUntilPrepaidExpiry, pickAutoPrepaid } from "./prepaid";
+import {
+  canTakePrepaidHours,
+  daysUntilPrepaidExpiry,
+  pickAutoPrepaid,
+} from "./prepaid";
 
 const now = new Date("2026-09-05T10:00:00Z");
 
@@ -215,5 +220,115 @@ describe("udløbsdage — paritet med web (#736)", () => {
       }
     }
     expect(daysUntilPrepaidExpiry(null)).toBeNull();
+  });
+});
+
+describe("kortets kapacitet — paritet med web (#1319)", () => {
+  it("samme svar på begge flader for saldo, timer og politik", () => {
+    const policies = [undefined, null, "block", "allow", "invoice"];
+    const remainings = [0, 0.5, 2, 10];
+    const hours = [undefined, 0, 0.5, 2, 5];
+    for (const overdraftPolicy of policies) {
+      for (const remainingHours of remainings) {
+        for (const h of hours) {
+          expect(
+            canTakePrepaidHours({ remainingHours, overdraftPolicy }, h),
+          ).toBe(webCanTake({ remainingHours, overdraftPolicy }, h));
+        }
+      }
+    }
+  });
+
+  it("et tomt kort med overtræk forbliver valgbart og kan auto-vælges", () => {
+    const pkg = {
+      id: "tomt-allow",
+      clientId: "klient-1",
+      clientName: "Kunde A",
+      name: "Kort A",
+      totalHours: 10,
+      usedHours: 10,
+      remainingHours: 0,
+      expiresAt: null,
+      purchasedAt: "2026-07-01T00:00:00.000Z",
+      isActive: true,
+      autoDeduct: true,
+      overdraftPolicy: "allow",
+    } satisfies ExtensionPrepaidPackage;
+    expect(pickAutoPrepaid([pkg], "klient-1")?.id).toBe("tomt-allow");
+    expect(
+      pickAutoDeductPackage(
+        [
+          {
+            id: "tomt-allow",
+            autoDeduct: true,
+            remainingHours: "0.00",
+            overdraftPolicy: "allow",
+            expiryDate: null,
+            isActive: true,
+            purchaseDate: new Date("2026-07-01T00:00:00Z"),
+          },
+        ],
+        now,
+      )?.id,
+    ).toBe("tomt-allow");
+    expect(
+      pickAutoPrepaid([{ ...pkg, overdraftPolicy: "block" }], "klient-1"),
+    ).toBeNull();
+  });
+
+  it("begge flader bruger et kort med saldo før et tomt overtræks-kort", () => {
+    const base = {
+      clientId: "klient-1",
+      clientName: "Kunde A",
+      totalHours: 10,
+      usedHours: 0,
+      purchasedAt: "2026-07-01T00:00:00.000Z",
+      isActive: true,
+      autoDeduct: true,
+    };
+    const ext = pickAutoPrepaid(
+      [
+        {
+          ...base,
+          id: "fornyet",
+          name: "Kort B",
+          remainingHours: 20,
+          expiresAt: "2026-12-31T00:00:00.000Z",
+          overdraftPolicy: "block",
+        },
+        {
+          ...base,
+          id: "gammelt-tomt",
+          name: "Kort A",
+          remainingHours: 0,
+          expiresAt: "2026-09-30T00:00:00.000Z",
+          overdraftPolicy: "allow",
+        },
+      ],
+      "klient-1",
+    );
+    const web = pickAutoDeductPackage(
+      [
+        {
+          id: "fornyet",
+          autoDeduct: true,
+          remainingHours: "20.00",
+          overdraftPolicy: "block",
+          expiryDate: new Date("2026-12-31T00:00:00Z"),
+          isActive: true,
+        },
+        {
+          id: "gammelt-tomt",
+          autoDeduct: true,
+          remainingHours: "0.00",
+          overdraftPolicy: "allow",
+          expiryDate: new Date("2026-09-30T00:00:00Z"),
+          isActive: true,
+        },
+      ],
+      now,
+    );
+    expect(ext?.id).toBe("fornyet");
+    expect(web?.id).toBe("fornyet");
   });
 });

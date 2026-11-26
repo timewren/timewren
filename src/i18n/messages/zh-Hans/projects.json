@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "月度预算",
     "hint": "每月 {hours} 小时，每月 1 日重置。",
-    "usage": "{used} / {budget} 小时（{pct}%）",
     "overrun": "月度预算已超出 {hours} 小时",
-    "previous": "以往月份",
-    "hoursPct": "{hours} 小时（{pct}%）"
+    "previous": "以往月份"
   },
   "activityTypes": {
     "allowedAll": "该项目允许所有活动类型",
@@ -66,10 +64,8 @@
     "title": "工时预算",
     "derived": "推算",
     "derivedTitle": "由固定价格 ÷ 小时费率推算得出。在项目上设置工时预算即可直接控制。",
-    "hoursOf": "{used} / {total} 小时",
     "over": "超出 {hours} 小时",
     "remaining": "剩余 {hours} 小时",
-    "ariaUsed": "已使用工时预算的 {pct}%",
     "plannedTitle": "已提前计划 {hours} 小时",
     "pctUsed": "已使用 {pct}%",
     "planned": "+ 已计划 {planned} 小时 = {forecast} 小时（{pct}%）",
@@ -188,11 +184,11 @@
     "colTotal": "合计",
     "colStatus": "状态",
     "selectProject": "选择 {name}",
-    "budgetUsedTitle": "已使用工时预算的 {pct}%（{used}/{total} 小时）",
     "noClient": "无客户",
-    "monthlyUsed": "{used}/{budget} 小时",
     "monthlyAria": "已使用月度预算的 {pct}%",
-    "monthlyTitle": "本月已使用 {used} / {budget} 小时（{pct}%）"
+    "monthlyTitle": "本月已使用 {used} / {budget} 小时（{pct}%）",
+    "emptyNeedsClientHint": "项目属于某个客户。请先添加客户，再创建项目。",
+    "createClientFirst": "添加第一个客户"
   },
   "detail": {
     "status": {

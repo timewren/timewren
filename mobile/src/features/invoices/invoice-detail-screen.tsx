@@ -42,7 +42,9 @@ export function InvoiceDetailScreen() {
 
   useAnnounceLoaded(invoice, translate('common.loaded'));
 
-  const title = invoice.data ? translate('invoices.detail_title', { number: invoice.data.invoiceNumber }) : '';
+  const title = invoice.isError || !invoice.data
+    ? translate('navigation.invoice')
+    : translate('invoices.detail_title', { number: invoice.data.invoiceNumber });
   // Serveren afviser linjeskift på alt andet end kladder, så vi tilbyder dem kun der.
   const editable = (invoice.data?.status ?? 'draft') === 'draft';
 

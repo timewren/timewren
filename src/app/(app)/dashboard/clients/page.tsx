@@ -33,6 +33,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { usePermission } from "@/hooks/usePermission";
 import { usePlanGate } from "@/hooks/usePlanGate";
 import { toIntlLocale } from "@/i18n/format-locale";
+import { isInactiveClient } from "@/lib/clients/activity";
 import { dkkFormatter } from "@/lib/format";
 import { isModuleDisabledError } from "@/lib/modules/forbidden-error";
 import type { RouterOutputs } from "@/lib/trpc/routers";
@@ -533,24 +534,24 @@ function ClientsPageContent() {
     if (!clients)
       return { all: 0, active: 0, unbilled: 0, inactive: 0, archived: 0 };
     const active = clients.filter((c) => !c.isArchived);
-    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    const now = Date.now();
     return {
       all: clients.length,
       active: active.length,
       unbilled: active.filter((c) => c.stats.unbilledHours > 0).length,
-      inactive: active.filter((c) => {
-        if (!c.stats.lastActivityDate) return true;
-        return new Date(c.stats.lastActivityDate).getTime() < thirtyDaysAgo;
-      }).length,
+      inactive: active.filter((c) => isInactiveClient(c, now)).length,
       archived: clients.filter((c) => c.isArchived).length,
     };
   }, [clients]);
+
+  // Ingen kunder overhovedet (ikke bare i den valgte fane eller søgning).
+  const noClientsYet = clients?.length === 0;
 
   // Filter by tab + search + sort
   const displayClients = useMemo(() => {
     if (!clients) return undefined;
 
-    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    const now = Date.now();
     const query = debouncedSearch.toLowerCase();
 
     return clients
@@ -564,12 +565,7 @@ function ClientsPageContent() {
             if (c.isArchived || c.stats.unbilledHours <= 0) return false;
             break;
           case "inactive":
-            if (c.isArchived) return false;
-            if (
-              c.stats.lastActivityDate &&
-              new Date(c.stats.lastActivityDate).getTime() >= thirtyDaysAgo
-            )
-              return false;
+            if (!isInactiveClient(c, now)) return false;
             break;
           case "archived":
             if (!c.isArchived) return false;
@@ -727,15 +723,24 @@ function ClientsPageContent() {
       {/* Stats strip */}
       {clients && clients.length > 0 && <StatsStrip clients={clients} />}
 
-      {/* Pill filter tabs */}
-      <PillTabs
-        current={filterTab}
-        onChange={setFilterTab}
-        counts={tabCounts}
-      />
+      {/* Filtre og søgning først, når der er en kunde at filtrere: en ny
+          bruger skal kun se én handling, ikke fem faner på 0. */}
+      {!noClientsYet && (
+        <PillTabs
+          current={filterTab}
+          onChange={setFilterTab}
+          counts={tabCounts}
+        />
+      )}
 
       {/* Search + sort bar */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div
+        className={
+          noClientsYet
+            ? "hidden"
+            : "flex flex-col gap-3 sm:flex-row sm:items-center"
+        }
+      >
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
           <input
@@ -810,18 +815,20 @@ function ClientsPageContent() {
         <div className="rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 p-12 text-center">
           <Users className="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" />
           <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">
-            {searchQuery
+            {searchQuery && !noClientsYet
               ? t("list.page.emptySearch")
-              : filterTab !== "all"
+              : filterTab !== "all" && !noClientsYet
                 ? t("list.page.emptyCategory")
                 : t("list.page.emptyNone")}
           </h3>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            {searchQuery
+            {searchQuery && !noClientsYet
               ? t("list.page.emptySearchHint")
               : t("list.page.emptyNoneHint")}
           </p>
-          {!searchQuery && (filterTab === "active" || filterTab === "all") && (
+          {(noClientsYet ||
+            (!searchQuery &&
+              (filterTab === "active" || filterTab === "all"))) && (
             <Link
               href="/dashboard/clients/new"
               className="mt-6 inline-flex items-center gap-2 rounded-lg bg-tt-gran px-4 py-2 text-sm font-medium text-tt-paa-gran transition-colors hover:bg-tt-gran-moerk"

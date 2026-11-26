@@ -6,7 +6,6 @@ import {
   gte,
   inArray,
   isNull,
-  lt,
   lte,
   ne,
   not,
@@ -66,6 +65,7 @@ import {
   cellsFromTemplateData,
   cellsFromWeekEntries,
   DEFAULT_WORKING_DAYS,
+  dayOffsetFromWeekStart,
   hoursToAbsenceDays,
   type NormProfile,
   overtimeDeductionForAbsence,
@@ -101,8 +101,13 @@ import { notify, resolveManagerRecipientIds } from "@/lib/notifications/bus";
 import { logOrgAudit } from "@/lib/org-audit";
 import { type OrgRole, roleSatisfies } from "@/lib/permissions/org-role";
 import { assertNoEntriesBilled } from "@/lib/time/billed-lock";
-import { copenhagenToday, copenhagenTodayAnchor } from "@/lib/time/copenhagen";
-import { copenhagenDateSql } from "@/lib/time/date-bounds";
+import {
+  copenhagenToday,
+  copenhagenTodayAnchor,
+  entryDateFromStr,
+  toCopenhagenDateStr,
+} from "@/lib/time/copenhagen";
+import { copenhagenDateRange, copenhagenDateSql } from "@/lib/time/date-bounds";
 import { resolveDefaultBillable } from "@/lib/time/default-billable";
 import { router } from "../../trpc";
 import { organizationProcedure } from "./middleware";
@@ -113,22 +118,23 @@ const dateString = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
  *  registrations made via timer/kalender/manuel indtastning. */
 const TIMESHEET_SOURCE = "timesheet";
 
-function parseLocalDate(date: string): Date {
-  const [y, m, d] = date.split("-").map(Number);
-  return new Date(y, m - 1, d);
-}
-
 function addDays(d: Date, days: number): Date {
   const out = new Date(d);
-  out.setDate(out.getDate() + days);
+  out.setUTCDate(out.getUTCDate() + days);
   return out;
 }
 
 function toDateStr(d: Date): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+  return d.toISOString().slice(0, 10);
+}
+
+// Range boundaries follow the same Danish calendar as the grid and validation.
+function timeEntryDateRange(from: Date, until: Date) {
+  return copenhagenDateRange(
+    timeEntries.date,
+    toDateStr(from),
+    toDateStr(until),
+  );
 }
 
 /**
@@ -172,8 +178,8 @@ function computeWeekNorms(params: {
   const workingDates = new Set<string>();
   const absenceDates = new Set<string>();
   for (const dateStr of params.days) {
-    const d = parseLocalDate(dateStr);
-    const isoDay = d.getDay() === 0 ? "7" : String(d.getDay());
+    const d = entryDateFromStr(dateStr);
+    const isoDay = d.getUTCDay() === 0 ? "7" : String(d.getUTCDay());
     if (active.some((a) => absenceCoversDate(a, dateStr, params.today))) {
       absenceDates.add(dateStr);
     }
@@ -273,7 +279,7 @@ async function fillWeekCells(
     hours: number;
   }>,
 ): Promise<{ filled: number; skipped: number }> {
-  const weekStartDate = parseLocalDate(weekStart);
+  const weekStartDate = entryDateFromStr(weekStart);
   const weekEnd = addDays(weekStartDate, 7);
 
   // Fælles guard (#467): periodelås, ugestatus og rullende lås for de dage
@@ -305,17 +311,14 @@ async function fillWeekCells(
   const existing = await db.query.timeEntries.findMany({
     where: and(
       ownTimeEntriesInOrg(userId, orgId),
-      gte(timeEntries.date, weekStartDate),
-      lt(timeEntries.date, weekEnd),
+      timeEntryDateRange(weekStartDate, weekEnd),
     ),
     columns: { projectId: true, activityTypeId: true, date: true, hours: true },
   });
   const occupied = new Set<string>();
   for (const e of existing) {
     if ((Number(e.hours) || 0) <= 0) continue;
-    const offset = Math.floor(
-      (e.date.getTime() - weekStartDate.getTime()) / 86_400_000,
-    );
+    const offset = dayOffsetFromWeekStart(e.date, weekStartDate);
     occupied.add(weekCellKey(e.projectId, e.activityTypeId, offset));
   }
 
@@ -359,7 +362,6 @@ async function fillWeekCells(
       billableByKey.set(billableKey, isBillable);
     }
     const entryDate = addDays(weekStartDate, cell.dayOffset);
-    entryDate.setHours(8, 0, 0, 0);
     await db.insert(timeEntries).values({
       userId,
       organizationId: orgId,
@@ -398,13 +400,12 @@ async function buildCellsFromWeek(
     hours: number;
   }>
 > {
-  const weekStartDate = parseLocalDate(weekStart);
+  const weekStartDate = entryDateFromStr(weekStart);
   const weekEnd = addDays(weekStartDate, 7);
   const entries = await db.query.timeEntries.findMany({
     where: and(
       ownTimeEntriesInOrg(userId, orgId),
-      gte(timeEntries.date, weekStartDate),
-      lt(timeEntries.date, weekEnd),
+      timeEntryDateRange(weekStartDate, weekEnd),
     ),
     columns: { projectId: true, activityTypeId: true, date: true, hours: true },
   });
@@ -422,7 +423,7 @@ export const enterpriseTimesheetRouter = router({
     .input(z.object({ weekStart: dateString }))
     .query(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const weekStart = parseLocalDate(input.weekStart);
+      const weekStart = entryDateFromStr(input.weekStart);
       const weekEnd = addDays(weekStart, 7); // exclusive
       const days = Array.from({ length: 7 }, (_, i) =>
         toDateStr(addDays(weekStart, i)),
@@ -452,8 +453,7 @@ export const enterpriseTimesheetRouter = router({
         ctx.db.query.timeEntries.findMany({
           where: and(
             ownTimeEntriesInOrg(userId, ctx.orgId),
-            gte(timeEntries.date, weekStart),
-            lt(timeEntries.date, weekEnd),
+            timeEntryDateRange(weekStart, weekEnd),
           ),
           columns: {
             projectId: true,
@@ -560,7 +560,7 @@ export const enterpriseTimesheetRouter = router({
           projectId: e.projectId,
           projectName: e.project?.name ?? null,
           activityTypeId: e.activityTypeId,
-          date: toDateStr(e.date),
+          date: toCopenhagenDateStr(e.date),
           hours: Number(e.hours) || 0,
           source: e.source,
           description: e.description,
@@ -721,7 +721,7 @@ export const enterpriseTimesheetRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const weekStart = parseLocalDate(input.weekStart);
+      const weekStart = entryDateFromStr(input.weekStart);
       const weekEnd = addDays(weekStart, 7);
       const days = Array.from({ length: 7 }, (_, i) =>
         toDateStr(addDays(weekStart, i)),
@@ -759,8 +759,7 @@ export const enterpriseTimesheetRouter = router({
         .where(
           and(
             ownTimeEntriesInOrg(userId, ctx.orgId),
-            gte(timeEntries.date, weekStart),
-            lt(timeEntries.date, weekEnd),
+            timeEntryDateRange(weekStart, weekEnd),
           ),
         );
       const totalHours = Number(totals[0]?.total ?? 0);
@@ -787,8 +786,7 @@ export const enterpriseTimesheetRouter = router({
             .where(
               and(
                 ownTimeEntriesInOrg(userId, ctx.orgId),
-                gte(timeEntries.date, weekStart),
-                lt(timeEntries.date, weekEnd),
+                timeEntryDateRange(weekStart, weekEnd),
               ),
             )
             .groupBy(copenhagenDateSql(timeEntries.date)),
@@ -934,8 +932,7 @@ export const enterpriseTimesheetRouter = router({
           .where(
             and(
               ownTimeEntriesInOrg(userId, ctx.orgId),
-              gte(timeEntries.date, weekStart),
-              lt(timeEntries.date, weekEnd),
+              timeEntryDateRange(weekStart, weekEnd),
             ),
           );
       });
@@ -1047,7 +1044,7 @@ export const enterpriseTimesheetRouter = router({
           sql`SELECT pg_advisory_xact_lock(hashtext(${`timesheet-day:${ctx.orgId}:${userId}:${input.date}`}))`,
         );
 
-        const dayStart = parseLocalDate(input.date);
+        const dayStart = entryDateFromStr(input.date);
         const dayEnd = addDays(dayStart, 1);
         // Nøglen er (projekt, aktivitet, dag) — poster med en anden aktivitet
         // er egne celler og røres ikke (#459)
@@ -1058,8 +1055,7 @@ export const enterpriseTimesheetRouter = router({
             activityTypeId
               ? eq(timeEntries.activityTypeId, activityTypeId)
               : isNull(timeEntries.activityTypeId),
-            gte(timeEntries.date, dayStart),
-            lt(timeEntries.date, dayEnd),
+            timeEntryDateRange(dayStart, dayEnd),
           ),
         });
 
@@ -1123,8 +1119,7 @@ export const enterpriseTimesheetRouter = router({
           excludeEntryIds: gridEntries.map((e) => e.id),
         });
 
-        const entryDate = new Date(dayStart);
-        entryDate.setHours(8, 0, 0, 0);
+        const entryDate = dayStart;
 
         if (gridEntries.length > 0) {
           const [first, ...rest] = gridEntries;
@@ -1139,6 +1134,7 @@ export const enterpriseTimesheetRouter = router({
               .update(timeEntries)
               .set({
                 hours: targetGridHours.toFixed(2),
+                date: entryDate,
                 ...(description !== undefined ? { description } : {}),
                 updatedAt: new Date(),
               })
@@ -1245,7 +1241,7 @@ export const enterpriseTimesheetRouter = router({
       }
 
       const weekStartDate = input.weekStart
-        ? parseLocalDate(input.weekStart)
+        ? entryDateFromStr(input.weekStart)
         : null;
       const candidates = await ctx.db.query.timeEntries.findMany({
         where: and(
@@ -1256,10 +1252,7 @@ export const enterpriseTimesheetRouter = router({
             ? eq(timeEntries.activityTypeId, input.fromActivityTypeId)
             : isNull(timeEntries.activityTypeId),
           ...(weekStartDate
-            ? [
-                gte(timeEntries.date, weekStartDate),
-                lt(timeEntries.date, addDays(weekStartDate, 7)),
-              ]
+            ? [timeEntryDateRange(weekStartDate, addDays(weekStartDate, 7))]
             : []),
         ),
         columns: { id: true, date: true, isBilled: true, invoiceId: true },
@@ -1274,7 +1267,9 @@ export const enterpriseTimesheetRouter = router({
         orgId: ctx.orgId,
         userId,
         role: ctx.orgRole,
-        dates: Array.from(new Set(candidates.map((e) => toDateStr(e.date)))),
+        dates: Array.from(
+          new Set(candidates.map((e) => toCopenhagenDateStr(e.date))),
+        ),
       });
 
       await ctx.db.transaction(async (tx) => {
@@ -1333,7 +1328,7 @@ export const enterpriseTimesheetRouter = router({
         role: ctx.orgRole,
         dates: [input.date],
       });
-      const cellDate = parseLocalDate(input.date);
+      const cellDate = entryDateFromStr(input.date);
 
       // Alle læsninger der påvirker beslutningen OG alle skrivninger
       // (anmodning, feriesaldo, overtidssaldo, flex) i én transaktion (#452),
@@ -1451,7 +1446,7 @@ export const enterpriseTimesheetRouter = router({
           }
           const workingDays = employment.workingDays ?? DEFAULT_WORKING_DAYS;
           const isoDay =
-            cellDate.getDay() === 0 ? "7" : String(cellDate.getDay());
+            cellDate.getUTCDay() === 0 ? "7" : String(cellDate.getUTCDay());
           // Effektiv dagsnorm: halveret på en halvdags-helligdag, så en "hel"
           // fraværsdag dér svarer til den halve norm — i celle-tolkning,
           // svar-timer og afspadserings-fradrag (#452).
@@ -1751,7 +1746,7 @@ export const enterpriseTimesheetRouter = router({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
       const sourceWeek = toDateStr(
-        addDays(parseLocalDate(input.weekStart), -7),
+        addDays(entryDateFromStr(input.weekStart), -7),
       );
       const cells = await buildCellsFromWeek(
         ctx.db,
@@ -1910,15 +1905,14 @@ export const enterpriseTimesheetRouter = router({
     .input(z.object({ from: dateString, to: dateString }))
     .query(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const fromDate = parseLocalDate(input.from);
-      const toDate = addDays(parseLocalDate(input.to), 1);
+      const fromDate = entryDateFromStr(input.from);
+      const toDate = addDays(entryDateFromStr(input.to), 1);
       const MAX_ROWS = 50_000;
 
       const entries = await ctx.db.query.timeEntries.findMany({
         where: and(
           ownTimeEntriesInOrg(userId, ctx.orgId),
-          gte(timeEntries.date, fromDate),
-          lt(timeEntries.date, toDate),
+          timeEntryDateRange(fromDate, toDate),
         ),
         columns: {
           date: true,
@@ -1940,7 +1934,7 @@ export const enterpriseTimesheetRouter = router({
         truncated,
         entries: (truncated ? entries.slice(0, MAX_ROWS) : entries).map(
           (e) => ({
-            date: toDateStr(e.date),
+            date: toCopenhagenDateStr(e.date),
             hours: Number(e.hours) || 0,
             project: e.project?.name ?? "",
             activity: e.activityType?.name ?? "",

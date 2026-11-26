@@ -1,7 +1,7 @@
 import { act } from '@testing-library/react-native';
 import * as React from 'react';
 import { AppState } from 'react-native';
-import { cleanup, render } from '~/lib/test-utils';
+import { cleanupAsync, render } from '~/lib/test-utils';
 import { FlexScreen } from './flex-screen';
 
 /**
@@ -62,8 +62,11 @@ describe('flexsaldoens dato', () => {
     mockBalanceCalls.length = 0;
   });
 
-  afterEach(() => {
-    cleanup();
+  afterEach(async () => {
+    // Afmontér og vent på det, mens de falske timere stadig er slået til. Synkron
+    // `cleanup()` afmonterer først efter `useRealTimers()`, og så rydder `StatusBar`
+    // sin falske immediate med Nodes ægte `clearImmediate` (se jest-setup.ts).
+    await cleanupAsync();
     jest.restoreAllMocks();
     jest.useRealTimers();
     Date.now = realNow;

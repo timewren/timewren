@@ -1,6 +1,8 @@
 import { randomInt } from "node:crypto";
 import { errors, jwtVerify, SignJWT } from "jose";
 import { NextResponse } from "next/server";
+import type { BrandKey } from "@/lib/brands/registry";
+import { licenseKeyPrefix } from "@/lib/desktop-license-brand";
 import { getSigningSecret } from "@/lib/security/signing-secret";
 
 const DEVICE_TOKEN_EXPIRY = "90d"; // 90-day token lifetime
@@ -98,9 +100,11 @@ export function deviceAuthErrorResponse(error: unknown): NextResponse | null {
 }
 
 /**
- * Generate a license key in the format TT-XXXX-XXXX-XXXX-XXXX.
+ * Generate a license key in the format TT-XXXX-XXXX-XXXX-XXXX (TW- for
+ * TimeWren; the prefix is what scopes a licence to its brand, see
+ * desktop-license-brand.ts).
  */
-export function generateLicenseKey(): string {
+export function generateLicenseKey(brand: BrandKey = "timetrack"): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // No I, O, 0, 1 to avoid confusion
   const segment = () => {
     let s = "";
@@ -109,7 +113,7 @@ export function generateLicenseKey(): string {
     }
     return s;
   };
-  return `TT-${segment()}-${segment()}-${segment()}-${segment()}`;
+  return `${licenseKeyPrefix(brand)}-${segment()}-${segment()}-${segment()}-${segment()}`;
 }
 
 /**

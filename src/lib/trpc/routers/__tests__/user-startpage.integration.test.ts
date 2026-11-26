@@ -47,6 +47,8 @@ const CLONED = [
   "employee_profiles",
   "feature_flags",
   "rate_history",
+  // getProfile læser virksomhedsindstillinger fra org'ens profil.
+  "company_profiles",
 ];
 
 describe.skipIf(!TEST_DATABASE_URL)(

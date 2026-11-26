@@ -31,6 +31,13 @@ const { extensionTokens, members, organizations } = await import(
 );
 const { deviceCaller, seedAccount, webCaller } = await import("./fixture");
 
+// Uden NEXT_PUBLIC_BRAND er instansen TimeWren (brand-id.ts), og så svarer
+// device-login med timewren://. Testene her gælder TimeTrack Cloud, som
+// unit-testenes vitest.config.ts også sætter.
+beforeEach(() => {
+  vi.stubEnv("NEXT_PUBLIC_BRAND", "timetrack");
+});
+
 const enabled = process.env.TT_DB_TESTS === "1";
 
 let ipCounter = 0;

@@ -36,6 +36,46 @@ use crate::ui::maalvaelger::{TargetPicker, TargetPickerEvent};
 use crate::ui::{self, Loadable, format};
 use legend::task_icon;
 
+/// Hvilke poster kalenderen viser ud fra fakturering ("Faktureret" i
+/// web's tidsliste): alle, kun dem på en faktura, eller kun dem uden.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum InvoicedFilter {
+    #[default]
+    All,
+    Uninvoiced,
+    Invoiced,
+}
+
+impl InvoicedFilter {
+    pub const ALL: [InvoicedFilter; 3] = [
+        InvoicedFilter::All,
+        InvoicedFilter::Uninvoiced,
+        InvoicedFilter::Invoiced,
+    ];
+
+    pub fn label(self) -> &'static str {
+        match self {
+            InvoicedFilter::All => t("kalender.fakturering.alle"),
+            InvoicedFilter::Uninvoiced => t("kalender.fakturering.ufaktureret"),
+            InvoicedFilter::Invoiced => t("kalender.fakturering.faktureret"),
+        }
+    }
+
+    pub fn matches(self, e: &Entry) -> bool {
+        match self {
+            InvoicedFilter::All => true,
+            InvoicedFilter::Uninvoiced => e.invoice_id.is_none(),
+            InvoicedFilter::Invoiced => e.invoice_id.is_some(),
+        }
+    }
+}
+
+/// Vis denne dag med kun fakturerede poster, næste gang Kalender vises (link
+/// fra en faktura).
+pub struct ShowInvoiced(pub NaiveDate);
+
+impl Global for ShowInvoiced {}
+
 /// Geometri og træk. Rene funktioner over minutter fra midnat.
 // gendan: månedsvisning.
 mod farver;
@@ -372,6 +412,9 @@ struct Editor {
     description: Entity<InputState>,
     untimed: bool,
     billable: bool,
+    /// Brugeren har selv sat "Fakturerbar". Ellers følger en ny post kundens
+    /// standard (intern kunde = ikke fakturerbar), også når kunden skiftes.
+    billable_touched: bool,
     errors: EntryErrors,
     error: Option<SharedString>,
     busy: bool,
@@ -404,6 +447,8 @@ pub struct KalenderScreen {
     picker: Entity<TargetPicker>,
     picking: bool,
     notice: Option<(SharedString, bool)>,
+    /// Filter på fakturerede poster.
+    invoiced: InvoicedFilter,
     /// `TT_DEMO=editor`: åbn editoren, når data er hentet (skærmbilleder).
     demo_editor: bool,
     _subs: Vec<Subscription>,
@@ -435,6 +480,7 @@ impl KalenderScreen {
             picker,
             picking: false,
             notice: None,
+            invoiced: InvoicedFilter::default(),
             demo_editor: std::env::var("TT_DEMO").as_deref() == Ok("editor"),
             _subs: subs,
         };
@@ -458,6 +504,7 @@ impl KalenderScreen {
     }
 
     pub fn reload(&mut self, cx: &mut Context<Self>) {
+        let filter = self.invoiced;
         let days = self.days();
         let range = crate::backend::DateRange {
             from: days[0],
@@ -480,7 +527,8 @@ impl KalenderScreen {
                     return; // Brugeren har skiftet periode i mellemtiden.
                 }
                 match res {
-                    Ok((entries, refs)) => {
+                    Ok((mut entries, refs)) => {
+                        entries.retain(|e| filter.matches(e));
                         this.entries = Loadable::Ready(entries);
                         this.refs = refs;
                     }
@@ -496,6 +544,25 @@ impl KalenderScreen {
 
     fn entry(&self, id: &str) -> Option<&Entry> {
         self.all().iter().find(|e| e.id == id)
+    }
+
+    pub fn set_invoiced_filter(&mut self, filter: InvoicedFilter, cx: &mut Context<Self>) {
+        if self.invoiced == filter {
+            return;
+        }
+        self.invoiced = filter;
+        self.entries = Loadable::Loading;
+        self.reload(cx);
+        cx.notify();
+    }
+
+    /// Link fra en faktura: den dag, med kun de fakturerede poster.
+    fn show_invoiced(&mut self, day: NaiveDate, cx: &mut Context<Self>) {
+        self.anchor = day;
+        self.invoiced = InvoicedFilter::Invoiced;
+        self.entries = Loadable::Loading;
+        self.reload(cx);
+        cx.notify();
     }
 
     pub fn set_week(&mut self, week: bool, cx: &mut Context<Self>) {
@@ -526,6 +593,11 @@ impl KalenderScreen {
         self.entries = Loadable::Loading;
         self.reload(cx);
         cx.notify();
+    }
+
+    /// Id'erne på de viste poster (efter filteret på fakturering).
+    pub fn shown_ids(&self) -> Vec<Id> {
+        self.ordered_ids()
     }
 
     /// Visningens poster i rækkefølge (dato, uden tidspunkt først, start).
@@ -646,7 +718,11 @@ impl KalenderScreen {
                 cx,
             ),
             untimed,
-            billable: e.is_none_or(|e| e.billable),
+            billable: e.map_or_else(
+                || crate::backend::default_billable(&self.refs.customers, chosen_customer.as_deref()),
+                |e| e.billable,
+            ),
+            billable_touched: false,
             errors: EntryErrors::default(),
             error: None,
             busy: false,
@@ -685,7 +761,8 @@ impl KalenderScreen {
         cx.notify();
     }
 
-    /// Ny kunde i editoren: klippekortene følger med.
+    /// Ny kunde i editoren: klippekortene følger med, og på en ny post også
+    /// "Fakturerbar" (kundens standard), medmindre brugeren selv har sat den.
     pub fn customer_changed(
         &mut self,
         customer: Option<String>,
@@ -693,9 +770,14 @@ impl KalenderScreen {
         cx: &mut Context<Self>,
     ) {
         let today = self.ctx.backend.today();
-        let Some(ed) = self.editor.as_ref() else {
+        let default = crate::backend::default_billable(&self.refs.customers, customer.as_deref());
+        let Some(ed) = self.editor.as_mut() else {
             return;
         };
+        if ed.editing.is_none() && !ed.billable_touched {
+            ed.billable = default;
+        }
+        let ed = &*ed;
         if let Some(card) = &ed.card {
             forms::set_choices(
                 card,
@@ -1171,6 +1253,28 @@ impl KalenderScreen {
             )
             .child(div().flex_1())
             .children(notice.map(|n| n.max_w(px(320.)).overflow_hidden().whitespace_nowrap()))
+            .child(forms::segmented(
+                b,
+                "kalender-fakturering",
+                t("kalender.fakturering.label"),
+                &[
+                    InvoicedFilter::All.label(),
+                    InvoicedFilter::Uninvoiced.label(),
+                    InvoicedFilter::Invoiced.label(),
+                ],
+                InvoicedFilter::ALL
+                    .iter()
+                    .position(|f| *f == self.invoiced)
+                    .unwrap_or(0),
+                {
+                    let view = cx.entity().downgrade();
+                    move |ix, _, cx| {
+                        let _ = view.update(cx, |this, cx| {
+                            this.set_invoiced_filter(InvoicedFilter::ALL[ix], cx)
+                        });
+                    }
+                },
+            ))
             .child(forms::segmented(
                 b,
                 "kalender-visning",
@@ -1685,12 +1789,36 @@ impl KalenderScreen {
             overlay.child(
                 dialog
                     .when(invoiced, |d| {
-                        d.child(ui::badge(
-                            b,
-                            "post-faktureret",
-                            t("kalender.editor.faktureret"),
-                            ui::Tone::Warning,
-                        ))
+                        let invoice_id = ed.editing.as_ref().and_then(|e| e.invoice_id.clone());
+                        d.child(
+                            h_flex()
+                                .gap_2()
+                                .items_center()
+                                .child(ui::badge(
+                                    b,
+                                    "post-faktureret",
+                                    t("kalender.editor.faktureret"),
+                                    ui::Tone::Warning,
+                                ))
+                                .child(
+                                    Button::new("post-aabn-faktura")
+                                        .label(t("kalender.editor.aabn_faktura"))
+                                        .ghost()
+                                        .small()
+                                        .on_click(cx.listener(move |this, _, w, cx| {
+                                            if let Some(id) = invoice_id.clone() {
+                                                this.close_editor(w, cx);
+                                                cx.set_global(
+                                                    crate::screens::fakturaer::OpenInvoice(id),
+                                                );
+                                                w.dispatch_action(
+                                                    Box::new(crate::app::GaTilFakturaer),
+                                                    cx,
+                                                );
+                                            }
+                                        })),
+                                ),
+                        )
                     })
                     .child(
                         v_flex()
@@ -1734,6 +1862,7 @@ impl KalenderScreen {
                                     .on_change(cx.listener(|this, v: &bool, _, cx| {
                                         if let Some(ed) = this.editor.as_mut() {
                                             ed.billable = *v;
+                                            ed.billable_touched = true;
                                         }
                                         cx.notify();
                                     })),
@@ -1803,6 +1932,11 @@ fn preview(b: &Brand, id: &'static str, s: u32, en: u32, title: &str) -> impl In
 
 impl Render for KalenderScreen {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
+        if let Some(ShowInvoiced(day)) = cx.try_global::<ShowInvoiced>().map(|g| ShowInvoiced(g.0))
+        {
+            cx.remove_global::<ShowInvoiced>();
+            self.show_invoiced(day, cx);
+        }
         if self.demo_editor && self.entries.ready().is_some() {
             self.demo_editor = false;
             let new = NewEntry {
@@ -1920,10 +2054,34 @@ mod tests {
         create_span, days, is_resize_grip, lanes, move_start, resize_end, span_minutes, time_of, week_start,
         y_to_min,
     };
-    use super::{EntryDraft, range_label, validate_entry};
+    use super::{EntryDraft, InvoicedFilter, range_label, validate_entry};
 
     fn d(y: i32, m: u32, dd: u32) -> NaiveDate {
         NaiveDate::from_ymd_opt(y, m, dd).unwrap()
+    }
+
+    #[test]
+    fn fakturafilter_matcher_poster_med_og_uden_faktura() {
+        let mut e = crate::backend::Entry {
+            id: "e".into(),
+            date: d(2026, 11, 17),
+            start: None,
+            end: None,
+            minutes: 60,
+            customer_id: "k".into(),
+            project_id: None,
+            task_id: None,
+            description: String::new(),
+            billable: true,
+            invoice_id: None,
+        };
+        assert!(InvoicedFilter::All.matches(&e));
+        assert!(InvoicedFilter::Uninvoiced.matches(&e));
+        assert!(!InvoicedFilter::Invoiced.matches(&e));
+        e.invoice_id = Some("f".into());
+        assert!(InvoicedFilter::All.matches(&e));
+        assert!(!InvoicedFilter::Uninvoiced.matches(&e));
+        assert!(InvoicedFilter::Invoiced.matches(&e));
     }
 
     #[test]
@@ -2122,6 +2280,67 @@ mod probe {
         assert!(testing::a11y(cx, h).has_label_containing("Valgt: Bageriet på Hjørnet · Ny webshop"));
     }
 
+    /// Filteret "Faktureret / Ufaktureret": kalenderen viser kun poster på en
+    /// faktura, eller kun dem uden.
+    #[gpui_kit::test]
+    fn fakturafilter_skjuler_poster_efter_fakturering(cx: &mut TestAppContext) {
+        let mock = testing::mock();
+        let ids: Vec<_> = mock
+            .uninvoiced_entries("kunde_bageriet")
+            .unwrap()
+            .into_iter()
+            .map(|e| e.id)
+            .collect();
+        let draft = mock.create_invoice_draft("kunde_bageriet", &ids).unwrap();
+        let invoiced = mock.invoice_entries(&draft.id).unwrap();
+        let day = invoiced
+            .iter()
+            .map(|e| e.date)
+            .min()
+            .expect("fakturerede poster");
+        let (h, app) = testing::open_app(cx, mock.clone());
+        testing::navigate(cx, h, &app, Screen::Kalender);
+        let s = screen(cx, &app);
+        cx.update_window(h, |_, _, cx| s.update(cx, |s, cx| s.set_week(true, cx)))
+            .unwrap();
+        cx.update_window(h, |_, _, cx| s.update(cx, |s, cx| s.show_invoiced(day, cx)))
+            .unwrap();
+        cx.run_until_parked();
+        testing::render(cx, h);
+        let shown = s.read_with(cx, |s, _| s.shown_ids());
+        assert!(!shown.is_empty());
+        assert!(
+            shown
+                .iter()
+                .all(|id| invoiced.iter().any(|e| &e.id == id) || mock_invoiced(&mock, id))
+        );
+        // Ufaktureret: ingen af de fakturerede poster.
+        cx.update_window(h, |_, w, cx| w.click("kalender-fakturering-1", cx))
+            .unwrap();
+        cx.run_until_parked();
+        testing::render(cx, h);
+        let shown = s.read_with(cx, |s, _| s.shown_ids());
+        assert!(shown.iter().all(|id| !invoiced.iter().any(|e| &e.id == id)));
+        // Alle: begge slags.
+        cx.update_window(h, |_, w, cx| w.click("kalender-fakturering-0", cx))
+            .unwrap();
+        cx.run_until_parked();
+        testing::render(cx, h);
+        let shown = s.read_with(cx, |s, _| s.shown_ids());
+        assert!(invoiced.iter().filter(|e| shown.contains(&e.id)).count() > 0);
+    }
+
+    fn mock_invoiced(mock: &MockBackend, id: &str) -> bool {
+        let wide = DateRange {
+            from: testing::today() - chrono::Days::new(120),
+            to: testing::today() + chrono::Days::new(120),
+        };
+        mock.entries(wide)
+            .unwrap()
+            .iter()
+            .any(|e| e.id == id && e.invoice_id.is_some())
+    }
+
     #[gpui_kit::test]
     fn ny_registrering_med_tastatur_og_klippekort(cx: &mut TestAppContext) {
         let mock = testing::mock();
@@ -2176,6 +2395,50 @@ mod probe {
             mock.punch_cards(Some("kunde_yoga")).unwrap()[0].used_minutes,
             used_before + 90
         );
+    }
+
+    /// Web's `pickDefaultBillable`: en ny post på en intern kunde er ikke
+    /// fakturerbar. Før sendte editoren altid `isBillable: true`.
+    #[gpui_kit::test]
+    fn ny_post_paa_intern_kunde_er_ikke_fakturerbar(cx: &mut TestAppContext) {
+        let mock = testing::mock();
+        let yoga = mock.customers(false).unwrap().into_iter().find(|c| c.id == "kunde_yoga").unwrap();
+        mock.update_customer(
+            "kunde_yoga",
+            crate::backend::CustomerInput { name: yoga.name.clone(), internal: true, ..Default::default() },
+        )
+        .unwrap();
+        let other = mock
+            .customers(false)
+            .unwrap()
+            .into_iter()
+            .find(|c| !c.internal)
+            .expect("en almindelig kunde")
+            .id;
+        let (h, app) = testing::open_app(cx, mock.clone());
+        testing::navigate(cx, h, &app, Screen::Kalender);
+        let s = screen(cx, &app);
+        let save = |cx: &mut TestAppContext, customer: &str, text: &str| {
+            cx.update_window(h, |_, w, cx| {
+                s.update(cx, |s, cx| s.focus.focus(w, cx));
+                w.press("n", cx);
+            })
+            .unwrap();
+            cx.run_until_parked();
+            cx.update_window(h, |_, w, cx| {
+                // Først en almindelig kunde, så den valgte: standarden følger med.
+                s.update(cx, |s, cx| s.editor_select_customer(&other, w, cx));
+                s.update(cx, |s, cx| s.editor_select_customer(customer, w, cx));
+                w.click("post-beskrivelse", cx);
+                w.input(text, cx);
+                w.click("post-editor-gem", cx);
+            })
+            .unwrap();
+            cx.run_until_parked();
+            today_entries(&mock).into_iter().find(|e| e.description == text).expect("gemt")
+        };
+        assert!(!save(cx, "kunde_yoga", "Intern planlægning").billable);
+        assert!(save(cx, &other, "Kundemøde").billable);
     }
 
     #[gpui_kit::test]

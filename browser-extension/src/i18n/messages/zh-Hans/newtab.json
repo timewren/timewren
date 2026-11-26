@@ -49,7 +49,8 @@
     "title": "新标签页设置",
     "close": "关闭设置",
     "enable": "在新标签页中使用 TimeTrack",
-    "enableHint": "用 TimeTrack 替换浏览器的起始页",
+    "enableHint": "用 TimeTrack 替换浏览器的新标签页。关闭后将显示带搜索框的简洁页面",
+    "enableHintChrome": "用 TimeTrack 替换浏览器的新标签页。关闭后将显示 Chrome 自带的新标签页，始终为 Google 版本，即使你的默认搜索引擎不是 Google",
     "appearance": "外观",
     "theme": "主题",
     "themeHint": "扩展的配色主题",
@@ -95,5 +96,10 @@
     "chartLabel": "每周工时概览",
     "workHours": "{day}的工作时长",
     "dayHours": "{day}：{hours}"
+  },
+  "search": {
+    "label": "搜索网页",
+    "submit": "搜索",
+    "error": "无法开始搜索。请改为在地址栏中输入。"
   }
 }

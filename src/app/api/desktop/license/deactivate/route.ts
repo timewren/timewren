@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { desktopDevices, desktopLicenses } from "@/lib/db/schema";
 import { demoUnavailableResponse } from "@/lib/demo/route-guard";
+import { licenseMatchesHost } from "@/lib/desktop-license-brand";
 import { rateLimitResponse } from "@/lib/desktop-rate-limit";
 import {
   getClientIp,
@@ -51,7 +52,12 @@ export async function POST(request: Request) {
       where: eq(desktopLicenses.licenseKey, licenseKey),
     });
 
-    if (!license) {
+    // A licence only works on its own brand's host (TT- on TimeTrack, TW- on
+    // TimeWren); anywhere else it is "not found", so keys do not leak.
+    if (
+      !license ||
+      !licenseMatchesHost(license.licenseKey, request.headers.get("host"))
+    ) {
       return NextResponse.json(
         { error: "Invalid license key" },
         { status: 404 },

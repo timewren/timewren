@@ -46,7 +46,7 @@ mod fundne;
 
 /// Team, integrationer og organisation indstilles i web (spec: ikke i scope
 /// for desktop). Marketing-værten sender app-stier videre til app-værten.
-const WEB_SETTINGS_URL: &str = "https://timetrack.dk/dashboard/settings";
+const WEB_SETTINGS_URL: &str = tt_core::edition::EDITION.settings_url;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Section {
@@ -411,6 +411,8 @@ impl IndstillingerScreen {
                 .masked(true)
         });
         let mut subs = vec![cx.observe(&ctx.hub, |this: &mut Self, _, cx| this.reload(cx))];
+        // App Store-udgaven: licensdelen tegnes igen ved køb og gendannelse.
+        subs.extend(crate::store::observe(cx));
         for (i, input) in list_inputs.iter().enumerate() {
             let kind = [
                 ListKind::Apps,
@@ -1130,63 +1132,70 @@ impl IndstillingerScreen {
                             t("indstillinger.konto.uden_konto"),
                             Tone::Neutral,
                         )),
-                    )
-                    .child(
-                        row(b, "konto-licens", t("indstillinger.konto.licens"), "").child(
-                            ui::badge(
-                                b,
-                                "konto-licens-status",
-                                lic,
-                                if a.license.is_some() {
-                                    Tone::Primary
-                                } else {
-                                    Tone::Warning
-                                },
-                            ),
-                        ),
-                    )
-                    .child(
-                        h_flex()
-                            .gap_2()
-                            .items_center()
-                            .child(
-                                div().w(px(280.)).child(
-                                    Input::new(&self.license_key)
-                                        .id("konto-licensnoegle")
-                                        .aria_label(t("indstillinger.konto.licensnoegle")),
+                    );
+                // App Store-udgaven: erhvervslicensen som in-app-køb, ingen
+                // licensnøgle, ingen prøve og intet køb uden for appen.
+                if crate::mas::ENABLED {
+                    card = card.child(crate::store::license_panel(b, "konto-licens"));
+                } else {
+                    card = card
+                        .child(
+                            row(b, "konto-licens", t("indstillinger.konto.licens"), "").child(
+                                ui::badge(
+                                    b,
+                                    "konto-licens-status",
+                                    lic,
+                                    if a.license.is_some() {
+                                        Tone::Primary
+                                    } else {
+                                        Tone::Warning
+                                    },
                                 ),
-                            )
-                            .child(
-                                Button::new("konto-aktiver")
-                                    .label(t("indstillinger.konto.aktiver"))
-                                    .small()
-                                    .on_click(
-                                        cx.listener(|this, _, _, cx| this.activate_license(cx)),
+                            ),
+                        )
+                        .child(
+                            h_flex()
+                                .gap_2()
+                                .items_center()
+                                .child(
+                                    div().w(px(280.)).child(
+                                        Input::new(&self.license_key)
+                                            .id("konto-licensnoegle")
+                                            .aria_label(t("indstillinger.konto.licensnoegle")),
                                     ),
-                            )
-                            .child(
-                                Button::new("konto-koeb")
-                                    .label(t("indstillinger.konto.koeb"))
-                                    .ghost()
-                                    .small()
-                                    .on_click(|_, _, cx| {
-                                        cx.open_url(crate::screens::onboarding::BUY_URL)
-                                    }),
-                            )
-                            // Uden licens (fx efter logud fra cloud) siger banneret
-                            // "Start en prøve"; ellers kan det kun gøres i onboardingen.
-                            .when(a.license.is_none() && a.trial_available, |r| {
-                                r.child(
-                                    Button::new("konto-proeve")
-                                        .label(t("onboarding.local.trial"))
-                                        .ghost()
+                                )
+                                .child(
+                                    Button::new("konto-aktiver")
+                                        .label(t("indstillinger.konto.aktiver"))
                                         .small()
                                         .on_click(
-                                            cx.listener(|this, _, _, cx| this.start_trial(cx)),
+                                            cx.listener(|this, _, _, cx| this.activate_license(cx)),
                                         ),
                                 )
-                            }),
-                    );
+                                .child(
+                                    Button::new("konto-koeb")
+                                        .label(t("indstillinger.konto.koeb"))
+                                        .ghost()
+                                        .small()
+                                        .on_click(|_, _, cx| {
+                                            cx.open_url(crate::screens::onboarding::BUY_URL)
+                                        }),
+                                )
+                                // Uden licens (fx efter logud fra cloud) siger banneret
+                                // "Start en prøve"; ellers kan det kun gøres i onboardingen.
+                                .when(a.license.is_none() && a.trial_available, |r| {
+                                    r.child(
+                                        Button::new("konto-proeve")
+                                            .label(t("onboarding.local.trial"))
+                                            .ghost()
+                                            .small()
+                                            .on_click(
+                                                cx.listener(|this, _, _, cx| this.start_trial(cx)),
+                                            ),
+                                    )
+                                }),
+                        );
+                }
             }
         }
         let import = v_flex()
@@ -1295,6 +1304,13 @@ impl IndstillingerScreen {
     }
 
     fn render_sporing(&self, b: &Brand, d: &Data, cx: &mut Context<Self>) -> AnyElement {
+        // App Store-udgaven: ingen sporing at stille på, kun forklaringen og
+        // "Start ved login".
+        if crate::mas::ENABLED {
+            return crate::mas::tracking_notice(b, "sporing")
+                .child(self.render_opstart(b, d, cx))
+                .into_any_element();
+        }
         let tr = &d.settings.tracking;
         let enabled = tr.enabled;
         ui::card(b, "sporing", t("indstillinger.sporing.titel"))
@@ -2093,6 +2109,25 @@ impl IndstillingerScreen {
     }
 
     fn render_opdateringer(&self, b: &Brand, d: &Data, cx: &mut Context<Self>) -> AnyElement {
+        let version = ui::text(
+            "opdateringer-version",
+            tf(
+                "indstillinger.opdateringer.version",
+                &[("version", env!("CARGO_PKG_VERSION"))],
+            ),
+        )
+        .text_sm();
+        // App Store-udgaven: App Store opdaterer; ingen kanal og intet panel.
+        if !crate::mas::UPDATER {
+            return crate::mas::notice(
+                b,
+                "opdateringer",
+                t("mas.opdateringer.titel"),
+                t("mas.opdateringer.tekst"),
+            )
+            .child(version)
+            .into_any_element();
+        }
         let weak = cx.entity().downgrade();
         let ch = d.settings.update_channel;
         ui::card(b, "opdateringer", t("indstillinger.opdateringer.titel"))
@@ -2134,16 +2169,7 @@ impl IndstillingerScreen {
                     t("indstillinger.opdateringer.hjaelp_stabil")
                 },
             ))
-            .child(
-                ui::text(
-                    "opdateringer-version",
-                    tf(
-                        "indstillinger.opdateringer.version",
-                        &[("version", env!("CARGO_PKG_VERSION"))],
-                    ),
-                )
-                .text_sm(),
-            )
+            .child(version)
             // Pakning: søg, hent, installér og genstart (screens/opdatering.rs).
             .when_some(crate::screens::opdatering::UpdatePanel::global(cx), |el, p| el.child(p))
             .into_any_element()
@@ -2154,7 +2180,7 @@ impl IndstillingerScreen {
             .child(ui::heading(b, "om-titel", t("indstillinger.om.titel"), 2))
             .child(ui::text(
                 "om-version",
-                format!("TimeTrack Desktop {}", env!("CARGO_PKG_VERSION")),
+                format!("{} Desktop {}", tt_core::edition::EDITION.name, env!("CARGO_PKG_VERSION")),
             ))
             .child(ui::muted(b, "om-privat", t("indstillinger.om.privat")))
             .child(ui::muted(b, "om-firma", t("indstillinger.om.firma")))
@@ -2166,14 +2192,14 @@ impl IndstillingerScreen {
                             .label(t("indstillinger.om.privatliv"))
                             .ghost()
                             .small()
-                            .on_click(|_, _, cx| cx.open_url("https://timetrack.dk/privatliv")),
+                            .on_click(|_, _, cx| cx.open_url(tt_core::edition::EDITION.privacy_url)),
                     )
                     .child(
                         Button::new("om-licenser")
                             .label(t("indstillinger.om.licenser"))
                             .ghost()
                             .small()
-                            .on_click(|_, _, cx| cx.open_url("https://timetrack.dk/licenser")),
+                            .on_click(|_, _, cx| cx.open_url(tt_core::edition::EDITION.licenses_url)),
                     ),
             )
             .into_any_element()
@@ -2361,10 +2387,14 @@ mod tests {
 mod probe_tests {
     use gpui_kit::{AppContext as _, TestAppContext};
 
-    use super::{IndstillingerScreen, ListKind};
-    use crate::backend::{
-        AiMode, Backend as _, BackendError, CloudAiProvider, LicenseKind, Mode, UpdateChannel,
-    };
+    use super::IndstillingerScreen;
+    #[cfg(not(feature = "mas"))]
+    use super::ListKind;
+    #[cfg(not(feature = "mas"))]
+    use crate::backend::UpdateChannel;
+    #[cfg(not(feature = "mas"))]
+    use crate::backend::LicenseKind;
+    use crate::backend::{AiMode, Backend as _, BackendError, CloudAiProvider, Mode};
     use crate::screens::Screen;
     use crate::testing;
     use crate::testing_b::open;
@@ -2393,6 +2423,10 @@ mod probe_tests {
         p.click(cx, "konto-log-ud");
         p.assert_label(cx, "Lokal tilstand");
         assert_eq!(p.mock.account().unwrap().mode, Mode::Local);
+        // App Store-udgaven har ingen licensnøgle (mas_konto_erhvervslicens_i_app_store).
+        if crate::mas::ENABLED {
+            return;
+        }
         // Licens: forkert format giver fejl, rigtigt aktiverer.
         let set = |cx: &mut TestAppContext, v: &'static str| {
             cx.update_window(p.handle, |_, window, cx| {
@@ -2411,6 +2445,7 @@ mod probe_tests {
     }
 
     /// De valgte radioknapper i en gruppe (`checked` = AXValue 1 på macOS).
+    #[cfg(not(feature = "mas"))]
     fn checked_radios(p: &crate::testing_b::Probe, cx: &mut TestAppContext) -> Vec<String> {
         use gpui_kit::test::TestQueryExt as _;
         cx.update_window(p.handle, |_, window, _| {
@@ -2425,6 +2460,7 @@ mod probe_tests {
     }
 
     #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn radioknapper_siger_hvilken_der_er_valgt(cx: &mut TestAppContext) {
         // Set med AX på en rigtig Mac: Stabil/Beta og "Mødet er slut efter"
         // havde ingen valgt tilstand, så VoiceOver ikke kunne sige "valgt".
@@ -2438,6 +2474,7 @@ mod probe_tests {
     }
 
     #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn konto_uden_licens_kan_starte_en_proeve(cx: &mut TestAppContext) {
         // Set på en rigtig Mac: banneret "Ingen licens" bad om at starte en
         // prøve, men Konto havde kun Aktivér og Køb.
@@ -2454,7 +2491,80 @@ mod probe_tests {
         p.assert_no_label(cx, "Prøv gratis i 14 dage");
     }
 
+    /// App Store-udgaven, lokal tilstand: "Personlig brug er gratis", købet af
+    /// erhvervslicensen med App Stores pris, Gendan køb og status efter køb.
+    /// Ingen licensnøgle, ingen prøve og intet køb uden for appen (3.1.1).
     #[gpui_kit::test]
+    #[cfg(feature = "mas")]
+    fn mas_konto_erhvervslicens_i_app_store(cx: &mut TestAppContext) {
+        use crate::store::{self, PRODUCT_ID};
+        let _l = store::TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        store::reset();
+        cx.update(store::install);
+        // Broens hændelse og gentegningen (i appen: lyttetasken).
+        let feed = |cx: &mut TestAppContext, line: &str| {
+            store::receive(line);
+            cx.update(store::changed);
+        };
+        let mock = testing::mock();
+        mock.set_local_account();
+        let p = open(cx, mock, Screen::Indstillinger);
+        p.assert_all_labelled(cx);
+        p.assert_label(cx, "Personlig brug er gratis");
+        p.assert_label(cx, "Tjekker App Store");
+        p.assert_label(cx, "Henter prisen fra App Store");
+        p.assert_label(cx, "Gendan køb");
+        p.assert_no_label(cx, "Licensnøgle");
+        p.assert_no_label(cx, "Køb licens");
+        p.assert_no_label(cx, "Prøv gratis i 14 dage");
+
+        feed(cx, &format!(r#"{{"event":"entitlement","id":"{PRODUCT_ID}","owned":false}}"#));
+        feed(cx, &format!(r#"{{"event":"product","id":"{PRODUCT_ID}","price":"499,00 kr."}}"#));
+        p.settle(cx);
+        p.assert_label(cx, "Personlig brug");
+        p.assert_label(cx, "Køb erhvervslicens, 499,00 kr.");
+
+        // Gendan uden tidligere køb.
+        p.click(cx, "konto-licens-gendan");
+        p.assert_label(cx, "Gendanner køb");
+        feed(cx, r#"{"event":"restore","result":"done","owned":false}"#);
+        p.settle(cx);
+        p.assert_label(cx, "Der er ikke noget køb af erhvervslicensen");
+
+        // Afbrudt køb, så et køb, der lykkes.
+        p.click(cx, "konto-licens-koeb");
+        p.assert_label(cx, "Venter på App Store");
+        feed(cx, r#"{"event":"purchase","result":"cancelled"}"#);
+        p.settle(cx);
+        p.assert_label(cx, "Købet blev afbrudt");
+        p.click(cx, "konto-licens-koeb");
+        feed(cx, r#"{"event":"purchase","result":"success"}"#);
+        p.settle(cx);
+        p.assert_label(cx, "Tak for købet! Erhvervslicensen er slået til.");
+        p.assert_label(cx, "Erhvervslicensen er købt i App Store");
+        p.assert_no_label(cx, "Køb erhvervslicens, 499,00 kr.");
+        p.assert_label(cx, "Gendan køb");
+        store::reset();
+    }
+
+    /// App Store-udgaven: Sporing og Opdateringer viser forklaringen og linket
+    /// til den fulde udgave i stedet for indstillingerne.
+    #[gpui_kit::test]
+    #[cfg(feature = "mas")]
+    fn mas_sporing_og_opdateringer_forklarer(cx: &mut TestAppContext) {
+        let p = open(cx, testing::mock(), Screen::Indstillinger);
+        p.click(cx, "indstilling-sporing");
+        p.assert_label(cx, "Automatisk sporing findes i den fulde udgave");
+        p.assert_label(cx, "Hent den fulde udgave");
+        p.assert_label(cx, "Start ved login");
+        p.assert_no_label(cx, "Start sporing ved opstart");
+        p.click(cx, "indstilling-opdateringer");
+        p.assert_label(cx, "Opdateringer kommer fra App Store");
+        p.assert_no_label(cx, "Stabil");
+    }
+
+    #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn sporing_lister_og_tal(cx: &mut TestAppContext) {
         let p = open(cx, testing::mock(), Screen::Indstillinger);
         p.click(cx, "indstilling-sporing");
@@ -2508,6 +2618,7 @@ mod probe_tests {
 
     /// aktivitet: vinduestitler, lageroversigt og "Slet al aktivitet".
     #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn sporing_titler_lager_og_slet_al_aktivitet(cx: &mut TestAppContext) {
         use crate::backend::Backend as _;
         let p = open(cx, testing::mock(), Screen::Indstillinger);
@@ -2555,6 +2666,7 @@ mod probe_tests {
 
     /// ux-vaelger: Sporing → Regler: ret mål, slå fra/til og slet.
     #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn regler_kan_rettes_slaas_fra_og_slettes(cx: &mut TestAppContext) {
         use crate::backend::Backend as _;
         let p = open(cx, testing::mock(), Screen::Indstillinger);
@@ -2600,6 +2712,7 @@ mod probe_tests {
 
     /// aktivitet: undtagelser flyttet fra 0.2 kan ses og fjernes.
     #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn undtagelser_fra_0_2_kan_ses_og_fjernes(cx: &mut TestAppContext) {
         use crate::backend::Backend as _;
         let p = open(cx, testing::mock(), Screen::Indstillinger);
@@ -2691,6 +2804,7 @@ mod probe_tests {
     }
 
     #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn genvej_optages_og_kanal(cx: &mut TestAppContext) {
         let p = open(cx, testing::mock(), Screen::Indstillinger);
         p.click(cx, "indstilling-genveje");

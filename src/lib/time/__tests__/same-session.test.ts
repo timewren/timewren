@@ -66,8 +66,61 @@ describe("decideSameSessionMerge", () => {
       action: "merge",
       hours: 0.67,
       endTime: at("2026-10-01T07:43:00Z"),
+      startTime: start,
       hoursChanged: true,
     });
+  });
+
+  it("kan det nye timetal ikke rummes, flyttes starten til slut − timer", () => {
+    const decision = decideSameSessionMerge({
+      existing,
+      existingLocked: false,
+      incoming: {
+        ...sameOwner,
+        startTime: at("2026-10-01T07:02:55Z"),
+        endTime: at("2026-10-01T07:43:00Z"),
+        // 30 min lagt til sessionen siden første gem
+        hours: 1.17,
+      },
+    });
+    expect(decision.action === "merge" && decision.startTime).toEqual(
+      at("2026-10-01T06:32:48Z"),
+    );
+  });
+
+  it("en normaliseret start matcher den post, en ældre klient gemte med sin start", () => {
+    const legacy = { ...existing, startTime: at("2026-10-01T07:20:00Z") };
+    const incoming = {
+      ...sameOwner,
+      // Normaliseret (slut − timer), langt fra den rå start
+      startTime: at("2026-10-01T06:58:00Z"),
+      clientStartTime: at("2026-10-01T07:20:01Z"),
+      endTime: at("2026-10-01T07:43:00Z"),
+      hours: 0.75,
+    };
+    expect(
+      decideSameSessionMerge({
+        existing: legacy,
+        existingLocked: false,
+        incoming,
+      }).action,
+    ).toBe("merge");
+    // … og en post gemt med en normaliseret start (afrunding: ±36 s)
+    expect(
+      decideSameSessionMerge({
+        existing: { ...existing, startTime: at("2026-10-01T06:58:30Z") },
+        existingLocked: false,
+        incoming,
+      }).action,
+    ).toBe("merge");
+    // Uden flyttet start gælder kun ±2 s
+    expect(
+      decideSameSessionMerge({
+        existing: { ...existing, startTime: at("2026-10-01T06:58:30Z") },
+        existingLocked: false,
+        incoming: { ...incoming, clientStartTime: undefined },
+      }).action,
+    ).toBe("insert");
   });
 
   it("web-gemte timer-poster (source manual) kan også forlænges", () => {

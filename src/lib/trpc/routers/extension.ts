@@ -72,6 +72,7 @@ import { resolveDefaultBillable } from "@/lib/time/default-billable";
 import { entryDateStrInput } from "@/lib/time/entry-date-input";
 import { mergeIntoSameSessionEntry } from "@/lib/time/same-session-merge";
 import { entryDateForStart } from "@/lib/timer/entry-date";
+import { normalizeTimerEntryInput } from "@/lib/timer/entry-span";
 import {
   classifyTimerWrite,
   logTimerEvent,
@@ -120,7 +121,11 @@ import {
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { assertClientAccess } from "./clientAccess";
 import { tokenProcedure } from "./ext/bearer-token";
-import { deductHoursCore } from "./prepaid";
+import {
+  deductHoursCore,
+  lockPrepaidPackages,
+  prepaidDeductionError,
+} from "./prepaid";
 
 // Helper to match URL against a pattern
 function matchUrlPattern(url: string, pattern: string): boolean {
@@ -2702,6 +2707,23 @@ export const extensionRouter = router({
           const stopSessionId = stopped.currentSessionId;
           savedEntryId = await ctx.db
             .transaction(async (tx) => {
+              // Take the card lock before claiming the entry or settling the timer.
+              const packageId =
+                stopClientId && prepaidChoice?.mode !== "none"
+                  ? prepaidChoice?.mode === "package"
+                    ? prepaidChoice.packageId
+                    : (
+                        await findAutoDeductPackageForClient(tx, {
+                          userId,
+                          orgId,
+                          clientId: stopClientId,
+                          now,
+                        })
+                      )?.id
+                  : null;
+              if (packageId) {
+                await lockPrepaidPackages(tx, [packageId], { userId, orgId });
+              }
               const [newEntry] = await tx
                 .insert(timeEntries)
                 .values({
@@ -2777,49 +2799,31 @@ export const extensionRouter = router({
                   );
               }
 
-              // Klippekort-trækket EFTER rækken (review P3): samme låserækkefølge
-              // som time.create — timer_states før klippekortet.
-              // Klippekort-træk i samme transaktion som posten. Trækket kører i
-              // et savepoint: afvises det (tomt kort med block-politik, udløbet
-              // kort), gemmes tiden UDEN træk i stedet for at gå tabt — samme
-              // regel som extensionens eget stop.
-              if (stopClientId && prepaidChoice?.mode !== "none") {
-                const packageId =
-                  prepaidChoice?.mode === "package"
-                    ? prepaidChoice.packageId
-                    : ((
-                        await findAutoDeductPackageForClient(tx, {
-                          userId,
-                          orgId,
-                          clientId: stopClientId,
-                          now,
-                        })
-                      )?.id ?? null);
-                if (packageId) {
-                  try {
-                    const result = await tx.transaction((sp) =>
-                      deductHoursCore(sp, userId, orgId, {
-                        packageId,
-                        hours,
-                        timeEntryId: newEntry.id,
-                        // Et eksplicit kortvalg (prepaidChoice.mode === "package")
-                        // kan være en kendt packageId fra en anden kunde
-                        // (CodeRabbit, PR #858) — stopClientId er postens egen.
-                        clientId: stopClientId,
-                      }),
-                    );
-                    prepaidDeduction = {
-                      packageName: result.packageName,
-                      hoursDeducted: result.hoursDeducted,
-                      remainingHours: result.remainingHours,
-                      overflowedToInvoice: !!result.overflowedToInvoice,
-                    };
-                  } catch (error) {
-                    if (!(error instanceof TRPCError)) throw error;
-                    console.warn(
-                      `[quickStop] Klippekort-træk afvist for user ${userId} — tiden gemmes uden træk: ${error.message}`,
-                    );
-                  }
+              // Keep the savepoint so a rejected deduction still saves the time.
+              if (packageId) {
+                try {
+                  const result = await tx.transaction((sp) =>
+                    deductHoursCore(sp, userId, orgId, {
+                      packageId,
+                      hours,
+                      timeEntryId: newEntry.id,
+                      // Et eksplicit kortvalg (prepaidChoice.mode === "package")
+                      // kan være en kendt packageId fra en anden kunde
+                      // (CodeRabbit, PR #858) — stopClientId er postens egen.
+                      clientId: stopClientId,
+                    }),
+                  );
+                  prepaidDeduction = {
+                    packageName: result.packageName,
+                    hoursDeducted: result.hoursDeducted,
+                    remainingHours: result.remainingHours,
+                    overflowedToInvoice: !!result.overflowedToInvoice,
+                  };
+                } catch (error) {
+                  if (!(error instanceof TRPCError)) throw error;
+                  console.warn(
+                    `[quickStop] Klippekort-træk afvist for user ${userId} — tiden gemmes uden træk: ${error.message}`,
+                  );
                 }
               }
 
@@ -3180,6 +3184,8 @@ export const extensionRouter = router({
             // derfra lander på klippekortet uden en tur forbi web-appen.
             autoDeduct: pkg.autoDeduct,
             clipSizeMinutes: pkg.clipSizeMinutes,
+            // Ved allow/invoice kan kortet vælges, også med saldo 0 (#1319)
+            overdraftPolicy: pkg.overdraftPolicy,
           };
         });
     }),
@@ -3220,7 +3226,14 @@ export const extensionRouter = router({
           },
         ),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input: rawInput }) => {
+      // En timer-gemning (extensionens stop, eller en session) gemmes med en
+      // start, der rummer timetallet (lib/timer/entry-span.ts). API-poster
+      // (source "api") røres ikke.
+      const input =
+        rawInput.source === "auto_track" || rawInput.timerSessionId
+          ? normalizeTimerEntryInput(rawInput)
+          : rawInput;
       // Validate token
       const tokenRecord = await ctx.db.query.extensionTokens.findFirst({
         where: activeTokenWhere(input.token),
@@ -3339,13 +3352,13 @@ export const extensionRouter = router({
           columns: { id: true, clientId: true },
         });
         if (!pkg) {
-          throw new TRPCError({
+          throw prepaidDeductionError({
             code: "NOT_FOUND",
             message: await tr("serverErrors", "ext.prepaidNotFound"),
           });
         }
         if (!finalClientId || pkg.clientId !== finalClientId) {
-          throw new TRPCError({
+          throw prepaidDeductionError({
             code: "BAD_REQUEST",
             message: await tr("serverErrors", "ext.prepaidOtherClient"),
           });
@@ -3423,6 +3436,10 @@ export const extensionRouter = router({
               userId,
               orgId,
               startTime: sessionStart,
+              // Starten extensionen sendte (før normaliseringen)
+              clientStartTime: rawInput.startTime
+                ? new Date(rawInput.startTime)
+                : undefined,
               endTime:
                 sessionEnd && !Number.isNaN(sessionEnd.getTime())
                   ? sessionEnd
@@ -3457,6 +3474,12 @@ export const extensionRouter = router({
             }
           }
 
+          if (prepaidPackageId) {
+            await lockPrepaidPackages(tx, [prepaidPackageId], {
+              userId,
+              orgId,
+            });
+          }
           const [inserted] = await tx
             .insert(timeEntries)
             .values({

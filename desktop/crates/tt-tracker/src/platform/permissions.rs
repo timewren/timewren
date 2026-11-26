@@ -126,7 +126,7 @@ pub fn capture_ready() -> bool {
     })
 }
 
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", not(feature = "mas")))]
 mod imp {
     use super::{Permission, PermissionState};
     use objc2_core_foundation::{CFBoolean, CFDictionary, CFString};
@@ -203,7 +203,9 @@ mod imp {
     }
 }
 
-#[cfg(not(target_os = "macos"))]
+// Andre systemer og App Store-udgaven (`mas`): intet at bede om. Sandkassen
+// har ingen sporing og må aldrig vise macOS' dialoger for tilladelserne.
+#[cfg(any(not(target_os = "macos"), feature = "mas"))]
 mod imp {
     use super::{Permission, PermissionState};
 
@@ -232,6 +234,18 @@ mod tests {
             assert!(s.explanation.len() > 40);
             assert!(s.without.starts_with("Uden"));
             assert!(!s.explanation.to_lowercase().contains("klient"));
+        }
+    }
+
+    /// App Store-udgaven beder aldrig om tilladelser og åbner ikke
+    /// Systemindstillinger.
+    #[cfg(feature = "mas")]
+    #[test]
+    fn mas_requires_no_permissions() {
+        for p in Permission::ALL {
+            assert_eq!(p.state(), PermissionState::NotRequired);
+            assert_eq!(p.request(), PermissionState::NotRequired);
+            assert!(!p.open_settings());
         }
     }
 

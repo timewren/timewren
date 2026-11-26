@@ -7,9 +7,10 @@ import { Button, Card, colors, IconButton, Screen, SectionHeader, Segmented, Sta
 import { DateField } from '~/features/entries/components/date-field';
 import { PrivateBadge, PrivatePlanSheet } from '~/features/plan/private-plan';
 import { usePlan } from '~/features/plan/use-plan';
+import { brand } from '~/features/server/server-config';
 import { formatHoursClock } from '~/lib/format';
 import { translate } from '~/lib/i18n';
-import { dateFnsLocale } from '~/lib/locale';
+import { dateFnsLocale, dayOfMonth } from '~/lib/locale';
 import { computeStats, entriesToCsv, groupDaysByMonth, groupDaysForChart, periodRange, shiftAnchor } from './local-logic';
 import { useLocalStore } from './local-store';
 
@@ -30,7 +31,7 @@ function periodTitle(mode: PeriodMode, range: DayRange): string {
   }
   const start = parseKey(range.start);
   const end = parseKey(range.end);
-  return `${translate('local.stats.week')} ${format(start, 'I')} · ${format(start, 'd. MMM', { locale: dateFnsLocale() })}–${format(end, 'd. MMM', { locale: dateFnsLocale() })}`;
+  return `${translate('local.stats.week')} ${format(start, 'I')} · ${format(start, `${dayOfMonth()} MMM`, { locale: dateFnsLocale() })}–${format(end, `${dayOfMonth()} MMM`, { locale: dateFnsLocale() })}`;
 }
 
 /** Statistik uden konto: uge, måned eller valgfri periode — tid pr. dag og fordeling på projekt, kunde og tag. */
@@ -53,7 +54,7 @@ export function LocalStatsScreen() {
   const privateSheet = useModal();
   const exportCsv = () => {
     const csv = entriesToCsv({ entries, projects, clients, tags }, range);
-    void Share.share({ title: `TimeTrack ${range.start}–${range.end}.csv`, message: csv });
+    void Share.share({ title: `${brand.name} ${range.start}–${range.end}.csv`, message: csv });
   };
 
   return (

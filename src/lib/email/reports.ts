@@ -4,6 +4,7 @@ import { MonthlySummaryEmail } from "@/components/email/MonthlySummaryEmail";
 import { UnbilledReminderEmail } from "@/components/email/UnbilledReminderEmail";
 import { WeeklySummaryEmail } from "@/components/email/WeeklySummaryEmail";
 import { toIntlLocale } from "@/i18n/format-locale";
+import { demoCurrencyForEmail } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import { resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
@@ -95,6 +96,7 @@ export async function sendWeeklySummaryEmail({
 
   const emailHtml = await render(
     createElement(WeeklySummaryEmail, {
+      currencyCode: demoCurrencyForEmail(to),
       mailBrand: mb,
       locale,
       userName,
@@ -191,6 +193,7 @@ export async function sendMonthlySummaryEmail({
 
   const emailHtml = await render(
     createElement(MonthlySummaryEmail, {
+      currencyCode: demoCurrencyForEmail(to),
       mailBrand: mb,
       locale,
       userName,
@@ -273,7 +276,7 @@ export async function sendUnbilledReminderEmail({
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat(toIntlLocale(locale), {
       style: "currency",
-      currency: "DKK",
+      currency: demoCurrencyForEmail(to),
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
@@ -281,6 +284,7 @@ export async function sendUnbilledReminderEmail({
 
   const emailHtml = await render(
     createElement(UnbilledReminderEmail, {
+      currencyCode: demoCurrencyForEmail(to),
       mailBrand: mb,
       locale,
       userName,

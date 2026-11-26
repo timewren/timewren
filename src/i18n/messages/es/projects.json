@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Presupuesto mensual",
     "hint": "{hours} horas al mes, se restablece el día 1.",
-    "usage": "{used} de {budget} h ({pct} %)",
     "overrun": "El presupuesto mensual se ha superado en {hours} horas",
-    "previous": "Meses anteriores",
-    "hoursPct": "{hours} h ({pct} %)"
+    "previous": "Meses anteriores"
   },
   "activityTypes": {
     "allowedAll": "Todos los tipos de actividad están permitidos en el proyecto",
@@ -62,14 +60,13 @@
     "save": "Guardar asignaciones",
     "assignedNow": "Asignados ahora: {names}"
   },
+  "budgetStatus": "{status, select, yellow {Cerca del límite} red {En el límite o cerca de él} over {Presupuesto superado} other {Dentro del presupuesto}}: {used, number, ::.##} de {total, number, ::.##} h",
   "budgetBar": {
     "title": "Presupuesto de horas",
     "derived": "derivado",
     "derivedTitle": "Derivado de precio fijo ÷ tarifa por hora. Define un presupuesto de horas en el proyecto para controlarlo directamente.",
-    "hoursOf": "{used} / {total} h",
     "over": "{hours} h de más",
     "remaining": "{hours} h restantes",
-    "ariaUsed": "{pct} % del presupuesto de horas usado",
     "plannedTitle": "{hours} h planificadas a futuro",
     "pctUsed": "{pct} % usado",
     "planned": "+ {planned} h planificadas = {forecast} h ({pct} %)",
@@ -188,11 +185,11 @@
     "colTotal": "Total",
     "colStatus": "Estado",
     "selectProject": "Seleccionar {name}",
-    "budgetUsedTitle": "{pct} % del presupuesto de horas usado ({used}/{total} h)",
     "noClient": "Sin cliente",
-    "monthlyUsed": "{used}/{budget} h",
     "monthlyAria": "{pct} % del presupuesto mensual usado",
-    "monthlyTitle": "{used} de {budget} h usadas este mes ({pct} %)"
+    "monthlyTitle": "{used} de {budget} h usadas este mes ({pct} %)",
+    "emptyNeedsClientHint": "Un proyecto pertenece a un cliente. Añade primero el cliente y luego crea el proyecto.",
+    "createClientFirst": "Añade tu primer cliente"
   },
   "detail": {
     "status": {

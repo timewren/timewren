@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Månedsbudget",
     "hint": "{hours} timer pr. måned, nulstilles den 1.",
-    "usage": "{used} af {budget} t ({pct} %)",
     "overrun": "Månedsbudgettet er overskredet med {hours} timer",
-    "previous": "Tidligere måneder",
-    "hoursPct": "{hours} t ({pct} %)"
+    "previous": "Tidligere måneder"
   },
   "activityTypes": {
     "allowedAll": "Alle aktivitetstyper er tilladt på projektet",
@@ -62,14 +60,13 @@
     "save": "Gem tildelinger",
     "assignedNow": "Tildelt nu: {names}"
   },
+  "budgetStatus": "{status, select, yellow {Tæt på budgetgrænsen} red {Ved eller tæt på budgetgrænsen} over {Over budgettet} other {Inden for budgettet}}: {used, number, ::.##} af {total, number, ::.##} t",
   "budgetBar": {
     "title": "Timebudget",
     "derived": "udledt",
     "derivedTitle": "Udledt af fastpris ÷ timepris. Sæt et timebudget på projektet for at styre det direkte.",
-    "hoursOf": "{used} / {total} t",
     "over": "{hours} t over",
     "remaining": "{hours} t tilbage",
-    "ariaUsed": "{pct} % af timebudgettet brugt",
     "plannedTitle": "{hours} t planlagt fremover",
     "pctUsed": "{pct} % brugt",
     "planned": "+ {planned} t planlagt = {forecast} t ({pct} %)",
@@ -118,7 +115,7 @@
   "status": {
     "active": "Aktiv",
     "completed": "Afsluttet",
-    "on_hold": "På Hold",
+    "on_hold": "På hold",
     "archived": "Arkiveret"
   },
   "period": {
@@ -188,11 +185,11 @@
     "colTotal": "I alt",
     "colStatus": "Status",
     "selectProject": "Vælg {name}",
-    "budgetUsedTitle": "{pct} % af timebudgettet brugt ({used}/{total} t)",
     "noClient": "Ingen kunde",
-    "monthlyUsed": "{used}/{budget} t",
     "monthlyAria": "{pct} % af månedsbudgettet brugt",
-    "monthlyTitle": "{used} af {budget} t brugt denne måned ({pct} %)"
+    "monthlyTitle": "{used} af {budget} t brugt denne måned ({pct} %)",
+    "emptyNeedsClientHint": "Et projekt hører til en kunde. Tilføj kunden først, så kan du oprette projektet bagefter.",
+    "createClientFirst": "Tilføj din første kunde"
   },
   "detail": {
     "status": {
@@ -260,7 +257,7 @@
     "back": "Tilbage til projekter",
     "newTitle": "Nyt projekt",
     "newDescription": "Opret et nyt projekt for en kunde",
-    "editTitle": "Rediger Projekt",
+    "editTitle": "Rediger projekt",
     "editDescription": "Opdater projektoplysninger",
     "fallbackName": "Projekt",
     "about": "Om projektet",
@@ -287,7 +284,7 @@
     "status": "Status",
     "statusActive": "Aktiv",
     "statusCompleted": "Afsluttet",
-    "statusOnHold": "På Hold",
+    "statusOnHold": "På hold",
     "statusArchived": "Arkiveret",
     "roundingTitle": "Afrunding af tid",
     "roundingInherit": "Arv fra kunde/globale indstillinger",
@@ -310,7 +307,7 @@
     "exampleGithub": "Matcher alle sider under acme på GitHub",
     "exampleJira": "Matcher JIRA issues for PROJ",
     "exampleAsana": "Matcher Asana projekt sider",
-    "saveNew": "Gem Projekt",
+    "saveNew": "Gem projekt",
     "savingShort": "Gemmer...",
     "saveChanges": "Gem ændringer"
   }

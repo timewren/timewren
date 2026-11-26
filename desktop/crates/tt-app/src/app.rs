@@ -922,7 +922,7 @@ impl AppView {
                 .gap(px(tk::SPACE_2 + 2.))
                 .child(brand_mark(&b, 22.))
                 .child(
-                    ui::text("app-navn", "TimeTrack")
+                    ui::text("app-navn", tt_core::edition::EDITION.name)
                         .text_size(px(tk::TEXT_LG))
                         .font_weight(tk::WEIGHT_BOLD)
                         .text_color(b.ink),
@@ -1028,9 +1028,9 @@ fn nav_action(s: Screen) -> Box<dyn Action> {
     }
 }
 
-/// TimeTracks mærke (billetten med uret) i granskov.
+/// Udgavens mærke (`Brand::mark`).
 fn brand_mark(b: &brand::Brand, size: f32) -> impl IntoElement {
-    ui::icon(ui::Icon::TimeTrack).size(size).color(b.primary)
+    ui::icon(ui::Icon::TimeTrack).size(size).color(b.mark)
 }
 
 impl Render for AppView {

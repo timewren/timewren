@@ -1,5 +1,6 @@
 import { Text } from "@react-email/components";
 import { toIntlLocale } from "@/i18n/format-locale";
+import type { DemoCurrency } from "@/lib/demo/demo-mode";
 import { formatMailHours, mailT } from "@/lib/email/locale";
 import type { MailBrand } from "@/lib/email/mail-brand";
 import {
@@ -30,6 +31,7 @@ interface UnbilledReminderEmailProps {
   /** Kadencen bestemmer footer-teksten, så den matcher brugerens valg (#622). */
   frequency?: UnbilledReminderFrequency;
   locale?: string;
+  currencyCode?: DemoCurrency;
   /** Multibrand: brandet for modtagerens konto. Udeladt = build-brandet. */
   mailBrand?: MailBrand;
 }
@@ -67,12 +69,13 @@ export function UnbilledReminderEmail({
   dashboardUrl = mailBrand?.dashboardUrl ?? MAIL_DASHBOARD_URL,
   frequency = DEFAULT_UNBILLED_REMINDER_FREQUENCY,
   locale = "da",
+  currencyCode = "DKK",
 }: UnbilledReminderEmailProps) {
   const t = mailT("emailsReports", locale, mailBrand?.key);
   const currency = (amount: number) =>
     new Intl.NumberFormat(toIntlLocale(locale), {
       style: "currency",
-      currency: "DKK",
+      currency: currencyCode,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);

@@ -1,6 +1,13 @@
 {
-  "login.error.not_link": "Dette er ikke en innloggingslenke fra TimeTrack",
+  "login.error.not_link": "Dette er ikke en innloggingslenke fra {brand}",
   "login.error.denied": "Innloggingen ble avvist i nettleseren",
   "login.error.state": "Svaret hører ikke til denne innloggingen. Start på nytt for sikkerhets skyld",
-  "login.error.missing_code": "Svaret mangler koden. Prøv igjen"
+  "login.error.missing_code": "Svaret mangler koden. Prøv igjen",
+  "login.server.label": "Serveradresse",
+  "login.server.hint": "La feltet stå tomt for å bruke {brand} Cloud. Kjører du en egen server? Skriv inn adressen.",
+  "login.server.err.invalid": "Det er ikke en nettadresse. Bruk for eksempel https://tid.eksempel.no",
+  "login.server.err.https": "Bruk https:// til serveren. Vanlig http:// fungerer bare for en server på denne datamaskinen (localhost)",
+  "login.server.err.credentials": "Ikke skriv brukernavn og passord i adressen",
+  "login.server.err.logged_in": "Logg ut før du bytter server",
+  "login.server.err.unsupported": "Denne versjonen kan ikke bytte server"
 }

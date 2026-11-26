@@ -1,13 +1,12 @@
-import { and, asc, eq, gte, isNull, lte, sql } from "drizzle-orm";
+import { and, asc, eq, gte, isNull, lte, or, sql } from "drizzle-orm";
 import { projects, tasks, timeEntries } from "@/lib/db/schema";
 import {
   deductHoursCore,
+  lockPrepaidPackages,
   reversePrepaidUsage,
 } from "@/lib/trpc/routers/prepaid";
-import {
-  decideSameSessionMerge,
-  SAME_SESSION_START_TOLERANCE_MS,
-} from "./same-session";
+import { decideSameSessionMerge, sessionStartWindows } from "./same-session";
+import { lockTimeEntryTasks } from "./task-locks";
 
 type Tx = Parameters<typeof deductHoursCore>[0];
 type TimeEntryRow = typeof timeEntries.$inferSelect;
@@ -37,14 +36,22 @@ export interface SameSessionMergeResult {
  *   deltaen, aldrig hele timetallet to gange. Var posten ikke på kort, men
  *   den indkommende gemning er, og kortet hører til postens kunde, trækkes
  *   postens (nye) timetal på kortet.
- * - Postens kunde/projekt/beskrivelse/starttid røres ikke.
+ * - Postens kunde/projekt/beskrivelse røres ikke. Starttiden kun, hvis det
+ *   nye timetal ellers ikke kan rummes (decideSameSessionMerge).
  */
 export async function mergeIntoSameSessionEntry(
   tx: Tx,
   opts: {
     userId: string;
     orgId: string | null;
+    /** Starten gemningen gemmes med (normaliseret, lib/timer/entry-span). */
     startTime: Date;
+    /**
+     * Starten klienten sendte, når normaliseringen har flyttet den. Samme
+     * session gemt af en ældre klient (eller før normaliseringen) står med
+     * den, så begge starter matcher.
+     */
+    clientStartTime?: Date;
     endTime: Date | null;
     hours: number;
     /** Allerede valideret mod den indkommende gemnings kunde. */
@@ -70,34 +77,75 @@ export async function mergeIntoSameSessionEntry(
     sql`SELECT pg_advisory_xact_lock(hashtext(${`time-entry-session:${userId}`}))`,
   );
 
-  const [existing] = await tx
-    .select()
-    .from(timeEntries)
-    .where(
-      and(
-        eq(timeEntries.userId, userId),
-        // Aldrig på tværs af organisationer: samme bruger kan være i flere.
-        orgId
-          ? eq(timeEntries.organizationId, orgId)
-          : isNull(timeEntries.organizationId),
-        // Samme projekt (kunden afgøres null-sikkert i helperen).
-        sql`${timeEntries.projectId} IS NOT DISTINCT FROM ${opts.incomingProjectId}`,
-        gte(
-          timeEntries.startTime,
-          new Date(opts.startTime.getTime() - SAME_SESSION_START_TOLERANCE_MS),
-        ),
-        lte(
-          timeEntries.startTime,
-          new Date(opts.startTime.getTime() + SAME_SESSION_START_TOLERANCE_MS),
-        ),
+  const candidateFilter = and(
+    eq(timeEntries.userId, userId),
+    // Aldrig på tværs af organisationer: samme bruger kan være i flere.
+    orgId
+      ? eq(timeEntries.organizationId, orgId)
+      : isNull(timeEntries.organizationId),
+    // Samme projekt (kunden afgøres null-sikkert i helperen).
+    sql`${timeEntries.projectId} IS NOT DISTINCT FROM ${opts.incomingProjectId}`,
+    or(
+      ...sessionStartWindows(opts).map(([from, to]) =>
+        and(gte(timeEntries.startTime, from), lte(timeEntries.startTime, to)),
       ),
-    )
-    .orderBy(asc(timeEntries.createdAt))
-    .limit(1)
-    .for("update");
+    ),
+  );
 
-  if (!existing) return null;
+  const retry = Symbol("candidate links changed");
+  const insert = Symbol("candidate cannot be merged");
+  for (;;) {
+    const [candidate] = await tx
+      .select()
+      .from(timeEntries)
+      .where(candidateFilter)
+      .orderBy(asc(timeEntries.createdAt))
+      .limit(1);
 
+    if (!candidate) return null;
+
+    try {
+      // Roll back locks if the candidate changed or the caller needs to
+      // insert instead. An insert may need a different card and task.
+      return await tx.transaction(async (attempt) => {
+        const cardId = candidate.isPrepaid
+          ? candidate.prepaidPackageId
+          : opts.prepaidPackageId;
+        if (cardId) await lockPrepaidPackages(attempt, [cardId]);
+        await lockTimeEntryTasks(attempt, [candidate.taskId]);
+
+        const [existing] = await attempt
+          .select()
+          .from(timeEntries)
+          .where(and(eq(timeEntries.id, candidate.id), candidateFilter))
+          .for("update");
+        if (!existing) throw retry;
+        if (
+          (existing.taskId && existing.taskId !== candidate.taskId) ||
+          (existing.isPrepaid
+            ? existing.prepaidPackageId
+            : opts.prepaidPackageId) !== cardId
+        ) {
+          throw retry;
+        }
+
+        const merged = await mergeLockedSessionEntry(attempt, opts, existing);
+        if (!merged) throw insert;
+        return merged;
+      });
+    } catch (error) {
+      if (error === insert) return null;
+      if (error !== retry) throw error;
+    }
+  }
+}
+
+async function mergeLockedSessionEntry(
+  tx: Tx,
+  opts: Parameters<typeof mergeIntoSameSessionEntry>[1],
+  existing: TimeEntryRow,
+): Promise<SameSessionMergeResult | null> {
+  const { userId, orgId } = opts;
   let existingLocked = false;
   try {
     await opts.assertEditable(existing);
@@ -110,6 +158,7 @@ export async function mergeIntoSameSessionEntry(
     existingLocked,
     incoming: {
       startTime: opts.startTime,
+      clientStartTime: opts.clientStartTime,
       endTime: opts.endTime,
       hours: opts.hours,
       projectId: opts.incomingProjectId,
@@ -157,6 +206,7 @@ export async function mergeIntoSameSessionEntry(
     .set({
       hours: newHours.toFixed(2),
       endTime: decision.endTime,
+      startTime: decision.startTime,
       updatedAt: new Date(),
       ...(prepaidPatch ?? {}),
       ...(needsReapproval && {

@@ -3,6 +3,8 @@
 // testene skal dele ÉN sandhed om hvad der trækkes, hvad der springes over,
 // og hvad der afvises — pengene i saldoen tåler ikke to versioner.
 
+export const MAX_PREPAID_ASSIGN_SELECTION = 200;
+
 export interface BulkAssignCandidate {
   id: string;
   /** Postens klient — direkte på posten eller arvet fra projektet */

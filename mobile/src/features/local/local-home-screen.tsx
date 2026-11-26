@@ -3,6 +3,7 @@ import { ChartColumn, CloudOff, Settings2, X } from 'lucide-react-native';
 import * as React from 'react';
 import { Card, colors, IconButton, Screen, Text } from '~/components/ui';
 import { useAuthStore } from '~/features/auth/use-auth-store';
+import { brand } from '~/features/server/server-config';
 import { translate } from '~/lib/i18n';
 import { LocalDayView } from './components/local-day-view';
 import { LocalTimerCard } from './components/local-timer-card';
@@ -19,7 +20,7 @@ export function LocalHomeScreen() {
 
   return (
     <Screen
-      title="TimeTrack"
+      title={brand.name}
       right={(
         <>
           <IconButton icon={ChartColumn} label={translate('local.stats.title')} onPress={() => router.push('/local/stats')} testID="local-stats" />

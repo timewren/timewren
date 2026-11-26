@@ -31,9 +31,11 @@ export async function handleAuthDeepLink(url: string | null): Promise<boolean> {
 
 /** Lyt efter auth-deep-links mens appen kører. Returnerer unsubscribe. */
 export function subscribeAuthDeepLinks(): () => void {
+  // Et link kan fejle ved opslag eller lagring. Den almindelige loginvej er stadig tilgængelig.
+  const ignoreLinkFailure = () => {};
   const sub = Linking.addEventListener('url', ({ url }) => {
-    void handleAuthDeepLink(url);
+    void handleAuthDeepLink(url).catch(ignoreLinkFailure);
   });
-  void Linking.getInitialURL().then(handleAuthDeepLink);
+  void Linking.getInitialURL().then(handleAuthDeepLink).catch(ignoreLinkFailure);
   return () => sub.remove();
 }

@@ -2,6 +2,7 @@ import { and, eq, isNull, lte } from "drizzle-orm";
 import { withCronLogging } from "@/lib/cron/log-cron-run";
 import { db } from "@/lib/db";
 import { recurringInvoices } from "@/lib/db/schema";
+import { runWithOwnerCurrency } from "@/lib/demo/server-currency";
 import { formatCurrency } from "@/lib/format";
 import { sendNotification } from "@/lib/notifications";
 import { ownerAllowsRecurringInvoices } from "@/lib/recurring-invoices/plan";
@@ -33,9 +34,14 @@ export const GET = withCronLogging("recurring-invoices", async () => {
   // som subscribedProcedure. Skabeloner uden brugbart abonnement bliver
   // stående og kører igen, når abonnementet er i orden.
   const planCache = new Map<string, boolean>();
-  const createdByUser = new Map<
+  // Pr. bruger og organisation: beløbene står i organisationens valuta.
+  const createdByOwner = new Map<
     string,
-    Array<{ name: string; amount: number }>
+    {
+      userId: string;
+      organizationId: string | null;
+      list: Array<{ name: string; amount: number }>;
+    }
   >();
   let created = 0;
   let empty = 0;
@@ -65,9 +71,16 @@ export const GET = withCronLogging("recurring-invoices", async () => {
       for (const result of outcome.results) {
         if (result.status === "created" && outcome.template) {
           created++;
-          const list = createdByUser.get(outcome.template.userId) ?? [];
-          list.push({ name: outcome.template.name, amount: result.amount });
-          createdByUser.set(outcome.template.userId, list);
+          const owner = createdByOwner.get(planKey) ?? {
+            userId: row.userId,
+            organizationId: row.organizationId,
+            list: [],
+          };
+          owner.list.push({
+            name: outcome.template.name,
+            amount: result.amount,
+          });
+          createdByOwner.set(planKey, owner);
         } else if (result.status === "empty") {
           empty++;
         } else {
@@ -83,32 +96,35 @@ export const GET = withCronLogging("recurring-invoices", async () => {
     }
   }
 
-  // Én besked pr. bruger, ikke pr. kladde. Fejl her må ikke vælte kørslen.
-  for (const [userId, list] of createdByUser) {
+  // Én besked pr. bruger og organisation, ikke pr. kladde. Fejl her må ikke
+  // vælte kørslen.
+  for (const { userId, organizationId, list } of createdByOwner.values()) {
     try {
-      await sendNotification({
-        type: "recurring_invoice_draft",
-        userId,
-        i18n:
-          list.length === 1
-            ? {
-                key: "recurringOne",
-                values: {
-                  name: list[0].name,
-                  amount: formatCurrency(list[0].amount),
+      await runWithOwnerCurrency({ userId, organizationId }, () =>
+        sendNotification({
+          type: "recurring_invoice_draft",
+          userId,
+          i18n:
+            list.length === 1
+              ? {
+                  key: "recurringOne",
+                  values: {
+                    name: list[0].name,
+                    amount: formatCurrency(list[0].amount),
+                  },
+                }
+              : {
+                  key: "recurringMany",
+                  values: {
+                    count: list.length,
+                    list: list
+                      .map((l) => `"${l.name}" (${formatCurrency(l.amount)})`)
+                      .join(", "),
+                  },
                 },
-              }
-            : {
-                key: "recurringMany",
-                values: {
-                  count: list.length,
-                  list: list
-                    .map((l) => `"${l.name}" (${formatCurrency(l.amount)})`)
-                    .join(", "),
-                },
-              },
-        url: "/dashboard/invoices?status=draft",
-      });
+          url: "/dashboard/invoices?status=draft",
+        }),
+      );
     } catch (err) {
       console.error("[Recurring Invoices] Notifikation fejlede:", err);
     }

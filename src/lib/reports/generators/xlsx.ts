@@ -1,5 +1,6 @@
 // src/lib/reports/generators/xlsx.ts
 import { sharedT } from "@/i18n/shared-text";
+import { withDemoCurrencyUnit } from "@/lib/demo/currency-messages";
 import type { ReportEntry } from "../columns";
 import { entryColumns, REPORT_COLUMNS, reportColumnLabel } from "../columns";
 import type { ReportColumnKey } from "../config-schema";
@@ -38,7 +39,10 @@ export async function generateXLSX(
   const cols = entryColumns(opts.columns);
 
   ws.columns = cols.map((k) => ({
-    header: reportColumnLabel(k),
+    header:
+      REPORT_COLUMNS[k].format === "currency"
+        ? withDemoCurrencyUnit(reportColumnLabel(k))
+        : reportColumnLabel(k),
     key: k,
     width: COLUMN_WIDTHS[k] ?? 15,
   }));
@@ -68,7 +72,7 @@ export async function generateXLSX(
         width: 12,
       },
       {
-        header: sharedT("sharedReports", "revenue"),
+        header: withDemoCurrencyUnit(sharedT("sharedReports", "revenue")),
         key: "revenue",
         width: 14,
       },

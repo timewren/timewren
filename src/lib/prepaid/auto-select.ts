@@ -15,12 +15,15 @@
  * Dette er et FORSLAG i UI'et — serveren trækker aldrig uden et eksplicit
  * prepaidPackageId fra klienten.
  */
+import { canTakePrepaidHours } from "./can-take-hours";
 import { isPrepaidExpired } from "./expiry";
 
 export interface AutoDeductCandidate {
   autoDeduct?: boolean | null;
   /** decimal-kolonne (string) fra `prepaid.list`, tal fra `getActiveForClient`. */
   remainingHours: string | number | null;
+  /** block | allow | invoice; et tomt kort med overtræk kan stadig vælges. */
+  overdraftPolicy?: string | null;
   expiryDate?: Date | string | null;
   isActive?: boolean | null;
   /** Købsdato — tie-break ved samme udløb (ældste først). */
@@ -43,19 +46,24 @@ export function pickAutoDeductPackage<T extends AutoDeductCandidate>(
   const candidates = packages.filter((p) => {
     if (!p.autoDeduct) return false;
     if (p.isActive === false) return false;
-    const remaining =
-      typeof p.remainingHours === "number"
-        ? p.remainingHours
-        : parseFloat(p.remainingHours || "0");
-    if (!(remaining > 0)) return false;
+    // Et tomt kort med overtræk tilladt er stadig et gyldigt valg (#1319)
+    if (!canTakePrepaidHours(p)) return false;
     // Kortet gælder hele udløbsdagen i dansk tid (#736)
     if (isPrepaidExpired(p.expiryDate, now)) return false;
     return true;
   });
   if (candidates.length === 0) return null;
 
+  // Kort med saldo bruges før kort, der kun kan tage overtræk (#1319): et
+  // fornyet kort med timer skal ikke stå ubrugt, mens et gammelt tomt kort
+  // samler gæld eller sender tiden til fakturering.
+  const withBalance = candidates.filter(
+    (p) => Number.parseFloat(String(p.remainingHours ?? "0")) > 0,
+  );
+  const pool = withBalance.length > 0 ? withBalance : candidates;
+
   // Array.prototype.sort er stabil — kort med samme udløb beholder rækkefølgen
-  return [...candidates].sort((a, b) => {
+  return [...pool].sort((a, b) => {
     const ea = expiryMs(a.expiryDate);
     const eb = expiryMs(b.expiryDate);
     if (ea !== eb) {

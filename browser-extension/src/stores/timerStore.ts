@@ -854,11 +854,9 @@ export const useTimerStore = create<TimerStore>((set, get) => ({
         try {
           return await apiClient.createTimeEntry(timeEntryData);
         } catch (createError) {
-          const message =
-            createError instanceof Error ? createError.message : "";
           if (
             !timeEntryData.prepaidPackageId ||
-            !isPrepaidDeductionError(message)
+            !isPrepaidDeductionError(createError)
           ) {
             throw createError;
           }

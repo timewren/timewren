@@ -12,6 +12,11 @@ const mocks = vi.hoisted(() => ({
   order: [] as string[],
 }));
 
+vi.mock("@/lib/integrations/google-calendar-revoke", () => ({
+  lockGoogleCalendarRows: vi.fn(async () => []),
+  planGoogleCalendarRevokes: vi.fn(async () => []),
+  executeGoogleCalendarRevokes: vi.fn(async () => undefined),
+}));
 vi.mock("@/lib/alunta", () => ({
   alunta: { subscriptions: { cancel: vi.fn() } },
 }));

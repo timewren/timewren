@@ -7,7 +7,7 @@ import { stopTimerNow } from '~/features/timer/stop-timer';
 import { isTimerRunning } from '~/features/timer/timer-logic';
 import { getTimerState } from '~/features/timer/timer-store';
 import { closeWeekFromReminder, isWeekCloseAction, syncWeekCloseReminder, weekStartFromDelivery } from '~/features/week-review/week-close';
-import { hasDeclinedPush, registerForPush } from './push-registration';
+import { markPushRegistered, registerForPush, shouldRegisterPush } from './push-registration';
 import { syncDailyReminder } from './reminders';
 import { routeForNotification } from './route-mapping';
 import { dismissStaleRunningTimers, isStopAction, RUNNING_DATA_TYPE } from './running-notification';
@@ -27,14 +27,12 @@ Notifications.setNotificationHandler({
   },
 });
 
-let registeredThisSession = false;
-
-/** Ved login: registrér push én gang pr. app-session — medmindre brugeren tidligere har sagt nej. */
+/** Ved login: registrér push én gang pr. app-session og bruger — medmindre brugeren tidligere har sagt nej. */
 export function useRegisterPushAfterLogin(signedIn: boolean) {
   React.useEffect(() => {
-    if (!signedIn || registeredThisSession || hasDeclinedPush())
+    if (!signedIn || !shouldRegisterPush())
       return;
-    registeredThisSession = true;
+    markPushRegistered();
     void registerForPush().then((result) => {
       if (result.status === 'error')
         console.warn('[push] registrering fejlede:', result.message);
@@ -113,9 +111,4 @@ export function useNotificationResponses() {
 export function useNotifications(signedIn: boolean) {
   useRegisterPushAfterLogin(signedIn);
   useNotificationResponses();
-}
-
-/** Kun til tests. */
-export function _resetRegistrationForTests() {
-  registeredThisSession = false;
 }

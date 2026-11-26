@@ -3,6 +3,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { deriveWebAppUrl } from "../config";
 import { useTheme } from "../hooks/useTheme";
 import { useT } from "../i18n";
+import { openNativeNewTab } from "../lib/native-newtab";
 import { invalidateEntryQueries } from "../lib/query-invalidation";
 import { LoginPrompt } from "../popup/components/LoginPrompt";
 import { OrgSwitcher } from "../popup/components/OrgSwitcher";
@@ -10,6 +11,7 @@ import { TimerErrorBanner } from "../popup/components/TimerErrorBanner";
 import { useAuthStore } from "../stores/authStore";
 import { useSettingsStore } from "../stores/settingsStore";
 import { useTimerStore } from "../stores/timerStore";
+import { NewTabSearch } from "./components/NewTabSearch";
 import { StatsBar } from "./components/StatsBar";
 import {
   NEWTAB_TABPANEL_ID,
@@ -98,14 +100,20 @@ export default function App() {
     };
   }, [isAuthenticated, fetchTimerState]);
 
-  // New tab disabled: stay out of the way. Render an almost-blank page that
-  // feels like a normal new tab — no logo/splash — with only a small, muted
-  // control in the corner to re-open TimeTrack or re-enable the dashboard.
-  // (A manifest newtab override can't hand control back to the browser's
-  // native page, so "blank and unobtrusive" is the closest we can get.)
-  if (!settings.newTabEnabled && !isLoading) {
+  // Slået fra her i fanen (indstillingerne på ny fane): når dialogen lukkes,
+  // går Chrome videre til sin egen nye fane, ligesom boot.ts gør ved åbning.
+  const newTabOff = !settings.newTabEnabled && !isLoading;
+  useEffect(() => {
+    if (newTabOff && !showSettings) void openNativeNewTab();
+  }, [newTabOff, showSettings]);
+
+  // Ny fane slået fra, og browserens egen nye fane kan ikke nås (Edge,
+  // Firefox m.fl., se lib/native-newtab.ts): en enkel side med søgefelt, som
+  // browserens egen, og kun et lille, dæmpet hjørne til TimeTrack (#1322).
+  if (newTabOff) {
     return (
-      <div className="min-h-screen bg-[var(--color-surface-base)]">
+      <div className="min-h-screen flex items-center justify-center px-6 pb-[20vh] bg-[var(--color-surface-base)]">
+        <NewTabSearch />
         <div className="fixed bottom-4 right-4 flex items-center gap-3 text-xs text-[var(--color-text-muted)]">
           <a
             href={`${webAppUrl}/dashboard`}

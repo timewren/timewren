@@ -1,5 +1,6 @@
 import { createElement } from "react";
 import { InvoiceEmail } from "@/components/email/InvoiceEmail";
+import type { DEMO_CURRENCY } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import { resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
@@ -13,6 +14,7 @@ interface SendInvoiceEmailParams {
   clientName: string;
   invoiceNumber: string;
   amount: string;
+  currency?: typeof DEMO_CURRENCY;
   dueDate: string;
   senderName: string;
   senderEmail: string;
@@ -20,6 +22,8 @@ interface SendInvoiceEmailParams {
   userId?: string;
   invoiceId?: string;
   clientId?: string;
+  /** Fakturaens org, så mailens status kan findes i org'en (emailActivity). */
+  organizationId?: string | null;
   attachments?: { filename: string; content: Buffer }[];
 }
 
@@ -28,6 +32,7 @@ export async function sendInvoiceEmail({
   clientName,
   invoiceNumber,
   amount,
+  currency,
   dueDate,
   senderName,
   senderEmail,
@@ -35,6 +40,7 @@ export async function sendInvoiceEmail({
   userId,
   invoiceId,
   clientId,
+  organizationId,
   attachments,
 }: SendInvoiceEmailParams) {
   // Kundemail: afsenderens (kontoens) brand, ikke modtagerens.
@@ -70,6 +76,7 @@ export async function sendInvoiceEmail({
       invoiceNumber,
       clientName,
       amount,
+      currency,
       dueDate,
       senderName,
       senderEmail,
@@ -103,6 +110,14 @@ export async function sendInvoiceEmail({
 
       return response;
     },
-    userId ? { userId, emailType: "invoice", invoiceId, clientId } : undefined,
+    userId
+      ? {
+          userId,
+          organizationId: organizationId ?? undefined,
+          emailType: "invoice",
+          invoiceId,
+          clientId,
+        }
+      : undefined,
   );
 }

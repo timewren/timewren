@@ -54,11 +54,13 @@ Requirements: Node.js 22+, Docker and npm.
 
 ```bash
 cp .env.example .env.local   # at least DATABASE_URL and BETTER_AUTH_SECRET
-npm install
+npm ci
 npm run docker:up            # PostgreSQL
 npm run db:migrate
 npm run dev                  # http://localhost:3000
 ```
+
+`npm run db:migrate` initializes an empty database from the checked-in SQL checkpoint, then applies newer migrations.
 
 `npm run dev:setup` runs the database steps, seeds demo data and starts the dev server in one go.
 
@@ -114,11 +116,11 @@ for reverse proxies, TLS, upgrades, backups, mail, file storage and integrations
 | Time tracking        | Live timer, manual entries, segments, CSV import, calendar view                                                |
 | Prepaid hours        | Packages per client or project, automatic deduction, low-balance alerts, usage history with CSV and PDF export |
 | Invoicing            | PDF invoices, email delivery, Billy, Dinero and e-conomic sync                                                 |
-| Clients and projects | Lightweight CRM, CVR lookup, rate hierarchy (project, client, default)                                         |
+| Clients and projects | Lightweight CRM, CVR lookup, rate hierarchy (project, client, default), and client hours by period and project |
 | Tasks                | Kanban board, recurring tasks, email-to-task                                                                   |
 | Client portal        | A portal where clients see hours and balances                                                                  |
 | Teams                | Organisations, roles, team day and week overview                                                               |
-| Integrations         | Billy, Dinero, e-conomic, Google Calendar, REST API, MCP server                                                |
+| Integrations         | Billy, Dinero, e-conomic, Google Calendar (per brand), Outlook and iCloud calendars, REST API, MCP server      |
 
 ## Apps
 
@@ -126,8 +128,15 @@ for reverse proxies, TLS, upgrades, backups, mail, file storage and integrations
 | ----------------- | ----------------------------------------------------------------- | --------------------------------------------------- |
 | Web               | This repository                                                   | Yes                                                 |
 | Browser extension | Chrome and Firefox, in [`browser-extension/`](browser-extension/) | Yes: enter your server's address when you sign in   |
-| Desktop           | macOS and Windows, written in Rust                                | Planned. Works locally without any server           |
-| Mobile            | iOS and Android                                                   | Planned. Builds can point at a server at build time |
+| Desktop           | macOS and Windows, written in Rust ([licence](#license))          | Planned. Works locally without any server           |
+| Mobile            | iOS in the App Store; Android coming to Google Play               | Planned. Builds can point at a server at build time |
+
+Each brand has a `/download` page: `src/components/instance-pages/DownloadPage.tsx` for TimeTrack and self-hosted instances, `src/app/(timewren)/timewren-site/[locale]/download/page.tsx` for timewren.com. The server guesses the device from `User-Agent` and `Sec-CH-UA-Platform` (`src/lib/device-detect.ts`), shows it first and lists every platform below, so the page works without client JavaScript. A self-hosted instance offers the web app instead of the App Store app, which cannot connect to another server yet.
+
+- **Store links** live in one place, `src/lib/app-stores.ts`: `https://apps.apple.com/app/id6812371822` (TimeTrack) and `https://apps.apple.com/app/id6832757501` (TimeWren), without a country, so Apple picks the visitor's own store. The same IDs drive Safari's Smart App Banner on both marketing sites.
+- **Google Play** is not public yet, so the pages say "coming soon" without a link. When a listing goes public, set `playLive: true` for that brand in `STORE_APPS`; the pages then link `https://play.google.com/store/apps/details?id=dk.timetrack.app` or `?id=com.timewren.app`. The download pages' Android text and the TimeWren home page's app list follow the flag by themselves. Running prose does not, so rewrite these "coming soon" sentences in the same change: the TimeTrack FAQs in `src/app/(marketing)/page.tsx`, `timeregistrering-app/page.tsx` (including its Android beta tester section), `timeregistrering-haandvaerker/page.tsx` and `timeops-alternativ/page.tsx`, the phone section in `src/components/marketing/SegmentPage.tsx`, the Android answer in `faq/page.tsx`, the mobile card in `features/page.tsx`, the Android row in `hourtick-alternativ/page.tsx` (it says only "Kommer snart", so grep for that too), and the TimeWren FAQ answer about the apps in `src/i18n/timewren-site/*.json` (`grep -rn "Google Play" src` finds the rest).
+- **Desktop installers** come from the brand's updater manifest (`latest.json`) in the releases repo (`src/lib/desktop-installers.ts`): TimeTrack is the repo's latest release, TimeWren the fixed tag `timewren-stable`, which is never "latest".
+- **Badges** are Apple's official "Download on the App Store" SVGs in `public/badges/app-store/` (en, da, de, es; black and white), served from this app, not hotlinked.
 
 ## Tech stack
 
@@ -138,7 +147,7 @@ Next.js 16, React 19 and TypeScript · tRPC 11 · Drizzle ORM on PostgreSQL · B
 ```bash
 npm run dev        # Development server
 npm run dev:setup  # Docker + migrate + dev
-npm run build      # Production build
+npm run build      # Production build (BUILD_PROFILE=selfhost: without the Cloud marketing site)
 npm run lint       # Biome linter
 npm run db:studio  # Database GUI
 npm test           # Unit tests (Vitest, no database needed)
@@ -154,7 +163,7 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/freelance_crm"
 BETTER_AUTH_SECRET="your-secret"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 CRON_SECRET="your-cron-secret"
-RESEND_API_KEY=""  # Email via Resend. Or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASSWORD; with neither, emails are only logged
+RESEND_API_KEY=""  # Email via Resend. Or SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASSWORD; with neither, skipped sends are logged
 REQUIRE_EMAIL_VERIFICATION="true"  # "false" only works without a mail transport (self-hosting); the server warns
 ADMIN_EMAIL=""  # Becomes instance admin on sign-up/login; without it, the first user becomes admin
 STORAGE_DRIVER=""  # "local" = files on disk under STORAGE_LOCAL_PATH (Docker volume) instead of S3
@@ -165,8 +174,9 @@ EMAIL_SYNC_STORE_ATTACHMENTS="false"  # "true" = IMAP sync uploads attachment fi
 ### Brand and marketing pages (self-hosting)
 
 - `NEXT_PUBLIC_BRAND=timewren|timetrack` picks the product name, logo and mail branding. It is runtime configuration: set it as an ordinary environment variable when the container starts (the server reads it per request and hands it to the browser via `/runtime-config.js`), so one image serves any brand and URL without a rebuild. Default (unset) is `timewren`; Mahope's cloud runs with `timetrack`, so set `NEXT_PUBLIC_BRAND=timetrack` in the runtime environment of every TimeTrack Cloud deployment (including beta), or it silently switches to TimeWren.
+- The published image is built with `BUILD_PROFILE=selfhost`, which leaves the Cloud marketing site and the TimeWren website out of the build (`scripts/build.mjs`, [docs/self-hosting.md](docs/self-hosting.md#build-profiles)). The build is shorter and the image about a third smaller. Instance pages and the app are unchanged. `NEXT_PUBLIC_MARKETING_URL` only enables marketing pages in a build made with `BUILD_PROFILE=full` (the default for `npm run build`).
 - `SUPPORT_EMAIL` / `NEXT_PUBLIC_SUPPORT_EMAIL` override the support address shown in the app and mails (default `support@<EMAIL_DOMAIN>`).
-- With the `timewren` brand and no `NEXT_PUBLIC_MARKETING_URL`, the marketing site (home, pricing, blog, landing pages) is switched off: `/` redirects to the dashboard and marketing routes return 404. The allowlist lives in `src/lib/marketing-guard.ts`.
+- On self-hosted domains, set `NEXT_PUBLIC_MARKETING_URL` explicitly to enable the marketing site for either brand. Without it, `/` redirects to the dashboard and other marketing routes return 404. If you run an existing image with a different app URL or brand, set the marketing URL again to opt in. With marketing enabled, shared navigation and site metadata use the running marketing URL and brand. Editorial metadata and page copy describe TimeTrack Cloud, including its pricing and publisher. The public Cloud data processing agreement PDF is only available on TimeTrack Cloud. The allowlist lives in `src/lib/marketing-guard.ts`.
 
 ### Telemetry (self-hosting)
 
@@ -200,7 +210,7 @@ Bug reports, translations, integrations and fixes are welcome. Read [CONTRIBUTIN
 
 TimeWren is licensed under the [GNU Affero General Public License v3.0](LICENSE). If you run a modified version as a network service, you must make your source code available to its users.
 
-The browser extension in [`browser-extension/`](browser-extension/) is MIT-licensed, so it can be distributed through the browser stores. The desktop and mobile apps are AGPL as well; the mobile app has an [additional permission](licenses/MOBILE-APP-STORE-EXCEPTION.md) for distribution through the Apple App Store and Google Play. See [LICENSE](LICENSE) for the exact paths and [docs/licensing.md](docs/licensing.md) for the terms of the official desktop builds.
+The browser extension in [`browser-extension/`](browser-extension/) is MIT-licensed, so it can be distributed through the browser stores. The desktop and mobile apps are AGPL as well; the mobile app has an [additional permission](licenses/MOBILE-APP-STORE-EXCEPTION.md) for distribution through the Apple App Store and Google Play. See [LICENSE](LICENSE) for the exact paths and [docs/licensing.md](docs/licensing.md) for the terms of the official desktop builds: free for personal use, and a one-time business licence without an account (69 euros for TimeWren, see [timewren.com/desktop](https://timewren.com/desktop)).
 
 The TimeTrack and TimeWren names and logos are not covered by the code license; see [TRADEMARK.md](TRADEMARK.md).
 

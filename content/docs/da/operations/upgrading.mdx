@@ -66,7 +66,8 @@ Compose-filen sætter `MIGRATE_ON_START=1`. Hver gang containeren `app` starter,
 
 - Den tager en advisory lock i Postgres, så to containere, der starter samtidig, ikke migrerer parallelt. En container nummer to venter op til 5 minutter (`MIGRATION_LOCK_TIMEOUT_MS`) og fejler derefter.
 - Den anvender de ventende migreringer fra `drizzle/` via Drizzles migrator, som kører dem i en transaktion.
-- På en tom database opretter den det aktuelle skema og registrerer alle migreringer som anvendt.
+- På en tom database installerer den det versionsstyrede SQL-skema frem til og med migrering `0160` og registrerer historikken i samme transaktion. Derefter kører den `0161` og eventuelle senere migreringer.
+- På en eksisterende database med manglende eller tom migrationshistorik gendanner den historikken til og med `0161` og sikrer testkontoskemaet i samme transaktion. Den bevarer gemte testkontoflag, også hvis posten for `0161` mangler i en ellers udfyldt migrationshistorik. Hvis flagkolonnen manglede, genskaber den kolonnen og bruger auditloggen til at genskabe flagene. I en eksisterende kolonne sænkes eller overskrives gemte flag aldrig ud fra auditloggen; en organisation uden flag hæves kun, når den ældre `testAccount`-markering i metadata stadig udpeger den (en database, der registrerede `0160`, før flagene blev gendannet), og dens seneste auditlog-post også markerer den som testkonto. Den versionsstyrede SQL giver samme resultat, hvis du kører den manuelt.
 - En start uden noget nyt skriver `Database is up to date`, ellers `N new migration(s) applied`.
 
 ## Hvis en migrering fejler

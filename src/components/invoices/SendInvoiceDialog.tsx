@@ -5,12 +5,12 @@ import { useCallback, useId, useRef, useState } from "react";
 import { ConfirmDialog } from "@/components/ui/Modal";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { isDraftInvoiceNumber } from "@/lib/invoices/draft-number";
+import type { ReviewedInvoice } from "@/lib/invoices/send-review";
 import { trpc } from "@/providers/trpc-provider";
 
-export interface ReviewedInvoice {
-  total: number;
-  currency: string;
-}
+export type { ReviewedInvoice };
+
+const PROVIDER_NAMES = { billy: "Billy", dinero: "Dinero" } as const;
 
 export function SendInvoiceDialog({
   invoiceId,
@@ -44,10 +44,12 @@ export function SendInvoiceDialog({
   );
   const email = (recipient ?? data?.email ?? "").trim();
   const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const uncertainProvider = data?.uncertainProviderEmail ?? null;
   const canSend = Boolean(
     !disabled &&
       data &&
       Number.isFinite(data.total) &&
+      !uncertainProvider &&
       !isError &&
       !isFetching &&
       validEmail,
@@ -71,7 +73,14 @@ export function SendInvoiceDialog({
         sending.current = true;
         setIsSending(true);
         try {
-          await onSend(email, { total: data.total, currency: data.currency });
+          // The server compares this with the invoice right before sending.
+          await onSend(email, {
+            invoiceNumber: data.invoiceNumber,
+            total: data.total,
+            currency: data.currency,
+            lineCount: data.lineCount,
+            recipient: email,
+          });
         } finally {
           sending.current = false;
           setIsSending(false);
@@ -128,7 +137,11 @@ export function SendInvoiceDialog({
               </dd>
             </div>
             <div>
-              <dt className="font-medium">{t("sendConfirmation.total")}</dt>
+              <dt className="font-medium">
+                {data.showVat
+                  ? t("sendConfirmation.total")
+                  : t("sendConfirmation.totalNoVat")}
+              </dt>
               <dd>
                 {new Intl.NumberFormat(locale, {
                   minimumFractionDigits: 2,
@@ -138,10 +151,24 @@ export function SendInvoiceDialog({
               </dd>
             </div>
             <div>
+              <dt className="font-medium">{t("sendConfirmation.lineCount")}</dt>
+              <dd>{data.lineCount}</dd>
+            </div>
+            <div>
               <dt className="font-medium">{t("detail.dueDate")}</dt>
               <dd>{date}</dd>
             </div>
           </dl>
+          {uncertainProvider && (
+            <p
+              role="alert"
+              className="rounded-lg border border-warning-200 bg-warning-50 p-3 text-warning-700 dark:border-warning-800 dark:bg-warning-900/20 dark:text-warning-400"
+            >
+              {t("providerEmail.uncertainBlocked", {
+                provider: PROVIDER_NAMES[uncertainProvider],
+              })}
+            </p>
+          )}
           {provider && (
             <p>{t("sendConfirmation.provider", { provider: provider.name })}</p>
           )}

@@ -1,10 +1,14 @@
-import type { TaskRowItem } from './components/task-row';
+import type { TaskListItem, TaskRowItem } from './components/task-row';
 import type { TaskSegment } from './task-logic';
+import type { RouterOutputs } from '~/api/app-router';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getQueryKey } from '@trpc/react-query';
 import { useRouter } from 'expo-router';
 import { CheckSquare, Plus } from 'lucide-react-native';
 import * as React from 'react';
 import { Alert, View } from 'react-native';
 import {
+  Button,
   Card,
   EmptyState,
   ErrorState,
@@ -14,15 +18,36 @@ import {
   Screen,
   Segmented,
   Select,
+  Text,
 } from '~/components/ui';
 import { useCapabilities } from '~/features/capabilities/use-capabilities';
 import { errorMessage, trpc } from '~/lib/api';
 import { translate } from '~/lib/i18n';
 import { showMessage, useAnnounceLoaded } from '~/lib/notify';
 import { TaskRow } from './components/task-row';
+import { normalizeTaskList } from './normalize-task-list';
 import { filterTasks, sortByDeadline, TASK_SEGMENTS } from './task-logic';
 
 const ALL_PROJECTS = '';
+
+type TaskCursor = Extract<RouterOutputs['tasks']['list'], { nextCursor: unknown }>['nextCursor'];
+
+function useTaskPages(projectId: string, enabled: boolean) {
+  const { client } = trpc.useUtils();
+  const input = { projectId: projectId || undefined, orderBy: 'deadline' as const };
+  // The legacy router type has no cursor, so tRPC only exposes useQuery for it.
+  return useInfiniteQuery({
+    queryKey: getQueryKey(trpc.tasks.list, input, 'infinite'),
+    initialPageParam: null as TaskCursor | null,
+    enabled,
+    queryFn: async ({ pageParam, signal }) => {
+      const pageInput = pageParam == null ? input : { ...input, cursor: pageParam };
+      const page = await client.tasks.list.query(pageInput, { signal });
+      return normalizeTaskList<TaskListItem, TaskCursor>(page);
+    },
+    getNextPageParam: page => page.nextCursor,
+  });
+}
 
 export function TasksScreen() {
   const caps = useCapabilities();
@@ -31,10 +56,7 @@ export function TasksScreen() {
   const [segment, setSegment] = React.useState<TaskSegment>('open');
   const [projectId, setProjectId] = React.useState<string>(ALL_PROJECTS);
 
-  const list = trpc.tasks.list.useQuery(
-    { projectId: projectId || undefined, orderBy: 'deadline' },
-    { enabled },
-  );
+  const list = useTaskPages(projectId, enabled);
   const focus = trpc.tasks.getTodaysFocus.useQuery(undefined, { enabled: enabled && segment === 'today' });
   const projects = trpc.projects.list.useQuery(undefined, { enabled });
 
@@ -51,10 +73,14 @@ export function TasksScreen() {
     [projects.data],
   );
 
+  const canLoadMore = segment !== 'today' && list.hasNextPage;
   const visible = React.useMemo(() => {
     if (segment === 'today')
       return (focus.data ?? []).filter(t => !projectId || t.projectId === projectId);
-    const filtered = filterTasks(list.data ?? [], segment);
+    const rows = list.data?.pages.flatMap(page => page.rows) ?? [];
+    // Cursor-sider kan overlappe, når opgaver ændres mellem to hentninger.
+    const unique = new Map(rows.map(row => [row.id, row]));
+    const filtered = filterTasks([...unique.values()], segment);
     return segment === 'done' ? filtered : sortByDeadline(filtered);
   }, [segment, focus.data, list.data, projectId]);
 
@@ -73,7 +99,7 @@ export function TasksScreen() {
   }
 
   const isLoading = segment === 'today' ? focus.isLoading : list.isLoading;
-  const isError = segment === 'today' ? focus.isError : list.isError;
+  const isError = segment === 'today' ? focus.isError : list.isError && !list.data;
 
   return (
     <Screen
@@ -91,8 +117,20 @@ export function TasksScreen() {
         : isError
           ? <ErrorState onRetry={refresh} />
           : visible.length === 0
-            ? <EmptyState icon={CheckSquare} title={translate(`tasks.empty.${segment}`)} description={translate('tasks.empty.body')} compact />
+            ? (canLoadMore ? <Text className="text-sm text-muted-foreground">{translate('tasks.none_in_loaded')}</Text> : <EmptyState icon={CheckSquare} title={translate(`tasks.empty.${segment}`)} description={translate('tasks.empty.body')} compact />)
             : <TaskList tasks={visible} />}
+      {canLoadMore && (list.isFetchNextPageError
+        ? <ErrorState onRetry={() => void list.fetchNextPage({ cancelRefetch: false })} />
+        : (
+            <Button
+              label={translate('tasks.show_more')}
+              variant="outline"
+              loading={list.isFetchingNextPage}
+              disabled={list.isFetching}
+              onPress={() => void list.fetchNextPage({ cancelRefetch: false })}
+              testID="tasks-show-more"
+            />
+          ))}
     </Screen>
   );
 }

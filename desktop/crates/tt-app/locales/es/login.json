@@ -1,6 +1,13 @@
 {
-  "login.error.not_link": "Este no es un enlace de inicio de sesión de TimeTrack",
+  "login.error.not_link": "Este no es un enlace de inicio de sesión de {brand}",
   "login.error.denied": "El navegador rechazó el inicio de sesión",
   "login.error.state": "La respuesta no corresponde a este inicio de sesión. Empieza de nuevo por seguridad",
-  "login.error.missing_code": "A la respuesta le falta el código. Inténtalo de nuevo"
+  "login.error.missing_code": "A la respuesta le falta el código. Inténtalo de nuevo",
+  "login.server.label": "Dirección del servidor",
+  "login.server.hint": "Déjalo vacío para usar {brand} Cloud. ¿Tienes tu propio servidor? Escribe su dirección.",
+  "login.server.err.invalid": "Eso no es una dirección web. Usa algo como https://tiempo.ejemplo.es",
+  "login.server.err.https": "Usa https:// para el servidor. El http:// simple solo funciona con un servidor en este equipo (localhost)",
+  "login.server.err.credentials": "No pongas usuario ni contraseña en la dirección",
+  "login.server.err.logged_in": "Cierra la sesión antes de cambiar de servidor",
+  "login.server.err.unsupported": "Esta versión no puede cambiar de servidor"
 }

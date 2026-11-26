@@ -135,6 +135,7 @@ function base() {
 function checkout(
   opts: Omit<TimewrenCheckoutOptions, "withOrgLock" | "loadSub"> & {
     sub: GoverningSubscription | null;
+    db: Parameters<TimewrenCheckoutOptions["loadSub"]>[0];
   },
 ) {
   const { sub, ...rest } = opts;
@@ -182,6 +183,7 @@ describe("createTimewrenCheckout", () => {
       line_items: [{ price: "price_solo", quantity: 1 }],
       automatic_tax: { enabled: true },
       tax_id_collection: { enabled: true },
+      branding_settings: { display_name: "TimeWren" },
       locale: "de",
       subscription_data: {
         trial_period_days: 14,
@@ -341,7 +343,7 @@ describe("createTimewrenCheckout", () => {
     expect(res.url).toBe("https://checkout.stripe.com/c/1");
   });
 
-  it("ny kunde gemmes uden for låsens transaktion, så en fejl ikke taber den", async () => {
+  it("ny kunde gemmes gennem låsens forbindelse før Stripe Checkout", async () => {
     stripe.checkout.sessions.create.mockRejectedValueOnce(
       new Error("No such price"),
     );
@@ -365,8 +367,8 @@ describe("createTimewrenCheckout", () => {
         tier: "solo",
       }),
     ).rejects.toMatchObject({ code: "INTERNAL_SERVER_ERROR" });
-    expect(txUpdates).toEqual([]);
-    expect(updates[0]).toMatchObject({ stripeCustomerId: "cus_new" });
+    expect(updates).toEqual([]);
+    expect(txUpdates[0]).toMatchObject({ stripeCustomerId: "cus_new" });
   });
 
   it("Stripe-fejl giver en neutral fejl uden detaljer", async () => {
@@ -444,7 +446,6 @@ describe("createTimewrenCheckout: samtidige kald", () => {
     const call = (userId: string) =>
       createTimewrenCheckout({
         ...base(),
-        db: sharedDb,
         userId,
         withOrgLock,
         loadSub: async () => ({ ...row }),
@@ -472,7 +473,6 @@ describe("createTimewrenCheckout: samtidige kald", () => {
     const unlocked = (userId: string) =>
       createTimewrenCheckout({
         ...base(),
-        db: base().db,
         userId,
         withOrgLock: (fn) => fn(base().db),
         loadSub: async () => ({ ...w.row, stripeCustomerId: "cus_1" }),

@@ -146,6 +146,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
+            BUILD_PROFILE=selfhost
             BETTER_AUTH_SECRET=build-time-placeholder
             DATABASE_URL=postgresql://build:build@localhost:5432/build
             APP_VERSION=${{ github.sha }}

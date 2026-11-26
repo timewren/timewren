@@ -22,10 +22,14 @@ const mockSetPendingStop = jest.fn();
 jest.mock('~/features/timer/timer-recovery', () => ({ setPendingStop: (...a: unknown[]) => mockSetPendingStop(...a) }));
 const mockResetTimer = jest.fn();
 jest.mock('~/features/timer/timer-store', () => ({ timerActions: () => ({ reset: (...a: unknown[]) => mockResetTimer(...a) }) }));
+const mockOrder: string[] = [];
+jest.mock('~/features/notifications/push-registration', () => ({
+  releasePushForSignOut: jest.fn(async () => {
+    mockOrder.push('push');
+  }),
+}));
 const mockClearQueries = jest.fn();
-jest.mock('~/lib/api/provider', () => ({ queryClient: { clear: () => mockClearQueries() } }));
-const mockSetMonitoringUser = jest.fn();
-jest.mock('~/lib/monitoring', () => ({ setMonitoringUser: (...a: unknown[]) => mockSetMonitoringUser(...a) }));
+jest.mock('~/lib/api/provider', () => ({ queryClient: { clear: () => mockClearQueries(), removeQueries: jest.fn(), cancelQueries: jest.fn() } }));
 
 // eslint-disable-next-line import/first
 import type { RecentTask } from '~/features/home/quick-start';
@@ -34,7 +38,11 @@ import type { AuthSession } from '~/lib/auth/client';
 // eslint-disable-next-line import/first
 import { readQuickStart, rememberQuickStart } from '~/features/home/quick-start';
 // eslint-disable-next-line import/first
-import { hydrateAuth, setSession, signOut, useAuthStore } from './use-auth-store';
+import { authClient } from '~/lib/auth/client';
+// eslint-disable-next-line import/first
+import { __setCookie } from '../../../__mocks__/auth-client';
+// eslint-disable-next-line import/first
+import { changeActiveOrganization, hydrateAuth, setSession, signOut, useAuthStore } from './use-auth-store';
 
 const task = {
   clientId: 'c1',
@@ -52,13 +60,85 @@ function sessionFor(userId: string): AuthSession {
 
 beforeEach(() => {
   mockMemory.clear();
+  __setCookie('');
   mockClearQueue.mockClear();
   mockAdoptOwner.mockClear();
   mockSetPendingStop.mockClear();
   mockResetTimer.mockClear();
   mockClearQueries.mockClear();
-  mockSetMonitoringUser.mockClear();
   useAuthStore.setState({ status: 'idle', session: null });
+});
+
+it('ignorerer et forsinket sessionsvar efter et nyere genforsøg', async () => {
+  __setCookie('session=test');
+  let resolveFirst!: (response: { data: AuthSession; error: null }) => void;
+  jest.mocked(authClient.getSession)
+    .mockImplementationOnce(() => new Promise((resolve) => {
+      resolveFirst = resolve;
+    }))
+    .mockResolvedValueOnce({ data: null, error: null } as Awaited<ReturnType<typeof authClient.getSession>>);
+
+  const calls = jest.mocked(authClient.getSession).mock.calls.length;
+  const first = hydrateAuth();
+  // Vent, til det første forsøg venter på serveren, før det nyere starter.
+  for (let i = 0; i < 20 && jest.mocked(authClient.getSession).mock.calls.length === calls; i++)
+    await Promise.resolve();
+  expect(resolveFirst).toBeDefined();
+  await hydrateAuth();
+  expect(useAuthStore.getState().status).toBe('signOut');
+
+  resolveFirst({ data: sessionFor('bruger-1'), error: null });
+  await first;
+
+  expect(useAuthStore.getState().status).toBe('signOut');
+  expect(useAuthStore.getState().session).toBeNull();
+  expect(mockAdoptOwner).not.toHaveBeenCalled();
+  expect(useAuthStore.getState().offlineUserId).toBeNull();
+});
+
+it('afviser hydreringen, når sessionscookien ikke kan læses, så opstarten viser fejlskærmen', async () => {
+  const error = new Error('SecureStore utilgængelig');
+  const cookieSpy = jest.spyOn(require('~/lib/auth/client'), 'getSessionCookie').mockRejectedValueOnce(error);
+
+  await expect(hydrateAuth()).rejects.toBe(error);
+
+  expect(useAuthStore.getState().status).toBe('idle');
+  expect(useAuthStore.getState().checking).toBe(false);
+  cookieSpy.mockRestore();
+});
+
+it('ignorerer en forældet cookiefejl, efter en nyere hydrering er afsluttet', async () => {
+  let rejectFirst!: (error: Error) => void;
+  const cookieSpy = jest.spyOn(require('~/lib/auth/client'), 'getSessionCookie')
+    .mockImplementationOnce(() => new Promise((_resolve, reject) => {
+      rejectFirst = reject;
+    }));
+
+  const first = hydrateAuth();
+  await hydrateAuth();
+  expect(useAuthStore.getState().status).toBe('signOut');
+
+  rejectFirst(new Error('SecureStore utilgængelig'));
+  await expect(first).resolves.toBeUndefined();
+
+  expect(useAuthStore.getState().status).toBe('signOut');
+  expect(useAuthStore.getState().checking).toBe(false);
+  cookieSpy.mockRestore();
+});
+
+it('genopbygger navigationen i stedet for at afvise organisationsskiftet, når cookien ikke kan læses bagefter', async () => {
+  useAuthStore.setState({ status: 'signIn', session: sessionFor('bruger-1'), checking: false });
+  const navigationKey = useAuthStore.getState().navigationKey;
+  const change = jest.fn(async () => {});
+  const cookieSpy = jest.spyOn(require('~/lib/auth/client'), 'getSessionCookie').mockRejectedValueOnce(new Error('SecureStore utilgængelig'));
+
+  await expect(changeActiveOrganization(change)).resolves.toBeUndefined();
+
+  expect(change).toHaveBeenCalled();
+  expect(useAuthStore.getState().status).toBe('signIn');
+  expect(useAuthStore.getState().checking).toBe(false);
+  expect(useAuthStore.getState().navigationKey).toBe(navigationKey + 1);
+  cookieSpy.mockRestore();
 });
 
 describe('signOut', () => {
@@ -97,7 +177,6 @@ describe('session, der forsvinder under os', () => {
     expect(mockSetPendingStop).toHaveBeenCalledWith(null);
     expect(mockResetTimer).toHaveBeenCalled();
     expect(mockClearQueries).toHaveBeenCalled();
-    expect(mockSetMonitoringUser).toHaveBeenLastCalledWith(null);
   });
 
   it('beholder den usendte offline-kø — en udløbet session er ikke et valg', async () => {
@@ -116,4 +195,16 @@ describe('session, der forsvinder under os', () => {
     setSession(sessionFor('bruger-2'));
     expect(mockAdoptOwner).toHaveBeenLastCalledWith('bruger-2');
   });
+});
+
+it('afmelder push, mens login-cookien stadig findes, før serveren logger ud', async () => {
+  mockOrder.length = 0;
+  jest.mocked(authClient.signOut).mockImplementationOnce(async () => {
+    mockOrder.push('signOut');
+    return {};
+  });
+  setSession(sessionFor('bruger-1'));
+  await signOut();
+  expect(mockOrder).toEqual(['push', 'signOut']);
+  expect(useAuthStore.getState().status).toBe('signOut');
 });

@@ -22,6 +22,11 @@ import { DineroIntegration } from "@/lib/integrations/dinero";
 import { getValidDineroToken } from "@/lib/integrations/dinero-oauth";
 import { EconomicIntegration } from "@/lib/integrations/economic";
 import { markInvoicePaid } from "@/lib/invoices/mark-paid";
+import {
+  contactResolves,
+  isProviderNotFound,
+  releaseMissingProviderLink,
+} from "@/lib/invoices/provider-export-state";
 import { decrypt } from "@/lib/utils/encryption";
 import { captureRouteError } from "@/lib/utils/sentry";
 
@@ -115,6 +120,26 @@ async function autoLinkBillyInvoices(
   return linked;
 }
 
+/**
+ * A 404 only clears the link when the connection is provably the account the
+ * invoice was exported to (see canReleaseMissingProviderLink): a different
+ * connected account also answers 404 for a valid link. Errors while deciding
+ * keep the link.
+ */
+async function releaseIfMissing(
+  opts: Parameters<typeof releaseMissingProviderLink>[0],
+) {
+  try {
+    return await releaseMissingProviderLink(opts);
+  } catch (error) {
+    console.error(
+      `[Invoice Sync] ${opts.provider}: Could not check the account of invoice ${opts.invoice.id}:`,
+      error,
+    );
+    return false;
+  }
+}
+
 export const GET = withCronLogging("invoice-sync", async (_request) => {
   // Find all users with auto-sync enabled and at least one integration configured
   const usersWithSync = await db.query.users.findMany({
@@ -158,17 +183,24 @@ export const GET = withCronLogging("invoice-sync", async (_request) => {
         }
       }
 
-      // Get outstanding invoices for this user (sent or overdue, with external ID)
+      // Invoices with an external ID: sent/overdue ones are checked for
+      // payment; drafts only for a Billy/Dinero draft that no longer exists,
+      // so their link is released and the draft can be exported again.
       const outstandingInvoices = await db.query.invoices.findMany({
         where: and(
           scope,
-          inArray(invoices.status, ["sent", "overdue"]),
+          inArray(invoices.status, ["draft", "sent", "overdue"]),
           or(
             isNotNull(invoices.billyInvoiceId),
             isNotNull(invoices.dineroInvoiceGuid),
             isNotNull(invoices.economicInvoiceNumber),
           ),
         ),
+        with: {
+          client: {
+            columns: { billyId: true, dineroId: true, updatedAt: true },
+          },
+        },
       });
 
       if (outstandingInvoices.length === 0) continue;
@@ -186,6 +218,11 @@ export const GET = withCronLogging("invoice-sync", async (_request) => {
         if (billyInvoices.length > 0) {
           try {
             const billy = new BillyIntegration(decrypt(user.billyApiKey));
+            let billyAccount: Promise<string | undefined> | undefined;
+            const billyAccountId = () => {
+              billyAccount ??= billy.getOrganization().then((org) => org.id);
+              return billyAccount;
+            };
 
             for (const invoice of billyInvoices) {
               const billyInvoiceId = invoice.billyInvoiceId;
@@ -194,7 +231,7 @@ export const GET = withCronLogging("invoice-sync", async (_request) => {
                 const status = await billy.getInvoiceStatus(billyInvoiceId);
                 totalSynced++;
 
-                if (status.isPaid && invoice.status !== "paid") {
+                if (status.isPaid && invoice.status !== "draft") {
                   // null: en samtidig webhook/bruger har allerede ændret den
                   const paid = await markInvoicePaid(db, {
                     invoiceId: invoice.id,
@@ -210,15 +247,21 @@ export const GET = withCronLogging("invoice-sync", async (_request) => {
                   }
                 }
               } catch (error) {
-                const statusCode =
-                  error && typeof error === "object" && "statusCode" in error
-                    ? (error as { statusCode: number }).statusCode
-                    : 0;
-                if (statusCode === 404) {
-                  await db
-                    .update(invoices)
-                    .set({ billyInvoiceId: null, updatedAt: new Date() })
-                    .where(eq(invoices.id, invoice.id));
+                const released =
+                  isProviderNotFound(error) &&
+                  (await releaseIfMissing({
+                    database: db,
+                    provider: "billy",
+                    invoice,
+                    client: invoice.client,
+                    externalId: billyInvoiceId,
+                    currentAccountId: billyAccountId,
+                    clientContactExists: () =>
+                      contactResolves(invoice.client?.billyId, (id) =>
+                        billy.getContact(id),
+                      ),
+                  }));
+                if (released) {
                   console.warn(
                     `[Invoice Sync] Billy: Invoice ${invoice.invoiceNumber} no longer exists in Billy — cleared billyInvoiceId`,
                   );
@@ -280,7 +323,8 @@ export const GET = withCronLogging("invoice-sync", async (_request) => {
                 const status = await dinero.getInvoiceStatus(dineroInvoiceGuid);
                 totalSynced++;
 
-                if (status.isPaid && invoice.status !== "paid") {
+                // Dinero reports a draft without a balance as paid.
+                if (status.isPaid && invoice.status !== "draft") {
                   // null: en samtidig webhook/bruger har allerede ændret den
                   const paid = await markInvoicePaid(db, {
                     invoiceId: invoice.id,
@@ -296,15 +340,21 @@ export const GET = withCronLogging("invoice-sync", async (_request) => {
                   }
                 }
               } catch (error) {
-                const statusCode =
-                  error && typeof error === "object" && "statusCode" in error
-                    ? (error as { statusCode: number }).statusCode
-                    : 0;
-                if (statusCode === 404) {
-                  await db
-                    .update(invoices)
-                    .set({ dineroInvoiceGuid: null, updatedAt: new Date() })
-                    .where(eq(invoices.id, invoice.id));
+                const released =
+                  isProviderNotFound(error) &&
+                  (await releaseIfMissing({
+                    database: db,
+                    provider: "dinero",
+                    invoice,
+                    client: invoice.client,
+                    externalId: dineroInvoiceGuid,
+                    currentAccountId: async () => dineroOrganizationId,
+                    clientContactExists: () =>
+                      contactResolves(invoice.client?.dineroId, (id) =>
+                        dinero.getContact(id),
+                      ),
+                  }));
+                if (released) {
                   console.warn(
                     `[Invoice Sync] Dinero: Invoice ${invoice.invoiceNumber} no longer exists in Dinero — cleared dineroInvoiceGuid`,
                   );
@@ -330,8 +380,9 @@ export const GET = withCronLogging("invoice-sync", async (_request) => {
       const economicAgreementGrantToken = user.economicAgreementGrantToken;
       const hasEconomic = economicAppSecretToken && economicAgreementGrantToken;
       if (hasEconomic) {
+        // Drafts are only checked against Billy/Dinero (see the query above).
         const economicInvoices = outstandingInvoices.filter(
-          (inv) => inv.economicInvoiceNumber,
+          (inv) => inv.economicInvoiceNumber && inv.status !== "draft",
         );
 
         if (economicInvoices.length > 0) {

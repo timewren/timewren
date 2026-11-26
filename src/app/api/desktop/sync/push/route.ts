@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
+import { TRPCError } from "@trpc/server";
 import { and, eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { tr } from "@/i18n/server-text";
@@ -53,6 +54,7 @@ import {
 import { recordSyncTombstone } from "@/lib/desktop-sync-tombstones";
 import { assertEntryEditable } from "@/lib/enterprise/edit-guard";
 import { draftInvoiceNumber } from "@/lib/invoices/draft-number";
+import { getOrgLanguage } from "@/lib/org/region.server";
 import { resolveModuleAccess } from "@/lib/permissions/role-access";
 import {
   lookupProjectClientId,
@@ -73,6 +75,7 @@ import {
 } from "@/lib/time/billed-lock";
 import { resolveDefaultBillable } from "@/lib/time/default-billable";
 import { entryDateFromInput } from "@/lib/time/entry-date-input";
+import { lockTimeEntryTasks } from "@/lib/time/task-locks";
 import { resolveModules } from "@/lib/trpc/routers/enterprise/middleware";
 import {
   markEntriesBilled,
@@ -81,6 +84,7 @@ import {
 } from "@/lib/trpc/routers/invoices";
 import {
   deductHoursCore,
+  lockPrepaidPackages,
   reversePrepaidUsage,
 } from "@/lib/trpc/routers/prepaid";
 import { resolvePlanTier } from "@/lib/trpc/trpc";
@@ -630,7 +634,9 @@ async function handleCreate(
     // Som tRPC's invoices.create for kladder: status og nummer er serverens,
     // og kladder forbruger ikke numre af den fortløbende serie (#196).
     insertData.status = "draft";
-    insertData.invoiceNumber = draftInvoiceNumber();
+    insertData.invoiceNumber = draftInvoiceNumber(
+      await getOrgLanguage(db, orgId, userId),
+    );
     // Beløbet ejes af linjerne (recalcInvoiceTotal); en ny kladde er tom.
     insertData.amount = "0";
   }
@@ -663,6 +669,11 @@ async function handleCreate(
   }
 
   const inserted = await db.transaction(async (tx) => {
+    // The insert may lock the referenced task before deducting from the card.
+    if (requestedPackageId) {
+      await lockPrepaidPackages(tx, [requestedPackageId], { userId, orgId });
+    }
+
     // biome-ignore lint/suspicious/noExplicitAny: dynamic table insert
     let query = tx.insert(table as any).values(insertData) as any;
     if (clientEntryId) {
@@ -747,6 +758,8 @@ async function handleCreate(
   };
 }
 
+const retryTimeEntryUpdate = Symbol("time entry links changed");
+
 async function handleUpdate(
   entity: SyncEntity,
   entityDef: ReturnType<typeof getEntityTable> & {},
@@ -765,7 +778,15 @@ async function handleUpdate(
       localId,
       connection,
     );
-  return entity.type === "time_entry" ? db.transaction(apply) : apply(db);
+  if (entity.type !== "time_entry") return apply(db);
+
+  for (;;) {
+    try {
+      return await db.transaction(apply);
+    } catch (error) {
+      if (error !== retryTimeEntryUpdate) throw error;
+    }
+  }
 }
 
 type UpdateConnection =
@@ -840,10 +861,59 @@ async function handleUpdateOnConnection(
     // biome-ignore lint/suspicious/noExplicitAny: dynamic table query
     .from(table as any)
     .where(and(...conditions));
-  // Hold låsen fra versionskontrollen til timer og opgaveminutter er gemt.
-  const [existing] = await (type === "time_entry"
-    ? query.for("update")
-    : query);
+  let [existing] = await query;
+  let clearedTaskId: string | null = null;
+  let taskReferenceError: TRPCError | undefined;
+  if (type === "time_entry" && existing) {
+    const snapshot = existing as typeof timeEntries.$inferSelect;
+    const requestedTaskId =
+      typeof data.taskId === "string" && data.taskId ? data.taskId : null;
+    // Validate a new task before locking it. Billed entries only allow notes.
+    const billed = isBilledLocked(snapshot);
+    const targetTaskId = billed ? null : requestedTaskId;
+    if (targetTaskId && targetTaskId !== snapshot.taskId) {
+      try {
+        await assertDesktopReferencesOwned(
+          type,
+          { taskId: targetTaskId },
+          userId,
+          orgId,
+        );
+      } catch (error) {
+        if (!(error instanceof TRPCError) || error.code !== "NOT_FOUND") {
+          throw error;
+        }
+        // A stale update must receive the current row even if its task is gone.
+        taskReferenceError = error;
+      }
+    }
+    if (snapshot.prepaidPackageId) {
+      await lockPrepaidPackages(db, [snapshot.prepaidPackageId]);
+    }
+    const lockedTasks = await lockTimeEntryTasks(db, [
+      snapshot.taskId,
+      taskReferenceError ? null : targetTaskId,
+    ]);
+
+    // Keep the row locked from the version check to the minutes update.
+    [existing] = await query.for("update");
+    const current = existing as typeof timeEntries.$inferSelect | undefined;
+    if (
+      current &&
+      (isBilledLocked(current) !== billed ||
+        (current.taskId && current.taskId !== snapshot.taskId) ||
+        (current.prepaidPackageId &&
+          current.prepaidPackageId !== snapshot.prepaidPackageId))
+    ) {
+      throw retryTimeEntryUpdate;
+    }
+    if (
+      snapshot.taskId &&
+      !lockedTasks.some(({ id }) => id === snapshot.taskId)
+    ) {
+      clearedTaskId = snapshot.taskId;
+    }
+  }
 
   if (type === "time_entry" && existing) {
     // Fælles redigeringsguard (#467): hverken gammel eller ny dato i låst
@@ -891,6 +961,8 @@ async function handleUpdateOnConnection(
       };
     }
   }
+
+  if (taskReferenceError) throw taskReferenceError;
 
   // Apply update. Tidsposter whitelistes først efter fakturalåsen, så et
   // forsøg på at ændre faktureringen af en låst post afvises frem for at
@@ -950,6 +1022,9 @@ async function handleUpdateOnConnection(
       updateData = "notes" in updateData ? { notes: updateData.notes } : {};
     } else {
       updateData = pickDesktopWritableFields(type, "update", updateData);
+      if (clearedTaskId && updateData.taskId === clearedTaskId) {
+        delete updateData.taskId;
+      }
       await assertDesktopReferencesOwned(type, updateData, userId, orgId);
     }
 
@@ -1271,6 +1346,10 @@ async function hardDeleteTimeEntry(
   }
 
   await db.transaction(async (tx) => {
+    if (existing.isPrepaid && existing.prepaidPackageId) {
+      await reversePrepaidUsage(tx, remoteId, existing.prepaidPackageId);
+    }
+
     if (existing.taskId) {
       const minutesToRemove = Math.round(Number(existing.hours) * 60);
       await tx
@@ -1280,10 +1359,6 @@ async function hardDeleteTimeEntry(
           updatedAt: new Date(),
         })
         .where(eq(tasks.id, existing.taskId));
-    }
-
-    if (existing.isPrepaid && existing.prepaidPackageId) {
-      await reversePrepaidUsage(tx, remoteId, existing.prepaidPackageId);
     }
 
     await tx

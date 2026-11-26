@@ -55,10 +55,12 @@ export function runningTimerContent(
 
 let presentedId: string | null = null;
 
-/** Kanalkategorien med stop-knappen. Kun nødvendig på iOS — på Android følger knappen med kanal-kategorien. */
+/**
+ * Kategorien med stop-knappen. Begge platforme: expo læser også på Android
+ * knapperne fra kategorien (ExpoNotificationBuilder), så uden den havde
+ * Android-notifikationen ingen stop-knap.
+ */
 async function ensureCategory(): Promise<void> {
-  if (Platform.OS === 'android')
-    return;
   await Notifications.setNotificationCategoryAsync(RUNNING_CATEGORY_ID, [
     {
       identifier: RUNNING_STOP_ACTION,
@@ -78,11 +80,14 @@ async function ensureChannel(): Promise<void> {
 }
 
 /**
- * Vis (eller opdatér) notifikationen. `trigger: null` betyder "straks" —
- * expo-notifications 0.32 har ikke længere `presentNotificationAsync`.
+ * Vis (eller opdatér) notifikationen. `{ channelId }` betyder "straks" på
+ * samme måde som `trigger: null` (expo-notifications 0.32 har ikke længere
+ * `presentNotificationAsync`), men vælger kanalen på Android. Med `null`
+ * landede den på expos reservekanal med høj prioritet, så den summede og
+ * poppede op hvert minut. iOS ignorerer kanalen.
  *
- * Opdateringen sker ved at fjerne den gamle og vise en ny: en notifikation med
- * `trigger: null` kan ikke genplanlægges på samme id, og to samtidige
+ * Opdateringen sker ved at fjerne den gamle og vise en ny: en straks-
+ * notifikation kan ikke genplanlægges på samme id, og to samtidige
  * notifikationer ville være værre end et kort flimmer.
  */
 export async function presentRunningTimer(state: TimerPersisted, now: number = Date.now()): Promise<void> {
@@ -102,7 +107,7 @@ export async function presentRunningTimer(state: TimerPersisted, now: number = D
         // Vises i liste, men popup'er ikke over skærmen hvert minut.
         priority: Notifications.AndroidNotificationPriority.LOW,
       },
-      trigger: null,
+      trigger: { channelId: RUNNING_CHANNEL_ID },
     });
   }
   catch {

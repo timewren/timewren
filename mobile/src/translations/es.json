@@ -6,6 +6,18 @@
     "email": "Correo electrónico",
     "error_generic": "No se pudo iniciar sesión. Revisa el correo y la contraseña e inténtalo de nuevo.",
     "error_no_session": "No se pudo cargar tu sesión. Inténtalo de nuevo.",
+    "errors": {
+      "code_expired": "El código ha caducado. Inicia sesión de nuevo para recibir otro.",
+      "email_not_verified": "Tu correo aún no está confirmado. Abre el enlace del correo de confirmación e inténtalo de nuevo.",
+      "invalid_code": "El código no es correcto. Inténtalo de nuevo.",
+      "invalid_credentials": "Correo o contraseña incorrectos.",
+      "invalid_email": "La dirección de correo no es válida.",
+      "network": "Sin conexión. Inténtalo de nuevo cuando estés en línea.",
+      "password_too_long": "La contraseña es demasiado larga.",
+      "password_too_short": "La contraseña es demasiado corta.",
+      "too_many_attempts": "Demasiados intentos. Espera un momento e inténtalo de nuevo.",
+      "user_exists": "Ya existe una cuenta con este correo. Inicia sesión."
+    },
     "link_sent_body": "Hemos enviado un enlace de inicio de sesión a {{email}}. Ábrelo en este teléfono.",
     "link_sent_title": "Revisa tu bandeja de entrada",
     "no_account_hint": "¿Aún no tienes cuenta? Créala aquí",
@@ -22,10 +34,24 @@
       "sent_title": "Confirma tu correo electrónico",
       "submit": "Crear cuenta",
       "subtitle": "30 días de prueba gratis, sin tarjeta.",
-      "terms": "Al crear una cuenta aceptas los términos y la política de privacidad en timetrack.dk.",
+      "terms": "Al crear una cuenta aceptas los términos y la política de privacidad en {{site}}.",
       "title": "Crear cuenta"
     },
     "tagline": "Tiempo, bonos de horas y ausencias, siempre contigo.",
+    "two_factor": {
+      "body_backup": "Introduce uno de tus códigos de respaldo.",
+      "body_otp": "Te hemos enviado un código por correo. Introdúcelo aquí.",
+      "body_totp": "Introduce el código de 6 dígitos de tu app de autenticación.",
+      "cancel": "Volver a iniciar sesión",
+      "code": "Código",
+      "code_sent": "El código se ha enviado a tu correo.",
+      "resend_email": "Enviar el código de nuevo",
+      "title": "Confirma que eres tú",
+      "use_backup": "Usar un código de respaldo",
+      "use_email": "Enviarme un código por correo",
+      "use_totp": "Usar el código de la app de autenticación",
+      "verify": "Confirmar"
+    },
     "use_magic_link": "Usar un enlace de inicio de sesión",
     "use_other_email": "Usar otro correo electrónico",
     "use_password": "Iniciar sesión con contraseña"
@@ -44,7 +70,7 @@
     "cycle_yearly": "Anual",
     "ends_on": "Caduca el {{date}}",
     "errors": {
-      "account_mismatch": "La compra pertenece a otra cuenta de TimeTrack. Inicia sesión con la cuenta con la que compraste la suscripción.",
+      "account_mismatch": "La compra pertenece a otra cuenta de {{appName}}. Inicia sesión con la cuenta con la que compraste la suscripción.",
       "already_owned": "Ya tienes esta suscripción. Toca Restaurar compras para recuperarla.",
       "network": "Sin conexión. Inténtalo de nuevo cuando estés en línea.",
       "purchase_failed": "La compra no se completó. Inténtalo de nuevo.",
@@ -255,6 +281,7 @@
     "requires_enterprise": "Requiere el módulo Enterprise.",
     "requires_manager": "Requiere el rol de responsable o RR. HH.",
     "retry": "Reintentar",
+    "root_error": "No se pudo cargar la aplicación. Inténtalo de nuevo.",
     "save": "Guardar",
     "today": "Hoy",
     "yes": "Sí"
@@ -341,6 +368,9 @@
       "tab_approve": "Aprobar",
       "tab_overview": "Resumen",
       "tab_requests": "Solicitudes",
+      "tab_team": "Equipo",
+      "team_calendar_empty": "No hay ausencias aprobadas en el equipo este mes",
+      "team_calendar_offline": "Las ausencias del equipo se podrán cargar cuando tengas conexión.",
       "title": "Ausencias",
       "type": "Tipo de ausencia",
       "type_placeholder": "Elige el tipo",
@@ -467,7 +497,7 @@
       "unread": "Sin leer"
     },
     "locked": {
-      "description": "Las ausencias, el horario flexible y las horas extra forman parte de TimeTrack Enterprise. Pide a tu administrador que lo active.",
+      "description": "Las ausencias, el horario flexible y las horas extra forman parte de {{appName}} Enterprise. Pide a tu administrador que lo active.",
       "title": "Requiere Enterprise"
     },
     "overtime": {
@@ -694,7 +724,8 @@
       "tag_inherited": "{{name}} (del cliente/proyecto)",
       "tag_load_error": "No se pudieron cargar las etiquetas.",
       "tags": "Etiquetas",
-      "task": "Tarea"
+      "task": "Tarea",
+      "task_more": "La lista solo muestra las primeras tareas. El resto está en Tareas."
     },
     "internal": "Tiempo interno",
     "month": "Mes",
@@ -709,6 +740,7 @@
     "register": "Registrar tiempo",
     "save": "Guardar",
     "saved": "Registro guardado",
+    "selected_project": "Proyecto seleccionado",
     "tags_not_saved": "El tiempo se ha guardado, pero no se pudieron asignar las etiquetas.",
     "title": "Tiempo",
     "today": "Hoy",
@@ -892,14 +924,18 @@
       "clients": "Clientes",
       "cta": "Transferir a mi cuenta",
       "delete": "Eliminar los datos locales en su lugar",
+      "destination_changed": "La importación se ha detenido. Vuelve al servidor original, inicia sesión con la cuenta original y selecciona la organización original en Ajustes. Cierra y vuelve a abrir la aplicación para intentarlo de nuevo.",
       "done": "Transferido. Tu tiempo ya está en tu cuenta.",
       "entries": "Registros",
+      "entry_conflict": "La importación se ha detenido porque un registro local difiere del guardado en el servidor. La copia local sigue en este dispositivo. Compara los registros y corrige el del servidor si hace falta antes de volver a intentarlo.",
       "later": "Más tarde",
+      "legacy_journal": "Una importación anterior no registró su destino. La aplicación no puede reanudarla de forma segura. Tus registros siguen en este dispositivo.",
       "progress": "Transfiriendo {{done}} de {{total}}…",
       "projects": "Proyectos",
       "tags": "Etiquetas",
       "title": "Transferir tu tiempo",
-      "total": "Tiempo total"
+      "total": "Tiempo total",
+      "unsupported_server": "Este servidor no permite importar de forma segura a la organización seleccionada. Tus registros siguen en este dispositivo."
     },
     "log_in": "Iniciar sesión",
     "manage": "Proyectos, clientes y etiquetas",
@@ -965,7 +1001,7 @@
     "worked": "Registrado"
   },
   "more": {
-    "about": "Acerca de TimeTrack",
+    "about": "Acerca de {{appName}}",
     "absence": "Ausencias",
     "account": "Cuenta",
     "appearance": "Apariencia",
@@ -1006,9 +1042,20 @@
     "week_review": "Cierre de semana",
     "work": "Trabajo"
   },
+  "navigation": {
+    "app": "{{appName}}",
+    "client": "Cliente",
+    "entry": "Registro de tiempo",
+    "invoice": "Factura",
+    "prepaid": "Bono de horas",
+    "project": "Proyecto",
+    "settings": "Ajustes",
+    "task": "Tarea",
+    "welcome": "Te damos la bienvenida a {{appName}}"
+  },
   "notifications": {
     "daily_body": "¿Has registrado tiempo hoy?",
-    "daily_title": "TimeTrack",
+    "daily_title": "{{appName}}",
     "reminders": "Recordatorios",
     "reminders_daily": "Recordatorio diario a las 17:00 en días laborables",
     "reminders_daily_hint": "«¿Has registrado tiempo hoy?», solo en local en el teléfono",
@@ -1028,11 +1075,14 @@
     "badge_failed": "Con error",
     "badge_pending": "Pendiente de sincronizar",
     "banner_failed": "No se pudieron sincronizar {{count}} cambio(s). Toca para verlos",
+    "banner_hint": "Abre la lista de cambios pendientes",
     "banner_offline": "Sin conexión, los cambios se guardan en local",
     "banner_offline_pending": "Sin conexión: {{count}} cambio(s) en espera",
     "banner_pending": "{{count}} cambio(s) pendientes de sincronizar",
     "banner_syncing": "Sincronizando…",
     "discard": "Descartar",
+    "discard_body": "No se enviará al servidor y no se podrá recuperar.",
+    "discard_title": "¿Descartar este cambio?",
     "empty_body": "Todos tus cambios están sincronizados.",
     "empty_title": "Cola vacía",
     "failed_label": "Error",
@@ -1046,6 +1096,8 @@
     "other_org": "Guardado en otra organización",
     "other_org_body": "Estos cambios pertenecen a una organización en la que no estás ahora. Vuelve a ella o descártalos.",
     "queue_heading": "Cola ({{count}})",
+    "read_saved": "Se muestran datos guardados. Última actualización: {{updated}}.",
+    "read_unavailable": "No tienes conexión. No hay datos guardados para esta vista.",
     "retry": "Reintentar",
     "row_failed": "No se pudo sincronizar, consulta los ajustes",
     "row_pending": "Guardado sin conexión, se sincronizará cuando haya red",
@@ -1164,7 +1216,7 @@
         "title": "Resumen anual y tendencias"
       },
       "sync": {
-        "body": "Tu tiempo en todos tus dispositivos y en timetrack.dk.",
+        "body": "Tu tiempo en todos tus dispositivos y en {{webHost}}.",
         "title": "Copia de seguridad y sincronización"
       }
     },
@@ -1172,8 +1224,8 @@
     "not_now": "Ahora no",
     "price_note": "Privado es una suscripción con pago mensual o anual, y ves el precio antes de comprar. El resumen anual y la exportación son gratis ahora mismo en la beta.",
     "see_plans": "Ver suscripciones",
-    "title": "TimeTrack Privado",
-    "what_is": "¿Qué es TimeTrack Privado?"
+    "title": "{{appName}} Privado",
+    "what_is": "¿Qué es {{appName}} Privado?"
   },
   "prepaid": {
     "actions_title": "Acciones",
@@ -1218,7 +1270,7 @@
     "hours": "Horas",
     "low_balance": "Saldo bajo",
     "manual_entry": "Descuento manual",
-    "module_disabled_body": "Activa el módulo en Ajustes en app.timetrack.dk.",
+    "module_disabled_body": "Activa el módulo en Ajustes en {{webHost}}.",
     "module_disabled_title": "Los bonos de horas están desactivados",
     "name": "Nombre",
     "name_placeholder": "p. ej., Bono de 10 horas",
@@ -1326,7 +1378,7 @@
     "due_title": "Lista ahora",
     "edit_action": "Editar",
     "edit_title": "Editar plantilla",
-    "empty_action": "Abrir TimeTrack en la web",
+    "empty_action": "Abrir {{appName}} en la web",
     "empty_body": "Una plantilla registra las mismas horas una y otra vez. La creas en la web y desde aquí puedes registrarla cuando esté lista.",
     "empty_title": "Sin registros recurrentes",
     "error_client": "Elige un cliente o un proyecto: el tiempo tiene que registrarse en algún sitio.",
@@ -1401,6 +1453,7 @@
     "by_client": "Por cliente",
     "by_member": "Por empleado",
     "by_project": "Por proyecto",
+    "csv_share_error": "No se pudo abrir el menú para compartir. Inténtalo de nuevo.",
     "csv_title": "Informe de tiempo {{start}} – {{end}}",
     "empty_body": "No hay registros en el periodo elegido.",
     "empty_title": "Sin datos",
@@ -1492,9 +1545,9 @@
       "changelog_empty": "Aún no hay novedades",
       "privacy": "Política de privacidad",
       "terms": "Términos",
-      "title": "Acerca de TimeTrack",
+      "title": "Acerca de {{appName}}",
       "version": "Versión",
-      "website": "timetrack.dk"
+      "website": "{{site}}"
     },
     "appearance": {
       "danish": "Danés",
@@ -1535,23 +1588,24 @@
     },
     "delete_account": {
       "cancel": "Cancelar",
-      "confirm_body": "Se eliminarán de forma permanente todos tus registros, clientes y datos. No se puede deshacer.",
+      "confirm_body": "Tu cuenta se eliminará de forma permanente. No se puede deshacer.",
       "confirm_cta": "Eliminar mi cuenta",
       "confirm_title": "¿Seguro del todo?",
       "cta": "Eliminar la cuenta de forma permanente",
       "done": "Tu cuenta se ha eliminado.",
       "field": "Escribe tu correo electrónico para confirmar",
       "instruction": "Para confirmar, escribe el correo electrónico con el que has iniciado sesión:",
-      "org_delete": "Eres el único propietario de «{{name}}». Los otros {{count}} miembros se eliminarán y la organización se borrará con todos sus datos.",
       "org_leave": "Abandonas «{{name}}». Tus registros se quedan en la organización sin tu nombre, y tu cuenta y tus datos personales se eliminan.",
+      "org_transfer": "Eres la única persona propietaria de «{{name}}». Inicia sesión en {{webHost}}, selecciona el equipo y transfiere la propiedad a otro miembro en Organización. Después, vuelve a abrir Eliminar cuenta.",
       "orgs_error": "No se pudieron cargar tus organizaciones. Inténtalo de nuevo antes de eliminar la cuenta.",
       "orgs_title": "Organizaciones que compartes con otras personas",
+      "retry_error": "No se pudo eliminar tu cuenta. Inténtalo de nuevo o contacta con soporte si el problema persiste.",
       "store_body_apple": "La suscripción se compró en App Store. Si sigue activa, seguirás pagándola aunque elimines la cuenta. Cancélala en Gestionar suscripción antes de eliminar la cuenta.",
       "store_body_google": "La suscripción se compró en Google Play. Si sigue activa, seguirás pagándola aunque elimines la cuenta. Cancélala en Gestionar suscripción antes de eliminar la cuenta.",
       "store_title": "Tu suscripción no termina por sí sola",
       "title": "Eliminar cuenta",
-      "warning_body": "Tu cuenta, tu organización (si eres el único propietario), registros de tiempo, clientes, facturas y bonos de horas se eliminarán de forma permanente. Si tienes una suscripción activa, se cancelará.",
-      "warning_body_store": "Tu cuenta, tu organización (si eres el único propietario), registros de tiempo, clientes, facturas y bonos de horas se eliminarán de forma permanente.",
+      "warning_body": "Tu cuenta se eliminará de forma permanente. Si tienes una suscripción activa, se cancelará.",
+      "warning_body_store": "Tu cuenta se eliminará de forma permanente.",
       "warning_title": "Esto no se puede deshacer"
     },
     "feedback": {
@@ -1577,7 +1631,7 @@
       "channel_push": "Notificaciones push del navegador",
       "channel_slack": "Slack",
       "channels": "Otros canales",
-      "channels_hint": "Se configura en app.timetrack.dk",
+      "channels_hint": "Se configura en {{webHost}}",
       "connected": "Conectado",
       "disconnected": "No conectado",
       "email": "Correo electrónico",
@@ -1585,10 +1639,12 @@
       "inactivity": "Recordatorio por inactividad",
       "monthly_report": "Informe mensual",
       "new_login_alert": "Aviso de nuevo inicio de sesión",
+      "open_settings": "Abrir Ajustes",
       "push": "Notificaciones push en este teléfono",
       "push_denied": "Has rechazado las notificaciones. Actívalas en los ajustes del teléfono.",
       "push_enable": "Recibir notificaciones push",
       "push_error": "No se pudo registrar el teléfono. Inténtalo de nuevo.",
+      "push_firebase_unavailable": "Las notificaciones push no están disponibles en esta versión. Actualiza la aplicación cuando haya una nueva versión disponible.",
       "push_hint": "Paradas del temporizador, aprobaciones y recordatorios",
       "push_simulator": "Las notificaciones push solo funcionan en un teléfono real",
       "saved": "Guardado",
@@ -1611,7 +1667,7 @@
     "profile": {
       "delete_account": "Eliminar cuenta",
       "email": "Correo electrónico",
-      "email_hint": "Cambia el correo electrónico en app.timetrack.dk",
+      "email_hint": "Cambia el correo electrónico en {{webHost}}",
       "hourly_rate": "Tarifa por hora estándar (kr.)",
       "name": "Nombre",
       "name_error": "Escribe un nombre de al menos 2 caracteres",
@@ -1626,7 +1682,7 @@
       "current": "Este dispositivo",
       "expired": "Caducada",
       "login_history": "Historial de inicios de sesión",
-      "manage_on_web": "Se gestiona en app.timetrack.dk",
+      "manage_on_web": "Se gestiona en {{webHost}}",
       "passkeys": "Passkeys",
       "passkeys_empty": "Sin passkeys",
       "revoke": "Cerrar sesión",
@@ -1691,7 +1747,7 @@
     "start": {
       "body": "Preparamos tu espacio de trabajo con 30 días de prueba gratuita. Sin tarjeta, sin compromiso.",
       "cta": "Empezar",
-      "title": "Te damos la bienvenida a TimeTrack"
+      "title": "Te damos la bienvenida a {{appName}}"
     }
   },
   "tabs": {
@@ -1767,6 +1823,7 @@
     "no_deadline": "Sin fecha límite",
     "no_description": "Sin descripción",
     "no_project": "Sin proyecto",
+    "none_in_loaded": "Ninguna en lo cargado hasta ahora. Toca Ver más para seguir buscando.",
     "open_client_hint": "Abre el cliente",
     "open_project_hint": "Abre el proyecto",
     "overdue_badge": "Vencida",
@@ -1786,6 +1843,7 @@
       "overdue": "Vencidas",
       "today": "Hoy"
     },
+    "show_more": "Ver más",
     "start_timer": "Iniciar temporizador para la tarea",
     "status": "Estado",
     "subtasks": "Subtareas",
@@ -1822,10 +1880,15 @@
     "client_only": "Solo el cliente (sin proyecto)",
     "clients_loaded": "Clientes cargados",
     "default_description": "Registro de tiempo",
+    "description_label": "Descripción",
     "description_placeholder": "¿En qué estás trabajando?",
     "discard": "Descartar",
     "discard_body": "El tiempo no se guardará.",
     "discard_title": "¿Descartar el temporizador?",
+    "elapsed_hours_one": "{{count}} hora",
+    "elapsed_hours_other": "{{count}} horas",
+    "elapsed_minutes_one": "{{count}} minuto",
+    "elapsed_minutes_other": "{{count}} minutos",
     "favorites_title": "Favoritos",
     "idle": "Cronómetro no iniciado",
     "internal": "Tiempo interno",
@@ -1856,7 +1919,7 @@
   "update": {
     "body": "Tus registros pendientes están guardados en el teléfono y se enviarán en cuanto la app esté actualizada.",
     "button": "Actualizar la app",
-    "title": "Tu app de TimeTrack es demasiado antigua. Actualízala para continuar"
+    "title": "Tu app de {{appName}} es demasiado antigua. Actualízala para continuar"
   },
   "waste": {
     "above_threshold": "más de {{minutes}} min",

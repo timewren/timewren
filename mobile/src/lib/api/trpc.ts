@@ -4,9 +4,11 @@ import { createTRPCClient, httpBatchLink, TRPCClientError } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { observable } from '@trpc/server/observable';
 import superjson from 'superjson';
-import { getApiUrl } from '~/features/server/server-config';
+import { brand, getApiUrl } from '~/features/server/server-config';
 import { authHeaders } from '~/lib/auth/client';
 import { clearClientTooOld, clientVersionHeaders, isClientTooOld, isGuardedWrite, markClientTooOld } from './client-version';
+
+import { offlineReadLink } from './offline-read-link';
 
 const TRPC_URL = `${getApiUrl()}/api/trpc`;
 
@@ -36,13 +38,15 @@ const clientTooOldLink: TRPCLink<AppRouter> = () => ({ next, op }) =>
       complete: () => observer.complete(),
     }));
 
-function makeLinks() {
+function makeLinks(headers = backendHeaders, pinned = false) {
   return [
     clientTooOldLink,
+    offlineReadLink(TRPC_URL),
     httpBatchLink({
       url: TRPC_URL,
       transformer: superjson,
-      headers: () => backendHeaders(),
+      headers,
+      fetch: pinned ? (url, options) => fetch(url, { ...options, credentials: 'omit' }) : undefined,
     }),
   ];
 }
@@ -56,6 +60,17 @@ export function createReactTRPCClient() {
 
 /** Vanilla-klient til brug uden for React (stores, offline-kø, baggrund). */
 export const trpcClient = createTRPCClient<AppRouter>({ links: makeLinks() });
+
+/** Fastholder session og eventuel organisation gennem hele klientens levetid. */
+export function createSessionTRPCClient(cookie: string, orgId?: string) {
+  return createTRPCClient<AppRouter>({
+    links: makeLinks(async () => ({
+      ...clientVersionHeaders(),
+      Cookie: cookie,
+      ...(orgId ? { 'x-timetrack-org-id': orgId } : {}),
+    }), true),
+  });
+}
 
 export function isTRPCClientError(
   error: unknown,
@@ -71,7 +86,7 @@ export function errorMessage(error: unknown, fallback = 'Noget gik galt'): strin
     if (error.data?.code === 'FORBIDDEN')
       return 'Du har ikke adgang til dette.';
     if (isClientTooOld(error))
-      return 'Din TimeTrack-app er for gammel — opdatér for at fortsætte';
+      return `Din ${brand.name}-app er for gammel — opdatér for at fortsætte`;
     return error.message || fallback;
   }
   if (error instanceof Error)

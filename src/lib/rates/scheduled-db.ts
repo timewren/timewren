@@ -60,6 +60,7 @@ export async function loadScheduledChangesForScope(
   db: Db,
   userId: string,
   orgId: string | null | undefined,
+  targets?: { projectIds: string[]; clientIds: string[] },
 ): Promise<ScheduledRateChangeLite[]> {
   const rows = await db.query.scheduledRateChanges.findMany({
     where: and(
@@ -67,6 +68,12 @@ export async function loadScheduledChangesForScope(
       orgId
         ? eq(scheduledRateChanges.organizationId, orgId)
         : eq(scheduledRateChanges.userId, userId),
+      targets
+        ? or(
+            inArray(scheduledRateChanges.projectId, targets.projectIds),
+            inArray(scheduledRateChanges.clientId, targets.clientIds),
+          )
+        : undefined,
     ),
     columns: LITE_COLUMNS,
   });

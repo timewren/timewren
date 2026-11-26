@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { smartAppBanner } from "@/lib/app-stores";
 import { getBrandConfigsSafe, type Locale } from "./registry";
 import {
   DOCS_DEFAULT_LOCALE,
@@ -34,14 +35,17 @@ const META_KEY: Record<
 > = {
   "/": "home",
   "/pricing": "pricing",
+  "/desktop": "desktop",
+  "/download": "download",
   "/self-hosting": "selfHosting",
   "/privacy": "privacy",
   "/terms": "terms",
+  "/delete-account": "deleteAccount",
 };
 
 /**
  * Metadata pr. side og sprog: canonical, hreflang (+ x-default = en),
- * OG-billede fra brandkittet og noindex, indtil TIMEWREN_INDEXABLE=1.
+ * OG-billede fra brandkittet og noindex kun med TIMEWREN_INDEXABLE=0.
  * Middleware sender desuden X-Robots-Tag; begge skal være til for indeksering.
  */
 export function siteMetadata(page: SitePage, locale: Locale): Metadata {
@@ -59,6 +63,8 @@ export function siteMetadata(page: SitePage, locale: Locale): Metadata {
     title: m.title,
     description: m.description,
     applicationName: "TimeWren",
+    // Safari on iPhone/iPad offers the TimeWren app at the top of every page.
+    itunes: smartAppBanner("timewren"),
     alternates: { canonical: url, languages },
     robots: indexable
       ? { index: true, follow: true }
@@ -122,6 +128,8 @@ export function siteSitemapXml(
   const pages: SitePage[] = [
     "/",
     "/pricing",
+    "/desktop",
+    "/download",
     "/self-hosting",
     "/privacy",
     "/terms",
@@ -167,7 +175,7 @@ export function siteSitemapXml(
 /**
  * robots.txt pr. TimeWren-host. Crawling er altid tilladt, så søgemaskiner
  * ser noindex-headeren (samme begrundelse som app-hosten i middleware); kun
- * marketinghosten med TIMEWREN_INDEXABLE=1 peger på et sitemap.
+ * marketinghosten peger på et sitemap (ikke med TIMEWREN_INDEXABLE=0).
  */
 export function siteRobotsTxt(isMarketing: boolean): string {
   const lines = ["User-agent: *", "Allow: /"];

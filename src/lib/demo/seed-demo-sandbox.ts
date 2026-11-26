@@ -29,9 +29,12 @@ import { draftInvoiceNumber } from "@/lib/invoices/draft-number";
 
 type Db = typeof Database;
 
+export const DEMO_HOURLY_RATE = "90";
+
 export interface SandboxScope {
   userId: string;
   orgId: string;
+  invoiceTemplateId: string;
 }
 
 export interface SandboxCounts {
@@ -49,56 +52,56 @@ export interface SandboxCounts {
 export const SANDBOX_DAYS = 42;
 
 type ClientKey =
-  | "nordlys"
-  | "fjordhavn"
-  | "groenGren"
-  | "bakketop"
-  | "saltvand";
+  | "northwind"
+  | "harbour"
+  | "greenleaf"
+  | "hilltop"
+  | "saltwater";
 type ProjectKey =
-  | "nordlysWeb"
-  | "nordlysBrand"
-  | "fjordhavnPortal"
-  | "groenGrenSupport"
-  | "bakketopEtiket"
-  | "saltvandKampagne";
-type PackageKey = "groenGren" | "bakketop" | "saltvand";
+  | "northwindWeb"
+  | "northwindBrand"
+  | "harbourPortal"
+  | "greenleafSupport"
+  | "hilltopLabels"
+  | "saltwaterCampaign";
+type PackageKey = "greenleaf" | "hilltop" | "saltwater";
 
 const CLIENTS: Record<
   ClientKey,
   { name: string; email: string; rate: string; color: string; cvr: string }
 > = {
-  nordlys: {
-    name: "Nordlys Design ApS",
-    email: "kontakt@nordlys-design.example",
-    rate: "850",
+  northwind: {
+    name: "Northwind Studio",
+    email: "hello@northwind-studio.example",
+    rate: "105",
     color: "#3b82f6",
     cvr: "00000001",
   },
-  fjordhavn: {
-    name: "Fjordhavn Arkitekter ApS",
-    email: "post@fjordhavn-arkitekter.example",
-    rate: "950",
+  harbour: {
+    name: "Harbour Architects",
+    email: "studio@harbour-architects.example",
+    rate: "120",
     color: "#8b5cf6",
     cvr: "00000002",
   },
-  groenGren: {
-    name: "Grøn Gren Webshop ApS",
-    email: "hej@groen-gren.example",
-    rate: "750",
+  greenleaf: {
+    name: "Greenleaf Shop",
+    email: "hello@greenleaf-shop.example",
+    rate: DEMO_HOURLY_RATE,
     color: "#22c55e",
     cvr: "00000003",
   },
-  bakketop: {
-    name: "Bakketop Bryggeri ApS",
-    email: "info@bakketop-bryggeri.example",
-    rate: "800",
+  hilltop: {
+    name: "Hilltop Brewery",
+    email: "info@hilltop-brewery.example",
+    rate: "95",
     color: "#f59e0b",
     cvr: "00000004",
   },
-  saltvand: {
-    name: "Saltvand Kommunikation ApS",
-    email: "hello@saltvand.example",
-    rate: "900",
+  saltwater: {
+    name: "Saltwater Communications",
+    email: "hello@saltwater-communications.example",
+    rate: "110",
     color: "#06b6d4",
     cvr: "00000005",
   },
@@ -108,37 +111,37 @@ const PROJECTS: Record<
   ProjectKey,
   { client: ClientKey; name: string; description: string; budget?: string }
 > = {
-  nordlysWeb: {
-    client: "nordlys",
-    name: "Ny hjemmeside",
-    description: "Design og udvikling af ny hjemmeside",
+  northwindWeb: {
+    client: "northwind",
+    name: "New website",
+    description: "Design and development of a new website",
     budget: "80",
   },
-  nordlysBrand: {
-    client: "nordlys",
-    name: "Brandguide",
-    description: "Logo, farver og typografi",
+  northwindBrand: {
+    client: "northwind",
+    name: "Brand guidelines",
+    description: "Logo, colours and typography",
   },
-  fjordhavnPortal: {
-    client: "fjordhavn",
-    name: "Projektportal",
-    description: "Intern portal til tegninger og byggesager",
+  harbourPortal: {
+    client: "harbour",
+    name: "Project portal",
+    description: "Internal portal for drawings and construction projects",
     budget: "60",
   },
-  groenGrenSupport: {
-    client: "groenGren",
-    name: "Webshop-support",
-    description: "Løbende support og småopgaver",
+  greenleafSupport: {
+    client: "greenleaf",
+    name: "Online shop support",
+    description: "Ongoing support and small improvements",
   },
-  bakketopEtiket: {
-    client: "bakketop",
-    name: "Etiketdesign",
-    description: "Etiketter til forårets nye øl",
+  hilltopLabels: {
+    client: "hilltop",
+    name: "Label design",
+    description: "Labels for the spring beer releases",
   },
-  saltvandKampagne: {
-    client: "saltvand",
-    name: "Forårskampagne",
-    description: "Kampagnesider og annoncer",
+  saltwaterCampaign: {
+    client: "saltwater",
+    name: "Spring campaign",
+    description: "Campaign landing pages and ads",
   },
 };
 
@@ -151,22 +154,22 @@ const PACKAGES: Record<
     purchasedDaysAgo: number;
   }
 > = {
-  groenGren: {
-    client: "groenGren",
-    project: "groenGrenSupport",
+  greenleaf: {
+    client: "greenleaf",
+    project: "greenleafSupport",
     total: "20",
     purchasedDaysAgo: 45,
   },
   // Næsten brugt op: viser lav-saldo-advarslen
-  bakketop: {
-    client: "bakketop",
-    project: "bakketopEtiket",
+  hilltop: {
+    client: "hilltop",
+    project: "hilltopLabels",
     total: "10",
     purchasedDaysAgo: 44,
   },
-  saltvand: {
-    client: "saltvand",
-    project: "saltvandKampagne",
+  saltwater: {
+    client: "saltwater",
+    project: "saltwaterCampaign",
     total: "15",
     purchasedDaysAgo: 35,
   },
@@ -177,56 +180,80 @@ const PREPAID_ENTRIES: Record<
   PackageKey,
   { days: number; hours: string; description: string }[]
 > = {
-  groenGren: [
-    { days: 38, hours: "1.50", description: "Opdatering af fragtpriser" },
-    { days: 31, hours: "2.00", description: "Fejlretning i checkout" },
-    { days: 24, hours: "1.25", description: "Nye produktbilleder" },
-    { days: 17, hours: "1.75", description: "Rabatkoder til Black Friday" },
-    { days: 10, hours: "1.00", description: "Opdatering af plugins" },
-    { days: 3, hours: "0.75", description: "Hurtig rettelse af tekst" },
+  greenleaf: [
+    { days: 38, hours: "1.50", description: "Update shipping rates" },
+    { days: 31, hours: "2.00", description: "Fix checkout issues" },
+    { days: 24, hours: "1.25", description: "Add new product photos" },
+    {
+      days: 17,
+      hours: "1.75",
+      description: "Set up promotional discount codes",
+    },
+    { days: 10, hours: "1.00", description: "Update plugins" },
+    { days: 3, hours: "0.75", description: "Make a quick copy edit" },
   ],
-  bakketop: [
-    { days: 36, hours: "1.50", description: "Skitser til tre etiketter" },
-    { days: 29, hours: "2.00", description: "Rentegning af valgt etiket" },
-    { days: 22, hours: "1.50", description: "Farveprøver og korrektur" },
-    { days: 15, hours: "1.75", description: "Tilpasning til dåse" },
-    { days: 8, hours: "1.25", description: "Trykklare filer" },
-    { days: 1, hours: "1.00", description: "Rettelser efter prøvetryk" },
+  hilltop: [
+    { days: 36, hours: "1.50", description: "Sketch three label concepts" },
+    {
+      days: 29,
+      hours: "2.00",
+      description: "Refine the selected label design",
+    },
+    {
+      days: 22,
+      hours: "1.50",
+      description: "Review colour swatches and proofs",
+    },
+    { days: 15, hours: "1.75", description: "Adapt the design to the can" },
+    { days: 8, hours: "1.25", description: "Prepare print-ready files" },
+    {
+      days: 1,
+      hours: "1.00",
+      description: "Revise artwork after the print proof",
+    },
   ],
-  saltvand: [
-    { days: 33, hours: "2.00", description: "Kampagneoplæg" },
-    { days: 19, hours: "1.50", description: "Annoncetekster" },
-    { days: 5, hours: "1.00", description: "Opfølgning på tal" },
+  saltwater: [
+    { days: 33, hours: "2.00", description: "Draft the campaign brief" },
+    { days: 19, hours: "1.50", description: "Write ad copy" },
+    { days: 5, hours: "1.00", description: "Review campaign results" },
   ],
 };
 
 /** Daglig projekttid på hverdage, på skift mellem projekterne. */
 const DAILY_ROTATION: { project: ProjectKey; descriptions: string[] }[] = [
   {
-    project: "nordlysWeb",
+    project: "northwindWeb",
     descriptions: [
-      "Wireframes til forsiden",
-      "Udvikling af komponenter",
-      "Responsivt design",
-      "Feedbackrunde med kunden",
+      "Homepage wireframes",
+      "Build website components",
+      "Responsive design",
+      "Client feedback session",
     ],
   },
   {
-    project: "fjordhavnPortal",
+    project: "harbourPortal",
     descriptions: [
-      "Opsætning af login",
-      "Upload af tegninger",
-      "Møde om sagsflow",
-      "Test med brugerne",
+      "Set up sign-in",
+      "Upload architectural drawings",
+      "Discuss the project workflow",
+      "User testing",
     ],
   },
   {
-    project: "nordlysBrand",
-    descriptions: ["Logoskitser", "Farvepalet", "Typografi og grid"],
+    project: "northwindBrand",
+    descriptions: [
+      "Logo sketches",
+      "Colour palette",
+      "Typography and grid layout",
+    ],
   },
   {
-    project: "saltvandKampagne",
-    descriptions: ["Kampagneside", "Bannere til sociale medier", "A/B-test"],
+    project: "saltwaterCampaign",
+    descriptions: [
+      "Campaign landing page",
+      "Social media banners",
+      "A/B testing",
+    ],
   },
 ];
 const DAILY_HOURS = ["3.50", "5.00", "2.75", "4.25", "6.00", "3.00", "4.50"];
@@ -297,7 +324,7 @@ function buildEntries(now: Date): EntrySpec[] {
         days,
         date: at(now, days, 8),
         hours: "1.00",
-        description: "Bogføring og administration",
+        description: "Bookkeeping and admin",
         billable: false,
         rate: null,
         invoice: null,
@@ -325,13 +352,13 @@ function buildEntries(now: Date): EntrySpec[] {
       });
     }
   }
-  // Fakturaer: Fjordhavns ældste uger er betalt, Nordlys' hjemmeside er sendt,
-  // og Saltvands kampagne (uden for klippekortet) ligger som kladde.
+  // Invoice the older Harbour and Northwind entries and draft the latest
+  // non-prepaid Saltwater campaign work.
   for (const e of out) {
     if (e.prepaid) continue;
-    if (e.project === "fjordhavnPortal" && e.days >= 21) e.invoice = "paid";
-    else if (e.project === "nordlysWeb" && e.days >= 14) e.invoice = "sent";
-    else if (e.project === "saltvandKampagne" && e.days < 14) {
+    if (e.project === "harbourPortal" && e.days >= 21) e.invoice = "paid";
+    else if (e.project === "northwindWeb" && e.days >= 14) e.invoice = "sent";
+    else if (e.project === "saltwaterCampaign" && e.days < 14) {
       e.invoice = "draft";
     }
   }
@@ -364,7 +391,7 @@ export async function seedDemoSandbox(
           cvr: CLIENTS[k].cvr,
           defaultHourlyRate: CLIENTS[k].rate,
           color: CLIENTS[k].color,
-          notes: "Opdigtet demokunde.",
+          notes: "Fictional demo client.",
         })),
       )
       .returning({ id: clients.id });
@@ -404,7 +431,7 @@ export async function seedDemoSandbox(
           const total = Number(p.total);
           return {
             ...base,
-            name: `Klippekort ${p.total} timer`,
+            name: `Prepaid ${p.total} hours`,
             clientId: clientId[p.client],
             projectId: projectId[p.project],
             totalHours: money(total),
@@ -414,7 +441,7 @@ export async function seedDemoSandbox(
             totalValue: money(total * rate),
             purchaseDate: at(now, p.purchasedDaysAgo),
             expiryDate: at(now, p.purchasedDaysAgo - 365),
-            description: "Forudbetalte timer",
+            description: "Prepaid hours for project work",
           };
         }),
       )
@@ -427,9 +454,9 @@ export async function seedDemoSandbox(
     const specs = buildEntries(now);
     const invoiceKinds = ["paid", "sent", "draft"] as const;
     const invoiceClient: Record<(typeof invoiceKinds)[number], ClientKey> = {
-      paid: "fjordhavn",
-      sent: "nordlys",
-      draft: "saltvand",
+      paid: "harbour",
+      sent: "northwind",
+      draft: "saltwater",
     };
     const totals = Object.fromEntries(
       invoiceKinds.map((kind) => {
@@ -448,8 +475,9 @@ export async function seedDemoSandbox(
       .values([
         {
           ...base,
+          templateId: scope.invoiceTemplateId,
           invoiceNumber: "INV-001",
-          clientId: clientId.fjordhavn,
+          clientId: clientId.harbour,
           amount: money(totals.paid.amount),
           status: "paid",
           issueDate: at(now, 20),
@@ -458,8 +486,9 @@ export async function seedDemoSandbox(
         },
         {
           ...base,
+          templateId: scope.invoiceTemplateId,
           invoiceNumber: "INV-002",
-          clientId: clientId.nordlys,
+          clientId: clientId.northwind,
           amount: money(totals.sent.amount),
           status: "sent",
           issueDate: at(now, 10),
@@ -467,8 +496,9 @@ export async function seedDemoSandbox(
         },
         {
           ...base,
+          templateId: scope.invoiceTemplateId,
           invoiceNumber: draftInvoiceNumber(),
-          clientId: clientId.saltvand,
+          clientId: clientId.saltwater,
           amount: money(totals.draft.amount),
           status: "draft",
           issueDate: at(now, 0),
@@ -482,9 +512,9 @@ export async function seedDemoSandbox(
       draft: invoiceRows[2].id,
     };
     const lineText = {
-      paid: "Projektportal: udvikling og møder",
-      sent: "Ny hjemmeside: design og udvikling",
-      draft: "Forårskampagne: kampagnesider og annoncer",
+      paid: "Project portal: development and meetings",
+      sent: "New website: design and development",
+      draft: "Spring campaign: landing pages and ads",
     };
     await tx.insert(invoiceLines).values(
       invoiceKinds.map((kind) => ({
@@ -536,29 +566,29 @@ export async function seedDemoSandbox(
     // ── Opgaver ───────────────────────────────────────────────────────────
     const taskValues = [
       {
-        title: "Lav forslag til footer",
-        project: "nordlysWeb" as const,
+        title: "Draft a website footer",
+        project: "northwindWeb" as const,
         status: "todo",
         priority: "medium",
         deadline: at(now, -3),
       },
       {
-        title: "Gennemgå tilbagemeldinger fra testbrugere",
-        project: "fjordhavnPortal" as const,
+        title: "Review user testing feedback",
+        project: "harbourPortal" as const,
         status: "in_progress",
         priority: "high",
         deadline: at(now, -1),
       },
       {
-        title: "Bestil prøvetryk af etiketter",
-        project: "bakketopEtiket" as const,
+        title: "Order label print proofs",
+        project: "hilltopLabels" as const,
         status: "todo",
         priority: "urgent",
         deadline: at(now, 0, 15),
       },
       {
-        title: "Send kampagnerapport",
-        project: "saltvandKampagne" as const,
+        title: "Send the campaign report",
+        project: "saltwaterCampaign" as const,
         status: "done",
         priority: "low",
         deadline: at(now, 4),
@@ -584,29 +614,29 @@ export async function seedDemoSandbox(
       {
         ...base,
         rateType: "global",
-        oldRate: "700",
-        newRate: "750",
+        oldRate: "85",
+        newRate: DEMO_HOURLY_RATE,
         effectiveDate: at(now, 120),
-        reason: "Årlig regulering",
+        reason: "Annual rate adjustment",
       },
       {
         ...base,
         rateType: "client",
-        clientId: clientId.nordlys,
-        oldRate: "800",
-        newRate: CLIENTS.nordlys.rate,
+        clientId: clientId.northwind,
+        oldRate: "95",
+        newRate: CLIENTS.northwind.rate,
         effectiveDate: at(now, 60),
-        reason: "Ny aftale",
+        reason: "New client agreement",
       },
       {
         ...base,
         rateType: "project",
-        clientId: clientId.fjordhavn,
-        projectId: projectId.fjordhavnPortal,
+        clientId: clientId.harbour,
+        projectId: projectId.harbourPortal,
         oldRate: null,
-        newRate: CLIENTS.fjordhavn.rate,
+        newRate: CLIENTS.harbour.rate,
         effectiveDate: at(now, 50),
-        reason: "Projektstart",
+        reason: "Project kickoff",
       },
     ];
     await tx.insert(rateHistory).values(rateRows);

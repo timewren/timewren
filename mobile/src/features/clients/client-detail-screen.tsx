@@ -72,10 +72,10 @@ export function ClientDetailScreen() {
 
   let body: React.ReactNode;
   if (client.isLoading) {
-    body = <Screen back title=""><ListSkeleton rows={4} /></Screen>;
+    body = <Screen back title={translate('navigation.client')}><ListSkeleton rows={4} /></Screen>;
   }
   else if (client.isError || !client.data) {
-    body = <Screen back title=""><ErrorState message={errorMessage(client.error)} onRetry={refresh} /></Screen>;
+    body = <Screen back title={translate('navigation.client')}><ErrorState message={errorMessage(client.error)} onRetry={refresh} /></Screen>;
   }
   else {
     const data = client.data;

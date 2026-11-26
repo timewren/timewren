@@ -5,7 +5,11 @@ import { z } from "zod";
 import { currentBrandId } from "@/i18n/brandize";
 import { st, tr } from "@/i18n/server-text";
 import { assertCheckoutAvailableForBuyer } from "@/lib/billing/assert-checkout";
+import { DESKTOP_BRAND_METADATA_KEY } from "@/lib/billing/timewren-stripe";
+import { timewrenDesktopPrice } from "@/lib/billing/timewren-stripe-server";
 import { getBrand } from "@/lib/brand";
+import { SITE_LOCALES, sitePath } from "@/lib/brands/timewren-site";
+import { siteBaseUrl } from "@/lib/brands/timewren-site-meta";
 import {
   DESKTOP_LIFETIME_MAX_DEVICES,
   DESKTOP_REFUND_WINDOW_DAYS,
@@ -21,6 +25,8 @@ import {
   subscriptions,
   users,
 } from "@/lib/db/schema";
+import { isDemoMode } from "@/lib/demo/demo-mode";
+import { desktopBrandForHost } from "@/lib/desktop-license-brand";
 import { checkRateLimit } from "@/lib/desktop-rate-limit";
 import { sendLicenseKeyEmail } from "@/lib/email/desktop-license";
 import { getStripe } from "@/lib/stripe";
@@ -36,12 +42,16 @@ import { protectedProcedure, publicProcedure, router } from "../trpc";
  * subscription — in which case the desktop app is already included and they
  * should not buy a separate lifetime license.
  */
-async function emailHasActiveCloud(email: string): Promise<boolean> {
+async function emailHasActiveCloud(
+  email: string,
+  brand: "timetrack" | "timewren",
+): Promise<boolean> {
   const user = await db.query.users.findFirst({
     where: eq(users.email, email.toLowerCase().trim()),
-    columns: { id: true },
+    columns: { id: true, brand: true },
   });
-  if (!user) return false;
+  // A Cloud account of the other brand does not include this brand's desktop.
+  if (!user || user.brand !== brand) return false;
 
   const sub = await db.query.subscriptions.findFirst({
     where: eq(subscriptions.userId, user.id),
@@ -91,17 +101,15 @@ export function buildDesktopCheckoutSessionParams(opts: {
       max_devices: String(maxDevices),
     },
     // Stripe Tax (auto VAT + EU reverse-charge). Off until configured.
-    ...(taxEnabled
-      ? {
-          automatic_tax: { enabled: true },
-          customer_update: { address: "auto" as const },
-        }
-      : {}),
+    // customer_update is left out on purpose: Stripe only accepts it together
+    // with `customer`, not with customer_email. Tax uses the address from
+    // billing_address_collection.
+    ...(taxEnabled ? { automatic_tax: { enabled: true } } : {}),
   };
 }
 
 /** Throttle offentlige procedurer pr. IP (#1103). */
-async function assertPublicRateLimit(
+export async function assertPublicRateLimit(
   headers: Headers | null | undefined,
   type: "desktopCheckout" | "desktopRefund",
 ) {
@@ -115,6 +123,136 @@ async function assertPublicRateLimit(
   }
 }
 
+/**
+ * Checkout-parametrene til TimeWren Desktops livstidslicens (EUR). Som
+ * TimeTracks, men på TimeWrens host, med Stripe Tax altid til (som Cloud) og
+ * Checkout vist som "TimeWren". Metadata bærer `desktop_brand`, aldrig
+ * `brand`: et event med metadata.brand ville gå til Cloud-handleren i stedet
+ * for at udstede licensen (se DESKTOP_BRAND_METADATA_KEY).
+ */
+export function buildTimewrenDesktopCheckoutSessionParams(opts: {
+  email: string;
+  /** https://<TimeWrens primære host>, aldrig timetrack.dk. */
+  appUrl: string;
+  priceId: string;
+  maxDevices: number;
+  locale?: string;
+}): Stripe.Checkout.SessionCreateParams {
+  const locale = SITE_LOCALES.find((l) => l === opts.locale) ?? "en";
+  const base = buildDesktopCheckoutSessionParams({
+    ...opts,
+    taxEnabled: true,
+  });
+  const site = opts.appUrl.replace(/\/+$/, "");
+  const page = `${site}${sitePath("/desktop", locale)}`;
+  return {
+    ...base,
+    // No JS on the marketing site: the page shows the notice with :target.
+    success_url: `${page}#bought`,
+    cancel_url: `${page}#buy`,
+    invoice_creation: {
+      enabled: true,
+      invoice_data: {
+        metadata: {
+          product: "desktop_lifetime",
+          [DESKTOP_BRAND_METADATA_KEY]: "timewren",
+        },
+      },
+    },
+    // The Stripe account is named after TimeTrack; Checkout shows TimeWren.
+    branding_settings: { display_name: "TimeWren" },
+    locale,
+    metadata: {
+      ...base.metadata,
+      [DESKTOP_BRAND_METADATA_KEY]: "timewren",
+      locale,
+    },
+  };
+}
+
+/**
+ * Start a Desktop Livstid checkout for the brand the Host header selects:
+ * TimeTrack in DKK (STRIPE_DESKTOP_LIFETIME_PRICE_ID) or TimeWren in EUR
+ * (Stripe price by lookup key). Shared by the tRPC mutation (timetrack.dk)
+ * and the form endpoint on timewren.com (api/desktop/checkout).
+ */
+export async function startDesktopLifetimeCheckout(opts: {
+  email: string;
+  host: string | null | undefined;
+  locale?: string;
+}): Promise<{ url: string }> {
+  const timewren = desktopBrandForHost(opts.host) === "timewren";
+
+  const notConfigured = async () =>
+    new TRPCError({
+      code: "PRECONDITION_FAILED",
+      message: await tr("serverErrors", "desktop.purchaseNotConfigured"),
+    });
+
+  if (timewren) {
+    // TimeWren has its own Stripe setup (lookup keys): no TimeTrack price id.
+    if (!process.env.STRIPE_SECRET_KEY?.trim() || isDemoMode()) {
+      throw await notConfigured();
+    }
+  } else {
+    // TimeWren accounts pay with Stripe, never in TimeTrack's checkout.
+    await assertCheckoutAvailableForBuyer(db, {
+      host: opts.host,
+      email: opts.email,
+    });
+    if (!STRIPE_DESKTOP_LIFETIME_PRICE_ID) throw await notConfigured();
+  }
+
+  // Cloud-abonnenter har allerede desktop inkluderet — undgå dobbeltkøb.
+  if (
+    await emailHasActiveCloud(opts.email, timewren ? "timewren" : "timetrack")
+  ) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      // Kaldets brand: "TimeWren Cloud" på timewren.com.
+      message: await tr("serverErrors", "desktop.includedInCloud", {
+        brand: getBrand(timewren ? "timewren" : currentBrandId()).name,
+      }),
+    });
+  }
+
+  const stripe = getStripe();
+  let params: Stripe.Checkout.SessionCreateParams;
+  if (timewren) {
+    let price: Stripe.Price;
+    try {
+      price = await timewrenDesktopPrice(stripe);
+    } catch (error) {
+      console.error("[Desktop checkout]", (error as Error).message);
+      throw await notConfigured();
+    }
+    params = buildTimewrenDesktopCheckoutSessionParams({
+      email: opts.email,
+      appUrl: siteBaseUrl(),
+      priceId: price.id,
+      maxDevices: DESKTOP_LIFETIME_MAX_DEVICES,
+      locale: opts.locale,
+    });
+  } else {
+    params = buildDesktopCheckoutSessionParams({
+      email: opts.email,
+      appUrl: getAppUrl(),
+      priceId: STRIPE_DESKTOP_LIFETIME_PRICE_ID,
+      maxDevices: DESKTOP_LIFETIME_MAX_DEVICES,
+      taxEnabled: STRIPE_TAX_ENABLED,
+    });
+  }
+
+  const session = await stripe.checkout.sessions.create(params);
+  if (!session.url) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: await tr("serverErrors", "desktop.checkoutFailed"),
+    });
+  }
+  return { url: session.url };
+}
+
 export const desktopRouter = router({
   /**
    * Opret et Stripe one-time checkout til en Desktop Livstid-licens (se
@@ -123,53 +261,17 @@ export const desktopRouter = router({
    * (m. CVR/moms) udstedes af Stripe.
    */
   createLifetimeCheckout: publicProcedure
-    .input(z.object({ email: z.string().email() }))
+    .input(
+      z.object({
+        email: z.string().email(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       await assertPublicRateLimit(ctx.headers, "desktopCheckout");
-      // TimeWren: ingen betaling endnu (lib/billing/brand-billing.ts).
-      await assertCheckoutAvailableForBuyer(db, {
-        host: ctx.headers?.get("host"),
+      return startDesktopLifetimeCheckout({
         email: input.email,
+        host: ctx.headers?.get("host"),
       });
-      if (!STRIPE_DESKTOP_LIFETIME_PRICE_ID) {
-        throw new TRPCError({
-          code: "PRECONDITION_FAILED",
-          message: await tr("serverErrors", "desktop.purchaseNotConfigured"),
-        });
-      }
-
-      // Cloud-abonnenter har allerede desktop inkluderet — undgå dobbeltkøb.
-      if (await emailHasActiveCloud(input.email)) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          // Kaldets brand: "TimeWren Cloud" på timewren.com.
-          message: await tr("serverErrors", "desktop.includedInCloud", {
-            brand: getBrand(currentBrandId()).name,
-          }),
-        });
-      }
-
-      const stripe = getStripe();
-      const appUrl = getAppUrl();
-
-      const session = await stripe.checkout.sessions.create(
-        buildDesktopCheckoutSessionParams({
-          email: input.email,
-          appUrl,
-          priceId: STRIPE_DESKTOP_LIFETIME_PRICE_ID,
-          maxDevices: DESKTOP_LIFETIME_MAX_DEVICES,
-          taxEnabled: STRIPE_TAX_ENABLED,
-        }),
-      );
-
-      if (!session.url) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: await tr("serverErrors", "desktop.checkoutFailed"),
-        });
-      }
-
-      return { url: session.url };
     }),
 
   /**

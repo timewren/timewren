@@ -4,7 +4,10 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { SendInvoiceDialog } from "@/components/invoices/SendInvoiceDialog";
+import {
+  type ReviewedInvoice,
+  SendInvoiceDialog,
+} from "@/components/invoices/SendInvoiceDialog";
 import { useModules } from "@/hooks/useModules";
 import { usePermission } from "@/hooks/usePermission";
 import { trpc } from "@/providers/trpc-provider";
@@ -52,12 +55,13 @@ export function RenewalRequestsBanner() {
     }
   }
 
-  async function sendInvoice(email: string) {
+  async function sendInvoice(email: string, expectedInvoice: ReviewedInvoice) {
     if (!reviewInvoiceId || !canSendInvoices || !canWriteInvoices) return;
     try {
       await sendMutation.mutateAsync({
         id: reviewInvoiceId,
         expectedRecipient: email,
+        expectedInvoice,
       });
       toast.success(ti("sent", { email }));
     } catch (error) {

@@ -42,7 +42,7 @@ pub fn activity_report(dir: &Path, today: NaiveDate) -> Vec<String> {
     let det = dir.join(crate::migrate::laering::DETECTION_DIR);
     let db = det.join("activity.db");
     let mut out = vec![
-        format!("TimeTrack {} {FLAG}", env!("CARGO_PKG_VERSION")),
+        format!("{} {} {FLAG}", tt_core::edition::EDITION.name, env!("CARGO_PKG_VERSION")),
         format!("datamappe: {}", without_home(dir, home().as_deref())),
     ];
     let settings = crate::backend::repo::files::load_settings(dir);

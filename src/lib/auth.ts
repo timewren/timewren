@@ -43,6 +43,7 @@ import {
 import { mcpOAuthPlugins } from "./auth/mcp-oauth";
 import { mcpOAuthDeps } from "./auth/mcp-oauth-access";
 import { microsoftEntra } from "./auth/microsoft-entra";
+import { signupLocaleFromRequest } from "./auth/signup-locale";
 import { microsoftTenant, socialClient } from "./auth/social-providers";
 import { removeStaleOtherBrandSignup } from "./auth/stale-signup";
 import { deriveTrustedOrigins } from "./auth/trusted-origins";
@@ -77,6 +78,8 @@ import {
 } from "./enterprise/sso/policy";
 import { seedNewOrgModules } from "./modules/bundles";
 import { notifyAdmin } from "./notifications/admin";
+import { defaultWorkspaceName } from "./org/default-workspace-name";
+import { newOrgRegionMetadata } from "./org/new-org-region";
 import { logOrgAudit } from "./org-audit";
 import {
   countOrgMembers,
@@ -84,7 +87,7 @@ import {
   resolveOrgSeatPolicy,
 } from "./org-seats";
 import { encryptIdTokenBeforeWrite } from "./security/oauth-token-crypto";
-import { getAllowedDomains } from "./utils/org-metadata";
+import { getAllowedDomains, parseOrgMetadata } from "./utils/org-metadata";
 
 // Warn if production is running with localhost base URL
 const authBaseURL = appUrlEnv() || "http://localhost:3000";
@@ -154,6 +157,8 @@ async function createPersonalWorkspace(user: {
   email: string;
   /** users.brand. Organisationen får ejerens brand (multibrand). */
   brand?: string | null;
+  /** users.locale. Arbejdsområdets navn følger ejerens sprog. */
+  locale?: string | null;
 }): Promise<void> {
   // Auto-create personal workspace organization for the new user
   try {
@@ -188,14 +193,19 @@ async function createPersonalWorkspace(user: {
 
     const orgId = crypto.randomUUID();
     const memberId = crypto.randomUUID();
+    const workspaceName = await defaultWorkspaceName(
+      user.name || user.email.split("@")[0],
+      user.locale,
+    );
 
     // Atomic: create org + membership + modules in one transaction
     await db.transaction(async (tx) => {
       await tx.insert(schema.organizations).values({
         id: orgId,
-        name: `${user.name || user.email.split("@")[0]}'s workspace`,
+        name: workspaceName,
         slug,
-        metadata: { type: "freelance" },
+        // Valuta, land og sprog efter ejerens sprog (fund 11, 18, 19).
+        metadata: { type: "freelance", ...newOrgRegionMetadata(user) },
         // Kun ikke-standardbrands skrives; timetrack bruger kolonnens default.
         ...(toBrandKey(user.brand) !== DEFAULT_BRAND_KEY && {
           brand: toBrandKey(user.brand),
@@ -631,10 +641,29 @@ const authOptions = defineOptions((b: BrandAuthParams) => ({
       organizationHooks: {
         // Ny organisation får ejerens brand (kun ikke-standardbrands skrives;
         // timetrack bruger kolonnens default som før).
+        // Valuta, land og sprog følger ejeren som ved den personlige
+        // workspace; metadata fra klienten vinder over standarderne.
         async beforeCreateOrganization({ organization: orgData, user }) {
-          const ownerBrand = toBrandKey(await brandOfUser({ id: user.id }));
-          if (ownerBrand === DEFAULT_BRAND_KEY) return;
-          return { data: { ...orgData, brand: ownerBrand } };
+          // Ét opslag fodrer både brand og region.
+          const [owner] = await db
+            .select({ brand: schema.users.brand, locale: schema.users.locale })
+            .from(schema.users)
+            .where(eq(schema.users.id, user.id))
+            .limit(1);
+          const ownerBrand = toBrandKey(
+            isHostAuthEnabled() ? owner?.brand : null,
+          );
+          const metadata = {
+            ...newOrgRegionMetadata(owner ?? {}),
+            ...parseOrgMetadata(orgData.metadata),
+          };
+          return {
+            data: {
+              ...orgData,
+              metadata,
+              ...(ownerBrand !== DEFAULT_BRAND_KEY && { brand: ownerBrand }),
+            },
+          };
         },
         // Server-side seat enforcement. The invite UI disables the button at
         // the limit, but this is the authoritative check — it blocks invites
@@ -1278,6 +1307,28 @@ const authOptions = defineOptions((b: BrandAuthParams) => ({
               ? b.key
               : DEFAULT_BRAND_KEY;
 
+          // Sproget fra oprettelsen (sprogvælger-cookie, ellers browseren),
+          // så appen og mailene ikke skifter til kolonnens "da" efter login.
+          // TimeWren Cloud har sat det i samme insert. Før velkomstmailen,
+          // som læser users.locale. Må ikke vælte signup.
+          let savedLocale: string | null = null;
+          if (signupBrand === DEFAULT_BRAND_KEY) {
+            try {
+              const locale = signupLocaleFromRequest(
+                context?.headers ?? context?.request?.headers,
+              );
+              if (locale && locale !== "da") {
+                await db
+                  .update(schema.users)
+                  .set({ locale })
+                  .where(eq(schema.users.id, user.id));
+                savedLocale = locale;
+              }
+            } catch (error) {
+              console.error("Failed to save signup locale:", error);
+            }
+          }
+
           // Persist signup attribution from the tt_attr cookie. Non-blocking.
           try {
             const cookieHeader =
@@ -1331,9 +1382,8 @@ const authOptions = defineOptions((b: BrandAuthParams) => ({
                 userId: user.id,
               });
             }
-          } catch (error) {
-            // Log error but don't fail signup
-            console.error("Failed to send welcome email:", error);
+          } catch {
+            console.error("Failed to send welcome email", { userId: user.id });
           }
 
           // Notify admin of new signup
@@ -1440,7 +1490,11 @@ const authOptions = defineOptions((b: BrandAuthParams) => ({
             console.error("[auto-join] domain lookup failed:", user.id, error);
           }
 
-          await createPersonalWorkspace({ ...user, brand: signupBrand });
+          await createPersonalWorkspace({
+            ...user,
+            brand: signupBrand,
+            locale: (user as { locale?: string | null }).locale ?? savedLocale,
+          });
         },
       },
     },
@@ -1569,7 +1623,13 @@ const authOptions = defineOptions((b: BrandAuthParams) => ({
               if (!anyMembership) {
                 const user = await db.query.users.findFirst({
                   where: eq(schema.users.id, session.userId),
-                  columns: { id: true, name: true, email: true, brand: true },
+                  columns: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    brand: true,
+                    locale: true,
+                  },
                 });
                 if (user) await createPersonalWorkspace(user);
               }

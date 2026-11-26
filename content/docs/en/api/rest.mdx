@@ -84,6 +84,8 @@ List endpoints take `page` (default 1) and `limit` (default 25, maximum 100). A 
 
 Keep fetching while `hasMore` is `true`.
 
+`GET /tasks` supports sorting by `createdAt`, `status`, `priority` and `deadline`. Tasks without a value for the sort field appear last in either direction.
+
 ### Errors
 
 Errors share one shape:

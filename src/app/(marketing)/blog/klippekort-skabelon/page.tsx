@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
-import { appLinkHref } from "@/lib/config";
+import { appLinkHref, getMarketingUrl } from "@/lib/config";
 
 const TITLE = "Klippekort-skabelon til kunder: gratis aftale i Word";
 const DESCRIPTION =
@@ -32,7 +32,7 @@ export default function KlippekortSkabelonPage() {
     dateModified: "2026-10-11",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://timetrack.dk/blog/klippekort-skabelon",
+      "@id": new URL("/blog/klippekort-skabelon", getMarketingUrl()).href,
     },
   };
 

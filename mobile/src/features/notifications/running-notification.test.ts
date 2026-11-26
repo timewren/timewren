@@ -109,9 +109,17 @@ describe('running-notification', () => {
         RUNNING_CHANNEL_ID,
         expect.objectContaining({ importance: 4 }),
       );
+      // Uden channelId i triggeren lægger expo den på sin reservekanal med høj
+      // prioritet: lyd og heads-up hvert minut. Knapperne følger kategorien,
+      // også på Android.
+      expect(notifications.setNotificationCategoryAsync).toHaveBeenCalledWith(
+        RUNNING_CATEGORY_ID,
+        [expect.objectContaining({ identifier: RUNNING_STOP_ACTION })],
+        {},
+      );
       const request = notifications.scheduleNotificationAsync.mock.calls[0]![0];
       expect(request).toMatchObject({
-        trigger: null,
+        trigger: { channelId: RUNNING_CHANNEL_ID },
         content: {
           title: 'timer.running · 0:00',
           body: 'Acme',

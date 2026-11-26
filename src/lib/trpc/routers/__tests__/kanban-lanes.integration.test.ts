@@ -12,9 +12,10 @@
  * TEST_DATABASE_URL sat.
  */
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { collectTaskPages, groupTaskPageRows } from "@/lib/tasks/task-pages";
 import { connectTestDb, testPostgres } from "@/test/test-db";
 
 // tasks-routeren bruger det globale db-modul; peg det på testens database.
@@ -104,6 +105,14 @@ describe.skipIf(!TEST_DATABASE_URL)(
     const lanesFor = (userId: string) =>
       taskStatusesRouter.createCaller(ctx(userId));
     const tasksFor = (userId: string) => tasksRouter.createCaller(ctx(userId));
+
+    async function boardFor(userId: string) {
+      return groupTaskPageRows(
+        await collectTaskPages((cursor) =>
+          tasksFor(userId).listByStatus({ cursor }),
+        ),
+      );
+    }
 
     async function lanesOf(userId: string) {
       return lanesFor(userId).listForContext({ projectId: null });
@@ -201,6 +210,93 @@ describe.skipIf(!TEST_DATABASE_URL)(
       await admin.end();
     });
 
+    it("paginates the ordered task list and board without losing cards", async () => {
+      const taskRows = await db
+        .insert(tasks)
+        .values(
+          Array.from({ length: 101 }, (_, position) => ({
+            userId: OWNER_B,
+            organizationId: ORG_B,
+            title: `Page test ${position}`,
+            description:
+              position === 100
+                ? `${"x".repeat(300)} Match past preview %_`
+                : null,
+            status: "todo",
+            position: position - 1000,
+          })),
+        )
+        .returning({ id: tasks.id });
+      try {
+        const caller = tasksFor(OWNER_B);
+        for (const read of [caller.list, caller.listByStatus]) {
+          const [firstRow] = await db
+            .insert(tasks)
+            .values({
+              userId: OWNER_B,
+              organizationId: ORG_B,
+              title: "Deleted between pages",
+              position: -2000,
+            })
+            .returning({ id: tasks.id });
+          const first = await read({});
+          expect(first.rows.map((task) => task.id)).toEqual([
+            firstRow.id,
+            ...taskRows.slice(0, 99).map((task) => task.id),
+          ]);
+          expect(first.nextCursor?.id).toBe(taskRows[98].id);
+          await db.delete(tasks).where(eq(tasks.id, firstRow.id));
+          const afterDeletion = await read({ cursor: first.nextCursor });
+          expect(afterDeletion.rows.slice(0, 2).map((task) => task.id)).toEqual(
+            taskRows.slice(99).map((task) => task.id),
+          );
+
+          const refreshed = await read({});
+          const [inserted] = await db
+            .insert(tasks)
+            .values({
+              userId: OWNER_B,
+              organizationId: ORG_B,
+              title: "Inserted before the cursor",
+              position: -2001,
+            })
+            .returning({ id: tasks.id });
+          try {
+            const afterInsertion = await read({ cursor: refreshed.nextCursor });
+            expect(afterInsertion.rows[0]?.id).toBe(taskRows[100].id);
+            expect(
+              afterInsertion.rows.some((task) => task.id === inserted.id),
+            ).toBe(false);
+          } finally {
+            await db.delete(tasks).where(eq(tasks.id, inserted.id));
+          }
+        }
+        const match = await caller.list({
+          search: "MATCH PAST PREVIEW %_",
+          descriptionPreview: true,
+        });
+        expect(match.rows).toMatchObject([
+          { id: taskRows[100].id, description: "x".repeat(240) },
+        ]);
+        expect(await caller.getById({ id: taskRows[100].id })).toMatchObject({
+          description: `${"x".repeat(300)} Match past preview %_`,
+        });
+        const rest = await caller.list({
+          search: "Page test",
+          restPage: { page: 100, limit: 1, sort: "deadline", order: "desc" },
+        });
+        expect(rest.total).toBe(101);
+        expect(rest.rows.map((task) => task.id)).toEqual([taskRows[99].id]);
+      } finally {
+        await db.delete(tasks).where(
+          inArray(
+            tasks.id,
+            taskRows.map((task) => task.id),
+          ),
+        );
+      }
+    });
+
     it("første opslag giver de fire standardkolonner med deres kategori", async () => {
       const lanes = await lanesOf(OWNER_A);
       expect(lanes.map((l) => [l.name, l.category])).toEqual([
@@ -222,7 +318,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
         title: "Fra desktop",
         status: "in_progress",
       });
-      const grouped = await tasksFor(OWNER_B).listByStatus();
+      const grouped = await boardFor(OWNER_B);
       const igang = await laneId(OWNER_B, "I gang");
       expect(grouped[igang]?.map((t) => t.title)).toEqual(["Fra desktop"]);
     });
@@ -342,7 +438,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
         statusId: todo,
         orderedTaskIds: [c.id, a.id, b.id],
       });
-      let grouped = await tasksFor(OWNER_A).listByStatus();
+      let grouped = await boardFor(OWNER_A);
       expect(grouped[todo]?.map((t) => t.title)).toEqual(["C", "A", "B"]);
 
       // Flyt et kort ind fra en anden kolonne på en bestemt plads.
@@ -353,7 +449,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
         statusId: todo,
         orderedTaskIds: [c.id, d.id, a.id, b.id],
       });
-      grouped = await tasksFor(OWNER_A).listByStatus();
+      grouped = await boardFor(OWNER_A);
       expect(grouped[todo]?.map((t) => t.title)).toEqual(["C", "D", "A", "B"]);
       expect((await taskRow(d.id)).status).toBe("todo");
     });
@@ -390,12 +486,12 @@ describe.skipIf(!TEST_DATABASE_URL)(
         })
         .returning();
 
-      let grouped = await tasksFor(OWNER_A).listByStatus();
+      let grouped = await boardFor(OWNER_A);
       expect(grouped[backlog]?.some((t) => t.id === legacy.id)).toBe(true);
 
       // Desktop/listen markerer opgaven færdig via den gamle status.
       await tasksFor(OWNER_A).markDone({ id: legacy.id });
-      grouped = await tasksFor(OWNER_A).listByStatus();
+      grouped = await boardFor(OWNER_A);
       const afsluttet = await laneId(OWNER_A, "Afsluttet");
       expect(grouped[afsluttet]?.some((t) => t.id === legacy.id)).toBe(true);
       expect((grouped[backlog] ?? []).some((t) => t.id === legacy.id)).toBe(
@@ -428,7 +524,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
         })
         .returning();
       const todo = await laneId(OWNER_B, "Todo");
-      let grouped = await tasksFor(OWNER_B).listByStatus();
+      let grouped = await boardFor(OWNER_B);
       expect(grouped[todo]?.some((t) => t.id === loose.id)).toBe(true);
 
       await lanesFor(OWNER_B).update({ id: todo, category: "done" });
@@ -436,7 +532,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
       expect(row.statusId).toBe(todo);
       expect(row.status).toBe("done");
       expect(row.completedAt).toBeInstanceOf(Date);
-      grouped = await tasksFor(OWNER_B).listByStatus();
+      grouped = await boardFor(OWNER_B);
       expect(grouped[todo]?.some((t) => t.id === loose.id)).toBe(true);
 
       // Sletning med modtager flytter også de løse kort derhen.
@@ -555,7 +651,7 @@ describe.skipIf(!TEST_DATABASE_URL)(
       it("et medlem med læseadgang kan se tavlen men ikke ændre den", async () => {
         const lanes = await lanesOf(MEMBER_A);
         expect(lanes.length).toBeGreaterThan(0);
-        const task = (await tasksFor(OWNER_A).listByStatus())[lanes[0].id]?.[0];
+        const task = (await boardFor(OWNER_A))[lanes[0].id]?.[0];
         await expect(
           lanesFor(MEMBER_A).create({
             projectId: null,

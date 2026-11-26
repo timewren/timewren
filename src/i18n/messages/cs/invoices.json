@@ -4,9 +4,11 @@
     "sendTo": "Odeslat na {email}",
     "sent": "Faktura odeslána na {email}",
     "total": "Částka včetně DPH",
+    "totalNoVat": "Částka (bez DPH)",
     "loading": "Načítání údajů o faktuře…",
     "draftNumber": "Konečné číslo faktury se přidělí při vystavení.",
-    "provider": "Částka pochází z TimeTracku. {provider} vypočítá konečnou částku podle vlastního nastavení daní."
+    "provider": "Částka pochází z TimeTracku. {provider} vypočítá konečnou částku podle vlastního nastavení daní.",
+    "lineCount": "Řádky"
   },
   "status": {
     "draft": "Koncept",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtrováno)",
     "reminderTitle": "Poslat upomínku",
     "reminderDescription": "Odeslat fakturu {number} klientovi e-mailem?",
-    "send": "Odeslat"
+    "send": "Odeslat",
+    "emptyUnbilledHint": "Máte {duration} nevyfakturovaného času. Vyfakturujte ho a položky i částky se vyplní samy.",
+    "emptyNoTimeHint": "Fakturu nejsnáze vytvoříte ze zaznamenaného času. Nejdřív zaznamenejte čas, nebo vytvořte fakturu s pevnou částkou.",
+    "invoiceUnbilled": "Vyfakturovat nevyfakturovaný čas",
+    "createBlank": "Vytvořit prázdnou fakturu",
+    "registerTimeFirst": "Zaznamenat čas",
+    "createFixedAmount": "Faktura s pevnou částkou"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Poznámka na faktuře (volitelné)",
     "notePlaceholder": "Např. Dohoda o technickém partnerství, '{måned}'"
   },
-  "tableLabel": "Faktury"
+  "tableLabel": "Faktury",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} nepotvrdil, zda byla faktura odeslána e-mailem. Zkontrolujte stav e-mailu v {provider} a před dalším odesláním označte výsledek na stránce faktury.",
+    "uncertainTitle": "Nevíme, zda {provider} fakturu odeslal",
+    "uncertainBody": "{provider} neodpověděl při odesílání faktury e-mailem, takže ji klient možná obdržel. Zkontrolujte stav e-mailu faktury v {provider}. Dokud zde výsledek neoznačíte, nelze fakturu z TimeTracku odeslat znovu.",
+    "wasSent": "{provider} ji odeslal",
+    "notSent": "Nebyla odeslána",
+    "resolved": "Stav e-mailu uložen"
+  }
 }

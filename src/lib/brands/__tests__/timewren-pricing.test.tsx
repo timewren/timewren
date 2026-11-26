@@ -118,7 +118,7 @@ describe("TimeWren Cloud-priser: prissiden", () => {
     expect(html).not.toContain('name="currency"');
     expect(html).not.toMatch(/data-currency="(USD|DKK)"/);
     expect(planRow(html, "privat")).toBe(
-      " Privat €4 per month 1 user. Up to 10 active clients. ",
+      " Personal €4 per month 1 user. Up to 10 active clients. ",
     );
     expect(planRow(html, "solo")).toContain("€11 per month");
     expect(planRow(html, "solo")).toContain("Unlimited active clients");

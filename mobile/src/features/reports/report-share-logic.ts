@@ -1,7 +1,7 @@
 import type { RouterInputs, RouterOutputs } from '~/api/app-router';
 import { format as dfFormat, isValid, parse } from 'date-fns';
 import { translate } from '~/lib/i18n';
-import { dateFnsLocale } from '~/lib/locale';
+import { dateFnsLocale, dayOfMonth } from '~/lib/locale';
 
 /** En række fra `listShareLinks` — den har visninger og oprettelsestidspunkt. */
 export type ShareLink = RouterOutputs['reports']['listShareLinks'][number];
@@ -71,7 +71,7 @@ export function periodLabel(period: SharePeriod): string {
   const oneMonth = start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth();
   if (oneMonth)
     return capitalize(dfFormat(start, 'LLLL yyyy', { locale: dateFnsLocale() }));
-  const day = (date: Date) => capitalize(dfFormat(date, 'd. MMM yyyy', { locale: dateFnsLocale() }));
+  const day = (date: Date) => capitalize(dfFormat(date, `${dayOfMonth()} MMM yyyy`, { locale: dateFnsLocale() }));
   return `${day(start)} – ${day(end)}`;
 }
 

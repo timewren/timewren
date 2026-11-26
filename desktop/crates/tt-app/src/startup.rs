@@ -72,6 +72,11 @@ pub fn demo() -> Startup {
 /// (`migrate`). Med `TT_DATA_DIR` (tests og skærmbilleder) kun, hvis
 /// `TT_OLD_DATA_DIR` også er sat, så rigtige data aldrig havner i en testmappe.
 fn migrate_from_0_2(dir: &std::path::Path) -> Option<migrate::MigrationReport> {
+    // TimeWren har aldrig haft en 0.2.x-app: dens datamappe må ikke fyldes med TimeTracks data.
+    // App Store-udgaven kan ikke se 0.2.x' mappe uden for sandkassen.
+    if !crate::mas::LEGACY_APP {
+        return None;
+    }
     if std::env::var_os("TT_DATA_DIR").is_some() && std::env::var_os("TT_OLD_DATA_DIR").is_none() {
         return None;
     }

@@ -51,6 +51,12 @@ pub fn client_update_data(cur: &Client, p: &ClientPatch) -> Value {
     put(&mut m, "color", color.map(|c| json!(c)));
     // Undtagelsen fra fuld erstatning: udeladte domæner er uændrede i web.
     put(&mut m, "domains", p.domains.as_ref().map(|d| json!(d)));
+    // Også betalingsfrist og intern kunde: udeladt = uændret, `null` = brug
+    // standarden (web's update spreader dem kun, når de er sat).
+    if let Some(days) = p.payment_terms_days {
+        m.insert("paymentTermsDays".into(), json!(days));
+    }
+    put(&mut m, "defaultBillable", p.default_billable.map(|b| json!(b)));
     Value::Object(m)
 }
 

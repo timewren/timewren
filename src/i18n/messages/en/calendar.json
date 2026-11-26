@@ -129,6 +129,7 @@
     "dragHint": "Click and drag to create time entries",
     "connectBoth": "Connect Google Calendar or iCloud",
     "connectICloud": "Connect iCloud calendar",
+    "connectCalendar": "Connect a calendar (Google, Outlook or iCloud)",
     "settings": "Settings",
     "registerAll": "Log all ({count})",
     "sync": "Sync",
@@ -177,7 +178,8 @@
     "settingsSaved": "Your settings have been saved",
     "back": "Back",
     "goToCalendar": "Go to calendar",
-    "next": "Next"
+    "next": "Next",
+    "outlookNote": "{brand} reads your default Outlook calendar. You manage the connection under <link>Settings → Integrations</link>. Filters and auto-logging from here also apply to Outlook."
   },
   "icloud": {
     "connected": "iCloud is connected. Now choose which calendars to read.",
@@ -220,6 +222,29 @@
     "disconnect": "Disconnect",
     "disconnectTitle": "Disconnect iCloud calendar",
     "disconnectDescription": "{brand} deletes the stored app-specific password and the fetched iCloud events. Your time entries remain. Remember to also revoke the password at appleid.apple.com.",
+    "disconnectConfirm": "Disconnect"
+  },
+  "outlook": {
+    "title": "Outlook calendar",
+    "intro": "Do you keep your calendar in Outlook or Microsoft 365? See your meetings in {brand} and track time from them.",
+    "readOnlyNote": "{brand} only asks to read your calendars and never writes to them. You sign in with Microsoft, and {brand} never sees your password.",
+    "connect": "Connect Outlook",
+    "badgeConnected": "Connected",
+    "badgeReconnect": "Needs reconnecting",
+    "badgeReadOnly": "Read only",
+    "loadingStatus": "Loading Outlook status...",
+    "brokenConnection": "The connection to Outlook no longer works",
+    "reconnect": "Reconnect",
+    "connectedAs": "Connected as {account}",
+    "lastSynced": "Last synced {time}",
+    "syncing": "Syncing...",
+    "syncNow": "Sync now",
+    "syncResult": "Synced: {synced} new, {updated} updated",
+    "syncFailed": "Sync failed",
+    "disconnect": "Disconnect",
+    "disconnected": "Outlook calendar disconnected",
+    "disconnectTitle": "Disconnect Outlook calendar",
+    "disconnectDescription": "{brand} deletes the stored access keys and the fetched Outlook events. Your time entries stay. You can also remove {brand} under apps with access in your Microsoft account.",
     "disconnectConfirm": "Disconnect"
   }
 }

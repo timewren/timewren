@@ -179,8 +179,11 @@
     "city": "Ciudad",
     "cityPlaceholder": "Copenhague",
     "country": "País",
-    "countryPlaceholder": "Dinamarca",
+    "countryPlaceholder": "p. ej. Portugal",
     "cvr": "Número CVR",
+    "vatNumber": "NIF-IVA",
+    "vatInvalid": "Escribe el NIF-IVA con el código de país, p. ej. ES12345678Z",
+    "taxIdTooLong": "El número fiscal puede tener como máximo 20 caracteres",
     "hourlyRate": "Tarifa por hora predeterminada (DKK)",
     "hourlyRateHint": "Se usa de forma predeterminada en los proyectos de este cliente",
     "paymentTerms": "Condiciones de pago (días)",
@@ -348,6 +351,16 @@
     }
   },
   "detail": {
+    "periodHours": {
+      "title": "Horas del período",
+      "lastYear": "Año pasado",
+      "chooseDates": "Elige una fecha de inicio y de fin.",
+      "loadError": "No se pudieron cargar las horas.",
+      "retry": "Volver a intentar",
+      "total": "Total",
+      "noProject": "Sin proyecto",
+      "empty": "No hay horas registradas en este período."
+    },
     "loading": "Cargando cliente…",
     "loadFailed": "No se pudo cargar el cliente. Inténtalo de nuevo",
     "notFound": "Cliente no encontrado",

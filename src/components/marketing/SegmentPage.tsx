@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
+import { AppStoreBadge } from "@/components/marketing/AppStoreBadge";
 import { FounderNote } from "@/components/marketing/FounderNote";
 import { HeroKlippekort } from "@/components/marketing/home/HeroKlippekort";
 import { HeroTimer } from "@/components/marketing/home/HeroTimer";
@@ -376,15 +377,17 @@ function SegmentExtra({ segment }: { segment: Segment }) {
         </h2>
         <div>
           <p className={`${mk.body} max-w-2xl`}>
-            Appen til iPhone og Android er i beta og kan bruges uden konto.
-            Indtil den ligger i App Store og Google Play, virker TimeTrack i
-            telefonens browser, og du kan lægge den på hjemmeskærmen.
+            Appen til iPhone og iPad ligger i App Store og kan bruges uden
+            konto. Android-appen kommer snart i Google Play, og indtil da virker
+            TimeTrack i telefonens browser, hvor du kan lægge den på
+            hjemmeskærmen.
           </p>
-          <p className="mt-6">
-            <Link href="/timeregistrering-app#betatester" className={mk.link}>
-              Bliv betatester
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <AppStoreBadge brand="timetrack" height={44} />
+            <Link href="/download" className={mk.link}>
+              Hent appen
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </section>

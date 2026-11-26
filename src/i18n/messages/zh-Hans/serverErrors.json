@@ -300,7 +300,10 @@
     "draftOnlyReorder": "只能在发票草稿上更改顺序",
     "providerMismatch": "无法核实金额或币种。请在发送前到会计系统检查草稿。",
     "recipientChanged": "收件人的邮箱地址已更改。请重新打开确认窗口。",
-    "clientHasNoEmail": "该客户没有邮箱地址"
+    "clientHasNoEmail": "该客户没有邮箱地址",
+    "exportInProgress": "该发票正在导出中。请稍后再试。",
+    "providerEmailUncertain": "无法确认您的会计系统已发送发票。请在 Billy 或 Dinero 中查看邮件状态，并在发票页面标记结果后再重新发送。",
+    "sendReviewChanged": "确认后发票已更改。请重新打开确认窗口。"
   },
   "logbook": {
     "ownOnly": "你只能查看自己的行车日志",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "无法建立 Dinero 连接。请重试。",
       "economicFailed": "无法建立 e-conomic 连接。请重试。",
-      "googleFailed": "无法建立 Google 连接。请重试。"
+      "googleFailed": "无法建立 Google 连接。请重试。",
+      "outlookFailed": "无法创建 Outlook 连接。请重试。"
     },
     "invoiceSend": {
       "invalidRecipient": "收件人邮箱无效",

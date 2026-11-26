@@ -3,9 +3,9 @@
 import { ArrowRight, Receipt, Ticket } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { formatDuration } from "@/lib/format";
 import { activationNudge } from "@/lib/onboarding/activation";
 import { trpc } from "@/providers/trpc-provider";
-import { formatDuration } from "./home-logic";
 
 /** Under så mange ufakturerede timer er det ikke værd at nævne på Hjem */
 const UNBILLED_MIN_HOURS = 1;

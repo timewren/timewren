@@ -66,6 +66,8 @@ vi.mock("@/providers/trpc-provider", () => ({
             email: "kunde@example.test",
             total: 1250,
             currency: "DKK",
+            lineCount: 3,
+            uncertainProviderEmail: null,
             dueDate: new Date("2026-12-01T00:00:00Z"),
           },
         }),
@@ -120,6 +122,13 @@ it("sends the renewed invoice only after the recipient is confirmed", async () =
   expect(mocks.send).toHaveBeenCalledExactlyOnceWith({
     id: "invoice",
     expectedRecipient: "kunde@example.test",
+    expectedInvoice: {
+      invoiceNumber: "UDKAST-123",
+      total: 1250,
+      currency: "DKK",
+      lineCount: 3,
+      recipient: "kunde@example.test",
+    },
   });
   expect(mocks.success).toHaveBeenCalledWith(
     "Faktura sendt til kunde@example.test",

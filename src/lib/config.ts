@@ -141,6 +141,14 @@ export const FREE_TRIAL_DAYS = parseInt(
 /** Desktop lifetime license price in DKK (one-time purchase, incl. moms) */
 export const DESKTOP_LIFETIME_PRICE = 499;
 /**
+ * TimeWren Desktop business licence in EUR (Mads 20/11-2026: "€69 én gang").
+ * Same model as DESKTOP_LIFETIME_PRICE: free for personal use, a one-time
+ * licence for business use without an account. Whole euros, excl. VAT like the
+ * TimeWren Cloud prices. The Stripe price is found by lookup key
+ * (TIMEWREN_DESKTOP_LOOKUP_KEY) and checked against this amount.
+ */
+export const TIMEWREN_DESKTOP_LIFETIME_PRICE_EUR = 69;
+/**
  * Pris (DKK) for livstidslicenser købt før 27/10-2026, hvor prisen blev sat
  * ned til 499 kr. Bruges som fallback i omsætningsrapporten for de køb, der
  * blev foretaget før beløbet blev gemt pr. licens (se desktopLicenses.amountPaidDkk).

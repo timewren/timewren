@@ -6,6 +6,8 @@ import {
   LOCALE_HEADER,
   resolveBrandByHost,
 } from "@/lib/brands/registry";
+import { demoCurrencyMessages } from "@/lib/demo/currency-messages";
+import { getRequestDemoCurrency } from "@/lib/demo/request-currency";
 import { brandize } from "./brandize";
 import {
   DEFAULT_LOCALE,
@@ -35,13 +37,17 @@ async function multibrandConfig() {
   // følger hostens brand, ikke build-brandet.
   return {
     locale,
-    messages: brandize(await loadMessages(locale as Locale), cfg.key),
+    messages: demoCurrencyMessages(
+      brandize(await loadMessages(locale as Locale), cfg.key),
+      await getRequestDemoCurrency(),
+    ),
   };
 }
 
 export default getRequestConfig(async (params) => {
-  // Udtrykkeligt sprog (getTranslations({ locale })): ingen cookies eller
-  // headers, så statisk renderede sider (marketing) forbliver statiske.
+  // getTranslations({ locale }) bruger instansens brand (eller et brand
+  // sat i kaldets kontekst). Multibrand-opslag via Host kræver den implicitte
+  // locale-vej. Denne gren undgår headers og cookies af hensyn til statisk marketing.
   const explicit = params?.locale;
   if (isLocale(explicit)) {
     return {
@@ -96,6 +102,9 @@ export default getRequestConfig(async (params) => {
 
   return {
     locale: validLocale,
-    messages: brandize(await loadMessages(validLocale)),
+    messages: demoCurrencyMessages(
+      brandize(await loadMessages(validLocale)),
+      await getRequestDemoCurrency(),
+    ),
   };
 });

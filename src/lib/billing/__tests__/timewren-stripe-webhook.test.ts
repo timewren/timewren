@@ -135,7 +135,6 @@ const existingRow: Row = {
 let state: FakeState;
 let current: Stripe.Subscription;
 let deps: TimewrenWebhookDeps & {
-  setItemQuantity: ReturnType<typeof vi.fn>;
   sendPaymentFailed: ReturnType<typeof vi.fn>;
   sendCancellation: ReturnType<typeof vi.fn>;
   retrieveSubscription: ReturnType<typeof vi.fn>;
@@ -156,12 +155,13 @@ beforeEach(() => {
   current = stripeSub();
   deps = {
     db: fakeDb(state) as unknown as TimewrenWebhookDeps["db"],
+    readSyncStartedAt: async () => "2027-01-10 12:00:00",
+    withSubscriptionLock: (_id, _orgId, fn) => fn(deps.db),
     retrieveSubscription: vi.fn(async () => current),
     retrieveInvoice: vi.fn(
       async (id: string) =>
         ({ id, status: "open", amount_due: 1375 }) as Stripe.Invoice,
     ),
-    setItemQuantity: vi.fn(async () => undefined),
     sendPaymentFailed: vi.fn(async () => undefined),
     sendCancellation: vi.fn(async () => undefined),
     appUrl: "https://timewren.com",
@@ -252,7 +252,6 @@ describe("TimeWren Stripe-webhook", () => {
         isTrial: true,
         trialEndsAt: new Date(1_801_000_000 * 1000),
       });
-      expect(deps.setItemQuantity).not.toHaveBeenCalled();
     },
   );
 
@@ -295,10 +294,9 @@ describe("TimeWren Stripe-webhook", () => {
       { ...existingRow, status: "active", stripeSubscriptionId: "sub_tw_1" },
     ];
     current = stripeSub({ cancel_at_period_end: true });
-    await handleTimewrenStripeEvent(
-      event("customer.subscription.updated", current),
-      deps,
-    );
+    const cancellation = event("customer.subscription.updated", current);
+    cancellation.data.previous_attributes = { cancel_at_period_end: false };
+    await handleTimewrenStripeEvent(cancellation, deps);
     expect(state.updates[0]).toMatchObject({ cancelAtPeriodEnd: true });
     expect(deps.sendCancellation).toHaveBeenCalledWith({
       to: "owner@example.com",
@@ -306,6 +304,7 @@ describe("TimeWren Stripe-webhook", () => {
       endDate: new Date(1_802_592_000 * 1000),
       reactivateUrl: "https://timewren.com/dashboard/settings/subscription",
       userId: "user_tw_1",
+      idempotencyKey: "timewren-cancellation/evt_customer.subscription.updated",
     });
 
     // Allerede opsagt: ingen ny mail.
@@ -323,6 +322,36 @@ describe("TimeWren Stripe-webhook", () => {
       event("customer.subscription.updated", current),
       deps,
     );
+    expect(deps.sendCancellation).not.toHaveBeenCalled();
+  });
+
+  it("retries cancellation delivery after the subscription update committed", async () => {
+    current = stripeSub({ cancel_at_period_end: true });
+    const cancellation = event("customer.subscription.updated", current);
+    cancellation.data.previous_attributes = { cancel_at_period_end: false };
+    deps.sendCancellation.mockRejectedValueOnce(new Error("mail unavailable"));
+
+    await expect(handleTimewrenStripeEvent(cancellation, deps)).rejects.toThrow(
+      "mail unavailable",
+    );
+    expect(state.updates[0]).toMatchObject({ cancelAtPeriodEnd: true });
+    state.lookups.push({ ...existingRow, cancelAtPeriodEnd: true });
+
+    await handleTimewrenStripeEvent(cancellation, deps);
+    expect(deps.sendCancellation).toHaveBeenCalledTimes(2);
+    expect(deps.sendCancellation.mock.calls[0]?.[0].idempotencyKey).toBe(
+      deps.sendCancellation.mock.calls[1]?.[0].idempotencyKey,
+    );
+  });
+
+  it("ignores a delayed cancellation event after reactivation", async () => {
+    const cancellation = event(
+      "customer.subscription.updated",
+      stripeSub({ cancel_at: 1_802_592_000 }),
+    );
+    cancellation.data.previous_attributes = { cancel_at: null };
+    await handleTimewrenStripeEvent(cancellation, deps);
+    expect(state.updates[0]).toMatchObject({ cancelAtPeriodEnd: false });
     expect(deps.sendCancellation).not.toHaveBeenCalled();
   });
 
@@ -481,25 +510,31 @@ describe("TimeWren Stripe-webhook", () => {
     );
   });
 
-  it("læsning fra Stripe og skrivning sker under abonnementets lås", async () => {
+  it("Stripe og opsigelsesmail kører uden for abonnementets transaktion", async () => {
     const order: string[] = [];
     deps.retrieveSubscription.mockImplementation(async () => {
       order.push("retrieve");
       return current;
     });
+    current = stripeSub({ cancel_at_period_end: true });
+    current.items.data[0].quantity = 3;
+    state.lookups = [{ ...existingRow, status: "active" }];
+    deps.sendCancellation.mockImplementation(async () => {
+      order.push("mail");
+    });
     const lockedDb = deps.db;
-    deps.withSubscriptionLock = vi.fn(async (id, fn) => {
+    deps.withSubscriptionLock = vi.fn(async (id, orgId, fn) => {
+      expect(orgId).toBe("org_tw_1");
       order.push(`lock:${id}`);
       const out = await fn(lockedDb);
       order.push("unlock");
       return out;
     }) as TimewrenWebhookDeps["withSubscriptionLock"];
-    const res = await handleTimewrenStripeEvent(
-      event("customer.subscription.updated", current),
-      deps,
-    );
+    const cancellation = event("customer.subscription.updated", current);
+    cancellation.data.previous_attributes = { cancel_at_period_end: false };
+    const res = await handleTimewrenStripeEvent(cancellation, deps);
     expect(res).toEqual({ outcome: "applied", subscriptionRowId: "row_1" });
-    expect(order).toEqual(["lock:sub_tw_1", "retrieve", "unlock"]);
+    expect(order).toEqual(["retrieve", "lock:sub_tw_1", "unlock", "mail"]);
     expect(state.updates).toHaveLength(1);
   });
 
@@ -573,7 +608,7 @@ describe("TimeWren Stripe-webhook", () => {
     });
   });
 
-  it("for mange sæder på en plan uden sæder rettes ned i Stripe", async () => {
+  it("caps local seats without sending a stale quantity update to Stripe", async () => {
     current = stripeSub({
       items: {
         data: [
@@ -595,7 +630,7 @@ describe("TimeWren Stripe-webhook", () => {
       event("customer.subscription.updated", current),
       deps,
     );
-    expect(deps.setItemQuantity).toHaveBeenCalledWith("si_9", 1);
+    expect(deps.retrieveSubscription).toHaveBeenCalledTimes(1);
     expect(state.updates[0]).toMatchObject({ seatCount: 1, maxSeats: 1 });
   });
 

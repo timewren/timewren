@@ -1,5 +1,6 @@
 import { Text } from "@react-email/components";
 import { toIntlLocale } from "@/i18n/format-locale";
+import type { DemoCurrency } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import type { MailBrand } from "@/lib/email/mail-brand";
 import { mailMarkup } from "./mail-markup";
@@ -18,6 +19,7 @@ interface DripWinBack30EmailProps {
   pendingTasks?: number;
   dashboardUrl?: string;
   locale?: string;
+  currencyCode?: DemoCurrency;
   /** Multibrand: brandet for modtagerens konto. Udeladt = build-brandet. */
   mailBrand?: MailBrand;
 }
@@ -32,12 +34,13 @@ export function DripWinBack30Email({
     ? `${mailBrand.dashboardUrl}`
     : "https://timetrack.dk/dashboard",
   locale = "da",
+  currencyCode = "DKK",
 }: DripWinBack30EmailProps) {
   const t = mailT("emailsDrip", locale, mailBrand?.key);
   const intl = toIntlLocale(locale);
   const kroner = new Intl.NumberFormat(intl, {
     style: "currency",
-    currency: "DKK",
+    currency: currencyCode,
   });
   const hoursFormat = new Intl.NumberFormat(intl, { maximumFractionDigits: 2 });
   const showHours = (unbilledHours ?? 0) > 0;

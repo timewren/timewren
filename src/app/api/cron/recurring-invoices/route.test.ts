@@ -49,6 +49,13 @@ vi.mock("@/lib/recurring-invoices/run", () => ({
   runDueRecurringInvoice: vi.fn(),
 }));
 vi.mock("@/lib/notifications", () => ({ sendNotification: vi.fn() }));
+vi.mock("@/lib/org/region.server", () => ({
+  getOrgRegion: async (_db: unknown, orgId: string | null) => ({
+    currency: orgId === "org-eur" ? "EUR" : "DKK",
+    country: null,
+    locale: null,
+  }),
+}));
 
 import { sendNotification } from "@/lib/notifications";
 import { ownerAllowsRecurringInvoices } from "@/lib/recurring-invoices/plan";
@@ -264,6 +271,30 @@ describe("recurring-invoices cron", () => {
     expect(
       vi.mocked(sendNotification).mock.calls.map(([c]) => c.userId),
     ).toEqual(["user-1", "user-2"]);
+  });
+
+  it("skriver beløbet i organisationens valuta (fund 19)", async () => {
+    state.due = [
+      template("tpl-1"),
+      template("tpl-2", { organizationId: "org-eur" }),
+    ];
+    vi.mocked(runDueRecurringInvoice)
+      .mockResolvedValueOnce(
+        outcome("Drift", [{ status: "created", amount: 4000 }]) as never,
+      )
+      .mockResolvedValueOnce(
+        outcome("Support", [{ status: "created", amount: 1700 }]) as never,
+      );
+
+    await run();
+
+    // Samme bruger i to organisationer: én besked pr. organisation.
+    const amounts = vi
+      .mocked(sendNotification)
+      .mock.calls.map(([c]) => String(c.i18n?.values?.amount));
+    expect(amounts).toHaveLength(2);
+    expect(amounts[0]).not.toContain("EUR");
+    expect(amounts[1]).toContain("EUR");
   });
 
   it("tæller en fejlet skabelon og kører videre", async () => {

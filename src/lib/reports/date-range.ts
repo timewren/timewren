@@ -1,46 +1,70 @@
-// Pure date-range resolution for report configs. Lives in its own module so
-// client components (drill-down links in the report preview) can import it
-// without pulling drizzle/schema from query.ts into the client bundle.
+// Shared calendar bounds for reports and the client hours summary.
 import { parseLocalDateStr } from "@/lib/format";
+import {
+  periodEndUtc,
+  periodStartUtc,
+  previousPeriodRangeUtc,
+} from "@/lib/periods";
 import type { ReportTemplateConfig } from "./config-schema";
 
-export function resolveDateRange(
-  filters: ReportTemplateConfig["filters"],
-  reference: Date = new Date(),
-): { start: Date; end: Date } {
-  const y = reference.getFullYear();
-  const m = reference.getMonth();
+export const CLIENT_PERIODS = [
+  "thisMonth",
+  "lastMonth",
+  "thisYear",
+  "lastYear",
+  "custom",
+] as const;
 
-  switch (filters.dateRange) {
-    case "thisMonth":
-      return {
-        start: new Date(y, m, 1),
-        end: new Date(y, m + 1, 0),
-      };
-    case "lastMonth":
-      return {
-        start: new Date(y, m - 1, 1),
-        end: new Date(y, m, 0),
-      };
-    case "thisQuarter": {
-      const q = Math.floor(m / 3);
-      return {
-        start: new Date(y, q * 3, 1),
-        end: new Date(y, q * 3 + 3, 0),
-      };
+type DateRangeSelection = {
+  dateRange: ReportTemplateConfig["filters"]["dateRange"] | "lastYear";
+  customStart?: string;
+  customEnd?: string;
+};
+
+export function reportDateBounds(
+  filters: DateRangeSelection,
+  reference = new Date(),
+): { from: Date; to: Date } {
+  const { dateRange, customStart, customEnd } = filters;
+  if (dateRange === "custom") {
+    if (!customStart || !customEnd) {
+      throw new Error("custom dateRange requires customStart and customEnd");
     }
-    case "thisYear":
-      return {
-        start: new Date(y, 0, 1),
-        end: new Date(y, 11, 31),
-      };
-    case "custom":
-      if (!filters.customStart || !filters.customEnd) {
-        throw new Error("custom dateRange requires customStart and customEnd");
-      }
-      return {
-        start: parseLocalDateStr(filters.customStart),
-        end: parseLocalDateStr(filters.customEnd),
-      };
+    const to = new Date(customEnd);
+    to.setUTCDate(to.getUTCDate() + 1);
+    return { from: new Date(customStart), to };
   }
+
+  const key = {
+    thisMonth: "month",
+    lastMonth: "month",
+    thisQuarter: "quarter",
+    thisYear: "year",
+    lastYear: "year",
+  } as const;
+  const period = key[dateRange];
+  const bounds =
+    dateRange === "lastMonth" || dateRange === "lastYear"
+      ? previousPeriodRangeUtc(period, reference)
+      : {
+          from: periodStartUtc(period, reference),
+          to: periodEndUtc(period, reference),
+        };
+  if (!bounds?.from || !bounds.to) {
+    throw new Error("Expected a bounded report period");
+  }
+  return { from: bounds.from, to: bounds.to };
+}
+
+export function resolveDateRange(
+  filters: DateRangeSelection,
+  reference = new Date(),
+): { start: Date; end: Date } {
+  const { from, to } = reportDateBounds(filters, reference);
+  return {
+    start: parseLocalDateStr(from.toISOString().slice(0, 10)),
+    end: parseLocalDateStr(
+      new Date(to.getTime() - 1).toISOString().slice(0, 10),
+    ),
+  };
 }

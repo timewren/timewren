@@ -1,4 +1,6 @@
-# Pak TimeTrack 0.2.23 (crates/tt-app) som Windows-installer (NSIS).
+# Pak TimeTrack (crates/tt-app) som Windows-installer (NSIS). TT_BRAND=timewren
+# pakker i stedet TimeWren-udgaven (cargo-featuren brand-timewren; navn, exe,
+# installer og ikon fra scripts/brands.json). Uden TT_BRAND er alt som før.
 #
 #   pwsh scripts/bundle-windows.ps1 [-OutDir dist\windows]
 #
@@ -7,6 +9,7 @@
 # (GPUI's shadere) og NSIS (makensis). Laver i OutDir:
 #   TimeTrack_<version>_x64-setup.exe        installer (samme navn som 0.2.x)
 #   TimeTrack_<version>_x64-setup.exe.sig    kun med TAURI_SIGNING_PRIVATE_KEY
+# (TimeWren: TimeWren_<version>_x64-setup.exe, timewren.exe.)
 #
 # Installeren lægger appen som %LOCALAPPDATA%\TimeTrack\timetrack.exe og afløser
 # Tauri-appens timetrack-desktop.exe (se bundle/windows/installer.nsi).
@@ -28,6 +31,12 @@ Set-Location $root
 if (-not $OutDir) { $OutDir = Join-Path $root 'dist\windows' }
 $target = 'x86_64-pc-windows-msvc'
 
+# Brandet (scripts/brands.json).
+$brand = if ($env:TT_BRAND) { $env:TT_BRAND } else { 'timetrack' }
+$brands = Get-Content -Raw -Encoding UTF8 (Join-Path $root 'scripts\brands.json') | ConvertFrom-Json
+$b = $brands.$brand
+if (-not $b -or -not $b.name) { throw "Ukendt brand: $brand (timetrack eller timewren)" }
+
 $m = Select-String -Path 'crates\tt-app\Cargo.toml' -Pattern '^version = "(.+)"$' | Select-Object -First 1
 if (-not $m) { throw 'Kan ikke læse versionen i crates\tt-app\Cargo.toml' }
 $version = $m.Matches[0].Groups[1].Value
@@ -44,6 +53,7 @@ $targetDir = if ($env:CARGO_TARGET_DIR) { $env:CARGO_TARGET_DIR } else { Join-Pa
 # trådpulje, se crates/tt-ai/Cargo.toml). TT_FEATURES=none bygger uden (en tom
 # miljøvariabel findes ikke på Windows).
 $features = if ($env:TT_FEATURES -eq 'none') { '' } elseif ($env:TT_FEATURES) { $env:TT_FEATURES } else { 'local-llm' }
+if ($b.cargoFeatures) { $features = if ($features) { "$features,$($b.cargoFeatures)" } else { $b.cargoFeatures } }
 if (-not $env:TT_SKIP_BUILD) {
     # cmake og libclang til llama.cpp (findes de ikke, hentes portable kopier).
     if ($features) { . (Join-Path $PSScriptRoot 'llama-tools-windows.ps1') }
@@ -71,13 +81,15 @@ if ($dumpbin) {
     Write-Host 'dumpbin findes ikke; DLL-tjekket springes over'
 }
 
-Write-Host "Pakker TimeTrack $version ($target) i $OutDir"
+Write-Host "Pakker $($b.name) $version ($target) i $OutDir"
 if (Test-Path $OutDir) { Remove-Item -Recurse -Force $OutDir }
 $stage = Join-Path $OutDir 'stage'
 New-Item -ItemType Directory -Force -Path $stage | Out-Null
-# Den nye exe hedder timetrack.exe; installeren afløser den gamle
-# timetrack-desktop.exe (proces, genveje, autostart), se installer.nsi.
-Copy-Item $bin (Join-Path $stage 'timetrack.exe')
+# Cargo-binæren hedder altid timetrack.exe. TimeTrack: installeren afløser den
+# gamle timetrack-desktop.exe (proces, genveje, autostart), se installer.nsi.
+# TimeWren: exe'en hedder timewren.exe.
+$exe = "$($b.exeName).exe"
+Copy-Item $bin (Join-Path $stage $exe)
 
 $azureVars = 'AZURE_CLIENT_ID', 'AZURE_CLIENT_SECRET', 'AZURE_TENANT_ID', 'AZURE_ENDPOINT', 'AZURE_ACCOUNT_NAME', 'AZURE_PROFILE_NAME'
 $canSign = -not ($azureVars | Where-Object { -not [Environment]::GetEnvironmentVariable($_) })
@@ -87,12 +99,12 @@ if ($canSign -and -not (Get-Command trusted-signing-cli -ErrorAction SilentlyCon
 function Sign-Authenticode([string]$file) {
     if (-not $canSign) { return }
     Invoke-Checked "Authenticode-signering af $file" {
-        trusted-signing-cli -e $env:AZURE_ENDPOINT -a $env:AZURE_ACCOUNT_NAME -c $env:AZURE_PROFILE_NAME -d TimeTrack $file
+        trusted-signing-cli -e $env:AZURE_ENDPOINT -a $env:AZURE_ACCOUNT_NAME -c $env:AZURE_PROFILE_NAME -d $($b.name) $file
     }
 }
 if ($canSign) { Write-Host 'Signerer med Azure Artifact Signing' }
 else { Write-Host 'ADVARSEL: Azure-secrets mangler. Installeren er USIGNERET (SmartScreen advarer).' }
-Sign-Authenticode (Join-Path $stage 'timetrack.exe')
+Sign-Authenticode (Join-Path $stage $exe)
 
 # makensis: PATH, standardinstallation eller Tauri-CLI'ens kopi fra 0.2.x-builds.
 $makensis = (Get-Command makensis.exe -ErrorAction SilentlyContinue).Source
@@ -101,10 +113,10 @@ foreach ($c in @("${env:ProgramFiles(x86)}\NSIS\makensis.exe", "$env:ProgramFile
 }
 if (-not $makensis) { throw 'makensis.exe findes ikke (installér NSIS 3, fx choco install nsis -y)' }
 
-$setup = Join-Path $OutDir "TimeTrack_${version}_x64-setup.exe"
+$setup = Join-Path $OutDir "$($b.artifactPrefix)_${version}_x64-setup.exe"
 Push-Location (Join-Path $root 'crates\tt-app\bundle\windows')
 try {
-    Invoke-Checked 'makensis' { & $makensis -V2 "-DVERSION=$version" "-DVIVERSION=$viVersion" "-DSRC=$stage" "-DOUTFILE=$setup" installer.nsi }
+    Invoke-Checked 'makensis' { & $makensis -V2 "-DBRAND=$brand" "-DVERSION=$version" "-DVIVERSION=$viVersion" "-DSRC=$stage" "-DOUTFILE=$setup" installer.nsi }
 } finally { Pop-Location }
 Sign-Authenticode $setup
 

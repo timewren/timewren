@@ -26,28 +26,38 @@
   "assignedWithBalance": "{count, plural, one {# Eintrag} other {# Einträge}} von {name} abgezogen, {balance} übrig",
   "overflowed": "{count} Einträge konnten nicht vom Paket gedeckt werden und bleiben abrechenbar",
   "bulk": {
-    "failed": "Die Stunden konnten nicht abgezogen werden",
     "title": "Vom Stundenpaket abziehen",
     "description": "{count, plural, one {# Eintrag wird vom ausgewählten Paket abgezogen.} other {# Einträge werden vom ausgewählten Paket abgezogen.}}",
     "noPackages": "{client} hat keine aktiven Stundenpakete.",
     "noClient": "Die ausgewählten Einträge haben keinen Kunden, von dem abgezogen werden kann.",
-    "left": "{time} übrig",
-    "selectedHours": "Die ausgewählten Einträge umfassen {time}.",
-    "exceeds": "Die Stunden überschreiten das Guthaben des Pakets. Je nachdem, ob das Paket überzogen werden darf, wird der Abzug abgelehnt oder der Rest als Überziehung geführt.",
-    "submit": "Vom Stundenpaket abziehen"
+    "left": "{time} übrig"
   },
+  "assignedTimeStaysOnProject": "Die Zeit bleibt beim Projekt. Sie wird nur vom Guthaben des Stundenpakets abgezogen.",
   "assign": {
     "failed": "Die Einträge konnten nicht abgezogen werden",
     "title": "Vorhandene Zeit zuordnen",
-    "description": "Wähle die Einträge, die von {name} abgezogen werden sollen. Hier wird nur Zeit des Kunden angezeigt, die weder abgezogen noch abgerechnet wurde.",
+    "description": "Wähle noch nicht abgerechnete Zeiten dieses Kunden aus, die von {name} abgezogen werden sollen. Standardmäßig zeigt die Liste Zeiten ohne Stundenpaket.",
     "loadFailed": "Die Zeiteinträge konnten nicht geladen werden. Versuche, das Fenster erneut zu öffnen.",
-    "empty": "Bei diesem Kunden gibt es keine nicht abgezogene Zeit.",
+    "empty": "Keine Zeiteinträge entsprechen den Filtern.",
     "deselectAll": "Alle abwählen",
     "selectAll": "Alle auswählen ({count})",
-    "balance": "Saldo: {time}",
-    "exceeds": "Die ausgewählten {selected} überschreiten das Guthaben von {balance}. Je nach Überziehungsrichtlinie des Pakets wird der Abzug abgelehnt oder der Rest als Überziehung geführt.",
     "selectedSummary": "{count} ausgewählt, {time}",
-    "submit": "Vom Stundenpaket abziehen"
+    "submit": "Vom Stundenpaket abziehen",
+    "includeOtherCards": "Auch Zeiten auf anderen Stundenpaketen anzeigen",
+    "projectsFailed": "Die Projektliste konnte nicht geladen werden.",
+    "selectProject": "Alle in {name} auswählen ({count})",
+    "selection": "Auswahl",
+    "reviewMove": "Umbuchung prüfen",
+    "confirmMove": "{restored} Std. auf {from} zurückbuchen und {deducted} Std. von {to} abziehen.",
+    "confirmLink": "{hours} Stunden ohne Stundenpaket {to} zuordnen",
+    "confirmInvoiceFrom": "{restored} Std. auf {from} zurückbuchen. {hours} Std. werden ohne Stundenpaket abrechenbar.",
+    "confirmInvoice": "{hours} Stunden ohne Stundenpaket bleiben abrechenbar.",
+    "balanceAfter": "Restguthaben nach der Zuordnung: {time}",
+    "exceedsBlock": "Die gewählten Einträge benötigen nach der Rundung {selected}. Das Guthaben beträgt {balance} und Überziehungen sind deaktiviert. Wähle Einträge, die nach der Rundung vom Guthaben gedeckt sind, oder erlaube Überziehungen unter Bearbeiten auf der Paketseite.",
+    "exceedsBlockWithClips": "Die gewählten Einträge benötigen nach der Rundung {selected}. Das Restguthaben beträgt {balance} und reicht für höchstens {limit} in einem einzelnen Eintrag. Der Abzug wird für jeden Eintrag einzeln berechnet und auf ganze Zeiteinheiten und Hundertstelstunden aufgerundet, sodass mehrere kleine Einträge mehr abziehen können. Überziehungen sind deaktiviert. Wähle passende Einträge oder erlaube Überziehungen unter Bearbeiten auf der Paketseite.",
+    "balanceBelowClip": "Das Guthaben beträgt {balance} und die kleinste Abbuchung ist {minimum}. Du kannst keine Zeit zuordnen, weil Überziehungen deaktiviert sind. Erlaube Überziehungen unter Bearbeiten auf der Paketseite.",
+    "exceedsAllow": "Für die Auswahl sind {selected} erforderlich. Es sind noch {balance} verfügbar. Die Differenz wird als Überziehung erfasst.",
+    "exceedsInvoice": "Für die Auswahl sind {selected} erforderlich. Es sind noch {balance} verfügbar. Nicht gedeckte Einträge bleiben ohne Stundenpaket und können abgerechnet werden."
   },
   "holes": {
     "label": "{remaining} Std. übrig von {total}",
@@ -132,6 +142,12 @@
       "approve": "Freigeben + Rechnungsentwurf",
       "reject": "Ablehnen"
     }
+  },
+  "usagePdf": {
+    "date": "Datum",
+    "description": "Beschreibung",
+    "hours": "Stunden",
+    "value": "Wert ({currency})"
   },
   "detail": {
     "renewalUpdated": "Verlängerung aktualisiert",

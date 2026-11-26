@@ -4,9 +4,11 @@
     "sendTo": "Send to {email}",
     "sent": "Invoice sent to {email}",
     "total": "Amount including VAT",
+    "totalNoVat": "Amount (no VAT)",
     "loading": "Loading invoice details…",
     "draftNumber": "The final invoice number is assigned when the invoice is issued.",
-    "provider": "The amount is from TimeTrack. {provider} calculates the final amount using its own tax settings."
+    "provider": "The amount is from TimeTrack. {provider} calculates the final amount using its own tax settings.",
+    "lineCount": "Lines"
   },
   "status": {
     "draft": "Draft",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtered)",
     "reminderTitle": "Send reminder",
     "reminderDescription": "Send invoice {number} to the client by email?",
-    "send": "Send"
+    "send": "Send",
+    "emptyUnbilledHint": "You have {duration} of unbilled time. Invoice it, and the lines and amounts are filled in for you.",
+    "emptyNoTimeHint": "Invoices are easiest to make from tracked time. Track some time first, or create an invoice for a fixed amount.",
+    "invoiceUnbilled": "Invoice unbilled time",
+    "createBlank": "Create blank invoice",
+    "registerTimeFirst": "Track time",
+    "createFixedAmount": "Invoice a fixed amount"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Note on the invoice (optional)",
     "notePlaceholder": "E.g. Agreement on technical partnership, '{måned}'"
   },
-  "tableLabel": "Invoices"
+  "tableLabel": "Invoices",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} did not confirm whether the invoice was emailed. Check the email status in {provider} and mark the result on the invoice page before you send it again.",
+    "uncertainTitle": "We don't know whether {provider} sent the invoice",
+    "uncertainBody": "{provider} did not answer when the invoice was being emailed, so the client may have received it. Check the invoice's email status in {provider}. Until you mark the result here, the invoice can't be sent again from TimeTrack.",
+    "wasSent": "{provider} sent it",
+    "notSent": "It was not sent",
+    "resolved": "Email status saved"
+  }
 }

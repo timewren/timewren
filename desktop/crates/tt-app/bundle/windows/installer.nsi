@@ -17,32 +17,58 @@
 ;
 ; Bygges af scripts/bundle-windows.ps1:
 ;   makensis /DVERSION=0.2.23 /DSRC=<mappe med timetrack.exe> /DOUTFILE=<sti> installer.nsi
+;
+; Brand: /DBRAND=timewren bygger TimeWren-installeren (scripts/brands.json):
+; eget produktnavn (TimeWren), mappe, exe (timewren.exe), registreringsnøgler,
+; autostart-værdi, ikon og timewren://. Den rører intet, der hører til
+; TimeTrack, og indeholder ingen af 0.2.x-afløsningen (LEGACY_TAURI), så de to
+; apps kan installeres side om side. Uden /DBRAND bygges TimeTrack.
 
 Unicode true
 SetCompressor /SOLID lzma
 RequestExecutionLevel user
 ManifestDPIAware true
 
+!ifndef BRAND
+  !define BRAND "timetrack"
+!endif
+!if "${BRAND}" == "timewren"
+  !define PRODUCTNAME "TimeWren"
+  !define MANUFACTURER "timewren"
+  !define BUNDLEID "com.timewren.desktop"
+  !define MAINBINARYNAME "timewren"
+  !define ICONFILE "TimeWren.ico"
+  !define URLSCHEME "timewren"
+!else if "${BRAND}" == "timetrack"
+  !define PRODUCTNAME "TimeTrack"
+  !define MANUFACTURER "timetrack"
+  !define BUNDLEID "dk.timetrack.desktop"
+  !define MAINBINARYNAME "timetrack"
+  !define ICONFILE "TimeTrack.ico"
+  !define URLSCHEME "timetrack"
+  ; Kun TimeTrack har en gammel 0.2.x-app (Tauri) at afløse.
+  !define LEGACY_TAURI
+  ; Den gamle Tauri-apps exe, som den nye afløser.
+  !define OLDBINARYNAME "timetrack-desktop"
+!else
+  !error "Ukendt BRAND: ${BRAND} (timetrack eller timewren)"
+!endif
+
 !ifndef VERSION
   !error "VERSION mangler (/DVERSION=0.2.23)"
+
 !endif
 !ifndef SRC
   !error "SRC mangler (/DSRC=mappe med timetrack.exe)"
 !endif
 !ifndef OUTFILE
-  !define OUTFILE "TimeTrack_${VERSION}_x64-setup.exe"
+  !define OUTFILE "${PRODUCTNAME}_${VERSION}_x64-setup.exe"
 !endif
 
-!define PRODUCTNAME "TimeTrack"
-!define MANUFACTURER "timetrack"
-!define BUNDLEID "dk.timetrack.desktop"
-!define MAINBINARYNAME "timetrack"
-; Den gamle Tauri-apps exe, som den nye afløser.
-!define OLDBINARYNAME "timetrack-desktop"
 !define RUNKEY "Software\Microsoft\Windows\CurrentVersion\Run"
 !define UNINSTKEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCTNAME}"
 !define MANUPRODUCTKEY "Software\${MANUFACTURER}\${PRODUCTNAME}"
-!define URLKEY "Software\Classes\timetrack"
+!define URLKEY "Software\Classes\${URLSCHEME}"
 
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
@@ -65,11 +91,11 @@ VIAddVersionKey "ProductVersion" "${VERSION}"
 VIAddVersionKey "CompanyName" "Mahope"
 VIAddVersionKey "LegalCopyright" "Mahope"
 
-!define MUI_ICON "TimeTrack.ico"
-!define MUI_UNICON "TimeTrack.ico"
+!define MUI_ICON "${ICONFILE}"
+!define MUI_UNICON "${ICONFILE}"
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_RUN "$INSTDIR\${MAINBINARYNAME}.exe"
-!define MUI_FINISHPAGE_RUN_TEXT "Start TimeTrack"
+!define MUI_FINISHPAGE_RUN_TEXT "Start ${PRODUCTNAME}"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_INSTFILES
@@ -81,12 +107,15 @@ VIAddVersionKey "LegalCopyright" "Mahope"
 
 Var Relaunch
 Var IsUpdate
+!ifdef LEGACY_TAURI
 Var MsiCode
 Var MsiVersion
 
 ; Spørgsmålet, når 0.2.x er installeret med MSI for alle brugere (se OfferOldMsiRemoval).
 LangString MSG_OLD_MSI ${LANG_DANISH} "En gammel version af TimeTrack (MSI, version $MsiVersion) er installeret for alle brugere og ligger stadig på computeren.$\r$\n$\r$\nVil du afinstallere den nu? Windows beder om administratorrettigheder.$\r$\n$\r$\nVælger du Nej, kan du fjerne den senere under Indstillinger → Apps → TimeTrack (gammel version) → Afinstallér."
 LangString MSG_OLD_MSI ${LANG_ENGLISH} "An old version of TimeTrack (MSI, version $MsiVersion) is installed for all users and is still on this computer.$\r$\n$\r$\nDo you want to uninstall it now? Windows will ask for administrator rights.$\r$\n$\r$\nIf you choose No, you can remove it later under Settings → Apps → TimeTrack (old version) → Uninstall."
+
+!endif
 
 Function .onInit
   StrCpy $Relaunch 0
@@ -115,16 +144,21 @@ FunctionEnd
 !macro CloseApp
   nsExec::Exec 'taskkill /IM "${MAINBINARYNAME}.exe"'
   Pop $0
+  !ifdef LEGACY_TAURI
   nsExec::Exec 'taskkill /IM "${OLDBINARYNAME}.exe"'
   Pop $0
+  !endif
   Sleep 1500
   nsExec::Exec 'taskkill /F /IM "${MAINBINARYNAME}.exe"'
   Pop $0
+  !ifdef LEGACY_TAURI
   nsExec::Exec 'taskkill /F /T /IM "${OLDBINARYNAME}.exe"'
   Pop $0
+  !endif
   Sleep 500
 !macroend
 
+!ifdef LEGACY_TAURI
 ; Find en MSI-installation af 0.2.x i HKLM\...\Uninstall: DisplayName
 ; "TimeTrack" og WindowsInstaller=1 (NSIS-installationen har ikke den
 ; værdi). $0 er registervisningen (64 eller 32). Sætter $MsiCode (produktkoden)
@@ -178,24 +212,27 @@ Function OfferOldMsiRemoval
     msi_done:
   ${EndIf}
 FunctionEnd
+!endif
 
-Section "TimeTrack" SecMain
+Section "${PRODUCTNAME}" SecMain
   SectionIn RO
   !insertmacro CloseApp
   SetOutPath "$INSTDIR"
   ; Filer fra Tauri-appen, som den nye app ikke bruger, også den gamle exe.
   ; Er den stadig låst, slettes den ved næste genstart. Brugerdata ligger i
   ; %APPDATA% og røres ikke.
+  !ifdef LEGACY_TAURI
   Delete "$INSTDIR\WebView2Loader.dll"
   Delete /REBOOTOK "$INSTDIR\${OLDBINARYNAME}.exe"
+  !endif
   File "${SRC}\${MAINBINARYNAME}.exe"
-  File "/oname=TimeTrack.ico" "TimeTrack.ico"
+  File "/oname=${ICONFILE}" "${ICONFILE}"
   WriteUninstaller "$INSTDIR\uninstall.exe"
 
   ; Samme nøgler som Tauri's NSIS-skabelon (pr. bruger).
   WriteRegStr HKCU "${MANUPRODUCTKEY}" "" "$INSTDIR"
   WriteRegStr HKCU "${UNINSTKEY}" "DisplayName" "${PRODUCTNAME}"
-  WriteRegStr HKCU "${UNINSTKEY}" "DisplayIcon" "$\"$INSTDIR\TimeTrack.ico$\""
+  WriteRegStr HKCU "${UNINSTKEY}" "DisplayIcon" "$\"$INSTDIR\${ICONFILE}$\""
   WriteRegStr HKCU "${UNINSTKEY}" "DisplayVersion" "${VERSION}"
   WriteRegStr HKCU "${UNINSTKEY}" "Publisher" "Mahope"
   WriteRegStr HKCU "${UNINSTKEY}" "InstallLocation" "$\"$INSTDIR$\""
@@ -207,8 +244,8 @@ Section "TimeTrack" SecMain
   IntFmt $0 "0x%08X" $0
   WriteRegDWORD HKCU "${UNINSTKEY}" "EstimatedSize" "$0"
 
-  ; timetrack:// til browser-login (appen gør det også selv ved start).
-  WriteRegStr HKCU "${URLKEY}" "" "URL:TimeTrack"
+  ; ${URLSCHEME}:// til browser-login (appen gør det også selv ved start).
+  WriteRegStr HKCU "${URLKEY}" "" "URL:${PRODUCTNAME}"
   WriteRegStr HKCU "${URLKEY}" "URL Protocol" ""
   WriteRegStr HKCU "${URLKEY}\DefaultIcon" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\",0"
   WriteRegStr HKCU "${URLKEY}\shell\open\command" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" $\"%1$\""
@@ -225,13 +262,15 @@ Section "TimeTrack" SecMain
   ; Genveje. Startmenuen altid; skrivebordet ved ny installation, og ved
   ; opdatering kun hvis den fandtes (brugeren kan have slettet den).
   ; Samme filnavne som den gamle app, så dens genveje erstattes.
-  CreateShortcut "$SMPROGRAMS\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe" "" "$INSTDIR\TimeTrack.ico" 0
+  CreateShortcut "$SMPROGRAMS\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe" "" "$INSTDIR\${ICONFILE}" 0
   ${If} $IsUpdate == 0
   ${OrIf} ${FileExists} "$DESKTOP\${PRODUCTNAME}.lnk"
-    CreateShortcut "$DESKTOP\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe" "" "$INSTDIR\TimeTrack.ico" 0
+    CreateShortcut "$DESKTOP\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe" "" "$INSTDIR\${ICONFILE}" 0
   ${EndIf}
 
+  !ifdef LEGACY_TAURI
   Call OfferOldMsiRemoval
+  !endif
 SectionEnd
 
 Function .onInstSuccess
@@ -243,8 +282,10 @@ FunctionEnd
 Section "Uninstall"
   !insertmacro CloseApp
   Delete "$INSTDIR\${MAINBINARYNAME}.exe"
+  !ifdef LEGACY_TAURI
   Delete "$INSTDIR\${OLDBINARYNAME}.exe"
-  Delete "$INSTDIR\TimeTrack.ico"
+  !endif
+  Delete "$INSTDIR\${ICONFILE}"
   Delete "$INSTDIR\uninstall.exe"
   RMDir "$INSTDIR"
   Delete "$SMPROGRAMS\${PRODUCTNAME}.lnk"
@@ -253,7 +294,7 @@ Section "Uninstall"
   DeleteRegKey HKCU "${MANUPRODUCTKEY}"
   DeleteRegKey /ifempty HKCU "Software\${MANUFACTURER}"
   DeleteRegKey HKCU "${URLKEY}"
-  ; Autostart fra den gamle eller den nye app (værdien hedder TimeTrack).
+  ; Autostart fra den gamle eller den nye app (værdien hedder som produktet).
   DeleteRegValue HKCU "${RUNKEY}" "${PRODUCTNAME}"
-  ; Data i %APPDATA%\TimeTrack og %APPDATA%\dk.timetrack.desktop bevares.
+  ; Data i %APPDATA%\<produktnavn> (TimeTrack: også %APPDATA%\dk.timetrack.desktop) bevares.
 SectionEnd

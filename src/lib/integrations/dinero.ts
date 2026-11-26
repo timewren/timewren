@@ -165,6 +165,11 @@ export class DineroIntegration extends BaseIntegration {
     this.organizationId = organizationId;
   }
 
+  /** The Dinero organization (account) this client talks to. */
+  getOrganizationId(): string {
+    return this.organizationId;
+  }
+
   updateApiKey(newKey: string): void {
     this.apiKey = newKey;
   }

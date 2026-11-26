@@ -2,23 +2,27 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { activeDemoCurrency, DEMO_CURRENCY } from "@/lib/demo/demo-mode";
 import {
   type ExportUsage,
   usageCSV,
   usageExportRows,
 } from "@/lib/prepaid/usage-export";
 import { downloadCSV } from "@/lib/utils/csv-export";
+import type { UsagePdfLanguage } from "./UsagePDF";
 
 export function UsageExport({
   packageId,
   packageName,
   usage,
   showValue = false,
+  pdfLanguage,
 }: {
   packageId: string;
   packageName: string;
   usage: ExportUsage[];
   showValue?: boolean;
+  pdfLanguage?: UsagePdfLanguage;
 }) {
   const [busy, setBusy] = useState(false);
   async function download(format: "csv" | "pdf") {
@@ -26,14 +30,22 @@ export function UsageExport({
     try {
       const filename = `klippekort-${packageId}-forbrug`;
       if (format === "csv") {
-        downloadCSV(usageCSV(usage, showValue), `${filename}.csv`);
+        downloadCSV(
+          usageCSV(
+            usage,
+            showValue,
+            activeDemoCurrency() === DEMO_CURRENCY ? pdfLanguage : undefined,
+          ),
+          `${filename}.csv`,
+        );
       } else {
         const { pdf } = await import("@react-pdf/renderer");
         const { UsagePDF } = await import("./UsagePDF");
         const blob = await pdf(
           <UsagePDF
             name={packageName}
-            rows={usageExportRows(usage, showValue)}
+            rows={usageExportRows(usage, showValue, pdfLanguage?.locale)}
+            language={pdfLanguage}
           />,
         ).toBlob();
         const url = URL.createObjectURL(blob);

@@ -2,8 +2,13 @@ import { renderToString } from "react-dom/server";
 import { expect, it, vi } from "vitest";
 
 const state = vi.hoisted(() => ({
+  brandId: "timetrack",
   pathname: "/dashboard/my-records",
   subscription: {} as Record<string, unknown>,
+}));
+vi.mock("@/components/BrandContext", () => ({
+  BrandLogo: () => null,
+  useBrand: () => ({ id: state.brandId, name: state.brandId }),
 }));
 vi.mock("next/dynamic", () => ({ default: () => () => null }));
 vi.mock("next/navigation", () => ({
@@ -147,3 +152,29 @@ it.each([
     expect(blocked).not.toContain("private-dashboard");
   },
 );
+
+it.each([
+  ["timewren", 7, true],
+  ["timewren", 7.5, false],
+  ["timetrack", 7.5, true],
+  ["timetrack", 8, false],
+])("gates %s after %s days past due (access: %s)", (brandId, days, access) => {
+  vi.useFakeTimers();
+  try {
+    state.brandId = brandId;
+    state.pathname = "/dashboard/time";
+    state.subscription = {
+      status: "past_due",
+      pastDueSince: new Date(Date.now() - days * 86_400_000).toISOString(),
+    };
+    const html = renderToString(
+      <DashboardShell>
+        <div>private-dashboard</div>
+      </DashboardShell>,
+    );
+    expect(html.includes("private-dashboard")).toBe(access);
+    expect(html.includes("subscription-wall")).toBe(!access);
+  } finally {
+    vi.useRealTimers();
+  }
+});

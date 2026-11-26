@@ -69,6 +69,11 @@ export interface PrepaidPackage {
   autoDeduct?: boolean;
   /** Klip-afrunding i minutter; 0/null = eksakte timer. */
   clipSizeMinutes?: number | null;
+  /**
+   * block | allow | invoice. Ved allow/invoice kan kortet vælges, også når
+   * saldoen er 0 (#1319). Mangler på ældre servere = block.
+   */
+  overdraftPolicy?: string | null;
 }
 
 export interface TimeEntry {

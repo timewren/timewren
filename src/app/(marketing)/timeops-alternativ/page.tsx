@@ -128,7 +128,7 @@ export default function TimeOpsAlternativPage() {
         {
           question: "Har TimeTrack en mobilapp?",
           answer:
-            "TimeTrack fungerer som PWA (Progressive Web App) på mobil med alle funktioner tilgængelige. Apps til iPhone og Android er i beta.",
+            "TimeTrack fungerer som PWA (Progressive Web App) på mobil med alle funktioner tilgængelige. Appen til iPhone og iPad ligger i App Store, og Android-appen kommer snart.",
         },
         {
           question: "Står der en rigtig person bag TimeTrack?",

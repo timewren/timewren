@@ -267,16 +267,22 @@ export default function CalendarSetupPage() {
             <div className="mt-6">
               {!isGoogle ? (
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t.rich("setup.icloudNote", {
-                    link: (chunks) => (
-                      <Link
-                        href="/dashboard/settings/integrations"
-                        className="font-medium text-brand-600 hover:underline dark:text-brand-400"
-                      >
-                        {chunks}
-                      </Link>
-                    ),
-                  })}
+                  {t.rich(
+                    connectionStatus?.provider === "outlook"
+                      ? "setup.outlookNote"
+                      : "setup.icloudNote",
+                    {
+                      brand: brand.name,
+                      link: (chunks) => (
+                        <Link
+                          href="/dashboard/settings/integrations"
+                          className="font-medium text-brand-600 hover:underline dark:text-brand-400"
+                        >
+                          {chunks}
+                        </Link>
+                      ),
+                    },
+                  )}
                 </p>
               ) : calendarsLoading ? (
                 <div className="flex items-center gap-2 py-4">

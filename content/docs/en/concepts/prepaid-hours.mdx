@@ -37,6 +37,16 @@ An entry can only be deducted from a package of its own client. The client is th
 
 Prepaid entries are left out when you create invoices from tracked time, because the client has already paid for them. Editing or deleting an entry reverses its deduction and gives the hours back, and the low-balance alert can fire again afterwards.
 
+### Link or move existing time
+
+Open the destination package and choose **Link time**. The list starts with the client's uninvoiced time that has no package. Turn on **Include time on other prepaid packages** to see entries from the client's other packages, marked with the package name. Time in locked periods is excluded.
+
+When you attach time, it stays on its project and is deducted from the package balance. If overdraft is disabled, the balance must cover the entries after rounding to clips. Select fewer entries or allow overdraft under Edit on the package page. If the balance cannot cover one clip, you need to allow overdraft to attach time. If the selection is too large, the dialog shows the longest single entry the balance can cover. The deduction is calculated for each entry separately and rounded up to whole clips and hundredths of an hour, so several small entries can deduct more than one combined entry.
+
+Filter by project and dates, then select individual entries or all entries shown for a project. You can move up to 200 entries at a time. The dialog shows the selected hours and previews the remaining balance after clip rounding. Before confirming, review how many hours are credited back to each source package’s balance and how many are deducted on the destination package after its own clip rounding. Use the page controls to see more than 200 matches. If the package bills overflow, the review shows which hours become or stay billable outside a package.
+
+From **Time**, select up to 200 entries for one client and choose **Link to prepaid package**. Pick an active package to preview the balance and review transfers or billable overflow before confirming. To move time to the client directly, choose **Remove from project**. The rate is recalculated at client level and any deduction on a package for the same client stays in place. Removing an internal project keeps the client already assigned to the entry. Changing the date range or a filter clears the selection.
+
 ### Rounding
 
 - Without a clip size, the deducted hours are rounded to two decimals.
@@ -89,7 +99,7 @@ To top up without automatic renewal, create a new package for the client. Severa
 
 Clients can see their packages in the client portal, on a Prepaid tab with balance and usage. Two switches control this: the portal permission `canViewPrepaid` (on by default) and the package setting `hiddenFromPortal`, which hides a single package completely, including from the history. Clients can also request a renewal, which shows up for you as a renewal request. Monetary values can be hidden from clients with the `hidePrepaidValue` setting, globally or per client.
 
-When invoicing is enabled, you can approve the request with a draft invoice or choose **Approve and review sending**. The package is renewed before the confirmation opens. It shows the client, recipient email, invoice number, amount including VAT and due date. Closing the confirmation leaves the invoice as a draft.
+When invoicing is enabled, you can approve the request with a draft invoice or choose **Approve and review sending**. The package is renewed before the confirmation opens. It shows the client, recipient email, invoice number, amount including VAT and due date. Closing the confirmation leaves the invoice as a draft. The confirmation also shows the line count. If the invoice changes after the confirmation opened, TimeWren refuses to send it and you open the confirmation again.
 
 ## REST API
 

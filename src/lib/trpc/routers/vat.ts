@@ -1,5 +1,6 @@
 import { and, eq, gte, inArray, lte } from "drizzle-orm";
-import { invoices, users } from "@/lib/db/schema";
+import { getCompanySettings } from "@/lib/company-settings";
+import { invoices } from "@/lib/db/schema";
 import { copenhagenTodayAnchor } from "@/lib/time/copenhagen";
 import { computeVatOverview, type VatPeriodKind } from "@/lib/vat/compute";
 import { protectedProcedure, router } from "../trpc";
@@ -15,7 +16,8 @@ export const vatRouter = router({
   /**
    * Return VAT (moms) overview for the authenticated user.
    *
-   * Reads `users.vatPeriod` to select the correct cadence:
+   * Reads the VAT period (`companyProfiles.vatPeriod` when the org has a
+   * company profile, else `users.vatPeriod`) to select the cadence:
    *   - 'monthly' / 'quarterly' / 'semi_annual' → normal overview
    *   - 'none' → returns `{ isVatExempt: true }` (widget shows friendly state)
    *   - null/unset → defaults to 'quarterly' (Danish freelancer default)
@@ -25,20 +27,19 @@ export const vatRouter = router({
   getVatOverview: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
 
-    // Read user's VAT period setting
-    const userRow = await ctx.db.query.users.findFirst({
-      where: eq(users.id, userId),
-      columns: { vatPeriod: true },
+    // The org's company profile when it has one, else the user's row
+    const { vatPeriod: stored } = await getCompanySettings(ctx.db, {
+      userId,
+      orgId: ctx.orgId,
     });
 
-    if (userRow?.vatPeriod === "none") {
+    if (stored === "none") {
       return { isVatExempt: true as const };
     }
 
     const vatPeriod: VatPeriodKind =
-      userRow?.vatPeriod &&
-      VAT_PERIOD_KINDS.includes(userRow.vatPeriod as VatPeriodKind)
-        ? (userRow.vatPeriod as VatPeriodKind)
+      stored && VAT_PERIOD_KINDS.includes(stored as VatPeriodKind)
+        ? (stored as VatPeriodKind)
         : "quarterly";
 
     const today = copenhagenTodayAnchor(); // dansk dato uanset proces-TZ (#649)

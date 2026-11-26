@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Månedlig budsjett",
     "hint": "{hours} timer per måned, nullstilles den 1.",
-    "usage": "{used} av {budget} t ({pct} %)",
     "overrun": "Månedsbudsjettet er overskredet med {hours} timer",
-    "previous": "Tidligere måneder",
-    "hoursPct": "{hours} t ({pct} %)"
+    "previous": "Tidligere måneder"
   },
   "activityTypes": {
     "allowedAll": "Alle aktivitetstyper er tillatt på prosjektet",
@@ -66,10 +64,8 @@
     "title": "Timebudsjett",
     "derived": "avledet",
     "derivedTitle": "Avledet fra fastpris ÷ timepris. Sett et timebudsjett på prosjektet for å styre det direkte.",
-    "hoursOf": "{used} / {total} t",
     "over": "{hours} t over",
     "remaining": "{hours} t igjen",
-    "ariaUsed": "{pct} % av timebudsjettet er brukt",
     "plannedTitle": "{hours} t planlagt fremover",
     "pctUsed": "{pct} % brukt",
     "planned": "+ {planned} t planlagt = {forecast} t ({pct} %)",
@@ -188,11 +184,11 @@
     "colTotal": "Totalt",
     "colStatus": "Status",
     "selectProject": "Velg {name}",
-    "budgetUsedTitle": "{pct} % av timebudsjettet er brukt ({used}/{total} t)",
     "noClient": "Ingen kunde",
-    "monthlyUsed": "{used}/{budget} t",
     "monthlyAria": "{pct} % av månedsbudsjettet er brukt",
-    "monthlyTitle": "{used} av {budget} t brukt denne måneden ({pct} %)"
+    "monthlyTitle": "{used} av {budget} t brukt denne måneden ({pct} %)",
+    "emptyNeedsClientHint": "Et prosjekt hører til en kunde. Legg til kunden først, og lag prosjektet etterpå.",
+    "createClientFirst": "Legg til din første kunde"
   },
   "detail": {
     "status": {

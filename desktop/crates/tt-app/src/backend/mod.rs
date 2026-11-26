@@ -97,6 +97,20 @@ pub struct Customer {
     pub notes: Option<String>,
     /// Kundens egne domæner (web's `clients.domains`), normaliseret.
     pub domains: Vec<String>,
+    /// Intern kunde (web's `defaultBillable = false`): nye poster på kunden
+    /// er ikke fakturerbare som standard.
+    pub internal: bool,
+    /// Dage til forfald på kundens fakturaer. `None` = standarden.
+    pub payment_terms_days: Option<u32>,
+}
+
+/// Er en ny post på kunden fakturerbar som standard? Som web's
+/// `pickDefaultBillable`: nej for en intern kunde, ellers ja (også uden
+/// kunde og for en ukendt kunde).
+pub fn default_billable(customers: &[Customer], customer_id: Option<&str>) -> bool {
+    !customer_id
+        .and_then(|id| customers.iter().find(|c| c.id == id))
+        .is_some_and(|c| c.internal)
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -112,6 +126,10 @@ pub struct CustomerInput {
     pub notes: Option<String>,
     /// `None` = uændrede domæner ved rettelse (ingen ved oprettelse).
     pub domains: Option<Vec<String>>,
+    /// Se `Customer::internal`.
+    pub internal: bool,
+    /// Dage til forfald. `None` = standarden.
+    pub payment_terms_days: Option<u32>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -290,6 +308,8 @@ pub struct Task {
     /// Kolonnen på tavlen (web: `statusId`). Kan pege på en kolonne, der
     /// ikke længere passer med `status` (se `opgaver::logic::resolve_lane`).
     pub status_id: Option<Id>,
+    /// Dagen, opgaven blev afsluttet (web: `completedAt`).
+    pub completed: Option<NaiveDate>,
 }
 
 /// Den faste kategori bag en kolonne på tavlen (web's `LaneCategory`).
@@ -321,6 +341,9 @@ pub struct TaskLane {
     /// `0xRRGGBB`, eller `None` uden gyldig farve.
     pub color: Option<u32>,
     pub category: LaneCategory,
+    /// Arkiv-kolonne (web: `isArchive`): afsluttede opgaver ældre end 14
+    /// dage vises ikke i den.
+    pub is_archive: bool,
 }
 
 /// Prioritet som i web (`low`, `medium`, `high`, `urgent`).
@@ -407,13 +430,47 @@ pub struct InvoiceLine {
     /// Pris pr. time i øre.
     pub rate: i64,
     pub entry_ids: Vec<Id>,
+    /// Linjen, som datalaget gemte den. `None` for en ny linje.
+    pub stored: Option<StoredLine>,
+}
+
+/// En linje, som web (eller den lokale database) gemte den: antal timer med
+/// web's decimaler og beløbet `roundMoney(timer × sats)`. Web regner på
+/// timer med to decimaler (20 min = 0,33 t), så beløbet kan ikke regnes
+/// tilbage fra hele minutter. Så længe linjens minutter og sats er de samme,
+/// er det web's antal og beløb, der vises og gemmes igen.
+#[derive(Clone, Debug, PartialEq)]
+pub struct StoredLine {
+    pub minutes: u32,
+    pub rate: i64,
+    pub hours: rust_decimal::Decimal,
+    /// Beløb i øre.
+    pub amount: i64,
 }
 
 impl InvoiceLine {
-    /// Linjebeløb i øre, afrundet til nærmeste øre.
-    pub fn amount(&self) -> i64 {
-        (self.rate * self.minutes as i64 + 30) / 60
+    /// Den gemte linje, hvis brugeren ikke har rettet tid eller sats.
+    pub fn unchanged_stored(&self) -> Option<&StoredLine> {
+        self.stored
+            .as_ref()
+            .filter(|s| s.minutes == self.minutes && s.rate == self.rate)
     }
+
+    /// Linjebeløb i øre: det gemte, ellers minutter × timepris afrundet til
+    /// nærmeste øre (halvt væk fra nul, så en kreditnotas negative linje
+    /// giver præcis minus den positive).
+    pub fn amount(&self) -> i64 {
+        if let Some(s) = self.unchanged_stored() {
+            return s.amount;
+        }
+        round_div(self.rate * self.minutes as i64, 60)
+    }
+}
+
+/// `n / d` afrundet til nærmeste heltal, halvt væk fra nul (`d > 0`).
+fn round_div(n: i64, d: i64) -> i64 {
+    let half = d / 2;
+    if n >= 0 { (n + half) / d } else { (n - half) / d }
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -432,14 +489,82 @@ pub struct Invoice {
     pub lines_loaded: bool,
     /// Beløb ekskl. moms i øre fra listen (web's `amount`).
     pub subtotal_hint: i64,
-    /// Momssats i promille (250 = 25 %).
-    pub vat_permille: u32,
+    /// Momssats i promille (250 = 25 %). `None` i cloud: web lægger kun
+    /// moms på, når firmaprofilen er momsregistreret, med skabelonens sats,
+    /// og device-API'et fortæller ingen af delene. Så vises beløbet ekskl.
+    /// moms, som web's fakturaliste gør.
+    pub vat_permille: Option<u32>,
     /// Nummeret som tekst ("2026-7", "INV-001"), når det har et præfiks.
     /// `number` er kun det afsluttende tal. // gendan
     pub number_text: Option<String>,
     /// Overskrift (kun lokal tilstand; web har ingen titel). // gendan
     pub title: Option<String>,
     pub notes: Option<String>,
+    /// Hvornår og til hvem appen sendte fakturaen. Kun sat for fakturaer,
+    /// der er sendt fra denne installation (se `InvoiceDelivery`).
+    pub delivery: Option<InvoiceDelivery>,
+}
+
+/// Afsendelsen af en faktura, som den blev bekræftet i appen: tidspunkt
+/// (lokal tid) og modtager. `to` er `None`, når fakturaen blev udstedt uden
+/// mail (lokal tilstand, eller "Markér som sendt").
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct InvoiceDelivery {
+    pub at: chrono::NaiveDateTime,
+    pub to: Option<String>,
+}
+
+/// Det, brugeren bekræfter, før en faktura sendes: hvem den går til, og
+/// hvad den omfatter.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct InvoiceSendPreview {
+    pub invoice_id: Id,
+    pub customer_name: String,
+    /// Fakturaens nummer (`None` for en kladde, der først får nummer ved afsendelse).
+    pub number: Option<String>,
+    /// Mailadressen, fakturaen sendes til. `None`: kunden har ingen mail.
+    pub recipient: Option<String>,
+    /// `true`, når afsendelsen sender en mail til kunden (cloud). Lokalt
+    /// udstedes fakturaen uden mail.
+    pub sends_mail: bool,
+    pub entry_count: usize,
+    pub minutes: u32,
+    /// Beløb i øre: inkl. moms, når `vat_included`, ellers ekskl. (cloud,
+    /// hvor web afgør momsen; se `Invoice::vat_permille`).
+    pub total: i64,
+    pub vat_included: bool,
+}
+
+/// Kan fakturaen få en påmindelse? Som web: en sendt eller forfalden faktura,
+/// og kun med en konto (cloud sender mailen; lokalt sendes ingen).
+pub fn can_remind(inv: &Invoice, mode: &Mode) -> bool {
+    matches!(mode, Mode::Cloud { .. }) && matches!(inv.status, InvoiceStatus::Sent | InvoiceStatus::Overdue)
+}
+
+/// En faktura må kun sendes, når modtageren, brugeren bekræftede, er den,
+/// den faktisk går til. Uden bekræftelse (eller efter at kundens mail er
+/// ændret, mens dialogen stod åben) sendes der intet.
+pub fn check_send_confirmation(
+    preview: &InvoiceSendPreview,
+    confirmed_to: Option<&str>,
+) -> Result<()> {
+    if !preview.sends_mail {
+        return Ok(());
+    }
+    let Some(recipient) = preview.recipient.as_deref() else {
+        return Err(BackendError::Validation(
+            "Kunden har ingen mailadresse. Tilføj den under Kunder, før fakturaen sendes".into(),
+        ));
+    };
+    match confirmed_to {
+        Some(c) if c.trim().eq_ignore_ascii_case(recipient.trim()) => Ok(()),
+        Some(_) => Err(BackendError::Validation(
+            "Modtageren er ændret, siden du bekræftede. Åbn bekræftelsen igen".into(),
+        )),
+        None => Err(BackendError::Validation(
+            "Fakturaen sendes først, når du har bekræftet modtageren".into(),
+        )),
+    }
 }
 
 impl Invoice {
@@ -453,12 +578,15 @@ impl Invoice {
         self.lines.iter().map(InvoiceLine::amount).sum()
     }
 
-    pub fn vat(&self) -> i64 {
-        (self.subtotal() * self.vat_permille as i64 + 500) / 1000
+    /// Momsen i øre, når satsen kendes.
+    pub fn vat(&self) -> Option<i64> {
+        self.vat_permille
+            .map(|p| round_div(self.subtotal() * p as i64, 1000))
     }
 
+    /// I alt: inkl. moms, når momsen kendes, ellers ekskl. (se `vat_permille`).
     pub fn total(&self) -> i64 {
-        self.subtotal() + self.vat()
+        self.subtotal() + self.vat().unwrap_or(0)
     }
 
     /// Nummeret, som kunden ser det: med præfiks, hvis der er et.
@@ -466,6 +594,37 @@ impl Invoice {
         self.number_text
             .clone()
             .or_else(|| self.number.map(|n| n.to_string()))
+    }
+}
+
+/// Subtotal, moms og total, som web's PDF viser dem (cloud,
+/// `extension.invoices.totals`). Beløb i øre i fakturaens valuta.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct WebInvoiceTotals {
+    pub subtotal: i64,
+    pub vat: i64,
+    pub total: i64,
+    /// Skabelonens sats i promille (250 = 25 %), også uden moms.
+    pub vat_permille: u32,
+    /// `false`: virksomheden er ikke momsregistreret i web, så der er ingen
+    /// moms på fakturaen.
+    pub show_vat: bool,
+    /// ISO-kode fra web ("DKK", "EUR").
+    pub currency: String,
+}
+
+impl WebInvoiceTotals {
+    /// Et beløb i fakturaens valuta: som resten af appen, når valutaen er
+    /// udgavens, ellers med valutakoden ("1.234,50 EUR").
+    pub fn money(&self, oere: i64) -> String {
+        let edition = &tt_core::edition::EDITION;
+        if self.currency.eq_ignore_ascii_case(edition.currency_code) {
+            crate::export::kroner(oere)
+        } else {
+            let amount = crate::ui::format::money(oere);
+            let amount = amount.strip_suffix(edition.currency_symbol).unwrap_or(&amount);
+            format!("{} {}", amount.trim_end(), self.currency)
+        }
     }
 }
 
@@ -617,6 +776,11 @@ pub trait Backend: Send + Sync {
     fn mode(&self) -> Mode;
     /// Dags dato set fra datalaget (mock kan fastlåse den i tests).
     fn today(&self) -> NaiveDate;
+    /// Nu efter datalagets ur, som også stopper timeren. Timerens visning
+    /// regner med samme ur, så den viser det, der bliver gemt.
+    fn local_now(&self) -> DateTime<Local> {
+        Local::now()
+    }
 
     // Kunder
     fn customers(&self, include_archived: bool) -> Result<Vec<Customer>>;
@@ -670,11 +834,58 @@ pub trait Backend: Send + Sync {
     }
     /// Ufakturerede, fakturerbare poster for en kunde.
     fn uninvoiced_entries(&self, customer_id: &str) -> Result<Vec<Entry>>;
+    /// Posterne på en faktura (til linket fra fakturaen til kalenderen).
+    fn invoice_entries(&self, invoice_id: &str) -> Result<Vec<Entry>>;
     fn create_invoice_draft(&self, customer_id: &str, entry_ids: &[Id]) -> Result<Invoice>;
     fn update_invoice_lines(&self, id: &str, lines: Vec<InvoiceLine>) -> Result<Invoice>;
-    /// Tildeler nummer og sender (i cloud via web's integrationer).
-    fn send_invoice(&self, id: &str) -> Result<Invoice>;
-    fn mark_invoice_paid(&self, id: &str) -> Result<()>;
+    /// Det, brugeren skal bekræfte, før fakturaen sendes: modtager, kunde,
+    /// nummer, antal poster, timer og beløb inkl. moms.
+    fn invoice_send_preview(&self, id: &str) -> Result<InvoiceSendPreview> {
+        let inv = self.invoice(id)?;
+        let customer = self
+            .customers(true)?
+            .into_iter()
+            .find(|c| c.id == inv.customer_id);
+        let mut entries: Vec<&Id> = inv.lines.iter().flat_map(|l| &l.entry_ids).collect();
+        entries.sort();
+        entries.dedup();
+        Ok(InvoiceSendPreview {
+            invoice_id: inv.id.clone(),
+            customer_name: customer
+                .as_ref()
+                .map(|c| c.name.clone())
+                .unwrap_or_default(),
+            number: inv.number_label(),
+            recipient: customer
+                .and_then(|c| c.email)
+                .map(|e| e.trim().to_owned())
+                .filter(|e| !e.is_empty()),
+            sends_mail: matches!(self.mode(), Mode::Cloud { .. }),
+            entry_count: entries.len(),
+            minutes: inv.lines.iter().map(|l| l.minutes).sum(),
+            total: inv.total(),
+            vat_included: inv.vat_permille.is_some(),
+        })
+    }
+    /// Tildeler nummer og sender fakturaen (i cloud som mail til kunden via
+    /// web). `confirmed_to` er den modtager, brugeren så i bekræftelsen:
+    /// uden den, eller hvis den ikke passer, sendes der ikke (se
+    /// `check_send_confirmation`). Lokalt udstedes fakturaen uden mail.
+    fn send_invoice(&self, id: &str, confirmed_to: Option<&str>) -> Result<Invoice>;
+    /// Udsteder fakturaen uden at sende en mail (web's "Send Faktura" på en
+    /// kladde): nummer og status "Sendt", fx når fakturaen er sendt på anden vis.
+    fn issue_invoice(&self, id: &str) -> Result<Invoice>;
+    /// "Send påmindelse" (web: samme `sendEmail` på en sendt eller forfalden
+    /// faktura): mailer fakturaen til kunden igen, efter samme bekræftelse
+    /// af modtageren som `send_invoice`. Status og nummer ændres ikke. Kun
+    /// i cloud: lokalt sendes ingen mail.
+    fn send_reminder(&self, _id: &str, _confirmed_to: Option<&str>) -> Result<Invoice> {
+        Err(BackendError::Validation(
+            "Påmindelser sendes kun, når du er logget ind. Lokalt sendes ingen mail".into(),
+        ))
+    }
+    /// Markér betalt med betalingsdatoen (web's `markPaid` med `paidDate`).
+    fn mark_invoice_paid(&self, id: &str, paid: NaiveDate) -> Result<()>;
 
     // Rapporter
     fn report(&self, range: DateRange, grouping: ReportGrouping) -> Result<Report>;
@@ -797,6 +1008,19 @@ pub trait Backend: Send + Sync {
     /// Gemmer nøglen i systemets nøglering. Den kan ikke læses tilbage.
     fn set_cloud_ai_key(&self, provider: CloudAiProvider, key: String) -> Result<()>;
     fn remove_cloud_ai_key(&self, provider: CloudAiProvider) -> Result<()>;
+    /// Serveren, appen logger ind på: udgavens standard (TimeWren Cloud,
+    /// timetrack.dk) eller en egen server valgt ved login.
+    fn server_url(&self) -> Result<String> {
+        Ok(tt_core::edition::EDITION.web_url.into())
+    }
+    /// Vælger serveren til næste login (`None` eller tom: standarden) og giver
+    /// den normaliserede adresse tilbage. Kun et rigtigt datalag kan skifte.
+    fn set_server_url(&self, url: Option<&str>) -> Result<String> {
+        match url.map(str::trim).filter(|u| !u.is_empty()) {
+            None => self.server_url(),
+            Some(_) => Err(BackendError::Validation(crate::i18n::t("login.server.err.unsupported").into())),
+        }
+    }
     /// Starter browser-login. UI'et åbner `url` og venter på deep linket.
     fn begin_login(&self) -> Result<LoginStart>;
     /// Bytter `code` fra deep linket til token. UI'et har tjekket `state`.
@@ -840,6 +1064,18 @@ pub trait Backend: Send + Sync {
     fn delete_invoice_draft(&self, id: &str) -> Result<()> {
         let _ = id;
         Err(BackendError::Validation("Kladden kan slettes i web".into()))
+    }
+    /// Fakturaens subtotal, moms og total fra web (cloud). `None` lokalt,
+    /// hvor appen selv regner momsen (`Invoice::vat_permille`).
+    fn web_invoice_totals(&self, id: &str) -> Result<Option<WebInvoiceTotals>> {
+        let _ = id;
+        Ok(None)
+    }
+    /// Fakturaens PDF fra web, præcis som web laver den (cloud). `None`
+    /// lokalt, hvor appen selv tegner PDF'en (`export::invoice_pdf`).
+    fn web_invoice_pdf(&self, id: &str) -> Result<Option<Vec<u8>>> {
+        let _ = id;
+        Ok(None)
     }
 
     /// Arkiverede klippekort (vises under "Arkiverede").

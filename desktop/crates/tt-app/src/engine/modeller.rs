@@ -49,8 +49,10 @@ impl FoundStore {
             env: ScanEnv::from_process(),
             // Appens egne modeller står allerede i kataloget.
             exclude: vec![dir.join("ai").join("models")],
-            use_index: true,
-            auto: !cfg!(test) && std::env::var_os(NO_SCAN_ENV).is_none(),
+            // App Store-udgaven: andre programmers mapper og Spotlight ligger
+            // uden for sandkassen, så der søges aldrig (`run`).
+            use_index: crate::mas::OTHER_APPS_MODELS,
+            auto: crate::mas::OTHER_APPS_MODELS && !cfg!(test) && std::env::var_os(NO_SCAN_ENV).is_none(),
             report: Mutex::new(None),
             running: AtomicBool::new(false),
             ram: OnceLock::new(),
@@ -81,6 +83,9 @@ impl FoundStore {
 
     /// Søger og gemmer. `false` hvis en anden søgning allerede kører.
     fn run(&self) -> bool {
+        if !crate::mas::OTHER_APPS_MODELS {
+            return true;
+        }
         if self.running.swap(true, Ordering::SeqCst) {
             return false;
         }
@@ -101,7 +106,7 @@ impl FoundStore {
         ai::ui_found(
             &self.cached(),
             self.ram(),
-            tai::ollama::installed_but_stopped(&self.env),
+            crate::mas::OTHER_APPS_MODELS && tai::ollama::installed_but_stopped(&self.env),
             self.is_running(),
         )
     }
@@ -146,6 +151,10 @@ impl Engine {
     }
 
     pub(super) fn start_ollama_server(&self) -> Result<()> {
+        // Et program uden for sandkassen kan ikke startes fra App Store-udgaven.
+        if !crate::mas::OTHER_APPS_MODELS {
+            return Err(BackendError::Validation(crate::i18n::t("mas.ai.ollama").into()));
+        }
         tai::ollama::start(&self.found.env, Duration::from_secs(10)).map_err(|e| match e {
             tai::AiError::Timeout(_) => other("Ollama svarede ikke i tide. Prøv at starte den selv"),
             tai::AiError::Connect(_) => {
@@ -162,6 +171,7 @@ impl Engine {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(not(feature = "mas"))]
     use crate::backend::FOUND_PREFIX;
     use crate::backend::services::Detection as _;
     use std::fs;
@@ -222,7 +232,24 @@ mod tests {
         put(&store.join("blobs/sha256-ab12"), &gguf("qwen3", "Qwen3 8B", 1));
     }
 
+    /// App Store-udgaven søger aldrig i andre programmers mapper (de ligger
+    /// uden for sandkassen) og starter ikke Ollama.
     #[test]
+    #[cfg(feature = "mas")]
+    fn mas_soeger_ikke_i_andre_programmers_mapper() {
+        let home = tempfile::tempdir().unwrap();
+        let data = tempfile::tempdir().unwrap();
+        fixture(home.path());
+        let e = Engine::new(data.path().to_path_buf(), None).with_scan_env(env(home.path()));
+        let found = e.rescan_models().unwrap();
+        assert!(found.models.is_empty());
+        assert_eq!(found.other_count, 0);
+        assert!(!data.path().join("ai").join("found-models.json").exists());
+        assert!(matches!(e.start_ollama_server(), Err(BackendError::Validation(_))));
+    }
+
+    #[test]
+    #[cfg(not(feature = "mas"))]
     fn soegningen_finder_gemmes_og_genlaeses_uden_ny_soegning() {
         let home = tempfile::tempdir().unwrap();
         let data = tempfile::tempdir().unwrap();
@@ -256,6 +283,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(feature = "mas"))]
     fn fil_der_flyttes_forsvinder_ved_soeg_igen_og_er_markeret_foer() {
         let home = tempfile::tempdir().unwrap();
         let data = tempfile::tempdir().unwrap();
@@ -302,7 +330,7 @@ mod tests {
         );
     }
 
-    #[cfg(feature = "local-llm")]
+    #[cfg(all(feature = "local-llm", not(feature = "mas")))]
     #[test]
     fn delt_model_bruges_paa_stedet_og_falder_tilbage_naar_den_er_væk() {
         let home = tempfile::tempdir().unwrap();

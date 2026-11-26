@@ -57,6 +57,9 @@ export const reportTemplateConfigSchema = z.object({
       // Tag-gruppering: en post med flere tags tælles i hver af sine grupper,
       // så summen kan overstige totalen (#593)
       "tag",
+      // Klippekort: tid kan ligge på et projekt OG være trukket fra et kort,
+      // så pr. projekt og pr. kort giver forskellige tal (#1321)
+      "prepaidPackage",
       "member",
       "day",
       "week",

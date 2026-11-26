@@ -75,7 +75,15 @@ vi.mock("@/lib/org/period-lock", () => ({
   assertPeriodUnlocked: vi.fn(async () => undefined),
 }));
 vi.mock("@/lib/telemetry/track", () => ({ trackEvent: vi.fn() }));
+vi.mock("@/lib/time/task-locks", () => ({
+  lockTimeEntryTasks: vi.fn(
+    async (_tx, ids: Array<string | null | undefined>) =>
+      ids.filter(Boolean).map((id) => ({ id })),
+  ),
+}));
+
 vi.mock("@/lib/trpc/routers/prepaid", () => ({
+  lockPrepaidPackages: vi.fn(async () => {}),
   deductHoursCore: vi.fn(),
   reversePrepaidUsage: vi.fn(),
 }));

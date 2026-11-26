@@ -5,11 +5,14 @@ import { extDeviceAuthRouter } from "./device";
 import { extEntitlementsRouter } from "./entitlements";
 import { extEntriesRouter } from "./entries";
 import { extImportRouter } from "./import";
+import { extIntegrationsRouter } from "./integrations";
 import { extInvoicesRouter } from "./invoices";
 import { extKlippekortRouter } from "./klippekort";
+import { extOrgRouter } from "./org";
 import { extPatternsRouter } from "./patterns";
 import { extReportsRouter } from "./reports";
 import { extRulesRouter, extSiteMappingsRouter } from "./rules";
+import { extCompanyRouter, extUserRouter } from "./settings";
 import { extTasksRouter } from "./tasks";
 import { extTimerRouter } from "./timer";
 
@@ -35,4 +38,8 @@ export const extDeviceRouter = router({
   patterns: extPatternsRouter,
   siteMappings: extSiteMappingsRouter,
   timer: extTimerRouter,
+  integrations: extIntegrationsRouter,
+  user: extUserRouter,
+  company: extCompanyRouter,
+  org: extOrgRouter,
 });

@@ -8,6 +8,11 @@
 //! - **Windows:** værdien `TimeTrack` under `HKCU\…\CurrentVersion\Run` med
 //!   `"…\timetrack.exe" --autostart` (samme værdi som installeren).
 //!
+//! - **Mac App Store-udgaven** (`mas`): `SMAppService.mainAppService`
+//!   (macOS 13+). Sandkassen må ikke skrive i `~/Library/LaunchAgents`, og
+//!   macOS viser selv appen under Login-emner. Appen starter uden
+//!   `--autostart` og viser derfor vinduet.
+//!
 //! `TT_AUTOSTART_DIR` peger LaunchAgent-mappen et andet sted hen; demo og
 //! tests bruger altid en midlertidig mappe (begge OS'er).
 //!
@@ -19,7 +24,7 @@ use crate::afloesning::AUTOSTART_ARG;
 use crate::afloesning::{RUN_KEY, RUN_VALUE};
 
 /// LaunchAgentens etiket og filnavn (som 0.2).
-pub const LAUNCH_AGENT_LABEL: &str = "TimeTrack";
+pub const LAUNCH_AGENT_LABEL: &str = tt_core::edition::EDITION.name;
 
 fn xml_escape(s: &str) -> String {
     s.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;")
@@ -80,6 +85,10 @@ fn plist_path() -> Option<std::path::PathBuf> {
 
 /// Starter appen ved login?
 pub fn is_enabled() -> bool {
+    #[cfg(all(target_os = "macos", feature = "mas"))]
+    if sandbox().is_none() {
+        return login_item::status() == Some(SM_ENABLED);
+    }
     if cfg!(target_os = "windows") && sandbox().is_none() {
         return windows::query().is_some();
     }
@@ -88,6 +97,10 @@ pub fn is_enabled() -> bool {
 
 /// Slå start ved login til eller fra. Fejlteksten er dansk.
 pub fn set_enabled(on: bool) -> Result<(), String> {
+    #[cfg(all(target_os = "macos", feature = "mas"))]
+    if sandbox().is_none() {
+        return login_item::set(on);
+    }
     if cfg!(target_os = "windows") && sandbox().is_none() {
         return if on { windows::add(&run_value(&exe()?)) } else { windows::delete() };
     }
@@ -171,6 +184,64 @@ mod windows {
     }
 }
 
+/// `SMAppServiceStatus`: 0 ikke registreret, 1 slået til, 2 venter på
+/// brugerens godkendelse, 3 ikke fundet.
+pub const SM_ENABLED: isize = 1;
+pub const SM_REQUIRES_APPROVAL: isize = 2;
+
+/// Svaret på et forsøg på at slå `SMAppService` til eller fra, ud fra
+/// status bagefter. Fejlteksten er dansk.
+pub fn login_item_result(on: bool, registered: bool, status: isize) -> Result<(), String> {
+    match (on, status) {
+        (true, SM_ENABLED) | (false, 0 | 3) => Ok(()),
+        (true, SM_REQUIRES_APPROVAL) => Err(format!(
+            "Godkend {} under Systemindstillinger → Generelt → Login-emner",
+            tt_core::edition::EDITION.name
+        )),
+        // Ikke registreret eller ikke fundet bagefter: så er det ikke slået
+        // til, selv om kaldet svarede ja.
+        (true, 0 | 3) => Err("start ved login kunne ikke slås til".into()),
+        _ if registered => Ok(()),
+        (true, _) => Err("start ved login kunne ikke slås til".into()),
+        (false, _) => Err("start ved login kunne ikke slås fra".into()),
+    }
+}
+
+/// App Store-udgaven: login-emnet via ServiceManagement (`SMAppService`).
+#[cfg(all(target_os = "macos", feature = "mas"))]
+mod login_item {
+    use objc2::msg_send;
+    use objc2::rc::Retained;
+    use objc2::runtime::{AnyClass, AnyObject};
+    use objc2_foundation::NSError;
+
+    #[link(name = "ServiceManagement", kind = "framework")]
+    unsafe extern "C" {}
+
+    fn main_app() -> Option<Retained<AnyObject>> {
+        // macOS 13+; findes klassen ikke, er der intet login-emne.
+        let cls = AnyClass::get(c"SMAppService")?;
+        unsafe { msg_send![cls, mainAppService] }
+    }
+
+    pub fn status() -> Option<isize> {
+        let svc = main_app()?;
+        Some(unsafe { msg_send![&*svc, status] })
+    }
+
+    pub fn set(on: bool) -> Result<(), String> {
+        let svc = main_app().ok_or("start ved login kræver macOS 13 eller nyere")?;
+        // `_`: objc2 giver Err, når metoden svarer NO (NSError ** ud).
+        let res: Result<(), Retained<NSError>> = if on {
+            unsafe { msg_send![&*svc, registerAndReturnError: _] }
+        } else {
+            unsafe { msg_send![&*svc, unregisterAndReturnError: _] }
+        };
+        let now: isize = unsafe { msg_send![&*svc, status] };
+        super::login_item_result(on, res.is_ok(), now)
+    }
+}
+
 /// Tests, der slår autostart til og fra, deler sandkassen.
 #[cfg(test)]
 pub(crate) static TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
@@ -206,6 +277,19 @@ mod tests {
         set_enabled(false).unwrap();
     }
 
+    /// SMAppService (App Store-udgaven): status efter forsøget afgør svaret.
+    #[test]
+    fn login_emnets_svar() {
+        assert_eq!(login_item_result(true, true, SM_ENABLED), Ok(()));
+        assert!(login_item_result(true, true, SM_REQUIRES_APPROVAL).unwrap_err().contains("Login-emner"));
+        assert!(login_item_result(true, false, 0).is_err());
+        assert!(login_item_result(true, true, 0).is_err(), "registreret, men status 0");
+        assert!(login_item_result(true, true, 3).is_err(), "registreret, men ikke fundet");
+        assert_eq!(login_item_result(false, true, 0), Ok(()));
+        assert_eq!(login_item_result(false, false, 3), Ok(()), "ikke fundet = slået fra");
+        assert!(login_item_result(false, false, SM_ENABLED).is_err());
+    }
+
     #[test]
     fn sporing_slaas_til_ved_opstart_kun_med_valget() {
         use crate::backend::{Backend, MockBackend};
@@ -220,5 +304,14 @@ mod tests {
         assert!(apply_start_on_launch(&m).unwrap());
         assert!(m.settings().unwrap().tracking.enabled);
         assert!(!apply_start_on_launch(&m).unwrap(), "allerede til");
+    }
+}
+
+#[cfg(test)]
+mod brand_tests {
+    /// Autostart-etiketten er udgavens, så de to apps ikke overskriver hinandens.
+    #[test]
+    fn brand_autostart_etiketten_er_udgavens() {
+        assert_eq!(super::LAUNCH_AGENT_LABEL, tt_core::edition::EDITION.name);
     }
 }

@@ -14,7 +14,7 @@ import { orgAdminProcedure, router } from "../trpc";
  * a restricted member can't read a client's data by guessing its id.
  */
 export async function assertClientAccess(
-  db: typeof dbType,
+  db: Pick<typeof dbType, "query">,
   userId: string,
   orgId: string | null,
   clientId: string | null,
@@ -31,7 +31,7 @@ export async function assertClientAccess(
 }
 
 export async function getAccessibleClientIds(
-  db: typeof dbType,
+  db: Pick<typeof dbType, "query">,
   userId: string,
   orgId: string,
 ): Promise<string[] | null> {

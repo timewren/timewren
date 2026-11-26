@@ -233,6 +233,7 @@ fn installer_argumenter_som_tauri() {
 /// Hele vejen mod en lokal server: latest.json → nyere version → hent →
 /// signaturtjek → byt bundlet. En pakke med forkert signatur rører intet.
 #[test]
+#[cfg(not(feature = "mas"))]
 fn ende_til_ende_mod_lokal_kanal() {
     let Some(platform) = platform_key() else { return };
     let key = TestKey::new();
@@ -283,4 +284,38 @@ fn ende_til_ende_mod_lokal_kanal() {
         check(&format!("{base}/findes-ikke.json"), "0.2.23"),
         Err(UpdateError::Network(_))
     ));
+}
+
+/// App Store-udgaven: updateren kalder aldrig kanalen (serveren får ingen
+/// forespørgsler), henter intet, installerer intet og genstarter intet.
+#[test]
+#[cfg(feature = "mas")]
+fn mas_updater_er_slaaet_fra() {
+    use std::sync::Arc;
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    let server = tiny_http::Server::http("127.0.0.1:0").unwrap();
+    let base = format!("http://{}", server.server_addr().to_ip().unwrap());
+    let hits = Arc::new(AtomicUsize::new(0));
+    let seen = hits.clone();
+    std::thread::spawn(move || {
+        for req in server.incoming_requests() {
+            seen.fetch_add(1, Ordering::SeqCst);
+            let _ = req.respond(tiny_http::Response::empty(404));
+        }
+    });
+    assert_eq!(check(&format!("{base}/latest.json"), "0.0.1"), Err(UpdateError::Disabled));
+    assert_eq!(check_channel(false, "0.0.1"), Err(UpdateError::Disabled));
+    assert_eq!(check_channel(true, "0.0.1"), Err(UpdateError::Disabled));
+    let u = Update {
+        version: "9.9.9".into(),
+        notes: None,
+        url: format!("{base}/pakke.tar.gz"),
+        signature: String::new(),
+    };
+    assert_eq!(download(&u), Err(UpdateError::Disabled));
+    assert_eq!(install(b"x"), Err(UpdateError::Disabled));
+    let dir = tempfile::tempdir().unwrap();
+    assert_eq!(relaunch(&Installed::App(dir.path().join("X.app"))), Err(UpdateError::Disabled));
+    assert_eq!(hits.load(Ordering::SeqCst), 0, "ingen netværkskald");
+    assert!(!UpdateError::Disabled.to_string().is_empty());
 }

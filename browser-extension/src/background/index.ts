@@ -740,7 +740,7 @@ async function replayOfflineQueue() {
             // idempotent) og sig det med en notifikation.
             if (
               !action.payload.prepaidPackageId ||
-              !isPrepaidDeductionError(message)
+              !isPrepaidDeductionError(error)
             ) {
               throw error;
             }

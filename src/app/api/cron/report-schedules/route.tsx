@@ -8,6 +8,7 @@ import {
   reportSchedules,
   reportTemplates,
 } from "@/lib/db/schema";
+import { runWithOwnerCurrency } from "@/lib/demo/server-currency";
 import { mailT } from "@/lib/email/locale";
 import { resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
@@ -323,32 +324,33 @@ export const GET = withCronLogging("report-schedules", async (_request) => {
       const periodLabel = `${toLocalDateStr(start)}–${toLocalDateStr(end)}`;
 
       // Generér vedhæftning
-      let attachment: { filename: string; content: Buffer };
-      const safeName = schedule.templateName.replace(/[^\wæøåÆØÅ -]/g, "");
-      if (schedule.format === "csv") {
-        attachment = {
-          filename: `${safeName}.csv`,
-          content: Buffer.from(
-            generateCSV(entries, {
-              columns: config.columns,
-              groups: exportGroups,
-              groupingNote: aggregates.groupingNote,
-              pauses: aggregates.pauses,
-            }),
-            "utf-8",
-          ),
-        };
-      } else if (schedule.format === "xlsx") {
-        const buf = await generateXLSX(entries, {
-          columns: config.columns,
-          groups: exportGroups,
-          groupingNote: aggregates.groupingNote,
-        });
-        attachment = {
-          filename: `${safeName}.xlsx`,
-          content: Buffer.from(buf),
-        };
-      } else {
+      const attachment = await runWithOwnerCurrency(schedule, async () => {
+        const safeName = schedule.templateName.replace(/[^\wæøåÆØÅ -]/g, "");
+        if (schedule.format === "csv") {
+          return {
+            filename: `${safeName}.csv`,
+            content: Buffer.from(
+              generateCSV(entries, {
+                columns: config.columns,
+                groups: exportGroups,
+                groupingNote: aggregates.groupingNote,
+                pauses: aggregates.pauses,
+              }),
+              "utf-8",
+            ),
+          };
+        }
+        if (schedule.format === "xlsx") {
+          const buf = await generateXLSX(entries, {
+            columns: config.columns,
+            groups: exportGroups,
+            groupingNote: aggregates.groupingNote,
+          });
+          return {
+            filename: `${safeName}.xlsx`,
+            content: Buffer.from(buf),
+          };
+        }
         const company = await db.query.companyProfiles.findFirst({
           where: schedule.organizationId
             ? eq(companyProfiles.organizationId, schedule.organizationId)
@@ -366,11 +368,11 @@ export const GET = withCronLogging("report-schedules", async (_request) => {
             companyName={company?.name ?? ""}
           />,
         );
-        attachment = {
+        return {
           filename: `${safeName}.pdf`,
           content: Buffer.from(pdfBuffer),
         };
-      }
+      });
 
       const mb = await resolveMailBrand({ userId: schedule.userId });
       const locale = await getRecipientLocale({

@@ -55,6 +55,32 @@ describe("normalizePrepaidDeductionHours — timerne der faktisk trækkes", () =
     expect(normalizePrepaidDeductionHours(0.51, 15)).toBe(0.75);
   });
 
+  it("lader float-støj være uden betydning for klip og hundrededele", () => {
+    // 6 × 24 min = 2,4 t; i float er 6 × 0,4 = 2,4000000000000004.
+    expect(normalizePrepaidDeductionHours(2.4, 24)).toBe(2.4);
+    expect(normalizePrepaidDeductionHours(2.39, 24)).toBe(2.4);
+    expect(normalizePrepaidDeductionHours(0.7, 6)).toBe(0.7);
+    expect(normalizePrepaidDeductionHours(1.2, 12)).toBe(1.2);
+    // 20 min er 0,333… t og rundes stadig op til 0,34 t.
+    expect(normalizePrepaidDeductionHours(0.33, 20)).toBe(0.34);
+    expect(normalizePrepaidDeductionHours(0.66, 20)).toBe(0.67);
+    // 40 min gemmes som 0,67 t: to klip på 20 min, ikke tre.
+    expect(normalizePrepaidDeductionHours(0.67, 20)).toBe(0.67);
+    expect(normalizePrepaidDeductionHours(0.68, 20)).toBe(1);
+    expect(normalizePrepaidDeductionHours(1.33, 20)).toBe(1.34);
+    // 1,34 t er 80,4 min, altså over fire klip.
+    expect(normalizePrepaidDeductionHours(1.34, 20)).toBe(1.67);
+    // Rå timer (udvidelsen sender sekundopløst tid) trækkes som den gemte
+    // værdi: 40 min 29 s er 0,6747 t, gemt som 0,67 t, altså to klip.
+    expect(normalizePrepaidDeductionHours(0.6747, 20)).toBe(0.67);
+    expect(normalizePrepaidDeductionHours(0.6751, 20)).toBe(1);
+    // 7 min gemmes som 0,12 t (7,2 min): ét klip.
+    expect(normalizePrepaidDeductionHours(0.12, 7)).toBe(0.12);
+    expect(normalizePrepaidDeductionHours(0.13, 7)).toBe(0.24);
+    // Ét klip på 132 min: ceil(132/60 × 100) gav før 2,21 t.
+    expect(normalizePrepaidDeductionHours(0.01, 132)).toBe(2.2);
+  });
+
   it("ignorerer en klipstørrelse på 0 eller null", () => {
     expect(normalizePrepaidDeductionHours(2.855, 0)).toBe(2.86);
     expect(normalizePrepaidDeductionHours(2.855, null)).toBe(2.86);

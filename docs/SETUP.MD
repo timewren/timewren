@@ -17,6 +17,10 @@ Trin for trin: `npm run docker:up`, `npm run db:migrate`, `npm run dev`.
 Alle tabeller (ca. 170) er defineret i `src/lib/db/schema.ts` (Drizzle). Det er den eneste kilde; denne fil gengiver det ikke.
 
 - Ny migration efter skemaændring: `npm run db:generate` (filer i `drizzle/`).
+  Drizzle bruger det aktuelle klokkeslæt som `when` i `drizzle/meta/_journal.json`.
+  Hvis den nye posts `when` er mindre end eller lig med den foregående posts,
+  sæt den nye værdi til den foregående plus 1, inden du kører migrationen.
+  Kontrollér journalen med `node scripts/check-migration-journal.mjs`.
 - Kør migrationer: `npm run db:migrate` (sikker tilstand). `db:push` er kun til lokal udvikling.
 - Container og Helm sætter `MIGRATE_ON_START=1` (se `docker-compose.yml` og `charts/timewren/templates/app.yaml`), så migrationer kører ved opstart. Uden variablen kører de ikke af sig selv; kør da `npm run deploy:migrate`.
 

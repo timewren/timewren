@@ -25,6 +25,7 @@ const envSchema = z.object({
 
   // Crash-rapportering (valgfri — appen kører uden). Sæt DSN fra Sentry-projektet.
   EXPO_PUBLIC_SENTRY_DSN: z.string().url().optional(),
+  EXPO_PUBLIC_SENTRY_DSN_TIMEWREN: z.string().url().optional(),
   EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY: z.string().optional(),
   EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY: z.string().optional(),
 
@@ -72,6 +73,7 @@ const _env: z.infer<typeof envSchema> = {
   EXPO_PUBLIC_PAYMENTS_ENABLED:
     process.env.EXPO_PUBLIC_PAYMENTS_ENABLED === 'true',
   EXPO_PUBLIC_SENTRY_DSN: process.env.EXPO_PUBLIC_SENTRY_DSN || undefined,
+  EXPO_PUBLIC_SENTRY_DSN_TIMEWREN: process.env.EXPO_PUBLIC_SENTRY_DSN_TIMEWREN || undefined,
   EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY:
     process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY,
   EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY:

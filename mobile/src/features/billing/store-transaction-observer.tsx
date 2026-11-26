@@ -39,7 +39,7 @@ export function StoreTransactionObserver() {
             clearPending();
           void invalidateAfterPurchase();
         })
-        .catch((error: unknown) => captureError(error, { route: 'billing.observer' }));
+        .catch((error: unknown) => captureError(error));
     };
     recover();
     // Et ventende køb kan blive godkendt, mens appen ligger i baggrunden.

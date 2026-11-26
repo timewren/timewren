@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { localeFromCookie } from "@/i18n/server-text";
 import { authForHost } from "@/lib/auth";
 import { getAppUrl } from "@/lib/config";
 import { db } from "@/lib/db";
@@ -40,7 +41,8 @@ export async function POST(request: Request) {
   if (!limit.allowed) return back("rate_limited");
 
   try {
-    const account = await createDemoAccount(db);
+    const locale = localeFromCookie(request.headers) ?? "en";
+    const account = await createDemoAccount(db, { locale });
     if (!account.ok) return back("full");
 
     const auth = authForHost(request.headers.get("host"));
@@ -50,6 +52,7 @@ export async function POST(request: Request) {
       returnHeaders: true,
     });
     const res = NextResponse.redirect(`${base}/dashboard`, 303);
+    res.cookies.set("locale", locale, { path: "/", sameSite: "lax" });
     for (const cookie of headers.getSetCookie()) {
       res.headers.append("set-cookie", cookie);
     }

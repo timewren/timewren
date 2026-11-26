@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { and, eq, ne, or, sql } from "drizzle-orm";
+import { and, eq, gte, lt, or, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { alunta, resolveAluntaPlanTier } from "@/lib/alunta";
 import { resolvePrimaryOrgId } from "@/lib/auth/active-org";
@@ -225,25 +225,6 @@ export async function POST(request: Request) {
     const payload: AluntaWebhookPayload = JSON.parse(body);
     const eventType = payload.event;
 
-    // Replay-window guard (defense-in-depth alongside signature + idempotency
-    // key). Events more than 30 minutes old or 2 minutes in the future get
-    // logged and acknowledged with 200 — we do NOT want Alunta to stop
-    // retrying a legitimately-delayed event. The idempotency key prevents
-    // double-processing of replays that make it through this window.
-    const ts = Date.parse(payload.timestamp);
-    if (Number.isFinite(ts)) {
-      const skewMs = Date.now() - ts;
-      if (skewMs > 30 * 60 * 1000 || skewMs < -2 * 60 * 1000) {
-        console.warn(
-          `[Alunta Webhook] Event outside replay window (logged, not processed): skew=${Math.round(skewMs / 1000)}s event=${eventType}`,
-        );
-        return NextResponse.json({
-          received: true,
-          ignored: "timestamp_skew",
-        });
-      }
-    }
-
     console.warn(
       `[Alunta Webhook] Received event: ${eventType}`,
       `subscription=${payload.data.subscription?.uuid ?? "n/a"}`,
@@ -258,19 +239,31 @@ export async function POST(request: Request) {
       "";
     const eventId = `${eventType}-${payload.timestamp}-${resourceId}`;
 
-    // Idempotency check. Rækker med status='error' springes bevidst OVER
-    // (#424 fund 5): POST'en svarer altid 200, så Aluntas redelivery /
-    // manuel replay er eneste vej til at genkøre et fejlet event — dedup må
-    // ikke blokere den. Succesfuldt behandlede events forbliver deduperet.
     const existing = await db.query.webhookEvents.findFirst({
       where: and(
         eq(webhookEvents.eventId, eventId),
-        ne(webhookEvents.status, "error"),
+        eq(webhookEvents.source, "alunta"),
       ),
+      columns: { status: true },
     });
-    if (existing) {
+    if (existing && existing.status !== "error") {
       console.warn(`[Alunta Webhook] Duplicate event ${eventId}, skipping`);
       return NextResponse.json({ received: true, duplicate: true });
+    }
+
+    // Alunta can redeliver a failed event with its original timestamp.
+    // Only a signed delivery with a recorded failure can bypass the age limit.
+    const skewMs = Date.now() - Date.parse(payload.timestamp);
+    const isDelayed = skewMs > 30 * 60 * 1000;
+    if (
+      !Number.isFinite(skewMs) ||
+      skewMs < -2 * 60 * 1000 ||
+      (isDelayed && !(signature && existing?.status === "error"))
+    ) {
+      console.warn(
+        `[Alunta Webhook] Event outside replay window: skew=${Math.round(skewMs / 1000)}s event=${eventType}`,
+      );
+      return NextResponse.json({ received: true, ignored: "timestamp_skew" });
     }
 
     // Process event
@@ -320,7 +313,8 @@ export async function POST(request: Request) {
 
         case "subscription.payment_failed":
           reviewNote =
-            (await handlePaymentFailed(payload.data))?.needsReview ?? null;
+            (await handlePaymentFailed(payload.data, isDelayed))?.needsReview ??
+            null;
           break;
 
         case "customer.created":
@@ -1356,8 +1350,11 @@ async function handleTrialEnding(data: AluntaWebhookPayload["data"]) {
       upgradeUrl: `${getAppUrl()}/dashboard/settings/subscription`,
       userId: sub.userId,
     });
-  } catch (err) {
-    console.error("[Alunta Webhook] Failed to send trial ending email:", err);
+  } catch {
+    console.error("[Alunta Webhook] Failed to send trial ending email", {
+      userId: sub.userId,
+      organizationId: sub.organizationId,
+    });
   }
 
   // Notify admin (Discord only — trial_ending supportsEmail=false)
@@ -1450,6 +1447,7 @@ async function handleInvoicePaid(
 
 async function handlePaymentFailed(
   data: AluntaWebhookPayload["data"],
+  isDelayed: boolean,
 ): Promise<HandlerOutcome> {
   const subUuid = data.subscription?.uuid;
   if (!subUuid) return;
@@ -1492,14 +1490,44 @@ async function handlePaymentFailed(
   // Don't move a cancelled subscription into past_due on a payment-retry event.
   if (sub.status === "canceled") return;
 
-  await db
+  // A delayed failure may have been superseded by a successful payment.
+  if (isDelayed) {
+    const { data: currentSubscription } =
+      await alunta.subscriptions.get(subUuid);
+    if (currentSubscription.status !== "past_due") return;
+  }
+
+  const update = db
     .update(subscriptions)
     .set({
       status: "past_due",
       pastDueSince: sub.pastDueSince ?? new Date(),
       updatedAt: new Date(),
     })
-    .where(eq(subscriptions.id, sub.id));
+    .where(
+      and(
+        eq(subscriptions.id, sub.id),
+        // PostgreSQL can store finer precision than the Date returned by Drizzle.
+        isDelayed
+          ? and(
+              gte(subscriptions.updatedAt, sub.updatedAt),
+              lt(
+                subscriptions.updatedAt,
+                new Date(sub.updatedAt.getTime() + 1),
+              ),
+            )
+          : undefined,
+      ),
+    );
+
+  if (isDelayed) {
+    const [updated] = await update.returning({ id: subscriptions.id });
+    if (!updated) {
+      throw new Error("Subscription changed during delayed payment replay");
+    }
+  } else {
+    await update;
+  }
 
   // Send payment failed email
   try {

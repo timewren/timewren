@@ -62,9 +62,10 @@ describe('status og formatering', () => {
   });
 
   it('formatDays', () => {
-    expect(formatDays(1)).toBe('1 dag');
-    expect(formatDays('2.50')).toBe('2,5 dage');
-    expect(formatDays(null)).toBe('0 dage');
+    // Jest kører på engelsk: dansk talformat, engelske ord.
+    expect(formatDays(1)).toBe('1 day');
+    expect(formatDays('2.50')).toBe('2,5 days');
+    expect(formatDays(null)).toBe('0 days');
   });
 
   it('formatDays følger sproget', async () => {
@@ -74,6 +75,9 @@ describe('status og formatering', () => {
       expect(formatDays('2.50')).toBe('2,5 Tage');
       await i18n.changeLanguage('es');
       expect(formatDays(3)).toBe('3 días');
+      await i18n.changeLanguage('da');
+      expect(formatDays(1)).toBe('1 dag');
+      expect(formatDays('2.50')).toBe('2,5 dage');
     }
     finally {
       await i18n.changeLanguage('da');

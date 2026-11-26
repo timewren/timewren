@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   AUDIT_RETENTION_TABLES,
   buildDeletionSql,
+  USER_REFERENCE_POLICY,
 } from "@/lib/account-deletion";
 import { DELETED_USER_LABEL } from "@/lib/org-audit";
 import { connectTestDb, testPostgres } from "@/test/test-db";
@@ -38,6 +39,16 @@ describe("buildDeletionSql (#479, #499)", () => {
       );
       expect(sql).not.toMatch(new RegExp(`DELETE FROM ${table}`));
     }
+  });
+
+  it("sletter alle kalenderforbindelser inkl. Outlook og deres tokens", () => {
+    // Politikken er pr. tabel, ikke pr. udbyder: Google-, Outlook- og
+    // iCloud-rækker (med krypterede tokens) slettes alle sammen.
+    expect(USER_REFERENCE_POLICY["calendar_connections.user_id"]).toBe(
+      "delete",
+    );
+    expect(USER_REFERENCE_POLICY["calendar_events.user_id"]).toBe("delete");
+    expect(sql).toContain("('calendar_connections', 'user_id', 'delete')");
   });
 
   it("afviser id'er der ikke er regex-sikre", () => {

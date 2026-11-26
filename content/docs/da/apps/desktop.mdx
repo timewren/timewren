@@ -3,7 +3,9 @@ title: "Desktop-app"
 description: "TimeWrens desktop-app registrerer aktivitet automatisk og synkroniserer med din server. Hvad serveren leverer, hvordan enheder logger ind, og hvordan du tilbyder dine egne builds."
 ---
 
-Desktop-appen (Windows og macOS, i beta) registrerer, hvad du arbejder på, klassificerer det og gemmer sine data lokalt i en database på din computer. Den synkroniserer tidsregistreringer, kunder og projekter med serveren og kan bruges offline. Automatisk registrering og klassificering kører på computeren.
+Desktop-appen (Windows og macOS) registrerer, hvad du arbejder på, klassificerer det og gemmer sine data lokalt i en database på din computer. Den synkroniserer tidsregistreringer, kunder og projekter med serveren og kan bruges offline. Automatisk registrering og klassificering kører på computeren.
+
+Hvis en offlineredigering når frem, efter at tidsregistreringen er ændret på serveren, returnerer synkroniseringen den aktuelle serverversion som en konflikt, også hvis opgaven fra offlineredigeringen er slettet.
 
 Desktop-appen bygges og udgives fra sit eget repository, adskilt fra serveren. Siden her handler om, hvad din server leverer til den. Hvordan appens serveradresse indtastes, er en indstilling i selve appen, så følg appens egen dokumentation til det.
 

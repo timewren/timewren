@@ -129,6 +129,7 @@
     "dragHint": "クリックしてドラッグすると時間記録を作成できます",
     "connectBoth": "Googleカレンダーまたは iCloud に接続",
     "connectICloud": "iCloudカレンダーに接続",
+    "connectCalendar": "カレンダーを接続（Google、Outlook、iCloud）",
     "settings": "設定",
     "registerAll": "すべて記録 ({count})",
     "sync": "同期",
@@ -177,7 +178,8 @@
     "settingsSaved": "設定を保存しました",
     "back": "戻る",
     "goToCalendar": "カレンダーへ",
-    "next": "次へ"
+    "next": "次へ",
+    "outlookNote": "{brand} は Outlook の既定のカレンダーを読み取ります。接続は <link>設定 → 連携</link> で管理します。ここでのフィルターと自動記録は Outlook にも適用されます。"
   },
   "icloud": {
     "connected": "iCloud に接続しました。読み取るカレンダーを選んでください。",
@@ -221,5 +223,28 @@
     "disconnectTitle": "iCloudカレンダーの接続を解除",
     "disconnectDescription": "{brand} は保存されたApp用パスワードと取得したiCloudの予定を削除します。時間記録は残ります。appleid.apple.com でパスワードも取り消してください。",
     "disconnectConfirm": "接続を解除"
+  },
+  "outlook": {
+    "title": "Outlook カレンダー",
+    "intro": "Outlook や Microsoft 365 でカレンダーを管理していますか？会議を {brand} で確認し、そこから時間を記録できます。",
+    "readOnlyNote": "{brand} はカレンダーの読み取りのみを求め、書き込むことはありません。Microsoft でサインインするため、{brand} がパスワードを見ることはありません。",
+    "connect": "Outlook を接続",
+    "badgeConnected": "接続済み",
+    "badgeReconnect": "再接続が必要",
+    "badgeReadOnly": "読み取り専用",
+    "loadingStatus": "Outlook の状態を読み込み中...",
+    "brokenConnection": "Outlook との接続が機能していません",
+    "reconnect": "再接続",
+    "connectedAs": "{account} として接続済み",
+    "lastSynced": "最終同期 {time}",
+    "syncing": "同期中...",
+    "syncNow": "今すぐ同期",
+    "syncResult": "同期完了: 新規 {synced} 件、更新 {updated} 件",
+    "syncFailed": "同期に失敗しました",
+    "disconnect": "接続を解除",
+    "disconnected": "Outlook カレンダーの接続を解除しました",
+    "disconnectTitle": "Outlook カレンダーの接続を解除",
+    "disconnectDescription": "{brand} は保存したアクセスキーと取得した Outlook の予定を削除します。時間記録はそのまま残ります。Microsoft アカウントのアクセス権を持つアプリから {brand} を削除することもできます。",
+    "disconnectConfirm": "解除"
   }
 }

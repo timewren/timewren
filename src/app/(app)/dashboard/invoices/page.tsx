@@ -6,7 +6,6 @@ import {
   Clock,
   Download,
   Eye,
-  FileText,
   Mail,
   MoreHorizontal,
   Plus,
@@ -20,8 +19,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/dashboard-nav";
 import { GenerateFromTimeEntriesModal } from "@/components/invoices/GenerateFromTimeEntriesModal";
+import { InvoicesEmptyState } from "@/components/invoices/InvoicesEmptyState";
 import { RecurringInvoicesPanel } from "@/components/invoices/RecurringInvoicesPanel";
-import { SendInvoiceDialog } from "@/components/invoices/SendInvoiceDialog";
+import {
+  type ReviewedInvoice,
+  SendInvoiceDialog,
+} from "@/components/invoices/SendInvoiceDialog";
 import { ModuleGuard } from "@/components/ModuleGuard";
 import { RoleModuleGuard } from "@/components/RoleModuleGuard";
 import {
@@ -139,6 +142,21 @@ function InvoicesPageContent() {
   const { data: invoices, isLoading, error } = trpc.invoices.list.useQuery();
   const { data: stats } = trpc.invoices.getStats.useQuery();
   const { data: seriesAudit } = trpc.invoices.numberSeriesAudit.useQuery();
+  // Kun til den tomme liste: ufaktureret tid gør "Fakturér tiden" til første
+  // skridt. Samme opslag som GenerateFromTimeEntriesModal (hele
+  // organisationens fakturerbare tid), så knappen og modalen er enige.
+  const emptyList = canInvoice && invoices?.length === 0;
+  const uninvoiced = trpc.invoices.getUninvoicedSummary.useQuery(undefined, {
+    enabled: emptyList,
+  });
+  const unbilledHours = uninvoiced.data
+    ? uninvoiced.data.reduce((sum, c) => sum + c.totalHours, 0)
+    : undefined;
+  // Den første faktura kræver virksomhedsoplysninger (#91).
+  const { data: companyProfile } = trpc.onboarding.getCompanyProfile.useQuery(
+    undefined,
+    { enabled: emptyList },
+  );
   const utils = trpc.useUtils();
 
   const updateMutation = trpc.invoices.update.useMutation({
@@ -261,12 +279,16 @@ function InvoicesPageContent() {
 
   const [sendInvoiceId, setSendInvoiceId] = useState<string | null>(null);
 
-  const handleSendEmail = async (email: string) => {
+  const handleSendEmail = async (
+    email: string,
+    expectedInvoice: ReviewedInvoice,
+  ) => {
     if (!sendInvoiceId) return;
     try {
       await sendEmailMutation.mutateAsync({
         id: sendInvoiceId,
         expectedRecipient: email,
+        expectedInvoice,
       });
       toast.success(t("sendConfirmation.sent", { email }));
       setSendInvoiceId(null);
@@ -487,26 +509,14 @@ function InvoicesPageContent() {
 
       {/* Table / Empty state */}
       {!filteredInvoices || filteredInvoices.length === 0 ? (
-        <div className="rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 p-12 text-center">
-          <FileText className="mx-auto h-10 w-10 text-gray-300 dark:text-gray-600" />
-          <h3 className="mt-4 text-sm font-medium text-gray-900 dark:text-white">
-            {searchQuery || statusFilter !== "all"
-              ? t("list.emptyFiltered")
-              : t("list.emptyNone")}
-          </h3>
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            {searchQuery || statusFilter !== "all"
-              ? t("list.emptyFilteredHint")
-              : t("list.emptyNoneHint")}
-          </p>
-          {!searchQuery && statusFilter === "all" && canInvoice && (
-            <Link href="/dashboard/invoices/new" className="mt-5 inline-block">
-              <Button leftIcon={<Plus className="h-4 w-4" />}>
-                {t("list.createFirst")}
-              </Button>
-            </Link>
-          )}
-        </div>
+        <InvoicesEmptyState
+          filtered={!!searchQuery || statusFilter !== "all"}
+          canInvoice={canInvoice}
+          unbilledHours={unbilledHours}
+          unbilledFailed={uninvoiced.isError}
+          missingCompanyProfile={companyProfile === null}
+          onInvoiceUnbilled={() => setShowGenerateModal(true)}
+        />
       ) : (
         <>
           {/* Mobile card view */}
@@ -525,7 +535,10 @@ function InvoicesPageContent() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <span className="text-xs tabular-nums font-medium text-gray-900 dark:text-gray-100">
-                          {formatInvoiceNumber(invoice.invoiceNumber)}
+                          {formatInvoiceNumber(
+                            invoice.invoiceNumber,
+                            t("status.draft"),
+                          )}
                         </span>
                         {invoice.kind === "credit_note" && (
                           <span className="inline-flex rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
@@ -634,7 +647,10 @@ function InvoicesPageContent() {
                       className="min-w-0 flex items-center gap-2"
                     >
                       <span className="text-sm tabular-nums font-medium text-gray-900 dark:text-gray-100">
-                        {formatInvoiceNumber(invoice.invoiceNumber)}
+                        {formatInvoiceNumber(
+                          invoice.invoiceNumber,
+                          t("status.draft"),
+                        )}
                       </span>
                       {invoice.kind === "credit_note" && (
                         <span className="inline-flex rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
@@ -816,6 +832,7 @@ function InvoicesPageContent() {
       <GenerateFromTimeEntriesModal
         isOpen={showGenerateModal && canInvoice}
         onClose={() => setShowGenerateModal(false)}
+        missingCompanyProfile={emptyList && companyProfile === null}
       />
 
       <SendInvoiceDialog

@@ -39,14 +39,21 @@ export async function tr(
   return (t as unknown as (k: string, v?: TextValues) => string)(key, values);
 }
 
+export function localeFromCookie(
+  headers: Headers | null | undefined,
+): Locale | undefined {
+  const cookie = headers?.get("cookie") ?? "";
+  const match = /(?:^|;\s*)locale=([^;]+)/.exec(cookie)?.[1];
+  return isAvailableLocale(match) ? match : undefined;
+}
+
 /** Sproget fra cookie eller Accept-Language uden databaseopslag. */
 export function localeFromHeaders(headers: Headers | null | undefined): Locale {
   if (!headers) return DEFAULT_LOCALE;
-  const cookie = headers.get("cookie") ?? "";
-  const match = /(?:^|;\s*)locale=([^;]+)/.exec(cookie)?.[1];
-  if (isAvailableLocale(match)) return match;
   return (
-    pickFromAcceptLanguage(headers.get("accept-language")) ?? DEFAULT_LOCALE
+    localeFromCookie(headers) ??
+    pickFromAcceptLanguage(headers.get("accept-language")) ??
+    DEFAULT_LOCALE
   );
 }
 

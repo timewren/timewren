@@ -13,12 +13,20 @@ use crate::types::{BrowserUrl, RawWindow};
 
 pub mod permissions;
 
-#[cfg(target_os = "macos")]
+// `mas` (Mac App Store-udgaven, App Sandbox): ingen sonder. Tilgængelighed,
+// Apple Events og andre programmers vinduer er ikke tilladt i sandkassen, så
+// koden bygges slet ikke ind, og `native()` giver en platform, der intet ser.
+#[cfg(all(target_os = "macos", not(feature = "mas")))]
 mod macos;
-#[cfg(windows)]
+#[cfg(all(windows, not(feature = "mas")))]
 mod url_windows;
-#[cfg(windows)]
+#[cfg(all(windows, not(feature = "mas")))]
 mod windows;
+
+/// Kan denne bygning se forgrundsvinduet? Falsk i App Store-udgaven (`mas`)
+/// og på Linux.
+pub const CAPTURE_SUPPORTED: bool =
+    !cfg!(feature = "mas") && cfg!(any(target_os = "macos", windows));
 
 pub trait Platform: Send {
     /// Forgrundsvinduet lige nu.
@@ -76,25 +84,26 @@ impl StopSignal {
 
 /// Den rigtige platform for denne maskine.
 pub fn native() -> Box<dyn Platform> {
-    #[cfg(target_os = "macos")]
+    #[cfg(all(target_os = "macos", not(feature = "mas")))]
     {
         Box::new(macos::MacPlatform::new())
     }
-    #[cfg(windows)]
+    #[cfg(all(windows, not(feature = "mas")))]
     {
         Box::new(windows::WindowsPlatform::new())
     }
-    #[cfg(not(any(target_os = "macos", windows)))]
+    #[cfg(any(feature = "mas", not(any(target_os = "macos", windows))))]
     {
         Box::new(Unsupported)
     }
 }
 
-/// Linux er droppet (spec D4). Trackeren ser intet, men crate'en kompilerer.
-#[cfg(not(any(target_os = "macos", windows)))]
+/// Linux er droppet (spec D4), og App Store-udgaven (`mas`) må ikke se andre
+/// programmer. Trackeren ser intet, men crate'en kompilerer.
+#[cfg(any(feature = "mas", not(any(target_os = "macos", windows))))]
 struct Unsupported;
 
-#[cfg(not(any(target_os = "macos", windows)))]
+#[cfg(any(feature = "mas", not(any(target_os = "macos", windows))))]
 impl Platform for Unsupported {
     fn foreground(&mut self) -> Option<RawWindow> {
         None
@@ -179,6 +188,16 @@ mod tests {
             app_id(r"C:\x\WindowsTerminal.exe", "WindowsTerminal"),
             "windowsterminal"
         );
+    }
+
+    /// App Store-udgaven: platformen ser intet, heller ikke på en Mac.
+    #[cfg(feature = "mas")]
+    #[test]
+    fn mas_platform_sees_nothing() {
+        const { assert!(!CAPTURE_SUPPORTED) };
+        let mut p = native();
+        assert!(p.foreground().is_none());
+        assert_eq!(p.idle_seconds(), 0);
     }
 
     #[test]

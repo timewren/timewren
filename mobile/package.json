@@ -1,6 +1,6 @@
 {
   "name": "timetrack-app",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "packageManager": "pnpm@10.34.5",
   "engines": {
@@ -28,22 +28,26 @@
     "build:preview:android": "eas build --profile preview --platform android",
     "build:production:ios": "eas build --profile production --platform ios",
     "build:production:android": "eas build --profile production --platform android",
+    "release:android:timewren": "cross-env APP_VARIANT=timewren bash scripts/release-android.sh",
+    "upload:play": "node scripts/upload-play.mjs",
+    "release:ios:timewren": "cross-env APP_VARIANT=timewren bash scripts/release-ios.sh",
     "prepare": "husky",
     "lint": "eslint . --cache --cache-location node_modules/.cache/eslint/ --cache-strategy content",
     "lint:fix": "eslint . --fix --cache --cache-location node_modules/.cache/eslint/ --cache-strategy content",
     "type-check": "cross-env NODE_OPTIONS=--max-old-space-size=6144 tsc --noemit",
     "lint:translations": "eslint ./src/translations/ --fix --ext .json",
     "check:classname": "node scripts/check-classname.mjs",
+    "check:assets": "node scripts/check-native-assets.mjs",
     "check:permissions": "node scripts/check-native-permissions.mjs",
     "test": "cross-env TZ=Europe/Copenhagen jest",
-    "check-all": "node scripts/run-parallel.mjs lint,lint:translations type-check check:classname,check:permissions test",
+    "check-all": "node scripts/run-parallel.mjs lint,lint:translations type-check check:classname,check:permissions,check:assets test",
     "test:ci": "pnpm run test --coverage",
     "test:watch": "pnpm run test --watch",
     "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash",
     "e2e-test": "maestro test .maestro/ -e APP_ID=dk.timetrack.app.development"
   },
   "dependencies": {
-    "@better-auth/expo": "1.7.7",
+    "@better-auth/expo": "1.7.27",
     "@expo-google-fonts/inter": "^0.4.2",
     "@expo/metro-runtime": "^6.1.2",
     "@gorhom/bottom-sheet": "^5.2.8",
@@ -54,7 +58,7 @@
     "@trpc/react-query": "^11.19.0",
     "@trpc/server": "^11.19.0",
     "app-icon-badge": "^0.1.2",
-    "better-auth": "1.7.7",
+    "better-auth": "1.7.27",
     "date-fns": "^4.4.0",
     "expo": "~54.0.37",
     "expo-apple-authentication": "~8.0.8",
@@ -87,7 +91,6 @@
     "react-dom": "19.1.0",
     "react-i18next": "^17.0.15",
     "react-native": "0.81.5",
-    "react-native-edge-to-edge": "^1.7.0",
     "react-native-flash-message": "^0.4.2",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-keyboard-controller": "^1.18.5",
@@ -138,6 +141,8 @@
     "jest-expo": "~54.0.18",
     "jest-junit": "^16.0.0",
     "lint-staged": "^16.2.7",
+    "pngjs": "6.0.0",
+    "sharp": "0.35.5",
     "tailwindcss": "4.1.18",
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
@@ -171,8 +176,7 @@
       "reactNativeDirectoryCheck": {
         "listUnknownPackages": false,
         "exclude": [
-          "react-native-restart",
-          "react-native-edge-to-edge"
+          "react-native-restart"
         ]
       }
     },

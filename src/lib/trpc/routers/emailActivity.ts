@@ -1,8 +1,113 @@
-import { and, count, desc, eq, gte, sql } from "drizzle-orm";
+import {
+  and,
+  count,
+  desc,
+  eq,
+  gte,
+  inArray,
+  isNotNull,
+  isNull,
+  ne,
+  notInArray,
+  or,
+  type SQL,
+  sql,
+} from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { emailEvents, sentEmails } from "@/lib/db/schema";
+import { emailEvents, invoices, sentEmails } from "@/lib/db/schema";
+import { PERSONAL_EMAIL_TYPES } from "@/lib/email/email-types";
+import {
+  accessSatisfies,
+  resolveModuleAccess,
+} from "@/lib/permissions/role-access";
+import { memoize, type RequestMemo } from "../request-memo";
 import { protectedProcedure, router } from "../trpc";
+import { getAccessibleClientIds } from "./clientAccess";
+
+/**
+ * Which `sent_emails` rows the caller may see. Every procedure below filters
+ * on this, so web and desktop (`extension.invoices.emailStatus`) get the same
+ * answer.
+ *
+ * - No org: the user's own rows (unchanged).
+ * - Org: the org's rows, but an invoice mail needs read access to the
+ *   invoices module, and a mail tied to a client (directly or through its
+ *   invoice) needs client access, like `invoices.getById`. Org rows without
+ *   an invoice or a client stay visible to the whole org.
+ * - Plus the user's own mails without an org: invoice mails sent before
+ *   they were tagged with the org, and work mails that are still logged
+ *   without one (timesheets, absence, klippekort, portal). Only the sender
+ *   sees them, and only with the same module and client access. The user's
+ *   personal account mails (`PERSONAL_EMAIL_TYPES`: welcome, drip, dunning,
+ *   login alerts, magic links) have no org either and stay out of the org's
+ *   activity and stats, unless tied to a client or an invoice. Every other
+ *   type stays visible, so a new type never disappears silently.
+ */
+async function visibleEmails(ctx: {
+  db: typeof db;
+  orgId: string | null;
+  session: { user: { id: string } };
+  memo?: RequestMemo;
+}): Promise<SQL> {
+  const userId = ctx.session.user.id;
+  if (!ctx.orgId) return eq(sentEmails.userId, userId);
+  const orgId = ctx.orgId;
+
+  // The module key matches the guard in trpc.ts, so a batch shares lookups.
+  const [moduleLevel, accessibleIds] = await Promise.all([
+    memoize(ctx.memo, `moduleAccess:${userId}:${orgId}:invoices`, () =>
+      resolveModuleAccess(ctx.db, userId, orgId, "invoices"),
+    ),
+    memoize(ctx.memo, `accessibleClientIds:${userId}:${orgId}`, () =>
+      getAccessibleClientIds(ctx.db, userId, orgId),
+    ),
+  ]);
+
+  const invoiceOk = accessSatisfies(moduleLevel, "read")
+    ? undefined
+    : and(isNull(sentEmails.invoiceId), ne(sentEmails.emailType, "invoice"));
+
+  let clientOk: SQL | undefined;
+  if (accessibleIds !== null) {
+    const noClient = and(
+      isNull(sentEmails.clientId),
+      isNull(sentEmails.invoiceId),
+    );
+    clientOk =
+      accessibleIds.length === 0
+        ? noClient
+        : or(
+            noClient,
+            inArray(sentEmails.clientId, accessibleIds),
+            and(
+              isNull(sentEmails.clientId),
+              inArray(
+                sentEmails.invoiceId,
+                ctx.db
+                  .select({ id: invoices.id })
+                  .from(invoices)
+                  .where(inArray(invoices.clientId, accessibleIds)),
+              ),
+            ),
+          );
+  }
+
+  return or(
+    and(eq(sentEmails.organizationId, orgId), invoiceOk, clientOk),
+    and(
+      isNull(sentEmails.organizationId),
+      eq(sentEmails.userId, userId),
+      or(
+        notInArray(sentEmails.emailType, PERSONAL_EMAIL_TYPES),
+        isNotNull(sentEmails.invoiceId),
+        isNotNull(sentEmails.clientId),
+      ),
+      invoiceOk,
+      clientOk,
+    ),
+  ) as SQL;
+}
 
 export const emailActivityRouter = router({
   /**
@@ -18,11 +123,7 @@ export const emailActivityRouter = router({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const conditions = [
-        ctx.orgId
-          ? eq(sentEmails.organizationId, ctx.orgId)
-          : eq(sentEmails.userId, ctx.session.user.id),
-      ];
+      const conditions = [await visibleEmails(ctx)];
 
       if (input.emailType) {
         conditions.push(eq(sentEmails.emailType, input.emailType));
@@ -61,6 +162,7 @@ export const emailActivityRouter = router({
   getStats: protectedProcedure.query(async ({ ctx }) => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const visible = await visibleEmails(ctx);
 
     const result = await db
       .select({
@@ -70,14 +172,7 @@ export const emailActivityRouter = router({
         bounced: sql<number>`COUNT(CASE WHEN ${sentEmails.bouncedAt} IS NOT NULL THEN 1 END)`,
       })
       .from(sentEmails)
-      .where(
-        and(
-          ctx.orgId
-            ? eq(sentEmails.organizationId, ctx.orgId)
-            : eq(sentEmails.userId, ctx.session.user.id),
-          gte(sentEmails.sentAt, thirtyDaysAgo),
-        ),
-      );
+      .where(and(visible, gte(sentEmails.sentAt, thirtyDaysAgo)));
 
     const stats = result[0] || {
       total: 0,
@@ -109,13 +204,11 @@ export const emailActivityRouter = router({
   getTimeline: protectedProcedure
     .input(z.object({ resendEmailId: z.string() }))
     .query(async ({ ctx, input }) => {
-      // Verify ownership
+      // Verify access to the email before returning its events
       const email = await db.query.sentEmails.findFirst({
         where: and(
           eq(sentEmails.resendEmailId, input.resendEmailId),
-          ctx.orgId
-            ? eq(sentEmails.organizationId, ctx.orgId)
-            : eq(sentEmails.userId, ctx.session.user.id),
+          await visibleEmails(ctx),
         ),
       });
 
@@ -140,9 +233,7 @@ export const emailActivityRouter = router({
       const email = await db.query.sentEmails.findFirst({
         where: and(
           eq(sentEmails.invoiceId, input.invoiceId),
-          ctx.orgId
-            ? eq(sentEmails.organizationId, ctx.orgId)
-            : eq(sentEmails.userId, ctx.session.user.id),
+          await visibleEmails(ctx),
         ),
         orderBy: [desc(sentEmails.sentAt)],
       });

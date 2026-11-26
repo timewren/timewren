@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import {
+  CompanyProfileRequired,
+  isCompanyProfileRequiredError,
+} from "@/components/invoices/CompanyProfileRequired";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -61,6 +65,7 @@ export function InvoiceNowDialog({
   const t = useTranslations("billing.adoption.invoiceNow");
   const intlLocale = toIntlLocale(useLocale());
   const [period, setPeriod] = useState<InvoicePreviewPeriod>("all");
+  const [profileRejected, setProfileRejected] = useState(false);
 
   const {
     data: preview,
@@ -80,6 +85,12 @@ export function InvoiceNowDialog({
       router.push(`/dashboard/invoices/${result.invoice.id}`);
     },
     onError: (error) => {
+      // Organisationens første faktura kræver virksomhedsoplysningerne; vis
+      // vejen dertil i stedet for en fejl-toast.
+      if (isCompanyProfileRequiredError(error)) {
+        setProfileRejected(true);
+        return;
+      }
       toast.error(error.message || t("createFailed"));
     },
   });
@@ -127,6 +138,8 @@ export function InvoiceNowDialog({
             <Skeleton className="h-16 w-full" />
             <Skeleton className="h-24 w-full" />
           </div>
+        ) : profileRejected ? (
+          <CompanyProfileRequired />
         ) : isError ? (
           <p className="text-sm text-red-600 dark:text-red-400">
             {t("loadError")}
@@ -237,7 +250,7 @@ export function InvoiceNowDialog({
             </Button>
             <Button
               leftIcon={<FileText className="h-4 w-4" />}
-              disabled={!hasEntries || generate.isPending}
+              disabled={!hasEntries || profileRejected || generate.isPending}
               isLoading={generate.isPending}
               onClick={() => {
                 if (!preview) return;
@@ -245,6 +258,7 @@ export function InvoiceNowDialog({
                   clientId,
                   timeEntryIds: preview.entryIds,
                   origin,
+                  requireCompanyProfile: true,
                 });
               }}
             >

@@ -300,7 +300,10 @@
     "draftOnlyReorder": "Sıra yalnızca taslak faturalarda değiştirilebilir",
     "providerMismatch": "Tutar veya para birimi doğrulanamadı. Göndermeden önce muhasebe sistemindeki taslağı inceleyin.",
     "recipientChanged": "Alıcının e-posta adresi değişti. Onay penceresini yeniden açın.",
-    "clientHasNoEmail": "Müşterinin e-posta adresi yok"
+    "clientHasNoEmail": "Müşterinin e-posta adresi yok",
+    "exportInProgress": "Bu fatura zaten dışa aktarılıyor. Birazdan tekrar deneyin.",
+    "providerEmailUncertain": "Muhasebe programınızın faturayı gönderdiğini doğrulayamadık. Yeniden göndermeden önce Billy veya Dinero içindeki e-posta durumunu kontrol edin ve sonucu fatura sayfasında işaretleyin.",
+    "sendReviewChanged": "Fatura, onayladıktan sonra değişti. Onayı yeniden açın."
   },
   "logbook": {
     "ownOnly": "Yalnızca kendi sürüş günlüğünü görüntüleyebilirsin",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Dinero bağlantısı oluşturulamadı. Tekrar dene.",
       "economicFailed": "e-conomic bağlantısı oluşturulamadı. Tekrar dene.",
-      "googleFailed": "Google bağlantısı oluşturulamadı. Tekrar dene."
+      "googleFailed": "Google bağlantısı oluşturulamadı. Tekrar dene.",
+      "outlookFailed": "Outlook bağlantısı oluşturulamadı. Tekrar deneyin."
     },
     "invoiceSend": {
       "invalidRecipient": "Geçersiz alıcı e-postası",

@@ -11,9 +11,10 @@ import {
   useCoverageFormat,
 } from "@/components/coverage/coverage-format";
 import { toIntlLocale } from "@/i18n/format-locale";
+import { formatDuration } from "@/lib/format";
 import { trpc } from "@/providers/trpc-provider";
 import { isGenuinePause, useTimerStore } from "@/stores/timerStore";
-import { formatDuration, formatRange } from "./home-logic";
+import { formatRange } from "./home-logic";
 
 /**
  * "I dag": dagens egne poster kompakt + dækningsgraden for dagen (#692).

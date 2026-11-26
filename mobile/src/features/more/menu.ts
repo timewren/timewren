@@ -16,10 +16,26 @@ export type MenuSection = {
 };
 
 /**
+ * Vis "Abonnement"? Serveren har slået betaling helt fra (`subscription.billingEnabled` →
+ * enabled:false, fx selvhost uden udbyder) → nej. TimeWren sælger kun via butikkerne, så dér
+ * kræves desuden et bekræftet `storeBilling.config` → enabled:true. TimeTrack viser også
+ * web-abonnementet (Alunta/Stripe), så butikskøbs-kontakten gælder ikke dér, og punktet bliver
+ * stående, mens svarene mangler.
+ */
+export function showSubscription(
+  isTimeWren: boolean,
+  billing: { billingEnabled: boolean | undefined; storeBillingEnabled: boolean | undefined },
+): boolean {
+  if (billing.billingEnabled === false)
+    return false;
+  return isTimeWren ? billing.storeBillingEnabled === true : true;
+}
+
+/**
  * Mere-fanens menu, filtreret efter moduler/tier/rolle.
  * Rækkefølge og synlighed er bevidst deterministisk så den kan testes.
  */
-export function buildMoreMenu(caps: MenuCaps, opts: { callLogging?: boolean } = {}): MenuSection[] {
+export function buildMoreMenu(caps: MenuCaps, opts: { callLogging?: boolean; subscription?: boolean } = {}): MenuSection[] {
   // Arbejde styres af moduler — også i enterprise (hvor Kunder-fanen er skjult,
   // så kunder nås herfra).
   const work: MenuItem[] = [];
@@ -82,7 +98,9 @@ export function buildMoreMenu(caps: MenuCaps, opts: { callLogging?: boolean } = 
     { key: 'notifications', labelKey: 'notifications', href: '/settings/notifications' },
     { key: 'calls', labelKey: 'calls', href: '/settings/calls' },
     { key: 'security', labelKey: 'security', href: '/settings/security' },
-    { key: 'subscription', labelKey: 'subscription', href: '/settings/subscription' },
+    ...(opts.subscription !== false
+      ? [{ key: 'subscription', labelKey: 'subscription', href: '/settings/subscription' } as MenuItem]
+      : []),
     { key: 'organization', labelKey: 'organization', href: '/settings/organization' },
     { key: 'appearance', labelKey: 'appearance', href: '/settings/appearance' },
     { key: 'about', labelKey: 'about', href: '/settings/about' },

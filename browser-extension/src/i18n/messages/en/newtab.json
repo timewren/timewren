@@ -49,7 +49,8 @@
     "title": "New tab settings",
     "close": "Close settings",
     "enable": "Use TimeTrack on the new tab",
-    "enableHint": "Replace the browser's start page with TimeTrack",
+    "enableHint": "Replace the browser's new tab with TimeTrack. When off, you get a simple page with a search box",
+    "enableHintChrome": "Replace the browser's new tab with TimeTrack. When off, you get Chrome's own new tab page, always in its Google version, even if your default search engine is a different one",
     "appearance": "Appearance",
     "theme": "Theme",
     "themeHint": "Colour theme for the extension",
@@ -95,5 +96,10 @@
     "chartLabel": "Weekly time overview",
     "workHours": "{day} working hours",
     "dayHours": "{day}: {hours}"
+  },
+  "search": {
+    "label": "Search the web",
+    "submit": "Search",
+    "error": "The search could not be started. Type in the address bar instead."
   }
 }

@@ -1,21 +1,26 @@
 import type { EntryFilter } from './entry-filter';
 import type { DateRange } from './period';
 import type { RouterOutputs } from '~/api/app-router';
+import type { CachedEntry } from '~/lib/api/offline-read-data';
 import * as React from 'react';
 import { Alert } from 'react-native';
 import { isOffline } from '~/features/offline/enqueue';
 import { runOrQueue } from '~/features/offline/run-or-queue';
 import { errorMessage, trpc } from '~/lib/api';
+import { useOfflineRead } from '~/lib/api/use-offline-read';
 import { translate } from '~/lib/i18n';
 import { createInFlight } from '~/lib/in-flight';
 import { showMessage } from '~/lib/notify';
 import { entriesQueryInput, NO_FILTER } from './entry-filter';
 
-export type TimeEntry = RouterOutputs['time']['list']['entries'][number];
+export type TimeEntry = CachedEntry;
 export type TimeEntryDetail = RouterOutputs['time']['getById'];
 
 export function useEntriesInRange(range: DateRange, filter: EntryFilter = NO_FILTER) {
-  return trpc.time.list.useQuery(entriesQueryInput(range, filter));
+  const input = entriesQueryInput(range, filter);
+  const query = trpc.time.list.useQuery(input);
+  const { offline, cached, savedAt } = useOfflineRead<{ entries: TimeEntry[] }>(['time.list', input]);
+  return { ...query, data: offline ? cached : query.data, offline, savedAt };
 }
 
 /** Tid påvirker klippekort-saldi, dashboard og timer — invalidér på tværs. */

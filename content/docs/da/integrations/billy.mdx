@@ -14,6 +14,16 @@ Billy er et dansk regnskabsprogram. Integrationen kræver ingen opsætning på s
 
 Billy kræver et produkt på hver fakturalinje. Vælg et standardprodukt i indstillingerne, eller lad TimeWren oprette et ved den første eksport. Du kan vælge et separat produkt til timer fra klippekort.
 
+## Send på mail
+
+Vælger du at godkende og sende fakturaen, viser TimeWren først en bekræftelse med modtager, fakturanummer, beløb inkl. moms, antal linjer og forfaldsdato, som TimeWren beregner dem. Billy beregner det endelige beløb med sine egne momsindstillinger. Er fakturaen ændret, efter du åbnede bekræftelsen, afviser TimeWren afsendelsen, og du åbner bekræftelsen igen.
+
+Den samme faktura eksporteres aldrig to gange på én gang. Klikker du to gange, eller prøver du igen, mens eksporten kører, afviser TimeWren det andet forsøg, så Billy hverken opretter eller mailer fakturaen to gange.
+
+Svarer Billy ikke, når mailen sendes, eller afbrydes TimeWren midt i afsendelsen, ved TimeWren ikke, om kunden har fået fakturaen. Fakturasiden viser så en advarsel, og fakturaen kan ikke sendes igen fra TimeWren, før du har tjekket mailstatus i Billy og markeret, om den blev sendt.
+
+Sletter du fakturaen i Billy, fjerner den automatiske statussynkronisering koblingen i TimeWren, men kun når det tilknyttede Billy-regnskab beviseligt er det, fakturaen blev eksporteret til: TimeWren registrerede regnskabet ved eksporten, eller, for en faktura eksporteret før det, kunden er ikke ændret siden døgnet før eksporten, og kundens kontakt findes stadig i det tilknyttede regnskab. Ellers beholder TimeWren koblingen. En kladde uden kobling kan eksporteres igen.
+
 ## Opsætning på serveren
 
 Krav på serveren:
@@ -42,5 +52,7 @@ Endpointet `/api/webhooks/billy` modtager webhooks fra Billy og markerer en fakt
 ```dotenv
 BILLY_WEBHOOK_SECRET=a-long-random-string
 ```
+
+TimeWren behandler byte-identiske signerede leveringer én gang, mens registreringen gemmes (90 dage). En fejlet levering kan behandles igen. Det gælder også betalingshændelser, der ankommer, før TimeWren har gemt det eksterne faktura-id.
 
 Endpointet finder brugeren ud fra det gemte organisations-id fra Billy. Webindstillingerne gemmer det ikke, så i de fleste opsætninger skal du hellere regne med synkroniseringen hvert 15. minut ovenfor end med webhooks.

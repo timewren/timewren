@@ -129,7 +129,9 @@ pub fn date_relative(d: NaiveDate, today: NaiveDate) -> String {
     }
 }
 
-/// Øre som kroner med tusindtalspunktum: 123456 → "1.234,56 kr".
+/// Øre som beløb med tusindtalspunktum i udgavens valuta: 123456 → "1.234,56 kr"
+/// (TimeTrack) eller "1.234,56 €" (TimeWren). Tallene skrives som i resten
+/// af appen, med komma som decimaltegn.
 pub fn money(oere: i64) -> String {
     let neg = oere < 0;
     let o = oere.unsigned_abs();
@@ -141,7 +143,12 @@ pub fn money(oere: i64) -> String {
         }
         grouped.push(ch);
     }
-    format!("{}{grouped},{:02} kr", if neg { "-" } else { "" }, o % 100)
+    format!(
+        "{}{grouped},{:02} {}",
+        if neg { "-" } else { "" },
+        o % 100,
+        tt_core::edition::EDITION.currency_symbol
+    )
 }
 
 /// "1,5" / "1.5" / "1:30" / "90m" → minutter. Fejl er danske og kan vises direkte.
@@ -255,10 +262,24 @@ mod tests {
 
     #[test]
     fn beloeb() {
-        assert_eq!(money(123_456), "1.234,56 kr");
-        assert_eq!(money(85_000), "850,00 kr");
-        assert_eq!(money(100_000_000), "1.000.000,00 kr");
-        assert_eq!(money(-5), "-0,05 kr");
+        let unit = tt_core::edition::EDITION.currency_symbol;
+        assert_eq!(money(123_456), format!("1.234,56 {unit}"));
+        assert_eq!(money(85_000), format!("850,00 {unit}"));
+        assert_eq!(money(100_000_000), format!("1.000.000,00 {unit}"));
+        assert_eq!(money(-5), format!("-0,05 {unit}"));
+    }
+
+    /// Beløb står i udgavens valuta: kr i TimeTrack, € i TimeWren.
+    #[test]
+    fn brand_beloeb_bruger_udgavens_valuta() {
+        let e = tt_core::edition::EDITION;
+        assert!(money(123_456).ends_with(&format!(" {}", e.currency_symbol)));
+        if e.is_timewren() {
+            assert_eq!(money(85_000), "850,00 €");
+            assert!(!money(85_000).contains("kr"));
+        } else {
+            assert_eq!(money(85_000), "850,00 kr");
+        }
     }
 
     #[test]

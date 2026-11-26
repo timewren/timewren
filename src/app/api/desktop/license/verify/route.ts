@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { desktopDevices, desktopLicenses } from "@/lib/db/schema";
 import { demoUnavailableResponse } from "@/lib/demo/route-guard";
+import { licenseMatchesHost } from "@/lib/desktop-license-brand";
 import { rateLimitResponse } from "@/lib/desktop-rate-limit";
 import {
   getClientIp,
@@ -48,7 +49,12 @@ export async function GET(request: NextRequest) {
       where: eq(desktopLicenses.licenseKey, key),
     });
 
-    if (!license) {
+    // A licence only verifies on its own brand's host (TT- on TimeTrack, TW-
+    // on TimeWren); anywhere else it is "not found".
+    if (
+      !license ||
+      !licenseMatchesHost(license.licenseKey, request.headers.get("host"))
+    ) {
       return NextResponse.json({
         valid: false,
         error: "License key not found",

@@ -18,6 +18,7 @@ import {
   type MinClientVersions,
 } from "@/lib/client-version";
 import { toCopenhagenDateStr } from "@/lib/time/copenhagen";
+import { TIMER_SPAN_TOLERANCE_HOURS } from "@/lib/timer/entry-span";
 
 export type Severity = "critical" | "warning" | "info";
 
@@ -829,7 +830,9 @@ export function detectClientSwitches(
 
 // ─── e. Timer ≠ slut − start ──────────────────────────────────────────────
 
-export const HOURS_MISMATCH_TOLERANCE = 0.25;
+// Samme tolerance som timer-gemningen normaliserer starten med
+// (lib/timer/entry-span.ts): en normaliseret post kan aldrig meldes.
+export const HOURS_MISMATCH_TOLERANCE = TIMER_SPAN_TOLERANCE_HOURS;
 
 export interface EntrySpanRow {
   entryId: string;

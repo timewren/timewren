@@ -26,28 +26,38 @@
   "assignedWithBalance": "{count, plural, one {# registro descontado} other {# registros descontados}} de {name}, {balance} restantes",
   "overflowed": "{count} registros no se pudieron cubrir con el bono y siguen siendo facturables",
   "bulk": {
-    "failed": "No se pudieron descontar las horas",
     "title": "Descontar de un bono de horas",
     "description": "{count, plural, one {Se descuenta # registro del bono seleccionado.} other {Se descuentan # registros del bono seleccionado.}}",
     "noPackages": "{client} no tiene bonos de horas activos.",
     "noClient": "Los registros seleccionados no tienen ningún cliente del que descontar.",
-    "left": "{time} restantes",
-    "selectedHours": "Los registros seleccionados suman {time}.",
-    "exceeds": "Las horas superan el saldo del bono. Según si el bono admite exceso de horas, el descuento se rechaza o el resto se registra como exceso de horas.",
-    "submit": "Descontar del bono de horas"
+    "left": "{time} restantes"
   },
+  "assignedTimeStaysOnProject": "El tiempo sigue en su proyecto. Solo se descuenta del saldo del bono.",
   "assign": {
     "failed": "No se pudieron descontar los registros",
     "title": "Vincular tiempo existente",
-    "description": "Elige los registros que se descontarán de {name}. Aquí solo se muestra el tiempo del cliente que no se ha descontado ni facturado.",
+    "description": "Elige el tiempo sin facturar de este cliente que quieras descontar de {name}. Por defecto, la lista muestra el tiempo que no está vinculado a ningún bono.",
     "loadFailed": "No se pudieron cargar los registros de tiempo. Prueba a abrir la ventana de nuevo.",
-    "empty": "Este cliente no tiene tiempo sin descontar.",
+    "empty": "No hay registros de tiempo que coincidan con los filtros.",
     "deselectAll": "Deseleccionar todo",
     "selectAll": "Seleccionar todo ({count})",
-    "balance": "Saldo: {time}",
-    "exceeds": "Los {selected} seleccionados superan el saldo de {balance}. Según la política de exceso del bono, el descuento se rechaza o el resto se registra como exceso.",
     "selectedSummary": "{count} seleccionados, {time}",
-    "submit": "Descontar del bono de horas"
+    "submit": "Descontar del bono de horas",
+    "includeOtherCards": "Incluir tiempo de otros bonos de horas",
+    "projectsFailed": "No se pudo cargar la lista de proyectos.",
+    "selectProject": "Seleccionar todo en {name} ({count})",
+    "selection": "Selección",
+    "reviewMove": "Revisar traslado",
+    "confirmMove": "Revertir {restored} h en {from} y descontar {deducted} h de {to}.",
+    "confirmLink": "Vincular {hours} horas sin bono a {to}",
+    "confirmInvoiceFrom": "Revierte {restored} h en {from}. Se podrán facturar {hours} h sin bono.",
+    "confirmInvoice": "{hours} horas sin bono siguen siendo facturables.",
+    "balanceAfter": "Saldo tras la vinculación: {time}",
+    "exceedsBlock": "Los registros seleccionados requieren {selected} tras el redondeo. Quedan {balance} y el exceso está desactivado. Selecciona registros que no superen el saldo tras el redondeo o permite el exceso en Editar, en la página del bono.",
+    "exceedsBlockWithClips": "Los registros seleccionados requieren {selected} tras el redondeo. Quedan {balance}, pero el saldo solo cubre hasta {limit} en un único registro. El descuento se calcula para cada registro por separado y se redondea a bloques completos y centésimas de hora, así que varios registros pequeños pueden descontar más. El exceso está desactivado. Selecciona registros que cubra el saldo o permite el exceso en Editar, en la página del bono.",
+    "balanceBelowClip": "Quedan {balance} y el descuento mínimo es de {minimum}. No puedes vincular tiempo porque el exceso está desactivado. Permite el exceso en Editar, en la página del bono.",
+    "exceedsAllow": "Los registros seleccionados requieren {selected}. Quedan {balance} en el bono. La diferencia se registrará como exceso.",
+    "exceedsInvoice": "Los registros seleccionados requieren {selected}. Quedan {balance} en el bono. Los registros que no pueda cubrir quedarán fuera del bono y podrán facturarse."
   },
   "holes": {
     "label": "{remaining} h restantes de {total}",
@@ -132,6 +142,12 @@
       "approve": "Aprobar + borrador de factura",
       "reject": "Rechazar"
     }
+  },
+  "usagePdf": {
+    "date": "Fecha",
+    "description": "Descripción",
+    "hours": "Horas",
+    "value": "Valor ({currency})"
   },
   "detail": {
     "renewalUpdated": "Renovación actualizada",

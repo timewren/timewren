@@ -5,9 +5,12 @@ module.exports = {
   preset: 'jest-expo',
   // I projektet, så CI kan gemme cachen; babel-direct-imports er ikke en del af babel-jests cachenøgle.
   cacheDirectory: path.join(__dirname, 'node_modules/.cache/jest', cacheKey),
-  roots: ['<rootDir>/src', '<rootDir>/__mocks__', '<rootDir>/scripts'],
+  roots: ['<rootDir>/src', '<rootDir>/__mocks__', '<rootDir>/scripts', '<rootDir>/plugins'],
   modulePathIgnorePatterns: ['<rootDir>/.claude/', '<rootDir>/ios/', '<rootDir>/android/'],
   setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
+  // CI-runnerne deler CPU med Android-builds; 5 s-standarden gav tilfældige timeouts
+  // (tasks-screen 19/11). recurring-edit-route 20/11-26 hang derimod, se vagten i jest-setup.ts.
+  testTimeout: 20_000,
   globalSetup: '<rootDir>/scripts/jest-timezone.js',
   testMatch: ['**/?(*.)+(spec|test).ts?(x)'],
   collectCoverageFrom: [

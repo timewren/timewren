@@ -37,6 +37,16 @@ Ein Eintrag kann nur von einem Paket seines eigenen Kunden abgebucht werden. Der
 
 Stundenpaket-Einträge werden beim Erstellen von Rechnungen aus erfasster Zeit ausgelassen, weil der Kunde sie bereits bezahlt hat. Wird ein Eintrag bearbeitet oder gelöscht, wird seine Abbuchung rückgängig gemacht und die Stunden werden zurückgegeben; danach kann die Warnung bei niedrigem Saldo erneut ausgelöst werden.
 
+### Erfasste Zeit zuordnen oder umbuchen
+
+Öffne das Zielpaket und wähle **Zeit zuordnen**. Die Liste zeigt zunächst die noch nicht abgerechneten Zeiten des Kunden ohne Stundenpaket. Aktiviere **Auch Zeiten auf anderen Stundenpaketen anzeigen**, um Einträge aus weiteren Paketen des Kunden samt Paketnamen zu sehen. Zeiteinträge aus gesperrten Zeiträumen werden ausgeblendet.
+
+Zugeordnete Zeit bleibt beim Projekt und wird vom Guthaben des Stundenpakets abgezogen. Wenn Überziehungen deaktiviert sind, muss das Guthaben die Einträge nach der Rundung abdecken. Wähle weniger Einträge oder erlaube Überziehungen unter Bearbeiten auf der Paketseite. Wenn das Guthaben für die kleinste Abbuchung nicht reicht, musst du Überziehungen erlauben, um Zeit zuzuordnen. Ist die Auswahl zu groß, zeigt der Dialog den längsten einzelnen Eintrag, den das Guthaben abdeckt. Der Abzug wird für jeden Eintrag einzeln berechnet und auf ganze Zeiteinheiten und Hundertstelstunden aufgerundet, sodass mehrere kleine Einträge mehr abziehen können als ein zusammengefasster.
+
+Filtere nach Projekt und Zeitraum. Du kannst einzelne Einträge oder alle angezeigten Einträge eines Projekts auswählen und bis zu 200 Einträge auf einmal umbuchen. Der Dialog zeigt die ausgewählten Stunden und das voraussichtliche Restguthaben nach der Rundung. Prüfe vor der Bestätigung, wie viele Stunden dem Guthaben des jeweiligen Quellpakets wieder gutgeschrieben und nach der Rundung des Zielpakets dort abgezogen werden. Blättere bei mehr als 200 Treffern zur nächsten Seite. Wird der Überzug separat abgerechnet, zeigt die Vorschau, welche Stunden ohne Paket abrechenbar werden oder bleiben.
+
+Wähle unter **Zeit** bis zu 200 Zeiteinträge für denselben Kunden aus und klicke auf **Mit einem Stundenpaket verknüpfen**. Wähle ein aktives Paket, um den voraussichtlichen Saldo, Umbuchungen und abrechenbare Mehrstunden vor dem Bestätigen zu prüfen. Mit **Aus Projekt entfernen** buchst du die Zeit direkt auf den Kunden. Der Stundensatz wird auf Kundenebene neu berechnet. Abbuchungen auf einem Paket desselben Kunden bleiben bestehen. Beim Entfernen eines internen Projekts bleibt der dem Zeiteintrag zugeordnete Kunde erhalten. Wenn du den Zeitraum oder einen Filter änderst, wird die Auswahl aufgehoben.
+
 ### Rundung
 
 - Ohne Clip-Größe werden die abgebuchten Stunden auf zwei Nachkommastellen gerundet.
@@ -89,7 +99,7 @@ Um ohne automatische Verlängerung aufzustocken, erstelle ein neues Paket für d
 
 Kunden sehen ihre Pakete im Kundenportal auf dem Reiter Stundenpakete mit Saldo und Verbrauch. Zwei Schalter steuern das: die Portalberechtigung `canViewPrepaid` (standardmäßig an) und die Paketeinstellung `hiddenFromPortal`, die ein einzelnes Paket vollständig ausblendet, auch im Verlauf. Kunden können außerdem eine Verlängerung anfragen, die bei dir als Verlängerungsanfrage erscheint. Geldbeträge lassen sich mit der Einstellung `hidePrepaidValue` vor Kunden verbergen, global oder pro Kunde.
 
-Bei aktivierter Rechnungsstellung kannst du die Anfrage mit einem Rechnungsentwurf freigeben oder **Genehmigen und Versand prüfen** wählen. Das Stundenpaket wird verlängert, bevor sich die Bestätigung öffnet. Dort siehst du Kunde, Empfängeradresse, Rechnungsnummer, Betrag inkl. MwSt. und Fälligkeitsdatum. Beim Schließen bleibt die Rechnung als Entwurf erhalten.
+Bei aktivierter Rechnungsstellung kannst du die Anfrage mit einem Rechnungsentwurf freigeben oder **Genehmigen und Versand prüfen** wählen. Das Stundenpaket wird verlängert, bevor sich die Bestätigung öffnet. Dort siehst du Kunde, Empfängeradresse, Rechnungsnummer, Betrag inkl. MwSt. und Fälligkeitsdatum. Beim Schließen bleibt die Rechnung als Entwurf erhalten. Die Bestätigung zeigt auch die Anzahl der Positionen. Ändert sich die Rechnung, nachdem die Bestätigung geöffnet wurde, lehnt TimeWren den Versand ab, und du öffnest die Bestätigung erneut.
 
 ## REST-API
 

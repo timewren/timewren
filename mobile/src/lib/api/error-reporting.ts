@@ -6,6 +6,12 @@ const NETWORK_HINTS = ['network request failed', 'failed to fetch', 'networkerro
 /** Koder der er almindelige brugerfejl (udløbet login, manglet adgang, dårligt input). */
 const USER_ERROR_CODES = new Set(['UNAUTHORIZED', 'FORBIDDEN', 'BAD_REQUEST', 'NOT_FOUND']);
 
+/** Sand hvis beskeden er den, fetch giver ved tabt forbindelse. */
+export function hasNetworkHint(message: string): boolean {
+  const lower = message.toLowerCase();
+  return NETWORK_HINTS.some(hint => lower.includes(hint));
+}
+
 /** Sand hvis fejlen er en tRPC-fejl, der skyldes tabt forbindelse. */
 export function isNetworkFailure(error: unknown): boolean {
   if (!isTRPCClientError(error))
@@ -13,8 +19,7 @@ export function isNetworkFailure(error: unknown): boolean {
 
   // Ved netfejl er beskeden fra fetch'en ("Network request failed"), og den
   // kan også ligge på `cause` hvis den er blevet pakket ind.
-  const messages = [error.message, error.cause?.message ?? ''].map(m => m.toLowerCase());
-  return messages.some(message => NETWORK_HINTS.some(hint => message.includes(hint)));
+  return [error.message, error.cause?.message ?? ''].some(hasNetworkHint);
 }
 
 /**

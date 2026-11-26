@@ -5,7 +5,7 @@ import {
   isToday,
   isYesterday,
 } from 'date-fns';
-import { dateFnsLocale, formatWords, hourUnit, intlLocale } from '~/lib/locale';
+import { dateFnsLocale, dayOfMonth, formatWords, hourUnit, intlLocale } from '~/lib/locale';
 
 /** 7.5 → "7,5 t"; 0.25 → "0,25 t"; 8 → "8 t" */
 export function formatHours(hours: number | string | null | undefined, opts: { unit?: boolean } = {}): string {
@@ -66,7 +66,7 @@ export function formatDateShort(d: Date | string | number): string {
   const date = toDate(d);
   if (!readable(date))
     return NO_DATE;
-  return dfFormat(date, isThisYear(date) ? 'd. MMM' : 'd. MMM yyyy', { locale: dateFnsLocale() });
+  return dfFormat(date, isThisYear(date) ? `${dayOfMonth()} MMM` : `${dayOfMonth()} MMM yyyy`, { locale: dateFnsLocale() });
 }
 
 /** "Lørdag 6. september" */
@@ -74,7 +74,7 @@ export function formatDateLong(d: Date | string | number): string {
   const date = toDate(d);
   if (!readable(date))
     return NO_DATE;
-  const text = dfFormat(date, 'EEEE d. MMMM', { locale: dateFnsLocale() });
+  const text = dfFormat(date, `EEEE ${dayOfMonth()} MMMM`, { locale: dateFnsLocale() });
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 

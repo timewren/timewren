@@ -1,4 +1,3 @@
-import crypto from "node:crypto";
 import { TRPCError } from "@trpc/server";
 import {
   and,
@@ -28,6 +27,8 @@ import {
   users,
 } from "@/lib/db/schema";
 import { assertEntryEditable } from "@/lib/enterprise/edit-guard";
+import { calendarProvidersForBrand } from "@/lib/integrations/calendar-oauth-clients";
+import { createCalendarOAuthState } from "@/lib/integrations/calendar-oauth-state";
 import {
   findSettingsConnections,
   getAnyCalendarStatus,
@@ -59,6 +60,10 @@ import {
   syncICloudCalendars,
 } from "@/lib/integrations/icloud-calendar";
 import {
+  disconnectOutlook,
+  getOutlookStatus,
+} from "@/lib/integrations/outlook-calendar";
+import {
   copenhagenDayEndExclusive,
   copenhagenDayStart,
   copenhagenToday,
@@ -87,14 +92,25 @@ export const calendarRouter = router({
   /**
    * Check if Google Calendar is configured
    */
-  // comingSoon: TimeWren-konti kan ikke forbinde Google endnu (ingen
-  // TimeWren-klient); UI'et viser "kommer snart" i stedet for "ikke sat op".
+  // comingSoon: TimeWren-konti uden TimeWrens egen Google-klient
+  // (TIMEWREN_GOOGLE_*); UI'et viser "kommer snart" i stedet for "ikke sat op".
   isConfigured: protectedProcedure.query(async ({ ctx }) => {
     const brand = await accountBrand(ctx.db, ctx.session.user.id);
+    const configured = isGoogleCalendarAvailableForBrand(brand);
     return {
-      configured: isGoogleCalendarAvailableForBrand(brand),
-      comingSoon: brand !== DEFAULT_BRAND_KEY,
+      configured,
+      comingSoon: brand !== DEFAULT_BRAND_KEY && !configured,
     };
+  }),
+
+  /**
+   * Hvilke kalenderudbydere kontoen kan forbinde, ud fra kontoens brand og
+   * hvilke OAuth-klienter der er sat (Outlook kun med brandets nøgler).
+   */
+  providers: protectedProcedure.query(async ({ ctx }) => {
+    return calendarProvidersForBrand(
+      await accountBrand(ctx.db, ctx.session.user.id),
+    );
   }),
 
   /**
@@ -113,17 +129,21 @@ export const calendarRouter = router({
   getAuthUrl: protectedProcedure
     .input(z.object({ write: z.boolean().optional() }).optional())
     .mutation(async ({ ctx, input }) => {
-      // Aldrig TimeTracks Google-klient for en TimeWren-konto.
-      if (
-        !isGoogleCalendarAvailableForBrand(
-          await accountBrand(ctx.db, ctx.session.user.id),
-        )
-      ) {
+      // Kontoens brand vælger Google-klienten; aldrig TimeTracks klient for
+      // en TimeWren-konto.
+      const brand = await accountBrand(ctx.db, ctx.session.user.id);
+      if (!isGoogleCalendarAvailableForBrand(brand)) {
         throw new Error(
           await tr("serverErrors", "calendar.googleNotConfigured"),
         );
       }
-      const state = crypto.randomBytes(32).toString("hex");
+      // Signeret og bundet til kontoen og brandet; callbacken kræver den
+      // samme værdi i google_oauth_state-cookien.
+      const state = createCalendarOAuthState({
+        userId: ctx.session.user.id,
+        brand,
+        provider: "google",
+      });
       const status = input?.write
         ? await getCalendarConnectionStatus(ctx.session.user.id)
         : null;
@@ -131,6 +151,7 @@ export const calendarRouter = router({
         url: getAuthorizationUrl(state, {
           write: input?.write,
           loginHint: status?.accountEmail,
+          brand,
         }),
         state,
       };
@@ -1613,6 +1634,22 @@ export const calendarRouter = router({
         toICloudTrpcError(error);
       }
     }),
+
+  // ------------------------------------------------------------------
+  // Outlook (Microsoft Graph) — read-only. Forbindelsen startes via
+  // /api/integrations/outlook/start (PKCE-verifier i HttpOnly-cookie).
+  // ------------------------------------------------------------------
+
+  /** Outlook-status (viser aldrig tokens) */
+  outlookStatus: protectedProcedure.query(async ({ ctx }) => {
+    return getOutlookStatus(ctx.session.user.id);
+  }),
+
+  /** Afbryd Outlook — sletter forbindelsen, dens tokens og hændelser */
+  outlookDisconnect: protectedProcedure.mutation(async ({ ctx }) => {
+    await disconnectOutlook(ctx.session.user.id);
+    return { success: true };
+  }),
 
   /** Afbryd iCloud — sletter kun iCloud-forbindelser og deres hændelser */
   icloudDisconnect: protectedProcedure.mutation(async ({ ctx }) => {

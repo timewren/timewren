@@ -7,6 +7,8 @@ publish = false
 description = "AI-klassifikation af uklare aktivitetsblokke til kunde og projekt (lokal model, lokale servere, cloud som opt-in)"
 
 [dependencies]
+# Udgavens navn og nøgleringens servicenavn (TimeTrack eller TimeWren).
+tt-core.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true

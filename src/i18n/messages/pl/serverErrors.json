@@ -300,7 +300,10 @@
     "draftOnlyReorder": "Kolejność można zmieniać tylko w wersjach roboczych faktur",
     "providerMismatch": "Nie można zweryfikować kwoty lub waluty. Sprawdź szkic w systemie księgowym przed wysyłką.",
     "recipientChanged": "Adres odbiorcy uległ zmianie. Otwórz ponownie okno potwierdzenia.",
-    "clientHasNoEmail": "Klient nie ma adresu e-mail"
+    "clientHasNoEmail": "Klient nie ma adresu e-mail",
+    "exportInProgress": "Ta faktura jest już eksportowana. Spróbuj ponownie za chwilę.",
+    "providerEmailUncertain": "Nie udało się potwierdzić, że program księgowy wysłał fakturę. Sprawdź status e-maila w Billy lub Dinero i oznacz wynik na stronie faktury, zanim wyślesz ją ponownie.",
+    "sendReviewChanged": "Faktura zmieniła się po Twoim potwierdzeniu. Otwórz potwierdzenie ponownie."
   },
   "logbook": {
     "ownOnly": "Możesz przeglądać tylko własną ewidencję przebiegu",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Nie udało się utworzyć połączenia z Dinero. Spróbuj ponownie.",
       "economicFailed": "Nie udało się utworzyć połączenia z e-conomic. Spróbuj ponownie.",
-      "googleFailed": "Nie udało się utworzyć połączenia z Google. Spróbuj ponownie."
+      "googleFailed": "Nie udało się utworzyć połączenia z Google. Spróbuj ponownie.",
+      "outlookFailed": "Nie udało się utworzyć połączenia z Outlookiem. Spróbuj ponownie."
     },
     "invoiceSend": {
       "invalidRecipient": "Nieprawidłowy e-mail odbiorcy",

@@ -1,8 +1,17 @@
 // src/lib/reports/query.ts
 import { and, eq, exists, gte, inArray, lt, sql } from "drizzle-orm";
 import type { db as defaultDb } from "@/lib/db";
-import { timeEntries, timeEntryTags, users } from "@/lib/db/schema";
-import { inOrgOrOwnLegacy } from "@/lib/enterprise/time-entry-scope";
+import {
+  clients,
+  projects,
+  timeEntries,
+  timeEntryTags,
+  users,
+} from "@/lib/db/schema";
+import {
+  inOrgOrOwnLegacy,
+  ownTimeEntriesInOrg,
+} from "@/lib/enterprise/time-entry-scope";
 import { isUnbilledEntry } from "@/lib/invoicing/unbilled";
 import {
   type BudgetHealthStatus,
@@ -13,7 +22,7 @@ import {
   loadMonthlyUsage,
   monthlyUsageScope,
 } from "@/lib/projects/monthly-usage";
-import { startOfNextDay } from "@/lib/time/date-bounds";
+import { entryMatchesEffectiveClients } from "@/lib/time/client-scope";
 import { resolveRoundingConfig, roundHours } from "@/lib/utils/rounding";
 import type { ReportEntry } from "./columns";
 import type { ReportTemplateConfig } from "./config-schema";
@@ -23,9 +32,9 @@ type Db = typeof defaultDb;
 
 // Re-exported from ./date-range so existing server-side imports keep working;
 // client components import from ./date-range directly (no drizzle in bundle).
-import { resolveDateRange } from "./date-range";
+import { reportDateBounds } from "./date-range";
 
-export { resolveDateRange };
+export { resolveDateRange } from "./date-range";
 
 export interface ReportAggregates {
   summary: {
@@ -101,25 +110,30 @@ export function budgetMonthForRange(start: Date, end: Date): string | null {
 const MULTI_TAG_NOTE =
   "Poster med flere tags tælles i hver gruppe — summen kan overstige totalen.";
 
+// Units of 1/300 hour represent both hundredths of an hour and whole
+// minutes exactly, so regrouping or sorting cannot change the sum.
+export const REPORT_HOUR_UNITS = 300;
+
 export function aggregateReport(
   entries: ReportEntry[],
   grouping: ReportTemplateConfig["grouping"],
   opts: AggregateOptions = {},
 ): ReportAggregates {
-  let totalHours = 0;
+  let totalHourUnits = 0;
   let totalRevenue = 0;
-  let billedHours = 0;
+  let billedHourUnits = 0;
   let billedRevenue = 0;
-  let unbilledHours = 0;
+  let unbilledHourUnits = 0;
   let unbilledRevenue = 0;
 
   for (const e of entries) {
     const h = e._rounded ?? Number.parseFloat(e.hours);
+    const units = Math.round(h * REPORT_HOUR_UNITS);
     const v = e._value;
-    totalHours += h;
+    totalHourUnits += units;
     totalRevenue += v;
     if (e.isBilled) {
-      billedHours += h;
+      billedHourUnits += units;
       billedRevenue += v;
     }
     // "Ufaktureret" er IKKE længere total − faktureret (#626). Det gamle
@@ -132,17 +146,17 @@ export function aggregateReport(
     // blive det senere — tid der afventer godkendelse især — så differencen
     // må ikke læses som "kan aldrig faktureres".
     if (isUnbilledEntry(e)) {
-      unbilledHours += h;
+      unbilledHourUnits += units;
       unbilledRevenue += v;
     }
   }
 
   const summary = {
-    totalHours,
+    totalHours: totalHourUnits / REPORT_HOUR_UNITS,
     totalRevenue,
-    billedHours,
+    billedHours: billedHourUnits / REPORT_HOUR_UNITS,
     billedRevenue,
-    unbilledHours,
+    unbilledHours: unbilledHourUnits / REPORT_HOUR_UNITS,
     unbilledRevenue,
     entriesCount: entries.length,
   };
@@ -158,7 +172,7 @@ export function aggregateReport(
     {
       key: string;
       label: string;
-      hours: number;
+      hourUnits: number;
       revenue: number;
       entries: ReportEntry[];
       budget: ReportGroupBudget | null;
@@ -171,12 +185,14 @@ export function aggregateReport(
       const g = groups.get(key) ?? {
         key,
         label,
-        hours: 0,
+        hourUnits: 0,
         revenue: 0,
         entries: [],
         budget: null,
       };
-      g.hours += e._rounded ?? Number.parseFloat(e.hours);
+      g.hourUnits += Math.round(
+        (e._rounded ?? Number.parseFloat(e.hours)) * REPORT_HOUR_UNITS,
+      );
       g.revenue += e._value;
       g.entries.push(e);
       groups.set(key, g);
@@ -214,7 +230,10 @@ export function aggregateReport(
 
   return {
     summary,
-    groups: Array.from(groups.values()).sort((a, b) => b.hours - a.hours),
+    groups: Array.from(groups.values(), ({ hourUnits, ...group }) => ({
+      ...group,
+      hours: hourUnits / REPORT_HOUR_UNITS,
+    })).sort((a, b) => b.hours - a.hours),
     groupingNote: grouping === "tag" ? MULTI_TAG_NOTE : null,
     pauses,
   };
@@ -278,6 +297,11 @@ function groupKeyFor(
       }
       return { key: "_none", label: "(Ingen opgave)" };
     }
+    case "prepaidPackage":
+      return {
+        key: e.prepaidPackage?.id ?? "_none",
+        label: e.prepaidPackage?.name ?? "(Uden klippekort)",
+      };
     case "member":
       return {
         key: e.member?.userId ?? "_none",
@@ -357,32 +381,70 @@ export async function loadReportBudgetUsage(
   return { month, usageByProject };
 }
 
+const reportClientId = sql<
+  string | null
+>`COALESCE(${timeEntries.clientId}, (SELECT p.client_id FROM projects p WHERE p.id = ${timeEntries.projectId}))`;
+
+/**
+ * SQL equivalent of resolveRoundingConfig/roundHours for a grouped sum.
+ * The joined client is the effective client, and users is the report viewer.
+ */
+export function reportRoundedHoursSql() {
+  const enabled = sql`coalesce(${projects.roundingEnabled}, ${clients.roundingEnabled}, ${users.roundingEnabled})`;
+  const minutes = sql`nullif(coalesce(case
+    when ${projects.roundingEnabled} is not null then ${projects.roundingMinutes}
+    when ${clients.roundingEnabled} is not null then ${clients.roundingMinutes}
+    else ${users.roundingMinutes}
+  end, 15), 0)`;
+  const method = sql`coalesce(case
+    when ${projects.roundingEnabled} is not null then ${projects.roundingMethod}
+    when ${clients.roundingEnabled} is not null then ${clients.roundingMethod}
+    else ${users.roundingMethod}
+  end, 'up')`;
+  const hours = sql`${timeEntries.hours}::double precision`;
+  const units = sql`(${hours} * 60 / ${minutes})`;
+
+  return sql`case when ${enabled} and ${minutes} is not null then
+    case ${method}
+      when 'up' then ceil(${units}) * ${minutes} / 60
+      when 'down' then floor(${units}) * ${minutes} / 60
+      when 'nearest' then
+        (floor(${units}) + case when ${units} - floor(${units}) >= 0.5 then 1 else 0 end)
+          * ${minutes} / 60
+      else ${hours}
+    end
+    else ${hours}
+  end`;
+}
+
+export function reportEntryScope(
+  userId: string,
+  organizationId: string | null | undefined,
+  restrictToOwnEntries: boolean | undefined,
+  { from, to }: { from: Date; to: Date },
+) {
+  const scope = !organizationId
+    ? eq(timeEntries.userId, userId)
+    : restrictToOwnEntries
+      ? ownTimeEntriesInOrg(userId, organizationId)
+      : inOrgOrOwnLegacy(organizationId, userId);
+  return [scope, gte(timeEntries.date, from), lt(timeEntries.date, to)];
+}
+
 export async function loadReportEntries(
   db: Db,
   opts: LoadReportEntriesOpts,
 ): Promise<ReportEntry[]> {
   const { userId, organizationId, config, restrictToOwnEntries } = opts;
-  const { start, end } = resolveDateRange(config.filters);
-
-  // Non-owner members are scoped to their own entries even within the org.
-  // inOrgOrLegacy frem for en streng lighed: poster fra før multi-tenant har
-  // organization_id = NULL og tilhører stadig ejeren. Uden dem forsvinder
-  // gamle timer fra rapporten — og pause-beregningen ville se falske huller
-  // hvor de gamle poster ligger (#593). Kun brugerens EGNE legacy-poster:
-  // org-løse poster fra andre brugere hører ikke til denne org.
-  const scopeFilter =
-    organizationId && !restrictToOwnEntries
-      ? inOrgOrOwnLegacy(organizationId, userId)
-      : eq(timeEntries.userId, userId);
-  const where = [
-    scopeFilter,
-    gte(timeEntries.date, start),
-    // `end` er slutdagens midnat — tag hele dagen med.
-    lt(timeEntries.date, startOfNextDay(end)),
-  ];
+  const where = reportEntryScope(
+    userId,
+    organizationId,
+    restrictToOwnEntries,
+    reportDateBounds(config.filters),
+  );
 
   if (config.filters.clientIds.length > 0) {
-    where.push(inArray(timeEntries.clientId, config.filters.clientIds));
+    where.push(entryMatchesEffectiveClients(config.filters.clientIds));
   }
   if (config.filters.projectIds.length > 0) {
     where.push(inArray(timeEntries.projectId, config.filters.projectIds));
@@ -437,12 +499,11 @@ export async function loadReportEntries(
       organizationId,
     );
     if (accessibleIds !== null) {
-      const resolvedClient = sql`COALESCE(${timeEntries.clientId}, (SELECT p.client_id FROM projects p WHERE p.id = ${timeEntries.projectId}))`;
       if (accessibleIds.length === 0) {
-        where.push(sql`${resolvedClient} IS NULL`);
+        where.push(sql`${reportClientId} IS NULL`);
       } else {
         where.push(
-          sql`(${resolvedClient} IS NULL OR ${resolvedClient} IN (${sql.join(
+          sql`(${reportClientId} IS NULL OR ${reportClientId} IN (${sql.join(
             accessibleIds.map((id) => sql`${id}`),
             sql`, `,
           )}))`,

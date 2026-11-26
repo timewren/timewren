@@ -1,5 +1,11 @@
-import { marketingUrlEnv } from "@/lib/runtime-env";
+import {
+  appUrlEnv,
+  marketingUrlEnv,
+  runtimeBuildMismatches,
+} from "@/lib/runtime-env";
 import { getBrandId } from "./brand-id";
+import { getBrandConfigs } from "./brands/registry";
+import { isInstancePage } from "./instance-paths";
 
 /**
  * Marketingsiderne (forside, priser, blog, /lp, segmenter, sammenligninger,
@@ -7,12 +13,33 @@ import { getBrandId } from "./brand-id";
  * selvhostet instans (#968). Ét sted afgør, om de er slået til, og hvilke
  * stier der hører til selve appen. Bruges af middleware.ts.
  *
- * Slået til når brandet er TimeTrack (Cloud), eller når en selvhoster
- * eksplicit har sat NEXT_PUBLIC_MARKETING_URL (egen hjemmeside på samme
- * kodebase). Uden begge: kun appen.
+ * En selvhostet instans skal aktivere marketing med NEXT_PUBLIC_MARKETING_URL.
  */
 export function isMarketingEnabled(): boolean {
-  return getBrandId() === "timetrack" || Boolean(marketingUrlEnv());
+  // The selfhost build profile leaves the marketing group out (#1100), so
+  // NEXT_PUBLIC_MARKETING_URL has nothing to enable.
+  if (process.env.BUILD_PROFILE === "selfhost") return false;
+  return isTimeTrackCloud() || Boolean(marketingUrlEnv());
+}
+
+/**
+ * Mahope's own domain and every subdomain of it (app, beta, staging, ...) is
+ * TimeTrack Cloud. Nobody else can serve an instance from timetrack.dk, so a
+ * new environment there never needs to be added to a host list.
+ */
+const CLOUD_DOMAIN = "timetrack.dk";
+
+export function isTimeTrackCloud(): boolean {
+  const appHost = URL.parse(appUrlEnv() ?? "")?.hostname;
+  return (
+    getBrandId() === "timetrack" &&
+    Boolean(
+      appHost &&
+        (appHost === CLOUD_DOMAIN ||
+          appHost.endsWith(`.${CLOUD_DOMAIN}`) ||
+          getBrandConfigs("").timetrack.hosts.includes(appHost)),
+    )
+  );
 }
 
 /**
@@ -31,19 +58,23 @@ const INSTANCE_PREFIXES = [
   // Kundeportalen og delte rapporter er appens egne flader.
   "/portal",
   "/r",
-  // Sider, appen selv linker til (cookiebanner, indstillinger, fejlsider og
-  // Stripe-retur for desktop-køb). Ellers giver linkene 404 på selvhost.
-  "/cookies",
-  "/contact",
-  "/gdpr",
-  "/databehandleraftale",
-  "/download",
 ];
 
+export const CLOUD_DPA_PDF_PATH = "/databehandleraftale/pdf";
+
 export function isInstancePath(pathname: string): boolean {
-  return INSTANCE_PREFIXES.some(
-    (p) => pathname === p || pathname.startsWith(`${p}/`),
+  return (
+    isInstancePage(pathname) ||
+    (pathname === CLOUD_DPA_PDF_PATH && isTimeTrackCloud()) ||
+    INSTANCE_PREFIXES.some(
+      (p) => pathname === p || pathname.startsWith(`${p}/`),
+    )
   );
+}
+
+/** Keep cloud marketing prerendered when runtime and build settings agree. */
+export function usesRuntimeInstancePages(): boolean {
+  return !isTimeTrackCloud() || runtimeBuildMismatches().length > 0;
 }
 
 export type MarketingGuardResult =

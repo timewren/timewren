@@ -6,6 +6,7 @@ import { FirstProjectEmail } from "@/components/email/FirstProjectEmail";
 import { FirstTimeEntryEmail } from "@/components/email/FirstTimeEntryEmail";
 import { InactivityEmail } from "@/components/email/InactivityEmail";
 import { getPersonalReplyTo } from "@/lib/config";
+import { demoCurrencyForEmail } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import { resolveMailBrand } from "@/lib/email/mail-brand";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
@@ -52,6 +53,7 @@ export async function sendInactivityEmail({
 
   const emailHtml = await render(
     createElement(InactivityEmail, {
+      currencyCode: demoCurrencyForEmail(to),
       mailBrand: mb,
       locale,
       userName,

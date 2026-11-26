@@ -1,3 +1,4 @@
+import { PgDialect } from "drizzle-orm/pg-core";
 import Stripe from "stripe";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -22,7 +23,18 @@ vi.mock("@/lib/db", () => ({
         findFirst: vi.fn(async (_arg: unknown) => undefined),
       },
       users: { findFirst: vi.fn(async () => undefined) },
-      desktopLicenses: { findFirst: vi.fn(async () => existingLicense) },
+      desktopLicenses: {
+        findFirst: vi.fn(async () => existingLicense),
+        findMany: vi.fn(async ({ where }) => {
+          const query = new PgDialect().sqlToQuery(where);
+          if (
+            query.sql.includes('"stripe_subscription_id"') &&
+            query.params[0] === "sub_test_1"
+          )
+            return [{ id: "annual" }];
+          return [{ id: "annual" }, { id: "lifetime" }];
+        }),
+      },
     },
     insert: (table: unknown) => ({
       values: (values: Record<string, unknown>) => {
@@ -77,7 +89,10 @@ const handleTimewren = vi.fn(
     subscriptionRowId: "row_1",
   }),
 );
-vi.mock("@/lib/billing/timewren-stripe-webhook", () => ({
+vi.mock("@/lib/billing/timewren-stripe-webhook", async (importOriginal) => ({
+  ...(await importOriginal<
+    typeof import("@/lib/billing/timewren-stripe-webhook")
+  >()),
   handleTimewrenStripeEvent: (...args: unknown[]) => handleTimewren(...args),
 }));
 
@@ -193,6 +208,30 @@ describe("POST /api/webhooks/stripe", () => {
     expect(inserts).toHaveLength(0);
   });
 
+  it.each(["updated", "deleted"])(
+    "ændrer kun licensen knyttet til det konkrete abonnement (%s)",
+    async (action) => {
+      const res = await POST(
+        signedRequest({
+          id: `evt_desktop_${action}`,
+          object: "event",
+          type: `customer.subscription.${action}`,
+          data: {
+            object: {
+              id: "sub_test_1",
+              object: "subscription",
+              customer: "cus_test_1",
+              status: "canceled",
+              metadata: {},
+            },
+          },
+        }),
+      );
+      expect(res.status).toBe(200);
+      expect(updates).toEqual([{ isActive: false }]);
+    },
+  );
+
   it("opretter licens og sender mail på signeret checkout.session.completed", async () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const res = await POST(signedRequest(checkoutCompleted));
@@ -220,6 +259,79 @@ describe("POST /api/webhooks/stripe", () => {
     const logged = JSON.stringify(warn.mock.calls);
     expect(logged).not.toContain(key);
     expect(logged).not.toContain("buyer@example.com");
+  });
+
+  it("udsteder en TimeTrack-licens med TT-nøgle", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    await POST(signedRequest(checkoutCompleted));
+    const license = inserts.find((i) => "licenseKey" in i.values)?.values;
+    expect(String(license?.licenseKey)).toMatch(/^TT-/);
+  });
+
+  describe("TimeWren Desktop-licens (EUR, metadata.desktop_brand)", () => {
+    const timewrenCheckout = {
+      ...checkoutCompleted,
+      id: "evt_test_tw_desktop",
+      data: {
+        object: {
+          ...checkoutCompleted.data.object,
+          id: "cs_test_tw",
+          payment_intent: "pi_test_tw",
+          currency: "eur",
+          amount_total: 6900,
+          metadata: {
+            ...checkoutCompleted.data.object.metadata,
+            desktop_brand: "timewren",
+            locale: "de",
+          },
+        },
+      },
+    };
+
+    it("udsteder en TW-nøgle uden DKK-beløb og sender TimeWren-mailen", async () => {
+      vi.spyOn(console, "warn").mockImplementation(() => {});
+      handleTimewren.mockClear();
+      const res = await POST(signedRequest(timewrenCheckout));
+      expect(res.status).toBe(200);
+
+      const license = inserts.find((i) => "licenseKey" in i.values)?.values;
+      expect(String(license?.licenseKey)).toMatch(
+        /^TW-[A-HJ-NP-Z2-9]{4}(-[A-HJ-NP-Z2-9]{4}){3}$/,
+      );
+      expect(license).toMatchObject({
+        email: "buyer@example.com",
+        tier: "lifetime",
+        maxDevices: 3,
+        isActive: true,
+        stripePaymentIntentId: "pi_test_tw",
+        expiresAt: null,
+        // 6900 cent er ikke 69 kr.: intet DKK-beløb gemmes for et EUR-køb.
+        amountPaidDkk: null,
+      });
+      expect(sendLicenseKeyEmail).toHaveBeenCalledTimes(1);
+      expect(sendLicenseKeyEmail).toHaveBeenCalledWith(
+        expect.objectContaining({
+          licenseKey: license?.licenseKey,
+          locale: "de",
+        }),
+      );
+      // Licensen udstedes af desktop-vejen, ikke af Cloud-handleren.
+      expect(handleTimewren).not.toHaveBeenCalled();
+    });
+
+    it("sender den eksisterende TW-nøgle igen ved et gentaget event", async () => {
+      vi.spyOn(console, "warn").mockImplementation(() => {});
+      existingLicense = {
+        licenseKey: "TW-AAAA-BBBB-CCCC-DDDD",
+        tier: "lifetime",
+        maxDevices: 3,
+      };
+      await POST(signedRequest(timewrenCheckout));
+      expect(inserts.find((i) => "licenseKey" in i.values)).toBeUndefined();
+      expect(sendLicenseKeyEmail).toHaveBeenCalledWith(
+        expect.objectContaining({ licenseKey: "TW-AAAA-BBBB-CCCC-DDDD" }),
+      );
+    });
   });
 
   it("behandler et event igen, når den tidligere kørsel fejlede", async () => {
@@ -520,14 +632,20 @@ describe("POST /api/webhooks/stripe", () => {
     });
 
     it("fejl i handleren giver 500, så Stripe prøver igen", async () => {
-      handleTimewren.mockRejectedValueOnce(new Error("Stripe nede"));
+      handleTimewren.mockRejectedValueOnce(
+        new Error("Stripe error for owner@example.test"),
+      );
       vi.spyOn(console, "error").mockImplementation(() => {});
       const res = await POST(signedRequest(twCheckout));
       expect(res.status).toBe(500);
       expect(conflicts[0].values).toMatchObject({
         status: "error",
-        errorMessage: "Stripe nede",
+        errorMessage: "TimeWren event processing failed",
       });
+      expect(console.error).toHaveBeenCalledWith(
+        "[Stripe Webhook] TimeWren event processing failed",
+        "evt_tw_checkout",
+      );
     });
   });
 

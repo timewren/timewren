@@ -7,6 +7,8 @@ import { LeveretAfTimeTrack } from "@/components/LeveretAfTimeTrack";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { db } from "@/lib/db";
 import { companyProfiles, reportShares } from "@/lib/db/schema";
+import { activeDemoCurrency, DEMO_CURRENCY } from "@/lib/demo/demo-mode";
+import { runWithOwnerCurrency } from "@/lib/demo/server-currency";
 import { formatCurrency, toLocalDateStr } from "@/lib/format";
 import type { ReportTemplateConfig } from "@/lib/reports/config-schema";
 import { resolveDateRange } from "@/lib/reports/date-range";
@@ -35,7 +37,8 @@ export default async function PublicReportPage({
   if (!token || token.length > 64) notFound();
 
   const t = await getTranslations("portal.sharedReport");
-  const intlLocale = toIntlLocale(await getLocale());
+  const locale = await getLocale();
+  const intlLocale = toIntlLocale(locale);
   /** "7,5 t": timer med sprogets decimaltegn (docs/BRAND.md → Tal, priser og tid). */
   const fmtT = (h: number, digits: number) =>
     t("hoursShort", {
@@ -126,6 +129,18 @@ export default async function PublicReportPage({
     );
 
   const shownEntries = entries.slice(0, 200);
+  const revenue = await runWithOwnerCurrency(share, () => {
+    const options = {
+      locale: activeDemoCurrency() === DEMO_CURRENCY ? locale : undefined,
+    };
+    return {
+      total: formatCurrency(aggregates.summary.totalRevenue, options),
+      groups: aggregates.groups.map((group) => ({
+        ...group,
+        formattedRevenue: formatCurrency(group.revenue, options),
+      })),
+    };
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-8 dark:bg-gray-950">
@@ -150,10 +165,7 @@ export default async function PublicReportPage({
             label={t("totalHours")}
             value={fmtT(aggregates.summary.totalHours, 1)}
           />
-          <SummaryCard
-            label={t("revenue")}
-            value={formatCurrency(aggregates.summary.totalRevenue)}
-          />
+          <SummaryCard label={t("revenue")} value={revenue.total} />
           <SummaryCard
             label={t("billed")}
             value={fmtT(aggregates.summary.billedHours, 1)}
@@ -165,7 +177,7 @@ export default async function PublicReportPage({
         </div>
 
         {/* Grouped table */}
-        {aggregates.groups.length > 0 && (
+        {revenue.groups.length > 0 && (
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
             <table className="w-full text-sm">
               <thead>
@@ -182,7 +194,7 @@ export default async function PublicReportPage({
                 </tr>
               </thead>
               <tbody>
-                {aggregates.groups.map((g) => (
+                {revenue.groups.map((g) => (
                   <tr
                     key={g.key}
                     className="border-t border-gray-100 dark:border-gray-800/50"
@@ -194,7 +206,7 @@ export default async function PublicReportPage({
                       {fmtT(g.hours, 2)}
                     </td>
                     <td className="px-4 py-2.5 text-right tabular-nums text-gray-700 dark:text-gray-300">
-                      {formatCurrency(g.revenue)}
+                      {g.formattedRevenue}
                     </td>
                   </tr>
                 ))}

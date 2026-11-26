@@ -41,6 +41,7 @@ import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { useModules } from "@/hooks/useModules";
 import { useOrgRole } from "@/hooks/useOrgRole";
 import { usePermission } from "@/hooks/usePermission";
+import { useTimeListSummary } from "@/hooks/useTimeListSummary";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { projectEndDateState } from "@/lib/projects/timeline";
 import { copenhagenToday } from "@/lib/time/copenhagen";
@@ -95,13 +96,10 @@ export default function ProjectDetailPage({
 
   const { data: project, isLoading } = trpc.projects.getById.useQuery({ id });
   const { data: stats } = trpc.projects.getStats.useQuery({ projectId: id });
-  const { data: timeEntriesData } = trpc.time.list.useQuery({ projectId: id });
-  // Normalize relations that Drizzle might return as arrays
-  const timeEntries = timeEntriesData?.entries?.map((entry) => ({
-    ...entry,
-    project: Array.isArray(entry.project) ? entry.project[0] : entry.project,
-    client: Array.isArray(entry.client) ? entry.client[0] : entry.client,
-  }));
+  const { data: timeEntriesData } = useTimeListSummary({ projectId: id });
+  // Én-relationer er altid et objekt eller null (aldrig et array), og uden
+  // en Array.isArray-normalisering beholder posterne deres type.
+  const timeEntries = timeEntriesData?.entries;
 
   // Periodefilter på "Arbejdstid pr. dag" (kundeønske: dag/uge/måned/
   // kvartal uden at skulle bygge en rapport pr. kunde)

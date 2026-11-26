@@ -24,6 +24,7 @@ import {
   localeOptionLabel,
   useT,
 } from "../../i18n";
+import { nativeNewTabUrl } from "../../lib/native-newtab";
 import { useOfflineStore } from "../../stores/offlineStore";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useSiteStore } from "../../stores/siteStore";
@@ -392,7 +393,11 @@ export function SettingsPanel({ onClose }: SettingsPanelProps) {
                       {t("settings.newTab.enable")}
                     </p>
                     <p className="text-xs text-[var(--color-text-tertiary)]">
-                      {t("settings.newTab.enableHint")}
+                      {t(
+                        nativeNewTabUrl()
+                          ? "settings.newTab.enableHintChrome"
+                          : "settings.newTab.enableHint",
+                      )}
                     </p>
                   </div>
                 </div>

@@ -209,7 +209,7 @@ async function runRecovery(deps: RecoveryDeps): Promise<RecoveryResult> {
     return { kind: 'resumed', saved: result.kind !== 'save_failed' && result.kind !== 'claim_failed' };
   }
   catch (error) {
-    captureError(error, { reason: 'recovery_resume_failed' });
+    captureError(error);
     return { kind: 'resumed', saved: false };
   }
 }
@@ -264,7 +264,7 @@ async function rescueParked({ pending, write, resetLocal, fallback, version, res
     return { kind: 'rescued', saved: true };
   }
   catch (error) {
-    captureError(error, { reason: 'recovery_rescue_failed' });
+    captureError(error);
     return { kind: 'rescued', saved: false };
   }
 }

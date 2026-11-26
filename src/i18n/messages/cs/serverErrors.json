@@ -300,7 +300,10 @@
     "draftOnlyReorder": "Pořadí lze měnit jen u konceptů faktur",
     "providerMismatch": "Částku nebo měnu se nepodařilo ověřit. Před odesláním zkontrolujte koncept v účetním systému.",
     "recipientChanged": "E-mail příjemce se změnil. Otevřete potvrzení znovu.",
-    "clientHasNoEmail": "Klient nemá e-mailovou adresu"
+    "clientHasNoEmail": "Klient nemá e-mailovou adresu",
+    "exportInProgress": "Tato faktura se již exportuje. Zkuste to za chvíli znovu.",
+    "providerEmailUncertain": "Nepodařilo se potvrdit, že účetní systém fakturu odeslal. Zkontrolujte stav e-mailu v Billy nebo Dinero a před dalším odesláním označte výsledek na stránce faktury.",
+    "sendReviewChanged": "Faktura se po vašem potvrzení změnila. Otevřete potvrzení znovu."
   },
   "logbook": {
     "ownOnly": "Můžeš zobrazit jen svou knihu jízd",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Připojení k Dinero se nepodařilo vytvořit. Zkus to znovu.",
       "economicFailed": "Připojení k e-conomic se nepodařilo vytvořit. Zkus to znovu.",
-      "googleFailed": "Připojení ke Google se nepodařilo vytvořit. Zkus to znovu."
+      "googleFailed": "Připojení ke Google se nepodařilo vytvořit. Zkus to znovu.",
+      "outlookFailed": "Připojení k Outlooku se nepodařilo vytvořit. Zkuste to znovu."
     },
     "invoiceSend": {
       "invalidRecipient": "Neplatný e-mail příjemce",

@@ -26,7 +26,7 @@ pub enum DataError {
     #[error("{0}")]
     Validation(String),
     /// Ingen forbindelse. Skrivningen er lagt i offline-køen, hvis den kan.
-    #[error("Ingen forbindelse til TimeTrack")]
+    #[error("Ingen forbindelse til {}", tt_core::edition::EDITION.name)]
     Offline,
     #[error("Forbindelsen tog for lang tid")]
     Timeout,

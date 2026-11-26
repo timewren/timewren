@@ -593,6 +593,11 @@ impl HjemScreen {
             cx.notify();
             return;
         };
+        // Som web: tid på en intern kunde er ikke fakturerbar som standard.
+        let billable = self
+            .data
+            .ready()
+            .is_none_or(|d| crate::backend::default_billable(&d.customers, t.customer_id.as_deref()));
         let input = EntryInput {
             customer_id: t.customer_or_empty(),
             project_id: t.project_id,
@@ -602,7 +607,7 @@ impl HjemScreen {
             start: None,
             end: None,
             minutes,
-            billable: true,
+            billable,
         };
         self.error = None;
         self.ctx.mutate(
@@ -653,7 +658,7 @@ fn pos(h: f32) -> f32 {
 impl HjemScreen {
     fn render_timer(&self, d: &Snapshot, b: &Brand, cx: &mut Context<Self>) -> impl IntoElement {
         let tm = &d.timer;
-        let secs = tm.elapsed_secs(Local::now());
+        let secs = tm.elapsed_secs(self.ctx.backend.local_now());
         let (status, tone, status_icon) = match tm.status {
             TimerStatus::Running => (t("hjem.timer.status_kaerer"), Tone::Primary, Icon::PlayCircle),
             TimerStatus::Paused => (t("hjem.timer.status_pause"), Tone::Warning, Icon::Pause),
@@ -852,8 +857,8 @@ impl HjemScreen {
                     c.total_minutes,
                     c.used_minutes,
                 ))
-                // gendan: advarsel om lav saldo (under 2 t, som 0.2).
-                .children(crate::screens::klippekort::is_low(c.remaining_minutes()).then(|| {
+                // gendan: advarsel om lav saldo (som web: højst 1 t eller 20 % af kortet).
+                .children(crate::screens::klippekort::is_low(c.remaining_minutes(), c.total_minutes).then(|| {
                     let text = tf(
                         "gendan.klippekort.low_warning",
                         &[("timer", &format::hours(c.remaining_minutes() as u32))],
@@ -1138,7 +1143,7 @@ impl HjemScreen {
             .child(v_flex().gap_1().child(timeline).child(hours))
             .children(unclear)
             .child(if n == 0 {
-                ui::muted(b, "forslag-ingen", t("hjem.forslag.ingen")).into_any_element()
+                ui::muted(b, "forslag-ingen", suggestions_empty_text()).into_any_element()
             } else {
                 ui::list("forslag-liste", t("hjem.forslag.liste_label"))
                     .gap_2()
@@ -1311,6 +1316,14 @@ impl Render for HjemScreen {
     }
 }
 
+fn suggestions_empty_text() -> &'static str {
+    t(if crate::mas::ENABLED {
+        "mas.hjem.forslag.ingen"
+    } else {
+        "hjem.forslag.ingen"
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::{Snapshot, pos};
@@ -1444,6 +1457,25 @@ mod probe_tests {
         let input = |label: &str| a.labels.iter().any(|(r, l)| r.contains("Text") && l == label);
         assert!(input("Timer"), "{:?}", a.labels);
         assert!(input("Beskrivelse"), "{:?}", a.labels);
+    }
+
+    #[cfg(feature = "mas")]
+    #[gpui_kit::test]
+    fn mas_forslag_tom_tilstand_naevner_kalenderen(cx: &mut TestAppContext) {
+        let m = testing::mock();
+        for suggestion in m.suggestions(m.today()).unwrap() {
+            m.reject_suggestion(&suggestion.id).unwrap();
+        }
+        let (handle, _, _) = open(cx, m);
+        settle(cx, handle);
+        let a = testing::a11y(cx, handle);
+        assert!(
+            a.has_label(
+                "Ingen åbne forslag. Aftaler fra din kalender bliver foreslået som registreringer her."
+            ),
+            "{:?}",
+            a.labels
+        );
     }
 
     /// gendan: forslag på en kunde med klippekort viser træk og rest.

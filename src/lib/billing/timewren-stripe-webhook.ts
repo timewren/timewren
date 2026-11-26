@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import type Stripe from "stripe";
 import { FREE_TIER_SUBSCRIPTION_FIELDS } from "@/lib/billing/plan-limits";
 import type { db as DbHandle } from "@/lib/db";
@@ -6,12 +6,10 @@ import { organizations, subscriptions, users } from "@/lib/db/schema";
 import {
   invoiceSubscriptionRef,
   isTimewrenStripeEnabled,
-  normalizedQuantity,
   readMetadata,
   subscriptionFieldsFromStripe,
   TIMEWREN_STRIPE_BRAND,
   type TimewrenMetadata,
-  tierFromPrice,
 } from "./timewren-stripe";
 
 type Db = typeof DbHandle;
@@ -26,20 +24,17 @@ type Db = typeof DbHandle;
 
 export interface TimewrenWebhookDeps {
   db: Db;
-  /**
-   * Kører `fn` serielt pr. Stripe-abonnement (route'en: transaktion med
-   * pg_advisory_xact_lock). Uden lås kan en forsinket handler skrive en
-   * ældre frisk læsning oven på en nyere. Udeladt: `fn(db)` (tests).
-   */
-  withSubscriptionLock?<T>(
+  /** Database clock before reading Stripe, at full PostgreSQL precision. */
+  readSyncStartedAt(): Promise<string>;
+  /** Only database work runs inside this transaction. */
+  withSubscriptionLock<T>(
     subscriptionId: string,
+    organizationId: string,
     fn: (db: Db) => Promise<T>,
   ): Promise<T>;
   retrieveSubscription(id: string): Promise<Stripe.Subscription>;
   /** Frisk faktura: mailen om fejlet betaling afgøres på dens egen status. */
   retrieveInvoice(id: string): Promise<Stripe.Invoice>;
-  /** Retter antallet på et abonnementspunkt (kun nedad, se normalizedQuantity). */
-  setItemQuantity(itemId: string, quantity: number): Promise<void>;
   sendPaymentFailed(args: {
     to: string;
     userName: string;
@@ -52,12 +47,49 @@ export interface TimewrenWebhookDeps {
     userName: string;
     endDate: Date | null;
     reactivateUrl: string;
+    idempotencyKey: string;
     userId: string;
   }): Promise<unknown>;
   /** Brandets app-URL (https://timewren.com) til links i mails. */
   appUrl: string;
   formatAmount(cents: number): string;
   now?: () => Date;
+}
+
+export function timewrenWebhookDatabase(db: Db) {
+  return {
+    db,
+    readSyncStartedAt: async () => {
+      const [row] = await db.execute<{ startedAt: string }>(
+        sql`select (clock_timestamp() at time zone 'UTC')::text as "startedAt"`,
+      );
+      return row.startedAt;
+    },
+    withSubscriptionLock: <T>(
+      subscriptionId: string,
+      organizationId: string,
+      fn: (db: Db) => Promise<T>,
+    ) =>
+      db.transaction(async (tx) => {
+        // Different Stripe subscriptions can target the same organization's row.
+        // Keep the older per-subscription key during overlapping deployments.
+        for (const key of [
+          `stripe-subscription:${subscriptionId}`,
+          `timewren-subscription-org:${organizationId}`,
+        ]) {
+          const [row] = await tx.execute<{ locked: boolean }>(
+            sql`select pg_try_advisory_xact_lock(hashtext(${key})) as locked`,
+          );
+          if (!row?.locked) {
+            throw new Error("Concurrent TimeWren subscription sync");
+          }
+        }
+        return fn(tx as unknown as Db);
+      }),
+  } satisfies Pick<
+    TimewrenWebhookDeps,
+    "db" | "readSyncStartedAt" | "withSubscriptionLock"
+  >;
 }
 
 export type TimewrenWebhookResult =
@@ -97,10 +129,25 @@ export async function handleTimewrenStripeEvent(
       }
       return syncSubscription(subId, readMetadata(session.metadata), deps);
     }
+    case "customer.subscription.updated": {
+      const sub = event.data.object;
+      const previous = { ...sub, ...event.data.previous_attributes };
+      // The event still records the transition if Stripe retries after the
+      // local subscription commit. The fresh subscription must still agree.
+      const scheduled =
+        (sub.cancel_at_period_end || sub.cancel_at) &&
+        !previous.cancel_at_period_end &&
+        !previous.cancel_at;
+      return syncSubscription(
+        sub.id,
+        readMetadata(sub.metadata),
+        deps,
+        scheduled ? event.id : undefined,
+      );
+    }
     case "customer.subscription.created":
-    case "customer.subscription.updated":
     case "customer.subscription.deleted": {
-      const sub = event.data.object as Stripe.Subscription;
+      const sub = event.data.object;
       return syncSubscription(sub.id, readMetadata(sub.metadata), deps);
     }
     case "invoice.paid":
@@ -147,24 +194,9 @@ async function syncSubscription(
   subscriptionId: string,
   eventMetadata: TimewrenMetadata,
   deps: TimewrenWebhookDeps,
+  cancellationEventId?: string,
 ): Promise<TimewrenWebhookResult> {
-  // Læsning fra Stripe og skrivning sker under samme lås, så den sidste
-  // handler altid skriver den nyeste tilstand.
-  if (deps.withSubscriptionLock) {
-    return deps.withSubscriptionLock(subscriptionId, (db) =>
-      syncSubscriptionLocked(subscriptionId, eventMetadata, deps, db),
-    );
-  }
-  return syncSubscriptionLocked(subscriptionId, eventMetadata, deps, deps.db);
-}
-
-async function syncSubscriptionLocked(
-  subscriptionId: string,
-  eventMetadata: TimewrenMetadata,
-  deps: TimewrenWebhookDeps,
-  db: Db,
-): Promise<TimewrenWebhookResult> {
-  const now = deps.now?.() ?? new Date();
+  const syncStartedAt = await deps.readSyncStartedAt();
   const sub = await deps.retrieveSubscription(subscriptionId);
   const fromSub = readMetadata(sub.metadata);
   const md: TimewrenMetadata = {
@@ -179,12 +211,60 @@ async function syncSubscriptionLocked(
   if (!md.organizationId) {
     return { outcome: "rejected", reason: "missing-organization" };
   }
+  const organizationId = md.organizationId;
+  const { result, cancellation } = await deps.withSubscriptionLock(
+    subscriptionId,
+    organizationId,
+    (db) =>
+      applySubscription(
+        db,
+        organizationId,
+        md.userId,
+        sub,
+        deps,
+        syncStartedAt,
+        cancellationEventId !== undefined,
+      ),
+  );
+  if (cancellation && cancellationEventId) {
+    const { user, endDate } = cancellation;
+    await deps.sendCancellation({
+      to: user.email,
+      userName: user.name || "",
+      endDate,
+      reactivateUrl: `${deps.appUrl}/dashboard/settings/subscription`,
+      userId: user.id,
+      idempotencyKey: `timewren-cancellation/${cancellationEventId}`,
+    });
+  }
+
+  return result;
+}
+
+async function applySubscription(
+  db: Db,
+  organizationId: string,
+  userId: string | null,
+  sub: Stripe.Subscription,
+  deps: TimewrenWebhookDeps,
+  syncStartedAt: string,
+  notifyCancellation: boolean,
+): Promise<{
+  result: TimewrenWebhookResult;
+  cancellation?: {
+    user: NonNullable<Awaited<ReturnType<typeof findUser>>>;
+    endDate: Date | null;
+  };
+}> {
+  const now = deps.now?.() ?? new Date();
   const org = await db.query.organizations.findFirst({
-    where: eq(organizations.id, md.organizationId),
+    where: eq(organizations.id, organizationId),
     columns: { id: true, brand: true },
   });
   if (!org || org.brand !== TIMEWREN_STRIPE_BRAND) {
-    return { outcome: "rejected", reason: "organization-brand-mismatch" };
+    return {
+      result: { outcome: "rejected", reason: "organization-brand-mismatch" },
+    };
   }
 
   const columns = {
@@ -194,28 +274,38 @@ async function syncSubscriptionLocked(
     status: true,
     pastDueSince: true,
     trialEndsAt: true,
-    cancelAtPeriodEnd: true,
     stripeSubscriptionId: true,
   } as const;
+  const extras = {
+    changedDuringSync:
+      sql<boolean>`${subscriptions.updatedAt} >= ${syncStartedAt}::timestamp`.as(
+        "changed_during_sync",
+      ),
+  };
   const row =
     (await db.query.subscriptions.findFirst({
       where: eq(subscriptions.stripeSubscriptionId, sub.id),
       columns,
+      extras,
     })) ??
     (await db.query.subscriptions.findFirst({
       where: eq(subscriptions.organizationId, org.id),
       orderBy: desc(subscriptions.createdAt),
       columns,
+      extras,
     })) ??
-    (md.userId
+    (userId
       ? await db.query.subscriptions.findFirst({
-          where: eq(subscriptions.userId, md.userId),
+          where: eq(subscriptions.userId, userId),
           columns,
+          extras,
         })
       : undefined);
 
   if (row?.organizationId && row.organizationId !== org.id) {
-    return { outcome: "rejected", reason: "row-organization-mismatch" };
+    return {
+      result: { outcome: "rejected", reason: "row-organization-mismatch" },
+    };
   }
 
   // Et gammelt abonnement, der slutter, efter at organisationen har fået et
@@ -226,10 +316,18 @@ async function syncSubscriptionLocked(
     LIVE.has(row.status) &&
     !LIVE.has(sub.status)
   ) {
-    return { outcome: "ignored", reason: "superseded-subscription" };
+    return {
+      result: { outcome: "ignored", reason: "superseded-subscription" },
+    };
   }
 
+  // Another handler committed after this read started. Retry from Stripe
+  // instead of letting an older response overwrite the newer local state.
+  if (row?.changedDuringSync) {
+    throw new Error("TimeWren subscription changed during Stripe read");
+  }
   const fields = subscriptionFieldsFromStripe(sub, row ?? null, now);
+  fields.updatedAt = sql`clock_timestamp() at time zone 'UTC'`;
   let rowId: string;
   if (row) {
     await db
@@ -238,13 +336,13 @@ async function syncSubscriptionLocked(
       .where(eq(subscriptions.id, row.id));
     rowId = row.id;
   } else {
-    if (!md.userId) {
-      return { outcome: "rejected", reason: "missing-user" };
+    if (!userId) {
+      return { result: { outcome: "rejected", reason: "missing-user" } };
     }
     const [inserted] = await db
       .insert(subscriptions)
       .values({
-        userId: md.userId,
+        userId,
         organizationId: org.id,
         billingCycle: "monthly",
         ...FREE_TIER_SUBSCRIPTION_FIELDS,
@@ -256,35 +354,15 @@ async function syncSubscriptionLocked(
     rowId = inserted.id;
   }
 
-  // Betaler kunden for flere sæder, end planen giver (fx Team → Selvstændig i
-  // portalen med 3 sæder), rettes antallet ned i Stripe.
-  const item = sub.items?.data?.[0];
-  const tier = tierFromPrice(item?.price);
-  if (item && tier && LIVE.has(sub.status)) {
-    const fixed = normalizedQuantity(tier, item.quantity ?? 1);
-    if (fixed !== null) await deps.setItemQuantity(item.id, fixed);
-  }
-
-  if (fields.cancelAtPeriodEnd === true && row && !row.cancelAtPeriodEnd) {
-    const user = await findUser(db, md.userId ?? row.userId);
-    if (user) {
-      await deps
-        .sendCancellation({
-          to: user.email,
-          userName: user.name || "",
-          endDate: (fields.currentPeriodEnd as Date | null) ?? null,
-          reactivateUrl: `${deps.appUrl}/dashboard/settings/subscription`,
-          userId: user.id,
-        })
-        .catch((err) =>
-          console.error("[Stripe Webhook] TimeWren cancellation mail:", err),
-        );
-    }
-  }
-
+  const user =
+    notifyCancellation && fields.cancelAtPeriodEnd === true
+      ? await findUser(db, userId ?? row?.userId)
+      : null;
   return {
-    outcome: "applied",
-    subscriptionRowId: rowId,
+    result: { outcome: "applied", subscriptionRowId: rowId },
+    cancellation: user
+      ? { user, endDate: (fields.currentPeriodEnd as Date | null) ?? null }
+      : undefined,
   };
 }
 
@@ -322,7 +400,10 @@ async function notifyPaymentFailed(
       billingPortalUrl: `${deps.appUrl}/dashboard/settings/subscription`,
       userId: user.id,
     })
-    .catch((err) =>
-      console.error("[Stripe Webhook] TimeWren payment-failed mail:", err),
+    .catch(() =>
+      console.error(
+        "[Stripe Webhook] TimeWren payment-failed mail failed",
+        rowId,
+      ),
     );
 }

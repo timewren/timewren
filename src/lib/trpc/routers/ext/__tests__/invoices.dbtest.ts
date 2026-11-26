@@ -10,8 +10,21 @@ import { describe, expect, it } from "vitest";
 import { GET as getPdf } from "@/app/api/ext/invoices/[id]/pdf/route";
 import { FREE_CLIENT_LIMIT_MESSAGE } from "@/lib/billing/plan-limits";
 import { db } from "@/lib/db";
-import { invoices, timeEntries } from "@/lib/db/schema";
-import { type Account, deviceCaller, seedAccount } from "./fixture";
+import {
+  invoices,
+  organizationModules,
+  rolePermissions,
+  timeEntries,
+} from "@/lib/db/schema";
+import { MODULE_KEYS } from "@/lib/modules/constants";
+import {
+  type Account,
+  deviceCaller,
+  seedAccount,
+  seedCompanyProfile,
+  seedMember,
+  webCaller,
+} from "./fixture";
 
 const enabled = process.env.TT_DB_TESTS === "1";
 
@@ -206,5 +219,78 @@ describe.skipIf(!enabled)("extension.invoices (token-API)", () => {
     }
     expect((await pdfRequest(b.token, invoiceId)).status).toBe(404);
     expect((await pdfRequest("forkert", invoiceId)).status).toBe(401);
+  }, 60_000);
+
+  it("PDF-ruten har web's modul- og rollevagt", async () => {
+    const owner = await seedAccount("solo");
+    const { client, entryIds } = await seedBillable(owner);
+    const draft = await deviceCaller().extension.invoices.createDraft({
+      token: owner.token,
+      data: { clientId: client.id, timeEntryIds: entryIds },
+    });
+    const invoiceId = draft.invoice.id;
+
+    // Medlemsrollen uden adgang til fakturamodulet.
+    const member = await seedMember(owner);
+    await db.insert(rolePermissions).values({
+      organizationId: owner.orgId,
+      roleName: "member",
+      moduleKey: "invoices",
+      accessLevel: "none",
+    } as never);
+    expect((await pdfRequest(member.token, invoiceId)).status).toBe(403);
+
+    // Org'en har slået fakturering fra.
+    await db.insert(organizationModules).values(
+      MODULE_KEYS.map((moduleKey) => ({
+        organizationId: owner.orgId,
+        moduleKey,
+        isAvailable: true,
+        isEnabled: moduleKey !== "invoicing",
+      })),
+    );
+    expect((await pdfRequest(owner.token, invoiceId)).status).toBe(403);
+  });
+
+  it("første faktura: web kræver virksomhedsprofil, token-vejen gør ikke", async () => {
+    const web = await seedAccount();
+    const webBill = await seedBillable(web);
+    const generate = () =>
+      webCaller(web).invoices.generateFromTimeEntries({
+        clientId: webBill.client.id,
+        timeEntryIds: webBill.entryIds,
+        requireCompanyProfile: true,
+      });
+
+    const err = await errorOf(generate());
+    expect(err.code).toBe("BAD_REQUEST");
+    expect(
+      await db.query.invoices.findMany({
+        where: eq(invoices.organizationId, web.orgId),
+      }),
+    ).toHaveLength(0);
+    // Posterne er ikke låst af det afviste forsøg.
+    for (const id of webBill.entryIds) {
+      const entry = await db.query.timeEntries.findFirst({
+        where: eq(timeEntries.id, id),
+      });
+      expect(entry?.isBilled).toBe(false);
+    }
+
+    await seedCompanyProfile(web);
+    const created = await generate();
+    expect(created.invoice.organizationId).toBe(web.orgId);
+
+    // Desktop/mobil: en ny org uden profil laver stadig sin første kladde.
+    const device = await seedAccount();
+    const deviceBill = await seedBillable(device);
+    const draft = await deviceCaller().extension.invoices.createDraft({
+      token: device.token,
+      data: {
+        clientId: deviceBill.client.id,
+        timeEntryIds: deviceBill.entryIds,
+      },
+    });
+    expect(draft.invoice.organizationId).toBe(device.orgId);
   }, 60_000);
 });

@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { type NextRequest, NextResponse } from "next/server";
+import { checkRouteModuleAccess } from "@/lib/auth/route-guards";
 import { db } from "@/lib/db";
 import {
   buildInvoicePdfProps,
@@ -31,7 +32,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * GET /api/ext/invoices/<id>/pdf — fakturaens PDF til token-klienter
- * (desktop 1.0). Samme PDF og samme org-afgrænsning som web's
+ * (desktop 1.0). Samme PDF, org-afgrænsning og modul-/rollevagt som web's
  * /api/invoices/<id>/pdf, men med `Authorization: Bearer <extension-token>`
  * og `?organizationId=` i stedet for sessionscookien.
  */
@@ -60,6 +61,18 @@ export async function GET(
     // Mislykkede forsøg tæller mod IP'ens budget (som /api/ext/stream).
     if (err instanceof TRPCError) return unauthorized(request);
     throw err;
+  }
+
+  // Samme org-, modul- og rollevagt som web's /api/invoices/<id>/pdf.
+  const access = await checkRouteModuleAccess({
+    userId,
+    orgId,
+    moduleKey: "invoices",
+    featureModule: "invoicing",
+    required: "read",
+  });
+  if (!access.ok) {
+    return new NextResponse(access.error, { status: access.status });
   }
 
   try {

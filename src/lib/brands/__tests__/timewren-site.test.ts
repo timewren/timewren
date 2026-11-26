@@ -51,6 +51,15 @@ describe("TimeWren-app spærret uden TIMEWREN_APP_ENABLED", () => {
   });
 });
 
+it("rewrites the public TimeWren account deletion page without a session", () => {
+  vi.stubEnv("TIMEWREN_APP_ENABLED", "");
+  const r = snap(middleware(req("https://timewren.com/delete-account")));
+  expect(r.location).toBeNull();
+  expect(r.rewrite).toBe(
+    "https://timewren.com/timewren-site/en/delete-account",
+  );
+});
+
 describe("TimeWren-marketing: routing", () => {
   it.each([
     ["/", "/timewren-site/en", "en"],
@@ -66,7 +75,7 @@ describe("TimeWren-marketing: routing", () => {
     const r = snap(middleware(req(`https://timewren.com${path}`)));
     expect(r.rewrite).toBe(`https://timewren.com${internal}`);
     expect(r.locale).toBe(locale);
-    expect(r.robots).toBe("noindex, nofollow");
+    expect(r.robots).toBeNull();
   });
 
   it("sproget i URL'en vinder altid over cookie og Accept-Language", () => {
@@ -184,6 +193,8 @@ describe("TimeWren-marketing: routing", () => {
 
   it("uden flaget er timewren.com bare en ukendt host (ingen marketing)", () => {
     vi.stubEnv("MULTIBRAND_ENABLED", "");
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://app.timetrack.dk");
+    vi.stubEnv("NEXT_PUBLIC_MARKETING_URL", "https://timetrack.dk");
     const r = snap(middleware(req("https://timewren.com/pricing")));
     expect(r.rewrite).toBeNull();
     expect(r.locale).toBeNull();
@@ -191,7 +202,31 @@ describe("TimeWren-marketing: routing", () => {
 });
 
 describe("TimeWren-marketing: indeksering", () => {
-  it("noindex på sider, robots og sitemap uden TIMEWREN_INDEXABLE", () => {
+  it("uden TIMEWREN_INDEXABLE (som i prod) er marketingsiderne indekserbare, appen ikke", () => {
+    for (const p of [
+      "/",
+      "/pricing",
+      "/da",
+      "/da/pricing",
+      "/de/pricing",
+      "/es",
+      "/docs",
+      "/da/docs",
+      "/sitemap.xml",
+    ]) {
+      const r = snap(middleware(req(`https://timewren.com${p}`)));
+      expect(r.robots, p).toBeNull();
+    }
+    expect(snap(middleware(req("https://timewren.com/login"))).robots).toBe(
+      "noindex, nofollow",
+    );
+    expect(snap(middleware(req("https://timewren.com/dashboard"))).robots).toBe(
+      "noindex, nofollow",
+    );
+  });
+
+  it("TIMEWREN_INDEXABLE=0 slår indeksering fra (staging)", () => {
+    vi.stubEnv("TIMEWREN_INDEXABLE", "0");
     for (const p of ["/", "/da/pricing", "/robots.txt", "/sitemap.xml"]) {
       const r = snap(middleware(req(`https://timewren.com${p}`)));
       expect(r.robots).toBe("noindex, nofollow");

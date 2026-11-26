@@ -1,6 +1,13 @@
 {
-  "login.error.not_link": "Det är inte en inloggningslänk från TimeTrack",
+  "login.error.not_link": "Det är inte en inloggningslänk från {brand}",
   "login.error.denied": "Inloggningen avvisades i webbläsaren",
   "login.error.state": "Inloggningssvaret hör inte till den här inloggningen. Börja om för säkerhets skull",
-  "login.error.missing_code": "Inloggningssvaret saknar koden. Försök igen"
+  "login.error.missing_code": "Inloggningssvaret saknar koden. Försök igen",
+  "login.server.label": "Serveradress",
+  "login.server.hint": "Lämna tomt för att använda {brand} Cloud. Kör du en egen server? Ange dess adress.",
+  "login.server.err.invalid": "Det är inte en webbadress. Använd till exempel https://tid.exempel.se",
+  "login.server.err.https": "Använd https:// för servern. Vanlig http:// fungerar bara för en server på den här datorn (localhost)",
+  "login.server.err.credentials": "Skriv inte användarnamn och lösenord i adressen",
+  "login.server.err.logged_in": "Logga ut innan du byter server",
+  "login.server.err.unsupported": "Den här versionen kan inte byta server"
 }

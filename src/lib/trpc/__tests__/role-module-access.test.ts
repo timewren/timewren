@@ -117,6 +117,7 @@ const READS: Record<string, { module: string; procedures: string[] }> = {
     module: "klippekort",
     procedures: [
       "getAssignableEntries",
+      "getAssignableProjects",
       "getPackagesForEntries",
       "list",
       "getById",

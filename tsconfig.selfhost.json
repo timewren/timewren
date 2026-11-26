@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/lib/instance-marketing-loader": [
+        "./src/lib/instance-marketing-loader.selfhost.ts"
+      ],
+      "@/*": ["./src/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tests/**/*",
+    "playwright.config.ts",
+    "browser-extension/**/*",
+    "videos/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/__tests__/**",
+    "src/lib/instance-marketing-loader.ts"
+  ]
+}

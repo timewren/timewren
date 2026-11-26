@@ -14,6 +14,16 @@ Dinero is a Danish accounting system. Because TimeWren is self-hosted, you regis
 - Exports an invoice as a draft, booked, or booked and sent. You choose the revenue account, payment terms and one line per entry or a combined line.
 - Syncs payment status back, so paid invoices are marked as paid in TimeWren.
 
+## Sending by email
+
+When you choose to book and send the invoice, TimeWren first shows a confirmation with the recipient, invoice number, amount including VAT, line count and due date as TimeWren calculates them. Dinero calculates the final amount with its own VAT settings. If the invoice changes after you open the confirmation, TimeWren refuses to send it and you open the confirmation again.
+
+The same invoice is never exported twice at once. If you click twice, or retry while the export is running, TimeWren refuses the second attempt, so Dinero neither creates nor emails the invoice twice.
+
+If Dinero does not answer while the email is being sent, or TimeWren is interrupted in the middle of it, TimeWren cannot tell whether the client received the invoice. The invoice page then shows a warning, and the invoice cannot be sent again from TimeWren until you have checked the email status in Dinero and marked whether it was sent.
+
+If you delete the invoice in Dinero, automatic status sync releases the link in TimeWren, but only when the connected Dinero organization is provably the one the invoice was exported to: TimeWren recorded the organization at the export, or, for an invoice exported before that, the client has not changed since the day before the export and the client's contact still exists in the connected organization. Otherwise TimeWren keeps the link. A draft without a link can be exported again.
+
 ## Server setup
 
 1. Register an application at Visma Connect (the developer portal for Dinero's public API) and set this redirect URI, exactly as written:
@@ -59,3 +69,5 @@ The endpoint `/api/webhooks/dinero` is optional. It marks invoices as paid on `I
 ```dotenv
 DINERO_WEBHOOK_SECRET=a-long-random-string
 ```
+
+TimeWren processes byte-identical signed deliveries once while their record is retained (90 days). A failed delivery can be processed again. This includes payment events received before TimeWren has saved the external invoice ID.

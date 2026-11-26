@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUp, Check, X } from "lucide-react";
 import { useModalDialog } from "../../hooks/useModalDialog";
 import { renderRich, useT } from "../../i18n";
+import { nativeNewTabUrl } from "../../lib/native-newtab";
 import { useSettingsStore } from "../../stores/settingsStore";
 
 interface NewTabSettingsProps {
@@ -102,7 +103,11 @@ export function NewTabSettings({ onClose }: NewTabSettingsProps) {
                 {t("newtab.settingsDialog.enable")}
               </div>
               <div className="text-sm text-[var(--color-text-muted)]">
-                {t("newtab.settingsDialog.enableHint")}
+                {t(
+                  nativeNewTabUrl()
+                    ? "newtab.settingsDialog.enableHintChrome"
+                    : "newtab.settingsDialog.enableHint",
+                )}
               </div>
             </div>
             <button

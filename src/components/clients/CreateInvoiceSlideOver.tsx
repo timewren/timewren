@@ -20,7 +20,10 @@ import {
   DineroExportModal,
   type DineroExportSettings,
 } from "@/components/invoices/DineroExportModal";
-import { SendInvoiceDialog } from "@/components/invoices/SendInvoiceDialog";
+import {
+  type ReviewedInvoice,
+  SendInvoiceDialog,
+} from "@/components/invoices/SendInvoiceDialog";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
 import { formatCurrency, formatTime, toLocalDateStr } from "@/lib/format";
 import { trpc } from "@/providers/trpc-provider";
@@ -149,12 +152,16 @@ export function CreateInvoiceSlideOver({
     finishInvoice();
   };
 
-  const sendInvoice = async (email: string) => {
+  const sendInvoice = async (
+    email: string,
+    expectedInvoice: ReviewedInvoice,
+  ) => {
     if (!pendingInvoice) return;
     try {
       await sendMutation.mutateAsync({
         id: pendingInvoice.id,
         expectedRecipient: email,
+        expectedInvoice,
       });
       toast.success(ti("sent", { email }));
       finishInvoice();

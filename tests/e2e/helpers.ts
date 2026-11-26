@@ -246,8 +246,11 @@ export async function login(
   page: Page,
   email: string = testData.users.existing.email,
   password: string = TEST_PASSWORD,
+  redirect?: string,
 ) {
-  await page.goto("/login");
+  await page.goto(
+    redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : "/login",
+  );
   await page.fill("#email", email);
   await page.fill("#password", password);
   await page.getByRole("button", { name: "Log ind", exact: true }).click();

@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "월간 예산",
     "hint": "월 {hours}시간, 매월 1일에 초기화돼요.",
-    "usage": "{budget}시간 중 {used}시간 ({pct}%)",
     "overrun": "월간 예산을 {hours}시간 초과했어요",
-    "previous": "지난달",
-    "hoursPct": "{hours}시간 ({pct}%)"
+    "previous": "지난달"
   },
   "activityTypes": {
     "allowedAll": "이 프로젝트에서 모든 활동 유형이 허용돼요",
@@ -66,10 +64,8 @@
     "title": "시간 예산",
     "derived": "산출값",
     "derivedTitle": "고정 가격 ÷ 시간당 요금으로 산출했어요. 직접 관리하려면 프로젝트에 시간 예산을 설정하세요.",
-    "hoursOf": "{used} / {total}시간",
     "over": "{hours}시간 초과",
     "remaining": "{hours}시간 남음",
-    "ariaUsed": "시간 예산의 {pct}% 사용됨",
     "plannedTitle": "{hours}시간 선계획됨",
     "pctUsed": "{pct}% 사용됨",
     "planned": "+ {planned}시간 계획 = {forecast}시간 ({pct}%)",
@@ -188,11 +184,11 @@
     "colTotal": "합계",
     "colStatus": "상태",
     "selectProject": "{name} 선택",
-    "budgetUsedTitle": "시간 예산의 {pct}% 사용됨 ({used}/{total}시간)",
     "noClient": "클라이언트 없음",
-    "monthlyUsed": "{used}/{budget}시간",
     "monthlyAria": "월간 예산의 {pct}% 사용됨",
-    "monthlyTitle": "이번 달 {budget}시간 중 {used}시간 사용 ({pct}%)"
+    "monthlyTitle": "이번 달 {budget}시간 중 {used}시간 사용 ({pct}%)",
+    "emptyNeedsClientHint": "프로젝트는 고객에 속합니다. 먼저 고객을 추가한 다음 프로젝트를 만드세요.",
+    "createClientFirst": "첫 고객 추가"
   },
   "detail": {
     "status": {

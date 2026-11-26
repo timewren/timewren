@@ -247,7 +247,11 @@ describe.skipIf(!TEST_DATABASE_URL)("gentagne fakturaer (integration)", () => {
       .insert(timeEntries)
       .values([
         entry("2026-10-01"),
-        entry("2026-10-31", { hours: "1" }),
+        entry("2026-10-31", {
+          date: new Date("2026-10-31T08:00:00Z"),
+          hours: "1",
+          source: "timesheet",
+        }),
         // Uden for perioden
         entry("2026-11-01"),
         // Allerede faktureret / ikke fakturerbar / klippekort

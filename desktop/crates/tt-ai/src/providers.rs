@@ -131,13 +131,14 @@ impl OpenAiCompatible {
     fn send(&self, body: &Value) -> Result<Value, AiError> {
         let url = format!("{}/chat/completions", self.base_url);
         let auth = self.api_key.as_ref().map(|k| format!("Bearer {k}"));
+        let title = format!("{} Desktop", tt_core::edition::EDITION.name);
         let mut headers: Vec<(&str, &str)> = Vec::new();
         if let Some(a) = &auth {
             headers.push(("Authorization", a));
         }
         if self.kind == ProviderKind::OpenRouter {
-            headers.push(("HTTP-Referer", "https://timetrack.dk"));
-            headers.push(("X-Title", "TimeTrack Desktop"));
+            headers.push(("HTTP-Referer", tt_core::edition::EDITION.web_url));
+            headers.push(("X-Title", &title));
         }
         http::post_json(&self.agent, &url, &headers, body, self.timeout)
     }

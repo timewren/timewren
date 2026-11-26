@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { CoverageStrip } from "@/components/coverage/CoverageStrip";
 import { ConfirmDialog } from "@/components/ui";
 import { InlineSpinner } from "@/components/ui/LoadingScreen";
+import { useTimeListSummary } from "@/hooks/useTimeListSummary";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { useSession } from "@/lib/auth-client";
 import { formatTime, toLocalDateStr } from "@/lib/format";
@@ -72,7 +73,7 @@ export function WeeklyTimesheetView(_props: WeeklyTimesheetViewProps) {
 
   // memberId begrænser til egne registreringer — uden den returnerer
   // time.list hele organisationens tid for org-brugere.
-  const { data, isLoading } = trpc.time.list.useQuery(
+  const { data, isLoading } = useTimeListSummary(
     {
       startDate: toDateStr(start),
       endDate: toDateStr(end),
@@ -105,23 +106,12 @@ export function WeeklyTimesheetView(_props: WeeklyTimesheetViewProps) {
         const task = entry.task;
         key = task?.id ?? "no-task";
         label = task?.title ?? t("weekly.noTask");
-        const project = Array.isArray(entry.project)
-          ? entry.project[0]
-          : entry.project;
-        subLabel = project?.name ?? "";
+        subLabel = entry.project?.name ?? "";
       } else {
-        const project = Array.isArray(entry.project)
-          ? entry.project[0]
-          : entry.project;
+        const project = entry.project;
         key = project?.id ?? "no-project";
         label = project?.name ?? t("weekly.noProject");
-        const client = project?.client
-          ? Array.isArray(project.client)
-            ? project.client[0]
-            : project.client
-          : Array.isArray(entry.client)
-            ? entry.client[0]
-            : entry.client;
+        const client = project?.client ?? entry.client;
         subLabel = client?.name ?? "";
       }
 

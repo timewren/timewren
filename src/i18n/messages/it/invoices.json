@@ -4,9 +4,11 @@
     "sendTo": "Invia a {email}",
     "sent": "Fattura inviata a {email}",
     "total": "Importo IVA inclusa",
+    "totalNoVat": "Importo (senza IVA)",
     "loading": "Caricamento dei dati della fattura…",
     "draftNumber": "Il numero definitivo viene assegnato all’emissione.",
-    "provider": "L’importo proviene da TimeTrack. {provider} calcola l’importo finale con le proprie impostazioni fiscali."
+    "provider": "L’importo proviene da TimeTrack. {provider} calcola l’importo finale con le proprie impostazioni fiscali.",
+    "lineCount": "Righe"
   },
   "status": {
     "draft": "Bozza",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtrate)",
     "reminderTitle": "Invia sollecito",
     "reminderDescription": "Inviare la fattura {number} al cliente via e-mail?",
-    "send": "Invia"
+    "send": "Invia",
+    "emptyUnbilledHint": "Hai {duration} di tempo non fatturato. Fatturalo e righe e importi vengono compilati per te.",
+    "emptyNoTimeHint": "Il modo più semplice è fatturare dal tempo registrato. Registra prima del tempo o crea una fattura con un importo fisso.",
+    "invoiceUnbilled": "Fattura il tempo non fatturato",
+    "createBlank": "Crea fattura vuota",
+    "registerTimeFirst": "Registra tempo",
+    "createFixedAmount": "Fattura con importo fisso"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Nota in fattura (facoltativa)",
     "notePlaceholder": "Es. Accordo di partnership tecnica, '{måned}'"
   },
-  "tableLabel": "Fatture"
+  "tableLabel": "Fatture",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} non ha confermato se la fattura è stata inviata via e-mail. Controlla lo stato dell'e-mail in {provider} e segna il risultato nella pagina della fattura prima di inviarla di nuovo.",
+    "uncertainTitle": "Non sappiamo se {provider} ha inviato la fattura",
+    "uncertainBody": "{provider} non ha risposto durante l'invio della fattura via e-mail, quindi il cliente potrebbe averla ricevuta. Controlla lo stato dell'e-mail della fattura in {provider}. Finché non segni il risultato qui, la fattura non può essere inviata di nuovo da TimeTrack.",
+    "wasSent": "{provider} l'ha inviata",
+    "notSent": "Non è stata inviata",
+    "resolved": "Stato dell'e-mail salvato"
+  }
 }

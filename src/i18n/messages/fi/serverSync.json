@@ -176,7 +176,7 @@
       "deleted": "poistettu"
     },
     "specHeading": "--- Erittely ---",
-    "specLine": "{date} - {project}: {description} ({hours} h × {rate} kr = {amount} kr)"
+    "specLine": "{date} - {project}: {description} ({hours} h × {rate} = {amount})"
   },
   "logbook": {
     "endAfterStart": "Loppupäivän on oltava alkupäivän jälkeen",
@@ -457,6 +457,10 @@
       "projectLine": "Projekti: {name}",
       "hoursLine": "Tunnit: {hours}",
       "exportedFrom": "Viety TimeTrackista"
+    },
+    "outlook": {
+      "notConnected": "Ei yhdistetty Outlookiin",
+      "syncFailed": "Outlook-synkronointi epäonnistui"
     }
   },
   "activity": {

@@ -300,7 +300,10 @@
     "draftOnlyReorder": "Ordningen kan bara ändras på fakturautkast",
     "providerMismatch": "Beloppet eller valutan kunde inte verifieras. Granska utkastet i bokföringssystemet innan du skickar det.",
     "recipientChanged": "Mottagarens e-postadress har ändrats. Öppna bekräftelsen igen.",
-    "clientHasNoEmail": "Kunden har ingen e-postadress"
+    "clientHasNoEmail": "Kunden har ingen e-postadress",
+    "exportInProgress": "Fakturan exporteras redan. Försök igen om en stund.",
+    "providerEmailUncertain": "Vi kunde inte bekräfta att bokföringsprogrammet skickade fakturan. Kontrollera e-poststatusen i Billy eller Dinero och markera resultatet på fakturasidan innan du skickar den igen.",
+    "sendReviewChanged": "Fakturan har ändrats sedan du bekräftade den. Öppna bekräftelsen igen."
   },
   "logbook": {
     "ownOnly": "Du kan bara se din egen körjournal",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Anslutningen till Dinero kunde inte skapas. Försök igen.",
       "economicFailed": "Anslutningen till e-conomic kunde inte skapas. Försök igen.",
-      "googleFailed": "Anslutningen till Google kunde inte skapas. Försök igen."
+      "googleFailed": "Anslutningen till Google kunde inte skapas. Försök igen.",
+      "outlookFailed": "Outlook-anslutningen kunde inte skapas. Försök igen."
     },
     "invoiceSend": {
       "invalidRecipient": "Ogiltig mottagaradress",

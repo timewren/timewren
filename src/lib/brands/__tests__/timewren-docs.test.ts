@@ -120,13 +120,13 @@ describe("routeDocs", () => {
 });
 
 describe("TimeWren-docs i middleware (timewren.com)", () => {
-  it("docs-sider omskrives internt med sprog, noindex og Vary", () => {
+  it("docs-sider omskrives internt med sprog og Vary, uden noindex", () => {
     const r = snap(middleware(req("https://timewren.com/da/docs/quickstart")));
     expect(r.rewrite).toBe(
       "https://timewren.com/timewren-site/docs/da/quickstart",
     );
     expect(r.locale).toBe("da");
-    expect(r.robots).toBe("noindex, nofollow");
+    expect(r.robots).toBeNull();
     expect(r.vary).toBe("Accept");
   });
 
@@ -168,8 +168,7 @@ describe("TimeWren-docs i middleware (timewren.com)", () => {
     expect(r.location).toBe("https://timewren.com/docs/llm?x=1");
   });
 
-  it("TIMEWREN_INDEXABLE=1: HTML-sider indekseres, Markdown og llms.txt aldrig", () => {
-    vi.stubEnv("TIMEWREN_INDEXABLE", "1");
+  it("HTML-sider indekseres, Markdown og llms.txt aldrig", () => {
     expect(
       snap(middleware(req("https://timewren.com/docs"))).robots,
     ).toBeNull();

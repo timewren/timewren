@@ -1,4 +1,4 @@
-import { checkServer, normalizeServerUrl } from './server-logic';
+import { checkServer, normalizeServerUrl, webHostFromUrl } from './server-logic';
 
 describe('server URL', () => {
   it.each(['https://example.org', 'http://localhost:3000', 'http://192.168.1.4:3000', 'http://10.0.0.1', 'http://172.16.0.1', 'http://127.0.0.1'])('accepts %s', (url) => {
@@ -19,5 +19,19 @@ describe('health probe', () => {
     throw new Error('html');
   } }])('rejects incompatible servers', async (response) => {
     await expect(checkServer('https://example.org', jest.fn().mockResolvedValue(response))).rejects.toThrow('health');
+  });
+});
+
+describe('webHostFromUrl', () => {
+  it('giver host med port og dropper protokol og sti', () => {
+    expect(webHostFromUrl('https://app.timetrack.dk', 'x')).toBe('app.timetrack.dk');
+    expect(webHostFromUrl('https://app.timewren.com/', 'x')).toBe('app.timewren.com');
+    expect(webHostFromUrl('http://192.168.1.20:3000', 'x')).toBe('192.168.1.20:3000');
+  });
+
+  it('falder tilbage ved tom eller ugyldig URL', () => {
+    expect(webHostFromUrl('', 'app.timewren.com')).toBe('app.timewren.com');
+    expect(webHostFromUrl(undefined, 'app.timewren.com')).toBe('app.timewren.com');
+    expect(webHostFromUrl('ikke en url', 'app.timetrack.dk')).toBe('app.timetrack.dk');
   });
 });

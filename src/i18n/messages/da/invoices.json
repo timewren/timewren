@@ -4,9 +4,11 @@
     "sendTo": "Send til {email}",
     "sent": "Faktura sendt til {email}",
     "total": "Beløb inkl. moms",
+    "totalNoVat": "Beløb (uden moms)",
     "loading": "Henter fakturaoplysninger …",
     "draftNumber": "Det endelige fakturanummer tildeles ved udstedelse.",
-    "provider": "Beløbet vises ud fra TimeTrack. {provider} beregner det endelige beløb med egne momsindstillinger."
+    "provider": "Beløbet vises ud fra TimeTrack. {provider} beregner det endelige beløb med egne momsindstillinger.",
+    "lineCount": "Linjer"
   },
   "status": {
     "draft": "Kladde",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtreret)",
     "reminderTitle": "Send påmindelse",
     "reminderDescription": "Send faktura {number} til kunden på email?",
-    "send": "Send"
+    "send": "Send",
+    "emptyUnbilledHint": "Du har {duration} ufaktureret tid. Lav fakturaen ud fra tiden, så er linjer og beløb udfyldt.",
+    "emptyNoTimeHint": "Den nemmeste faktura laves ud fra registreret tid. Registrér tid først, eller opret en faktura med et fast beløb.",
+    "invoiceUnbilled": "Fakturér ufaktureret tid",
+    "createBlank": "Opret tom faktura",
+    "registerTimeFirst": "Registrér tid",
+    "createFixedAmount": "Faktura med fast beløb"
   },
   "detail": {
     "status": {
@@ -102,12 +110,12 @@
     "to": "Til {name}",
     "save": "Gem",
     "saving": "Gemmer...",
-    "sendInvoice": "Send Faktura",
-    "markPaid": "Marker som Betalt",
+    "sendInvoice": "Send faktura",
+    "markPaid": "Markér som betalt",
     "createCreditNote": "Opret kreditnota",
     "downloadPdf": "Download PDF",
     "print": "Print",
-    "sendEmail": "Send Email",
+    "sendEmail": "Send email",
     "sendToBilly": "Send til Billy",
     "sentToBilly": "Sendt til Billy",
     "sendToDinero": "Send til Dinero",
@@ -125,7 +133,7 @@
     "emailSentStatus": "Sendt",
     "emailTo": "til {email}",
     "emailOpenedAt": "Åbnet {date}",
-    "includedEntries": "Inkluderede Tidsposteringer ({count})",
+    "includedEntries": "Inkluderede tidsposteringer ({count})",
     "noDescription": "Ingen beskrivelse",
     "entryMeta": "{date} • {hours} timer",
     "amountKr": "{amount} kr",
@@ -139,7 +147,7 @@
     "notesPlaceholder": "Tilføj noter...",
     "client": "Kunde",
     "viewClient": "Se kundens detaljer",
-    "emailModalTitle": "Send Faktura via Email",
+    "emailModalTitle": "Send faktura via email",
     "recipient": "Modtagerens mailadresse",
     "recipientPlaceholder": "eksempel@firma.dk",
     "recipientHint": "Fakturaen vil blive sendt som PDF vedhæftning til denne email adresse.",
@@ -178,7 +186,7 @@
     "statusSendNow": "Send med det samme",
     "notes": "Noter",
     "notesPlaceholder": "Tilføj eventuelle noter til fakturaen...",
-    "uninvoicedTitle": "Ikke-fakturerede Timeposteringer ({count})",
+    "uninvoicedTitle": "Ikke-fakturerede timeposteringer ({count})",
     "selectAll": "Vælg alle",
     "deselectAll": "Fravælg alle",
     "noDescription": "Ingen beskrivelse",
@@ -192,7 +200,7 @@
   "generate": {
     "created": "Faktura {number} oprettet på {amount}",
     "createFailed": "Kunne ikke oprette faktura",
-    "title": "Generér Faktura fra Tidsregistreringer",
+    "title": "Generér faktura fra tidsregistreringer",
     "subtitle": "Vælg en kunde og opret faktura automatisk",
     "noUnbilled": "Ingen ufaktureret tid",
     "noUnbilledHint": "Du har ingen tidsregistreringer der venter på at blive faktureret.",
@@ -210,13 +218,13 @@
     "notesPlaceholder": "Eventuelle noter eller kommentarer...",
     "info": "Når du genererer fakturaen, markeres alle de valgte tidsregistreringer som faktureret. Fakturaen oprettes som kladde, så du kan gennemse den før afsendelse.",
     "creating": "Opretter...",
-    "generate": "Generér Faktura ({amount})"
+    "generate": "Generér faktura ({amount})"
   },
   "pdf": {
     "invoiceTitle": "Faktura {number}",
     "reload": "Genindlæs",
     "closeFullscreen": "Luk fuldskærm",
-    "title": "PDF Forhåndsvisning",
+    "title": "PDF-forhåndsvisning",
     "fullscreen": "Fuldskærm",
     "loading": "Indlæser PDF...",
     "loadFailed": "Kunne ikke indlæse PDF",
@@ -409,5 +417,13 @@
     "noteLabel": "Note på fakturaen (valgfri)",
     "notePlaceholder": "Fx Aftale om teknisk partnerskab, '{måned}'"
   },
-  "tableLabel": "Fakturaer"
+  "tableLabel": "Fakturaer",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} svarede ikke, om fakturaen blev mailet. Tjek mailstatus i {provider}, og markér resultatet på fakturasiden, før du sender den igen.",
+    "uncertainTitle": "Vi ved ikke, om {provider} har sendt fakturaen",
+    "uncertainBody": "{provider} svarede ikke, da fakturaen skulle mailes, så kunden kan have fået den. Tjek fakturaens mailstatus i {provider}. Indtil du har markeret resultatet her, kan fakturaen ikke sendes igen fra TimeTrack.",
+    "wasSent": "{provider} har sendt den",
+    "notSent": "Den er ikke sendt",
+    "resolved": "Mailstatus gemt"
+  }
 }

@@ -5,7 +5,13 @@ import { type TRPC_ERROR_CODE_KEY, TRPCError } from "@trpc/server";
  * sprog, så klienten må aldrig matche på teksten; errorFormatter lægger koden
  * i `data.appCode`.
  */
-export type AppErrorCode = "MODULE_DISABLED" | "PLAN_TIER_REQUIRED";
+export type AppErrorCode =
+  | "MODULE_DISABLED"
+  | "PLAN_TIER_REQUIRED"
+  | "COMPANY_PROFILE_REQUIRED"
+  // Klippekortet kan ikke tage trækket (tomt, udløbet, inaktivt, anden
+  // kunde, ukendt kort). Udvidelsen gemmer så tiden uden kort (#1320).
+  | "PREPAID_DEDUCTION_FAILED";
 
 class AppCodeCause extends Error {
   constructor(readonly appCode: AppErrorCode) {

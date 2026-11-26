@@ -194,11 +194,18 @@ fn osascript(script: &str) -> Option<String> {
 }
 
 fn osascript_lines(lines: &[String]) -> Option<String> {
+    osascript_lines_within(lines, SCRIPT_TIMEOUT)
+}
+
+/// Som `osascript_lines`, men med en valgfri tidsgrænse. Trackeren bruger altid
+/// `SCRIPT_TIMEOUT`; testene giver mere tid, fordi en kold `osascript` på en
+/// belastet CI-maskine kan bruge over 1,5 s på at starte.
+fn osascript_lines_within(lines: &[String], timeout: Duration) -> Option<String> {
     let mut cmd = std::process::Command::new("/usr/bin/osascript");
     for l in lines {
         cmd.arg("-e").arg(l);
     }
-    run_with_timeout(cmd, SCRIPT_TIMEOUT)
+    run_with_timeout(cmd, timeout)
 }
 
 struct CgWindow {
@@ -417,8 +424,17 @@ mod tests {
             "end try".to_string(),
             "return \"ok\"".to_string(),
         ];
-        assert_eq!(osascript_lines(&lines).as_deref(), Some("ok"));
-        assert_eq!(osascript("return \"hej\"").as_deref(), Some("hej"));
+        // Testen afprøver flerlinjeformen, ikke tidsgrænsen: under en parallel
+        // testkørsel på macOS-runneren tog en kold osascript over 1,5 s (21/11-26).
+        let rummelig = Duration::from_secs(30);
+        assert_eq!(
+            osascript_lines_within(&lines, rummelig).as_deref(),
+            Some("ok")
+        );
+        assert_eq!(
+            osascript_lines_within(&["return \"hej\"".to_string()], rummelig).as_deref(),
+            Some("hej")
+        );
     }
 
     /// Kører de rigtige API'er; må aldrig gå i stå eller panikke, heller ikke

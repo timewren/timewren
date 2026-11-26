@@ -6,6 +6,10 @@ description = "TimeTracks forretningsregler (klippekort, afrunding, timepris, fa
 license = "AGPL-3.0-only"
 publish = false
 
+[features]
+# TimeWren-udgaven af desktop-appen (se src/edition.rs). Slås til af tt-app/brand-timewren.
+brand-timewren = []
+
 [dependencies]
 chrono.workspace = true
 chrono-tz.workspace = true

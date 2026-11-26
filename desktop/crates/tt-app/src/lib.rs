@@ -25,6 +25,10 @@ pub mod genveje;
 pub mod hotkeys;
 // Oversættelseslag (dansk, engelsk).
 pub mod i18n;
+// Mac App Store-udgaven (feature mas): hvad den lettere udgave kan.
+pub mod mas;
+// App Store-udgaven: erhvervslicensen som in-app-køb (StoreKit).
+pub mod store;
 // D21: idle-spørgsmål.
 pub mod idle;
 // kalender: kalenderkilder, møder og notifikationernes knapper.
@@ -111,10 +115,12 @@ pub fn run() {
     if std::env::var_os("TT_DEMO").is_none()
         && let Err(e) = deeplink::register_scheme()
     {
-        eprintln!("TT kunne ikke registrere timetrack://: {e}");
+        eprintln!("TT kunne ikke registrere {}://: {e}", tt_core::edition::EDITION.url_scheme);
     }
     // Den gamle app må ikke køre samtidig, og autostart skal pege på os.
-    if std::env::var_os("TT_DEMO").is_none() {
+    // Kun TimeTrack har en gammel 0.2.x-app (Tauri) at afløse, og ikke fra
+    // App Store-udgavens sandkasse.
+    if std::env::var_os("TT_DEMO").is_none() && mas::LEGACY_APP {
         afloesning::spawn_replace_old_app();
     }
     for m in argv_urls {
@@ -133,6 +139,10 @@ pub fn run() {
         brand::register_fonts(cx);
         app::bind_keys(cx);
         vindue::init(cx);
+        // App Store-udgaven: StoreKit-broen, før skærmene observerer den.
+        if mas::ENABLED {
+            store::install(cx);
+        }
         // TT_WINDOW_WIDTH: smalle vinduer til skærmbilleder (UX-runden).
         let width = std::env::var("TT_WINDOW_WIDTH")
             .ok()
@@ -152,7 +162,7 @@ pub fn run() {
             window_bounds: Some(WindowBounds::Windowed(bounds)),
             window_min_size: Some(size(px(900.), px(600.))),
             titlebar: Some(TitlebarOptions {
-                title: Some("TimeTrack".into()),
+                title: Some(tt_core::edition::EDITION.name.into()),
                 ..Default::default()
             }),
             ..Default::default()
@@ -294,7 +304,8 @@ mod moedekort_probe;
 // ret-win: fund fra testen på Windows 11.
 #[cfg(all(test, feature = "probe"))]
 mod probe_win;
-#[cfg(all(test, feature = "probe"))]
+// Opdateringspanelet findes ikke i App Store-udgaven.
+#[cfg(all(test, feature = "probe", not(feature = "mas")))]
 mod probe_opdatering;
 // UX-runden 0.2.28: sidemenuen, der kan minimeres.
 #[cfg(all(test, feature = "probe"))]

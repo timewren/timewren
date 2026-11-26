@@ -36,6 +36,92 @@ type UmamiWindow = Window & {
   };
 };
 
+type Delivery = { response?: Promise<Response>; stop: () => void };
+
+const deliveryObservers = new Set<
+  (body: unknown, response: Promise<Response>) => void
+>();
+let observedFetch: { original: typeof fetch; wrapper: typeof fetch } | null =
+  null;
+
+function isEventBody(body: unknown, event: ToolEvent) {
+  if (typeof body !== "string") return false;
+  try {
+    const { type, payload } = JSON.parse(body);
+    return (
+      type === "event" &&
+      payload?.name === event.name &&
+      payload.data?.tool === event.data.tool
+    );
+  } catch {
+    return false;
+  }
+}
+
+const CLOUD_GATEWAY = "https://gateway.umami.is";
+
+/**
+ * Where a same-origin script proxy forwards collection: the script's own
+ * directory, as in the docs' `/stats.js` + `/api/send` proxy. Undefined for a
+ * cross-origin script, which keeps its own collector.
+ */
+function proxyBase(scriptUrl?: string) {
+  if (!scriptUrl) return undefined;
+  const url = new URL(scriptUrl, window.location.href);
+  if (url.origin !== window.location.origin) return undefined;
+  return `${url.origin}${url.pathname.slice(0, url.pathname.lastIndexOf("/"))}`;
+}
+
+/**
+ * A proxied Umami Cloud script still sends to its built-in gateway, which CSP
+ * only allows when the script loads from cloud.umami.is. Send those requests
+ * through the same-origin proxy instead. Any other collector, such as one
+ * built into a self-hosted tracker, is left alone.
+ */
+function throughProxy(input: RequestInfo | URL, proxy?: string) {
+  if (!proxy || typeof input !== "string") return input;
+  if (!input.startsWith(`${CLOUD_GATEWAY}/`)) return input;
+  return `${proxy}${input.slice(CLOUD_GATEWAY.length)}`;
+}
+
+/**
+ * Catches the response to the request the Umami tracker makes for `event`
+ * while it is being tracked. The request passes through unchanged, except
+ * that a proxied Cloud script's gateway request goes to `proxy`.
+ */
+function observeDelivery(event: ToolEvent, proxy?: string): Delivery {
+  const delivery: Delivery = { stop: () => {} };
+  const observer = (body: unknown, response: Promise<Response>) => {
+    if (!delivery.response && isEventBody(body, event)) {
+      delivery.response = response;
+    }
+  };
+  deliveryObservers.add(observer);
+  if (!observedFetch) {
+    const original = globalThis.fetch;
+    const wrapper: typeof fetch = (input, init) => {
+      const response = original(throughProxy(input, proxy), init);
+      for (const notify of deliveryObservers) notify(init?.body, response);
+      return response;
+    };
+    observedFetch = { original, wrapper };
+    globalThis.fetch = wrapper;
+  }
+  delivery.stop = () => {
+    deliveryObservers.delete(observer);
+    // Leave the wrapper in place if something else has wrapped fetch since.
+    if (
+      deliveryObservers.size === 0 &&
+      observedFetch &&
+      globalThis.fetch === observedFetch.wrapper
+    ) {
+      globalThis.fetch = observedFetch.original;
+      observedFetch = null;
+    }
+  };
+  return delivery;
+}
+
 export function UmamiToolAnalytics({
   collectUrl,
   scriptUrl,
@@ -79,8 +165,16 @@ export function UmamiToolAnalytics({
     if (!collectUrl) {
       const tracker = (window as UmamiWindow).umami;
       if (!tracker) return false;
-      await tracker.track((defaults) => ({ ...defaults, ...event }));
-      return true;
+      const delivery = observeDelivery(event, proxyBase(scriptUrl));
+      try {
+        await tracker.track((defaults) => ({ ...defaults, ...event }));
+      } finally {
+        delivery.stop();
+      }
+      // The tracker swallows network and HTTP errors, so judge by the request
+      // it made. If it made none we cannot tell, and keep the visit as sent.
+      if (!delivery.response) return true;
+      return (await delivery.response).ok;
     }
 
     const endpoint = new URL(collectUrl, window.location.origin);

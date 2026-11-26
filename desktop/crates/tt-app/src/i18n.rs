@@ -84,6 +84,8 @@ const FILES: &[(&str, [&str; 6])] = areas![
     "maal",
     // design: menuen, ikoner og tomme tilstande (UX-runden 0.2.28).
     "design",
+    // Mac App Store-udgaven (feature mas): forklaringer og link til den fulde udgave.
+    "mas",
 ];
 
 type Catalog = HashMap<&'static str, &'static str>;
@@ -102,11 +104,24 @@ static CATALOGS: OnceLock<Catalogs> = OnceLock::new();
 // Det valgte sprog. I tests er det pr. tråd, så en test, der skifter sprog,
 // ikke ændrer teksterne for de andre tests, der kører samtidig.
 #[cfg(not(test))]
-static CURRENT: AtomicU8 = AtomicU8::new(0);
+static CURRENT: AtomicU8 = AtomicU8::new(default_index());
 #[cfg(test)]
 thread_local! {
     static CURRENT: std::cell::Cell<u8> = const { std::cell::Cell::new(0) };
 }
+
+/// Sprogets plads i [`LANG_CODES`]: udgavens standardsprog (dansk for
+/// TimeTrack, engelsk for TimeWren), indtil indstillingerne er læst.
+#[cfg(not(test))]
+const fn default_index() -> u8 {
+    match tt_core::edition::EDITION.default_language.as_bytes() {
+        b"en" => 1,
+        _ => 0,
+    }
+}
+
+/// Sprogkoderne i samme rækkefølge som filerne i [`FILES`].
+const LANG_CODES: [&str; 6] = ["da", "en", "de", "sv", "nb", "es"];
 
 fn load() -> u8 {
     #[cfg(not(test))]
@@ -142,8 +157,16 @@ fn catalogs() -> &'static Catalogs {
     CATALOGS.get_or_init(|| {
         let mut all: [Catalog; 6] = Default::default();
         for (area, files) in FILES {
-            for (c, json) in all.iter_mut().zip(files) {
-                c.extend(parse(area, json));
+            for ((c, json), lang) in all.iter_mut().zip(files).zip(LANG_CODES) {
+                c.extend(parse(area, json).into_iter().map(|(k, v)| {
+                    let text = tt_core::edition::EDITION.localise(v, lang);
+                    let v: &'static str = if text == v {
+                        v
+                    } else {
+                        Box::leak(text.into_boxed_str())
+                    };
+                    (k, v)
+                }));
             }
         }
         let [da, en, de, sv, nb, es] = all;
@@ -253,7 +276,7 @@ impl Language {
     /// sprog får engelsk; mangler lokaliteten helt, bruges dansk.
     pub fn from_locale(locale: Option<&str>) -> Language {
         let Some(loc) = locale else {
-            return Language::Da;
+            return Language::edition_default();
         };
         let lang = loc
             .split(['-', '_', '.', '@'])
@@ -267,8 +290,16 @@ impl Language {
             "sv" => Language::Sv,
             "nb" | "nn" | "no" => Language::Nb,
             "es" => Language::Es,
-            "" => Language::Da,
+            "" => Language::edition_default(),
             _ => Language::En,
+        }
+    }
+
+    /// Standardsproget i denne udgave: dansk (TimeTrack) eller engelsk (TimeWren).
+    pub fn edition_default() -> Language {
+        match tt_core::edition::EDITION.default_language {
+            "en" => Language::En,
+            _ => Language::Da,
         }
     }
 
@@ -327,6 +358,25 @@ mod tests {
             assert_eq!(sorted(&c.da), sorted(other));
         }
         assert!(!c.da.is_empty());
+    }
+
+    /// App Store-udgavens tekster (`mas::KEYS`) findes på alle sprog, også i
+    /// bygninger uden featuren, så de aldrig falder tilbage til dansk.
+    #[test]
+    fn mas_noeglerne_findes_paa_alle_sprog() {
+        for k in crate::mas::KEYS {
+            for lang in LANGS {
+                let text = catalog_for(lang).get(k).copied();
+                assert!(
+                    text.is_some_and(|v| !v.trim().is_empty() && v != k),
+                    "{k} mangler på {lang:?}"
+                );
+            }
+        }
+        let (_, files) = FILES.iter().find(|(a, _)| *a == "mas").expect("området mas");
+        for json in files {
+            assert_eq!(parse("mas", json).len(), crate::mas::KEYS.len(), "mas.json har præcis KEYS");
+        }
     }
 
     #[test]
@@ -433,8 +483,78 @@ mod tests {
         assert_eq!(l(Some("nn_NO")), Language::Nb);
         assert_eq!(l(Some("es-MX")), Language::Es);
         assert_eq!(l(Some("fr-FR")), Language::En, "ukendte sprog får engelsk");
-        assert_eq!(l(None), Language::Da, "uden lokalitet: dansk");
-        assert_eq!(l(Some("")), Language::Da);
+        assert_eq!(l(None), Language::edition_default(), "uden lokalitet: udgavens sprog");
+        assert_eq!(l(Some("")), Language::edition_default());
+    }
+
+    /// Brandet står kun som `{brand}` i teksterne: en fil, der skriver
+    /// "TimeTrack" direkte, ville vise det forkerte navn i TimeWren.
+    #[test]
+    fn brand_tests_sprogfilerne_naevner_ikke_et_fast_brand() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("locales");
+        let mut fund = vec![];
+        for lang in std::fs::read_dir(&root).unwrap().flatten() {
+            for f in std::fs::read_dir(lang.path()).unwrap().flatten() {
+                let text = std::fs::read_to_string(f.path()).unwrap();
+                let lower = text.to_lowercase();
+                for ord in ["timetrack", "timewren", "dkk", "499"] {
+                    if lower.contains(ord) {
+                        fund.push(format!("{}: {ord}", f.path().display()));
+                    }
+                }
+            }
+        }
+        assert!(fund.is_empty(), "faste brandnavne, valuta eller priser i sprogfilerne: {fund:#?}");
+    }
+
+    /// TimeWren: ingen tekst på noget sprog siger "TimeTrack", nævner kroner
+    /// eller DKK, eller har en pladsholder tilbage.
+    #[test]
+    fn brand_tests_timewren_har_ingen_timetrack_tekster() {
+        use tt_core::edition::{Edition, TIMETRACK, TIMEWREN};
+        for e in Edition::ALL {
+            for (area, files) in FILES {
+                for (json, lang) in files.iter().zip(LANG_CODES) {
+                    for (k, v) in parse(area, json) {
+                        let text = e.localise(v, lang);
+                        for var in ["{brand}", "{site}", "{currency", "{price}"] {
+                            assert!(!text.contains(var), "{}: {k} på {lang}: {var} er ikke sat ind", e.id);
+                        }
+                        let lower = text.to_lowercase();
+                        if e == TIMEWREN {
+                            for ord in ["timetrack", "dkk", "kroner", "kronor", "kronen", "coronas", "499"] {
+                                assert!(!lower.contains(ord), "TimeWren: {k} på {lang} siger {ord}: {text}");
+                            }
+                        }
+                        if e == TIMETRACK {
+                            assert!(!lower.contains("timewren"), "TimeTrack: {k} på {lang}: {text}");
+                        }
+                    }
+                }
+            }
+        }
+        // Stikprøver af begge udgaver, på dansk og engelsk.
+        let da = |k: &str, e: &Edition| e.localise(lookup_raw(0, k), "da");
+        let en = |k: &str, e: &Edition| e.localise(lookup_raw(1, k), "en");
+        assert_eq!(da("nav.app.name", &TIMETRACK), "TimeTrack");
+        assert_eq!(en("nav.app.name", &TIMEWREN), "TimeWren");
+        assert_eq!(en("tray.menu.quit", &TIMEWREN), "Quit TimeWren");
+        assert_eq!(en("klippekort.field.price", &TIMEWREN), "Price (€)");
+        assert_eq!(en("klippekort.field.price", &TIMETRACK), "Price (kr)");
+        assert_eq!(en("projekter.formular.timepris", &TIMETRACK), "Hourly rate (DKK)");
+        assert_eq!(en("projekter.formular.timepris", &TIMEWREN), "Hourly rate (EUR)");
+        assert_eq!(en("ui.form.amount_empty", &TIMEWREN), "Enter an amount in euros, e.g. 850");
+        assert_eq!(en("ui.form.amount_empty", &TIMETRACK), "Enter an amount in kroner, e.g. 850");
+    }
+
+    /// Den rå tekst på sprogets plads i [`LANG_CODES`] (før `localise`).
+    fn lookup_raw(lang: usize, key: &str) -> &'static str {
+        for (area, files) in FILES {
+            if let Some(v) = parse(area, files[lang]).get(key).copied() {
+                return v;
+            }
+        }
+        panic!("nøglen {key} findes ikke");
     }
 
     fn rust_files(dir: &Path, out: &mut Vec<PathBuf>) {

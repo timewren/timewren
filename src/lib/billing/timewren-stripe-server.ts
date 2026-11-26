@@ -1,7 +1,12 @@
 import type Stripe from "stripe";
-import { includedSeatsForTier, maxSeatsForTier } from "@/lib/config";
+import {
+  includedSeatsForTier,
+  maxSeatsForTier,
+  TIMEWREN_DESKTOP_LIFETIME_PRICE_EUR,
+} from "@/lib/config";
 import {
   isPerSeatTier,
+  TIMEWREN_DESKTOP_LOOKUP_KEY,
   TIMEWREN_LOOKUP_KEYS,
   TIMEWREN_PAID_TIERS,
   TIMEWREN_STRIPE_BRAND,
@@ -49,6 +54,33 @@ export async function timewrenPrices(stripe: Stripe): Promise<TimewrenPrices> {
   }
   priceCache = { at: Date.now(), prices };
   return prices;
+}
+
+/**
+ * Desktop-livstidslicensens pris, slået op på lookup_key. Fejler højt, hvis
+ * den mangler eller ikke er en engangspris på præcis
+ * TIMEWREN_DESKTOP_LIFETIME_PRICE_EUR i EUR: en forkert pris må aldrig sælge
+ * licensen til et andet beløb.
+ */
+export async function timewrenDesktopPrice(
+  stripe: Stripe,
+): Promise<Stripe.Price> {
+  const list = await stripe.prices.list({
+    lookup_keys: [TIMEWREN_DESKTOP_LOOKUP_KEY],
+    active: true,
+    limit: 1,
+  });
+  const price = list.data.find(
+    (p) => p.lookup_key === TIMEWREN_DESKTOP_LOOKUP_KEY,
+  );
+  if (
+    price?.currency !== "eur" ||
+    price.type !== "one_time" ||
+    price.unit_amount !== TIMEWREN_DESKTOP_LIFETIME_PRICE_EUR * 100
+  ) {
+    throw new Error("TimeWren Stripe desktop price missing or wrong");
+  }
+  return price;
 }
 
 let portalConfigId: string | null = null;

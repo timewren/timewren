@@ -118,10 +118,14 @@ impl RepoBackend {
         self.gate(Action::Write)?;
         match self.local() {
             Some(l) => block_on(l.delete_invoice_draft(id)).map_err(|e| map::error(e, "Fakturaen")),
-            // TODO(web): `extension.invoices.delete` (web's invoices.delete) mangler.
-            None => Err(BackendError::Validation(
-                "Kladder slettes i web, når du er logget ind".into(),
-            )),
+            // Cloud: web's `extension.invoices.delete`. En server uden den
+            // giver "understøtter ikke … endnu" (se `map::error`).
+            None => match self.cloud() {
+                Some(c) => {
+                    block_on(c.delete_invoice_draft(id)).map_err(|e| map::error(e, "Fakturaen"))
+                }
+                None => unreachable!("enten lokal eller cloud"),
+            },
         }
     }
 }
@@ -172,7 +176,7 @@ impl RepoBackend {
     pub(super) fn gendan_export_backup(&self, dir: &Path) -> Result<PathBuf> {
         let l = self.local().ok_or_else(local_only)?;
         std::fs::create_dir_all(dir).map_err(|e| BackendError::Other(e.to_string()))?;
-        let stem = format!("timetrack-backup-{}", self.today());
+        let stem = format!("{}-backup-{}", tt_core::edition::EDITION.id, self.today());
         let path = unique_path(dir, &stem, tdb::BACKUP_EXTENSION);
         self.write_backup(&l, &path)?;
         Ok(path)

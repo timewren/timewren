@@ -6,6 +6,7 @@ import {
   gte,
   ilike,
   isNotNull,
+  notLike,
   or,
   sql,
 } from "drizzle-orm";
@@ -120,6 +121,10 @@ export const adminDesktopRouter = router({
           and(
             eq(desktopLicenses.tier, "lifetime"),
             isNotNull(desktopLicenses.stripePaymentIntentId),
+            // TimeWren licences (TW- keys) are sold in EUR and have no DKK
+            // amount; this report is DKK, so they are left out (not counted
+            // as 999 kr via the legacy fallback). Their revenue is in Stripe.
+            notLike(desktopLicenses.licenseKey, "TW-%"),
             realLicenses,
           ),
         ),

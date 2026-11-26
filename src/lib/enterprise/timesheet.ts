@@ -4,6 +4,7 @@
  * formatting.
  */
 
+import { entryDateFromStr, toCopenhagenDateStr } from "@/lib/time/copenhagen";
 import {
   DEFAULT_TIMESHEET_VALIDATION_SETTINGS,
   type TimesheetValidationSettings,
@@ -381,6 +382,15 @@ export type WeekCell = {
   hours: number;
 };
 
+export function dayOffsetFromWeekStart(
+  date: Date,
+  weekStartDate: Date,
+): number {
+  const day = entryDateFromStr(toCopenhagenDateStr(date));
+  const weekStart = entryDateFromStr(toCopenhagenDateStr(weekStartDate));
+  return (day.getTime() - weekStart.getTime()) / 86_400_000;
+}
+
 /**
  * Aggregér en uges tidsposter til skabelon-/kopierings-celler pr.
  * (projekt, aktivitet, dag). Poster uden projekt ("Uden projekt"-rækken)
@@ -399,9 +409,7 @@ export function cellsFromWeekEntries(
   const cells = new Map<string, WeekCell>();
   for (const e of entries) {
     if (!e.projectId) continue;
-    const offset = Math.floor(
-      (e.date.getTime() - weekStartDate.getTime()) / 86_400_000,
-    );
+    const offset = dayOffsetFromWeekStart(e.date, weekStartDate);
     const activityTypeId = e.activityTypeId ?? null;
     const key = `${e.projectId}|${activityTypeId ?? ""}|${offset}`;
     const cell = cells.get(key) ?? {

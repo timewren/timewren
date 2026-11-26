@@ -37,6 +37,16 @@ En registrering kan kun trækkes fra et klippekort, der tilhører dens egen kund
 
 Registreringer på klippekort udelades, når du opretter fakturaer ud fra registreret tid, fordi kunden allerede har betalt for dem. Redigerer eller sletter du en registrering, tilbageføres trækket, og timerne gives tilbage, og advarslen om lav saldo kan derefter blive sendt igen.
 
+### Tilknyt eller flyt registreret tid
+
+Åbn det klippekort, timerne skal over på, og vælg **Tilknyt tid**. Listen viser som udgangspunkt kundens ufakturerede tid uden klippekort. Slå **Vis også tid på andre klippekort** til for at se registreringerne på kundens øvrige kort. Hver registrering viser navnet på det kort, den ligger på. Tid i låste perioder vises ikke.
+
+Når du tilknytter tid, bliver den på projektet og trækkes fra klippekortets saldo. Hvis overtræk er slået fra, kan du kun tilknytte tid, der efter afrunding til klip kan dækkes af saldoen. Vælg færre posteringer, eller tillad overtræk under Rediger på klippekortet. Hvis saldoen ikke dækker ét klip, kan du kun tilknytte tid ved at tillade overtræk. Hvis valget er for stort, viser dialogen den længste postering, saldoen kan dække. Trækket beregnes for hver postering for sig og rundes op til hele klip og hundrededele af en time, så flere små posteringer kan trække mere end én samlet.
+
+Filtrér efter projekt og dato, og vælg enkelte registreringer eller alle de viste registreringer for et projekt. Du kan flytte op til 200 registreringer ad gangen. Dialogen viser de valgte timer og den forventede saldo efter klipafrunding. Før du bekræfter, kan du se, hvor mange timer der føres tilbage til saldoen på hvert afsenderkort, og hvor mange der trækkes på modtagerkortet efter dets egen klipafrunding. Brug sideknapperne, hvis der er mere end 200 resultater. Hvis kortets overtræk faktureres, viser gennemgangen, hvilke timer der bliver eller fortsat er fakturerbare uden klippekort.
+
+På **Tid** kan du markere op til 200 tidsposteringer for samme kunde og vælge **Tilknyt klippekort**. Vælg et aktivt kort for at se saldoen og gennemgå flytninger eller fakturerbart overtræk inden bekræftelse. Vælg **Fjern fra projekt** for at flytte tid direkte til kunden. Satsen genberegnes på kundeniveau, og træk på samme kundes klippekort bevares. Når du fjerner et internt projekt, beholder tidsposteringen sin tilknyttede kunde. Markeringen ryddes, når du ændrer perioden eller et filter.
+
 ### Afrunding
 
 - Uden klipstørrelse afrundes de trukne timer til to decimaler.
@@ -89,7 +99,7 @@ Vil du fylde op uden automatisk fornyelse, så opret et nyt klippekort til kunde
 
 Kunder kan se deres klippekort i kundeportalen under fanen Klippekort med saldo og forbrug. To kontakter styrer det: portaltilladelsen `canViewPrepaid` (slået til som standard) og klippekortindstillingen `hiddenFromPortal`, der skjuler et enkelt klippekort helt, også i historikken. Kunder kan også bede om en fornyelse, som dukker op hos dig som en fornyelsesanmodning. Beløb kan skjules for kunder med indstillingen `hidePrepaidValue`, globalt eller pr. kunde.
 
-Hvis fakturering er aktiv, kan du godkende anmodningen med en fakturakladde eller vælge **Godkend og gennemgå afsendelse**. Du godkender klippekortets fornyelse, før dialogen åbner. Her ser du kunden, modtagerens mailadresse, fakturanummeret, beløbet inkl. moms og forfaldsdatoen. Hvis du lukker dialogen, bliver fakturaen liggende som kladde.
+Hvis fakturering er aktiv, kan du godkende anmodningen med en fakturakladde eller vælge **Godkend og gennemgå afsendelse**. Du godkender klippekortets fornyelse, før dialogen åbner. Her ser du kunden, modtagerens mailadresse, fakturanummeret, beløbet inkl. moms og forfaldsdatoen. Hvis du lukker dialogen, bliver fakturaen liggende som kladde. Dialogen viser også antal linjer. Ændres fakturaen, efter dialogen er åbnet, afviser TimeWren afsendelsen, og du åbner dialogen igen.
 
 ## REST API
 

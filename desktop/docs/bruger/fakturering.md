@@ -20,6 +20,18 @@ Hver linje viser:
 - Timepris
 - Beløb (timer x pris)
 
+## Send fakturaen til kunden
+
+En ny faktura er altid en **kladde**. Der sendes ikke noget, før du selv vælger det:
+
+1. Åbn kladden, og klik **Send til kunden...**
+2. En dialog siger "Fakturaen sendes på mail til ..." og viser kunde, fakturanummer, antal poster, timer og beløb inkl. moms
+3. Klik **Send til kunden** for at sende, eller **Annuller** (Enter og Esc annullerer også)
+
+Er du logget ind, sender TimeTrack fakturaen som PDF til kundens mailadresse i web. Har kunden ingen mailadresse, kan den ikke sendes. Vil du bare give fakturaen nummer og status Sendt, uden at kunden får en mail (fx fordi du har sendt den på anden vis), så vælg **Markér som sendt (uden mail)**. Uden konto sender appen aldrig mail.
+
+Listen og fakturaen viser, om den er sendt: Kladde (ikke sendt), Sendt (dato, tid og modtager, når den er sendt fra appen) eller Betalt. En kladde kan slettes med **Slet kladde**, så bliver tidsregistreringerne ufaktureret igen. Under **Kalender** kan du filtrere på Faktureret og Ikke faktureret, og en faktureret post har **Åbn faktura**.
+
 ## Rediger linjer
 
 Før du eksporterer, kan du tilpasse fakturaen:

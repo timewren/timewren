@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { twMerge } from 'tailwind-merge';
 import { Text } from '~/components/ui';
-import { dateFnsLocale } from '~/lib/locale';
+import { dateFnsLocale, dayOfMonth } from '~/lib/locale';
 import { dateKey, intensity, isSameDate, monthGrid, weekDays } from '../period';
 
 type CalendarGridProps = {
@@ -56,7 +56,7 @@ function DayCell({ cell, hours, isSelected, showHours, onPress }: DayCellProps) 
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={format(cell.date, 'd. MMMM', { locale: dateFnsLocale() })}
+      accessibilityLabel={format(cell.date, `${dayOfMonth()} MMMM`, { locale: dateFnsLocale() })}
       className={twMerge(
         'flex-1 items-center rounded-xl py-1.5',
         isSelected ? 'bg-primary-600' : cell.isToday ? 'bg-muted' : '',

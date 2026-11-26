@@ -8,6 +8,7 @@ import { useUniwind } from 'uniwind';
 import { Button, Card, colors, Text, useModal } from '~/components/ui';
 import { formatDuration } from '~/lib/format';
 import { translate } from '~/lib/i18n';
+import { spokenElapsed } from '../timer-a11y';
 import { selectionNames } from '../timer-logic';
 import { useTimerTicker } from '../use-timer-ticker';
 import { FavoritesRow } from './favorites-row';
@@ -21,6 +22,8 @@ import { ProjectPickerModal } from './project-picker-modal';
 export function TimerCard({ controller }: { controller: UseTimer }) {
   const { isRunning, timer, isBusy, start, stop, discard, updateDescription, switchTo } = controller;
   const picker = useModal();
+  const selectionTriggerRef = React.useRef<View>(null);
+  const startTriggerRef = React.useRef<View>(null);
   const { theme } = useUniwind();
   const dark = theme === 'dark';
   const muted = dark ? colors.neutral[400] : colors.neutral[500];
@@ -40,7 +43,7 @@ export function TimerCard({ controller }: { controller: UseTimer }) {
 
   const onStart = () => {
     if (!hasSelection) {
-      picker.present();
+      picker.presentFrom(() => startTriggerRef.current);
       return;
     }
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -61,9 +64,11 @@ export function TimerCard({ controller }: { controller: UseTimer }) {
 
   return (
     <Card className={isRunning ? 'border border-primary-300 bg-primary-50 dark:border-primary-800 dark:bg-primary-900' : ''} testID="timer-card">
-      <View className="flex-row items-center gap-2">
+      {/* Status læses op sammen med tælleren (`spokenElapsed`), så den skjules her for skærmlæseren. */}
+      <View className="flex-row items-center gap-2" accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
         <View className={`size-2.5 rounded-full ${isRunning ? 'bg-success-500' : 'bg-neutral-300 dark:bg-neutral-600'}`} />
-        <Text className="text-xs font-medium tracking-wide text-muted-foreground">
+        {/* neutral-600, ikke muted: grå på det blå kørende kort var under 4,5:1. */}
+        <Text className="text-xs font-medium tracking-wide text-neutral-600 dark:text-neutral-300">
           {translate(isRunning ? 'timer.running' : 'timer.idle')}
         </Text>
       </View>
@@ -71,12 +76,13 @@ export function TimerCard({ controller }: { controller: UseTimer }) {
       <ElapsedText startTime={timer.startTime} baseSeconds={timer.baseSeconds} running={isRunning} />
 
       <Pressable
-        onPress={() => picker.present()}
-        className="mt-3 flex-row items-center justify-between rounded-xl bg-background/60 px-3 py-2.5 active:opacity-70 dark:bg-card/60"
+        ref={selectionTriggerRef}
+        onPress={() => picker.presentFrom(() => selectionTriggerRef.current)}
+        className="mt-3 min-h-12 flex-row items-center justify-between rounded-xl bg-background/60 px-3 py-2.5 active:opacity-70 dark:bg-card/60"
         accessibilityRole="button"
         testID="timer-selection"
       >
-        <Text className="flex-1 text-base font-medium text-foreground" numberOfLines={1}>{selectionLabel}</Text>
+        <Text className="flex-1 text-base font-medium text-foreground">{selectionLabel}</Text>
         <ChevronRight size={18} color={muted} />
       </Pressable>
 
@@ -87,15 +93,16 @@ export function TimerCard({ controller }: { controller: UseTimer }) {
         onChangeText={updateDescription}
         onEndEditing={() => isRunning && void switchTo({ description: timer.description })}
         placeholder={translate('timer.description_placeholder')}
+        accessibilityLabel={translate('timer.description_label')}
         placeholderTextColor={muted}
         className="mt-2 rounded-xl bg-background/60 px-3 py-2.5 text-base text-foreground dark:bg-card/60"
         returnKeyType="done"
         testID="timer-description"
       />
 
-      <TimerActions isRunning={isRunning} isBusy={isBusy} onStart={onStart} onStop={onStop} onDiscard={onDiscard} muted={muted} />
+      <TimerActions isRunning={isRunning} isBusy={isBusy} startRef={startTriggerRef} onStart={onStart} onStop={onStop} onDiscard={onDiscard} muted={muted} />
 
-      <ProjectPickerModal ref={picker.ref} onSelect={onPicked} />
+      <ProjectPickerModal ref={picker.ref} onDismiss={picker.restoreFocus} onSelect={onPicked} />
     </Card>
   );
 }
@@ -109,6 +116,12 @@ function ElapsedText({ startTime, baseSeconds, running }: { startTime: string | 
     <Text
       className={running ? 'mt-2 text-5xl font-bold tracking-tight text-foreground' : 'mt-2 text-3xl font-semibold tracking-tight text-muted-foreground'}
       style={{ fontVariant: ['tabular-nums'] }}
+      // Ved de største skriftstørrelser brød "00:12:34" over flere linjer på en
+      // smal skærm. Tallet er stort i forvejen, så det må vokse halvanden gang.
+      maxFontSizeMultiplier={1.5}
+      numberOfLines={1}
+      adjustsFontSizeToFit
+      accessibilityLabel={spokenElapsed(elapsed, running)}
       testID="timer-elapsed"
     >
       {formatDuration(elapsed)}
@@ -120,12 +133,13 @@ type ActionsProps = {
   isRunning: boolean;
   isBusy: boolean;
   onStart: () => void;
+  startRef: React.RefObject<View | null>;
   onStop: () => void;
   onDiscard: () => void;
   muted: string;
 };
 
-function TimerActions({ isRunning, isBusy, onStart, onStop, onDiscard, muted }: ActionsProps) {
+function TimerActions({ isRunning, isBusy, onStart, startRef, onStop, onDiscard, muted }: ActionsProps) {
   return (
     <View className="mt-3 flex-row items-center gap-2">
       {isRunning
@@ -157,6 +171,7 @@ function TimerActions({ isRunning, isBusy, onStart, onStop, onDiscard, muted }: 
           )
         : (
             <Button
+              ref={startRef}
               label={translate('timer.start')}
               onPress={onStart}
               loading={isBusy}

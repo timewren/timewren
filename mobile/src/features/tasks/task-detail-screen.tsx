@@ -49,7 +49,7 @@ export function TaskDetailScreen() {
 
   return (
     <Screen
-      title={task.data?.title ?? ''}
+      title={task.data?.title ?? translate('navigation.task')}
       back
       refreshing={task.isRefetching}
       onRefresh={refresh}

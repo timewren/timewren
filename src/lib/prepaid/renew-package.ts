@@ -11,6 +11,7 @@ import {
   recurringInvoices,
 } from "@/lib/db/schema";
 import { draftInvoiceNumber } from "@/lib/invoices/draft-number";
+import { getOrgLanguage } from "@/lib/org/region.server";
 import { generateRecurringInvoiceInTx } from "@/lib/recurring-invoices/generate";
 import { ownerAllowsRecurringInvoices } from "@/lib/recurring-invoices/plan";
 import { addDaysToDateStr, toCopenhagenDateStr } from "@/lib/time/copenhagen";
@@ -166,7 +167,9 @@ export async function renewPackageInTx(
     const [draftInvoice] = await tx
       .insert(invoices)
       .values({
-        invoiceNumber: draftInvoiceNumber(),
+        invoiceNumber: draftInvoiceNumber(
+          await getOrgLanguage(tx, locked.organizationId, locked.userId),
+        ),
         clientId: locked.clientId,
         userId: locked.userId,
         organizationId: locked.organizationId,

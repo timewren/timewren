@@ -31,7 +31,28 @@ keyring-core = "=1.0.1"
 apple-native-keyring-store = { version = "=1.0.2", features = ["keychain"] }
 windows-native-keyring-store = "=1.1.0"
 
+# Udvikling og tests (test arver dev). line-tables-only bevarer fil og linje i
+# backtraces, men dropper variabel- og typeinfo: mindre target-mappe og
+# hurtigere link. Brug `CARGO_PROFILE_DEV_DEBUG=true` til en debugger-session.
+[profile.dev]
+debug = "line-tables-only"
+
+# Matcherens regressions- og præcisionstests genberegner Platt-gitteret efter
+# hver rettelse; uoptimeret er de suitens langsomste tests.
+[profile.dev.package.tt-matcher]
+opt-level = 3
+
+# Udgivelsesprofilen for den nye app (tt-app). Målt på Linux, 16/11-26:
+# thin LTO/16 CGU gav 63,8 MB, opt-level 3 + fat LTO 52,0 MB, "s" 38,7 MB og
+# "z" 35,5 MB. "z" er droppet: kun 8 % mindre end "s", men uden
+# loop-vektorisering, som GPUI's tegning og tekstlayout har gavn af.
+# panic forbliver "unwind": tt-tracker fanger panik i OS-sonderne med
+# catch_unwind, så sporingen overlever, og GPUI bruger også catch_unwind.
+# CI's release-build på PR'er overstyrer LTO og CGU med CARGO_PROFILE_RELEASE_*
+# (se .forgejo/workflows/v1.yml), fordi fat LTO gør et inkrementelt build
+# ca. fire gange langsommere. Udgivelserne bygger med profilen her.
 [profile.release]
+opt-level = "s"
+lto = "fat"
+codegen-units = 1
 strip = true
-lto = "thin"
-codegen-units = 16

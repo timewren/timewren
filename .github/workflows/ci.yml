@@ -51,7 +51,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci --legacy-peer-deps --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
       - run: npx tsc --noEmit
       - run: python3 scripts/check-license-policy.py
       - run: npm run lint

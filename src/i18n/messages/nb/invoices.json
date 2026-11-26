@@ -4,9 +4,11 @@
     "sendTo": "Send til {email}",
     "sent": "Faktura sendt til {email}",
     "total": "Beløp inkl. mva.",
+    "totalNoVat": "Beløp (uten mva.)",
     "loading": "Henter fakturaopplysninger …",
     "draftNumber": "Det endelige fakturanummeret tildeles ved utstedelse.",
-    "provider": "Beløpet kommer fra TimeTrack. {provider} beregner sluttbeløpet med egne avgiftsinnstillinger."
+    "provider": "Beløpet kommer fra TimeTrack. {provider} beregner sluttbeløpet med egne avgiftsinnstillinger.",
+    "lineCount": "Linjer"
   },
   "status": {
     "draft": "Utkast",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtrert)",
     "reminderTitle": "Send purring",
     "reminderDescription": "Sende faktura {number} til kunden på e-post?",
-    "send": "Send"
+    "send": "Send",
+    "emptyUnbilledHint": "Du har {duration} ufakturert tid. Fakturer den, så fylles linjer og beløp ut for deg.",
+    "emptyNoTimeHint": "Fakturaer lages enklest fra registrert tid. Registrer tid først, eller lag en faktura med et fast beløp.",
+    "invoiceUnbilled": "Fakturer ufakturert tid",
+    "createBlank": "Lag tom faktura",
+    "registerTimeFirst": "Registrer tid",
+    "createFixedAmount": "Faktura med fast beløp"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Notat på fakturaen (valgfritt)",
     "notePlaceholder": "F.eks. Avtale om teknisk partnerskap, '{måned}'"
   },
-  "tableLabel": "Fakturaer"
+  "tableLabel": "Fakturaer",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} bekreftet ikke om fakturaen ble sendt på e-post. Sjekk e-poststatusen i {provider}, og marker resultatet på fakturasiden før du sender den igjen.",
+    "uncertainTitle": "Vi vet ikke om {provider} har sendt fakturaen",
+    "uncertainBody": "{provider} svarte ikke da fakturaen skulle sendes på e-post, så kunden kan ha fått den. Sjekk fakturaens e-poststatus i {provider}. Til du har markert resultatet her, kan fakturaen ikke sendes igjen fra TimeTrack.",
+    "wasSent": "{provider} har sendt den",
+    "notSent": "Den er ikke sendt",
+    "resolved": "E-poststatus lagret"
+  }
 }

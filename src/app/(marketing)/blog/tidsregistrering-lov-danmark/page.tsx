@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
+import { getMarketingUrl } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Tidsregistreringslov i Danmark: Hvad du skal vide som freelancer",
@@ -37,7 +38,8 @@ export default function TidsregistreringLovDanmarkPage() {
     dateModified: "2026-10-01",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://timetrack.dk/blog/tidsregistrering-lov-danmark",
+      "@id": new URL("/blog/tidsregistrering-lov-danmark", getMarketingUrl())
+        .href,
     },
   };
 

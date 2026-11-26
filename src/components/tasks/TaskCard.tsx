@@ -28,7 +28,6 @@ export interface TaskCardData {
   id: string;
   title: string;
   description: string | null;
-  notes: string | null;
   status: string;
   priority: string | null;
   deadline: Date | null;

@@ -123,7 +123,7 @@ const faqItems = [
   {
     question: "Virker det på Mac?",
     answer:
-      "Ja. Både Windows- og macOS-versionen er tilgængelige nu i Beta. Hent appen fra download-siden. Linux er planlagt.",
+      "Ja. Desktop-appen findes til macOS 11 eller nyere og Windows 10 eller nyere. Hent den fra download-siden. Linux er planlagt.",
   },
   {
     question: "Kan jeg importere fra Toggl/Harvest?",
@@ -186,9 +186,6 @@ export default function DesktopPage() {
             <Download className="h-5 w-5" />
             Hent desktop-appen
           </Link>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-medium text-amber-800">
-            Beta: tilgængelig nu
-          </span>
         </div>
         <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-slate-500">
           <span className="flex items-center gap-1.5">
@@ -205,18 +202,6 @@ export default function DesktopPage() {
           </span>
         </div>
       </MarketingHero>
-
-      {/* Screenshot placeholder */}
-      <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
-          <div className="aspect-video rounded-2xl border border-slate-200 bg-white shadow-lg flex items-center justify-center">
-            <div className="text-center text-slate-400">
-              <Monitor size={48} className="mx-auto mb-3 opacity-40" />
-              <p className="text-sm font-medium">App screenshot kommer snart</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Features */}
       <section className="px-4 py-24 sm:px-6 lg:px-8">
@@ -244,15 +229,11 @@ export default function DesktopPage() {
         className="bg-brand-600 px-4 py-20 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/40 bg-amber-400/20 px-3 py-1 text-sm font-medium text-amber-100">
-            Beta: tilgængelig nu
-          </span>
-          <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold text-white sm:text-4xl">
             Hent TimeTrack Desktop
           </h2>
           <p className="mt-4 text-lg text-brand-100">
             Download appen til Windows eller macOS og kom i gang med det samme.
-            Appen er i Beta og kan indeholde fejl.
           </p>
           <div className="mt-8">
             <Link
@@ -264,7 +245,7 @@ export default function DesktopPage() {
             </Link>
           </div>
           <p className="mt-4 text-sm text-brand-200">
-            Windows og macOS · Beta.
+            Til Windows 10 eller nyere og macOS 11 eller nyere.
           </p>
         </div>
       </section>
@@ -347,7 +328,7 @@ export default function DesktopPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" />
-                  Mobil-app (kommer)
+                  Mobil-app til iPhone og iPad
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" />

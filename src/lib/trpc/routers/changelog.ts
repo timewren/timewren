@@ -6,8 +6,11 @@ import { protectedProcedure, router } from "../trpc";
 export const changelogRouter = router({
   /**
    * Get changelogs the user hasn't seen yet.
-   * Limited to 5 most recent to avoid overwhelming first-time users
-   * (who have lastSeenChangelogId = null and would otherwise see all).
+   * Limited to 5 most recent. A user who has never seen one
+   * (lastSeenChangelogId = null) only gets news published after the account
+   * was created: a brand-new account otherwise met "Nyheder" over the welcome
+   * on first login, with news from before it existed (first-run review
+   * 2026-11-22). The "Nyheder" menu (getAll) still lists everything.
    */
   getUnseen: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
@@ -29,7 +32,13 @@ export const changelogRouter = router({
             SELECT published_at FROM changelogs WHERE id = ${user.lastSeenChangelogId}
           )`,
         )
-      : lte(changelogs.publishedAt, now);
+      : and(
+          lte(changelogs.publishedAt, now),
+          // In SQL like above: both columns are zoneless timestamps.
+          sql`${changelogs.publishedAt} > (
+            SELECT "createdAt" FROM "user" WHERE id = ${userId}
+          )`,
+        );
 
     return ctx.db.query.changelogs.findMany({
       where,

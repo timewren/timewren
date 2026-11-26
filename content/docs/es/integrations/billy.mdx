@@ -14,6 +14,16 @@ Billy es un sistema de contabilidad danés. La integración no necesita configur
 
 Billy exige un producto en cada línea de factura. Elige un producto por defecto en los ajustes, o deja que TimeWren cree uno en la primera exportación. Puedes elegir un producto aparte para las horas de los bonos de horas.
 
+## Envío por correo
+
+Si eliges aprobar y enviar la factura, TimeWren muestra primero una confirmación con el destinatario, el número de factura, el importe con IVA, el número de líneas y la fecha de vencimiento tal como los calcula TimeWren. Billy calcula el importe final con su propia configuración de IVA. Si la factura cambia después de abrir la confirmación, TimeWren rechaza el envío y vuelves a abrir la confirmación.
+
+Una misma factura nunca se exporta dos veces a la vez. Si haces doble clic o lo intentas de nuevo mientras la exportación está en marcha, TimeWren rechaza el segundo intento, así que Billy no crea ni envía la factura dos veces.
+
+Si Billy no responde mientras se envía el correo, o TimeWren se interrumpe a mitad del envío, TimeWren no puede saber si el cliente recibió la factura. La página de la factura muestra entonces un aviso, y la factura no se puede volver a enviar desde TimeWren hasta que compruebes el estado del correo en Billy y marques si se envió.
+
+Si eliminas la factura en Billy, la sincronización automática de estado quita el vínculo en TimeWren, pero solo cuando la organización de Billy conectada es, de forma demostrable, aquella a la que se exportó la factura: TimeWren registró la organización en la exportación o, para una factura exportada antes de eso, el cliente no ha cambiado desde el día anterior a la exportación y su contacto sigue existiendo en la organización conectada. En caso contrario, TimeWren conserva el vínculo. Un borrador sin vínculo se puede volver a exportar.
+
 ## Configuración del servidor
 
 Requisitos en el servidor:
@@ -42,5 +52,7 @@ El endpoint `/api/webhooks/billy` acepta webhooks de Billy y marca una factura c
 ```dotenv
 BILLY_WEBHOOK_SECRET=a-long-random-string
 ```
+
+TimeWren procesa una sola vez las entregas firmadas idénticas byte a byte mientras conserva su registro (90 días). Una entrega fallida puede volver a procesarse. Esto incluye los eventos de pago que llegan antes de que TimeWren guarde el identificador externo de la factura.
 
 El endpoint encuentra al usuario por su ID de organización de Billy almacenado. Los ajustes web no lo guardan, así que en la mayoría de las configuraciones es mejor confiar en la sincronización de 15 minutos descrita arriba en lugar de los webhooks.

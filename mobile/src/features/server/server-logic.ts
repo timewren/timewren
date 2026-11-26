@@ -23,6 +23,19 @@ export function normalizeServerUrl(input: string): string {
   }
 }
 
+/**
+ * Webadressen, brugeren skal have at se ("app.timewren.com", "tid.firma.dk:8443"): host med
+ * eventuel port fra serverens base-URL. En tom eller ugyldig URL giver `fallback`.
+ */
+export function webHostFromUrl(url: string | null | undefined, fallback: string): string {
+  try {
+    return new URL(url ?? '').host || fallback;
+  }
+  catch {
+    return fallback;
+  }
+}
+
 export async function checkServer(input: string, fetcher: typeof fetch = fetch): Promise<string> {
   const origin = normalizeServerUrl(input);
   const controller = new AbortController();

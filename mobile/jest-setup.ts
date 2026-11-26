@@ -101,3 +101,44 @@ global.window = {};
 
 // @ts-expect-error
 global.window = global;
+
+// waitFor/findBy venter som standard kun 1 s, hvilket ikke holder på en belastet CI-runner.
+require('@testing-library/react-native').configure({ asyncUtilTimeout: 5000 });
+
+// Nodes ægte `clearImmediate` tæller sin interne immediate-tæller ned for ethvert objekt,
+// den får, også en falsk timer fra `jest.useFakeTimers()`. Afmonteres en komponent efter
+// `jest.useRealTimers()` (fx `StatusBar`, der rydder sin falske immediate), løber tælleren
+// under nul. Tælleren gælder hele worker-processen, så en senere testfil i samme worker
+// kan hænge i `afterEach`: står der præcis lige så mange ægte immediates i kø, som tælleren
+// er skæv, tror Node, at der ingen er, og kører dem først, når en timer vækker loopet.
+// Sådan hang recurring-edit-route 20/11-26 efter flex-screen i samme worker. Vagten sender
+// kun ægte immediates videre og får den test, der afmonterer for sent, til at fejle her.
+// Registreres efter RNTL, så RNTL's automatiske oprydning er kørt, når vagten tjekker.
+const nodeClearImmediate = clearImmediate;
+const probeImmediate = setImmediate(() => {});
+const NodeImmediate = probeImmediate.constructor;
+nodeClearImmediate(probeImmediate);
+const foreignClears = new Set<string>();
+
+globalThis.clearImmediate = ((handle?: NodeJS.Immediate) => {
+  if (handle && !(handle instanceof NodeImmediate)) {
+    foreignClears.add(expect.getState().currentTestName ?? expect.getState().testPath ?? 'ukendt test');
+    return;
+  }
+  nodeClearImmediate(handle);
+}) as typeof clearImmediate;
+
+function assertNoForeignClears() {
+  if (foreignClears.size === 0)
+    return;
+  const tests = [...foreignClears].join(', ');
+  foreignClears.clear();
+  throw new Error(
+    `clearImmediate fik en falsk timer efter jest.useRealTimers() (${tests}). `
+    + 'En komponent blev afmonteret med andre timere end dem, den startede med. '
+    + 'Vent på afmonteringen (await cleanupAsync()), før de ægte timere slås til igen.',
+  );
+}
+
+afterEach(assertNoForeignClears);
+afterAll(assertNoForeignClears);

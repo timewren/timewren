@@ -158,6 +158,13 @@ pub struct NewClient {
     pub color: Option<String>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub domains: Vec<String>,
+    /// Dage til forfald. `None` = standarden (fakturaopsætning, ellers 14).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub payment_terms_days: Option<i32>,
+    /// `Some(false)` = intern kunde: nye poster er ikke fakturerbare som
+    /// standard (web's `defaultBillable`). `None` = fakturerbar.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub default_billable: Option<bool>,
 }
 
 /// Delvis rettelse. `None` = uændret.
@@ -184,6 +191,11 @@ pub struct ClientPatch {
     /// `Some(vec![])` fjerner alle domæner.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub domains: Option<Vec<String>>,
+    /// `Some(None)` fjerner kundens betalingsfrist (standarden bruges så).
+    #[serde(skip_serializing_if = "Option::is_none", deserialize_with = "crate::serde_util::double_option")]
+    pub payment_terms_days: Option<Option<i32>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub default_billable: Option<bool>,
 }
 
 /// Kundens domæner som web's `normalizeClientDomains`: små bogstaver, uden
@@ -983,6 +995,23 @@ pub struct Invoice {
     /// har ingen titel på fakturaer.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub title: Option<String>,
+}
+
+/// Subtotal, moms og total, som web's PDF viser dem
+/// (`extension.invoices.totals`, web's `invoicePdfTotals`). Kun cloud. Web
+/// sender strenge med to decimaler. Moms kun, når virksomheden er
+/// momsregistreret (`show_vat`); ellers er `vat_amount` 0 og `total` =
+/// `subtotal`.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct InvoiceTotals {
+    pub subtotal: Decimal,
+    /// Procent ("25.00"), også når der ingen moms er.
+    pub vat_rate: Decimal,
+    pub vat_amount: Decimal,
+    pub total: Decimal,
+    pub show_vat: bool,
+    pub currency: String,
 }
 
 /// Afsender, betaling og nummerering på lokale fakturaer (lokal tilstand; i

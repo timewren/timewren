@@ -14,7 +14,7 @@ jest.mock('expo-router', () => ({ router: { push: (...args: unknown[]) => mockPu
 const mockStopTimer = jest.fn(async () => true);
 jest.mock('~/features/timer/stop-timer', () => ({ stopTimerNow: () => mockStopTimer() }));
 
-jest.mock('./push-registration', () => ({ hasDeclinedPush: () => false, registerForPush: jest.fn(async () => ({ status: 'error' as const, message: '' })) }));
+jest.mock('./push-registration', () => ({ shouldRegisterPush: () => true, markPushRegistered: jest.fn(), registerForPush: jest.fn(async () => ({ status: 'error' as const, message: '' })) }));
 jest.mock('./reminders', () => ({ syncDailyReminder: jest.fn(async () => {}) }));
 
 const mockCloseWeek = jest.fn(async (_weekStart: string) => true);

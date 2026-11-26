@@ -45,7 +45,7 @@ const FAQ = [
   {
     question: "Kan svenden registrere fra telefonen?",
     answer:
-      "Ja. TimeTrack virker i mobilens browser og kan lægges på hjemmeskærmen som en app. Apps til iPhone og Android er i test og kommer i App Store og Google Play. Man kan starte en timer eller skrive fx “3 timer badeværelse Hansen i dag”.",
+      "Ja. TimeTrack virker i mobilens browser og kan lægges på hjemmeskærmen som en app. Appen til iPhone og iPad ligger i App Store, og Android-appen kommer snart i Google Play. Man kan starte en timer eller skrive fx “3 timer badeværelse Hansen i dag”.",
   },
   {
     question: "Hvordan dokumenterer jeg regningsarbejde?",

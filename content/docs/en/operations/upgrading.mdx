@@ -66,7 +66,8 @@ The compose file sets `MIGRATE_ON_START=1`. Every time the `app` container start
 
 - It takes a Postgres advisory lock, so two containers starting at once do not migrate in parallel. A second one waits up to 5 minutes (`MIGRATION_LOCK_TIMEOUT_MS`) and then fails.
 - It applies the pending migrations from `drizzle/` through Drizzle's migrator, which runs them in a transaction.
-- On an empty database it creates the current schema and records all migrations as applied.
+- On an empty database it installs the checked-in SQL checkpoint through migration `0160` and records that history in the same transaction. It then runs `0161` and any later migrations.
+- On an existing database with missing or empty migration history, it restores the history through `0161` and ensures the test-account schema exists in the same transaction. It preserves saved test-account flags even if the entry for `0161` is missing from an otherwise populated migration journal. If the flag column was missing, it restores the column and recovers flags from the audit log. In an existing column, saved flags are never lowered or rewritten from the audit log; an unflagged organization is raised only when the older `testAccount` metadata marker still marks it (a database that recorded `0160` before the flags were restored) and its latest audit-log entry also marks it as a test account. Running the versioned SQL by hand gives the same result.
 - A start with nothing new prints `Database is up to date`; otherwise `N new migration(s) applied`.
 
 ## If a migration fails

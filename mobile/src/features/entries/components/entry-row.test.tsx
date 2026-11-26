@@ -1,6 +1,6 @@
 import type { TimeEntry } from '../use-entries';
 import * as React from 'react';
-import { cleanup, render, screen } from '~/lib/test-utils';
+import { cleanup, fireEvent, render, screen } from '~/lib/test-utils';
 import { EntryRow } from './entry-row';
 
 /**
@@ -80,4 +80,13 @@ describe('entryRow', () => {
     expect(screen.getByTestId('entry-e1')).not.toHaveProp('accessibilityLabel');
     expect(screen.getByText('2 t')).toBeOnTheScreen();
   });
+});
+
+it('opens the action sheet through the named screen reader action', () => {
+  const onLongPress = jest.fn();
+  render(<EntryRow entry={post()} onPress={jest.fn()} onLongPress={onLongPress} />);
+  const row = screen.getByRole('button', { name: /Support/ });
+  expect(row).toHaveProp('accessibilityActions', [{ name: 'showActions', label: 'entries.actions.title' }]);
+  fireEvent(row, 'accessibilityAction', { nativeEvent: { actionName: 'showActions' } });
+  expect(onLongPress).toHaveBeenCalledTimes(1);
 });

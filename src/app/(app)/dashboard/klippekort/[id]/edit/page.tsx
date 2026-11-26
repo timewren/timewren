@@ -12,6 +12,10 @@ import { ClientSearchCombobox } from "@/components/ui/ClientSearchCombobox";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { toLocalDateStr } from "@/lib/format";
+import {
+  overdraftUpdateFromForm,
+  toOverdraftPolicy,
+} from "@/lib/prepaid/overdraft-form";
 import { trpc } from "@/providers/trpc-provider";
 
 type PackageSchemaMessages = {
@@ -32,6 +36,8 @@ const createPackageSchema = (m: PackageSchemaMessages) =>
     expiryDate: z.string().optional(),
     description: z.string().optional(),
     clipSizeMinutes: z.string().optional(),
+    overdraftPolicy: z.enum(["block", "allow", "invoice"]).optional(),
+    overdraftRate: z.string().optional(),
   });
 
 type PackageForm = z.infer<ReturnType<typeof createPackageSchema>>;
@@ -89,6 +95,8 @@ export default function EditPackagePage({
         clipSizeMinutes: pkg.clipSizeMinutes
           ? pkg.clipSizeMinutes.toString()
           : "",
+        overdraftPolicy: toOverdraftPolicy(pkg.overdraftPolicy),
+        overdraftRate: pkg.overdraftRate ?? "",
       }
     : undefined;
 
@@ -152,6 +160,7 @@ export default function EditPackagePage({
           expiryDate: data.expiryDate || undefined,
           description: data.description || undefined,
           clipSizeMinutes: clipSize && clipSize > 0 ? clipSize : null,
+          ...overdraftUpdateFromForm(data.overdraftPolicy, data.overdraftRate),
         },
       });
     } catch {
@@ -434,6 +443,51 @@ export default function EditPackagePage({
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 {t("form.clipHintEdit")}
               </p>
+            </div>
+
+            {/* Overtræks-politik (#93), også på et eksisterende kort (#1319) */}
+            <div>
+              <label
+                htmlFor="overdraftPolicy"
+                className="block text-xs font-medium text-gray-700 dark:text-gray-300"
+              >
+                {t("form.overdraftLabel")}
+              </label>
+              <select
+                id="overdraftPolicy"
+                {...register("overdraftPolicy")}
+                aria-describedby="overdraftPolicyHint"
+                className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1.5 text-sm text-gray-900 dark:text-white focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+              >
+                <option value="block">{t("form.overdraftBlock")}</option>
+                <option value="allow">{t("form.overdraftAllow")}</option>
+                <option value="invoice">{t("form.overdraftInvoice")}</option>
+              </select>
+              <p
+                id="overdraftPolicyHint"
+                className="mt-1 text-xs text-gray-500 dark:text-gray-400"
+              >
+                {t("form.overdraftHintEdit")}
+              </p>
+              {watch("overdraftPolicy") === "invoice" && (
+                <div className="mt-2">
+                  <label
+                    htmlFor="overdraftRate"
+                    className="block text-xs font-medium text-gray-700 dark:text-gray-300"
+                  >
+                    {t("form.overdraftRateLabel")}
+                  </label>
+                  <input
+                    id="overdraftRate"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder={t("form.overdraftRatePlaceholder")}
+                    {...register("overdraftRate")}
+                    className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1.5 text-sm text-gray-900 dark:text-white focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

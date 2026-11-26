@@ -129,6 +129,7 @@
     "dragHint": "Klicken und ziehen, um Zeiteinträge anzulegen",
     "connectBoth": "Google Kalender oder iCloud verbinden",
     "connectICloud": "iCloud-Kalender verbinden",
+    "connectCalendar": "Kalender verbinden (Google, Outlook oder iCloud)",
     "settings": "Einstellungen",
     "registerAll": "Alle erfassen ({count})",
     "sync": "Sync",
@@ -177,7 +178,8 @@
     "settingsSaved": "Deine Einstellungen wurden gespeichert",
     "back": "Zurück",
     "goToCalendar": "Zum Kalender",
-    "next": "Weiter"
+    "next": "Weiter",
+    "outlookNote": "{brand} liest deinen Outlook-Standardkalender. Die Verbindung verwaltest du unter <link>Einstellungen → Integrationen</link>. Filter und automatische Erfassung von hier gelten auch für Outlook."
   },
   "icloud": {
     "connected": "iCloud ist verbunden. Wähle jetzt, welche Kalender gelesen werden sollen.",
@@ -220,6 +222,29 @@
     "disconnect": "Verbindung trennen",
     "disconnectTitle": "iCloud-Kalender trennen",
     "disconnectDescription": "{brand} löscht das gespeicherte app-spezifische Passwort und die abgerufenen iCloud-Termine. Deine Zeiteinträge bleiben erhalten. Denke daran, das Passwort auch auf appleid.apple.com zu widerrufen.",
+    "disconnectConfirm": "Trennen"
+  },
+  "outlook": {
+    "title": "Outlook-Kalender",
+    "intro": "Führst du deinen Kalender in Outlook oder Microsoft 365? Sieh deine Termine in {brand} und erfasse Zeit daraus.",
+    "readOnlyNote": "{brand} fragt nur Lesezugriff auf deine Kalender an und schreibt nie hinein. Du meldest dich bei Microsoft an, und {brand} sieht dein Passwort nie.",
+    "connect": "Outlook verbinden",
+    "badgeConnected": "Verbunden",
+    "badgeReconnect": "Neu verbinden nötig",
+    "badgeReadOnly": "Nur Lesen",
+    "loadingStatus": "Outlook-Status wird geladen…",
+    "brokenConnection": "Die Verbindung zu Outlook funktioniert nicht mehr",
+    "reconnect": "Neu verbinden",
+    "connectedAs": "Verbunden als {account}",
+    "lastSynced": "Zuletzt synchronisiert {time}",
+    "syncing": "Synchronisiere…",
+    "syncNow": "Jetzt synchronisieren",
+    "syncResult": "Synchronisiert: {synced} neu, {updated} aktualisiert",
+    "syncFailed": "Synchronisierung fehlgeschlagen",
+    "disconnect": "Verbindung trennen",
+    "disconnected": "Outlook-Kalender getrennt",
+    "disconnectTitle": "Outlook-Kalender trennen",
+    "disconnectDescription": "{brand} löscht die gespeicherten Zugriffsschlüssel und die abgerufenen Outlook-Termine. Deine Zeiteinträge bleiben erhalten. Du kannst {brand} auch in deinem Microsoft-Konto unter Apps mit Zugriff entfernen.",
     "disconnectConfirm": "Trennen"
   }
 }

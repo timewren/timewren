@@ -8,6 +8,8 @@ import { EMPTY_LOCAL_DATA, EMPTY_SELECTION, removeClient, removeProject, removeT
 
 export const LOCAL_STORAGE_KEY = 'local-mode';
 
+export type ImportDestination = { server: string; userId: string; orgId: string };
+
 type LocalState = LocalData & {
   /** Brugeren har valgt at bruge appen uden konto. */
   enabled: boolean;
@@ -15,6 +17,7 @@ type LocalState = LocalData & {
   draft: LocalSelection;
   /** Server-id'er fra en påbegyndt overførsel, så et afbrudt forløb kan genoptages uden dubletter. */
   remoteIds: RemoteIdMap;
+  importDestination: ImportDestination | null;
   /** Brugeren har lukket "Kun på denne telefon"-banneret (tilbydes stadig under Administrér). */
   bannerDismissed: boolean;
   /** "Senere" på overførsels-skærmen — gælder kun denne app-session (persisteres ikke). */
@@ -39,6 +42,8 @@ type LocalActions = {
   deleteProject: (id: string) => void;
   deleteTag: (id: string) => void;
   setRemoteId: (localId: string, remoteId: string) => void;
+  setRemoteEntryId: (localId: string, remoteId: string) => void;
+  bindImport: (destination: ImportDestination) => void;
   deferImport: () => void;
   dismissBanner: () => void;
   /** Efter overførsel til konto (eller hvis brugeren sletter alt): ryd og slå tilstanden fra. */
@@ -56,7 +61,7 @@ const mmkvStorage = {
 const newId = () => Crypto.randomUUID();
 const nowIso = () => new Date().toISOString();
 
-const INITIAL: LocalState = { ...EMPTY_LOCAL_DATA, enabled: false, draft: EMPTY_SELECTION, remoteIds: {}, importDeferred: false, bannerDismissed: false };
+const INITIAL: LocalState = { ...EMPTY_LOCAL_DATA, enabled: false, draft: EMPTY_SELECTION, remoteIds: {}, importDestination: null, importDeferred: false, bannerDismissed: false };
 
 const _useLocalStore = create<LocalStore>()(
   persist(
@@ -109,6 +114,12 @@ const _useLocalStore = create<LocalStore>()(
       deleteProject: id => set(s => ({ ...removeProject(s, id), draft: s.draft.projectId === id ? { ...s.draft, projectId: null } : s.draft })),
       deleteTag: id => set(s => ({ ...removeTag(s, id), draft: { ...s.draft, tagIds: s.draft.tagIds.filter(t => t !== id) } })),
       setRemoteId: (localId, remoteId) => set(s => ({ remoteIds: { ...s.remoteIds, [localId]: remoteId } })),
+      setRemoteEntryId: (localId, remoteId) => set((s) => {
+        const remoteIds = { ...s.remoteIds, [localId]: remoteId };
+        delete remoteIds[`${localId}#tags`];
+        return { remoteIds };
+      }),
+      bindImport: importDestination => set({ importDestination }),
       deferImport: () => set({ importDeferred: true }),
       dismissBanner: () => set({ bannerDismissed: true }),
       clearAll: () => set({ ...INITIAL }),
@@ -126,6 +137,7 @@ const _useLocalStore = create<LocalStore>()(
         timer: s.timer,
         draft: s.draft,
         remoteIds: s.remoteIds,
+        importDestination: s.importDestination,
         bannerDismissed: s.bannerDismissed,
       }) as LocalStore,
     },

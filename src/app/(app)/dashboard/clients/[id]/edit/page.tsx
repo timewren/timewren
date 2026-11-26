@@ -4,61 +4,80 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Building2, Loader2, Save, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { use, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import {
+  checkClientTaxId,
+  isDanishClient,
+  normalizeClientTaxId,
+} from "@/components/clients/client-tax-id";
 import { PageHeader } from "@/components/dashboard-nav";
 import { TagPicker } from "@/components/tags/TagPicker";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
+import { useModules } from "@/hooks/useModules";
+import { defaultClientCountry } from "@/lib/org/region";
 import { trpc } from "@/providers/trpc-provider";
 
-const createClientSchema = (t: (key: string) => string) =>
-  z.object({
-    name: z.string().min(2, t("form.nameMin")),
-    email: z
-      .string()
-      .email(t("form.invalidEmail"))
-      .optional()
-      .or(z.literal("")),
-    phone: z.string().optional(),
-    company: z.string().optional(),
-    address: z.string().optional(),
-    city: z.string().optional(),
-    postalCode: z.string().optional(),
-    country: z.string().optional(),
-    cvrNumber: z.string().optional(),
-    notes: z.string().optional(),
-    defaultHourlyRate: z.string().optional(),
-    paymentTermsDays: z.string().optional(),
-    monthlyStatusReportEnabled: z.boolean().optional(),
-    autoReminderEnabled: z.boolean().optional(),
-    monthlyStatusNote: z.string().optional(),
-    color: z
-      .string()
-      .regex(/^#[0-9a-fA-F]{6}$/)
-      .nullable()
-      .optional(),
-    roundingEnabled: z.boolean().nullable().optional(),
-    roundingMinutes: z
-      .union([
-        z.literal(5),
-        z.literal(10),
-        z.literal(15),
-        z.literal(30),
-        z.literal(60),
-      ])
-      .nullable()
-      .optional(),
-    roundingMethod: z.enum(["up", "nearest", "down"]).nullable().optional(),
-    hidePrepaidValue: z.boolean().nullable().optional(),
-    isInternal: z.boolean().optional(),
-    approvalWorkflow: z
-      .enum(["off", "per_entry", "per_period", "per_invoice_draft"])
-      .nullable()
-      .optional(),
-  });
+const createClientSchema = (
+  t: (key: string) => string,
+  storedTaxId?: string | null,
+) =>
+  z
+    .object({
+      name: z.string().min(2, t("form.nameMin")),
+      email: z
+        .string()
+        .email(t("form.invalidEmail"))
+        .optional()
+        .or(z.literal("")),
+      phone: z.string().optional(),
+      company: z.string().optional(),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      postalCode: z.string().optional(),
+      country: z.string().optional(),
+      cvrNumber: z.string().optional(),
+      notes: z.string().optional(),
+      defaultHourlyRate: z.string().optional(),
+      paymentTermsDays: z.string().optional(),
+      monthlyStatusReportEnabled: z.boolean().optional(),
+      autoReminderEnabled: z.boolean().optional(),
+      monthlyStatusNote: z.string().optional(),
+      color: z
+        .string()
+        .regex(/^#[0-9a-fA-F]{6}$/)
+        .nullable()
+        .optional(),
+      roundingEnabled: z.boolean().nullable().optional(),
+      roundingMinutes: z
+        .union([
+          z.literal(5),
+          z.literal(10),
+          z.literal(15),
+          z.literal(30),
+          z.literal(60),
+        ])
+        .nullable()
+        .optional(),
+      roundingMethod: z.enum(["up", "nearest", "down"]).nullable().optional(),
+      hidePrepaidValue: z.boolean().nullable().optional(),
+      isInternal: z.boolean().optional(),
+      approvalWorkflow: z
+        .enum(["off", "per_entry", "per_period", "per_invoice_draft"])
+        .nullable()
+        .optional(),
+    })
+    .superRefine((data, ctx) =>
+      checkClientTaxId(
+        data,
+        ctx,
+        { vatInvalid: t("form.vatInvalid"), tooLong: t("form.taxIdTooLong") },
+        storedTaxId,
+      ),
+    );
 
 type ClientForm = z.infer<ReturnType<typeof createClientSchema>>;
 
@@ -70,10 +89,11 @@ export default function EditClientPage({
   const { id } = use(params);
   const t = useTranslations("clients");
   const tc = useTranslations("common");
-  const clientSchema = useMemo(() => createClientSchema(t), [t]);
   const router = useRouter();
   const [cvrNumber, setCvrNumber] = useState("");
   const [cvrError, setCvrError] = useState("");
+  const locale = useLocale();
+  const { region } = useModules();
   const [tagIds, setTagIds] = useState<string[]>([]);
   const [useCustomApproval, setUseCustomApproval] = useState(false);
   const [clientApprovalWorkflow, setClientApprovalWorkflow] = useState<
@@ -81,6 +101,10 @@ export default function EditClientPage({
   >(null);
 
   const { data: client, isLoading } = trpc.clients.getById.useQuery({ id });
+  const clientSchema = useMemo(
+    () => createClientSchema(t, client?.cvrNumber),
+    [t, client?.cvrNumber],
+  );
 
   useEffect(() => {
     if (client?.tags) {
@@ -114,7 +138,7 @@ export default function EditClientPage({
         address: client.address || "",
         city: client.city || "",
         postalCode: client.postalCode || "",
-        country: client.country || "Danmark",
+        country: client.country || defaultClientCountry(region, locale),
         cvrNumber: client.cvrNumber || "",
         notes: client.notes || "",
         defaultHourlyRate: client.defaultHourlyRate || "",
@@ -149,6 +173,9 @@ export default function EditClientPage({
     // overskrive det brugeren er i gang med at taste.
     resetOptions: { keepDirtyValues: true },
   });
+
+  // CVR-opslag og CVR-format kun for danske kunder; ellers momsnummer.
+  const isDanish = isDanishClient(watch("country"));
 
   const updateMutation = trpc.clients.update.useMutation({
     onSuccess: () => {
@@ -191,6 +218,7 @@ export default function EditClientPage({
         id,
         data: {
           ...rest,
+          cvrNumber: normalizeClientTaxId(data.country, data.cvrNumber),
           defaultBillable: !isInternal,
           paymentTermsDays: data.paymentTermsDays
             ? Number.parseInt(data.paymentTermsDays, 10)
@@ -242,61 +270,63 @@ export default function EditClientPage({
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Company Search */}
-        <div className="rounded-xl border border-brand-200 bg-brand-50 p-6 dark:border-brand-600 dark:bg-tt-gran-lys">
-          <div className="flex items-start gap-4">
-            <Building2 className="h-6 w-6 shrink-0 text-brand-600 dark:text-brand-400" />
-            <div className="flex-1">
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                {t("form.searchTitle")}
-              </h3>
-              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                {t("form.searchHint")}
-              </p>
-              <div className="mt-4 flex gap-2">
-                <input
-                  type="text"
-                  value={cvrNumber}
-                  onChange={(e) => {
-                    setCvrNumber(e.target.value);
-                    setCvrError("");
-                  }}
-                  placeholder={t("form.searchPlaceholder")}
-                  className="flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1.5 text-sm text-gray-900 dark:text-white focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
-                />
-                <button
-                  type="button"
-                  onClick={handleCVRLookup}
-                  disabled={cvrLookupMutation.isPending || !cvrNumber}
-                  className="inline-flex items-center gap-2 rounded-lg bg-tt-gran px-4 py-2 text-sm font-medium text-tt-paa-gran transition-colors hover:bg-tt-gran-moerk disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {cvrLookupMutation.isPending ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      {t("form.searching")}
-                    </>
-                  ) : (
-                    <>
-                      <Search className="h-4 w-4" />
-                      {t("form.searchButton")}
-                    </>
-                  )}
-                </button>
-              </div>
-              {cvrError && (
-                <p className="mt-2 text-sm text-red-600">{cvrError}</p>
-              )}
-              {cvrLookupMutation.data && !cvrError && (
-                <p className="mt-2 text-sm text-green-600">
-                  {t("form.found", {
-                    name: cvrLookupMutation.data.name,
-                    cvr: cvrLookupMutation.data.cvrNumber,
-                  })}
+        {/* Company Search (CVR, kun danske kunder) */}
+        {isDanish && (
+          <div className="rounded-xl border border-brand-200 bg-brand-50 p-6 dark:border-brand-600 dark:bg-tt-gran-lys">
+            <div className="flex items-start gap-4">
+              <Building2 className="h-6 w-6 shrink-0 text-brand-600 dark:text-brand-400" />
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                  {t("form.searchTitle")}
+                </h3>
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                  {t("form.searchHint")}
                 </p>
-              )}
+                <div className="mt-4 flex gap-2">
+                  <input
+                    type="text"
+                    value={cvrNumber}
+                    onChange={(e) => {
+                      setCvrNumber(e.target.value);
+                      setCvrError("");
+                    }}
+                    placeholder={t("form.searchPlaceholder")}
+                    className="flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1.5 text-sm text-gray-900 dark:text-white focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCVRLookup}
+                    disabled={cvrLookupMutation.isPending || !cvrNumber}
+                    className="inline-flex items-center gap-2 rounded-lg bg-tt-gran px-4 py-2 text-sm font-medium text-tt-paa-gran transition-colors hover:bg-tt-gran-moerk disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {cvrLookupMutation.isPending ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        {t("form.searching")}
+                      </>
+                    ) : (
+                      <>
+                        <Search className="h-4 w-4" />
+                        {t("form.searchButton")}
+                      </>
+                    )}
+                  </button>
+                </div>
+                {cvrError && (
+                  <p className="mt-2 text-sm text-red-600">{cvrError}</p>
+                )}
+                {cvrLookupMutation.data && !cvrError && (
+                  <p className="mt-2 text-sm text-green-600">
+                    {t("form.found", {
+                      name: cvrLookupMutation.data.name,
+                      cvr: cvrLookupMutation.data.cvrNumber,
+                    })}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Client Form */}
         <div className="rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 p-6">
@@ -445,15 +475,21 @@ export default function EditClientPage({
                   htmlFor="cvrNumber"
                   className="mb-1.5 block text-xs font-medium text-gray-700 dark:text-gray-300"
                 >
-                  {t("form.cvr")}
+                  {isDanish ? t("form.cvr") : t("form.vatNumber")}
                 </label>
                 <input
                   id="cvrNumber"
                   {...register("cvrNumber")}
                   className="w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-1.5 text-sm text-gray-900 dark:text-white focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20"
-                  placeholder="12345678"
-                  maxLength={8}
+                  placeholder={isDanish ? "12345678" : "DE123456789"}
+                  maxLength={isDanish ? 8 : 20}
+                  aria-invalid={!!errors.cvrNumber}
                 />
+                {errors.cvrNumber?.message && (
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                    {errors.cvrNumber.message}
+                  </p>
+                )}
               </div>
             </div>
 

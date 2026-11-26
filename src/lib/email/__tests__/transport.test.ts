@@ -108,6 +108,7 @@ describe("sendMail", () => {
     delete process.env.MAIL_TRANSPORT;
   });
   afterEach(() => {
+    vi.unstubAllEnvs();
     process.env = { ...original };
     vi.restoreAllMocks();
   });
@@ -142,18 +143,34 @@ describe("sendMail", () => {
     expect(res.error).toBeNull();
   });
 
-  it("SMTP: fejl bliver til { error }, ikke exception (som Resend)", async () => {
+  it("SMTP: sanitizes provider errors in the result and log", async () => {
     process.env.SMTP_HOST = "smtp.example.com";
-    sendMailMock.mockRejectedValue(new Error("connect ECONNREFUSED"));
-    vi.spyOn(console, "error").mockImplementation(() => {});
-    const res = await sendMail(payload);
-    expect(res.data).toBeNull();
-    expect(res.error?.message).toContain("ECONNREFUSED");
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    sendMailMock.mockRejectedValue(
+      new Error(
+        `535 Authentication failed for smtp-user; recipient: <${payload.to}>`,
+      ),
+    );
+
+    const result = await sendMail(payload);
+
+    expect(sendMailMock).toHaveBeenCalledOnce();
+    expect(result).toEqual({
+      data: null,
+      error: {
+        name: "application_error",
+        statusCode: null,
+        message: "[Mail] SMTP-afsendelse fejlede",
+      },
+      headers: null,
+    });
+    expect(log.mock.calls).toEqual([["[Mail] SMTP-afsendelse fejlede"]]);
   });
 
   it("log-only: sender intet, advarer én gang og lykkes", async () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    vi.spyOn(console, "info").mockImplementation(() => {});
+    const info = vi.spyOn(console, "info").mockImplementation(() => {});
+    vi.stubEnv("NODE_ENV", "development");
     const deliver = vi.fn();
     const a = await sendMail(payload, deliver);
     await sendMail(payload, deliver);
@@ -162,6 +179,10 @@ describe("sendMail", () => {
     expect(a.error).toBeNull();
     expect(a.data?.id).toMatch(/^log-/);
     expect(warn).toHaveBeenCalledTimes(1);
+    expect(info.mock.calls).toEqual([
+      ["[Mail:log] Mail suppressed"],
+      ["[Mail:log] Mail suppressed"],
+    ]);
   });
 });
 

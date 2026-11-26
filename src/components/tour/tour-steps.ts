@@ -83,7 +83,7 @@ export const tourSteps: TourStep[] = [
   },
   {
     target: "dashboard-edit-btn",
-    title: "Tilpas dit Overblik",
+    title: "Tilpas dit overblik",
     description:
       "Klik her for at tilføje, fjerne og flytte widgets, så overblikket passer til din arbejdsgang.",
     placement: "bottom",
@@ -109,7 +109,7 @@ export const tourSteps: TourStep[] = [
   },
   {
     target: "timer-project-select",
-    title: "Vælg Projekt",
+    title: "Vælg projekt",
     description:
       "Vælg hvilket projekt du registrerer tid på. Timepris hentes automatisk fra projektet eller kunden.",
     placement: "bottom",
@@ -117,7 +117,7 @@ export const tourSteps: TourStep[] = [
   },
   {
     target: "time-entries-list",
-    title: "Dine Tidsregistreringer",
+    title: "Dine tidsregistreringer",
     description:
       "Her finder du alle dine tidsregistreringer. Rediger, filtrer efter dato, og eksportér til CSV.",
     placement: "top",
@@ -127,7 +127,7 @@ export const tourSteps: TourStep[] = [
   },
   {
     target: "time-view-toggle",
-    title: "Skift Visning",
+    title: "Skift visning",
     description:
       "Skift mellem listevisning og ugeoversigt (timesheet). Ugeoversigten giver hurtigt overblik over din uge.",
     placement: "bottom",
@@ -148,7 +148,7 @@ export const tourSteps: TourStep[] = [
   },
   {
     target: "tasks-add-btn",
-    title: "Opret Opgaver",
+    title: "Opret opgaver",
     description:
       "Tilføj nye opgaver med ét klik. Sæt deadline, prioritet og knyt dem til et projekt.",
     placement: "bottom",
@@ -157,7 +157,7 @@ export const tourSteps: TourStep[] = [
   },
   {
     target: "tasks-view-toggle",
-    title: "Kanban eller Liste",
+    title: "Kanban eller liste",
     description:
       "Skift mellem kanban-board og listevisning. Vælg det, der passer bedst til dig.",
     placement: "bottom",
@@ -168,7 +168,7 @@ export const tourSteps: TourStep[] = [
   // === Sektion 4: Kunder & Projekter ===
   {
     target: "clients-list",
-    title: "Dine Kunder",
+    title: "Dine kunder",
     description:
       "Administrer kunder med kontaktinfo, CVR-opslag og individuelle timepriser.",
     placement: "top",
@@ -179,7 +179,7 @@ export const tourSteps: TourStep[] = [
   },
   {
     target: "clients-add-btn",
-    title: "Tilføj Kunder",
+    title: "Tilføj kunder",
     description:
       "Opret nye kunder her. Brug CVR-opslag til automatisk at hente firmaoplysninger fra det danske CVR-register.",
     placement: "bottom",
@@ -273,7 +273,7 @@ export const tourSteps: TourStep[] = [
   },
   {
     target: "settings-sidebar",
-    title: "Flere Indstillinger",
+    title: "Flere indstillinger",
     description:
       "Udforsk de øvrige indstillinger: virksomhedsprofil, sikkerhed, e-mail-integration, notifikationer, GDPR og meget mere.",
     placement: "right",

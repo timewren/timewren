@@ -1,9 +1,9 @@
 ---
 title: "Calendar"
-description: "Connect Google Calendar or iCloud to TimeWren to see meetings, plan time blocks and turn events into time entries. Outlook is not supported."
+description: "Connect Google Calendar, Outlook or iCloud to TimeWren to see meetings, plan time blocks and turn events into time entries."
 ---
 
-TimeWren can read your calendar to show meetings next to your time entries, suggest free slots for tasks, and turn events into time entries. Two providers exist: Google Calendar and iCloud. There is no Outlook or Microsoft 365 calendar sync. The database schema leaves room for a provider named `outlook`, but nothing implements it. Microsoft Entra ID in TimeWren is for [sign-in only](/docs/configuration/authentication#oauth-providers).
+TimeWren can read your calendar to show meetings next to your time entries, suggest free slots for tasks, and turn events into time entries. Three providers exist: Google Calendar, Outlook (Microsoft 365 and Outlook.com, via Microsoft Graph) and iCloud. Each is only shown when it is configured.
 
 <Screenshot name="calendar" alt="The calendar view" />
 
@@ -54,7 +54,42 @@ If your OAuth consent screen is in testing mode, add your users as test users, o
 
 ### Connect as a user
 
-Open Settings, Integrations, choose Connect Google Calendar and approve access. Then pick which calendars to sync. You can set sync filters, a privacy mode, and matching rules that map event titles to projects. Disconnect removes the connection from the same page.
+Open Settings, Integrations, choose Connect Google Calendar and approve access. Then pick which calendars to sync. You can set sync filters, a privacy mode, and matching rules that map event titles to projects. Disconnect removes the connection from the same page and at the same time revokes TimeWren's access at Google, so the app also disappears from the Google account's third-party connections (myaccount.google.com/connections). Deleting your account does the same for every Google connection. Access is only revoked when that is safe; otherwise the connection is only removed here. That happens when another connection (also another user's or another brand's) uses the same Google account, when an older connection has not synced yet so its Google account is unknown, and when Google cannot be reached. In those cases you can check and revoke access at myaccount.google.com/connections yourself.
+
+If you reconnect a few seconds after disconnecting, Google's revocation, which takes effect with a short delay ([Google's documentation](https://developers.google.com/identity/protocols/oauth2/web-server#tokenrevoke)), can also hit the new connection. If the calendar then shows "Reconnect", connect once more.
+
+## Outlook
+
+Outlook uses Microsoft Graph and is read only: TimeWren reads the user's default calendar and never writes to it.
+
+### Server setup
+
+1. In the Microsoft Entra admin center, create an app registration. Choose the account types you want to allow (all organizations and personal accounts matches tenant `common`).
+2. Add a redirect URI of platform type "Web":
+
+   ```text
+   https://timewren.example.com/api/integrations/outlook/callback
+   ```
+
+3. Under API permissions, add the delegated Microsoft Graph permissions `offline_access`, `User.Read` and `Calendars.Read`. They need no admin consent. Create a client secret under Certificates & secrets and note its expiry date.
+4. Set the credentials in `.env`:
+
+   ```dotenv
+   OUTLOOK_CALENDAR_CLIENT_ID=your-application-id
+   OUTLOOK_CALENDAR_CLIENT_SECRET=your-client-secret
+   # common (default), organizations, consumers or a tenant GUID
+   # OUTLOOK_CALENDAR_TENANT_ID=common
+   # Only if the callback differs from NEXT_PUBLIC_APP_URL + /api/integrations/outlook/callback
+   # OUTLOOK_CALENDAR_REDIRECT_URI=https://timewren.example.com/api/integrations/outlook/callback
+   ```
+
+5. Restart the app.
+
+The Microsoft Entra ID sign-in app (`MICROSOFT_CLIENT_ID`) is never used for the calendar. Without the variables above, Outlook is not shown. The flow uses PKCE and a signed state, and tokens are stored encrypted, so `ENCRYPTION_KEY` must be set.
+
+### Connect as a user
+
+Open Settings, Integrations, choose Connect Outlook, sign in with Microsoft and approve access. Events from 30 days back to 90 days ahead are synced every 15 minutes by the same cron job, and Sync now runs it on demand. There are no push notifications for Outlook. The sync filters, privacy mode and matching rules are shared with the other providers. Disconnect deletes the stored tokens and the fetched Outlook events. Microsoft has no way to revoke a single app's token, so access is only removed in TimeWren. To remove the app from the Microsoft account too, go to account.live.com/consent/Manage (personal accounts) or myapps.microsoft.com (work accounts).
 
 ## iCloud
 
@@ -68,4 +103,4 @@ To connect:
 2. In TimeWren, open Settings, Integrations, find the iCloud calendar section, enter the Apple ID and the app-specific password, and connect.
 3. Choose which calendars to read. Nothing is read from calendars you leave unticked.
 
-Events from 30 days back to 90 days ahead are synced. The same cron job refreshes them every 15 minutes, and Sync now runs it on demand. The sync filters, privacy mode and matching rules are shared with Google.
+Events from 30 days back to 90 days ahead are synced. The same cron job refreshes them every 15 minutes, and Sync now runs it on demand. The sync filters, privacy mode and matching rules are shared with Google and Outlook.

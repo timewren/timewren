@@ -130,6 +130,7 @@ mod tests {
             description: None,
             customer_id: None,
             status_id: None,
+            completed: None,
         }
     }
 

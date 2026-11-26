@@ -30,3 +30,22 @@ export async function isTestEmailRecipient(
     throw new Error("Unable to classify an email recipient");
   }
 }
+
+export async function isTestEmailRecipientOrAllow(
+  email: string,
+  userId?: string,
+  organizationId?: string | null,
+): Promise<boolean> {
+  try {
+    return await isTestEmailRecipient(email, userId, organizationId);
+  } catch {
+    console.warn(
+      "Test recipient lookup failed. Continuing with email delivery",
+      {
+        userId,
+        organizationId,
+      },
+    );
+    return false;
+  }
+}

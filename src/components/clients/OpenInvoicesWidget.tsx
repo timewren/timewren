@@ -13,6 +13,7 @@ interface OpenInvoicesWidgetProps {
 
 export function OpenInvoicesWidget({ clientId }: OpenInvoicesWidgetProps) {
   const t = useTranslations("clients");
+  const tInvoices = useTranslations("invoices");
   const { data: invoices, isLoading } = trpc.invoices.list.useQuery({
     clientId,
     limit: 100,
@@ -168,7 +169,10 @@ export function OpenInvoicesWidget({ clientId }: OpenInvoicesWidgetProps) {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {formatInvoiceNumber(invoice.invoiceNumber)}
+                        {formatInvoiceNumber(
+                          invoice.invoiceNumber,
+                          tInvoices("status.draft"),
+                        )}
                       </p>
                       {dueInfo && (
                         <p

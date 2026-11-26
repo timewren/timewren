@@ -2,6 +2,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const state = vi.hoisted(() => ({
   sessionUserId: "user-me" as string | null,
+  sessionEmail: "demo-eur-test@demo.invalid",
+  csvRequest: null as Record<string, unknown> | null,
   orgRequest: null as Record<string, unknown> | null,
   role: null as string | null,
   updates: 0,
@@ -17,7 +19,9 @@ vi.mock("@/lib/auth", () => ({
   auth: {
     api: {
       getSession: async () =>
-        state.sessionUserId ? { user: { id: state.sessionUserId } } : null,
+        state.sessionUserId
+          ? { user: { id: state.sessionUserId, email: state.sessionEmail } }
+          : null,
     },
   },
 }));
@@ -25,14 +29,13 @@ vi.mock("@/lib/db", () => ({
   db: {
     query: {
       dataExportRequests: {
-        // Første opslag er org-eksporten; det andet (personlig) finder intet.
         findFirst: vi
           .fn()
           .mockImplementation(async (args: { where: unknown }) => {
             state.lookups.push(args.where);
-            // Kun det første opslag (ZIP-typerne) finder noget; det andet
-            // er den gamle JSON/CSV-eksport og finder intet.
-            return state.lookups.length % 2 === 1 ? state.orgRequest : null;
+            return state.lookups.length === 1
+              ? state.orgRequest
+              : state.csvRequest;
           })
           .mockName("findFirst"),
       },
@@ -49,6 +52,20 @@ vi.mock("@/lib/db", () => ({
 vi.mock("@/lib/export/org-export/storage", () => ({
   isExportStorageConfigured: () => state.storageConfigured,
   getOrgExportStream: async () => state.stored,
+}));
+
+vi.mock("@/lib/utils/data-export", () => ({
+  generateUserDataExport: async () => ({
+    clients: [],
+    projects: [],
+    timeEntries: [],
+    tasks: [],
+    invoices: [{ amount: "125.50" }],
+    invoiceLines: [],
+    prepaidPackages: [{ totalValue: "450.75" }],
+    prepaidUsage: [],
+    rateHistory: [],
+  }),
 }));
 
 import { PgDialect } from "drizzle-orm/pg-core";
@@ -210,4 +227,33 @@ describe("GET /api/data-export/[token] for bruger-eksport (egne data)", () => {
       expect.arrayContaining(["org_full", "user_full"]),
     );
   });
+});
+
+describe("GET /api/data-export/[token] for legacy CSV", () => {
+  it.each([
+    ["1", "demo-eur-test@demo.invalid", "EUR"],
+    ["1", "demo-legacy@demo.invalid", "kr"],
+    ["0", "demo-eur-test@demo.invalid", "kr"],
+  ])(
+    "formats CSV amounts with DEMO_MODE=%s for %s",
+    async (mode, email, currency) => {
+      vi.stubEnv("DEMO_MODE", mode);
+      state.sessionUserId = "user-me";
+      state.sessionEmail = email;
+      state.lookups = [];
+      state.orgRequest = null;
+      state.csvRequest = { id: "req-csv", userId: "user-me", format: "csv" };
+
+      try {
+        const response = await call();
+        expect(response.status).toBe(200);
+        const csv = await response.text();
+        expect(csv).toContain(`125,50 ${currency}`);
+        expect(csv).toContain(`450,75 ${currency}`);
+      } finally {
+        state.csvRequest = null;
+        vi.unstubAllEnvs();
+      }
+    },
+  );
 });

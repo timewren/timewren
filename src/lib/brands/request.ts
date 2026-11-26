@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import { type Brand, brand as buildBrand, getBrand } from "@/lib/brand";
+import { type Brand, getBrand } from "@/lib/brand";
 import { getMarketingUrl } from "@/lib/config";
 import {
   type BrandHostConfig,
@@ -19,13 +19,6 @@ export interface RequestBrand {
   baseUrl: string | null;
 }
 
-const STATIC: RequestBrand = {
-  brand: buildBrand,
-  host: null,
-  locale: null,
-  baseUrl: null,
-};
-
 /**
  * Brandet for den aktuelle forespørgsel. Uden MULTIBRAND_ENABLED=1 returneres
  * build-brandet uden at røre headers(), så sider forbliver statiske og
@@ -33,7 +26,9 @@ const STATIC: RequestBrand = {
  * klient-sat x-brand), så det ikke kan forfalskes.
  */
 export async function getRequestBrand(): Promise<RequestBrand> {
-  if (!isMultibrandEnabled()) return STATIC;
+  if (!isMultibrandEnabled()) {
+    return { brand: getBrand(), host: null, locale: null, baseUrl: null };
+  }
   const h = await headers();
   const cfg = resolveBrandByHost(h.get("host"));
   const hostLocale = h.get(LOCALE_HEADER) ?? "";

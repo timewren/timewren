@@ -5,6 +5,7 @@ import { apiClient } from "../../../api/client";
 import { useT } from "../../../i18n";
 import { formatHoursShort } from "../../../lib/format-hours";
 import {
+  canTakePrepaidHours,
   formatPrepaidExpiryDate,
   isPrepaidExpiringSoon,
   resolvePrepaidPackage,
@@ -123,7 +124,10 @@ export function PrepaidTab({ onTimerStarted }: PrepaidTabProps = {}) {
         // Kun når der hverken kører eller ligger en pauset timer — en fresh
         // start ville ellers overskrive den pausede tid.
         const canStart =
-          !timer?.isRunning && !hasTime && pkg.remainingHours > 0 && !isSyncing;
+          !timer?.isRunning &&
+          !hasTime &&
+          canTakePrepaidHours(pkg) &&
+          !isSyncing;
 
         return (
           <div

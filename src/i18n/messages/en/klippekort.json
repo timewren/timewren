@@ -26,28 +26,41 @@
   "assignedWithBalance": "{count, plural, one {# entry} other {# entries}} deducted from {name}, {balance} left",
   "overflowed": "{count} entries could not be covered by the package and remain billable",
   "bulk": {
-    "failed": "Could not deduct the hours",
-    "title": "Deduct from prepaid package",
-    "description": "{count, plural, one {# entry is deducted from the selected package.} other {# entries are deducted from the selected package.}}",
+    "title": "Link to prepaid package",
+    "description": "{count, plural, one {Choose a prepaid package for # time entry.} other {Choose a prepaid package for # time entries.}}",
     "noPackages": "{client} has no active prepaid packages.",
     "noClient": "The selected entries have no client to deduct from.",
-    "left": "{time} left",
-    "selectedHours": "The selected entries amount to {time}.",
-    "exceeds": "The hours exceed the package balance. Depending on the package's overdraft policy, the deduction is rejected or the rest is carried as overdraft.",
-    "submit": "Deduct from prepaid package"
+    "left": "{time} left"
   },
+  "assignedTimeStaysOnProject": "The time stays on its project. It only draws down the prepaid balance.",
   "assign": {
+    "selectedDescription": "Review the deduction from {name} before linking the time.",
+    "ineligibleSelection": "One or more selected entries cannot be linked. Check that they are unbilled, unlocked, and belong to the package’s client.",
+    "alreadyOnPackage": "The selected time entries are already linked to this prepaid package.",
     "failed": "Could not deduct the entries",
     "title": "Link existing time",
-    "description": "Choose the entries to deduct from {name}. Only the client's time that has neither been deducted nor invoiced is shown here.",
+    "description": "Choose uninvoiced time for this client to deduct from {name}. By default, the list shows time without a prepaid package.",
     "loadFailed": "Could not load the time entries. Try opening the window again.",
-    "empty": "There is no undeducted time on this client.",
+    "empty": "No time entries match these filters.",
     "deselectAll": "Deselect all",
     "selectAll": "Select all ({count})",
-    "balance": "Balance: {time}",
-    "exceeds": "The selected {selected} exceed the balance of {balance}. Depending on the package's overdraft policy, the deduction is rejected or the rest is carried as overdraft.",
     "selectedSummary": "{count} selected, {time}",
-    "submit": "Deduct from prepaid package"
+    "submit": "Deduct from prepaid package",
+    "includeOtherCards": "Include time on other prepaid packages",
+    "projectsFailed": "Could not load the project list.",
+    "selectProject": "Select all in {name} ({count})",
+    "selection": "Selection",
+    "reviewMove": "Review move",
+    "confirmMove": "Reverse {restored} hours on {from} and deduct {deducted} hours from {to}.",
+    "confirmLink": "Link {hours} hours without a prepaid package to {to}",
+    "confirmInvoiceFrom": "Reverse {restored} hours on {from}. {hours} hours become billable without a prepaid package.",
+    "confirmInvoice": "{hours} hours without a prepaid package remain billable.",
+    "balanceAfter": "Balance after linking: {time}",
+    "exceedsBlock": "The selected entries require {selected} after rounding. The balance is {balance} and overdraft is disabled. Select entries that fit the balance after rounding, or allow overdraft under Edit on the package page.",
+    "exceedsBlockWithClips": "The selected entries require {selected} after rounding. There is {balance} left, but the balance covers at most {limit} in a single entry. The deduction is calculated for each entry separately and rounded up to whole clips and hundredths of an hour, so several small entries can deduct more. Overdraft is disabled. Select entries the balance can cover, or allow overdraft under Edit on the package page.",
+    "balanceBelowClip": "The balance is {balance} and the smallest deduction is {minimum}. You cannot attach time because overdraft is disabled. Allow overdraft under Edit on the package page.",
+    "exceedsAllow": "The selected entries require {selected}. The package has {balance} left. The difference will be recorded as an overdraft.",
+    "exceedsInvoice": "The selected entries require {selected}. The package has {balance} left. Entries it cannot cover become billable without a prepaid package."
   },
   "holes": {
     "label": "{remaining} h left of {total}",
@@ -137,6 +150,12 @@
       "openInvoice": "Open the invoice and try again",
       "approveAndSend": "Approve and review sending"
     }
+  },
+  "usagePdf": {
+    "date": "Date",
+    "description": "Description",
+    "hours": "Hours",
+    "value": "Value ({currency})"
   },
   "detail": {
     "renewalUpdated": "Renewal updated",
@@ -305,6 +324,7 @@
     "overdraftInvoice": "Overflow to normal invoicing",
     "overdraftRateLabel": "Overdraft rate (DKK per hour, empty = the entry's own rate)",
     "overdraftRatePlaceholder": "e.g. 950",
+    "overdraftHintEdit": "Applies from now on. Hours already deducted are not changed.",
     "purchaseDate": "Purchase date *",
     "expiryDate": "Expiry date (optional)",
     "expiryHint": "Leave empty if the prepaid package does not expire",

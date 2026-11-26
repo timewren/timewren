@@ -4,6 +4,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { I18nManager } from 'react-native';
 
+import { brandVariables } from './brand-variables';
 import { resources } from './resources';
 import { getLanguage } from './utils';
 
@@ -22,6 +23,8 @@ i18n.use(initReactI18next).init({
   // allows integrating dynamic values into translations.
   interpolation: {
     escapeValue: false, // escape passed in values to avoid XSS injections
+    // {{appName}}, {{site}} og {{webHost}} er brandets navn, website og serverens webadresse.
+    defaultVariables: brandVariables(),
   },
 });
 

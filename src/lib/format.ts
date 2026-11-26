@@ -1,5 +1,7 @@
 import { toIntlLocale } from "@/i18n/format-locale";
 import { resolveSharedLocale, sharedT } from "@/i18n/shared-text";
+import { withDemoCurrency } from "@/lib/demo/currency-messages";
+import { activeDemoCurrency } from "@/lib/demo/demo-mode";
 
 /**
  * Centralized formatting utilities for TimeTrack
@@ -32,14 +34,14 @@ export const dkkFormatter = {
 };
 
 /**
- * Shared Intl.NumberFormat for Danish currency (DKK) with the built-in
+ * Shared Intl.NumberFormat for app amounts with the built-in
  * currency symbol.  Use when you need the full "1.234 kr." output.
  */
 export const dkkCurrencyFormatter = {
   format: (value: number, locale?: LocaleArg): string =>
     new Intl.NumberFormat(intl(locale), {
       style: "currency",
-      currency: "DKK",
+      currency: activeDemoCurrency(),
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value),
@@ -65,6 +67,19 @@ export function toLocalDateStr(d: Date): string {
 export function parseLocalDateStr(dateStr: string): Date {
   const [year, month, day] = dateStr.split("-").map(Number);
   return new Date(year, month - 1, day);
+}
+
+/** "2 t 15 min" / "45 min" / "0 min" (enheder kan gives pr. sprog) */
+export function formatDuration(
+  hours: number,
+  units: { h: string; min: string } = { h: "t", min: "min" },
+): string {
+  const totalMin = Math.max(0, Math.round(hours * 60));
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  if (h === 0) return `${m} ${units.min}`;
+  if (m === 0) return `${h} ${units.h}`;
+  return `${h} ${units.h} ${m} ${units.min}`;
 }
 
 /**
@@ -203,11 +218,8 @@ export function formatCurrency(
 ): string {
   const {
     decimals = 0,
-    suffix = sharedT(
-      "sharedFormat",
-      "currencySuffix",
-      undefined,
-      options.locale,
+    suffix = withDemoCurrency(
+      sharedT("sharedFormat", "currencySuffix", undefined, options.locale),
     ),
     showZero = true,
   } = options;
@@ -241,7 +253,9 @@ export function formatHourlyRate(
   locale?: LocaleArg,
 ): string {
   return formatCurrency(rate, {
-    suffix: sharedT("sharedFormat", "hourlyRateSuffix", undefined, locale),
+    suffix: withDemoCurrency(
+      sharedT("sharedFormat", "hourlyRateSuffix", undefined, locale),
+    ),
     locale,
   });
 }

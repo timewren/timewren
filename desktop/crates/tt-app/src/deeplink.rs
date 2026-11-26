@@ -18,7 +18,7 @@ use std::net::{Ipv4Addr, SocketAddr, TcpListener, TcpStream};
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
-pub const SCHEME: &str = "timetrack";
+pub const SCHEME: &str = tt_core::edition::EDITION.url_scheme;
 
 /// Hvad et link fra OS'et skal bruges til.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -249,7 +249,7 @@ fn read_messages(stream: TcpStream, token: &str) -> Vec<Message> {
 pub fn windows_scheme_entries(exe: &str) -> Vec<(String, &'static str, String)> {
     let root = format!(r"Software\Classes\{SCHEME}");
     vec![
-        (root.clone(), "", "URL:TimeTrack".into()),
+        (root.clone(), "", format!("URL:{}", tt_core::edition::EDITION.name)),
         (root.clone(), "URL Protocol", String::new()),
         (format!(r"{root}\DefaultIcon"), "", format!("\"{exe}\",0")),
         (
@@ -334,10 +334,10 @@ pub fn register_scheme() -> std::io::Result<()> {
     // Den installerede mappe: installerens standard og den, den selv har gemt.
     let mut installed_dirs = vec![];
     if let Some(local) = std::env::var_os("LOCALAPPDATA") {
-        installed_dirs.push(format!("{}\\TimeTrack", local.to_string_lossy()));
+        installed_dirs.push(format!("{}\\{}", local.to_string_lossy(), tt_core::edition::EDITION.name));
     }
     installed_dirs.extend(
-        query_default(r"HKCU\Software\timetrack\TimeTrack")
+        query_default(&format!(r"HKCU\Software\{}\{}", tt_core::edition::EDITION.id, tt_core::edition::EDITION.name))
             .map(|d| d.trim_matches('"').to_owned())
             .filter(|d| !d.is_empty()),
     );
@@ -556,5 +556,29 @@ mod tests {
         assert!(forward(port, "forkert", &[Message::Url("timetrack://x".into())]).is_err());
         std::thread::sleep(Duration::from_millis(50));
         assert!(got.lock().unwrap().is_empty());
+    }
+}
+
+#[cfg(test)]
+mod brand_tests {
+    use super::*;
+
+    /// Skemaet er udgavens, og den anden udgaves login-svar er ikke vores.
+    #[test]
+    fn brand_deeplink_skemaet_er_udgavens() {
+        let e = tt_core::edition::EDITION;
+        assert_eq!(SCHEME, e.url_scheme);
+        assert!(is_auth_callback(&e.redirect_uri()));
+        for other in tt_core::edition::Edition::ALL.iter().filter(|o| o.id != e.id) {
+            assert!(!is_auth_callback(&other.redirect_uri()), "{}", other.id);
+        }
+    }
+
+    #[cfg(target_os = "windows")]
+    #[test]
+    fn brand_windows_skemaets_navn_er_udgavens() {
+        let e = windows_scheme_entries(r"C:\x\app.exe");
+        assert_eq!(e[0].0, format!(r"Software\Classes\{}", tt_core::edition::EDITION.url_scheme));
+        assert_eq!(e[0].2, format!("URL:{}", tt_core::edition::EDITION.name));
     }
 }

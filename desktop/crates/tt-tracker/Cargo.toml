@@ -38,6 +38,9 @@ windows = { version = "=0.58.0", features = [
 [features]
 default = ["bundled"]
 bundled = ["rusqlite/bundled"]
+# Mac App Store-udgaven (App Sandbox): ingen sonder (Tilgængelighed, Apple
+# Events, vinduesliste), `native()` ser intet, og ingen tilladelser bedes om.
+mas = []
 
 [dev-dependencies]
 chrono-tz.workspace = true

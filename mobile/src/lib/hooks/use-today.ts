@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppState } from 'react-native';
-import { toISODate } from '~/lib/format';
+import { toCopenhagenISODate, toISODate } from '~/lib/format';
 
 /** Millisekunder til næste lokale midnat — aldrig under et minut, så et ur der springer ikke giver et tæt loop. */
 function msUntilMidnight(): number {
@@ -19,18 +19,22 @@ function msUntilMidnight(): number {
  * bliver aktiv igen — en telefon der lå på bordet over natten skal vise
  * dagens dato, ikke gårsdagens.
  */
-export function useToday(): string {
-  const [today, setToday] = React.useState(() => toISODate(new Date()));
+export function useToday(timeZone: 'local' | 'Europe/Copenhagen' = 'local'): string {
+  const dateAt = timeZone === 'Europe/Copenhagen' ? toCopenhagenISODate : toISODate;
+  const [today, setToday] = React.useState(() => dateAt(new Date()));
 
   React.useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
     const schedule = () => {
       if (timer)
         clearTimeout(timer);
+      // Danish midnight falls on a whole UTC hour in both winter and summer.
+      const hour = 60 * 60 * 1000;
+      const delay = timeZone === 'Europe/Copenhagen' ? hour - Date.now() % hour : msUntilMidnight();
       timer = setTimeout(() => {
-        setToday(toISODate(new Date()));
+        setToday(dateAt(new Date()));
         schedule();
-      }, msUntilMidnight());
+      }, delay);
     };
     schedule();
 
@@ -39,14 +43,14 @@ export function useToday(): string {
     // uændret værdi, så det koster intet at læse dagen igen.
     const sub = AppState.addEventListener('change', (state) => {
       if (state === 'active')
-        setToday(toISODate(new Date()));
+        setToday(dateAt(new Date()));
     });
     return () => {
       if (timer)
         clearTimeout(timer);
       sub.remove();
     };
-  }, []);
+  }, [dateAt, timeZone]);
 
   return today;
 }

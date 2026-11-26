@@ -23,9 +23,8 @@ use crate::i18n::{t, tf};
 use crate::screens::login::parse_auth_callback;
 use crate::ui::{self, Tone};
 
-/// Køb af livstidslicens (499 kr., Stripe via web): kortet "Kun på denne
-/// computer" på desktop-siden (`#licens`, web-branch feat/desktop-licens-499).
-pub const BUY_URL: &str = "https://timetrack.dk/desktop#licens";
+/// Køb af livstidslicens (Stripe via web), pr. udgave: se `Edition::buy_url`.
+pub const BUY_URL: &str = tt_core::edition::EDITION.buy_url;
 
 // ---------- Import ----------
 
@@ -270,6 +269,8 @@ pub struct OnboardingView {
     chosen: Option<Chosen>,
     license_key: Entity<InputState>,
     paste: Entity<InputState>,
+    /// Egen server (self-host); kun i TimeWren.
+    server: Entity<InputState>,
     permissions: Option<Permissions>,
     demo: Option<DemoAnswer>,
     import: Entity<ImportPanel>,
@@ -301,8 +302,9 @@ impl OnboardingView {
         let license_key =
             cx.new(|cx| InputState::new(window, cx).placeholder("TT-XXXX-XXXX-XXXX-XXXX"));
         let paste =
-            cx.new(|cx| InputState::new(window, cx).placeholder("timetrack://auth/callback?code=…&state=…"));
-        let subs = vec![
+            cx.new(|cx| InputState::new(window, cx).placeholder(format!("{}?code=…&state=…", tt_core::edition::EDITION.redirect_uri())));
+        let server = cx.new(|cx| InputState::new(window, cx).placeholder(tt_core::edition::EDITION.web_url));
+        let mut subs = vec![
             cx.subscribe(&license_key, |this: &mut Self, _, ev: &InputEvent, cx| {
                 if matches!(ev, InputEvent::PressEnter { .. }) {
                     this.activate_license(cx);
@@ -315,6 +317,8 @@ impl OnboardingView {
                 }
             }),
         ];
+        // App Store-udgaven: licensdelen tegnes igen ved køb og gendannelse.
+        subs.extend(crate::store::observe(cx));
         let import = {
             let ctx = ctx.clone();
             cx.new(|cx| ImportPanel::new(ctx, cx))
@@ -331,6 +335,7 @@ impl OnboardingView {
             chosen: None,
             license_key,
             paste,
+            server,
             permissions: None,
             demo: None,
             import,
@@ -352,7 +357,8 @@ impl OnboardingView {
 
     fn go(&mut self, step: Step, cx: &mut Context<Self>) {
         self.error = None;
-        if step == Step::Permissions {
+        // App Store-udgaven spørger ikke om tilladelser (`render_mas`).
+        if step == Step::Permissions && !crate::mas::ENABLED {
             self.ctx.fetch(
                 cx,
                 |b| b.permissions(),
@@ -378,9 +384,18 @@ impl OnboardingView {
     pub fn start_login(&mut self, cx: &mut Context<Self>) {
         self.chosen = Some(Chosen::Cloud);
         self.busy = true;
+        // Tomt felt: udgavens standardserver. Kun TimeWren viser feltet.
+        let server = if tt_core::edition::EDITION.is_timewren() {
+            self.server.read(cx).value().trim().to_string()
+        } else {
+            String::new()
+        };
         self.ctx.fetch(
             cx,
-            |b| b.begin_login(),
+            move |b| {
+                b.set_server_url(Some(server.as_str()))?;
+                b.begin_login()
+            },
             |this, res, cx| {
                 this.busy = false;
                 match res {
@@ -486,6 +501,8 @@ impl OnboardingView {
                 }
             }
             Step::Demo => Step::Permissions,
+            // App Store-udgaven har intet demo-trin.
+            Step::Import if crate::mas::ENABLED => Step::Permissions,
             Step::Import => Step::Demo,
             Step::Choose => return,
         };
@@ -495,12 +512,18 @@ impl OnboardingView {
 
 /// Trinene i fremskridtslinjen. "Dine data" (import til TimeTrack) findes
 /// kun med konto; lokalt slutter onboardingen efter første forslag.
+/// App Store-udgaven: konto, "Denne udgave" (i stedet for tilladelser og
+/// første forslag, som kræver sporing) og evt. dine data.
 fn step_names(chosen: Option<Chosen>) -> Vec<&'static str> {
-    let mut names = vec![
-        t("onboarding.steps.account"),
-        t("onboarding.steps.permissions"),
-        t("onboarding.steps.first_suggestion"),
-    ];
+    let mut names = if crate::mas::ENABLED {
+        vec![t("onboarding.steps.account"), t("mas.onboarding.trin")]
+    } else {
+        vec![
+            t("onboarding.steps.account"),
+            t("onboarding.steps.permissions"),
+            t("onboarding.steps.first_suggestion"),
+        ]
+    };
     if chosen != Some(Chosen::Local) {
         names.push(t("onboarding.steps.your_data"));
     }
@@ -512,6 +535,7 @@ fn step_index(s: &Step) -> usize {
         Step::Choose | Step::LoginWaiting(_) | Step::Local => 0,
         Step::Permissions => 1,
         Step::Demo => 2,
+        Step::Import if crate::mas::ENABLED => 2,
         Step::Import => 3,
     }
 }
@@ -562,13 +586,26 @@ impl OnboardingView {
                                 .primary()
                                 .loading(self.busy)
                                 .on_click(cx.listener(|this, _, _, cx| this.start_login(cx))),
-                        ),
+                        )
+                        .when(tt_core::edition::EDITION.is_timewren(), |el| {
+                            el.child(ui::muted(b, "server-hjaelp", t("login.server.hint")))
+                                .child(
+                                    Input::new(&self.server)
+                                        .id("server-url")
+                                        .aria_label(t("login.server.label")),
+                                )
+                        }),
                     )
                     .child(
                         option(
                             "valg-lokal",
                             t("onboarding.choose.local_title"),
-                            t("onboarding.choose.local_body"),
+                            // App Store-udgaven nævner ingen pris uden for App Store.
+                            if crate::mas::ENABLED {
+                                t("mas.licens.valg")
+                            } else {
+                                t("onboarding.choose.local_body")
+                            },
                         )
                         .child(
                             Button::new("valg-lokalt")
@@ -654,7 +691,32 @@ impl OnboardingView {
             .into_any_element()
     }
 
+    /// App Store-udgaven: gratis til personlig brug; erhvervslicensen kan
+    /// købes i appen nu eller senere under Indstillinger → Konto.
+    fn render_local_mas(&self, b: &Brand, cx: &mut Context<Self>) -> AnyElement {
+        v_flex()
+            .gap_4()
+            .child(ui::heading(b, "lokal-titel", t("onboarding.local.title"), 1))
+            .child(ui::muted(b, "lokal-tekst", t("onboarding.local.text")))
+            .child(
+                ui::card(b, "lokal-licens", t("mas.licens.titel"))
+                    .child(crate::store::license_panel(b, "lokal-licens")),
+            )
+            .child(
+                h_flex().child(
+                    Button::new("lokal-fortsaet")
+                        .label(t("mas.licens.fortsaet"))
+                        .primary()
+                        .on_click(cx.listener(|this, _, _, cx| this.go(Step::Permissions, cx))),
+                ),
+            )
+            .into_any_element()
+    }
+
     fn render_local(&self, b: &Brand, cx: &mut Context<Self>) -> AnyElement {
+        if crate::mas::ENABLED {
+            return self.render_local_mas(b, cx);
+        }
         v_flex()
             .gap_4()
             .child(ui::heading(b, "lokal-titel", t("onboarding.local.title"), 1))
@@ -815,6 +877,24 @@ impl OnboardingView {
             .into_any_element()
     }
 
+    /// App Store-udgaven: i stedet for tilladelserne en forklaring på, hvad
+    /// udgaven kan, og et link til den fulde udgave. Ingen demo bagefter.
+    fn render_mas(&self, b: &Brand, cx: &mut Context<Self>) -> AnyElement {
+        v_flex()
+            .gap_4()
+            .child(ui::heading(b, "mas-titel", t("mas.onboarding.titel"), 1))
+            .child(crate::mas::tracking_notice(b, "mas-sporing"))
+            .child(
+                h_flex().child(
+                    Button::new("mas-fortsaet")
+                        .label(t("mas.onboarding.videre"))
+                        .primary()
+                        .on_click(cx.listener(|this, _, _, cx| this.after_demo(cx))),
+                ),
+            )
+            .into_any_element()
+    }
+
     fn render_demo(&self, b: &Brand, cx: &mut Context<Self>) -> AnyElement {
         let answer: Option<(&str, &str)> = self.demo.map(|a| match a {
             DemoAnswer::Confirmed => (
@@ -915,6 +995,7 @@ impl Render for OnboardingView {
             Step::Choose => self.render_choose(&b, cx),
             Step::LoginWaiting(s) => self.render_login_waiting(&b, s, cx),
             Step::Local => self.render_local(&b, cx),
+            Step::Permissions if crate::mas::ENABLED => self.render_mas(&b, cx),
             Step::Permissions => self.render_permissions(&b, cx),
             Step::Demo => self.render_demo(&b, cx),
             Step::Import => self.render_import(&b, cx),
@@ -1003,9 +1084,9 @@ impl Render for OnboardingView {
                                 h_flex()
                                     .gap_2()
                                     .items_center()
-                                    .child(ui::icon(Icon::TimeTrack).size(22.).color(b.primary))
+                                    .child(ui::icon(Icon::TimeTrack).size(22.).color(b.mark))
                                     .child(
-                                        ui::text("onboarding-app", "TimeTrack")
+                                        ui::text("onboarding-app", tt_core::edition::EDITION.name)
                                             .font_weight(FontWeight::BOLD),
                                     ),
                             )
@@ -1087,12 +1168,25 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(feature = "mas"))]
     fn lokal_onboarding_har_tre_trin() {
         // Set på en rigtig Mac: "Trin 3 af 4", men "Kom i gang" sluttede
         // onboardingen, fordi "Dine data" kun findes med konto.
         assert_eq!(super::step_names(Some(super::Chosen::Local)).len(), 3);
         assert_eq!(super::step_names(Some(super::Chosen::Cloud)).len(), 4);
         assert_eq!(super::step_names(None).len(), 4);
+    }
+
+    /// App Store-udgaven: konto og "Denne udgave" (ingen tilladelser og intet
+    /// første forslag), plus dine data med konto.
+    #[test]
+    #[cfg(feature = "mas")]
+    fn mas_onboarding_spoerger_ikke_om_tilladelser() {
+        let lokal = super::step_names(Some(super::Chosen::Local));
+        assert_eq!(lokal.len(), 2);
+        assert!(!lokal.contains(&crate::i18n::t("onboarding.steps.permissions")));
+        assert_eq!(super::step_names(Some(super::Chosen::Cloud)).len(), 3);
+        assert_eq!(super::step_index(&Step::Import), 2);
     }
 
     #[test]
@@ -1119,7 +1213,9 @@ mod probe_tests {
     };
 
     use super::{OnboardingDone, OnboardingView, Step, standalone};
-    use crate::backend::{Backend as _, LicenseKind, MockBackend, PermissionState, Permissions};
+    use crate::backend::{Backend as _, MockBackend};
+    #[cfg(not(feature = "mas"))]
+    use crate::backend::{LicenseKind, PermissionState, Permissions};
     use crate::testing;
 
     fn open_onboarding(
@@ -1196,7 +1292,79 @@ mod probe_tests {
         ));
     }
 
+    /// App Store-udgaven: ingen tilladelser og ingen demo. Trinnet forklarer
+    /// udgaven og linker til den fulde; Fortsæt går til import (konto).
     #[gpui_kit::test]
+    #[cfg(feature = "mas")]
+    fn mas_forklarer_udgaven_i_stedet_for_tilladelser(cx: &mut TestAppContext) {
+        let mock = testing::mock();
+        let (h, v) = open_onboarding(cx, mock.clone());
+        let done = Rc::new(Cell::new(false));
+        let d2 = done.clone();
+        let _sub = cx.update(|cx| cx.subscribe(&v, move |_, _: &OnboardingDone, _| d2.set(true)));
+        v.update(cx, |v, cx| {
+            v.chosen = Some(super::Chosen::Cloud);
+            v.go(Step::Permissions, cx)
+        });
+        settle(cx, h);
+        assert!(has(cx, h, "Sådan virker denne udgave"));
+        assert!(has(cx, h, "Automatisk sporing findes i den fulde udgave"));
+        assert!(has(cx, h, "Hent den fulde udgave"));
+        assert!(!has(cx, h, "Tilgængelighed"), "ingen tilladelser");
+        click(cx, h, "mas-fortsaet");
+        assert_eq!(v.read_with(cx, |v, _| v.step.clone()), Step::Import);
+        click(cx, h, "import-faerdig");
+        assert!(done.get(), "OnboardingDone sendt");
+        // Lokalt slutter onboardingen efter forklaringen.
+        let (h, v) = open_onboarding(cx, testing::mock());
+        let done = Rc::new(Cell::new(false));
+        let d2 = done.clone();
+        let _sub = cx.update(|cx| cx.subscribe(&v, move |_, _: &OnboardingDone, _| d2.set(true)));
+        v.update(cx, |v, cx| {
+            v.chosen = Some(super::Chosen::Local);
+            v.go(Step::Permissions, cx)
+        });
+        settle(cx, h);
+        click(cx, h, "mas-fortsaet");
+        assert!(done.get(), "lokal: færdig efter forklaringen");
+    }
+
+    /// App Store-udgaven, lokalt: gratis til personlig brug, erhvervslicensen
+    /// kan købes i appen, og Fortsæt går videre uden licens. Ingen
+    /// licensnøgle, prøve eller pris uden for App Store.
+    #[gpui_kit::test]
+    #[cfg(feature = "mas")]
+    fn mas_lokal_er_gratis_med_koeb_i_app_store(cx: &mut TestAppContext) {
+        use crate::store::{self, PRODUCT_ID};
+        let _l = store::TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        store::reset();
+        cx.update(store::install);
+        // Broens hændelse og gentegningen (i appen: lyttetasken).
+        let feed = |cx: &mut TestAppContext, line: &str| {
+            store::receive(line);
+            cx.update(store::changed);
+        };
+        let mock = testing::mock();
+        mock.set_local_account();
+        let (h, v) = open_onboarding(cx, mock.clone());
+        assert!(has(cx, h, "Gratis til personlig brug"));
+        assert!(!has(cx, h, tt_core::edition::EDITION.local_price), "ingen pris uden for App Store");
+        click(cx, h, "valg-lokalt");
+        assert!(has(cx, h, "Personlig brug er gratis"));
+        assert!(has(cx, h, "Gendan køb"));
+        assert!(!has(cx, h, "Licensnøgle"));
+        assert!(!has(cx, h, "Prøv gratis"));
+        feed(cx, &format!(r#"{{"event":"product","id":"{PRODUCT_ID}","price":"499,00 kr."}}"#));
+        settle(cx, h);
+        assert!(has(cx, h, "Køb erhvervslicens, 499,00 kr."));
+        click(cx, h, "lokal-fortsaet");
+        assert_eq!(v.read_with(cx, |v, _| v.step.clone()), Step::Permissions);
+        assert!(mock.account().unwrap().license.is_none(), "ingen licensfil");
+        store::reset();
+    }
+
+    #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn tilladelser_spring_over_demo_og_import(cx: &mut TestAppContext) {
         let mock = testing::mock();
         let (h, v) = open_onboarding(cx, mock.clone());
@@ -1235,6 +1403,7 @@ mod probe_tests {
     }
 
     #[gpui_kit::test]
+    #[cfg(not(feature = "mas"))]
     fn lokal_licens_og_proeve(cx: &mut TestAppContext) {
         let mock = testing::mock();
         mock.set_local_account();

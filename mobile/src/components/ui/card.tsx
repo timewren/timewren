@@ -54,10 +54,10 @@ type SectionHeaderProps = {
 export function SectionHeader({ title, action, className = '' }: SectionHeaderProps) {
   return (
     <View className={twMerge('mt-6 mb-2 flex-row items-end justify-between', className)}>
-      <Text className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{title}</Text>
+      <Text className="text-xs font-semibold tracking-wide text-muted-foreground uppercase" accessibilityRole="header">{title}</Text>
       {action
         ? (
-            <Pressable onPress={action.onPress} hitSlop={8} accessibilityRole="button" testID={action.testID}>
+            <Pressable onPress={action.onPress} hitSlop={12} accessibilityRole="button" testID={action.testID}>
               <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">{action.label}</Text>
             </Pressable>
           )

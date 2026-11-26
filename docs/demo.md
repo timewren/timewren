@@ -51,16 +51,23 @@ Then open `/login` and press "Prøv demoen" / "Try the demo".
    - answers 404 unless `DEMO_MODE=1`, and 403 for a form posted from another site;
    - allows 10 new demos per IP per hour (`demoStart` in `src/lib/utils/rate-limiter.ts`);
    - creates the account in one transaction (`createDemoAccount`): a user with `isDemo = true`,
-     a random address `demo-<random>@demo.invalid` and a random password that is never shown,
-     an organisation where the user is the owner, and the demo data;
+     a random address `demo-eur-<random>@demo.invalid` and a random password that is never shown,
+     an organisation where the user is the owner, a default EUR invoice template and the demo data;
+   - saves the language from the `locale` cookie on the user profile. A missing or unsupported
+     cookie defaults to English;
    - refuses above 500 live demo accounts (`DEMO_MAX_LIVE_USERS`), checked behind an advisory lock;
    - signs the visitor in with a normal better-auth session and redirects to `/dashboard`.
      When something stops it, the visitor lands on `/login?demo=rate_limited|full|error` with a
      short message.
-3. The data (`src/lib/demo/seed-demo-sandbox.ts`) is made up: five clients with invented
-   company names and `.example` addresses, six projects, three klippekort (one almost used up),
+3. The sandbox data (`src/lib/demo/seed-demo-sandbox.ts`) uses English and EUR regardless of
+   the interface language. It includes five fictional clients with `.example` addresses, six
+   projects, three prepaid packages (one almost used up),
    six weeks of time entries up to today, four tasks, three invoices (draft, sent, paid) and
-   rate history. Seeding takes well under a second.
+   rate history. Seeding takes well under a second. Older demo accounts keep displaying
+   DKK until normal cleanup. Shared reports use the report owner's currency, including
+   for anonymous visitors. The customer portal and invoice PDFs use the demo account's
+   currency. Prepaid usage and personal CSV data exports label monetary values in EUR for
+   new demo accounts. Scheduled time report attachments use the schedule owner's currency.
 
 ## Cleanup cron
 
@@ -68,7 +75,7 @@ Then open `/login` and press "Prøv demoen" / "Try the demo".
 `CRON_SECRET` like the other cron routes. It deletes every user that has `isDemo = true`, an
 address on `@demo.invalid` and was created more than 24 hours ago, together with the
 organisation and all its data. It uses the same deletion as account deletion
-(`deleteUserAccountCompletely`), after first removing klippekort usage rows, which the
+(`deleteUserAccountCompletely`), after first removing prepaid package usage rows, which the
 FK-driven organisation deletion cannot remove on its own. Real users (`isDemo` false or null,
 or any other address) are never touched.
 

@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { and, count, desc, eq, inArray, notInArray, sql } from "drizzle-orm";
 import { z } from "zod";
 import { toIntlLocale } from "@/i18n/format-locale";
@@ -19,24 +20,45 @@ import {
 import { sendFirstInvoiceEmail } from "@/lib/email/engagement";
 import { sendInvoiceEmail } from "@/lib/email/invoice";
 import { getRecipientLocale } from "@/lib/email/recipient-locale";
-import { roundMoney, sumMoney, toLocalDateStr } from "@/lib/format";
+import {
+  formatCurrency,
+  roundMoney,
+  sumMoney,
+  toLocalDateStr,
+} from "@/lib/format";
 import {
   buildInvoicePdfProps,
   renderInvoicePdfBuffer,
 } from "@/lib/invoice-pdf";
 import {
+  DRAFT_NUMBER_PREFIXES,
   draftInvoiceNumber,
   isDraftInvoiceNumber,
 } from "@/lib/invoices/draft-number";
 import { lockInvoiceStatus } from "@/lib/invoices/lock-status";
+import { invoicePdfTotals } from "@/lib/invoices/pdf-totals";
+import {
+  findUncertainProviderEmail,
+  getProviderEmailStates,
+  resolveUncertainProviderEmail,
+} from "@/lib/invoices/provider-export-state";
+import { invoiceSendBlocker } from "@/lib/invoices/send-guard";
+import {
+  invoiceSendReview,
+  reviewedInvoiceSchema,
+} from "@/lib/invoices/send-review";
 import { INVOICE_PREVIEW_PERIODS } from "@/lib/invoicing/invoice-preview";
 import { RESOLVED_CLIENT_ID } from "@/lib/invoicing/unbilled";
+import { formatInvoiceSequence } from "@/lib/org/region";
+import { getOrgLanguage, getOrgRegion } from "@/lib/org/region.server";
 import { logOrgAudit } from "@/lib/org-audit";
 import { formatDanishDate } from "@/lib/recurring-invoices/schedule";
 import { trackEvent } from "@/lib/telemetry/track";
 import { copenhagenToday, entryDateFromStr } from "@/lib/time/copenhagen";
+import { rateLimiter, userRateLimitKey } from "@/lib/utils/rate-limiter";
 import { emitWebhookEvent } from "@/lib/webhooks/events";
-import { badRequest, Errors } from "../errors";
+import { appCodeError } from "../app-code";
+import { badRequest, conflict, Errors } from "../errors";
 import { moduleReadProcedure, moduleWriteProcedure, router } from "../trpc";
 import { assertClientAccess, getAccessibleClientIds } from "./clientAccess";
 
@@ -74,6 +96,13 @@ export async function computeNextInvoiceNumber(
   // gets its own independent invoice number sequence. Pre-org invoices
   // (organization_id = null) are excluded — they belong to a different scope.
   // When there is no org, fall back to per-user scope (backwards compatible).
+  // Kladder (alle sprogs præfikser, fund 18) forbruger ikke numre.
+  const notDraft = sql.join(
+    DRAFT_NUMBER_PREFIXES.map(
+      (prefix) => sql`AND invoice_number NOT LIKE ${`${prefix}%`}`,
+    ),
+    sql` `,
+  );
   const result = orgId
     ? await tx.execute(sql`
         SELECT COALESCE(
@@ -82,7 +111,7 @@ export async function computeNextInvoiceNumber(
         )::int AS max_num
         FROM invoices
         WHERE organization_id = ${orgId}
-          AND invoice_number NOT LIKE 'UDKAST-%'
+          ${notDraft}
       `)
     : await tx.execute(sql`
         SELECT COALESCE(
@@ -91,13 +120,15 @@ export async function computeNextInvoiceNumber(
         )::int AS max_num
         FROM invoices
         WHERE user_id = ${userId}
-          AND invoice_number NOT LIKE 'UDKAST-%'
+          ${notDraft}
       `);
 
   // postgres-js returns rows directly as an array
   const rows = result as { max_num: number }[];
   const maxNumber = rows[0]?.max_num ?? 0;
-  return `INV-${(maxNumber + 1).toString().padStart(3, "0")}`;
+  // Præfikset følger organisationen: "INV-001" som før, en dansk
+  // organisation oprettet efter runde 2 løbenumre uden præfiks (fund 11).
+  return formatInvoiceSequence(await getOrgRegion(tx, orgId), maxNumber + 1);
 }
 
 /**
@@ -206,6 +237,37 @@ const INVOICE_TRANSITIONS: Record<InvoiceStatus, InvoiceStatus[]> = {
   deleted: [], // Deleted is a final state - no further transitions
 };
 
+/** The caller's invoice (org or solo scope) with per-member client access. */
+async function findAccessibleInvoice(
+  ctx: {
+    db: typeof import("@/lib/db").db;
+    session: { user: { id: string } };
+    orgId: string | null;
+  },
+  id: string,
+) {
+  const userId = ctx.session.user.id;
+  const invoice = await ctx.db.query.invoices.findFirst({
+    where: and(
+      eq(invoices.id, id),
+      ctx.orgId
+        ? eq(invoices.organizationId, ctx.orgId)
+        : eq(invoices.userId, userId),
+    ),
+    columns: {
+      id: true,
+      userId: true,
+      organizationId: true,
+      clientId: true,
+      billyInvoiceId: true,
+      dineroInvoiceGuid: true,
+    },
+  });
+  if (!invoice) throw Errors.invoiceNotFound();
+  await assertClientAccess(ctx.db, userId, ctx.orgId, invoice.clientId);
+  return invoice;
+}
+
 function canTransition(from: InvoiceStatus, to: InvoiceStatus): boolean {
   return INVOICE_TRANSITIONS[from]?.includes(to) ?? false;
 }
@@ -300,6 +362,32 @@ export async function releaseEntries(tx: InvoiceTx, entryIds: string[]) {
     .update(timeEntries)
     .set({ isBilled: false, invoiceId: null })
     .where(inArray(timeEntries.id, entryIds));
+}
+
+/**
+ * Timer-first (#91): virksomhedsoplysningerne kræves først, når den første
+ * faktura laves, uanset om den laves fra formularen eller fra registreret tid.
+ */
+async function assertCompanyProfileForFirstInvoice(
+  db: Pick<typeof import("@/lib/db").db, "query">,
+  userId: string,
+  orgId: string | null | undefined,
+) {
+  const profile = await db.query.companyProfiles.findFirst({
+    where: orgId
+      ? eq(companyProfiles.organizationId, orgId)
+      : eq(companyProfiles.userId, userId),
+    columns: { id: true },
+  });
+  if (!profile) {
+    // appCode, så web kan vise vejen til oplysningerne uden at matche på den
+    // oversatte tekst.
+    throw appCodeError(
+      "BAD_REQUEST",
+      "COMPANY_PROFILE_REQUIRED",
+      await tr("serverErrors", "invoices.companyProfileMissing"),
+    );
+  }
 }
 
 export const invoicesRouter = router({
@@ -573,17 +661,7 @@ export const invoicesRouter = router({
       // Timer-first (#91): virksomhedsoplysninger er ikke længere et
       // onboarding-trin — de kræves først her, når de skal stå på fakturaen.
       if (isFirstInvoice) {
-        const profile = await ctx.db.query.companyProfiles.findFirst({
-          where: ctx.orgId
-            ? eq(companyProfiles.organizationId, ctx.orgId)
-            : eq(companyProfiles.userId, userId),
-          columns: { id: true },
-        });
-        if (!profile) {
-          throw badRequest(
-            await tr("serverErrors", "invoices.companyProfileMissing"),
-          );
-        }
+        await assertCompanyProfileForFirstInvoice(ctx.db, userId, ctx.orgId);
       }
 
       // Use transaction to ensure atomicity
@@ -645,7 +723,9 @@ export const invoicesRouter = router({
         const status = input.status || "draft";
         const invoiceNumber =
           status === "draft"
-            ? draftInvoiceNumber()
+            ? draftInvoiceNumber(
+                await getOrgLanguage(ctx.db, ctx.orgId, userId),
+              )
             : await computeNextInvoiceNumber(tx, userId, ctx.orgId);
 
         // Create the invoice
@@ -902,6 +982,9 @@ export const invoicesRouter = router({
       if (!invoice) {
         throw Errors.invoiceNotFound();
       }
+      // Kundeadgang som getById: et medlem må ikke slette en kladde for en
+      // kunde, det ikke kan se.
+      await assertClientAccess(ctx.db, userId, ctx.orgId, invoice.clientId);
 
       // Only allow deletion of draft invoices
       if (invoice.status !== "draft") {
@@ -1148,6 +1231,13 @@ export const invoicesRouter = router({
         origin: z
           .enum(["invoice_nudge", "client_page", "dashboard", "invoices_page"])
           .optional(),
+        // Sættes af web's interaktive veje ("Generér faktura" i
+        // GenerateFromTimeEntriesModal og "Fakturér nu" i InvoiceNowDialog),
+        // der selv viser vejen til virksomhedsoplysningerne. Desktop og mobil
+        // (extension.invoices.createDraft), REST v1 og MCP lavede den første
+        // kladde uden profil før kravet og sender ikke flaget. Det er en
+        // konvention, ikke en garanti: flaget kan kun gøre reglen strengere.
+        requireCompanyProfile: z.boolean().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -1261,11 +1351,19 @@ export const invoicesRouter = router({
         limit: 1,
       });
       const isFirstInvoice = existingInvoices.length === 0;
+      // Samme krav som invoices.create: den første faktura skal have
+      // afsenderoplysninger. Den tomme fakturaliste gør "Fakturér ufaktureret
+      // tid" til den primære vej, så kravet gælder her, når web beder om det.
+      if (isFirstInvoice && input.requireCompanyProfile) {
+        await assertCompanyProfileForFirstInvoice(ctx.db, userId, ctx.orgId);
+      }
 
       // Create invoice with transaction
       const created = await ctx.db.transaction(async (tx) => {
         // Genereres altid som kladde — nummer tildeles ved udstedelse (#196)
-        const invoiceNumber = draftInvoiceNumber();
+        const invoiceNumber = draftInvoiceNumber(
+          await getOrgLanguage(ctx.db, ctx.orgId, userId),
+        );
 
         // Forfaldsdato-fallback (#201)
         let generatedDueDate = input.dueDate ? new Date(input.dueDate) : null;
@@ -1289,18 +1387,24 @@ export const invoicesRouter = router({
           );
         }
 
-        // Build notes with line items
+        // Build notes with line items. Tal og beløb i sprogets format og
+        // organisationens valuta ("2,5 t × 850 kr", "2.5 h × 850 EUR").
+        const locale = activeLocale();
+        const money = (n: number) =>
+          formatCurrency(n, { locale, decimals: Number.isInteger(n) ? 0 : 2 });
         const formattedLineItems = lineItems
           .map((item) =>
             st("invoices.specLine", {
-              date: item.date.toLocaleDateString(toIntlLocale(activeLocale()), {
+              date: item.date.toLocaleDateString(toIntlLocale(locale), {
                 timeZone: "Europe/Copenhagen",
               }),
               project: item.projectName || st("invoices.directTime"),
               description: item.description,
-              hours: item.hours.toFixed(1),
-              rate: item.rate.toFixed(0),
-              amount: item.amount.toFixed(0),
+              hours: item.hours.toLocaleString(toIntlLocale(locale), {
+                maximumFractionDigits: 2,
+              }),
+              rate: money(item.rate),
+              amount: money(roundMoney(item.amount)),
             }),
           )
           .join("\n");
@@ -1435,6 +1539,7 @@ export const invoicesRouter = router({
       if (!original) {
         throw Errors.invoiceNotFound();
       }
+      await assertClientAccess(ctx.db, userId, ctx.orgId, original.clientId);
       if (original.kind === "credit_note") {
         throw badRequest(
           await tr("serverErrors", "invoices.creditNoteNotCreditable"),
@@ -1649,21 +1754,25 @@ export const invoicesRouter = router({
       );
 
       const { invoice, client, pdfProps } = data;
-      const lines = pdfProps.invoice.lines;
-      const subtotal = lines.length
-        ? lines.reduce((sum, line) => sum + Number.parseFloat(line.amount), 0)
-        : Number.parseFloat(invoice.amount);
-      const vatRate = Number.parseFloat(pdfProps.template?.vatRate || "25.00");
-      const vatAmount = pdfProps.companyProfile?.vatRegistered
-        ? subtotal * (vatRate / 100)
-        : 0;
+      // Samme beløb og valuta som PDF'en, der sendes.
+      const totals = invoicePdfTotals(pdfProps);
+      const review = invoiceSendReview(data, client.email ?? "");
       return {
         invoiceNumber: invoice.invoiceNumber,
         status: invoice.status,
         clientName: client.name,
         email: client.email,
-        total: subtotal + vatAmount,
-        currency: pdfProps.template?.currency || "DKK",
+        lineCount: review.lineCount,
+        // Billy/Dinero har måske allerede mailet fakturaen: dialogen afviser
+        // afsendelse, til brugeren har tjekket regnskabsprogrammet.
+        uncertainProviderEmail: await findUncertainProviderEmail(
+          ctx.db,
+          invoice,
+        ),
+        total: totals.total,
+        // Etiketten "inkl. moms" følger samme flag som PDF'ens momslinje
+        showVat: totals.showVat,
+        currency: totals.currency,
         dueDate:
           input.paymentTermsDays === undefined
             ? invoice.dueDate
@@ -1673,16 +1782,85 @@ export const invoicesRouter = router({
       };
     }),
 
+  /**
+   * Om Billy/Dinero har mailet fakturaen fra TimeTrack: "sent", "uncertain"
+   * (svaret udeblev, mailen kan være sendt) eller "available".
+   */
+  providerEmailState: moduleReadProcedure("invoices")
+    .input(z.object({ id: z.string().uuid() }))
+    .query(async ({ ctx, input }) => {
+      const invoice = await findAccessibleInvoice(ctx, input.id);
+      return getProviderEmailStates(ctx.db, invoice);
+    }),
+
+  /**
+   * Brugeren har tjekket regnskabsprogrammet efter et usikkert mailresultat:
+   * `wasSent` true = mailen er sendt, false = den er ikke sendt, og
+   * fakturaen kan sendes igen.
+   */
+  resolveProviderEmail: moduleWriteProcedure("invoices")
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        provider: z.enum(["billy", "dinero"]),
+        wasSent: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const invoice = await findAccessibleInvoice(ctx, input.id);
+      const resolved = await resolveUncertainProviderEmail(
+        ctx.db,
+        input.provider,
+        invoice,
+        input.wasSent,
+      );
+      return { resolved };
+    }),
+
   // Send invoice email to client
   sendEmail: moduleWriteProcedure("invoices")
     .input(
       z.object({
         id: z.string().uuid(),
         expectedRecipient: z.string().optional(),
+        /**
+         * Send til en anden adresse end kundens registrerede (som web's
+         * send-dialog, REST /api/invoices/<id>/send). Udeladt = kundens mail.
+         */
+        recipientEmail: z
+          .string()
+          .trim()
+          .max(320)
+          .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, {
+            error: () => st("zod.invalidEmailAddress"),
+          })
+          .optional(),
+        /**
+         * Det SendInvoiceDialog viste brugeren. Serveren regner det igen lige
+         * før afsendelse og afviser, hvis fakturaen er ændret siden.
+         */
+        expectedInvoice: reviewedInvoiceSchema.optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
+
+      // En valgfri modtager følger REST-rutens afsendelsesloft pr. org
+      // (ellers pr. bruger), så en anden adresse ikke kan bruges til masseudsendelse.
+      if (input.recipientEmail !== undefined) {
+        const limit = await rateLimiter.check(
+          ctx.orgId
+            ? `org:${ctx.orgId}:invoiceSend`
+            : userRateLimitKey(userId, "invoiceSend"),
+          "invoiceSend",
+        );
+        if (!limit.allowed) {
+          throw new TRPCError({
+            code: "TOO_MANY_REQUESTS",
+            message: await tr("serverErrors", "api.tooManyRequestsLater"),
+          });
+        }
+      }
 
       // Load invoice + PDF props via the shared helper so this path attaches
       // the same complete PDF (VAT, logo, bank info, lines) as the REST route.
@@ -1706,9 +1884,18 @@ export const invoicesRouter = router({
         throw badRequest(await tr("serverErrors", "invoices.recipientChanged"));
       }
 
-      if (!client.email) {
+      const recipient = input.recipientEmail ?? client.email;
+      if (!recipient) {
         throw badRequest(await tr("serverErrors", "invoices.clientHasNoEmail"));
       }
+
+      const blocker = await invoiceSendBlocker(
+        ctx.db,
+        pdfData,
+        recipient,
+        input.expectedInvoice,
+      );
+      if (blocker) throw conflict(await tr("serverErrors", blocker));
 
       if (isDraftInvoiceNumber(invoice.invoiceNumber)) {
         invoice.invoiceNumber = await ctx.db.transaction((tx) =>
@@ -1723,7 +1910,9 @@ export const invoicesRouter = router({
       // client sees a consistent company (matching the PDF) regardless of
       // which team member sends it.
       await sendInvoiceEmail({
-        to: client.email,
+        currency: pdfProps.currency,
+        to: recipient,
+        organizationId: invoice.organizationId,
         clientName: client.name,
         invoiceNumber: invoice.invoiceNumber,
         amount: invoice.amount,
@@ -1759,7 +1948,7 @@ export const invoicesRouter = router({
           eventId: invoice.id,
           data: {
             invoice: { ...invoice, status: "sent" },
-            sentTo: client.email,
+            sentTo: recipient,
           },
           clientId: invoice.clientId,
         });

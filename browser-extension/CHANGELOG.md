@@ -1,5 +1,29 @@
 # Changelog
 
+## 2.8.1
+
+**Ny fane slået fra (#1322)**
+- Slår du "Åbn TimeTrack på nye faner" fra, får du ikke længere en tom side.
+  I Chrome åbner nye faner Chromes egen nye fane med søgning og genveje. I
+  Edge, Firefox og andre browsere får du en enkel side med et søgefelt, der
+  bruger browserens standardsøgemaskine. Søgeresultatet åbner altid i den
+  fane, du søgte fra. Kan søgningen ikke startes, eller kan fanen ikke
+  findes, står det under feltet, og ingen anden fane bliver rørt.
+- Hjælpeteksten ved indstillingen siger, hvad der sker i din browser. I
+  Chrome står der, at du får Chromes egen nye fane, altid i Googles udgave,
+  også hvis din standardsøgemaskine er en anden.
+- Ny tilladelse `search` til søgefeltet. Den giver ingen advarsel ved
+  installation eller opdatering.
+- Til udviklere: `scripts/verify-newtab.mjs` tester ny fane i Chrome med
+  begge indstillinger og gemmer skærmbilleder (se README). Den starter den
+  fulde Chromium (`channel: "chromium"`), ikke headless shell, som ikke kan
+  indlæse udvidelser.
+
+**Klippekort**
+- Stopper du en timer, og klippekortet kan ikke tage tiden, gemmes tiden
+  nu uden kort på alle sprog, ikke kun på dansk. Udvidelsen genkender
+  fejlen på serverens kode i stedet for på teksten.
+
 ## 2.8.0
 
 En stor oprydning i udvidelsen: færre fejl, der kan koste tid, tydeligere

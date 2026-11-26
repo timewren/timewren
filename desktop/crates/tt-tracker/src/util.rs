@@ -8,7 +8,7 @@ use std::time::{Duration, Instant};
 /// En proces, der overskrider grænsen, dræbes, så den aldrig holder trackeren.
 /// På Windows åbnes intet konsolvindue.
 // Bruges i dag kun af macOS-laget (AppleScript).
-#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
+#[cfg_attr(any(not(target_os = "macos"), feature = "mas"), allow(dead_code))]
 pub fn run_with_timeout(mut cmd: Command, timeout: Duration) -> Option<String> {
     #[cfg(windows)]
     {

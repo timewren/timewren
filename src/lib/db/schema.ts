@@ -822,7 +822,13 @@ export const timeEntries = pgTable(
     rejectedAt: timestamp("rejected_at"),
     rejectionReason: text("rejection_reason"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    // Hver opdatering stempler updated_at (desktop-synk og konflikt-tjek
+    // læser den) — også de mange stier, der ikke selv sætter den. Ingen
+    // migration: Drizzle sætter værdien i UPDATE'en.
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .notNull()
+      .$onUpdate(() => new Date()),
   },
   (table) => ({
     clientIdIdx: index("time_entries_client_id_idx").on(table.clientId),
@@ -1479,6 +1485,11 @@ export const companyProfiles = pgTable(
 
     // VAT
     vatRegistered: boolean("vat_registered").default(false),
+    // Har brugeren selv valgt vat_registered? Ellers følger det CVR-reglen
+    // i src/lib/invoices/vat-default.ts (0163).
+    vatRegisteredChosen: boolean("vat_registered_chosen")
+      .notNull()
+      .default(false),
     vatNumber: varchar("vat_number", { length: 50 }),
 
     // Branding
@@ -1488,7 +1499,9 @@ export const companyProfiles = pgTable(
     companyType: varchar("company_type", { length: 20 }),
     vatPeriod: varchar("vat_period", { length: 20 }),
     fiscalYearEnd: varchar("fiscal_year_end", { length: 5 }),
-    hasEmployees: boolean("has_employees").default(false),
+    // Ingen default: NULL betyder "aldrig gemt på profilen", så
+    // getCompanySettings falder tilbage til brugerens valg (0162).
+    hasEmployees: boolean("has_employees"),
 
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -3754,6 +3767,10 @@ export const calendarConnections = pgTable("calendar_connections", {
   // Provider info
   provider: varchar("provider", { length: 20 }).notNull(), // 'google', 'outlook', 'apple'
   providerAccountId: varchar("provider_account_id", { length: 255 }), // Google account email, etc.
+  // Google: kontoens stabile id (`sub`). Tilbagekald fjerner hele bevillingen
+  // for Google-kontoen, så frakobling matcher andre forbindelser på dette id,
+  // som ikke skifter med e-mailen. NULL = ældre række, ikke tilbagekaldt.
+  providerAccountSub: varchar("provider_account_sub", { length: 255 }),
 
   // OAuth tokens (encrypted in production)
   // Nullable for child connections — they read tokens from parent at sync time
@@ -3763,6 +3780,12 @@ export const calendarConnections = pgTable("calendar_connections", {
   // Google: space-separated OAuth scopes granted to the token. NULL = legacy
   // connection from before read-only was the default (had calendar.events).
   grantedScopes: text("granted_scopes"),
+  // Brandet hvis OAuth-klient udstedte tokens (Google/Outlook pr. brand,
+  // docs/specs/timewren-cloud.md → 5, "Kalender"). Refresh, synk og webhooks
+  // bruger denne klient. Børn læser forælderens. Default = TimeTracks klient.
+  oauthBrand: varchar("oauth_brand", { length: 20 })
+    .notNull()
+    .default("timetrack"),
 
   // Calendar selection
   calendarId: varchar("calendar_id", { length: 255 }).default("primary"), // Which calendar to sync

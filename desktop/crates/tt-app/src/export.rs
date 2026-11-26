@@ -8,9 +8,15 @@ use crate::backend::{Invoice, InvoiceProfile, Report, ReportGrouping};
 use crate::i18n::t;
 use crate::ui::format;
 
-/// Øre som "1.234,50 kr." (dansk retskrivning med punktum efter kr).
+/// Øre som "1.234,50 kr." (dansk retskrivning med punktum efter kr), eller
+/// "1.234,50 €" i TimeWren (ingen punktum efter en valutategn).
 pub fn kroner(oere: i64) -> String {
-    format!("{}.", format::money(oere))
+    let beloeb = format::money(oere);
+    if tt_core::edition::EDITION.currency_abbr.ends_with('.') {
+        format!("{beloeb}.")
+    } else {
+        beloeb
+    }
 }
 
 /// Øre som tal med komma og uden tusindtalsskilletegn (til CSV): "1234,50".
@@ -87,11 +93,12 @@ pub fn report_csv(report: &Report) -> String {
     out
 }
 
-/// Filnavn til rapporten: "timetrack-rapport-2026-10-19-2026-10-25.csv".
+/// Filnavn til rapporten: "timetrack-rapport-2026-10-19-2026-10-25.csv"
+/// (TimeWren: "timewren-rapport-…").
 pub fn report_file_name(report: &Report) -> String {
     format!(
-        "timetrack-rapport-{}-{}.csv",
-        report.range.from, report.range.to
+        "{}-rapport-{}-{}.csv",
+        tt_core::edition::EDITION.id, report.range.from, report.range.to
     )
 }
 
@@ -354,10 +361,13 @@ pub fn invoice_pdf(inv: &Invoice, buyer: &Buyer, sender: Option<&InvoiceProfile>
             p.text(330.0, y, 10.0, false, "Subtotal");
             p.text_right(right, y, 10.0, false, &kroner(inv.subtotal()));
             y -= 16.0;
-            p.text(330.0, y, 10.0, false, &format!("Moms {} %", vat_percent(inv.vat_permille)));
-            p.text_right(right, y, 10.0, false, &kroner(inv.vat()));
-            y -= 20.0;
-            p.text(330.0, y, 12.0, true, "I alt");
+            // Uden kendt sats (cloud) står beløbet ekskl. moms, som i web.
+            if let (Some(permille), Some(vat)) = (inv.vat_permille, inv.vat()) {
+                p.text(330.0, y, 10.0, false, &format!("Moms {} %", vat_percent(permille)));
+                p.text_right(right, y, 10.0, false, &kroner(vat));
+                y -= 20.0;
+            }
+            p.text(330.0, y, 12.0, true, if inv.vat_permille.is_some() { "I alt" } else { "I alt ekskl. moms" });
             p.text_right(right, y, 12.0, true, &kroner(inv.total()));
             y -= 30.0;
             if let Some(n) = inv.notes.as_deref().filter(|n| !n.trim().is_empty()) {
@@ -391,7 +401,7 @@ pub fn invoice_pdf(inv: &Invoice, buyer: &Buyer, sender: Option<&InvoiceProfile>
                 }
             }
         }
-        p.text(left, 40.0, 8.0, false, "Udstedt med TimeTrack");
+        p.text(left, 40.0, 8.0, false, &format!("Udstedt med {}", tt_core::edition::EDITION.name));
         pages.push(p);
     }
     write_pdf(pages)
@@ -469,13 +479,15 @@ mod tests {
                     minutes: 90,
                     rate: 85_000,
                     entry_ids: vec![],
+                    stored: None,
                 })
                 .collect(),
             lines_loaded: true,
             subtotal_hint: 0,
-            vat_permille: 250,
+            vat_permille: Some(250),
             number_text: None,
             title: None,
+            delivery: None,
             notes: None,
         }
     }

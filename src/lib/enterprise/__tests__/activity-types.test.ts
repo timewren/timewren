@@ -549,3 +549,17 @@ describe("lønrapport-CSV med aktivitet", () => {
     );
   });
 });
+
+it("copies a Monday entry recorded before UTC midnight into Monday's cell", () => {
+  const cells = cellsFromWeekEntries(
+    [
+      {
+        projectId: "project",
+        date: new Date("2026-11-01T23:30:00Z"),
+        hours: 2,
+      },
+    ],
+    new Date("2026-11-02"),
+  );
+  expect(cells).toMatchObject([{ dayOffset: 0, hours: 2 }]);
+});

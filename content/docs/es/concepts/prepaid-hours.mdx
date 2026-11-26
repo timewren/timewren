@@ -37,6 +37,16 @@ Un registro solo puede descontarse de un bono de su propio cliente. El cliente e
 
 Los registros con bono se excluyen cuando creas facturas a partir del tiempo registrado, porque el cliente ya los ha pagado. Editar o borrar un registro revierte su descuento y devuelve las horas, y el aviso de saldo bajo puede volver a dispararse después.
 
+### Vincular o mover tiempo registrado
+
+Abre el bono de destino y elige **Vincular tiempo**. Al principio, la lista muestra el tiempo del cliente sin facturar y sin bono asignado. Activa **Incluir tiempo de otros bonos de horas** para ver los registros de los demás bonos del cliente, identificados con el nombre del bono. No se muestran los registros de periodos cerrados.
+
+El tiempo vinculado sigue en su proyecto y se descuenta del saldo del bono. Si el exceso está desactivado, el saldo debe cubrir los registros tras el redondeo. Selecciona menos registros o permite el exceso en Editar, en la página del bono. Si el saldo no cubre el descuento mínimo, debes permitir el exceso para vincular tiempo. Si la selección supera el saldo, el cuadro de diálogo muestra el registro individual más largo que cubre el saldo. El descuento se calcula para cada registro por separado y se redondea a bloques completos y centésimas de hora, así que varios registros pequeños pueden descontar más que uno combinado.
+
+Filtra por proyecto y fechas. Puedes seleccionar registros individuales o todos los registros que se muestran para un proyecto. Puedes mover hasta 200 registros a la vez. El cuadro de diálogo muestra las horas seleccionadas y el saldo previsto tras el redondeo. Antes de confirmar, revisa cuántas horas se devuelven al saldo de cada bono de origen y cuántas se descuentan en el bono de destino tras aplicar su propio redondeo. Usa los controles de página si hay más de 200 resultados. Si el exceso se factura, la revisión indica qué horas pasan a ser facturables sin bono o siguen siéndolo.
+
+En **Tiempo**, selecciona hasta 200 registros de un mismo cliente y elige **Vincular a un bono de horas**. Selecciona un bono activo para ver el saldo previsto, los traspasos y las horas excedentes facturables antes de confirmar. Elige **Quitar del proyecto** para pasar el tiempo directamente al cliente. La tarifa se recalcula a nivel del cliente y se conservan los débitos de los bonos del mismo cliente. Al quitar un proyecto interno, el registro conserva el cliente que tenía asignado. Si cambias el intervalo de fechas o un filtro, se borra la selección.
+
 ### Redondeo
 
 - Sin tamaño de corte, las horas descontadas se redondean a dos decimales.
@@ -89,7 +99,7 @@ Para recargar sin renovación automática, crea un bono nuevo para el cliente. P
 
 Los clientes pueden ver sus bonos en el portal del cliente, en una pestaña Bonos de horas con saldo y uso. Dos interruptores lo controlan: el permiso del portal `canViewPrepaid` (activado por defecto) y el ajuste del bono `hiddenFromPortal`, que oculta un bono por completo, también del historial. Los clientes también pueden solicitar una renovación, que te aparece como una solicitud de renovación. Los valores monetarios se pueden ocultar a los clientes con el ajuste `hidePrepaidValue`, de forma global o por cliente.
 
-Si la facturación está activada, puedes aprobar la solicitud con un borrador o elegir **Aprobar y revisar el envío**. El paquete se renueva antes de que se abra la confirmación. En ella se muestran el cliente, el correo del destinatario, el número de factura, el importe con IVA y la fecha de vencimiento. Al cerrar la confirmación, la factura queda como borrador.
+Si la facturación está activada, puedes aprobar la solicitud con un borrador o elegir **Aprobar y revisar el envío**. El paquete se renueva antes de que se abra la confirmación. En ella se muestran el cliente, el correo del destinatario, el número de factura, el importe con IVA y la fecha de vencimiento. Al cerrar la confirmación, la factura queda como borrador. La confirmación también muestra el número de líneas. Si la factura cambia después de abrir la confirmación, TimeWren rechaza el envío y vuelves a abrirla.
 
 ## API REST
 

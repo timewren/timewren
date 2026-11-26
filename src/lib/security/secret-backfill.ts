@@ -103,6 +103,20 @@ export const SECRET_TARGETS: SecretTarget[] = [
     idColumn: "id",
     filter: { column: "provider", equals: "google" },
   },
+  // Outlook-kalender (Microsoft Graph): skrives altid krypteret; med her så
+  // nøgle-tjekket også dækker dem.
+  {
+    table: "calendar_connections",
+    column: "access_token",
+    idColumn: "id",
+    filter: { column: "provider", equals: "outlook" },
+  },
+  {
+    table: "calendar_connections",
+    column: "refresh_token",
+    idColumn: "id",
+    filter: { column: "provider", equals: "outlook" },
+  },
   { table: "user", column: "billy_api_key", idColumn: "id" },
   { table: "user", column: "dinero_api_key", idColumn: "id" },
   { table: "user", column: "dinero_refresh_token", idColumn: "id" },

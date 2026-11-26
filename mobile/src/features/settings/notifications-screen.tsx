@@ -1,7 +1,7 @@
 import type { RouterInputs } from '~/api/app-router';
 import type { TxKeyPath } from '~/lib/i18n';
 import * as React from 'react';
-import { View } from 'react-native';
+import { Alert, Linking, View } from 'react-native';
 import { Badge, Card, ErrorState, ListRow, ListSkeleton, Screen, SectionHeader, Switch, Text } from '~/components/ui';
 import { getStoredPushToken, registerForPush, unregisterPush } from '~/features/notifications/push-registration';
 import { isDailyReminderEnabled, setDailyReminderEnabled } from '~/features/notifications/reminders';
@@ -52,10 +52,18 @@ function PushSection() {
         showMessage({ message: translate('settings.notifications.saved'), type: 'success' });
       }
       else if (result.status === 'denied') {
-        showMessage({ message: translate('settings.notifications.push_denied'), type: 'warning' });
+        // Efter et afslag kan appen ikke selv spørge igen — kun systemets
+        // indstillinger kan slå det til, så vis vejen dertil.
+        Alert.alert(translate('settings.notifications.push_denied'), undefined, [
+          { text: translate('common.cancel'), style: 'cancel' },
+          { text: translate('settings.notifications.open_settings'), onPress: () => void Linking.openSettings() },
+        ]);
       }
       else if (result.status === 'simulator' || result.status === 'no_project_id') {
         showMessage({ message: translate('settings.notifications.push_simulator'), type: 'info' });
+      }
+      else if (result.status === 'firebase_unavailable') {
+        showMessage({ message: translate('settings.notifications.push_firebase_unavailable'), type: 'warning' });
       }
       else {
         showMessage({ message: `${translate('settings.notifications.push_error')}: ${result.message}`, type: 'danger' });

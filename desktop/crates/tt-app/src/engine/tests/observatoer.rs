@@ -205,6 +205,7 @@ fn branch_and_commit_give_a_task() {
         description: None,
         customer_id: None,
         status_id: None,
+        completed: None,
     };
     e.set_tasks(vec![
         task("t1", "BPH-12 Kurven husker ikke varer", "p_webshop"),

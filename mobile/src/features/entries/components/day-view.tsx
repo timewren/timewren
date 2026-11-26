@@ -20,7 +20,7 @@ type DayViewProps = {
   pending?: PendingEntry[];
   isLoading: boolean;
   onPressEntry: (entry: TimeEntry) => void;
-  onLongPressEntry: (entry: TimeEntry) => void;
+  onLongPressEntry: (entry: TimeEntry, getTrigger: () => View | null) => void;
   onRegister: () => void;
   /** Udvalgstilstand: `undefined` er normal visning, elfter de valgte id'er. */
   selectedIds?: ReadonlySet<string>;
@@ -60,7 +60,7 @@ export function DayView({ entries, pending = [], isLoading, onPressEntry, onLong
                   // I udvalgstilstand er et langt tryk samme som et tryk: begge
                   // markerer. Handlingsarket ville redigere/slette netop de
                   // poster, der er samlet til behandling.
-                  onLongPress={selectedIds ? () => onPressEntry(entry) : () => onLongPressEntry(entry)}
+                  onLongPress={selectedIds ? () => onPressEntry(entry) : getTrigger => onLongPressEntry(entry, getTrigger)}
                   selected={selectedIds ? selectedIds.has(entry.id) : undefined}
                   last={i === entries.length - 1 && pending.length === 0}
                 />

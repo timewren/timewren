@@ -84,6 +84,8 @@ Liste-endpoints tager `page` (standard 1) og `limit` (standard 25, højst 100). 
 
 Bliv ved med at hente, så længe `hasMore` er `true`.
 
+`GET /tasks` kan sorteres efter `createdAt`, `status`, `priority` og `deadline`. Opgaver uden en værdi i sorteringsfeltet vises sidst i begge retninger.
+
 ### Fejl
 
 Alle fejl har samme form:

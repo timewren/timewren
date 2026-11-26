@@ -52,6 +52,7 @@ export function Screen({
   preload = false,
   mobile,
   className,
+  sizes: sizesOverride,
 }: {
   name: ScreenName;
   locale: Locale;
@@ -63,11 +64,13 @@ export function Screen({
   /** Andet billede på smalle skærme (fx mobile-dashboard), hvis det findes. */
   mobile?: ScreenName;
   className?: string;
+  /** Egen `sizes`, når billedet vises smallere end kolonnen (fx en telefon). */
+  sizes?: string;
 }) {
   const src = screenSrc(name, locale);
   if (!src) return null;
   const { width, height } = sizeOf(src);
-  const sizes = half ? HALF : WIDE;
+  const sizes = sizesOverride ?? (half ? HALF : WIDE);
   const loading = preload ? undefined : ("lazy" as const);
   const mobileSrc = mobile ? screenSrc(mobile, locale) : null;
   const cls = className ? `shot ${className}` : "shot";

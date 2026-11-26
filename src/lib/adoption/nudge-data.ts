@@ -28,6 +28,7 @@ import {
 } from "@/lib/invoicing/unbilled";
 import { canViewAllOrgTime } from "@/lib/permissions/server";
 import { copenhagenToday, entryDateFromStr } from "@/lib/time/copenhagen";
+import { endOfDayExclusive } from "@/lib/time/date-bounds";
 import { getAccessibleClientIds } from "@/lib/trpc/routers/clientAccess";
 import {
   evaluateInvoiceNudge,
@@ -224,7 +225,7 @@ export async function loadInvoicePreview(
           orgId: scope.orgId,
           onlyOwnEntries,
           from: range.from ? entryDateFromStr(range.from) : undefined,
-          to: range.to ? entryDateFromStr(range.to) : undefined,
+          toExclusive: range.to ? endOfDayExclusive(range.to) : undefined,
         }),
         sql`${RESOLVED_CLIENT_ID} = ${client.id}`,
         // generateFromTimeEntries kræver eksplicit false (ikke NULL) — samme

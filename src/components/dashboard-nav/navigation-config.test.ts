@@ -129,9 +129,36 @@ describe("isNavItemVisible", () => {
       expect(isNavItemVisible(item, allOn)).toBe(true);
     });
   });
+
+  describe("teamOnly", () => {
+    const item: NavItem = { ...base, teamOnly: true };
+
+    it("skjules for en organisation med ét medlem", () => {
+      expect(isNavItemVisible(item, { ...allOn, teamSize: 1 })).toBe(false);
+    });
+
+    it("vises, når et medlem er inviteret eller med", () => {
+      expect(isNavItemVisible(item, { ...allOn, teamSize: 2 })).toBe(true);
+    });
+
+    it("vises som før, når holdets størrelse er ukendt", () => {
+      expect(isNavItemVisible(item, allOn)).toBe(true);
+    });
+  });
 });
 
 describe("mainNavGroups", () => {
+  it("markerer teamoverblik og ressourceplan som teamOnly (fund 15)", () => {
+    const teamOnly = mainNavGroups
+      .flatMap((g) => g.items)
+      .filter((i) => i.teamOnly)
+      .map((i) => i.href);
+    expect(teamOnly).toEqual([
+      "/dashboard/team/day",
+      "/dashboard/resource-plan",
+    ]);
+  });
+
   it("gater Enterprise-lederpunkter med minRole", () => {
     const enterprise = mainNavGroups.find((g) => g.label === "Enterprise");
     const minRoleOf = (href: string) =>

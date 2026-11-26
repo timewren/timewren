@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
+import { getMarketingUrl } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "5 fakturerings-fejl freelancere laver (og hvordan du undgår dem)",
@@ -38,7 +39,8 @@ export default function FaktureringFejlFreelancerPage() {
     dateModified: "2026-03-12",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://timetrack.dk/blog/fakturering-fejl-freelancer",
+      "@id": new URL("/blog/fakturering-fejl-freelancer", getMarketingUrl())
+        .href,
     },
   };
 

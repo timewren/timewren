@@ -134,8 +134,7 @@ const OPTIONAL_PROCESSORS: Processor[] = [
   },
   {
     name: "650 Industries, Inc. / Expo (USA)",
-    purpose:
-      "Push-notifikationer til mobilappen (i beta), hvis du slår dem til.",
+    purpose: "Push-notifikationer til mobilappen, hvis du slår dem til.",
     location: "USA",
     basis: "EU-U.S. Data Privacy Framework",
     outsideEu: true,

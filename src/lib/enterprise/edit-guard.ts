@@ -14,7 +14,12 @@ import {
   type OrgRole,
   roleSatisfies,
 } from "@/lib/permissions/org-role";
-import { copenhagenTodayAnchor } from "@/lib/time/copenhagen";
+import {
+  copenhagenTodayAnchor,
+  isDateStr,
+  toCopenhagenDateStr,
+  weekStartDateStr,
+} from "@/lib/time/copenhagen";
 import { assertClosingUnlocked } from "./period-closing-lock";
 import {
   autoLockMessage,
@@ -51,29 +56,11 @@ export type EditGuardInput = {
   periodOnly?: boolean;
 };
 
-function toLocalDate(d: Date | string): Date | null {
-  if (typeof d === "string") {
-    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d);
-    if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-    const parsed = new Date(d);
-    return Number.isNaN(parsed.getTime()) ? null : parsed;
-  }
-  return Number.isNaN(d.getTime()) ? null : d;
-}
-
-function toDateStr(d: Date): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-
 /** Mandag (YYYY-MM-DD) i ugen der indeholder datoen. */
-export function weekStartOf(d: Date): string {
-  const monday = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const dow = monday.getDay();
-  monday.setDate(monday.getDate() - (dow === 0 ? 6 : dow - 1));
-  return toDateStr(monday);
+export function weekStartOf(date: Date | string): string {
+  return weekStartDateStr(
+    typeof date === "string" ? date : toCopenhagenDateStr(date),
+  );
 }
 
 /** Højeste af members.role og employee_profiles.role — som organizationProcedure. */
@@ -120,26 +107,34 @@ export async function assertEntryEditable(
   const { orgId, userId } = input;
   if (!orgId) return;
 
-  const dates: Date[] = [];
+  const dates: (Date | string)[] = [];
+  const danishDates: string[] = [];
   for (const raw of input.dates) {
     if (!raw) continue;
-    const d = toLocalDate(raw);
-    if (d) dates.push(d);
+    const instant = raw instanceof Date ? raw : new Date(raw);
+    if (Number.isNaN(instant.getTime())) continue;
+    dates.push(raw);
+    danishDates.push(
+      typeof raw === "string" && isDateStr(raw)
+        ? raw
+        : toCopenhagenDateStr(instant),
+    );
   }
   if (dates.length === 0) return;
 
   // 1. Periodelås + periodeafslutning
   await assertPeriodUnlocked(db, orgId, dates);
-  await assertClosingUnlocked(db, orgId, userId, dates.map(toDateStr));
+  await assertClosingUnlocked(db, orgId, userId, danishDates);
   if (input.periodOnly) return;
 
   // 2. Ugestatus for alle berørte uger
-  const weekStarts = Array.from(new Set(dates.map(weekStartOf)));
   const weekRows = await db.query.timesheetWeeks.findMany({
     where: and(
       eq(timesheetWeeks.userId, userId),
       eq(timesheetWeeks.organizationId, orgId),
-      inArray(timesheetWeeks.weekStart, weekStarts),
+      inArray(timesheetWeeks.weekStart, [
+        ...new Set(danishDates.map(weekStartOf)),
+      ]),
     ),
     columns: { weekStart: true, status: true },
   });
@@ -180,9 +175,11 @@ export async function assertEntryEditable(
   if (lockAfterWeeks == null && autoLockWeekday == null) return;
 
   // Dansk dato som anker uanset processens TZ (#649)
-  const today = input.today ?? copenhagenTodayAnchor();
-  const rolling = dates.some((d) => isRollingLocked(d, today, lockAfterWeeks));
-  const auto = dates.some((d) => isAutoLocked(d, today, autoLockWeekday));
+  const today = copenhagenTodayAnchor(input.today);
+  const rolling = danishDates.some((d) =>
+    isRollingLocked(d, today, lockAfterWeeks),
+  );
+  const auto = danishDates.some((d) => isAutoLocked(d, today, autoLockWeekday));
   if (!rolling && !auto) return;
 
   const role =

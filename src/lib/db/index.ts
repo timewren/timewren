@@ -19,3 +19,28 @@ export const db = drizzle(client, {
   schema,
   ...(queryCountEnabled && { logger: queryCountLogger }),
 });
+
+/**
+ * Runs `fn` on one connection reserved from the pool, in autocommit: each
+ * write is committed when it returns, and session state (an advisory lock)
+ * lives until `fn` is done. `fn` must use only the database it is given,
+ * never `db`, so a caller never holds two pool connections at once.
+ */
+export async function withReservedConnection<T>(
+  fn: (database: typeof db) => Promise<T>,
+): Promise<T> {
+  const reserved = await client.reserve();
+  // drizzle sets its type parsers on `client.options`, which postgres.js
+  // leaves off a reserved connection. Both share the pool's options.
+  reserved.options ??= client.options;
+  try {
+    return await fn(
+      drizzle(reserved, {
+        schema,
+        ...(queryCountEnabled && { logger: queryCountLogger }),
+      }),
+    );
+  } finally {
+    reserved.release();
+  }
+}

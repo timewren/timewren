@@ -243,9 +243,10 @@ impl Engine {
         }
     }
 
-    /// Motor med den rigtige platform (macOS/Windows).
+    /// Motor med den rigtige platform (macOS/Windows). App Store-udgaven
+    /// (`mas`) har ingen platform: sporingen startes aldrig.
     pub fn native(dir: PathBuf) -> Self {
-        Self::new(dir, Some(tr::native()))
+        Self::new(dir, (!crate::mas::ENABLED).then(tr::native))
     }
 
     /// Andre nøglelager end OS-nøgleringen (tests: `MemorySecrets`).
@@ -336,6 +337,10 @@ impl Engine {
     // ---------- sporing ----------
 
     fn apply_tracking(&self, config: tr::TrackerConfig, enabled: bool) {
+        // App Store-udgaven sporer aldrig, uanset indstillingen.
+        if crate::mas::ENABLED {
+            return;
+        }
         let mut tracker = lock(&self.tracker);
         if let Some(t) = tracker.as_ref() {
             t.set_config(config);

@@ -22,7 +22,14 @@ vi.mock("@/lib/db", () => ({
       invoices: { findFirst: async () => ({ ...invoice.current }) },
     },
     insert: () => ({
-      values: () => ({ returning: async () => [{ id: "log-1" }] }),
+      values: () => ({
+        returning: async () => [{ id: "log-1" }],
+        // Lad begge leveringer nå fakturaen, så testen stadig øver
+        // markInvoicePaid-vagten uafhængigt af webhookens claim.
+        onConflictDoUpdate: () => ({
+          returning: async () => [{ id: "claim-1" }],
+        }),
+      }),
     }),
     update: () => ({
       set: (set: Record<string, unknown>) => ({

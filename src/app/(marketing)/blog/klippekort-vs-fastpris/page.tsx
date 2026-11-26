@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
+import { getMarketingUrl } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Klippekort vs. fastpris: Hvad er bedst for din freelance-forretning?",
@@ -38,7 +39,7 @@ export default function KlippekortVsFastprisPage() {
     dateModified: "2026-05-02",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://timetrack.dk/blog/klippekort-vs-fastpris",
+      "@id": new URL("/blog/klippekort-vs-fastpris", getMarketingUrl()).href,
     },
   };
 

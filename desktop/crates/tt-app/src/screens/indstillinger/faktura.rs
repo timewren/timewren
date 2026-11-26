@@ -16,7 +16,7 @@ use crate::i18n::{t, tf};
 use crate::ui::{self, Loadable, forms};
 
 /// Web-indstillingerne for fakturaer (cloud).
-pub const WEB_INVOICE_SETTINGS_URL: &str = "https://timetrack.dk/dashboard/settings";
+pub const WEB_INVOICE_SETTINGS_URL: &str = tt_core::edition::EDITION.settings_url;
 
 /// Felterne i rækkefølge: (id, etiket-nøgle, pladsholder).
 const FIELDS: [(&str, &str, &str); 11] = [

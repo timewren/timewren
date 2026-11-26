@@ -415,6 +415,7 @@ let cleanup: (() => void) | null = null;
 afterEach(() => {
   cleanup?.();
   cleanup = null;
+  vi.unstubAllEnvs();
 });
 
 /** Synlig tekst plus de attributter, en bruger eller skærmlæser møder. */
@@ -467,6 +468,9 @@ async function renderAs(
 
 describe.each(CASES)("%s", (_name, load, interact) => {
   it("timetrack: uændret tekst", async () => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://app.timetrack.dk");
+    // Keep the marketing URL used by the existing snapshots.
+    vi.stubEnv("NEXT_PUBLIC_MARKETING_URL", "http://localhost:3000");
     const text = await renderAs("timetrack", await load(), interact);
     expect(text.length).toBeGreaterThan(0);
     expect(text).toMatchSnapshot();

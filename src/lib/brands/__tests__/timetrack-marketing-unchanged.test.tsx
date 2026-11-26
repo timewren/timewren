@@ -1,3 +1,4 @@
+import { type Node, Window } from "happy-dom";
 import { NextRequest } from "next/server";
 import { prerenderToNodeStream } from "react-dom/static";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -57,14 +58,45 @@ function req(url: string) {
 
 async function renderPage(mod: { default: () => unknown }) {
   const el = await mod.default();
-  // Navigation og Footer er async serverkomponenter (oversat på serveren);
-  // prerender venter på dem. Suspense-markørerne fjernes, så HTML'en kan
-  // sammenlignes med snapshottet fra før oversættelsen.
+  // Prerender waits for the async server components before reading the DOM.
   const { prelude } = await prerenderToNodeStream(el as React.ReactElement);
   let html = "";
   for await (const chunk of prelude) html += chunk;
-  return html.replace(/<!--\/?\$-->/g, "").replace(/<!-- -->/g, "");
+  return normalizeMarkup(html);
 }
+
+function normalizeMarkup(html: string) {
+  const window = new Window();
+  const template = window.document.createElement("template");
+  template.innerHTML = html;
+
+  // Comment nodes carry React's streaming markers. Parsing first preserves
+  // marker-like strings in content such as structured data scripts.
+  function removeComments(root: Node) {
+    for (const child of Array.from(root.childNodes)) {
+      if (child.nodeType === window.Node.COMMENT_NODE) {
+        root.removeChild(child);
+      } else if (child instanceof window.HTMLTemplateElement) {
+        // A template stores its children in a separate document fragment.
+        removeComments(child.content);
+      } else {
+        removeComments(child);
+      }
+    }
+  }
+  removeComments(template.content);
+  return template.innerHTML;
+}
+
+it("ignores DOM comments and preserves marker-like text in scripts", () => {
+  const markup = '<p data-label="TimeTrack">Time<!--$?-->Track<!--/$--></p>';
+  const script = '<script type="application/ld+json">"<!--$-->"</script>';
+  const templates =
+    "<template><template><p>Time<!-- -->Track</p></template></template>";
+  expect(normalizeMarkup(markup + script + templates)).toBe(
+    `<p data-label="TimeTrack">TimeTrack</p>${script}<template><template><p>TimeTrack</p></template></template>`,
+  );
+});
 
 describe("timetrack.dk: forside og prisside er uændrede", () => {
   it("forsiden: metadata og HTML", async () => {

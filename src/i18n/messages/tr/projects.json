@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Aylık bütçe",
     "hint": "Ayda {hours} saat, ayın 1'inde sıfırlanır.",
-    "usage": "{used} / {budget} sa (%{pct})",
     "overrun": "Aylık bütçe {hours} saat aşıldı",
-    "previous": "Önceki aylar",
-    "hoursPct": "{hours} sa (%{pct})"
+    "previous": "Önceki aylar"
   },
   "activityTypes": {
     "allowedAll": "Projede tüm etkinlik türlerine izin var",
@@ -66,10 +64,8 @@
     "title": "Saat bütçesi",
     "derived": "türetilmiş",
     "derivedTitle": "Sabit fiyat ÷ saatlik ücretten türetilir. Doğrudan denetlemek için projede bir saat bütçesi belirle.",
-    "hoursOf": "{used} / {total} sa",
     "over": "{hours} sa aşıldı",
     "remaining": "{hours} sa kaldı",
-    "ariaUsed": "Saat bütçesinin %{pct} kadarı kullanıldı",
     "plannedTitle": "{hours} sa ileriye planlandı",
     "pctUsed": "%{pct} kullanıldı",
     "planned": "+ {planned} sa planlandı = {forecast} sa (%{pct})",
@@ -188,11 +184,11 @@
     "colTotal": "Toplam",
     "colStatus": "Durum",
     "selectProject": "{name} seç",
-    "budgetUsedTitle": "Saat bütçesinin %{pct} kadarı kullanıldı ({used}/{total} sa)",
     "noClient": "Müşteri yok",
-    "monthlyUsed": "{used}/{budget} sa",
     "monthlyAria": "Aylık bütçenin %{pct} kadarı kullanıldı",
-    "monthlyTitle": "Bu ay {budget} sa içinden {used} sa kullanıldı (%{pct})"
+    "monthlyTitle": "Bu ay {budget} sa içinden {used} sa kullanıldı (%{pct})",
+    "emptyNeedsClientHint": "Bir proje bir müşteriye aittir. Önce müşteriyi ekle, sonra projeyi oluştur.",
+    "createClientFirst": "İlk müşterini ekle"
   },
   "detail": {
     "status": {

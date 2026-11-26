@@ -6,8 +6,9 @@ use keyring_core::{CredentialStore, Error as KeyringError};
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 
-/// Nøgleringens service-navn for alle AI-nøgler.
-pub const SERVICE: &str = "dk.timetrack.desktop.ai";
+/// Nøgleringens service-navn for alle AI-nøgler (udgavens, så TimeTrack og
+/// TimeWren ikke deler nøgler).
+pub const SERVICE: &str = tt_core::edition::EDITION.ai_keyring_service;
 
 /// Lager til hemmeligheder. Appen bruger [`KeyringSecrets`]; tests bruger [`MemorySecrets`].
 pub trait SecretStore: Send + Sync {

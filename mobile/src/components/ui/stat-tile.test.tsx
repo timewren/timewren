@@ -27,6 +27,19 @@ describe('avatar', () => {
 });
 
 describe('statTile', () => {
+  it('tilpasser etiket og beløb til én linje med hele beløbet bevaret', () => {
+    const label = 'Udestående';
+    const value = '1.234.567,89 kr.';
+    render(<StatTile label={label} value={value} fitOnOneLine testID="tile" />);
+
+    for (const text of [label, value]) {
+      const content = screen.getByText(text, { includeHiddenElements: true });
+      expect(content).toHaveProp('numberOfLines', 1);
+      expect(content).toHaveProp('adjustsFontSizeToFit', true);
+    }
+    expect(screen.getByTestId('tile')).toHaveProp('accessibilityLabel', `${label}, ${value}`);
+  });
+
   it('læser etiket, værdi og hint som ét stop', () => {
     render(<StatTile label="Fakturerbare timer" value="12,5 t" hint="58 % af tiden" testID="tile" />);
     expect(screen.getByTestId('tile')).toHaveProp('accessibilityLabel', 'Fakturerbare timer, 12,5 t, 58 % af tiden');

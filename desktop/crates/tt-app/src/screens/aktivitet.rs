@@ -1880,7 +1880,9 @@ impl Render for AktivitetScreen {
                 .text_xs()
                 .text_color(b.grey)
                 .child(t("aktivitet.side.privat")),
-        );
+        )
+        // App Store-udgaven: ingen sporing, kun kalenderen. Forklar hvorfor.
+        .when(crate::mas::ENABLED, |p| p.child(crate::mas::tracking_notice(&b, "aktivitet-mas")));
         page = match &self.data {
             Loadable::Loading => page.child(ui::loading_state(
                 &b,

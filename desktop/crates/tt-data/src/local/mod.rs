@@ -647,7 +647,7 @@ impl Repository for LocalRepo {
     }
 
     async fn select_organization(&self, _organization_id: &str) -> Result<()> {
-        Err(DataError::Unsupported("Organisationer findes kun med en TimeTrack-konto".into()))
+        Err(DataError::Unsupported(format!("Organisationer findes kun med en {}-konto", tt_core::edition::EDITION.name)))
     }
 
     async fn entitlements(&self) -> Result<Entitlements> {
@@ -701,7 +701,8 @@ impl Repository for LocalRepo {
                     cvr_number: input.cvr_number,
                     notes: input.notes,
                     default_hourly_rate: input.default_hourly_rate,
-                    default_billable: true,
+                    payment_terms_days: input.payment_terms_days,
+                    default_billable: input.default_billable.unwrap_or(true),
                     color: input.color,
                     domains,
                     is_active: Some(true),
@@ -733,6 +734,12 @@ impl Repository for LocalRepo {
                 set!(email, phone, company, cvr_number, notes, color);
                 if let Some(v) = patch.default_hourly_rate {
                     client.default_hourly_rate = v;
+                }
+                if let Some(v) = patch.payment_terms_days {
+                    client.payment_terms_days = v;
+                }
+                if let Some(v) = patch.default_billable {
+                    client.default_billable = v;
                 }
                 if let Some(v) = &patch.domains {
                     client.domains = normalize_client_domains(v).map_err(DataError::Validation)?;

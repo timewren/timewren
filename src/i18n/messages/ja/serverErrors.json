@@ -300,7 +300,10 @@
     "draftOnlyReorder": "並び順を変更できるのは、下書きの請求書のみです",
     "providerMismatch": "金額または通貨を確認できませんでした。送信する前に会計システムで下書きを確認してください。",
     "recipientChanged": "宛先のメールアドレスが変更されました。確認画面を開き直してください。",
-    "clientHasNoEmail": "このクライアントにはメールアドレスがありません"
+    "clientHasNoEmail": "このクライアントにはメールアドレスがありません",
+    "exportInProgress": "この請求書はすでにエクスポート中です。しばらくしてからもう一度お試しください。",
+    "providerEmailUncertain": "会計システムが請求書を送信したことを確認できませんでした。Billy または Dinero でメールの状態を確認し、再送信する前に請求書ページで結果を記録してください。",
+    "sendReviewChanged": "確認後に請求書が変更されました。確認画面をもう一度開いてください。"
   },
   "logbook": {
     "ownOnly": "表示できるのは、自分の走行記録のみです",
@@ -751,7 +754,8 @@
     "integrations": {
       "dineroFailed": "Dineroの接続を作成できませんでした。もう一度お試しください。",
       "economicFailed": "e-conomicの接続を作成できませんでした。もう一度お試しください。",
-      "googleFailed": "Googleの接続を作成できませんでした。もう一度お試しください。"
+      "googleFailed": "Googleの接続を作成できませんでした。もう一度お試しください。",
+      "outlookFailed": "Outlook との接続を作成できませんでした。もう一度お試しください。"
     },
     "invoiceSend": {
       "invalidRecipient": "無効な宛先のメールアドレスです",

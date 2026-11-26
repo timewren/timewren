@@ -44,6 +44,7 @@ Følgende gemmes i browserens lager for udvidelser og sendes ikke nogen steder h
 - **activeTab:** når du åbner udvidelsen, læses adresse, titel og ikon for den aktive fane for at foreslå et projekt. Det sker på din computer og sendes ikke.
 - **identity:** åbner login-vinduet på den valgte server og modtager adgangstokenet bagefter.
 - **idle:** registrerer, om computeren er aktiv, inaktiv eller låst.
+- **search:** når TimeTrack er slået fra på nye faner i en browser uden adgang til sin egen nye fane (fx Edge og Firefox), sendes det, du skriver i søgefeltet, til browserens standardsøgemaskine. Udvidelsen gemmer ikke søgningen.
 - **timetrack.dk og underdomæner:** al kommunikation med TimeTrack.
 - **Valgfri adgang til en selvhostet HTTPS-adresse:** bruges kun efter dit klik på “Forbind til server” og browserens tilladelse. Adgangen bruges til servervalidering, login, tidsregistrering og synkronisering med den valgte server.
 - **mail.google.com:** viser knappen "Opret opgave" i Gmail.

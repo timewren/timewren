@@ -176,7 +176,7 @@
       "deleted": "silindi"
     },
     "specHeading": "--- Özellik listesi ---",
-    "specLine": "{date} - {project}: {description} ({hours} sa × {rate} kr = {amount} kr)"
+    "specLine": "{date} - {project}: {description} ({hours} sa × {rate} = {amount})"
   },
   "logbook": {
     "endAfterStart": "Bitiş tarihi başlangıç tarihinden sonra olmalı",
@@ -457,6 +457,10 @@
       "projectLine": "Proje: {name}",
       "hoursLine": "Saat: {hours}",
       "exportedFrom": "TimeTrack'ten dışa aktarıldı"
+    },
+    "outlook": {
+      "notConnected": "Outlook'a bağlı değil",
+      "syncFailed": "Outlook eşitlemesi başarısız oldu"
     }
   },
   "activity": {

@@ -1,9 +1,13 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { withCronLogging } from "@/lib/cron/log-cron-run";
 import { db } from "@/lib/db";
 import { calendarConnections } from "@/lib/db/schema";
 import { syncCalendarEvents } from "@/lib/integrations/google-calendar";
 import { syncICloudCalendars } from "@/lib/integrations/icloud-calendar";
+import {
+  OUTLOOK_PROVIDER,
+  syncOutlookCalendar,
+} from "@/lib/integrations/outlook-calendar";
 import { captureRouteError } from "@/lib/utils/sentry";
 
 /**
@@ -19,7 +23,17 @@ function calculateBackoffMs(failures: number): number {
 }
 
 /**
- * Cron job to automatically sync Google Calendar for all connected users
+ * Fejlbeskeden til en mislykket synk. Har token-laget imens slået
+ * forbindelsen fra med sin egen besked (fx "reconnect" ved invalid_grant
+ * efter et forsinket tilbagekald), bevares den; ellers viser
+ * CalendarReconnectBanner "Prøv igen" i stedet for "forbind igen".
+ */
+function failedSyncError(message: string) {
+  return sql<string>`CASE WHEN ${calendarConnections.syncEnabled} = false AND ${calendarConnections.syncError} IS NOT NULL THEN ${calendarConnections.syncError} ELSE ${message} END`;
+}
+
+/**
+ * Cron job to automatically sync Google, Outlook and iCloud calendars
  * Implements exponential backoff for persistent failures
  *
  * Schedule: Every 15 minutes (configured externally)
@@ -75,7 +89,9 @@ export const GET = withCronLogging("calendar-sync", async (_request) => {
       const syncResult =
         connection.provider === "apple"
           ? await syncICloudCalendars(connection.userId)
-          : await syncCalendarEvents(connection.userId);
+          : connection.provider === OUTLOOK_PROVIDER
+            ? await syncOutlookCalendar(connection.userId)
+            : await syncCalendarEvents(connection.userId);
 
       if (syncResult.success) {
         succeeded++;
@@ -113,7 +129,7 @@ export const GET = withCronLogging("calendar-sync", async (_request) => {
           .set({
             consecutiveSyncFailures: newFailureCount,
             syncDisabledUntil: backoffUntil,
-            syncError: errorMessage,
+            syncError: failedSyncError(errorMessage),
             updatedAt: now,
           })
           .where(eq(calendarConnections.id, connection.id));
@@ -143,7 +159,7 @@ export const GET = withCronLogging("calendar-sync", async (_request) => {
         .set({
           consecutiveSyncFailures: newFailureCount,
           syncDisabledUntil: backoffUntil,
-          syncError: errorMessage,
+          syncError: failedSyncError(errorMessage),
           updatedAt: now,
         })
         .where(eq(calendarConnections.id, connection.id));

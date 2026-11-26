@@ -21,6 +21,7 @@ import { useModules } from "@/hooks/useModules";
 import { toLocalDateStr } from "@/lib/format";
 import { isNetworkError } from "@/lib/offline/queue";
 import { pickAutoDeductPackage } from "@/lib/prepaid/auto-select";
+import { canTakePrepaidHours } from "@/lib/prepaid/can-take-hours";
 import { clockRangeToInstants } from "@/lib/time/clock-range";
 import {
   buildTimeEntrySchema,
@@ -65,7 +66,6 @@ export default function NewTimeEntryPage() {
           hoursMin: t("validation.hoursMin"),
           endAfterStart: t("validation.endAfterStart"),
           pickProject: t("validation.pickProject"),
-          pickProjectOrClient: t("validation.pickProjectOrClient"),
         },
       ),
     [showProjects, showClients, t],
@@ -105,11 +105,11 @@ export default function NewTimeEntryPage() {
   const projectId = watch("projectId");
   const clientId = watch("clientId");
 
-  // Vises under kunde-feltet når det findes, ellers under projekt-feltet —
-  // fejlen må aldrig gemme sig bag et skjult modul.
-  const projectOrClientError = errors.projectId && !projectId && !clientId && (
+  // Projektet er kun påkrævet uden kundemodulet (buildTimeEntrySchema); med
+  // kunder er tid uden begge intern tid.
+  const projectError = errors.projectId && !projectId && (
     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-      {errors.projectId.message || t("new.pickProjectOrClient")}
+      {errors.projectId.message}
     </p>
   );
   const usePrepaid = watch("usePrepaid");
@@ -201,8 +201,8 @@ export default function NewTimeEntryPage() {
   );
 
   // Filter packages with remaining hours
-  const availablePackages = prepaidPackages?.filter(
-    (pkg) => parseFloat(pkg.remainingHours || "0") > 0,
+  const availablePackages = prepaidPackages?.filter((pkg) =>
+    canTakePrepaidHours(pkg),
   );
 
   // Auto-træk: kundens auto-kort er sat på forhånd, én gang pr. kunde, så
@@ -434,7 +434,10 @@ export default function NewTimeEntryPage() {
                     htmlFor="clientId"
                     className="mb-1.5 block text-xs font-medium text-gray-700 dark:text-gray-300"
                   >
-                    {t("new.client")} <span className="text-red-600">*</span>
+                    {t("new.client")}{" "}
+                    <span className="text-gray-400 font-normal">
+                      {t("new.optional")}
+                    </span>
                   </label>
                   <ClientSearchCombobox
                     clients={clients}
@@ -444,7 +447,6 @@ export default function NewTimeEntryPage() {
                     }}
                     placeholder={t("new.selectClient")}
                   />
-                  {projectOrClientError}
                 </div>
               )}
 
@@ -465,21 +467,25 @@ export default function NewTimeEntryPage() {
                   <ProjectSelect
                     projects={allProjects}
                     value={projectId || null}
-                    onChange={(id) => setValue("projectId", id ?? "")}
+                    onChange={(id) => {
+                      setValue("projectId", id ?? "");
+                      // Projekt valgt før kunde: kunden følger projektet.
+                      const projectClientId = allProjects?.find(
+                        (p) => p.id === id,
+                      )?.clientId;
+                      if (showClients && !clientId && projectClientId) {
+                        setValue("clientId", projectClientId);
+                      }
+                    }}
                     clientId={showClients ? clientId || null : null}
-                    disabled={showClients && !clientId}
                     placeholder={
-                      !showClients
-                        ? t("new.selectProject")
-                        : clientId
-                          ? clientProjects.length === 0
-                            ? t("new.noActiveProjects")
-                            : t("new.selectProject")
-                          : t("new.selectClientFirst")
+                      showClients && clientId && clientProjects.length === 0
+                        ? t("new.noActiveProjects")
+                        : t("new.selectProject")
                     }
                     className="w-full rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-900 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-900 dark:text-white disabled:opacity-50"
                   />
-                  {!showClients && projectOrClientError}
+                  {projectError}
                 </div>
               )}
 

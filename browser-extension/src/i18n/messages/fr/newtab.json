@@ -49,7 +49,8 @@
     "title": "Paramètres du nouvel onglet",
     "close": "Fermer les paramètres",
     "enable": "Utiliser TimeTrack dans le nouvel onglet",
-    "enableHint": "Remplace la page d'accueil du navigateur par TimeTrack",
+    "enableHint": "Remplace le nouvel onglet du navigateur par TimeTrack. Désactivé, vous obtenez une page simple avec un champ de recherche",
+    "enableHintChrome": "Remplace le nouvel onglet du navigateur par TimeTrack. Désactivé, vous obtenez la page Nouvel onglet de Chrome, toujours dans sa version Google, même si votre moteur de recherche par défaut est un autre",
     "appearance": "Apparence",
     "theme": "Thème",
     "themeHint": "Thème de couleurs de l'extension",
@@ -95,5 +96,10 @@
     "chartLabel": "Aperçu du temps de la semaine",
     "workHours": "Heures de travail : {day}",
     "dayHours": "{day} : {hours}"
+  },
+  "search": {
+    "label": "Rechercher sur le Web",
+    "submit": "Rechercher",
+    "error": "La recherche n'a pas pu démarrer. Saisissez-la plutôt dans la barre d'adresse."
   }
 }

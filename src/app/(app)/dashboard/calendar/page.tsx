@@ -264,6 +264,7 @@ export default function CalendarPage() {
     { retry: false },
   );
   const { data: configured } = trpc.calendar.isConfigured.useQuery();
+  const { data: calendarProviders } = trpc.calendar.providers.useQuery();
 
   const isCalendarConnected = !!connectionStatus?.connected;
 
@@ -723,9 +724,11 @@ export default function CalendarPage() {
                 href="/dashboard/settings/integrations"
                 className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
               >
-                {configured?.configured
-                  ? t("page.connectBoth")
-                  : t("page.connectICloud")}
+                {calendarProviders?.outlook
+                  ? t("page.connectCalendar")
+                  : configured?.configured
+                    ? t("page.connectBoth")
+                    : t("page.connectICloud")}
               </Link>
             </p>
           )}

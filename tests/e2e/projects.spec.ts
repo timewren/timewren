@@ -347,7 +347,7 @@ test.describe("Project Management", () => {
       if (await editButton.isVisible()) {
         await editButton.click();
         await page.waitForURL(/\/dashboard\/projects\/[^/]+\/edit$/);
-        await expect(page.locator("h1")).toContainText("Rediger Projekt");
+        await expect(page.locator("h1")).toContainText("Rediger projekt");
       }
     });
   });
@@ -447,7 +447,7 @@ test.describe("Project Management", () => {
     const statuses = [
       { value: "active", label: "Aktiv" },
       { value: "completed", label: "Afsluttet" },
-      { value: "on_hold", label: "På Hold" },
+      { value: "on_hold", label: "På hold" },
     ];
 
     for (const status of statuses) {

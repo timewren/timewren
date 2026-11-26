@@ -9,9 +9,9 @@ Siden her handler om, hvad din server leverer til den. Hvordan appens serveradre
 
 ## Login
 
-Appen bruger det samme enhedslogin som desktop-appen: Den åbner din instans i browseren, du logger ind og godkender enheden, og browseren vender tilbage til appen via deep linket `timetrack://auth/callback`. Access tokenet holder i 30 dage og fornyes med et refresh token (180 dage), så du sjældent skal logge ind igen. Appen kan også bruge de OAuth-udbydere og den Log ind med Apple, du konfigurerer, se [Godkendelse](/da/docs/configuration/authentication).
+Appen bruger det samme enhedslogin som desktop-appen: Den åbner din instans i browseren, du logger ind og godkender enheden, og browseren vender tilbage til appen via deep linket `timetrack://auth/callback` (`timewren://auth/callback` på en TimeWren-instans). Access tokenet holder i 30 dage og fornyes med et refresh token (180 dage), så du sjældent skal logge ind igen. Appen kan også bruge de OAuth-udbydere og den Log ind med Apple, du konfigurerer, se [Godkendelse](/da/docs/configuration/authentication).
 
-Serveren stoler automatisk på app-skemaerne `timetrack://` og `timetrack.preview://`. Du behøver ikke føje dem til `TRUSTED_ORIGINS`.
+Serveren stoler automatisk på app-skemaerne `timetrack://` og `timetrack.preview://` (på en TimeWren-instans også `timewren://`). Du behøver ikke føje dem til `TRUSTED_ORIGINS`.
 
 Til native Log ind med Apple sætter du `APPLE_APP_BUNDLE_IDENTIFIER` til bundle-id'et for det app-build, du bruger (standard `dk.timetrack.app`), sammen med de øvrige Apple-variabler.
 

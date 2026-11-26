@@ -84,6 +84,8 @@ Listen-Endpunkte nehmen `page` (Standard 1) und `limit` (Standard 25, maximal 10
 
 Rufe weiter ab, solange `hasMore` den Wert `true` hat.
 
+`GET /tasks` lässt sich nach `createdAt`, `status`, `priority` und `deadline` sortieren. Aufgaben ohne einen Wert im Sortierfeld stehen in beiden Richtungen am Ende.
+
 ### Fehler
 
 Fehler haben alle dieselbe Form:

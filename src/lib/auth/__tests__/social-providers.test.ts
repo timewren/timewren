@@ -207,6 +207,22 @@ describe("(a) udbydere registreret pr. host", () => {
     expect(tt.google).toMatchObject({ clientId: "g-id" });
   });
 
+  it("kalender-nøgler registrerer ingen login-udbydere", async () => {
+    // Outlook-kalenderens egne apps (docs/specs/timewren-cloud.md → 5,
+    // "Kalender") må ikke slå Microsoft-login til på nogen af instanserne.
+    stubEnv({
+      TIMEWREN_OUTLOOK_CLIENT_ID: "tw-o-id",
+      TIMEWREN_OUTLOOK_CLIENT_SECRET: "tw-o-secret",
+      OUTLOOK_CALENDAR_CLIENT_ID: "tt-o-id",
+      OUTLOOK_CALENDAR_CLIENT_SECRET: "tt-o-secret",
+    });
+    const { mod, defaultMsCalls } = await loadAuth();
+    const tw = timewrenInstance(mod);
+    expect(tw.options.socialProviders).toEqual({});
+    expect(tw.msCalls).toEqual([]);
+    expect(defaultMsCalls.map((c) => c.clientId)).toEqual(["ms-id"]);
+  });
+
   it("Apple på TimeWren kun med Services ID og signeringsnøgle", async () => {
     vi.stubEnv("TIMEWREN_APPLE_CLIENT_ID", "com.timewren.web");
     let { mod } = await loadAuth();
@@ -348,6 +364,15 @@ describe("(b) timetrack.dk's auth-konfiguration er uændret", () => {
       TIMEWREN_DISCORD_CLIENT_SECRET: "tw-d-secret",
     });
     expect(await defaultConfig()).toEqual(MAIN_BASELINE);
+
+    // Kalender-klienterne (Outlook pr. brand) ændrer heller ikke login
+    stubEnv({
+      OUTLOOK_CALENDAR_CLIENT_ID: "tt-o-id",
+      OUTLOOK_CALENDAR_CLIENT_SECRET: "tt-o-secret",
+      TIMEWREN_OUTLOOK_CLIENT_ID: "tw-o-id",
+      TIMEWREN_OUTLOOK_CLIENT_SECRET: "tw-o-secret",
+    });
+    expect(await defaultConfig()).toEqual(MAIN_BASELINE);
   });
 
   it("timetrack-hosts får standardinstansen", async () => {
@@ -439,12 +464,20 @@ describe("(c) login-knapper pr. brand", () => {
 });
 
 describe("kalender og betaling pr. brand", () => {
-  it("Google Calendar kun for TimeTrack-konti", async () => {
+  it("Google Calendar: TimeWren kun med egen klient (TIMEWREN_GOOGLE_*)", async () => {
     const { isGoogleCalendarAvailableForBrand } = await import(
       "@/lib/integrations/google-calendar"
     );
     expect(isGoogleCalendarAvailableForBrand("timetrack")).toBe(true);
     expect(isGoogleCalendarAvailableForBrand("timewren")).toBe(false);
+
+    // Samme Google-app som login kan genbruges til kalenderen
+    stubEnv({
+      TIMEWREN_GOOGLE_CLIENT_ID: "tw-g-id",
+      TIMEWREN_GOOGLE_CLIENT_SECRET: "tw-g-secret",
+    });
+    expect(isGoogleCalendarAvailableForBrand("timewren")).toBe(true);
+    expect(isGoogleCalendarAvailableForBrand("timetrack")).toBe(true);
   });
 
   it("checkout kun for TimeTrack", () => {

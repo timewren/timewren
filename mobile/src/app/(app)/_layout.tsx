@@ -16,6 +16,7 @@ import { useAuthStore } from '~/features/auth/use-auth-store';
 import { useCapabilities } from '~/features/capabilities/use-capabilities';
 import { hasLocalData } from '~/features/local/local-logic';
 import { localStore, useLocalStore } from '~/features/local/local-store';
+import { readyForPushPrompt } from '~/features/notifications/push-timing';
 import { useNotifications } from '~/features/notifications/use-notifications';
 import { useRunningNotification } from '~/features/notifications/use-running-notification';
 import { useTimerReminder } from '~/features/notifications/use-timer-reminder';
@@ -45,7 +46,16 @@ export default function TabLayout() {
   const dark = theme === 'dark';
   const profile = trpc.user.getProfile.useQuery(undefined, { enabled: status === 'signIn' });
   useOfflineSync();
-  useNotifications(status === 'signIn');
+  useNotifications(readyForPushPrompt({
+    signedIn: status === 'signIn',
+    isFirstTime,
+    // Fejler profilkaldet, spørges der alligevel; ellers blev push aldrig
+    // registreret i resten af app-sessionen.
+    onboardingCompleted: profile.isError ? null : profile.data?.onboardingCompleted,
+    // Mens rollen hentes, antages ejer: hellere vente lidt end at spørge oven
+    // på opsætningen, som layoutet sender en ny ejer til et øjeblik efter.
+    isAdmin: caps.isLoading || caps.isAdmin,
+  }));
   useTimerReminder();
   useRunningNotification();
   useTimerRecovery();

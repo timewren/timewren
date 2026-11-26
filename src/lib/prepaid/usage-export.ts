@@ -1,3 +1,4 @@
+import { toIntlLocale } from "@/i18n/format-locale";
 import { type CSVColumn, convertToCSV } from "@/lib/utils/csv-export";
 import { sanitizeForSpreadsheet } from "@/lib/utils/spreadsheet";
 
@@ -9,13 +10,18 @@ export interface ExportUsage {
   valueUsed?: string | number | null;
 }
 
-export function usageExportRows(usage: ExportUsage[], showValue: boolean) {
+export function usageExportRows(
+  usage: ExportUsage[],
+  showValue: boolean,
+  locale = "da",
+) {
+  const intlLocale = toIntlLocale(locale);
   const includeValue = showValue && usage.every((u) => u.valueUsed != null);
   return [...usage]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map((u) => ({
       id: u.id,
-      date: new Date(u.date).toLocaleDateString("da-DK", {
+      date: new Date(u.date).toLocaleDateString(intlLocale, {
         timeZone: "Europe/Copenhagen",
       }),
       description: u.description,
@@ -24,15 +30,29 @@ export function usageExportRows(usage: ExportUsage[], showValue: boolean) {
     }));
 }
 
-export function usageCSV(usage: ExportUsage[], showValue: boolean): string {
-  const rows = usageExportRows(usage, showValue);
+export function usageCSV(
+  usage: ExportUsage[],
+  showValue: boolean,
+  labels?: {
+    locale: string;
+    date: string;
+    description: string;
+    hours: string;
+    value: string;
+  },
+): string {
+  const rows = usageExportRows(usage, showValue, labels?.locale);
   const columns: CSVColumn[] = [
-    { key: "date", header: "Dato" },
-    { key: "description", header: "Beskrivelse" },
-    { key: "hours", header: "Timer", format: "number" },
+    { key: "date", header: labels?.date ?? "Dato" },
+    { key: "description", header: labels?.description ?? "Beskrivelse" },
+    { key: "hours", header: labels?.hours ?? "Timer", format: "number" },
   ];
   if (rows[0]?.value !== undefined)
-    columns.push({ key: "value", header: "Værdi", format: "number" });
+    columns.push({
+      key: "value",
+      header: labels?.value ?? "Værdi",
+      format: "number",
+    });
   return convertToCSV(
     rows.map((r) => ({
       ...r,

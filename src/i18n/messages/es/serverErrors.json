@@ -300,7 +300,10 @@
     "draftOnlyReorder": "El orden solo se puede cambiar en facturas en borrador",
     "providerMismatch": "No se pudo verificar el importe o la moneda. Revisa el borrador en tu sistema contable antes de enviarlo.",
     "recipientChanged": "El correo del destinatario ha cambiado. Vuelve a abrir la confirmación.",
-    "clientHasNoEmail": "El cliente no tiene dirección de correo"
+    "clientHasNoEmail": "El cliente no tiene dirección de correo",
+    "exportInProgress": "Esta factura ya se está exportando. Inténtalo de nuevo en un momento.",
+    "providerEmailUncertain": "No pudimos confirmar que tu programa de contabilidad enviara la factura. Comprueba el estado del correo en Billy o Dinero y marca el resultado en la página de la factura antes de volver a enviarla.",
+    "sendReviewChanged": "La factura cambió después de que la confirmaras. Vuelve a abrir la confirmación."
   },
   "logbook": {
     "ownOnly": "Solo puedes ver tu propio libro de desplazamientos",
@@ -436,6 +439,7 @@
     "checkoutComingSoon": "Los pagos aún no están disponibles aquí. Estás en el plan gratuito.",
     "checkoutNotForAccount": "Este método de pago no está disponible para tu cuenta. Gestiona tu plan en Ajustes → Suscripción.",
     "stripeUnavailable": "Los pagos no están disponibles ahora mismo. Inténtalo de nuevo más tarde.",
+    "stripeCheckoutBusy": "Ya se está iniciando un pago para esta organización. Espera un momento y vuelve a intentarlo.",
     "stripeAlreadyActive": "Ya tienes una suscripción activa. Usa «Gestionar suscripción» para cambiar de plan o de número de usuarios.",
     "stripeNoCustomer": "Todavía no hay ninguna suscripción de pago. Elige primero un plan.",
     "noOrganization": "Tu cuenta no tiene espacio de trabajo. Recarga la página e inténtalo de nuevo."
@@ -756,7 +760,8 @@
     "integrations": {
       "dineroFailed": "No se pudo crear la conexión con Dinero. Inténtalo de nuevo.",
       "economicFailed": "No se pudo crear la conexión con e-conomic. Inténtalo de nuevo.",
-      "googleFailed": "No se pudo crear la conexión con Google. Inténtalo de nuevo."
+      "googleFailed": "No se pudo crear la conexión con Google. Inténtalo de nuevo.",
+      "outlookFailed": "No se pudo crear la conexión con Outlook. Inténtalo de nuevo."
     },
     "invoiceSend": {
       "invalidRecipient": "Correo del destinatario no válido",

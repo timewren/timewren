@@ -3,11 +3,12 @@
 //! (klippekort-træk, fælles timer med version, forslag der forsvinder ved
 //! bekræftelse), men uden persistens.
 
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 
 use chrono::{Days, Local, NaiveDate, NaiveTime, Timelike};
 
 use super::*;
+use crate::ur::{Clock, SystemClock};
 
 pub struct MockBackend {
     state: Mutex<State>,
@@ -26,6 +27,11 @@ pub struct MockBackend {
     observer: Mutex<super::observer::MockObserver>,
     // ux-vaelger: regler og mønstre.
     regler: Mutex<Vec<RuleRow>>,
+    /// Timerens ur. `new`, `with_today` og `empty` bruger systemuret (demoen);
+    /// kun `with_clock` (fx `testing::mock()`) fastfryser det. Tests, der
+    /// stopper en timer og tjekker minutter, skal have et fast ur, ellers kan
+    /// en timer på 1:00:30 nå 1:01, mens en langsom test kører.
+    clock: Arc<dyn Clock>,
 }
 
 // ux-vaelger: regler og omfang i demoen.
@@ -42,6 +48,17 @@ struct MockGendan {
     profile: InvoiceProfile,
     /// Arkiverede klippekort (flyttet ud af `State::punch_cards`).
     archived_cards: Vec<PunchCard>,
+    /// Web's fakturatal og PDF (cloud). `None`: som en server uden dem, så
+    /// appen regner og tegner selv (de ældre tests).
+    web_invoices: Option<MockWebInvoices>,
+}
+
+/// Web's `totals` og PDF i demoen: momsregistrering og en fejl, begge kald
+/// giver.
+#[derive(Clone, Default)]
+struct MockWebInvoices {
+    show_vat: bool,
+    fail: Option<BackendError>,
 }
 
 struct State {
@@ -93,6 +110,7 @@ fn default_lanes() -> Vec<TaskLane> {
         name: name.into(),
         color: Some(color),
         category,
+        is_archive: category == LaneCategory::Done,
     })
     .collect()
 }
@@ -124,7 +142,14 @@ impl MockBackend {
             aktivitet: Mutex::default(),
             observer: Mutex::default(),
             regler: Mutex::new(regler::demo_rows()),
+            clock: Arc::new(SystemClock),
         }
+    }
+
+    /// Timeren går efter `clock` i stedet for systemuret (tests).
+    pub fn with_clock(mut self, clock: Arc<dyn Clock>) -> Self {
+        self.clock = clock;
+        self
     }
 
     /// Tom database (til tomme tilstande).
@@ -156,11 +181,13 @@ impl MockBackend {
             }),
             observer: Mutex::default(),
             regler: Mutex::default(),
+            clock: Arc::new(SystemClock),
         }
     }
 
     /// Demo og tests: en kørende timer, der har kørt `elapsed_secs`.
     pub fn demo_timer(&self, target: TimerTarget, elapsed_secs: i64) {
+        let now = self.clock.local();
         let mut s = self.state.lock().expect("mock-lås");
         let v = s.timer.version + 1;
         s.timer = TimerState {
@@ -169,7 +196,7 @@ impl MockBackend {
             project_id: target.project_id,
             task_id: target.task_id,
             description: target.description,
-            started_at: Some(Local::now() - chrono::Duration::seconds(elapsed_secs)),
+            started_at: Some(now - chrono::Duration::seconds(elapsed_secs)),
             accumulated_secs: 0,
             version: v,
         };
@@ -188,6 +215,7 @@ impl MockBackend {
             name: name.into(),
             color: Some(color),
             category,
+            is_archive: category == LaneCategory::Done,
         };
         let mut s = self.state.lock().expect("mock-lås");
         s.lanes = vec![
@@ -214,6 +242,7 @@ impl MockBackend {
             description: Some("Tre nye navne, samme layout som sidst.".into()),
             customer_id: Some("kunde_klinik".into()),
             status_id: Some("kol_todo".into()),
+            completed: None,
         });
         s.tasks.push(Task {
             id: "opg_11".into(),
@@ -227,12 +256,35 @@ impl MockBackend {
             description: None,
             customer_id: None,
             status_id: Some("kol_ideer".into()),
+            completed: None,
         });
     }
 
     /// Alle kald fejler med `err`, til `None` sættes igen.
     pub fn set_failure(&self, err: Option<BackendError>) {
         *self.fail.lock().expect("mock-lås") = err;
+    }
+
+    /// Web leverer fakturaens tal og PDF (cloud), som momsregistreret eller
+    /// ej. `fail`: begge kald fejler med den fejl.
+    pub fn set_web_invoices(&self, show_vat: bool, fail: Option<BackendError>) {
+        self.gendan.lock().expect("mock-lås").web_invoices = Some(MockWebInvoices { show_vat, fail });
+    }
+
+    /// Den PDF, demoens "web" laver for fakturaen.
+    pub fn web_pdf(id: &str) -> Vec<u8> {
+        format!("%PDF-1.7\n% web-pdf {id}\n%%EOF\n").into_bytes()
+    }
+
+    fn web_invoices(&self) -> Result<Option<MockWebInvoices>> {
+        if self.is_local() {
+            return Ok(None);
+        }
+        let web = self.gendan.lock().expect("mock-lås").web_invoices.clone();
+        match web {
+            Some(MockWebInvoices { fail: Some(e), .. }) => Err(e),
+            w => Ok(w),
+        }
     }
 
     /// Demo i lokal tilstand (`TT_DEMO=lokal`) med en udfyldt fakturaopsætning.
@@ -257,6 +309,51 @@ impl MockBackend {
 
     fn is_local(&self) -> bool {
         self.gendan.lock().expect("mock-lås").local
+    }
+
+    /// Giver kladden nummer og status "Sendt" og husker, hvem den gik til.
+    fn issue(&self, id: &str, to: Option<String>) -> Result<Invoice> {
+        let prefix = if self.is_local() {
+            let g = self.gendan.lock().expect("mock-lås");
+            let missing = g.profile.missing();
+            if !missing.is_empty() {
+                return Err(BackendError::Validation(format!(
+                    "Udfyld {} under Indstillinger → Faktura, før fakturaen udstedes",
+                    missing.join(", ")
+                )));
+            }
+            Some(g.profile.number_prefix.clone())
+        } else {
+            None
+        };
+        self.with(|s| {
+            let number = s.next_invoice_number;
+            let inv = s
+                .invoices
+                .iter_mut()
+                .find(|i| i.id == id)
+                .ok_or(BackendError::NotFound("Fakturaen".into()))?;
+            if inv.status != InvoiceStatus::Draft {
+                return Err(BackendError::Validation(
+                    "Fakturaen er allerede sendt".into(),
+                ));
+            }
+            if inv.lines.is_empty() {
+                return Err(BackendError::Validation(
+                    "Fakturaen har ingen linjer".into(),
+                ));
+            }
+            inv.number = Some(number);
+            inv.number_text = prefix.map(|p| format!("{p}{number}"));
+            inv.status = InvoiceStatus::Sent;
+            inv.delivery = Some(InvoiceDelivery {
+                at: Local::now().naive_local(),
+                to,
+            });
+            let out = inv.clone();
+            s.next_invoice_number += 1;
+            Ok(out)
+        })
     }
 
     fn with<T>(&self, f: impl FnOnce(&mut State) -> Result<T>) -> Result<T> {
@@ -324,7 +421,11 @@ impl State {
             s.customers.push(Customer {
                 id: id.into(),
                 name: name.into(),
-                email: None,
+                email: match id {
+                    "kunde_bageriet" => Some("regnskab@bageriet.example.dk".into()),
+                    "kunde_gartneriet" => Some("kontor@gartneriet-nb.example.dk".into()),
+                    _ => None,
+                },
                 hourly_rate: rate,
                 archived,
                 cvr: None,
@@ -613,6 +714,7 @@ impl State {
                 description: Some("Kurven skal gemmes mellem besøg, og betalingen går via MobilePay Checkout.".into()),
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
             Task {
                 id: "opg_2".into(),
@@ -626,6 +728,7 @@ impl State {
                 description: None,
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
             Task {
                 id: "opg_3".into(),
@@ -639,6 +742,7 @@ impl State {
                 description: Some("Klinikken vil have en sms 24 timer før tiden.".into()),
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
             Task {
                 id: "opg_4".into(),
@@ -652,6 +756,7 @@ impl State {
                 description: None,
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
             Task {
                 id: "opg_5".into(),
@@ -665,6 +770,7 @@ impl State {
                 description: None,
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
             Task {
                 id: "opg_6".into(),
@@ -678,6 +784,7 @@ impl State {
                 description: None,
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
             Task {
                 id: "opg_7".into(),
@@ -691,6 +798,7 @@ impl State {
                 description: Some("Alle 14 allergener som ikoner, så menukortet kan printes.".into()),
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
             Task {
                 id: "opg_8".into(),
@@ -704,6 +812,7 @@ impl State {
                 description: None,
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
             Task {
                 id: "opg_9".into(),
@@ -717,6 +826,7 @@ impl State {
                 description: None,
                 customer_id: None,
                 status_id: None,
+                completed: None,
             },
         ];
 
@@ -733,13 +843,15 @@ impl State {
                     minutes: 32 * 60 + 30,
                     rate: 120_000,
                     entry_ids: vec![],
+                    stored: None,
                 }],
                 lines_loaded: true,
                 subtotal_hint: 0,
-                vat_permille: 250,
+                vat_permille: Some(250),
                 number_text: None,
                 title: None,
                 notes: None,
+                delivery: None,
             },
             Invoice {
                 id: "faktura_1040".into(),
@@ -754,20 +866,23 @@ impl State {
                         minutes: 18 * 60,
                         rate: 90_000,
                         entry_ids: vec![],
+                        stored: None,
                     },
                     InvoiceLine {
                         description: "Nyhedsbrev, opsætning".into(),
                         minutes: 4 * 60 + 15,
                         rate: 90_000,
                         entry_ids: vec![],
+                        stored: None,
                     },
                 ],
                 lines_loaded: true,
                 subtotal_hint: 0,
-                vat_permille: 250,
+                vat_permille: Some(250),
                 number_text: None,
                 title: None,
                 notes: None,
+                delivery: None,
             },
             Invoice {
                 id: "faktura_1039".into(),
@@ -781,13 +896,21 @@ impl State {
                     minutes: 12 * 60,
                     rate: DEFAULT_RATE,
                     entry_ids: vec![],
+                    stored: None,
                 }],
                 lines_loaded: true,
                 subtotal_hint: 0,
-                vat_permille: 250,
+                vat_permille: Some(250),
                 number_text: None,
                 title: None,
                 notes: None,
+                delivery: Some(InvoiceDelivery {
+                    at: today
+                        .and_hms_opt(10, 12, 0)
+                        .map(|t| t - chrono::Duration::days(5))
+                        .expect("gyldigt tidspunkt"),
+                    to: Some("bogholderi@toemrer.example.dk".into()),
+                }),
             },
         ];
 
@@ -972,6 +1095,10 @@ impl Backend for MockBackend {
         self.today
     }
 
+    fn local_now(&self) -> DateTime<Local> {
+        self.clock.local()
+    }
+
     fn customers(&self, include_archived: bool) -> Result<Vec<Customer>> {
         self.with(|s| {
             Ok(s.customers
@@ -996,6 +1123,8 @@ impl Backend for MockBackend {
                 phone: input.phone,
                 notes: input.notes,
                 domains: input.domains.unwrap_or_default(),
+                internal: input.internal,
+                payment_terms_days: input.payment_terms_days,
             };
             s.customers.push(c.clone());
             Ok(c)
@@ -1021,6 +1150,8 @@ impl Backend for MockBackend {
             if let Some(d) = input.domains {
                 c.domains = tt_data::normalize_client_domains(&d).map_err(BackendError::Validation)?;
             }
+            c.internal = input.internal;
+            c.payment_terms_days = input.payment_terms_days;
             Ok(c.clone())
         })
     }
@@ -1261,6 +1392,7 @@ impl Backend for MockBackend {
                 description: input.description.filter(|d| !d.trim().is_empty()),
                 customer_id,
                 status_id: None,
+                completed: None,
             };
             s.tasks.push(x.clone());
             Ok(x)
@@ -1295,6 +1427,7 @@ impl Backend for MockBackend {
     }
 
     fn set_task_status(&self, id: &str, status: TaskStatus) -> Result<()> {
+        let today = self.today;
         self.with(|s| {
             let x = s
                 .tasks
@@ -1302,6 +1435,7 @@ impl Backend for MockBackend {
                 .find(|x| x.id == id)
                 .ok_or(BackendError::NotFound("Opgaven".into()))?;
             x.status = status;
+            x.completed = (status == TaskStatus::Done).then_some(today);
             Ok(())
         })
     }
@@ -1311,6 +1445,7 @@ impl Backend for MockBackend {
     }
 
     fn move_task(&self, id: &str, lane_id: &str) -> Result<()> {
+        let today = self.today;
         self.with(|s| {
             let lane = s
                 .lanes
@@ -1325,6 +1460,7 @@ impl Backend for MockBackend {
                 .ok_or(BackendError::NotFound("Opgaven".into()))?;
             // Som web: kolonnens kategori sætter den gamle status.
             x.status = crate::screens::opgaver::logic::legacy_status_for_lane(&lane, x.status);
+            x.completed = (x.status == TaskStatus::Done).then_some(today);
             x.status_id = Some(lane.id);
             Ok(())
         })
@@ -1343,6 +1479,16 @@ impl Backend for MockBackend {
             Ok(s.entries
                 .iter()
                 .filter(|e| e.customer_id == customer_id && e.billable && e.invoice_id.is_none())
+                .cloned()
+                .collect())
+        })
+    }
+
+    fn invoice_entries(&self, invoice_id: &str) -> Result<Vec<Entry>> {
+        self.with(|s| {
+            Ok(s.entries
+                .iter()
+                .filter(|e| e.invoice_id.as_deref() == Some(invoice_id))
                 .cloned()
                 .collect())
         })
@@ -1390,6 +1536,7 @@ impl Backend for MockBackend {
                         minutes: e.minutes,
                         rate,
                         entry_ids: vec![e.id.clone()],
+                        stored: None,
                     }),
                 }
             }
@@ -1411,10 +1558,11 @@ impl Backend for MockBackend {
                 lines,
                 lines_loaded: true,
                 subtotal_hint: 0,
-                vat_permille: 250,
+                vat_permille: Some(250),
                 number_text: None,
                 title: None,
                 notes: None,
+                delivery: None,
             };
             s.invoices.push(inv.clone());
             Ok(inv)
@@ -1436,47 +1584,44 @@ impl Backend for MockBackend {
         })
     }
 
-    fn send_invoice(&self, id: &str) -> Result<Invoice> {
-        let prefix = if self.is_local() {
-            let g = self.gendan.lock().expect("mock-lås");
-            let missing = g.profile.missing();
-            if !missing.is_empty() {
-                return Err(BackendError::Validation(format!(
-                    "Udfyld {} under Indstillinger → Faktura, før fakturaen udstedes",
-                    missing.join(", ")
-                )));
-            }
-            Some(g.profile.number_prefix.clone())
-        } else {
-            None
-        };
+    fn send_invoice(&self, id: &str, confirmed_to: Option<&str>) -> Result<Invoice> {
+        // Samme port som det rigtige datalag: uden en bekræftet modtager
+        // sendes der intet.
+        let preview = self.invoice_send_preview(id)?;
+        check_send_confirmation(&preview, confirmed_to)?;
+        let to = preview
+            .sends_mail
+            .then(|| preview.recipient.clone())
+            .flatten();
+        self.issue(id, to)
+    }
+
+    fn issue_invoice(&self, id: &str) -> Result<Invoice> {
+        self.issue(id, None)
+    }
+
+    fn send_reminder(&self, id: &str, confirmed_to: Option<&str>) -> Result<Invoice> {
+        let inv = self.invoice(id)?;
+        if !can_remind(&inv, &self.mode()) {
+            return Err(BackendError::Validation(
+                "Kun sendte og forfaldne fakturaer kan få en påmindelse".into(),
+            ));
+        }
+        let preview = self.invoice_send_preview(id)?;
+        check_send_confirmation(&preview, confirmed_to)?;
+        let at = self.local_now().naive_local();
         self.with(|s| {
-            let number = s.next_invoice_number;
             let inv = s
                 .invoices
                 .iter_mut()
                 .find(|i| i.id == id)
                 .ok_or(BackendError::NotFound("Fakturaen".into()))?;
-            if inv.status != InvoiceStatus::Draft {
-                return Err(BackendError::Validation(
-                    "Fakturaen er allerede sendt".into(),
-                ));
-            }
-            if inv.lines.is_empty() {
-                return Err(BackendError::Validation(
-                    "Fakturaen har ingen linjer".into(),
-                ));
-            }
-            inv.number = Some(number);
-            inv.number_text = prefix.map(|p| format!("{p}{number}"));
-            inv.status = InvoiceStatus::Sent;
-            let out = inv.clone();
-            s.next_invoice_number += 1;
-            Ok(out)
+            inv.delivery = Some(InvoiceDelivery { at, to: preview.recipient });
+            Ok(inv.clone())
         })
     }
 
-    fn mark_invoice_paid(&self, id: &str) -> Result<()> {
+    fn mark_invoice_paid(&self, id: &str, _paid: NaiveDate) -> Result<()> {
         self.with(|s| {
             let inv = s
                 .invoices
@@ -1619,9 +1764,6 @@ impl Backend for MockBackend {
     }
 
     fn delete_invoice_draft(&self, id: &str) -> Result<()> {
-        if !self.is_local() {
-            return Err(BackendError::Validation("Kladder slettes i web, når du er logget ind".into()));
-        }
         self.with(|s| {
             let i = s
                 .invoices
@@ -1637,6 +1779,34 @@ impl Backend for MockBackend {
             }
             Ok(())
         })
+    }
+
+    fn web_invoice_totals(&self, id: &str) -> Result<Option<WebInvoiceTotals>> {
+        let Some(web) = self.web_invoices()? else { return Ok(None) };
+        let subtotal = self.with(|s| {
+            s.invoices
+                .iter()
+                .find(|i| i.id == id)
+                .map(Invoice::subtotal)
+                .ok_or(BackendError::NotFound("Fakturaen".into()))
+        })?;
+        // Som web's `invoicePdfTotals`: 25 % kun, når virksomheden er momsregistreret.
+        let vat = if web.show_vat { (subtotal * 250 + 500) / 1000 } else { 0 };
+        Ok(Some(WebInvoiceTotals {
+            subtotal,
+            vat,
+            total: subtotal + vat,
+            vat_permille: 250,
+            show_vat: web.show_vat,
+            currency: tt_core::edition::EDITION.currency_code.into(),
+        }))
+    }
+
+    fn web_invoice_pdf(&self, id: &str) -> Result<Option<Vec<u8>>> {
+        if self.web_invoices()?.is_none() {
+            return Ok(None);
+        }
+        Ok(Some(Self::web_pdf(id)))
     }
 
     fn report(&self, range: DateRange, grouping: ReportGrouping) -> Result<Report> {
@@ -1707,6 +1877,7 @@ impl Backend for MockBackend {
     }
 
     fn timer_start(&self, target: TimerTarget) -> Result<TimerState> {
+        let now = self.clock.local();
         self.with(|s| {
             if s.timer.status != TimerStatus::Idle {
                 return Err(BackendError::Conflict("timeren kører allerede".into()));
@@ -1718,7 +1889,7 @@ impl Backend for MockBackend {
                 project_id: target.project_id,
                 task_id: target.task_id,
                 description: target.description,
-                started_at: Some(Local::now()),
+                started_at: Some(now),
                 accumulated_secs: 0,
                 version: v,
             };
@@ -1728,11 +1899,12 @@ impl Backend for MockBackend {
     }
 
     fn timer_pause(&self) -> Result<TimerState> {
+        let now = self.clock.local();
         self.with(|s| {
             if s.timer.status != TimerStatus::Running {
                 return Err(BackendError::Conflict("timeren kører ikke".into()));
             }
-            s.timer.accumulated_secs = s.timer.elapsed_secs(Local::now());
+            s.timer.accumulated_secs = s.timer.elapsed_secs(now);
             s.timer.started_at = None;
             s.timer.status = TimerStatus::Paused;
             s.bump_timer();
@@ -1741,11 +1913,12 @@ impl Backend for MockBackend {
     }
 
     fn timer_resume(&self) -> Result<TimerState> {
+        let now = self.clock.local();
         self.with(|s| {
             if s.timer.status != TimerStatus::Paused {
                 return Err(BackendError::Conflict("timeren er ikke på pause".into()));
             }
-            s.timer.started_at = Some(Local::now());
+            s.timer.started_at = Some(now);
             s.timer.status = TimerStatus::Running;
             s.bump_timer();
             Ok(s.timer.clone())
@@ -2368,11 +2541,11 @@ impl MockBackend {
     /// Posten beholder starten; er der intet tilbage, gemmes ingen post.
     fn stop_subtracting(&self, subtract_minutes: u32) -> Result<Option<Entry>> {
         let today = self.today;
+        let now = self.clock.local();
         self.with(|s| {
             if s.timer.status == TimerStatus::Idle {
                 return Err(BackendError::Conflict("timeren kører ikke".into()));
             }
-            let now = Local::now();
             let secs = s.timer.elapsed_secs(now);
             let total = (secs / 60) as u32;
             let minutes = total.saturating_sub(subtract_minutes);
@@ -2582,9 +2755,44 @@ mod tests {
         assert_eq!(inv.number, None);
         assert!(m.uninvoiced_entries("kunde_bageriet").unwrap().is_empty());
         assert!(inv.total() > inv.subtotal());
-        let sent = m.send_invoice(&inv.id).unwrap();
+        let sent = m
+            .send_invoice(&inv.id, Some("regnskab@bageriet.example.dk"))
+            .unwrap();
         assert_eq!(sent.number, Some(1042));
-        m.mark_invoice_paid(&inv.id).unwrap();
+        m.mark_invoice_paid(&inv.id, m.today()).unwrap();
+    }
+
+    /// Samme port som det rigtige datalag: uden en bekræftet modtager sendes
+    /// intet, og kladden bliver en kladde.
+    #[test]
+    fn mock_sender_kun_efter_bekraeftet_modtager() {
+        let m = mock();
+        let ids: Vec<_> = m
+            .uninvoiced_entries("kunde_bageriet")
+            .unwrap()
+            .into_iter()
+            .map(|e| e.id)
+            .collect();
+        let draft = m.create_invoice_draft("kunde_bageriet", &ids).unwrap();
+        assert_eq!(
+            (draft.status, draft.delivery.clone()),
+            (InvoiceStatus::Draft, None)
+        );
+        let p = m.invoice_send_preview(&draft.id).unwrap();
+        assert!(p.sends_mail);
+        assert_eq!(p.recipient.as_deref(), Some("regnskab@bageriet.example.dk"));
+        assert_eq!(p.entry_count, ids.len());
+        assert!(m.send_invoice(&draft.id, None).is_err());
+        assert!(m.send_invoice(&draft.id, Some("andet@example.dk")).is_err());
+        assert_eq!(m.invoice(&draft.id).unwrap().status, InvoiceStatus::Draft);
+        let sent = m
+            .send_invoice(&draft.id, Some("regnskab@bageriet.example.dk"))
+            .unwrap();
+        assert_eq!(sent.status, InvoiceStatus::Sent);
+        assert_eq!(
+            sent.delivery.unwrap().to.as_deref(),
+            Some("regnskab@bageriet.example.dk")
+        );
     }
 
     #[test]
@@ -2594,6 +2802,7 @@ mod tests {
             minutes: 90,
             rate: 85_000,
             entry_ids: vec![],
+            stored: None,
         };
         assert_eq!(l.amount(), 127_500);
         let inv = Invoice {
@@ -2606,12 +2815,13 @@ mod tests {
             lines: vec![l],
             lines_loaded: true,
             subtotal_hint: 0,
-            vat_permille: 250,
+            vat_permille: Some(250),
             number_text: None,
             title: None,
             notes: None,
+            delivery: None,
         };
-        assert_eq!(inv.vat(), 31_875);
+        assert_eq!(inv.vat(), Some(31_875));
         assert_eq!(inv.total(), 159_375);
     }
 
@@ -2644,13 +2854,15 @@ mod tests {
 
     #[test]
     fn stop_uden_kunde_mister_ikke_tiden() {
-        let m = mock();
+        // Fast ur: 2:00:00 bliver ikke til 2:01, mens en langsom test kører.
+        let clock = crate::ur::ManualClock::new(chrono::Utc::now());
+        let m = mock().with_clock(Arc::new(clock));
         m.demo_timer(TimerTarget::default(), 2 * 3600);
         let err = m.timer_stop().unwrap_err();
         assert_eq!(err.to_string(), "Vælg en kunde, før timeren gemmes");
         let t = m.timer().unwrap();
         assert_eq!(t.status, TimerStatus::Running, "timeren kører videre");
-        assert!(t.elapsed_secs(Local::now()) >= 2 * 3600);
+        assert_eq!(t.elapsed_secs(m.local_now()), 2 * 3600);
         m.timer_set_target(TimerTarget {
             customer_id: Some("kunde_cafe".into()),
             ..Default::default()

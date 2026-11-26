@@ -129,6 +129,7 @@
     "dragHint": "Kliknutím a tažením vytvoříš záznamy času",
     "connectBoth": "Připoj Google Kalendář nebo iCloud",
     "connectICloud": "Připojit kalendář iCloud",
+    "connectCalendar": "Připojit kalendář (Google, Outlook nebo iCloud)",
     "settings": "Nastavení",
     "registerAll": "Zapsat vše ({count})",
     "sync": "Synchronizovat",
@@ -177,7 +178,8 @@
     "settingsSaved": "Tvé nastavení bylo uloženo",
     "back": "Zpět",
     "goToCalendar": "Přejít do kalendáře",
-    "next": "Další"
+    "next": "Další",
+    "outlookNote": "{brand} čte váš výchozí kalendář Outlook. Připojení spravujete v <link>Nastavení → Integrace</link>. Filtry a automatická evidence odsud platí i pro Outlook."
   },
   "icloud": {
     "connected": "iCloud je připojen. Teď vyber, které kalendáře se mají číst.",
@@ -220,6 +222,29 @@
     "disconnect": "Odpojit",
     "disconnectTitle": "Odpojit kalendář iCloud",
     "disconnectDescription": "{brand} smaže uložené heslo pro aplikaci a načtené události z iCloudu. Tvé záznamy času zůstanou. Nezapomeň heslo zrušit také na appleid.apple.com.",
+    "disconnectConfirm": "Odpojit"
+  },
+  "outlook": {
+    "title": "Kalendář Outlook",
+    "intro": "Máte kalendář v Outlooku nebo Microsoft 365? Prohlížejte schůzky v {brand} a evidujte podle nich čas.",
+    "readOnlyNote": "{brand} žádá jen o čtení vašich kalendářů a nikdy do nich nezapisuje. Přihlásíte se u Microsoftu a {brand} vaše heslo nikdy nevidí.",
+    "connect": "Připojit Outlook",
+    "badgeConnected": "Připojeno",
+    "badgeReconnect": "Vyžaduje nové připojení",
+    "badgeReadOnly": "Jen pro čtení",
+    "loadingStatus": "Načítání stavu Outlooku...",
+    "brokenConnection": "Připojení k Outlooku už nefunguje",
+    "reconnect": "Připojit znovu",
+    "connectedAs": "Připojeno jako {account}",
+    "lastSynced": "Naposledy synchronizováno {time}",
+    "syncing": "Synchronizace...",
+    "syncNow": "Synchronizovat nyní",
+    "syncResult": "Synchronizováno: {synced} nových, {updated} aktualizovaných",
+    "syncFailed": "Synchronizace selhala",
+    "disconnect": "Odpojit",
+    "disconnected": "Kalendář Outlook odpojen",
+    "disconnectTitle": "Odpojit kalendář Outlook",
+    "disconnectDescription": "{brand} smaže uložené přístupové klíče a stažené události z Outlooku. Vaše časové záznamy zůstanou. {brand} můžete také odebrat v aplikacích s přístupem ve svém účtu Microsoft.",
     "disconnectConfirm": "Odpojit"
   }
 }

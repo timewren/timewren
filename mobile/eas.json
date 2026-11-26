@@ -6,10 +6,10 @@
   },
   "build": {
     "base": {
-      "node": "22.12.0",
+      "node": "22.23.5",
       "pnpm": "10.30.3",
       "ios": {
-        "image": "latest"
+        "image": "macos-tahoe-26.5-xcode-26.6"
       },
       "android": {
         "image": "latest"
@@ -32,8 +32,7 @@
     "simulator": {
       "extends": "development",
       "ios": {
-        "simulator": true,
-        "image": "latest"
+        "simulator": true
       }
     },
     "preview": {
@@ -63,7 +62,7 @@
       "env": {
         "EXPO_PUBLIC_APP_ENV": "production",
         "EXPO_PUBLIC_API_URL": "https://app.timetrack.dk",
-        "APP_BUILD_NUMBER": "9",
+        "APP_BUILD_NUMBER": "14",
         "EXPO_PUBLIC_SENTRY_DSN": "https://6bdd4cad74c053658911a4711300c588@o1087332.ingest.us.sentry.io/4512040760573952",
         "SENTRY_ORG": "mahope",
         "SENTRY_PROJECT": "timetrack-app"
@@ -103,6 +102,7 @@
     },
     "timewren-preview": {
       "extends": "preview",
+      "environment": "preview",
       "channel": "timewren-preview",
       "env": {
         "APP_VARIANT": "timewren",
@@ -114,13 +114,14 @@
     },
     "timewren-production": {
       "extends": "production",
+      "environment": "production",
       "channel": "timewren-production",
       "env": {
         "APP_VARIANT": "timewren",
         "SENTRY_ORG": "",
         "SENTRY_PROJECT": "",
         "EXPO_PUBLIC_SENTRY_DSN": "",
-        "APP_BUILD_NUMBER": "1"
+        "APP_BUILD_NUMBER": "4"
       }
     }
   }

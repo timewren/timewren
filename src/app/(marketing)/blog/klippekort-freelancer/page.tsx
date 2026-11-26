@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
+import { getMarketingUrl } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Klippekort til kunder: Sådan sælger du forudbetalte timer",
@@ -36,7 +37,7 @@ export default function KlippekortFreelancerPage() {
     dateModified: "2026-05-23",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://timetrack.dk/blog/klippekort-freelancer",
+      "@id": new URL("/blog/klippekort-freelancer", getMarketingUrl()).href,
     },
   };
 

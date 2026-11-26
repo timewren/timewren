@@ -3,7 +3,6 @@
 // (subscription.ts), som er uændret.
 
 import { TRPCError } from "@trpc/server";
-import { sql } from "drizzle-orm";
 import { z } from "zod";
 import { tr } from "@/i18n/server-text";
 import { accountBrand } from "@/lib/auth/account-brand";
@@ -17,6 +16,7 @@ import {
   createTimewrenCheckout,
   createTimewrenPortal,
   hasLiveStripeSubscription,
+  withTimewrenCheckoutLock,
 } from "@/lib/billing/timewren-checkout";
 import {
   isStripeBillingBrand,
@@ -96,18 +96,11 @@ export const timewrenBillingRouter = router({
       }
       await assertStripeCheckoutOrganization(ctx.db, orgId);
       return createTimewrenCheckout({
-        db: ctx.db,
         stripe: getStripe(),
         userId,
         orgId,
         appUrl: brandAppUrl(ctx.headers),
-        withOrgLock: (fn) =>
-          ctx.db.transaction(async (tx) => {
-            await tx.execute(
-              sql`select pg_advisory_xact_lock(hashtext(${`timewren-checkout:${orgId}`}))`,
-            );
-            return fn(tx as unknown as typeof ctx.db);
-          }),
+        withOrgLock: (fn) => withTimewrenCheckoutLock(ctx.db, orgId, fn),
         loadSub: (db) =>
           resolveActiveSubscription(db, orgId, userId, { stripe: true }),
         tier: input.tier,

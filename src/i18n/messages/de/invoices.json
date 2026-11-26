@@ -4,9 +4,11 @@
     "sendTo": "An {email} senden",
     "sent": "Rechnung an {email} gesendet",
     "total": "Betrag inkl. MwSt.",
+    "totalNoVat": "Betrag (ohne MwSt.)",
     "loading": "Rechnungsdetails werden geladen …",
     "draftNumber": "Die endgültige Rechnungsnummer wird bei der Ausstellung vergeben.",
-    "provider": "Der Betrag stammt aus TimeTrack. {provider} berechnet den Endbetrag anhand eigener Steuereinstellungen."
+    "provider": "Der Betrag stammt aus TimeTrack. {provider} berechnet den Endbetrag anhand eigener Steuereinstellungen.",
+    "lineCount": "Positionen"
   },
   "status": {
     "draft": "Entwurf",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (gefiltert)",
     "reminderTitle": "Erinnerung senden",
     "reminderDescription": "Rechnung {number} per E-Mail an den Kunden senden?",
-    "send": "Senden"
+    "send": "Senden",
+    "emptyUnbilledHint": "Du hast {duration} nicht abgerechnete Zeit. Erstelle die Rechnung aus dieser Zeit, dann sind Positionen und Beträge schon ausgefüllt.",
+    "emptyNoTimeHint": "Rechnungen entstehen am einfachsten aus erfasster Zeit. Erfasse zuerst Zeit oder erstelle eine Rechnung mit einem festen Betrag.",
+    "invoiceUnbilled": "Offene Zeit abrechnen",
+    "createBlank": "Leere Rechnung erstellen",
+    "registerTimeFirst": "Zeit erfassen",
+    "createFixedAmount": "Rechnung mit festem Betrag"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Hinweis auf der Rechnung (optional)",
     "notePlaceholder": "Z. B. Vereinbarung über technische Partnerschaft, '{måned}'"
   },
-  "tableLabel": "Rechnungen"
+  "tableLabel": "Rechnungen",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} hat nicht bestätigt, ob die Rechnung per E-Mail versendet wurde. Prüfe den E-Mail-Status in {provider} und markiere das Ergebnis auf der Rechnungsseite, bevor du sie erneut sendest.",
+    "uncertainTitle": "Wir wissen nicht, ob {provider} die Rechnung gesendet hat",
+    "uncertainBody": "{provider} hat beim E-Mail-Versand der Rechnung nicht geantwortet, der Kunde hat sie also möglicherweise erhalten. Prüfe den E-Mail-Status der Rechnung in {provider}. Bis du das Ergebnis hier markierst, kann die Rechnung nicht erneut aus TimeTrack gesendet werden.",
+    "wasSent": "{provider} hat sie gesendet",
+    "notSent": "Sie wurde nicht gesendet",
+    "resolved": "E-Mail-Status gespeichert"
+  }
 }

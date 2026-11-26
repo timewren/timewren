@@ -10,6 +10,173 @@ Groups: `Breaking` (needs a `Migration` group in the same release), `Added`, `Ch
 
 ## [Unreleased]
 
+## [0.37.4] - 2026-11-25
+
+### Added
+
+- Bulk actions on Time: move selected entries to a project, remove them from their projects (the time stays on the client, and klippekort deductions are reconciled), or link up to 200 entries of one client to an active klippekort with the same balance and overdraft rules as on the card.
+- The client page shows hours used in a chosen period (this month, last month, this year, last year or custom), in total and per project, including time without a project. The totals use the same scope and rounding as the reports, and report totals link to the matching time entries.
+- Reports can be grouped per klippekort. Time can sit on a project and be deducted from a card at the same time, so the card totals can differ from the project totals. Time without a card is grouped under "Uden klippekort".
+
+### Changed
+
+- The overdraft policy (block, allow or invoice) and the overdraft rate can be changed on an existing klippekort, not only when it is created.
+
+### Fixed
+
+- A klippekort that allows overdraft (allow or invoice) can be chosen at zero balance in every picker in the web app and the browser extension. Automatic choice still prefers a card with balance left.
+- A deduction that is an exact number of clips is no longer charged 0.01 h too much because of float rounding (for example six 24-minute clips were drawn as 2.41 h instead of 2.40 h), and an entry stored in hundredths of an hour costs the clips it actually covers (40 minutes, stored as 0.67 h, is two 20-minute clips, not three). The timer, save and quick-entry pickers show the same rounding as the server.
+- The dialog for linking time to a klippekort says how much time the card can cover in one entry, using the same per-entry rounding as the server, and why an entry is blocked. Project budgets (total and monthly) are explained in text, not only by colour.
+- Every refused klippekort deduction carries the language-neutral error code `PREPAID_DEDUCTION_FAILED`, so the browser extension saves the time without the card in every language instead of rejecting the stop.
+
+## [0.37.3] - 2026-11-23
+
+### Added
+
+- Google Calendar per brand: TimeWren accounts connect Google Calendar through TimeWren's own OAuth client, and each connection remembers which brand's client issued its tokens, so refresh, sync and webhooks use the same client.
+- Outlook calendar through Microsoft Graph, shown only when the Microsoft client is configured.
+
+### Changed
+
+- Disconnecting Google Calendar or deleting the account revokes the Google grant only when no other connection (any user, any brand) uses the same Google account. Otherwise the connection is removed locally only, so one user's disconnect cannot break another user's calendar sync. Revocation runs after the local delete is committed, and logs only a status code and a fixed reason.
+- Reconnecting within seconds of a disconnect may need a second reconnect, because Google applies a revocation with a delay.
+
+### Database
+
+- `0164_calendar_oauth_brand` and `0165_calendar_provider_account_sub`: two additive, re-runnable columns on `calendar_connections`.
+
+## [0.37.2] - 2026-11-23
+
+### Changed
+
+- Sending an invoice by mail through Billy or Dinero checks the confirmed invoice on the server (number, total incl. VAT, currency, line count and recipient) and runs one send at a time per invoice, so a double click or a retry cannot mail the customer twice. When the provider's answer is unclear (timeout or server error), further sends are blocked until the user marks whether the provider sent it. The send dialog shows the line count.
+- The invoice sync only removes a link on a 404 when the invoice was exported to the same accounting account, and releases drafts that were deleted in Billy or Dinero so they can be exported again.
+
+### Fixed
+
+- Time entries saved from a timer get a start time that matches their hours (start = end minus hours) when the timer was resumed or had time added. Before, the entry kept the last resume time as its start, so it showed at the wrong time in reports and the timeline, and the stability watch flagged it. Manual, API and import entries are not changed.
+- `updated_at` on time entries is set on every update, so desktop sync and conflict checks see edits made by billing, prepaid packages, approvals and quick edits.
+- Umami tool events work behind the same-origin Cloud proxy.
+- The synthetic checks keep running when the runner's package sources or network hiccup, and only fail when production does.
+
+### Security
+
+- Dependency updates: tiptap patch releases (web) and Sentry, TanStack Query, zustand and Tailwind patch releases (browser extension).
+
+## [0.37.1] - 2026-11-22
+
+### Changed
+
+- "I am VAT registered" turns on by itself when a Danish company enters a full CVR number, until the user makes their own choice. Without a CVR it stays off, and a choice the user has made is never overridden. A company profile update that leaves out `vatRegistered` (web or device API) no longer stores `false`; it follows the same rule. Migration `0163` adds `company_profiles.vat_registered_chosen` and marks existing profiles as chosen when they are already VAT registered or already have a full CVR number, so their stored setting stays as it is.
+- The invoice send dialog says "Amount (no VAT)" when the invoice has no VAT line.
+- The desktop app is no longer labelled beta.
+
+## [0.37.0] - 2026-11-22
+
+### Added
+
+- Add a download page that detects the visitor's device and points to the right app: iOS (App Store), Android, macOS, Windows and the browser extension, for both TimeTrack and TimeWren. TimeWren's desktop links now point to TimeWren's own release channel instead of TimeTrack's.
+- Give the device API (`extension.*`) the procedures desktop needs to match the web app: invoice VAT totals, PDF link, delete, credit notes, mail status and an optional recipient on send; accounting integration status and export options; user and company settings; task delete, subtasks and assignee; organization members and `device.me`. All of them call the web app's own procedures with the same access checks.
+- Remind the user when a timer has run for 10 hours.
+
+### Changed
+
+- Rework the TimeTrack and TimeWren landing pages.
+- TimeWren sets currency and country from the sign-up language, shows the CVR lookup only for Danish organizations, and every new workspace (also extra workspaces and the demo) gets the same region defaults. Draft numbers follow the language, and new Danish organizations get invoice numbers without a prefix.
+- Require company details before an organization's first invoice on the web. The desktop app, the API and existing organizations are not affected.
+- Make the client optional on new time entries, like the timer; a new client counts as active only. Danish sentence case for headings and buttons. Hide team overview and resource plan in one-person organizations.
+- Recurring-invoice reminders, scheduled report mails and shared report links use the organization's currency.
+- Calculate invoice VAT in one place for both PDF engines, the send dialog and the device API.
+- Read the VAT period from the organization's company profile (falling back to the user's own setting), so the VAT overview shows the period chosen under Settings → Company.
+- New company profiles inherit the user's "has employees" choice. Migration `0162` drops the default on `company_profiles.has_employees` and clears it where the profile said no but its creator's user row said yes.
+- Email activity in an organization hides the user's personal account mails (welcome, sign-in, magic link and similar) and checks invoice module and client access for every business mail, so a member with restricted client access does not see other clients' mails.
+- Speed up the time entry list (about 17 ms to 9 ms on the reference data set).
+
+### Fixed
+
+- Accept non-EU tax numbers on foreign clients (for example a US EIN). The EU VAT format is only checked for clients in EU member states.
+- The device PDF route now has the same module and role checks as the web PDF route.
+- Deleting draft invoices and creating credit notes check client access; subtasks follow the organization.
+- Close the long-timer reminder when the time tracking bar unmounts.
+- Alert on Valkey only after 60 seconds without a connection, return 204 for aborted CSP reports, and run each cron job once at a time.
+
+## [0.36.1] - 2026-11-22
+
+### Security
+
+- Upgrade Better Auth to 1.7.27. It closes an account takeover in the Expo integration (GHSA-4wq4-2ppv-q3hg, critical), a flaw in phone number sign-in (GHSA-q747-mqgr-4gh7) and the Magic Link and OAuth state takeover (GHSA-965c-763c-88jm). No database changes. Magic links and social sign-ins that were in progress during the upgrade must be started again.
+
+## [0.36.0] - 2026-11-22
+
+### Added
+
+- Add Danish pages with the number of working days and working hours for 2024-2028: one page per year (`/arbejdsdage-<year>`), one per month (`/arbejdsdage-<year>/<month>`) with a day-by-day table and hours at 30-40 hours a week, and one per year with working hours (`/arbejdstimer-<year>`). A hub at `/arbejdsdage` links to all of them, and they are in the sitemap. The existing 2026 and 2027 pages keep their URLs.
+
+## [0.35.2] - 2026-11-22
+
+### Fixed
+
+- Make the TimeWren.com marketing pages indexable by default. They sent `X-Robots-Tag: noindex, nofollow` unless `TIMEWREN_INDEXABLE=1` was set, so search engines dropped them. Set `TIMEWREN_INDEXABLE=0` to keep a staging host out of search results. The app and the Markdown representations stay noindex.
+
+## [0.35.1] - 2026-11-21
+
+### Fixed
+
+- Make account deletion instructions available on TimeWren.com. The page explains how to request account deletion by email or from the app, what is deleted and what may be retained. It is available in English, Danish, German and Spanish.
+
+## [0.35.0] - 2026-11-20
+
+### Breaking
+
+- The published image is built with the new `BUILD_PROFILE=selfhost`, which leaves the Cloud marketing site and the TimeWren website out of the build. The standalone output is about 31% smaller and the build uses less memory and time. The app and the instance pages (cookies, contact, download, account deletion, privacy, GDPR, terms and data processing) are unchanged. `NEXT_PUBLIC_MARKETING_URL` only enables marketing pages in a build made with `BUILD_PROFILE=full`, the default for `npm run build` and for TimeTrack Cloud (#1100). On a prebuilt image, `/` now redirects to the dashboard and marketing paths return 404 even with `NEXT_PUBLIC_MARKETING_URL` set.
+
+### Migration
+
+- To keep marketing pages on a self-hosted instance, build the image yourself with `BUILD_PROFILE=full` (build argument) instead of using the prebuilt image.
+
+### Added
+
+- TimeWren Desktop business licence: 69 euros once, sold on timewren.com/desktop with Stripe Checkout in EUR (price found by lookup key `timewren_desktop_lifetime_eur`, no price ids in the code). The key is a `TW-` key and the mail is sent as TimeWren. Licences are not shared between brands: a TimeTrack key does not activate on timewren.com and a TimeWren key does not activate on timetrack.dk. No migration; see [docs/licensing.md](docs/licensing.md).
+
+### Changed
+
+- Upgrade note: without `redirect_uri`, device login now answers with the instance brand's scheme. A self-hosted instance that runs the default compose file has brand TimeWren and so answers `timewren://auth/callback`. Older TimeTrack Desktop builds send no `redirect_uri`; for them set `DEVICE_CALLBACK_URL=timetrack://auth/callback` or update the app. `timetrack://auth/callback` and `timewren://auth/callback` are always accepted as `redirect_uri`.
+- New public demo sandboxes use English sample data and EUR, and keep the language selected by the visitor.
+- App CI runs when its workflows change and reuses Docker build layers from GHCR (#1097, #1099).
+- Manual Docker validation uses read-only GHCR access and can start with a fresh builder to measure registry cache reuse (#1099).
+- Link time can move uninvoiced entries between a client's prepaid packages, with project and date filters, pagination, and a preview of the remaining balance and any billable overflow (#1235).
+
+### Fixed
+
+- Device login (`/api/ext/device/approve`, `/api/desktop/auth/approve`) sends the app reply to the scheme the client asks for with `redirect_uri` (`timetrack://` or `timewren://`), validated against the existing app-scheme allowlist. A missing or unknown value falls back to the instance brand, so TimeWren desktop and mobile can sign in to TimeWren Cloud and self-hosted instances; web URLs and other schemes are never used.
+- Cloud onboarding waits for the workspace subscription before opening dashboard pages. The core-flow browser test also verifies client creation for a regular user whose session has no active organization (#1037).
+- Cloud onboarding offers a retry when workspace access, subscription, or plan options cannot be loaded.
+
+
+- Initialize empty databases from versioned SQL, restore test-account flags from the audit log when a migration creates the flag column, and from the older metadata marker plus a latest audit entry when a database that recorded 0160 still has every flag at its default (saved flags are never lowered or rewritten, whichever migration command or versioned SQL runs), and run migrations in both database CI jobs (#1119).
+- Preserve Cloud editorial claims, article attribution, and social cards with runtime marketing URLs, and limit the Cloud agreement PDF to Cloud instances (#1017).
+- Use runtime URLs and branding metadata on opted-in marketing pages, preserve Cloud policies on Cloud domains, and pin desktop downloads to the build configuration (#1017).
+- Render self-hosted instance pages and crawler metadata with the running URL and brand. Require marketing opt-in on self-hosted domains, direct legal and support questions to the instance operator, and keep desktop downloads consistent across runtime brand changes (#1017). Every `timetrack.dk` subdomain (including `beta`) counts as TimeTrack Cloud.
+- Prepaid time moves show each card’s rounded amount, exclude locked periods, and acquire card locks in a consistent order (#1238). The preview credits back only balance-funded hours and shows recorded time for entries without a card. Prepaid time writes acquire card locks before updating tasks or shifting segments, and edits lock multiple cards and tasks in ID order. Editing and deleting time entries now use the same lock order as task deletion, including entries without a prepaid package. Extension timer saves and desktop entry creation lock cards before timer or task rows. Stale desktop updates return the current server entry even when their task was deleted.
+- Include hours from the entire final day on recurring invoices, store timesheet grid dates at UTC midnight, and match desktop Stripe updates to the affected subscription. Signed Alunta redeliveries can retry recorded failures after the normal delivery window. Billy and Dinero deduplicate identical signed deliveries (#1123).
+
+- Use Danish calendar dates throughout the timesheet, check the current Alunta subscription before replaying a delayed payment failure, and allow signed Billy and Dinero payment deliveries to retry after the external invoice is linked (#1123).
+
+- Apply Danish week boundaries to timesheet approval and edit locks, and read list and board tasks in bounded pages (#1123).
+
+- Show tasks as each page loads, use task cursors that tolerate insertions and deletions, and apply REST task sorting and pagination in the database. Use Danish dates for the rolling timesheet lock and weekday auto-lock (#1123).
+- Document and test how explicit-locale translations choose the brand on static pages and shared multibrand instances (#1133).
+- Keep TimeWren Cloud on its governing Stripe subscription when payment is overdue, reject overlapping checkout requests, and process Stripe calls and billing emails outside webhook database transactions (#1228).
+- Protect TimeWren seat purchases during webhook sync, retry cancellation emails on Stripe redelivery, and preserve TimeTrack dashboard payment grace (#1228).
+- Correct the translation catalog path in the strategy docs and compare TimeTrack marketing snapshots using normalized DOM (#1132, #1134).
+- Welcome and trial-ending emails, including Alunta reminders, continue when the test-account lookup fails. Lifecycle and mail transport logs omit recipient addresses, message contents, and raw delivery errors, including when Resend SDK debugging is enabled (#1226).
+
+## [0.34.1] - 2026-11-18
+
+### Fixed
+
+- TimeWren Cloud's Stripe Checkout page shows TimeWren as the merchant name instead of the Stripe account's name (#1233).
+
 ## [0.34.0] - 2026-11-18
 
 ### Added

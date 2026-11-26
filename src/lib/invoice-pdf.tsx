@@ -1,7 +1,7 @@
 import { renderToBuffer } from "@react-pdf/renderer";
 import { and, desc, eq } from "drizzle-orm";
 import { InvoicePDF } from "@/components/pdf/InvoicePDF";
-import { db } from "@/lib/db";
+import { db as defaultDb } from "@/lib/db";
 import {
   companyProfiles,
   invoices,
@@ -9,6 +9,8 @@ import {
   timeEntries,
   users,
 } from "@/lib/db/schema";
+import { DEMO_CURRENCY, demoCurrencyForEmail } from "@/lib/demo/demo-mode";
+import { getOrgRegion } from "@/lib/org/region.server";
 
 // Shared data-loading for invoice PDFs so the downloaded and the emailed PDF
 // always render identically (VAT, logo, bank info, invoice lines). Both the
@@ -18,12 +20,15 @@ export async function buildInvoicePdfProps({
   userId,
   orgId,
   clientId,
+  db = defaultDb,
 }: {
   invoiceId: string;
   userId: string;
   orgId: string | null;
   /** Extra scoping for portal access: the invoice must belong to this client */
   clientId?: string;
+  /** A transaction that reads its own locked rows (provider exports). */
+  db?: Pick<typeof defaultDb, "select" | "query">;
 }) {
   const invoice = await db.query.invoices.findFirst({
     where: and(
@@ -91,7 +96,18 @@ export async function buildInvoicePdfProps({
     relatedInvoiceNumber = related?.invoiceNumber ?? null;
   }
 
+  const demoCurrency = demoCurrencyForEmail(user.email);
+  // Uden for demoen: fakturaens organisations valuta (fund 19). DKK giver
+  // undefined som før, så skabelonens valuta stadig gælder.
+  const orgCurrency = (await getOrgRegion(db, invoice.organizationId)).currency;
+
   const pdfProps = {
+    currency:
+      demoCurrency === DEMO_CURRENCY
+        ? demoCurrency
+        : orgCurrency !== "DKK"
+          ? orgCurrency
+          : undefined,
     // Fakturaens sprog: afsenderens (der er intet kunde- eller organisationssprog
     // i datamodellen). InvoicePDF/InvoiceDocument oversætter efter dette sprog.
     locale: user.locale ?? undefined,

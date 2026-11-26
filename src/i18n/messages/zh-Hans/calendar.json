@@ -129,6 +129,7 @@
     "dragHint": "点击并拖动以创建工时记录",
     "connectBoth": "连接 Google 日历或 iCloud",
     "connectICloud": "连接 iCloud 日历",
+    "connectCalendar": "连接日历（Google、Outlook 或 iCloud）",
     "settings": "设置",
     "registerAll": "全部记录（{count}）",
     "sync": "同步",
@@ -177,7 +178,8 @@
     "settingsSaved": "你的设置已保存",
     "back": "返回",
     "goToCalendar": "前往日历",
-    "next": "下一步"
+    "next": "下一步",
+    "outlookNote": "{brand} 读取你的 Outlook 默认日历。你可以在<link>设置 → 集成</link>中管理连接。这里的筛选和自动记录同样适用于 Outlook。"
   },
   "icloud": {
     "connected": "iCloud 已连接。现在请选择要读取的日历。",
@@ -221,5 +223,28 @@
     "disconnectTitle": "断开 iCloud 日历",
     "disconnectDescription": "{brand} 会删除已存储的 App 专用密码和已获取的 iCloud 事件。你的工时记录会保留。别忘了同时在 appleid.apple.com 撤销该密码。",
     "disconnectConfirm": "断开连接"
+  },
+  "outlook": {
+    "title": "Outlook 日历",
+    "intro": "你的日历在 Outlook 或 Microsoft 365 中吗？在 {brand} 中查看会议，并据此记录时间。",
+    "readOnlyNote": "{brand} 只请求读取你的日历，从不写入。你在 Microsoft 登录，{brand} 永远看不到你的密码。",
+    "connect": "连接 Outlook",
+    "badgeConnected": "已连接",
+    "badgeReconnect": "需要重新连接",
+    "badgeReadOnly": "只读",
+    "loadingStatus": "正在加载 Outlook 状态...",
+    "brokenConnection": "与 Outlook 的连接已失效",
+    "reconnect": "重新连接",
+    "connectedAs": "已连接为 {account}",
+    "lastSynced": "上次同步 {time}",
+    "syncing": "正在同步...",
+    "syncNow": "立即同步",
+    "syncResult": "已同步：新增 {synced} 个，更新 {updated} 个",
+    "syncFailed": "同步失败",
+    "disconnect": "断开连接",
+    "disconnected": "已断开 Outlook 日历",
+    "disconnectTitle": "断开 Outlook 日历",
+    "disconnectDescription": "{brand} 会删除已保存的访问密钥和已获取的 Outlook 事件。你的时间记录会保留。你也可以在 Microsoft 帐户中有访问权限的应用里移除 {brand}。",
+    "disconnectConfirm": "断开"
   }
 }

@@ -9,6 +9,7 @@ import { eq } from "drizzle-orm";
 import { isNavItemVisible } from "@/components/dashboard-nav/navigation-config";
 import type { db as DbType } from "@/lib/db";
 import { featureFlags, organizationModules, users } from "@/lib/db/schema";
+import { resolveFeatureFlags } from "@/lib/feature-flags";
 import { FREELANCE_BUNDLE } from "@/lib/modules/constants";
 import { resolveOrgProfile } from "@/lib/modules/org-profile";
 import {
@@ -44,7 +45,7 @@ export async function isStartPageAccessible(
   const flagRows = await db
     .select({ key: featureFlags.key, enabled: featureFlags.enabled })
     .from(featureFlags);
-  const flagMap = new Map(flagRows.map((f) => [f.key, f.enabled]));
+  const flagMap = new Map(Object.entries(resolveFeatureFlags(flagRows)));
   // Spejler useFeatureFlags() på klienten: platform-rollerne admin/supporter
   // ser alt bag feature-flags, uanset flagMap (#startside).
   const viewer = await db.query.users.findFirst({

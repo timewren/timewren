@@ -1,13 +1,17 @@
 import Env from 'env';
+import * as Application from 'expo-application';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import { brand } from '~/features/server/server-config';
 import { trpcClient } from '~/lib/api';
+import { capturePushFirebaseWarning } from '~/lib/monitoring';
 import { storage } from '~/lib/storage';
 
 const PUSH_TOKEN_KEY = 'push.expoToken';
 const PUSH_DECLINED_KEY = 'push.declined';
+const PUSH_FIREBASE_WARNING_BUILD_KEY = 'push.firebaseWarningBuild';
 export const ANDROID_CHANNEL_ID = 'default';
 
 export type PushRegisterResult
@@ -15,6 +19,7 @@ export type PushRegisterResult
     | { status: 'denied' }
     | { status: 'simulator' }
     | { status: 'no_project_id' }
+    | { status: 'firebase_unavailable' }
     | { status: 'error'; message: string };
 
 /**
@@ -76,7 +81,7 @@ export async function ensureAndroidChannel(): Promise<void> {
   if (Platform.OS !== 'android')
     return;
   await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
-    name: 'TimeTrack',
+    name: brand.name,
     importance: Notifications.AndroidImportance.DEFAULT,
   });
 }
@@ -116,15 +121,24 @@ export async function registerForPush(): Promise<PushRegisterResult> {
     return { status: 'registered', token };
   }
   catch (error) {
-    return { status: 'error', message: error instanceof Error ? error.message : String(error) };
+    const message = error instanceof Error ? error.message : String(error);
+    if (os === 'android' && /Default FirebaseApp is not initialized/i.test(message)) {
+      // Preview APKs can reuse both native version numbers across installs.
+      const lastUpdate = await Application.getLastUpdateTimeAsync().catch(() => null);
+      const nativeBuild = `${Application.nativeApplicationVersion}+${Application.nativeBuildVersion}:${lastUpdate?.getTime() ?? 'unknown'}`;
+      if (storage.getString(PUSH_FIREBASE_WARNING_BUILD_KEY) !== nativeBuild) {
+        storage.set(PUSH_FIREBASE_WARNING_BUILD_KEY, nativeBuild);
+        capturePushFirebaseWarning();
+      }
+      return { status: 'firebase_unavailable' };
+    }
+    return { status: 'error', message };
   }
 }
 
-/** Afmeld telefonens token hos backenden og glem det lokalt. Fejl fra serveren ignoreres — tokenet glemmes uanset. */
-export async function unregisterPush(): Promise<void> {
+async function forgetToken(): Promise<void> {
   const token = getStoredPushToken();
   storage.remove(PUSH_TOKEN_KEY);
-  setDeclined(true);
   if (!token)
     return;
   try {
@@ -133,4 +147,34 @@ export async function unregisterPush(): Promise<void> {
   catch {
     // Serveren rydder selv døde tokens ved næste afsendelse.
   }
+}
+
+/** Afmeld telefonens token hos backenden og glem det lokalt. Fejl fra serveren ignoreres — tokenet glemmes uanset. */
+export async function unregisterPush(): Promise<void> {
+  setDeclined(true);
+  await forgetToken();
+}
+
+/** Registreret i denne app-session — for den bruger, der er logget ind nu. */
+let registeredThisSession = false;
+
+/** Skal push registreres ved dette login? Én gang pr. session, og aldrig efter et afslag. */
+export function shouldRegisterPush(): boolean {
+  return !registeredThisSession && !hasDeclinedPush();
+}
+
+export function markPushRegistered(): void {
+  registeredThisSession = true;
+}
+
+/**
+ * Ved log ud: tokenet hører til den bruger, der går. Uden afmelding fik
+ * telefonen fortsat hans push — også i "uden konto" og efter et login med en
+ * anden konto, som så selv blev sprunget over, fordi sessionen allerede var
+ * registreret. Et afslag gemmes IKKE: det er brugerens valg, ikke kontoens.
+ * Skal kaldes, mens login-cookien stadig findes.
+ */
+export async function releasePushForSignOut(): Promise<void> {
+  registeredThisSession = false;
+  await forgetToken();
 }

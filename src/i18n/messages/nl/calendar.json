@@ -129,6 +129,7 @@
     "dragHint": "Klik en sleep om tijdboekingen te maken",
     "connectBoth": "Google Agenda of iCloud koppelen",
     "connectICloud": "iCloud-agenda koppelen",
+    "connectCalendar": "Verbind een agenda (Google, Outlook of iCloud)",
     "settings": "Instellingen",
     "registerAll": "Alles registreren ({count})",
     "sync": "Synchroniseren",
@@ -177,7 +178,8 @@
     "settingsSaved": "Je instellingen zijn opgeslagen",
     "back": "Terug",
     "goToCalendar": "Naar agenda",
-    "next": "Volgende"
+    "next": "Volgende",
+    "outlookNote": "{brand} leest je standaard Outlook-agenda. Je beheert de koppeling onder <link>Instellingen → Integraties</link>. Filters en automatisch registreren van hier gelden ook voor Outlook."
   },
   "icloud": {
     "connected": "iCloud is gekoppeld. Kies nu welke agenda's moeten worden gelezen.",
@@ -221,5 +223,28 @@
     "disconnectTitle": "iCloud-agenda loskoppelen",
     "disconnectDescription": "{brand} verwijdert het opgeslagen app-specifieke wachtwoord en de opgehaalde iCloud-afspraken. Je tijdboekingen blijven bestaan. Vergeet niet het wachtwoord ook in te trekken op appleid.apple.com.",
     "disconnectConfirm": "Loskoppelen"
+  },
+  "outlook": {
+    "title": "Outlook-agenda",
+    "intro": "Staat je agenda in Outlook of Microsoft 365? Zie je afspraken in {brand} en registreer tijd op basis daarvan.",
+    "readOnlyNote": "{brand} vraagt alleen leestoegang tot je agenda's en schrijft er nooit in. Je logt in bij Microsoft en {brand} ziet je wachtwoord nooit.",
+    "connect": "Outlook koppelen",
+    "badgeConnected": "Gekoppeld",
+    "badgeReconnect": "Opnieuw koppelen nodig",
+    "badgeReadOnly": "Alleen lezen",
+    "loadingStatus": "Outlook-status laden...",
+    "brokenConnection": "De verbinding met Outlook werkt niet meer",
+    "reconnect": "Opnieuw koppelen",
+    "connectedAs": "Gekoppeld als {account}",
+    "lastSynced": "Laatst gesynchroniseerd {time}",
+    "syncing": "Synchroniseren...",
+    "syncNow": "Nu synchroniseren",
+    "syncResult": "Gesynchroniseerd: {synced} nieuw, {updated} bijgewerkt",
+    "syncFailed": "Synchronisatie mislukt",
+    "disconnect": "Ontkoppelen",
+    "disconnected": "Outlook-agenda ontkoppeld",
+    "disconnectTitle": "Outlook-agenda ontkoppelen",
+    "disconnectDescription": "{brand} verwijdert de opgeslagen toegangssleutels en de opgehaalde Outlook-afspraken. Je tijdregistraties blijven staan. Je kunt {brand} ook verwijderen onder apps met toegang in je Microsoft-account.",
+    "disconnectConfirm": "Ontkoppelen"
   }
 }

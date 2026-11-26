@@ -34,9 +34,9 @@ export async function getRecipientLocale(opts: {
       });
       if (isAvailableLocale(row?.locale)) return row.locale;
     }
-  } catch (error) {
+  } catch {
     if (process.env.DATABASE_URL) {
-      console.error("Recipient locale lookup failed:", error);
+      console.error("Recipient locale lookup failed", { userId: opts.userId });
     }
   }
   return isAvailableLocale(opts.fallback) ? opts.fallback : DEFAULT_LOCALE;

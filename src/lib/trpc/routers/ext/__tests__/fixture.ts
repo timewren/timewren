@@ -5,11 +5,15 @@
  */
 
 import { randomUUID } from "node:crypto";
+import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import {
+  companyProfiles,
   extensionTokens,
+  memberClientAccess,
   members,
   organizations,
+  rolePermissions,
   subscriptions,
   users,
 } from "@/lib/db/schema";
@@ -68,6 +72,82 @@ export async function seedAccount(
     .returning({ id: extensionTokens.id });
 
   return { userId, orgId, token, tokenId: row.id };
+}
+
+/**
+ * Et medlem i `owner`'s org med eget extension-token. `clientIds`: org'en
+ * begrænser kundeadgang, og medlemmet ser kun disse kunder.
+ * `readOnlyModules`: medlemsrollen får kun læseadgang til modulerne.
+ */
+export async function seedMember(
+  owner: Account,
+  opts: {
+    role?: "member" | "admin";
+    clientIds?: string[];
+    readOnlyModules?: string[];
+  } = {},
+): Promise<Account> {
+  const suffix = randomUUID();
+  const userId = `dev-mem-${suffix}`;
+  const memberId = `dev-mem-row-${suffix}`;
+  const token = `dev-mem-token-${suffix}`;
+  await db.insert(users).values({
+    id: userId,
+    email: `${userId}@device.test`,
+    name: "Medlem Test",
+    emailVerified: true,
+  } as never);
+  await db.insert(members).values({
+    id: memberId,
+    organizationId: owner.orgId,
+    userId,
+    role: opts.role ?? "member",
+  } as never);
+  if (opts.clientIds) {
+    await db
+      .update(organizations)
+      .set({ metadata: { restrictClientAccess: true } } as never)
+      .where(eq(organizations.id, owner.orgId));
+    for (const clientId of opts.clientIds) {
+      await db.insert(memberClientAccess).values({
+        organizationId: owner.orgId,
+        memberId,
+        clientId,
+      } as never);
+    }
+  }
+  for (const moduleKey of opts.readOnlyModules ?? []) {
+    await db.insert(rolePermissions).values({
+      organizationId: owner.orgId,
+      roleName: opts.role ?? "member",
+      moduleKey,
+      accessLevel: "read",
+    } as never);
+  }
+  const [row] = await db
+    .insert(extensionTokens)
+    .values({
+      userId,
+      organizationId: owner.orgId,
+      tokenHash: hashToken(token),
+      name: "Medlemsenhed",
+      isRevoked: false,
+    } as never)
+    .returning({ id: extensionTokens.id });
+  return { userId, orgId: owner.orgId, token, tokenId: row.id };
+}
+
+/**
+ * Virksomhedsprofil (afsenderoplysninger) for kontoens org. Web's "Generér
+ * faktura" kræver den før organisationens første faktura.
+ */
+export async function seedCompanyProfile(account: Account) {
+  await db.insert(companyProfiles).values({
+    userId: account.userId,
+    organizationId: account.orgId,
+    name: "Enhed ApS",
+    email: `${account.userId}@firma.test`,
+  } as never);
 }
 
 /**

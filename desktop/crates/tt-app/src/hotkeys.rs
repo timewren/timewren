@@ -424,6 +424,11 @@ pub fn toggle_tracking_op(b: &dyn crate::backend::Backend) -> crate::backend::Re
 }
 
 fn toggle_tracking(ctx: &AppCtx, cx: &mut App) {
+    // App Store-udgaven har ingen sporing at slå til: sig hvor den findes.
+    if crate::mas::ENABLED {
+        ctx.notify_user(t("mas.sporing.kort"), cx);
+        return;
+    }
     let me = ctx.clone();
     let backend = ctx.backend.clone();
     cx.spawn(async move |cx| {

@@ -9,9 +9,9 @@ Esta página trata de lo que tu servidor ofrece para ella. El servidor no decide
 
 ## Iniciar sesión
 
-La aplicación usa el mismo inicio de sesión de dispositivo que la aplicación de escritorio: abre tu instancia en el navegador, inicias sesión y apruebas el dispositivo, y el navegador vuelve a la aplicación mediante el deep link `timetrack://auth/callback`. El token de acceso dura 30 días y se renueva con un token de refresco (180 días), así que rara vez tendrás que volver a iniciar sesión. La aplicación también puede usar los proveedores OAuth y Sign in with Apple que configures, consulta [Autenticación](/es/docs/configuration/authentication).
+La aplicación usa el mismo inicio de sesión de dispositivo que la aplicación de escritorio: abre tu instancia en el navegador, inicias sesión y apruebas el dispositivo, y el navegador vuelve a la aplicación mediante el deep link `timetrack://auth/callback` (`timewren://auth/callback` en una instancia TimeWren). El token de acceso dura 30 días y se renueva con un token de refresco (180 días), así que rara vez tendrás que volver a iniciar sesión. La aplicación también puede usar los proveedores OAuth y Sign in with Apple que configures, consulta [Autenticación](/es/docs/configuration/authentication).
 
-El servidor confía automáticamente en los esquemas de aplicación `timetrack://` y `timetrack.preview://`. No necesitas añadirlos a `TRUSTED_ORIGINS`.
+El servidor confía automáticamente en los esquemas de aplicación `timetrack://` y `timetrack.preview://` (en una instancia TimeWren también `timewren://`). No necesitas añadirlos a `TRUSTED_ORIGINS`.
 
 Para Sign in with Apple nativo, define `APPLE_APP_BUNDLE_IDENTIFIER` con el bundle ID de la compilación de la aplicación que uses (por defecto `dk.timetrack.app`), junto con las demás variables de Apple.
 

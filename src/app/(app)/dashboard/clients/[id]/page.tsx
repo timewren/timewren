@@ -61,6 +61,10 @@ import { QuickTimeEntryModal } from "@/components/time/QuickTimeEntryModal";
 import { ConfirmDialog, ModuleDisabledState } from "@/components/ui";
 import { LoadingScreen } from "@/components/ui/LoadingScreen";
 import { usePermission } from "@/hooks/usePermission";
+import {
+  type TimeListSummaryEntry,
+  useTimeListSummary,
+} from "@/hooks/useTimeListSummary";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { useActiveOrganization, useSession } from "@/lib/auth-client";
 import { formatCurrency, formatTime, toLocalDateStr } from "@/lib/format";
@@ -71,6 +75,7 @@ import type { RouterOutputs } from "@/lib/trpc/routers";
 import { trpc } from "@/providers/trpc-provider";
 import { useTimerStore } from "@/stores/timerStore";
 import { ApprovalsTab } from "./_components/ApprovalsTab";
+import { ClientPeriodHours } from "./_components/ClientPeriodHours";
 
 type TabType =
   | "overview"
@@ -108,7 +113,7 @@ export default function ClientDetailPage({
   const { data: projects } = trpc.projects.getByClient.useQuery({
     clientId: id,
   });
-  const { data: allTimeEntries } = trpc.time.list.useQuery({
+  const { data: allTimeEntries } = useTimeListSummary({
     forClientId: id,
     limit: 1000,
     // Timer og omsætning over alle kundens poster, ikke kun de 1000 viste.
@@ -429,7 +434,7 @@ export default function ClientDetailPage({
 
 type ClientDetail = NonNullable<RouterOutputs["clients"]["getById"]>;
 type ClientProject = RouterOutputs["projects"]["getByClient"][number];
-type ClientTimeEntry = RouterOutputs["time"]["list"]["entries"][number];
+type ClientTimeEntry = TimeListSummaryEntry;
 type ClientPrepaidPackage = RouterOutputs["prepaid"]["list"][number];
 
 // Overview Tab Component
@@ -456,6 +461,8 @@ function OverviewTab({
   const t = useTranslations("clients");
   return (
     <div className="space-y-4">
+      <ClientPeriodHours key={clientId} clientId={clientId} />
+
       {/* Dashboard widgets - Revenue & Open Invoices */}
       <div className="grid gap-6 lg:grid-cols-2">
         <ClientRevenueWidget
@@ -2396,7 +2403,7 @@ function HistoryTab({ clientId }: { clientId: string }) {
     "all",
   );
 
-  const { data: allTimeEntries } = trpc.time.list.useQuery({
+  const { data: allTimeEntries } = useTimeListSummary({
     forClientId: clientId,
     limit: 1000,
   });
@@ -2446,9 +2453,7 @@ function HistoryTab({ clientId }: { clientId: string }) {
       const hours = parseFloat(entry.hours || "0");
       const rate = parseFloat(entry.billableRate || "0");
 
-      const entryProject = Array.isArray(entry.project)
-        ? entry.project[0]
-        : entry.project;
+      const entryProject = entry.project;
       items.push({
         id: `time-${entry.id}`,
         type: "time",

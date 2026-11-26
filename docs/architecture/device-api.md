@@ -42,9 +42,9 @@ Forløbet står i `src/lib/device-login.ts`:
 1. Appen laver `state` (mindst 32 tilfældige URL-sikre tegn), en PKCE
    `code_verifier` (43-128 tegn) og `code_challenge =
    base64url(sha256(verifier))`, og åbner
-   `/auth/device?state=…&challenge=…&device_id=…&device_name=…&os=…&kind=desktop`.
+   `/auth/device?state=…&challenge=…&device_id=…&device_name=…&os=…&kind=desktop&redirect_uri=timewren://auth/callback` (valgfri; kun `timetrack://`, `timewren://` og instansens egne app-schemes, ellers instansens brand).
 2. Brugeren godkender (og vælger org). Browseren sendes til
-   `timetrack://auth/callback?code=…&state=…`. Koden gælder 5 minutter og
+   `timetrack://auth/callback?code=…&state=…` (`timewren://…` for TimeWren). Koden gælder 5 minutter og
    én gang.
 3. Appen afviser callbacks, hvis `state` ikke er dens egen, og kalder
    `extension.device.exchangeCode({ code, codeVerifier, state, deviceId })`
@@ -72,8 +72,8 @@ Nyt login fra samme `device_id` tilbagekalder enhedens tidligere tokens.
 | `cvr`          | `lookup`, `search`                                                                                                                                                                                                             | `integrations.cvrLookup`, `integrations.cvrSuggest` (CVR-tjenesten med cvrapi.dk som fallback; kun læsninger, web's CVR-rate limit pr. bruger) |
 | `projects`     | `list`, `get`, `create`, `update`, `setStatus`, `archive`, `monthlyBudget`                                                                                                                                                     | `projects.*` (`archive` = `projects.delete`, status "archived")                                                                                |
 | `entries`      | `list`, `get`, `create`, `update`, `delete`                                                                                                                                                                                    | `time.*` (timepris-hierarki, klippekort, `clientEntryId`)                                                                                      |
-| `tasks`        | `list`, `get`, `statuses` (baner med `category`), `create`, `update`, `setStatus`, `move` (til en egen bane, kategorien sætter `status`), `reopen`, `timeEntries`, `logTime`                                                   | `tasks.*`, `taskStatuses.listForContext`, `time.create` med `taskId`                                                                           |
-| `invoices`     | `list`, `get`, `uninvoicedSummary`, `uninvoicedEntries`, `previewDraft`, `createDraft`, `update`, `lines`, `linesByInvoice`, `saveLines`, `send`, `markPaid`, `exportToBilly`, `exportToDinero`, `exportToEconomic`, `pdfLink` | `invoices.*`, `integrations.exportInvoiceTo*`                                                                                                  |
+| `tasks`        | `list`, `get`, `statuses` (baner med `category`), `create`, `update`, `setStatus`, `move` (til en egen bane, kategorien sætter `status`), `reopen`, `timeEntries`, `logTime`, `delete`, `createSubtask`, `setAssignee`          | `tasks.*`, `taskStatuses.listForContext`, `time.create` med `taskId`                                                                           |
+| `invoices`     | `list`, `get`, `uninvoicedSummary`, `uninvoicedEntries`, `previewDraft`, `createDraft`, `update`, `lines`, `linesByInvoice`, `saveLines`, `send`, `markPaid`, `exportToBilly`, `exportToDinero`, `exportToEconomic`, `pdfLink`, `totals`, `delete`, `createCreditNote`, `emailStatus` | `invoices.*`, `integrations.exportInvoiceTo*`, `emailActivity.getInvoiceStatus`, `invoicePdfTotals` (som PDF'en) |
 | `klippekort`   | `list`, `get`, `create`, `update`, `topUp`, `archive`                                                                                                                                                                          | `prepaid.*` (`topUp` tager `id`)                                                                                                               |
 | `reports`      | `get`, `export`                                                                                                                                                                                                                | `reports.getReportData`, `reports.exportReport`                                                                                                |
 | `rules`        | `getMatchingRules`, `upsert`, `remove`                                                                                                                                                                                         | egen tabel `device_match_rules`                                                                                                                |
@@ -81,7 +81,11 @@ Nyt login fra samme `device_id` tilbagekalder enhedens tidligere tokens.
 | `patterns`     | `list`, `upsert`                                                                                                                                                                                                               | egen tabel `device_learned_patterns`                                                                                                           |
 | `timer`        | `setTarget`                                                                                                                                                                                                                    | `extension.updateTimerState` (metadata-skrivning)                                                                                              |
 | `import`       | `run`                                                                                                                                                                                                                          | `clients/projects/prepaid/time/invoices.create`                                                                                                |
-| `device`       | `exchangeCode`, `refresh`, `logout`                                                                                                                                                                                            | egne tabeller                                                                                                                                  |
+| `device`       | `exchangeCode`, `refresh`, `logout`, `me`                                                                                                                                                                                      | egne tabeller                                                                                                                                  |
+| `integrations` | `status`, `exportOptions`                                                                                                                                                                                                      | `user.getIntegrationStatus`, `integrations.getBilly*`/`getDinero*`/`getEconomic*`                                                              |
+| `user`         | `settings`, `updateSettings`                                                                                                                                                                                                   | `user.getProfile`, `user.updateProfile`                                                                                                        |
+| `company`      | `get`, `update`                                                                                                                                                                                                                | `onboarding.getCompanyProfile`/`updateCompanyProfile`, `invoiceTemplates.getDefault`                                                           |
+| `org`          | `members`                                                                                                                                                                                                                      | `organization.getMembers`                                                                                                                      |
 
 Hvor input hedder `data`, er det web's eget input til procedureren i
 højre kolonne (fx `extension.clients.create({ token, data: { name,
@@ -138,7 +142,91 @@ område og `features` (kan brugeren skrive i området lige nu), så appen kan
 vise låste funktioner. Serveren håndhæver uanset.
 
 Fakturaens PDF hentes fra stien i `invoices.pdfLink`
-(`/api/ext/invoices/<id>/pdf`) med Bearer-tokenet.
+(`/api/ext/invoices/<id>/pdf`) med Bearer-tokenet. Det er web's egen PDF
+(samme `buildInvoicePdfProps` og motor), så desktop gemmer den i stedet for
+at tegne sin egen i cloud. Ruten har web's vagt (`checkRouteModuleAccess`):
+uden org, med fakturering slået fra eller uden læseadgang til
+fakturamodulet svarer den 403.
+
+## Desktop som web
+
+Kaldene herunder er tynde videresendelser til web's procedurer med web's
+vagter (org, modul, rolle, kundeadgang). Felterne i svarene ændres ikke,
+der tilføjes kun.
+
+- `invoices.totals({ id })` → `{ subtotal, vatRate, vatAmount, total,
+  showVat, currency }`. Beløb og sats er strenge med to decimaler
+  (`"2975.00"`, `"25.00"`). Tallene kommer fra `invoicePdfTotals`, som begge
+  PDF-motorer og web's afsendelsesdialog også bruger: moms kun når
+  virksomhedsprofilen er momsregistreret (`showVat`), satsen fra fakturaens
+  skabelon (ellers standardskabelonen, ellers 25 %), subtotal = linjernes
+  sum (ellers fakturaens beløb).
+- `invoices.delete({ id })` → `{ success }`. Kun kladder; posterne bliver
+  ufakturerede igen.
+- `invoices.createCreditNote({ invoiceId, releaseTimeEntries?,
+  idempotencyKey? })` → kreditnotaen (fakturarække med `kind:
+  "credit_note"` og `relatedInvoiceId`). Gentaget nøgle giver samme
+  kreditnota (hentet med `get`).
+- `invoices.send({ id, recipientEmail?, expectedRecipient? })`: uden
+  `recipientEmail` går mailen til kundens registrerede mail.
+  `expectedRecipient` er den kundemail, appen viste; er den ændret i web,
+  afvises kaldet med `BAD_REQUEST`, og intet sendes. En anden modtager
+  tæller i samme afsendelsesloft som web's send-dialog (60 i timen pr.
+  org).
+- `invoices.emailStatus({ id })` → `null` eller `{ resendEmailId,
+  recipientEmail, latestStatus, sentAt, deliveredAt, openedAt, bouncedAt }`
+  for den seneste mail. `latestStatus` er Resend-hændelsen uden `email.`
+  (fx sent, delivered, opened, clicked, bounced, complained); ukendte
+  værdier skal appen tåle. Fakturamails sendt fra web, før emailStatus kom til, er
+  gemt uden org og findes kun, når afsenderen selv slår op, så `null`
+  betyder "ingen kendt mail", ikke "aldrig sendt": er fakturaens status
+  `sent` eller `paid`, er den sendt. Web's `emailActivity` (liste,
+  statistik, forløb og fakturastatus) bruger samme adgang som fakturaen:
+  fakturamails kræver læseadgang til fakturamodulet, og et medlem med
+  begrænset kundeadgang ser kun mails for sine egne kunder.
+- `integrations.status()` → `{ billy, dinero, economic }` (forbundet, som
+  web's knapper på fakturaen).
+- `integrations.exportOptions({ system })` → `{ products: { id, name }[],
+  defaults }` som web's eksport-dialoger. Billy: produkter og `defaults
+  { productId, lineType, lineTemplate }`. Dinero: indtægtskonti (`id` er
+  kontonummeret som streng) og `defaults { lineType, lineTemplate,
+  defaultAccountNumber }`. e-conomic: produkter, `defaults { lineType,
+  lineTemplate, defaultLayoutNumber, defaultPaymentTermsNumber }` og
+  desuden `layouts` og `paymentTerms`. Ikke forbundet: web's `BAD_REQUEST`.
+- `user.settings()` → `{ defaultHourlyRate, roundingEnabled,
+  roundingMinutes, roundingMethod, weeklyHourGoal, vatPeriod }`. Uden valgt
+  afrunding: 15 minutter, op (web's afrundingshierarki). Uden momsperiode:
+  `quarterly` (web's momsoverblik). `user.updateSettings({ data })` er
+  web's `user.updateProfile` med samme input (fx `weeklyHourGoal: "37"`).
+  `vatPeriod` kan kun læses: updateProfile har ikke feltet, så zod fjerner
+  det, og kaldet lykkes uden at ændre momsperioden. Feltet læses samme
+  sted, som web's `user.updateCompanyInfo` skriver det, og som web's
+  momsoverblik (`vat.getVatOverview`) læser det: org'ens
+  virksomhedsprofil, når den findes, ellers brugeren.
+- `company.get()` → `{ companyProfile, defaultInvoiceTemplate }` (begge kan
+  være `null`; skabelonen også, når rollen ikke har adgang til skabeloner).
+  `company.update({ data })` er web's `onboarding.updateCompanyProfile` og
+  kræver admin eller ejer. Et sendt `data.vatRegistered` er brugerens valg:
+  det gemmes og står siden (`companyProfile.vatRegisteredChosen`). Udelades
+  det, og har brugeren aldrig valgt, er fluebenet slået til, præcis når en
+  dansk profil har et helt CVR-nummer (`src/lib/invoices/vat-default.ts`).
+- `tasks.delete({ id })` sletter opgaven og dens underopgaver.
+  `tasks.createSubtask({ parentTaskId, title, description?,
+  idempotencyKey? })` finder forælderen i org'en (ikke kun egne opgaver)
+  og arver projekt, kunde og prioritet. `tasks.setAssignee({ id,
+  assignedToUserId })` tager et medlem af org'en eller `null`.
+- `org.members()` → `{ userId, name, email, image, role }[]` for kaldets
+  org. `device.me()` → `{ user: { id, name, email }, organizationId }`.
+
+### Næste runde
+
+Ikke bygget endnu (PARITET-WEB afsnit 9, punkt 11-13):
+
+- `taskComments.{list,create,update,delete}` (kræver `taskComments` i
+  `web-router-shape.ts`).
+- `taskStatuses.{create,update,reorder,delete}`.
+- `recurringInvoices.{list,create,update,setPaused,delete}` og
+  `invoiceTemplates.{list,getDefault}`.
 
 ## Regler og mønstre
 

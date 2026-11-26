@@ -6,18 +6,27 @@ import { mk } from "@/components/marketing/mk";
 import { appLinkHref } from "@/lib/config";
 import { TRIAL_DAYS } from "@/lib/marketing/pricing-copy";
 
+const SECONDARY = {
+  download: { href: "/download", label: "Hent appen" },
+  pricing: { href: "/pricing", label: "Se priser" },
+} as const;
+
 /**
  * Forsidens to knapper og den sekundære vej til timeren uden konto.
  * Sender samme Plausible-event som resten af sitet (cta_signup_click).
+ * I heroen er den anden knap "Hent appen"; prisen står i finprintet under.
  */
 export function HeroCta({
   location = "home_hero",
   showTimerLink = true,
+  secondary = "pricing",
 }: {
   location?: string;
   showTimerLink?: boolean;
+  secondary?: keyof typeof SECONDARY;
 }) {
   const plausible = usePlausible();
+  const second = SECONDARY[secondary];
   return (
     <div className="mt-8 mb-4">
       <div className="flex flex-wrap items-center gap-3">
@@ -32,8 +41,8 @@ export function HeroCta({
         >
           Prøv gratis i {TRIAL_DAYS} dage
         </Link>
-        <Link href="/pricing" className={mk.btnSecondary}>
-          Se priser
+        <Link href={second.href} className={mk.btnSecondary}>
+          {second.label}
         </Link>
       </div>
       {showTimerLink ? (

@@ -67,9 +67,9 @@ function ProjectDetail({ id }: { id: string }) {
   }, [project, stats, monthly, recent]);
 
   if (project.isLoading)
-    return <Screen back title=""><ListSkeleton rows={4} /></Screen>;
+    return <Screen back title={translate('navigation.project')}><ListSkeleton rows={4} /></Screen>;
   if (project.isError || !project.data)
-    return <Screen back title=""><ErrorState message={errorMessage(project.error)} onRetry={refresh} /></Screen>;
+    return <Screen back title={translate('navigation.project')}><ErrorState message={errorMessage(project.error)} onRetry={refresh} /></Screen>;
 
   const data = project.data;
   const clientName = data.client?.name ?? translate('projects.internal');

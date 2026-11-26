@@ -23,6 +23,23 @@ export const BRAND_APP_SCHEMES: Readonly<Record<string, readonly string[]>> = {
   timewren: ["timewren://"],
 };
 
+/**
+ * App-schemes (`scheme://`) fra APP_SCHEMES, eller standardlisten uden env.
+ * Web-, exp- og andre farlige schemes filtreres fra. Bruges både til
+ * trustedOrigins og som allowlist for device-login-callbacket.
+ */
+export function appSchemes(appSchemesEnv: string | undefined): string[] {
+  if (appSchemesEnv === undefined) return [...APP_SCHEMES];
+  return appSchemesEnv
+    .split(",")
+    .map((scheme) => scheme.trim())
+    .filter(
+      (scheme) =>
+        /^[a-z][a-z0-9+.-]*:\/\/$/i.test(scheme) &&
+        !/^(https?|javascript|data|file|exp):/i.test(scheme),
+    );
+}
+
 /** Returnerer `scheme://host[:port]` for en http(s)-URL, ellers null. */
 export function originOf(value: string | undefined | null): string | null {
   if (!value) return null;
@@ -87,16 +104,7 @@ export function deriveTrustedOrigins({
     ...web,
     APPLE_ORIGIN,
     ...parseTrustedOriginsEnv(trustedOriginsEnv),
-    ...(appSchemesEnv === undefined
-      ? APP_SCHEMES
-      : appSchemesEnv
-          .split(",")
-          .map((scheme) => scheme.trim())
-          .filter(
-            (scheme) =>
-              /^[a-z][a-z0-9+.-]*:\/\/$/i.test(scheme) &&
-              !/^(https?|javascript|data|file|exp):/i.test(scheme),
-          )),
+    ...appSchemes(appSchemesEnv),
     ...(isDevelopment ? DEV_APP_SCHEMES : []),
   ].filter((v, i, a) => a.indexOf(v) === i);
 }

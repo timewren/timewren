@@ -33,6 +33,8 @@ export async function findAutoDeductPackageForClient(
       id: prepaidPackages.id,
       autoDeduct: prepaidPackages.autoDeduct,
       remainingHours: prepaidPackages.remainingHours,
+      // Et tomt kort med overtræk tilladt kan stadig auto-vælges (#1319)
+      overdraftPolicy: prepaidPackages.overdraftPolicy,
       expiryDate: prepaidPackages.expiryDate,
       isActive: prepaidPackages.isActive,
     })

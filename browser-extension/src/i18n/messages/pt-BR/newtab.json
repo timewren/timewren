@@ -49,7 +49,8 @@
     "title": "Configurações da nova aba",
     "close": "Fechar configurações",
     "enable": "Usar o TimeTrack na nova aba",
-    "enableHint": "Substitui a página inicial do navegador pelo TimeTrack",
+    "enableHint": "Substitui a nova guia do navegador pelo TimeTrack. Desativado, você vê uma página simples com uma caixa de pesquisa",
+    "enableHintChrome": "Substitui a nova guia do navegador pelo TimeTrack. Desativado, você vê a nova guia do próprio Chrome, sempre na versão Google, mesmo que seu mecanismo de pesquisa padrão seja outro",
     "appearance": "Aparência",
     "theme": "Tema",
     "themeHint": "Tema de cores da extensão",
@@ -95,5 +96,10 @@
     "chartLabel": "Visão geral semanal do tempo",
     "workHours": "Horas de trabalho de {day}",
     "dayHours": "{day}: {hours}"
+  },
+  "search": {
+    "label": "Pesquisar na web",
+    "submit": "Pesquisar",
+    "error": "Não foi possível iniciar a pesquisa. Digite na barra de endereço."
   }
 }

@@ -21,6 +21,7 @@ import {
 } from "@/components/klippekort/KlippekortHuller";
 import { UsageExport } from "@/components/klippekort/UsageExport";
 import { getPortalPath, useCustomDomain } from "@/hooks/useCustomDomain";
+import type { DemoCurrency } from "@/lib/demo/demo-mode";
 import { formatInvoiceNumber } from "@/lib/invoices/draft-number";
 import { prepaidBalanceLevel } from "@/lib/prepaid/balance";
 import { prepaidDaysUntilExpiry } from "@/lib/prepaid/expiry";
@@ -131,6 +132,7 @@ export function PortalDashboard({ sessionToken }: PortalDashboardProps) {
             <InvoicesTab
               sessionToken={sessionToken}
               canDownload={!!permissions.canDownloadInvoices}
+              currency={access.currency}
             />
           )}
           {activeTab === "projects" && (
@@ -414,12 +416,14 @@ function RecentEntries({ sessionToken }: { sessionToken: string }) {
 function InvoicesTab({
   sessionToken,
   canDownload,
+  currency,
 }: {
   sessionToken: string;
   canDownload: boolean;
+  currency: DemoCurrency;
 }) {
   const t = useTranslations("portal.invoices");
-  const f = usePortalFormat();
+  const f = usePortalFormat(currency);
   const {
     data: invoices,
     isLoading,

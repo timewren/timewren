@@ -119,7 +119,8 @@ fn openrouter_sender_app_headers() {
     c.classify(&blok(), &kandidater()).unwrap();
     let req = &srv.seen()[0];
     assert_eq!(req.url, "/api/v1/chat/completions");
-    assert_eq!(req.header("X-Title"), Some("TimeTrack Desktop"));
+    let title = format!("{} Desktop", tt_core::edition::EDITION.name);
+    assert_eq!(req.header("X-Title"), Some(title.as_str()));
 }
 
 #[test]

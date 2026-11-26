@@ -1,8 +1,14 @@
 import { CONSENT_STATE } from "./consent";
 import {
   expect,
+  generateUniqueEmail,
   generateUniqueName,
+  login,
+  markChangelogSeen,
+  markEmailVerified,
+  markTourSeen,
   pickComboboxOption,
+  register,
   TEST_PASSWORD,
   test,
 } from "./helpers";
@@ -23,7 +29,7 @@ test.describe("Kerneflow", () => {
     await page.goto("/dashboard/clients/new");
     await page.getByLabel("Navn *").fill(clientName);
     await page.getByLabel("Email").fill("kontakt@example.dk");
-    await page.getByLabel("Standard Timepris (kr)").fill("850");
+    await page.getByLabel("Standardtimepris (kr)").fill("850");
     await page.getByRole("button", { name: "Gem kunde" }).click();
     await expect(page).not.toHaveURL(/\/clients\/new/);
 
@@ -35,7 +41,7 @@ test.describe("Kerneflow", () => {
     await pickComboboxOption(page, "Vælg kunde", clientName);
     await page.getByLabel("Projektnavn *").fill(projectName);
     await page.getByLabel("Timepris (kr)").fill("900");
-    await page.getByRole("button", { name: "Gem Projekt" }).click();
+    await page.getByRole("button", { name: "Gem projekt" }).click();
     await expect(page).not.toHaveURL(/\/projects\/new/);
 
     await page.goto("/dashboard/projects");
@@ -54,7 +60,57 @@ test.describe("Kerneflow", () => {
     await expect(page).not.toHaveURL(/\/time\/new/);
 
     await page.goto("/dashboard/time");
-    await expect(page.getByText(description).first()).toBeVisible();
+    const entry = page.getByText(description, { exact: true });
+    await expect(entry).toBeVisible();
+    await entry
+      .locator("xpath=ancestor::div[./input[@type='checkbox']][1]")
+      .getByRole("checkbox")
+      .check();
+    const actions = page.getByRole("button", { name: "Handlinger (1)" });
+    await expect(actions).toBeVisible();
+
+    await page.getByRole("button", { name: "Sidste år", exact: true }).click();
+    await expect(entry).toBeHidden();
+    await expect(actions).toBeHidden();
+  });
+});
+
+test.describe("Første login", () => {
+  test.use({ storageState: CONSENT_STATE });
+
+  test("venter på prøveperioden før kunden kan oprettes", async ({ page }) => {
+    const email = generateUniqueEmail();
+    await register(page, "E2E Onboarding", email);
+    await markEmailVerified(email);
+    await markChangelogSeen(email);
+    await markTourSeen(email);
+
+    const trialRequested = Promise.withResolvers<void>();
+    const releaseTrial = Promise.withResolvers<void>();
+    await page.route(
+      "**/api/trpc/onboarding.createSubscription?*",
+      async (route) => {
+        trialRequested.resolve();
+        await releaseTrial.promise;
+        await route.continue();
+      },
+    );
+
+    const save = page.getByRole("button", { name: "Gem kunde" });
+    try {
+      await login(page, email, TEST_PASSWORD, "/dashboard/clients/new");
+      await trialRequested.promise;
+      await expect(
+        page.getByRole("status").filter({ hasText: "Indlæser..." }),
+      ).toBeVisible();
+      await expect(save).toBeHidden();
+    } finally {
+      releaseTrial.resolve();
+    }
+
+    await page.getByLabel("Navn *").fill(generateUniqueName("Kunde"));
+    await save.click();
+    await expect(page).not.toHaveURL(/\/clients\/new/);
   });
 });
 

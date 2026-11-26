@@ -302,7 +302,10 @@
     "draftOnlyReorder": "Kan kun ændre rækkefølge på kladde-fakturaer",
     "providerMismatch": "Beløbet eller valutaen kunne ikke bekræftes. Gennemgå kladden i regnskabssystemet før afsendelse.",
     "recipientChanged": "Modtagerens mailadresse er ændret. Åbn bekræftelsen igen.",
-    "clientHasNoEmail": "Kunden har ingen email-adresse"
+    "clientHasNoEmail": "Kunden har ingen email-adresse",
+    "exportInProgress": "Fakturaen eksporteres allerede. Prøv igen om lidt.",
+    "providerEmailUncertain": "Vi kunne ikke bekræfte, at regnskabsprogrammet sendte fakturaen. Tjek mailstatus i Billy eller Dinero, og markér resultatet på fakturasiden, før du sender den igen.",
+    "sendReviewChanged": "Fakturaen er ændret, efter du bekræftede den. Åbn bekræftelsen igen."
   },
   "logbook": {
     "ownOnly": "Du kan kun se din egen logbog",
@@ -438,6 +441,7 @@
     "checkoutComingSoon": "Betaling er ikke åben her endnu. Du er på Gratis-planen.",
     "checkoutNotForAccount": "Denne betalingsmåde gælder ikke din konto. Du styrer din plan under Indstillinger → Abonnement.",
     "stripeUnavailable": "Betaling er ikke tilgængelig lige nu. Prøv igen senere.",
+    "stripeCheckoutBusy": "Der er allerede ved at blive åbnet en betaling for organisationen. Vent et øjeblik, og prøv igen.",
     "stripeAlreadyActive": "Du har allerede et aktivt abonnement. Brug \"Administrér abonnement\" til at skifte plan eller antal brugere.",
     "stripeNoCustomer": "Der er intet betalt abonnement endnu. Vælg en plan først.",
     "noOrganization": "Din konto har intet arbejdsområde. Genindlæs siden, og prøv igen."
@@ -760,7 +764,8 @@
     "integrations": {
       "dineroFailed": "Dinero-forbindelsen kunne ikke oprettes. Prøv igen.",
       "economicFailed": "e-conomic-forbindelsen kunne ikke oprettes. Prøv igen.",
-      "googleFailed": "Google-forbindelsen kunne ikke oprettes. Prøv igen."
+      "googleFailed": "Google-forbindelsen kunne ikke oprettes. Prøv igen.",
+      "outlookFailed": "Outlook-forbindelsen kunne ikke oprettes. Prøv igen."
     },
     "invoiceSend": {
       "invalidRecipient": "Ugyldig modtager email",

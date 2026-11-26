@@ -18,7 +18,8 @@ const button = tv({
   variants: {
     variant: {
       default: {
-        container: 'bg-primary-600 active:bg-primary-700 dark:bg-primary-500 dark:active:bg-primary-600',
+        // Ikke primary-500 i mørk tilstand: hvid tekst på #3B82F6 er 3,7:1 (under AA).
+        container: 'bg-primary-600 active:bg-primary-700',
         label: 'text-white',
         indicator: 'text-white',
       },
@@ -124,33 +125,35 @@ export function Button({ ref, label: text, loading = false, variant = 'default',
     [baseHeight, fontScale],
   );
 
+  const spinner = (
+    <ActivityIndicator
+      size="small"
+      className={styles.indicator()}
+      testID={testID ? `${testID}-activity-indicator` : undefined}
+    />
+  );
+
   return (
     <Pressable
       disabled={disabled || loading}
       className={styles.container({ className })}
+      // `sm` er 32 pt høj; 6 pt hver vej giver de 44 pt, en finger skal have.
+      hitSlop={size === 'sm' ? SM_HIT_SLOP : undefined}
       {...props}
       style={style}
       ref={ref}
       testID={testID}
       accessibilityRole={accessibilityRole}
-      // `loading` erstatter teksten med en spinner, så uden dette læser VoiceOver intet.
-      accessibilityLabel={accessibilityLabel ?? (props.children ? undefined : text)}
+      // `loading` erstatter indholdet med en spinner, så uden dette læser VoiceOver intet.
+      accessibilityLabel={accessibilityLabel ?? (props.children && !loading ? undefined : text)}
       accessibilityState={{ busy: loading, ...accessibilityState }}
     >
       {props.children
-        ? (
-            props.children
-          )
+        ? (loading ? spinner : props.children)
         : (
             <>
               {loading
-                ? (
-                    <ActivityIndicator
-                      size="small"
-                      className={styles.indicator()}
-                      testID={testID ? `${testID}-activity-indicator` : undefined}
-                    />
-                  )
+                ? spinner
                 : (
                     <Text
                       testID={testID ? `${testID}-label` : undefined}
@@ -164,3 +167,5 @@ export function Button({ ref, label: text, loading = false, variant = 'default',
     </Pressable>
   );
 }
+
+const SM_HIT_SLOP = 6;

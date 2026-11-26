@@ -4,6 +4,7 @@ import { Gauge } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { budgetHealthStatus } from "@/lib/projects/budget";
+import { budgetLabel } from "@/lib/projects/budget-label";
 import { trpc } from "@/providers/trpc-provider";
 
 // Tærsklerne kommer fra @/lib/projects/budget — 80/100 %, samme som
@@ -53,7 +54,9 @@ export function MonthlyBudgetSection({ projectId }: { projectId: string }) {
 
   if (!data?.budgetHours) return null;
 
-  const [current, ...history] = data.months;
+  const { budgetHours, months } = data;
+  const [current, ...history] = months;
+  const currentHours = current?.hours ?? 0;
   const currentPct = current?.percentage ?? 0;
   const color = current?.healthStatus ?? budgetHealthStatus(currentPct);
   const shownHistory = history.filter(
@@ -69,23 +72,19 @@ export function MonthlyBudgetSection({ projectId }: { projectId: string }) {
         </h2>
         <span className="text-xs text-gray-500 dark:text-gray-400">
           {t("monthlyBudget.hint", {
-            hours: formatHours(data.budgetHours, locale),
+            hours: formatHours(budgetHours, locale),
           })}
         </span>
       </div>
 
       {/* Current month */}
       <div className="mb-6">
-        <div className="mb-1.5 flex items-baseline justify-between">
+        <div className="mb-1.5 flex items-baseline justify-between gap-3">
           <span className="text-sm font-medium text-gray-900 dark:text-white capitalize">
             {current ? monthLabel(current.month, locale) : ""}
           </span>
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            {t("monthlyBudget.usage", {
-              used: formatHours(current?.hours ?? 0, locale),
-              budget: formatHours(data.budgetHours, locale),
-              pct: currentPct,
-            })}
+          <span className="text-right text-sm text-gray-600 dark:text-gray-400">
+            {budgetLabel(t, color, currentHours, budgetHours)}
           </span>
         </div>
         <div className="h-3 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700">
@@ -94,13 +93,10 @@ export function MonthlyBudgetSection({ projectId }: { projectId: string }) {
             style={{ width: `${Math.min(100, currentPct)}%` }}
           />
         </div>
-        {currentPct >= 100 && (
+        {currentHours > budgetHours && (
           <p className="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400">
             {t("monthlyBudget.overrun", {
-              hours: formatHours(
-                (current?.hours ?? 0) - data.budgetHours,
-                locale,
-              ),
+              hours: formatHours(currentHours - budgetHours, locale),
             })}
           </p>
         )}
@@ -115,6 +111,7 @@ export function MonthlyBudgetSection({ projectId }: { projectId: string }) {
           <div className="space-y-2">
             {shownHistory.map((m) => {
               const pct = m.percentage ?? 0;
+              const health = m.healthStatus ?? budgetHealthStatus(pct);
               return (
                 <div key={m.month} className="flex items-center gap-3">
                   <span className="w-32 shrink-0 text-sm text-gray-600 dark:text-gray-400 capitalize">
@@ -122,15 +119,12 @@ export function MonthlyBudgetSection({ projectId }: { projectId: string }) {
                   </span>
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700">
                     <div
-                      className={`h-full rounded-full ${BAR_COLORS[m.healthStatus ?? budgetHealthStatus(pct)]}`}
+                      className={`h-full rounded-full ${BAR_COLORS[health]}`}
                       style={{ width: `${Math.min(100, pct)}%` }}
                     />
                   </div>
-                  <span className="w-28 shrink-0 text-right text-sm tabular-nums text-gray-600 dark:text-gray-400">
-                    {t("monthlyBudget.hoursPct", {
-                      hours: formatHours(m.hours, locale),
-                      pct,
-                    })}
+                  <span className="w-2/5 shrink-0 text-right text-sm tabular-nums text-gray-600 dark:text-gray-400">
+                    {budgetLabel(t, health, m.hours, budgetHours)}
                   </span>
                 </div>
               );

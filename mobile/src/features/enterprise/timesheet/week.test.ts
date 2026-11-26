@@ -81,9 +81,10 @@ describe('week helpers', () => {
 
   it('delta mod norm', () => {
     expect(expectedDelta(38.5, 37)).toBe(1.5);
-    expect(formatDelta(1.5)).toBe('+1,5 t');
-    expect(formatDelta(-2)).toBe('−2 t');
-    expect(formatDelta(0)).toBe('0 t');
+    // Jest kører på engelsk: dansk talformat, men engelsk enhed som formatHours.
+    expect(formatDelta(1.5)).toBe('+1,5 h');
+    expect(formatDelta(-2)).toBe('−2 h');
+    expect(formatDelta(0)).toBe('0 h');
     expect(deltaTone(38.5, 37)).toBe('warning');
     expect(deltaTone(37, 37)).toBe('success');
     expect(deltaTone(30, 37)).toBe('default');

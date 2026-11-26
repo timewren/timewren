@@ -51,6 +51,8 @@ export default defineConfig({
     // Testene forventer TimeTrack-teksterne (Cloud); .env.example står på timewren.
     // Cloud assertions need plan limits and verification, without provider keys.
     env: {
+      // Reserve instance admin bootstrap for an address no fixture uses.
+      ADMIN_EMAIL: "instance-admin@example.invalid",
       NEXT_PUBLIC_BRAND: "timetrack",
       NEXT_PUBLIC_REGISTRATION_ENABLED: "true",
       REQUIRE_EMAIL_VERIFICATION: "true",

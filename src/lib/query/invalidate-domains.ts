@@ -232,6 +232,7 @@ const FOCUS_REFRESH_PATHS: ReadonlySet<string> = new Set([
   "prepaid.getLowBalance",
   "prepaid.getExpiring",
   "clients.listWithStats",
+  "clients.getPeriodHours",
   "clients.getTopClients",
   "clients.getAtRiskClients",
   "projects.getByClient",

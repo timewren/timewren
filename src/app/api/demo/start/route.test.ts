@@ -19,7 +19,7 @@ import { POST } from "./route";
 const APP = "https://demo.example";
 let ip = 0;
 
-function start(opts: { ip?: string; origin?: string } = {}) {
+function start(opts: { ip?: string; origin?: string; cookie?: string } = {}) {
   return POST(
     new Request(`${APP}/api/demo/start`, {
       method: "POST",
@@ -27,6 +27,8 @@ function start(opts: { ip?: string; origin?: string } = {}) {
         "x-forwarded-for": opts.ip ?? `203.0.113.${++ip}`,
         host: "demo.example",
         origin: opts.origin ?? APP,
+        "accept-language": "da-DK",
+        ...(opts.cookie ? { cookie: opts.cookie } : {}),
       },
     }),
   );
@@ -77,6 +79,18 @@ describe("POST /api/demo/start", () => {
         returnHeaders: true,
       }),
     );
+  });
+
+  it.each([
+    ["other=value; locale=de", "de"],
+    [undefined, "en"],
+    ["locale=unknown", "en"],
+  ])("uses locale cookie %s with English fallback", async (cookie, locale) => {
+    const res = await start({ cookie });
+    expect(h.createDemoAccount).toHaveBeenCalledWith(expect.anything(), {
+      locale,
+    });
+    expect(res.headers.getSetCookie().join(";")).toContain(`locale=${locale}`);
   });
 
   it("højst 10 konti i timen pr. IP; derefter en venlig besked", async () => {

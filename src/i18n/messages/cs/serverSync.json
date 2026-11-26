@@ -176,7 +176,7 @@
       "deleted": "smazaná"
     },
     "specHeading": "--- Specifikace ---",
-    "specLine": "{date} - {project}: {description} ({hours} h × {rate} kr = {amount} kr)"
+    "specLine": "{date} - {project}: {description} ({hours} h × {rate} = {amount})"
   },
   "logbook": {
     "endAfterStart": "Datum konce musí být po datu začátku",
@@ -457,6 +457,10 @@
       "projectLine": "Projekt: {name}",
       "hoursLine": "Hodiny: {hours}",
       "exportedFrom": "Exportováno z TimeTrack"
+    },
+    "outlook": {
+      "notConnected": "Nepřipojeno k Outlooku",
+      "syncFailed": "Synchronizace Outlooku selhala"
     }
   },
   "activity": {

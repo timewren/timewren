@@ -87,6 +87,11 @@ struct State {
     lanes: Mutex<Vec<TaskLane>>,
     /// opgave → kolonne efter `extension.tasks.move` (web's `statusId`).
     task_lanes: Mutex<HashMap<String, String>>,
+    /// Firmaprofilens momsregistrering (web's `vatRegistered`, standard nej).
+    vat_registered: AtomicBool,
+    /// Status på `/api/ext/invoices/<id>/pdf` i stedet for PDF'en (fx 403,
+    /// når fakturamodulet er slået fra).
+    pdf_status: Mutex<Option<u16>>,
 }
 
 pub struct MockWeb {
@@ -130,6 +135,8 @@ impl MockWeb {
             inject_seq: Mutex::new(HashMap::new()),
             lanes: Mutex::new(TaskLane::defaults()),
             task_lanes: Mutex::new(HashMap::new()),
+            vat_registered: AtomicBool::new(false),
+            pdf_status: Mutex::new(None),
         });
         state.tokens.lock().access.insert(token.to_owned(), (MOCK_USER_ID.to_owned(), true));
         let listener = TcpListener::bind("127.0.0.1:0").expect("bind");
@@ -152,6 +159,21 @@ impl MockWeb {
             }
         });
         MockWeb { state, addr, stop }
+    }
+
+    /// Firmaprofilen i web er momsregistreret (moms på PDF og `totals`).
+    pub fn set_vat_registered(&self, on: bool) {
+        self.state.vat_registered.store(on, Ordering::SeqCst);
+    }
+
+    /// PDF-ruten svarer med denne status (fx 403) i stedet for PDF'en.
+    pub fn set_pdf_status(&self, status: Option<u16>) {
+        *self.state.pdf_status.lock() = status;
+    }
+
+    /// Den PDF, mock-web laver for fakturaen (til at sammenligne bytes).
+    pub fn invoice_pdf(id: &str) -> Vec<u8> {
+        format!("%PDF-1.7\n% web-pdf {id}\n%%EOF\n").into_bytes()
     }
 
     pub fn base_url(&self) -> &str {
@@ -222,7 +244,12 @@ impl MockWeb {
             .lock()
             .codes
             .insert(code.clone(), (q["challenge"].clone(), q["state"].clone(), q["device_id"].clone()));
-        format!("timetrack://auth/callback?code={code}&state={}", q["state"])
+        // Web sender brugeren til timetrack://auth/callback, medmindre appen (en anden
+        // udgave) beder om sit eget skema med redirect_uri.
+        let redirect = q
+            .get("redirect_uri")
+            .map_or("timetrack://auth/callback", String::as_str);
+        format!("{redirect}?code={code}&state={}", q["state"])
     }
 
     /// Lad et adgangstoken udløbe (svarer UNAUTHORIZED), så refresh prøves.
@@ -437,6 +464,9 @@ fn handle(state: Arc<State>, sock: TcpStream) {
     if req.path == "/api/ext/stream" {
         return stream(state, sock, &req);
     }
+    if let Some(id) = req.path.strip_prefix("/api/ext/invoices/").and_then(|r| r.strip_suffix("/pdf")) {
+        return invoice_pdf(&state, sock, &req, id);
+    }
     let Some(procedure) = req.path.strip_prefix("/api/trpc/").map(str::to_owned) else {
         return respond(sock, 404, "text/plain", "not found");
     };
@@ -495,6 +525,30 @@ fn handle(state: Arc<State>, sock: TcpStream) {
         }
     };
     respond(sock, status, "application/json", &body.to_string());
+}
+
+/// Web's `/api/ext/invoices/<id>/pdf`: Bearer-token, org i `?organizationId`.
+fn invoice_pdf(state: &State, mut sock: TcpStream, req: &Request, id: &str) {
+    let token = req.headers.get("authorization").and_then(|h| h.strip_prefix("Bearer ")).unwrap_or("");
+    state.calls.lock().push("GET /api/ext/invoices/pdf".into());
+    if auth_user(state, token).is_err() {
+        return respond(sock, 401, "text/plain", "Unauthorized");
+    }
+    if let Some(status) = *state.pdf_status.lock() {
+        return respond(sock, status, "text/plain", "Forbidden");
+    }
+    if block_on(state.repo.get_invoice(id)).is_err() {
+        return respond(sock, 404, "text/plain", "Not Found");
+    }
+    let body = MockWeb::invoice_pdf(id);
+    let _ = write!(
+        sock,
+        "HTTP/1.1 200 OK\r\nContent-Type: application/pdf\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+        body.len()
+    );
+    let _ = sock.write_all(&body);
+    let _ = sock.flush();
+    let _ = sock.shutdown(Shutdown::Both);
 }
 
 fn stream(state: Arc<State>, mut sock: TcpStream, req: &Request) {
@@ -1095,6 +1149,10 @@ fn dispatch(state: &State, procedure: &str, input: &Value) -> Res {
             // Som web's invoices.update: kun de felter, der er sendt.
             let d = data.cloned().unwrap_or_default();
             let id = s(&d, "id").unwrap_or_default();
+            if s(&d, "status").as_deref() == Some("sent") {
+                // Web: kladde → sendt giver nummeret, men sender ingen mail.
+                return val(block_on(repo.send_invoice(&id))?);
+            }
             let cur = block_on(repo.get_invoice(&id))?;
             let due = s(&d, "dueDate")
                 .and_then(|x| NaiveDate::parse_from_str(&x, "%Y-%m-%d").ok())
@@ -1102,6 +1160,37 @@ fn dispatch(state: &State, procedure: &str, input: &Value) -> Res {
                 .unwrap_or_else(|| chrono::Utc::now().date_naive());
             let notes = if d.get("notes").is_some() { s(&d, "notes") } else { cur.notes.clone() };
             val(block_on(repo.update_invoice_details(&id, cur.title.clone(), due, notes))?)
+        }
+        "extension.invoices.delete" => {
+            // Som web: kun kladder, og posterne frigives.
+            block_on(repo.delete_invoice_draft(&id(input)?))?;
+            Ok(json!({ "success": true }))
+        }
+        "extension.invoices.pdfLink" => {
+            let id = id(input)?;
+            block_on(repo.get_invoice(&id))?;
+            Ok(json!({ "path": format!("/api/ext/invoices/{id}/pdf?organizationId={MOCK_ORG_ID}") }))
+        }
+        "extension.invoices.totals" => {
+            // Som web's `invoicePdfTotals`: linjernes sum (ellers beløbet),
+            // moms kun når firmaprofilen er momsregistreret.
+            use rust_decimal::Decimal;
+            let id = id(input)?;
+            let inv = block_on(repo.get_invoice(&id))?;
+            let lines = block_on(repo.invoice_lines(&id))?;
+            let subtotal: Decimal = if lines.is_empty() { inv.amount } else { lines.iter().map(|l| l.amount).sum() };
+            let rate = Decimal::new(25, 0);
+            let show_vat = state.vat_registered.load(Ordering::SeqCst);
+            let vat = if show_vat { (subtotal * rate / Decimal::new(100, 0)).round_dp(2) } else { Decimal::ZERO };
+            let two = |d: Decimal| format!("{d:.2}");
+            Ok(json!({
+                "subtotal": two(subtotal),
+                "vatRate": two(rate),
+                "vatAmount": two(vat),
+                "total": two(subtotal + vat),
+                "showVat": show_vat,
+                "currency": "DKK",
+            }))
         }
         "extension.invoices.markPaid" => {
             let paid = s(input, "paidDate").and_then(|x| NaiveDate::parse_from_str(&x, "%Y-%m-%d").ok());

@@ -2,11 +2,11 @@
 
 mod common;
 
-use common::{MockServer, Reply};
+use common::{MockServer, Reply, Seen};
 use sha2::{Digest, Sha256};
 use std::path::PathBuf;
-use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::sync::{Arc, Condvar, Mutex};
 use std::time::{Duration, Instant};
 use tt_ai::{AiError, DownloadProgress, ModelManager, ModelSpec};
 
@@ -76,6 +76,42 @@ fn file_server(d: Arc<Vec<u8>>, honor_range: bool) -> MockServer {
             _ => Reply::bytes(200, d.to_vec()),
         }
     })
+}
+
+/// En port, som serverens handler venter ved, til testen åbner den. Så hænger
+/// et svar, til testen har sit resultat, i stedet for et fast antal
+/// millisekunder, der på en presset CI-maskine kan være både for kort og for langt.
+#[derive(Clone, Default)]
+struct Gate(Arc<(Mutex<bool>, Condvar)>);
+
+/// Hvor længe en lukket port højst holder. Kun et værn mod, at testen hænger
+/// for evigt, hvis appen venter på serveren; når appen virker, åbnes porten før.
+const GATE_GUARD: Duration = Duration::from_secs(60);
+
+impl Gate {
+    fn wait(&self) {
+        let (lock, cv) = &*self.0;
+        let open = lock.lock().unwrap();
+        let _ = cv
+            .wait_timeout_while(open, GATE_GUARD, |open| !*open)
+            .unwrap();
+    }
+
+    fn open(&self) {
+        let (lock, cv) = &*self.0;
+        *lock.lock().unwrap() = true;
+        cv.notify_all();
+    }
+}
+
+/// Første byte i forespørgslens `Range: bytes=N-M`.
+fn range_start(req: &Seen) -> usize {
+    req.header("Range").unwrap()[6..]
+        .split('-')
+        .next()
+        .unwrap()
+        .parse()
+        .unwrap()
 }
 
 fn tmpdir(name: &str) -> PathBuf {
@@ -220,8 +256,10 @@ fn hentes_i_sammenhængende_bidder() {
     let dir = tmpdir("bidder");
     let s = spec(&sha(&d));
     let mib = 1024 * 1024;
+    // Tidsgrænsen testes ikke her. Den er appens (90 s), så en langsom maskine
+    // ikke giver ekstra bidder med andre Range-headere.
     let mgr = ModelManager::with_source(&dir, &srv.url(), vec![s.clone()])
-        .with_chunking(mib, Duration::from_secs(10));
+        .with_chunking(mib, Duration::from_secs(90));
     let path = mgr.download(&s, |_| {}, &AtomicBool::new(false)).unwrap();
     assert_eq!(std::fs::read(&path).unwrap(), *d);
     let ranges: Vec<String> = srv
@@ -245,47 +283,55 @@ fn hentes_i_sammenhængende_bidder() {
 fn bid_der_går_i_stå_prøves_igen() {
     let d = data();
     let kald = Arc::new(AtomicUsize::new(0));
-    let (k, dd) = (kald.clone(), d.clone());
+    let gate = Gate::default();
+    let (k, dd, g) = (kald.clone(), d.clone(), gate.clone());
     let srv = MockServer::start(move |req| {
-        let from: usize = req.header("Range").unwrap()[6..]
-            .split('-')
-            .next()
-            .unwrap()
-            .parse()
-            .unwrap();
-        // Første forespørgsel hænger langt ud over tidsgrænsen. Tidsgrænsen
-        // gælder hele bidden, så den er sat højt nok til, at det sunde kald
-        // når igennem, også på en presset CI-maskine (Windows-runneren).
-        let reply = Reply::bytes(206, dd[from..].to_vec());
+        let reply = Reply::bytes(206, dd[range_start(req)..].to_vec());
+        // Første forespørgsel svarer først, når downloaden er slut. Den går
+        // altså i stå, uanset hvor langsomt maskinen kører.
         if k.fetch_add(1, Ordering::SeqCst) == 0 {
-            reply.delay(5_000)
-        } else {
-            reply
+            g.wait();
         }
+        reply
     });
     let dir = tmpdir("stall");
     let s = spec(&sha(&d));
     let mgr = ModelManager::with_source(&dir, &srv.url(), vec![s.clone()])
         .with_chunking(SIZE as u64, Duration::from_millis(1_500));
-    let path = mgr.download(&s, |_| {}, &AtomicBool::new(false)).unwrap();
+    let res = mgr.download(&s, |_| {}, &AtomicBool::new(false));
+    gate.open();
+    let path = res.unwrap();
     assert_eq!(std::fs::read(&path).unwrap(), *d);
-    assert_eq!(kald.load(Ordering::SeqCst), 2);
+    // Den hængende bid prøves igen fra samme sted. Er maskinen så presset, at
+    // også et sundt kald rammer tidsgrænsen efter at have givet data, fortsætter
+    // næste kald, hvor det forrige nåede til. Antallet af kald afhænger derfor
+    // af maskinen, men intet kald går tilbage i filen.
+    let starts: Vec<usize> = srv.seen().iter().map(range_start).collect();
+    assert!(starts.len() >= 2, "{starts:?}");
+    assert_eq!(starts[..2], [0, 0], "{starts:?}");
+    assert!(starts.windows(2).all(|w| w[0] <= w[1]), "{starts:?}");
     std::fs::remove_dir_all(&dir).unwrap();
 }
 
 #[test]
 fn server_der_altid_hænger_giver_fejl_inden_for_tidsgrænsen() {
-    let srv = MockServer::start(|_| Reply::bytes(206, vec![0; 10]).delay(5_000));
+    // Serveren svarer først, når downloaden har givet sit resultat (og så med
+    // 500). Ventede downloaden på serveren i stedet for at håndhæve
+    // tidsgrænsen, endte den med en HTTP-fejl efter værnet, ikke en Timeout.
+    let gate = Gate::default();
+    let g = gate.clone();
+    let srv = MockServer::start(move |_| {
+        g.wait();
+        Reply::bytes(500, b"for sent".to_vec())
+    });
     let dir = tmpdir("hang");
     let s = spec(&"0".repeat(64));
     let mgr = ModelManager::with_source(&dir, &srv.url(), vec![s.clone()])
         .with_chunking(1024 * 1024, Duration::from_millis(200));
-    let t = Instant::now();
-    let err = mgr
-        .download(&s, |_| {}, &AtomicBool::new(false))
-        .unwrap_err();
+    let res = mgr.download(&s, |_| {}, &AtomicBool::new(false));
+    gate.open();
+    let err = res.unwrap_err();
     assert!(matches!(err, AiError::Timeout(_)), "{err:?}");
-    assert!(t.elapsed() < Duration::from_secs(3), "{:?}", t.elapsed());
     std::fs::remove_dir_all(&dir).unwrap();
 }
 
@@ -364,32 +410,32 @@ fn skift_og_slet_model() {
 fn samme_model_hentes_ikke_to_gange_samtidig() {
     let d = data();
     let (dd, startet) = (d.clone(), Arc::new(AtomicUsize::new(0)));
-    let st = startet.clone();
+    let gate = Gate::default();
+    let (st, g) = (startet.clone(), gate.clone());
     let srv = MockServer::start(move |req| {
         st.fetch_add(1, Ordering::SeqCst);
-        let from: usize = req.header("Range").unwrap()[6..]
-            .split('-')
-            .next()
-            .unwrap()
-            .parse()
-            .unwrap();
-        // Den første download skal stadig køre, når den anden prøver.
-        Reply::bytes(206, dd[from..].to_vec()).delay(800)
+        // Den første download skal stadig køre, når den anden prøver: svaret
+        // holdes tilbage, til den anden er afvist.
+        g.wait();
+        Reply::bytes(206, dd[range_start(req)..].to_vec())
     });
     let dir = tmpdir("samtidig");
     let s = spec(&sha(&d));
     // To managere over samme mappe (fx Indstillinger og en baggrundsopgave).
+    // Appens tidsgrænse (90 s), så den tilbageholdte bid ikke prøves igen.
     let a = ModelManager::with_source(&dir, &srv.url(), vec![s.clone()])
-        .with_chunking(SIZE as u64, Duration::from_secs(10));
+        .with_chunking(SIZE as u64, Duration::from_secs(90));
     let b = ModelManager::with_source(&dir, &srv.url(), vec![s.clone()]);
     let s2 = s.clone();
     let first = std::thread::spawn(move || a.download(&s2, |_| {}, &AtomicBool::new(false)));
     let t = Instant::now();
     while startet.load(Ordering::SeqCst) == 0 {
-        assert!(t.elapsed() < Duration::from_secs(5), "første download startede ikke");
+        assert!(t.elapsed() < GATE_GUARD, "første download startede ikke");
         std::thread::sleep(Duration::from_millis(10));
     }
-    let err = b.download(&s, |_| {}, &AtomicBool::new(false)).unwrap_err();
+    let res = b.download(&s, |_| {}, &AtomicBool::new(false));
+    gate.open();
+    let err = res.unwrap_err();
     assert!(matches!(err, AiError::AlreadyDownloading), "{err:?}");
     let path = first.join().unwrap().unwrap();
     assert_eq!(std::fs::read(&path).unwrap(), *d, "den første download er hel");

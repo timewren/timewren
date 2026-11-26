@@ -4,37 +4,51 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Building2, Save, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import {
+  checkClientTaxId,
+  isDanishClient,
+  normalizeClientTaxId,
+} from "@/components/clients/client-tax-id";
 import { Button, Input, Textarea } from "@/components/ui";
+import { useModules } from "@/hooks/useModules";
+import { defaultClientCountry } from "@/lib/org/region";
 import { trpc } from "@/providers/trpc-provider";
 
 const createClientSchema = (t: (key: string) => string) =>
-  z.object({
-    name: z.string().min(2, t("form.nameMin")),
-    email: z
-      .string()
-      .email(t("form.invalidEmail"))
-      .optional()
-      .or(z.literal("")),
-    phone: z.string().optional(),
-    company: z.string().optional(),
-    address: z.string().optional(),
-    city: z.string().optional(),
-    postalCode: z.string().optional(),
-    country: z.string().optional(),
-    cvrNumber: z.string().optional(),
-    notes: z.string().optional(),
-    defaultHourlyRate: z.string().optional(),
-    isInternal: z.boolean().optional(),
-    color: z
-      .string()
-      .regex(/^#[0-9a-fA-F]{6}$/)
-      .nullable()
-      .optional(),
-  });
+  z
+    .object({
+      name: z.string().min(2, t("form.nameMin")),
+      email: z
+        .string()
+        .email(t("form.invalidEmail"))
+        .optional()
+        .or(z.literal("")),
+      phone: z.string().optional(),
+      company: z.string().optional(),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      postalCode: z.string().optional(),
+      country: z.string().optional(),
+      cvrNumber: z.string().optional(),
+      notes: z.string().optional(),
+      defaultHourlyRate: z.string().optional(),
+      isInternal: z.boolean().optional(),
+      color: z
+        .string()
+        .regex(/^#[0-9a-fA-F]{6}$/)
+        .nullable()
+        .optional(),
+    })
+    .superRefine((data, ctx) =>
+      checkClientTaxId(data, ctx, {
+        vatInvalid: t("form.vatInvalid"),
+        tooLong: t("form.taxIdTooLong"),
+      }),
+    );
 
 type ClientForm = z.infer<ReturnType<typeof createClientSchema>>;
 
@@ -45,16 +59,30 @@ export default function NewClientPage() {
   const router = useRouter();
   const [cvrNumber, setCvrNumber] = useState("");
   const [cvrError, setCvrError] = useState("");
+  const locale = useLocale();
+  // Landet starter som organisationens: Danmark for TimeTrack og en dansk
+  // TimeWren-bruger, ellers brugerens eget eller tomt (fund 19).
+  const { region, isPlaceholder: regionPending } = useModules();
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    getFieldState,
     formState: { errors, isSubmitting },
   } = useForm<ClientForm>({
     resolver: zodResolver(clientSchema),
+    defaultValues: { country: defaultClientCountry(region, locale) },
   });
+
+  useEffect(() => {
+    if (regionPending || getFieldState("country").isDirty) return;
+    setValue("country", defaultClientCountry(region, locale));
+  }, [region, regionPending, locale, getFieldState, setValue]);
+
+  // CVR-opslag og CVR-format kun for danske kunder; ellers momsnummer.
+  const isDanish = isDanishClient(watch("country"));
 
   const createMutation = trpc.clients.create.useMutation({
     onSuccess: () => {
@@ -112,7 +140,7 @@ export default function NewClientPage() {
         city: trim(data.city),
         postalCode: trim(data.postalCode),
         country: trim(data.country),
-        cvrNumber: trim(data.cvrNumber),
+        cvrNumber: normalizeClientTaxId(data.country, data.cvrNumber),
         notes: trim(data.notes),
         color: data.color || undefined,
       });
@@ -141,59 +169,61 @@ export default function NewClientPage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Company Search */}
-        <div className="rounded-lg border border-brand-200 dark:border-brand-600 bg-brand-50 dark:bg-tt-gran-lys p-6">
-          <div className="flex items-start gap-4">
-            <Building2 className="h-6 w-6 shrink-0 text-brand-600 dark:text-brand-400" />
-            <div className="flex-1">
-              <h3 className="font-semibold text-gray-900 dark:text-white">
-                {t("form.searchTitle")}
-              </h3>
-              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                {t("form.searchHint")}
-              </p>
-              <div className="mt-4 flex gap-2">
-                <Input
-                  type="text"
-                  value={cvrNumber}
-                  onChange={(e) => {
-                    setCvrNumber(e.target.value);
-                    setCvrError("");
-                  }}
-                  placeholder={t("form.searchPlaceholder")}
-                />
-                <Button
-                  type="button"
-                  onClick={handleCVRLookup}
-                  disabled={cvrLookupMutation.isPending || !cvrNumber}
-                  isLoading={cvrLookupMutation.isPending}
-                  leftIcon={
-                    !cvrLookupMutation.isPending ? (
-                      <Search className="h-4 w-4" />
-                    ) : undefined
-                  }
-                >
-                  {cvrLookupMutation.isPending
-                    ? t("form.searching")
-                    : t("form.searchButton")}
-                </Button>
+        {/* Company Search (CVR, kun danske kunder) */}
+        {isDanish && (
+          <div className="rounded-lg border border-brand-200 dark:border-brand-600 bg-brand-50 dark:bg-tt-gran-lys p-6">
+            <div className="flex items-start gap-4">
+              <Building2 className="h-6 w-6 shrink-0 text-brand-600 dark:text-brand-400" />
+              <div className="flex-1">
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  {t("form.searchTitle")}
+                </h3>
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                  {t("form.searchHint")}
+                </p>
+                <div className="mt-4 flex gap-2">
+                  <Input
+                    type="text"
+                    value={cvrNumber}
+                    onChange={(e) => {
+                      setCvrNumber(e.target.value);
+                      setCvrError("");
+                    }}
+                    placeholder={t("form.searchPlaceholder")}
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleCVRLookup}
+                    disabled={cvrLookupMutation.isPending || !cvrNumber}
+                    isLoading={cvrLookupMutation.isPending}
+                    leftIcon={
+                      !cvrLookupMutation.isPending ? (
+                        <Search className="h-4 w-4" />
+                      ) : undefined
+                    }
+                  >
+                    {cvrLookupMutation.isPending
+                      ? t("form.searching")
+                      : t("form.searchButton")}
+                  </Button>
+                </div>
+                {cvrError && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+                    {cvrError}
+                  </p>
+                )}
+                {cvrLookupMutation.data && !cvrError && (
+                  <p className="mt-2 text-sm text-green-600 dark:text-green-400">
+                    {t("form.found", {
+                      name: cvrLookupMutation.data.name,
+                      cvr: cvrLookupMutation.data.cvrNumber,
+                    })}
+                  </p>
+                )}
               </div>
-              {cvrError && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-400">
-                  {cvrError}
-                </p>
-              )}
-              {cvrLookupMutation.data && !cvrError && (
-                <p className="mt-2 text-sm text-green-600 dark:text-green-400">
-                  {t("form.found", {
-                    name: cvrLookupMutation.data.name,
-                    cvr: cvrLookupMutation.data.cvrNumber,
-                  })}
-                </p>
-              )}
             </div>
           </div>
-        </div>
+        )}
 
         {/* Client Form */}
         <div className="rounded-xl border border-gray-200/80 dark:border-gray-800 bg-white dark:bg-gray-900 p-6">
@@ -255,14 +285,14 @@ export default function NewClientPage() {
                 label={t("form.country")}
                 {...register("country")}
                 placeholder={t("form.countryPlaceholder")}
-                defaultValue="Danmark"
               />
 
               <Input
-                label={t("form.cvr")}
+                label={isDanish ? t("form.cvr") : t("form.vatNumber")}
                 {...register("cvrNumber")}
-                placeholder="12345678"
-                maxLength={8}
+                placeholder={isDanish ? "12345678" : "DE123456789"}
+                maxLength={isDanish ? 8 : 20}
+                error={errors.cvrNumber?.message}
               />
             </div>
 

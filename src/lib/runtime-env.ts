@@ -67,12 +67,22 @@ type Key = keyof typeof KEYS;
 function read(key: Key): string | undefined {
   if (typeof window !== "undefined") {
     const fromWindow = window.__TT_CONFIG__?.[key];
-    if (fromWindow) return fromWindow;
+    if (fromWindow !== undefined) return fromWindow || undefined;
     return KEYS[key].build() || undefined;
   }
   // Dynamisk nøgle: bevidst ikke inlinet af Next.
   const runtime = process.env[KEYS[key].env];
-  if (runtime) return runtime;
+  if (runtime || (runtime === "" && key !== "appUrl")) {
+    return runtime || undefined;
+  }
+  // An image started for another app URL or brand must explicitly opt in to marketing.
+  if (
+    key === "marketingUrl" &&
+    ((KEYS.appUrl.build() || undefined) !== read("appUrl") ||
+      (KEYS.brand.build() || undefined) !== read("brand"))
+  ) {
+    return undefined;
+  }
   return KEYS[key].build() || undefined;
 }
 
@@ -108,10 +118,13 @@ export function hostBrandEnv(): string | undefined {
 export function renderRuntimeConfigScript(
   opts: { hostBrand?: string } = {},
 ): string {
+  // Send an explicit blank when runtime clears a baked-in client fallback.
+  const browserValue = (key: Key) =>
+    read(key) ?? (KEYS[key].build() ? "" : undefined);
   const config: RuntimeConfig = {
-    appUrl: appUrlEnv(),
-    marketingUrl: marketingUrlEnv(),
-    brand: brandEnv(),
+    appUrl: browserValue("appUrl"),
+    marketingUrl: browserValue("marketingUrl"),
+    brand: browserValue("brand"),
     ...(opts.hostBrand ? { hostBrand: opts.hostBrand } : {}),
     ...(isDemoMode() ? { demo: true as const } : {}),
   };
@@ -126,15 +139,13 @@ export function renderRuntimeConfigScript(
  * Nøgler, hvor den kørende værdi afviger fra den, der blev bygget ind. Kun
  * relevant for statisk prerenderede sider (marketing), hvis HTML har
  * build-værdien, mens klienten læser runtime-værdien. Tom liste = enige.
- * Nøgler uden build-værdi tæller ikke (der er ingen prerenderet værdi at
- * være uenig med).
+ * En tom værdi kan slå en indbygget værdi fra.
  */
 export function runtimeBuildMismatches(): string[] {
   const out: string[] = [];
   for (const key of Object.keys(KEYS) as Key[]) {
     const built = KEYS[key].build();
-    const runtime = process.env[KEYS[key].env];
-    if (built && runtime && built !== runtime) out.push(KEYS[key].env);
+    if ((built || undefined) !== read(key)) out.push(KEYS[key].env);
   }
   return out;
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { PrepaidPackage } from "../types";
+import { ApiError } from "./api-error";
 import {
   canStoreServerChoice,
   classifyPrepaidDeduction,
@@ -214,6 +215,40 @@ describe("isPrepaidDeductionError", () => {
         "Klippekortet tilhører en anden kunde end registreringen",
       ),
     ).toBe(true);
+  });
+
+  it("genkender serverens kode på alle sprog (#1320)", () => {
+    const english = new ApiError(
+      "Not enough hours left on the prepaid package. Available hours: 0.50",
+      "http",
+      400,
+      "PREPAID_DEDUCTION_FAILED",
+    );
+    expect(isPrepaidDeductionError(english)).toBe(true);
+  });
+
+  it("genkender en ældre servers danske tekst i en fejl uden kode", () => {
+    expect(
+      isPrepaidDeductionError(
+        new ApiError("Klippekortet er udløbet", "http", 400),
+      ),
+    ).toBe(true);
+    expect(isPrepaidDeductionError(new Error("Klippekort ikke fundet"))).toBe(
+      true,
+    );
+  });
+
+  it("rører ikke andre fejl med eller uden kode", () => {
+    expect(
+      isPrepaidDeductionError(
+        new ApiError("Module disabled", "http", 403, "MODULE_DISABLED"),
+      ),
+    ).toBe(false);
+    expect(
+      isPrepaidDeductionError(new ApiError("Project not found", "http", 404)),
+    ).toBe(false);
+    expect(isPrepaidDeductionError(null)).toBe(false);
+    expect(isPrepaidDeductionError(undefined)).toBe(false);
   });
 
   it("rører ikke andre fejl", () => {

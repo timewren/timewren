@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  allowedDeviceCallbacks,
   cleanDeviceLabel,
   codeChallengeS256,
   deviceCallbackUrl,
@@ -9,6 +10,7 @@ import {
   isValidCodeChallenge,
   isValidDeviceId,
   isValidState,
+  resolveDeviceCallback,
   verifierMatchesChallenge,
 } from "@/lib/device-login";
 
@@ -80,6 +82,107 @@ describe("kode og deep link", () => {
       vi.stubEnv("DEVICE_CALLBACK_URL", callback);
       expect(() => deviceCallbackUrl("code", "state")).toThrow();
     }
+  });
+
+  it("TimeTrack-instans + timetrack-klient", () => {
+    expect(
+      deviceCallbackUrl("k", "s", {
+        brand: "timetrack",
+        redirectUri: "timetrack://auth/callback",
+      }),
+    ).toBe("timetrack://auth/callback?code=k&state=s");
+  });
+
+  it("TimeWren-instans + timewren-klient", () => {
+    expect(
+      deviceCallbackUrl("k", "s", {
+        brand: "timewren",
+        redirectUri: "timewren://auth/callback",
+      }),
+    ).toBe("timewren://auth/callback?code=k&state=s");
+  });
+
+  it("klientens scheme vinder på tværs af brands (allowlist)", () => {
+    expect(
+      resolveDeviceCallback({
+        brand: "timetrack",
+        redirectUri: "timewren://auth/callback",
+      }),
+    ).toBe("timewren://auth/callback");
+    expect(
+      resolveDeviceCallback({
+        brand: "timewren",
+        redirectUri: "timetrack://auth/callback",
+      }),
+    ).toBe("timetrack://auth/callback");
+  });
+
+  it("manglende redirect_uri falder tilbage til instansens brand", () => {
+    expect(resolveDeviceCallback({ brand: "timewren" })).toBe(
+      "timewren://auth/callback",
+    );
+    expect(resolveDeviceCallback({ brand: "timetrack" })).toBe(
+      "timetrack://auth/callback",
+    );
+    expect(resolveDeviceCallback({ brand: "timewren", redirectUri: "" })).toBe(
+      "timewren://auth/callback",
+    );
+    expect(resolveDeviceCallback({ brand: "ukendt" })).toBe(
+      "timetrack://auth/callback",
+    );
+  });
+
+  it("ondsindet redirect_uri falder tilbage til brandets callback", () => {
+    for (const evil of [
+      "https://evil.example/auth/callback",
+      "http://evil.example/auth/callback",
+      "timewren://evil",
+      "timewren://auth/callback.evil.example",
+      "timewren://auth/callback?x=1",
+      "timewren://user:pass@auth/callback",
+      "javascript:alert(1)",
+      "data:text/html,x",
+      "evil://auth/callback",
+      "exp://auth/callback",
+      42,
+      { toString: () => "timewren://auth/callback" },
+    ]) {
+      expect(
+        resolveDeviceCallback({ brand: "timewren", redirectUri: evil }),
+      ).toBe("timewren://auth/callback");
+      expect(
+        resolveDeviceCallback({ brand: "timetrack", redirectUri: evil }),
+      ).toBe("timetrack://auth/callback");
+    }
+  });
+
+  it("allowlisten følger APP_SCHEMES og DEVICE_CALLBACK_URL", () => {
+    vi.stubEnv("APP_SCHEMES", "acme://");
+    vi.stubEnv("DEVICE_CALLBACK_URL", "selfhost://auth/callback");
+    expect(allowedDeviceCallbacks()).toEqual(
+      expect.arrayContaining([
+        "acme://auth/callback",
+        "selfhost://auth/callback",
+        "timewren://auth/callback",
+        "timetrack://auth/callback",
+      ]),
+    );
+    expect(resolveDeviceCallback({ redirectUri: "acme://auth/callback" })).toBe(
+      "acme://auth/callback",
+    );
+    // begge brands standardcallbacks gælder, også uden for APP_SCHEMES
+    expect(
+      resolveDeviceCallback({
+        brand: "timewren",
+        redirectUri: "timetrack://auth/callback",
+      }),
+    ).toBe("timetrack://auth/callback");
+    expect(
+      resolveDeviceCallback({
+        brand: "timetrack",
+        redirectUri: "https://evil.example/auth/callback",
+      }),
+    ).toBe("selfhost://auth/callback");
   });
 
   it("tokennavnet viser app og enhed uden tankestreg", () => {

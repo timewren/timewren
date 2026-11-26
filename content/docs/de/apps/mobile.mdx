@@ -9,9 +9,9 @@ Diese Seite behandelt, was dein Server für sie bereitstellt. Wie die Serveradre
 
 ## Anmelden
 
-Die App verwendet dieselbe Geräteanmeldung wie die Desktop-App: Sie öffnet deine Instanz im Browser, du meldest dich an und bestätigst das Gerät, und der Browser kehrt über den Deep Link `timetrack://auth/callback` zur App zurück. Das Access-Token gilt 30 Tage und wird mit einem Refresh-Token (180 Tage) erneuert, du musst dich also selten neu anmelden. Die App kann auch die von dir konfigurierten OAuth-Anbieter und "Mit Apple anmelden" nutzen, siehe [Authentifizierung](/de/docs/configuration/authentication).
+Die App verwendet dieselbe Geräteanmeldung wie die Desktop-App: Sie öffnet deine Instanz im Browser, du meldest dich an und bestätigst das Gerät, und der Browser kehrt über den Deep Link `timetrack://auth/callback` (`timewren://auth/callback` auf einer TimeWren-Instanz) zur App zurück. Das Access-Token gilt 30 Tage und wird mit einem Refresh-Token (180 Tage) erneuert, du musst dich also selten neu anmelden. Die App kann auch die von dir konfigurierten OAuth-Anbieter und "Mit Apple anmelden" nutzen, siehe [Authentifizierung](/de/docs/configuration/authentication).
 
-Der Server vertraut den App-Schemata `timetrack://` und `timetrack.preview://` automatisch. Du musst sie nicht zu `TRUSTED_ORIGINS` hinzufügen.
+Der Server vertraut den App-Schemata `timetrack://` und `timetrack.preview://` automatisch (auf einer TimeWren-Instanz auch `timewren://`). Du musst sie nicht zu `TRUSTED_ORIGINS` hinzufügen.
 
 Für natives "Mit Apple anmelden" setzt du `APPLE_APP_BUNDLE_IDENTIFIER` auf die Bundle-ID des verwendeten App-Builds (Standard `dk.timetrack.app`), zusammen mit den anderen Apple-Variablen.
 

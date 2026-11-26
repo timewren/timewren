@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Maandbudget",
     "hint": "{hours} uur per maand, wordt op de 1e gereset.",
-    "usage": "{used} van {budget} u ({pct}%)",
     "overrun": "Het maandbudget is met {hours} uur overschreden",
-    "previous": "Vorige maanden",
-    "hoursPct": "{hours} u ({pct}%)"
+    "previous": "Vorige maanden"
   },
   "activityTypes": {
     "allowedAll": "Alle activiteitstypen zijn toegestaan op het project",
@@ -66,10 +64,8 @@
     "title": "Urenbudget",
     "derived": "afgeleid",
     "derivedTitle": "Afgeleid van vaste prijs ÷ uurtarief. Stel een urenbudget in op het project om het direct te sturen.",
-    "hoursOf": "{used} / {total} u",
     "over": "{hours} u over budget",
     "remaining": "{hours} u over",
-    "ariaUsed": "{pct}% van het urenbudget gebruikt",
     "plannedTitle": "{hours} u vooruit gepland",
     "pctUsed": "{pct}% gebruikt",
     "planned": "+ {planned} u gepland = {forecast} u ({pct}%)",
@@ -188,11 +184,11 @@
     "colTotal": "Totaal",
     "colStatus": "Status",
     "selectProject": "{name} selecteren",
-    "budgetUsedTitle": "{pct}% van het urenbudget gebruikt ({used}/{total} u)",
     "noClient": "Geen klant",
-    "monthlyUsed": "{used}/{budget} u",
     "monthlyAria": "{pct}% van het maandbudget gebruikt",
-    "monthlyTitle": "{used} van {budget} u gebruikt deze maand ({pct}%)"
+    "monthlyTitle": "{used} van {budget} u gebruikt deze maand ({pct}%)",
+    "emptyNeedsClientHint": "Een project hoort bij een klant. Voeg eerst de klant toe en maak daarna het project.",
+    "createClientFirst": "Voeg je eerste klant toe"
   },
   "detail": {
     "status": {

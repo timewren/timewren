@@ -149,6 +149,30 @@ describe("POST /api/csp-report", () => {
     expect(warn).not.toHaveBeenCalled();
   });
 
+  it("answers 204 without throwing when the browser aborts the upload", async () => {
+    // Sentry TIMETRACK-2A: a tab closes mid-report and Node rejects the
+    // body stream with "aborted". That is not a server error.
+    const stream = new ReadableStream<Uint8Array>({
+      pull() {
+        const err = new Error("aborted") as Error & { code?: string };
+        err.code = "ECONNRESET";
+        throw err;
+      },
+    });
+    const res = await POST(chunked(stream));
+    expect(res.status).toBe(204);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("still throws when reading the body fails for another reason", async () => {
+    const stream = new ReadableStream<Uint8Array>({
+      pull() {
+        throw new TypeError("boom");
+      },
+    });
+    await expect(POST(chunked(stream))).rejects.toThrow("boom");
+  });
+
   it("rate-limits per IP", async () => {
     const { maxRequests } = RATE_LIMIT_CONFIGS.cspReport;
     for (let i = 0; i < maxRequests; i++) {

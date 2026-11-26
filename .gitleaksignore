@@ -11,3 +11,6 @@ src/i18n/messages/fi/settingsSecurity.json:asana-client-secret:37
 # Placeholder Stripe key in a test (commit 4d1505edd); replaced in 07eb40a58.
 4d1505eddf1d99d2923b55743c65f0814f77c85a:src/lib/billing/__tests__/timewren-stripe-trials.integration.test.ts:stripe-access-token:84
 4d1505eddf1d99d2923b55743c65f0814f77c85a:src/lib/billing/__tests__/timewren-stripe-trials.integration.test.ts:stripe-access-token:89
+# Fake Google tokens ("ya29.race-…") in a calendar revoke test (PR #1156).
+829fa863cd528c59f0fe8b7721fad0bf27ca2172:src/lib/integrations/__tests__/google-calendar-revoke.integration.test.ts:generic-api-key:374
+0712c396f5997b05f447b28f6cd91be5850c101e:src/lib/integrations/__tests__/google-calendar-revoke.integration.test.ts:generic-api-key:376

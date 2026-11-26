@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
-import { DESKTOP_LIFETIME_PRICE } from "@/lib/config";
+import { DESKTOP_LIFETIME_PRICE, getMarketingUrl } from "@/lib/config";
 
 const TITLE = "TimeTrack Desktop til Mac og Windows, nu med i alle planer";
 const DESCRIPTION =
-  "Desktop-appen til Mac og Windows kan hentes nu i beta. Den registrerer aktivitet lokalt, foreslår projekter og er med i alle planer, også Gratis.";
+  "Desktop-appen til Mac og Windows kan hentes nu. Den registrerer aktivitet lokalt, foreslår projekter og er med i alle planer, også Gratis.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -41,7 +41,7 @@ export default function DesktopAppComingSoonPost() {
     dateModified: "2026-10-27",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://timetrack.dk/blog/desktop-app-coming-soon",
+      "@id": new URL("/blog/desktop-app-coming-soon", getMarketingUrl()).href,
     },
   };
 
@@ -67,8 +67,8 @@ export default function DesktopAppComingSoonPost() {
           </h1>
           <p className="mt-4 text-lg text-slate-600">
             Da jeg skrev det første indlæg om desktop-appen i maj, var den på
-            vej. Nu kan den hentes i beta til Mac og Windows, og den er med i
-            alle planer.
+            vej. Nu kan den hentes til Mac og Windows, og den er med i alle
+            planer.
           </p>
           <div className="mt-4 flex items-center gap-4 text-sm text-slate-500">
             <span>Af Mads Holst Jensen</span>
@@ -148,7 +148,7 @@ export default function DesktopAppComingSoonPost() {
 
           <h2 className="text-2xl font-bold text-slate-900">Hent appen</h2>
           <p>
-            Appen findes i beta til Windows og macOS.{" "}
+            Appen findes til Windows og macOS.{" "}
             <Link
               href="/download"
               className="text-brand-600 hover:text-brand-700 font-medium"

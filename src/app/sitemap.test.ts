@@ -1,6 +1,7 @@
 import { readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { seoPagePaths } from "@/lib/marketing/arbejdsdage-seo";
 import sitemap from "./sitemap";
 
 /**
@@ -69,12 +70,20 @@ function collectPublicRoutes(appDir: string): string[] {
 describe("sitemap drift", () => {
   const appDir = resolve(__dirname);
   const publicRoutes = collectPublicRoutes(appDir);
-  const sitemapPaths = new Set(
-    sitemap().map((entry) => {
-      const url = new URL(entry.url);
-      return url.pathname === "/" ? "/" : url.pathname.replace(/\/$/, "");
-    }),
-  );
+  let sitemapPaths: Set<string>;
+
+  beforeEach(() => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://app.timetrack.dk");
+    vi.stubEnv("NEXT_PUBLIC_MARKETING_URL", "https://timetrack.dk");
+    sitemapPaths = new Set(
+      sitemap().map((entry) => {
+        const url = new URL(entry.url);
+        return url.pathname === "/" ? "/" : url.pathname.replace(/\/$/, "");
+      }),
+    );
+  });
+
+  afterEach(() => vi.unstubAllEnvs());
 
   it("alle offentlige sider er i sitemappet (eller eksplicit undtaget)", () => {
     const missing = publicRoutes.filter(
@@ -87,9 +96,20 @@ describe("sitemap drift", () => {
   });
 
   it("sitemappet peger ikke på sider der ikke findes", () => {
-    const known = new Set([...publicRoutes, "/", "/llms.txt"]);
+    // Månedssiderne ligger i [maaned]-mapper, som route-gennemgangen springer over.
+    const known = new Set([
+      ...publicRoutes,
+      "/",
+      "/llms.txt",
+      ...seoPagePaths(),
+    ]);
     const stale = [...sitemapPaths].filter((path) => !known.has(path));
     expect(stale, `Døde sitemap-indgange: ${stale.join(", ")}`).toEqual([]);
+  });
+
+  it("indeholder alle programmatiske arbejdsdage-sider", () => {
+    const missing = seoPagePaths().filter((p) => !sitemapPaths.has(p));
+    expect(missing).toEqual([]);
   });
 
   it("eksplicit undtagne sider findes stadig (ellers er undtagelsen død)", () => {

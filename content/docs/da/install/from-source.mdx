@@ -40,6 +40,8 @@ Vælg denne metode, hvis du vil køre ændret kode eller bidrage. Vil du blot k�
 
 Build-argumenterne `NEXT_PUBLIC_DESKTOP_RELEASES_REPO`, `NEXT_PUBLIC_REALTIME_ENABLED`, `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL`, `NEXT_PUBLIC_SENTRY_DSN` og `NEXT_PUBLIC_SENTRY_BROWSER_ENABLED` kompileres ind i browserbundlet, så ændrer du dem i `.env`, skal du køre `docker compose up -d --build` igen. App-URL'en, marketing-URL'en og brandet læses ved kørsel og kræver ikke et nyt build.
 
+Compose-filens build-blok sætter build-argumentet `BUILD_PROFILE: selfhost`. Profilen udelader Clouds marketingsite (priser, blog, landingssider) og TimeWrens hjemmeside fra buildet, så det går hurtigere, og imaget bliver mindre. Siderne til cookies, kontakt, download og sletning af konto, instansens egne sider om privatliv, GDPR, vilkår og databehandling samt selve appen berøres ikke. Det færdigbyggede image er bygget sådan. Vil du bygge hele appen, inklusive de marketingsider som `NEXT_PUBLIC_MARKETING_URL` slår til, så fjern argumentet eller sæt `BUILD_PROFILE: full`.
+
 Du kan også køre klonens installationsscript, `./scripts/install.sh`. I en klon bygger det imaget og starter stakken med `docker compose up -d --build`, hver gang det køres. Se [Installation med én kommando](/da/docs/install/quick).
 
 ## Kør udviklingsserveren

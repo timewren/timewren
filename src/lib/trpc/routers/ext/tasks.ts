@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { collectTaskPages } from "@/lib/tasks/task-pages";
 import { router } from "../../trpc";
 import { deviceProcedure, type WebInputs, webInput } from "./device-procedure";
 import { idempotencyKeyInput, withIdempotencyKey } from "./idempotency";
@@ -17,7 +18,11 @@ export const extTasksRouter = router({
     .input(
       z.object({ filter: webInput<WebInputs["tasks"]["list"]>().optional() }),
     )
-    .query(({ ctx, input }) => ctx.web.tasks.list(input.filter)),
+    .query(({ ctx, input }) =>
+      collectTaskPages((cursor) =>
+        ctx.web.tasks.list({ ...input.filter, restPage: undefined, cursor }),
+      ),
+    ),
 
   get: deviceProcedure
     .input(id)
@@ -86,6 +91,62 @@ export const extTasksRouter = router({
   reopen: deviceProcedure
     .input(id)
     .mutation(({ ctx, input }) => ctx.web.tasks.reopen({ id: input.id })),
+
+  /** Slet opgaven og dens underopgaver (web's tasks.delete). */
+  delete: deviceProcedure
+    .input(id)
+    .mutation(({ ctx, input }) => ctx.web.tasks.delete({ id: input.id })),
+
+  /**
+   * Underopgave under en opgave i org'en (arver projekt, kunde og
+   * prioritet). `idempotencyKey`: samme nøgle inden for 24 timer = samme
+   * underopgave.
+   */
+  createSubtask: deviceProcedure
+    .input(
+      z.object({
+        parentTaskId: z.string().uuid(),
+        title: z.string(),
+        description: z.string().optional(),
+        idempotencyKey: idempotencyKeyInput,
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      withIdempotencyKey(
+        ctx.db,
+        ctx.device,
+        "tasks.createSubtask",
+        input.idempotencyKey,
+        {
+          create: () =>
+            ctx.web.tasks.createSubtask({
+              parentTaskId: input.parentTaskId,
+              title: input.title,
+              description: input.description,
+            }),
+          idOf: (t) => t.id,
+          replay: (id) => ctx.web.tasks.getById({ id }),
+        },
+      ),
+    ),
+
+  /**
+   * Tildel opgaven et medlem af org'en (`null` = ingen). Medlemmerne står i
+   * `extension.org.members`.
+   */
+  setAssignee: deviceProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        assignedToUserId: z.string().nullable(),
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      ctx.web.tasks.setAssignee({
+        id: input.id,
+        assignedToUserId: input.assignedToUserId,
+      }),
+    ),
 
   /** Poster registreret på opgaven. */
   timeEntries: deviceProcedure

@@ -9,7 +9,7 @@ import { Button, Card, colors, ListSkeleton, StatTile, Text } from '~/components
 import { formatHours } from '~/lib/format';
 import { useToday } from '~/lib/hooks/use-today';
 import { translate } from '~/lib/i18n';
-import { dateFnsLocale } from '~/lib/locale';
+import { dateFnsLocale, dayOfMonth } from '~/lib/locale';
 import { dateKey, hoursByDay, sumHours, weekDays } from '../period';
 
 type WeekGoal = { hoursWorked: number; weeklyGoal: number; progressPercentage: number } | undefined;
@@ -40,7 +40,7 @@ function DayRow({ day, hours, max, isToday, last, onPress }: DayRowProps) {
         <Text className={twMerge('text-sm font-semibold', isToday ? 'text-primary-600 dark:text-primary-400' : 'text-foreground')}>
           {format(day, 'EEE', { locale: dateFnsLocale() })}
         </Text>
-        <Text className="text-xs text-muted-foreground">{format(day, 'd. MMM', { locale: dateFnsLocale() })}</Text>
+        <Text className="text-xs text-muted-foreground">{format(day, `${dayOfMonth()} MMM`, { locale: dateFnsLocale() })}</Text>
       </View>
       <View className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
         <View className="h-full rounded-full bg-primary-500" style={{ width: `${Math.round(fraction * 100)}%` }} />

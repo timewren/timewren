@@ -97,9 +97,9 @@ export async function resolveMailBrand(opts: {
       });
       if (row) return recipientMailBrand(row.brand);
     }
-  } catch (error) {
+  } catch {
     if (process.env.DATABASE_URL) {
-      console.error("Recipient brand lookup failed:", error);
+      console.error("Recipient brand lookup failed", { userId: opts.userId });
     }
   }
   return undefined;

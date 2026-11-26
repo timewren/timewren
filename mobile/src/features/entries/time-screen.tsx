@@ -7,8 +7,11 @@ import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { EmptyState, ErrorState, Screen, Segmented, useModal } from '~/components/ui';
 import { OfflineBanner } from '~/features/offline/components/offline-banner';
+import { OfflineReadNotice } from '~/features/offline/components/offline-read-notice';
 import { useEntriesWithPending, usePendingDeletes, usePendingEntries } from '~/features/offline/use-pending-entries';
-import { trpc } from '~/lib/api';
+import { trpc, useIsOnline } from '~/lib/api';
+import { offlineReads } from '~/lib/api/offline-read-runtime';
+import { useProjectChoices } from '~/lib/api/use-offline-read';
 import { toISODate } from '~/lib/format';
 import { translate } from '~/lib/i18n';
 import { useAnnounceLoaded } from '~/lib/notify';
@@ -19,8 +22,8 @@ import { MonthView } from './components/month-view';
 import { PeriodHeader } from './components/period-header';
 import { SelectToggle, TimeFooter } from './components/time-selection';
 import { WeekView } from './components/week-view';
-import { ALL_BILLABLE, ALL_BILLED, applyLocalFilters, filterHidesAll, hasActiveFilter, NO_FILTER } from './entry-filter';
-import { dateKey, entriesOnDay, fetchRange, isSameDate, periodTitle, shiftPeriod } from './period';
+import { ALL_BILLABLE, ALL_BILLED, applyLocalFilters, entriesQueryInput, filterHidesAll, hasActiveFilter, NO_FILTER } from './entry-filter';
+import { dateKey, entriesOnDay, fetchRange, isSameDate, parseDateKey, periodTitle, shiftPeriod } from './period';
 import { useCopyWeek } from './use-copy-week';
 import { confirmDelete, useEntriesInRange, useEntryActions } from './use-entries';
 import { useEntrySelection } from './use-entry-selection';
@@ -37,8 +40,22 @@ function periodContainsToday(mode: PeriodMode, date: Date): boolean {
 
 /** Periode-state + swipe/pil-navigation. */
 function usePeriod() {
-  const [mode, setMode] = React.useState<PeriodMode>('day');
-  const [date, setDate] = React.useState(() => new Date());
+  const online = useIsOnline();
+  const [initial] = React.useState(() => {
+    const today = new Date();
+    const { start, end } = fetchRange('day', today);
+    if (online || offlineReads.read(['time.list', entriesQueryInput({ start, end })]))
+      return { mode: 'day' as const, date: today };
+    const cached = offlineReads.latestPeriod();
+    if (!cached?.startDate || !cached.endDate)
+      return { mode: 'day' as const, date: today };
+    const date = parseDateKey(cached.startDate);
+    const isMonth = dateKey(fetchRange('month', date).end) === cached.endDate
+      && dateKey(fetchRange('month', date).start) === cached.startDate;
+    return { mode: isMonth ? 'month' as const : 'week' as const, date, projectId: cached.projectId ?? undefined };
+  });
+  const [mode, setMode] = React.useState<PeriodMode>(initial.mode);
+  const [date, setDate] = React.useState(initial.date);
   const go = React.useCallback((direction: 1 | -1) => setDate(d => shiftPeriod(mode, d, direction)), [mode]);
   const today = React.useCallback(() => setDate(new Date()), []);
   const openDay = React.useCallback((day: Date) => {
@@ -58,7 +75,7 @@ function usePeriod() {
       }),
     [go],
   );
-  return { mode, setMode, date, go, today, openDay, gesture };
+  return { mode, setMode, date, go, today, openDay, gesture, initialProjectId: initial.projectId };
 }
 
 /**
@@ -81,15 +98,16 @@ type TimeHeaderProps = {
   mode: PeriodMode;
   date: Date;
   period: ReturnType<typeof usePeriod>;
-  filter: EntryFilter;
-  onFilter: (filter: EntryFilter) => void;
   onMode: (mode: 'day' | 'week' | 'month') => void;
-  projects: { id: string; name: string }[];
-  projectsError: boolean;
 };
 
-/** Offline-banner, periodevælger, periode-navigation og de tre filtre. */
-function TimeHeader({ mode, date, period, filter, onFilter, onMode, projects, projectsError }: TimeHeaderProps) {
+/**
+ * Offline-banner, periodevælger og periode-navigation — det, der skal blive
+ * stående. Filtrene ligger i det scrollende indhold: de tre felter fyldte
+ * ~270 pt i den faste header, så på en iPhone SE (og med stor skrift) var
+ * der næsten ingen plads tilbage til selve posterne.
+ */
+function TimeHeader({ mode, date, period, onMode }: TimeHeaderProps) {
   const options = React.useMemo(() => [
     { value: 'day' as const, label: translate('entries.day') },
     { value: 'week' as const, label: translate('entries.week') },
@@ -106,8 +124,6 @@ function TimeHeader({ mode, date, period, filter, onFilter, onMode, projects, pr
         onNext={() => period.go(1)}
         onToday={period.today}
       />
-      {/* "Alle projekter" ligger først, så valget også ER nulstillingen. */}
-      <EntryFilters filter={filter} onChange={onFilter} projects={projects} projectsError={projectsError} />
     </View>
   );
 }
@@ -140,9 +156,9 @@ export function TimeScreen() {
   const period = usePeriod();
   const { mode, date } = period;
   const range = React.useMemo(() => fetchRange(mode, date), [mode, date]);
-  const [filter, setFilter] = React.useState<EntryFilter>(NO_FILTER);
+  const [filter, setFilter] = React.useState<EntryFilter>(() => ({ ...NO_FILTER, projectId: period.initialProjectId ?? NO_FILTER.projectId }));
   const query = useEntriesInRange(range, filter);
-  const projects = trpc.projects.list.useQuery(undefined);
+  const projects = useProjectChoices();
   const pendingDeletes = usePendingDeletes();
   // Ventende rettelser lægges ovenpå serverens data, så en offline-redigering
   // viser den nye værdi med en "venter"-badge frem for de gamle tal.
@@ -165,7 +181,8 @@ export function TimeScreen() {
   const copyWeek = useCopyWeek(date);
   const actions = useEntryActions();
   const sheet = useModal();
-  const [selected, setSelected] = React.useState<TimeEntry | null>(null);
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
+  const selected = visible.find(entry => entry.id === selectedId) ?? null;
   const selection = useEntrySelection(visible);
   // Uge- og månedsvisningen viser dage, ikke poster, så valget har ingen steder
   // at sidde. Skift til dem afslutter udvalgstilstanden frem for at efterlade en
@@ -176,9 +193,9 @@ export function TimeScreen() {
   };
 
   const openEntry = (entry: TimeEntry) => selection.press(entry, () => router.push(`/entries/${entry.id}`));
-  const openActions = (entry: TimeEntry) => {
-    setSelected(entry);
-    sheet.present();
+  const openActions = (entry: TimeEntry, getTrigger: Parameters<typeof sheet.presentFrom>[0]) => {
+    setSelectedId(entry.id);
+    sheet.presentFrom(getTrigger);
   };
   const register = () => router.push({ pathname: '/entries/new', params: { date: toISODate(date) } });
 
@@ -189,7 +206,7 @@ export function TimeScreen() {
   const goalForView = filter.billable === ALL_BILLABLE && filter.billed === ALL_BILLED ? goal.data : undefined;
 
   const header = (
-    <TimeHeader mode={mode} date={date} period={period} filter={filter} onFilter={setFilter} onMode={changeMode} projects={projects.data ?? []} projectsError={projects.isError} />
+    <TimeHeader mode={mode} date={date} period={period} onMode={changeMode} />
   );
 
   // Uge- og månedsvisningen henter ikke ventende offline-oprettelser, så de
@@ -217,16 +234,24 @@ export function TimeScreen() {
           onRefresh={() => void query.refetch()}
           contentContainerClassName={selection.active ? 'px-4 pb-48' : 'px-4 pb-28'}
         >
-          <TimeContent isError={query.isError} hidesAll={hidesAll} onRetry={() => void query.refetch()} onClearFilter={() => setFilter(NO_FILTER)}>
-            {body}
-          </TimeContent>
+          <EntryFilters filter={filter} onChange={setFilter} projects={projects.data ?? []} projectsError={projects.offline ? !projects.data : projects.isError} />
+          {query.offline && <OfflineReadNotice savedAt={query.savedAt} />}
+          {(!query.offline || query.data || (mode === 'day' && visiblePending.length > 0)) && (
+            <TimeContent isError={!query.offline && query.isError} hidesAll={hidesAll} onRetry={() => void query.refetch()} onClearFilter={() => setFilter(NO_FILTER)}>
+              {body}
+            </TimeContent>
+          )}
         </Screen>
         <TimeFooter active={selection.active} count={selection.chosenIds.length} billedState={selection.billedState} busy={selection.busy} onMarkBilled={selection.markBilled} onDelete={selection.deleteChosen} onCancel={selection.leave} onRegister={register} />
 
         <EntryActionsSheet
           ref={sheet.ref}
+          onDismiss={sheet.restoreFocus}
           entry={selected}
-          onEdit={openEntry}
+          onEdit={(entry) => {
+            sheet.clearReturnFocus();
+            openEntry(entry);
+          }}
           onDuplicate={e => actions.duplicate(e.id)}
           onToggleBillable={e => actions.toggleBillable(e.id, e.isBillable === false)}
           onSetBilled={(e, isBilled) => void actions.setBilled(e.id, isBilled)}

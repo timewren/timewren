@@ -4,9 +4,11 @@
     "sendTo": "Envoyer à {email}",
     "sent": "Facture envoyée à {email}",
     "total": "Montant TTC",
+    "totalNoVat": "Montant (sans TVA)",
     "loading": "Chargement de la facture…",
     "draftNumber": "Le numéro définitif est attribué lors de l’émission de la facture.",
-    "provider": "Le montant provient de TimeTrack. {provider} calcule le montant final selon ses paramètres fiscaux."
+    "provider": "Le montant provient de TimeTrack. {provider} calcule le montant final selon ses paramètres fiscaux.",
+    "lineCount": "Lignes"
   },
   "status": {
     "draft": "Brouillon",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtrées)",
     "reminderTitle": "Envoyer une relance",
     "reminderDescription": "Envoyer la facture {number} au client par e-mail ?",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "emptyUnbilledHint": "Vous avez {duration} de temps non facturé. Facturez-le, et les lignes et montants sont remplis pour vous.",
+    "emptyNoTimeHint": "Le plus simple est de facturer à partir du temps saisi. Saisissez du temps d'abord, ou créez une facture à montant fixe.",
+    "invoiceUnbilled": "Facturer le temps non facturé",
+    "createBlank": "Créer une facture vierge",
+    "registerTimeFirst": "Saisir du temps",
+    "createFixedAmount": "Facture à montant fixe"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Remarque sur la facture (facultatif)",
     "notePlaceholder": "Ex. : Accord de partenariat technique, '{måned}'"
   },
-  "tableLabel": "Factures"
+  "tableLabel": "Factures",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} n'a pas confirmé si la facture a été envoyée par e-mail. Vérifiez le statut de l'e-mail dans {provider} et indiquez le résultat sur la page de la facture avant de la renvoyer.",
+    "uncertainTitle": "Nous ne savons pas si {provider} a envoyé la facture",
+    "uncertainBody": "{provider} n'a pas répondu lors de l'envoi de la facture par e-mail, le client l'a donc peut-être reçue. Vérifiez le statut de l'e-mail de la facture dans {provider}. Tant que vous n'avez pas indiqué le résultat ici, la facture ne peut pas être renvoyée depuis TimeTrack.",
+    "wasSent": "{provider} l'a envoyée",
+    "notSent": "Elle n'a pas été envoyée",
+    "resolved": "Statut de l'e-mail enregistré"
+  }
 }

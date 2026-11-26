@@ -4,9 +4,11 @@
     "sendTo": "Enviar para {email}",
     "sent": "Fatura enviada para {email}",
     "total": "Montante com IVA",
+    "totalNoVat": "Montante (sem IVA)",
     "loading": "A carregar dados da fatura…",
     "draftNumber": "O número definitivo é atribuído na emissão.",
-    "provider": "O montante vem do TimeTrack. {provider} calcula o montante final com as suas definições fiscais."
+    "provider": "O montante vem do TimeTrack. {provider} calcula o montante final com as suas definições fiscais.",
+    "lineCount": "Linhas"
   },
   "status": {
     "draft": "Rascunho",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (filtradas)",
     "reminderTitle": "Enviar lembrete",
     "reminderDescription": "Enviar a fatura {number} ao cliente por e-mail?",
-    "send": "Enviar"
+    "send": "Enviar",
+    "emptyUnbilledHint": "Tem {duration} de tempo por faturar. Fature-o e as linhas e os valores ficam preenchidos.",
+    "emptyNoTimeHint": "É mais fácil faturar a partir do tempo registado. Registe tempo primeiro ou crie uma fatura com um valor fixo.",
+    "invoiceUnbilled": "Faturar tempo por faturar",
+    "createBlank": "Criar fatura em branco",
+    "registerTimeFirst": "Registar tempo",
+    "createFixedAmount": "Fatura com valor fixo"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Nota na fatura (opcional)",
     "notePlaceholder": "Ex.: acordo de parceria técnica, '{måned}'"
   },
-  "tableLabel": "Faturas"
+  "tableLabel": "Faturas",
+  "providerEmail": {
+    "uncertainBlocked": "O {provider} não confirmou se a fatura foi enviada por e-mail. Verifique o estado do e-mail no {provider} e marque o resultado na página da fatura antes de a enviar novamente.",
+    "uncertainTitle": "Não sabemos se o {provider} enviou a fatura",
+    "uncertainBody": "O {provider} não respondeu quando a fatura estava a ser enviada por e-mail, por isso o cliente pode tê-la recebido. Verifique o estado do e-mail da fatura no {provider}. Até marcar o resultado aqui, a fatura não pode ser enviada novamente a partir do TimeTrack.",
+    "wasSent": "O {provider} enviou-a",
+    "notSent": "Não foi enviada",
+    "resolved": "Estado do e-mail guardado"
+  }
 }

@@ -67,7 +67,7 @@ Suche im Log nach Mail-Zeilen:
 docker compose logs app | grep "\[Mail"
 ```
 
-`[Mail:log]` bedeutet, dass kein Transport konfiguriert ist und nichts gesendet wurde. Auf `[Mail] SMTP-afsendelse fejlede` folgt der SMTP-Fehler. Siehe [E-Mail](/de/docs/configuration/email).
+`[Mail:log]` bedeutet, dass kein Transport konfiguriert ist und nichts gesendet wurde. `[Mail] SMTP-afsendelse fejlede` bedeutet, dass der SMTP-Versand fehlgeschlagen ist. Details stehen im Versandlog deines Anbieters. Siehe [E-Mail](/de/docs/configuration/email).
 
 ## Gespeicherte Integrationen funktionieren nicht mehr
 

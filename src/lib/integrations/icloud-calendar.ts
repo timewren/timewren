@@ -186,14 +186,22 @@ export async function connectICloud(params: {
       })
       .where(eq(calendarConnections.id, existing.id));
   } else {
-    // Arv de fælles kalenderindstillinger fra en evt. Google-forbindelse
-    const google = await db.query.calendarConnections.findFirst({
-      where: and(
-        eq(calendarConnections.userId, params.userId),
-        eq(calendarConnections.provider, "google"),
-        isNull(calendarConnections.parentConnectionId),
-      ),
-    });
+    // Arv de fælles kalenderindstillinger fra en anden udbyder: Google først
+    // (som hidtil), ellers fx Outlook.
+    const settingsSource =
+      (await db.query.calendarConnections.findFirst({
+        where: and(
+          eq(calendarConnections.userId, params.userId),
+          eq(calendarConnections.provider, "google"),
+          isNull(calendarConnections.parentConnectionId),
+        ),
+      })) ??
+      (await db.query.calendarConnections.findFirst({
+        where: and(
+          eq(calendarConnections.userId, params.userId),
+          isNull(calendarConnections.parentConnectionId),
+        ),
+      }));
     await db.insert(calendarConnections).values({
       userId: params.userId,
       organizationId: params.orgId,
@@ -206,10 +214,10 @@ export async function connectICloud(params: {
       calendarName: "iCloud",
       syncEnabled: true,
       syncDirection: "inbound",
-      syncFilters: google?.syncFilters ?? null,
-      privacyMode: google?.privacyMode ?? "off",
-      autoTrackMode: google?.autoTrackMode ?? "suggest",
-      defaultProjectId: google?.defaultProjectId ?? null,
+      syncFilters: settingsSource?.syncFilters ?? null,
+      privacyMode: settingsSource?.privacyMode ?? "off",
+      autoTrackMode: settingsSource?.autoTrackMode ?? "suggest",
+      defaultProjectId: settingsSource?.defaultProjectId ?? null,
     });
   }
 

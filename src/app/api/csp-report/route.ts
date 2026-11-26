@@ -68,6 +68,23 @@ async function readBodyWithLimit(
   return Buffer.concat(chunks).toString("utf8");
 }
 
+/**
+ * Did the client drop the upload (tab closed, navigation)? Node rejects the
+ * body stream with "aborted"/ECONNRESET (Sentry TIMETRACK-2A); fetch-style
+ * streams use AbortError. Anything else is a real bug and must reach Sentry.
+ */
+function isAbortedUpload(err: unknown): boolean {
+  if (!(err instanceof Error)) return false;
+  const code = (err as Error & { code?: unknown }).code;
+  return (
+    err.message === "aborted" ||
+    err.name === "AbortError" ||
+    err.name === "ResponseAborted" ||
+    code === "ECONNRESET" ||
+    code === "ERR_STREAM_PREMATURE_CLOSE"
+  );
+}
+
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request.headers);
   const rateCheck = await rateLimiter.check(
@@ -82,7 +99,15 @@ export async function POST(request: NextRequest) {
   if (declared > MAX_BODY_BYTES) {
     return new NextResponse(null, { status: 413 });
   }
-  const text = await readBodyWithLimit(request, MAX_BODY_BYTES);
+  let text: string | null;
+  try {
+    text = await readBodyWithLimit(request, MAX_BODY_BYTES);
+  } catch (err) {
+    // The browser dropped the upload: nobody is listening for the answer,
+    // and a lost report is not a server error.
+    if (isAbortedUpload(err)) return new NextResponse(null, { status: 204 });
+    throw err;
+  }
   if (text === null) {
     return new NextResponse(null, { status: 413 });
   }

@@ -20,6 +20,9 @@ services:
     # build:
     #   context: .
     #   args:
+    #     # The self-host profile leaves the Cloud marketing site out of the
+    #     # build: less memory, less time, a smaller image.
+    #     BUILD_PROFILE: selfhost
     #     # NEXT_PUBLIC_APP_URL, NEXT_PUBLIC_MARKETING_URL and NEXT_PUBLIC_BRAND
     #     # are read at runtime (see `environment` below), so they are not build
     #     # args and changing them needs no rebuild. The ones below are still

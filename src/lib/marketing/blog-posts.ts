@@ -36,7 +36,7 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: "desktop-app-coming-soon",
     title: "TimeTrack Desktop til Mac og Windows, nu med i alle planer",
     excerpt:
-      "Desktop-appen til Mac og Windows kan hentes nu i beta. Den registrerer aktivitet lokalt, foreslår projekter og er med i alle planer, også Gratis.",
+      "Desktop-appen til Mac og Windows kan hentes nu. Den registrerer aktivitet lokalt, foreslår projekter og er med i alle planer, også Gratis.",
     date: "2026-05-24",
     readTime: "4 min",
     category: "Produkt",

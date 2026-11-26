@@ -7,6 +7,7 @@
 
 use chrono::Datelike as _;
 use gpui_kit::component::button::{Button, ButtonVariants as _};
+use gpui_kit::component::checkbox::Checkbox;
 use gpui_kit::component::input::{Input, InputEvent, InputState};
 use gpui_kit::component::{Sizable as _, h_flex, v_flex};
 use gpui_kit::prelude::FluentBuilder as _;
@@ -39,6 +40,7 @@ pub struct CustomerErrors {
     pub color: Option<&'static str>,
     /// Datalagets tekst om domænerne (dansk, som web's).
     pub domains: Option<String>,
+    pub payment_terms: Option<&'static str>,
 }
 
 /// Validerer formularens felter. Ren funktion, så den kan testes.
@@ -49,8 +51,12 @@ pub fn validate_customer(
     rate: &str,
 ) -> Result<CustomerInput, CustomerErrors> {
     let mut err = CustomerErrors::default();
-    if name.trim().is_empty() {
+    let name_len = name.trim().chars().count();
+    if name_len == 0 {
         err.name = Some(t("kunder.fejl.navn"));
+    } else if name_len < 2 {
+        // Som web's clientInput: "Navn skal være mindst 2 tegn".
+        err.name = Some(t("kunder.fejl.navn_kort"));
     }
     let cvr = forms::parse_cvr(cvr).map_err(|e| err.cvr = Some(e)).ok();
     let email = forms::parse_email(email)
@@ -67,6 +73,23 @@ pub fn validate_customer(
         hourly_rate: rate.flatten(),
         ..Default::default()
     })
+}
+
+/// Betalingsfrist og intern kunde (web's `paymentTermsDays` og
+/// `defaultBillable`) oven på de øvrige felter.
+pub fn validate_billing(
+    mut input: CustomerInput,
+    payment_terms: &str,
+    internal: bool,
+) -> Result<CustomerInput, CustomerErrors> {
+    input.internal = internal;
+    match forms::parse_payment_terms(payment_terms) {
+        Ok(d) => input.payment_terms_days = d,
+        Err(e) => {
+            return Err(CustomerErrors { payment_terms: Some(e), ..Default::default() });
+        }
+    }
+    Ok(input)
 }
 
 /// Farve, telefon, noter og domæner oven på de grundlæggende felter.
@@ -131,6 +154,9 @@ struct CustomerForm {
     phone: Entity<InputState>,
     notes: Entity<InputState>,
     domains: Entity<InputState>,
+    /// Dage til forfald (tom = standarden) og intern kunde.
+    payment_terms: Entity<InputState>,
+    internal: bool,
     archived: bool,
     errors: CustomerErrors,
     error: Option<SharedString>,
@@ -149,6 +175,8 @@ pub struct KunderScreen {
     form: Option<CustomerForm>,
     /// Kvittering eller fejl efter en handling (rolle `Status`/`Alert`).
     notice: Option<(SharedString, bool)>,
+    /// Kunden, der venter på det andet tryk på "Arkivér" (`forms::confirm_twice`).
+    confirm_archive: Option<Id>,
     /// `TT_DEMO=formular`: åbn formularen, når data er hentet (skærmbilleder).
     demo_form: bool,
     _subs: Vec<Subscription>,
@@ -185,6 +213,7 @@ impl KunderScreen {
             detail: Loadable::Loading,
             form: None,
             notice: None,
+            confirm_archive: None,
             demo_form: std::env::var("TT_DEMO").is_ok_and(|d| d == "formular" || d.contains("kunde-ret")),
             _subs: subs,
         };
@@ -230,6 +259,7 @@ impl KunderScreen {
     fn select(&mut self, id: Id, cx: &mut Context<Self>) {
         if self.selected.as_ref() != Some(&id) {
             self.selected = Some(id);
+            self.confirm_archive = None;
             self.detail = Loadable::Loading;
             self.load_detail(cx);
         }
@@ -340,6 +370,15 @@ impl KunderScreen {
                 window,
                 cx,
             ),
+            payment_terms: forms::input(
+                t("kunder.formular.betalingsfrist_placeholder"),
+                &c.and_then(|c| c.payment_terms_days)
+                    .map(|d| d.to_string())
+                    .unwrap_or_default(),
+                window,
+                cx,
+            ),
+            internal: c.is_some_and(|c| c.internal),
             archived: c.is_some_and(|c| c.archived),
             errors: CustomerErrors::default(),
             error: None,
@@ -373,20 +412,30 @@ impl KunderScreen {
             &forms::value(&form.notes, cx),
             &forms::value(&form.domains, cx),
         );
+        let billing = validate_billing(
+            CustomerInput::default(),
+            &forms::value(&form.payment_terms, cx),
+            form.internal,
+        );
         // Alle fejl på én gang: de grundlæggende og de nye felters.
-        let res = match (base, extras) {
-            (Ok(b), Ok(x)) => Ok(CustomerInput {
+        let res = match (base, extras, billing) {
+            (Ok(b), Ok(x), Ok(p)) => Ok(CustomerInput {
                 color: x.color,
                 phone: x.phone,
                 notes: x.notes,
                 domains: x.domains,
+                internal: p.internal,
+                payment_terms_days: p.payment_terms_days,
                 ..b
             }),
-            (b, x) => {
+            (b, x, p) => {
                 let mut e = b.err().unwrap_or_default();
                 if let Err(xe) = x {
                     e.color = xe.color;
                     e.domains = xe.domains;
+                }
+                if let Err(pe) = p {
+                    e.payment_terms = pe.payment_terms;
                 }
                 Err(e)
             }
@@ -427,11 +476,17 @@ impl KunderScreen {
         );
     }
 
+    /// Arkivér (efter det andet tryk, som web's bekræftelse) eller gør aktiv
+    /// igen (straks).
     fn toggle_archived(&mut self, cx: &mut Context<Self>) {
         let Some(c) = self.selected_customer().cloned() else {
             return;
         };
         let archive = !c.archived;
+        if archive && !forms::confirm_twice(&mut self.confirm_archive, &c.id) {
+            cx.notify();
+            return;
+        }
         self.ctx.mutate(
             cx,
             move |b| b.set_customer_archived(&c.id, archive),
@@ -574,7 +629,12 @@ impl KunderScreen {
         // ux-vaelger: telefon og domæner, når de findes.
         .chain(c.phone.clone().map(|p| (t("maal.kunde.telefon"), p)))
         .chain((!c.domains.is_empty()).then(|| (t("maal.kunde.domaener"), c.domains.join(", "))))
+        .chain(c.payment_terms_days.map(|d| {
+            (t("kunder.kort.betalingsfrist"), tf("kunder.kort.dage", &[("n", &d.to_string())]))
+        }))
+        .chain(c.internal.then(|| (t("kunder.kort.intern_navn"), t("kunder.kort.intern").to_string())))
         .collect::<Vec<_>>();
+        let confirming = self.confirm_archive.as_deref() == Some(c.id.as_str());
         let header = h_flex()
             .justify_between()
             .items_start()
@@ -616,14 +676,32 @@ impl KunderScreen {
                             .icon(if c.archived { Icon::RefreshCw } else { Icon::Archive })
                             .label(if c.archived {
                                 t("kunder.kort.genaktiver")
+                            } else if confirming {
+                                t("kunder.kort.arkiver_bekraeft")
                             } else {
                                 t("kunder.kort.arkiver")
                             })
                             .small()
-                            .outline()
+                            .when(confirming, |b| b.danger())
+                            .when(!confirming, |b| b.outline())
                             .on_click(cx.listener(|this, _, _, cx| this.toggle_archived(cx))),
-                    ),
+                    )
+                    .when(confirming, |d| {
+                        d.child(
+                            Button::new("kunde-arkiver-fortryd")
+                                .label(t("kunder.kort.arkiver_fortryd"))
+                                .small()
+                                .ghost()
+                                .on_click(cx.listener(|this, _, _, cx| {
+                                    this.confirm_archive = None;
+                                    cx.notify();
+                                })),
+                        )
+                    }),
             );
+        let header = v_flex().gap_2().child(header).when(confirming, |d| {
+            d.child(ui::muted(b, "kunde-arkiver-advarsel", t("kunder.kort.arkiver_advarsel")))
+        });
         let body = match &self.detail {
             Loadable::Loading => ui::loading_state(b, "kundekort-indlaeser", t("kunder.kort.indlaeser")).into_any_element(),
             Loadable::Failed(e) => ui::error_state(b, "kundekort-fejl", e.clone())
@@ -893,6 +971,38 @@ impl KunderScreen {
                         .child(ui::muted(b, "kunde-domaener-hjaelp", t("maal.kunde.domaener_hjaelp")).text_xs()),
                     )
                     .child(forms::text_field(b, "kunde-noter", t("maal.kunde.noter"), &f.notes, None))
+                    .child(
+                        h_flex()
+                            .gap_3()
+                            .items_start()
+                            .child(
+                                forms::text_field(
+                                    b,
+                                    "kunde-betalingsfrist",
+                                    t("kunder.formular.betalingsfrist"),
+                                    &f.payment_terms,
+                                    err(f.errors.payment_terms),
+                                )
+                                .child(
+                                    ui::muted(b, "kunde-betalingsfrist-hjaelp", t("kunder.formular.betalingsfrist_hjaelp"))
+                                        .text_xs(),
+                                ),
+                            )
+                            .child(
+                                v_flex().flex_1().pt_6().gap_1().items_start().child(
+                                    Checkbox::new("kunde-intern")
+                                        .label(t("kunder.formular.intern"))
+                                        .checked(f.internal)
+                                        .on_change(cx.listener(|this, v: &bool, _, cx| {
+                                            if let Some(f) = this.form.as_mut() {
+                                                f.internal = *v;
+                                            }
+                                            cx.notify();
+                                        })),
+                                )
+                                .child(ui::muted(b, "kunde-intern-hjaelp", t("kunder.formular.intern_hjaelp")).text_xs()),
+                            ),
+                    )
                     .children(f.editing.is_some().then(|| {
                         ui::a11y_button(
                             "kunde-formular-arkiver",
@@ -1040,6 +1150,15 @@ mod tests {
         }
     }
 
+    /// Web's clientInput: `name.min(2)`. Før sendte desktop et navn på ét
+    /// tegn, og web afviste det først ved gem.
+    #[test]
+    fn navn_kraever_to_tegn() {
+        let e = validate_customer("Ø", "", "", "").unwrap_err();
+        assert_eq!(e.name, Some("Navnet skal være mindst 2 tegn"));
+        assert!(validate_customer("Øl", "", "", "").is_ok());
+    }
+
     #[test]
     fn validering_samler_alle_fejl() {
         let e = validate_customer(" ", "123", "x@", "abc").unwrap_err();
@@ -1160,6 +1279,77 @@ mod probe {
         assert!(testing::a11y(cx, h).has_label_containing("holm-baek.dk, holmbaek.com"));
     }
 
+    /// Web spørger, før en kunde arkiveres. Første tryk spørger, "Fortryd"
+    /// lader den være, andet tryk arkiverer.
+    #[gpui_kit::test]
+    fn arkivering_spoerger_foerst(cx: &mut TestAppContext) {
+        let mock = testing::mock();
+        let (h, app) = testing::open_app(cx, mock.clone());
+        testing::navigate(cx, h, &app, Screen::Kunder);
+        let s = app
+            .read_with(cx, |a, _| a.view_for(Screen::Kunder))
+            .expect("kunder bygget")
+            .downcast::<super::KunderScreen>()
+            .expect("KunderScreen");
+        let id = s.read_with(cx, |s, _| s.selected.clone()).expect("en kunde er valgt");
+        let archived = || mock.customers(true).unwrap().iter().any(|x| x.id == id && x.archived);
+        cx.update_window(h, |_, w, cx| w.click("kunde-arkiver", cx)).unwrap();
+        cx.run_until_parked();
+        assert!(testing::a11y(cx, h).has_label("Ja, arkivér kunden"));
+        assert!(!archived(), "første tryk arkiverer ikke");
+        cx.update_window(h, |_, w, cx| w.click("kunde-arkiver-fortryd", cx)).unwrap();
+        cx.run_until_parked();
+        assert!(!testing::a11y(cx, h).has_label("Ja, arkivér kunden"));
+        cx.update_window(h, |_, w, cx| w.click("kunde-arkiver", cx)).unwrap();
+        cx.run_until_parked();
+        assert!(!archived());
+        cx.update_window(h, |_, w, cx| w.click("kunde-arkiver", cx)).unwrap();
+        cx.run_until_parked();
+        assert!(archived(), "andet tryk arkiverer");
+        assert!(testing::a11y(cx, h).has_label("Kunden er arkiveret"));
+    }
+
+    #[gpui_kit::test]
+    fn intern_kunde_og_betalingsfrist_gemmes(cx: &mut TestAppContext) {
+        let mock = testing::mock();
+        let (h, app) = testing::open_app(cx, mock.clone());
+        testing::navigate(cx, h, &app, Screen::Kunder);
+        cx.update_window(h, |_, w, cx| w.click("kunde-ny", cx)).unwrap();
+        cx.run_until_parked();
+        cx.update_window(h, |_, w, cx| {
+            w.click("kunde-navn", cx);
+            w.input("Kontoret", cx);
+            w.click("kunde-betalingsfrist", cx);
+            w.input("400", cx);
+            w.click("kunde-formular-gem", cx);
+        })
+        .unwrap();
+        cx.run_until_parked();
+        let a = testing::a11y(cx, h);
+        assert_eq!(a.count("Dialog"), 1, "en frist over 365 dage afvises som i web");
+        assert!(a.has_label("Skriv et antal hele dage fra 0 til 365"));
+        cx.update_window(h, |_, w, cx| {
+            w.click("kunde-betalingsfrist", cx);
+            w.press("backspace", cx);
+            w.press("backspace", cx);
+            w.press("backspace", cx);
+            w.input("30", cx);
+            w.click("kunde-intern", cx);
+            w.click("kunde-formular-gem", cx);
+        })
+        .unwrap();
+        cx.run_until_parked();
+        assert_eq!(testing::a11y(cx, h).count("Dialog"), 0);
+        let c = mock
+            .customers(false)
+            .unwrap()
+            .into_iter()
+            .find(|c| c.name == "Kontoret")
+            .expect("gemt");
+        assert!(c.internal);
+        assert_eq!(c.payment_terms_days, Some(30));
+    }
+
     #[gpui_kit::test]
     fn opret_med_validering_og_arkiver(cx: &mut TestAppContext) {
         let mock = testing::mock();
@@ -1204,7 +1394,13 @@ mod probe {
             .expect("gemt");
         assert_eq!(c.hourly_rate, Some(65_000));
 
-        // Arkivér.
+        // Arkivér: første tryk spørger (som web's "Er du sikker?"), andet arkiverer.
+        cx.update_window(h, |_, w, cx| w.click("kunde-arkiver", cx)).unwrap();
+        cx.run_until_parked();
+        let a = testing::a11y(cx, h);
+        assert!(a.has_label("Ja, arkivér kunden"));
+        assert!(a.has_label_containing("Kunden skjules i lister"));
+        assert!(!mock.customers(true).unwrap().iter().any(|x| x.id == c.id && x.archived));
         cx.update_window(h, |_, w, cx| w.click("kunde-arkiver", cx)).unwrap();
         cx.run_until_parked();
         let a = testing::a11y(cx, h);

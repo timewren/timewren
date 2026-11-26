@@ -82,7 +82,7 @@ export default function TimelyAlternativPage() {
         },
         {
           feature: "Automatisk tidsregistrering",
-          us: "Desktop-app (beta)",
+          us: "I desktop-appen",
           them: true,
         },
         { feature: "Fakturering", us: true, them: true },
@@ -113,7 +113,7 @@ export default function TimelyAlternativPage() {
             { name: "Timer og manuel registrering", us: true, them: true },
             {
               name: "Automatisk registrering ud fra aktivitet",
-              us: "Desktop-app (beta)",
+              us: "I desktop-appen",
               them: true,
             },
             { name: "Godkendelse af timer", us: true, them: true },
@@ -130,8 +130,9 @@ export default function TimelyAlternativPage() {
           category: "Platforme",
           items: [
             { name: "Web", us: true, them: true },
-            { name: "Mac og Windows", us: "Beta", them: true },
-            { name: "iPhone og Android", us: "Beta", them: true },
+            { name: "Mac og Windows", us: true, them: true },
+            { name: "iPhone og iPad", us: true, them: true },
+            { name: "Android", us: "Kommer snart", them: true },
             { name: "Browserudvidelse", us: true, them: "Chrome (via Memory)" },
           ],
         },
@@ -170,7 +171,7 @@ export default function TimelyAlternativPage() {
         {
           question: "Kan TimeTrack registrere tid automatisk som Timely?",
           answer:
-            "Delvist. TimeTracks desktop-app til Mac og Windows kan registrere, hvilke programmer du arbejder i, og er i beta. Timelys automatiske registrering er mere moden og er med i alle deres planer. Er automatisk registrering det vigtigste for jer, er Timely et godt valg.",
+            "Delvist. TimeTracks desktop-app til Mac og Windows kan registrere, hvilke programmer du arbejder i. Timelys automatiske registrering er mere moden og er med i alle deres planer. Er automatisk registrering det vigtigste for jer, er Timely et godt valg.",
         },
         {
           question: "Hvad koster TimeTrack?",

@@ -495,8 +495,20 @@ mod tests {
         assert_eq!(format_away(3600 + 5 * 60), "1 t 5 min");
     }
 
+    /// Det faste tidspunkt, mockens timer går efter: kl. 12 på testdagen.
+    /// En timer på 1:00:30 når ikke 1:01, mens en langsom CI-maskine kører.
+    fn now() -> DateTime<Local> {
+        let noon = NaiveDate::from_ymd_opt(2026, 10, 26)
+            .unwrap()
+            .and_hms_opt(12, 0, 0)
+            .unwrap();
+        Local.from_local_datetime(&noon).single().expect("entydigt tidspunkt")
+    }
+
     fn mock_with_timer(elapsed_secs: i64) -> MockBackend {
-        let m = MockBackend::with_today(NaiveDate::from_ymd_opt(2026, 10, 26).unwrap());
+        let clock = crate::ur::ManualClock::new(now().with_timezone(&Utc));
+        let m = MockBackend::with_today(NaiveDate::from_ymd_opt(2026, 10, 26).unwrap())
+            .with_clock(std::sync::Arc::new(clock));
         m.demo_timer(
             TimerTarget {
                 customer_id: Some("kunde_bageriet".into()),
@@ -511,8 +523,8 @@ mod tests {
 
     fn prompt(away_min: u64, target: TimerTarget) -> IdlePrompt {
         IdlePrompt {
-            away_since: Local::now(),
-            back_at: Local::now(),
+            away_since: now(),
+            back_at: now(),
             away_secs: away_min * 60,
             target,
             timer_started: None,
@@ -736,7 +748,7 @@ mod tests {
         let started = m.timer().unwrap().started_at;
         let mut q = IdleQueue::default();
         // 10 minutter for 40 minutter siden og de sidste 15 minutter
-        let now = Local::now();
+        let now = now();
         for (from, away) in [(40, 10), (15, 15)] {
             q.push(IdlePrompt {
                 away_since: now - Duration::minutes(from),
@@ -803,7 +815,7 @@ mod tests {
     fn tildel_flytter_tiden_til_en_anden_kunde_og_timeren_koerer_videre() {
         let m = mock_with_timer(3600 + 30);
         let started = m.timer().unwrap().started_at;
-        let away_since = Local::now() - Duration::minutes(25);
+        let away_since = now() - Duration::minutes(25);
         let p = IdlePrompt {
             away_since,
             back_at: away_since + Duration::minutes(20),

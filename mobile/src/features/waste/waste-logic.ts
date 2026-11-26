@@ -1,6 +1,6 @@
 import type { RouterOutputs } from '~/api/app-router';
 import { addDays, format as dfFormat, endOfMonth, startOfMonth, startOfWeek, subMonths } from 'date-fns';
-import { dateFnsLocale, formatWords, intlLocale } from '~/lib/locale';
+import { dateFnsLocale, dayOfMonth, formatWords, intlLocale } from '~/lib/locale';
 
 export type WasteLog = RouterOutputs['logbook']['wasteLog'];
 export type WasteUser = WasteLog['byUser'][number];
@@ -45,8 +45,8 @@ export function rangeLabel(period: { from: string; to: string }): string {
   const from = new Date(`${period.from}T00:00:00`);
   const to = new Date(`${period.to}T00:00:00`);
   const sameMonth = from.getMonth() === to.getMonth();
-  const start = dfFormat(from, sameMonth ? 'd.' : 'd. MMM', { locale: dateFnsLocale() });
-  return `${start} – ${dfFormat(to, 'd. MMM', { locale: dateFnsLocale() })}`;
+  const start = dfFormat(from, sameMonth ? dayOfMonth() : `${dayOfMonth()} MMM`, { locale: dateFnsLocale() });
+  return `${start} – ${dfFormat(to, `${dayOfMonth()} MMM`, { locale: dateFnsLocale() })}`;
 }
 
 /** Minutter → timer, 2 decimaler. Pauser summeres, de vises ikke enkeltvis. */

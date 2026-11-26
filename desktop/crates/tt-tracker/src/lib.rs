@@ -51,7 +51,7 @@ mod util;
 pub use config::TrackerConfig;
 pub use exclusion::ExclusionRule;
 pub use platform::permissions::{Permission, PermissionState, PermissionStatus};
-pub use platform::{Platform, native};
+pub use platform::{CAPTURE_SUPPORTED, Platform, native};
 pub use store::{ActivityStore, StoreError, StoreStats, StoredExclusionRule};
 pub use tracker::{EventSink, Tracker};
 pub use types::{ActivitySegment, BrowserUrl, RawWindow, Signals, TrackerEvent};

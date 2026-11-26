@@ -1,5 +1,6 @@
 import { Link, Text } from "@react-email/components";
 import { mailT } from "@/lib/email/locale";
+import type { MailBrand } from "@/lib/email/mail-brand";
 import { MAIL, MAIL_FONT_MONO } from "./brand";
 import {
   EmailKeyValue,
@@ -17,6 +18,8 @@ interface DesktopLicenseEmailProps {
   maxDevices: number;
   appUrl: string;
   locale?: string;
+  /** TimeWren: brandets afsender, logo og tekster (udeladt = TimeTrack). */
+  mailBrand?: MailBrand;
 }
 
 /** Licensnøglen til TimeTrack Desktop efter køb eller "send min nøgle igen". */
@@ -27,12 +30,20 @@ export function DesktopLicenseEmail({
   maxDevices,
   appUrl,
   locale = "da",
+  mailBrand,
 }: DesktopLicenseEmailProps) {
-  const t = mailT("emailsDrip", locale);
+  const t = mailT("emailsDrip", locale, mailBrand?.key);
   const host = appUrl.replace(/^https?:\/\//, "");
+  // Both brands have a download page (TimeWren's app URL is its marketing
+  // host). TimeWren has no refund page: refunds go by mail to support.
+  const timewren = mailBrand?.key === "timewren";
+  const supportEmail = mailBrand?.brand.supportEmail ?? "";
+  const downloadHref = `${appUrl}/download`;
+  const downloadLabel = `${host}/download`;
   return (
     <EmailShell
       locale={locale}
+      mailBrand={mailBrand}
       preview={t("desktopLicense.preview", { tier: tierLabel })}
       kicker={t("desktopLicense.kicker")}
       heading={t("desktopLicense.heading")}
@@ -67,8 +78,8 @@ export function DesktopLicenseEmail({
           {
             label: t("desktopLicense.step1"),
             value: (
-              <Link href={`${appUrl}/download`} style={emailLink}>
-                {host}/download
+              <Link href={downloadHref} style={emailLink}>
+                {downloadLabel}
               </Link>
             ),
           },
@@ -86,16 +97,27 @@ export function DesktopLicenseEmail({
         {t("desktopLicense.keep", { max: maxDevices })}
       </Text>
       <Text style={emailMuted}>
-        {mailMarkup(
-          t("desktopLicense.refund", { link: `${host}/desktop/refund` }),
-          {
-            refund: (label) => (
-              <Link href={`${appUrl}/desktop/refund`} style={emailLink}>
-                {label}
-              </Link>
-            ),
-          },
-        )}
+        {timewren
+          ? mailMarkup(
+              t("desktopLicense.refundByMail", { email: supportEmail }),
+              {
+                refund: (label) => (
+                  <Link href={`mailto:${supportEmail}`} style={emailLink}>
+                    {label}
+                  </Link>
+                ),
+              },
+            )
+          : mailMarkup(
+              t("desktopLicense.refund", { link: `${host}/desktop/refund` }),
+              {
+                refund: (label) => (
+                  <Link href={`${appUrl}/desktop/refund`} style={emailLink}>
+                    {label}
+                  </Link>
+                ),
+              },
+            )}
       </Text>
     </EmailShell>
   );

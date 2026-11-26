@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Měsíční rozpočet",
     "hint": "{hours} hodin měsíčně, nuluje se 1. dne v měsíci.",
-    "usage": "{used} z {budget} h ({pct} %)",
     "overrun": "Měsíční rozpočet byl překročen o {hours} hodin",
-    "previous": "Předchozí měsíce",
-    "hoursPct": "{hours} h ({pct} %)"
+    "previous": "Předchozí měsíce"
   },
   "activityTypes": {
     "allowedAll": "V projektu jsou povoleny všechny typy činností",
@@ -66,10 +64,8 @@
     "title": "Rozpočet hodin",
     "derived": "odvozeno",
     "derivedTitle": "Odvozeno z pevné ceny ÷ hodinové sazby. Nastav v projektu rozpočet hodin, abys ho řídil přímo.",
-    "hoursOf": "{used} / {total} h",
     "over": "{hours} h nad rozpočet",
     "remaining": "zbývá {hours} h",
-    "ariaUsed": "Vyčerpáno {pct} % rozpočtu hodin",
     "plannedTitle": "{hours} h naplánováno dopředu",
     "pctUsed": "vyčerpáno {pct} %",
     "planned": "+ {planned} h naplánováno = {forecast} h ({pct} %)",
@@ -188,11 +184,11 @@
     "colTotal": "Celkem",
     "colStatus": "Stav",
     "selectProject": "Vybrat: {name}",
-    "budgetUsedTitle": "Vyčerpáno {pct} % rozpočtu hodin ({used}/{total} h)",
     "noClient": "Bez klienta",
-    "monthlyUsed": "{used}/{budget} h",
     "monthlyAria": "Vyčerpáno {pct} % měsíčního rozpočtu",
-    "monthlyTitle": "Tento měsíc vyčerpáno {used} z {budget} h ({pct} %)"
+    "monthlyTitle": "Tento měsíc vyčerpáno {used} z {budget} h ({pct} %)",
+    "emptyNeedsClientHint": "Projekt patří ke klientovi. Nejdřív přidejte klienta, pak vytvořte projekt.",
+    "createClientFirst": "Přidat prvního klienta"
   },
   "detail": {
     "status": {

@@ -5,7 +5,7 @@ import {
   gte,
   inArray,
   isNull,
-  lte,
+  lt,
   notInArray,
   or,
   type SQL,
@@ -124,9 +124,9 @@ export interface UnbilledFilterOptions {
   orgId?: string | null;
   /** Begræns til brugerens EGNE poster, også i org-kontekst. */
   onlyOwnEntries?: boolean;
-  /** Valgfri periode (inklusiv begge ender). */
+  /** Inclusive start and exclusive end of the optional date range. */
   from?: Date;
-  to?: Date;
+  toExclusive?: Date;
   /**
    * Medtag klippekort-timer. Default `false` — se punkt 3 ovenfor. Kun tænkt
    * som nødudgang for et kaldssted der reelt vil have dem med.
@@ -171,7 +171,9 @@ export function unbilledTimeEntryFilter(opts: UnbilledFilterOptions): SQL {
   conditions.push(approvedForInvoicingFilter());
 
   if (opts.from) conditions.push(gte(timeEntries.date, opts.from) as SQL);
-  if (opts.to) conditions.push(lte(timeEntries.date, opts.to) as SQL);
+  if (opts.toExclusive) {
+    conditions.push(lt(timeEntries.date, opts.toExclusive));
+  }
 
   return and(...conditions) as SQL;
 }

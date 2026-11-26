@@ -44,6 +44,18 @@ describe("runtime-env (klient)", () => {
     expect(brandEnv()).toBe("timetrack");
   });
 
+  it("does not restore build values that the server explicitly cleared", () => {
+    vi.stubEnv("NEXT_PUBLIC_MARKETING_URL", "https://build.example");
+    vi.stubGlobal("window", {
+      __TT_CONFIG__: {
+        appUrl: "https://runtime.example",
+        brand: "timewren",
+        marketingUrl: "",
+      },
+    });
+    expect(marketingUrlEnv()).toBeUndefined();
+  });
+
   it("klienten falder tilbage til env, når scriptet ikke er indlæst", () => {
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://build.example");
     vi.stubGlobal("window", {});

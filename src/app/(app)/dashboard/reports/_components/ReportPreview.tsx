@@ -25,6 +25,7 @@ const GROUPING_LABEL_KEYS: Partial<
   clientProject: "preview.byClientProject",
   project: "preview.byProject",
   tag: "preview.byTag",
+  prepaidPackage: "preview.byPrepaidPackage",
   task: "preview.byTask",
   member: "preview.byMember",
   day: "preview.byDay",
@@ -103,7 +104,7 @@ export function ReportPreview({
   let periodQuery: string | null = null;
   try {
     const { start, end } = resolveDateRange(config.filters);
-    periodQuery = `range=custom&from=${toLocalDateStr(start)}&to=${toLocalDateStr(end)}`;
+    periodQuery = `report=1&range=custom&from=${toLocalDateStr(start)}&to=${toLocalDateStr(end)}`;
   } catch {
     // Incomplete custom range — links degrade to plain text
     periodQuery = null;

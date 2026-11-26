@@ -23,6 +23,8 @@ export function Segmented<T extends string>({ options, value, onChange, classNam
           <Pressable
             key={opt.value}
             onPress={() => onChange(opt.value)}
+            // Segmentet er ~32 pt højt; hitSlop giver de 44 pt, en finger skal have.
+            hitSlop={SEGMENT_HIT_SLOP}
             accessibilityRole="tab"
             accessibilityState={{ selected: active }}
             accessibilityLabel={opt.badge ? `${opt.label} (${opt.badge})` : opt.label}
@@ -32,7 +34,7 @@ export function Segmented<T extends string>({ options, value, onChange, classNam
             )}
             testID={testID ? `${testID}-${opt.value}` : undefined}
           >
-            <Text className={twMerge('text-[13px] font-medium', active ? 'text-foreground' : 'text-muted-foreground')}>
+            <Text className={twMerge('text-[13px] font-medium', active ? 'text-foreground' : 'text-neutral-600 dark:text-muted-foreground')}>
               {opt.label}
             </Text>
             {opt.badge
@@ -48,3 +50,5 @@ export function Segmented<T extends string>({ options, value, onChange, classNam
     </View>
   );
 }
+
+const SEGMENT_HIT_SLOP = { top: 6, bottom: 6 };

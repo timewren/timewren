@@ -224,7 +224,7 @@ export const enterpriseTimelogImportRouter = router({
         const weekKeys = new Set(
           toImport.map(
             (r) =>
-              `${userIdByEmail.get(r.email.toLowerCase())}|${weekStartOf(parseLocalDate(r.date))}`,
+              `${userIdByEmail.get(r.email.toLowerCase())}|${weekStartOf(r.date)}`,
           ),
         );
         const lockedWeeks = await ctx.db.query.timesheetWeeks.findMany({

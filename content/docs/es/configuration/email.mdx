@@ -77,8 +77,8 @@ docker compose logs -f app
 | Línea de log | Significado |
 | -------- | ------- |
 | `[Mail] Ingen mail-transport er sat (RESEND_API_KEY eller SMTP_HOST)...` | No hay ningún transporte configurado. Se muestra una vez por arranque. |
-| `[Mail:log] til=... emne="..."` | Se omitió un correo y solo se anotaron el destinatario y el asunto. El cuerpo no se anota en producción. |
-| `[Mail] SMTP-afsendelse fejlede: ...` | El servidor SMTP rechazó el correo o no se pudo contactar. El texto después de los dos puntos es el error. |
+| `[Mail:log] Mail suppressed` | El transporte omitió el envío. No registra detalles del correo. |
+| `[Mail] SMTP-afsendelse fejlede` | El envío SMTP falló. Consulta el registro de envíos de tu proveedor. |
 
 Algunos de estos mensajes están en danés, porque proceden del mismo código base que TimeTrack Cloud. No se escribe ninguna línea de log cuando un envío SMTP tiene éxito. Si no hay ningún error y el correo no llega, revisa la carpeta de spam y el registro de envíos de tu proveedor.
 

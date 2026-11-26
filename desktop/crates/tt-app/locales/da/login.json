@@ -1,6 +1,13 @@
 {
-  "login.error.not_link": "Det er ikke et login-link fra TimeTrack",
+  "login.error.not_link": "Det er ikke et login-link fra {brand}",
   "login.error.denied": "Login blev afvist i browseren",
   "login.error.state": "Login-svaret hører ikke til dette login. Start forfra for en sikkerheds skyld",
-  "login.error.missing_code": "Login-svaret mangler koden. Prøv igen"
+  "login.error.missing_code": "Login-svaret mangler koden. Prøv igen",
+  "login.server.label": "Serveradresse",
+  "login.server.hint": "Lad feltet stå tomt for at bruge {brand} Cloud. Kører du din egen server? Skriv dens adresse.",
+  "login.server.err.invalid": "Det er ikke en webadresse. Brug fx https://tid.eksempel.dk",
+  "login.server.err.https": "Brug https:// til serveren. Almindelig http:// virker kun til en server på denne computer (localhost)",
+  "login.server.err.credentials": "Skriv ikke brugernavn og adgangskode i adressen",
+  "login.server.err.logged_in": "Log ud, før du skifter server",
+  "login.server.err.unsupported": "Denne version kan ikke skifte server"
 }

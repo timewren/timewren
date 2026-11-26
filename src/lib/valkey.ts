@@ -9,35 +9,52 @@ import { captureServerMessage } from "@/lib/utils/sentry";
 // Valkey degrades to a single decision, never a per-call throw.
 let client: Redis | null | undefined;
 
-// Alert throttle: ioredis fires "error" repeatedly while disconnected, so we
-// capture to Sentry once per down-episode and once on recovery — otherwise a
-// brief Valkey outage would flood Sentry. The app keeps working either way
-// (rate-limiting falls back to in-memory); these are operational alerts so we
-// notice that the multi-replica shared limit has silently degraded.
-let valkeyDown = false;
+// Alert throttle: ioredis fires "error" on every failed reconnect attempt
+// (retryStrategy backs off up to 2 s), so a single outage produces many
+// errors. A short blip, e.g. one failed DNS lookup in the Docker network
+// (Sentry TIMETRACK-2B, getaddrinfo ENOTFOUND), heals on the next retry and is
+// not worth an alert: callers already fall back (in-memory rate limit, no
+// cache, polling). We therefore log the first error of an episode, and only
+// alert Sentry when the connection is still down after
+// VALKEY_ALERT_GRACE_MS. Recovery is reported only if we alerted.
+export const VALKEY_ALERT_GRACE_MS = 60_000;
 
-/** Log a Valkey connection error and alert Sentry once per down-episode. */
-export function reportValkeyError(message: string): void {
-  console.error("[valkey] connection error:", message);
-  if (!valkeyDown) {
-    valkeyDown = true;
+/** Start of the current down-episode (ms epoch), or null while healthy. */
+let downSince: number | null = null;
+/** Whether Sentry has been told about the current episode. */
+let alerted = false;
+
+/** Log a Valkey connection error; alert Sentry only if the outage persists. */
+export function reportValkeyError(message: string, now = Date.now()): void {
+  if (downSince === null) {
+    downSince = now;
+    console.error("[valkey] connection error, retrying:", message);
+    return;
+  }
+  if (!alerted && now - downSince >= VALKEY_ALERT_GRACE_MS) {
+    alerted = true;
+    const seconds = Math.round((now - downSince) / 1000);
+    console.error(`[valkey] still down after ${seconds} s:`, message);
     captureServerMessage(`Valkey connection lost: ${message}`, {
       level: "warning",
     });
   }
 }
 
-/** Note a healthy Valkey connection; alert Sentry once if we were down. */
+/** Note a healthy Valkey connection; alert Sentry once if we had alerted. */
 export function reportValkeyReady(): void {
-  if (valkeyDown) {
-    valkeyDown = false;
+  const wasAlerted = alerted;
+  downSince = null;
+  alerted = false;
+  if (wasAlerted) {
     captureServerMessage("Valkey connection restored", { level: "info" });
   }
 }
 
 /** Test-only: reset the alert-throttle state. */
 export function __resetValkeyAlertForTests(): void {
-  valkeyDown = false;
+  downSince = null;
+  alerted = false;
 }
 
 export function getValkey(): Redis | null {

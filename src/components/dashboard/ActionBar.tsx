@@ -25,7 +25,7 @@ export function ActionBar() {
     useModules();
   const staleTime = 5 * 60 * 1000;
 
-  const { data: tasks } = trpc.tasks.list.useQuery(undefined, {
+  const { data: taskStats } = trpc.tasks.getStats.useQuery(undefined, {
     enabled: !modulesPlaceholder && isModuleEnabled("tasks"),
     staleTime,
   });
@@ -45,23 +45,15 @@ export function ActionBar() {
     const items: AlertItem[] = [];
 
     // 1. Overdue tasks
-    if (tasks) {
-      const overdueTasks = tasks.filter(
-        (t) =>
-          t.deadline !== null &&
-          new Date(t.deadline) < new Date() &&
-          t.status !== "done",
-      );
-      if (overdueTasks.length > 0) {
-        items.push({
-          id: "overdue-tasks",
-          title: t("overdueTasks", { count: overdueTasks.length }),
-          subtitle: t("needsAttention"),
-          color: "#ef4444",
-          icon: AlertTriangle,
-          href: "/dashboard/tasks",
-        });
-      }
+    if (taskStats && taskStats.overdue > 0) {
+      items.push({
+        id: "overdue-tasks",
+        title: t("overdueTasks", { count: taskStats.overdue }),
+        subtitle: t("needsAttention"),
+        color: "#ef4444",
+        icon: AlertTriangle,
+        href: "/dashboard/tasks",
+      });
     }
 
     // 2. Low balance klippekort
@@ -124,7 +116,7 @@ export function ActionBar() {
     }
 
     return items;
-  }, [tasks, prepaidPackages, clientsWithStats, t]);
+  }, [taskStats, prepaidPackages, clientsWithStats, t]);
 
   if (alerts.length === 0) return null;
 

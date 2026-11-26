@@ -71,6 +71,7 @@ const GROUPING_KEYS: Record<string, string> = {
   project: "pdf.byProject",
   clientProject: "pdf.byClientProject",
   tag: "pdf.byTag",
+  prepaidPackage: "pdf.byPrepaidPackage",
 };
 
 export interface ReportPDFProps {

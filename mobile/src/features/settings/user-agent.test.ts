@@ -13,4 +13,8 @@ describe('describeUserAgent', () => {
   it('appens egen fetch på Android', () => {
     expect(describeUserAgent('okhttp/4.9 Android')).toBe('Android · TimeTrack-app');
   });
+  it('appens egen fetch får brandets navn (TimeWren)', () => {
+    expect(describeUserAgent('okhttp/4.9 Android', 'Ukendt', 'TimeWren')).toBe('Android · TimeWren-app');
+    expect(describeUserAgent('TimeWren/1.0 CFNetwork Darwin iPhone', 'Ukendt', 'TimeWren')).toBe('iPhone · TimeWren-app');
+  });
 });

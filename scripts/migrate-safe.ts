@@ -1,11 +1,13 @@
-import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
 import * as dotenv from "dotenv";
 import { sql } from "drizzle-orm";
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
+import {
+  baselineUntrackedDatabase,
+  bootstrapEmptyDatabase,
+  migrateDatabase,
+} from "./lib/migration-bootstrap";
 import {
   acquireMigrationLock,
   lockTimeoutFromEnv,
@@ -88,69 +90,6 @@ async function getMigrationCount(
   } catch {
     return 0;
   }
-}
-
-/**
- * Baseline existing database by marking all current migrations as applied.
- * This reads the journal to find all migration entries and inserts them
- * into Drizzle's tracking table so migrate() only runs new ones.
- */
-async function baselineExistingDatabase(
-  db: PostgresJsDatabase<Record<string, never>>,
-) {
-  console.log(
-    "📌 Baselining existing database — marking current migrations as applied...",
-  );
-
-  // Create Drizzle migration tracking schema + table
-  await db.execute(sql`CREATE SCHEMA IF NOT EXISTS drizzle`);
-  await db.execute(sql`
-    CREATE TABLE IF NOT EXISTS drizzle.__drizzle_migrations (
-      id SERIAL PRIMARY KEY,
-      hash text NOT NULL,
-      created_at bigint
-    )
-  `);
-
-  // Read journal to get all migration entries
-  const journalPath = "./drizzle/meta/_journal.json";
-  const journal = JSON.parse(readFileSync(journalPath, "utf-8"));
-  const entries = journal.entries as Array<{
-    idx: number;
-    tag: string;
-    when: number;
-  }>;
-
-  for (const entry of entries) {
-    // Read the SQL file to compute the same hash Drizzle uses
-    const sqlPath = `./drizzle/${entry.tag}.sql`;
-    let sqlContent: string;
-    try {
-      sqlContent = readFileSync(sqlPath, "utf-8");
-    } catch {
-      console.log(`  ⚠️  Skipping ${entry.tag} — SQL file not found`);
-      continue;
-    }
-
-    // Drizzle uses a simple hash of the SQL content
-    const crypto = await import("node:crypto");
-    const hash = crypto.createHash("sha256").update(sqlContent).digest("hex");
-
-    // Check if already tracked
-    const existing = await db.execute(
-      sql`SELECT id FROM drizzle.__drizzle_migrations WHERE hash = ${hash}`,
-    );
-    if ((existing as unknown[]).length > 0) {
-      continue;
-    }
-
-    await db.execute(
-      sql`INSERT INTO drizzle.__drizzle_migrations (hash, created_at) VALUES (${hash}, ${entry.when})`,
-    );
-    console.log(`  ✅ Baselined: ${entry.tag}`);
-  }
-
-  console.log("📌 Baseline complete");
 }
 
 /**
@@ -950,7 +889,7 @@ async function applySchemaPatches(
     `ALTER TABLE "company_profiles" ADD COLUMN IF NOT EXISTS "company_type" varchar(20)`,
     `ALTER TABLE "company_profiles" ADD COLUMN IF NOT EXISTS "vat_period" varchar(20)`,
     `ALTER TABLE "company_profiles" ADD COLUMN IF NOT EXISTS "fiscal_year_end" varchar(5)`,
-    `ALTER TABLE "company_profiles" ADD COLUMN IF NOT EXISTS "has_employees" boolean DEFAULT false`,
+    `ALTER TABLE "company_profiles" ADD COLUMN IF NOT EXISTS "has_employees" boolean`,
 
     // Portal branding org-scoped
     `ALTER TABLE "portal_branding" ADD COLUMN IF NOT EXISTS "organization_id" text REFERENCES "organizations"("id")`,
@@ -1362,20 +1301,6 @@ async function backfillOrganizationIds(
   }
 }
 
-async function dropAllTables(db: PostgresJsDatabase<Record<string, never>>) {
-  console.log("🗑️  Dropping all existing tables...");
-  await db.execute(sql`
-    DO $$ DECLARE
-      r RECORD;
-    BEGIN
-      FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
-        EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
-      END LOOP;
-    END $$;
-  `);
-  console.log("✅ All tables dropped");
-}
-
 async function seedChangelogs(db: PostgresJsDatabase<Record<string, never>>) {
   const entries = [
     {
@@ -1433,35 +1358,6 @@ async function seedChangelogs(db: PostgresJsDatabase<Record<string, never>>) {
   }
 }
 
-/**
- * Empty database: create the current schema from src/lib/db/schema.ts with
- * drizzle-kit (a runtime dependency), mark every journal entry as applied and
- * run the idempotent patches. Refuses to run unless public has no tables.
- */
-async function createSchemaOnEmptyDatabase(
-  db: PostgresJsDatabase<Record<string, never>>,
-) {
-  // `drizzle-kit push --force` auto-approves DROP TABLE for every table that is
-  // not in schema.ts, so refuse unless the public schema holds no tables at all.
-  const leftovers = await db.execute(
-    sql`SELECT tablename FROM pg_tables WHERE schemaname = 'public' LIMIT 5`,
-  );
-  if (leftovers.length > 0) {
-    const names = leftovers.map((r) => String(r.tablename)).join(", ");
-    throw new Error(
-      `Refusing to create the schema: the public schema is not empty (${names}). ` +
-        "Use an empty database, or a dedicated schema/database for TimeTrack.",
-    );
-  }
-  console.log("🆕 Empty database — creating schema (drizzle-kit push)...");
-  execFileSync("npx", ["--no-install", "drizzle-kit", "push", "--force"], {
-    stdio: "inherit",
-    env: process.env,
-  });
-  await baselineExistingDatabase(db);
-  await applySchemaPatches(db);
-}
-
 async function main() {
   console.log("🔄 Running safe database migrations...");
 
@@ -1509,23 +1405,8 @@ async function main() {
       `  - migration tracking: ${hasDrizzleMigrations ? "✅ exists" : "❌ missing"}`,
     );
 
-    // Check if we need to reset due to schema incompatibility
     if (hasUser && userIdType === "uuid") {
-      console.log("");
-      console.log("⚠️  INCOMPATIBLE SCHEMA DETECTED!");
-      console.log("   User table has UUID id, but Better Auth requires text");
-      console.log("   Auto-resetting database for schema upgrade...");
-      console.log("");
-
-      await dropAllTables(db);
-
-      console.log("🗑️  Resetting migration history...");
-      await db.execute(sql`DROP SCHEMA IF EXISTS drizzle CASCADE;`);
-
-      console.log("🔄 Running fresh migrations...");
-      await migrate(db, { migrationsFolder: "./drizzle" });
-      console.log("✅ Database reset and migrations completed successfully");
-      return;
+      throw new Error('Cannot migrate a legacy database with a UUID "user".id');
     }
 
     // Existing database without migration tracking — baseline it
@@ -1533,69 +1414,42 @@ async function main() {
     const migrationCountBeforeBaseline = hasDrizzleMigrations
       ? await getMigrationCount(db)
       : 0;
+    let baselineApplied = 0;
 
     if (
       hasUser &&
       hasClients &&
       (!hasDrizzleMigrations || migrationCountBeforeBaseline === 0)
     ) {
-      await baselineExistingDatabase(db);
+      console.log("📌 Recording the legacy migration baseline...");
+      baselineApplied = await baselineUntrackedDatabase(db);
     }
 
-    // Always ensure schema patches are applied (idempotent).
-    // This handles the case where baseline marked migrations as applied
-    // but they were never actually executed on the database.
-    if (hasUser && hasClients) {
-      await applySchemaPatches(db);
-    }
-
-    // Fresh database — no tables at all
     const isFreshDatabase =
       !hasUser && !hasAccount && !hasVerification && !hasClients;
     if (isFreshDatabase) {
-      console.log("🗑️  No app tables found - resetting migration history...");
-      await db.execute(sql`DROP SCHEMA IF EXISTS drizzle CASCADE;`);
-      // The migration history does not build the schema from nothing: Better
-      // Auth tables and several others were created with `drizzle-kit push`
-      // and later migrations alter them (e.g. 0027 on calendar_matching_rules).
-      // So an empty database gets the current schema pushed and the journal
-      // baselined; migrate() below is then a no-op. Self-hosting needs this.
-      await createSchemaOnEmptyDatabase(db);
+      console.log("🆕 Empty database — installing the SQL checkpoint...");
+      if (!(await bootstrapEmptyDatabase(db))) {
+        throw new Error(
+          "Refusing to initialize: the public schema contains tables",
+        );
+      }
     }
 
-    // Run migrations — Drizzle tracks which are already applied
+    // Repair installations whose older migrations were tracked but never run.
+    if ((hasUser && hasClients) || isFreshDatabase) {
+      await applySchemaPatches(db);
+    }
+
     console.log("🔄 Running migrations...");
-    const migrationCount =
-      hasDrizzleMigrations || isFreshDatabase ? await getMigrationCount(db) : 0;
-
-    try {
-      await migrate(db, { migrationsFolder: "./drizzle" });
-      const newCount = await getMigrationCount(db);
-      const applied = newCount - migrationCount;
-      if (applied > 0) {
-        console.log(`✅ ${applied} new migration(s) applied`);
-      } else {
-        console.log("✅ Database is up to date — no new migrations");
-      }
-    } catch (error) {
-      if (error instanceof Error && error.message.includes("already exists")) {
-        console.log(
-          "ℹ️  Some objects already exist — checking if core tables are present...",
-        );
-
-        const hasUserAfter = await checkTableExists(db, "user");
-        const hasAccountAfter = await checkTableExists(db, "account");
-        const hasClientsAfter = await checkTableExists(db, "clients");
-
-        if (hasUserAfter && hasAccountAfter && hasClientsAfter) {
-          console.log("✅ All required tables exist");
-        } else {
-          console.error("❌ Still missing required tables");
-          throw error;
-        }
-      } else {
-        throw error;
-      }
+    const migrationCount = await getMigrationCount(db);
+    await migrateDatabase(db);
+    const applied =
+      baselineApplied + (await getMigrationCount(db)) - migrationCount;
+    if (applied > 0) {
+      console.log(`✅ ${applied} new migration(s) applied`);
+    } else {
+      console.log("✅ Database is up to date — no new migrations");
     }
 
     // Data-level steps that go through the Drizzle schema MUST run after

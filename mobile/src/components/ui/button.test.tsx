@@ -180,4 +180,20 @@ describe('button a11y ', () => {
     expect(button.props.accessibilityLabel).toBe('Gemmer');
     expect(button.props.accessibilityState.busy).toBe(true);
   });
+  it('shows the spinner instead of custom children while loading', () => {
+    // Timerens Start/Stop har eget indhold (ikon + tekst). Før så knappen
+    // uændret ud, mens den ventede på serveren.
+    render(
+      <Button testID="button" label="Stop" loading>
+        <Text>Stop</Text>
+      </Button>,
+    );
+    expect(screen.getByTestId('button-activity-indicator')).toBeOnTheScreen();
+    expect(screen.queryByText('Stop')).toBeNull();
+    expect(screen.getByTestId('button').props.accessibilityLabel).toBe('Stop');
+  });
+  it('gives small buttons a 44 pt touch target', () => {
+    render(<Button testID="button" size="sm" label="Prøv igen" />);
+    expect(screen.getByTestId('button').props.hitSlop).toBe(6);
+  });
 });

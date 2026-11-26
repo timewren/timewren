@@ -300,7 +300,10 @@
     "draftOnlyReorder": "Die Reihenfolge kann nur bei Rechnungsentwürfen geändert werden",
     "providerMismatch": "Betrag oder Währung konnten nicht bestätigt werden. Prüfen Sie den Entwurf im Buchhaltungssystem vor dem Versand.",
     "recipientChanged": "Die E-Mail-Adresse des Empfängers hat sich geändert. Öffnen Sie die Bestätigung erneut.",
-    "clientHasNoEmail": "Der Kunde hat keine E-Mail-Adresse"
+    "clientHasNoEmail": "Der Kunde hat keine E-Mail-Adresse",
+    "exportInProgress": "Diese Rechnung wird bereits exportiert. Versuche es gleich noch einmal.",
+    "providerEmailUncertain": "Wir konnten nicht bestätigen, dass dein Buchhaltungsprogramm die Rechnung gesendet hat. Prüfe den E-Mail-Status in Billy oder Dinero und markiere das Ergebnis auf der Rechnungsseite, bevor du sie erneut sendest.",
+    "sendReviewChanged": "Die Rechnung wurde geändert, nachdem du sie bestätigt hast. Öffne die Bestätigung erneut."
   },
   "logbook": {
     "ownOnly": "Du kannst nur dein eigenes Fahrtenbuch ansehen",
@@ -436,6 +439,7 @@
     "checkoutComingSoon": "Bezahlung ist hier noch nicht möglich. Du nutzt den kostenlosen Plan.",
     "checkoutNotForAccount": "Diese Zahlungsart gilt nicht für dein Konto. Deinen Plan verwaltest du unter Einstellungen → Abonnement.",
     "stripeUnavailable": "Bezahlung ist gerade nicht möglich. Versuche es später noch einmal.",
+    "stripeCheckoutBusy": "Für diese Organisation wird bereits ein Bezahlvorgang gestartet. Warte kurz und versuche es erneut.",
     "stripeAlreadyActive": "Du hast bereits ein aktives Abonnement. Nutze „Abonnement verwalten“, um Plan oder Nutzerzahl zu ändern.",
     "stripeNoCustomer": "Es gibt noch kein bezahltes Abonnement. Wähle zuerst einen Plan.",
     "noOrganization": "Dein Konto hat keinen Arbeitsbereich. Lade die Seite neu und versuche es noch einmal."
@@ -756,7 +760,8 @@
     "integrations": {
       "dineroFailed": "Die Dinero-Verbindung konnte nicht hergestellt werden. Versuche es erneut.",
       "economicFailed": "Die e-conomic-Verbindung konnte nicht hergestellt werden. Versuche es erneut.",
-      "googleFailed": "Die Google-Verbindung konnte nicht hergestellt werden. Versuche es erneut."
+      "googleFailed": "Die Google-Verbindung konnte nicht hergestellt werden. Versuche es erneut.",
+      "outlookFailed": "Die Outlook-Verbindung konnte nicht hergestellt werden. Versuche es erneut."
     },
     "invoiceSend": {
       "invalidRecipient": "Ungültige Empfänger-E-Mail",

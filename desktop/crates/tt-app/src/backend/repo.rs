@@ -52,10 +52,11 @@ use super::*;
 
 pub use secrets::KeyringSecretStore;
 
-/// Standard-adressen til web. `TT_WEB_URL` overstyrer.
-pub const DEFAULT_WEB_URL: &str = "https://timetrack.dk";
-/// Licensserveren (samme som den gamle app). `TT_LICENSE_URL` overstyrer.
-pub const DEFAULT_LICENSE_URL: &str = "https://app.timetrack.dk/api/desktop/license";
+/// Standard-adressen til web (TimeWren: TimeWren Cloud). `TT_WEB_URL`
+/// overstyrer; en egen server vælges ved login (`Backend::set_server_url`).
+pub const DEFAULT_WEB_URL: &str = tt_core::edition::EDITION.web_url;
+/// Licensserveren (TimeTrack: samme som den gamle app). `TT_LICENSE_URL` overstyrer.
+pub const DEFAULT_LICENSE_URL: &str = tt_core::edition::EDITION.license_url;
 
 /// Forretningsreglerne, som begge repos bruger (klippekort-træk, timepris,
 /// afrunding, moms, fakturanumre): tt-core, i paritet med web.
@@ -234,7 +235,8 @@ fn callback_url(code_or_url: &str, state: &str) -> String {
         c.to_owned()
     } else {
         format!(
-            "timetrack://auth/callback?code={}&state={}",
+            "{}?code={}&state={}",
+            td::cloud::auth::redirect_uri(),
             percent_encode(c),
             state
         )
@@ -309,7 +311,10 @@ impl RepoBackend {
                 _ => {
                     shared.notice(
                         NoticeKind::LoggedOut,
-                        "Du er logget ud af TimeTrack. Log ind igen for at hente dine data",
+                        &format!(
+                            "Du er logget ud af {}. Log ind igen for at hente dine data",
+                            tt_core::edition::EDITION.name
+                        ),
                     );
                     shared.switch_to_local()?;
                 }
@@ -415,7 +420,11 @@ impl RepoBackend {
     }
 
     fn now(&self) -> DateTime<Utc> {
-        self.shared.opts.clock.as_ref().map_or_else(Utc::now, |c| c())
+        self.shared
+            .opts
+            .clock
+            .as_ref()
+            .map_or_else(Utc::now, |c| c())
     }
 
     fn local(&self) -> Option<LocalRepo> {
@@ -440,6 +449,9 @@ impl RepoBackend {
         }
         let now = self.now();
         match self.cloud() {
+            // App Store-udgaven: gratis til personlig brug, så intet låses.
+            // Erhvervslicensen (in-app-køb) er kun en status (`store.rs`).
+            None if crate::mas::ENABLED => Access::Full,
             None => match files::load_license(self.dir()) {
                 Ok(f) => licens::local_access(
                     &f.as_local(),
@@ -486,6 +498,12 @@ impl RepoBackend {
         matches!(&*read(&self.shared.active), Active::Cloud(_))
     }
 
+    /// Momssatsen på fakturaer: lokalt 25 %, i cloud afgør web (se
+    /// `Invoice::vat_permille`).
+    fn vat_permille(&self) -> Option<u32> {
+        (!self.is_cloud()).then_some(map::VAT_PERMILLE)
+    }
+
     fn dir(&self) -> &std::path::Path {
         &self.shared.opts.data_dir
     }
@@ -497,7 +515,53 @@ impl RepoBackend {
 
     fn invoice_with_lines(&self, repo: &dyn Repository, inv: &td::Invoice) -> Result<Invoice> {
         let lines = self.run("Fakturaen", repo.invoice_lines(&inv.id))?;
-        Ok(map::invoice(inv, &lines, self.today()))
+        let mut out = map::invoice(inv, &lines, self.today(), self.vat_permille());
+        self.attach_deliveries(std::slice::from_mut(&mut out));
+        Ok(out)
+    }
+
+    /// Læg afsendelsen (tidspunkt og modtager) på de fakturaer, der er sendt
+    /// herfra. Kosmetik: en ulæselig fil må ikke stoppe fakturalisten.
+    fn attach_deliveries(&self, invoices: &mut [Invoice]) {
+        let sends = match files::load_invoice_sends(self.dir()) {
+            Ok(s) => s,
+            Err(e) => {
+                eprintln!("TT: fakturaernes afsendelser kunne ikke læses: {e}");
+                return;
+            }
+        };
+        for inv in invoices
+            .iter_mut()
+            .filter(|i| i.status != InvoiceStatus::Draft)
+        {
+            inv.delivery = sends.0.get(&inv.id).map(|s| InvoiceDelivery {
+                at: s.at,
+                to: s.to.clone(),
+            });
+        }
+    }
+
+    /// Husk, at fakturaen blev sendt nu. Fakturaen ER sendt, så en fejl her
+    /// meldes kun i loggen.
+    fn record_delivery(&self, id: &str, to: Option<String>) -> Option<InvoiceDelivery> {
+        let at = self.now().with_timezone(&Local).naive_local();
+        let _g = lock(&self.shared.files);
+        let mut sends = match files::load_invoice_sends(self.dir()) {
+            Ok(s) => s,
+            Err(e) => {
+                // Overskriv ikke en ulæselig fil: de tidligere tidspunkter
+                // ligger måske stadig i den.
+                eprintln!("TT: afsendelsen af fakturaen kunne ikke gemmes: {e}");
+                return Some(InvoiceDelivery { at, to });
+            }
+        };
+        sends
+            .0
+            .insert(id.to_owned(), files::StoredSend { at, to: to.clone() });
+        if let Err(e) = files::store_invoice_sends(self.dir(), &sends) {
+            eprintln!("TT: afsendelsen af fakturaen kunne ikke gemmes: {e}");
+        }
+        Some(InvoiceDelivery { at, to })
     }
 
     /// Kunder og projekter, detektionen kan foreslå (kun aktive).
@@ -563,7 +627,11 @@ impl RepoBackend {
                 Vec::new()
             }
         };
-        services::WebCatalog { client_domains, site_mappings, rules }
+        services::WebCatalog {
+            client_domains,
+            site_mappings,
+            rules,
+        }
     }
 
     /// Det klippekort, en ny post skal trække fra (automatisk valg). Også i
@@ -622,8 +690,19 @@ impl Shared {
         });
     }
 
+    /// Serveren: den, brugeren valgte ved login (en egen server), ellers
+    /// standarden (`Options::web_url`).
+    fn web_url(&self) -> String {
+        // Uden `files`-låsen: filen skrives atomisk (tmp + rename), og flere
+        // kaldere holder låsen, mens de åbner datalaget.
+        files::load_state(&self.opts.data_dir)
+            .ok()
+            .and_then(|s| s.server_url)
+            .unwrap_or_else(|| self.opts.web_url.clone())
+    }
+
     fn cloud_repo(&self) -> Result<CloudRepo> {
-        let mut cfg = CloudConfig::new(self.opts.web_url.clone(), self.device.clone());
+        let mut cfg = CloudConfig::new(self.web_url(), self.device.clone());
         cfg.cache_path = Some(self.opts.data_dir.join("cache.db"));
         let repo =
             CloudRepo::new(cfg, self.opts.secrets.clone()).map_err(|e| map::error(e, "Cachen"))?;
@@ -672,14 +751,9 @@ impl Shared {
     /// tidspunkt, svaret blev hentet. Ellers er en cloud-bruger låst
     /// (`NeverVerified`), hvis appen starter offline.
     fn seed_access_cache(&self, repo: &CloudRepo) {
-        let now = self
-            .opts
-            .clock
-            .as_ref()
-            .map_or_else(Utc::now, |c| c());
+        let now = self.opts.clock.as_ref().map_or_else(Utc::now, |c| c());
         let mut cache = lock(&self.access_cache);
-        let Some(seed) = licens::seed_cache(cache.as_ref(), repo.cached_entitlements(), now)
-        else {
+        let Some(seed) = licens::seed_cache(cache.as_ref(), repo.cached_entitlements(), now) else {
             return;
         };
         if let Err(err) = files::store_entitlement_cache(&self.opts.data_dir, &seed) {
@@ -730,12 +804,13 @@ impl Shared {
         }
         match event {
             Event::LoggedOut { reason } if reason != LogoutReason::User => {
+                let name = tt_core::edition::EDITION.name;
                 let text = if reason == LogoutReason::Revoked {
-                    "Denne enhed er fjernet fra din konto i TimeTrack. Du bruger nu den lokale version"
+                    format!("Denne enhed er fjernet fra din konto i {name}. Du bruger nu den lokale version")
                 } else {
-                    "Du er logget ud af TimeTrack. Log ind igen for at hente dine data"
+                    format!("Du er logget ud af {name}. Log ind igen for at hente dine data")
                 };
-                self.notice(NoticeKind::LoggedOut, text);
+                self.notice(NoticeKind::LoggedOut, &text);
                 if let Err(e) = self.switch_to_local() {
                     eprintln!("TT: kunne ikke skifte til lokal tilstand: {e}");
                 }
@@ -756,7 +831,8 @@ impl Shared {
                 self.notice(
                     NoticeKind::QueueRejected,
                     &format!(
-                        "TimeTrack afviste en ændring: {}. Den er gemt under afviste registreringer, så du kan sende den igen",
+                        "{} afviste en ændring: {}. Den er gemt under afviste registreringer, så du kan sende den igen",
+                        tt_core::edition::EDITION.name,
                         message.trim_end_matches('.')
                     ),
                 );
@@ -819,6 +895,10 @@ impl Backend for RepoBackend {
 
     fn today(&self) -> NaiveDate {
         Local::now().date_naive()
+    }
+
+    fn local_now(&self) -> DateTime<Local> {
+        self.now().with_timezone(&Local)
     }
 
     // ---- kunder
@@ -967,7 +1047,8 @@ impl Backend for RepoBackend {
         let today = self.today();
         let p = self.run(
             "Klippekortet",
-            self.repo().update_klippekort(id, map::punch_card_patch(&input)),
+            self.repo()
+                .update_klippekort(id, map::punch_card_patch(&input)),
         )?;
         Ok(map::punch_card(&p, today))
     }
@@ -976,7 +1057,10 @@ impl Backend for RepoBackend {
         self.gate(Action::Write)?;
         let today = self.today();
         let hours = map::minutes_to_hours_precise(minutes);
-        let p = self.run("Klippekortet", self.repo().top_up_klippekort(id, hours, None))?;
+        let p = self.run(
+            "Klippekortet",
+            self.repo().top_up_klippekort(id, hours, None),
+        )?;
         Ok(map::punch_card(&p, today))
     }
 
@@ -1008,7 +1092,11 @@ impl Backend for RepoBackend {
         let mut patch = map::task_patch(&input);
         // Uændret dato: send ikke fristen, så et klokkeslæt sat i web bevares.
         let tasks = self.run("Opgaven", repo.list_tasks(td::TaskFilter::default()))?;
-        if tasks.iter().find(|t| t.id == id).is_some_and(|t| map::task(t).due == input.due) {
+        if tasks
+            .iter()
+            .find(|t| t.id == id)
+            .is_some_and(|t| map::task(t).due == input.due)
+        {
             patch.deadline = None;
         }
         // Kunden følger projektet, som ved oprettelse.
@@ -1019,7 +1107,10 @@ impl Backend for RepoBackend {
         if let Some(status) = input.status
             && map::task(&t).status != status
         {
-            self.run("Opgaven", repo.set_task_status(id, map::to_task_status(status)))?;
+            self.run(
+                "Opgaven",
+                repo.set_task_status(id, map::to_task_status(status)),
+            )?;
             t.status = map::to_task_status(status);
         }
         Ok(map::task(&t))
@@ -1059,19 +1150,21 @@ impl Backend for RepoBackend {
             // beløb, og linjerne hentes, når en faktura åbnes (`invoice`).
             let today = self.today();
             let ids = list.iter().map(|i| i.id.clone()).collect();
-            return Ok(match block_on(repo.invoice_lines_many(ids)) {
+            let mut out: Vec<Invoice> = match block_on(repo.invoice_lines_many(ids)) {
                 Ok(mut by_id) => list
                     .iter()
                     .map(|i| match by_id.remove(&i.id) {
-                        Some(lines) => map::invoice(i, &lines, today),
-                        None => map::invoice_header(i, today),
+                        Some(lines) => map::invoice(i, &lines, today, None),
+                        None => map::invoice_header(i, today, None),
                     })
                     .collect(),
                 Err(e) => {
                     eprintln!("TT: fakturalinjer til listen kunne ikke hentes: {e}");
-                    list.iter().map(|i| map::invoice_header(i, today)).collect()
+                    list.iter().map(|i| map::invoice_header(i, today, None)).collect()
                 }
-            });
+            };
+            self.attach_deliveries(&mut out);
+            return Ok(out);
         }
         list.iter()
             .map(|i| self.invoice_with_lines(&*repo, i))
@@ -1089,6 +1182,26 @@ impl Backend for RepoBackend {
         let mut v: Vec<Entry> = list.iter().map(map::entry).collect();
         v.sort_by_key(|e| (e.date, e.start));
         Ok(v)
+    }
+
+    fn invoice_entries(&self, invoice_id: &str) -> Result<Vec<Entry>> {
+        let repo = self.repo();
+        let lines = self.run("Fakturaen", repo.invoice_lines(invoice_id))?;
+        let mut ids: Vec<&String> = lines
+            .iter()
+            .filter_map(|l| l.time_entry_id.as_ref())
+            .collect();
+        ids.sort();
+        ids.dedup();
+        let mut out = Vec::with_capacity(ids.len());
+        for id in ids {
+            // En post, der er slettet i web, må ikke skjule de øvrige.
+            if let Ok(e) = self.run("Posten", repo.get_entry(id)) {
+                out.push(map::entry(&e));
+            }
+        }
+        out.sort_by_key(|e| (e.date, e.start));
+        Ok(out)
     }
 
     fn create_invoice_draft(&self, customer_id: &str, entry_ids: &[Id]) -> Result<Invoice> {
@@ -1148,17 +1261,67 @@ impl Backend for RepoBackend {
         self.invoice_with_lines(&*repo, &inv)
     }
 
-    fn send_invoice(&self, id: &str) -> Result<Invoice> {
+    fn send_invoice(&self, id: &str, confirmed_to: Option<&str>) -> Result<Invoice> {
         self.gate(Action::Write)?;
+        // Porten ligger her og ikke kun i skærmen: uden en bekræftet
+        // modtager sender ingen kodesti en mail til kunden.
+        let preview = self.invoice_send_preview(id)?;
+        // En allerede sendt faktura sendes aldrig igen herfra: efter en
+        // usikker fejl kan mailen være gået, og et nyt klik må ikke give
+        // kunden en mail nummer to.
+        if self.invoice(id)?.status != InvoiceStatus::Draft {
+            return Err(BackendError::Validation(
+                "Fakturaen er allerede sendt".into(),
+            ));
+        }
+        check_send_confirmation(&preview, confirmed_to)?;
         self.require_sender()?;
         let repo = self.repo();
         let inv = self.run("Fakturaen", repo.send_invoice(id))?;
-        self.invoice_with_lines(&*repo, &inv)
+        let to = preview.sends_mail.then_some(preview.recipient).flatten();
+        let mut out = self.invoice_with_lines(&*repo, &inv)?;
+        out.delivery = self.record_delivery(&out.id, to);
+        Ok(out)
     }
 
-    fn mark_invoice_paid(&self, id: &str) -> Result<()> {
+    fn issue_invoice(&self, id: &str) -> Result<Invoice> {
         self.gate(Action::Write)?;
-        self.run("Fakturaen", self.repo().mark_invoice_paid(id, None))
+        self.require_sender()?;
+        let repo = self.repo();
+        // Cloud: kun statusskiftet (ingen mail). Lokalt udstedes altid uden mail.
+        let inv = match self.cloud() {
+            Some(c) => self.run("Fakturaen", c.mark_invoice_sent(id))?,
+            None => self.run("Fakturaen", repo.send_invoice(id))?,
+        };
+        let mut out = self.invoice_with_lines(&*repo, &inv)?;
+        out.delivery = self.record_delivery(&out.id, None);
+        Ok(out)
+    }
+
+    fn send_reminder(&self, id: &str, confirmed_to: Option<&str>) -> Result<Invoice> {
+        self.gate(Action::Write)?;
+        let inv = self.invoice(id)?;
+        if !can_remind(&inv, &self.mode()) {
+            return Err(BackendError::Validation(if self.is_cloud() {
+                "Kun sendte og forfaldne fakturaer kan få en påmindelse".into()
+            } else {
+                "Påmindelser sendes kun, når du er logget ind. Lokalt sendes ingen mail".into()
+            }));
+        }
+        // Samme port som afsendelsen: uden en bekræftet modtager ingen mail.
+        let preview = self.invoice_send_preview(id)?;
+        check_send_confirmation(&preview, confirmed_to)?;
+        let repo = self.repo();
+        // Web's `sendEmail` mailer en udstedt faktura igen uden at ændre den.
+        let sent = self.run("Fakturaen", repo.send_invoice(id))?;
+        let mut out = self.invoice_with_lines(&*repo, &sent)?;
+        out.delivery = self.record_delivery(&out.id, preview.recipient);
+        Ok(out)
+    }
+
+    fn mark_invoice_paid(&self, id: &str, paid: NaiveDate) -> Result<()> {
+        self.gate(Action::Write)?;
+        self.run("Fakturaen", self.repo().mark_invoice_paid(id, Some(paid)))
             .map(|_| ())
     }
 
@@ -1263,7 +1426,8 @@ impl Backend for RepoBackend {
         // derimod en ny timer, og den gælder låsen.
         let restart_error = restart.and_then(|target| {
             let same = was.as_ref().is_some_and(|t| {
-                (&t.client_id, &t.project_id, &t.task_id) == (&target.customer_id, &target.project_id, &target.task_id)
+                (&t.client_id, &t.project_id, &t.task_id)
+                    == (&target.customer_id, &target.project_id, &target.task_id)
             });
             if !same && let Err(e) = self.gate(Action::StartTimer) {
                 return Some(e.to_string());
@@ -1291,7 +1455,10 @@ impl Backend for RepoBackend {
         let detection = &self.shared.opts.detection;
         detection.set_web_catalog(self.web_catalog());
         // Manuelle valg vinder: dagens poster med tidspunkt foreslås ikke igen.
-        let entries = self.entries(DateRange { from: date, to: date })?;
+        let entries = self.entries(DateRange {
+            from: date,
+            to: date,
+        })?;
         let logged = entries
             .iter()
             .filter_map(|e| Some((e.start?, e.end?)))
@@ -1466,7 +1633,12 @@ impl Backend for RepoBackend {
         self.rule_scopes_impl(date, block_ids)
     }
 
-    fn create_rule(&self, scope: &RuleScope, customer_id: Option<Id>, project_id: Option<Id>) -> Result<Id> {
+    fn create_rule(
+        &self,
+        scope: &RuleScope,
+        customer_id: Option<Id>,
+        project_id: Option<Id>,
+    ) -> Result<Id> {
         self.create_rule_impl(scope, customer_id, project_id)
     }
 
@@ -1483,13 +1655,21 @@ impl Backend for RepoBackend {
         self.rule_rows_impl()
     }
 
-    fn set_rule_target(&self, row: &RuleRow, customer_id: Option<Id>, project_id: Option<Id>) -> Result<()> {
+    fn set_rule_target(
+        &self,
+        row: &RuleRow,
+        customer_id: Option<Id>,
+        project_id: Option<Id>,
+    ) -> Result<()> {
         self.set_rule_target_impl(row, customer_id, project_id)
     }
 
     fn set_rule_active(&self, row: &RuleRow, active: bool) -> Result<()> {
         self.gate(licens::Action::Write)?;
-        self.shared.opts.detection.set_rule_disabled(&row.id, !active)
+        self.shared
+            .opts
+            .detection
+            .set_rule_disabled(&row.id, !active)
     }
 
     fn delete_rule_row(&self, row: &RuleRow) -> Result<()> {
@@ -1509,7 +1689,10 @@ impl Backend for RepoBackend {
             // heller ikke selv vælger et.
             CardChoice::None => new.no_prepaid = true,
             CardChoice::Auto => {
-                new.prepaid_package_id = self.auto_card(&*repo, &input.customer_id, input.date);
+                // Som web's auto-select: udløb vurderes mod i dag, ikke mod postens
+                // dato. Ellers valgte en bagudrettet post et kort, der siden er
+                // udløbet, og web afviste trækket.
+                new.prepaid_package_id = self.auto_card(&*repo, &input.customer_id, self.today());
                 auto = new.prepaid_package_id.is_some();
                 // Også når posten ligger i køen: afviser web kortet, gemmes den uden.
                 new.prepaid_auto = auto;
@@ -1748,6 +1931,31 @@ impl Backend for RepoBackend {
         self.update_cloud_keys(|keys| keys.retain(|k| *k != provider))
     }
 
+    fn server_url(&self) -> Result<String> {
+        Ok(self.shared.web_url())
+    }
+
+    /// Vælger server til næste login. Tom eller standardadressen: udgavens
+    /// standard. Kun mens man er lokal: en cloud-session hører til sin server.
+    fn set_server_url(&self, url: Option<&str>) -> Result<String> {
+        let chosen = match url.map(str::trim).filter(|u| !u.is_empty()) {
+            None => None,
+            Some(u) => Some(
+                tt_core::edition::normalize_server_url(u)
+                    .map_err(|e| BackendError::Validation(crate::screens::login::server_url_error(e).into()))?,
+            ),
+        };
+        let _g = lock(&self.shared.files);
+        let mut state = files::load_state(self.dir()).unwrap_or_default();
+        if state.mode == files::StoredMode::Cloud {
+            return Err(BackendError::Validation(crate::i18n::t("login.server.err.logged_in").into()));
+        }
+        let default = self.shared.opts.web_url.trim_end_matches('/');
+        state.server_url = chosen.filter(|u| u != default);
+        files::save_state(self.dir(), &state)?;
+        Ok(state.server_url.unwrap_or_else(|| self.shared.opts.web_url.clone()))
+    }
+
     fn begin_login(&self) -> Result<LoginStart> {
         let repo = self.shared.cloud_repo()?;
         let url = repo.begin_login();
@@ -1882,6 +2090,27 @@ impl Backend for RepoBackend {
         self.gendan_delete_invoice_draft(id)
     }
 
+    fn web_invoice_totals(&self, id: &str) -> Result<Option<WebInvoiceTotals>> {
+        let Some(c) = self.cloud() else { return Ok(None) };
+        let t = block_on(c.invoice_totals(id))
+            .map_err(|e| map::web_invoice_error(e, map::WebInvoicePart::Totals))?;
+        Ok(Some(map::web_invoice_totals(&t)))
+    }
+
+    fn web_invoice_pdf(&self, id: &str) -> Result<Option<Vec<u8>>> {
+        let Some(c) = self.cloud() else { return Ok(None) };
+        let bytes =
+            block_on(c.invoice_pdf(id)).map_err(|e| map::web_invoice_error(e, map::WebInvoicePart::Pdf))?;
+        // En proxy eller login-side kan svare 200 med HTML: gem kun en PDF.
+        if !bytes.starts_with(b"%PDF-") {
+            return Err(map::web_invoice_error(
+                tt_data::DataError::InvalidResponse("ikke en PDF".into()),
+                map::WebInvoicePart::Pdf,
+            ));
+        }
+        Ok(Some(bytes))
+    }
+
     fn archived_punch_cards(&self) -> Result<Vec<PunchCard>> {
         let today = self.today();
         let list = self.run("Klippekortene", self.repo().list_klippekort(None, true))?;
@@ -1922,7 +2151,9 @@ impl Backend for RepoBackend {
         let Some(c) = self.rejected_source() else {
             return Ok(Vec::new());
         };
-        let list = c.dead_letters().map_err(|e| map::error(e, "De afviste registreringer"))?;
+        let list = c
+            .dead_letters()
+            .map_err(|e| map::error(e, "De afviste registreringer"))?;
         Ok(list.iter().map(map_rejected).collect())
     }
 
@@ -1990,7 +2221,7 @@ impl RepoBackend {
         if !path.exists() {
             return None;
         }
-        let mut cfg = CloudConfig::new(self.shared.opts.web_url.clone(), self.shared.device.clone());
+        let mut cfg = CloudConfig::new(self.shared.web_url(), self.shared.device.clone());
         cfg.cache_path = Some(path);
         CloudRepo::new(cfg, Arc::new(td::MemorySecretStore::new())).ok()
     }

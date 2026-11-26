@@ -28,12 +28,26 @@ export async function signInWithApple(): Promise<void> {
   });
   if (!credential.identityToken)
     throw new Error('Apple returnerede intet identity token');
+  const user = appleUser(credential);
   const { error } = await authClient.signIn.social({
     provider: 'apple',
-    idToken: { token: credential.identityToken, nonce: rawNonce },
+    idToken: { token: credential.identityToken, nonce: rawNonce, ...(user && { user }) },
   });
   if (error)
-    throw new Error(error.message);
+    throw error;
+}
+
+/**
+ * Navnet giver Apple KUN ved første login (det står ikke i identity tokenet).
+ * Uden det her fik nye Apple-brugere intet navn, og arbejdspladsen, serveren
+ * opretter, blev navngivet efter ingenting.
+ */
+function appleUser(credential: Pick<AppleAuthentication.AppleAuthenticationCredential, 'fullName' | 'email'>) {
+  const firstName = credential.fullName?.givenName ?? undefined;
+  const lastName = credential.fullName?.familyName ?? undefined;
+  if (!firstName && !lastName)
+    return undefined;
+  return { name: { firstName, lastName }, email: credential.email ?? undefined };
 }
 
 /**
@@ -62,7 +76,7 @@ export async function appleCodeForAccountDeletion(): Promise<string | null | 'ca
     if (isAppleCancel(err))
       return 'canceled';
     // Sletningen må ikke blokeres af Apple; serveren logger manglende tilbagekaldelse.
-    captureError(err, { where: 'appleCodeForAccountDeletion' });
+    captureError(err);
     return null;
   }
 }

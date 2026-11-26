@@ -1,5 +1,6 @@
 import { Text } from "@react-email/components";
 import { toIntlLocale } from "@/i18n/format-locale";
+import type { DemoCurrency } from "@/lib/demo/demo-mode";
 import { mailT } from "@/lib/email/locale";
 import type { MailBrand } from "@/lib/email/mail-brand";
 import { MAIL_DASHBOARD_URL } from "./brand";
@@ -19,6 +20,7 @@ interface InactivityEmailProps {
   pendingTasks?: number;
   dashboardUrl?: string;
   locale?: string;
+  currencyCode?: DemoCurrency;
   /** Multibrand: brandet for modtagerens konto. Udeladt = build-brandet. */
   mailBrand?: MailBrand;
 }
@@ -32,13 +34,14 @@ export function InactivityEmail({
   pendingTasks = 0,
   dashboardUrl = mailBrand?.dashboardUrl ?? MAIL_DASHBOARD_URL,
   locale = "da",
+  currencyCode = "DKK",
 }: InactivityEmailProps) {
   const t = mailT("emailsDrip", locale, mailBrand?.key);
   const intl = toIntlLocale(locale);
   const currency = (amount: number) =>
     new Intl.NumberFormat(intl, {
       style: "currency",
-      currency: "DKK",
+      currency: currencyCode,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);

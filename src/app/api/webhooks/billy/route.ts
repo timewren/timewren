@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { integrationSyncLogs, invoices, users } from "@/lib/db/schema";
 import { markInvoicePaid } from "@/lib/invoices/mark-paid";
 import { captureRouteError } from "@/lib/utils/sentry";
+import { claimAccountingDelivery } from "@/lib/webhooks/accounting-delivery";
 
 /**
  * Billy Webhook Handler
@@ -66,6 +67,8 @@ function verifyBillySignature(
 }
 
 export async function POST(request: Request) {
+  let finishDelivery: ((status: "success" | "error") => Promise<void>) | null =
+    null;
   try {
     const contentType = request.headers.get("content-type") || "";
     if (!contentType.toLowerCase().includes("application/json")) {
@@ -122,6 +125,15 @@ export async function POST(request: Request) {
       );
       // Return success to Billy (we received it) but don't process further
       return NextResponse.json({ received: true, processed: false });
+    }
+
+    finishDelivery = await claimAccountingDelivery(
+      "billy",
+      data.event,
+      payload,
+    );
+    if (!finishDelivery) {
+      return NextResponse.json({ received: true, duplicate: true });
     }
 
     // Resolve the connecting user's org. Billy is connected per-user, but in a
@@ -200,6 +212,9 @@ export async function POST(request: Request) {
               },
             })
             .where(eq(integrationSyncLogs.id, logEntry.id));
+          // Export may still be saving the external invoice ID.
+          await finishDelivery("error");
+          return NextResponse.json({ received: true });
         }
         break;
       }
@@ -251,8 +266,19 @@ export async function POST(request: Request) {
           .where(eq(integrationSyncLogs.id, logEntry.id));
     }
 
+    await finishDelivery("success");
     return NextResponse.json({ received: true });
   } catch (error) {
+    if (finishDelivery) {
+      try {
+        await finishDelivery("error");
+      } catch (recordError) {
+        console.error(
+          "Failed to record accounting delivery failure",
+          recordError,
+        );
+      }
+    }
     console.error("[Billy Webhook] Error:", error);
     // Capture to Sentry so real infrastructure failures still surface,
     // even though we return 200 to prevent provider retry-storm.

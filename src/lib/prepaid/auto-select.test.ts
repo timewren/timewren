@@ -23,6 +23,37 @@ describe("pickAutoDeductPackage", () => {
     expect(pickAutoDeductPackage([], now)).toBeNull();
   });
 
+  it("et tomt kort med overtræk kan vælges, et tomt blokerende kan ikke (#1319)", () => {
+    expect(
+      pickAutoDeductPackage(
+        [pkg({ id: "tomt", remainingHours: "0.00", overdraftPolicy: "allow" })],
+        now,
+      )?.id,
+    ).toBe("tomt");
+    expect(
+      pickAutoDeductPackage(
+        [pkg({ id: "tomt", remainingHours: "0.00", overdraftPolicy: "block" })],
+        now,
+      ),
+    ).toBeNull();
+  });
+
+  it("kort med saldo går før et tomt overtræks-kort, også hvis det udløber senere", () => {
+    const picked = pickAutoDeductPackage(
+      [
+        pkg({ id: "fornyet", expiryDate: new Date("2026-12-31T00:00:00Z") }),
+        pkg({
+          id: "gammelt-tomt",
+          remainingHours: "0.00",
+          overdraftPolicy: "invoice",
+          expiryDate: new Date("2026-09-30T00:00:00Z"),
+        }),
+      ],
+      now,
+    );
+    expect(picked?.id).toBe("fornyet");
+  });
+
   it("vælger det kort der udløber først — ikke det nyeste i listen", () => {
     // Listen kommer nyeste-først fra serveren (desc purchaseDate)
     const picked = pickAutoDeductPackage(

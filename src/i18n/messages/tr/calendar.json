@@ -129,6 +129,7 @@
     "dragHint": "Zaman kaydı oluşturmak için tıklayıp sürükle",
     "connectBoth": "Google Takvim'i veya iCloud'u bağla",
     "connectICloud": "iCloud takvimini bağla",
+    "connectCalendar": "Takvim bağla (Google, Outlook veya iCloud)",
     "settings": "Ayarlar",
     "registerAll": "Tümünü kaydet ({count})",
     "sync": "Eşitle",
@@ -177,7 +178,8 @@
     "settingsSaved": "Ayarların kaydedildi",
     "back": "Geri",
     "goToCalendar": "Takvime git",
-    "next": "İleri"
+    "next": "İleri",
+    "outlookNote": "{brand} varsayılan Outlook takviminizi okur. Bağlantıyı <link>Ayarlar → Entegrasyonlar</link> altında yönetirsiniz. Buradaki filtreler ve otomatik kayıt Outlook için de geçerlidir."
   },
   "icloud": {
     "connected": "iCloud bağlandı. Şimdi hangi takvimlerin okunacağını seç.",
@@ -220,6 +222,29 @@
     "disconnect": "Bağlantıyı kes",
     "disconnectTitle": "iCloud takvim bağlantısını kes",
     "disconnectDescription": "{brand}, saklanan uygulamaya özel parolayı ve alınan iCloud etkinliklerini siler. Zaman kayıtların kalır. Parolayı appleid.apple.com adresinden de iptal etmeyi unutma.",
+    "disconnectConfirm": "Bağlantıyı kes"
+  },
+  "outlook": {
+    "title": "Outlook takvimi",
+    "intro": "Takviminiz Outlook'ta veya Microsoft 365'te mi? Toplantılarınızı {brand} içinde görün ve onlardan zaman kaydı oluşturun.",
+    "readOnlyNote": "{brand} yalnızca takvimlerinizi okuma izni ister ve onlara asla yazmaz. Microsoft ile giriş yaparsınız ve {brand} şifrenizi asla görmez.",
+    "connect": "Outlook'u bağla",
+    "badgeConnected": "Bağlı",
+    "badgeReconnect": "Yeniden bağlanmalı",
+    "badgeReadOnly": "Salt okunur",
+    "loadingStatus": "Outlook durumu yükleniyor...",
+    "brokenConnection": "Outlook bağlantısı artık çalışmıyor",
+    "reconnect": "Yeniden bağla",
+    "connectedAs": "{account} olarak bağlı",
+    "lastSynced": "Son eşitleme {time}",
+    "syncing": "Eşitleniyor...",
+    "syncNow": "Şimdi eşitle",
+    "syncResult": "Eşitlendi: {synced} yeni, {updated} güncellendi",
+    "syncFailed": "Eşitleme başarısız oldu",
+    "disconnect": "Bağlantıyı kes",
+    "disconnected": "Outlook takvimi bağlantısı kesildi",
+    "disconnectTitle": "Outlook takviminin bağlantısını kes",
+    "disconnectDescription": "{brand}, kayıtlı erişim anahtarlarını ve alınan Outlook etkinliklerini siler. Zaman kayıtlarınız kalır. {brand} uygulamasını Microsoft hesabınızdaki erişimi olan uygulamalardan da kaldırabilirsiniz.",
     "disconnectConfirm": "Bağlantıyı kes"
   }
 }

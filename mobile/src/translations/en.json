@@ -6,6 +6,18 @@
     "email": "Email",
     "error_generic": "Sign-in failed. Check your email and password, then try again.",
     "error_no_session": "Could not load your session. Please try again.",
+    "errors": {
+      "code_expired": "The code has expired. Sign in again to get a new one.",
+      "email_not_verified": "Your email is not confirmed yet. Open the link in the confirmation email and try again.",
+      "invalid_code": "The code is not correct. Try again.",
+      "invalid_credentials": "Wrong email or password.",
+      "invalid_email": "The email address is not valid.",
+      "network": "No connection. Try again when you are online.",
+      "password_too_long": "The password is too long.",
+      "password_too_short": "The password is too short.",
+      "too_many_attempts": "Too many attempts. Wait a moment and try again.",
+      "user_exists": "An account with this email already exists. Sign in instead."
+    },
     "link_sent_body": "We sent a sign-in link to {{email}}. Open it on this phone.",
     "link_sent_title": "Check your inbox",
     "no_account_hint": "No account yet? Create one here",
@@ -22,10 +34,24 @@
       "sent_title": "Confirm your email",
       "submit": "Create account",
       "subtitle": "30-day free trial — no card required.",
-      "terms": "By creating an account you accept the terms and privacy policy at timetrack.dk.",
+      "terms": "By creating an account you accept the terms and privacy policy at {{site}}.",
       "title": "Create account"
     },
     "tagline": "Time, prepaid hours and absence — in your pocket.",
+    "two_factor": {
+      "body_backup": "Enter one of your backup codes.",
+      "body_otp": "We sent a code to your email. Enter it here.",
+      "body_totp": "Enter the 6-digit code from your authenticator app.",
+      "cancel": "Back to sign in",
+      "code": "Code",
+      "code_sent": "The code has been sent to your email.",
+      "resend_email": "Send the code again",
+      "title": "Confirm it's you",
+      "use_backup": "Use a backup code",
+      "use_email": "Email me a code instead",
+      "use_totp": "Use the code from my authenticator app",
+      "verify": "Confirm"
+    },
     "use_magic_link": "Use a sign-in link instead",
     "use_other_email": "Use another email",
     "use_password": "Sign in with password"
@@ -44,7 +70,7 @@
     "cycle_yearly": "Yearly",
     "ends_on": "Ends {{date}}",
     "errors": {
-      "account_mismatch": "This purchase belongs to another TimeTrack account. Sign in with the account that bought the subscription.",
+      "account_mismatch": "This purchase belongs to another {{appName}} account. Sign in with the account that bought the subscription.",
       "already_owned": "You already have this subscription. Tap Restore purchases to get it back.",
       "network": "No connection. Try again when you are online.",
       "purchase_failed": "The purchase did not go through. Try again.",
@@ -255,6 +281,7 @@
     "requires_enterprise": "Requires the Enterprise module.",
     "requires_manager": "Requires the manager or HR role.",
     "retry": "Try again",
+    "root_error": "The app couldn’t load. Please try again.",
     "save": "Save",
     "today": "Today",
     "yes": "Yes"
@@ -341,6 +368,9 @@
       "tab_approve": "Approve",
       "tab_overview": "Overview",
       "tab_requests": "Requests",
+      "tab_team": "Team",
+      "team_calendar_empty": "No approved team absences this month",
+      "team_calendar_offline": "Team absences can be loaded once you’re online.",
       "title": "Absence",
       "type": "Absence type",
       "type_placeholder": "Choose type",
@@ -467,7 +497,7 @@
       "unread": "Unread"
     },
     "locked": {
-      "description": "Absence, flex and overtime are part of TimeTrack Enterprise. Ask your administrator to enable it.",
+      "description": "Absence, flex and overtime are part of {{appName}} Enterprise. Ask your administrator to enable it.",
       "title": "Requires Enterprise"
     },
     "overtime": {
@@ -694,7 +724,8 @@
       "tag_inherited": "{{name}} (from client/project)",
       "tag_load_error": "Tags could not be loaded.",
       "tags": "Tags",
-      "task": "Task"
+      "task": "Task",
+      "task_more": "The list only shows the first tasks. The rest are under Tasks."
     },
     "internal": "Internal time",
     "month": "Month",
@@ -709,6 +740,7 @@
     "register": "Log time",
     "save": "Save",
     "saved": "Entry saved",
+    "selected_project": "Selected project",
     "tags_not_saved": "Time was saved, but the tags could not be set.",
     "title": "Time",
     "today": "Today",
@@ -892,14 +924,18 @@
       "clients": "Clients",
       "cta": "Move to my account",
       "delete": "Delete local data instead",
+      "destination_changed": "Import paused. Return to the original server, sign in with the original account, and select the original organization in Settings. Close and reopen the app to try again.",
       "done": "Done. Your time is now in your account.",
       "entries": "Entries",
+      "entry_conflict": "Import paused because a local entry differs from the saved server entry. The local copy is still on this device. Compare the entries and update the server entry if needed before retrying.",
       "later": "Later",
+      "legacy_journal": "A previous import did not record its destination, so the app cannot safely resume it. Your entries are still on this device.",
       "progress": "Moving {{done}} of {{total}}…",
       "projects": "Projects",
       "tags": "Tags",
       "title": "Move your time",
-      "total": "Total time"
+      "total": "Total time",
+      "unsupported_server": "This server does not support safe import into the selected organization. Your entries are still on this device."
     },
     "log_in": "Log in",
     "manage": "Projects, clients and tags",
@@ -965,7 +1001,7 @@
     "worked": "Logged"
   },
   "more": {
-    "about": "About TimeTrack",
+    "about": "About {{appName}}",
     "absence": "Absence",
     "account": "Account",
     "appearance": "Appearance",
@@ -1006,9 +1042,20 @@
     "week_review": "Week review",
     "work": "Work"
   },
+  "navigation": {
+    "app": "{{appName}}",
+    "client": "Client",
+    "entry": "Time entry",
+    "invoice": "Invoice",
+    "prepaid": "Prepaid package",
+    "project": "Project",
+    "settings": "Settings",
+    "task": "Task",
+    "welcome": "Welcome to {{appName}}"
+  },
   "notifications": {
     "daily_body": "Have you logged your time today?",
-    "daily_title": "TimeTrack",
+    "daily_title": "{{appName}}",
     "reminders": "Reminders",
     "reminders_daily": "Daily reminder at 5 pm on weekdays",
     "reminders_daily_hint": "\"Have you logged your time today?\" — local to this phone only",
@@ -1028,11 +1075,14 @@
     "badge_failed": "Failed",
     "badge_pending": "Pending sync",
     "banner_failed": "{{count}} change(s) could not be synced — tap to review",
+    "banner_hint": "Opens the list of changes that are waiting",
     "banner_offline": "No connection — changes are saved locally",
     "banner_offline_pending": "Offline – {{count}} change(s) waiting",
     "banner_pending": "{{count}} change(s) waiting to sync",
     "banner_syncing": "Syncing…",
     "discard": "Discard",
+    "discard_body": "It will not be sent to the server and cannot be recovered.",
+    "discard_title": "Discard this change?",
     "empty_body": "All your changes are synced.",
     "empty_title": "Nothing queued",
     "failed_label": "Error",
@@ -1046,6 +1096,8 @@
     "other_org": "Saved under another organization",
     "other_org_body": "These changes belong to an organization you are not in right now. Switch back to it, or discard them.",
     "queue_heading": "Queue ({{count}})",
+    "read_saved": "Showing saved data. Last updated {{updated}}.",
+    "read_unavailable": "You’re offline. There is no saved data for this view.",
     "retry": "Retry",
     "row_failed": "Could not sync — see Settings",
     "row_pending": "Saved offline — syncs when online",
@@ -1164,7 +1216,7 @@
         "title": "Year overview and trends"
       },
       "sync": {
-        "body": "Your time on all your devices and on timetrack.dk.",
+        "body": "Your time on all your devices and on {{webHost}}.",
         "title": "Backup and sync"
       }
     },
@@ -1172,8 +1224,8 @@
     "not_now": "Not now",
     "price_note": "Private is a subscription paid monthly or yearly, and you see the price before you buy. Year overview and export are free in beta right now.",
     "see_plans": "See subscriptions",
-    "title": "TimeTrack Private",
-    "what_is": "What is TimeTrack Private?"
+    "title": "{{appName}} Private",
+    "what_is": "What is {{appName}} Private?"
   },
   "prepaid": {
     "actions_title": "Actions",
@@ -1218,7 +1270,7 @@
     "hours": "Hours",
     "low_balance": "Low balance",
     "manual_entry": "Manual deduction",
-    "module_disabled_body": "Enable the module under Settings at app.timetrack.dk.",
+    "module_disabled_body": "Enable the module under Settings at {{webHost}}.",
     "module_disabled_title": "Prepaid hours are disabled",
     "name": "Name",
     "name_placeholder": "e.g. 10-hour package",
@@ -1326,7 +1378,7 @@
     "due_title": "Ready now",
     "edit_action": "Edit",
     "edit_title": "Edit template",
-    "empty_action": "Open TimeTrack on the web",
+    "empty_action": "Open {{appName}} on the web",
     "empty_body": "A template registers the same hours again and again. You create it on the web, and from here you can add it when it is due.",
     "empty_title": "No recurring entries",
     "error_client": "Choose a client or a project — the time has to go somewhere.",
@@ -1401,6 +1453,7 @@
     "by_client": "By client",
     "by_member": "By team member",
     "by_project": "By project",
+    "csv_share_error": "Could not open the share sheet. Try again.",
     "csv_title": "Time report {{start}} – {{end}}",
     "empty_body": "There are no time entries in the selected period.",
     "empty_title": "No data",
@@ -1492,9 +1545,9 @@
       "changelog_empty": "No news yet",
       "privacy": "Privacy policy",
       "terms": "Terms",
-      "title": "About TimeTrack",
+      "title": "About {{appName}}",
       "version": "Version",
-      "website": "timetrack.dk"
+      "website": "{{site}}"
     },
     "appearance": {
       "danish": "Danish",
@@ -1535,23 +1588,24 @@
     },
     "delete_account": {
       "cancel": "Cancel",
-      "confirm_body": "All your entries, clients and data will be permanently deleted. This cannot be undone.",
+      "confirm_body": "Your account will be permanently deleted. This cannot be undone.",
       "confirm_cta": "Delete my account",
       "confirm_title": "Are you absolutely sure?",
       "cta": "Delete account permanently",
       "done": "Your account has been deleted.",
       "field": "Type your email to confirm",
       "instruction": "To confirm, type the email you are signed in with:",
-      "org_delete": "You are the only owner of “{{name}}”. The {{count}} other members are removed, and the organisation is deleted with all its data.",
       "org_leave": "You leave “{{name}}”. Your entries stay in the organisation without your name, and your account and personal data are deleted.",
+      "org_transfer": "You are the only owner of “{{name}}”. Sign in at {{webHost}}, select the team and transfer ownership to another member under Organisation. Then reopen Delete account.",
       "orgs_error": "Your organisations could not be loaded. Try again before deleting your account.",
       "orgs_title": "Organisations you share with others",
+      "retry_error": "Your account could not be deleted. Try again or contact support if the problem persists.",
       "store_body_apple": "The subscription was bought in the App Store. If it is still running, you keep paying for it even if you delete your account. Cancel it under Manage subscription before you delete your account.",
       "store_body_google": "The subscription was bought on Google Play. If it is still running, you keep paying for it even if you delete your account. Cancel it under Manage subscription before you delete your account.",
       "store_title": "Your subscription does not stop by itself",
       "title": "Delete account",
-      "warning_body": "Your account, organisation (if you are the only owner), time entries, clients, invoices and prepaid packages are deleted permanently. An active subscription is cancelled.",
-      "warning_body_store": "Your account, organisation (if you are the only owner), time entries, clients, invoices and prepaid packages are deleted permanently.",
+      "warning_body": "Your account will be permanently deleted. If you have an active subscription, it will be cancelled.",
+      "warning_body_store": "Your account will be permanently deleted.",
       "warning_title": "This cannot be undone"
     },
     "feedback": {
@@ -1577,7 +1631,7 @@
       "channel_push": "Browser push",
       "channel_slack": "Slack",
       "channels": "Other channels",
-      "channels_hint": "Configured at app.timetrack.dk",
+      "channels_hint": "Configured at {{webHost}}",
       "connected": "Connected",
       "disconnected": "Not connected",
       "email": "Email",
@@ -1585,10 +1639,12 @@
       "inactivity": "Inactivity reminder",
       "monthly_report": "Monthly report",
       "new_login_alert": "New sign-in alert",
+      "open_settings": "Open Settings",
       "push": "Push on this phone",
       "push_denied": "You declined notifications. Enable them in the phone's settings.",
       "push_enable": "Receive push notifications",
       "push_error": "Could not register this phone. Try again.",
+      "push_firebase_unavailable": "Push notifications are unavailable in this version. Update the app when a new version is available.",
       "push_hint": "Timer stops, approvals and reminders",
       "push_simulator": "Push only works on a real phone",
       "saved": "Saved",
@@ -1611,7 +1667,7 @@
     "profile": {
       "delete_account": "Delete account",
       "email": "Email",
-      "email_hint": "Change email at app.timetrack.dk",
+      "email_hint": "Change email at {{webHost}}",
       "hourly_rate": "Default hourly rate (DKK)",
       "name": "Name",
       "name_error": "Enter a name of at least 2 characters",
@@ -1626,7 +1682,7 @@
       "current": "This device",
       "expired": "Expired",
       "login_history": "Sign-in history",
-      "manage_on_web": "Managed at app.timetrack.dk",
+      "manage_on_web": "Managed at {{webHost}}",
       "passkeys": "Passkeys",
       "passkeys_empty": "No passkeys",
       "revoke": "Sign out",
@@ -1691,7 +1747,7 @@
     "start": {
       "body": "We'll set up your workspace with a 30-day free trial. No card, no commitment.",
       "cta": "Get started",
-      "title": "Welcome to TimeTrack"
+      "title": "Welcome to {{appName}}"
     }
   },
   "tabs": {
@@ -1767,6 +1823,7 @@
     "no_deadline": "No deadline",
     "no_description": "No description",
     "no_project": "No project",
+    "none_in_loaded": "None in what has loaded so far. Tap Show more to keep looking.",
     "open_client_hint": "Opens the client",
     "open_project_hint": "Opens the project",
     "overdue_badge": "Overdue",
@@ -1786,6 +1843,7 @@
       "overdue": "Overdue",
       "today": "Today"
     },
+    "show_more": "Show more",
     "start_timer": "Start timer on this task",
     "status": "Status",
     "subtasks": "Subtasks",
@@ -1822,10 +1880,15 @@
     "client_only": "Client only (no project)",
     "clients_loaded": "Clients loaded",
     "default_description": "Time entry",
+    "description_label": "Description",
     "description_placeholder": "What are you working on?",
     "discard": "Discard",
     "discard_body": "The time will not be saved.",
     "discard_title": "Discard the timer?",
+    "elapsed_hours_one": "{{count}} hour",
+    "elapsed_hours_other": "{{count}} hours",
+    "elapsed_minutes_one": "{{count}} minute",
+    "elapsed_minutes_other": "{{count}} minutes",
     "favorites_title": "Favorites",
     "idle": "Timer not running",
     "internal": "Internal time",
@@ -1856,7 +1919,7 @@
   "update": {
     "body": "Your pending entries are saved on the phone and will be sent as soon as the app is updated.",
     "button": "Update the app",
-    "title": "Your TimeTrack app is too old — update to continue"
+    "title": "Your {{appName}} app is too old — update to continue"
   },
   "waste": {
     "above_threshold": "over {{minutes}} min",

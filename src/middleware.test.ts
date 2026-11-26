@@ -87,3 +87,30 @@ describe("middleware: offentlig demo (DEMO_MODE=1)", () => {
     expect(signup.headers.get("location")).toBeNull();
   });
 });
+
+describe("middleware: Cloud data processing agreement PDF", () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it.each(["", "https://instance.example"])(
+    "blocks the Cloud PDF on a self-hosted instance with marketing URL %s",
+    (marketingUrl) => {
+      vi.stubEnv("NEXT_PUBLIC_BRAND", "timewren");
+      vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://instance.example");
+      vi.stubEnv("NEXT_PUBLIC_MARKETING_URL", marketingUrl);
+      const res = middleware(
+        request("https://instance.example/databehandleraftale/pdf"),
+      );
+      expect(res.status).toBe(404);
+    },
+  );
+
+  it("keeps the public PDF route on Cloud when the runtime URL changes", () => {
+    vi.stubEnv("NEXT_PUBLIC_BRAND", "timetrack");
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://timetrack.dk");
+    vi.stubEnv("NEXT_PUBLIC_MARKETING_URL", "https://timetrack.dk");
+    const res = middleware(
+      request("https://timetrack.dk/databehandleraftale/pdf"),
+    );
+    expect(res.headers.get("x-middleware-next")).toBe("1");
+  });
+});

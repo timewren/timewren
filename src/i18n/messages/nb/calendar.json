@@ -129,6 +129,7 @@
     "dragHint": "Klikk og dra for å opprette tidsoppføringer",
     "connectBoth": "Koble til Google Kalender eller iCloud",
     "connectICloud": "Koble til iCloud-kalenderen",
+    "connectCalendar": "Koble til en kalender (Google, Outlook eller iCloud)",
     "settings": "Innstillinger",
     "registerAll": "Registrer alle ({count})",
     "sync": "Synkroniser",
@@ -177,7 +178,8 @@
     "settingsSaved": "Innstillingene dine er lagret",
     "back": "Tilbake",
     "goToCalendar": "Gå til kalenderen",
-    "next": "Neste"
+    "next": "Neste",
+    "outlookNote": "{brand} leser standardkalenderen din i Outlook. Tilkoblingen styrer du under <link>Innstillinger → Integrasjoner</link>. Filtre og automatisk registrering herfra gjelder også for Outlook."
   },
   "icloud": {
     "connected": "iCloud er tilkoblet. Velg nå hvilke kalendere som skal leses.",
@@ -220,6 +222,29 @@
     "disconnect": "Koble fra",
     "disconnectTitle": "Koble fra iCloud-kalenderen",
     "disconnectDescription": "{brand} sletter det lagrede appspesifikke passordet og de hentede iCloud-hendelsene. Tidsoppføringene dine beholdes. Husk å tilbakekalle passordet på appleid.apple.com også.",
+    "disconnectConfirm": "Koble fra"
+  },
+  "outlook": {
+    "title": "Outlook-kalender",
+    "intro": "Har du kalenderen din i Outlook eller Microsoft 365? Se møtene dine i {brand} og registrer tid ut fra dem.",
+    "readOnlyNote": "{brand} ber bare om å lese kalenderne dine og skriver aldri i dem. Du logger inn hos Microsoft, og {brand} ser aldri passordet ditt.",
+    "connect": "Koble til Outlook",
+    "badgeConnected": "Tilkoblet",
+    "badgeReconnect": "Må kobles til på nytt",
+    "badgeReadOnly": "Kun lesing",
+    "loadingStatus": "Henter Outlook-status...",
+    "brokenConnection": "Tilkoblingen til Outlook virker ikke lenger",
+    "reconnect": "Koble til igjen",
+    "connectedAs": "Tilkoblet som {account}",
+    "lastSynced": "Sist synkronisert {time}",
+    "syncing": "Synkroniserer...",
+    "syncNow": "Synkroniser nå",
+    "syncResult": "Synkronisert: {synced} nye, {updated} oppdatert",
+    "syncFailed": "Synkroniseringen mislyktes",
+    "disconnect": "Koble fra",
+    "disconnected": "Outlook-kalender frakoblet",
+    "disconnectTitle": "Koble fra Outlook-kalender",
+    "disconnectDescription": "{brand} sletter de lagrede tilgangsnøklene og de hentede Outlook-hendelsene. Timeregistreringene dine blir liggende. Du kan også fjerne {brand} under apper med tilgang i Microsoft-kontoen din.",
     "disconnectConfirm": "Koble fra"
   }
 }

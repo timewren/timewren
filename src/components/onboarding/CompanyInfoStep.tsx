@@ -4,6 +4,7 @@ import { ArrowLeft, Building2, Loader2, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { decideVat } from "@/lib/invoices/vat-default";
 
 interface CompanyInfoStepProps {
   onNext: (data: {
@@ -17,7 +18,8 @@ interface CompanyInfoStepProps {
     country: string;
     bankRegNr?: string;
     bankAccountNr?: string;
-    vatRegistered: boolean;
+    /** Udeladt = brugeren har ikke valgt; serveren følger CVR-reglen. */
+    vatRegistered?: boolean;
     vatNumber?: string;
     logoUrl?: string;
   }) => void;
@@ -36,6 +38,7 @@ interface CompanyInfoStepProps {
     bankRegNr?: string;
     bankAccountNr?: string;
     vatRegistered?: boolean;
+    vatRegisteredChosen?: boolean;
     vatNumber?: string;
     logoUrl?: string;
   };
@@ -70,6 +73,18 @@ export function CompanyInfoStep({
     initialData?.vatRegistered || false,
   );
   const [vatNumber, setVatNumber] = useState(initialData?.vatNumber || "");
+  // Et dansk CVR slår "Jeg er momsregistreret" til, indtil brugeren selv har
+  // valgt (her eller tidligere, gemt på profilen). Udregnes af de aktuelle
+  // felter ved hver visning, så også et CVR fra en søgning tæller.
+  const [vatChosen, setVatChosen] = useState(
+    initialData?.vatRegisteredChosen ?? false,
+  );
+  const vatChecked = decideVat({
+    chosen: vatChosen,
+    stored: vatRegistered,
+    cvrNumber,
+    country,
+  }).vatRegistered;
 
   const handleCvrLookup = async () => {
     if (!cvrNumber || cvrNumber.length < 2) {
@@ -90,13 +105,13 @@ export function CompanyInfoStep({
 
       // Auto-fill company info from CVR data
       if (data.name) setName(data.name);
+      // Søgning på navn: feltet skal ende med virksomhedens CVR-nummer
+      if (data.cvrNumber) setCvrNumber(data.cvrNumber);
       if (data.address) setAddress(data.address);
       if (data.postalCode) setPostalCode(data.postalCode);
       if (data.city) setCity(data.city);
-      if (data.vatNumber) {
-        setVatNumber(data.vatNumber);
-        setVatRegistered(true);
-      }
+      // Fluebenet følger CVR-reglen (vatChecked) eller brugerens valg
+      if (data.vatNumber) setVatNumber(data.vatNumber);
 
       toast.success(t("lookupDone"));
     } catch (error) {
@@ -121,8 +136,10 @@ export function CompanyInfoStep({
       country,
       bankRegNr: bankRegNr || undefined,
       bankAccountNr: bankAccountNr || undefined,
-      vatRegistered,
-      vatNumber: vatRegistered && vatNumber ? vatNumber : undefined,
+      // Kun brugerens eget valg sendes; ellers afgør serveren det efter
+      // samme regel
+      ...(vatChosen ? { vatRegistered } : {}),
+      vatNumber: vatChecked && vatNumber ? vatNumber : undefined,
     });
   };
 
@@ -360,8 +377,11 @@ export function CompanyInfoStep({
           <input
             type="checkbox"
             id="vatRegistered"
-            checked={vatRegistered}
-            onChange={(e) => setVatRegistered(e.target.checked)}
+            checked={vatChecked}
+            onChange={(e) => {
+              setVatChosen(true);
+              setVatRegistered(e.target.checked);
+            }}
             className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-600 dark:text-brand-400 focus:ring-brand-500"
           />
           <label
@@ -372,7 +392,7 @@ export function CompanyInfoStep({
           </label>
         </div>
 
-        {vatRegistered && (
+        {vatChecked && (
           <div>
             <label
               htmlFor="vatNumber"

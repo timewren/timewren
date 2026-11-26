@@ -6,7 +6,9 @@ import { formatDateRelative } from '~/lib/format';
 import { translate } from '~/lib/i18n';
 import { deadlineTone, isDone, isOverdue, priorityTone, priorityTx } from '../task-logic';
 
-export type TaskListItem = RouterOutputs['tasks']['list'][number];
+type TaskListOutput = RouterOutputs['tasks']['list'];
+type ListRows<List> = List extends { rows: infer Rows } ? Rows : List;
+export type TaskListItem = ListRows<TaskListOutput>[number];
 
 /** Mindste fællesnævner for `tasks.list` og `tasks.getTodaysFocus` (sidstnævnte har projekt uden kunde). */
 export type TaskRowItem = {

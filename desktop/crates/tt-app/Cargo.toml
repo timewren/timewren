@@ -1,7 +1,7 @@
 [package]
 license = "AGPL-3.0-only"
 name = "tt-app"
-version = "0.2.29"
+version = "0.2.32"
 edition = "2024"
 publish = false
 description = "TimeTrack Desktop (ny app): GPUI-appen (vindue, skærme, tray, genveje)."
@@ -13,6 +13,10 @@ path = "src/lib.rs"
 # Samme version, som GPUI allerede bruger (Cargo.lock).
 [target.'cfg(windows)'.build-dependencies]
 embed-resource = "=3.0.12"
+
+# App Store-udgaven: build.rs læser `swiftc -print-target-info` (StoreKit-broen).
+[build-dependencies]
+serde_json.workspace = true
 
 [[bin]]
 name = "timetrack"
@@ -85,6 +89,13 @@ tiny_http.workspace = true
 tempfile.workspace = true
 
 [features]
+# TimeWren-udgaven: navn, bundle-id, datamappe, server, opdateringskanal, sprog og
+# valuta (tt-core/src/edition.rs). Uden: TimeTrack.
+brand-timewren = ["tt-core/brand-timewren"]
+# Mac App Store-udgaven (App Sandbox; kombinerbar med brand-timewren): ingen
+# updater, ingen sporing af programmer, vinduer og browserfaner, ingen afløsning
+# af 0.2.x og autostart via SMAppService (src/mas.rs, docs/v1/MAC-APP-STORE.md).
+mas = ["tt-tracker/mas"]
 # Indbygget lokal model (llama.cpp, kræver cmake). Slået fra som standard.
 local-llm = ["tt-ai/local-llm"]
 # Headless probe-test (src/probe.rs): cargo test --features probe

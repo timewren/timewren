@@ -114,6 +114,16 @@ export default function ArbejdstimerPrMaanedPage() {
           description: "Arbejdsdage og helligdage måned for måned.",
         },
         {
+          href: "/arbejdstimer-2026",
+          title: "Arbejdstimer 2026",
+          description: "Årets timer ved 30, 32, 35, 37 og 40 t/uge.",
+        },
+        {
+          href: "/arbejdsdage",
+          title: "Arbejdsdage pr. år og måned",
+          description: "Oversigt over alle år og måneder.",
+        },
+        {
           href: "/arbejdstimer-beregner",
           title: "Arbejdstimer-beregner",
           description: "Beregn timer mellem to klokkeslæt med pause.",

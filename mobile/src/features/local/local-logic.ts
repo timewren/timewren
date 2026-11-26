@@ -244,6 +244,7 @@ export const FALLBACK_DESCRIPTION = 'Tidsregistrering';
 export function toTimeCreateInput(e: LocalEntry, ids: RemoteIdMap) {
   const hours = Math.max(0.01, Math.round(entryHours(e) * 100) / 100);
   return {
+    clientEntryId: e.id,
     description: (e.description.trim() || FALLBACK_DESCRIPTION).slice(0, 500),
     hours,
     date: format(new Date(e.startedAt), 'yyyy-MM-dd'),

@@ -4,9 +4,11 @@
     "sendTo": "Lähetä osoitteeseen {email}",
     "sent": "Lasku lähetettiin osoitteeseen {email}",
     "total": "Summa sisältäen ALV:n",
+    "totalNoVat": "Summa (ei ALV:ta)",
     "loading": "Ladataan laskun tietoja…",
     "draftNumber": "Lopullinen laskunumero annetaan laskun vahvistamisen yhteydessä.",
-    "provider": "Summa on TimeTrackista. {provider} laskee lopullisen summan omilla veroasetuksillaan."
+    "provider": "Summa on TimeTrackista. {provider} laskee lopullisen summan omilla veroasetuksillaan.",
+    "lineCount": "Rivit"
   },
   "status": {
     "draft": "Luonnos",
@@ -66,7 +68,13 @@
     "filteredSuffix": " (suodatettu)",
     "reminderTitle": "Lähetä muistutus",
     "reminderDescription": "Lähetetäänkö lasku {number} asiakkaalle sähköpostilla?",
-    "send": "Lähetä"
+    "send": "Lähetä",
+    "emptyUnbilledHint": "Sinulla on {duration} laskuttamatonta aikaa. Laskuta se, niin rivit ja summat täyttyvät valmiiksi.",
+    "emptyNoTimeHint": "Lasku syntyy helpoimmin kirjatusta ajasta. Kirjaa ensin aikaa tai luo lasku kiinteällä summalla.",
+    "invoiceUnbilled": "Laskuta laskuttamaton aika",
+    "createBlank": "Luo tyhjä lasku",
+    "registerTimeFirst": "Kirjaa aikaa",
+    "createFixedAmount": "Lasku kiinteällä summalla"
   },
   "detail": {
     "status": {
@@ -409,5 +417,13 @@
     "noteLabel": "Laskun huomautus (valinnainen)",
     "notePlaceholder": "Esim. Sopimus tekniseen kumppanuuteen, '{måned}'"
   },
-  "tableLabel": "Laskut"
+  "tableLabel": "Laskut",
+  "providerEmail": {
+    "uncertainBlocked": "{provider} ei vahvistanut, lähetettiinkö lasku sähköpostilla. Tarkista sähköpostin tila palvelussa {provider} ja merkitse tulos laskun sivulle ennen kuin lähetät sen uudelleen.",
+    "uncertainTitle": "Emme tiedä, lähettikö {provider} laskun",
+    "uncertainBody": "{provider} ei vastannut laskun sähköpostilähetyksen aikana, joten asiakas on voinut saada sen. Tarkista laskun sähköpostin tila palvelussa {provider}. Ennen kuin merkitset tuloksen tähän, laskua ei voi lähettää uudelleen TimeTrackista.",
+    "wasSent": "{provider} lähetti sen",
+    "notSent": "Sitä ei lähetetty",
+    "resolved": "Sähköpostin tila tallennettu"
+  }
 }

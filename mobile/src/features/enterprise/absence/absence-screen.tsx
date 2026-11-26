@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Bell } from 'lucide-react-native';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { IconButton } from '~/components/ui/icon-button';
 import { Screen } from '~/components/ui/screen';
@@ -14,9 +15,10 @@ import { AbsenceApprove } from './absence-approve';
 import { AbsenceOverview } from './absence-overview';
 import { AbsenceRequests } from './absence-requests';
 import { EnterpriseGate } from './components/enterprise-gate';
+import { TeamAbsenceCalendar } from './team-absence-calendar';
 import { usePendingTeamRequests } from './use-absence';
 
-type Tab = 'overview' | 'requests' | 'approve';
+type Tab = 'overview' | 'requests' | 'approve' | 'team';
 
 function InboxButton() {
   const router = useRouter();
@@ -36,7 +38,9 @@ function InboxButton() {
 }
 
 function AbsenceTabs() {
+  const { t } = useTranslation();
   const caps = useCapabilities();
+  const canSeeTeam = caps.isManager || caps.isHr;
   const [tab, setTab] = React.useState<Tab>('overview');
   const [refreshing, setRefreshing] = React.useState(false);
   const utils = trpc.useUtils();
@@ -44,13 +48,15 @@ function AbsenceTabs() {
 
   const options = React.useMemo(() => {
     const base: { value: Tab; label: string; badge?: number }[] = [
-      { value: 'overview', label: translate('enterprise.absence.tab_overview') },
-      { value: 'requests', label: translate('enterprise.absence.tab_requests') },
+      { value: 'overview', label: t('enterprise.absence.tab_overview') },
+      { value: 'requests', label: t('enterprise.absence.tab_requests') },
     ];
     if (caps.isManager)
-      base.push({ value: 'approve', label: translate('enterprise.absence.tab_approve'), badge: pending.length });
+      base.push({ value: 'approve', label: t('enterprise.absence.tab_approve'), badge: pending.length });
+    if (canSeeTeam)
+      base.push({ value: 'team', label: t('enterprise.absence.tab_team') });
     return base;
-  }, [caps.isManager, pending.length]);
+  }, [canSeeTeam, caps.isManager, pending.length, t]);
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
@@ -64,18 +70,21 @@ function AbsenceTabs() {
     setRefreshing(false);
   }, [utils]);
 
+  const activeTab = tab === 'team' && !canSeeTeam ? 'overview' : tab;
+
   return (
     <Screen
       title={translate('enterprise.absence.title')}
       subtitle={caps.orgName && !isDefaultOrgName(caps.orgName) ? caps.orgName : undefined}
       right={<InboxButton />}
-      header={<Segmented options={options} value={tab} onChange={setTab} testID="absence-tabs" />}
+      header={<Segmented options={options} value={activeTab} onChange={setTab} testID="absence-tabs" />}
       refreshing={refreshing}
       onRefresh={() => void onRefresh()}
     >
-      {tab === 'overview' ? <AbsenceOverview /> : null}
-      {tab === 'requests' ? <AbsenceRequests /> : null}
-      {tab === 'approve' && caps.isManager ? <AbsenceApprove /> : null}
+      {activeTab === 'overview' ? <AbsenceOverview /> : null}
+      {activeTab === 'requests' ? <AbsenceRequests /> : null}
+      {activeTab === 'approve' && caps.isManager ? <AbsenceApprove /> : null}
+      {activeTab === 'team' ? <TeamAbsenceCalendar /> : null}
     </Screen>
   );
 }

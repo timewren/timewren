@@ -125,6 +125,21 @@ const mkEntry = (over: Partial<ReportEntry> = {}): ReportEntry => ({
 });
 
 describe("aggregateReport", () => {
+  it("sums hundredths and rounded minutes independently of entry order", () => {
+    const entries = [
+      mkEntry({ hours: "0.01", _rounded: 0.01, isBilled: true }),
+      mkEntry({ hours: "0.02", _rounded: 0.02, isBilled: true }),
+      mkEntry({ hours: "0.42", _rounded: 0.42, isBilled: true }),
+      mkEntry({ hours: "0.08", _rounded: 5 / 60 }),
+    ];
+    for (const ordered of [entries, [...entries].reverse()]) {
+      const { summary, groups } = aggregateReport(ordered, "project");
+      expect(summary.billedHours).toBe(0.45);
+      expect(summary.totalHours).toBe(160 / 300);
+      expect(groups[0]?.hours).toBe(summary.totalHours);
+    }
+  });
+
   it("computes total hours/revenue/billed/unbilled", () => {
     const entries = [
       mkEntry({ hours: "2.0", _rounded: 2, _value: 1000 }),
@@ -215,6 +230,38 @@ describe("aggregateReport", () => {
       expect(agg.summary.billedHours).toBeCloseTo(3);
       expect(agg.summary.unbilledHours).toBeCloseTo(2);
     });
+  });
+
+  it("groups by klippekort when grouping='prepaidPackage' (#1321)", () => {
+    // Tid kan ligge på ét projekt og samtidig være trukket fra et kort; pr.
+    // projekt og pr. kort giver derfor forskellige tal for samme periode.
+    const entries = [
+      mkEntry({
+        id: "a",
+        prepaidPackage: { id: "k1", name: "Kort A" },
+        _rounded: 2,
+      }),
+      mkEntry({
+        id: "b",
+        project: {
+          id: "p2",
+          name: "Projekt B",
+          client: null,
+          monthlyBudgetHours: null,
+        },
+        prepaidPackage: { id: "k1", name: "Kort A" },
+        _rounded: 1.5,
+      }),
+      mkEntry({ id: "c", prepaidPackage: null, _rounded: 3 }),
+    ];
+    const agg = aggregateReport(entries, "prepaidPackage");
+    expect(agg.groups).toHaveLength(2);
+    const card = agg.groups.find((g) => g.key === "k1");
+    expect(card?.label).toBe("Kort A");
+    expect(card?.hours).toBeCloseTo(3.5);
+    const none = agg.groups.find((g) => g.key === "_none");
+    expect(none?.label).toBe("(Uden klippekort)");
+    expect(none?.hours).toBeCloseTo(3);
   });
 
   it("groups by client when grouping='client'", () => {

@@ -3,8 +3,16 @@ import Link from "next/link";
 import { SEOPageLayout } from "@/components/marketing/SEOPageLayout";
 import { WorkdaysTable } from "@/components/marketing/WorkdaysTable";
 import {
+  ARBEJDSDAGE_YEARS,
+  arbejdsdageYearMeta,
+  hoursPath,
+  monthPath,
+  yearPath,
+} from "@/lib/marketing/arbejdsdage-seo";
+import {
   commonDaysOff,
   formatHours,
+  MONTH_NAMES,
   officialHolidays,
   VACATION_DAYS,
   WEEKDAY_NAMES,
@@ -26,30 +34,19 @@ function isWeekend(date: string): boolean {
 }
 
 export function arbejdsdageMetadata(year: number): Metadata {
-  const s = yearSummary(year);
-  const title = `Arbejdsdage ${year}: helligdage og arbejdsdage pr. måned`;
-  const description = `Der er ${s.workdays} arbejdsdage i ${year}, når de officielle helligdage er trukket fra. Se arbejdsdage og timer for hver måned og alle helligdage i ${year}.`;
+  const { title, description, path } = arbejdsdageYearMeta(year);
   return {
     title: { absolute: `${title} | TimeTrack` },
     description,
-    alternates: { canonical: `/arbejdsdage-${year}` },
-    openGraph: {
-      title,
-      description,
-      url: `/arbejdsdage-${year}`,
-      type: "website",
-    },
+    alternates: { canonical: path },
+    robots: { index: true, follow: true },
+    openGraph: { title, description, url: path, type: "website" },
   };
 }
 
 /** Fælles side for /arbejdsdage-<år>. */
-export function ArbejdsdagePage({
-  year,
-  otherYears,
-}: {
-  year: number;
-  otherYears: number[];
-}) {
+export function ArbejdsdagePage({ year }: { year: number }) {
+  const otherYears = ARBEJDSDAGE_YEARS.filter((y) => y !== year);
   const s = yearSummary(year);
   const holidays = officialHolidays(year);
   const onWeekdays = holidays.filter((h) => !isWeekend(h.date)).length;
@@ -58,7 +55,7 @@ export function ArbejdsdagePage({
   const faq = [
     {
       question: `Hvor mange arbejdsdage er der i ${year}?`,
-      answer: `Der er ${s.workdays} arbejdsdage i ${year}. Det er alle hverdage fra mandag til fredag, minus de ${onWeekdays} officielle helligdage, der falder på en hverdag. Efter ${VACATION_DAYS} feriedage er der ${s.workdays - VACATION_DAYS} dage tilbage.`,
+      answer: `Der er ${s.workdays} arbejdsdage i ${year}. Det er alle hverdage fra mandag til fredag, minus de ${onWeekdays} officielle helligdage, der falder på en hverdag. Holder du også fri på grundlovsdag, juleaftensdag og nytårsaftensdag, er tallet ${s.workdays - s.commonDaysOff}. Efter ${VACATION_DAYS} feriedage er der ${s.workdays - VACATION_DAYS} dage tilbage.`,
     },
     {
       question: `Hvor mange arbejdstimer er der i ${year}?`,
@@ -94,12 +91,17 @@ export function ArbejdsdagePage({
       faqItems={faq}
       relatedLinks={[
         {
+          href: hoursPath(year),
+          title: `Arbejdstimer ${year}`,
+          description: `Timer i ${year} ved 30, 32, 35, 37 og 40 t/uge.`,
+        },
+        {
           href: "/arbejdstimer-pr-maaned",
           title: "Arbejdstimer pr. måned",
           description: "Timer i en gennemsnitsmåned og ved deltid.",
         },
         ...otherYears.map((y) => ({
-          href: `/arbejdsdage-${y}`,
+          href: yearPath(y),
           title: `Arbejdsdage ${y}`,
           description: `Arbejdsdage og helligdage i ${y}.`,
         })),
@@ -117,7 +119,9 @@ export function ArbejdsdagePage({
           <div className="rounded-2xl border border-brand-200 bg-brand-50 p-6 text-lg leading-relaxed text-gray-900">
             <strong>Kort svar:</strong> Der er <strong>{s.workdays}</strong>{" "}
             arbejdsdage i {year}. Ved 37 timer om ugen svarer det til{" "}
-            {formatHours(s.hours)} arbejdstimer før ferie.
+            {formatHours(s.hours)} arbejdstimer før ferie. Trækker du også
+            grundlovsdag, juleaftensdag og nytårsaftensdag fra, er der{" "}
+            {s.workdays - s.commonDaysOff} arbejdsdage.
           </div>
 
           <h2 className="mt-14 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
@@ -130,6 +134,22 @@ export function ArbejdsdagePage({
             * Grundlovsdag, juleaftensdag og nytårsaftensdag, når de falder på
             en hverdag. De er ikke helligdage og tæller med som arbejdsdage.
           </p>
+
+          <h2 className="mt-16 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
+            Arbejdsdage måned for måned i {year}
+          </h2>
+          <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {MONTH_NAMES.map((name, m) => (
+              <li key={name}>
+                <Link
+                  href={monthPath(year, m)}
+                  className="block rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-brand-700 hover:border-brand-300"
+                >
+                  {name} {year}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
           <h2 className="mt-16 text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
             Helligdage i {year}
@@ -173,7 +193,11 @@ export function ArbejdsdagePage({
           </ul>
 
           <p className="mt-12 leading-relaxed text-gray-700">
-            Skal medarbejdernes arbejdsdage, ferie og fravær registreres, kan{" "}
+            Helligdagene følger kalenderen for danske helligdage (påske beregnes
+            efter den gregorianske påskeregel; kilde: folkekirkens kalender hos
+            Kirkeministeriet, og store bededag er afskaffet som helligdag fra
+            2024). Skal medarbejdernes arbejdsdage, ferie og fravær registreres,
+            kan{" "}
             <Link
               href="/virksomheder"
               className="font-medium text-brand-700 underline"
@@ -181,7 +205,14 @@ export function ArbejdsdagePage({
               TimeTrack til virksomheder
             </Link>{" "}
             hente helligdagene automatisk og regne normtid, flex og feriesaldo
-            ud for hver medarbejder.
+            ud for hver medarbejder. Eller{" "}
+            <Link
+              href="/arbejdstimer-beregner"
+              className="font-medium text-brand-700 underline"
+            >
+              beregn dine timer i timeberegneren
+            </Link>
+            .
           </p>
         </div>
       </section>

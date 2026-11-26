@@ -26,7 +26,7 @@ use gpui_kit::*;
 use crate::app::AppCtx;
 use crate::backend::{
     Customer, DateRange, Entry, Id, Project, ProjectStatus, Task, TaskInput, TaskLane,
-    TaskPriority, TaskStatus, TimerTarget,
+    TaskPriority, TaskStatus,
 };
 use crate::brand::{Brand, brand};
 use crate::i18n::{t, tf};
@@ -134,22 +134,71 @@ pub fn project_filter_choices(
         .collect()
 }
 
-/// Valg i "Ny opgave": aktive projekter hos kunder, der ikke er arkiveret.
+/// Valg i "Ny opgave". Som i web er projekt og kunde valgfri: "Ingen", en
+/// kunde alene (`c:<id>`) eller et aktivt projekt (projektets id) hos kunder,
+/// der ikke er arkiveret. Alfabetisk, så hver kunde står over sine projekter.
 pub fn new_task_choices(customers: &[Customer], projects: &[Project]) -> Vec<Choice> {
-    let mut v: Vec<(String, &Project)> = projects
+    let mut v: Vec<(String, String)> = customers
         .iter()
-        .filter(|p| p.status == ProjectStatus::Active)
-        .filter(|p| {
-            customers
-                .iter()
-                .any(|c| c.id == p.customer_id && !c.archived)
-        })
-        .map(|p| (project_label(customers, p), p))
+        .filter(|c| !c.archived)
+        .map(|c| (c.name.clone(), format!("c:{}", c.id)))
         .collect();
+    v.extend(
+        projects
+            .iter()
+            .filter(|p| p.status == ProjectStatus::Active)
+            .filter(|p| {
+                customers
+                    .iter()
+                    .any(|c| c.id == p.customer_id && !c.archived)
+            })
+            .map(|p| (project_label(customers, p), p.id.clone())),
+    );
     v.sort_by_key(|(l, _)| l.to_lowercase());
-    v.into_iter()
-        .map(|(l, p)| Choice::new(p.id.clone(), l))
+    std::iter::once(Choice::new("", t("opx.panel.no_place")))
+        .chain(v.into_iter().map(|(l, val)| Choice::new(val, l)))
         .collect()
+}
+
+/// Valgene i formularen. En opgave, der rettes, beholder sit projekt eller
+/// sin kunde, også når de ikke længere er aktive; ellers ville valget falde
+/// tilbage til "Ingen" og gemme opgaven uden.
+pub fn edit_task_choices(
+    customers: &[Customer],
+    projects: &[Project],
+    task: Option<&Task>,
+) -> Vec<Choice> {
+    let mut items = new_task_choices(customers, projects);
+    let Some(t) = task else {
+        return items;
+    };
+    let Some(place) = form_place(t) else {
+        return items;
+    };
+    if items.iter().any(|c| c.value.as_ref() == place) {
+        return items;
+    }
+    if let Some(p) = projects.iter().find(|p| p.id == t.project_id) {
+        items.push(Choice::new(p.id.clone(), project_label(customers, p)));
+    } else if t.project_id.is_empty()
+        && let Some(c) = t
+            .customer_id
+            .as_deref()
+            .and_then(|id| customers.iter().find(|c| c.id == id))
+    {
+        items.push(Choice::new(place, c.name.clone()));
+    }
+    items
+}
+
+/// Valget i "Ny opgave" for en opgave, der rettes: projektet, ellers
+/// kunden (`c:<id>`), ellers ingen.
+pub fn form_place(task: &Task) -> Option<String> {
+    match (task.project_id.as_str(), task.customer_id.as_deref()) {
+        ("", Some(c)) => Some(format!("c:{c}")),
+        ("", None) => None,
+        (p, _) => Some(p.to_string()),
+    }
 }
 
 /// Valg i prioritetsfilteret.
@@ -196,24 +245,22 @@ use logic::status_key;
 /// Fejl pr. felt i opgaveformularen.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct TaskErrors {
-    pub project: Option<&'static str>,
     pub title: Option<&'static str>,
     pub due: Option<&'static str>,
     pub estimate: Option<&'static str>,
 }
 
-/// Validerer formularens felter. Ren funktion, så den kan testes.
+/// Validerer formularens felter. Ren funktion, så den kan testes. `place`
+/// er valget fra `new_task_choices`: et projekts id, `c:<kunde>` eller
+/// ingen (projekt og kunde er valgfri, som i web).
 pub fn validate_task(
-    project_id: Option<&str>,
+    place: Option<&str>,
     title: &str,
     due: &str,
     estimate: &str,
     today: NaiveDate,
 ) -> Result<TaskInput, TaskErrors> {
     let mut err = TaskErrors::default();
-    if project_id.is_none() {
-        err.project = Some(t("opgaver.err.project"));
-    }
     if title.trim().is_empty() {
         err.title = Some(t("opgaver.err.title"));
     }
@@ -232,8 +279,15 @@ pub fn validate_task(
     if err != TaskErrors::default() {
         return Err(err);
     }
+    let place = place.map(str::trim).filter(|p| !p.is_empty());
+    let (project_id, customer_id) = match place.map(|p| p.strip_prefix("c:")) {
+        Some(Some(c)) => (String::new(), Some(c.to_string())),
+        Some(None) => (place.unwrap_or_default().to_string(), None),
+        None => (String::new(), None),
+    };
     Ok(TaskInput {
-        project_id: project_id.unwrap_or_default().to_string(),
+        project_id,
+        customer_id,
         title: title.trim().to_string(),
         due,
         estimate_minutes: estimate.flatten(),
@@ -327,6 +381,68 @@ fn due_field(d: Option<NaiveDate>) -> String {
         .unwrap_or_default()
 }
 
+/// Fejl i "Registrér tid" på en opgave.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct LogErrors {
+    pub date: Option<&'static str>,
+    pub hours: Option<&'static str>,
+}
+
+/// Tid på en opgave som web's "Registrér tid" i sidepanelet: posten får
+/// opgaven, dens projekt og kunde (intern tid uden kunde), og uden tekst
+/// opgavens titel. Fakturerbar følger kunden (intern kunde = nej). Ren
+/// funktion, så den kan testes.
+pub fn log_time_input(
+    task: &Task,
+    customers: &[Customer],
+    projects: &[Project],
+    date: &str,
+    hours: &str,
+    description: &str,
+    today: NaiveDate,
+) -> Result<crate::backend::EntryInput, LogErrors> {
+    let mut err = LogErrors::default();
+    let date = if date.trim().is_empty() {
+        Some(today)
+    } else {
+        forms::parse_date(date, today)
+    };
+    if date.is_none() {
+        err.date = Some(t("opgaver.err.due"));
+    }
+    let minutes = format::parse_hours(hours).map_err(|e| err.hours = Some(e)).ok();
+    let (Some(date), Some(minutes)) = (date, minutes) else {
+        return Err(err);
+    };
+    let target = logic::timer_target(projects, task);
+    let description = Some(description.trim())
+        .filter(|d| !d.is_empty())
+        .unwrap_or(task.title.as_str())
+        .to_string();
+    Ok(crate::backend::EntryInput {
+        billable: crate::backend::default_billable(customers, target.customer_id.as_deref()),
+        customer_id: target.customer_id.unwrap_or_default(),
+        project_id: target.project_id,
+        task_id: target.task_id,
+        description,
+        date,
+        start: None,
+        end: None,
+        minutes,
+    })
+}
+
+/// "Registrér tid" i panelet.
+struct LogForm {
+    task_id: Id,
+    date: Entity<InputState>,
+    hours: Entity<InputState>,
+    description: Entity<InputState>,
+    errors: LogErrors,
+    error: Option<SharedString>,
+    busy: bool,
+}
+
 /// Felterne i panelet, der rettes direkte (titel, kunde/projekt, frist og
 /// beskrivelse). Bygges, når en opgave åbnes, og igen efter en gemning.
 struct PanelEdit {
@@ -399,7 +515,9 @@ pub struct OpgaverScreen {
     inline: Option<InlineAdd>,
     /// Panelets felter for den valgte opgave.
     edit: Option<PanelEdit>,
-    /// Sidst brugte projekt i hurtig oprettelse.
+    /// "Registrér tid" på den valgte opgave.
+    log: Option<LogForm>,
+    /// Sidst valgte projekt eller kunde (`c:<id>`) i oprettelsen.
     last_project: Option<Id>,
     /// Kvittering eller fejl efter en handling (rolle `Status`/`Alert`).
     notice: Option<(SharedString, bool)>,
@@ -473,6 +591,7 @@ impl OpgaverScreen {
             form: None,
             inline: None,
             edit: None,
+            log: None,
             last_project: None,
             notice: None,
             demo: std::env::var("TT_DEMO")
@@ -702,6 +821,7 @@ impl OpgaverScreen {
     pub fn select(&mut self, id: &str, cx: &mut Context<Self>) {
         if self.selected.as_deref() != Some(id) {
             self.entries = Loadable::Loading;
+            self.log = None;
         }
         self.selected = Some(id.to_string());
         self.reload_entries(cx);
@@ -711,6 +831,7 @@ impl OpgaverScreen {
     fn deselect(&mut self, window: &mut Window, cx: &mut Context<Self>) {
         self.selected = None;
         self.edit = None;
+        self.log = None;
         self.focus.focus(window, cx);
         cx.notify();
     }
@@ -904,19 +1025,9 @@ impl OpgaverScreen {
         let existing = edit
             .and_then(|id| d.tasks.iter().find(|t| t.id == id))
             .cloned();
-        let mut items = new_task_choices(&d.customers, &d.projects);
-        // En opgave på et projekt, der ikke længere er aktivt, kan stadig
-        // rettes uden at skifte projekt.
-        if let Some(t) = &existing
-            && !items
-                .iter()
-                .any(|c| c.value.as_ref() == t.project_id.as_str())
-            && let Some(p) = d.projects.iter().find(|p| p.id == t.project_id)
-        {
-            items.push(Choice::new(p.id.clone(), project_label(&d.customers, p)));
-        }
+        let items = edit_task_choices(&d.customers, &d.projects, existing.as_ref());
         let preselect = match &existing {
-            Some(t) => Some(t.project_id.clone()),
+            Some(t) => form_place(t),
             None => forms::chosen(&self.project_filter, cx).or_else(|| self.last_project.clone()),
         };
         let project = forms::choice_state(items, preselect.as_deref(), window, cx);
@@ -1026,7 +1137,7 @@ impl OpgaverScreen {
         form.errors = TaskErrors::default();
         form.error = None;
         form.busy = true;
-        self.last_project = Some(input.project_id.clone());
+        self.last_project = project.clone();
         let editing = form.editing.clone();
         self.ctx.mutate(
             cx,
@@ -1114,7 +1225,7 @@ impl OpgaverScreen {
         ) {
             Ok(i) => i,
             Err(e) => {
-                f.error = e.title.or(e.project).map(SharedString::from);
+                f.error = e.title.map(SharedString::from);
                 cx.notify();
                 return;
             }
@@ -1122,7 +1233,7 @@ impl OpgaverScreen {
         input.status = Some(f.status);
         f.error = None;
         f.busy = true;
-        self.last_project = Some(input.project_id.clone());
+        self.last_project = project.clone();
         // En egen kolonne: opgaven lægges i den, ikke kun i dens kategori.
         let lane_id = f
             .lane
@@ -1303,6 +1414,87 @@ impl OpgaverScreen {
         );
     }
 
+    /// "Registrér tid": dato (i dag), timer og tekst (opgavens titel).
+    pub fn open_log(&mut self, task_id: &str, window: &mut Window, cx: &mut Context<Self>) {
+        let today = self.ctx.backend.today();
+        let date = forms::input("20.11.2026", &format::date_short(today), window, cx);
+        let hours = forms::input(t("opx.log.hours_placeholder"), "", window, cx);
+        let description = forms::input(t("opx.log.description_placeholder"), "", window, cx);
+        hours.update(cx, |s, cx| s.focus(window, cx));
+        self.log = Some(LogForm {
+            task_id: task_id.to_string(),
+            date,
+            hours,
+            description,
+            errors: LogErrors::default(),
+            error: None,
+            busy: false,
+        });
+        cx.notify();
+    }
+
+    pub fn save_log(&mut self, cx: &mut Context<Self>) {
+        let today = self.ctx.backend.today();
+        let Some(d) = self.data.ready() else {
+            return;
+        };
+        let Some(f) = self.log.as_ref() else {
+            return;
+        };
+        if f.busy {
+            return;
+        }
+        let Some(task) = d.tasks.iter().find(|t| t.id == f.task_id).cloned() else {
+            return;
+        };
+        let res = log_time_input(
+            &task,
+            &d.customers,
+            &d.projects,
+            &forms::value(&f.date, cx),
+            &forms::value(&f.hours, cx),
+            &forms::value(&f.description, cx),
+            today,
+        );
+        let Some(f) = self.log.as_mut() else {
+            return;
+        };
+        let input = match res {
+            Ok(i) => i,
+            Err(e) => {
+                f.errors = e;
+                cx.notify();
+                return;
+            }
+        };
+        f.errors = LogErrors::default();
+        f.error = None;
+        f.busy = true;
+        cx.notify();
+        let title = task.title.clone();
+        self.ctx.mutate(
+            cx,
+            // Klippekort som andre nye poster: automatisk valg.
+            move |b| b.create_entry_with_card(input, crate::backend::CardChoice::Auto),
+            move |this, res, cx| match res {
+                Ok(e) => {
+                    this.log = None;
+                    this.notice = Some((
+                        tf("opx.log.saved", &[("time", &mins(e.minutes)), ("title", &title)]).into(),
+                        false,
+                    ));
+                    this.reload_entries(cx);
+                }
+                Err(e) => {
+                    if let Some(f) = this.log.as_mut() {
+                        f.busy = false;
+                        f.error = Some(e.to_string().into());
+                    }
+                }
+            },
+        );
+    }
+
     pub fn start_timer(&mut self, task_id: &str, cx: &mut Context<Self>) {
         let Some(d) = self.data.ready() else {
             return;
@@ -1310,13 +1502,7 @@ impl OpgaverScreen {
         let Some(task) = d.tasks.iter().find(|t| t.id == task_id) else {
             return;
         };
-        let customer_id = logic::project_of(&d.projects, task).map(|p| p.customer_id.clone());
-        let target = TimerTarget {
-            customer_id,
-            project_id: Some(task.project_id.clone()),
-            task_id: Some(task.id.clone()),
-            description: task.title.clone(),
-        };
+        let target = logic::timer_target(&d.projects, task);
         let title = task.title.clone();
         self.ctx.mutate(
             cx,
@@ -1895,11 +2081,6 @@ impl OpgaverScreen {
                         t("opgaver.field.project"),
                         &f.project,
                     ))
-                    .children(
-                        f.errors
-                            .project
-                            .map(|e| forms::form_error(b, "opgave-projekt-fejl", e)),
-                    )
                     .child(forms::text_field(
                         b,
                         "opgave-titel",

@@ -19,10 +19,12 @@ import { usePermission } from "@/hooks/usePermission";
 import { toIntlLocale } from "@/i18n/format-locale";
 import { dkkCurrencyFormatter } from "@/lib/format";
 import { resolveTimerPrepaidSelection } from "@/lib/prepaid/auto-select";
+import { canTakePrepaidHours } from "@/lib/prepaid/can-take-hours";
 import {
   formatPrepaidExpiry,
   prepaidDaysUntilExpiry,
 } from "@/lib/prepaid/expiry";
+import { normalizePrepaidDeductionHours } from "@/lib/prepaid/hours";
 import { canPreviewRate } from "@/lib/time/preview-rate";
 import { trpc } from "@/providers/trpc-provider";
 
@@ -326,7 +328,7 @@ export function SaveTimeEntryModal({
   // (fx i vinduet mens en ny kundes kort hentes).
   const hasEnoughHours = usePrepaid
     ? !!selectedPackage &&
-      selectedPackage.remainingHours >= effectivePrepaidHours
+      canTakePrepaidHours(selectedPackage, effectivePrepaidHours)
     : true;
 
   // Calculate prepaid value if selected
@@ -550,8 +552,10 @@ export function SaveTimeEntryModal({
                             selectedPackageId === pkg.id
                               ? "border-brand-500 bg-white dark:bg-gray-800 shadow-sm"
                               : "border-transparent hover:border-brand-300 dark:hover:border-brand-700 bg-white/50 dark:bg-gray-800/50"
-                          } ${pkg.remainingHours < effectivePrepaidHours ? "opacity-50" : ""}`}
-                          disabled={pkg.remainingHours < effectivePrepaidHours}
+                          } ${!canTakePrepaidHours(pkg, effectivePrepaidHours) ? "opacity-50" : ""}`}
+                          disabled={
+                            !canTakePrepaidHours(pkg, effectivePrepaidHours)
+                          }
                         >
                           <div className="flex items-center justify-between">
                             <span className="font-medium text-gray-900 dark:text-white">
@@ -559,7 +563,7 @@ export function SaveTimeEntryModal({
                             </span>
                             <span
                               className={`text-sm font-semibold ${
-                                pkg.remainingHours < effectivePrepaidHours
+                                !canTakePrepaidHours(pkg, effectivePrepaidHours)
                                   ? "text-red-600 dark:text-red-400"
                                   : "text-brand-600 dark:text-brand-400"
                               }`}
@@ -599,7 +603,10 @@ export function SaveTimeEntryModal({
                                 </span>
                               )}
                             </span>
-                            {pkg.remainingHours < effectivePrepaidHours && (
+                            {!canTakePrepaidHours(
+                              pkg,
+                              effectivePrepaidHours,
+                            ) && (
                               <span className="text-xs text-red-600 dark:text-red-400">
                                 {t("save.notEnough")}
                               </span>
@@ -609,10 +616,10 @@ export function SaveTimeEntryModal({
                             pkg.clipSizeMinutes &&
                             pkg.clipSizeMinutes > 0 &&
                             (() => {
-                              const clipHours = pkg.clipSizeMinutes / 60;
-                              const rounded =
-                                Math.ceil(effectivePrepaidHours / clipHours) *
-                                clipHours;
+                              const rounded = normalizePrepaidDeductionHours(
+                                effectivePrepaidHours,
+                                pkg.clipSizeMinutes,
+                              );
                               return rounded > effectivePrepaidHours ? (
                                 <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
                                   {t("save.roundedTo", {

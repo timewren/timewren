@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "月間予算",
     "hint": "1か月あたり {hours} 時間。毎月1日にリセットされます。",
-    "usage": "{budget} 時間のうち {used} 時間（{pct}%）",
     "overrun": "月間予算を {hours} 時間超過しました",
-    "previous": "過去の月",
-    "hoursPct": "{hours} 時間（{pct}%）"
+    "previous": "過去の月"
   },
   "activityTypes": {
     "allowedAll": "このプロジェクトではすべての作業の種類が許可されています",
@@ -66,10 +64,8 @@
     "title": "時間予算",
     "derived": "算出",
     "derivedTitle": "固定価格 ÷ 時間単価から算出しています。直接管理するには、プロジェクトに時間予算を設定してください。",
-    "hoursOf": "{used} / {total} 時間",
     "over": "{hours} 時間超過",
     "remaining": "残り {hours} 時間",
-    "ariaUsed": "時間予算の {pct}% を使用",
     "plannedTitle": "今後 {hours} 時間を計画済み",
     "pctUsed": "{pct}% 使用",
     "planned": "+ 計画 {planned} 時間 = {forecast} 時間（{pct}%）",
@@ -188,11 +184,11 @@
     "colTotal": "合計",
     "colStatus": "ステータス",
     "selectProject": "{name} を選択",
-    "budgetUsedTitle": "時間予算の {pct}% を使用（{used}/{total} 時間）",
     "noClient": "クライアントなし",
-    "monthlyUsed": "{used}/{budget} 時間",
     "monthlyAria": "月間予算の {pct}% を使用",
-    "monthlyTitle": "今月は {budget} 時間のうち {used} 時間を使用（{pct}%）"
+    "monthlyTitle": "今月は {budget} 時間のうち {used} 時間を使用（{pct}%）",
+    "emptyNeedsClientHint": "プロジェクトはクライアントに属します。先にクライアントを追加してから、プロジェクトを作成してください。",
+    "createClientFirst": "最初のクライアントを追加"
   },
   "detail": {
     "status": {

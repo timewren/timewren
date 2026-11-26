@@ -9,6 +9,7 @@ import {
   planAccountDeletion,
 } from "@/lib/account-deletion";
 import { clearUserAICache } from "@/lib/ai";
+import { getCompanySettings } from "@/lib/company-settings";
 import {
   clients,
   companyProfiles,
@@ -27,6 +28,7 @@ import {
   ensureUserHasInboundEmailId,
   getInboundEmailAddress,
 } from "@/lib/email/inbound";
+import { resolveFeatureFlags } from "@/lib/feature-flags";
 import { canViewAllOrgTime } from "@/lib/permissions/server";
 import { START_PAGE_HREFS, type StartPageHref } from "@/lib/start-page";
 import { isStartPageAccessible } from "@/lib/start-page.server";
@@ -74,7 +76,15 @@ export const userRouter = router({
       ...safeUser
     } = user;
 
-    return safeUser;
+    // Virksomhedstype, momsperiode m.m. bor på org'ens virksomhedsprofil,
+    // når den findes (user.updateCompanyInfo skriver dem dér).
+    const companySettings = await getCompanySettings(ctx.db, {
+      userId,
+      orgId: ctx.orgId,
+      user,
+    });
+
+    return { ...safeUser, ...companySettings };
   }),
 
   // Get user theme preference
@@ -1068,11 +1078,7 @@ export const userRouter = router({
       })
       .from(featureFlags);
 
-    const result: Record<string, boolean> = {};
-    for (const flag of flags) {
-      result[flag.key] = flag.enabled;
-    }
-    return result;
+    return resolveFeatureFlags(flags);
   }),
 
   // ============================================
@@ -1084,19 +1090,23 @@ export const userRouter = router({
     .query(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
 
-      const user = await ctx.db.query.users.findFirst({
-        where: eq(users.id, userId),
-      });
+      const [user, company] = await Promise.all([
+        ctx.db.query.users.findFirst({
+          where: eq(users.id, userId),
+          columns: { locale: true },
+        }),
+        getCompanySettings(ctx.db, { userId, orgId: ctx.orgId }),
+      ]);
 
-      if (!user?.companyType) {
+      if (!user || !company.companyType) {
         return { deadlines: [], needsSetup: true };
       }
 
       const deadlines = getUpcomingDeadlines({
-        companyType: user.companyType as CompanyType,
-        vatPeriod: (user.vatPeriod ?? "none") as VatPeriod,
-        fiscalYearEnd: user.fiscalYearEnd ?? "12-31",
-        hasEmployees: user.hasEmployees ?? false,
+        companyType: company.companyType as CompanyType,
+        vatPeriod: (company.vatPeriod ?? "none") as VatPeriod,
+        fiscalYearEnd: company.fiscalYearEnd ?? "12-31",
+        hasEmployees: company.hasEmployees,
         refDate: new Date(),
         lookAheadDays: input.lookAheadDays,
         locale: user.locale,

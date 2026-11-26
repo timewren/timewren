@@ -26,10 +26,8 @@
   "monthlyBudget": {
     "title": "Monthly budget",
     "hint": "{hours} hours per month, resets on the 1st.",
-    "usage": "{used} of {budget} h ({pct}%)",
     "overrun": "The monthly budget has been exceeded by {hours} hours",
-    "previous": "Previous months",
-    "hoursPct": "{hours} h ({pct}%)"
+    "previous": "Previous months"
   },
   "activityTypes": {
     "allowedAll": "All activity types are allowed on the project",
@@ -62,14 +60,13 @@
     "save": "Save assignments",
     "assignedNow": "Currently assigned: {names}"
   },
+  "budgetStatus": "{status, select, yellow {Approaching budget limit} red {At or near budget limit} over {Over budget} other {Within budget}}: {used, number, ::.##} of {total, number, ::.##} h",
   "budgetBar": {
     "title": "Hours budget",
     "derived": "derived",
     "derivedTitle": "Derived from fixed price ÷ hourly rate. Set an hours budget on the project to control it directly.",
-    "hoursOf": "{used} / {total} h",
     "over": "{hours} h over",
     "remaining": "{hours} h left",
-    "ariaUsed": "{pct}% of the hours budget used",
     "plannedTitle": "{hours} h planned ahead",
     "pctUsed": "{pct}% used",
     "planned": "+ {planned} h planned = {forecast} h ({pct}%)",
@@ -188,11 +185,11 @@
     "colTotal": "Total",
     "colStatus": "Status",
     "selectProject": "Select {name}",
-    "budgetUsedTitle": "{pct}% of the hours budget used ({used}/{total} h)",
     "noClient": "No client",
-    "monthlyUsed": "{used}/{budget} h",
     "monthlyAria": "{pct}% of the monthly budget used",
-    "monthlyTitle": "{used} of {budget} h used this month ({pct}%)"
+    "monthlyTitle": "{used} of {budget} h used this month ({pct}%)",
+    "emptyNeedsClientHint": "A project belongs to a client. Add the client first, then create the project.",
+    "createClientFirst": "Add your first client"
   },
   "detail": {
     "status": {

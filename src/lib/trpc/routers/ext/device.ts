@@ -263,6 +263,15 @@ export const extDeviceAuthRouter = router({
       return { ...tokens, organizationId, user };
     }),
 
+  /**
+   * Hvem tokenet tilhører, og hvilken org kaldet kører i (samme form som
+   * `user` og `organizationId` fra exchangeCode).
+   */
+  me: deviceProcedure.query(({ ctx }) => ({
+    user: ctx.device.user,
+    organizationId: ctx.device.orgId,
+  })),
+
   /** Log denne enhed ud (tilbagekald dens token). */
   logout: deviceProcedure.mutation(async ({ ctx }) => {
     await ctx.db

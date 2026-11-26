@@ -828,7 +828,7 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
     expect(JSON.stringify(await denied.json())).toContain("Invalid API key");
   });
 
-  it("butikskøb og desktop-licens afvises for TimeWren-konti som Alunta-checkout", async () => {
+  it("butikskøb afvises for TimeWren-konti som Alunta-checkout, desktop-licensen går til TimeWrens checkout", async () => {
     vi.stubEnv("STORE_BILLING_ENABLED", "1");
     const { storeBillingRouter } = await import(
       "@/lib/trpc/routers/storeBilling"
@@ -873,12 +873,18 @@ describe.skipIf(!TEST_DATABASE_URL)("auth pr. host (integration)", () => {
         desktop: await message(desktop.createLifetimeCheckout({ email })),
       };
     }
-    expect(result["timewren.com"]).toEqual({
+    // Butikskøb (Apple/Google) afvises stadig for TimeWren-konti. Desktop-
+    // licensen kan derimod købes på timewren.com for 69 EUR (Mads 20/11-26):
+    // den går til TimeWrens egen EUR-checkout og fejler her først, fordi
+    // testmiljøet ikke har Stripe-prisen.
+    const tw = result["timewren.com"] as Record<string, unknown>;
+    const { enabled, apple, google } = tw;
+    expect({ enabled, apple, google }).toEqual({
       enabled: false,
       apple: refusal,
       google: refusal,
-      desktop: refusal,
     });
+    expect(tw.desktop).not.toBe(refusal);
     // TimeTrack: forbi brand-tjekket som før (fejler først senere: ingen
     // rigtig kvittering, ingen Stripe-pris i testmiljøet).
     const tt = result["timetrack.dk"] as Record<string, unknown>;

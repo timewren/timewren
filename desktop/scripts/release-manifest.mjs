@@ -1,25 +1,46 @@
 #!/usr/bin/env node
 // Laver latest.json (Tauri-updaterens format) og RELEASE_NOTES.md for en
-// TimeTrack-release ud fra filerne i release-mappen.
+// TimeTrack- eller TimeWren-release ud fra filerne i release-mappen.
 //
-//   node scripts/release-manifest.mjs <release-mappe> <version> <base-url> [pub-date]
+//   node scripts/release-manifest.mjs <release-mappe> <version> <base-url> [pub-date] [--brand=timetrack|timewren]
+//
+// Uden --brand (eller med --brand=timetrack) er filnavnene og indholdet
+// præcis som før, så eksisterende TimeTrack-installationer opdaterer sig
+// uændret. Navne og præfikser står i scripts/brands.json.
 //
 // Kræver alle tre platforme med .sig, så ingen brugere står uden opdatering:
-//   windows-x86_64  TimeTrack_<v>_x64-setup.exe (+ .sig)
-//   darwin-aarch64  darwin-aarch64-TimeTrack.app.tar.gz (+ .sig)
-//   darwin-x86_64   darwin-x86_64-TimeTrack.app.tar.gz (+ .sig)
+//   windows-x86_64  <Navn>_<v>_x64-setup.exe (+ .sig)
+//   darwin-aarch64  darwin-aarch64-<Navn>.app.tar.gz (+ .sig)
+//   darwin-x86_64   darwin-x86_64-<Navn>.app.tar.gz (+ .sig)
+// (<Navn> er TimeTrack eller TimeWren.)
 // Noterne er afsnittet "## [<version>]" i CHANGELOG.md. Ligger der en fil
 // windows-signing.txt med "unsigned" i release-mappen, får release-noterne
 // (ikke latest.json) en tydelig advarsel om den usignerede Windows-installer.
 import fs from "node:fs";
 import path from "node:path";
 
+import { fileURLToPath } from "node:url";
+
+const argv = process.argv.slice(2);
+const flag = argv.find((a) => a.startsWith("--brand="));
+const brandId = flag ? flag.slice("--brand=".length) : "timetrack";
 const [dir, version, base, pubDate = new Date().toISOString().replace(/\.\d+Z$/, "Z")] =
-  process.argv.slice(2);
+  argv.filter((a) => !a.startsWith("--"));
 if (!dir || !version || !base) {
-  console.error("Brug: release-manifest.mjs <release-mappe> <version> <base-url> [pub-date]");
+  console.error(
+    "Brug: release-manifest.mjs <release-mappe> <version> <base-url> [pub-date] [--brand=timetrack|timewren]",
+  );
   process.exit(2);
 }
+const brands = JSON.parse(
+  fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "brands.json"), "utf8"),
+);
+const brand = brands[brandId];
+if (!brand) {
+  console.error(`Ukendt brand: ${brandId} (${Object.keys(brands).filter((k) => !k.startsWith("_")).join(", ")})`);
+  process.exit(2);
+}
+const prefix = brand.artifactPrefix;
 
 function changelogNotes(v) {
   try {
@@ -35,7 +56,7 @@ function changelogNotes(v) {
   }
 }
 
-const notes = changelogNotes(version) || "TimeTrack " + version;
+const notes = changelogNotes(version) || brand.name + " " + version;
 const files = fs.readdirSync(dir);
 const platforms = {};
 const missing = [];
@@ -51,9 +72,9 @@ function add(platform, match) {
     url: base + "/" + encodeURIComponent(asset),
   };
 }
-add("windows-x86_64", (f) => f === `TimeTrack_${version}_x64-setup.exe`);
-add("darwin-aarch64", (f) => f === "darwin-aarch64-TimeTrack.app.tar.gz");
-add("darwin-x86_64", (f) => f === "darwin-x86_64-TimeTrack.app.tar.gz");
+add("windows-x86_64", (f) => f === `${prefix}_${version}_x64-setup.exe`);
+add("darwin-aarch64", (f) => f === `darwin-aarch64-${prefix}.app.tar.gz`);
+add("darwin-x86_64", (f) => f === `darwin-x86_64-${prefix}.app.tar.gz`);
 if (missing.length) {
   console.error("Kan ikke udgive, platforme mangler: " + missing.join(", "));
   process.exit(1);

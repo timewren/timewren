@@ -13,6 +13,73 @@ Licensed under the [MIT License](LICENSE). The rest of the TimeWren monorepo is 
 - Keyboard shortcuts: Alt+Shift+T opens the popup, Alt+Shift+S toggles the timer
 - Interface languages: Danish, English, German and Spanish
 
+## New tab
+
+The extension replaces the browser's new tab (`chrome_url_overrides.newtab`).
+Users can turn it off with **Open TimeTrack on new tabs** in the popup settings
+or under the settings on the new tab itself. An override cannot hand the tab
+back to the browser, so `src/newtab/boot.ts` decides what to show from
+`chrome.storage` before React loads:
+
+| Browser | New tab with the setting off |
+| --- | --- |
+| Google Chrome | The tab goes to `chrome://new-tab-page/`, Chrome's own new tab with search and shortcuts. The address bar stays empty. The back button is active, and going back lands on Chrome's new tab again. |
+| Edge, Firefox, Brave, Opera, Vivaldi and others | A simple page with a search box that uses the browser's default search engine (`chrome.search.query`), plus links to the web app and the settings. The results open in the tab the search came from (its id is passed as `tabId`; Firefox would otherwise bind `CURRENT_TAB` to whichever tab is active when the search service answers). If the tab's id cannot be read, the page does not search at all rather than risk another tab. If the browser refuses the search, for example because a policy removed the default search engine, a message under the box says to use the address bar. |
+
+Chrome always gets `chrome://new-tab-page/`, Chrome's Google new tab page,
+also when the default search engine is not Google. Chrome itself would then
+show `chrome://new-tab-page-third-party/` or the search provider's own page.
+The extension cannot read the default search engine without extra
+permissions, and `chrome://newtab` would load the override again. The page
+still reads "Search Google", but in a test with Bing as the default search
+engine its search box sent the query to Bing, so the help text in Chrome only
+promises Chrome's own new tab in its Google version, also when the default
+search engine is a different one, and says nothing about which engine searches.
+
+Browser test: `npm run build && node scripts/verify-newtab.mjs [dist] [screenshot-dir]`
+(13 checks, both states; Playwright comes from the repo root). It uses
+Playwright `launchPersistentContext` with `--load-extension` and
+`--disable-extensions-except` as in
+[Playwright's guide](https://playwright.dev/docs/chrome-extensions), with
+Chrome's sandbox on and `channel: "chromium"`: without it, headless Playwright
+picks `chromium-headless-shell`, which cannot load extensions. Playwright's own Chromium (Chrome for Testing) loads the
+extension with the flag. Google Chrome Stable ignores `--load-extension` since
+Chrome 137, also with `--disable-features=DisableLoadExtensionCommandLineSwitch`,
+so when no service worker appears, the test logs it, starts again without
+`--disable-extensions-except` and loads the same folder over the browser CDP
+session (`Extensions.loadUnpacked`, needs `--enable-unsafe-extension-debugging`).
+
+Verified so far: Google Chrome 158.0.8127.36, 13/13, with the extension loaded
+over CDP. The run with Playwright's own Chromium has not been made, because the
+test machine (agent-worker) does not allow it: its Chromium folders in
+`~/.cache/ms-playwright` are deliberately links to Google Chrome Stable, as
+early Chromium builds have had sandbox escapes. `npx playwright install
+chromium` therefore reports the browser as installed and does nothing, and a
+real download (`--force`) is replaced by Chrome Stable again within 10 minutes.
+Run the script on a machine with Playwright's own Chromium to cover
+`--load-extension` itself; until then that run is still open for #1322. Edge was only emulated by making Chrome report the
+Edge brand, so Chrome still ran `search.query`. Real Edge and Firefox,
+including focus after a physical Ctrl+T, have not been tested yet.
+
+Why not the browser's own page everywhere:
+
+- Edge's own new tab (`edge://newtab`) is the page the extension overrides, so
+  it would load TimeTrack again. `https://ntp.msn.com/edge/ntp` is not used
+  because it has not been verified in Edge.
+- Firefox does not let extensions open privileged `about:` pages, and
+  `about:newtab` is overridden as well.
+- Brave, Opera and Vivaldi have their own new tab pages, and a redirect to them
+  has not been verified. Only Google Chrome (the `Google Chrome` brand) is
+  redirected; Vivaldi reports only `Chromium` and gets the search page.
+
+The browser is detected with `navigator.userAgentData.brands`, without extra
+permissions. `chrome.tabs.getCurrent` and `chrome.tabs.update` work without the
+`tabs` permission, which would warn "Read your browsing history". The
+`search` permission gives no install warning in Chrome, checked with
+`chrome.management.getPermissionWarningsByManifest`, and needs no prompt in
+Firefox (`OptionalPermissionNoPrompt`), so updating does not ask users to
+approve the extension again.
+
 ## Connect to your own server
 
 On the sign-in screen, or under Settings → Advanced, choose **Use own server**

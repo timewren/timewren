@@ -179,8 +179,11 @@
     "city": "City",
     "cityPlaceholder": "Copenhagen",
     "country": "Country",
-    "countryPlaceholder": "Denmark",
+    "countryPlaceholder": "e.g. Ireland",
     "cvr": "CVR number",
+    "vatNumber": "VAT number",
+    "vatInvalid": "Enter the VAT number with its country code, e.g. DE123456789",
+    "taxIdTooLong": "The tax number can be at most 20 characters",
     "hourlyRate": "Default hourly rate (DKK)",
     "hourlyRateHint": "Used as the default for projects with this client",
     "paymentTerms": "Payment terms (days)",
@@ -348,6 +351,16 @@
     }
   },
   "detail": {
+    "periodHours": {
+      "title": "Hours in period",
+      "lastYear": "Last year",
+      "chooseDates": "Choose a start and end date.",
+      "loadError": "Could not load hours.",
+      "retry": "Try again",
+      "total": "Total",
+      "noProject": "No project",
+      "empty": "No hours recorded in this period."
+    },
     "loading": "Loading client...",
     "loadFailed": "The client could not be loaded. Please try again",
     "notFound": "Client not found",

@@ -1,9 +1,10 @@
 "use client";
 
 import { GripVertical, Loader2, Plus, Save, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { formatCurrency } from "@/lib/format";
 import { trpc } from "@/providers/trpc-provider";
 
 interface InvoiceLine {
@@ -28,6 +29,10 @@ export function InvoiceLineEditor({
   onTotalChange,
 }: InvoiceLineEditorProps) {
   const t = useTranslations("invoices");
+  const locale = useLocale();
+  // Beløb vises i sprogets format (2.125,00 på dansk), ikke som "2125.00".
+  const displayAmount = (amount: number) =>
+    formatCurrency(amount, { locale, suffix: "", decimals: 2 });
   const [lines, setLines] = useState<InvoiceLine[]>([]);
   const [hasChanges, setHasChanges] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -317,7 +322,7 @@ export function InvoiceLineEditor({
                   {readOnly ? (
                     <span className="block text-right text-sm text-gray-900 dark:text-white">
                       {t("lineEditor.priceValue", {
-                        price: Number.parseFloat(line.unitPrice).toFixed(2),
+                        price: displayAmount(Number.parseFloat(line.unitPrice)),
                       })}
                     </span>
                   ) : (
@@ -337,7 +342,7 @@ export function InvoiceLineEditor({
                 {/* Amount (calculated) */}
                 <div className="col-span-1 text-right">
                   <span className="text-sm font-medium text-gray-900 dark:text-white">
-                    {Number.parseFloat(line.amount).toFixed(2)}
+                    {displayAmount(Number.parseFloat(line.amount))}
                   </span>
                 </div>
 
@@ -419,7 +424,9 @@ export function InvoiceLineEditor({
                     {readOnly ? (
                       <span className="block text-sm text-gray-900 dark:text-white">
                         {t("lineEditor.priceValue", {
-                          price: Number.parseFloat(line.unitPrice).toFixed(2),
+                          price: displayAmount(
+                            Number.parseFloat(line.unitPrice),
+                          ),
                         })}
                       </span>
                     ) : (
@@ -440,7 +447,7 @@ export function InvoiceLineEditor({
                       {t("lineEditor.colAmount")}
                     </span>
                     <span className="block text-sm font-medium text-gray-900 dark:text-white">
-                      {Number.parseFloat(line.amount).toFixed(2)}
+                      {displayAmount(Number.parseFloat(line.amount))}
                     </span>
                   </div>
                 </div>
@@ -454,7 +461,9 @@ export function InvoiceLineEditor({
               {t("lineEditor.total")}
             </span>
             <span className="text-xl font-bold text-gray-900 dark:text-white">
-              {t("lineEditor.priceValue", { price: totalAmount.toFixed(2) })}
+              {t("lineEditor.priceValue", {
+                price: displayAmount(totalAmount),
+              })}
             </span>
           </div>
         </div>

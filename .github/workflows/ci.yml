@@ -39,7 +39,9 @@ jobs:
       NEXT_TELEMETRY_DISABLED: "1"
       NEXT_PUBLIC_APP_URL: http://localhost:3000
       NEXT_PUBLIC_BRAND: timewren
-      DATABASE_URL: postgresql://postgres@localhost:5432/timewren_test
+      # No job-wide DATABASE_URL: app code that opens
+      # the database on import (e.g. the Better Auth oauth seed) would otherwise
+      # write to the shared test database and trip the integration guard.
       TEST_DATABASE_URL: postgresql://postgres@localhost:5432/timewren_test
       BETTER_AUTH_SECRET: timewren-ci-only-placeholder-not-for-deployment
       NODE_OPTIONS: --max-old-space-size=6144
@@ -58,13 +60,24 @@ jobs:
       - run: node scripts/check-migration-journal.mjs
       - run: npm run i18n:check
       - run: npm run release:check
-      # Samme vej som en installation: migrationskæden, ikke drizzle-kit push
-      # (migration-chain.integration.test.ts kræver drizzle-schemaet).
+      # Same path as an installation: the migration chain, not drizzle-kit push
+      # (migration-chain.integration.test.ts needs the drizzle schema).
       - run: npm run db:migrate
         env:
           NODE_ENV: production
+          DATABASE_URL: postgresql://postgres@localhost:5432/timewren_test
       - run: npm run test:unit -- --maxWorkers=1
+      # The model tests get their own database.
+      - run: psql postgresql://postgres@localhost:5432/postgres -c 'CREATE DATABASE timewren_model'
+      - run: npm run db:migrate
+        env:
+          NODE_ENV: production
+          DATABASE_URL: postgresql://postgres@localhost:5432/timewren_model
       - run: npm run test:model
         env:
           TT_DB_TESTS: "1"
+          DATABASE_URL: postgresql://postgres@localhost:5432/timewren_model
+      # The build opens no database; a placeholder is enough.
       - run: npm run build
+        env:
+          DATABASE_URL: postgresql://postgres@127.0.0.1:1/none

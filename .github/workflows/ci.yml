@@ -58,7 +58,9 @@ jobs:
       - run: node scripts/check-migration-journal.mjs
       - run: npm run i18n:check
       - run: npm run release:check
-      - run: npx drizzle-kit push --force
+      # Samme vej som en installation: migrationskæden, ikke drizzle-kit push
+      # (migration-chain.integration.test.ts kræver drizzle-schemaet).
+      - run: npm run db:migrate
         env:
           NODE_ENV: production
       - run: npm run test:unit -- --maxWorkers=1

@@ -28,7 +28,7 @@ import {
 } from "@/lib/brands/timewren-site-copy";
 import { cloudSignupUrl, siteMetadata } from "@/lib/brands/timewren-site-meta";
 
-// Statisk pr. sprog; fornyes, så noindex/host fra miljøet slår igennem.
+// Statisk pr. sprog; fornyes, så host fra miljøet slår igennem.
 export const revalidate = 300;
 
 export async function generateMetadata(props: SiteParams): Promise<Metadata> {

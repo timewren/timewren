@@ -15,7 +15,7 @@ import { sitePath } from "@/lib/brands/timewren-site";
 import { siteTranslator } from "@/lib/brands/timewren-site-copy";
 import { cloudSignupUrl, siteMetadata } from "@/lib/brands/timewren-site-meta";
 
-// Statisk pr. sprog. Fornyes, så noindex og hosts fra miljøet slår igennem
+// Statisk pr. sprog. Fornyes, så hosts fra miljøet slår igennem
 // uden nyt build (op til 5 min efter start eller ændring).
 export const revalidate = 300;
 

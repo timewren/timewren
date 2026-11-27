@@ -159,9 +159,7 @@ describe("timetrack.dk: forside og prisside er uændrede", () => {
         vi.stubEnv("MULTIBRAND_ENABLED", "");
         const off = snap(middleware(req(`https://${host}${path}`)));
         vi.stubEnv("MULTIBRAND_ENABLED", "1");
-        vi.stubEnv("TIMEWREN_INDEXABLE", "1");
         const on = snap(middleware(req(`https://${host}${path}`)));
-        vi.stubEnv("TIMEWREN_INDEXABLE", "");
         expect(on).toEqual(off);
         expect(off).toMatchSnapshot(host);
       }

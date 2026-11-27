@@ -9,7 +9,7 @@ import { siteViewport } from "@/lib/brands/timewren-site-meta";
  * Rodlayout for TimeWrens marketingsite (timewren.com). Egen rutegruppe med
  * eget <html>, så TimeTracks (marketing)-layout og appens styles ikke berøres.
  * Siderne nås kun via middleware-rewrite (src/lib/brands/timewren-site.ts) og
- * bygges statisk pr. sprog; priser og noindex fornyes med ISR.
+ * bygges statisk pr. sprog; priser og host-konfiguration fornyes med ISR.
  */
 
 // Brandkittets skrift (OFL) fra public/brand/timewren/fonts, så buildet ikke

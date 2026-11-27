@@ -7,7 +7,6 @@ import {
   docsPath,
 } from "./timewren-docs";
 import {
-  isTimewrenIndexable,
   pageLocales,
   SITE_DEFAULT_LOCALE,
   type SitePage,
@@ -45,8 +44,7 @@ const META_KEY: Record<
 
 /**
  * Metadata pr. side og sprog: canonical, hreflang (+ x-default = en),
- * OG-billede fra brandkittet og noindex kun med TIMEWREN_INDEXABLE=0.
- * Middleware sender desuden X-Robots-Tag; begge skal være til for indeksering.
+ * OG-billede fra brandkittet og permanent index/follow.
  */
 export function siteMetadata(page: SitePage, locale: Locale): Metadata {
   const base = siteBaseUrl();
@@ -56,7 +54,6 @@ export function siteMetadata(page: SitePage, locale: Locale): Metadata {
     languages[l] = `${base}${sitePath(page, l)}`;
   }
   languages["x-default"] = `${base}${sitePath(page, SITE_DEFAULT_LOCALE)}`;
-  const indexable = isTimewrenIndexable();
   const url = `${base}${sitePath(page, locale)}`;
   return {
     metadataBase: new URL(base),
@@ -66,9 +63,7 @@ export function siteMetadata(page: SitePage, locale: Locale): Metadata {
     // Safari on iPhone/iPad offers the TimeWren app at the top of every page.
     itunes: smartAppBanner("timewren"),
     alternates: { canonical: url, languages },
-    robots: indexable
-      ? { index: true, follow: true }
-      : { index: false, follow: false },
+    robots: { index: true, follow: true },
     openGraph: {
       type: "website",
       siteName: "TimeWren",
@@ -173,13 +168,12 @@ export function siteSitemapXml(
 }
 
 /**
- * robots.txt pr. TimeWren-host. Crawling er altid tilladt, så søgemaskiner
- * ser noindex-headeren (samme begrundelse som app-hosten i middleware); kun
- * marketinghosten peger på et sitemap (ikke med TIMEWREN_INDEXABLE=0).
+ * robots.txt pr. TimeWren-host. Crawling er altid tilladt; kun
+ * marketinghosten peger på et sitemap.
  */
 export function siteRobotsTxt(isMarketing: boolean): string {
   const lines = ["User-agent: *", "Allow: /"];
-  if (isMarketing && isTimewrenIndexable()) {
+  if (isMarketing) {
     lines.push("", `Sitemap: ${siteBaseUrl()}/sitemap.xml`);
   }
   return `${lines.join("\n")}\n`;

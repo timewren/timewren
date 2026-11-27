@@ -14,7 +14,6 @@ import { isDocsFilePath } from "@/lib/brands/timewren-docs";
 import {
   isBrandAppEnabled,
   isSiteInternalPath,
-  isTimewrenIndexable,
   routeSite,
   SITE_PREFIX,
 } from "@/lib/brands/timewren-site";
@@ -158,7 +157,7 @@ function multibrandResponse(
  * TimeWrens marketingsite (src/lib/brands/timewren-site.ts): forside, priser,
  * selvhost og juridiske sider på marketinghosten, plus robots.txt og
  * sitemap.xml pr. host. null = ikke en marketingsti; appens logik tager over.
- * Marketingsiderne er indekserbare, medmindre TIMEWREN_INDEXABLE=0.
+ * Offentlige HTML-marketing- og docs-sider er altid indekserbare.
  */
 function siteResponse(
   req: NextRequest,
@@ -201,10 +200,9 @@ function siteResponse(
   }
   // Markdown, llms.txt og søgning er dubletter af siderne: aldrig i indekset.
   const indexable =
-    isTimewrenIndexable() &&
-    (route.action === "page" ||
-      route.action === "sitemap" ||
-      route.action === "docs");
+    route.action === "page" ||
+    route.action === "sitemap" ||
+    route.action === "docs";
   if (!indexable) res.headers.set("X-Robots-Tag", "noindex, nofollow");
   return res;
 }

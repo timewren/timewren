@@ -22,7 +22,6 @@ beforeEach(() => {
   vi.stubEnv("MULTIBRAND_ENABLED", "1");
   vi.stubEnv("NEXT_PUBLIC_BRAND", "timetrack");
   vi.stubEnv("BRANDS_CONFIG", "");
-  vi.stubEnv("TIMEWREN_INDEXABLE", "");
   vi.stubEnv("TIMEWREN_APP_ENABLED", "1");
 });
 afterEach(() => vi.unstubAllEnvs());
@@ -202,7 +201,8 @@ describe("TimeWren-marketing: routing", () => {
 });
 
 describe("TimeWren-marketing: indeksering", () => {
-  it("uden TIMEWREN_INDEXABLE (som i prod) er marketingsiderne indekserbare, appen ikke", () => {
+  it("legacy TIMEWREN_INDEXABLE=0 kan ikke noindexe marketing; appen forbliver noindex", () => {
+    vi.stubEnv("TIMEWREN_INDEXABLE", "0");
     for (const p of [
       "/",
       "/pricing",
@@ -217,28 +217,6 @@ describe("TimeWren-marketing: indeksering", () => {
       const r = snap(middleware(req(`https://timewren.com${p}`)));
       expect(r.robots, p).toBeNull();
     }
-    expect(snap(middleware(req("https://timewren.com/login"))).robots).toBe(
-      "noindex, nofollow",
-    );
-    expect(snap(middleware(req("https://timewren.com/dashboard"))).robots).toBe(
-      "noindex, nofollow",
-    );
-  });
-
-  it("TIMEWREN_INDEXABLE=0 slår indeksering fra (staging)", () => {
-    vi.stubEnv("TIMEWREN_INDEXABLE", "0");
-    for (const p of ["/", "/da/pricing", "/robots.txt", "/sitemap.xml"]) {
-      const r = snap(middleware(req(`https://timewren.com${p}`)));
-      expect(r.robots).toBe("noindex, nofollow");
-    }
-  });
-
-  it("med TIMEWREN_INDEXABLE=1 må marketingsiderne indekseres, appen ikke", () => {
-    vi.stubEnv("TIMEWREN_INDEXABLE", "1");
-    expect(snap(middleware(req("https://timewren.com/"))).robots).toBeNull();
-    expect(
-      snap(middleware(req("https://timewren.com/de/pricing"))).robots,
-    ).toBeNull();
     expect(snap(middleware(req("https://timewren.com/login"))).robots).toBe(
       "noindex, nofollow",
     );

@@ -25,7 +25,7 @@ import {
   docsPrompt,
 } from "@/lib/timewren-docs/ui";
 
-// Statisk pr. sprog og side; fornyes, så noindex/host fra miljøet slår igennem.
+// Statisk pr. sprog og side; fornyes, så host fra miljøet slår igennem.
 export const revalidate = 300;
 export const dynamicParams = false;
 

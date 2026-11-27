@@ -12,6 +12,7 @@ Groups: `Breaking` (needs a `Migration` group in the same release), `Added`, `Ch
 
 ### Fixed
 
+- Legacy `TIMEWREN_INDEXABLE` values can no longer mark TimeWren's public marketing pages or HTML documentation as `noindex`. Private app routes and duplicate representations such as Markdown and `llms.txt` remain `noindex`.
 - Manual deductions can overdraw prepaid packages that allow it. For block and invoice policies, the dialog accounts for clip rounding when showing and enforcing the maximum deduction.
 - Report group labels for entries without a client, project, task, prepaid package, employee or tag follow the report language. Scheduled CSV, XLSX and PDF attachments use the owner’s language.
 - Desktop sync returns `PREPAID_DEDUCTION_FAILED` for refused deductions from prepaid packages.

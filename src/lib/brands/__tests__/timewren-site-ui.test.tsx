@@ -170,13 +170,8 @@ describe("metadata og SEO", () => {
     expect(JSON.stringify(siteMetadata("/terms", "en"))).not.toMatch(/draft/i);
   });
 
-  it("index som standard, noindex med TIMEWREN_INDEXABLE=0", () => {
+  it("legacy TIMEWREN_INDEXABLE=0 kan ikke noindexe marketingsider", () => {
     vi.stubEnv("TIMEWREN_INDEXABLE", "0");
-    expect(siteMetadata("/", "en").robots).toEqual({
-      index: false,
-      follow: false,
-    });
-    vi.stubEnv("TIMEWREN_INDEXABLE", "");
     expect(siteMetadata("/", "en").robots).toEqual({
       index: true,
       follow: true,
@@ -209,10 +204,8 @@ describe("metadata og SEO", () => {
     );
   });
 
-  it("robots.txt: sitemap kun på marketinghosten, ikke når indeksering er slået fra", () => {
+  it("robots.txt: legacy noindex-flag fjerner ikke marketing-sitemap", () => {
     vi.stubEnv("TIMEWREN_INDEXABLE", "0");
-    expect(siteRobotsTxt(true)).toBe("User-agent: *\nAllow: /\n");
-    vi.stubEnv("TIMEWREN_INDEXABLE", "");
     expect(siteRobotsTxt(true)).toContain(
       "Sitemap: https://timewren.com/sitemap.xml",
     );

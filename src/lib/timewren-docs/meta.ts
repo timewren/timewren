@@ -6,7 +6,6 @@ import {
   docsMarkdownPath,
   docsPath,
 } from "@/lib/brands/timewren-docs";
-import { isTimewrenIndexable } from "@/lib/brands/timewren-site";
 import { LOCALE_TAGS } from "@/lib/brands/timewren-site-copy";
 import { siteBaseUrl } from "@/lib/brands/timewren-site-meta";
 import { isTranslated } from "./content";
@@ -14,9 +13,9 @@ import { DOCS_UI } from "./ui";
 
 /**
  * Metadata for en docs-side: canonical, hreflang mellem de sprog, siden er
- * oversat til (+ x-default = en), Markdown-alternativet og noindex, indtil
- * TIMEWREN_INDEXABLE=1 (samme regel som resten af timewren.com). En side
- * uden oversættelse viser den engelske tekst og peger kanonisk på den.
+ * oversat til (+ x-default = en), Markdown-alternativet og permanent
+ * index/follow. En side uden oversættelse viser den engelske tekst og peger
+ * kanonisk på den.
  */
 export function docsPageMetadata({
   locale,
@@ -38,7 +37,6 @@ export function docsPageMetadata({
     ? locale
     : DOCS_DEFAULT_LOCALE;
   const url = `${base}${docsPath(slugs, canonicalLocale)}`;
-  const indexable = isTimewrenIndexable();
   const fullTitle = `${title} | ${DOCS_UI[locale].metaTitleSuffix}`;
   return {
     metadataBase: new URL(base),
@@ -52,9 +50,7 @@ export function docsPageMetadata({
         "text/markdown": `${base}${docsMarkdownPath(slugs, locale)}`,
       },
     },
-    robots: indexable
-      ? { index: true, follow: true }
-      : { index: false, follow: false },
+    robots: { index: true, follow: true },
     openGraph: {
       type: "article",
       siteName: "TimeWren",

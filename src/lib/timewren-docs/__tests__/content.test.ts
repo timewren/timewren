@@ -11,6 +11,7 @@ import {
   docsMarkdownPath,
 } from "@/lib/brands/timewren-docs";
 import { siteSitemapXml } from "@/lib/brands/timewren-site-meta";
+import { docsPageMetadata } from "@/lib/timewren-docs/meta";
 import {
   DOCS_CONTENT_DIR,
   docsSitemapEntries,
@@ -328,6 +329,17 @@ describe("Ruterne", () => {
 });
 
 describe("Sitemap og hreflang", () => {
+  it("legacy TIMEWREN_INDEXABLE=0 kan ikke noindexe HTML-docs", () => {
+    vi.stubEnv("TIMEWREN_INDEXABLE", "0");
+    expect(
+      docsPageMetadata({
+        locale: "en",
+        slugs: ["quickstart"],
+        title: "Quickstart",
+      }).robots,
+    ).toEqual({ index: true, follow: true });
+  });
+
   it("docs-siderne er med i TimeWren-sitemap'en på alle sprog", () => {
     const xml = siteSitemapXml(BASE, docsSitemapEntries());
     for (const k of CONTRACT_SLUGS) {

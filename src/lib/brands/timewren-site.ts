@@ -66,15 +66,6 @@ export function isMarketingHost(cfg: BrandHostConfig, host: string): boolean {
 }
 
 /**
- * Marketinghostens offentlige sider er indekserbare som standard. Kun
- * TIMEWREN_INDEXABLE=0 (fx staging) slår det fra. Appen og Markdown-
- * repræsentationerne er noindex uanset.
- */
-export function isTimewrenIndexable(): boolean {
-  return process.env.TIMEWREN_INDEXABLE !== "0";
-}
-
-/**
  * Eksplicit til: appen (login, signup, dashboard) på TimeWren-hosts kræver
  * TIMEWREN_APP_ENABLED=1. Indtil auth er host-bevidst, svarer kun
  * marketingsitet; alle andre stier giver 404.

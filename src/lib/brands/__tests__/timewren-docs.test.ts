@@ -29,7 +29,6 @@ beforeEach(() => {
   vi.stubEnv("MULTIBRAND_ENABLED", "1");
   vi.stubEnv("NEXT_PUBLIC_BRAND", "timetrack");
   vi.stubEnv("BRANDS_CONFIG", "");
-  vi.stubEnv("TIMEWREN_INDEXABLE", "");
   vi.stubEnv("TIMEWREN_APP_ENABLED", "");
 });
 afterEach(() => vi.unstubAllEnvs());
